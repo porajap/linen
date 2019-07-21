@@ -1,0 +1,284 @@
+<?php
+session_start();
+$Userid = $_SESSION['Userid'];
+$PmID= $_SESSION['PmID'];
+$TimeOut = $_SESSION['TimeOut'];
+$last_move = $_GET["last_move"];
+
+if($Userid==""){
+    header("location:index.html");
+}
+$language = $_GET['lang'];
+if($language=="en"){
+    $language = "en";
+}else{
+    $language = "th";
+}
+
+header ('Content-type: text/html; charset=utf-8');
+$xml = simplexml_load_file('xml/main_lang.xml');
+$json = json_encode($xml);
+$array = json_decode($json,TRUE);
+
+switch ($PmID) {
+    case "1":
+        //genneral
+        $gen_head=1;
+        $gen_s1=1;
+        $gen_s2=1;
+        $gen_s3=1;
+        $gen_s4=1;
+        $gen_s5=1;
+        $gen_s6=1;
+        $gen_s7=0;
+        $gen_s8=1;
+        $gen_s9=1;
+        $gen_s10=1;
+        //account
+        $ac_head=0;
+        $ac_s1=0;
+        $ac_s2=0;
+        $ac_s3=0;
+        $ac_s4=0;
+        $ac_s5=0;
+        //factory
+        $fac_head=0;
+        $fac_s1=0;
+        $fac_s2=0;
+        //report
+        $re_head=0;
+        $re_s1=0;
+        //system
+        $sys_head=1;
+        $sys_s1=1;
+        $sys_s2=1;
+        $sys_s3=1;
+        $sys_s4=1;
+        $sys_s5=1;
+        $sys_s6=1;
+        $sys_s7=1;
+        $sys_s8=1;
+        $sys_s8=1;
+        $sys_s9=1;
+        $sys_s10=1;
+        $sys_s11=1;
+        $sys_s12=1;
+        $sys_s13=1;
+        break;
+    case "2":
+        //genneral
+        $gen_head=1;
+        $gen_s1=1;
+        $gen_s2=1;
+        $gen_s3=1;
+        $gen_s4=1;
+        $gen_s5=1;
+        $gen_s6=1;
+        $gen_s7=0;
+        $gen_s8=0;
+        $gen_s9=1;
+        $gen_s10=1;
+        //account
+        $ac_head=0;
+        $ac_s1=0;
+        $ac_s2=0;
+        $ac_s3=0;
+        $ac_s4=0;
+        $ac_s5=0;
+        //factory
+        $fac_head=0;
+        $fac_s1=0;
+        $fac_s2=0;
+        //report
+        $re_s1=1;
+        $re_head=1;
+        //system
+        $sys_head=1;
+        $sys_s1=0;
+        $sys_s2=0;
+        $sys_s3=0;
+        $sys_s4=0;
+        $sys_s5=0;
+        $sys_s6=0;
+        $sys_s7=0;
+        $sys_s8=1;
+        $sys_s9=0;
+        $sys_s10=0;
+        $sys_s11=0;
+        $sys_s12=0;
+        $sys_s13=0;
+        break;
+    case "3":
+        //genneral
+        $gen_head=1;
+        $gen_s1=1;
+        $gen_s2=1;
+        $gen_s3=1;
+        $gen_s4=1;
+        $gen_s5=1;
+        $gen_s6=1;
+        $gen_s7=1;
+        $gen_s8=1;
+        $gen_s9=1;
+        $gen_s10=1;
+        //account
+        $ac_head=1;
+        $ac_s1=1;
+        $ac_s2=1;
+        $ac_s3=1;
+        $ac_s4=1;
+        $ac_s5=1;
+        //factory
+        $fac_head=1;
+        $fac_s1=1;
+        $fac_s2=1;
+        //report
+        $re_head=1;
+        $re_s1=1;
+        //system
+        $sys_head=1;
+        $sys_s1=1;
+        $sys_s2=1;
+        $sys_s3=1;
+        $sys_s4=1;
+        $sys_s5=1;
+        $sys_s6=1;
+        $sys_s7=1;
+        $sys_s8=1;
+        $sys_s9=0;
+        $sys_s10=0;
+        $sys_s11=0;
+        $sys_s12=0;
+        $sys_s13=0;
+        break;
+    case "4":
+        //genneral
+        $gen_head=0;
+        $gen_s1=0;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
+        $gen_s6=0;
+        $gen_s7=0;
+        $gen_s8=0;
+        $gen_s9=1;
+        $gen_s10=1;
+        //account
+        $ac_head=1;
+        $ac_s1=0;
+        $ac_s2=0;
+        $ac_s3=0;
+        $ac_s4=1;
+        $ac_s5=0;
+        //factory
+        $fac_head=0;
+        $fac_s1=0;
+        $fac_s2=0;
+        //report
+        $re_head=0;
+        $re_s1=0;
+        //system
+        $sys_head=1;
+        $sys_s1=0;
+        $sys_s2=0;
+        $sys_s3=0;
+        $sys_s4=0;
+        $sys_s5=0;
+        $sys_s6=0;
+        $sys_s7=0;
+        $sys_s8=1;
+        $sys_s9=0;
+        $sys_s10=0;
+        $sys_s11=0;
+        $sys_s12=0;
+        $sys_s13=0;
+        break;
+    case "5":
+        //genneral
+        $gen_head=0;
+        $gen_s1=0;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
+        $gen_s6=0;
+        $gen_s7=0;
+        $gen_s8=0;
+        $gen_s9=1;
+        $gen_s10=1;
+        //account
+        $ac_head=1;
+        $ac_s1=0;
+        $ac_s2=0;
+        $ac_s3=0;
+        $ac_s4=0;
+        $ac_s5=1;
+        //factory
+        $fac_head=0;
+        $fac_s1=0;
+        $fac_s2=0;
+        //report
+        $re_head=0;
+        $re_s1=0;
+        //system
+        $sys_head=1;
+        $sys_s1=0;
+        $sys_s2=0;
+        $sys_s3=0;
+        $sys_s4=0;
+        $sys_s5=0;
+        $sys_s6=0;
+        $sys_s7=0;
+        $sys_s8=1;
+        $sys_s9=0;
+        $sys_s10=0;
+        $sys_s11=0;
+        $sys_s12=0;
+        $sys_s13=0;
+        break;
+    case "6":
+        //genneral
+        $gen_head=0;
+        $gen_s1=0;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
+        $gen_s6=0;
+        $gen_s7=0;
+        $gen_s8=0;
+        $gen_s9=1;
+        $gen_s10=1;
+        //account
+        $ac_head=1;
+        $ac_s1=1;
+        $ac_s2=1;
+        $ac_s3=1;
+        $ac_s4=1;
+        $ac_s5=1;
+        //factory
+        $fac_head=0;
+        $fac_s1=0;
+        $fac_s2=0;
+        //report
+        $re_head=0;
+        $re_s1=0;
+        //system
+        $sys_head=1;
+        $sys_s1=0;
+        $sys_s2=0;
+        $sys_s3=0;
+        $sys_s4=0;
+        $sys_s5=0;
+        $sys_s6=0;
+        $sys_s7=0;
+        $sys_s8=1;
+        $sys_s9=0;
+        $sys_s10=0;
+        $sys_s11=0;
+        $sys_s12=0;
+        $sys_s13=0;
+        break;
+}
+?>

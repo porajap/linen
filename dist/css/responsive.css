@@ -1,0 +1,54 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url("../fonts/DB Helvethaica X.ttf");
+}
+body{
+    font-family: myFirstFont;
+    font-size:22px;
+}
+.nfont{
+    font-family: myFirstFont;
+    font-size:22px;
+}
+.modal {
+    position: fixed !important;
+    top: 11% !important;
+    right: 0 !important;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
+table{
+    width: 100% !important;
+}
+.modal-content {
+    width: 130% !important;
+    right: 15% !important;
+}
+
+@media (min-width: 1000px){
+    #btn_margin {
+        max-width: 14.333333%;
+        margin-top: 26%;
+    }
+
+    #magin_cus{
+        margin-top: 25%;
+    }
+}
+
+@media (max-width: 1000px){ 
+    #btn_margin {
+        margin-top: 1%;
+    }
+    #size_custom{
+        font-size: 20px!important;
+    }
+    #rotate_custom{
+        transform: rotate(90deg);
+    }
+    #magin_cus{
+        margin-top: -4%;
+    }
+}

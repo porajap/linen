@@ -1,0 +1,369 @@
+
+@font-face {
+    src: url('../fonts/DBHelvethaica.ttf');
+    font-family: myFirstFont;
+}
+body {
+    font-family: myFirstFont;
+    background-image: url(../img/bg.jpg);
+    background-position: unset;
+    /* background-repeat: no-repeat; */
+    background-attachment: fixed;
+    /* overflow:hidden; */
+}
+/* ---------------------form white--------------------- */
+#form_white{
+    position: fixed;
+    background-color:#ffffff;
+    height: 650px;
+    width: 700px;
+    left:150px;
+    bottom:50px;
+    border-radius: 50px;
+    -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
+    -moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
+    box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
+}
+/* ----------------------------- */
+#logo_top{
+    position: absolute;
+    left: 212px;
+    top: 66px;
+}
+#logo_top img{
+    width: 294px;
+    height: auto;
+}
+/* ----------------------------- */
+#username_div{
+    position: absolute;
+    top: 198px;
+    left: 135px;
+}
+.color1 {
+    position: relative;
+    font-size: 1.5em;
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 50%);
+    padding: 1px;
+    height: 77px;
+    width: 435px;
+    border-radius: 50px;
+}
+
+#label1{
+    position: relative;
+    background-color: #ffffff;
+    width: 112px;
+    height: 31px;
+    left: 44px;
+    top: 8px;
+    z-index: 999999;
+    font-size: 22px;
+    padding: -1px;
+    padding-left: 7px;
+}
+#label1 label{
+    font-size: 30px;
+    color: #4834d4;
+}
+
+input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="password"]
+{
+    outline: none;
+    height: 74px;
+    color: rgb(66, 66, 66);
+    width: 433px;
+    font-size: 20px;
+    padding-left: 50px;
+    border: none;
+    border-radius: 50px;
+    background-color: #ffffff;
+}
+input:hover, input:focus, input.visited {
+    background-color: #ffffff;
+}
+.icon_username{
+    /* width: 20px;
+    height: 200px; */
+    position: absolute;
+    margin-top: -43px;
+    left: calc(115% - 150px);
+}
+.icon_username img{
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    margin-top: -10px;
+    right: -60px;
+}
+/* ---------------------------------------------------- */
+#password_div{
+    position: absolute;
+    top: 310px;
+    left: 135px;
+}
+
+#label2{
+    position: relative;
+    background-color: #ffffff;
+    width: 112px;
+    height: 31px;
+    left: 44px;
+    top: 8px;
+    z-index: 999999;
+    font-size: 22px;
+    padding: -1px;
+    padding-left: 7px;
+}
+#label2 label{
+    font-size: 30px;
+    color: #4834d4;
+}
+
+input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.icon_password{
+    /* width: 20px;
+    height: 200px; */
+    position: absolute;
+    margin-top: -43px;
+    left: calc(115% - 150px);
+}
+.icon_password img{
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    margin-top: -10px;
+    right: -60px;
+}
+/* ------------------------------------------------------------ */
+#reset_pass{
+    position: absolute;
+    top: 448px;
+    left: 149px;
+}
+#reset_pass a{
+    color:#504e4e;
+    font-size: 24px;
+    font-weight: bold;
+}
+#reset_pass a:link:hover
+{
+    color: #9b510b;
+    font-size: 26px ;
+    text-decoration:none;
+}
+
+#change_pass{
+    position: absolute;
+    top: 448px;
+    right: 146px;
+}
+#change_pass a{
+    border-bottom: 1px dotted #363636;
+}
+#change_pass a{
+    color:#1f116b;
+    font-size: 24px;
+    font-weight: bold;
+}
+#change_pass a:link:hover
+{
+    color: #9b510b;
+    font-size: 26px ;
+    text-decoration:none;
+}
+
+#btn_submit{
+    position: absolute;
+    top: 530px;
+    left: 129px;
+    width: 450px;
+}
+.btn-block
+{
+    border-radius: 50px !important;
+    background-color: #0f56c0 !important;
+    color: #fff !important;
+    font-size: 28px;
+    -webkit-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+    -moz-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+    box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+}
+.btn-block:hover
+{
+    background: linear-gradient(21deg, #4b0c5e, #074a6e);
+}
+/* ------------------------------------------------------------------ */
+#logo_top2{
+    position: absolute;
+    left: 212px;
+    top: 37px;
+}
+#logo_top2 img{
+    width: 294px;
+    height: auto;
+}
+#form_change{
+    position: fixed;
+    background-color:#ffffff;
+    height: 734px;
+    width: 700px;
+    left:150px;
+    bottom:50px;
+    border-radius: 50px;
+    -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
+    -moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
+    box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
+}
+.color2 {
+    position: relative;
+    font-size: 1.5em;
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 50%);
+    padding: 1px;
+    height: 68px !important;
+    width: 435px;
+    border-radius: 50px;
+}
+.change_input
+{
+    outline: none;
+    height: 66px !important;
+    color: blue;
+    width: 433px;
+    font-size: 20px;
+    padding-left: 50px;
+    border: none;
+    border-radius: 50px;
+    background-color: #ffffff;
+}
+#username_div2{
+    position: absolute;
+    top: 174px;
+    left: 135px;
+}
+#title_change{
+    position: absolute;
+    left: 249px;
+    top: 131px;
+}
+#title_change h3{
+    font-size:40px;
+    color: #074a6e;
+}
+#oldpassword_div{
+    position: absolute;
+    top: 256px;
+    left: 135px;
+}
+#label_old{
+    position: relative;
+    background-color: #ffffff;
+    width: 140px;
+    left: 44px;
+    top: 30px;
+    z-index: 999999;
+    font-size: 22px;
+    padding: -1px;
+    padding-left: 7px;
+}
+#label_old label{
+    font-size: 30px;
+    color: #4834d4;
+}
+
+#newpassword_div{
+    position: absolute;
+    top: 356px;
+    left: 135px;
+}
+#new_label{
+    position: relative;
+    background-color: #ffffff;
+    width: 149px;
+    left: 44px;
+    top: 30px;
+    z-index: 999999;
+    font-size: 22px;
+    padding: -1px;
+    padding-left: 7px;
+}
+#new_label label{
+    font-size: 30px;
+    color: #4834d4;
+}
+
+#confirm_div{
+    position: absolute;
+    top: 456px;
+    left: 135px;
+}
+#confirm_label{
+    position: relative;
+    background-color: #ffffff;
+    width: 181px;
+    left: 44px;
+    top: 30px;
+    z-index: 999999;
+    font-size: 22px;
+    padding: -1px;
+    padding-left: 7px;
+}
+#confirm_label label{
+    font-size: 30px;
+    color: #4834d4;
+}
+
+#back_row{
+    position: absolute;
+    top: 620px;
+    left: 154px;
+    width: 450px;
+}
+.btn-back
+{
+    border-radius: 50px !important;
+    background-color: #b41010 !important;
+    color: #fff !important;
+    font-size: 28px;
+    width: 162px;
+    -webkit-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+    -moz-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+    box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+}
+.btn-back:hover
+{
+    background: linear-gradient(21deg, #b30505, #470d03);
+}
+
+#save_row{
+    position: absolute;
+    top: 620px;
+    left: 418px;
+    width: 450px;
+}
+.btn-save
+{
+    border-radius: 50px !important;
+    background-color: #1c0580 !important;
+    color: #fff !important;
+    font-size: 28px;
+    width: 162px;
+    -webkit-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+    -moz-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+    box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.34);
+}
+.btn-save:hover
+{
+    background: linear-gradient(21deg, #1a0246, #33023b);
+}
+
+

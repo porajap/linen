@@ -1,0 +1,111 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	margin:0px 0px 0px 0px;
+}
+
+iframe#ifrm { 
+    border:none;
+    width:100%;
+    height:550px;
+}
+
+div#topdiv {
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:50px;
+	width:100%;
+}
+
+div#linetopdiv {
+	position:absolute;
+	left:0px;
+	height:5px;
+	width:100%;
+	background-image:url(../images/line01.png)
+}
+div#titlediv {
+	position: absolute;
+	top: 155px;
+	left: 0px;
+	width: 100%;
+	height: 254px;
+	
+}
+
+div#bodydiv {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	overflow: hidden; 
+    background-image:url(../images/bk1.jpg);
+}
+
+div#bodydiv1 {
+	left:0px;
+	width:100%;
+	background-image:url(../images/bk1.jpg)
+}
+
+div#bodydiv2 {
+	left:0px;
+	width:100%;
+	background-image:url(../images/bk2.jpg)
+}
+
+div#bodydiv3 {
+	position:relative;
+	left: 50px;
+	top: 84px;
+	width: 948px;
+	height:450px;
+	overflow-y: scroll;
+	color:#BF6000;
+}
+
+div#bottomdiv {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	color:#CCC;
+	background:#333;
+	padding:8px;
+}
+
+div#bodydivdetail1 {
+	left:0px;
+	width:100%;
+	height:885px;
+	background-image:url(../images/bk1.jpg)
+}
+
+ /* unvisited link */
+a:link {
+    color:#06F;
+	text-decoration: none;
+	display: inline-block;
+}
+
+/* visited link */
+a:visited {
+    color:#06F;
+	text-decoration: none;
+	display: inline-block;
+}
+
+/* mouse over link */
+a:hover {
+    color:#00F;
+	text-decoration: none;
+	display: inline-block;
+}
+
+/* selected link */
+a:active {
+    color:#06F;
+	text-decoration: none;
+	display: inline-block;
+} 

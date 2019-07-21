@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="980bbba1-1d83-478c-b7bb-6f769c16a137">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+side.HptCode,
+side.HptName
+FROM
+side]]>
+	</queryString>
+	<field name="HptCode" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="HptName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f25bcd2f-12a8-4735-a7b2-8e3a4c6180ca" x="33" y="48" width="134" height="31"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="24"/>
+				</textElement>
+				<text><![CDATA[HptCode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="07317f9c-dbce-49dd-8865-3118872f368d" x="177" y="48" width="134" height="31"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="24"/>
+				</textElement>
+				<text><![CDATA[HptName]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement uuid="bd64f589-d47b-4efb-8d74-644f40fd0526" x="33" y="0" width="133" height="31"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HptCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="21a05640-ebef-4889-9925-f01fa0b36377" x="177" y="0" width="322" height="31"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HptName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,21 @@
+/* CSS Document */
+
+		@font-face {
+		  font-family: 'THSarabunNew';
+		  src: url('../fonts/THSarabunNew.ttf');
+		}
+		
+		@font-face {
+		  font-family: 'THSarabunB';
+		  src: url('../fonts/THSarabunNew Bold.ttf');
+		}
+		
+		@font-face {
+		  font-family: 'THSarabunI';
+		  src: url('../fonts/THSarabunNew Italic.ttf');
+		}
+		
+		@font-face {
+		  font-family: 'THSarabunBI';
+		  src: url('../fonts/THSarabunNew BoldItalic.ttf');
+		}

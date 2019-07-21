@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* CSS Document */
+
+#box_css3_raduis {
+    border:solid 1px green;
+    width:150px;
+    height:150px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    background:#009900;
+}

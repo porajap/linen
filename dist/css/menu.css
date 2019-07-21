@@ -1,0 +1,39 @@
+@charset "utf-8";
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+/* CSS Document */
+ul.v_menu{ /* กำหนดขอบเขตของเมนู */  
+    list-style:none;  
+    margin:0px;  
+    padding:0px;  
+    font-family:tahoma;  
+    font-size:18px;  
+	font-weight: bold;
+}  
+ul.v_menu > li{ /* กำหนดรูปแบบให้กับเมนูเ */  
+    display:block;  
+    width:110px;  
+    height:25px;  
+    text-indent:5px;  
+	color:#F30; 
+    float:left;  
+    text-align:center;  
+}  
+ul.v_menu > li:hover{ /* กำหนดรูปแบบให้กับเมนูเมื่อมีเมาส์อยู่เหนือ */  
+	 z-index: 2;
+	  padding: 10px 15px 2px 15px;
+	  font-size: 16px;
+	  font-weight: 400;
+	  text-decoration: none;
+	  color: #444444;
+	  -webkit-transition: all .2s ease;
+	  -moz-transition: all .2s ease;
+	  -ms-transition: all .2s ease;
+	  -o-transition: all .2s ease;
+	  transition: all .2s ease;
+	  margin-right: 4px;
+}  
+ul.v_menu > li > a{ /* กำหนดรูปแบบให้กับลิ้งค์ */  
+    text-decoration:none;  
+    color:#09F;  
+    line-height:20px;  
+}  
