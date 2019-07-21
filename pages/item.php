@@ -1024,6 +1024,7 @@ $array2 = json_decode($json2, TRUE);
                 $('#delete_icon').removeClass('opacity');
                 if (temp[0]['RowID']) {
                   for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                    var PriceUnit = temp[i]['PriceUnit']==null?'':temp[i]['PriceUnit'];
                     var rowCount = $('#TableUnit >tbody >tr').length;
                     var chkDoc = "<input type='radio' name='checkitem2' id='checkitem2' value='" + temp[i]['RowID'] + "'>";
                     StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
@@ -1033,7 +1034,7 @@ $array2 = json_decode($json2, TRUE);
                       "<td style='width: 15%;' align='left'nowrap>" + temp[i]['MpCode'] + "</td>" +
                       "<td style='width: 17%;' align='left'nowrap>" + temp[i]['UnitName2'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + temp[i]['Multiply'] + "</td>" +
-                      "<td style='width: 15%;' align='left'nowrap>" + temp[i]['PriceUnit'] + "</td>" +
+                      "<td style='width: 15%;' align='left'nowrap>" + PriceUnit + "</td>" +
 
                       "</tr>";
 
