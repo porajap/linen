@@ -77,32 +77,32 @@ $array = json_decode($json,TRUE);
     <!-- ==================== End form ========================== -->
 
     <!-- ====================== form Sendmail======================= -->
-    <div id="form_sendmail" hidden="true">
-        <div class="row">
-            <div id="logo_top2">
-                <img src="img/logo.png">
-            </div>
-            <div id="title_change_1">
-                <h3>Send password to email</h3>
-            </div>
-            <!-- ------------------------------------------- -->
-            <div id="send_email_div">
-                <div id="label_email">
-                    <label for="send_email">E-mail</label>
+        <div id="form_sendmail" hidden="true">
+            <div class="row">
+                <div id="logo_top2">
+                    <img src="img/logo.png">
                 </div>
-                <div class="input-group color2">
-                    <input type="text" class="form-control change_input" id="email" required>
+                <div id="title_change_1">
+                    <h3>Send password to email</h3>
                 </div>
-            </div>
-            <!-- ------------------------------------------- -->
-            <div class="row" id="back1_row">
-                <a class='btn btn-back' onclick="back();">Back</a>
-            </div>
-            <div class="row" id="send_row">
-                <a class='btn btn-save' onclick="sendmail();">Sendmail</a>
+                <!-- ------------------------------------------- -->
+                <div id="send_email_div">
+                    <div id="label_email">
+                        <label for="send_email">E-mail</label>
+                    </div>
+                    <div class="input-group color2">
+                        <input type="text" class="form-control change_input" id="email" required>
+                    </div>
+                </div>
+                <!-- ------------------------------------------- -->
+                <div class="row" id="back1_row">
+                    <a class='btn btn-back' onclick="back();">Back</a>
+                </div>
+                <div class="row" id="send_row">
+                    <a class='btn btn-save' onclick="sendmail();">Sendmail</a>
+                </div>
             </div>
         </div>
-    </div>
     <!-- ==================== End form ========================== -->
 
     <!-- ====================== form change======================= -->
@@ -181,6 +181,8 @@ $array = json_decode($json,TRUE);
             $('#form_white').attr('hidden', true);
             $('#form_change').attr('hidden', false);
             $('#form_sendmail').attr('hidden', true);
+            $('#oldpassword').val('');
+            
         }
 
         function back()

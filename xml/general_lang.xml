@@ -139,7 +139,7 @@
 <pricecus><en>MKT PC.</en><th>ราคาลูกค้า</th></pricecus>
 <multiply><en>Multiple Unit</en><th>ตัวคูณ</th></multiply>
 <multiply_unit><en>Multiple Unit</en><th>ตัวคูณหน่วยนับ</th></multiply_unit>
-<multiply_price><en>Multiple Price</en><th>ตัวคูณหน่วยนับ</th></multiply_price>
+<multiply_price><en>Multiple Price</en><th>ตัวคูณราคา</th></multiply_price>
 <mulmultiply><en>Multiple Unit</en><th>หลายหน่วยนับ</th></mulmultiply>
 <secunit><en>2nd U.</en><th>หน่วยนับรอง</th></secunit>
 <choosemsg><en>Please select your document.</en><th>กรุณาเลือกเอกสาร</th></choosemsg>
