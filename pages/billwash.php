@@ -381,46 +381,6 @@ $array2 = json_decode($json2,TRUE);
           'qty'		: qty
         };
         senddata(JSON.stringify(data));
-
-        if(unit == 4 || unit == 2){
-          setTimeout(function(){ 
-            convertPrice(PriceUnit, rowid, unit);
-          }, 100);
-        }
-      }
-
-      function PriceUnit(rowid, i){
-        // var data = selectObject.value;
-        var chkArray = $('#unit'+i).val();
-        unitArray = chkArray.split(",");
-
-        var unit = unitArray[1];
-        var PriceUnit = $('#PriceUnit'+rowid).data('value');
-        if(unit == 4 || unit == 2){
-          convertPrice(PriceUnit, rowid, unit);
-        }
-
-      }
-      function convertPrice(PriceUnit1, rowid, unit){
-        var qty_row = $('#qty_row'+rowid).data('value');
-        var total;
-        if(unit == 2){
-          var kilo = $('#PriceUnit'+rowid).data('value');
-          var gram = PriceUnit1;
-          total = kilo;
-
-        }else if(unit == 4){
-          var gram = $('#PriceUnit'+rowid).data('value');
-          var kilo = PriceUnit1;
-          total = (kilo*qty_row)/gram;
-        }
-        var netTotal = Math.round(total);
-        $('#perunit'+rowid).text(netTotal);
-
-        console.log('kilo = ' + kilo);
-        console.log('qty_row = ' + qty_row);
-        console.log('gram = ' + gram);
-        console.log('total = ' + total);
       }
 
       function CreateDocument(){
