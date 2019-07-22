@@ -1852,9 +1852,9 @@ $array2 = json_decode($json2, TRUE);
                         <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
                         <th style='width: 28%;'><?php echo $array['item'][$language]; ?></th>
                         <th style='width: 12%;'><?php echo $array['unit'][$language]; ?></th>
-                        <th align='center' style='width: 20%;'><?php echo $array['secunit'][$language]; ?></th>
-                        <th align='center' style='width: 15%;'><?php echo $array['multiply_unit'][$language]; ?></th>
-                        <th align='center' style='width: 15%;'><?php echo $array['multiply_price'][$language]; ?></th>
+                        <th align='center' style='width: 19%;'><?php echo $array['secunit'][$language]; ?></th>
+                        <th align='center' style='width: 14%;'><?php echo $array['multiply_unit'][$language]; ?></th>
+                        <th align='center' style='width: 14%;'><?php echo $array['multiply_price'][$language]; ?></th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:200px;">
