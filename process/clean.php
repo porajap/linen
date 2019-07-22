@@ -348,6 +348,7 @@ function CreateDocument($conn, $DATA)
     } else {
       $return['status'] = "failed";
       $return['form'] = "ShowItem";
+      $return['msg'] = "notfound";
       $return[$count]['RowID'] = "";
       $return[$count]['UsageCode'] = "";
       $return[$count]['itemname'] = "";
