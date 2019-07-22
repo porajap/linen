@@ -366,7 +366,7 @@ $array2 = json_decode($json2,TRUE);
         var qty = $('#qty1_'+chkArray[0]).val();
         var oleqty = $('#OleQty_'+chkArray[0]).val();
         var PriceUnit = $('#PriceUnit'+rowid).data('value');
-        alert(PriceUnit);
+        // alert(PriceUnit);
         qty = oleqty*chkArray[2];
         $('#qty1_'+chkArray[0]).val(qty);
 
@@ -805,6 +805,7 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 12%;' align='center'nowrap>"+Weight+"</td>"+
                       "<td style='width: 8%;' align='right'nowrap>"+CusPrice+"</td>"+
                       "<td hidden id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
+                      "<td  id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
 
                       "</tr>";
                       if(rowCount == 0){

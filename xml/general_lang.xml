@@ -8,17 +8,18 @@
 <no><en>No.</en><th>ลำดับ</th></no>
 <yes><en>Yes</en><th>ใช่</th></yes>
 <isno><en>No</en><th>ไม่ใช่</th></isno>
-
+<Timeleft><en>TIME LT</en><th>เหลือเวลา</th></Timeleft>
+<changprice><en>DATE OF CHG PC.</en><th>เปลี่ยนราคาวันที่</th></changprice>
 <pack><en>Pack</en><th>แพ็ค</th></pack>
 <type><en>type</en><th>ประเภท</th></type>
 <search><en>Search</en><th>ค้นหา</th></search>
-<search_active><en>Search not active</en><th>ค้นหา รายการใหม่</th></search_active>
+<search_active><en>SRCH NOT AT.</en><th>ค้นหา รายการใหม่</th></search_active>
 <search_hp><en>SRCH HOSP</en><th>ค้นหา โรงพยาบาล</th></search_hp>
 <search_ct_main><en>SRCH MN CAT.</en><th>ค้นหา หมวดหมู่หลัก</th></search_ct_main>
 <search_ct_sub><en>SRCH 2nd CAT.</en><th>ค้นหา หมวดหมู่รอง</th></search_ct_sub>
-<searchalldep><en>Search all departments</en><th>ค้นหาทุกแผนก</th></searchalldep>
+<searchalldep><en>SRCH DEP</en><th>ค้นหาทุกแผนก</th></searchalldep>
 <searchdep><en>Search To Department</en><th>ค้นหาตามแผนก</th></searchdep>
-<searchall><en>Search All</en><th>ค้นหาทั้งหมด</th></searchall>
+<searchall><en>SRCH All</en><th>ค้นหาทั้งหมด</th></searchall>
 <titledirty><en>Receive dirty linen</en><th>รับผ้าสกปรก</th></titledirty>
 <titlestockin><en>Receive into stock</en><th>รับเข้าสต๊อก</th></titlestockin>
 <titleclean><en>Receive clean linen</en><th>รับผ้าสะอาด</th></titleclean>
@@ -192,4 +193,6 @@
 <datafail><en>Please fill in the information correctly.</en><th>กรูณากรอกข้อมูลให้ถูกต้อง</th></datafail>
 <savedoc><en>Save Doc</en><th>บันทึกเอกสาร</th></savedoc>
 <updateprice><en>Update price</en><th>อัพเดทราคา</th></updateprice>
+<day><en>Day</en><th>วัน</th></day>
+
 </lang>
