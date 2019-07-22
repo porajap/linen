@@ -921,7 +921,8 @@ switch ($PmID) {
               href="pages/item.php?lang=<?php echo $language; ?>" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][3][$language]; ?>
-              <span style='color: #ff0000;' id='Item_Cnt'>0</span></a>
+              <!-- <span style='color: #ff0000;' id='Item_Cnt'>0</span> -->
+              </a>
           </li>
           <?php } ?>
           <?php if($sys_s5== 1){ ?>
