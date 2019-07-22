@@ -246,9 +246,14 @@ function getdetail($conn, $DATA)
     INNER JOIN item_stock ON item_stock.ItemCode = item.ItemCode
     INNER JOIN department ON department.HptCode = '$HptCode'
     INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
-    WHERE department.HptCode = '$HptCode' AND department.DepCode = item_stock.DepCode AND category_price.HptCode = '$HptCode'
+    WHERE department.HptCode = '$HptCode' 
+    AND department.DepCode = item_stock.DepCode 
+    AND category_price.HptCode = '$HptCode'
+    AND  item.ItemCode = '$ItemCode'
     GROUP BY item.ItemCode";
     $return['sql'] = $Sqlz;
+    // echo json_encode($return);
+
   $meQuery = mysqli_query($conn, $Sqlz);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $CusPrice = $Result['Price']==null?0:$Result['Price'];
@@ -302,6 +307,7 @@ function getdetail($conn, $DATA)
 
   // var_dump($Sql); die;
   $return['sql'] = $Sql;
+  
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] = $Result['ItemCode'];
