@@ -91,7 +91,7 @@ $array2 = json_decode($json2,TRUE);
         // console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-  }).mousemove(function(e) { parent.afk();
+    }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
 
@@ -165,30 +165,30 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
 
-    function DeleteItem(){
-      var docno = $("#docno").val();
-      var xrow = $("#checkrow:checked").val() ;
-      xrow = xrow.split(",");
-      swal({
-        title: "<?php echo $array['confirm'][$language]; ?>",
-        text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>่",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        closeOnConfirm: false,
-        closeOnCancel: false,
-        showCancelButton: true}).then(result => {
-          var data = {
-            'STATUS'    : 'DeleteItem',
-            'rowid'  : xrow[0],
-            'DocNo'   : docno
-          };
-          senddata(JSON.stringify(data));
-        })
+      function DeleteItem(){
+        var docno = $("#docno").val();
+        var xrow = $("#checkrow:checked").val() ;
+        xrow = xrow.split(",");
+        swal({
+          title: "<?php echo $array['confirm'][$language]; ?>",
+          text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>่",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonClass: "btn-danger",
+          confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+          cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          closeOnConfirm: false,
+          closeOnCancel: false,
+          showCancelButton: true}).then(result => {
+            var data = {
+              'STATUS'    : 'DeleteItem',
+              'rowid'  : xrow[0],
+              'DocNo'   : docno
+            };
+            senddata(JSON.stringify(data));
+          })
       }
 
       //======= On create =======
@@ -365,8 +365,11 @@ $array2 = json_decode($json2,TRUE);
         var weight = $('#weight_'+chkArray[0]).val();
         var qty = $('#qty1_'+chkArray[0]).val();
         var oleqty = $('#OleQty_'+chkArray[0]).val();
+
+        var unit = chkArray[1];
         var PriceUnit = $('#PriceUnit'+rowid).data('value');
-        alert(PriceUnit);
+
+       
         qty = oleqty*chkArray[2];
         $('#qty1_'+chkArray[0]).val(qty);
 
@@ -378,6 +381,49 @@ $array2 = json_decode($json2,TRUE);
           'qty'		: qty
         };
         senddata(JSON.stringify(data));
+
+        if(unit == 4 || unit == 2){
+          setTimeout(function(){ 
+            convertPrice(PriceUnit, rowid, unit);
+          }, 100);
+        }
+      }
+
+      function PriceUnit(rowid, i){
+        // var data = selectObject.value;
+        var chkArray = $('#unit'+i).val();
+        unitArray = chkArray.split(",");
+
+        var unit = unitArray[1];
+        var PriceUnit = $('#PriceUnit'+rowid).data('value');
+        if(unit == 4 || unit == 2){
+          setTimeout(function(){ 
+            convertPrice(PriceUnit, rowid, unit);
+          }, 100);
+        }
+
+      }
+
+      function convertPrice(PriceUnit1, rowid, unit){
+        var qty_row = $('#qty_row'+rowid).data('value');
+        var total;
+        if(unit == 2){
+          var kilo = $('#PriceUnit'+rowid).data('value');
+          var gram = PriceUnit1;
+          total = kilo;
+
+        }else if(unit == 4){
+          var gram = $('#PriceUnit'+rowid).data('value');
+          var kilo = PriceUnit1;
+          total = (kilo*qty_row)/gram;
+        }
+        var netTotal = Math.round(total);
+        $('#perunit'+rowid).text(netTotal);
+
+        console.log('kilo = ' + kilo);
+        console.log('qty_row = ' + qty_row);
+        console.log('gram = ' + gram);
+        console.log('total = ' + total);
       }
 
       function CreateDocument(){
@@ -406,7 +452,7 @@ $array2 = json_decode($json2,TRUE);
             };
             senddata(JSON.stringify(data));
           })
-        }
+      }
 
         function canceldocno(docno) {
           swal({
@@ -429,7 +475,7 @@ $array2 = json_decode($json2,TRUE);
               senddata(JSON.stringify(data));
               getSearchDocNo();
             })
-          }
+        }
 
           function addnum(cnt) {
             var add = parseInt($('#iqty'+cnt).val())+1;
@@ -793,17 +839,17 @@ $array2 = json_decode($json2,TRUE);
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
 
                       var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:87px; margin-left:3px; margin-right:3px; text-align:center;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
-
                       // var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:30px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                       "<td style='width: 6%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
-                      "<td style='width: 17%;' align='center'nowrap>"+Qty+OleQty+"</td>"+
+                      "<td style='width: 14%;' align='center'nowrap id='qty_row"+temp[i]['RowID']+"' data-value='"+temp[i]['Qty2']+"'>"+Qty+OleQty+"</td>"+
                       "<td style='width: 12%;' align='center'nowrap>"+Weight+"</td>"+
-                      "<td style='width: 8%;' align='right'nowrap>"+CusPrice+"</td>"+
+                      "<td style='width: 8%;' align='center'nowrap id='perunit"+temp[i]['RowID']+"'></td>"+
+                      "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
                       "<td hidden id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
 
                       "</tr>";
@@ -840,6 +886,8 @@ $array2 = json_decode($json2,TRUE);
 
                         $('#unit'+i).prop('disabled', true);
                       }
+                      PriceUnit(temp[i]['RowID'], i);
+
                     }
                   }else if( (temp["form"]=='ShowItem') ){
                     var st1 = "style='font-size:24px;margin-left:30px; width:140px;font-family:THSarabunNew'";
@@ -985,101 +1033,101 @@ $array2 = json_decode($json2,TRUE);
           </script>
    <style media="screen">
 
-@font-face {
-    font-family: myFirstFont;
-    src: url("../fonts/DB Helvethaica X.ttf");
+      @font-face {
+          font-family: myFirstFont;
+          src: url("../fonts/DB Helvethaica X.ttf");
+          }
+      body{
+        font-family: myFirstFont;
+        font-size:22px;
+      }
+
+    .nfont{
+      font-family: myFirstFont;
+      font-size:22px;
     }
-body{
-  font-family: myFirstFont;
-  font-size:22px;
-}
+    button,input[id^='qty'],input[id^='weight'],input[id^='price']{
+      font-size: 24px!important;
+    }
+    .table > thead > tr >th {
+      /* background: #4f88e3!important; */
+      background-color: #1659a2;
+    }
+    .table th, .table td {
+        border-top: none !important;
+    }
 
-.nfont{
-  font-family: myFirstFont;
-  font-size:22px;
-}
-  button,input[id^='qty'],input[id^='weight'],input[id^='price']{
-    font-size: 24px!important;
-  }
-  .table > thead > tr >th {
-    /* background: #4f88e3!important; */
-    background-color: #1659a2;
-  }
-  .table th, .table td {
-      border-top: none !important;
-  }
+    table tr th,
+    table tr td {
+      border-right: 0px solid #bbb;
+      border-bottom: 0px solid #bbb;
+      padding: 5px;
+    }
+    table tr th:first-child,
+    table tr td:first-child {
+      border-left: 0px solid #bbb;
+    }
+    table tr th {
+      background: #eee;
+      /* border-top: 0px solid #bbb; */
+      text-align: left;
+    }
+    /* top-left border-radius */
+    table tr:first-child th:first-child {
+      border-top-left-radius: 15px;
+    }
+    table tr:first-child th:first-child {
+      border-bottom-left-radius: 15px;
+    }
 
-  table tr th,
-  table tr td {
-    border-right: 0px solid #bbb;
-    border-bottom: 0px solid #bbb;
-    padding: 5px;
-  }
-  table tr th:first-child,
-  table tr td:first-child {
-    border-left: 0px solid #bbb;
-  }
-  table tr th {
-    background: #eee;
-    /* border-top: 0px solid #bbb; */
-    text-align: left;
-  }
-  /* top-left border-radius */
-  table tr:first-child th:first-child {
-    border-top-left-radius: 15px;
-  }
-  table tr:first-child th:first-child {
-    border-bottom-left-radius: 15px;
-  }
+    /* top-right border-radius */
+    table tr:first-child th:last-child {
+      border-top-right-radius: 15px;
+    }
+    table tr:first-child th:last-child {
+      border-bottom-right-radius: 15px;
+    }
 
-  /* top-right border-radius */
-  table tr:first-child th:last-child {
-    border-top-right-radius: 15px;
-  }
-  table tr:first-child th:last-child {
-    border-bottom-right-radius: 15px;
-  }
+    /* bottom-left border-radius */
+    table tr:last-child td:first-child {
+      border-bottom-left-radius: 6px;
+    }
 
-  /* bottom-left border-radius */
-  table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
-
-  /* bottom-right border-radius */
-  table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  a.nav-link{
-    width:auto!important;
-  }
-  .datepicker{z-index:9999 !important}
-  .hidden{visibility: hidden;}
-  .sidenav {
-  height: 100%;
-  overflow-x: hidden;
-  /* padding-top: 20px; */
-  border-left: 2px solid #bdc3c7;
-}
-.mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee button{
+    /* bottom-right border-radius */
+    table tr:last-child td:last-child {
+      border-bottom-right-radius: 6px;
+    }
+    a.nav-link{
+      width:auto!important;
+    }
+    .datepicker{z-index:9999 !important}
+      .hidden{visibility: hidden;}
+      .sidenav {
+      height: 100%;
+      overflow-x: hidden;
+      /* padding-top: 20px; */
+      border-left: 2px solid #bdc3c7;
+    }
+      .mhee a{
+        /* padding: 6px 8px 6px 16px; */
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+      }
+      .mhee a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+      }
+      .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+      }
+      .mhee button{
             /* padding: 6px 8px 6px 16px; */
             text-decoration: none;
             font-size: 23px;
@@ -1091,27 +1139,27 @@ body{
             font-weight:bold;
             font-size:26px;
         }
-.sidenav a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.icon{
-    padding-top: 6px;
-    padding-left: 42px;
-  }
-  @media (min-width: 992px) and (max-width: 1199.98px) { 
+      .sidenav a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+      }
+      .icon{
+          padding-top: 6px;
+          padding-left: 42px;
+        }
+        @media (min-width: 992px) and (max-width: 1199.98px) { 
 
-    .icon{
-      padding-top: 6px;
-      padding-left: 23px;
-    }
-    .sidenav a {
-      font-size: 20px;
+          .icon{
+            padding-top: 6px;
+            padding-left: 23px;
+          }
+          .sidenav a {
+            font-size: 20px;
 
-    }
-  }
-</style>
+          }
+        }
+  </style>
         </head>
 
         <body id="page-top">
@@ -1214,11 +1262,12 @@ body{
                                 <tr role="row">
                                   <th style='width: 6%;'nowrap><?php echo $array['no'][$language]; ?></th>
                                   <th style='width: 16%;'nowrap><?php echo $array['code'][$language]; ?></th>
-                                  <th style='width: 20%;'nowrap><?php echo $array['item'][$language]; ?></th>
+                                  <th style='width: 17%;'nowrap><?php echo $array['item'][$language]; ?></th>
                                   <th style='width: 20%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 14%;'nowrap><center><?php echo $array['total'][$language]; ?></center></th>
-                                  <th style='width: 16%;'nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
-                                  <th style='width: 8%;'nowrap><center><?php echo $array['money'][$language]; ?></center></th>
+                                  <th style='width: 12%;'nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                                  <th style='width: 8%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
+                                  <th style='width: 7%;'nowrap><center><?php echo $array['money'][$language]; ?></center></th>
                                 </tr>
                               </thead>
                               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
