@@ -43,7 +43,7 @@ function checklogin($conn,$DATA)
 
       $boolean = true;
 
-
+//test
 //      $Sql = "INSERT INTO log_user_login
 //              (UserID,xDate,StartTime,EndTime)
 //              VALUES
