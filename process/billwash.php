@@ -566,6 +566,7 @@ function ShowDetail($conn, $DATA)
                     while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
                     $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Qty2'];
                     $return['TotalPrice']  += $return[$count]['CusPrice'];
+                    $return[$count]['PriceUnit']   = $PUResult['PriceUnit'];
                   }
   }else if($Qty==0 && $UniCode2 !=1 && $UniCode2 !=4){
                   $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 

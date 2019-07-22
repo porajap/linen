@@ -365,6 +365,8 @@ $array2 = json_decode($json2,TRUE);
         var weight = $('#weight_'+chkArray[0]).val();
         var qty = $('#qty1_'+chkArray[0]).val();
         var oleqty = $('#OleQty_'+chkArray[0]).val();
+        var PriceUnit = $('#PriceUnit'+rowid).data('value');
+        alert(PriceUnit);
         qty = oleqty*chkArray[2];
         $('#qty1_'+chkArray[0]).val(qty);
 
@@ -802,6 +804,8 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 17%;' align='center'nowrap>"+Qty+OleQty+"</td>"+
                       "<td style='width: 12%;' align='center'nowrap>"+Weight+"</td>"+
                       "<td style='width: 8%;' align='right'nowrap>"+CusPrice+"</td>"+
+                      "<td hidden id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
+
                       "</tr>";
                       if(rowCount == 0){
                         $("#TableItemDetail tbody").append( $StrTR );
@@ -902,6 +906,8 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 40%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 15%;'nowrap>"+chkunit+"</td>"+
                       "<td style='width: 13%;' align='center'nowrap>1</td>"+
+                      "<td style='width: 40%;'nowrap>"+temp[i]['PriceUnit']+"</td>"+
+
                       "</tr>";
                       if(rowCount == 0){
                         $("#TableUsageCode tbody").append( $StrTR );
