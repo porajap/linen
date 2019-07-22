@@ -257,7 +257,7 @@ function ShowItem($conn, $DATA)
 {
   $count = 0;
   $boolean = false;
-  $searchitem = str_replace(' ', '%', $DATA["searchitem"]);
+  $searchitem = str_replace(' ', '%', $DATA["xitem"]);
 
   // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
   // mysqli_query($conn,$Sqlx);
@@ -284,6 +284,7 @@ function ShowItem($conn, $DATA)
   WHERE item.ItemName LIKE '%$searchitem%'
   GROUP BY item.ItemCode
   ORDER BY item.ItemCode ASC LImit 100";
+  // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['RowID'] = $Result['RowID'];
@@ -298,7 +299,7 @@ function ShowItem($conn, $DATA)
     $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
     $MQuery = mysqli_query($conn, $countM);
     while ($MResult = mysqli_fetch_assoc($MQuery)) {
-      $return['sql'] = $countM;
+      $return['sqls'] = $countM;
       if($MResult['cnt']!=0){
         $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
         FROM item_multiple_unit
@@ -358,6 +359,7 @@ function ShowItem($conn, $DATA)
   } else {
     $return['status'] = "failed";
     $return['form'] = "ShowItem";
+    $return['msg'] = "notfound";
     $return[$count]['RowID'] = "";
     $return[$count]['UsageCode'] = "";
     $return[$count]['itemname'] = "";
