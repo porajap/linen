@@ -607,10 +607,11 @@ function ShowDetail($conn, $DATA)
       $return['TotalPrice']  += $return[$count]['CusPrice'];
     }
   }else{
-    $Price = "SELECT item.CusPrice FROM item WHERE item.ItemCode = '$ItemCode'";
+    $Price = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
+    WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = $PResult['CusPrice'] * $Result['Qty2'];
+      $return[$count]['CusPrice']   = $PResult['PriceUnit'] * $Result['Qty2'];
       $return['TotalPrice']  += $return[$count]['CusPrice'];
     }
   }
