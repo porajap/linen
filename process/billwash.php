@@ -588,13 +588,13 @@ function ShowDetail($conn, $DATA)
       $return[$count]['cal']   = $cal;
 
   }else if($UniCode2 == 1){
-    $P_Unit1 = "SELECT item_multiple_unit.Multiply FROM item_multiple_unit 
+    $P_Unit1 = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 1 ";
       $P_Query1 = mysqli_query($conn, $P_Unit1);
       while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
-        $Multiply1  = $P_Result1['Multiply'];
+        $PriceUnit  = $P_Result1['PriceUnit'];
       }
-      $return[$count]['cal']   = $Multiply1;
+      $return[$count]['cal']   = $PriceUnit;
 
   }
 
