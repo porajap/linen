@@ -803,11 +803,10 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
-                      "<td style='width: 14%;' align='center'nowrap id='qty_row"+temp[i]['RowID']+"' data-value='"+temp[i]['Qty2']+"'>"+Qty+OleQty+"</td>"+
+                      "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
                       "<td style='width: 12%;' align='center'nowrap>"+Weight+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
-                      "<td hidden id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
 
                       "</tr>";
                       if(rowCount == 0){
