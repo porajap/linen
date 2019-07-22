@@ -988,7 +988,7 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='width: 25%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
                   "<td style='width: 25%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 15%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
-                  "<td style='width: 13%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                  "<td style='width: 11%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                   "<td style='width: 12%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
                   "</tr>";
 

@@ -613,6 +613,7 @@ function ShowDetail($conn, $DATA)
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
       $return[$count]['CusPrice']   = $PResult['PriceUnit'] * $Result['Qty2'];
       $return['TotalPrice']  += $return[$count]['CusPrice'];
+      $return[$count]['cal'] = $PResult['PriceUnit']; 
     }
   }
 
