@@ -255,7 +255,14 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
 
-        function AddItem() {
+        function AddItem(){
+        var count = 0;
+        $(".checkblank").each(function() {
+          if($( this ).val()==""||$(this).val()==undefined){
+            count++;
+          }
+        });
+        console.log(count);
             var UsID = $('#UsID').val();
             var UserName = $('#username').val();
             var Password = $('#Password').val();
@@ -264,10 +271,32 @@ $array2 = json_decode($json2,TRUE);
             var Permission = $('#Permission').val();
             var facID = $('#factory').val();
             var email = $('#email').val();
-            
-            var chkEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-            if (chkEmail.test(email)){
-                var data = {
+
+        if(count==0){
+          $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', 'red');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
+        //   var chkEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+        //     if (chkEmail.test(email)){
+            swal({
+              title: "<?php echo $array['addoredit'][$language]; ?>",
+              text: "<?php echo $array['addoredit'][$language]; ?>",
+              type: "question",
+              showCancelButton: true,
+              confirmButtonClass: "btn-success",
+              confirmButtonText:  "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#6fc864',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                  
+                    var data = {
                 'STATUS': 'AddItem',
                 'UsID': UsID,
                 'UserName': UserName,
@@ -278,28 +307,89 @@ $array2 = json_decode($json2,TRUE);
                 'facID' : facID,
                 'email' : email
             };
-                senddata(JSON.stringify(data));
-            }
-            else{
-                swal({
-                    title: "<?php echo $array['datafail'][$language]; ?>",
-                    type: "warning",
-                    showCancelButton: false,
-                    confirmButtonClass: "btn-danger",
-                    closeOnConfirm: false,
-                    closeOnCancel: false,
-                    showCancelButton: false,
-                    showConfirmButton: false,
-                    timer:2000
-                });
-                setTimeout(function () {
-                    $('#email').focus();
-                }, 2000);
 
+                console.log(JSON.stringify(data));
+                senddata(JSON.stringify(data));
+              })
+
+          
+
+          
+        }else{
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          })
+          $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', 'red');
+            }else{
+              $(this).css('border-color', '');
             }
+          });
+        }
+      }
+
+
+
+
+
+
+
+
+
+        // function AddItem() {
+        //     var UsID = $('#UsID').val();
+        //     var UserName = $('#username').val();
+        //     var Password = $('#Password').val();
+        //     var FName = $('#flname').val();
+        //     var host = $('#host').val();
+        //     var Permission = $('#Permission').val();
+        //     var facID = $('#factory').val();
+        //     var email = $('#email').val();
+            
+        //     var chkEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+        //     if (chkEmail.test(email)){
+        //         var data = {
+        //         'STATUS': 'AddItem',
+        //         'UsID': UsID,
+        //         'UserName': UserName,
+        //         'Password': Password,
+        //         'FName': FName,
+        //         'host': host,
+        //         'Permission' : Permission,
+        //         'facID' : facID,
+        //         'email' : email
+        //     };
+        //         senddata(JSON.stringify(data));
+        //     }
+        //     else{
+        //         swal({
+        //             title: "<?php echo $array['datafail'][$language]; ?>",
+        //             type: "warning",
+        //             showCancelButton: false,
+        //             confirmButtonClass: "btn-danger",
+        //             closeOnConfirm: false,
+        //             closeOnCancel: false,
+        //             showCancelButton: false,
+        //             showConfirmButton: false,
+        //             timer:2000
+        //         });
+        //         setTimeout(function () {
+        //             $('#email').focus();
+        //         }, 2000);
+
+        //     }
                 
   
-        }
+        // }
 
         function CancelItem() {
             var UsID = $('#UsID').val();

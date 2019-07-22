@@ -458,7 +458,7 @@ $array = json_decode($json,TRUE);
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content ">
       <div class="modal-header">
-        <h1 class="modal-title" style='font-size:30px;color: rgb(0, 51, 141) '>กำหนดเวลาเปลี่ยนราคา</h1>
+        <h1 class="modal-title" style='font-size:30px;color: rgb(0, 51, 141) '><?php echo $array['set'][$language]; ?></h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -481,7 +481,7 @@ $array = json_decode($json,TRUE);
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content ">
       <div class="modal-header">
-        <h1 class="modal-title" style='font-size:30px;color: rgb(0, 51, 141) '>กำหนดเวลาเปลี่ยนราคา</h1>
+        <h1 class="modal-title" style='font-size:30px;color: rgb(0, 51, 141) '><?php echo $array['set'][$language]; ?></h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

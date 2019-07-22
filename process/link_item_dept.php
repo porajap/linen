@@ -124,7 +124,7 @@ function ShowItem($conn, $DATA)
           item.ItemName
           FROM
           item
-          WHERE item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword% ' AND IsActive=1
+          WHERE  item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%'  AND IsActive=1
           ORDER BY item.ItemCode
           ";
   // var_dump($Sql); die;
