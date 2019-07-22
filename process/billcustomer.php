@@ -263,7 +263,7 @@ function CreateDocument($conn,$DATA){
   function ShowItem($conn,$DATA){
     $count=0;
     $boolean = false;
-    $searchitem = str_replace(' ', '%', $DATA["searchitem"]);
+    $searchitem = str_replace(' ', '%', $DATA["xitem"]);
 
     // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
     // mysqli_query($conn,$Sqlx);
@@ -364,6 +364,7 @@ function CreateDocument($conn,$DATA){
     } else {
       $return['status'] = "failed";
       $return['form'] = "ShowItem";
+      $return['msg'] = "notfound";
       $return[$count]['RowID'] = "";
       $return[$count]['UsageCode'] = "";
       $return[$count]['itemname'] = "";
