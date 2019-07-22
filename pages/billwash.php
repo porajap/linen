@@ -797,7 +797,7 @@ $array2 = json_decode($json2,TRUE);
 
                       var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:87px; margin-left:3px; margin-right:3px; text-align:center;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
                       // var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:30px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
-                      var PriceUnit = temp[i]['cal']==undefined?'-':temp[i]['cal'];
+                      var PriceUnit = temp[i]['cal']==undefined?'-':Math.round(temp[i]['cal']);
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                       "<td style='width: 6%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
