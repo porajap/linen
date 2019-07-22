@@ -397,13 +397,10 @@ $array2 = json_decode($json2,TRUE);
         var unit = unitArray[1];
         var PriceUnit = $('#PriceUnit'+rowid).data('value');
         if(unit == 4 || unit == 2){
-          setTimeout(function(){ 
-            convertPrice(PriceUnit, rowid, unit);
-          }, 100);
+          convertPrice(PriceUnit, rowid, unit);
         }
 
       }
-
       function convertPrice(PriceUnit1, rowid, unit){
         var qty_row = $('#qty_row'+rowid).data('value');
         var total;
@@ -851,7 +848,6 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 8%;' align='center'nowrap id='perunit"+temp[i]['RowID']+"'></td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
                       "<td hidden id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
-                      "<td  id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
 
                       "</tr>";
                       if(rowCount == 0){
@@ -888,7 +884,6 @@ $array2 = json_decode($json2,TRUE);
                         $('#unit'+i).prop('disabled', true);
                       }
                       PriceUnit(temp[i]['RowID'], i);
-
                     }
                   }else if( (temp["form"]=='ShowItem') ){
                     var st1 = "style='font-size:24px;margin-left:30px; width:140px;font-family:THSarabunNew'";
