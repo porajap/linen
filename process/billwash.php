@@ -587,6 +587,15 @@ function ShowDetail($conn, $DATA)
       }
       $return[$count]['cal']   = $cal;
 
+  }else if($UniCode2 == 1){
+    $P_Unit1 = "SELECT item_multiple_unit.Multiply FROM item_multiple_unit 
+      WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 1 ";
+      $P_Query1 = mysqli_query($conn, $P_Unit1);
+      while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
+        $Multiply1  = $P_Result1['Multiply'];
+      }
+      $return[$count]['cal']   = $Multiply1;
+
   }
 
   if($Qty!=0 && $UniCode2 !=1){
@@ -613,7 +622,6 @@ function ShowDetail($conn, $DATA)
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
       $return[$count]['CusPrice']   = $PResult['PriceUnit'] * $Result['Qty2'];
       $return['TotalPrice']  += $return[$count]['CusPrice'];
-      $return[$count]['cal'] = $PResult['PriceUnit']; 
     }
   }
 
