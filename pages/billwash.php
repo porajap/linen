@@ -841,11 +841,11 @@ $array2 = json_decode($json2,TRUE);
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                       "<td style='width: 6%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 25%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
                       "<td style='width: 14%;' align='center'nowrap id='qty_row"+temp[i]['RowID']+"' data-value='"+temp[i]['Qty2']+"'>"+Qty+OleQty+"</td>"+
                       "<td style='width: 12%;' align='center'nowrap>"+Weight+"</td>"+
-                      "<td style='width: 8%;' align='center'nowrap id='perunit"+temp[i]['RowID']+"'></td>"+
+                      "<td style='width: 8%;' align='center'nowrap hidden id='perunit"+temp[i]['RowID']+"'></td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
                       "<td hidden id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
 
@@ -883,7 +883,6 @@ $array2 = json_decode($json2,TRUE);
 
                         $('#unit'+i).prop('disabled', true);
                       }
-                      PriceUnit(temp[i]['RowID'], i);
                     }
                   }else if( (temp["form"]=='ShowItem') ){
                     var st1 = "style='font-size:24px;margin-left:30px; width:140px;font-family:THSarabunNew'";
@@ -1258,11 +1257,11 @@ $array2 = json_decode($json2,TRUE);
                                 <tr role="row">
                                   <th style='width: 6%;'nowrap><?php echo $array['no'][$language]; ?></th>
                                   <th style='width: 16%;'nowrap><?php echo $array['code'][$language]; ?></th>
-                                  <th style='width: 17%;'nowrap><?php echo $array['item'][$language]; ?></th>
+                                  <th style='width: 25%;'nowrap><?php echo $array['item'][$language]; ?></th>
                                   <th style='width: 20%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 14%;'nowrap><center><?php echo $array['total'][$language]; ?></center></th>
                                   <th style='width: 12%;'nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
-                                  <th style='width: 8%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
+                                  <th hidden style='width: 8%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
                                   <th style='width: 7%;'nowrap><center><?php echo $array['money'][$language]; ?></center></th>
                                 </tr>
                               </thead>
