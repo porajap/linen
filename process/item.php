@@ -232,20 +232,26 @@ function GetHospital($conn, $DATA)
 
 function getdetail($conn, $DATA)
 {
+  $HptCode = $_SESSION['HptCode'];
   $count = 0;
   $ItemCode = $DATA['ItemCode'];
   // ====================================================================================
-  $Sqlz = "SELECT item.CusPrice FROM item          
-  INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  INNER JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
-  LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
-  LEFT JOIN item_unit AS U1 ON item_multiple_unit.UnitCode = U1.UnitCode
-  LEFT JOIN item_unit AS U2 ON item_multiple_unit.MpCode = U2.UnitCode
-  WHERE item.ItemCode = '$ItemCode'";
+      $Sqlz = "SELECT 
+      item.ItemCode,
+      item.ItemName,
+      department.DepCode,
+      item.CategoryCode,
+      category_price.Price
+    FROM item
+    INNER JOIN item_stock ON item_stock.ItemCode = item.ItemCode
+    INNER JOIN department ON department.HptCode = '$HptCode'
+    INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+    WHERE department.HptCode = '$HptCode' AND department.DepCode = item_stock.DepCode AND category_price.HptCode = '$HptCode'
+    GROUP BY item.ItemCode";
+    $return['sql'] = $Sqlz;
   $meQuery = mysqli_query($conn, $Sqlz);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $CusPrice = $Result['CusPrice'];
+    $CusPrice = $Result['Price']==null?0:$Result['Price'];
   }
 
   $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE MpCode = 1 AND UnitCode = 1 AND ItemCode = '$ItemCode'";

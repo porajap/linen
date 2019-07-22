@@ -1217,10 +1217,10 @@ $array2 = json_decode($json2,TRUE);
                                   <th style='width: 6%;'nowrap><?php echo $array['no'][$language]; ?></th>
                                   <th style='width: 16%;'nowrap><?php echo $array['code'][$language]; ?></th>
                                   <th style='width: 17%;'nowrap><?php echo $array['item'][$language]; ?></th>
-                                  <th style='width: 20%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                                  <th style='width: 19%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 14%;'nowrap><center><?php echo $array['total'][$language]; ?></center></th>
                                   <th style='width: 12%;'nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
-                                  <th style='width: 8%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
+                                  <th style='width: 9%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
                                   <th style='width: 7%;'nowrap><center><?php echo $array['money'][$language]; ?></center></th>
                                 </tr>
                               </thead>
