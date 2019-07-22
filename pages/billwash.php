@@ -851,6 +851,7 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 8%;' align='center'nowrap id='perunit"+temp[i]['RowID']+"'></td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
                       "<td hidden id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
+                      "<td  id='PriceUnit"+temp[i]['RowID']+"' data-value='"+temp[i]['PriceUnit']+"'>"+temp[i]['PriceUnit']+"</td>"+
 
                       "</tr>";
                       if(rowCount == 0){

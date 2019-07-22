@@ -72,7 +72,7 @@ function checklogin($conn,$DATA)
       die;
     }else{
       $return['status'] = "failed";
-      $return['msg'] = "Not found username or password";
+      $return['msg'] = "Username Password is Active";
       echo json_encode($return);
       mysqli_close($conn);
       die;

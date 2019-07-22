@@ -324,6 +324,8 @@ $array2 = json_decode($json2,TRUE);
             var HptCode = $('#hptsel').val();
             var CgMainID = $('#Category_Main').val();
             var CgSubID = $('#Category_Sub').val();
+            $('#bSave').attr('disabled', true);
+        $('#delete_icon').addClass('opacity');
             if (Sel == 1) {
                 CgMainID = "-";
                 CgSubID = "-";
@@ -760,6 +762,8 @@ $array2 = json_decode($json2,TRUE);
                                 $('#Category_Sub2').val(temp['CategoryName']);
                                 $('#Price').val(temp['Price']);
                             }
+                            $('#bSave').attr('disabled', false);
+                            $('#delete_icon').removeClass('opacity');
                         } else if ((temp["form"] == 'SavePrice')) {
                             $('#RowID').val("");
                             $('#HotName').val("");
@@ -1042,12 +1046,17 @@ $array2 = json_decode($json2,TRUE);
                 text-decoration: none;
                 font-size: 23px;
                 color: #818181;
+                background:none;
+                 box-shadow:none!important;    
                 display: block;
                 }
                 .mhee button:hover {
                 color: #2c3e50;
                 font-weight:bold;
                 font-size:26px;
+            }
+            .opacity{
+            opacity:0.5;
             }
             @media (min-width: 992px) and (max-width: 1199.98px) { 
 
@@ -1220,14 +1229,14 @@ $array2 = json_decode($json2,TRUE);
                 <div class="card-body" style="padding:0px; margin-top:10px;">
 <!-- =============================================================================================== -->
 
-                                    <div class="row" style="margin-top:0px;">
+                                    <div class="row mhee" style="margin-top:0px;">
                                       <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
+                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3 opacity' id="delete_icon">
                                       </div>
                                       <div class="col-md-9">
-                                        <a href='javascript:void(0)' onclick="SavePrice()" id="bSave">
+                                        <button class="btn" onclick="SavePrice()" id="bSave"  disabled="true">
                                           <?php echo $array['save'][$language]; ?>
-                                        </a>
+                                        </button>
                                       </div>
                                     </div>
         
