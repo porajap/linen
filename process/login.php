@@ -40,7 +40,7 @@ function checklogin($conn,$DATA)
       $IsActive  = $Result['IsActive'];
 
       $Count = $Result['Count'];
-      $FirstName = $Result['FirstName'];
+      // $FirstName = $Result['FirstName'];
       $boolean = true;
 
       mysqli_query($conn,$Sql);
