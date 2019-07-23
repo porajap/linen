@@ -770,7 +770,7 @@ $array2 = json_decode($json2,TRUE);
                     currencyFormat(temp['TotalPrice']);
                     // $("#total").val(temp['TotalPrice']);
                     var isStatus = $("#IsStatus").val();
-                    var st1 = "style='font-size:24px;margin-left:30px; width:110px;'";
+                    var st1 = "style='font-size:24px;margin-left:30px; width:147px;'";
                     for (var i = 0; i < temp["Row"]; i++) {
                       var rowCount = $('#TableItemDetail >tbody >tr').length;
 
@@ -790,17 +790,18 @@ $array2 = json_decode($json2,TRUE);
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
 
                       var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:87px; margin-left:3px; margin-right:3px; text-align:center;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
-
+                      var PriceUnit = temp[i]['cal']==undefined?'-':Math.round(temp[i]['cal']);
                       // var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:30px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                       "<td style='width: 6%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
-                      "<td style='width: 17%;' align='center'nowrap>"+Qty+OleQty+"</td>"+
+                      "<td style='width: 14%;' align='center'nowrap>"+Qty+OleQty+"</td>"+
                       "<td style='width: 12%;' align='center'nowrap>"+Weight+"</td>"+
-                      "<td style='width: 8%;' align='right'nowrap>"+CusPrice+"</td>"+
+                      "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
+                      "<td style='width: 7%;' align='right'nowrap>"+CusPrice+"</td>"+
                       "</tr>";
                       if(rowCount == 0){
                         $("#TableItemDetail tbody").append( $StrTR );
@@ -1207,11 +1208,12 @@ body{
                                 <tr role="row">
                                   <th style='width: 6%;'><?php echo $array['no'][$language]; ?></th>
                                   <th style='width: 16%;'><?php echo $array['code'][$language]; ?></th>
-                                  <th style='width: 20%;'><?php echo $array['item'][$language]; ?></th>
-                                  <th style='width: 20%;'><center><?php echo $array['unit'][$language]; ?></center></th>
+                                  <th style='width: 17%;'><?php echo $array['item'][$language]; ?></th>
+                                  <th style='width: 19%;'><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 14%;'><center><?php echo $array['total'][$language]; ?></center></th>
-                                  <th style='width: 16%;'><center><?php echo $array['weight'][$language]; ?></center></th>
-                                  <th style='width: 8%;'><center><?php echo $array['money'][$language]; ?></center></th>
+                                  <th style='width: 12%;'><center><?php echo $array['weight'][$language]; ?></center></th>
+                                  <th style='width: 9%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
+                                  <th style='width: 7%;'><center><?php echo $array['money'][$language]; ?></center></th>
                                 </tr>
                               </thead>
                               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
