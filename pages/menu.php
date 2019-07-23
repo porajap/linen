@@ -237,7 +237,7 @@ $array = json_decode($json,TRUE);
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
                             '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[0]['DocNo']+ '</td>'+
-                            '<td nowrap style="width:40%" class="text-left">เปลี่ยนราคาวันที่: ' +temp[0]['EndDate']+ ' เหลือเวลา ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['EndDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr>' ;
               
               $("#result_alert1").append(result);
