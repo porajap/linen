@@ -20,12 +20,13 @@ function checklogin($conn,$DATA)
             site.HptCode,
             site.HptName,
             users.Count,
-            users.TimeOut
+            users.TimeOut,
+            users.IsActive
             FROM
             permission
             INNER JOIN users ON users.PmID = permission.PmID
             INNER JOIN site ON users.HptCode = site.HptCode
-        WHERE users.UserName = '$user' AND users.`Password` = '$password' AND users.IsCancel = 0 AND users.IsActive = 0";
+        WHERE users.UserName = '$user' AND users.`Password` = '$password' AND users.IsCancel = 0";
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $ID                   = $Result['ID'];
@@ -36,43 +37,45 @@ function checklogin($conn,$DATA)
       $_SESSION['HptName']  = $Result['HptName'];
       $_SESSION['TimeOut']  = $Result['TimeOut'];
       $_SESSION['lang']     = $Result['lang']==null?'th':$Result['lang'];
+      $IsActive  = $Result['IsActive'];
 
       $Count = $Result['Count'];
-
       $FirstName = $Result['FirstName'];
-
       $boolean = true;
 
-//test
-//      $Sql = "INSERT INTO log_user_login
-//              (UserID,xDate,StartTime,EndTime)
-//              VALUES
-//              ($ID,DATE(NOW()),TIME(NOW()),null)";
-//      mysqli_query($conn,$Sql);
+      mysqli_query($conn,$Sql);
 
     }
 
     if($boolean){
       $return['Count'] = $Count;
       if($Count != 0){
-        $return['status'] = "success";
-        $return['form'] = "chk_login";
-        $return['msg'] = "Login Success";
-        $Sql = "UPDATE users SET users.IsActive = 1 WHERE users.ID = $ID";
-        mysqli_query($conn,$Sql);
+
+        if($IsActive == 0){
+          $return['status'] = "success";
+          $return['form'] = "chk_login";
+          $return['msg'] = "Login Success";
+          $Sql = "UPDATE users SET users.IsActive = 1 WHERE users.ID = $ID";
+          mysqli_query($conn,$Sql);
+        }else if($IsActive == 1){
+          $return['status'] = "failed";
+          $return['msg'] = "Username Password is Active";
+          echo json_encode($return);
+          mysqli_close($conn);
+          die;
+        }
       }else{
         // $return['status'] = "success";
         $return['status'] = "change_pass";
         $return['username'] = $user;
         $return['password'] =$password;
-
       }
       echo json_encode($return);
       mysqli_close($conn);
       die;
     }else{
       $return['status'] = "failed";
-      $return['msg'] = "Username Password is Active";
+      $return['msg'] = "Username or Password is Wrong!";
       echo json_encode($return);
       mysqli_close($conn);
       die;
