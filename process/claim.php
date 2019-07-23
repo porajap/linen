@@ -637,7 +637,7 @@ function CreateDocument($conn, $DATA)
                       $return[$count]['CusPrice']   = $PResult['PriceUnit'] * $Result['Qty2'];
                       $return['TotalPrice']  += $return[$count]['CusPrice'];
     }
-                      }
+                      
       }
 
 
