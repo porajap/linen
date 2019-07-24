@@ -272,28 +272,6 @@ function getHotpital($conn, $DATA)
   die;
 }
 
-function getDate_price($conn, $DATA)
-{
-  $HptCode = $DATA['HptCode'] == null ? 'BHQ':$DATA['HptCode'];
-
-  $count = 0;
-  $Sql = "SELECT
-          c.StartDate
-          FROM contract_parties_hospital c
-          WHERE c.HptCode = '$HptCode' AND c.IsStatus = 0";
-          $return['sql'] = $Sql;
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['StartDate']  = $Result['StartDate'];
-    $count++;
-  }
-
-  $return['status'] = "success";
-  $return['form'] = "getDate_price";
-  echo json_encode($return);
-  mysqli_close($conn);
-  die;
-}
 
 function getCategoryMain($conn, $DATA)
 {
