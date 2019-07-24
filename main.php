@@ -432,7 +432,9 @@ switch ($PmID) {
         cancelButtonColor: '#d33',
         confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
         cancelButtonText: '<?php echo $array2['isno'][$language]; ?>'
-      }).then((result) => {
+      })
+      .then(function (result) {
+        if (result.value) {
           swal({
             text: '<?php echo $array2['logoutfinish'][$language]; ?>',
             type: 'success',
@@ -441,7 +443,7 @@ switch ($PmID) {
             cancelButtonColor: '#d33',
             showConfirmButton: false,
             timer: 2000
-          });
+          })
           setTimeout(function(){ 
             var Userid = <?= $Userid ?>;
             var data = {
@@ -451,6 +453,9 @@ switch ($PmID) {
             senddata(JSON.stringify(data));
             window.location.href = "index.html";
           }, 2000);
+        } else if (result.dismiss === 'cancel') {
+          setActive();
+        }
       })
     }
 
