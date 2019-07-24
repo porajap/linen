@@ -287,13 +287,12 @@ $array2 = json_decode($json2,TRUE);
         function onCreate() {
             var xDate = $('#datepicker').val();
             var HptCode = $("#hptsel1").val();
-
             if(xDate==""){
                 $('#rem').show(5).css("color","red");
             }else{
                 $('#rem').hide();
                 /* we join the array separated by the comma */
-                // xDate = xDate.substr(6,4)+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
+                xDate = xDate.substr(6,4)+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
                 var data = {
                     'STATUS' : 'CreateDoc',
                     'Price' : Price,
