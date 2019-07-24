@@ -553,7 +553,15 @@ $array2 = json_decode($json2, TRUE);
       var modeCheck = $('#checkitem:checked').val();
       console.log(typeof modeCheck == 'undefined');
       if (typeof modeCheck == 'undefined') {
-        if (modeCode == 1) {
+        if(modeCode == 3){
+          $('#oldCodetype').hide();
+          var hospitalCode = "";
+          var typeCode = "";
+          var packCode = "";
+          $('#ItemCode').attr("disabled", false);
+        }else{
+          $('#ItemCode').attr("disabled", true);
+          if (modeCode == 1) {
           $('#oldCodetype').show();
           var hospitalCode = $('#hospital').val();
           var typeCode = $('#typeLinen').val();
@@ -574,6 +582,7 @@ $array2 = json_decode($json2, TRUE);
         };
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
+        }
       }
     }
 
@@ -1662,16 +1671,20 @@ $array2 = json_decode($json2, TRUE);
                               <input type="text" class="form-control col-sm-8" id="ItemCode" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
                             </div>
                           </div>
-                          <div class="col-md-1">
-                          </div>
-                          <div class="col-md-5">
+                          <div class="col-md-6">
                             <div class="row ">
                               <div class="col-md-4">
-                                <div class='form-group row'>
-                                  <div class='radio-c' style="align-content:center">
-                                    <input type='radio' name='formatitem' id='formatitem' value='2' onclick="CreateItemCode()">
+                                <div class="row ">
+                                  <div class="col-md-5">
                                   </div>
-                                  <label class="col-sm-10 col-form-label text-left"><?php echo $array['blank'][$language]; ?></label>
+                                  <div class="col-md-7">
+                                    <div class='form-group row'>
+                                      <div class='radio-c'>
+                                        <input type='radio' name='formatitem' id='formatitem' value='3' onclick="CreateItemCode()">
+                                      </div>
+                                      <label class="col-sm-10 col-form-label text-left"><?php echo $array['blank'][$language]; ?></label>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-4">
