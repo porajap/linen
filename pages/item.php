@@ -1606,17 +1606,19 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div class="card-body" style="padding:0px; margin-top:-12px;">
               <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;" id="catagory1"></select>
+                      <label class="col-sm-5 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                      <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
                 <div class="col-md-3">
+                  <div class="row" style="font-size:24px;margin-left:2px;">
+                      <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                      <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
+                  </div>
+                </div>
+                <div class="col-md-4">
                   <div class="row " style="margin-left:2px;">
                     <input type="text" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
 
