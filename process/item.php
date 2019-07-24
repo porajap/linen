@@ -238,12 +238,12 @@ function getdetail($conn, $DATA)
   // ====================================================================================
   $Sqlz = "SELECT category_price.Price
               FROM    item,item_stock,department,category_price
-              WHERE item.ItemCode = 'BHQLPPPUF010007'
+              WHERE item.ItemCode = '$ItemCode'
               AND category_price.CategoryCode = item.CategoryCode
               AND item_stock.ItemCode = item.ItemCode
               AND item_stock.DepCode = department.DepCode
-              AND department.HptCode = 'BHQ'
-              AND category_price.HptCode = 'BHQ'
+              AND department.HptCode = '$HptCode'
+              AND category_price.HptCode = '$HptCode'
               GROUP BY item.ItemCode";
   $return['sql'] = $Sqlz;
   // echo json_encode($return);
@@ -511,6 +511,9 @@ function CreateItemCode($conn, $DATA)
 function NewItem($conn, $DATA)
 {
   // var_dump($DATA); die;
+  $count = 0;
+  $HptCode = $_SESSION['HptCode'];
+
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
           item
@@ -521,14 +524,14 @@ function NewItem($conn, $DATA)
   }
 
   $Sqlz = "SELECT category_price.Price
-          FROM    item,item_stock,department,category_price
-          WHERE item.ItemCode = 'BHQLPPPUF010007'
-          AND category_price.CategoryCode = item.CategoryCode
-          AND item_stock.ItemCode = item.ItemCode
-          AND item_stock.DepCode = department.DepCode
-          AND department.HptCode = 'BHQ'
-          AND category_price.HptCode = 'BHQ'
-          GROUP BY item.ItemCode";
+              FROM    item,item_stock,department,category_price
+              WHERE item.ItemCode = '" . $DATA['ItemCode'] . "'
+              AND category_price.CategoryCode = item.CategoryCode
+              AND item_stock.ItemCode = item.ItemCode
+              AND item_stock.DepCode = department.DepCode
+              AND department.HptCode = '$HptCode'
+              AND category_price.HptCode = '$HptCode'
+              GROUP BY item.ItemCode";
   $return['sql'] = $Sqlz;
 
   $meQuery = mysqli_query($conn, $Sqlz);
@@ -795,6 +798,29 @@ function DeleteUnit($conn, $DATA)
   }
 }
 
+// function checkItemCode($conn, $DATA)
+// {
+//   $count = 0;
+//   $Sql = "SELECT Count(*) AS cnt FROM item WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+//   $MQuery = mysqli_query($conn, $Sql);
+//   $MResult = mysqli_fetch_assoc($MQuery);
+//   $return['sql'] = $Sql;
+//   $count=$MResult['cnt'];
+//   $return['status'] = "success";
+//   $return['form'] = "checkItemCode";
+//   if ($count == 0) {
+//     $return['msg'] = "T";
+//     echo json_encode($return);
+//     mysqli_close($conn);
+//     die;
+//   } else {
+//     $return['msg'] = "F";
+//     echo json_encode($return);
+//     mysqli_close($conn);
+//     die;
+//   }
+// }
+
 if (isset($_POST['DATA'])) {
   $data = $_POST['DATA'];
   $DATA = json_decode(str_replace('\"', '"', $data), true);
@@ -829,6 +855,8 @@ if (isset($_POST['DATA'])) {
     GetmainCat($conn, $DATA);
   } else if ($DATA['STATUS'] == 'ActiveItem') {
     ActiveItem($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'checkItemCode') {
+    checkItemCode($conn, $DATA);
   }
 } else {
   $return['status'] = "error";
