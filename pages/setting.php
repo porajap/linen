@@ -334,7 +334,7 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                     <div  class="d-flex justify-content-center mt-5">
                         <div class="input-group">
-                            <input type="text" class="form-control text-center numonly" id="timeout"  value="<?= $TimeOut ?>" maxlength="10" required onkeyup='if(this.value > 120){this.value=120}'>
+                            <input type="text" class="form-control text-center numonly" id="timeout"  value="<?= $TimeOut ?>" maxlength="10" required onkeyup='if(this.value > 30){this.value=30}'>
                         </div>
                         <div id="label1">
                             <label for="timeout"><?php echo $array['minute'][$language]; ?></label>
