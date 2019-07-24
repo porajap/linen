@@ -236,30 +236,24 @@ function getdetail($conn, $DATA)
   $count = 0;
   $ItemCode = $DATA['ItemCode'];
   // ====================================================================================
-      $Sqlz = "SELECT 
-      item.ItemCode,
-      item.ItemName,
-      department.DepCode,
-      item.CategoryCode,
-      category_price.Price
-    FROM item
-    INNER JOIN item_stock ON item_stock.ItemCode = item.ItemCode
-    INNER JOIN department ON department.HptCode = '$HptCode'
-    INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
-    WHERE department.HptCode = '$HptCode' 
-    AND department.DepCode = item_stock.DepCode 
-    AND category_price.HptCode = '$HptCode'
-    AND  item.ItemCode = '$ItemCode'
-    GROUP BY item.ItemCode";
-    $return['sql'] = $Sqlz;
-    // echo json_encode($return);
+  $Sqlz = "SELECT category_price.Price
+              FROM    item,item_stock,department,category_price
+              WHERE item.ItemCode = 'BHQLPPPUF010007'
+              AND category_price.CategoryCode = item.CategoryCode
+              AND item_stock.ItemCode = item.ItemCode
+              AND item_stock.DepCode = department.DepCode
+              AND department.HptCode = 'BHQ'
+              AND category_price.HptCode = 'BHQ'
+              GROUP BY item.ItemCode";
+  $return['sql'] = $Sqlz;
+  // echo json_encode($return);
 
   $meQuery = mysqli_query($conn, $Sqlz);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $CusPrice = $Result['Price']==null?0:$Result['Price'];
+    $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
   }
 
-  $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE MpCode = 1 AND UnitCode = 1 AND ItemCode = '$ItemCode'";
+  $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE ItemCode = '$ItemCode'";
   $MQuery = mysqli_query($conn, $countM);
   $return['sql'] = $countM;
   while ($MResult = mysqli_fetch_assoc($MQuery)) {
@@ -307,7 +301,7 @@ function getdetail($conn, $DATA)
 
   // var_dump($Sql); die;
   $return['sql'] = $Sql;
-  
+
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] = $Result['ItemCode'];
@@ -404,6 +398,7 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
+  // EditItem
   // var_dump($DATA); die;
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
@@ -424,7 +419,12 @@ function AddItem($conn, $DATA)
             Weight = '" . $DATA['Weight'] . "'
             WHERE ItemCode = '" . $DATA['ItemCode'] . "'
             ";
-    if (mysqli_query($conn, $Sql)) {
+    $Sql2 = "UPDATE item_multiple_unit 
+            SET UnitCode = '" . $DATA['UnitName'] . "',
+                MpCode = '" . $DATA['UnitName'] . "'
+            WHERE ItemCode = '" . $DATA['ItemCode'] . "'
+            AND UnitCode = MpCode";
+    if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "AddItem";
       $return['msg'] = "editsuccess";
@@ -519,6 +519,23 @@ function NewItem($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $boolcount = $Result['Countn'];
   }
+
+  $Sqlz = "SELECT category_price.Price
+          FROM    item,item_stock,department,category_price
+          WHERE item.ItemCode = 'BHQLPPPUF010007'
+          AND category_price.CategoryCode = item.CategoryCode
+          AND item_stock.ItemCode = item.ItemCode
+          AND item_stock.DepCode = department.DepCode
+          AND department.HptCode = 'BHQ'
+          AND category_price.HptCode = 'BHQ'
+          GROUP BY item.ItemCode";
+  $return['sql'] = $Sqlz;
+
+  $meQuery = mysqli_query($conn, $Sqlz);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
+  }
+
   if ($boolcount == 0) {
     $count = 0;
     $Sql = "INSERT INTO item(
@@ -545,7 +562,10 @@ function NewItem($conn, $DATA)
               1
             )
     ";
-    if (mysqli_query($conn, $Sql)) {
+    $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
+    (1, 1, 1, '" . $DATA['ItemCode'] . "', $CusPrice) ";
+    
+    if (mysqli_query($conn, $Sql)&&mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "AddItem";
       $return['msg'] = "addsuccess";

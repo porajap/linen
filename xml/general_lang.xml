@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+
+<blank><en>ฺlank</en><th>ว่าง</th></blank>
+
 <activeItem><en>Active</en><th>Active</th></activeItem>
-
 <email><en>Email</en><th>Email</th></email>
-
-
 <no><en>No.</en><th>ลำดับ</th></no>
 <yes><en>Yes</en><th>ใช่</th></yes>
 <isno><en>No</en><th>ไม่ใช่</th></isno>

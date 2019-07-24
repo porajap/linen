@@ -285,16 +285,14 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function onCreate() {
-            // var xDate = $('#datepicker').val();
+            var xDate = $('#datepicker').val();
             var HptCode = $("#hptsel1").val();
-            xDate = $("#startDate").val();
-
             if(xDate==""){
                 $('#rem').show(5).css("color","red");
             }else{
                 $('#rem').hide();
                 /* we join the array separated by the comma */
-                // xDate = xDate.substr(6,4)+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
+                xDate = xDate.substr(6,4)+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
                 var data = {
                     'STATUS' : 'CreateDoc',
                     'Price' : Price,
@@ -656,8 +654,11 @@ $array2 = json_decode($json2,TRUE);
                         if ((temp["form"] == 'CreateDoc')) {
                             $("#docno").val( temp["DocNo"] );
                             $("#create1").hide(300);
-                            $("#btn_save").attr('hidden', false);
-                            $("#btn_saveDoc").attr('hidden', false);
+                            setTimeout(function () {
+                                $("#btn_save").attr('hidden', false);
+                                $("#btn_saveDoc").attr('hidden', false);
+                            }, 200);
+                            
                             ShowItem2();
                         }else if ((temp["form"] == 'UpdatePrice')) {
                             var sv = "<?php echo $array['save'][$language]; ?>";
@@ -841,20 +842,7 @@ $array2 = json_decode($json2,TRUE);
                                   $("#Category_Sub").append(StrTr);
                                   $("#Category_Sub1").append(StrTr);
                               }
-                        } else if ((temp["form"] == 'getDate_price')) {
-                            if(temp['StartDate']==null || temp['StartDate']==''){
-                                $("#startDate").val("");
-
-                                $('#create1').attr('disabled',true);
-                                // $('#btn_save').attr('disabled',true);
-                            }else{
-                                $("#startDate").val("");
-                                $("#startDate").val(temp['StartDate']);
-
-                                $('#create1').attr('disabled',false);
-                                // $('#btn_save').attr('disabled',false);
-                            }
-                        }
+                        } 
 
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -1365,10 +1353,11 @@ $array2 = json_decode($json2,TRUE);
                                 <select class="form-control ml-2" style="font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptsel1" onchange="getDate_price();"></select>
 
                                 <label id="rem" style="margin-left:20px;"> *** </label>
-                                <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:150px;" id="startDate">
+                                <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:168px;" id="datepicker" data-language='en' data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
+                                <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:150px;" id="datepicker"> -->
                                 <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
 
-                                <button onclick="onCreate();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="create1" disabled="true"><img src="../img/icon/ic_create.png" style='width:31px; ' class="mr-1"><?php echo $array['createdocno'][$language]; ?></button>
+                                <button onclick="onCreate();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="create1"><img src="../img/icon/ic_create.png" style='width:31px; ' class="mr-1"><?php echo $array['createdocno'][$language]; ?></button>
 
                                 <!-- <button type="button" style="font-size:18px;margin-left:20px; width:100px;font-family: 'THSarabunNew'" class="btn btn-warning" id="create1" disabled="true" name="button" onclick="onCreate();"><?php echo $array['createdocno'][$language]; ?></button> -->
                                 <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:210px;" name="search1"   id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >

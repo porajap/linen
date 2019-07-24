@@ -105,33 +105,33 @@ function alert_SetPrice($conn,$DATA)
   $boolean = false;
   $count = 0;
   if($PmID == 1){
-    $Sql = "SELECT 
-      cat_P.DocNo,
-      site.HptName,
-      CURDATE() AS CurDate,
-      c.StartDate,
-      c.EndDate,
-      DATEDIFF(c.EndDate, CURDATE()) AS dateDiff
-    FROM contract_parties_hospital c
-    INNER JOIN users ON users.ID = $Userid
-    INNER JOIN site ON site.HptCode = c.HptCode
-    INNER JOIN category_price_time cat_P ON cat_P.HptCode = c.HptCode
-    WHERE cat_P.Status = 0 AND c.IsStatus=0
-    GROUP BY  c.StartDate,c.EndDate, cat_P.DocNo ORDER BY dateDiff ASC";
+    $Sql = "SELECT
+      cat_P.DocNo ,  
+      site.HptName ,    
+      cat_P.xDate ,  
+      DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
+    FROM category_price_time cat_P
+    INNER JOIN users ON users.ID = 100  
+    INNER JOIN site ON site.HptCode = site.HptCode  
+    WHERE cat_P.STATUS = 0
+    GROUP BY
+      cat_P.xDate,
+      cat_P.DocNo
+    ORDER BY dateDiff ASC";
   }else{
-      $Sql = "SELECT 
-      cat_P.DocNo,
-      site.HptName,
-      CURDATE() AS CurDate,
-      c.StartDate,
-      c.EndDate,
-      DATEDIFF(c.EndDate, CURDATE()) AS dateDiff
-    FROM contract_parties_hospital c
-    INNER JOIN users ON users.ID = $Userid
-    INNER JOIN site ON site.HptCode = '$HptCode'
-    INNER JOIN category_price_time cat_P ON cat_P.HptCode = c.HptCode
-    WHERE c.HptCode = '$HptCode' AND cat_P.Status = 0 AND c.IsStatus=0
-    GROUP BY c.StartDate,c.EndDate, cat_P.DocNo ORDER BY dateDiff ASC";
+      $Sql = "SELECT
+        cat_P.DocNo ,  
+        site.HptName ,    
+        cat_P.xDate ,  
+        DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
+      FROM category_price_time cat_P
+      INNER JOIN users ON users.ID = $Userid  
+      INNER JOIN site ON site.HptCode = '$HptCode'   
+      WHERE cat_P.HptCode = '$HptCode' AND cat_P.STATUS = 0
+      GROUP BY
+        cat_P.xDate,
+        cat_P.DocNo
+      ORDER BY dateDiff ASC";
   }
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
@@ -141,7 +141,7 @@ function alert_SetPrice($conn,$DATA)
       $return[$count]['DocNo'] = $Result['DocNo'];
       $return[$count]['HptName'] = $Result['HptName'];
       $return[$count]['StartDate'] = $Result['StartDate'];
-      $return[$count]['EndDate'] = $Result['EndDate'];
+      $return[$count]['xDate'] = $Result['xDate'];
       $return[$count]['DateDiff'] = $Result['dateDiff'];
       $count++;
       $boolean = true; 

@@ -1031,7 +1031,7 @@ $array2 = json_decode($json2, TRUE);
                       "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                       "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                       "<td style='width: 28%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
-                      "<td style='width: 15%;' align='left'nowrap>" + temp[i]['MpCode'] + "</td>" +
+                      "<td style='width: 15%;' align='left'nowrap>" + temp[i]['MpCode'] + "</td>" +//toy
                       "<td style='width: 17%;' align='left'nowrap>" + temp[i]['UnitName2'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + temp[i]['Multiply'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + PriceUnit + "</td>" +
@@ -1666,7 +1666,15 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                           <div class="col-md-5">
                             <div class="row ">
-                              <div class="col-md-6">
+                              <div class="col-md-4">
+                                <div class='form-group row'>
+                                  <div class='radio-c' style="align-content:center">
+                                    <input type='radio' name='formatitem' id='formatitem' value='2' onclick="CreateItemCode()">
+                                  </div>
+                                  <label class="col-sm-10 col-form-label text-left"><?php echo $array['blank'][$language]; ?></label>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c' style="align-content:center">
                                     <input type='radio' name='formatitem' id='formatitem' value='1' onclick="CreateItemCode()" checked="checked">
@@ -1674,7 +1682,7 @@ $array2 = json_decode($json2, TRUE);
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['oldFormatItemCode'][$language]; ?></label>
                                 </div>
                               </div>
-                              <div class="col-md-6">
+                              <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c' style="align-content:center">
                                     <input type='radio' name='formatitem' id='formatitem' value='2' onclick="CreateItemCode()">

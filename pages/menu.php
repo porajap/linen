@@ -218,26 +218,17 @@ $array = json_decode($json,TRUE);
             var result = '<table class="table table-fixed ">';
             var PmID = <?php echo $PmID; ?>;
             if(temp['countRow']==1){
-                // result += "<tr class='text-left'>"+
-                //   // '<td nowrap style="width: 4%;">'+(i+1)+'</td>'+
-                //   '<td nowrap style="width: 40%;">โรงพยาบาล: '+temp[0]['HptName']+'</td>'+
-                //   '<td nowrap style="width: 40%;">วันที่ทำสัญญา: '+temp[0]['StartDate']+'</td>'+
-                //   '<td nowrap style="width: 40%;">วันที่สิ้นสุดสัญญา: '+temp[0]['EndDate']+'</td>'+
-                //   '<td nowrap style="width: 30%;" >เอกสารเลขที่: '+temp[0]['DocNo']+'</td>'+
-                //   '<td nowrap style="width: 20%;">เปลี่ยนราคาวันที่: '+temp[0]['EndDate']+' เหลือเวลา '+temp[0]['DateDiff']+' วัน</td>'+
-                // "</tr>";
                 result += '<tr style="background-color:#2980b9;color:#ffffff">'+
                             '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[0]['HptName']+'</td>'+
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[0]['StartDate']+ '</td>' + 
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[0]['EndDate']+ '</td>' +
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[0]['DocNo']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[0]['xDate']+ '</td>' +
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[0]['DocNo']+ '</td>'+
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['EndDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                            '<td nowrap style="width:80%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr>' ;
               
               $("#result_alert1").append(result);
@@ -250,13 +241,12 @@ $array = json_decode($json,TRUE);
                             '</tr>' +
                             '<tr>'+
                               '<td style="width:18%"></td>' + 
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[i]['StartDate']+ '</td>' + 
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['EndDate']+ '</td>' +
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['DocNo']+ '</td>'+
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['xDate']+ '</td>' +
                             '</tr>' +
                             '<tr>'+
                               '<td style="width:18%"></td>' + 
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['DocNo']+ '</td>'+
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['EndDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                              '<td nowrap style="width:80%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['EndDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                             '</tr>' ;
               }
               $("#result_alert tbody").append(result);
