@@ -5,6 +5,8 @@ $Userid = $_SESSION['Userid'];
 $PmID= $_SESSION['PmID'];
 $TimeOut = $_SESSION['TimeOut'];
 $last_move = $_GET["last_move"];
+$logoff = $_SESSION['chk_logoff'];
+$Username = $_SESSION['Username'];
 if($Userid==""){
    header("location:index.html");
 }
@@ -15,6 +17,10 @@ header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('xml/main_lang.xml');
 $json = json_encode($xml);
 $array = json_decode($json,TRUE);
+
+$xml2 = simplexml_load_file('xml/general_lang.xml');
+$json2 = json_encode($xml2);
+$array2 = json_decode($json2,TRUE);
 
 switch ($PmID) {
     case "1":
@@ -324,9 +330,12 @@ switch ($PmID) {
     // // ===================================================================
     var last_move, cur_date, target;
     var redirectInSecond = <?php echo $TimeOut ?>; // กำหนดเวลา redirect เป็นวินาที
+    var chk_logoff = <?php echo $logoff ?>; 
     var redirect_url = 'http://poseintelligence.dyndns.biz:8181/linen-test/login.php'; // กำหนด url ที่ต้องการเมื่อครบเวลาที่กำหนด
     $(document).ready(function (e) {
-
+      if(chk_logoff == 1 ){
+        setActive();
+      }
       OnLoadPage();
       target = redirectInSecond * 1000; // แปลงค่าเป็น microsecond
       target = target * 60;
@@ -382,8 +391,8 @@ switch ($PmID) {
         $('#ShowTime').val( 'Timeout : ' + hms );
 
         if( micro > target ) {
-          //location.href=redirect_url;
-            setActive();
+          update_logoff();
+          setActive();
         }else {
             $("#ShowTime").attr('hidden',false);
             var new_time = target - micro;
@@ -409,41 +418,79 @@ switch ($PmID) {
 
     }
 
-    window.addEventListener("beforeunload", function (e) {
-        setActive();
+    // window.addEventListener("beforeunload", function (e) {
+    //     setActive();
 
-    });
+    // });
 
     function logoff() {
       swal({
-        title: '',
-        text: '<?php echo $array[' logout '][$language]; ?>',
-        type: 'success',
-        showCancelButton: false,
+        text: '<?php echo $array2['logout'][$language]; ?>',
+        type: 'info',
+        showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        showConfirmButton: false,
-        timer: 1000,
-        confirmButtonText: 'Ok'
-      }).then(function () {
-          setActive();
-        // window.location.href = "index.html";
-      }, function (dismiss) {
-          setActive();
-        // window.location.href = "index.html";
-        if (dismiss === 'cancel') {
-
-        }
+        confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
+        cancelButtonText: '<?php echo $array2['isno'][$language]; ?>'
+      }).then((result) => {
+          swal({
+            text: '<?php echo $array2['logoutfinish'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          setTimeout(function(){ 
+            var Userid = <?= $Userid ?>;
+            var data = {
+              'STATUS' : 'logoff',
+              'Userid' : Userid
+            }
+            senddata(JSON.stringify(data));
+            window.location.href = "index.html";
+          }, 2000);
       })
     }
 
-    function setActive(){
+    function update_logoff(){
         var Userid = <?= $Userid ?>;
         var data = {
-            'STATUS' : 'Active',
-            'Userid' : Userid,
+            'STATUS' : 'update_logoff',
+            'Userid' : Userid
         }
         senddata(JSON.stringify(data));
+    }
+
+    function setActive(){
+      $.ajax({
+        url: "alert_login.php",
+        success: function (data) {
+          swal({
+            title: '<h1>Login</h1>',
+            type: 'info',
+            html:data,
+            showCloseButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+          });
+        },
+      });
+      $('#password').val('');
+    }
+
+    function login_again(){
+      var Userid = <?= $Userid ?>;
+      var username = $('#username').val();
+      var password = $('#password').val();
+      var data = {
+        'STATUS' : 'login_again',
+        'Userid' : Userid,
+        'Username' : username,
+        'Password' : password
+      }
+      senddata(JSON.stringify(data));
     }
 
     function showPopup(messageid, subject) {
@@ -499,6 +546,7 @@ switch ($PmID) {
       OnLoadPage();
 
     }
+
     function senddata(data) {
       var form_data = new FormData();
       form_data.append("DATA", data);
@@ -533,8 +581,40 @@ switch ($PmID) {
                   var a5 = parseInt(temp["clean_Cnt"]);
                   $("#main_Cnt").text(a5 + a4);
               }else if(temp['form'] == "Active") {
-                  window.location.href = "index.html";
+                setActive();
+              }else if(temp['form'] == "login_again"){
+              if(temp['cnt'] == 1){
+                swal({
+                  title: '',
+                  text: temp["msg"],
+                  type: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  timer: 1000,
+                  confirmButtonText: 'Ok',
+                  showConfirmButton: false
+                }).catch(function(timeout) { });
+                setTimeout(function(){ 
+                    location.reload();
+                }, 1000);
+              }else{
+                swal({
+                  title: '',
+                  text: temp["msg"],
+                  type: 'error',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  timer: 1500,
+                  confirmButtonText: 'Ok',
+                  showConfirmButton: false
+                }).catch(function(timeout) { });
+                setTimeout(function(){ 
+                    setActive();
+                }, 1500);
               }
+            }
           } else if (temp['status'] == "failed") {
             swal({
               title: '',
@@ -679,6 +759,14 @@ switch ($PmID) {
       color: #24246A !important;
       font-size: 24px !important;
       font-weight: bold !important;
+    }
+
+    #mr_form{
+      width: 400px;
+      margin: 30px !important;
+    }
+    #mr_form div{
+      padding: 2px;
     }
   </style>
 

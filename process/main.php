@@ -78,8 +78,6 @@ $boolean = true;
   }
 }
 
-// $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
-// mysqli_query($conn,$Sqlx);
 
 function SETLANG($conn, $DATA){
   $lang = $DATA['lang'];
@@ -90,8 +88,7 @@ function Active($conn,$DATA){
   $Userid = $DATA['Userid'];
   $Sql = "UPDATE users SET users.IsActive = 0 WHERE users.ID = '$Userid'";
   mysqli_query($conn,$Sql);
-//  $Sql = "UPDATE users SET users.IsActive = 0 WHERE users.ID = '$Userid'";
-//  mysqli_query($conn,$Sql);
+
 
   $boolean = true;
   if($boolean){
@@ -111,7 +108,61 @@ function Active($conn,$DATA){
   }
 }
 
+function update_logoff($conn,$DATA)
+{
+  $Userid = $DATA['Userid'];
+  $Sql = "UPDATE users SET users.chk_logoff = 1 WHERE users.ID = $Userid";
+  mysqli_query($conn,$Sql);
+  $_SESSION['chk_logoff']  = 1;
+}
 
+function logoff($conn, $DATA)
+{
+  $Userid = $DATA['Userid'];
+  $Sql = "UPDATE users SET users.chk_logoff = 0 WHERE users.ID = $Userid";
+  mysqli_query($conn,$Sql);
+
+  $Sql = "UPDATE users SET users.IsActive = 0 WHERE users.ID = $Userid";
+  mysqli_query($conn,$Sql);
+
+  session_destroy();
+}
+
+function login_again($conn, $DATA)
+{
+  $Userid = $DATA['Userid'];
+  $Username = $DATA['Username'];
+  $Password = $DATA['Password'];
+  $boolean = false;
+
+  $Sql1 = "SELECT COUNT(ID) AS cnt FROM users WHERE ID = $Userid AND Username = '$Username' AND Password = '$Password' LIMIT 1";
+  $meQuery = mysqli_query($conn,$Sql1);
+  $return['sq'] = $Sql1;
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $cnt     = $Result['cnt'];
+    $boolean = true;
+  }
+  if($cnt == 1 ){
+    $Sql2 = "UPDATE users SET users.chk_logoff = 0 WHERE users.ID = $Userid";
+    mysqli_query($conn,$Sql2);
+    $_SESSION['chk_logoff']  = 0;
+    $return['status'] = "success";
+    $return['form'] = "login_again";
+    $return['msg'] = "Login Success";
+    $return['cnt'] = $cnt;
+    echo json_encode($return);
+  }else{
+    $return['status'] = "success";
+    $return['form'] = "login_again";
+    $return['msg'] = "Username or Password is Wrong!";
+    $return['cnt'] = 0;
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+    
+
+}
 //==========================================================
 //
 //==========================================================
@@ -126,6 +177,12 @@ if(isset($_POST['DATA']))
         SETLANG($conn,$DATA);
       }else if($DATA['STATUS']=='Active'){
         Active($conn,$DATA);
+      }else if ($DATA['STATUS'] == 'update_logoff') {
+        update_logoff($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'logoff') {
+        logoff($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'login_again') {
+        login_again($conn, $DATA);
       }
 
 }else{

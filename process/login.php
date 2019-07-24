@@ -21,9 +21,9 @@ function checklogin($conn,$DATA)
             site.HptName,
             users.Count,
             users.TimeOut,
-            users.IsActive
-            FROM
-            permission
+            users.IsActive,
+            users.chk_logoff
+            FROM permission
             INNER JOIN users ON users.PmID = permission.PmID
             INNER JOIN site ON users.HptCode = site.HptCode
         WHERE users.UserName = '$user' AND users.`Password` = '$password' AND users.IsCancel = 0";
@@ -36,6 +36,7 @@ function checklogin($conn,$DATA)
       $_SESSION['HptCode']  = $Result['HptCode'];
       $_SESSION['HptName']  = $Result['HptName'];
       $_SESSION['TimeOut']  = $Result['TimeOut'];
+      $_SESSION['chk_logoff']  = $Result['chk_logoff'];
       $_SESSION['lang']     = $Result['lang']==null?'th':$Result['lang'];
       $IsActive  = $Result['IsActive'];
 
