@@ -423,40 +423,76 @@ switch ($PmID) {
 
     // });
 
-    function logoff() {
-      swal({
-        text: '<?php echo $array2['logout'][$language]; ?>',
-        type: 'info',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
-        cancelButtonText: '<?php echo $array2['isno'][$language]; ?>'
-      })
-      .then(function (result) {
-        if (result.value) {
-          swal({
-            text: '<?php echo $array2['logoutfinish'][$language]; ?>',
-            type: 'success',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            showConfirmButton: false,
-            timer: 2000
-          })
-          setTimeout(function(){ 
-            var Userid = <?= $Userid ?>;
-            var data = {
-              'STATUS' : 'logoff',
-              'Userid' : Userid
-            }
-            senddata(JSON.stringify(data));
-            window.location.href = "index.html";
-          }, 2000);
-        } else if (result.dismiss === 'cancel') {
-          setActive();
-        }
-      })
+    function logoff(chk) {
+      if(chk == 1){
+        swal({
+          text: '<?php echo $array2['logout'][$language]; ?>',
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
+          cancelButtonText: '<?php echo $array2['isno'][$language]; ?>'
+        })
+        .then(function (result) {
+          if (result.value) {
+            swal({
+              text: '<?php echo $array2['logoutfinish'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            setTimeout(function(){ 
+              var Userid = <?= $Userid ?>;
+              var data = {
+                'STATUS' : 'logoff',
+                'Userid' : Userid
+              }
+              senddata(JSON.stringify(data));
+              window.location.href = "index.html";
+            }, 2000);
+          } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
+        })
+      }else{
+        swal({
+          text: '<?php echo $array2['logout'][$language]; ?>',
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
+          cancelButtonText: '<?php echo $array2['isno'][$language]; ?>'
+        })
+        .then(function (result) {
+          if (result.value) {
+            swal({
+              text: '<?php echo $array2['logoutfinish'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            setTimeout(function(){ 
+              var Userid = <?= $Userid ?>;
+              var data = {
+                'STATUS' : 'logoff',
+                'Userid' : Userid
+              }
+              senddata(JSON.stringify(data));
+              window.location.href = "index.html";
+            }, 2000);
+          } else if (result.dismiss === 'cancel') {
+            setActive();
+          }
+        })
+      }
     }
 
     function update_logoff(){
@@ -793,8 +829,7 @@ switch ($PmID) {
           <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#" data-toggle="modal"
-            onclick="logoff();"><?php echo $array['menu']['logout'][$language]; ?></a>
+          <a class="dropdown-item" href="#" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
         </div>
       </li>
     </ul>
