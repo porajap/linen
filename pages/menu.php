@@ -228,7 +228,8 @@ $array = json_decode($json,TRUE);
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
-                            '<td nowrap style="width:80%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr>' ;
               
               $("#result_alert1").append(result);
@@ -246,8 +247,9 @@ $array = json_decode($json,TRUE);
                             '</tr>' +
                             '<tr>'+
                               '<td style="width:18%"></td>' + 
-                              '<td nowrap style="width:80%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['EndDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
-                            '</tr>' ;
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ '</td>'+
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                          '</tr>' ;
               }
               $("#result_alert tbody").append(result);
               $("#alert_SetPrice").modal('show');
