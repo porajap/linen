@@ -17,7 +17,7 @@ function ShowItem($conn, $DATA)
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON site.HptCode = users.HptCode
-        WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%')";
+        WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%') AND site.HptCode = '$xHptCode'";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -46,6 +46,32 @@ function ShowItem($conn, $DATA)
   }
 
 }
+
+function getSection($conn, $DATA)
+{
+  $count = 0;
+  $Sql = "SELECT
+          site.HptCode,
+          site.HptName
+          FROM
+          site
+					WHERE IsStatus = 0";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['HptCode']  = $Result['HptCode'];
+    $return[$count]['HptName']  = $Result['HptName'];
+    $count++;
+  }
+
+  $return['status'] = "success";
+  $return['form'] = "getSection";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+
+}
+
+
 
 function getdetail($conn, $DATA)
 {
@@ -338,8 +364,13 @@ if(isset($_POST['DATA']))
       }
       else if ($DATA['STATUS'] == 'getFactory') {
         getFactory($conn,$DATA);
+      }  else if ($DATA['STATUS'] == 'getSection') {
+        getSection($conn,$DATA);
       }
 
+
+
+      
 }else{
 	$return['status'] = "error";
 	$return['msg'] = 'noinput';
