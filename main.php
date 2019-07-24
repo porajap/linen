@@ -20,22 +20,22 @@ switch ($PmID) {
     case "1":
         //genneral
         $gen_head=1;
-        $gen_s1=1;
-        $gen_s2=1;
-        $gen_s3=1;
-        $gen_s4=1;
-        $gen_s5=1;
+        $gen_s1=0;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
         $gen_s6=1;
         $gen_s7=0;
-        $gen_s8=1;
-        $gen_s9=1;
-        $gen_s10=1;
+        $gen_s8=0;
+        $gen_s9=0;
+        $gen_s10=0;
         //account
         $ac_head=1;
-        $ac_s1=1;
-        $ac_s2=1;
+        $ac_s1=0;
+        $ac_s2=0;
         $ac_s3=1;
-        $ac_s4=1;
+        $ac_s4=0;
         $ac_s5=1;
         //factory
         $fac_head=0;
@@ -64,22 +64,22 @@ switch ($PmID) {
     case "2":
         //genneral
         $gen_head=1;
-        $gen_s1=1;
-        $gen_s2=1;
-        $gen_s3=1;
-        $gen_s4=1;
-        $gen_s5=1;
+        $gen_s1=0;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
         $gen_s6=1;
         $gen_s7=0;
-        $gen_s8=1;
-        $gen_s9=1;
-        $gen_s10=1;
+        $gen_s8=0;
+        $gen_s9=0;
+        $gen_s10=0;
         //account
         $ac_head=1;
-        $ac_s1=1;
-        $ac_s2=1;
+        $ac_s1=0;
+        $ac_s2=0;
         $ac_s3=1;
-        $ac_s4=1;
+        $ac_s4=0;
         $ac_s5=1;
         //factory
         $fac_head=0;
@@ -108,22 +108,22 @@ switch ($PmID) {
     case "3":
         //genneral
         $gen_head=1;
-        $gen_s1=1;
-        $gen_s2=1;
-        $gen_s3=1;
-        $gen_s4=1;
-        $gen_s5=1;
+        $gen_s1=0;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
         $gen_s6=1;
         $gen_s7=0;
-        $gen_s8=1;
-        $gen_s9=1;
-        $gen_s10=1;
+        $gen_s8=0;
+        $gen_s9=0;
+        $gen_s10=0;
         //account
         $ac_head=1;
-        $ac_s1=1;
-        $ac_s2=1;
+        $ac_s1=0;
+        $ac_s2=0;
         $ac_s3=1;
-        $ac_s4=1;
+        $ac_s4=0;
         $ac_s5=1;
         //factory
         $fac_head=0;
@@ -177,7 +177,7 @@ switch ($PmID) {
         $re_head=0;
         $re_s1=0;
         //system
-        $sys_head=0;
+        $sys_head=1;
         $sys_s1=0;
         $sys_s2=0;
         $sys_s3=0;
@@ -191,7 +191,7 @@ switch ($PmID) {
         $sys_s11=0;
         $sys_s12=0;
         $sys_s13=0;
-        $sys_s14=0;
+        $sys_s14=1;
         break;
     case "5":
         //genneral
@@ -204,8 +204,8 @@ switch ($PmID) {
         $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
-        $gen_s9=1;
-        $gen_s10=1;
+        $gen_s9=0;
+        $gen_s10=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -235,7 +235,7 @@ switch ($PmID) {
         $sys_s11=0;
         $sys_s12=0;
         $sys_s13=0;
-        $sys_s14=0;
+        $sys_s14=1;
         break;
     case "6":
         //genneral
@@ -248,13 +248,13 @@ switch ($PmID) {
         $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
-        $gen_s9=1;
-        $gen_s10=1;
+        $gen_s9=0;
+        $gen_s10=0;
         //account
         $ac_head=1;
-        $ac_s1=1;
-        $ac_s2=1;
-        $ac_s3=1;
+        $ac_s1=0;
+        $ac_s2=0;
+        $ac_s3=0;
         $ac_s4=1;
         $ac_s5=1;
         //factory
@@ -279,7 +279,7 @@ switch ($PmID) {
         $sys_s11=0;
         $sys_s12=0;
         $sys_s13=0;
-        $sys_s14=0;
+        $sys_s14=1;
         break;
 }
 

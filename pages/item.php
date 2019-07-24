@@ -494,36 +494,50 @@ $array2 = json_decode($json2, TRUE);
           }
         });
         if (ItemCode != "") {
-          swal({
-            title: "<?php echo $array['addoredit'][$language]; ?>",
-            text: "<?php echo $array['addoredit1'][$language]; ?>",
-            type: "question",
-            showCancelButton: true,
-            confirmButtonClass: "btn-success",
-            confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-            cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-            confirmButtonColor: '#6fc864',
-            cancelButtonColor: '#3085d6',
-            closeOnConfirm: false,
-            closeOnCancel: false,
-            showCancelButton: true
-          }).then(result => {
-            var data = {
-              'STATUS': 'NewItem',
-              'Catagory': Catagory,
-              'ItemCode': ItemCode,
-              'ItemName': ItemName,
-              'CusPrice': CusPrice,
-              'FacPrice': FacPrice,
-              'UnitName': UnitName,
-              'SizeCode': SizeCode,
-              'Weight': Weight
-            };
+          console.log("New Item : " + $('#ItemCode').data("status"));
+          if ($('#ItemCode').data("status")) {
+            swal({
+              title: "<?php echo $array['addoredit'][$language]; ?>",
+              text: "<?php echo $array['addoredit1'][$language]; ?>",
+              type: "question",
+              showCancelButton: true,
+              confirmButtonClass: "btn-success",
+              confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+              confirmButtonColor: '#6fc864',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true
+            }).then(result => {
+              var data = {
+                'STATUS': 'NewItem',
+                'Catagory': Catagory,
+                'ItemCode': ItemCode,
+                'ItemName': ItemName,
+                'CusPrice': CusPrice,
+                'FacPrice': FacPrice,
+                'UnitName': UnitName,
+                'SizeCode': SizeCode,
+                'Weight': Weight
+              };
 
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-          })
-
+              console.log(JSON.stringify(data));
+              senddata(JSON.stringify(data));
+            })
+          } else {
+            swal({
+              title: '',
+              text: "<?php echo $array['DuplicateItemcode'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            })
+          }
         }
       } else {
         swal({
@@ -551,29 +565,38 @@ $array2 = json_decode($json2, TRUE);
       var Catagory = $('#catagory2').val();
       var modeCode = $('#formatitem:checked').val();
       var modeCheck = $('#checkitem:checked').val();
-      console.log(typeof modeCheck == 'undefined');
+      console.log(modeCode);
       if (typeof modeCheck == 'undefined') {
-        if (modeCode == 1) {
-          $('#oldCodetype').show();
-          var hospitalCode = $('#hospital').val();
-          var typeCode = $('#typeLinen').val();
-          var packCode = $('#numPack').val();
-        } else {
+        if (modeCode == 3) {
           $('#oldCodetype').hide();
           var hospitalCode = "";
           var typeCode = "";
           var packCode = "";
+          $('#ItemCode').attr("disabled", false);
+        } else {
+          $('#ItemCode').attr("disabled", true);
+          if (modeCode == 1) {
+            $('#oldCodetype').show();
+            var hospitalCode = $('#hospital').val();
+            var typeCode = $('#typeLinen').val();
+            var packCode = $('#numPack').val();
+          } else {
+            $('#oldCodetype').hide();
+            var hospitalCode = "";
+            var typeCode = "";
+            var packCode = "";
+          }
+          var data = {
+            'STATUS': 'CreateItemCode',
+            'Catagory': Catagory,
+            'modeCode': modeCode,
+            'hospitalCode': hospitalCode,
+            'typeCode': typeCode,
+            'packCode': packCode
+          };
+          console.log(JSON.stringify(data));
+          senddata(JSON.stringify(data));
         }
-        var data = {
-          'STATUS': 'CreateItemCode',
-          'Catagory': Catagory,
-          'modeCode': modeCode,
-          'hospitalCode': hospitalCode,
-          'typeCode': typeCode,
-          'packCode': packCode,
-        };
-        console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
       }
     }
 
@@ -665,13 +688,18 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function getdetail(ItemCode) {
+
       if (ItemCode.length > 9) {
         $("input[name=formatitem][value=1]").prop('checked', true);
         $('#oldCodetype').show();
 
-      } else {
+      } else if (ItemCode.length == 9) {
         $("input[name=formatitem][value=2]").prop('checked', true);
         $('#oldCodetype').hide();
+      } else {
+        $("input[name=formatitem][value=3]").prop('checked', true);
+        $('#oldCodetype').hide();
+        $('#ItemCode').attr("disabled", true);
       }
       if (ItemCode != "" && ItemCode != undefined) {
         var data = {
@@ -1024,14 +1052,14 @@ $array2 = json_decode($json2, TRUE);
                 $('#delete_icon').removeClass('opacity');
                 if (temp[0]['RowID']) {
                   for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                    var PriceUnit = temp[i]['PriceUnit']==null?'':temp[i]['PriceUnit'];
+                    var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
                     var rowCount = $('#TableUnit >tbody >tr').length;
                     var chkDoc = "<input type='radio' name='checkitem2' id='checkitem2' value='" + temp[i]['RowID'] + "'>";
                     StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
                       "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                       "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                       "<td style='width: 28%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
-                      "<td style='width: 15%;' align='left'nowrap>" + temp[i]['MpCode'] + "</td>" +//toy
+                      "<td style='width: 15%;' align='left'nowrap>" + temp[i]['MpCode'] + "</td>" +
                       "<td style='width: 17%;' align='left'nowrap>" + temp[i]['UnitName2'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + temp[i]['Multiply'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + PriceUnit + "</td>" +
@@ -1317,7 +1345,7 @@ $array2 = json_decode($json2, TRUE);
                 temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
                 break;
               case "addfailed":
-                temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                temp['msg'] = "<?php echo $array['DuplicateItemcode'][$language]; ?>";
                 break;
               case "editsuccess":
                 temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
@@ -1578,25 +1606,27 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div class="card-body" style="padding:0px; margin-top:-12px;">
               <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;" id="catagory1"></select>
+                      <label class="col-sm-5 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                      <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
                 <div class="col-md-3">
+                  <div class="row" style="font-size:24px;margin-left:2px;">
+                      <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                      <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
+                  </div>
+                </div>
+                <div class="col-md-4">
                   <div class="row " style="margin-left:2px;">
                     <input type="text" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
-                    
+
                   </div>
                 </div>
                 <div class="col-md-2">
                   <div class="row mhee" style="margin-left:0px;">
-                  <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3 mhee'>
+                    <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3 mhee'>
                     <a href='javascript:void(0)' onclick="ShowItem()" id="bSave" class="search">
                       <?php echo $array['search'][$language]; ?></a>
                   </div>
@@ -1659,7 +1689,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['code'][$language]; ?></label>
-                              <input type="text" class="form-control col-sm-8" id="ItemCode" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
+                              <input type="text" class="form-control col-sm-8 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
                             </div>
                           </div>
                           <div class="col-md-1">
@@ -1668,10 +1698,10 @@ $array2 = json_decode($json2, TRUE);
                             <div class="row ">
                               <div class="col-md-4">
                                 <div class='form-group row'>
-                                  <div class='radio-c' style="align-content:center">
-                                    <input type='radio' name='formatitem' id='formatitem' value='2' onclick="CreateItemCode()">
+                                  <div class='radio-c'>
+                                    <input type='radio' name='formatitem' id='formatitem' value='3' onclick="CreateItemCode()">
                                   </div>
-                                  <label class="col-sm-10 col-form-label text-left"><?php echo $array['blank'][$language]; ?></label>
+                                  <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
                               </div>
                               <div class="col-md-4">

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
 
-<blank><en>ฺlank</en><th>ว่าง</th></blank>
+<DuplicateItemcode><en>Duplicate Itemcode</en><th>รหัสรายการซ้ำ</th></DuplicateItemcode>
+<custom><en>Custom</en><th>กำหนดเอง</th></custom>
 
 <activeItem><en>Active</en><th>Active</th></activeItem>
 <email><en>Email</en><th>Email</th></email>

@@ -74,25 +74,24 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
-            ShowItem();
             //On create
             $('.TagImage').bind('click', {
                 imgId: $(this).attr('id')
             }, function(evt) {
                 alert(evt.imgId);
             });
-
+            ShowItem();
             getHotpital();
             getEmployee();
             getPermission();
             getFactory();
             getHotpital_user();
+      
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
                     ShowItem();
                 }
             });
-
             $('.numonly').on('input', function() {
                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
             });
@@ -245,6 +244,7 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function ShowItem() {
+            
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
             var data = {
@@ -714,6 +714,7 @@ $array2 = json_decode($json2,TRUE);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 $("#host").append(StrTr);
+                                $("#hptsel").append(StrTr);
                             }
                         }else if ((temp["form"] == 'getHotpital_user')) {
                             $("#host").empty();
@@ -740,7 +741,7 @@ $array2 = json_decode($json2,TRUE);
                                 StrTr += "<option value = '" + temp[i]['FacCode'] + "'> " + temp[i]['FacName'] + " </option>";
                             }
                             $("#factory").append(StrTr);
-                        }
+                        }      
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
                             case "notchosen":
@@ -980,7 +981,13 @@ $array2 = json_decode($json2,TRUE);
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:-12px;">
                             <div class="row">
+                            <div class="col-md-3">
+                                    <div class="row" style="margin-left:5px;">
+                                        <select class="form-control" id="hptsel">
 
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="col-md-6 mhee">
                                     <div class="row" style="margin-left:5px;">
@@ -990,9 +997,7 @@ $array2 = json_decode($json2,TRUE);
                                           <?php echo $array['search'][$language]; ?></a>      
                                     </div>
                                 </div>
-                                <div class="col-md-2">
 
-                                </div>
 
                                 <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
