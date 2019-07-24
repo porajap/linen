@@ -829,8 +829,7 @@ switch ($PmID) {
           <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#" data-toggle="modal"
-            onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
+          <a class="dropdown-item" href="#" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
         </div>
       </li>
     </ul>
