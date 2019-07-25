@@ -161,11 +161,7 @@ $array2 = json_decode($json2, TRUE);
     //======= On create =======
     //console.log(JSON.stringify(data));
     function OnLoadPage() {
-      var data = {
-        'STATUS': 'OnLoadPage'
-      };
-      senddata(JSON.stringify(data));
-      $('#isStatus').val(0)
+      get_hospital()
     }
 
     function get_dirty_doc() {
@@ -179,20 +175,18 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function get_hospital() {
-      var docno = $("#docno").val();
       var data = {
-        'STATUS': 'get_hospital',
-        'DocNo': docno
+        'STATUS': 'get_hospital'
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
 
     function get_dep() {
-      var docno = $("#docno").val();
+      var hpt = $("#hospital").val();
       var data = {
         'STATUS': 'get_dep',
-        'DocNo': docno
+        'hpt': hpt
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -222,7 +216,7 @@ $array2 = json_decode($json2, TRUE);
     function senddata(data) {
       var form_data = new FormData();
       form_data.append("DATA", data);
-      var URL = '../process/factory_out.php';
+      var URL = '../process/factory_document_status.php';
       $.ajax({
         url: URL,
         dataType: 'text',
@@ -248,19 +242,17 @@ $array2 = json_decode($json2, TRUE);
               $("#department").empty();
               $("#Dep2").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var Str = "<option value=" + temp[i]['DepCode'] + ">" + temp[i]['DepName'] + "</option>";
+                var Str = "<option value=" + temp[i]['HospitalCode'] + ">" + temp[i]['HospitalName'] + "</option>";
                 $("#TableDocument").append(Str);
               }
             }else if (temp["form"] == 'get_hospital') {
-              $("#department").empty();
-              $("#Dep2").empty();
+              $("#hospital").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var Str = "<option value=" + temp[i]['DepCode'] + ">" + temp[i]['DepName'] + "</option>";
-                $("#department").append(Str);
+                var Str = "<option value=" + temp[i]['HospitalCode'] + ">" + temp[i]['HospitalName'] + "</option>";
+                $("#hospital").append(Str);
               }
             }else if (temp["form"] == 'get_dep') {
               $("#department").empty();
-              $("#Dep2").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var Str = "<option value=" + temp[i]['DepCode'] + ">" + temp[i]['DepName'] + "</option>";
                 $("#department").append(Str);
@@ -456,7 +448,7 @@ $array2 = json_decode($json2, TRUE);
               </div>
               <div class="col-md-3">
                 <div class="row" style="font-size:24px;margin-left:2px;">
-                  <select class="form-control" style='font-size:24px;' id="Dep">
+                  <select class="form-control" style='font-size:24px;' id="department">
                   </select>
                 </div>
               </div>

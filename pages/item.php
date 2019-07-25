@@ -1088,6 +1088,7 @@ $array2 = json_decode($json2, TRUE);
               $('#NewItem').show();
               $('#AddItemBNT').hide();
               $(".radio-c :input").attr("disabled", false);
+
               $('#ItemCode').val("");
               switch (temp['msg']) {
                 case "notchosen":
