@@ -271,20 +271,24 @@ function ShowItem($conn, $DATA)
     item.ItemCode,
     item.ItemName,
     item.UnitCode,
+    item.QtyPerUnit,
     item_unit.UnitName,
     item_stock.ParQty,
     item_stock.CcQty,
-    item_stock.TotalQty
-    FROM site
-    INNER JOIN department ON site.HptCode = department.HptCode
-    INNER JOIN item_stock ON department.DepCode = item_stock.DepCode
-    INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-    INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
-    INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE item.ItemName LIKE '%$searchitem%'
+    item_stock.TotalQty,
+    item.UnitCode2,
+    Un2.UnitName2 
+FROM site
+LEFT JOIN department ON site.HptCode = department.HptCode
+LEFT JOIN item_stock ON department.DepCode = item_stock.DepCode
+INNER JOIN item ON item_stock.ItemCode = item.ItemCode
+INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+LEFT JOIN item_unit AS Un2 ON item.UnitCode2 = Un2.UnitCode
+WHERE item_stock.ItemCode LIKE '%$searchitem%'
   GROUP BY item.ItemCode
   ORDER BY item.ItemCode ASC LImit 100";
-  // $return['sql'] = $Sql;
+  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['RowID'] = $Result['RowID'];
@@ -293,6 +297,9 @@ function ShowItem($conn, $DATA)
     $return[$count]['ItemName'] = $Result['ItemName'];
     $return[$count]['UnitCode'] = $Result['UnitCode'];
     $return[$count]['UnitName'] = $Result['UnitName'];
+      $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
+      $return[$count]['UnitCode2'] = $Result['UnitCode2'];
+      $return[$count]['UnitName2'] = $Result['UnitName2'];
     $ItemCode = $Result['ItemCode'];
     $UnitCode = $Result['UnitCode'];
     $count2 = 0;
@@ -531,6 +538,7 @@ function ShowDetail($conn, $DATA)
   billwash_detail.ItemCode,
   item.ItemName,
   item_unit.UnitName,
+  item_unit.UnitName2,
   billwash_detail.UnitCode1,
   billwash_detail.Qty1,
   billwash_detail.UnitCode2,
@@ -543,6 +551,7 @@ function ShowDetail($conn, $DATA)
   INNER JOIN billwash_detail ON billwash_detail.ItemCode = item.ItemCode
   WHERE billwash_detail.DocNo = '$DocNo'
   ORDER BY billwash_detail.Id DESC";
+  $return['sql']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['RowID']    = $Result['Id'];
@@ -551,6 +560,7 @@ function ShowDetail($conn, $DATA)
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['UnitCode1']   = $Result['UnitCode1'];
     $return[$count]['UnitCode2']   = $Result['UnitCode2'];
+    $return[$count]['UnitName2']   = $Result['UnitName2'];
     $return[$count]['Qty1']     = $Result['Qty1'];
     $return[$count]['Qty2']     = $Result['Qty2'];
     $return[$count]['Weight']     = $Result['Weight'];
@@ -559,7 +569,16 @@ function ShowDetail($conn, $DATA)
     $ItemCode               = $Result['ItemCode'];
     $UniCode2 					= $Result['UnitCode2'];
     $Qty                = $Result['Qty2'];
+    
+    // if( $Qty ==0){
+    //   $return[$count]['hidden']     = 'hidden="true"';
 
+    // }else{
+    //   $return[$count]['hidden']     = 'hidden="false"';
+
+    // }
+
+    
     $count2 = 0;
 
   if($UniCode2 == 2 || $UniCode2 == 4){
@@ -620,7 +639,7 @@ function ShowDetail($conn, $DATA)
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = $PResult['PriceUnit'] * $Result['Qty2'];
+      $return[$count]['CusPrice']   = ( $Result['Qty2'] * $Result['Weight']  ) * $PResult['PriceUnit'];
       $return['TotalPrice']  += $return[$count]['CusPrice'];
     }
   }

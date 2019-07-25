@@ -454,6 +454,7 @@ $array2 = json_decode($json2,TRUE);
             var add = parseInt($('#qty1_'+cnt).val())+1;
             var newQty = parseInt($('#OleQty_'+cnt).val())+1;
             var isStatus = $("#IsStatus").val();
+
             if(isStatus==0){
               if((add>=0) && (add<=500)){
                 $('#qty1_'+cnt).val(add);
@@ -477,10 +478,9 @@ $array2 = json_decode($json2,TRUE);
             var sub = parseInt($('#qty1_'+cnt).val())-1;
             var newQty = parseInt($('#OleQty_'+cnt).val())-1;
             var isStatus = $("#IsStatus").val();
-            // if(sub <0)
-            // {
-            //   $('#qty1_'+cnt).val(0);
-            // }
+
+ 
+
             if((sub>=0) && (sub<=500)) {
             if(isStatus==0){
               // alert(sub);
@@ -495,8 +495,8 @@ $array2 = json_decode($json2,TRUE);
                 'unitcode'	: unitcode
               };
               senddata(JSON.stringify(data));
+              } 
             }
-          }
           }
 
           function updateWeight(row,rowid) {
@@ -789,13 +789,20 @@ $array2 = json_decode($json2,TRUE);
                         else
                         chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
                       }
+                      
+                      if( temp[i]['Qty2'] ==0){
+                          var hidden     = "hidden";
+                        }else{
+                          var hidden     = "";
+                        }
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
                       var chkDoc = "<input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
-
-                      var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:87px; margin-left:3px; margin-right:3px; text-align:center;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                      // var hidden = temp[i]['hidden'];
+                      var UnitName2 =  "<lable id='unitname2_"+temp[i]['RowID']+"' "+hidden+"  > "+ temp[i]['UnitName2'] +"<lable>";
+                      var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:69px; margin-left:3px; margin-right:3px; text-align:center;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
                       // var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:30px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
                       var PriceUnit = temp[i]['cal']==undefined?'-':Math.round(temp[i]['cal']);
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
@@ -804,7 +811,8 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
                       "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
-                      "<td style='width: 12%;' align='center'nowrap>"+Weight+"</td>"+
+                      "<td style='width: 8%;' align='center'nowrap>"+Weight+"</td>"+
+                      "<td style='width: 4%;'>                     "+UnitName2+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
 
@@ -863,7 +871,7 @@ $array2 = json_decode($json2,TRUE);
                       var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                      var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
+                      var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='"+temp[i]['QtyPerUnit']+"' ></div>";
 
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                       "<td style='width: 10%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1219,7 +1227,7 @@ $array2 = json_decode($json2,TRUE);
                                   <th style='width: 17%;'nowrap><?php echo $array['item'][$language]; ?></th>
                                   <th style='width: 19%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 14%;'nowrap><center><?php echo $array['total'][$language]; ?></center></th>
-                                  <th style='width: 12%;'nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                                  <th style='width: 12%;'nowrap><center><?php echo $array['perunit'][$language]; ?></center></th>
                                   <th style='width: 9%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
                                   <th style='width: 7%;'nowrap><center><?php echo $array['money'][$language]; ?></center></th>
                                 </tr>
@@ -1492,7 +1500,7 @@ $array2 = json_decode($json2,TRUE);
                   <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
                   <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                   <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
-                  <th style='width: 15%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                  <th style='width: 15%;' nowrap><?php echo $array['perunit'][$language]; ?></th>
                 </tr>
               </thead>
               <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
