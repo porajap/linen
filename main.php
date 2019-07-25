@@ -44,9 +44,10 @@ switch ($PmID) {
         $ac_s4=0;
         $ac_s5=1;
         //factory
-        $fac_head=0;
+        $fac_head=1;
         $fac_s1=0;
         $fac_s2=0;
+        $fac_s3=1;
         //report
         $re_head=0;
         $re_s1=0;
@@ -91,6 +92,7 @@ switch ($PmID) {
         $fac_head=0;
         $fac_s1=0;
         $fac_s2=0;
+        $fac_s3=0;
         //report
         $re_s1=0;
         $re_head=0;
@@ -135,6 +137,7 @@ switch ($PmID) {
         $fac_head=0;
         $fac_s1=0;
         $fac_s2=0;
+        $fac_s3=0;
         //report
         $re_head=0;
         $re_s1=0;
@@ -179,6 +182,7 @@ switch ($PmID) {
         $fac_head=0;
         $fac_s1=0;
         $fac_s2=0;
+        $fac_s3=0;
         //report
         $re_head=0;
         $re_s1=0;
@@ -223,6 +227,7 @@ switch ($PmID) {
         $fac_head=0;
         $fac_s1=0;
         $fac_s2=0;
+        $fac_s3=0;
         //report
         $re_head=0;
         $re_s1=0;
@@ -267,6 +272,7 @@ switch ($PmID) {
         $fac_head=0;
         $fac_s1=0;
         $fac_s2=0;
+        $fac_s3=0;
         //report
         $re_head=0;
         $re_s1=0;
@@ -995,6 +1001,13 @@ switch ($PmID) {
               href="pages/factory_out.php?lang=<?php echo $language; ?>" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['xfactory']['sub'][1][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($fac_s3== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/factory_document_status.php?lang=<?php echo $language; ?>" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['xfactory']['sub'][2][$language]; ?></a>
           </li>
           <?php } ?>
 

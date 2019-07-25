@@ -527,7 +527,7 @@ function NewItem($conn, $DATA)
   // var_dump($DATA); die;
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
-
+  $return['$HptCode'] = $HptCode;
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
           item
@@ -546,12 +546,12 @@ function NewItem($conn, $DATA)
               AND department.HptCode = '$HptCode'
               AND category_price.HptCode = '$HptCode'
               GROUP BY item.ItemCode";
-  $return['sql'] = $Sqlz;
+  //$return['sql'] = $Sqlz;
 
   $meQuery = mysqli_query($conn, $Sqlz);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
-  }
+  $Result = mysqli_fetch_assoc($meQuery);
+  $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
+  
 
   if ($boolcount == 0) {
     $count = 0;
@@ -583,6 +583,7 @@ function NewItem($conn, $DATA)
               '" . $DATA['sUnit'] . "'
             )
     ";
+    
     $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
     (1, 1, 1, '" . $DATA['ItemCode'] . "', $CusPrice) ";
     
@@ -595,14 +596,14 @@ function NewItem($conn, $DATA)
       die;
     } else {
       $return['status'] = "failed";
-      $return['msg'] = "addfailed";
+      $return['msg'] = "addfailed1";
       echo json_encode($return);
       mysqli_close($conn);
       die;
     }
   } else {
     $return['status'] = "failed";
-    $return['msg'] = "addfailed";
+    $return['msg'] = "addfailed2";
     echo json_encode($return);
     mysqli_close($conn);
     die;
