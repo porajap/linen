@@ -577,7 +577,7 @@ $array2 = json_decode($json2, TRUE);
           var typeCode = "";
           var packCode = "";
           $('#ItemCode').attr("disabled", false);
-        } else if (modeCode == 2) {
+        } else if (modeCode == 1) {
             $('#ItemCode').attr("disabled", true);
             $('#oldCodetype').show();
             var hospitalCode = $('#hospital').val();
@@ -1088,6 +1088,7 @@ $array2 = json_decode($json2, TRUE);
               $('#NewItem').show();
               $('#AddItemBNT').hide();
               $(".radio-c :input").attr("disabled", false);
+
               $('#ItemCode').val("");
               switch (temp['msg']) {
                 case "notchosen":
