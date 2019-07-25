@@ -411,6 +411,7 @@ function SelectItemStock($conn, $DATA)
         $return[$count]['RowID'] = $Result['RowID'];
         $return[$count]['ItemCode'] = $Result['ItemCode'];
         $return[$count]['ItemName'] = $Result['ItemName'];
+        $return[$count]['DepCode'] = $Result['DepCode'];
         $return[$count]['ParQty'] = $Result['ParQty'];
         if($Result['UsageCode']=="" || $Result['UsageCode']==null){
           $return[$count]['UsageCode'] = '';
@@ -550,6 +551,7 @@ function SaveUsageCode($conn, $DATA)
   }
 
 }
+
 function Submititemstock($conn, $DATA)
 {
   // var_dump($DATA); die;
@@ -617,6 +619,32 @@ function Submititemstock($conn, $DATA)
 
 }
 
+function DeleteItem($conn, $DATA)
+{
+  $boolean = false;
+  $count = 0;
+  $DepCode = $DATA['DepCode'];
+  $ItemCode = explode(',' , $DATA['ItemCode']);
+  $limit = sizeof($ItemCode, 0);
+  for ($i = 0; $i < $limit; $i++) {
+    $Sql = "DELETE FROM item_stock WHERE ItemCode = '$ItemCode[$i]' AND DepCode = $DepCode LIMIT 1";
+    mysqli_query($conn,$Sql);
+
+    $Update = "UPDATE item_stock SET TotalQty = (TotalQty - 1) WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
+    mysqli_query($conn,$Update);
+    $boolean = true;
+    $count ++;
+  }
+
+  if($boolean == true){
+    $return['sql'] = $Sql;
+    $return['Update'] = $Update;
+    $return['count'] = $count;
+    echo json_encode($return);
+  }
+
+}
+
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
@@ -650,6 +678,8 @@ if(isset($_POST['DATA']))
         SaveUsageCode($conn,$DATA);
       }else if ($DATA['STATUS'] == 'SelectItemStock') {
         SelectItemStock($conn,$DATA);
+      }else if ($DATA['STATUS'] == 'DeleteItem') {
+        DeleteItem($conn,$DATA);
       }
 
 }else{

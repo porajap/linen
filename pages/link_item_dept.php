@@ -722,8 +722,9 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
-      function submititemstock(){
+      function DeleteItem(){
         var length =  $('#TableItemStock >tbody >tr').length;
+        var DepCode = $('#department').val();
         if(length>0){
           swal({
             title: "",
@@ -739,13 +740,30 @@ $array2 = json_decode($json2,TRUE);
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
 
-              var dept = $('#department').val();
-              var data = {
-                'STATUS' : 'Submititemstock',
-                'Deptid' : dept,
-              };
+              var chkArray = [];
+              var RowArray = [];
+              
+              $('input[name="chkItem"]:checked').each(function() {
+                chkArray.push($(this).val());
+              });
 
-              console.log(JSON.stringify(data));
+              $('input[name="chkItem"]:checked').each(function() {
+                RowArray.push($(this).data('value'));
+              });
+
+              for (i = 0; i < RowArray.length; ++i) {
+                  $('#tr'+RowArray[i]).remove();
+              }
+
+              var ItemCode = chkArray.join(',') ;
+              // alert(ItemCode);
+
+              var data = {
+                'STATUS' : 'DeleteItem',
+                'DepCode' : DepCode,
+                'ItemCode' : ItemCode
+              };
+              // // console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
             })
         }
@@ -1171,29 +1189,23 @@ $array2 = json_decode($json2,TRUE);
                                 // confirmButtonText: 'Ok'
                               })
                             }else if(temp['form']=="SelectItemStock"){
-                              // $( "#TableItemStock tbody" ).empty();
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                   if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
                                       var UsageCode = "";
                                   }else{
                                     var UsageCode = temp[i]['UsageCode'];
                                   }
-                                 var rowCount = $('#TableItemStock >tbody >tr').length;
-                                //  var txtno = '<input type="text" style="font-size:24px;text-align:center;" class="form-control" id="exp_'+temp[i]['RowID']+'" onclick="datedialog(\''+temp[i]['RowID']+'\')" value="'+temp[i]['ExpireDate']+'" placeholder="<?php echo $array['choose'][$language]; ?>" READONLY>';
-                                 var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" style=" margin-left: -34px;width: 168px;">';
-                                 StrTR = "<tr id='tr"+temp[i]['RowID']+"'>"+
-                                                "<td style='width: 5%;' nowrap></td>"+
+                                var rowCount = $('#TableItemStock >tbody >tr').length;
+                                var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+i+"' value='"+temp[i]['ItemCode']+"' >";
+                                var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" style=" margin-left: -34px;width: 168px;">';
+                                 StrTR = "<tr id='tr"+i+"'>"+
+                                                "<td style='width: 5%;' nowrap>"+chkItem+"</td>"+
                                                 "<td style='width: 25%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
                                                 "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
                                                 // "<td style='width: 10%;' nowrap><center>"+temp[i]['ParQty']+"</center></td>"+
                                                 "<td style='width: 24%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
 
-                                //  if(rowCount == 0){
-                                //    $("#TableItemStock tbody").append(StrTR);
-                                //  }else{
-                                //    $('#TableItemStock tbody:last-child').append(StrTR);
-                                //  }
                                 $('#TableItemStock tbody:last-child').append(StrTR);
 
                               }
@@ -1500,10 +1512,8 @@ $array2 = json_decode($json2,TRUE);
                 <div class="col-xl-1 col-12 text-center" id='btn_margin'>
                 <img src="../img/icon/ic_import.png" style='width:34px;margin-right: 20px;' class=' mr-4 opacity' id="delete_icon" >
          <div class="mhee">
-         <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true">
-                                          <?php echo $array['addnewitem'][$language]; ?></button>    
+         <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true"> <?php echo $array['addnewitem'][$language]; ?></button>    
          </div>
-                  <!-- <button class="btn btn-primary btn-sm" id='size_custom' type="button" onclick="Addtodoc();"> <?php echo $array['addnewitem'][$language]; ?> <div style="padding-top:10px;" id='rotate_custom'>🡆</div> </button> -->
                 </div>
 
                 <div class="col-xl-6 col-12">
@@ -1517,10 +1527,8 @@ $array2 = json_decode($json2,TRUE);
                         <div class='form-group form-inline'>
                           <label class="mr-2"><?php echo $array['search'][$language]; ?></label>
                           <input type="text" class="form-control mr-2" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                          <img src="../img/icon/ic_save.png" style='margin-left: 15px;width:36px;' class='mr-3 ' >
-                          <a href='javascript:void(0)' onclick="submititemstock()" id="bSave">
-                                          <?php echo $array['save'][$language]; ?></a>             
-                          <!-- <button type="button" class="btn btn-success btn-sm" name="btnsubmit" id="btnsubmit" onclick="submititemstock();"><?php echo $array['confirm'][$language]; ?></button> -->
+                          <img src="../img/icon/ic_delete.png" style='margin-left: 15px;width:36px;' class='mr-3 ' >
+                          <a href='javascript:void(0)' onclick="DeleteItem()" id="btn_Delete"> <?php echo $array['delete'][$language]; ?></a>             
                         </div>
                       </div>
                     <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemStock" width="100%" cellspacing="0" role="grid">
