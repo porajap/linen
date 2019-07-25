@@ -1096,7 +1096,8 @@ $array2 = json_decode($json2, TRUE);
               $('#AddItemBNT').hide();
               $(".radio-c :input").attr("disabled", false);
 
-              $('#ItemCode').val("");
+              //$('#ItemCode').val("");
+              ShowItem();
               switch (temp['msg']) {
                 case "notchosen":
                   temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -1158,6 +1159,10 @@ $array2 = json_decode($json2, TRUE);
                 ShowItem();
               })
             } else if ((temp["form"] == 'AddUnit')) {
+              var itemcode = $('#ItemCode').val();
+                getdetail(itemcode);
+                $('#subUnit').val("1");
+                $('#mulinput').val("");
               switch (temp['msg']) {
                 case "notchosen":
                   temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
