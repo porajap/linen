@@ -1059,6 +1059,11 @@ $array2 = json_decode($json2,TRUE);
 </head>
 
 <body id="page-top">
+<ol class="breadcrumb">
+  
+  <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
+  <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][2][$language]; ?></li>
+</ol>
     <div id="wrapper">
         <!-- content-wrapper -->
         <div id="content-wrapper">

@@ -268,9 +268,6 @@ function getdetail($conn, $DATA)
     }
   }
   // ====================================================================================
-
-
-
   $Sql = "SELECT
           item.ItemCode,
           item.ItemName,
@@ -286,18 +283,17 @@ function getdetail($conn, $DATA)
           U1.UnitName AS MpCode,
           U2.UnitName AS UnitName2,
           Multiply,PriceUnit,
-          item_multiple_unit.ItemCode
-          item
-          FROM
-          item
+          item_multiple_unit.ItemCode,
+          item.QtyPerUnit,
+          item.UnitCode2
+          FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
           INNER JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
           LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
           LEFT JOIN item_unit AS U1 ON item_multiple_unit.UnitCode = U1.UnitCode
-					LEFT JOIN item_unit AS U2 ON item_multiple_unit.MpCode = U2.UnitCode
-          WHERE item.ItemCode = '$ItemCode'
-          ";
+		  LEFT JOIN item_unit AS U2 ON item_multiple_unit.MpCode = U2.UnitCode
+          WHERE item.ItemCode = '$ItemCode'";
 
   // var_dump($Sql); die;
   $return['sql'] = $Sql;
@@ -318,10 +314,10 @@ function getdetail($conn, $DATA)
     $return[$count]['UnitName2'] = $Result['UnitName2'];
     $return[$count]['Multiply'] = $Result['Multiply'];
     $return[$count]['PriceUnit'] = $Result['PriceUnit'];
+      $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
+      $return[$count]['sUnitName'] = $Result['UnitCode2'];
     $count++;
   }
-
-
 
 
   if ($count > 0) {
@@ -416,7 +412,9 @@ function AddItem($conn, $DATA)
             SizeCode = '" . $DATA['SizeCode'] . "',
             CusPrice = '" . $DATA['CusPrice'] . "',
             FacPrice = '" . $DATA['FacPrice'] . "',
-            Weight = '" . $DATA['Weight'] . "'
+            Weight = '" . $DATA['Weight'] . "',
+            QtyPerUnit = '" . $DATA['qpu'] . "',
+            UnitCode2 = '" . $DATA['sUnit'] . "' 
             WHERE ItemCode = '" . $DATA['ItemCode'] . "'
             ";
     $Sql2 = "UPDATE item_multiple_unit 
@@ -450,6 +448,7 @@ function AddItem($conn, $DATA)
 function CreateItemCode($conn, $DATA)
 {
   $ItemCode = "";
+  $boolcount = 0;
 
   $Sql = "    SELECT 		item_main_category.MainCategoryCode,SUBSTRING(MainCategoryName,1,3) AS MainCategoryName
               FROM 		item_category,item_main_category
@@ -476,7 +475,13 @@ function CreateItemCode($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $ItemCode = $Result['ItemCode'];
     }
-  } else {
+
+    if($ItemCode != ""){
+        $boolcount = 1;
+    }else{
+        $boolcount = 0;
+    }
+  } else if ($DATA['modeCode'] == '1') {
     $preCode = $DATA['hospitalCode'] . "LP" . $MainCategoryName . $DATA['typeCode'] . $DATA['packCode'];
     $Sql = "  SELECT 		CONCAT(LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(ItemCode,12,4),UNSIGNED INTEGER)),0)+1) ,4,0))
               AS        ItemCode
@@ -490,12 +495,21 @@ function CreateItemCode($conn, $DATA)
       $postCode = $Result['ItemCode'];
     }
     $ItemCode = $preCode . $postCode;
+    if($postCode != ""){
+      $boolcount = 1;
+    }else{
+      $boolcount = 0;
+    }
+  }else{
+      $ItemCode = "";
+      $boolcount = 1;
   }
 
-  if ($ItemCode != "") {
+  if ($boolcount == 1) {
     $return['status'] = "success";
     $return['form'] = "CreateItemCode";
     $return['ItemCode'] = $ItemCode;
+
     echo json_encode($return);
     mysqli_close($conn);
     die;
@@ -550,7 +564,9 @@ function NewItem($conn, $DATA)
             CusPrice,
             FacPrice,
             Weight,
-            IsActive
+            IsActive,
+            QtyPerUnit,
+            UnitCode2
            )
             VALUES
             (
@@ -562,7 +578,9 @@ function NewItem($conn, $DATA)
               '" . $DATA['CusPrice'] . "',
               '" . $DATA['FacPrice'] . "',
               '" . $DATA['Weight'] . "',
-              1
+              1,
+              '" . $DATA['qpu'] . "',
+              '" . $DATA['sUnit'] . "'
             )
     ";
     $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
@@ -625,7 +643,6 @@ function AddUnit($conn, $DATA)
   $UnitCode = $DATA['UnitCode'];
   $Multiply = $DATA['Multiply'];
   $priceunit = $DATA['priceunit'];
-
 
   $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE MpCode = $MpCode AND UnitCode = $UnitCode AND ItemCode = '$ItemCode'";
   $MQuery = mysqli_query($conn, $countM);

@@ -404,6 +404,8 @@ $array2 = json_decode($json2, TRUE);
       var UnitName = $('#UnitName').val();
       var SizeCode = $('#SizeCode').val();
       var Weight = $('#Weight').val();
+        var qpu = $('#QtyPerUnit').val();
+        var sUnit = $('#sUnitName').val();
 
       if (count == 0) {
         $('.checkblank').each(function() {
@@ -437,7 +439,9 @@ $array2 = json_decode($json2, TRUE);
               'FacPrice': FacPrice,
               'UnitName': UnitName,
               'SizeCode': SizeCode,
-              'Weight': Weight
+              'Weight': Weight,
+                'qpu': qpu,
+                'sUnit': sUnit
             };
 
             console.log(JSON.stringify(data));
@@ -573,30 +577,30 @@ $array2 = json_decode($json2, TRUE);
           var typeCode = "";
           var packCode = "";
           $('#ItemCode').attr("disabled", false);
-        } else {
-          $('#ItemCode').attr("disabled", true);
-          if (modeCode == 1) {
+        } else if (modeCode == 2) {
+            $('#ItemCode').attr("disabled", true);
             $('#oldCodetype').show();
             var hospitalCode = $('#hospital').val();
             var typeCode = $('#typeLinen').val();
             var packCode = $('#numPack').val();
-          } else {
+        }else {
+            $('#ItemCode').attr("disabled", true);
             $('#oldCodetype').hide();
             var hospitalCode = "";
             var typeCode = "";
             var packCode = "";
-          }
+            $('#ItemCode').val("");
+        }
           var data = {
-            'STATUS': 'CreateItemCode',
-            'Catagory': Catagory,
-            'modeCode': modeCode,
-            'hospitalCode': hospitalCode,
-            'typeCode': typeCode,
-            'packCode': packCode
+              'STATUS': 'CreateItemCode',
+              'Catagory': Catagory,
+              'modeCode': modeCode,
+              'hospitalCode': hospitalCode,
+              'typeCode': typeCode,
+              'packCode': packCode
           };
           console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
-        }
       }
     }
 
@@ -973,6 +977,8 @@ $array2 = json_decode($json2, TRUE);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var StrTr = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
                 $("#UnitName").append(StrTr);
+                $("#sUnitName").append(StrTr);
+
                 $("#subUnit").append(StrTr);
                 $("#Unitshows").append(StrTr);
               }
@@ -1039,6 +1045,7 @@ $array2 = json_decode($json2, TRUE);
               if ((Object.keys(temp).length - 2) > 0) {
                 $("#TableUnit tbody").empty();
                 // console.log(temp);
+
                 $('#catagory2').val(temp[0]['CategoryCode']);
                 $('#ItemCode').val(temp[0]['ItemCode']);
                 $('#ItemName').val(temp[0]['ItemName']);
@@ -1048,8 +1055,11 @@ $array2 = json_decode($json2, TRUE);
                 $('#Unitshows').val(temp[0]['UnitCode']);
                 $('#SizeCode').val(temp[0]['SizeCode']);
                 $('#Weight').val(temp[0]['Weight']);
+                  $('#QtyPerUnit').val(temp[0]['QtyPerUnit']);
+                  $('#sUnitName').val(temp[0]['sUnitName']);
                 $('#bCancel').attr('disabled', false);
                 $('#delete_icon').removeClass('opacity');
+
                 if (temp[0]['RowID']) {
                   for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                     var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
@@ -1063,7 +1073,6 @@ $array2 = json_decode($json2, TRUE);
                       "<td style='width: 17%;' align='left'nowrap>" + temp[i]['UnitName2'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + temp[i]['Multiply'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + PriceUnit + "</td>" +
-
                       "</tr>";
 
                     if (rowCount == 0) {
@@ -1073,6 +1082,7 @@ $array2 = json_decode($json2, TRUE);
                     }
                   }
                 }
+
               }
             } else if ((temp["form"] == 'AddItem')) {
               $('#NewItem').show();
@@ -1310,7 +1320,7 @@ $array2 = json_decode($json2, TRUE);
                 ShowItem();
               })
             } else if (temp['form'] == 'CreateItemCode') {
-              $('#ItemCode').val(temp['ItemCode']);
+                $('#ItemCode').val(temp['ItemCode']);
             } else if (temp['form'] == 'ActiveItem') {
               temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
               swal({
@@ -1699,7 +1709,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
-                                    <input type='radio' name='formatitem' id='formatitem' value='3' onclick="CreateItemCode()">
+                                    <input type='radio' name='formatitem' id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
@@ -1707,7 +1717,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c' style="align-content:center">
-                                    <input type='radio' name='formatitem' id='formatitem' value='1' onclick="CreateItemCode()" checked="checked">
+                                    <input type='radio' name='formatitem' id='formatitem' value='1' onclick="CreateItemCode()">
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['oldFormatItemCode'][$language]; ?></label>
                                 </div>
@@ -1834,6 +1844,23 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                         </div>
                         <!-- =================================================================== -->
+                          <div class="row">
+                              <div class="col-md-6">
+
+                              </div>
+                              <div class="col-md-6">
+                                  <div class='form-group row'>
+
+                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['size'][$language]; ?></label>
+
+                                          <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['size'][$language]; ?>">
+
+                                          <select class="form-control col-sm-5" id="sUnitName"></select>
+
+                                  </div>
+                              </div>
+                          </div>
+                        <!-- =================================================================== -->
                       </div>
                     </div>
                   </div> <!-- tag column 1 -->
@@ -1920,7 +1947,6 @@ $array2 = json_decode($json2, TRUE);
                     </button>
                   </div>
                 </div>
-
                 <!-- =============================================================================================== -->
                 <div class="row" style="margin-top:0px;" id="NewItem">
                   <div class="col-md-3 icon">
@@ -1933,7 +1959,6 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <!-- =============================================================================================== -->
-
                 <div class="row" style="margin-top:0px;" id="AddItemBNT">
                   <div class="col-md-3 icon">
                     <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
