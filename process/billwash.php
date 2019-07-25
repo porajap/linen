@@ -414,6 +414,12 @@ function getImport($conn, $DATA)
       $iunit1   = $Result['UnitCode'];
     }
 
+    $Sqlx = "SELECT item.UnitCode2 FROM item WHERE ItemCode ='$ItemCode'";
+    $meQueryx = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQueryx)) {
+      $UnitCode2 = $Result['UnitCode2'];
+    }
+
     $Sql = "SELECT COUNT(*) as Cnt
 		  FROM billwash_detail
 		  INNER JOIN item  ON billwash_detail.ItemCode = item.ItemCode
@@ -443,9 +449,9 @@ function getImport($conn, $DATA)
 
     if ($chkUpdate == 0) {
       $Sql = "INSERT INTO billwash_detail
-			(DocNo,ItemCode,UnitCode1,UnitCode2,Qty1,Qty2,Weight,IsCancel,Price,Total)
+			(DocNo,ItemCode,UnitCode1,UnitCode2,Qty1,Qty2,Weight,IsCancel,Price,Total,UnitCode3)
 			VALUES
-			('$DocNo','$ItemCode',$iunit1,$iunit2,$iqty2,$iqty,$iweight,0,0,0)";
+			('$DocNo','$ItemCode',$iunit1,$iunit2,$iqty2,$iqty,$iweight,0,0,0,$UnitCode2)";
       mysqli_query($conn, $Sql);
     } else {
       $Sql = "UPDATE billwash_detail
@@ -538,7 +544,7 @@ function ShowDetail($conn, $DATA)
   billwash_detail.ItemCode,
   item.ItemName,
   item_unit.UnitName,
-  item_unit.UnitName2,
+  (SELECT UnitName2 FROM item_unit WHERE UnitCode = UnitCode3) AS UnitName2,
   billwash_detail.UnitCode1,
   billwash_detail.Qty1,
   billwash_detail.UnitCode2,
