@@ -1,3 +1,4 @@
+<link href="dist/css/sweetalert2.css" rel="stylesheet">
 <?php 
     session_start();
     $Username = $_SESSION['Username'];
@@ -30,8 +31,8 @@
     </div> 
     <div class="row"> 
         <div class="col-md-12"> 
-            <a  href="javascript:void(0)" class="swal2-styled btn btn-info" onclick="login_again();">Login</a> 
-            <a href="javascript:void(0)"  class="swal2-styled btn btn-danger" onclick="logoff();">Logout</a> 
+            <a  href="javascript:void(0)" class="swal2-styled btn btn-custom1" onclick="login_again();">Login</a> 
+            <a href="javascript:void(0)"  class="swal2-styled btn btn-custom2" onclick="logoff();">Logout</a> 
         </div> 
     </div> 
 </div>

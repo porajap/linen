@@ -308,7 +308,7 @@ switch ($PmID) {
   <link href="css/accordionmenu.css" type="text/css" media="screen" rel="stylesheet" />
   <link href="bootstrap/css/tbody.css" rel="stylesheet">
   <link href="bootstrap/css/myinput.css" rel="stylesheet">
-  <link href="dist/css/sweetalert2.min.css" rel="stylesheet">
+  <link href="dist/css/sweetalert2.css" rel="stylesheet">
   <link href="datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
   <link href="template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -435,8 +435,6 @@ switch ($PmID) {
           text: '<?php echo $array2['logout'][$language]; ?>',
           type: 'info',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
           confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
           cancelButtonText: '<?php echo $array2['isno'][$language]; ?>'
         })
@@ -446,8 +444,7 @@ switch ($PmID) {
               text: '<?php echo $array2['logoutfinish'][$language]; ?>',
               type: 'success',
               showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
+
               showConfirmButton: false,
               timer: 2000
             })
@@ -792,7 +789,16 @@ switch ($PmID) {
       border: 2px solid #ececec;
       border-radius: 8px;
     }
-
+    .btn-custom1{
+      background-color: #1659a2 !important;
+        border-radius: 15px!important;
+        outline: none!important;
+    }
+    .btn-custom2{
+      background-color: #bab9ba !important;
+        border-radius: 15px!important;
+        outline: none!important;
+    }
     .sub-menu li a {
       color: #797979;
       text-shadow: 1px 1px 0px rgba(255, 255, 255, .2);
