@@ -106,20 +106,25 @@ function alert_SetPrice($conn,$DATA)
   $count = 0;
   if($PmID == 1){
     $Sql = "SELECT
-      cat_P.DocNo ,  
-      site.HptName ,    
-      cat_P.xDate ,  
-      DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
-    FROM category_price_time cat_P
-    INNER JOIN users ON users.ID = 100  
-    INNER JOIN site ON site.HptCode = site.HptCode  
-    WHERE cat_P.STATUS = 0
-    GROUP BY
-      cat_P.xDate,
-      cat_P.DocNo
-    ORDER BY dateDiff ASC";
+    con.StartDate,
+    con.EndDate,
+    cat_P.DocNo ,  
+    site.HptName ,    
+    cat_P.xDate ,  
+    DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
+  FROM category_price_time cat_P
+  INNER JOIN users ON users.ID = $Userid  
+  INNER JOIN site ON site.HptCode = cat_P.HptCode  
+  INNER JOIN contract_parties_hospital con ON con.HptCode = site.HptCode
+  WHERE cat_P.STATUS = 0
+  GROUP BY
+    cat_P.xDate,
+    cat_P.DocNo
+  ORDER BY dateDiff ASC";
   }else{
       $Sql = "SELECT
+        con.StartDate,
+        con.EndDate,
         cat_P.DocNo ,  
         site.HptName ,    
         cat_P.xDate ,  
@@ -127,6 +132,7 @@ function alert_SetPrice($conn,$DATA)
       FROM category_price_time cat_P
       INNER JOIN users ON users.ID = $Userid  
       INNER JOIN site ON site.HptCode = '$HptCode'   
+      INNER JOIN contract_parties_hospital con ON con.HptCode = site.HptCode
       WHERE cat_P.HptCode = '$HptCode' AND cat_P.STATUS = 0
       GROUP BY
         cat_P.xDate,
@@ -138,9 +144,10 @@ function alert_SetPrice($conn,$DATA)
 
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
-      $return[$count]['DocNo'] = $Result['DocNo'];
       $return[$count]['HptName'] = $Result['HptName'];
       $return[$count]['StartDate'] = $Result['StartDate'];
+      $return[$count]['EndDate'] = $Result['EndDate'];
+      $return[$count]['DocNo'] = $Result['DocNo'];
       $return[$count]['xDate'] = $Result['xDate'];
       $return[$count]['DateDiff'] = $Result['dateDiff'];
       $count++;

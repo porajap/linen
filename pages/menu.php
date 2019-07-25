@@ -223,33 +223,32 @@ $array = json_decode($json,TRUE);
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[0]['DocNo']+ '</td>'+
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[0]['xDate']+ '</td>' +
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[0]['StartDate']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[0]['EndDate']+ '</td>' +
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ '</td>'+
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[0]['DocNo']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr>' ;
               
               $("#result_alert1").append(result);
               $("#alert_SetPrice1").modal('show');
             }else if(temp['countRow']>1){
-                                                                              
               for (var i = 0; i < temp['countRow']; i++) {
                   result += '<tr style="background-color:#2980b9;color:#ffffff">'+
                               '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;">'+(i+1)+'.'+' <?php echo $array['side'][$language]; ?> '+temp[i]['HptName']+'</td>'+
                             '</tr>' +
                             '<tr>'+
                               '<td style="width:18%"></td>' + 
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['DocNo']+ '</td>'+
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['xDate']+ '</td>' +
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[i]['StartDate']+ '</td>'+
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['EndDate']+ '</td>' +
                             '</tr>' +
                             '<tr>'+
                               '<td style="width:18%"></td>' + 
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ '</td>'+
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
-                          '</tr>' ;
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['DocNo']+ '</td>'+
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                            '</tr>' ;
               }
               $("#result_alert tbody").append(result);
               $("#alert_SetPrice").modal('show');
