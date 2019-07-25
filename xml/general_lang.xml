@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
 
+<Allside><en>All Hospital</en><th>ทุกโรงพยาบาล</th></Allside>
+<Alldep><en>All Department</en><th>ทุกแผนก</th></Alldep>
+
 <DuplicateItemcode><en>Duplicate Itemcode</en><th>รหัสรายการซ้ำ</th></DuplicateItemcode>
 <perunit><en>perunit</en><th>ขนาดต่อหน่วย</th></perunit>
 <custom><en>Blank ID</en><th>รหัสเปล่า</th></custom>
