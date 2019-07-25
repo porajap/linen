@@ -643,7 +643,8 @@ switch ($PmID) {
                   showConfirmButton: false
                 }).catch(function(timeout) { });
                 setTimeout(function(){ 
-                    location.reload();
+                    swal.close();
+                    chk_last_move();
                 }, 1000);
               }else{
                 swal({
