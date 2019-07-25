@@ -26,7 +26,7 @@ switch ($PmID) {
     case "1":
         //genneral
         $gen_head=1;
-        $gen_s1=0;
+        $gen_s1=1;
         $gen_s2=0;
         $gen_s3=0;
         $gen_s4=0;
@@ -70,7 +70,7 @@ switch ($PmID) {
     case "2":
         //genneral
         $gen_head=1;
-        $gen_s1=0;
+        $gen_s1=1;
         $gen_s2=0;
         $gen_s3=0;
         $gen_s4=0;
@@ -114,7 +114,7 @@ switch ($PmID) {
     case "3":
         //genneral
         $gen_head=1;
-        $gen_s1=0;
+        $gen_s1=1;
         $gen_s2=0;
         $gen_s3=0;
         $gen_s4=0;
