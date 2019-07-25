@@ -283,7 +283,6 @@ function getdetail($conn, $DATA)
           U1.UnitName AS MpCode,
           U2.UnitName AS UnitName2,
           Multiply,PriceUnit,
-          item_multiple_unit.ItemCode,
           item.QtyPerUnit,
           item.UnitCode2
           FROM item
@@ -314,11 +313,10 @@ function getdetail($conn, $DATA)
     $return[$count]['UnitName2'] = $Result['UnitName2'];
     $return[$count]['Multiply'] = $Result['Multiply'];
     $return[$count]['PriceUnit'] = $Result['PriceUnit'];
-      $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
-      $return[$count]['sUnitName'] = $Result['UnitCode2'];
+    $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
+    $return[$count]['sUnitName'] = $Result['UnitCode2'];
     $count++;
   }
-
 
   if ($count > 0) {
     $return['status'] = "success";
@@ -476,10 +474,10 @@ function CreateItemCode($conn, $DATA)
       $ItemCode = $Result['ItemCode'];
     }
 
-    if($ItemCode != ""){
-        $boolcount = 1;
-    }else{
-        $boolcount = 0;
+    if ($ItemCode != "") {
+      $boolcount = 1;
+    } else {
+      $boolcount = 0;
     }
   } else if ($DATA['modeCode'] == '1') {
     $preCode = $DATA['hospitalCode'] . "LP" . $MainCategoryName . $DATA['typeCode'] . $DATA['packCode'];
@@ -495,14 +493,14 @@ function CreateItemCode($conn, $DATA)
       $postCode = $Result['ItemCode'];
     }
     $ItemCode = $preCode . $postCode;
-    if($postCode != ""){
+    if ($postCode != "") {
       $boolcount = 1;
-    }else{
+    } else {
       $boolcount = 0;
     }
-  }else{
-      $ItemCode = "";
-      $boolcount = 1;
+  } else {
+    $ItemCode = "";
+    $boolcount = 1;
   }
 
   if ($boolcount == 1) {
@@ -551,7 +549,7 @@ function NewItem($conn, $DATA)
   $meQuery = mysqli_query($conn, $Sqlz);
   $Result = mysqli_fetch_assoc($meQuery);
   $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
-  
+
 
   if ($boolcount == 0) {
     $count = 0;
@@ -583,11 +581,11 @@ function NewItem($conn, $DATA)
               '" . $DATA['sUnit'] . "'
             )
     ";
-    
+
     $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
-    (1, 1, 1, '" . $DATA['ItemCode'] . "', $CusPrice) ";
-    
-    if (mysqli_query($conn, $Sql)&&mysqli_query($conn, $Sql2)) {
+    ( '" . $DATA['UnitName'] . "',  '" . $DATA['UnitName'] . "', 1, '" . $DATA['ItemCode'] . "', $CusPrice) ";
+
+    if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "AddItem";
       $return['msg'] = "addsuccess";

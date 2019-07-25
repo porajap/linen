@@ -184,12 +184,18 @@ $array2 = json_decode($json2, TRUE);
 
     function get_dep() {
       var hpt = $("#hospital").val();
-      var data = {
-        'STATUS': 'get_dep',
-        'hpt': hpt
-      };
-      console.log(JSON.stringify(data));
-      senddata(JSON.stringify(data));
+      if (hpt == "All") {
+        $("#department").empty();
+        var Str = "<option value='All'><?php echo $array['Alldep'][$language]; ?></option>";
+        $("#department").append(Str);
+      } else {
+        var data = {
+          'STATUS': 'get_dep',
+          'hpt': hpt
+        };
+        console.log(JSON.stringify(data));
+        senddata(JSON.stringify(data));
+      }
     }
 
     function logoff() {
@@ -233,26 +239,26 @@ $array2 = json_decode($json2, TRUE);
           }
 
           if (temp["status"] == 'success') {
-            if (temp["form"] == 'OnLoadPage') {
-              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var Str = "<option value=" + temp[i]['HptCode'] + ">" + temp[i]['HptName'] + "</option>";
-                $("#hotpital").append(Str);
-              }
-            } else if (temp["form"] == 'get_dirty_doc') {
-              $("#department").empty();
-              $("#Dep2").empty();
-              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var Str = "<option value=" + temp[i]['HospitalCode'] + ">" + temp[i]['HospitalName'] + "</option>";
-                $("#TableDocument").append(Str);
-              }
-            }else if (temp["form"] == 'get_hospital') {
+            if (temp["form"] == 'get_dirty_doc') {
+              // $("#department").empty();
+              // $("#Dep2").empty();
+              // for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+              //   var Str = "<option value=" + temp[i]['HospitalCode'] + ">" + temp[i]['HospitalName'] + "</option>";
+              //   $("#TableDocument").append(Str);
+              // }
+            } else if (temp["form"] == 'get_hospital') {
               $("#hospital").empty();
+              var Str = "<option value='All'><?php echo $array['Allside'][$language]; ?></option>";
+              $("#hospital").append(Str);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var Str = "<option value=" + temp[i]['HospitalCode'] + ">" + temp[i]['HospitalName'] + "</option>";
                 $("#hospital").append(Str);
               }
-            }else if (temp["form"] == 'get_dep') {
+              get_dep();
+            } else if (temp["form"] == 'get_dep') {
               $("#department").empty();
+              var Str = "<option value='All'><?php echo $array['Alldep'][$language]; ?></option>";
+              $("#department").append(Str);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var Str = "<option value=" + temp[i]['DepCode'] + ">" + temp[i]['DepName'] + "</option>";
                 $("#department").append(Str);
@@ -298,7 +304,6 @@ $array2 = json_decode($json2, TRUE);
         }
       });
     }
-
   </script>
   <style media="screen">
     @font-face {
@@ -440,22 +445,31 @@ $array2 = json_decode($json2, TRUE);
         <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
           <div class="tab-content" id="myTabContent">
             <div class="row" style="margin-top:10px;">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="row" style="font-size:24px;margin-left:2px;">
-                  <select class="form-control" style='font-size:24px;' id="hospital">
-                  </select>
+                  <input type="text" class="form-control datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy'>
                 </div>
               </div>
               <div class="col-md-3">
+                <div class="row" style="font-size:24px;margin-left:2px;">
+                  <select class="form-control" style='font-size:24px;' id="hospital" onchange="get_dep()">
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-2">
                 <div class="row" style="font-size:24px;margin-left:2px;">
                   <select class="form-control" style='font-size:24px;' id="department">
                   </select>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <div class="row" style="margin-left:2px;">
-                  <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>">
-                  <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowDocument(0);"><?php echo $array['search'][$language]; ?></button>
+                  <input type="text" class="form-control" style="font-size:24px;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="row" style="margin-left:2px;">
+                  <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="get_dirty_doc();"><?php echo $array['search'][$language]; ?></button>
                 </div>
               </div>
             </div>

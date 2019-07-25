@@ -404,8 +404,8 @@ $array2 = json_decode($json2, TRUE);
       var UnitName = $('#UnitName').val();
       var SizeCode = $('#SizeCode').val();
       var Weight = $('#Weight').val();
-        var qpu = $('#QtyPerUnit').val();
-        var sUnit = $('#sUnitName').val();
+      var qpu = $('#QtyPerUnit').val();
+      var sUnit = $('#sUnitName').val();
 
       if (count == 0) {
         $('.checkblank').each(function() {
@@ -440,8 +440,8 @@ $array2 = json_decode($json2, TRUE);
               'UnitName': UnitName,
               'SizeCode': SizeCode,
               'Weight': Weight,
-                'qpu': qpu,
-                'sUnit': sUnit
+              'qpu': qpu,
+              'sUnit': sUnit
             };
 
             console.log(JSON.stringify(data));
@@ -488,6 +488,8 @@ $array2 = json_decode($json2, TRUE);
       var UnitName = $('#UnitName').val();
       var SizeCode = $('#SizeCode').val();
       var Weight = $('#Weight').val();
+      var qpu = $('#QtyPerUnit').val();
+      var sUnit = $('#sUnitName').val();
 
       if (count == 0) {
         $('.checkblank').each(function() {
@@ -523,7 +525,9 @@ $array2 = json_decode($json2, TRUE);
                 'FacPrice': FacPrice,
                 'UnitName': UnitName,
                 'SizeCode': SizeCode,
-                'Weight': Weight
+                'Weight': Weight,
+                'qpu': qpu,
+                'sUnit': sUnit
               };
 
               console.log(JSON.stringify(data));
@@ -577,30 +581,32 @@ $array2 = json_decode($json2, TRUE);
           var typeCode = "";
           var packCode = "";
           $('#ItemCode').attr("disabled", false);
-        } else if (modeCode == 1) {
+        } else {
+          if (modeCode == 1) {
             $('#ItemCode').attr("disabled", true);
             $('#oldCodetype').show();
             var hospitalCode = $('#hospital').val();
             var typeCode = $('#typeLinen').val();
             var packCode = $('#numPack').val();
-        }else {
+          } else {
             $('#ItemCode').attr("disabled", true);
             $('#oldCodetype').hide();
             var hospitalCode = "";
             var typeCode = "";
             var packCode = "";
             $('#ItemCode').val("");
-        }
+          }
           var data = {
-              'STATUS': 'CreateItemCode',
-              'Catagory': Catagory,
-              'modeCode': modeCode,
-              'hospitalCode': hospitalCode,
-              'typeCode': typeCode,
-              'packCode': packCode
+            'STATUS': 'CreateItemCode',
+            'Catagory': Catagory,
+            'modeCode': modeCode,
+            'hospitalCode': hospitalCode,
+            'typeCode': typeCode,
+            'packCode': packCode
           };
           console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
+        }
       }
     }
 
@@ -696,15 +702,14 @@ $array2 = json_decode($json2, TRUE);
       if (ItemCode.length > 9) {
         $("input[name=formatitem][value=1]").prop('checked', true);
         $('#oldCodetype').show();
-
       } else if (ItemCode.length == 9) {
         $("input[name=formatitem][value=2]").prop('checked', true);
         $('#oldCodetype').hide();
       } else {
         $("input[name=formatitem][value=3]").prop('checked', true);
         $('#oldCodetype').hide();
-        $('#ItemCode').attr("disabled", true);
       }
+      $('#ItemCode').attr("disabled", true);
       if (ItemCode != "" && ItemCode != undefined) {
         var data = {
           'STATUS': 'getdetail',
@@ -1048,6 +1053,8 @@ $array2 = json_decode($json2, TRUE);
 
                 $('#catagory2').val(temp[0]['CategoryCode']);
                 $('#ItemCode').val(temp[0]['ItemCode']);
+                console.log(temp[0]['ItemCode']);
+                console.log($('#ItemCode').val());
                 $('#ItemName').val(temp[0]['ItemName']);
                 $('#CusPrice').val(temp[0]['CusPrice']);
                 $('#FacPrice').val(temp[0]['FacPrice']);
@@ -1055,8 +1062,8 @@ $array2 = json_decode($json2, TRUE);
                 $('#Unitshows').val(temp[0]['UnitCode']);
                 $('#SizeCode').val(temp[0]['SizeCode']);
                 $('#Weight').val(temp[0]['Weight']);
-                  $('#QtyPerUnit').val(temp[0]['QtyPerUnit']);
-                  $('#sUnitName').val(temp[0]['sUnitName']);
+                $('#QtyPerUnit').val(temp[0]['QtyPerUnit']);
+                $('#sUnitName').val(temp[0]['sUnitName']);
                 $('#bCancel').attr('disabled', false);
                 $('#delete_icon').removeClass('opacity');
 
@@ -1321,7 +1328,7 @@ $array2 = json_decode($json2, TRUE);
                 ShowItem();
               })
             } else if (temp['form'] == 'CreateItemCode') {
-                $('#ItemCode').val(temp['ItemCode']);
+              $('#ItemCode').val(temp['ItemCode']);
             } else if (temp['form'] == 'ActiveItem') {
               temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
               swal({
@@ -1619,14 +1626,14 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                      <label class="col-sm-5 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
-                      <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
+                    <label class="col-sm-5 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                    <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                      <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
-                      <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
+                    <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                    <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -1845,22 +1852,22 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                         </div>
                         <!-- =================================================================== -->
-                          <div class="row">
-                              <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-6">
 
-                              </div>
-                              <div class="col-md-6">
-                                  <div class='form-group row'>
-
-                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['size'][$language]; ?></label>
-
-                                          <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['size'][$language]; ?>">
-
-                                          <select class="form-control col-sm-5" id="sUnitName"></select>
-
-                                  </div>
-                              </div>
                           </div>
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+
+                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['size'][$language]; ?></label>
+
+                              <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['size'][$language]; ?>">
+
+                              <select class="form-control col-sm-5" id="sUnitName"></select>
+
+                            </div>
+                          </div>
+                        </div>
                         <!-- =================================================================== -->
                       </div>
                     </div>
