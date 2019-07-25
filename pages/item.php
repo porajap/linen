@@ -1097,7 +1097,6 @@ $array2 = json_decode($json2, TRUE);
               $(".radio-c :input").attr("disabled", false);
 
               //$('#ItemCode').val("");
-              ShowItem();
               switch (temp['msg']) {
                 case "notchosen":
                   temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -1143,21 +1142,11 @@ $array2 = json_decode($json2, TRUE);
                 showConfirmButton: false,
                 timer: 2000,
                 confirmButtonText: 'Ok'
-              }).then(function() {
-
-              }, function(dismiss) {
-                $('.checkblank').each(function() {
-                  $(this).val("");
-                });
-                $('#catagory2').val("1");
-                $('#UnitName').val("1");
-                $('#SizeCode').val("1");
-                $('#hospital').val("BHQ");
-                $('#typeLinen').val("P");
-                $('#numPack').val("01");
-
+              });
+              setTimeout(function () {
                 ShowItem();
-              })
+              }, 2000);
+
             } else if ((temp["form"] == 'AddUnit')) {
               var itemcode = $('#ItemCode').val();
                 getdetail(itemcode);
@@ -1317,21 +1306,10 @@ $array2 = json_decode($json2, TRUE);
                 showConfirmButton: false,
                 timer: 2000,
                 confirmButtonText: 'Ok'
-              }).then(function() {
-
-              }, function(dismiss) {
-                $('.checkblank').each(function() {
-                  $(this).val("");
-                });
-
-                $('#catagory2').val("1");
-                $('#UnitName').val("1");
-                $('#SizeCode').val("1");
-                $('#hospital').val("BHQ");
-                $('#typeLinen').val("P");
-                $('#numPack').val("01");
+              });
+              setTimeout(function () {
                 ShowItem();
-              })
+              }, 2000);
             } else if (temp['form'] == 'CreateItemCode') {
               $('#ItemCode').val(temp['ItemCode']);
             } else if (temp['form'] == 'ActiveItem') {
