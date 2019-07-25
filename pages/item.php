@@ -1144,6 +1144,7 @@ $array2 = json_decode($json2, TRUE);
                 confirmButtonText: 'Ok'
               });
               setTimeout(function () {
+                Blankinput();
                 ShowItem();
               }, 2000);
 
@@ -1308,6 +1309,7 @@ $array2 = json_decode($json2, TRUE);
                 confirmButtonText: 'Ok'
               });
               setTimeout(function () {
+                Blankinput();
                 ShowItem();
               }, 2000);
             } else if (temp['form'] == 'CreateItemCode') {
