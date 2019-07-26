@@ -68,32 +68,33 @@ $array2 = json_decode($json2,TRUE);
   <script src="../datepicker/dist/js/datepicker.min.js"></script>
   <!-- Include English language -->
   <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+  <link href="../css/menu_custom.css" rel="stylesheet">
 
   <script type="text/javascript">
-  var summary = [];
+    var summary = [];
 
-  $(document).ready(function(e){
-    OnLoadPage();
-    getDepartment();
-    // CreateDocument();
-    //==============================
-    $('.TagImage').bind('click', {
-      imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
-      //On create
-      var userid = '<?php echo $Userid; ?>';
-      if(userid!="" && userid!=null && userid!=undefined){
-        var dept = '<?php echo $_SESSION['Deptid']; ?>';
-        var data = {
-          'STATUS'  : 'getDocument',
-          'DEPT'    : dept
-        };
+    $(document).ready(function(e){
+      OnLoadPage();
+      getDepartment();
+      // CreateDocument();
+      //==============================
+      $('.TagImage').bind('click', {
+        imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
+        //On create
+        var userid = '<?php echo $Userid; ?>';
+        if(userid!="" && userid!=null && userid!=undefined){
+          var dept = '<?php echo $_SESSION['Deptid']; ?>';
+          var data = {
+            'STATUS'  : 'getDocument',
+            'DEPT'    : dept
+          };
 
-        // console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
+          // console.log(JSON.stringify(data));
+          senddata(JSON.stringify(data));
       }
     }).mousemove(function(e) { parent.afk();
-        }).keyup(function(e) { parent.afk();
-        });
+      }).keyup(function(e) { parent.afk();
+      });
 
     jqui(document).ready(function($){
 
@@ -1223,8 +1224,91 @@ $array2 = json_decode($json2,TRUE);
                           </div> <!-- tag column 2 -->
                         </div>
 
+                        <!-- row btn -->
+                        <div class="row m-1 mt-4 d-flex justify-content-end" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-file-medical"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_create.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="CreateDocument()" id="bCreate">
+                                <?php echo $array['createdocno'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-file-import"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_import.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="OpenDialogItem()" id="bImport">
+                                <?php echo $array['import'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-trash-alt"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_delete.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="DeleteItem()" id="bDelete">
+                                <?php echo $array['delitem'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-save"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_save.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="SaveBill()" id="bSave">
+                                <?php echo $array['save'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle5 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-times"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_cancel.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="CancelBill()" id="bCancel">
+                                <?php echo $array['cancel'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-print"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_print.png" > -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="PrintData()" id="bPrint">
+                                <?php echo $array['print'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- end row btn -->
+
                         <div class="row">
-                          <div class="col-md-10"> <!-- tag column 1 -->
+                          <div class="col-md-12"> <!-- tag column 1 -->
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" style="">
                               <thead id="theadsum" style="font-size:24px;">
                                 <tr role="row">
@@ -1242,84 +1326,6 @@ $array2 = json_decode($json2,TRUE);
                               </tbody>
                             </table>
                           </div> <!-- tag column 1 -->
-  <!-- =============================================================================================== -->
-  <div class="col-md-2" <?php if($PmID == 1) echo 'hidden'; ?>>  <!-- tag column 2 -->
-                            <!-- button----------------------------------------- -->
-                              <div class="sidenav">
-                                <div class="" style="margin-top:5px;">
-                                  <div class="card-body" style="padding:0px; margin-top:10px;">
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_create.png" style='width:34px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <a  href='javascript:void(0)' onclick="CreateDocument()" id="bCreate">
-                                          <?php echo $array['createdocno'][$language]; ?>
-                                        </a>
-                                      </div>
-                                    </div>
-
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_import.png" style='width:34px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <a href='javascript:void(0)' onclick="OpenDialogItem()" id="bImport">
-                                          <?php echo $array['import'][$language]; ?>
-                                        </a>
-                                      </div>
-                                    </div>
-
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_delete.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <a href='javascript:void(0)' onclick="DeleteItem()" id="bDelete">
-                                          <?php echo $array['delitem'][$language]; ?>
-                                        </a>
-                                      </div>
-                                    </div>
-
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <a href='javascript:void(0)' onclick="SaveBill()" id="bSave">
-                                          <?php echo $array['save'][$language]; ?>
-                                        </a>
-                                      </div>
-                                    </div>
-
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <a href='javascript:void(0)' onclick="CancelBill()" id="bCancel">
-                                          <?php echo $array['cancel'][$language]; ?>
-                                        </a>
-                                      </div>
-                                    </div>
-                        
-                      
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_print.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <a href='javascript:void(0)' onclick="PrintData()" id="bPrint">
-                                          <?php echo $array['print'][$language]; ?>
-                                        </a>
-                                      </div>
-                                    </div>
-                              
-                                  </div>
-                                </div>
-                              </div>
-                            <!-- end button----------------------------------------- -->
-                          </div>
                         </div>
 
                       </div>
@@ -1483,20 +1489,38 @@ $array2 = json_decode($json2,TRUE);
                   <input type="text" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                 </div>
               </div>
-              <div class="col-md-1 ">
-              <img src="../img/icon/i_search.png" style="margin-left: 35px;width:36px;" class='mr-3'>
+
+              <!-- serach----------------------- -->
+              <div class="search_custom col-md-2">
+                <div class="d-flex justify-content-start">
+                  <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                      <i class="fas fa-search"></i>
+                  </div>
+                  <button class="btn" onclick="ShowItem()" id="bSave">
+                      <?php echo $array['search'][$language]; ?>
+                  </button>
+                </div>
               </div>
-              <div class="col-md-1 mhee">
-                    <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                   <?php echo $array['search'][$language]; ?></a>                                  
-                 </div>
-                 <div class="col-md-1 ">
-              <img src="../img/icon/ic_import.png" style="margin-left: 2px;width:36px;" class='mr-3'>
+
+              <div class="search_custom col-md-2">
+                <div class="d-flex justify-content-start">
+                  <div class="import_1 d-flex align-items-center d-flex justify-content-center">
+                      <i class="fas fa-file-import"></i>
+                  </div>
+                  <button class="btn" onclick="getImport(1)" id="bSave">
+                      <?php echo $array['import'][$language]; ?>
+                  </button>
+                </div>
+              </div>
+              <!-- end serach----------------------- -->
+
+              <!-- <div class="col-md-1 ">
+                <img src="../img/icon/ic_import.png" style="margin-left: 2px;width:36px;" class='mr-3'>
               </div>
               <div class="col-md-1 mhee">
                   <a href='javascript:void(0)' onclick="getImport(1)" id="bSave" style="margin-left: -33px;">
                 <?php echo $array['import'][$language]; ?></a>   
-              </div>
+              </div> -->
             </div>
             <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
               <thead style="font-size:24px;">
