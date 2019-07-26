@@ -51,7 +51,7 @@ $array2 = json_decode($json2,TRUE);
 
     <!-- Custom styles for this template-->
     <link href="../template/css/sb-admin.css" rel="stylesheet">
-	<link href="../css/xfont.css" rel="stylesheet">
+	  <link href="../css/xfont.css" rel="stylesheet">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="../jQuery-ui/jquery-1.12.4.js"></script>
@@ -69,6 +69,8 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+
+    <link href="../css/menu_custom.css" rel="stylesheet">
 
     <script type="text/javascript">
       var summary = [];
@@ -550,150 +552,183 @@ body{
     <div class="row" style="margin-top:-15px;"> <!-- start row tab -->
 <div class="col-md-12"> <!-- tag column 1 -->
 <!-- /.content-wrapper -->
-<div class="row mt-3">
-              <div class="col-md-11"> <!-- tag column 1 -->
-                  <div class="container-fluid">
-                    <div class="card-body">
-                      <div class="row col-12">        
-                        <div class="col-md-4">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
+                          <div class="row mt-3">
+                            <div class="col-md-11"> <!-- tag column 1 -->
+                              <div class="container-fluid">
+                                <div class="card-body">
+                                  <div class="row col-12">        
+                                    <div class="col-md-4">
+                                                <div class='form-group row'>
+                                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
+                                                  <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
+                                                </div>
+                                              </div>
+
+                                              <div class="col-md-4">
+                                                <div class='form-group row'>
+                                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
+                                                  <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
+                                                </div>
+                                              </div>
+
+                                        <!-- <div class="col-md-4 mhee">
+                                          <div class='form-group row'>
+                                            <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3'>
+                                            <a href='javascript:void(0)' onclick="ShowDocument()" id="bSave">
+                                            <?php echo $array['search'][$language]; ?></a>                    
+                                          </div>
+                                        </div> -->
+                                        <div class="search_custom col-md-2">
+                                          <div class="d-flex justify-content-start">
+                                            <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                <i class="fas fa-search"></i>
+                                            </div>
+                                            <button class="btn" onclick="ShowDocument()" id="bSave">
+                                                <?php echo $array['search'][$language]; ?>
+                                            </button>
+                                          </div>
+                                        </div>
                                     </div>
-                                  </div>
 
-                                  <div class="col-md-4">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
-                                    </div>
-                                  </div>
 
-                            <div class="col-md-4 mhee">
-                              <div class='form-group row'>
-                              <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowDocument()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>                    
 
+
+                              
+                              </div>
+                            </div>
+                            </div> <!-- tag column 1 -->
+                          </div>
+
+                          <div class="row">
+                                        <div style='width: 98%;'> <!-- tag column 1 -->
+                                            <table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
+                                                    <thead id="theadsum" style="font-size:24px;">
+                                                      <tr role="row">
+                                                        <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
+                                                        <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
+                                                        <th style='width: 15%;'><?php echo $array['datestartcontract'][$language]; ?></th>
+                                                        <th style='width: 15%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                                                        <th style='width: 15%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
+                                                        <th style='width: 25%;'><?php echo $array['detail'][$language]; ?></th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
+                                                    </tbody>
+                                    </table>
+                                        </div> <!-- tag column 1 -->
+                              </div>
+
+                          </div>
+
+                          <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" <?php if($PmID == 2) echo 'hidden'; ?>>
+                            <div class="menu">
+                              <div class="d-flex justify-content-center">
+                                <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                                    <i class="fas fa-file-medical"></i>
+                                </div>
+                              </div>
+                              <div>
+                                <button class="btn"  onclick="SaveRow()" id="bSave">
+                                  <?php echo $array['save'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="menu">
+                              <div class="d-flex justify-content-center">
+                                <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                                    <i class="fas fa-file-import"></i>
+                                </div>
+                              </div>
+                              <div>
+                                <button class="btn" onclick="ClearRow()" id="bDelete">
+                                  <?php echo $array['clear'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="menu">
+                              <div class="d-flex justify-content-center">
+                                <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                    <i class="fas fa-trash-alt"></i>
+                                </div>
+                              </div>
+                              <div>
+                                <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
+                                  <?php echo $array['cancel'][$language]; ?>
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
+              <div class="offset-4 col-md-8">
+                  <div class="row" style="margin-left:20px;margin-right: 20px;">
+                    <div class="col-md-4">
+                        <label><?php echo $array['side'][$language]; ?></label>
+                        <select style="font-size:24px;font-family:'THSarabunNew'" class="form-control" id="side" onchange="getDepartment();">
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label><?php echo $array['datestartcontract'][$language]; ?></label>
+                        <input type="text"  class="form-control datepicker-here" id="datepicker3" data-language='en' data-date-format='yyyy-mm-dd' >
+                    </div>
+                    <div class="col-md-4">
+                        <label><?php echo $array['dateendcontract'][$language]; ?></label>
+                        <input type="text"  class="form-control datepicker-here" id="datepicker4" data-language='en' data-date-format='yyyy-mm-dd' >
+                    </div>
+                  </div>
 
+                  <div class="row" style="margin-left:20px;margin-top:30px;">
+                    <div class="col-md-4">
+                        <label ><?php echo $array['detail'][$language]; ?></label><input type="hidden" id="xRowID" >
+                        <input type="text" class="form-control" style="font-family: 'THSarabunNew';font-size:24px;" id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
+                    </div>
+                  </div>
 
+                  <!-- <div class="row" style="margin-left:20px">
+                      <div style="width:900px;">
+                      <input type="text" class="form-control" style="font-family: 'THSarabunNew';font-size:24px;width:722px;" id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
+                  </div> -->
+                  </div>
 
-                  
-                </div>
-            </div>
-        </div> <!-- tag column 1 -->
-    </div>
-
-<div class="row">
-              <div style='width: 98%;'> <!-- tag column 1 -->
-              		<table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
-                          <thead id="theadsum" style="font-size:24px;">
-                            <tr role="row">
-                              <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
-                              <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['dateendcontract'][$language]; ?></th>
-                              <th style='width: 15%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                              <th style='width: 25%;'><?php echo $array['detail'][$language]; ?></th>
-                            </tr>
-                          </thead>
-                          <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
-                          </tbody>
-					</table>
-              </div> <!-- tag column 1 -->
-    </div>
-
-</div>
-
-<div class="col-md-9">
-
-    <div class="row" style="margin-left:20px">
-                <div style="width:277px;">
-                    <label><?php echo $array['side'][$language]; ?></label>
-                </div>
-                <div style="width:250px;">
-                    <label><?php echo $array['datestartcontract'][$language]; ?></label>
-                </div>
-                <div style="width:250px;">
-                    <label><?php echo $array['dateendcontract'][$language]; ?></label>
-                </div>
-    </div>
-
-    <div class="row" style="margin-left:20px;">
-                <div>
-                    <select style="font-size:24px;width:251px;font-family: 'THSarabunNew'" class="form-control" id="side" onchange="getDepartment();">
-                    </select>
-                </div>
-                <div style="width:250px;">
-                    <input type="text" style="font-size:24px;width:220px;margin-left:20px;" class="form-control datepicker-here" id="datepicker3" data-language='en' data-date-format='yyyy-mm-dd' >
-                </div>
-                <div style="width:250px;">
-                    <input type="text" style="font-size:24px;width:220px;" class="form-control datepicker-here" id="datepicker4" data-language='en' data-date-format='yyyy-mm-dd' >
-                </div>
-    </div>
-
-
-    <div class="row" style="margin-left:20px;margin-top:30px;">
-                <div style="width:250px;">
-                    <label ><?php echo $array['detail'][$language]; ?></label><input type="hidden" id="xRowID" >
-                </div>
-    </div>
-    <div class="row" style="margin-left:20px">
-                    <div style="width:900px;">
-                    <input type="text" class="form-control" style="font-family: 'THSarabunNew';font-size:24px;width:722px;" id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
-                </div>
-    </div>
-
-</div>
+              </div>
 
 
 <!-- =============================================================================================== -->
-            <div class="sidenav mhee" style=" margin-left: 92px;margin-top: 33px;"<?php if($PmID == 2) echo 'hidden'; ?>>
+            <!-- <div class="sidenav mhee" style=" margin-left: 92px;margin-top: 33px;"<?php if($PmID == 2) echo 'hidden'; ?>>
               <div class="" style="margin-top:5px;">
                 <div class="card-body" style="padding:0px; margin-top:10px;">
-<!-- =============================================================================================== -->
-
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="SaveRow()" id="bSave">
-                                          <?php echo $array['save'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-        
-<!-- =============================================================================================== -->
-<div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="ClearRow()" id="bDelete">
-                                          <?php echo $array['clear'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-          <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon " >
-                                        <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
-                                          <?php echo $array['cancel'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
+                  <div class="row" style="margin-top:0px;">
+                    <div class="col-md-3 icon" >
+                      <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
+                    </div>
+                    <div class="col-md-9">
+                      <button class="btn" onclick="SaveRow()" id="bSave">
+                        <?php echo $array['save'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top:0px;">
+                    <div class="col-md-3 icon" >
+                      <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
+                    </div>
+                    <div class="col-md-9">
+                      <button class="btn" onclick="ClearRow()" id="bDelete">
+                        <?php echo $array['clear'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top:0px;">
+                    <div class="col-md-3 icon " >
+                      <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
+                    </div>
+                    <div class="col-md-9">
+                      <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
+                        <?php echo $array['cancel'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </div> -->
 <!-- =============================================================================================== -->
 
 
