@@ -249,9 +249,8 @@ function getdetail($conn, $DATA)
   // echo json_encode($return);
 
   $meQuery = mysqli_query($conn, $Sqlz);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
-  }
+  $Result = mysqli_fetch_assoc($meQuery);
+  $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
 
   $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE ItemCode = '$ItemCode'";
   $MQuery = mysqli_query($conn, $countM);

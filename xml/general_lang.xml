@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
 
+<Starttime><en>Start : </en><th>เริ่ม : </th></Starttime>
+<tFinish><en>Finish : </en><th>เสร็จสิ้น : </th></tFinish>
+<Wash><en>Wash</en><th>ซักผ้า</th></Wash>
+<packing><en>Pack</en><th>บรรจุผ้า</th></packing>
+<shipping><en>Shipping</en><th>ขนส่ง</th></shipping>
+<Signature><en>Signature</en><th>ลายเซ็น</th></Signature>
 <Allside><en>All Hospital</en><th>ทุกโรงพยาบาล</th></Allside>
 <Alldep><en>All Department</en><th>ทุกแผนก</th></Alldep>
 
