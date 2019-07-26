@@ -236,6 +236,21 @@ function getdetail($conn, $DATA)
   $count = 0;
   $ItemCode = $DATA['ItemCode'];
   // ====================================================================================
+  $Sqlzz = "SELECT
+          item.UnitCode
+          FROM item
+          INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+          INNER JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
+          LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
+          LEFT JOIN item_unit AS U1 ON item_multiple_unit.UnitCode = U1.UnitCode
+		  LEFT JOIN item_unit AS U2 ON item_multiple_unit.MpCode = U2.UnitCode
+          WHERE item.ItemCode = '$ItemCode'";
+    $meQueryx = mysqli_query($conn, $Sqlzz);
+    $Resultx = mysqli_fetch_assoc($meQueryx);
+    $unitCode = $Resultx['UnitCode'];
+    
+  // ====================================================================================
   $Sqlz = "SELECT category_price.Price
               FROM    item,item_stock,department,category_price
               WHERE item.ItemCode = '$ItemCode'
@@ -252,7 +267,7 @@ function getdetail($conn, $DATA)
   $Result = mysqli_fetch_assoc($meQuery);
   $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
 
-  $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE ItemCode = '$ItemCode'";
+  $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE ItemCode = '$ItemCode' AND  MpCode =$unitCode ";
   $MQuery = mysqli_query($conn, $countM);
   $return['sql'] = $countM;
   while ($MResult = mysqli_fetch_assoc($MQuery)) {
@@ -262,7 +277,7 @@ function getdetail($conn, $DATA)
       mysqli_query($conn, $Sql2);
     } else {
       $Sql2 = "UPDATE item_multiple_unit SET  PriceUnit = $CusPrice 
-        WHERE ItemCode =  '$ItemCode' AND MpCode =1";
+        WHERE ItemCode =  '$ItemCode' AND MpCode =$unitCode ";
       mysqli_query($conn, $Sql2);
     }
   }
