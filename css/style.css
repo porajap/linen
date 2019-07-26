@@ -15,10 +15,10 @@ body {
 #form_white{
     position: fixed;
     background-color:#ffffff;
-    height: 650px;
-    width: 700px;
-    left:150px;
-    bottom:50px;
+    height: 480px;
+    width: 521px;
+    left: 204px;
+    bottom: 70px;
     border-radius: 50px;
     -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
     -moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
@@ -28,10 +28,10 @@ body {
 #form_sendmail{
     position: fixed;
     background-color:#ffffff;
-    height: 500px;
-    width: 700px;
-    left:150px;
-    bottom:50px;
+    height: 480px;
+    width: 521px;
+    left: 204px;
+    bottom: 70px;
     border-radius: 50px;
     -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
     -moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
@@ -41,25 +41,25 @@ body {
 /* ----------------------------- */
 #logo_top{
     position: absolute;
-    left: 212px;
-    top: 66px;
+    left: 150px;
+    top: 40px;
 }
 #logo_top img{
-    width: 294px;
+    width: 240px;
     height: auto;
 }
 /* ----------------------------- */
 #username_div{
     position: absolute;
-    top: 198px;
-    left: 135px;
+    top: 128px;
+    left: 50px;
 }
 .color1 {
     position: relative;
     font-size: 1.5em;
     background-image: linear-gradient(to top, #30cfd0 0%, #330867 50%);
     padding: 1px;
-    height: 77px;
+    height: 58px;
     width: 435px;
     border-radius: 50px;
 }
@@ -89,7 +89,7 @@ input{
 input[type="text"], input[type="password"]
 {
     outline: none;
-    height: 74px;
+    height: 56px !important;
     color: rgb(66, 66, 66);
     width: 433px;
     font-size: 20px;
@@ -105,7 +105,7 @@ input:hover, input:focus, input.visited {
     /* width: 20px;
     height: 200px; */
     position: absolute;
-    margin-top: -43px;
+    margin-top: -33px;
     left: calc(115% - 150px);
 }
 .icon_username img{
@@ -118,8 +118,8 @@ input:hover, input:focus, input.visited {
 /* ---------------------------------------------------- */
 #password_div{
     position: absolute;
-    top: 310px;
-    left: 135px;
+    top: 217px;
+    left: 50px;
 }
 
 #label2{
@@ -148,7 +148,7 @@ input{
     /* width: 20px;
     height: 200px; */
     position: absolute;
-    margin-top: -43px;
+    margin-top: -33px;
     left: calc(115% - 150px);
 }
 .icon_password img{
@@ -161,8 +161,8 @@ input{
 /* ------------------------------------------------------------ */
 #reset_pass{
     position: absolute;
-    top: 448px;
-    left: 149px;
+    top: 308px;
+    left: 76px;
 }
 #reset_pass a{
     color:#504e4e;
@@ -178,8 +178,8 @@ input{
 
 #change_pass{
     position: absolute;
-    top: 448px;
-    right: 146px;
+    top: 308px;
+    right: 63px;
 }
 #change_pass a{
     border-bottom: 1px dotted #363636;
@@ -198,8 +198,8 @@ input{
 
 #btn_submit{
     position: absolute;
-    top: 530px;
-    left: 129px;
+    top: 380px;
+    left: 43px;
     width: 450px;
 }
 .btn-block
@@ -219,20 +219,20 @@ input{
 /* ------------------------------------------------------------------ */
 #logo_top2{
     position: absolute;
-    left: 212px;
-    top: 37px;
+    left: 150px;
+    top: 40px;
 }
 #logo_top2 img{
-    width: 294px;
+    width: 240px;
     height: auto;
 }
 #form_change{
     position: fixed;
     background-color:#ffffff;
-    height: 734px;
-    width: 700px;
-    left:150px;
-    bottom:50px;
+    height: 580px;
+    width: 525px;
+    left: 204px;
+    bottom: 70px;
     border-radius: 50px;
     -webkit-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
     -moz-box-shadow: 6px 4px 5px 0px rgba(0,0,0,0.51);
@@ -243,7 +243,7 @@ input{
     font-size: 1.5em;
     background-image: linear-gradient(to top, #30cfd0 0%, #330867 50%);
     padding: 1px;
-    height: 68px !important;
+    height: 58px !important;
     width: 435px;
     border-radius: 50px;
 }
@@ -261,13 +261,13 @@ input{
 }
 #username_div2{
     position: absolute;
-    top: 174px;
-    left: 135px;
+    top: 132px;
+    left: 57px;
 }
 #title_change{
     position: absolute;
-    left: 249px;
-    top: 131px;
+    left: 162px;
+    top: 92px;
 }
 #title_change h3{
     font-size:40px;
@@ -275,8 +275,8 @@ input{
 }
 #title_change_1{
     position: absolute;
-    left: 205px;
-    top: 151px;
+    left: 124px;
+    top: 130px;
 }
 #title_change_1 h3{
     font-size:40px;
@@ -284,13 +284,13 @@ input{
 }
 #oldpassword_div{
     position: absolute;
-    top: 256px;
-    left: 135px;
+    top: 193px;
+    left: 57px;
 }
 #send_email_div{
     position: absolute;
-    top: 206px;
-    left: 135px;
+    top: 190px;
+    left: 45px;
 }
 #label_old{
     position: relative;
@@ -311,7 +311,7 @@ input{
 #label_email{
     position: relative;
     background-color: #ffffff;
-    width: 140px;
+    width: 77px;
     left: 44px;
     top: 25px;
     z-index: 999999;
@@ -324,10 +324,20 @@ input{
     color: #4834d4;
 }
 
+/* ----------------------------------- */
+#logo_top3{
+    position: absolute;
+    left: 150px;
+    top: 24px;
+}
+#logo_top3 img{
+    width: 240px;
+    height: auto;
+}
 #newpassword_div{
     position: absolute;
-    top: 356px;
-    left: 135px;
+    top: 276px;
+    left: 57px;
 }
 #new_label{
     position: relative;
@@ -347,8 +357,8 @@ input{
 
 #confirm_div{
     position: absolute;
-    top: 456px;
-    left: 135px;
+    top: 360px;
+    left: 57px;
 }
 #confirm_label{
     position: relative;
@@ -368,22 +378,22 @@ input{
 
 #back_row{
     position: absolute;
-    top: 620px;
-    left: 154px;
+    top: 494px;
+    left: 76px;
     width: 450px;
 }
 
 #back1_row{
     position: absolute;
-    top: 400px;
-    left: 154px;
+    top: 360px;
+    left: 70px;
     width: 450px;
 }
 
 #send_row{
     position: absolute;
-    top: 400px;
-    left: 418px;
+    top: 360px;
+    left: 326px;
     width: 450px;
 }
 
@@ -405,8 +415,8 @@ input{
 
 #save_row{
     position: absolute;
-    top: 620px;
-    left: 418px;
+    top: 494px;
+    left: 337px;
     width: 450px;
 }
 .btn-save

@@ -108,7 +108,7 @@ $array = json_decode($json,TRUE);
     <!-- ====================== form change======================= -->
       <div id="form_change" hidden="true">
             <div class="row">
-                <div id="logo_top2">
+                <div id="logo_top3">
                     <img src="img/logo.png">
                 </div>
                 <div id="title_change">
