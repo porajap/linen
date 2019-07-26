@@ -206,6 +206,7 @@
 <updateprice><en>Update price</en><th>อัพเดทราคา</th></updateprice>
 <day><en>Day</en><th>วัน</th></day>
 <set><en>SET OF CHG PC.</en><th>กำหนดเวลาเปลี่ยนราคา</th></set>
+<dateP><en>Date OF CHG PC.</en><th>วันที่เปลี่ยนราคา</th></dateP>
 
 
 </lang>

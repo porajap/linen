@@ -1274,7 +1274,7 @@ $array2 = json_decode($json2,TRUE);
                                                 <th style='width: 5%;' nowrap>&nbsp;</th>
                                                 <th style='width: 25%;' nowrap><?php echo $array['side'][$language]; ?></th>
                                                 <th style='width: 25%;' nowrap><?php echo $array['docno'][$language]; ?></th>
-                                                <th style='width: 45%;' nowrap><?php echo $array['date'][$language]; ?></th>
+                                                <th style='width: 45%;' nowrap><?php echo $array['dateP'][$language]; ?></th>
                                             </tr>
                                         </thead>
                                         <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:450px;" />
