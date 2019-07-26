@@ -234,6 +234,33 @@ $array = json_decode($json,TRUE);
               
               $("#result_alert1").append(result);
               $("#alert_SetPrice1").modal('show');
+              var HptName = temp[0]['HptName'];
+              var DocNo = temp[0]['DocNo'];
+              var StartDate = temp[0]['StartDate'];
+              var EndDate = temp[0]['EndDate'];
+              var xDate = temp[0]['xDate'];
+              var email = temp[0]['email'];
+              if(temp['cntAcive'] == 0){
+                var URL = '../process/sendMail_alertPrice.php';
+                $.ajax({
+                  url: URL,
+                  method:"POST",
+                  data: 
+                  {
+                    HptName:HptName,
+                    DocNo:DocNo,
+                    StartDate:StartDate,
+                    EndDate:EndDate,
+                    xDate:xDate,
+                    email:email,
+                    dateDiff:dateDiff
+                  },
+                  success:function(data)
+                  {
+                    console.log['success'];
+                  }
+                });
+              }
             }else if(temp['countRow']>1){
               for (var i = 0; i < temp['countRow']; i++) {
                   result += '<tr style="background-color:#2980b9;color:#ffffff">'+
@@ -249,10 +276,39 @@ $array = json_decode($json,TRUE);
                               '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['DocNo']+ '</td>'+
                               '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                             '</tr>' ;
+                var HptName = temp[i]['HptName'];
+                var DocNo = temp[i]['DocNo'];
+                var StartDate = temp[i]['StartDate'];
+                var EndDate = temp[i]['EndDate'];
+                var xDate = temp[i]['xDate'];
+                var email = temp[i]['email'];
+                var dateDiff = temp[i]['dateDiff'];
+                if(temp['cntAcive'] != 0){
+                  var URL = '../process/sendMail_alertPrice.php';
+                  $.ajax({
+                    url: URL,
+                    method:"POST",
+                    data:
+                    {
+                      HptName:HptName,
+                      DocNo:DocNo,
+                      StartDate:StartDate,
+                      EndDate:EndDate,
+                      xDate:xDate,
+                      email:email,
+                      dateDiff:dateDiff
+                    },
+                    success:function(data)
+                    {
+                        console.log['success'];
+                    }
+                  });
+                }
               }
               $("#result_alert tbody").append(result);
               $("#alert_SetPrice").modal('show');
             }
+
           }
         }else{
           console.log(temp['msg']);
@@ -270,6 +326,7 @@ $array = json_decode($json,TRUE);
       }
     });
   }
+
   </script>
 
   <style media="screen">

@@ -4,7 +4,7 @@ require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 require '../PHPMailer/PHPMailerAutoload.php';
 $xDate = date('Y-m-d');
-// 
+
 function OnLoadPage($conn,$DATA){
   $hptcode = $DATA['hptcode'];
 
@@ -159,27 +159,20 @@ function alert_SetPrice($conn,$DATA)
       #send email to user---------------------------------------------------
       $HptCode = $Result['HptCode'];
       $DocNo = $Result['DocNo'];
+
       if($DateDiff == 30){
-        $count_active = "SELECT COUNT(*) AS cnt FROM alert_mail_price WHERE DocNo = '$DocNo' AND HptCode = '$HptCode' AND day_30 = 1";
+        $count_active = "SELECT COUNT(*) AS cnt FROM alert_mail_price WHERE DocNo = '$DocNo' AND day_30 = 1";
       }else if($DateDiff == 7){
-        $count_active = "SELECT COUNT(*) AS cnt FROM alert_mail_price WHERE DocNo = '$DocNo' AND HptCode = '$HptCode' AND day_7 = 1";
+        $count_active = "SELECT COUNT(*) AS cnt FROM alert_mail_price WHERE DocNo = '$DocNo' AND day_7 = 1";
       }
       $countQuery = mysqli_query($conn,$count_active);
       while ($CResult = mysqli_fetch_assoc($countQuery)) {
-        if($CResult['cnt'] == 0){
+        $return[$count]['cnt'] = $CResult['cnt'];
+        if($CResult['cntAcive'] == 0){
           $SelectMail = "SELECT users.email FROM users WHERE users.HptCode = '$HptCode' AND users.Active_mail = 1";
           $SQuery = mysqli_query($conn,$SelectMail);
           while ($SResult = mysqli_fetch_assoc($SQuery)) {
-            $email = $SResult['email'];
-
-            alert_sendMail($email);
-
-            if($DateDiff == 30){
-              $update_alert = "UPDATE alert_mail_price SET day_30 = 1 WHERE DocNo = '$DocNo' AND HptCode = '$HptCode'";
-            }else{
-              $update_alert = "UPDATE alert_mail_price SET day_7 = 1 WHERE DocNo = '$DocNo' AND HptCode = '$HptCode'";
-            }
-            mysqli_query($conn,$update_alert);
+            $return[$count]['email'] = $SResult['email'];
           }
         }
       }
@@ -187,7 +180,6 @@ function alert_SetPrice($conn,$DATA)
       $count++;
       $boolean = true; 
     }
-
   }
 
   $return['countRow'] = $count;
@@ -208,40 +200,7 @@ function alert_SetPrice($conn,$DATA)
 
 }
 
-function alert_sendMail($email){
-  // build message body
-$body = '
-<html>
-<body>
-<br>
-___________________________________________________________________<br>
-Name: Test<br>
-UserName: Test<br>
-___________________________________________________________________<br>
-<br>
-Thanks...<br>
-</body>
-</html>
-';
 
-$mail = new PHPMailer;
-$mail->CharSet = "UTF-8";
-$mail->isSMTP();
-$mail->SMTPDebug = 2;
-$mail->Debugoutput = 'html';
-$mail->Host = 'smtp.live.com';
-$mail->Port = 587;
-$mail->SMTPSecure = 'tls';
-$mail->SMTPAuth = true;
-$mail->Username = "poseintelligence@hotmail.com";
-$mail->Password = "P6o6s2e8";
-$mail->setFrom('poseintelligence@hotmail.com', 'Pose Intelligence');
-$mail->addAddress($email);
-$mail->Subject = 'แจ้งเตือนเปลี่ยนราคา';
-$mail->msgHTML($body);
-$mail->AltBody = 'This is a plain-text message body';
-
-}
 //==========================================================
 //==========================================================
 if(isset($_POST['DATA']))
@@ -255,6 +214,8 @@ if(isset($_POST['DATA']))
     getnotification($conn,$DATA);
   }elseif ($DATA['STATUS']=='alert_SetPrice') {
     alert_SetPrice($conn,$DATA);
+  }elseif ($DATA['STATUS']=='email') {
+    email($conn,$DATA);
   }
 }else{
   $return['status'] = "error";
