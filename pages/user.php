@@ -146,6 +146,7 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data2));
         }
 
+  
 
         function getPermission(){
           var data2 = {
@@ -272,6 +273,9 @@ $array2 = json_decode($json2,TRUE);
             var facID = $('#factory').val();
             var email = $('#email').val();
 
+            var xemail = 0;
+            if ($('#xemail').is(':checked')) xemail = 1;
+
         if(count==0){
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -295,7 +299,7 @@ $array2 = json_decode($json2,TRUE);
               closeOnConfirm: false,
               closeOnCancel: false,
               showCancelButton: true}).then(result => {
-                  
+                if (result.value) {
                     var data = {
                 'STATUS': 'AddItem',
                 'UsID': UsID,
@@ -305,11 +309,15 @@ $array2 = json_decode($json2,TRUE);
                 'host': host,
                 'Permission' : Permission,
                 'facID' : facID,
-                'email' : email
+                'email' : email,
+                'xemail' : xemail
             };
 
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
+            } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
               })
 
           
@@ -408,12 +416,16 @@ $array2 = json_decode($json2,TRUE);
                 closeOnCancel: false,
                 showCancelButton: true
             }).then(result => {
+                if (result.value) {
                 var data = {
                     'STATUS': 'CancelItem',
                     'UsID': UsID
                 }
                 // console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
+            } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
             })
         }
 
@@ -516,6 +528,12 @@ $array2 = json_decode($json2,TRUE);
                                 $('#email').val(temp['email']);
                                 $('#bCancel').attr('disabled', false);
                                 $('#delete_icon').removeClass('opacity');
+
+                                if (temp['xemail'] == 1)  {
+									$('#xemail').prop( "checked", true );
+                                }else{
+									$('#xemail').prop( "checked", false );
+                            }
 
                                 var StrTr="";
                                 $("#host").empty();
@@ -1106,7 +1124,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-7">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['email'][$language]; ?></label>
-                                      <input type="email"  class="form-control col-sm-8 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
+                                      <input type="email"  class="form-control col-sm-7 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
+                                      <input type="checkbox"  id="xemail"  style=" left: 20px;">
                                     </div>
                                   </div>
                                 </div>
