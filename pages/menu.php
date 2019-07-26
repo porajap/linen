@@ -229,7 +229,7 @@ $array = json_decode($json,TRUE);
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
                             '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[0]['DocNo']+ '</td>'+
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['dateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr>' ;
               
               $("#result_alert1").append(result);
@@ -276,7 +276,7 @@ $array = json_decode($json,TRUE);
                             '<tr>'+
                               '<td style="width:18%"></td>' + 
                               '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['DocNo']+ '</td>'+
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['DateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
+                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['dateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
                             '</tr>' ;
                 var HptName = temp[i]['HptName'];
                 var DocNo = temp[i]['DocNo'];

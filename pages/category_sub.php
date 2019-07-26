@@ -343,10 +343,9 @@ $array2 = json_decode($json2,TRUE);
           }
         });
         console.log(count);
-
+        var CategoryMain = $('#maincatagory').val();
         var CategoryCode = $('#CategoryCode').val();
         var CategoryName = $('#CategoryName').val();
-
         if(count==0){
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -374,7 +373,8 @@ $array2 = json_decode($json2,TRUE);
                 var data = {
                   'STATUS' : 'AddItem',
                   'CategoryCode' : CategoryCode,
-                  'CategoryName' : CategoryName
+                  'CategoryName' : CategoryName,
+                  'CategoryMain' : CategoryMain
                 };
 
                 console.log(JSON.stringify(data));
@@ -403,7 +403,8 @@ $array2 = json_decode($json2,TRUE);
                 var data = {
                   'STATUS' : 'EditItem',
                   'CategoryCode' : CategoryCode,
-                  'CategoryName' : CategoryName
+                  'CategoryName' : CategoryName,
+                  'CategoryMain' : CategoryMain
                 };
 
                 console.log(JSON.stringify(data));

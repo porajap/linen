@@ -142,15 +142,17 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
+  $CategoryMain = $DATA['CategoryMain'];
   $count = 0;
   $Sql = "INSERT INTO item_category(
           CategoryName,
-          IsStatus
+          IsStatus,MainCategoryCode
          )
           VALUES
           (
             '".$DATA['CategoryName']."',
-            0
+            0,
+            $CategoryMain
           )
   ";
   // var_dump($Sql); die;
@@ -173,9 +175,11 @@ function AddItem($conn, $DATA)
 
 function EditItem($conn, $DATA)
 {
+  $CategoryMain = $DATA['CategoryMain'];
   $count = 0;
   if($DATA["CategoryCode"]!=""){
     $Sql = "UPDATE item_category SET
+            MainCategoryCode = $CategoryMain , 
             CategoryCode = '".$DATA['CategoryCode']."',
             CategoryName = '".$DATA['CategoryName']."'
             WHERE CategoryCode = ".$DATA['CategoryCode']."
