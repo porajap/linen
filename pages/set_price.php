@@ -72,6 +72,7 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <link href="../css/menu_custom.css" rel="stylesheet">
 
     <script type="text/javascript">
         var summary = [];
@@ -1128,11 +1129,6 @@ $array2 = json_decode($json2,TRUE);
                                                         <?php echo $array['search_ct_main'][$language]; ?></button>
                                                     <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(3);">
                                                         <?php echo $array['search_ct_sub'][$language]; ?></button> -->
-<<<<<<< HEAD
-                                                        <a href="javascript:void(0)" onclick="ShowItem1(1);" class="mr-3"><img src="../img/icon/location.png" style='width:30px;' class="mr-1"><?php echo $array['search_hp'][$language]; ?></a>
-                                                        <a href="javascript:void(0)"onclick="ShowItem1(2);" class="mr-3"><img src="../img/icon/list1.png" style='width:30px;' class="mr-1"><?php echo $array['search_ct_main'][$language]; ?></a>
-                                                        <a href="javascript:void(0)"onclick="ShowItem1(3);" ><img src="../img/icon/list2.png" style='width:30px;' class="mr-1"><?php echo $array['search_ct_sub'][$language]; ?></a>
-=======
 <!--  -->
                                         <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
@@ -1165,7 +1161,6 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                           </div>
                                                         <!-- <a href="javascript:void(0)"onclick="ShowItem1(3);" ><img src="../img/icon/list2.png" style='width:30px;' class="mr-1"><?php echo $array['search_ct_sub'][$language]; ?></a> -->
->>>>>>> fef6d8a2d88664baff5b53efe965c93a1fe295ed
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
