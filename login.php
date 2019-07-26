@@ -217,11 +217,11 @@ $array = json_decode($json,TRUE);
             var email = document.getElementById("email").value;
             var user = document.getElementById("username").value;
 
-            if( (email!=""){
+            if(email!=""){
                 var data = {
                     'STATUS' : 'sendmail',
                     'PAGE' : 'sendmail',
-                    'email': email,
+                    'email': email
                 };
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
