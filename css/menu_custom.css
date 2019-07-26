@@ -1,0 +1,76 @@
+      /* css for menu */
+      .menu{
+        width:140px;
+        text-align:center;
+      }
+      .menu img{
+        width:40px;
+        height:40px;
+      }
+      .menu button{
+        width:140px;
+        text-align:center;
+      }
+      .circle1{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#3498db;
+      }
+      .circle1{
+        color:#ffffff;
+      }
+      .circle2{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#8e44ad;
+      }
+      .circle2{
+        color:#ffffff;
+      }
+      .circle3{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#c0392b;
+      }
+      .circle3{
+        color:#ffffff;
+      }
+      .circle4{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#27ae60;
+      }
+      .circle4{
+        color:#ffffff;
+      }
+      .circle5{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#eb4d4b;
+      }
+      .circle5{
+        color:#ffffff;
+      }
+      .circle6{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#f0932b;
+      }
+      .circle6{
+        color:#ffffff;
+      }
+      i{
+        -webkit-transition: -webkit-transform .8s ease-in-out;
+          transition:transform .8s ease-in-out;
+      }
+      .menu i:hover{
+        -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+      /* end css for menu */
