@@ -2,6 +2,7 @@
 session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
+require '../PHPMailer/PHPMailerAutoload.php';
 $xDate = date('Y-m-d');
 
 function OnLoadPage($conn,$DATA){
@@ -108,7 +109,8 @@ function alert_SetPrice($conn,$DATA)
     $Sql = "SELECT
     con.StartDate,
     con.EndDate,
-    cat_P.DocNo ,  
+    cat_P.DocNo , 
+    site.HptCode , 
     site.HptName ,    
     cat_P.xDate ,  
     DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
@@ -125,7 +127,8 @@ function alert_SetPrice($conn,$DATA)
       $Sql = "SELECT
         con.StartDate,
         con.EndDate,
-        cat_P.DocNo ,  
+        cat_P.DocNo ,
+        site.HptCode , 
         site.HptName ,    
         cat_P.xDate ,  
         DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
@@ -144,16 +147,39 @@ function alert_SetPrice($conn,$DATA)
 
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
+      $return[$count]['HptCode'] = $Result['HptCode'];
       $return[$count]['HptName'] = $Result['HptName'];
       $return[$count]['StartDate'] = $Result['StartDate'];
       $return[$count]['EndDate'] = $Result['EndDate'];
       $return[$count]['DocNo'] = $Result['DocNo'];
       $return[$count]['xDate'] = $Result['xDate'];
       $return[$count]['DateDiff'] = $Result['dateDiff'];
+      $DateDiff = $Result['dateDiff'];
+
+      #send email to user---------------------------------------------------
+      $HptCode = $Result['HptCode'];
+      $DocNo = $Result['DocNo'];
+
+      if($DateDiff == 30){
+        $count_active = "SELECT COUNT(*) AS cnt FROM alert_mail_price WHERE DocNo = '$DocNo' AND day_30 = 1";
+      }else if($DateDiff == 7){
+        $count_active = "SELECT COUNT(*) AS cnt FROM alert_mail_price WHERE DocNo = '$DocNo' AND day_7 = 1";
+      }
+      $countQuery = mysqli_query($conn,$count_active);
+      while ($CResult = mysqli_fetch_assoc($countQuery)) {
+        $return[$count]['cnt'] = $CResult['cnt'];
+        if($CResult['cntAcive'] == 0){
+          $SelectMail = "SELECT users.email FROM users WHERE users.HptCode = '$HptCode' AND users.Active_mail = 1";
+          $SQuery = mysqli_query($conn,$SelectMail);
+          while ($SResult = mysqli_fetch_assoc($SQuery)) {
+            $return[$count]['email'] = $SResult['email'];
+          }
+        }
+      }
+      #end send mail------------------------------------------------------------
       $count++;
       $boolean = true; 
     }
-    
   }
 
   $return['countRow'] = $count;
@@ -173,6 +199,8 @@ function alert_SetPrice($conn,$DATA)
   }
 
 }
+
+
 //==========================================================
 //==========================================================
 if(isset($_POST['DATA']))
@@ -186,6 +214,8 @@ if(isset($_POST['DATA']))
     getnotification($conn,$DATA);
   }elseif ($DATA['STATUS']=='alert_SetPrice') {
     alert_SetPrice($conn,$DATA);
+  }elseif ($DATA['STATUS']=='email') {
+    email($conn,$DATA);
   }
 }else{
   $return['status'] = "error";
