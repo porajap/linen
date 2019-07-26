@@ -71,36 +71,38 @@ function get_dirty_doc($conn, $DATA)
     $date = $DATA['date'];
     if ($hpt == "All" || $hpt == null) {
         $Sql = "SELECT process.DocNo,
-        DATE_FORMAT(dirty.ReceiveDate, '%T') AS Receivetime,
-        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
-        DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
-        DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
-        TIMEDIFF(WashEndTime,WashStartTime) AS WashDiff,
-        DATE_FORMAT(PackStartTime, '%d/%M/%Y') AS Pack,
-        DATE_FORMAT(PackStartTime, '%T') AS PackStartTime,
-        DATE_FORMAT(PackEndTime, '%T') AS PackEndTime,
-        TIMEDIFF(PackEndTime,PackStartTime) AS PackDiff,
-        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Send,
-        DATE_FORMAT(SendStartTime, '%T') AS SendStartTime,
-        DATE_FORMAT(SendEndTime, '%T') AS SendEndTime,
-        TIMEDIFF(SendEndTime,SendStartTime) AS sendDiff
+        IFNULL(DATE_FORMAT(dirty.ReceiveDate, '%T'),'-') AS Receivetime,
+        IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
+           IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
+           IFNULL(DATE_FORMAT(WashEndTime, '%T'),'-') AS WashEndTime,
+           IFNULL(TIMEDIFF(WashEndTime,WashStartTime),'-') AS WashDiff,
+           IFNULL(DATE_FORMAT(PackStartTime, '%d/%M/%Y'),'-') AS Pack,
+           IFNULL(DATE_FORMAT(PackStartTime, '%T'),'-') AS PackStartTime,
+           IFNULL(DATE_FORMAT(PackEndTime, '%T'),'-') AS PackEndTime,
+           IFNULL(TIMEDIFF(PackEndTime,PackStartTime),'-') AS PackDiff,
+           IFNULL(DATE_FORMAT(SendStartTime, '%d/%M/%Y'),'-') AS Send,
+           IFNULL(DATE_FORMAT(SendStartTime, '%T'),'-') AS SendStartTime,
+           IFNULL(DATE_FORMAT(SendEndTime, '%T'),'-') AS SendEndTime,
+           IFNULL(TIMEDIFF(SendEndTime,SendStartTime),'-') AS sendDiff
         FROM process,dirty
         WHERE dirty.DocNo LIKE '%$DocNo%'
         AND dirty.DocNo = process.DocNo
         AND dirty.ReceiveDate LIKE '%$date%'";
     } else if ($dep == "All") {
-        $Sql = "SELECT process.DocNo,DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
-        DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
-        DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
-        TIMEDIFF(WashEndTime,WashStartTime) AS WashDiff,
-        DATE_FORMAT(PackStartTime, '%d/%M/%Y') AS Pack,
-        DATE_FORMAT(PackStartTime, '%T') AS PackStartTime,
-        DATE_FORMAT(PackEndTime, '%T') AS PackEndTime,
-        TIMEDIFF(PackEndTime,PackStartTime) AS PackDiff,
-        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Send,
-        DATE_FORMAT(SendStartTime, '%T') AS SendStartTime,
-        DATE_FORMAT(SendEndTime, '%T') AS SendEndTime,
-        TIMEDIFF(SendEndTime,SendStartTime) AS sendDiff
+        $Sql = "SELECT process.DocNo,
+        IFNULL(DATE_FORMAT(dirty.ReceiveDate, '%T'),'-') AS Receivetime,
+        IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
+           IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
+           IFNULL(DATE_FORMAT(WashEndTime, '%T'),'-') AS WashEndTime,
+           IFNULL(TIMEDIFF(WashEndTime,WashStartTime),'-') AS WashDiff,
+           IFNULL(DATE_FORMAT(PackStartTime, '%d/%M/%Y'),'-') AS Pack,
+           IFNULL(DATE_FORMAT(PackStartTime, '%T'),'-') AS PackStartTime,
+           IFNULL(DATE_FORMAT(PackEndTime, '%T'),'-') AS PackEndTime,
+           IFNULL(TIMEDIFF(PackEndTime,PackStartTime),'-') AS PackDiff,
+           IFNULL(DATE_FORMAT(SendStartTime, '%d/%M/%Y'),'-') AS Send,
+           IFNULL(DATE_FORMAT(SendStartTime, '%T'),'-') AS SendStartTime,
+           IFNULL(DATE_FORMAT(SendEndTime, '%T'),'-') AS SendEndTime,
+           IFNULL(TIMEDIFF(SendEndTime,SendStartTime),'-') AS sendDiff
         FROM process,dirty,department
         WHERE dirty.DocNo LIKE '%$DocNo%'
         AND dirty.DocNo = process.DocNo
@@ -108,18 +110,20 @@ function get_dirty_doc($conn, $DATA)
         AND department.HptCode = '$hpt'
         AND dirty.ReceiveDate LIKE '%$date%'";
     } else {
-        $Sql = "SELECT process.DocNo,DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
-        DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
-        DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
-        TIMEDIFF(WashEndTime,WashStartTime) AS WashDiff,
-        DATE_FORMAT(PackStartTime, '%d/%M/%Y') AS Pack,
-        DATE_FORMAT(PackStartTime, '%T') AS PackStartTime,
-        DATE_FORMAT(PackEndTime, '%T') AS PackEndTime,
-        TIMEDIFF(PackEndTime,PackStartTime) AS PackDiff,
-        DATE_FORMAT(SendStartTime, '%d/%M/%Y') AS Send,
-        DATE_FORMAT(SendStartTime, '%T') AS SendStartTime,
-        DATE_FORMAT(SendEndTime, '%T') AS SendEndTime,
-        TIMEDIFF(SendEndTime,SendStartTime) AS sendDiff
+        $Sql = "SELECT process.DocNo,
+        IFNULL(DATE_FORMAT(dirty.ReceiveDate, '%T'),'-') AS Receivetime,
+        IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
+           IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
+           IFNULL(DATE_FORMAT(WashEndTime, '%T'),'-') AS WashEndTime,
+           IFNULL(TIMEDIFF(WashEndTime,WashStartTime),'-') AS WashDiff,
+           IFNULL(DATE_FORMAT(PackStartTime, '%d/%M/%Y'),'-') AS Pack,
+           IFNULL(DATE_FORMAT(PackStartTime, '%T'),'-') AS PackStartTime,
+           IFNULL(DATE_FORMAT(PackEndTime, '%T'),'-') AS PackEndTime,
+           IFNULL(TIMEDIFF(PackEndTime,PackStartTime),'-') AS PackDiff,
+           IFNULL(DATE_FORMAT(SendStartTime, '%d/%M/%Y'),'-') AS Send,
+           IFNULL(DATE_FORMAT(SendStartTime, '%T'),'-') AS SendStartTime,
+           IFNULL(DATE_FORMAT(SendEndTime, '%T'),'-') AS SendEndTime,
+           IFNULL(TIMEDIFF(SendEndTime,SendStartTime),'-') AS sendDiff
         FROM process,dirty
         WHERE dirty.DocNo LIKE '%$DocNo%'
         AND dirty.DocNo = process.DocNo
