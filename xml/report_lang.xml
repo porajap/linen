@@ -15,4 +15,7 @@
 <amount><en>Amount</en><th>จำนวน</th></amount>
 <weight><en>Weight</en><th>น้ำหนัก</th></weight>
 <price><en>Total</en><th>เป็นเงิน</th></price>
+<perunit><en>perunit</en><th>ขนาดต่อหน่วย</th></perunit>
+<priceunit><en>PriceUnit</en><th>ราคาต่อหน่วย</th></priceunit>
+
 </lang>

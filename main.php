@@ -44,10 +44,10 @@ switch ($PmID) {
         $ac_s4=0;
         $ac_s5=1;
         //factory
-        $fac_head=1;
+        $fac_head=0;
         $fac_s1=0;
         $fac_s2=0;
-        $fac_s3=1;
+        $fac_s3=0;
         //report
         $re_head=0;
         $re_s1=0;
@@ -861,7 +861,7 @@ switch ($PmID) {
       <li id="general">
 
         <a class="bluebg" style="font-family: 'DB Helvethaica X'; font-size:20px;"
-          href="#general"><?php echo $array['menu']['general']['title'][$language]; ?><span id='main_Cnt'>0</span></a>
+          href="#general"><?php echo $array['menu']['general']['title'][$language]; ?><span hidden id='main_Cnt'>0</span></a>
 
         <ul class="sub-menu">
           <?php if($gen_s1== 1){ ?>

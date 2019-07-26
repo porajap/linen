@@ -608,8 +608,22 @@ function ShowDetail($conn, $DATA)
 
       if($UniCode2 == 2){
         $cal = $Price1;
+        for ($i = 0; $i < $Qty; $i++) {
+          $total = $total + $cal;
+      }
+              // ============================================================
+              $insert = "UPDATE billwash_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
+              $INQuery = mysqli_query($conn, $insert);
+              // ============================================================
       }else{
         $cal = $Price1 / $Multiply2;
+        for ($i = 0; $i < $Qty; $i++) {
+            $total = $total + $cal;
+        }
+                 // ============================================================
+                 $insert = "UPDATE billwash_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
+                 $INQuery = mysqli_query($conn, $insert);
+                 // ============================================================
       }
       $return[$count]['cal']   = $cal;
 
@@ -632,6 +646,11 @@ function ShowDetail($conn, $DATA)
         $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Qty2'];
         $return['TotalPrice']  += $return[$count]['CusPrice'];
         $return[$count]['PriceUnit']   = $PUResult['PriceUnit'];
+        // ============================================================
+        $CusPrice = $return[$count]['CusPrice'];
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $INQuery = mysqli_query($conn, $insert);
+        // ============================================================
       }
   }else if($Qty==0 && $UniCode2 !=1 && $UniCode2 !=4){
     $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
@@ -640,6 +659,12 @@ function ShowDetail($conn, $DATA)
     while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
       $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Weight'];
       $return['TotalPrice']  += $return[$count]['CusPrice'];
+
+        // ============================================================
+        $CusPrice = $return[$count]['CusPrice'];
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $INQuery = mysqli_query($conn, $insert);
+        // ============================================================
     }
   }else if ($weight==0 ){
     $Price = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
@@ -648,6 +673,11 @@ function ShowDetail($conn, $DATA)
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
       $return[$count]['CusPrice']   = $Result['Qty2'] * $PResult['PriceUnit']  ;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
+        // ============================================================
+        $CusPrice = $return[$count]['CusPrice'];
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $INQuery = mysqli_query($conn, $insert);
+        // ============================================================
     }
   }else{
     $Price = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
@@ -656,6 +686,13 @@ function ShowDetail($conn, $DATA)
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
       $return[$count]['CusPrice']   = ( $Result['Qty2'] * $Result['Weight']  ) * $PResult['PriceUnit'];
       $return['TotalPrice']  += $return[$count]['CusPrice'];
+
+        // ============================================================
+        $PriceUnit = $PResult['PriceUnit'];
+        $CusPrice = $return[$count]['CusPrice'];
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $INQuery = mysqli_query($conn, $insert);
+        // ============================================================
     }
   }
 
