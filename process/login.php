@@ -134,6 +134,7 @@ function cPassword($conn,$DATA)
     }
   }
 }
+
 function rand_string( $length ) {
   $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz@#$&*";
   $size = strlen( $chars );

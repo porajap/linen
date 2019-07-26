@@ -53,6 +53,11 @@ function CreateDoc($conn, $DATA)
         mysqli_query($conn, $Sql_Insert);
     }
 
+    // -------------------------------
+    $insert_alert = "INSERT INTO alert_mail_price (DocNo, HptCode, day_30, day_7) VALUES ('$DocNo', '$HptCode', 0, 0) ";
+    mysqli_query($conn, $insert_alert);
+    // -------------------------------
+
     if($count>0){
         $return['status'] = "success";
         $return['form'] = "CreateDoc";
