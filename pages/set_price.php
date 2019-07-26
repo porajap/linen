@@ -62,7 +62,7 @@ $array2 = json_decode($json2,TRUE);
     <script type="text/javascript">
         jqui = jQuery.noConflict(true);
     </script>
-    <link href="../css/menu_custom.css" rel="stylesheet">
+
     <link href="../dist/css/sweetalert2.css" rel="stylesheet">
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
@@ -72,6 +72,7 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <link href="../css/menu_custom.css" rel="stylesheet">
 
     <script type="text/javascript">
         var summary = [];

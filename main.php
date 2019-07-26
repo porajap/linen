@@ -826,10 +826,8 @@ switch ($PmID) {
     }
 
     .user{
-      width: 40px;
-      height: 40px;
-      border-radius: 50px;
-      margin-top: 5px;
+      width:34px;
+      border-radius:50px;
     }
   </style>
 
