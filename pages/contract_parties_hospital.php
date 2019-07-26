@@ -613,7 +613,7 @@ body{
 
     <div class="row" style="margin-left:20px">
                 <div style="width:277px;">
-                    <label><?php echo $array['factory'][$language]; ?></label>
+                    <label><?php echo $array['side'][$language]; ?></label>
                 </div>
                 <div style="width:250px;">
                     <label><?php echo $array['datestartcontract'][$language]; ?></label>
