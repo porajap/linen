@@ -1112,10 +1112,10 @@ $array2 = json_decode($json2,TRUE);
 <!-- =============================================================================================================================== -->
 
     <!-- /.content-wrapper -->
-    <div class="row mt-3 m-2">
+    <div class="row  m-2">
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
-                    <div class="card-body" style="padding:0px; margin-top:10px;">
+                    <div class="card-body" style="padding:0px;">
                       <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                           <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
