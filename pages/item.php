@@ -66,6 +66,7 @@ $array2 = json_decode($json2, TRUE);
   <script src="../datepicker/dist/js/datepicker.min.js"></script>
   <!-- Include English language -->
   <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+  <link href="../css/menu_custom.css" rel="stylesheet">
 
   <script type="text/javascript">
     var summary = [];
@@ -895,6 +896,15 @@ $array2 = json_decode($json2, TRUE);
       })
     }
 
+    function menu_tapShow(){
+      $('#memu_tap1').attr('hidden', false);
+      $('#myTab').removeClass('mt-5');
+    }
+    function menu_tapHide(){
+      $('#memu_tap1').attr('hidden', true);
+      $('#myTab').addClass('mt-5');
+    }
+
     function senddata(data) {
       var form_data = new FormData();
       form_data.append("DATA", data);
@@ -1639,14 +1649,23 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-md-4">
                   <div class="row " style="margin-left:2px;">
                     <input type="text" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
-
                   </div>
                 </div>
                 <div class="col-md-2">
-                  <div class="row mhee" style="margin-left:0px;">
+                  <!-- <div class="row" style="margin-left:0px;">
                     <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3 mhee'>
                     <a href='javascript:void(0)' onclick="ShowItem()" id="bSave" class="search">
                       <?php echo $array['search'][$language]; ?></a>
+                  </div> -->
+                  <div class="search_custom col-md-2 row">
+                    <div class="d-flex justify-content-start">
+                      <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                          <i class="fas fa-search"></i>
+                      </div>
+                      <button class="btn search" onclick="ShowItem()" id="bSave">
+                          <?php echo $array['search'][$language]; ?>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <!-- 
@@ -1682,20 +1701,90 @@ $array2 = json_decode($json2, TRUE);
 
       <div class="row">
         <!-- start row tab -->
-        <div class="col-md-10">
+        <div class="col-md-12">
           <!-- tag column 1 -->
           <div class="container-fluid">
+            <div id="memu_tap1">
+              <div class="row m-1 mt-5 d-flex justify-content-end" >
+                <div class="menu" id="ActiveBNT">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                        <i class="fas fa-check"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn" onclick="ActiveItem()" id="bActive">
+                      <?php echo $array['activeItem'][$language]; ?>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="menu" id="NewItem">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                        <i class="fas fa-chess-queen"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn" onclick="NewItem()" id="bNewItem">
+                      <?php echo $array['itemnew'][$language]; ?>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="menu" id="AddItemBNT">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                        <i class="fas fa-save"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn" onclick="AddItem()" id="bSave">
+                      <?php echo $array['save'][$language]; ?>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="menu" id="BlankItemBNT">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle5 d-flex align-items-center d-flex justify-content-center">
+                        <i class="fas fa-times"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn" onclick="Blankinput()" id="bDelete">
+                      <?php echo $array['cancel'][$language]; ?>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="menu" id="CancelBNT">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+                      <?php echo $array['cancel'][$language]; ?>
+                    </button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+              
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
+                <a class="nav-link active" onclick="menu_tapShow();" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['mulmultiply'][$language]; ?></a>
+                <a class="nav-link" id="profile-tab"  onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['mulmultiply'][$language]; ?></a>
               </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <div class="tab-pane show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <!-- /.content-wrapper -->
                 <div class="row">
                   <div class="col-md-12">
@@ -1876,7 +1965,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
               </div>
 
-              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="row">
                   <div class="container-fluid mhee">
                     <div class="card-body" style="padding:0px; margin-top:10px;">
@@ -1910,9 +1999,30 @@ $array2 = json_decode($json2, TRUE);
                         <!-- <button style="margin-left:11px;width:64px;" type="button" class="btn btn-success" onclick="AddUnit();"><?php echo $array['save'][$language]; ?></button>
                         <button style="margin-left:4px;width:64px;" type="button" class="btn btn-danger" onclick="DeleteUnit();"><?php echo $array['delete'][$language]; ?></button> -->
                         <!-- <div class="mhee"> -->
-                        <a href="javascript:void(0)" onclick="AddUnit();" class="ml-3 "><img src="../img/icon/ic_save.png" style="width:34px;" class="mr-2"><?php echo $array['save'][$language]; ?></a>
-                        <a href="javascript:void(0)" onclick="DeleteUnit();" class="ml-3 "><img src="../img/icon/ic_delete.png" style="width:36px;" class="mr-2"><?php echo $array['delete'][$language]; ?></a>
+                        <!-- <a href="javascript:void(0)" onclick="AddUnit();" class="ml-3 "><img src="../img/icon/ic_save.png" style="width:34px;" class="mr-2"><?php echo $array['save'][$language]; ?></a> -->
+                        <!-- <a href="javascript:void(0)" onclick="DeleteUnit();" class="ml-3 "><img src="../img/icon/ic_delete.png" style="width:36px;" class="mr-2"><?php echo $array['delete'][$language]; ?></a> -->
                         <!-- </div>  -->
+                        <div class="search_custom col-md-1 ml-1">
+                          <div class="d-flex justify-content-start">
+                            <div class="save_1 d-flex align-items-center d-flex justify-content-center">
+                                <i class="fas fa-save"></i>
+                            </div>
+                            <button class="btn" onclick="AddUnit();">
+                                <?php echo $array['save'][$language]; ?>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="search_custom col-md-1">
+                          <div class="d-flex justify-content-start">
+                            <div class="del_1 d-flex align-items-center d-flex justify-content-center">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <button class="btn" onclick="DeleteUnit();">
+                                <?php echo $array['delete'][$language]; ?>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1939,12 +2049,10 @@ $array2 = json_decode($json2, TRUE);
             </div>
           </div>
         </div>
-
-        <div class="col-md-2 mhee">
+        <!-- <div class="col-md-2 mhee">
           <div class="sidenav" style=" margin-left: 0px;margin-top: 73px;">
             <div class="" style="margin-top:5px;">
               <div class="card-body" style="padding:0px; margin-top:10px;">
-                <!-- =============================================================================================== -->
                 <div class="row" style="margin-top:0px;" id="ActiveBNT">
                   <div class="col-md-3 icon">
                     <img src="../img/icon/i_active.png" style='width:36px;' class='mr-3'>
@@ -1955,7 +2063,6 @@ $array2 = json_decode($json2, TRUE);
                     </button>
                   </div>
                 </div>
-                <!-- =============================================================================================== -->
                 <div class="row" style="margin-top:0px;" id="NewItem">
                   <div class="col-md-3 icon">
                     <img src="../img/icon/i_listnew.png" style='width:36px;' class='mr-3'>
@@ -1966,7 +2073,6 @@ $array2 = json_decode($json2, TRUE);
                     </button>
                   </div>
                 </div>
-                <!-- =============================================================================================== -->
                 <div class="row" style="margin-top:0px;" id="AddItemBNT">
                   <div class="col-md-3 icon">
                     <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
@@ -1978,7 +2084,6 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
 
-                <!-- =============================================================================================== -->
                 <div class="row" style="margin-top:0px;" id="BlankItemBNT">
                   <div class="col-md-3 icon">
                     <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
@@ -1989,7 +2094,6 @@ $array2 = json_decode($json2, TRUE);
                     </button>
                   </div>
                 </div>
-                <!-- =============================================================================================== -->
                 <div class="row" style="margin-top:0px;" id="CancelBNT">
                   <div class="col-md-3 icon">
                     <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
@@ -2000,13 +2104,11 @@ $array2 = json_decode($json2, TRUE);
                     </button>
                   </div>
                 </div>
-                <!-- =============================================================================================== -->
               </div>
             </div>
           </div>
-          <!-- =============================================================================================== -->
 
-        </div> <!-- end row tab -->
+        </div> -->
 
 
       </div>

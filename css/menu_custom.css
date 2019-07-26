@@ -136,3 +136,23 @@
       .import_1{
         color:#ffffff;
       }
+
+
+      .search_custom .save_1{
+        width: 38px;
+        height: 38px;
+        border-radius:50px;
+        background-color: #27ae60;
+      }
+      .search_custom .save_1{
+        color:#ffffff;
+      }
+      .search_custom .del_1{
+        width: 38px;
+        height: 38px;
+        border-radius:50px;
+        background-color: #eb4d4b;
+      }
+      .search_custom .del_1{
+        color:#ffffff;
+      }
