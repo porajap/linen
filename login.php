@@ -217,7 +217,7 @@ $array = json_decode($json,TRUE);
             var email = document.getElementById("email").value;
             var user = document.getElementById("username").value;
 
-            if( (user != "") && (email!="") ){
+            if( (email!=""){
                 var data = {
                     'STATUS' : 'sendmail',
                     'PAGE' : 'sendmail',
