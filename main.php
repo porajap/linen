@@ -7,6 +7,7 @@ $TimeOut = $_SESSION['TimeOut'];
 $last_move = $_GET["last_move"];
 $logoff = $_SESSION['chk_logoff'];
 $Username = $_SESSION['Username'];
+$FName = $_SESSION['FName'];
 if($Userid==""){
    header("location:index.html");
 }
@@ -841,6 +842,7 @@ switch ($PmID) {
           aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i>
         </a>
+
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
           <a class="dropdown-item" href="#" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
         </div>
