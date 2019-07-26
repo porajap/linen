@@ -52,7 +52,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Custom styles for this template-->
     <link href="../template/css/sb-admin.css" rel="stylesheet">
     <link href="../css/xfont.css" rel="stylesheet">
-
+    <link href="../css/menu_custom.css" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="../jQuery-ui/jquery-1.12.4.js"></script>
     <script src="../jQuery-ui/jquery-ui.js"></script>
@@ -1003,6 +1003,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:-12px;">
                             <div class="row">
+
                             <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
                                         <select class="form-control" id="hptsel">
@@ -1011,12 +1012,20 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mhee">
+                                <div class="col-md-9">
                                     <div class="row" style="margin-left:5px;">
                                         <input type="text" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
-                                        <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>      
+                                            <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                  <i class="fas fa-search"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowItem()" id="bSave">
+                                                  <?php echo $array['search'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                               
                                     </div>
                                 </div>
 
@@ -1050,9 +1059,51 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                 </div> <!-- tag column 1 -->
             </div>
-            <!-- /.content-wrapper -->
-            <div class="row">
-                <div class="col-md-8">
+   <!-- =================================================================== -->
+<!-- /.content-wrapper -->
+<div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-save"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn"  onclick="AddItem()" id="bSave">
+                                    <?php echo $array['save'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-eraser"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn" onclick="Blankinput()" id="bDelete">
+                                    <?php echo $array['clear'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-trash-alt"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+                                    <?php echo $array['cancel'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+
+<!-- =============================================================================================================================== -->    
+            <div class="row m-2">
+                <div class="col-md-12">
                     <!-- tag column 1 -->
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:10px;">
@@ -1076,68 +1127,64 @@ $array2 = json_decode($json2,TRUE);
                             </div>
    <!-- =================================================================== -->
                                 <div class="row mt-4">
-                                  <div class="col-md-7">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                       <select  class="form-control col-sm-8 " id="host"></select>
                                     </div>
                                   </div>
-                                </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['flname'][$language]; ?></label>
+                                    <input type="text"  class="form-control col-sm-8 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
+                                    </div>
+                                  </div>
+                                </div>   
    <!-- =================================================================== -->
                                 <div class="row">
-                                  <div class="col-md-7">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['flname'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['username'][$language]; ?></label>
+                                    <input type="text"  class="form-control col-sm-8 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
                                     </div>
                                   </div>
-                                </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['password'][$language]; ?></label>
+                                    <input type="text"  class="form-control col-sm-8 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
+                                    </div>
+                                  </div>
+                                </div>   
    <!-- =================================================================== -->
                                 <div class="row">
-                                  <div class="col-md-7">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['username'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['permission'][$language]; ?></label>
+                                    <select  class="form-control col-sm-8 " id="Permission"  onchange="factory_show(this.value);"></select>
                                     </div>
                                   </div>
-                                </div>
-   <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-7">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['password'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['email'][$language]; ?></label>
+                                    <input type="email"  class="form-control col-sm-8 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
                                     </div>
                                   </div>
-                                </div>
-   <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-7">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['permission'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 " id="Permission"  onchange="factory_show(this.value);"></select>
-                                    </div>
-                                  </div>
-                                </div>
-<!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-7">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['email'][$language]; ?></label>
-                                      <input type="email"  class="form-control col-sm-7 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
-                                      <input type="checkbox"  id="xemail"  style=" left: 20px;">
-                                    </div>
-                                  </div>
-                                </div>
+                                </div>   
 <!-- =================================================================== -->  
-                                <div class="row" hidden id='row_fac'>
-                                  <div class="col-md-7">
+                                <div class="row">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 " id="factory"></select>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['activemail'][$language]; ?></label>
+                                    <input type="checkbox"  id="xemail"  >
                                     </div>
                                   </div>
-                                </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
+                                    <select  class="form-control col-sm-8 " id="factory"></select>
+                                    </div>
+                                  </div>
+                                </div>      
 <!-- =================================================================== -->  
 
                         </div>
@@ -1147,45 +1194,7 @@ $array2 = json_decode($json2,TRUE);
 <div class="sidenav mhee" style=" margin-left: 200px;margin-top: 73px;">
               <div class="" style="margin-top:5px;">
                 <div class="card-body" style="padding:0px; margin-top:10px;">
-<!-- =============================================================================================== -->
 
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="AddItem()" id="bSave">
-                                          <?php echo $array['save'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-        
-<!-- =============================================================================================== -->
-<div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="Blankinput()" id="bDelete">
-                                          <?php echo $array['clear'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-          <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
-                                          <?php echo $array['cancel'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-              </div>
-            </div>
-          </div>
 <!-- =============================================================================================== -->
             </div>
 
