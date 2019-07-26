@@ -285,7 +285,7 @@ $array = json_decode($json,TRUE);
                 var xDate = temp[i]['xDate'];
                 var email = temp[i]['email'];
                 var dateDiff = temp[i]['dateDiff'];
-                if(temp['cntAcive'] != 0){
+                if(temp['cntAcive'] == 0){
                   var URL = '../process/sendMail_alertPrice.php';
                   $.ajax({
                     url: URL,
