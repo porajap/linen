@@ -756,11 +756,12 @@ function CancelItem($conn, $DATA)
 {
   $count = 0;
   if ($DATA["ItemCode"] != "") {
-    $Sql = "DELETE FROM item
-            WHERE ItemCode = '" . $DATA['ItemCode'] . "'
-    ";
-    // var_dump($Sql); die;
-    if (mysqli_query($conn, $Sql)) {
+    $Sql1 = "DELETE FROM item
+            WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+    $Sql2 = "DELETE FROM item_multiple_unit
+            WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+    //$return['Sql'] = $Sql;
+    if (mysqli_query($conn, $Sql1)&&mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "CancelItem";
       $return['msg'] = "cancelsuccess";
