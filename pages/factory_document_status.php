@@ -148,7 +148,7 @@ date_default_timezone_set("Asia/Bangkok");
     }
 
     function get_dirty_doc() {
-      var docno = $("#docno").val();
+      var docno = $("#searchdocument").val();
       var hpt = $("#hospital").val();
       var dep = $("#department").val();
       var date = $("#datepicker1").val();
@@ -232,16 +232,24 @@ date_default_timezone_set("Asia/Bangkok");
           if (temp["status"] == 'success') {
             if (temp["form"] == 'get_dirty_doc') {
               $("#tbody").empty();
-              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
-                      "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
-                      "<td style='width: 16%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
-                      "<td style='width: 27%;' align='left'nowrap><?php echo $array['Starttime'][$language]; ?>" + temp[i]['DocNo'] + "<br><?php echo $array['Starttime'][$language]; ?>"+temp[i]['DocNo']+"</td>" +
-                      "<td style='width: 27%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
-                      "<td style='width: 27%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
-                      "</tr>";
-                $("#tbody").append(StrTR);
-                
+                for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                  var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
+                        "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
+                        "<td style='width: 16%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+                        
+                        "<td style='width: 27%;' align='left'nowrap>4468<div class='row'><div class='col-md-4 text-right'>"+
+                        "<?php echo $array['Starttime'][$language]; ?><br><?php echo $array['tFinish'][$language]; ?></div><div class='col-md-8 text-left'>"+
+                        temp[i]['WashStartTime'] +"<br>"+ temp[i]['WashEndTime']+"</td></div><div>" +
+
+                        "<td style='width: 27%;' align='left'nowrap><div class='row'><div class='col-md-6'>"+
+                        temp[i]['PackStartTime'] + "</div><div class='col-md-6'>"
+                        +temp[i]['PackEndTime']+"</td></div><div>" +
+
+                        "<td style='width: 27%;' align='left'nowrap>"+
+                        "<?php echo $array['Starttime'][$language]; ?>" + temp[i]['SendStartTime'] + 
+                        "<br><?php echo $array['tFinish'][$language]; ?>"+temp[i]['SendEndTime']+"</td>" +
+                        "</tr>";
+                  $("#tbody").append(StrTR);
               }
             } else if (temp["form"] == 'get_hospital') {
               $("#hospital").empty();
@@ -264,8 +272,8 @@ date_default_timezone_set("Asia/Bangkok");
 
           } else if (temp['status'] == "failed") {
             switch (temp['msg']) {
-              case "notchosen":
-                temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+              case "notfound":
+                temp['msg'] = "<?php echo $array['notfoundDoc'][$language]; ?>";
                 break;
             }
             swal({
@@ -439,7 +447,7 @@ date_default_timezone_set("Asia/Bangkok");
     <div id="content-wrapper">
       <div class="row">
         <!-- start row tab -->
-        <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
+        <div class="col-md-12" style='padding-left: 26px;'>
           <div class="tab-content" id="myTabContent">
             <div class="row" style="margin-top:10px;">
               <div class="col-md-2">

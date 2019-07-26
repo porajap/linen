@@ -69,29 +69,62 @@ function get_dirty_doc($conn, $DATA)
     $hpt = $DATA['hpt'];
     $dep = $DATA['dep'];
     $date = $DATA['date'];
-    if($hpt=="All"){
-        $Sql = "SELECT *
+    if ($hpt == "All") {
+        $Sql = "SELECT process.DocNo,DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
+        DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
+        DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
+        TIMEDIFF(WashEndTime,WashStartTime) AS WashDiff,
+        DATE_FORMAT(PackStartTime, '%d/%M/%Y') AS Pack,
+        DATE_FORMAT(PackStartTime, '%T') AS PackStartTime,
+        DATE_FORMAT(PackEndTime, '%T') AS PackEndTime,
+        TIMEDIFF(PackEndTime,PackStartTime) AS PackDiff,
+        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Send,
+        DATE_FORMAT(SendStartTime, '%T') AS SendStartTime,
+        DATE_FORMAT(SendEndTime, '%T') AS SendEndTime,
+        TIMEDIFF(SendEndTime,SendStartTime) AS sendDiff
         FROM process,dirty
         WHERE dirty.DocNo LIKE '%$DocNo%'
         AND dirty.DocNo = process.DocNo
         AND dirty.ReceiveDate LIKE '%$date%'";
-    }else if($dep=="All"){
-        $Sql = "SELECT *
+    } else if ($dep == "All") {
+        $Sql = "SELECT process.DocNo,DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
+        DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
+        DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
+        TIMEDIFF(WashEndTime,WashStartTime) AS WashDiff,
+        DATE_FORMAT(PackStartTime, '%d/%M/%Y') AS Pack,
+        DATE_FORMAT(PackStartTime, '%T') AS PackStartTime,
+        DATE_FORMAT(PackEndTime, '%T') AS PackEndTime,
+        TIMEDIFF(PackEndTime,PackStartTime) AS PackDiff,
+        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Send,
+        DATE_FORMAT(SendStartTime, '%T') AS SendStartTime,
+        DATE_FORMAT(SendEndTime, '%T') AS SendEndTime,
+        TIMEDIFF(SendEndTime,SendStartTime) AS sendDiff
         FROM process,dirty,department
         WHERE dirty.DocNo LIKE '%$DocNo%'
         AND dirty.DocNo = process.DocNo
         AND dirty.DepCode = department.DepCode
         AND department.HptCode = '$hpt'
         AND dirty.ReceiveDate LIKE '%$date%'";
-    }else{
-        $Sql = "SELECT *
+    } else {
+        $Sql = "SELECT process.DocNo,DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
+        DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
+        DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
+        TIMEDIFF(WashEndTime,WashStartTime) AS WashDiff,
+        DATE_FORMAT(PackStartTime, '%d/%M/%Y') AS Pack,
+        DATE_FORMAT(PackStartTime, '%T') AS PackStartTime,
+        DATE_FORMAT(PackEndTime, '%T') AS PackEndTime,
+        TIMEDIFF(PackEndTime,PackStartTime) AS PackDiff,
+        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Send,
+        DATE_FORMAT(SendStartTime, '%T') AS SendStartTime,
+        DATE_FORMAT(SendEndTime, '%T') AS SendEndTime,
+        TIMEDIFF(SendEndTime,SendStartTime) AS sendDiff
         FROM process,dirty
         WHERE dirty.DocNo LIKE '%$DocNo%'
         AND dirty.DocNo = process.DocNo
         AND dirty.DepCode = $dep
         AND dirty.ReceiveDate LIKE '%$date%'";
     }
-    
+
     $return['Sql'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -113,7 +146,7 @@ function get_dirty_doc($conn, $DATA)
         mysqli_close($conn);
         die;
     } else {
-        $return['status'] = "notfound";
+        $return['status'] = "failed";
         $return['msg'] = "notfound";
         echo json_encode($return);
         mysqli_close($conn);
