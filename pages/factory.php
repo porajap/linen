@@ -1098,7 +1098,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row">
 
                         
-                                      <div class="col-md-9 mhee">
+                                      <div class="col-md-9">
                                         <div class="row" style="margin-left:5px;">
                                           <input type="text" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                                          
@@ -1168,7 +1168,7 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                 </div>
                                 <div>
-                                  <button class="btn" onclick="ClearRow()" id="bDelete">
+                                  <button class="btn" onclick="Blankinput()" id="bDelete">
                                     <?php echo $array['clear'][$language]; ?>
                                   </button>
                                 </div>

@@ -69,7 +69,8 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
-
+    
+    <link href="../css/menu_custom.css" rel="stylesheet">
     <script type="text/javascript">
         var summary = [];
 
@@ -1105,12 +1106,23 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mhee">
+                                <div class="col-md-6">
                                     <div class="row" style="margin-left:5px;">
                                         <input type="text" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
-                                        <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
+                                        <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>      
+                                          <?php echo $array['search'][$language]; ?></a>       -->
+                                        <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                            <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                <i class="fas fa-search"></i>
+                                            </div>
+                                            <button class="btn"  onclick="ShowItem()" id="bSave">
+                                                <?php echo $array['search'][$language]; ?>
+                                            </button>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -1144,8 +1156,46 @@ $array2 = json_decode($json2,TRUE);
                 </div> <!-- tag column 1 -->
             </div>
             <!-- /.content-wrapper -->
+<div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
+    <div class="menu">
+        <div class="d-flex justify-content-center">
+            <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                <i class="fas fa-save"></i>
+            </div>
+        </div>
+        <div>
+            <button class="btn"  onclick="AddItem()" id="bSave">
+                <?php echo $array['save'][$language]; ?>
+            </button>
+        </div>
+        </div>
+        <div class="menu">
+        <div class="d-flex justify-content-center">
+            <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                <i class="fas fa-eraser"></i>
+            </div>
+        </div>
+        <div>
+            <button class="btn" onclick="Blankinput()" id="bDelete">
+            <?php echo $array['clear'][$language]; ?>
+            </button>
+        </div>
+        </div>
+        <div class="menu">
+        <div class="d-flex justify-content-center">
+            <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+        </div>
+        <div>
+            <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+            <?php echo $array['cancel'][$language]; ?>
+            </button>
+        </div>
+    </div>
+</div>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <!-- tag column 1 -->
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:10px;">
@@ -1198,11 +1248,9 @@ $array2 = json_decode($json2,TRUE);
                         </div>
                     </div>
                 </div> <!-- tag column 2 -->
-<!-- =============================================================================================== -->
-<div class="sidenav mhee" style=" margin-left: 200px;margin-top: 73px;">
+<!-- <div class="sidenav mhee" style=" margin-left: 200px;margin-top: 73px;">
               <div class="" style="margin-top:5px;">
                 <div class="card-body" style="padding:0px; margin-top:10px;">
-<!-- =============================================================================================== -->
 
                                     <div class="row" style="margin-top:0px;">
                                       <div class="col-md-3 icon" >
@@ -1214,8 +1262,6 @@ $array2 = json_decode($json2,TRUE);
                                         </button>
                                       </div>
                                     </div>
-        
-<!-- =============================================================================================== -->
 <div class="row" style="margin-top:0px;">
                                       <div class="col-md-3 icon" >
                                         <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
@@ -1226,7 +1272,6 @@ $array2 = json_decode($json2,TRUE);
                                         </button>
                                       </div>
                                     </div>
-<!-- =============================================================================================== -->
           <div class="row" style="margin-top:0px;">
                                       <div class="col-md-3 icon" >
                                         <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
@@ -1237,12 +1282,10 @@ $array2 = json_decode($json2,TRUE);
                                         </button>
                                       </div>
                                     </div>
-<!-- =============================================================================================== -->
               </div>
             </div>
           </div>
-<!-- =============================================================================================== -->
-            </div>
+            </div> -->
 
 
             <!-- /#wrapper -->
