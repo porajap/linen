@@ -62,7 +62,7 @@ $array2 = json_decode($json2,TRUE);
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
 
-
+    <link href="../css/menu_custom.css" rel="stylesheet">
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
@@ -1067,9 +1067,53 @@ $array2 = json_decode($json2,TRUE);
                   </div>
               </div> <!-- tag column 1 -->
     </div>
+<!-- =============================================================================================================================== -->
+ <!-- /.content-wrapper -->
+ <div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-file-medical"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn"  onclick="AddItem()" id="bSave">
+                                    <?php echo $array['save'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-eraser"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn" onclick="Blankinput()" id="bDelete">
+                                    <?php echo $array['clear'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-trash-alt"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+                                    <?php echo $array['cancel'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+
+<!-- =============================================================================================================================== -->
+
     <!-- /.content-wrapper -->
-    <div class="row">
-              <div class="col-md-8"> <!-- tag column 1 -->
+    <div class="row mt-3 m-2">
+              <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px; margin-top:10px;">
                       <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -1079,7 +1123,7 @@ $array2 = json_decode($json2,TRUE);
                       </ul>
    <!-- =================================================================== -->
                                 <div class="row mt-4">
-                                  <div class="col-md-7">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['code'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-8 checkblank" id="HptCode"    placeholder="<?php echo $array['code'][$language]; ?>">
@@ -1088,7 +1132,7 @@ $array2 = json_decode($json2,TRUE);
                                 </div>                        
    <!-- =================================================================== -->
                                 <div class="row">
-                                  <div class="col-md-7">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-8 checkblank" id="HptName"    placeholder="<?php echo $array['hosname'][$language]; ?>">
@@ -1101,49 +1145,7 @@ $array2 = json_decode($json2,TRUE);
               </div> <!-- tag column 2 -->
               
 <!-- =============================================================================================== -->
-<div class="sidenav mhee" style=" margin-left: 200px;margin-top: 73px;">
-              <div class="" style="margin-top:5px;">
-                <div class="card-body" style="padding:0px; margin-top:10px;">
-<!-- =============================================================================================== -->
 
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="AddItem()" id="bSave">
-                                          <?php echo $array['save'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-        
-<!-- =============================================================================================== -->
-<div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="Blankinput()" id="bDelete">
-                                          <?php echo $array['clear'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-          <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity'  id="delete_icon">
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn"  onclick="CancelItem()" id="bCancel" disabled="true">
-                                          <?php echo $array['cancel'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-              </div>
-            </div>
-          </div>
-<!-- =============================================================================================== -->
     </div>
 
 
