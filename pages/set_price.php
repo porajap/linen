@@ -1129,7 +1129,7 @@ $array2 = json_decode($json2,TRUE);
                                                     <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(3);">
                                                         <?php echo $array['search_ct_sub'][$language]; ?></button> -->
 <!--  -->
-                                        <div class="search_custom col-md-2">
+                                        <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
                                               <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                                               <i class="far fa-hospital"></i>
@@ -1139,22 +1139,22 @@ $array2 = json_decode($json2,TRUE);
                                               </button>
                                             </div>
                                           </div>
-                                          <div class="search_custom col-md-2">
+                                          <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
                                               <div class="circle6 d-flex align-items-center d-flex justify-content-center">
                                               <i class="fas fa-list"></i>
                                               </div>
-                                              <button class="btn mr-3"  onclick="ShowItem1(2)" id="bSave">
+                                              <button class="btn "  onclick="ShowItem1(2)" id="bSave">
                                                   <?php echo $array['search_ct_main'][$language]; ?>
                                               </button>
                                             </div>
                                           </div>
-                                          <div class="search_custom col-md-2">
+                                          <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
                                               <div class="search_1 d-flex align-items-center d-flex justify-content-center">
                                                  <i class="fas fa-list-ol"></i>
                                               </div>
-                                              <button class="btn mr-3"  onclick="ShowItem1(3)" id="bSave">
+                                              <button class="btn "  onclick="ShowItem1(3)" id="bSave">
                                                   <?php echo $array['search_ct_sub'][$language]; ?>
                                               </button>
                                             </div>
