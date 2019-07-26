@@ -2,6 +2,7 @@
 <lang>
 
 <notfoundDoc><en>Not found Document</en><th>ไม่พบเอกสาร</th></notfoundDoc>
+<time2><en>time</en><th>เวลา</th></time2>
 <Receivetime><en>Receive time</en><th>เวลารับเอกสาร</th></Receivetime>
 <protime><en>Use time</en><th>เวลาที่ใช้</th></protime>
 <Starttime><en>Start</en><th>เวลาเริ่ม</th></Starttime>

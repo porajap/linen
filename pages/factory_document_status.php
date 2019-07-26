@@ -239,7 +239,7 @@ date_default_timezone_set("Asia/Bangkok");
                         "<td style='width: 17%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
 
                         "<td style='width: 20%;' align='left'nowrap>"+
-                        "<?php echo $array['Receivetime'][$language]; ?> : " + temp[i]['Receivetime'] + 
+                        "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] + 
                         "</td>" +
 
                         "<td style='width: 20%;' align='left'nowrap>"+
