@@ -116,7 +116,7 @@ function alert_SetPrice($conn,$DATA)
   INNER JOIN users ON users.ID = $Userid  
   INNER JOIN site ON site.HptCode = cat_P.HptCode  
   INNER JOIN contract_parties_hospital con ON con.HptCode = site.HptCode
-  WHERE cat_P.STATUS = 0
+  WHERE cat_P.STATUS = 0 AND con.IsStatus = 0
   GROUP BY
     cat_P.xDate,
     cat_P.DocNo
@@ -133,7 +133,7 @@ function alert_SetPrice($conn,$DATA)
       INNER JOIN users ON users.ID = $Userid  
       INNER JOIN site ON site.HptCode = '$HptCode'   
       INNER JOIN contract_parties_hospital con ON con.HptCode = site.HptCode
-      WHERE cat_P.HptCode = '$HptCode' AND cat_P.STATUS = 0
+      WHERE cat_P.HptCode = '$HptCode' AND cat_P.STATUS = 0 AND con.IsStatus = 0
       GROUP BY
         cat_P.xDate,
         cat_P.DocNo
