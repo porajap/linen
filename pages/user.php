@@ -581,6 +581,7 @@ $array2 = json_decode($json2,TRUE);
                                 case "nodetail":
                                     temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
                                     break;
+                                    
                             }
                             swal({
                                 title: '',
@@ -593,6 +594,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
+                                ShowItem();
 
                             }, function(dismiss) {
 
@@ -704,6 +706,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
+                                ShowItem();
 
                             }, function(dismiss) {
                                 Blankinput();
