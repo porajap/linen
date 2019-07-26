@@ -4,7 +4,7 @@ require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 require '../PHPMailer/PHPMailerAutoload.php';
 $xDate = date('Y-m-d');
-
+// 
 function OnLoadPage($conn,$DATA){
   $hptcode = $DATA['hptcode'];
 
