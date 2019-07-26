@@ -46,10 +46,10 @@ switch ($PmID) {
         $ac_s4=0;
         $ac_s5=1;
         //factory
-        $fac_head=1;
+        $fac_head=0;
         $fac_s1=0;
         $fac_s2=0;
-        $fac_s3=1;
+        $fac_s3=0;
         //report
         $re_head=0;
         $re_s1=0;
@@ -76,7 +76,7 @@ switch ($PmID) {
         $gen_s1=1;
         $gen_s2=0;
         $gen_s3=0;
-        $gen_s4=0;
+        $gen_s4=1;
         $gen_s5=0;
         $gen_s6=1;
         $gen_s7=0;
