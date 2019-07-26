@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
 
-<Starttime><en>Start : </en><th>เริ่ม : </th></Starttime>
+<notfoundDoc><en>Not found Document</en><th>ไม่พบเอกสาร</th></notfoundDoc>
+<Starttime><en>Start : </en><th>เวลาเริ่ม : </th></Starttime>
 <tFinish><en>Finish : </en><th>เสร็จสิ้น : </th></tFinish>
 <Wash><en>Wash</en><th>ซักผ้า</th></Wash>
 <packing><en>Pack</en><th>บรรจุผ้า</th></packing>
