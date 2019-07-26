@@ -1102,9 +1102,19 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="row" style="margin-left:5px;">
                                           <input type="text" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                                          
-                                          <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>
+                                          <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
+                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave"> -->
+                                          <!-- <?php echo $array['search'][$language]; ?></a> -->
+                                          <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                  <i class="fas fa-search"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowItem()" id="bSave">
+                                                  <?php echo $array['search'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
                                           
                                         </div>
                                       </div>
@@ -1141,8 +1151,8 @@ $array2 = json_decode($json2,TRUE);
                             <div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
                               <div class="menu">
                                 <div class="d-flex justify-content-center">
-                                  <div class="circle1 d-flex align-items-center d-flex justify-content-center">
-                                      <i class="fas fa-file-medical"></i>
+                                  <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-save"></i>
                                   </div>
                                 </div>
                                 <div>
@@ -1178,7 +1188,7 @@ $array2 = json_decode($json2,TRUE);
                             </div>
 
 
-                            <div class="row mt-3 m-2">
+                            <div class="row m-2">
                               <div class="col-md-12"> <!-- tag column 1 -->
                                   <div class="container-fluid">
                                     <div class="card-body" style="padding:0px; margin-top:10px;">
