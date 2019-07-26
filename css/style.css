@@ -284,7 +284,7 @@ input{
 }
 #oldpassword_div{
     position: absolute;
-    top: 193px;
+    top: 204px;
     left: 57px;
 }
 #send_email_div{
@@ -297,7 +297,7 @@ input{
     background-color: #ffffff;
     width: 140px;
     left: 44px;
-    top: 30px;
+    top: 18px;
     z-index: 999999;
     font-size: 22px;
     padding: -1px;
@@ -306,6 +306,7 @@ input{
 #label_old label{
     font-size: 30px;
     color: #4834d4;
+    height: 31px;
 }
 
 #label_email{
@@ -336,7 +337,7 @@ input{
 }
 #newpassword_div{
     position: absolute;
-    top: 276px;
+    top: 289px;
     left: 57px;
 }
 #new_label{
@@ -344,7 +345,7 @@ input{
     background-color: #ffffff;
     width: 149px;
     left: 44px;
-    top: 30px;
+    top: 18px;
     z-index: 999999;
     font-size: 22px;
     padding: -1px;
@@ -353,11 +354,12 @@ input{
 #new_label label{
     font-size: 30px;
     color: #4834d4;
+    height: 31px;
 }
 
 #confirm_div{
     position: absolute;
-    top: 360px;
+    top: 373px;
     left: 57px;
 }
 #confirm_label{
@@ -365,7 +367,7 @@ input{
     background-color: #ffffff;
     width: 181px;
     left: 44px;
-    top: 30px;
+    top: 18px;
     z-index: 999999;
     font-size: 22px;
     padding: -1px;
@@ -374,6 +376,7 @@ input{
 #confirm_label label{
     font-size: 30px;
     color: #4834d4;
+    height: 31px;
 }
 
 #back_row{
