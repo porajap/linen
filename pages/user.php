@@ -707,6 +707,7 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonText: 'Ok'
                             }).then(function() {
                                 ShowItem();
+                                Blankinput();
 
                             }, function(dismiss) {
                                 Blankinput();
