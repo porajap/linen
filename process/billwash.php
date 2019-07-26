@@ -285,7 +285,7 @@ INNER JOIN item ON item_stock.ItemCode = item.ItemCode
 INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
 LEFT JOIN item_unit AS Un2 ON item.UnitCode2 = Un2.UnitCode
-WHERE item_stock.ItemCode LIKE '%$searchitem%'
+WHERE item_stock.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%'
   GROUP BY item.ItemCode
   ORDER BY item.ItemCode ASC LImit 100";
   $return['sql'] = $Sql;

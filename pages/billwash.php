@@ -68,10 +68,6 @@ $array2 = json_decode($json2,TRUE);
   <script src="../datepicker/dist/js/datepicker.min.js"></script>
   <!-- Include English language -->
   <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
-  <!-- fontawesome new v -->
-  <!-- <link href="../fontawesome/css/fontawrsome.min.css" rel="stylesheet"/> -->
-  <link href="../css/menu_custom.css" rel="stylesheet">
-  <!-- <script src="../fontawesome/js/fontawrsome.min.js"></script> -->
 
   <script type="text/javascript">
   var summary = [];
@@ -405,6 +401,7 @@ $array2 = json_decode($json2,TRUE);
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
+            if (result.value) {
             var data = {
               'STATUS'    : 'CreateDocument',
               'hotpCode'  : hotpCode,
@@ -412,6 +409,9 @@ $array2 = json_decode($json2,TRUE);
               'userid'	: userid
             };
             senddata(JSON.stringify(data));
+          } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
           })
       }
 
@@ -678,6 +678,9 @@ $array2 = json_decode($json2,TRUE);
                         $('#TableDocument tbody:last-child').append(  $StrTr );
                       }
                     }
+
+
+
                   }else if(temp["form"]=='ShowDocument_sub'){
                     $( "#TableDocument tbody" ).empty();
                     //               $("#docno").val(temp[0]['DocNo']);
@@ -773,6 +776,8 @@ $array2 = json_decode($json2,TRUE);
                     ShowDetail();
                   }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
                     $( "#TableItemDetail tbody" ).empty();
+                    $("#total").val("0.00");
+
                     // $("#total").val(temp['TotalPrice']);
                     currencyFormat(temp['TotalPrice']);
 
@@ -813,7 +818,7 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
                       "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap>"+Weight+"</td>"+
-                      "<td style='width: 4%;'>"+UnitName2+"</td>"+
+                      "<td style='width: 4%;'>                     "+UnitName2+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
 
@@ -994,8 +999,8 @@ $array2 = json_decode($json2,TRUE);
           }
 
           </script>
-
    <style media="screen">
+
       @font-face {
           font-family: myFirstFont;
           src: url("../fonts/DB Helvethaica X.ttf");
@@ -1005,71 +1010,83 @@ $array2 = json_decode($json2,TRUE);
         font-size:22px;
       }
 
-      .nfont{
-        font-family: myFirstFont;
-        font-size:22px;
-      }
-      button,input[id^='qty'],input[id^='weight'],input[id^='price']{
-        font-size: 24px!important;
-      }
-      .table > thead > tr >th {
-        /* background: #4f88e3!important; */
-        background-color: #1659a2;
-      }
-      .table th, .table td {
-          border-top: none !important;
-      }
+    .nfont{
+      font-family: myFirstFont;
+      font-size:22px;
+    }
+    button,input[id^='qty'],input[id^='weight'],input[id^='price']{
+      font-size: 24px!important;
+    }
+    .table > thead > tr >th {
+      /* background: #4f88e3!important; */
+      background-color: #1659a2;
+    }
+    .table th, .table td {
+        border-top: none !important;
+    }
 
-      table tr th,
-      table tr td {
-        border-right: 0px solid #bbb;
-        border-bottom: 0px solid #bbb;
-        padding: 5px;
-      }
-      table tr th:first-child,
-      table tr td:first-child {
-        border-left: 0px solid #bbb;
-      }
-      table tr th {
-        background: #eee;
-        /* border-top: 0px solid #bbb; */
-        text-align: left;
-      }
-      /* top-left border-radius */
-      table tr:first-child th:first-child {
-        border-top-left-radius: 15px;
-      }
-      table tr:first-child th:first-child {
-        border-bottom-left-radius: 15px;
-      }
+    table tr th,
+    table tr td {
+      border-right: 0px solid #bbb;
+      border-bottom: 0px solid #bbb;
+      padding: 5px;
+    }
+    table tr th:first-child,
+    table tr td:first-child {
+      border-left: 0px solid #bbb;
+    }
+    table tr th {
+      background: #eee;
+      /* border-top: 0px solid #bbb; */
+      text-align: left;
+    }
+    /* top-left border-radius */
+    table tr:first-child th:first-child {
+      border-top-left-radius: 15px;
+    }
+    table tr:first-child th:first-child {
+      border-bottom-left-radius: 15px;
+    }
 
-      /* top-right border-radius */
-      table tr:first-child th:last-child {
-        border-top-right-radius: 15px;
-      }
-      table tr:first-child th:last-child {
-        border-bottom-right-radius: 15px;
-      }
+    /* top-right border-radius */
+    table tr:first-child th:last-child {
+      border-top-right-radius: 15px;
+    }
+    table tr:first-child th:last-child {
+      border-bottom-right-radius: 15px;
+    }
 
-      /* bottom-left border-radius */
-      table tr:last-child td:first-child {
-        border-bottom-left-radius: 6px;
-      }
+    /* bottom-left border-radius */
+    table tr:last-child td:first-child {
+      border-bottom-left-radius: 6px;
+    }
 
-      /* bottom-right border-radius */
-      table tr:last-child td:last-child {
-        border-bottom-right-radius: 6px;
+    /* bottom-right border-radius */
+    table tr:last-child td:last-child {
+      border-bottom-right-radius: 6px;
+    }
+    a.nav-link{
+      width:auto!important;
+    }
+    .datepicker{z-index:9999 !important}
+      .hidden{visibility: hidden;}
+      .sidenav {
+      height: 100%;
+      overflow-x: hidden;
+      /* padding-top: 20px; */
+      border-left: 2px solid #bdc3c7;
+    }
+      .mhee a{
+        /* padding: 6px 8px 6px 16px; */
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
       }
-      a.nav-link{
-        width:auto!important;
-      }
-      .datepicker{z-index:9999 !important}
-        .hidden{visibility: hidden;}
-        .sidenav {
-        height: 100%;
-        overflow-x: hidden;
-        /* padding-top: 20px; */
-        border-left: 2px solid #bdc3c7;
+      .mhee a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
       }
       .sidenav a {
         padding: 6px 8px 6px 16px;
@@ -1078,58 +1095,45 @@ $array2 = json_decode($json2,TRUE);
         color: #818181;
         display: block;
       }
-      .mhee a{
-          /* padding: 6px 8px 6px 16px; */
-          text-decoration: none;
-          font-size: 25px;
-          color: #818181;
-          display: block;
-        }
-      .mhee a:hover {
-        color: #2c3e50;
-        font-weight:bold;
-        font-size:26px;
-      }
       .mhee button{
-        /* padding: 6px 8px 6px 16px; */
-        text-decoration: none;
-        font-size: 23px;
-        color: #2c3e50;
-        display: block;
-        background: none;
-        box-shadow:none !important;
-
+            /* padding: 6px 8px 6px 16px; */
+            text-decoration: none;
+            font-size: 23px;
+            color: #818181;
+            display: block;
+            }
+            .mhee button:hover {
+            color: #2c3e50;
+            font-weight:bold;
+            font-size:26px;
         }
-        .mhee button:hover {
-        color: #2c3e50;
-        font-weight:bold;
-        font-size:26px;
-        transition: width 2s, height 4s;
-      }
       .sidenav a:hover {
         color: #2c3e50;
         font-weight:bold;
         font-size:26px;
       }
-
-
-      @media (min-width: 992px) and (max-width: 1199.98px) { 
-
-        .icon{
+      .icon{
           padding-top: 6px;
-          padding-left: 23px;
+          padding-left: 42px;
         }
-        .sidenav a {
-          font-size: 20px;
+        @media (min-width: 992px) and (max-width: 1199.98px) { 
 
+          .icon{
+            padding-top: 6px;
+            padding-left: 23px;
+          }
+          .sidenav a {
+            font-size: 20px;
+
+          }
         }
-      }
   </style>
-</head>
+        </head>
 
-<body id="page-top">
+        <body id="page-top">
           <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
           <ol class="breadcrumb">
+  
   <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['account']['title'][$language]; ?></a></li>
   <li class="breadcrumb-item active"><?php echo $array2['menu']['account']['sub'][2][$language]; ?></li>
 </ol>
@@ -1213,146 +1217,14 @@ $array2 = json_decode($json2,TRUE);
                           </div> <!-- tag column 1 -->
                           <div class="col-md-3"> <!-- tag column 2 -->
                             <div class='row' style='margin-left:2px;'>
-                              <input class='form-control'  style="margin-left:-48px;margin-top:10px;font-size:60px;width:100%;height:162px;text-align:right;padding-top: 15px;" id='total' placeholder="0.00" >
+                              <input class='form-control'  style="margin-left:-48px;margin-top:10px;font-size:60px;width:100%;height:162px;text-align:right;padding-top: 15px;" id='total' placeholder="0.00" readonly>
                             </div>
 
                           </div> <!-- tag column 2 -->
                         </div>
-                        <!-- --------------------------------------------------------------------- -->
-                          <div class="row m-1 mt-4 d-flex justify-content-end mhee" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="menu">
-                              <div class="d-flex justify-content-center">
-                                <div class="circle1 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-file-medical"></i>
-                                </div>
-                                <!-- <img src="../img/icon/ic_create.png"> -->
-                              </div>
-                              <div>
-                                <button class="btn" onclick="CreateDocument()" id="bCreate">
-                                  <?php echo $array['createdocno'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu">
-                              <div class="d-flex justify-content-center">
-                                <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-file-import"></i>
-                                </div>
-                                <!-- <img src="../img/icon/ic_import.png"> -->
-                              </div>
-                              <div>
-                                <button class="btn" onclick="OpenDialogItem()" id="bImport">
-                                  <?php echo $array['import'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu">
-                              <div class="d-flex justify-content-center">
-                                <div class="circle3 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-trash-alt"></i>
-                                </div>
-                                <!-- <img src="../img/icon/ic_delete.png"> -->
-                              </div>
-                              <div>
-                                <button class="btn" onclick="DeleteItem()" id="bDelete">
-                                  <?php echo $array['delitem'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu">
-                              <div class="d-flex justify-content-center">
-                                <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-save"></i>
-                                </div>
-                                <!-- <img src="../img/icon/ic_save.png"> -->
-                              </div>
-                              <div>
-                                <button class="btn" onclick="SaveBill()" id="bSave">
-                                  <?php echo $array['save'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu">
-                              <div class="d-flex justify-content-center">
-                                <div class="circle5 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-times"></i>
-                                </div>
-                                <!-- <img src="../img/icon/ic_cancel.png"> -->
-                              </div>
-                              <div>
-                                <button class="btn" onclick="CancelBill()" id="bCancel">
-                                  <?php echo $array['cancel'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu">
-                              <div class="d-flex justify-content-center">
-                                <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-print"></i>
-                                </div>
-                                <!-- <img src="../img/icon/ic_print.png" > -->
-                              </div>
-                              <div>
-                                <button class="btn" onclick="PrintData()" id="bPrint">
-                                  <?php echo $array['print'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
 
-                          <!-- <div class="row m-1 mt-4 mhee" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="menu mr-4">
-                              <div class="input-group-prepend">
-                                <img src="../img/icon/ic_create.png">
-                                <button class="btn" onclick="CreateDocument()" id="bCreate">
-                                  <?php echo $array['createdocno'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu  mr-4">
-                              <div class="input-group-prepend">
-                                <img src="../img/icon/ic_import.png">
-                                <button class="btn" onclick="OpenDialogItem()" id="bImport">
-                                  <?php echo $array['import'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu  mr-4">
-                              <div class="input-group-prepend">
-                                <img src="../img/icon/ic_delete.png">
-                                <button class="btn" onclick="DeleteItem()" id="bDelete">
-                                  <?php echo $array['delitem'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu  mr-4">
-                              <div class="input-group-prepend">
-                                <img src="../img/icon/ic_save.png">
-                                <button class="btn" onclick="SaveBill()" id="bSave">
-                                  <?php echo $array['save'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu  mr-4">
-                              <div class="input-group-prepend">
-                                <img src="../img/icon/ic_cancel.png">
-                                <button class="btn" onclick="CancelBill()" id="bCancel">
-                                  <?php echo $array['cancel'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="menu  mr-4">
-                              <div class="input-group-prepend">
-                                <img src="../img/icon/ic_print.png" >
-                                <button class="btn" onclick="PrintData()" id="bPrint">
-                                  <?php echo $array['print'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                          </div> -->
-                        <!-- --------------------------------------------------------------------- -->
                         <div class="row">
-                          <div class="col-md-12"> <!-- tag column 1 -->
+                          <div class="col-md-10"> <!-- tag column 1 -->
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" style="">
                               <thead id="theadsum" style="font-size:24px;">
                                 <tr role="row">
@@ -1370,10 +1242,10 @@ $array2 = json_decode($json2,TRUE);
                               </tbody>
                             </table>
                           </div> <!-- tag column 1 -->
-                          <!-- =============================================================================================== -->
-                            <div class="col-md-2" <?php if($PmID == 1) echo 'hidden'; ?>>  <!-- tag column 2 -->
+  <!-- =============================================================================================== -->
+  <div class="col-md-2" <?php if($PmID == 1) echo 'hidden'; ?>>  <!-- tag column 2 -->
                             <!-- button----------------------------------------- -->
-                              <!-- <div class="sidenav">
+                              <div class="sidenav">
                                 <div class="" style="margin-top:5px;">
                                   <div class="card-body" style="padding:0px; margin-top:10px;">
                                     <div class="row" style="margin-top:0px;">
@@ -1445,7 +1317,7 @@ $array2 = json_decode($json2,TRUE);
                               
                                   </div>
                                 </div>
-                              </div> -->
+                              </div>
                             <!-- end button----------------------------------------- -->
                           </div>
                         </div>
