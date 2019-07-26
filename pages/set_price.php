@@ -414,6 +414,8 @@ $array2 = json_decode($json2,TRUE);
                 closeOnConfirm: false,
                 closeOnCancel: false,
                 showCancelButton: true}).then(result => {
+                    if (result.value) {
+
                     swal({
                         title: "<?php echo $array['savedoc'][$language]; ?>",
                         text: DocNo + " <?php echo $array['success'][$language]; ?>",
@@ -431,7 +433,11 @@ $array2 = json_decode($json2,TRUE);
                             'Price'	: Price
                         };
                         senddata(JSON.stringify(data));
+
                     }, 1000);
+                } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
                 });
         }
 
@@ -469,6 +475,8 @@ $array2 = json_decode($json2,TRUE);
                 closeOnCancel: false,
                 showCancelButton: true
             }).then(result => {
+                if (result.value) {
+
                 var data = {
                     'STATUS': 'UpdatePrice',
                     'DocNo': DocNo,
@@ -478,6 +486,9 @@ $array2 = json_decode($json2,TRUE);
                 };
                 // console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
+            } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
             })
 
         }
@@ -528,6 +539,8 @@ $array2 = json_decode($json2,TRUE);
                 closeOnCancel: false,
                 showCancelButton: true
             }).then(result => {
+                if (result.value) {
+
                 swal({
                     title: "<?php echo $array['canceldata'][$language]; ?>",
                     text: " <?php echo $array['success'][$language]; ?>",
@@ -546,7 +559,9 @@ $array2 = json_decode($json2,TRUE);
                     senddata(JSON.stringify(data));
                     getSearchDocNo();
                 }, 1000);
-                
+            } else if (result.dismiss === 'cancel') {
+            swal.close();
+          } 
             })
         }
 

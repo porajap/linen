@@ -51,12 +51,15 @@ $array2 = json_decode($json2,TRUE);
         confirmButtonText: '<?php echo $array['yes'][$language]; ?>',
         cancelButtonText: '<?php echo $array['isno'][$language]; ?>'
         }).then((result) => {
+            if (result.value) {
+
             var data = {
                 'STATUS' : 'SETLANG',
                 'lang' : lang,
                 'UserID' : <?php echo $Id ?>
             }
             senddata(JSON.stringify(data));
+
             swal({
             title: "<?php echo $array['success'][$language]; ?>",
                 type: "success",
@@ -68,6 +71,9 @@ $array2 = json_decode($json2,TRUE);
             setTimeout(function () {
                 parent.location.reload();
             }, 1000);
+        } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
         })
         
         if(lang == "th"){
@@ -91,6 +97,8 @@ $array2 = json_decode($json2,TRUE);
             confirmButtonText: '<?php echo $array['yes'][$language]; ?>',
             cancelButtonText: '<?php echo $array['isno'][$language]; ?>'
             }).then((result) => {
+                if (result.value) {
+
             if(timeout!=0 && timeout!='' && timeout != null){
                 parent.redirectInSecond = timeout;
                 parent.target = parent.redirectInSecond * 1000;
@@ -102,6 +110,7 @@ $array2 = json_decode($json2,TRUE);
                 };
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
+           
             }else{
                 swal({
                     type: 'warning',
@@ -109,6 +118,9 @@ $array2 = json_decode($json2,TRUE);
                     text: 'Please recheck your Time out!'
                 })
             }
+        } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
         })
 
         }
@@ -368,8 +380,8 @@ $array2 = json_decode($json2,TRUE);
                             </select>
                         </div>
                     </div>
-                    <div  class="d-flex justify-content-center mt-5" onclick="switchlang()">
-                        <button class="btn btn_customer"><?php echo $array['save'][$language]; ?></button>
+                    <div  class="d-flex justify-content-center mt-5" >
+                        <button class="btn btn_customer" onclick="switchlang()"><?php echo $array['save'][$language]; ?></button>
                     </div>
                 </div>
             </div>

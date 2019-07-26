@@ -369,6 +369,8 @@ $array2 = json_decode($json2,TRUE);
               closeOnConfirm: false,
               closeOnCancel: false,
               showCancelButton: true}).then(result => {
+                if (result.value) {
+
                 var data = {
                   'STATUS' : 'AddItem',
                   'CategoryCode' : CategoryCode,
@@ -377,6 +379,9 @@ $array2 = json_decode($json2,TRUE);
 
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
+              } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
               })
 
           }else{
@@ -393,6 +398,8 @@ $array2 = json_decode($json2,TRUE);
               closeOnConfirm: false,
               closeOnCancel: false,
               showCancelButton: true}).then(result => {
+                if (result.value) {
+
                 var data = {
                   'STATUS' : 'EditItem',
                   'CategoryCode' : CategoryCode,
@@ -401,6 +408,9 @@ $array2 = json_decode($json2,TRUE);
 
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
+              } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
               })
 
           }
@@ -440,6 +450,8 @@ $array2 = json_decode($json2,TRUE);
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
+            if (result.value) {
+
             var CategoryCode = $('#CategoryCode').val();
             var data = {
               'STATUS' : 'CancelItem',
@@ -447,6 +459,9 @@ $array2 = json_decode($json2,TRUE);
             }
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
+          } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
           })
       }
 
@@ -666,6 +681,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                               }).then(function() {
+                                ShowItem();
 
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
@@ -689,6 +705,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                               }).then(function() {
+                                ShowItem();
 
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
@@ -712,7 +729,8 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                               }).then(function() {
-
+                                ShowItem();
+                                Blankinput();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                   $(this).val("");
