@@ -236,23 +236,27 @@ date_default_timezone_set("Asia/Bangkok");
                 for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                   var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
                         "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
-                        "<td style='width: 16%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+                        "<td style='width: 17%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
 
-                        "<td style='width: 27%;' align='left'nowrap>"+
+                        "<td style='width: 20%;' align='left'nowrap>"+
+                        "<?php echo $array['Receivetime'][$language]; ?> : " + temp[i]['Receivetime'] + 
+                        "</td>" +
+
+                        "<td style='width: 20%;' align='left'nowrap>"+
                         "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] + 
                         "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['WashStartTime'] + 
                         "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['WashEndTime']+
                         "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['WashDiff'] + 
                         "</td>" +
 
-                        "<td style='width: 27%;' align='left'nowrap>"+
+                        "<td style='width: 20%;' align='left'nowrap>"+
                         "<?php echo $array['date'][$language]; ?> : " + temp[i]['Pack'] + 
                         "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['PackStartTime'] + 
                         "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['PackEndTime']+
                         "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['PackDiff'] + 
                         "</td>" +
 
-                        "<td style='width: 27%;' align='left'nowrap>"+
+                        "<td style='width: 20%;' align='left'nowrap>"+
                         "<?php echo $array['date'][$language]; ?> : " + temp[i]['Send'] + 
                         "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['SendStartTime'] + 
                         "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['SendEndTime']+
@@ -496,10 +500,11 @@ date_default_timezone_set("Asia/Bangkok");
                   <thead id="theadsum" style="font-size:24px;">
                     <tr role="row">
                       <th style='width: 3%;' nowrap>&nbsp;</th>
-                      <th style='width: 22%;' nowrap><?php echo $array['docno'][$language]; ?></th>
-                      <th style='width: 25%;' nowrap><?php echo $array['Wash'][$language]; ?></th>
-                      <th style='width: 25%;' nowrap><?php echo $array['packing'][$language]; ?></th>
-                      <th style='width: 25%;' nowrap><?php echo $array['shipping'][$language]; ?></th>
+                      <th style='width: 17%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['Receivetime'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['Wash'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['packing'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['shipping'][$language]; ?></th>
                     </tr>
                   </thead>
                   <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
