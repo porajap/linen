@@ -75,8 +75,8 @@ date_default_timezone_set("Asia/Bangkok");
     var summary = [];
     var xItemcode;
     $(document).ready(function(e) {
-      OnLoadPage();
       $("#datepicker1").val("<?php echo date("d/m/Y"); ?>");
+      OnLoadPage();
     }).mousemove(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -144,16 +144,18 @@ date_default_timezone_set("Asia/Bangkok");
     //======= On create =======
     //console.log(JSON.stringify(data));
     function OnLoadPage() {
-      get_hospital()
+      get_hospital();
+      get_dirty_doc();
     }
 
     function get_dirty_doc() {
-      var docno = $("#docno").val();
+      var docno = $("#searchdocument").val();
       var hpt = $("#hospital").val();
       var dep = $("#department").val();
       var date = $("#datepicker1").val();
       var dateArray = date.split("/");
       date = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+      $("#tbody").empty();
       var data = {
         'STATUS': 'get_dirty_doc',
         'DocNo': docno,
@@ -231,17 +233,37 @@ date_default_timezone_set("Asia/Bangkok");
 
           if (temp["status"] == 'success') {
             if (temp["form"] == 'get_dirty_doc') {
-              $("#tbody").empty();
-              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
-                      "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
-                      "<td style='width: 16%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
-                      "<td style='width: 27%;' align='left'nowrap><?php echo $array['Starttime'][$language]; ?>" + temp[i]['DocNo'] + "<br><?php echo $array['Starttime'][$language]; ?>"+temp[i]['DocNo']+"</td>" +
-                      "<td style='width: 27%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
-                      "<td style='width: 27%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
-                      "</tr>";
-                $("#tbody").append(StrTR);
-                
+                for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                  var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
+                        "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
+                        "<td style='width: 17%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+
+                        "<td style='width: 20%;' align='left'nowrap>"+
+                        "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] + 
+                        "</td>" +
+
+                        "<td style='width: 20%;' align='left'nowrap>"+
+                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] + 
+                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['WashStartTime'] + 
+                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['WashEndTime']+
+                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['WashDiff'] + 
+                        "</td>" +
+
+                        "<td style='width: 20%;' align='left'nowrap>"+
+                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Pack'] + 
+                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['PackStartTime'] + 
+                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['PackEndTime']+
+                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['PackDiff'] + 
+                        "</td>" +
+
+                        "<td style='width: 20%;' align='left'nowrap>"+
+                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Send'] + 
+                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['SendStartTime'] + 
+                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['SendEndTime']+
+                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['SendDiff'] + 
+                        "</td>" +
+                        "</tr>";
+                  $("#tbody").append(StrTR);
               }
             } else if (temp["form"] == 'get_hospital') {
               $("#hospital").empty();
@@ -264,8 +286,8 @@ date_default_timezone_set("Asia/Bangkok");
 
           } else if (temp['status'] == "failed") {
             switch (temp['msg']) {
-              case "notchosen":
-                temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+              case "notfound":
+                temp['msg'] = "<?php echo $array['notfoundDoc'][$language]; ?>";
                 break;
             }
             swal({
@@ -430,7 +452,7 @@ date_default_timezone_set("Asia/Bangkok");
 </head>
 
 <body id="page-top">
-  <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
+  <input class='form-control' type="hidden" style="margin:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['xfactory']['title'][$language]; ?></a></li>
     <li class="breadcrumb-item active"><?php echo $array2['menu']['xfactory']['sub'][2][$language]; ?></li>
@@ -439,12 +461,11 @@ date_default_timezone_set("Asia/Bangkok");
     <div id="content-wrapper">
       <div class="row">
         <!-- start row tab -->
-        <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
-          <div class="tab-content" id="myTabContent">
-            <div class="row" style="margin-top:10px;">
+        <div class="col-md-12" style='padding-left: 26px;'>
+            <div class="row">
               <div class="col-md-2">
                 <div class="row" style="font-size:24px;margin-left:2px;">
-                  <input type="text" class="form-control datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy'>
+                  <input type="text" style='font-size:24px;' class="form-control datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy'>
                 </div>
               </div>
               <div class="col-md-3">
@@ -471,17 +492,18 @@ date_default_timezone_set("Asia/Bangkok");
               </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="margin-right:10px;">
               <div class="col-md-12">
                 <!-- tag column 1 -->
                 <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
                   <thead id="theadsum" style="font-size:24px;">
                     <tr role="row">
                       <th style='width: 3%;' nowrap>&nbsp;</th>
-                      <th style='width: 22%;' nowrap><?php echo $array['docno'][$language]; ?></th>
-                      <th style='width: 25%;' nowrap><?php echo $array['Wash'][$language]; ?></th>
-                      <th style='width: 25%;' nowrap><?php echo $array['packing'][$language]; ?></th>
-                      <th style='width: 25%;' nowrap><?php echo $array['shipping'][$language]; ?></th>
+                      <th style='width: 17%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['Receivetime'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['Wash'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['packing'][$language]; ?></th>
+                      <th style='width: 20%;' nowrap><?php echo $array['shipping'][$language]; ?></th>
                     </tr>
                   </thead>
                   <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
@@ -489,7 +511,6 @@ date_default_timezone_set("Asia/Bangkok");
                 </table>
               </div> <!-- tag column 1 -->
             </div>
-          </div> <!-- end row tab -->
         </div>
       </div>
     </div>

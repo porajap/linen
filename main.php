@@ -76,7 +76,7 @@ switch ($PmID) {
         $gen_s1=1;
         $gen_s2=0;
         $gen_s3=0;
-        $gen_s4=0;
+        $gen_s4=1;
         $gen_s5=0;
         $gen_s6=1;
         $gen_s7=0;

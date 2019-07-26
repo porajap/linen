@@ -616,7 +616,7 @@ function ShowDetail($conn, $DATA)
               $INQuery = mysqli_query($conn, $insert);
               // ============================================================
       }else{
-        $cal = $Price1 / $Multiply2;
+        $cal = $Price2 / $Multiply2;
         for ($i = 0; $i < $Qty; $i++) {
             $total = $total + $cal;
         }

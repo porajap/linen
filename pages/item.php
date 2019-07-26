@@ -430,24 +430,26 @@ $array2 = json_decode($json2, TRUE);
             closeOnCancel: false,
             showCancelButton: true
           }).then(result => {
-            var data = {
-              'STATUS': 'AddItem',
-              'Catagory': Catagory,
-              'ItemCode': ItemCode,
-              'ItemName': ItemName,
-              'CusPrice': CusPrice,
-              'FacPrice': FacPrice,
-              'UnitName': UnitName,
-              'SizeCode': SizeCode,
-              'Weight': Weight,
-              'qpu': qpu,
-              'sUnit': sUnit
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
+            if (result.value) {
+              var data = {
+                'STATUS': 'AddItem',
+                'Catagory': Catagory,
+                'ItemCode': ItemCode,
+                'ItemName': ItemName,
+                'CusPrice': CusPrice,
+                'FacPrice': FacPrice,
+                'UnitName': UnitName,
+                'SizeCode': SizeCode,
+                'Weight': Weight,
+                'qpu': qpu,
+                'sUnit': sUnit
+              };
+              console.log(JSON.stringify(data));
+              senddata(JSON.stringify(data));
+            } else if (result.dismiss == 'cancel') {
+              swal.close();
+            }
           })
-
         }
       } else {
         swal({
@@ -516,22 +518,25 @@ $array2 = json_decode($json2, TRUE);
               closeOnCancel: false,
               showCancelButton: true
             }).then(result => {
-              var data = {
-                'STATUS': 'NewItem',
-                'Catagory': Catagory,
-                'ItemCode': ItemCode,
-                'ItemName': ItemName,
-                'CusPrice': CusPrice,
-                'FacPrice': FacPrice,
-                'UnitName': UnitName,
-                'SizeCode': SizeCode,
-                'Weight': Weight,
-                'qpu': qpu,
-                'sUnit': sUnit
-              };
+              if (result.value) {
+                var data = {
+                  'STATUS': 'NewItem',
+                  'Catagory': Catagory,
+                  'ItemCode': ItemCode,
+                  'ItemName': ItemName,
+                  'CusPrice': CusPrice,
+                  'FacPrice': FacPrice,
+                  'UnitName': UnitName,
+                  'SizeCode': SizeCode,
+                  'Weight': Weight,
+                  'qpu': qpu,
+                  'sUnit': sUnit
+                };
+                senddata(JSON.stringify(data));
+              } else if (result.dismiss == 'cancel') {
+                swal.close();
+              }
 
-              console.log(JSON.stringify(data));
-              senddata(JSON.stringify(data));
             })
           } else {
             swal({
@@ -663,12 +668,17 @@ $array2 = json_decode($json2, TRUE);
         showCancelButton: true
       }).then(result => {
         var ItemCode = $('#ItemCode').val();
-        var data = {
+
+        if (result.value) {
+          var data = {
           'STATUS': 'CancelItem',
           'ItemCode': itemcode
+          };
+          senddata(JSON.stringify(data));
+        } else if (result.dismiss == 'cancel') {
+          swal.close();
         }
-        console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
+
       })
       $('#NewItem').show();
       $('#AddItemBNT').hide();
@@ -754,12 +764,17 @@ $array2 = json_decode($json2, TRUE);
         showCancelButton: true
       }).then(result => {
         var ItemCode = $('#ItemCode').val();
-        var data = {
+
+        if (result.value) {
+          var data = {
           'STATUS': 'DeleteUnit',
           'RowID': RowID
+          }
+          senddata(JSON.stringify(data));
+          getdetail(ItemCode);
+        } else if (result.dismiss == 'cancel') {
+          swal.close();
         }
-        console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
       })
     }
 
@@ -1143,16 +1158,16 @@ $array2 = json_decode($json2, TRUE);
                 timer: 2000,
                 confirmButtonText: 'Ok'
               });
-              setTimeout(function () {
+              setTimeout(function() {
                 Blankinput();
                 ShowItem();
               }, 2000);
 
             } else if ((temp["form"] == 'AddUnit')) {
               var itemcode = $('#ItemCode').val();
-                getdetail(itemcode);
-                $('#subUnit').val("1");
-                $('#mulinput').val("");
+              getdetail(itemcode);
+              $('#subUnit').val("1");
+              $('#mulinput').val("");
               switch (temp['msg']) {
                 case "notchosen":
                   temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -1308,7 +1323,7 @@ $array2 = json_decode($json2, TRUE);
                 timer: 2000,
                 confirmButtonText: 'Ok'
               });
-              setTimeout(function () {
+              setTimeout(function() {
                 Blankinput();
                 ShowItem();
               }, 2000);
