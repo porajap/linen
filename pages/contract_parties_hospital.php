@@ -635,8 +635,8 @@ body{
                             </div>
                             <div class="menu">
                               <div class="d-flex justify-content-center">
-                                <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-file-import"></i>
+                                <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                    <i class="fas fa-eraser"></i>
                                 </div>
                               </div>
                               <div>
