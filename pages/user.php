@@ -42,7 +42,7 @@ $array2 = json_decode($json2,TRUE);
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
     <link href="../bootstrap/css/myinput.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="../dropify/dist/css/dropify.min.css">
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
@@ -63,7 +63,7 @@ $array2 = json_decode($json2,TRUE);
     <link href="../dist/css/sweetalert2.css" rel="stylesheet">
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
-
+    <script src="../dropify/dist/js/dropify.min.js"></script>
 
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
@@ -98,6 +98,8 @@ $array2 = json_decode($json2,TRUE);
             $('.charonly').on('input', function() {
                 this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
             });
+
+            $('.dropify').dropify();
 
         }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
@@ -1165,8 +1167,8 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['email'][$language]; ?></label>
-                                    <input type="email"  class="form-control col-sm-8 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
+                                        <select  class="form-control col-sm-8 " id="factory"></select>
                                     </div>
                                   </div>
                                 </div>   
@@ -1174,18 +1176,24 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['activemail'][$language]; ?></label>
-                                    <input type="checkbox"  id="xemail"  >
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['email'][$language]; ?></label>
+                                        <input type="email"  class="form-control col-sm-8 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
-                                    <select  class="form-control col-sm-8 " id="factory"></select>
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['activemail'][$language]; ?></label>
+                                        <input type="checkbox"  id="xemail"  >
                                     </div>
                                   </div>
                                 </div>      
 <!-- =================================================================== -->  
+                                <!-- <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
+                                        <input type="file"  class="form-control col-sm-8 dropify" />
+                                    </div>
+                                </div> -->
 
                         </div>
                     </div>
