@@ -69,9 +69,9 @@ $array2 = json_decode($json2,TRUE);
   <!-- Include English language -->
   <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
   <!-- fontawesome new v -->
-  <link href="../fontawesome/css/fontawrsome.min.css" rel="stylesheet">
+  <!-- <link href="../fontawesome/css/fontawrsome.min.css" rel="stylesheet"/> -->
   <link href="../css/menu_custom.css" rel="stylesheet">
-  <script src="../fontawesome/js/fontawrsome.min.js"></script>
+  <!-- <script src="../fontawesome/js/fontawrsome.min.js"></script> -->
 
   <script type="text/javascript">
   var summary = [];
@@ -813,7 +813,7 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
                       "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap>"+Weight+"</td>"+
-                      "<td style='width: 4%;'>                     "+UnitName2+"</td>"+
+                      "<td style='width: 4%;'>"+UnitName2+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
 
