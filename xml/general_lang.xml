@@ -2,8 +2,10 @@
 <lang>
 
 <notfoundDoc><en>Not found Document</en><th>ไม่พบเอกสาร</th></notfoundDoc>
-<Starttime><en>Start : </en><th>เวลาเริ่ม : </th></Starttime>
-<tFinish><en>Finish : </en><th>เสร็จสิ้น : </th></tFinish>
+<duration><en>Duration</en><th>ช่วงเวลา</th></duration>
+<protime><en>Use time</en><th>เวลาที่ใช้</th></protime>
+<Starttime><en>Start</en><th>เวลาเริ่ม</th></Starttime>
+<tFinish><en>Finish</en><th>เสร็จสิ้น</th></tFinish>
 <Wash><en>Wash</en><th>ซักผ้า</th></Wash>
 <packing><en>Pack</en><th>บรรจุผ้า</th></packing>
 <shipping><en>Shipping</en><th>ขนส่ง</th></shipping>

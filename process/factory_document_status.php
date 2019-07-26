@@ -69,7 +69,7 @@ function get_dirty_doc($conn, $DATA)
     $hpt = $DATA['hpt'];
     $dep = $DATA['dep'];
     $date = $DATA['date'];
-    if ($hpt == "All") {
+    if ($hpt == "All" || $hpt == null) {
         $Sql = "SELECT process.DocNo,DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
         DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
         DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
@@ -114,7 +114,7 @@ function get_dirty_doc($conn, $DATA)
         DATE_FORMAT(PackStartTime, '%T') AS PackStartTime,
         DATE_FORMAT(PackEndTime, '%T') AS PackEndTime,
         TIMEDIFF(PackEndTime,PackStartTime) AS PackDiff,
-        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Send,
+        DATE_FORMAT(SendStartTime, '%d/%M/%Y') AS Send,
         DATE_FORMAT(SendStartTime, '%T') AS SendStartTime,
         DATE_FORMAT(SendEndTime, '%T') AS SendEndTime,
         TIMEDIFF(SendEndTime,SendStartTime) AS sendDiff
@@ -129,13 +129,20 @@ function get_dirty_doc($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $return[$count]['DocNo'] = $Result['DocNo'];
+        $return[$count]['Wash'] = $Result['Wash'];
+        $return[$count]['WashDiff'] = $Result['WashDiff'];
         $return[$count]['WashStartTime'] = $Result['WashStartTime'];
         $return[$count]['WashEndTime'] = $Result['WashEndTime'];
+        
+        $return[$count]['Pack'] = $Result['Pack'];
+        $return[$count]['PackDiff'] = $Result['PackDiff'];
         $return[$count]['PackStartTime'] = $Result['PackStartTime'];
         $return[$count]['PackEndTime'] = $Result['PackEndTime'];
+        
+        $return[$count]['Send'] = $Result['Send'];
+        $return[$count]['SendDiff'] = $Result['sendDiff'];
         $return[$count]['SendStartTime'] = $Result['SendStartTime'];
         $return[$count]['SendEndTime'] = $Result['SendEndTime'];
-        $return[$count]['Signature'] = $Result['Signature'];
         $count++;
     }
 
