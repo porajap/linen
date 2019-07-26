@@ -62,7 +62,7 @@ $array2 = json_decode($json2,TRUE);
     <script type="text/javascript">
         jqui = jQuery.noConflict(true);
     </script>
-
+    <link href="../css/menu_custom.css" rel="stylesheet">
     <link href="../dist/css/sweetalert2.css" rel="stylesheet">
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
@@ -1128,9 +1128,38 @@ $array2 = json_decode($json2,TRUE);
                                                         <?php echo $array['search_ct_main'][$language]; ?></button>
                                                     <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(3);">
                                                         <?php echo $array['search_ct_sub'][$language]; ?></button> -->
-                                                        <a href="javascript:void(0)" onclick="ShowItem1(1);" class="mr-3"><img src="../img/icon/location.png" style='width:30px;' class="mr-1"><?php echo $array['search_hp'][$language]; ?></a>
-                                                        <a href="javascript:void(0)"onclick="ShowItem1(2);" class="mr-3"><img src="../img/icon/list1.png" style='width:30px;' class="mr-1"><?php echo $array['search_ct_main'][$language]; ?></a>
-                                                        <a href="javascript:void(0)"onclick="ShowItem1(3);" ><img src="../img/icon/list2.png" style='width:30px;' class="mr-1"><?php echo $array['search_ct_sub'][$language]; ?></a>
+
+                                        <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="far fa-hospital"></i>
+                                              </div>
+                                              <button class="btn mr-3"  onclick="ShowItem1(1)" id="bSave">
+                                                  <?php echo $array['search_hp'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="fas fa-list"></i>
+                                              </div>
+                                              <button class="btn mr-3"  onclick="ShowItem1(2)" id="bSave">
+                                                  <?php echo $array['search_ct_main'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                 <i class="fas fa-list-ol"></i>
+                                              </div>
+                                              <button class="btn mr-3"  onclick="ShowItem1(3)" id="bSave">
+                                                  <?php echo $array['search_ct_sub'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                                        <!-- <a href="javascript:void(0)"onclick="ShowItem1(3);" ><img src="../img/icon/list2.png" style='width:30px;' class="mr-1"><?php echo $array['search_ct_sub'][$language]; ?></a> -->
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
