@@ -21,7 +21,7 @@ $json = json_encode($xml);
 $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
-
+date_default_timezone_set("Asia/Bangkok");
 
 ?>
 
@@ -76,24 +76,7 @@ $array2 = json_decode($json2, TRUE);
     var xItemcode;
     $(document).ready(function(e) {
       OnLoadPage();
-      //==============================
-      $('.TagImage').bind('click', {
-        imgId: $(this).attr('id')
-      }, function(evt) {
-        alert(evt.imgId);
-      });
-      //On create
-      var userid = '<?php echo $Userid; ?>';
-      if (userid != "" && userid != null && userid != undefined) {
-        var dept = '<?php echo $_SESSION['Deptid']; ?>';
-        var data = {
-          'STATUS': 'getDocument',
-          'DEPT': dept
-        };
-
-        // console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
-      }
+      $("#datepicker1").val("<?php echo date("d/m/Y"); ?>");
     }).mousemove(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -166,9 +149,17 @@ $array2 = json_decode($json2, TRUE);
 
     function get_dirty_doc() {
       var docno = $("#docno").val();
+      var hpt = $("#hospital").val();
+      var dep = $("#department").val();
+      var date = $("#datepicker1").val();
+      var dateArray = date.split("/");
+      date = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
       var data = {
         'STATUS': 'get_dirty_doc',
-        'DocNo': docno
+        'DocNo': docno,
+        'hpt': hpt,
+        'date': date,
+        'dep': dep
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -240,12 +231,18 @@ $array2 = json_decode($json2, TRUE);
 
           if (temp["status"] == 'success') {
             if (temp["form"] == 'get_dirty_doc') {
-              // $("#department").empty();
-              // $("#Dep2").empty();
-              // for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-              //   var Str = "<option value=" + temp[i]['HospitalCode'] + ">" + temp[i]['HospitalName'] + "</option>";
-              //   $("#TableDocument").append(Str);
-              // }
+              $("#tbody").empty();
+              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
+                      "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
+                      "<td style='width: 16%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+                      "<td style='width: 27%;' align='left'nowrap><?php echo $array['Starttime'][$language]; ?>" + temp[i]['DocNo'] + "<br><?php echo $array['Starttime'][$language]; ?>"+temp[i]['DocNo']+"</td>" +
+                      "<td style='width: 27%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+                      "<td style='width: 27%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+                      "</tr>";
+                $("#tbody").append(StrTR);
+                
+              }
             } else if (temp["form"] == 'get_hospital') {
               $("#hospital").empty();
               var Str = "<option value='All'><?php echo $array['Allside'][$language]; ?></option>";
@@ -480,14 +477,11 @@ $array2 = json_decode($json2, TRUE);
                 <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
                   <thead id="theadsum" style="font-size:24px;">
                     <tr role="row">
-                      <th style='width: 10%;' nowrap>&nbsp;</th>
-                      <th style='width: 15%;' nowrap><?php echo $array['docdate'][$language]; ?></th>
-                      <th style='width: 15%;' nowrap><?php echo $array['docno'][$language]; ?></th>
-                      <th style='width: 15%;' nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                      <th style='width: 15%;' nowrap><?php echo $array['employee'][$language]; ?></th>
-                      <th style='width: 10%;' nowrap><?php echo $array['time'][$language]; ?></th>
-                      <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
-                      <th style='width: 10%;' nowrap><?php echo $array['status'][$language]; ?></th>
+                      <th style='width: 3%;' nowrap>&nbsp;</th>
+                      <th style='width: 22%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                      <th style='width: 25%;' nowrap><?php echo $array['Wash'][$language]; ?></th>
+                      <th style='width: 25%;' nowrap><?php echo $array['packing'][$language]; ?></th>
+                      <th style='width: 25%;' nowrap><?php echo $array['shipping'][$language]; ?></th>
                     </tr>
                   </thead>
                   <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">

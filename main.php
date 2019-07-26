@@ -8,6 +8,7 @@ $last_move = $_GET["last_move"];
 $logoff = $_SESSION['chk_logoff'];
 $Username = $_SESSION['Username'];
 $FName = $_SESSION['FName'];
+$Profile = $_SESSION['pic'];
 if($Userid==""){
    header("location:index.html");
 }
@@ -823,6 +824,11 @@ switch ($PmID) {
     #mr_form div{
       padding: 2px;
     }
+
+    .user{
+      width:34px;
+      border-radius:50px;
+    }
   </style>
 
 <body>
@@ -830,20 +836,22 @@ switch ($PmID) {
 
     <img src="img/logo.jpg" style="width: 100px;margin-top:55px;margin-bottom:20px;" alt="">
 
-    <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <!-- Navbar username -->
+      <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 32px;text-transform: capitalize;">
+        <span><?php echo $FName?></span>
+      </div>
 
-    </form>
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0" >
       <div style="padding-top:15px;" hidden><a href="#" onclick="switchlang('th');">TH</a> / <a href="#" onclick="switchlang('en');">EN</a></div>
       <li class="nav-item dropdown no-arrow" style="padding-top:12px;">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i>
+            <img src="profile/img/<?php echo $Profile;?>" class="user">
+            <!-- <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i> -->
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
+          <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
         </div>
       </li>
     </ul>
