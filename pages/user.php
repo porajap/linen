@@ -1194,7 +1194,7 @@ $array2 = json_decode($json2,TRUE);
                                         <input type="file"  class="form-control col-sm-8 dropify" />
                                     </div>
                                 </div> -->
-
+                <!-- ะำหะ -->
                         </div>
                     </div>
                 </div> <!-- tag column 2 -->
