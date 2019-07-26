@@ -167,7 +167,7 @@ function alert_SetPrice($conn,$DATA)
       }
       $countQuery = mysqli_query($conn,$count_active);
       while ($CResult = mysqli_fetch_assoc($countQuery)) {
-        $return[$count]['cnt'] = $CResult['cnt'];
+        $return[$count]['cntAcive'] = $CResult['cnt'];
         if($CResult['cntAcive'] == 0){
           $SelectMail = "SELECT users.email FROM users WHERE users.HptCode = '$HptCode' AND users.Active_mail = 1";
           $SQuery = mysqli_query($conn,$SelectMail);
