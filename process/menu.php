@@ -153,7 +153,7 @@ function alert_SetPrice($conn,$DATA)
       $return[$count]['EndDate'] = $Result['EndDate'];
       $return[$count]['DocNo'] = $Result['DocNo'];
       $return[$count]['xDate'] = $Result['xDate'];
-      $return[$count]['DateDiff'] = $Result['dateDiff'];
+      $return[$count]['dateDiff'] = $Result['dateDiff'];
       $DateDiff = $Result['dateDiff'];
 
       #send email to user---------------------------------------------------
