@@ -240,6 +240,8 @@ $array = json_decode($json,TRUE);
               var EndDate = temp[0]['EndDate'];
               var xDate = temp[0]['xDate'];
               var email = temp[0]['email'];
+              var dateDiff = temp[0]['dateDiff'];
+
               if(temp['cntAcive'] == 0){
                 var URL = '../process/sendMail_alertPrice.php';
                 $.ajax({
