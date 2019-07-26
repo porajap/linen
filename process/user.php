@@ -81,7 +81,7 @@ function getdetail($conn, $DATA)
   //    mysqli_query($conn,$Sqlx);
 
   $Sql = "SELECT users.ID,users.UserName,users.`Password`,users.FName,site.HptName,site.HptCode,permission.Permission,
-      permission.PmID, factory.FacCode , users.email
+      permission.PmID, factory.FacCode , users.email , users.Active_mail
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON users.HptCode = site.HptCode
@@ -101,6 +101,7 @@ function getdetail($conn, $DATA)
       $return['HptCode'] = $Result['HptCode'];
       $return['FacCode'] = $Result['FacCode'];
       $return['email'] = $Result['email'];
+      $return['xemail'] = $Result['Active_mail'];
 
   }
 
@@ -271,7 +272,19 @@ function AddItem($conn, $DATA)
     $Permission = $DATA['Permission'];
     $facID = $DATA['facID'];
     $email = $DATA['email'];
+    $xemail = $DATA['xemail'];
 
+    $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
+    $MQuery = mysqli_query($conn, $countMail);
+    while ($MResult = mysqli_fetch_assoc($MQuery)) {
+
+    if ($MResult['cnt'] == 0){
+      $xxemail = 1;
+    }else{
+      $xxemail = 0;
+
+    }
+  }
     if($UsID != ""){
         $Sql = "UPDATE users SET 
         users.HptCode='$host',
@@ -281,6 +294,7 @@ function AddItem($conn, $DATA)
         users.PmID=$Permission,
         users.FacCode=$facID,
         users.email='$email',
+        users.Active_mail='$xxemail',
         users.Modify_Date=NOW() 
         WHERE users.ID = $UsID";
 
@@ -306,7 +320,8 @@ function AddItem($conn, $DATA)
         users.Count,
         users.Modify_Date,
         users.TimeOut,
-        users.email
+        users.email,
+        users.Active_mail
 
 		)
           VALUES
@@ -322,8 +337,11 @@ function AddItem($conn, $DATA)
             0,
             NOW(),
             30,
-            '$email'
+            '$email',
+            $xxemail
           )";
+
+
   $return['sql']=$Sql;
         if(mysqli_query($conn, $Sql)){
             $return['status'] = "success";
