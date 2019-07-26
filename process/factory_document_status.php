@@ -70,7 +70,8 @@ function get_dirty_doc($conn, $DATA)
     $dep = $DATA['dep'];
     $date = $DATA['date'];
     if ($hpt == "All" || $hpt == null) {
-        $Sql = "SELECT process.DocNo,DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
+        $Sql = "SELECT process.DocNo,dirty.
+        DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
         DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
         DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
         TIMEDIFF(WashEndTime,WashStartTime) AS WashDiff,
