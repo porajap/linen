@@ -1172,16 +1172,16 @@ $array2 = json_decode($json2,TRUE);
                                 </div>   
 <!-- =================================================================== -->  
                                 <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['activemail'][$language]; ?></label>
-                                    <input type="checkbox"  id="xemail"  >
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
+                                  <div class="col-md-6"  hidden id='row_fac'>
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
                                     <select  class="form-control col-sm-8 " id="factory"></select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6 " >
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['activemail'][$language]; ?></label>
+                                    <input type="checkbox"  id="xemail"  >
                                     </div>
                                   </div>
                                 </div>      
