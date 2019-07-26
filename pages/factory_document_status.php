@@ -75,8 +75,8 @@ date_default_timezone_set("Asia/Bangkok");
     var summary = [];
     var xItemcode;
     $(document).ready(function(e) {
-      OnLoadPage();
       $("#datepicker1").val("<?php echo date("d/m/Y"); ?>");
+      OnLoadPage();
     }).mousemove(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -144,7 +144,8 @@ date_default_timezone_set("Asia/Bangkok");
     //======= On create =======
     //console.log(JSON.stringify(data));
     function OnLoadPage() {
-      get_hospital()
+      get_hospital();
+      get_dirty_doc();
     }
 
     function get_dirty_doc() {
@@ -154,6 +155,7 @@ date_default_timezone_set("Asia/Bangkok");
       var date = $("#datepicker1").val();
       var dateArray = date.split("/");
       date = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+      $("#tbody").empty();
       var data = {
         'STATUS': 'get_dirty_doc',
         'DocNo': docno,
@@ -231,23 +233,31 @@ date_default_timezone_set("Asia/Bangkok");
 
           if (temp["status"] == 'success') {
             if (temp["form"] == 'get_dirty_doc') {
-              $("#tbody").empty();
                 for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                   var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
                         "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
                         "<td style='width: 16%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
-                        
-                        "<td style='width: 27%;' align='left'nowrap>4468<div class='row'><div class='col-md-4 text-right'>"+
-                        "<?php echo $array['Starttime'][$language]; ?><br><?php echo $array['tFinish'][$language]; ?></div><div class='col-md-8 text-left'>"+
-                        temp[i]['WashStartTime'] +"<br>"+ temp[i]['WashEndTime']+"</td></div><div>" +
-
-                        "<td style='width: 27%;' align='left'nowrap><div class='row'><div class='col-md-6'>"+
-                        temp[i]['PackStartTime'] + "</div><div class='col-md-6'>"
-                        +temp[i]['PackEndTime']+"</td></div><div>" +
 
                         "<td style='width: 27%;' align='left'nowrap>"+
-                        "<?php echo $array['Starttime'][$language]; ?>" + temp[i]['SendStartTime'] + 
-                        "<br><?php echo $array['tFinish'][$language]; ?>"+temp[i]['SendEndTime']+"</td>" +
+                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] + 
+                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['WashStartTime'] + 
+                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['WashEndTime']+
+                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['WashDiff'] + 
+                        "</td>" +
+
+                        "<td style='width: 27%;' align='left'nowrap>"+
+                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Pack'] + 
+                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['PackStartTime'] + 
+                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['PackEndTime']+
+                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['PackDiff'] + 
+                        "</td>" +
+
+                        "<td style='width: 27%;' align='left'nowrap>"+
+                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Send'] + 
+                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['SendStartTime'] + 
+                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['SendEndTime']+
+                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['SendDiff'] + 
+                        "</td>" +
                         "</tr>";
                   $("#tbody").append(StrTR);
               }
