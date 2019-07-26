@@ -1120,7 +1120,7 @@ $array2 = json_decode($json2,TRUE);
                                                   <select class="form-control" id="Category_Sub"></select>
                                               </div>
                                           </div>
-                                          <div class="col-md-5 mhee">
+                                          <div class="col-md-6 mhee">
                                                 <div class="row" style="margin-left:5px;">
                                                     <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(1);">
                                                         <?php echo $array['search_hp'][$language]; ?></button>
@@ -1129,13 +1129,15 @@ $array2 = json_decode($json2,TRUE);
                                                     <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(3);">
                                                         <?php echo $array['search_ct_sub'][$language]; ?></button> -->
 <!--  -->
-                                        <div class="search_custom col-md-4">
+                    
+
+                                          <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
                                               <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                                               <i class="far fa-hospital"></i>
                                               </div>
-                                              <button class="btn mr-3"  onclick="ShowItem1(1)" id="bSave">
-                                                  <?php echo $array['search_hp'][$language]; ?>
+                                              <button class="btn "  onclick="ShowItem1(1)" id="bSave">
+                                                  <?php echo $array['search_ct_main'][$language]; ?>
                                               </button>
                                             </div>
                                           </div>
@@ -1191,9 +1193,40 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
                             </div> <!-- tag column 1 -->
                         </div>
-                        <!-- /.content-wrapper -->
-                        <div class="row">
-                            <div class="col-md-8">
+<!-- =============================================================================================================================== -->
+
+ <!-- /.content-wrapper -->
+ <div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-save"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn"  onclick="SavePrice()" id="bSave" disabled="true">
+                                    <?php echo $array['save'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                       
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-money-check"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn" onclick="OpenDialog(2)"  id="bDelete">
+                                    <?php echo $array['setprice'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+
+<!-- =============================================================================================================================== -->                        <div class="row">
+                            <div class="col-md-12">
                                 <!-- tag column 1 -->
                                 <div class="container-fluid">
                                     <div class="card-body" style="padding:0px; margin-top:10px;">
@@ -1214,80 +1247,45 @@ $array2 = json_decode($json2,TRUE);
 
                                         <!-- =================================================================== -->
                                         <div class="row mt-4">
-                                            <div class="col-md-7">
+                                            <div class="col-md-6">
                                                 <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-8 " id="HotName"    placeholder="<?php echo $array['side'][$language]; ?>">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- =================================================================== -->
-                                        <div class="row">
-                                            <div class="col-md-7">
+                                            <div class="col-md-6">
                                                 <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-8 " id="Category_Main2"    placeholder="<?php echo $array['categorymain'][$language]; ?>">
                                                 </div>
                                             </div>
-                                        </div>
+                                            </div>  
+                     
                                         <!-- =================================================================== -->
-                                        <div class="row">
-                                            <div class="col-md-7">
+                                        <div class="row mt-4">
+                                            <div class="col-md-6">
                                                 <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-8 " id="Category_Sub2"    placeholder="<?php echo $array['categorysub'][$language]; ?>">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- =================================================================== -->
-                                        <div class="row">
-                                            <div class="col-md-7">
+                                            <div class="col-md-6">
                                                 <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['price'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-8 " id="Price"    placeholder="<?php echo $array['price'][$language]; ?>">
                                                 </div>
                                             </div>
-                                        </div>
+                                            </div>  
+                     
+                              
                                         <!-- =================================================================== -->
 
                                     </div>
                                 </div>
                             </div> <!-- tag column 2 -->
-                            <!-- <?php if($PmID == 1) echo 'hidden'; ?> -->
 
 <!-- =============================================================================================== -->
-<div class="sidenav" style=" margin-left: 200px;margin-top: 73px;">
-              <div class="" style="margin-top:5px;">
-                <div class="card-body" style="padding:0px; margin-top:10px;">
-<!-- =============================================================================================== -->
 
-                                    <div class="row mhee" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3 opacity' id="delete_icon">
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="SavePrice()" id="bSave"  disabled="true">
-                                          <?php echo $array['save'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-        
-<!-- =============================================================================================== -->
-<div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/i_money.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <a href='javascript:void(0)' onclick="OpenDialog(2)" id="bDelete">
-                                          <?php echo $array['setprice'][$language]; ?>
-                                        </a>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-              </div>
-            </div>
-          </div>
-<!-- =============================================================================================== -->    
 
                         </div>
                     </div>

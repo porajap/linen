@@ -273,6 +273,7 @@ $array2 = json_decode($json2,TRUE);
             var facID = $('#factory').val();
             var email = $('#email').val();
 
+
             var xemail = 0;
             if ($('#xemail').is(':checked')) xemail = 1;
 
@@ -667,6 +668,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
+                                ShowItem();
 
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
@@ -1032,7 +1034,7 @@ $array2 = json_decode($json2,TRUE);
 
                                 <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
-                                        <select class="form-control" id="hptsel" style="visibility:hidden;">
+                                        <select class="form-control " id="hptsel" style="visibility:hidden;">
 
                                         </select>
                                     </div>
@@ -1121,7 +1123,7 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
                                 <div class="col-md-6" style="margin-left:15px;">
                                     <div class="row">
-                                        <input type="hidden" class="form-control" style="width:90%;" name="UsID" id="UsID">
+                                        <input type="hidden" class="form-control " style="width:90%;" name="UsID" id="UsID">
                                     </div>
                                 </div>
                             </div>

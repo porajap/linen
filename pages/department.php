@@ -783,6 +783,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
+                                ShowItem();
 
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
