@@ -830,10 +830,11 @@ switch ($PmID) {
 
     <img src="img/logo.jpg" style="width: 100px;margin-top:55px;margin-bottom:20px;" alt="">
 
-    <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <!-- Navbar username -->
+      <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 32px;text-transform: capitalize;">
+        <span><?php echo $FName?></span>
+      </div>
 
-    </form>
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0" >
       <div style="padding-top:15px;" hidden><a href="#" onclick="switchlang('th');">TH</a> / <a href="#" onclick="switchlang('en');">EN</a></div>
@@ -842,7 +843,6 @@ switch ($PmID) {
           aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i>
         </a>
-
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
           <a class="dropdown-item" href="#" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
         </div>
