@@ -70,7 +70,8 @@ function get_dirty_doc($conn, $DATA)
     $dep = $DATA['dep'];
     $date = $DATA['date'];
     if ($hpt == "All" || $hpt == null) {
-        $Sql = "SELECT process.DocNo,dirty.
+        $Sql = "SELECT process.DocNo,
+        DATE_FORMAT(dirty.ReceiveDate, '%T') AS Receivetime,
         DATE_FORMAT(WashStartTime, '%d/%M/%Y') AS Wash,
         DATE_FORMAT(WashStartTime, '%T') AS WashStartTime,
         DATE_FORMAT(WashEndTime, '%T') AS WashEndTime,
@@ -130,6 +131,7 @@ function get_dirty_doc($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $return[$count]['DocNo'] = $Result['DocNo'];
+        $return[$count]['Receivetime'] = $Result['Receivetime'];
         $return[$count]['Wash'] = $Result['Wash'];
         $return[$count]['WashDiff'] = $Result['WashDiff'];
         $return[$count]['WashStartTime'] = $Result['WashStartTime'];

@@ -770,8 +770,8 @@ $array2 = json_decode($json2, TRUE);
           'STATUS': 'DeleteUnit',
           'RowID': RowID
           }
-          getdetail($('#ItemCode').val());
           senddata(JSON.stringify(data));
+          getdetail(ItemCode);
         } else if (result.dismiss == 'cancel') {
           swal.close();
         }
