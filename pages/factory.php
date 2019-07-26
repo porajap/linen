@@ -67,6 +67,7 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <link href="../css/menu_custom.css" rel="stylesheet">
 
     <script type="text/javascript">
       var summary = [];
@@ -1137,16 +1138,55 @@ $array2 = json_decode($json2,TRUE);
               </div> <!-- tag column 1 -->
     </div>
     <!-- /.content-wrapper -->
-    <div class="row mt-3">
-              <div class="col-md-10"> <!-- tag column 1 -->
-                  <div class="container-fluid">
-                    <div class="card-body" style="padding:0px; margin-top:10px;">
-                      <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
-                        </li>
-                      </ul>
-   <!-- =================================================================== -->
+                            <div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-file-medical"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn"  onclick="SaveRow()" id="bSave">
+                                    <?php echo $array['save'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-eraser"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn" onclick="ClearRow()" id="bDelete">
+                                    <?php echo $array['clear'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="menu">
+                                <div class="d-flex justify-content-center">
+                                  <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                      <i class="fas fa-trash-alt"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
+                                    <?php echo $array['cancel'][$language]; ?>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="row mt-3 m-2">
+                              <div class="col-md-12"> <!-- tag column 1 -->
+                                  <div class="container-fluid">
+                                    <div class="card-body" style="padding:0px; margin-top:10px;">
+                                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
+                                        </li>
+                                      </ul>
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
@@ -1207,51 +1247,42 @@ $array2 = json_decode($json2,TRUE);
               </div> <!-- tag column 1 -->
 
 <!-- =============================================================================================== -->
-<div class="sidenav mhee" style=" margin-left: 25px;margin-top: 73px;">
-              <div class="" style="margin-top:5px;">
-                <div class="card-body" style="padding:0px; margin-top:10px;">
-<!-- =============================================================================================== -->
-
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="AddItem()" id="bSave">
-                                          <?php echo $array['save'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-        
-<!-- =============================================================================================== -->
-<div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="Blankinput()" id="bDelete">
-                                          <?php echo $array['clear'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-          <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
-                                          <?php echo $array['cancel'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<!-- =============================================================================================== -->
-              </div>
-            </div>
-          </div>
-<!-- =============================================================================================== -->
-            
+<!-- <div class="sidenav mhee" style=" margin-left: 25px;margin-top: 73px;">
+  <div class="" style="margin-top:5px;">
+    <div class="card-body" style="padding:0px; margin-top:10px;">
+      <div class="row" style="margin-top:0px;">
+        <div class="col-md-3 icon" >
+          <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
+        </div>
+        <div class="col-md-9">
+          <button class="btn" onclick="AddItem()" id="bSave">
+            <?php echo $array['save'][$language]; ?>
+          </button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:0px;">
+        <div class="col-md-3 icon" >
+          <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
+        </div>
+        <div class="col-md-9">
+          <button class="btn" onclick="Blankinput()" id="bDelete">
+            <?php echo $array['clear'][$language]; ?>
+          </button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:0px;">
+        <div class="col-md-3 icon" >
+          <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
+        </div>
+        <div class="col-md-9">
+          <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+            <?php echo $array['cancel'][$language]; ?>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+</div> -->
 
 
 <!-- /#wrapper -->

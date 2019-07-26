@@ -623,8 +623,8 @@ body{
                           <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" <?php if($PmID == 2) echo 'hidden'; ?>>
                             <div class="menu">
                               <div class="d-flex justify-content-center">
-                                <div class="circle1 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-file-medical"></i>
+                                <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                    <i class="fas fa-save"></i>
                                 </div>
                               </div>
                               <div>
