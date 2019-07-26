@@ -8,6 +8,7 @@ $last_move = $_GET["last_move"];
 $logoff = $_SESSION['chk_logoff'];
 $Username = $_SESSION['Username'];
 $FName = $_SESSION['FName'];
+$Profile = $_SESSION['pic'];
 if($Userid==""){
    header("location:index.html");
 }
@@ -823,6 +824,11 @@ switch ($PmID) {
     #mr_form div{
       padding: 2px;
     }
+
+    .user{
+      width:34px;
+      border-radius:50px;
+    }
   </style>
 
 <body>
@@ -841,10 +847,11 @@ switch ($PmID) {
       <li class="nav-item dropdown no-arrow" style="padding-top:12px;">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i>
+            <img src="profile/img/<?php echo $Profile;?>" class="user">
+            <!-- <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i> -->
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
+          <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
         </div>
       </li>
     </ul>
