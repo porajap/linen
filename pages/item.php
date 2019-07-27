@@ -2002,7 +2002,7 @@ $array2 = json_decode($json2, TRUE);
                         <!-- <a href="javascript:void(0)" onclick="AddUnit();" class="ml-3 "><img src="../img/icon/ic_save.png" style="width:34px;" class="mr-2"><?php echo $array['save'][$language]; ?></a> -->
                         <!-- <a href="javascript:void(0)" onclick="DeleteUnit();" class="ml-3 "><img src="../img/icon/ic_delete.png" style="width:36px;" class="mr-2"><?php echo $array['delete'][$language]; ?></a> -->
                         <!-- </div>  -->
-                        <div class="search_custom col-md-1 ml-1">
+                        <div class="search_custom  ml-1">
                           <div class="d-flex justify-content-start">
                             <div class="save_1 d-flex align-items-center d-flex justify-content-center">
                                 <i class="fas fa-save"></i>
@@ -2013,7 +2013,7 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                         </div>
 
-                        <div class="search_custom col-md-1">
+                        <div class="search_custom ">
                           <div class="d-flex justify-content-start">
                             <div class="del_1 d-flex align-items-center d-flex justify-content-center">
                                 <i class="fas fa-trash-alt"></i>

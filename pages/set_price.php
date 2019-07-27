@@ -1138,7 +1138,7 @@ $array2 = json_decode($json2,TRUE);
                                               <i class="far fa-hospital"></i>
                                               </div>
                                               <button class="btn "  onclick="ShowItem1(1)" id="bSave">
-                                                  <?php echo $array['search_ct_main'][$language]; ?>
+                                                  <?php echo $array['search_hp'][$language]; ?>
                                               </button>
                                             </div>
                                           </div>
@@ -1263,7 +1263,7 @@ $array2 = json_decode($json2,TRUE);
                                             </div>  
                      
                                         <!-- =================================================================== -->
-                                        <div class="row mt-4">
+                                        <div class="row">
                                             <div class="col-md-6">
                                                 <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
