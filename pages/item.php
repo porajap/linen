@@ -1648,7 +1648,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
                 <div class="col-md-4">
                   <div class="row " style="margin-left:2px;">
-                    <input type="text" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                   </div>
                 </div>
                 <div class="col-md-2">

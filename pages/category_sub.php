@@ -996,7 +996,7 @@ $array2 = json_decode($json2,TRUE);
                                       </div>
                         <div class="col-md-9">
                                         <div class="row" style="margin-left:5px;">
-                                          <input type="text" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                                          <input type="text"  autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                                          
                                           <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave"> -->
