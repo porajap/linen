@@ -461,9 +461,9 @@ $array2 = json_decode($json2,TRUE);
 
         function factory_show(facID){
             if(facID == 4){
-                $('#row_fac').attr('hidden', false);
+                $('#factory').attr('disabled', false);
             }else{
-                $('#row_fac').attr('hidden', true);
+                $('#factory').attr('disabled', true);
             }
         }
 
@@ -523,6 +523,7 @@ $array2 = json_decode($json2,TRUE);
                                 }
                             }
                         } else if ((temp["form"] == 'getdetail')) {
+                            $('#factory').val(0);
                             if ((Object.keys(temp).length - 2) > 0) {
                                 $('#UsID').val(temp['ID']);
                                 $('#username').val(temp['UserName']);
@@ -560,10 +561,10 @@ $array2 = json_decode($json2,TRUE);
                                     $("#Permission").append(StrTr);
                                 }
                                 if(temp['PmID']==4){
-                                    $('#row_fac').attr('hidden',false);
+                                    $('#factory').attr('disabled',false);
                                     $('#factory').val(temp['FacCode']);
                                 }else{
-                                    $('#row_fac').attr('hidden',true);
+                                    $('#factory').attr('disabled',true);
                                 }
 
                             }
@@ -1170,7 +1171,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
-                                        <select  class="form-control col-sm-8 " id="factory"></select>
+                                        <select  class="form-control col-sm-8 " id="factory" disabled="true"></select>
                                     </div>
                                   </div>
                                 </div>   
