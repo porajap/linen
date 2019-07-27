@@ -772,7 +772,7 @@ $array2 = json_decode($json2, TRUE);
           'RowID': RowID
           }
           senddata(JSON.stringify(data));
-          getdetail(ItemCode);
+          
         } else if (result.dismiss == 'cancel') {
           swal.close();
         }
@@ -1165,17 +1165,16 @@ $array2 = json_decode($json2, TRUE);
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 1500,
                 confirmButtonText: 'Ok'
               });
-              // setTimeout(function() {
+              setTimeout(function() {
                 Blankinput();
                 ShowItem();
-              // }, 2000);
+              }, 1500);
 
             } else if ((temp["form"] == 'AddUnit')) {
               var itemcode = $('#ItemCode').val();
-              getdetail(itemcode);
               $('#subUnit').val("1");
               $('#mulinput').val("");
               switch (temp['msg']) {
@@ -1221,17 +1220,16 @@ $array2 = json_decode($json2, TRUE);
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 1500,
                 confirmButtonText: 'Ok'
-              }).then(function() {
-
-              }, function(dismiss) {
-
+              });
+              setTimeout(function() {
                 var itemcode = $('#ItemCode').val();
                 getdetail(itemcode);
                 $('#subUnit').val("1");
                 $('#mulinput').val("");
-              })
+                $('#priceunit').val("");
+              }, 1500);
             } else if ((temp["form"] == 'CancelUnit')) {
               switch (temp['msg']) {
                 case "notchosen":
@@ -1278,14 +1276,14 @@ $array2 = json_decode($json2, TRUE);
                 showConfirmButton: false,
                 timer: 2000,
                 confirmButtonText: 'Ok'
-              }).then(function() {
-
-              }, function(dismiss) {
+              });
+              setTimeout(function() {
                 var itemcode = $('#ItemCode').val();
                 getdetail(itemcode);
                 $('#subUnit').val("1");
                 $('#mulinput').val("");
-              })
+                $('#priceunit').val("");
+              }, 2000);
             } else if ((temp["form"] == 'CancelItem')) {
               switch (temp['msg']) {
                 case "notchosen":
