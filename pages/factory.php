@@ -778,6 +778,8 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                               }).then(function() {
+                                ShowItem();
+                                Blankinput();
 
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
@@ -1156,7 +1158,7 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                 </div>
                                 <div>
-                                  <button class="btn"  onclick="SaveRow()" id="bSave">
+                                  <button class="btn"  onclick="AddItem()" id="bSave">
                                     <?php echo $array['save'][$language]; ?>
                                   </button>
                                 </div>
@@ -1180,7 +1182,7 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                 </div>
                                 <div>
-                                  <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
+                                  <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
                                     <?php echo $array['cancel'][$language]; ?>
                                   </button>
                                 </div>
