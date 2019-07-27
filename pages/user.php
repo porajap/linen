@@ -652,7 +652,7 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonText: 'Ok'
                             }).then(function() {
                                 ShowItem();
-
+                                Blankinput();
                             }, function(dismiss) {
 
                                 $('#DepCode').val("");
@@ -707,6 +707,7 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonText: 'Ok'
                             }).then(function() {
                                 ShowItem();
+                                Blankinput();
 
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
@@ -1055,7 +1056,7 @@ $array2 = json_decode($json2,TRUE);
 
                                 <div class="col-md-9">
                                     <div class="row" style="margin-left:5px;">
-                                        <input type="text" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                                        <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                                             <div class="search_custom col-md-2">
                                             <div class="d-flex justify-content-start">
                                               <div class="search_1 d-flex align-items-center d-flex justify-content-center">
@@ -1071,7 +1072,7 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
 
 
-                                <div class="col-md-3">
+                                <div class="col-md-3 " hidden>
                                     <div class="row" style="margin-left:5px;">
                                         <select class="form-control " id="hptsel" style="visibility:hidden;">
 
