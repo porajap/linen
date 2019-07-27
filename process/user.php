@@ -275,6 +275,7 @@ function AddItem($conn, $DATA)
     $email = $DATA['email'];
     $xemail = $DATA['xemail'];
 
+
     $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
     $MQuery = mysqli_query($conn, $countMail);
     while ($MResult = mysqli_fetch_assoc($MQuery)) {
@@ -322,6 +323,7 @@ function AddItem($conn, $DATA)
         users.Modify_Date,
         users.TimeOut,
         users.email,
+        users.pic,
         users.Active_mail
 
 		)
@@ -339,6 +341,7 @@ function AddItem($conn, $DATA)
             NOW(),
             30,
             '$email',
+            '$filename',
             $xxemail
           )";
 
