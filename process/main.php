@@ -163,6 +163,14 @@ function login_again($conn, $DATA)
     
 
 }
+
+function UpdateActive($conn, $DATA)
+{
+  $UserID = $_SESSION['Userid'];
+
+  $Sql = "UPDATE users SET IsActive = 0 WHERE ID = $UserID";
+  mysqli_query($conn,$Sql);
+}
 //==========================================================
 //
 //==========================================================
@@ -183,6 +191,8 @@ if(isset($_POST['DATA']))
         logoff($conn, $DATA);
       }else if ($DATA['STATUS'] == 'login_again') {
         login_again($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'UpdateActive') {
+        UpdateActive($conn, $DATA);
       }
 
 }else{
