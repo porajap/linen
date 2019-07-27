@@ -81,7 +81,7 @@ function getdetail($conn, $DATA)
   //    mysqli_query($conn,$Sqlx);
 
   $Sql = "SELECT users.ID,users.UserName,users.`Password`,users.FName,site.HptName,site.HptCode,permission.Permission,
-      permission.PmID, factory.FacCode , users.email , users.Active_mail
+      permission.PmID, factory.FacCode , users.email , users.Active_mail, users.pic
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON users.HptCode = site.HptCode
@@ -102,6 +102,7 @@ function getdetail($conn, $DATA)
       $return['FacCode'] = $Result['FacCode'];
       $return['email'] = $Result['email'];
       $return['xemail'] = $Result['Active_mail'];
+      $return['pic'] = $Result['pic']==null?'default_img.png':$Result['pic'];
 
   }
 

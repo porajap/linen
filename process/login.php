@@ -149,9 +149,10 @@ function sendmail($conn,$DATA)
 {
   if (isset($DATA)) {
     $email = $DATA['email'];
+    $user = $DATA['user'];
     $newpassword = rand_string(5);
 
-    $Sql = "UPDATE users SET users.`Password` = '$newpassword',Count = 0,users.IsActive = 0 WHERE users.email = '$email'";
+    $Sql = "UPDATE users SET users.`Password` = '$newpassword',Count = 0,users.IsActive = 0 WHERE users.email = '$email' AND users.Username = '$user'";
     $Chk = mysqli_query($conn,$Sql);
     if($Chk){
         $Sql = "SELECT users.UserName,users.`Password`,users.FName

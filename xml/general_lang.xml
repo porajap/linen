@@ -212,6 +212,7 @@
 <set><en>SET OF CHG PC.</en><th>กำหนดเวลาเปลี่ยนราคา</th></set>
 <dateP><en>Date OF UPD PC.</en><th>วันที่อัพเดทราคา</th></dateP>
 <activemail><en>Main Email</en><th>Main Email</th></activemail>
+<img><en>Profile Image</en><th>ภาพโปรไฟล์</th></img>
 
 
 </lang>

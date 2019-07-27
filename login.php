@@ -163,17 +163,17 @@ $array = json_decode($json,TRUE);
     <script>
         function reset_pass(){
             var user = document.getElementById("username").value;
-            // if( user != "" ){
+            if( user != "" ){
                 $('#form_white').attr('hidden', true);
                 $('#form_change').attr('hidden', true);
                 $('#form_sendmail').attr('hidden', false);
-            // }else{
-            //     swal({
-            //         type: 'warning',
-            //         title: 'Something Wrong',
-            //         text: 'Please enter username!'
-            //     })
-            // }
+            }else{
+                swal({
+                    type: 'warning',
+                    title: 'Something Wrong',
+                    text: 'Please enter username!'
+                })
+            }
         }
 
         function change_pass()
@@ -217,10 +217,11 @@ $array = json_decode($json,TRUE);
             var email = document.getElementById("email").value;
             var user = document.getElementById("username").value;
 
-            if(email!=""){
+            if(email!="" && user != ""){
                 var data = {
                     'STATUS' : 'sendmail',
                     'PAGE' : 'sendmail',
+                    'user':user,
                     'email': email
                 };
                 console.log(JSON.stringify(data));

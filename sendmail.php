@@ -41,13 +41,14 @@ $mail->CharSet = "UTF-8";
 $mail->isSMTP();
 $mail->SMTPDebug = 2;
 $mail->Debugoutput = 'html';
-$mail->Host = 'smtp.live.com';
+$mail->Host = 'smtp.gmail.com';
 $mail->Port = 587;
 $mail->SMTPSecure = 'tls';
 $mail->SMTPAuth = true;
-$mail->Username = "poseintelligence@hotmail.com";
-$mail->Password = "P6o6s2e8";
-$mail->setFrom('poseintelligence@hotmail.com', 'Pose Intelligence');
+$mail->Username = "poseinttelligence@gmail.com";
+$mail->Password = "pose6628";
+$mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
+
 $mail->addAddress($email, $FName);
 $mail->Subject = $Subject;
 $mail->msgHTML($body);

@@ -63,7 +63,6 @@ $array2 = json_decode($json2,TRUE);
     <link href="../dist/css/sweetalert2.css" rel="stylesheet">
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
-    <script src="../dropify/dist/js/dropify.min.js"></script>
 
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
@@ -259,72 +258,90 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function AddItem(){
-        var count = 0;
-        $(".checkblank").each(function() {
-          if($( this ).val()==""||$(this).val()==undefined){
-            count++;
-          }
-        });
-        console.log(count);
-            var UsID = $('#UsID').val();
-            var UserName = $('#username').val();
-            var Password = $('#Password').val();
-            var FName = $('#flname').val();
-            var host = $('#host').val();
-            var Permission = $('#Permission').val();
-            var facID = $('#factory').val();
-            var email = $('#email').val();
-
-
-            var xemail = 0;
-            if ($('#xemail').is(':checked')) xemail = 1;
-
-        if(count==0){
-          $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', 'red');
-            }else{
-              $(this).css('border-color', '');
+            var count = 0;
+            $(".checkblank").each(function() {
+            if($( this ).val()==""||$(this).val()==undefined){
+                count++;
             }
-          });
-        //   var chkEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-        //     if (chkEmail.test(email)){
-            swal({
-              title: "<?php echo $array['addoredit'][$language]; ?>",
-              text: "<?php echo $array['addoredit'][$language]; ?>",
-              type: "question",
-              showCancelButton: true,
-              confirmButtonClass: "btn-success",
-              confirmButtonText:  "<?php echo $array['yes'][$language]; ?>",
-              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-              confirmButtonColor: '#6fc864',
-              cancelButtonColor: '#3085d6',
-              closeOnConfirm: false,
-              closeOnCancel: false,
-              showCancelButton: true}).then(result => {
-                if (result.value) {
-                    var data = {
-                'STATUS': 'AddItem',
-                'UsID': UsID,
-                'UserName': UserName,
-                'Password': Password,
-                'FName': FName,
-                'host': host,
-                'Permission' : Permission,
-                'facID' : facID,
-                'email' : email,
-                'xemail' : xemail
-            };
+            });
+            console.log(count);
+                var UsID = $('#UsID').val();
+                var UserName = $('#username').val();
+                var Password = $('#Password').val();
+                var FName = $('#flname').val();
+                var host = $('#host').val();
+                var Permission = $('#Permission').val();
+                var facID = $('#factory').val();
+                var email = $('#email').val();
 
+
+                var xemail = 0;
+                if ($('#xemail').is(':checked')) xemail = 1;
+
+            if(count==0){
+                $('.checkblank').each(function() {
+                    if($(this).val()==""||$(this).val()==undefined){
+                    $(this).css('border-color', 'red');
+                    }else{
+                    $(this).css('border-color', '');
+                    }
+                });
+                    //   var chkEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+                    //     if (chkEmail.test(email)){
+                swal({
+                title: "<?php echo $array['addoredit'][$language]; ?>",
+                text: "<?php echo $array['addoredit'][$language]; ?>",
+                type: "question",
+                showCancelButton: true,
+                confirmButtonClass: "btn-success",
+                confirmButtonText:  "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#6fc864',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+            if (result.value) {
+                var data = {
+                    'STATUS': 'AddItem',
+                    'UsID': UsID,
+                    'UserName': UserName,
+                    'Password': Password,
+                    'FName': FName,
+                    'host': host,
+                    'Permission' : Permission,
+                    'facID' : facID,
+                    'email' : email,
+                    'xemail' : xemail
+                };
+                    //------------------------------------------- 
+                    if($('#image').val()!=""){
+                        var file_data = $('#image').prop('files')[0];   
+                        var form_data = new FormData();                  
+                        form_data.append('file', file_data);
+                        form_data.append('username', UserName);
+                        form_data.append('UsID', UsID);
+                        var URL = '../process/uploadFile.php';
+                        $.ajax({
+                            url: URL, 
+                            dataType: 'text',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data:  form_data,
+                            type: 'post',
+                            success: function(result){
+                                console.log(result);
+                            }
+                        });
+                    }
+                    //------------------------------------------- 
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
             } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }
+                swal.close();
+            }
               })
-
-          
-
           
         }else{
           swal({
@@ -524,6 +541,11 @@ $array2 = json_decode($json2,TRUE);
                             }
                         } else if ((temp["form"] == 'getdetail')) {
                             $('#factory').val(0);
+                            // ------------------------------------
+                            $(".dropify-clear").click(); 
+                            
+                            // ------------------------------------
+
                             if ((Object.keys(temp).length - 2) > 0) {
                                 $('#UsID').val(temp['ID']);
                                 $('#username').val(temp['UserName']);
@@ -566,7 +588,20 @@ $array2 = json_decode($json2,TRUE);
                                 }else{
                                     $('#factory').attr('disabled',true);
                                 }
+                                var imageName = "../profile/img/"+temp['pic'];
+                                // $('#image').attr("data-default-file", imageName);
+                                // $('#image').dropify();
 
+                                var drEvent = $('.dropify').dropify(
+                                {
+                                    defaultFile: imageName
+                                });
+                                    drEvent = drEvent.data('dropify');
+                                    drEvent.resetPreview();
+                                    drEvent.clearElement();
+                                    drEvent.settings.defaultFile = imageName;
+                                    drEvent.destroy();
+                                    drEvent.init();
                             }
                         } else if ((temp["form"] == 'AddItem')) {
                             switch (temp['msg']) {
@@ -984,6 +1019,7 @@ $array2 = json_decode($json2,TRUE);
 
             }
         }
+
     </style>
 </head>
 
@@ -1191,23 +1227,21 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                 </div>      
 <!-- =================================================================== -->  
-                                <!-- <div class="row">
+                                <div class="row">
                                     <div class="col-md-6">
-                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
-                                        <input type="file"  class="form-control col-sm-8 dropify" />
+                                        <div class='form-group row'>
+                                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['img'][$language]; ?></label>
+                                            <div class="col-md-8" style="padding:0px;">
+                                                <input type="file" class="dropify"  accept="image/x-png,image/gif,image/jpeg" id="image" name="image" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div> -->
+                                </div>
                 <!-- ะำหะ -->
                         </div>
                     </div>
                 </div> <!-- tag column 2 -->
 <!-- =============================================================================================== -->
-<div class="sidenav mhee" style=" margin-left: 200px;margin-top: 73px;">
-              <div class="" style="margin-top:5px;">
-                <div class="card-body" style="padding:0px; margin-top:10px;">
-
-<!-- =============================================================================================== -->
-            </div>
 
 
             <!-- /#wrapper -->
@@ -1233,6 +1267,29 @@ $array2 = json_decode($json2,TRUE);
 
             <!-- Demo scripts for this page-->
             <script src="../template/js/demo/datatables-demo.js"></script>
+            <script src="../dropify/dist/js/dropify.min.js"></script>
+
+            <script>
+                $(document).ready(function(e) {
+                    $('.dropify').dropify();
+
+                    // Used events
+                    var drEvent = $('#input-file-events').dropify();
+
+                    drEvent.on('dropify.beforeClear', function(event, element) {
+                        return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+                    });
+
+                    drEvent.on('dropify.afterClear', function(event, element) {
+                        alert('File deleted');
+                    });
+
+                    drEvent.on('dropify.errors', function(event, element) {
+                        console.log('Has Errors');
+                    });
+
+                });
+            </script>
 
 </body>
 
