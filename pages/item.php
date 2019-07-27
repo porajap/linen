@@ -1168,10 +1168,10 @@ $array2 = json_decode($json2, TRUE);
                 timer: 2000,
                 confirmButtonText: 'Ok'
               });
-              setTimeout(function() {
+              // setTimeout(function() {
                 Blankinput();
                 ShowItem();
-              }, 2000);
+              // }, 2000);
 
             } else if ((temp["form"] == 'AddUnit')) {
               var itemcode = $('#ItemCode').val();

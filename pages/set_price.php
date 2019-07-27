@@ -1137,7 +1137,7 @@ $array2 = json_decode($json2,TRUE);
                                               <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                                               <i class="far fa-hospital"></i>
                                               </div>
-                                              <button class="btn "  onclick="ShowItem1(1)" id="bSave">
+                                              <button class="btn"  onclick="ShowItem1(1)" >
                                                   <?php echo $array['search_hp'][$language]; ?>
                                               </button>
                                             </div>
@@ -1147,7 +1147,7 @@ $array2 = json_decode($json2,TRUE);
                                               <div class="circle6 d-flex align-items-center d-flex justify-content-center">
                                               <i class="fas fa-list"></i>
                                               </div>
-                                              <button class="btn "  onclick="ShowItem1(2)" id="bSave">
+                                              <button class="btn "  onclick="ShowItem1(2)" >
                                                   <?php echo $array['search_ct_main'][$language]; ?>
                                               </button>
                                             </div>
@@ -1157,7 +1157,7 @@ $array2 = json_decode($json2,TRUE);
                                               <div class="search_1 d-flex align-items-center d-flex justify-content-center">
                                                  <i class="fas fa-list-ol"></i>
                                               </div>
-                                              <button class="btn "  onclick="ShowItem1(3)" id="bSave">
+                                              <button class="btn "  onclick="ShowItem1(3)" >
                                                   <?php echo $array['search_ct_sub'][$language]; ?>
                                               </button>
                                             </div>
