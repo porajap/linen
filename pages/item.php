@@ -1747,13 +1747,13 @@ $array2 = json_decode($json2, TRUE);
 
                 <div class="menu" id="BlankItemBNT">
                   <div class="d-flex justify-content-center">
-                    <div class="circle5 d-flex align-items-center d-flex justify-content-center">
-                        <i class="fas fa-times"></i>
+                    <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                        <i class="fas fa-eraser"></i>
                     </div>
                   </div>
                   <div>
                     <button class="btn" onclick="Blankinput()" id="bDelete">
-                      <?php echo $array['cancel'][$language]; ?>
+                      <?php echo $array['clear'][$language]; ?>
                     </button>
                   </div>
                 </div>

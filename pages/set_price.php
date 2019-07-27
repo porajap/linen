@@ -1298,10 +1298,31 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row mhee">
                                         <select class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptsel2"></select>
                                         <!-- <input type="hidden" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:210px;" name="search2" id="search2" placeholder="<?php echo $array['search'][$language]; ?>" > -->
-                                        <a href="javascript:void(0)" onclick="ShowDoc();" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a>
+                                        <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                  <i class="fas fa-search"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDoc()" id="bSave">
+                                                  <?php echo $array['search'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        <!-- <a href="javascript:void(0)" onclick="ShowDoc();" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a> -->
                                         <!-- <button type="button" style="margin-left:20px;" class="btn btn-primary" name="button" onclick="ShowDoc();">
                                             <?php echo $array['search'][$language]; ?></button> -->
-                                        <button onclick="OpenDialog(1);" class="mr-3 ml-3 btn" id="show_btn" disabled='true' style="font-size: 25px !important; background:none; margin-top: -7px;"><img src="../img/icon/doc.png" style='width:35px; ' class="mr-1"><?php echo $array['show'][$language]; ?></button>
+
+                                            <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="fas fa-paste"></i>
+                                              </div>
+                                              <button class="btn"  onclick="OpenDialog(1)" id="show_btn" disabled='true'>
+                                                  <?php echo $array['show'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        <!-- <button onclick="OpenDialog(1);" class="mr-3 ml-3 btn" id="show_btn" disabled='true' style="font-size: 25px !important; background:none; margin-top: -7px;"><img src="../img/icon/doc.png" style='width:35px; ' class="mr-1"><?php echo $array['show'][$language]; ?></button> -->
                                         <!-- <button type="button" class="btn btn-warning ml-2" name="button" disabled='true' onclick="OpenDialog(1);" id='show_btn'><?php echo $array['show'][$language]; ?></button> -->
                                     </div>
                                 </div>
@@ -1400,12 +1421,43 @@ $array2 = json_decode($json2,TRUE);
                                 <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:150px;" id="datepicker"> -->
                                 <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
 
-                                <button onclick="onCreate();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="create1"><img src="../img/icon/ic_create.png" style='width:31px; ' class="mr-1"><?php echo $array['createdocno'][$language]; ?></button>
+
+                                <div class="search_custom col-md-2" id="create1">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                                        <i class="fas fa-file-medical"></i>
+                                        </div>
+                                        <button class="btn" onclick="onCreate()" >
+                                            <?php echo $array['createdocno'][$language]; ?>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- <button onclick="onCreate();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="create1"><img src="../img/icon/ic_create.png" style='width:31px; ' class="mr-1"><?php echo $array['createdocno'][$language]; ?></button> -->
 
                                 <!-- <button type="button" style="font-size:18px;margin-left:20px; width:100px;font-family: 'THSarabunNew'" class="btn btn-warning" id="create1" disabled="true" name="button" onclick="onCreate();"><?php echo $array['createdocno'][$language]; ?></button> -->
                                 <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:210px;" name="search1"   id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >
-                                <button onclick="UpdatePrice();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="btn_save" hidden="true"><img src="../img/icon/ic_import.png" style='width:31px; ' class="mr-1"><?php echo $array['updateprice'][$language]; ?></button>
-                                <button onclick="saveDoc();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="btn_saveDoc" hidden="true"><img src="../img/icon/ic_save.png" style='width:31px; ' class="mr-1"><?php echo $array['savedoc'][$language]; ?></button>
+                                <div class="search_custom col-md-2" id="btn_save"  hidden="true">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="import_1 d-flex align-items-center d-flex justify-content-center">
+                                            <i class="fas fa-file-import"></i>
+                                        </div>
+                                        <button class="btn" onclick="UpdatePrice()" >
+                                            <?php echo $array['updateprice'][$language]; ?>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="search_custom col-md-2" id="btn_saveDoc"  hidden="true">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                        <i class="fas fa-save"></i>
+                                        </div>
+                                        <button class="btn" onclick="saveDoc()" >
+                                            <?php echo $array['savedoc'][$language]; ?>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- <button onclick="UpdatePrice();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="btn_save" hidden="true"><img src="../img/icon/ic_import.png" style='width:31px; ' class="mr-1"><?php echo $array['updateprice'][$language]; ?></button> -->
+                                <!-- <button onclick="saveDoc();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="btn_saveDoc" hidden="true"><img src="../img/icon/ic_save.png" style='width:31px; ' class="mr-1"><?php echo $array['savedoc'][$language]; ?></button> -->
 
                                 <!-- <button type="button" style="font-size:18px;margin-left:20px; width:100px;font-family: 'THSarabunNew'" class="btn btn-primary" name="button" id="btn_save" disabled="true" onclick="UpdatePrice();"><?php echo $array['saveprice'][$language]; ?></button> -->
                             </div>
