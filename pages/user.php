@@ -653,6 +653,7 @@ $array2 = json_decode($json2,TRUE);
                             }).then(function() {
                                 ShowItem();
                                 Blankinput();
+                                $(".dropify-clear").click(); 
                             }, function(dismiss) {
 
                                 $('#DepCode').val("");
@@ -708,7 +709,7 @@ $array2 = json_decode($json2,TRUE);
                             }).then(function() {
                                 ShowItem();
                                 Blankinput();
-
+                                $(".dropify-clear").click(); 
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                     $(this).val("");
