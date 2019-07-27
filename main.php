@@ -426,10 +426,12 @@ switch ($PmID) {
 
     }
 
-    // window.addEventListener("beforeunload", function (e) {
-    //     setActive();
-
-    // });
+    window.addEventListener("beforeunload", function (e) {
+        var data = {
+          'STATUS': 'UpdateActive'
+        };
+        senddata(JSON.stringify(data));
+    });
 
     function logoff(chk) {
       if(chk == 1){
