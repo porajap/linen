@@ -1222,7 +1222,7 @@ body{
                           </div> <!-- tag column 1 -->
 
                           <!-- =============================================================================================== -->
-                          <div class="col-md-2" <?php if($PmID == 1) echo 'hidden'; ?>>  <!-- tag column 2 -->
+                          <div class="col-md-2" >  <!-- tag column 2 -->
                             <!-- button----------------------------------------- -->
                               <div class="sidenav">
                                 <div class="" style="margin-top:5px;">

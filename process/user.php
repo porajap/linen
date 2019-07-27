@@ -117,7 +117,7 @@ function getdetail($conn, $DATA)
     $return['PmCnt'] = $count;
 
     $count = 0;
-    $Sql = "SELECT site.HptCode,site.HptName FROM site";
+    $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE IsStatus = 0";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $return['hos'.$count]['xHptCode']  = $Result['HptCode'];
