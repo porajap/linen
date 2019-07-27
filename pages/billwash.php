@@ -1183,13 +1183,13 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-7"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <input type="text"  autocomplete="off" class="form-control col-sm-7"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['docno'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-7" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-7" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1200,13 +1200,13 @@ $array2 = json_decode($json2,TRUE);
                               <div class="col-md-6">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['employee'][$language]; ?></label>
-                                  <input type="text" class="form-control col-sm-7"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                  <input type="text" autocomplete="off" class="form-control col-sm-7"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                 </div>
                               </div>
                               <div class="col-md-6">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['time'][$language]; ?></label>
-                                    <input type="text" class="form-control col-sm-7" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                    <input type="text" autocomplete="off" class="form-control col-sm-7" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                 </div>
                               </div>
                             </div>
@@ -1218,7 +1218,7 @@ $array2 = json_decode($json2,TRUE);
                           </div> <!-- tag column 1 -->
                           <div class="col-md-3"> <!-- tag column 2 -->
                             <div class='row' style='margin-left:2px;'>
-                              <input class='form-control'  style="margin-left:-48px;margin-top:10px;font-size:60px;width:100%;height:162px;text-align:right;padding-top: 15px;" id='total' placeholder="0.00" readonly>
+                              <input class='form-control'autocomplete="off"   style="margin-left:-48px;margin-top:10px;font-size:60px;width:100%;height:162px;text-align:right;padding-top: 15px;" id='total' placeholder="0.00" readonly>
                             </div>
 
                           </div> <!-- tag column 2 -->
@@ -1341,17 +1341,46 @@ $array2 = json_decode($json2,TRUE);
                           <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
                             <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                            <a href="javascript:void(0)" onclick="ShowDocument(0);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a>
+                                          <div class="search_custom col-md-3">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                  <i class="fas fa-search"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDocument(0)" >
+                                                  <?php echo $array['search'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div class="search_custom col-md-3">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="fab fa-searchengin"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDocument(1)" >
+                                                  <?php echo $array['searchalldep'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                            <!-- <a href="javascript:void(0)" onclick="ShowDocument(0);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a> -->
                             <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowDocument(1);"><?php echo $array['search'][$language]; ?></button> -->
-                            <a href="javascript:void(0)" onclick="ShowDocument(1);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/all.png" style='width:35px; ' class="mr-1"><?php echo $array['searchalldep'][$language]; ?></a>
+                            <!-- <a href="javascript:void(0)" onclick="ShowDocument(1);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/all.png" style='width:35px; ' class="mr-1"><?php echo $array['searchalldep'][$language]; ?></a> -->
                             <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowDocument(2);"><?php echo $array['searchalldep'][$language]; ?></button> -->
                           </div>
                         </div>
-                        <div class="col-md-2 text-right mhee">
-                        <button onclick="SelectDocument();" class="mr-3 ml-3 btn" id="btn_show"  style="font-size: 25px !important; background:none; margin-top: -7px;"><img src="../img/icon/doc.png" style='width:35px; ' class="mr-1"><?php echo $array['show'][$language]; ?></button>
+                          
+                        <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="fas fa-paste"></i>
+                                              </div>
+                                              <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                                                  <?php echo $array['show'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                        <!-- <button onclick="SelectDocument();" class="mr-3 ml-3 btn" id="btn_show"  style="font-size: 25px !important; background:none; margin-top: -7px;"><img src="../img/icon/doc.png" style='width:35px; ' class="mr-1"><?php echo $array['show'][$language]; ?></button> -->
 
                           <!-- <button type="button" class="btn btn-warning" name="button"  id='btn_show' onclick="SelectDocument();" disabled='true'><?php echo $array['show'][$language]; ?></button> -->
-                        </div>
                         </div>
 
                         <div class="row">
@@ -1486,7 +1515,7 @@ $array2 = json_decode($json2,TRUE);
               <div class="col-md-8">
                 <div class='form-group row'>
                   <label class="col-sm-3 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                  <input type="text" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <input type="text"  autocomplete="off" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                 </div>
               </div>
 

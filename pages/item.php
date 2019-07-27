@@ -1168,10 +1168,10 @@ $array2 = json_decode($json2, TRUE);
                 timer: 2000,
                 confirmButtonText: 'Ok'
               });
-              setTimeout(function() {
+              // setTimeout(function() {
                 Blankinput();
                 ShowItem();
-              }, 2000);
+              // }, 2000);
 
             } else if ((temp["form"] == 'AddUnit')) {
               var itemcode = $('#ItemCode').val();
@@ -1648,7 +1648,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
                 <div class="col-md-4">
                   <div class="row " style="margin-left:2px;">
-                    <input type="text" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -1747,13 +1747,13 @@ $array2 = json_decode($json2, TRUE);
 
                 <div class="menu" id="BlankItemBNT">
                   <div class="d-flex justify-content-center">
-                    <div class="circle5 d-flex align-items-center d-flex justify-content-center">
-                        <i class="fas fa-times"></i>
+                    <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                        <i class="fas fa-eraser"></i>
                     </div>
                   </div>
                   <div>
                     <button class="btn" onclick="Blankinput()" id="bDelete">
-                      <?php echo $array['cancel'][$language]; ?>
+                      <?php echo $array['clear'][$language]; ?>
                     </button>
                   </div>
                 </div>
@@ -2002,7 +2002,7 @@ $array2 = json_decode($json2, TRUE);
                         <!-- <a href="javascript:void(0)" onclick="AddUnit();" class="ml-3 "><img src="../img/icon/ic_save.png" style="width:34px;" class="mr-2"><?php echo $array['save'][$language]; ?></a> -->
                         <!-- <a href="javascript:void(0)" onclick="DeleteUnit();" class="ml-3 "><img src="../img/icon/ic_delete.png" style="width:36px;" class="mr-2"><?php echo $array['delete'][$language]; ?></a> -->
                         <!-- </div>  -->
-                        <div class="search_custom col-md-1 ml-1">
+                        <div class="search_custom  ml-1">
                           <div class="d-flex justify-content-start">
                             <div class="save_1 d-flex align-items-center d-flex justify-content-center">
                                 <i class="fas fa-save"></i>
@@ -2013,7 +2013,7 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                         </div>
 
-                        <div class="search_custom col-md-1">
+                        <div class="search_custom ">
                           <div class="d-flex justify-content-start">
                             <div class="del_1 d-flex align-items-center d-flex justify-content-center">
                                 <i class="fas fa-trash-alt"></i>

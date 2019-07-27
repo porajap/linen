@@ -273,7 +273,7 @@ function getdetail($conn, $DATA)
   while ($MResult = mysqli_fetch_assoc($MQuery)) {
     if ($MResult['cnt'] == 0) {
       $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
-               (1, 1, 1, '$ItemCode' , $CusPrice) ";
+               ($unitCode, $unitCode, 1, '$ItemCode' , $CusPrice) ";
       mysqli_query($conn, $Sql2);
     } else {
       $Sql2 = "UPDATE item_multiple_unit SET  PriceUnit = $CusPrice 

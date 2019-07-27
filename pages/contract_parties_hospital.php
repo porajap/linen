@@ -549,7 +549,7 @@ body{
       <!-- content-wrapper -->
       <div id="content-wrapper">
 
-    <div class="row" style="margin-top:-15px;"> <!-- start row tab -->
+    <div class="row m-2" style="margin-top:-15px;"> <!-- start row tab -->
 <div class="col-md-12"> <!-- tag column 1 -->
 <!-- /.content-wrapper -->
                           <div class="row mt-3">
@@ -560,14 +560,14 @@ body{
                                     <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                                  <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
+                                                  <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
                                                 </div>
                                               </div>
 
                                               <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                                  <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
+                                                  <input type="text"  autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
                                                 </div>
                                               </div>
 
@@ -659,8 +659,29 @@ body{
                             </div>
                           </div>
 
-              <div class="offset-4 col-md-8">
-                  <div class="row" style="margin-left:20px;margin-right: 20px;">
+              <div class=" col-md-12 ">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
+                        </li>
+                      </ul>
+     <!-- =================================================================== -->
+                      <div class="row mt-4">
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                      <select   class="form-control col-sm-8" id="side" onchange="getDepartment();" ></select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['detail'][$language]; ?></label></label><input type="hidden" id="xRowID" >
+                                        <input type="text" class="form-control col-sm-8 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
+                                    </div>
+                                  </div>
+                                </div>  
+                            
+                  <!-- <div class="row mt-4" style="margin-left:20px;margin-right: 20px;">
                     <div class="col-md-4">
                         <label><?php echo $array['side'][$language]; ?></label>
                         <select style="font-size:24px;font-family:'THSarabunNew'" class="form-control" id="side" onchange="getDepartment();">
@@ -669,7 +690,25 @@ body{
                     <div class="col-md-4">
                         <label><?php echo $array['datestartcontract'][$language]; ?></label>
                         <input type="text"  class="form-control datepicker-here" id="datepicker3" data-language='en' data-date-format='yyyy-mm-dd' >
-                    </div>
+                    </div> -->
+
+      <!-- =================================================================== -->
+
+      <div class="row ">
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
+                                        <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker3"  data-language='en' data-date-format='yyyy-mm-dd' >
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
+                                      <input type="text"  class="form-control col-sm-8 datepicker-here" id="datepicker4" data-language='en' data-date-format='yyyy-mm-dd' >
+                                    </div>
+                                  </div>
+                                </div> 
+<!-- 
                     <div class="col-md-4">
                         <label><?php echo $array['dateendcontract'][$language]; ?></label>
                         <input type="text"  class="form-control datepicker-here" id="datepicker4" data-language='en' data-date-format='yyyy-mm-dd' >
@@ -681,7 +720,7 @@ body{
                         <label ><?php echo $array['detail'][$language]; ?></label><input type="hidden" id="xRowID" >
                         <input type="text" class="form-control" style="font-family: 'THSarabunNew';font-size:24px;" id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
                     </div>
-                  </div>
+                  </div> -->
 
                   <!-- <div class="row" style="margin-left:20px">
                       <div style="width:900px;">

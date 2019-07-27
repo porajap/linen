@@ -79,6 +79,7 @@
       .circle6{
         color:#ffffff;
       }
+
       i{
         -webkit-transition: -webkit-transform .8s ease-in-out;
           transition:transform .8s ease-in-out;
@@ -125,6 +126,16 @@
         background-color: #2d98da;
       }
       .search_1{
+        color:#ffffff;
+      }
+            
+      .search_2{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#FFCCCC	;
+      }
+      .search_2{
         color:#ffffff;
       }
       .import_1{

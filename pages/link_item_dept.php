@@ -1496,7 +1496,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
                         <label style='width:25% 'class='text-right mr-sm-2 pl-4'><?php echo $array['search'][$language]; ?></label>
-                        <input type="text" class="form-control" style='width:55%' name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                        <input type="text" autocomplete="off" class="form-control" style='width:55%' name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                       </div>
                     </div>
                   </div>
@@ -1536,7 +1536,7 @@ $array2 = json_decode($json2,TRUE);
                       <div class="row ml-2 mhee" style='margin-top:10px;'>
                         <div class='form-group form-inline'>
                           <label class="mr-2"><?php echo $array['search'][$language]; ?></label>
-                          <input type="text" class="form-control mr-2" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                          <input type="text" class="form-control mr-2" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                           <img src="../img/icon/ic_delete.png" style='margin-left: 15px;width:36px;' class='mr-3 ' >
                           <a href='javascript:void(0)' onclick="DeleteItem()" id="btn_Delete"> <?php echo $array['delete'][$language]; ?></a>             
                         </div>
