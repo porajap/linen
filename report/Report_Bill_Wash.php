@@ -83,7 +83,7 @@ class PDF extends FPDF
       $this->Cell($w[2],6,iconv("UTF-8","TIS-620","  ".$inner_array[$field[2]]),1,0,'L');
       $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$inner_array[$field[3]]." "),1,0,'R');
       $this->Cell($w[4],6,iconv("UTF-8","TIS-620",$inner_array[$field[4]]),1,0,'C');
-      $this->Cell($w[5],6,iconv("UTF-8","TIS-620",$inner_array[$field[5]]." "),1,0,'R');
+      $this->Cell($w[5],6,iconv("UTF-8","TIS-620",$inner_array[$field[5]]. " ". $inner_array[$field[8]]),1,0,'R');
       $this->Cell($w[6],6,iconv("UTF-8","TIS-620",$inner_array[$field[6]]." "),1,0,'R');
       $this->Cell($w[7],6,iconv("UTF-8","TIS-620",$inner_array[$field[7]]." "),1,0,'R');
 
@@ -164,6 +164,7 @@ $query = "SELECT
           billwash_detail.ItemCode,
           item.ItemName,
           item_unit.UnitName,
+          item_unit.UnitName2,
 					billwash_detail.Qty1,
 					billwash_detail.Weight,
 					billwash_detail.Total,
@@ -180,14 +181,14 @@ $query = "SELECT
 // Number of column
 $numfield = 8;
 // Field data (Must match with Query)
-$field = "no,ItemCode,ItemName,Qty1,UnitName,Weight,Price,Total";
+$field = "no,ItemCode,ItemName,Qty1,UnitName,Weight,Price,Total,UnitName2";
 // Table header
 $header = array($array['no'][$language],$array['itemcode'][$language],$array['itemname'][$language],$array['amount'][$language],$array['unit'][$language],$array['perunit'][$language],$array['priceunit'][$language],$array['price'][$language]);
 // width of column table
 $width = array(15,35,40,20,20,15,15,20);
 // Get Data and store in Result
 $result = $data->getdata($conn,$query,$numfield,$field);
-// Set Table
+// Set Table  
 $pdf->SetFont('THSarabun','b',10);
 $pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
 $pdf->Ln();

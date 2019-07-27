@@ -633,10 +633,14 @@ $array2 = json_decode($json2,TRUE);
                       confirmButtonText: 'Ok',
                       closeOnConfirm: false
                     });
+
+                    $( "#TableItemDetail tbody" ).empty();
+                    $("#total").val("0.00");
                     $("#docno").val(temp[0]['DocNo']);
                     $("#docdate").val(temp[0]['DocDate']);
                     $("#recorder").val(temp[0]['Record']);
                     $("#timerec").val(temp[0]['RecNow']);
+    
 
                   }else if(temp["form"]=='ShowDocument'){
                     $( "#TableDocument tbody" ).empty();
@@ -819,7 +823,7 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
                       "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap>"+Weight+"</td>"+
-                      "<td style='width: 4%;'>                     "+UnitName2+"</td>"+
+                      "<td style='width: 5%;'>                     "+UnitName2+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
 
