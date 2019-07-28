@@ -213,6 +213,8 @@
 <dateP><en>Date OF UPD PC.</en><th>วันที่อัพเดทราคา</th></dateP>
 <activemail><en>Main Email</en><th>Main Email</th></activemail>
 <img><en>Profile Image</en><th>ภาพโปรไฟล์</th></img>
+<addfailedmsg><en>addfailedmsg</en><th>ไม่สามารถเพิ่มข้อมูลได้</th></addfailedmsg>
+<editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 
 
 </lang>

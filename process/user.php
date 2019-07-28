@@ -262,100 +262,103 @@ function getFactory($conn, $DATA)
 }
 
 
-function AddItem($conn, $DATA)
-{
-    $count = 0;
-    $UsID = $DATA['UsID'];
-    $UserName = $DATA['UserName'];
-    $Password = $DATA['Password'];
-    $host = $DATA['host'];
-    $FName = $DATA['FName'];
-    $Permission = $DATA['Permission'];
-    $facID = $DATA['facID'];
-    $email = $DATA['email'];
-    $xemail = $DATA['xemail'];
-
-    $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
-    $MQuery = mysqli_query($conn, $countMail);
-    while ($MResult = mysqli_fetch_assoc($MQuery)) {
-
-    if ($MResult['cnt'] == 0){
-      $xxemail = 1;
-    }else{
-      $xxemail = 0;
-
-    }
-  }
-    if($UsID != ""){
-        $Sql = "UPDATE users SET 
-        users.HptCode='$host',
-        users.UserName='$UserName',
-        users.`Password`='$Password',
-        users.FName='$FName',
-        users.PmID=$Permission,
-        users.FacCode=$facID,
-        users.email='$email',
-        users.Active_mail='$xxemail',
-        users.Modify_Date=NOW() 
-        WHERE users.ID = $UsID";
-
-    $return['sql']=$Sql;
-        if(mysqli_query($conn, $Sql)){
-            $return['status'] = "success";
-            $return['form'] = "AddItem";
-            $return['msg'] = "Edit Success";
-        }else{
-            $return['status'] = "failed";
-            $return['msg'] = "Edit Failed";
-        }
-    }else{
-        $Sql = "INSERT INTO users(
-        users.HptCode,
-        users.UserName,
-        users.`Password`,
-        users.FName,
-        users.IsCancel,
-        users.PmID,
-        users.lang,
-        users.FacCode,
-        users.Count,
-        users.Modify_Date,
-        users.TimeOut,
-        users.email,
-        users.Active_mail
-
-		)
-          VALUES
-        (
-            '$host',
-            '$UserName',
-            '$Password',
-            '$FName',
-            0,
-            $Permission,
-            'en',
-            $facID,
-            0,
-            NOW(),
-            30,
-            '$email',
-            $xxemail
-          )";
+// function AddItem($conn, $DATA)
+// {
+//     $count = 0;
+//     $UsID = $DATA['UsID'];
+//     $UserName = $DATA['UserName'];
+//     $Password = $DATA['Password'];
+//     $host = $DATA['host'];
+//     $FName = $DATA['FName'];
+//     $Permission = $DATA['Permission'];
+//     $facID = $DATA['facID'];
+//     $email = $DATA['email'];
+//     $xemail = $DATA['xemail'];
 
 
-  $return['sql']=$Sql;
-        if(mysqli_query($conn, $Sql)){
-            $return['status'] = "success";
-            $return['form'] = "AddItem";
-            $return['msg'] = "Insert Success";
-        }else{
-            $return['status'] = "failed";
-            $return['msg'] = "Insert Failed";
-        }
-    }
-    echo json_encode($return);
-    mysqli_close($conn);
-}
+//     $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
+//     $MQuery = mysqli_query($conn, $countMail);
+//     while ($MResult = mysqli_fetch_assoc($MQuery)) {
+
+//     if ($MResult['cnt'] == 0){
+//       $xxemail = 1;
+//     }else{
+//       $xxemail = 0;
+
+//     }
+//   }
+//     if($UsID != ""){
+//         $Sql = "UPDATE users SET 
+//         users.HptCode='$host',
+//         users.UserName='$UserName',
+//         users.`Password`='$Password',
+//         users.FName='$FName',
+//         users.PmID=$Permission,
+//         users.FacCode=$facID,
+//         users.email='$email',
+//         users.Active_mail='$xxemail',
+//         users.Modify_Date=NOW() 
+//         WHERE users.ID = $UsID";
+
+//     $return['sql']=$Sql;
+//         if(mysqli_query($conn, $Sql)){
+//             $return['status'] = "success";
+//             $return['form'] = "AddItem";
+//             $return['msg'] = "Edit Success";
+//         }else{
+//             $return['status'] = "failed";
+//             $return['msg'] = "Edit Failed";
+//         }
+//     }else{
+//         $Sql = "INSERT INTO users(
+//         users.HptCode,
+//         users.UserName,
+//         users.`Password`,
+//         users.FName,
+//         users.IsCancel,
+//         users.PmID,
+//         users.lang,
+//         users.FacCode,
+//         users.Count,
+//         users.Modify_Date,
+//         users.TimeOut,
+//         users.email,
+//         users.pic,
+//         users.Active_mail
+
+// 		)
+//           VALUES
+//         (
+//             '$host',
+//             '$UserName',
+//             '$Password',
+//             '$FName',
+//             0,
+//             $Permission,
+//             'en',
+//             $facID,
+//             0,
+//             NOW(),
+//             30,
+//             '$email',
+//             '$filename',
+//             $xxemail
+//           )";
+
+
+//   $return['sql']=$Sql;
+//         if(mysqli_query($conn, $Sql)){
+//             $return['status'] = "success";
+//             $return['form'] = "AddItem";
+//             $return['msg'] = "Insert Success";
+//         }else{
+//             $return['status'] = "failed";
+//             $return['msg'] = "Insert Failed";
+//         }
+//     }
+//     echo json_encode($return);
+//     mysqli_close($conn);
+// }
 
 if(isset($_POST['DATA']))
 {

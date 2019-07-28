@@ -273,11 +273,8 @@ $array2 = json_decode($json2,TRUE);
                 var Permission = $('#Permission').val();
                 var facID = $('#factory').val();
                 var email = $('#email').val();
-
-
                 var xemail = 0;
                 if ($('#xemail').is(':checked')) xemail = 1;
-
             if(count==0){
                 $('.checkblank').each(function() {
                     if($(this).val()==""||$(this).val()==undefined){
@@ -286,8 +283,6 @@ $array2 = json_decode($json2,TRUE);
                     $(this).css('border-color', '');
                     }
                 });
-                    //   var chkEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-                    //     if (chkEmail.test(email)){
                 swal({
                 title: "<?php echo $array['addoredit'][$language]; ?>",
                 text: "<?php echo $array['addoredit'][$language]; ?>",
@@ -302,26 +297,18 @@ $array2 = json_decode($json2,TRUE);
                 closeOnCancel: false,
                 showCancelButton: true}).then(result => {
             if (result.value) {
-                var data = {
-                    'STATUS': 'AddItem',
-                    'UsID': UsID,
-                    'UserName': UserName,
-                    'Password': Password,
-                    'FName': FName,
-                    'host': host,
-                    'Permission' : Permission,
-                    'facID' : facID,
-                    'email' : email,
-                    'xemail' : xemail
-                };
-                    //------------------------------------------- 
-                    if($('#image').val()!=""){
                         var file_data = $('#image').prop('files')[0];   
                         var form_data = new FormData();                  
                         form_data.append('file', file_data);
-                        form_data.append('username', UserName);
                         form_data.append('UsID', UsID);
-                        var URL = '../process/uploadFile.php';
+                        form_data.append('UserName', UserName);
+                        form_data.append('FName', FName);
+                        form_data.append('host', host);
+                        form_data.append('Permission', Permission);
+                        form_data.append('facID', facID);
+                        form_data.append('email', email);
+                        form_data.append('xemail', xemail);
+                        var URL = '../process/insertUser.php';
                         $.ajax({
                             url: URL, 
                             dataType: 'text',
@@ -331,13 +318,42 @@ $array2 = json_decode($json2,TRUE);
                             data:  form_data,
                             type: 'post',
                             success: function(result){
-                                console.log(result);
+                            var msg = "";
+                            switch (result) {
+                                case "addsuccess":
+                                    msg = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                    break;
+                                case "addfailed":
+                                    msg = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                    break;
+                                case "editsuccess":
+                                    msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                    break;
+                                case "editfailed":
+                                    msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                    break;
+                            }
+                                swal({
+                                    title: '',
+                                    text: msg,
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    confirmButtonText: 'Ok'
+                                }).then(function() {
+                                    ShowItem();
+                                    Blankinput();
+                                    $(".dropify-clear").click(); 
+                                }, function(dismiss) {
+                                    $('#DepCode').val("");
+                                    $('#hptsel2').val("1");
+                                    ShowItem();
+                                })
                             }
                         });
-                    }
-                    //------------------------------------------- 
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
             } else if (result.dismiss === 'cancel') {
                 swal.close();
             }
@@ -365,59 +381,6 @@ $array2 = json_decode($json2,TRUE);
         }
       }
 
-
-
-
-
-
-
-
-
-        // function AddItem() {
-        //     var UsID = $('#UsID').val();
-        //     var UserName = $('#username').val();
-        //     var Password = $('#Password').val();
-        //     var FName = $('#flname').val();
-        //     var host = $('#host').val();
-        //     var Permission = $('#Permission').val();
-        //     var facID = $('#factory').val();
-        //     var email = $('#email').val();
-            
-        //     var chkEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-        //     if (chkEmail.test(email)){
-        //         var data = {
-        //         'STATUS': 'AddItem',
-        //         'UsID': UsID,
-        //         'UserName': UserName,
-        //         'Password': Password,
-        //         'FName': FName,
-        //         'host': host,
-        //         'Permission' : Permission,
-        //         'facID' : facID,
-        //         'email' : email
-        //     };
-        //         senddata(JSON.stringify(data));
-        //     }
-        //     else{
-        //         swal({
-        //             title: "<?php echo $array['datafail'][$language]; ?>",
-        //             type: "warning",
-        //             showCancelButton: false,
-        //             confirmButtonClass: "btn-danger",
-        //             closeOnConfirm: false,
-        //             closeOnCancel: false,
-        //             showCancelButton: false,
-        //             showConfirmButton: false,
-        //             timer:2000
-        //         });
-        //         setTimeout(function () {
-        //             $('#email').focus();
-        //         }, 2000);
-
-        //     }
-                
-  
-        // }
 
         function CancelItem() {
             var UsID = $('#UsID').val();
