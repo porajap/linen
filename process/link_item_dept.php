@@ -456,7 +456,7 @@ function ShowItemStock($conn, $DATA)
           FROM
           item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid AND (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+          WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9  AND (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
           ORDER BY item_stock.RowID DESC";
           $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
@@ -465,13 +465,6 @@ function ShowItemStock($conn, $DATA)
     $return[$count]['ItemCode'] = $Result['ItemCode'];
     $return[$count]['ItemName'] = $Result['ItemName'];
     $return[$count]['ParQty'] = $Result['ParQty'];
-    // $return[$count]['UsageCode'] = $Result['UsageCode'];
-    // if($Result['ExpireDate']!=""){
-    //   $tempdate = explode("-",$Result['ExpireDate']);
-    //   $tempdate = $tempdate[2]."/".$tempdate[1]."/".$tempdate[0];
-    // }else{
-    //   $tempdate = "";
-    // }
     if($Result['UsageCode']=="" || $Result['UsageCode']==null){
       $return[$count]['UsageCode'] = '';
     }
