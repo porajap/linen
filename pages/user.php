@@ -485,6 +485,7 @@ $array2 = json_decode($json2,TRUE);
                             console.log(temp);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var email = temp[i]['email'] == null ?'-':temp[i]['email'];
+                                var active_mail = temp[i]['Active_mail'] == 1 ?'X':'';
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var chkDoc = "<input type='radio' name='checkitem' id='checkitem' value='" + temp[i]['ID'] + "' onclick='getdetail(\"" + temp[i]["ID"] + "\")'>";
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
@@ -495,8 +496,9 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 10%;' nowrap>" + temp[i]['UserName'] + "</td>" +
                                     "<td style='width: 10%;' nowrap>" + temp[i]['Password'] + "</td>" +
                                     "<td style='width: 16%;' nowrap>" + email + "</td>" +
-									"<td style='width: 12%;' nowrap>" + temp[i]['Permission'] + "</td>" +
-									"<td style='width: 22%;' nowrap>" + temp[i]['HptName'] + "</td>" +
+                                    "<td style='width: 8%;' nowrap class='text-center'>"+active_mail+"</td>" +
+									"<td style='width: 10%;' nowrap>" + temp[i]['Permission'] + "</td>" +
+									"<td style='width: 16%;' nowrap>" + temp[i]['HptName'] + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -1057,8 +1059,9 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 10%;' nowrap> <?php echo $array['username'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['password'][$language]; ?> </th>
                                         <th style='width: 16%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
-                                        <th style='width: 12%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
-                                        <th style='width: 22%;' nowrap> <?php echo $array['side'][$language]; ?>  </th>
+                                        <th style='width: 8%;' nowrap> <?php echo $array['activemail'][$language]; ?> </th>
+                                        <th style='width: 10%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
+                                        <th style='width: 16%;' nowrap> <?php echo $array['side'][$language]; ?>  </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:380px;">
