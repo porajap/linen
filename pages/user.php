@@ -146,7 +146,12 @@ $array2 = json_decode($json2,TRUE);
           // console.log(JSON.stringify(data2));
           senddata(JSON.stringify(data2));
         }
-
+        function uncheckAll2() {
+                $('input[type=checkbox]').each(function() 
+                    { 
+                            this.checked = false; 
+                    });
+                }
   
 
         function getPermission(){
@@ -421,16 +426,19 @@ $array2 = json_decode($json2,TRUE);
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $(".dropify-clear").click(); 
-            $('#xemail').attr("checked", false);
-            $('.xemail').each(function() {
-                $(this).val("");
-                $('.xemail').attr("checked", false);
-            });
+            
+            // $('#xemail').attr("checked", false);
+            // $('.xemail').each(function() {
+            //     $(this).val("");
+            //     $('.xemail').attr("checked", false);
+            // });
             $(".dropify-clear").click(); 
             getHotpital();
             getEmployee();
             getPermission();
             ShowItem();
+            uncheckAll2();
+
         }
 
         function getdetail(ID) {
@@ -511,6 +519,8 @@ $array2 = json_decode($json2,TRUE);
                                 }
                             }
                         } else if ((temp["form"] == 'getdetail')) {
+                            // uncheckAll2();
+                   
                             $('#factory').val(0);
                             // ------------------------------------
                             $(".dropify-clear").click(); 
@@ -526,10 +536,16 @@ $array2 = json_decode($json2,TRUE);
                                 $('#delete_icon').removeClass('opacity');
 
                                 if (temp['xemail'] == 1)  {
-									$('#xemail').attr( "checked", true );
+                                        $('input[type=checkbox]').each(function() 
+                                {   
+                                this.checked = true; 
+                                        });                                
                                 }else{
-									$('#xemail').attr( "checked", false );
-                            }
+                                $('input[type=checkbox]').each(function() 
+                                {   
+                                this.checked = false; 
+                                        });                               
+                                    }
 
                                 var StrTr="";
                                 $("#host").empty();
@@ -621,6 +637,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
+                                
                                 Blankinput();
                             }, function(dismiss) {
 
@@ -676,6 +693,7 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonText: 'Ok'
                             }).then(function() {
                                 Blankinput();
+
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                     $(this).val("");
@@ -734,6 +752,7 @@ $array2 = json_decode($json2,TRUE);
                             }).then(function() {
                                 Blankinput();
                                 $(".dropify-clear").click(); 
+
 
                             }, function(dismiss) {
                                 Blankinput();
