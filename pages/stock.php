@@ -48,6 +48,7 @@ $array = json_decode($json,TRUE);
   <!-- Custom styles for this template-->
   <link href="../template/css/sb-admin.css" rel="stylesheet">
   <link href="../css/xfont.css" rel="stylesheet">
+  <link href="../css/menu_custom.css" rel="stylesheet">
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="../jQuery-ui/jquery-1.12.4.js"></script>
@@ -410,7 +411,7 @@ $array = json_decode($json,TRUE);
 
                 
                 <div class="row">
-                  <div class="col-md-11"> <!-- tag column 1 -->
+                  <div class="col-md-12"> <!-- tag column 1 -->
                     <div class="container-fluid">
                       <div class="card-body" >
                         <div class="row col-12">
@@ -429,13 +430,33 @@ $array = json_decode($json,TRUE);
                             </div>
                           </div>
 
-                          <div class="col-md-5 mhee">
+                          <div class="col-md-5">
                             <div class='form-group row'>
                               <input  type="text" class="form-control col-sm-5"  id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                              <a href="javascript:void(0)" onclick="ShowDocument(0);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a>
-                              <a href="javascript:void(0)" onclick="ShowDocument(2);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/all.png" style='width:35px; ' class="mr-1"><?php echo $array['searchalldep'][$language]; ?></a>
+                              <div class="search_custom col-md-3">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                  <i class="fas fa-search"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDocument(0)" >
+                                                  <?php echo $array['search'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div class="search_custom col-md-4">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="fab fa-searchengin"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDocument(1)" >
+                                                  <?php echo $array['searchalldep'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                          
                             </div>
                           </div>
+
                         </div>                 
                       </div>
                     </div>
