@@ -278,10 +278,10 @@ $array2 = json_decode($json2,TRUE);
             if(count==0){
                 $('.checkblank').each(function() {
                     if($(this).val()==""||$(this).val()==undefined){
-                    $(this).css('border-color', 'red');
-                    }else{
+                $(this).css('border-color', 'red');
+                }else{
                     $(this).css('border-color', '');
-                    }
+                }
                 });
                 swal({
                 title: "<?php echo $array['addoredit'][$language]; ?>",
@@ -346,6 +346,7 @@ $array2 = json_decode($json2,TRUE);
                                     confirmButtonText: 'Ok'
                                 });
                                 setTimeout(function(){ 
+                                    $('xemail').prop( "checked", false );
                                     Blankinput();
                                  }, 1000);
                                 
@@ -420,7 +421,12 @@ $array2 = json_decode($json2,TRUE);
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $(".dropify-clear").click(); 
-            $('#xemail').attr("checked", true);
+            $('#xemail').attr("checked", false);
+            $('.xemail').each(function() {
+                $(this).val("");
+                $('.xemail').attr("checked", false);
+            });
+            $(".dropify-clear").click(); 
             getHotpital();
             getEmployee();
             getPermission();
@@ -477,6 +483,7 @@ $array2 = json_decode($json2,TRUE);
                     swal.close();
                     if (temp["status"] == 'success') {
                         if ((temp["form"] == 'ShowItem')) {
+                            $('#xemail').attr("checked", false);
                             $("#TableItem tbody").empty();
                             console.log(temp);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -614,9 +621,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
-                                ShowItem();
                                 Blankinput();
-                                $(".dropify-clear").click(); 
                             }, function(dismiss) {
 
                                 $('#DepCode').val("");
@@ -670,9 +675,7 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
-                                ShowItem();
                                 Blankinput();
-                                $(".dropify-clear").click(); 
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                     $(this).val("");
@@ -729,13 +732,11 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                             }).then(function() {
-                                ShowItem();
                                 Blankinput();
                                 $(".dropify-clear").click(); 
 
                             }, function(dismiss) {
                                 Blankinput();
-                                ShowItem();
                             })
                         } else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
@@ -1190,7 +1191,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['activemail'][$language]; ?></label>
-                                        <input type="checkbox"  id="xemail"  >
+                                        <input type="checkbox"  id="xemail" class="xemail">
                                     </div>
                                   </div>
                                 </div>      
