@@ -319,21 +319,21 @@ $array2 = json_decode($json2,TRUE);
                             data:  form_data,
                             type: 'post',
                             success: function(result){
-                            var msg = "";
-                            switch (result) {
-                                case "addsuccess":
-                                    msg = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "addfailed":
-                                    msg = "<?php echo $array['addfailedmsg'][$language]; ?>";
-                                    break;
-                                case "editsuccess":
-                                    msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "editfailed":
-                                    msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
-                                    break;
-                            }
+                                var msg = "";
+                                switch (result) {
+                                    case "addsuccess":
+                                        msg = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                        break;
+                                    case "addfailed":
+                                        msg = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                        break;
+                                    case "editsuccess":
+                                        msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                        break;
+                                    case "editfailed":
+                                        msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                        break;
+                                }
                                 swal({
                                     title: '',
                                     text: msg,
@@ -344,15 +344,11 @@ $array2 = json_decode($json2,TRUE);
                                     showConfirmButton: false,
                                     timer: 2000,
                                     confirmButtonText: 'Ok'
-                                }).then(function() {
-                                    ShowItem();
+                                });
+                                setTimeout(function(){ 
                                     Blankinput();
-                                    $(".dropify-clear").click(); 
-                                }, function(dismiss) {
-                                    $('#DepCode').val("");
-                                    $('#hptsel2').val("1");
-                                    ShowItem();
-                                })
+                                 }, 1000);
+                                
                             }
                         });
             } else if (result.dismiss === 'cancel') {
@@ -424,7 +420,7 @@ $array2 = json_decode($json2,TRUE);
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $(".dropify-clear").click(); 
-            $('#xemail').attr("checked", false);
+            $('#xemail').attr("checked", true);
             getHotpital();
             getEmployee();
             getPermission();

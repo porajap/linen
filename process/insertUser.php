@@ -20,17 +20,27 @@ date_default_timezone_set("Asia/Bangkok");
     $lastname = explode('.',$_FILES['file']['name']);
     $filename = $newname.'.'.$lastname[1];
 
-
-    $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
-    $MQuery = mysqli_query($conn, $countMail);
-    while ($MResult = mysqli_fetch_assoc($MQuery)) {
-
-        if ($MResult['cnt'] == 0){
-            $xxemail = 1;
-        }else{
-            $xxemail = 0;
+    if($xemail == 1){
+        $setActive = "SELECT users.ID FROM users WHERE HptCode = '$host' AND Active_mail = 1";
+        $setQuery = mysqli_query($conn, $setActive);
+        while ($MResult = mysqli_fetch_assoc($setQuery)) {
+            $ID = $MResult['ID'];
+            $Update = "UPDATE users SET Active_mail = 0 WHERE users.ID = $ID";
+            mysqli_query($conn, $Update);
         }
     }
+
+
+    // $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
+    // $MQuery = mysqli_query($conn, $countMail);
+    // while ($MResult = mysqli_fetch_assoc($MQuery)) {
+
+    //     if ($MResult['cnt'] == 0){
+    //         $xxemail = 1;
+    //     }else{
+    //         $xxemail = 0;
+    //     }
+    // }
     if($UsID != ""){
         if($_FILES['file']!=""){
             $newname = $Username.$UsID;
@@ -46,7 +56,7 @@ date_default_timezone_set("Asia/Bangkok");
                 users.FacCode=$facID,
                 users.email='$email',
                 users.pic='$filename',
-                users.Active_mail='$xxemail',
+                users.Active_mail='$xemail',
                 users.Modify_Date=NOW() 
                 WHERE users.ID = $UsID";
         }else{
@@ -58,7 +68,7 @@ date_default_timezone_set("Asia/Bangkok");
                 users.PmID=$Permission,
                 users.FacCode=$facID,
                 users.email='$email',
-                users.Active_mail='$xxemail',
+                users.Active_mail='$xemail',
                 users.Modify_Date=NOW() 
                 WHERE users.ID = $UsID";
         }
@@ -105,7 +115,7 @@ date_default_timezone_set("Asia/Bangkok");
                     30,
                     '$email',
                     '$filename',
-                    $xxemail
+                    $xemail
                 )";
         }else{
             $Sql = "INSERT INTO users(
@@ -138,7 +148,7 @@ date_default_timezone_set("Asia/Bangkok");
                     NOW(),
                     30,
                     '$email',
-                    $xxemail
+                    $xemail
                 )";
         }
         if(mysqli_query($conn, $Sql)){
