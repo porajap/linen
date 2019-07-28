@@ -201,7 +201,7 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
         $('#isStatus').val(0)
       }
-
+// 
       function getDepartment(){
         var Hotp = $('#hotpital option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) Hotp = "BHQ";
