@@ -788,7 +788,7 @@ $array2 = json_decode($json2,TRUE);
 
                     var isStatus = $("#IsStatus").val();
 
-                    var st1 = "style='font-size:24px;margin-left:30px; width:147px;'";
+                    var st1 = "style='font-size:24px;margin-left:30px; width:170px;'";
                     for (var i = 0; i < temp["Row"]; i++) {
                       var rowCount = $('#TableItemDetail >tbody >tr').length;
 
@@ -863,7 +863,7 @@ $array2 = json_decode($json2,TRUE);
                       }
                     }
                   }else if( (temp["form"]=='ShowItem') ){
-                    var st1 = "style='font-size:24px;margin-left:30px; width:140px;font-family:THSarabunNew'";
+                    var st1 = "style='font-size:24px;margin-left:30px; width:160px;font-family:THSarabunNew'";
                     var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                     $( "#TableItem tbody" ).empty();
                     for (var i = 0; i < temp["Row"]; i++) {

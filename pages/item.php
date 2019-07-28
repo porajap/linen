@@ -1876,7 +1876,7 @@ $array2 = json_decode($json2, TRUE);
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['category'][$language]; ?></label>
+                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
                               <select class="form-control col-sm-8" id="catagory2" onchange="CreateItemCode()"></select>
                             </div>
                           </div>
@@ -1926,7 +1926,7 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['size'][$language]; ?></label>
+                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['sizeunit'][$language]; ?></label>
                               <select class="form-control col-sm-8 checkblank numonly" id="SizeCode">
                                 <option value="1">SS</option>
                                 <option value="2">S</option>
@@ -1946,7 +1946,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
 
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['size'][$language]; ?></label>
+                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['widthunit'][$language]; ?></label>
 
                               <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['size'][$language]; ?>">
 
@@ -1972,7 +1972,7 @@ $array2 = json_decode($json2, TRUE);
                           <label><?php echo $array['unit'][$language]; ?></label>
                         </div>
                         <div style="width:160px;">
-                          <div style="font-size:24px;width:130px;">
+                          <div style="font-size:24px;width:155px;">
                             <select class="form-control" style="font-size:24px;" id="Unitshows" disabled>
                             </select>
                           </div>
