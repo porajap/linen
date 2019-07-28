@@ -40,7 +40,7 @@ date_default_timezone_set("Asia/Bangkok");
             $Sql = "UPDATE users SET 
                 users.HptCode='$host',
                 users.UserName='$UserName',
-                users.`Password`='$Password',
+                users.Password ='$Password',
                 users.FName='$FName',
                 users.PmID=$Permission,
                 users.FacCode=$facID,
@@ -53,7 +53,7 @@ date_default_timezone_set("Asia/Bangkok");
             $Sql = "UPDATE users SET 
                 users.HptCode='$host',
                 users.UserName='$UserName',
-                users.`Password`='$Password',
+                users.Password='$Password',
                 users.FName='$FName',
                 users.PmID=$Permission,
                 users.FacCode=$facID,
@@ -76,7 +76,7 @@ date_default_timezone_set("Asia/Bangkok");
             $Sql = "INSERT INTO users(
                 users.HptCode,
                 users.UserName,
-                users.`Password`,
+                users.Password,
                 users.FName,
                 users.IsCancel,
                 users.PmID,
@@ -111,7 +111,7 @@ date_default_timezone_set("Asia/Bangkok");
             $Sql = "INSERT INTO users(
                 users.HptCode,
                 users.UserName,
-                users.`Password`,
+                users.Password,
                 users.FName,
                 users.IsCancel,
                 users.PmID,

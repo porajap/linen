@@ -302,6 +302,7 @@ $array2 = json_decode($json2,TRUE);
                         form_data.append('file', file_data);
                         form_data.append('UsID', UsID);
                         form_data.append('UserName', UserName);
+                        form_data.append('Password', Password);
                         form_data.append('FName', FName);
                         form_data.append('host', host);
                         form_data.append('Permission', Permission);
@@ -422,6 +423,8 @@ $array2 = json_decode($json2,TRUE);
             $('#email').val("");
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
+            $(".dropify-clear").click(); 
+            $('#xemail').attr("checked", false);
             getHotpital();
             getEmployee();
             getPermission();
@@ -506,7 +509,6 @@ $array2 = json_decode($json2,TRUE);
                             $('#factory').val(0);
                             // ------------------------------------
                             $(".dropify-clear").click(); 
-                            
                             // ------------------------------------
 
                             if ((Object.keys(temp).length - 2) > 0) {
@@ -519,9 +521,9 @@ $array2 = json_decode($json2,TRUE);
                                 $('#delete_icon').removeClass('opacity');
 
                                 if (temp['xemail'] == 1)  {
-									$('#xemail').prop( "checked", true );
+									$('#xemail').attr( "checked", true );
                                 }else{
-									$('#xemail').prop( "checked", false );
+									$('#xemail').attr( "checked", false );
                             }
 
                                 var StrTr="";
@@ -739,6 +741,7 @@ $array2 = json_decode($json2,TRUE);
                             })
                         } else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
+                            $("#hptsel").empty();
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 $("#host").append(StrTr);
@@ -1058,7 +1061,7 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 22%;' nowrap> <?php echo $array['side'][$language]; ?>  </th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:250px;">
+                                <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:380px;">
                                 </tbody>
                             </table>
 
