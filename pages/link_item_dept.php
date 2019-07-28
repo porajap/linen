@@ -757,7 +757,6 @@ $array2 = json_decode($json2,TRUE);
               $('input[name="chkItem"]:checked').each(function() {
                 RowArray.push($(this).data('value'));
               });
-              alert(1);
               for (i = 0; i < RowArray.length; ++i) {
                   $('#tr'+RowArray[i]).remove();
               }
@@ -1150,7 +1149,7 @@ $array2 = json_decode($json2,TRUE);
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
                                 var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+i+"' value='"+temp[i]['ItemCode']+"' >";
                                 var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" style=" margin-left: -34px;width: 168px;">';
-                                StrTR = "<tr id='tr"+temp[i]['RowID']+"'>"+
+                                StrTR = "<tr id='tr"+i+"'>"+
                                                 "<td style='width: 5%;' nowrap>"+chkItem+"</td>"+
                                                 "<td style='width: 25%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
                                                 "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
