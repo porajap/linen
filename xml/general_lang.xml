@@ -217,6 +217,7 @@
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
 <widthunit><en>width</en><th>ขนาดความกว้าง</th></widthunit>
+<searchuser><en>search user</en><th>ค้นหาผู้ใช้งาน</th></searchuser>
 
 
 </lang>

@@ -1042,7 +1042,7 @@ $array2 = json_decode($json2,TRUE);
 
                                 <div class="col-md-9">
                                     <div class="row" style="margin-left:5px;">
-                                        <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                                        <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchuser'][$language]; ?>">
                                             <div class="search_custom col-md-2">
                                             <div class="d-flex justify-content-start">
                                               <div class="search_1 d-flex align-items-center d-flex justify-content-center">
@@ -1074,8 +1074,8 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 22%;' nowrap> <?php echo $array['flname'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['username'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['password'][$language]; ?> </th>
-                                        <th style='width: 16%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
-                                        <th style='width: 8%;' nowrap> <?php echo $array['activemail'][$language]; ?> </th>
+                                        <th style='width: 13%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
+                                        <th style='width: 10%;' nowrap> <?php echo $array['activemail'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
                                         <th style='width: 16%;' nowrap> <?php echo $array['side'][$language]; ?>  </th>
                                     </tr>
