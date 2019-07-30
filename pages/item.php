@@ -688,11 +688,12 @@ $array2 = json_decode($json2, TRUE);
 
     function Blankinput() {
       $(".radio-c :input").attr("disabled", false);
-      $("input[name=formatitem][value=1]").prop('checked', true);
-      $('#oldCodetype').show();
+      $("input[name=formatitem][value=3]").prop('checked', true);
+      $('#oldCodetype').hide();
       $('.checkblank').each(function() {
         $(this).val("");
       });
+      $('#ItemCode').attr('disabled', false);
       $('#ItemCode').val("");
       $('#catagory2').val("1");
       $('#UnitName').val("1");

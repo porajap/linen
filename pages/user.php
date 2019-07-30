@@ -1077,7 +1077,7 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 13%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['activemail'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
-                                        <th style='width: 16%;' nowrap> <?php echo $array['side'][$language]; ?>  </th>
+                                        <th style='width: 17%;' nowrap> <?php echo $array['side'][$language]; ?>  </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:380px;">

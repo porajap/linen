@@ -321,10 +321,13 @@ function additemstock($conn, $DATA)
 {
   $boolean = 0;
   $count = 0;
+  $HptCode = $_SESSION['HptCode'];
+  // $hotpital = $DATA['hotpital'];
   $Deptid = $DATA['DeptID'];
   $ParQty = $DATA['Par'];
   $Itemcode = explode(",",$DATA['ItemCode']);
   $Number = explode(",",$DATA['Number']);
+
 
   // var_dump($Number[0]); die;
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
@@ -363,6 +366,59 @@ function additemstock($conn, $DATA)
     }
 
   }
+  // ====================================================================================
+  for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
+
+    $Sqlzz = "SELECT
+            item.UnitCode
+            FROM item
+            INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+            INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+            INNER JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
+            LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
+            LEFT JOIN item_unit AS U1 ON item_multiple_unit.UnitCode = U1.UnitCode
+        LEFT JOIN item_unit AS U2 ON item_multiple_unit.MpCode = U2.UnitCode
+            WHERE item.ItemCode = '$Itemcode[$i]'";
+      $meQueryx = mysqli_query($conn, $Sqlzz);
+      $Resultx = mysqli_fetch_assoc($meQueryx);
+      $unitCode = $Resultx['UnitCode'];
+      
+    // ====================================================================================
+    $Sqlz = "SELECT category_price.Price
+                FROM    item,item_stock,department,category_price
+                WHERE item.ItemCode = '$Itemcode[$i]'
+                AND category_price.CategoryCode = item.CategoryCode
+                AND item_stock.ItemCode = item.ItemCode
+                AND item_stock.DepCode = department.DepCode
+                AND department.HptCode = '$HptCode'
+                AND category_price.HptCode = '$HptCode'
+                GROUP BY item.ItemCode";
+    $return['sql'] = $Sqlz;
+    // echo json_encode($return);
+  
+    $meQuery = mysqli_query($conn, $Sqlz);
+    $Result = mysqli_fetch_assoc($meQuery);
+    $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
+  
+    $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE ItemCode = '$Itemcode[$i]' AND  MpCode =$unitCode ";
+    $MQuery = mysqli_query($conn, $countM);
+    $return['sql'] = $countM;
+    while ($MResult = mysqli_fetch_assoc($MQuery)) {
+      if ($MResult['cnt'] == 0) {
+        $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
+                 ($unitCode, $unitCode, 1, '$Itemcode[$i]' , $CusPrice) ";
+        mysqli_query($conn, $Sql2);
+      } else {
+        $Sql2 = "UPDATE item_multiple_unit SET  PriceUnit = $CusPrice 
+          WHERE ItemCode =  '$Itemcode[$i]' AND MpCode =$unitCode ";
+        mysqli_query($conn, $Sql2);
+      }
+    }
+  }
+    // ====================================================================================
+
+
+
 
   if($boolean>0){
     $return['status'] = "success";

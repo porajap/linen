@@ -629,6 +629,7 @@ $array2 = json_decode($json2,TRUE);
 
               var dept = $('#department').val();
               var par = $('#parnum').val();
+              var hotpital = $('#hotpital').val();
 
               var strchkarray1 = chkArray1.join(',') ;
               var strchkarray2 = chkArray2.join(',') ;
@@ -637,6 +638,7 @@ $array2 = json_decode($json2,TRUE);
                 'STATUS' : 'additemstock',
                 'DeptID' : dept,
                 'Par' : par,
+                'hotpital' : hotpital,
                 'ItemCode' : strchkarray1,
                 'Number' : strchkarray2
               }

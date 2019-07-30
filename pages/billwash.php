@@ -1220,7 +1220,7 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                             </div>
                           </div> <!-- tag column 1 -->
-                          <div class="col-md-3"> <!-- tag column 2 -->
+                          <div class="col-md-3" > <!-- tag column 2 -->
                             <div class='row' style='margin-left:2px;'>
                               <input class='form-control'autocomplete="off"   style="margin-left:-48px;margin-top:10px;font-size:60px;width:100%;height:162px;text-align:right;padding-top: 15px;" id='total' placeholder="0.00" readonly>
                             </div>
@@ -1229,8 +1229,8 @@ $array2 = json_decode($json2,TRUE);
                         </div>
 
                         <!-- row btn -->
-                        <div class="row m-1 mt-4 d-flex justify-content-end" <?php if($PmID == 1) echo 'hidden'; ?>>
-                          <div class="menu">
+                        <div class="row m-1 mt-4 d-flex justify-content-end" >
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-file-medical"></i>
@@ -1238,12 +1238,12 @@ $array2 = json_decode($json2,TRUE);
                               <!-- <img src="../img/icon/ic_create.png"> -->
                             </div>
                             <div>
-                              <button class="btn" onclick="CreateDocument()" id="bCreate">
+                              <button class="btn" onclick="CreateDocument()" id="bCreate" >
                                 <?php echo $array['createdocno'][$language]; ?>
                               </button>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-file-import"></i>
@@ -1256,7 +1256,7 @@ $array2 = json_decode($json2,TRUE);
                               </button>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-trash-alt"></i>
@@ -1269,7 +1269,7 @@ $array2 = json_decode($json2,TRUE);
                               </button>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-save"></i>
@@ -1282,7 +1282,7 @@ $array2 = json_decode($json2,TRUE);
                               </button>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-times"></i>
@@ -1295,7 +1295,7 @@ $array2 = json_decode($json2,TRUE);
                               </button>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-print"></i>
