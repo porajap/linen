@@ -168,7 +168,7 @@ function UpdateActive($conn, $DATA)
 {
   $UserID = $_SESSION['Userid'];
 
-  $Sql = "UPDATE users SET IsActive = 0 WHERE ID = $UserID";
+  $Sql = "UPDATE users SET IsActive = 0, chk_logoff = 0 WHERE ID = $UserID";
   mysqli_query($conn,$Sql);
 }
 //==========================================================
