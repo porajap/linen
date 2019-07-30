@@ -13,10 +13,10 @@ date_default_timezone_set("Asia/Bangkok");
     $email = $_POST['email'];
     $xemail = $_POST['xemail'];
 
-    $Username = $_POST['username'];
+    // $Username = $_POST['username'];
     $UserID = $_POST['UsID'];
 
-    $newname = $Username.$UserID;
+    $newname = $UserName;
     $lastname = explode('.',$_FILES['file']['name']);
     $filename = $newname.'.'.$lastname[1];
 
@@ -43,7 +43,6 @@ date_default_timezone_set("Asia/Bangkok");
     // }
     if($UsID != ""){
         if($_FILES['file']!=""){
-            $newname = $Username.$UsID;
             $lastname = explode('.',$_FILES['file']['name']);
             $filename = $newname.'.'.$lastname[1];
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
@@ -79,7 +78,6 @@ date_default_timezone_set("Asia/Bangkok");
         }
     }else{
         if($_FILES['file']!=""){
-            $newname = $Username.$UsID;
             $lastname = explode('.',$_FILES['file']['name']);
             $filename = $newname.'.'.$lastname[1];
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
