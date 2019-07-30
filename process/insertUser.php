@@ -29,22 +29,8 @@ date_default_timezone_set("Asia/Bangkok");
             mysqli_query($conn, $Update);
         }
     }
-
-
-    // $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
-    // $MQuery = mysqli_query($conn, $countMail);
-    // while ($MResult = mysqli_fetch_assoc($MQuery)) {
-
-    //     if ($MResult['cnt'] == 0){
-    //         $xxemail = 1;
-    //     }else{
-    //         $xxemail = 0;
-    //     }
-    // }
     if($UsID != ""){
         if($_FILES['file']!=""){
-            $lastname = explode('.',$_FILES['file']['name']);
-            $filename = $newname.'.'.$lastname[1];
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
             $Sql = "UPDATE users SET 
                 users.HptCode='$host',
@@ -78,8 +64,6 @@ date_default_timezone_set("Asia/Bangkok");
         }
     }else{
         if($_FILES['file']!=""){
-            $lastname = explode('.',$_FILES['file']['name']);
-            $filename = $newname.'.'.$lastname[1];
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
             $Sql = "INSERT INTO users(
                 users.HptCode,

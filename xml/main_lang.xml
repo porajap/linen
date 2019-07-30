@@ -315,13 +315,21 @@
       </th>
     </sub>
   </system>
-  <logout>
-    <en>
-      Logout
-    </en>
-    <th>
-      ออกจากระบบ
-    </th>
-  </logout>
+    <logout>
+      <en>
+        Logout
+      </en>
+      <th>
+        ออกจากระบบ
+      </th>
+    </logout>
+    <editprofile>
+      <en>
+        Edit Profile
+      </en>
+      <th>
+        แก้ไขโปรไฟล์
+      </th>
+    </editprofile>
   </menu>
 </linen>

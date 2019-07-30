@@ -316,6 +316,7 @@ switch ($PmID) {
   <link href="template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="template/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <link href="template/css/sb-admin.css" rel="stylesheet">
+  <link rel="stylesheet" href="dropify/dist/css/dropify.min.css">
 
   <script src="template/vendor/jquery/jquery.min.js"></script>
 
@@ -699,6 +700,68 @@ switch ($PmID) {
         }
       });
     }
+
+    function showprofile(){
+      // alert(UserID);
+      $('#editProfile').modal('show');
+    }
+
+    function confirmPic(){
+      if($('#image').val() !=''){
+        var UserID = <?php echo $Userid;?>;
+        var file_data = $('#image').prop('files')[0];   
+        var form_data = new FormData();             
+        form_data.append('file', file_data);
+        form_data.append('UserID', UserID);
+        var URL = 'process/UpdatePic.php';
+        $.ajax({
+            url: URL, 
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data:  form_data,
+            type: 'post',
+            success: function(result){
+                var msg = "";
+                switch (result) {
+                    case "editsuccess":
+                        msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                        break;
+                    case "editfailed":
+                        msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                        break;
+                }
+                swal({
+                    title: '',
+                    text: msg,
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    confirmButtonText: 'Ok'
+                });
+                setTimeout(function(){ 
+                  location.reload(); 
+                }, 2000);
+            }
+        });
+      }else{
+        swal({
+            title: '',
+            text: '<?php echo $array2['errorpic'][$language]; ?>',
+            type: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+        });
+      }
+    }
   </script>
 
   <style>
@@ -766,7 +829,7 @@ switch ($PmID) {
     nav,
     div {
       padding: 10px;
-      background: #FFF;
+      /* background: #FFF; */
     }
 
     nav ul {
@@ -799,11 +862,13 @@ switch ($PmID) {
       background-color: #1659a2 !important;
         border-radius: 15px!important;
         outline: none!important;
+        color:#fff;
     }
     .btn-custom2{
       background-color: #bab9ba !important;
         border-radius: 15px!important;
         outline: none!important;
+        color:#fff;
     }
     .sub-menu li a {
       color: #797979;
@@ -856,7 +921,9 @@ switch ($PmID) {
             <img src="profile/img/<?php echo $Profile;?>" class="user">
             <!-- <i class="fas fa-user-circle fa-fw" style="font-size: 25px;"></i> -->
         </a>
+        
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onclick="showprofile();"><?php echo $array['menu']['editprofile'][$language]; ?></a>
           <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onclick="logoff(1);"><?php echo $array['menu']['logout'][$language]; ?></a>
         </div>
       </li>
@@ -1171,6 +1238,44 @@ switch ($PmID) {
   </nav>
   <!-- div id="siteAds">Ads</div -->
   <!-- footer id="pageFooter">Footer</footer -->
+
+  <!-- modal Profile -->
+  <div class="modal fade" id="editProfile">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"><?php echo $array['menu']['editprofile'][$language]; ?></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+                <input type="file" class="dropify"  accept="image/x-png,image/gif,image/jpeg" id="image" name="image" data-default-file='profile/img/<?php echo $Profile;?>'/>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button class="btn btn-custom1" onclick='confirmPic();'> <?php echo $array2['yes'][$language]; ?></button>
+          <button type="button" class="btn btn-custom2" data-dismiss="modal"> <?php echo $array2['isno'][$language]; ?></button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- end modal -->
+
+  <script src="dropify/dist/js/dropify.min.js"></script>
+  <script>
+      $(document).ready(function(e) {
+          $('.dropify').dropify();
+      });
+  </script>
 </body>
 
 </html>
