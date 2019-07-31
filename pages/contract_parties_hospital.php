@@ -295,17 +295,17 @@ $array2 = json_decode($json2,TRUE);
                           var days = Math.round(diff/1000/60/60/24);
 
 												  if(days <= 30){
-													   Style  = "style='font-weight: bold;color: #ff0000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
+													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
 												   }else{
-													   Style  = "style='color: #1e1e2f;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
+                            Style  = "style='font-weight: bold;color: #000000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
 												   }
-
+                           var daytext = days <= 0 ? "หมดสัญญา" : days+" วัน" ;
 												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' onclick='getRow( "+temp[i]['RowID']+" )'>"+
 															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
 															  "<td style='width: 25%;'>"+temp[i]['HptName']+"</td>"+
 															  "<td style='width: 15%;'>"+temp[i]['StartDate']+"</td>"+
 															  "<td style='width: 15%;'>"+temp[i]['EndDate']+"</td>"+
-															  "<td style='width: 15%; text-align: center;'>"+days+"</td>"+
+															  "<td style='width: 15%; text-align: center;'>"+daytext+"</td>"+
 															  "<td style='width: 25%;'>"+temp[i]['Detail']+"</td>"+
 														  "</tr>";
 

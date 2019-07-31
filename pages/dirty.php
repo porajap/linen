@@ -66,7 +66,7 @@ $array2 = json_decode($json2,TRUE);
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
   <!-- custome style -->
   <link href="../css/responsive.css" rel="stylesheet">
-
+  <link href="../css/menu_custom.css" rel="stylesheet">
   <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
   <script src="../datepicker/dist/js/datepicker.min.js"></script>
   <!-- Include English language -->
@@ -265,9 +265,7 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function SelectDocument(){
-          $('#tab2').attr('hidden',false);
-          $('#switch_col').removeClass('col-md-12');
-          $('#switch_col').addClass('col-md-10');
+   
 
           var selectdocument = "";
           $("#checkdocno:checked").each(function() {
@@ -1244,21 +1242,21 @@ $array2 = json_decode($json2,TRUE);
         <div id="wrapper">
           <div id="content-wrapper">            
             <div class="row">
-              <div class="col-md-10" style='padding-left: 26px;' id='switch_col'>
+              <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" onclick="switch_tap1()" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titledirty'][$language]; ?></a>
+                    <a class="nav-link active" id="home-tab"data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titledirty'][$language]; ?></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" onclick="switch_tap2()" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
                   </li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                       <!-- /.content-wrapper -->
                       <div class="row">
-                          <div class="col-md-12">
+                          <div class="col-md-11">
                               <!-- tag column 1 -->
                               <div class="container-fluid">
                                   <div class="card-body mt-3">
@@ -1334,13 +1332,83 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                               </div>
                           </div> <!-- tag column 1 -->
+                           <!-- row btn -->
+                        <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-file-medical"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_create.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="CreateDocument()" id="bCreate" >
+                                <?php echo $array['createdocno'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-file-import"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_import.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="OpenDialogItem()" id="bImport">
+                                <?php echo $array['import'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-trash-alt"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_delete.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="DeleteItem()" id="bDelete">
+                                <?php echo $array['delitem'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-save"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_save.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="SaveBill()" id="bSave">
+                                <?php echo $array['save'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle5 d-flex align-items-center d-flex justify-content-center">
+                                  <i class="fas fa-times"></i>
+                              </div>
+                              <!-- <img src="../img/icon/ic_cancel.png"> -->
+                            </div>
+                            <div>
+                              <button class="btn" onclick="CancelDocument()" id="bCancel">
+                                <?php echo $array['cancel'][$language]; ?>
+                              </button>
+                            </div>
+                          </div>
+                         
+                        </div>
+                        <!-- end row btn -->
                       </div>
 
                       <div class="row">
                           <div class="col-md-12">
                               <!-- tag column 1 -->
                               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped"
-                                  id="TableItemDetail" width="98%" cellspacing="0" role="grid" style="">
+                                  id="TableItemDetail" width="100%" cellspacing="0"  role="grid" style="">
                                   <thead id="theadsum" style="font-size:24px;">
                                       <tr role="row" id='tr_1'>
                                           <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
@@ -1357,29 +1425,55 @@ $array2 = json_decode($json2,TRUE);
                       </div>
                   </div>
 
-                  <!-- search document -->
-                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                      <div class="row" style="margin-top:10px;">
-                        <div class="col-md-4">
-                          <div class="row" style="font-size:24px;margin-left:2px;">
-                            <select class="form-control" style='font-size:24px;' id="Dep2" >
-                            </select>
+                           <!-- search document -->
+                           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="row" style="margin-top:10px;">
+                          <div class="col-md-4">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                              <select class="form-control" style='font-size:24px;' id="Dep2">
+                              </select>
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-md-6 mhee">
+                          <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
                             <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                            <a href="javascript:void(0)" onclick="ShowDocument(1);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a>
+                                          <div class="search_custom col-md-3">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                  <i class="fas fa-search"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDocument(1)" >
+                                                  <?php echo $array['search'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div class="search_custom col-md-3">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="fab fa-searchengin"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDocument(2)" >
+                                                  <?php echo $array['searchalldep'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
+                            <!-- <a href="javascript:void(0)" onclick="ShowDocument(0);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a> -->
                             <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowDocument(1);"><?php echo $array['search'][$language]; ?></button> -->
-                            <a href="javascript:void(0)" onclick="ShowDocument(2);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/all.png" style='width:35px; ' class="mr-1"><?php echo $array['searchalldep'][$language]; ?></a>
+                            <!-- <a href="javascript:void(0)" onclick="ShowDocument(1);" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/all.png" style='width:35px; ' class="mr-1"><?php echo $array['searchalldep'][$language]; ?></a> -->
                             <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowDocument(2);"><?php echo $array['searchalldep'][$language]; ?></button> -->
                           </div>
                         </div>
-                        <div class="col-md-2 text-right mhee">
-                        <button onclick="SelectDocument();" class="mr-3 ml-3 btn" id="btn_show" disabled='true' style="font-size: 25px !important; background:none; margin-top: -7px;"><img src="../img/icon/doc.png" style='width:35px; ' class="mr-1"><?php echo $array['show'][$language]; ?></button>
-
-                          <!-- <button type="button" class="btn btn-warning" name="button"  id='btn_show' onclick="SelectDocument();" disabled='true'><?php echo $array['show'][$language]; ?></button> -->
-                        </div>
+                          
+                        <div class="search_custom col-md-2">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                              <i class="fas fa-paste"></i>
+                                              </div>
+                                              <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                                                  <?php echo $array['show'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
                       </div>
 
                       <div class="row">
@@ -1408,9 +1502,9 @@ $array2 = json_decode($json2,TRUE);
                 </div>
               </div>
 
-              <div class="col-md-2" id='tab2' <?php if($PmID == 1) echo 'hidden'; ?>>
+              <!-- <div class="col-md-2" id='tab2' <?php if($PmID == 1) echo 'hidden'; ?>> -->
                 <!-- button----------------------------------------- -->
-                <div class="sidenav mhee">
+                <!-- <div class=" mhee">
                     <div class="" style="margin-top:5px;">
                       <div class="card-body" style="padding:0px; margin-top:10px;">
                         <div class="row" style="margin-top:0px;">
@@ -1503,9 +1597,9 @@ $array2 = json_decode($json2,TRUE);
                    
                       </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- end button----------------------------------------- -->
-              </div>
+              <!-- </div> -->
             </div>
           </div>
         </div>
