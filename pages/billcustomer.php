@@ -1139,7 +1139,7 @@ $array2 = json_decode($json2,TRUE);
           <ol class="breadcrumb">
   
   <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['account']['title'][$language]; ?></a></li>
-  <li class="breadcrumb-item active"><?php echo $array2['menu']['account']['sub'][2][$language]; ?></li>
+  <li class="breadcrumb-item active"><?php echo $array2['menu']['account']['sub'][1][$language]; ?></li>
 </ol>
           <div id="wrapper">
             <!-- content-wrapper -->

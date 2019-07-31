@@ -79,7 +79,15 @@
       .circle6{
         color:#ffffff;
       }
-
+      .circle7{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#0000CD;
+      }
+      .circle7{
+        color:#ffffff;
+      }
       i{
         -webkit-transition: -webkit-transform .8s ease-in-out;
           transition:transform .8s ease-in-out;

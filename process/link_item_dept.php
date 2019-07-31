@@ -346,8 +346,8 @@ function additemstock($conn, $DATA)
 
     for ($j=0; $j < $Number[$i] ; $j++) {
       if($countPar == 0){
-        $Sql2 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode)
-        VALUES( '".$Itemcode[$i]."', '$Deptid', $ParQty, 9, $Number[$i],0)";
+        $Sql2 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)
+        VALUES( '".$Itemcode[$i]."', '$Deptid', $ParQty, 9, $Number[$i],0,NOW())";
         if(mysqli_query($conn,$Sql2)){
           $boolean++;
         }
