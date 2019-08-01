@@ -38,13 +38,15 @@
 <titledirty><en>Receive dirty linen</en><th>รับผ้าสกปรก</th></titledirty>
 <titlestockin><en>Receive into stock</en><th>รับเข้าสต๊อก</th></titlestockin>
 <titleclean><en>Receive clean linen</en><th>รับผ้าสะอาด</th></titleclean>
+<titlerepair><en>Receive repair linen</en><th>รับผ้าที่ถูกซ่อม</th></titlerepair>
+<titledamage><en>Receive damage linen</en><th>รับผ้าชำรุด</th></titledamage>
 <titleshelf><en>Shelf Count</en><th>Shelf Count</th></titleshelf>
 <titleclaim><en>Claim</en><th>ใบเคลม</th></titleclaim>
 <titlecus><en>Customer bill records</en><th>บันทึกบิลลูกค้า</th></titlecus>
 <titlewash><en>Washing bill records</en><th>บันทึกบิลซัก</th></titlewash>
 <titlecontractfac><en>Factory Contract</en><th>สัญญาโรงงาน</th></titlecontractfac>
 <priceunit><en>PriceUnit</en><th>ราคาต่อหน่วย</th></priceunit>
-
+<choosedate><en>Please Choose Date</en><th>กรุณาเลือกวันที่</th></choosedate>
 <titlecontracthos><en>Hospital Contract</en><th>สัญญาโรงพยาบาล</th></titlecontracthos>
 <titlefactory><en>Factory</en><th>โรงงานซัก</th></titlefactory>
 <titlefactoryin><en>FactoryIn</en><th>รับผ้าสกปรก</th></titlefactoryin>

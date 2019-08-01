@@ -35,7 +35,7 @@ $array2 = json_decode($json2,TRUE);
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo $array['clean'][$language]; ?></title>
+  <title><?php echo $array['titledamage'][$language]; ?></title>
 
   <link rel="icon" type="image/png" href="../img/pose_favicon.png">
   <!-- Bootstrap core CSS-->
@@ -703,7 +703,7 @@ $(document).ready(function(e){
       function senddata(data){
         var form_data = new FormData();
         form_data.append("DATA",data);
-        var URL = '../process/clean.php';
+        var URL = '../process/damage.php';
         $.ajax({
           url: URL,
           dataType: 'text',
@@ -1230,7 +1230,7 @@ $(document).ready(function(e){
 
     <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
-      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][2][$language]; ?></li>
+      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][11][$language]; ?></li>
     </ol>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
 
@@ -1240,7 +1240,7 @@ $(document).ready(function(e){
               <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titleclean'][$language]; ?></a>
+                    <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titledamage'][$language]; ?></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
@@ -1570,6 +1570,7 @@ $(document).ready(function(e){
                 <input type="text" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
               </div>
             </div>
+
               <!-- serach----------------------- -->
               <div class="search_custom col-md-2">
                 <div class="d-flex justify-content-start">
@@ -1633,7 +1634,7 @@ $(document).ready(function(e){
                 <input type="text" class="form-control col-sm-8" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
               </div>
             </div>
-              <div class="search_custom col-md-2">
+            <div class="search_custom col-md-2">
                 <div class="d-flex justify-content-start">
                   <div class="search_1 d-flex align-items-center d-flex justify-content-center">
                     <i class="fas fa-search"></i>
@@ -1654,7 +1655,6 @@ $(document).ready(function(e){
                       </button>
                 </div>
             </div>  
-              <!-- <button type="button" class="btn btn-warning btn-block" name="button" onclick="UpdateRefDocNo()"><?php echo $array['import'][$language]; ?></button> -->
           </div>
           <table class="table table-fixed table-condensed table-striped" id="TableRefDocNo" cellspacing="0" role="grid">
             <thead style="font-size:24px;">

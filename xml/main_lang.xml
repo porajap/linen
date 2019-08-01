@@ -90,6 +90,22 @@
           วันเปลี่ยนราคา
         </th>
       </sub>
+      <sub>
+        <en>
+          RePair
+        </en>
+        <th>
+          บันทึกรับผ้าที่ถูกซ่อม
+        </th>
+      </sub>
+      <sub>
+        <en>
+          Damage
+        </en>
+        <th>
+          บันทึกรับผ้าชำรุด
+        </th>
+      </sub>
     </general>
     <account>
       <title>

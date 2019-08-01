@@ -1560,20 +1560,29 @@ a.nav-link{
                   <input type="text" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                 </div>
               </div>
-              <div class="col-md-1 ">
-              <img src="../img/icon/i_search.png" style="margin-left: 35px;width:36px;" class='mr-3'>
+            <!-- serach----------------------- -->
+            <div class="search_custom col-md-2">
+                <div class="d-flex justify-content-start">
+                  <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                      <i class="fas fa-search"></i>
+                  </div>
+                  <button class="btn" onclick="ShowItem()" id="bSave">
+                      <?php echo $array['search'][$language]; ?>
+                  </button>
+                </div>
               </div>
-              <div class="col-md-1 mhee">
-                    <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                   <?php echo $array['search'][$language]; ?></a>                                  
-                 </div>
-                 <div class="col-md-1 ">
-              <img src="../img/icon/ic_import.png" style="margin-left: 2px;width:36px;" class='mr-3'>
+
+              <div class="search_custom col-md-2">
+                <div class="d-flex justify-content-start">
+                  <div class="import_1 d-flex align-items-center d-flex justify-content-center">
+                      <i class="fas fa-file-import"></i>
+                  </div>
+                  <button class="btn" onclick="getImport(1)" id="bSave">
+                      <?php echo $array['import'][$language]; ?>
+                  </button>
+                </div>
               </div>
-              <div class="col-md-1 mhee">
-                  <a href='javascript:void(0)' onclick="getImport(1)" id="bSave" style="margin-left: -33px;">
-                <?php echo $array['import'][$language]; ?></a>   
-              </div>
+              <!-- end serach----------------------- -->
             </div>
             <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
               <thead style="font-size:24px;">

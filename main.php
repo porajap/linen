@@ -38,6 +38,8 @@ switch ($PmID) {
         $gen_s8=1;
         $gen_s9=1;
         $gen_s10=1;
+        $gen_s11=1;
+        $gen_s12=1;
         //account
         $ac_head=1;
         $ac_s1=1;
@@ -83,6 +85,8 @@ switch ($PmID) {
         $gen_s8=1;
         $gen_s9=1;
         $gen_s10=1;
+        $gen_s11=1;
+        $gen_s12=1;
         //account
         $ac_head=1;
         $ac_s1=1;
@@ -128,6 +132,8 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=0;
+        $gen_s11=0;
+        $gen_s12=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -173,6 +179,8 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=0;
+        $gen_s11=0;
+        $gen_s12=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -218,6 +226,8 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=0;
+        $gen_s11=0;
+        $gen_s12=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -263,6 +273,8 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=0;
+        $gen_s11=0;
+        $gen_s12=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -963,6 +975,20 @@ switch ($PmID) {
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][2][$language]; ?><span style='color: #ff0000;'
                 id='clean_Cnt'>0</span></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s11== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/repair.php?lang=<?php echo $language; ?>" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][10][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s12== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/damage.php?lang=<?php echo $language; ?>" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][11][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s4== 1){ ?>
