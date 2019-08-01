@@ -161,6 +161,9 @@ $array = json_decode($json,TRUE);
         </div>
     <!-- ==================== End form ==================== -->
     <script>
+    $(document).keyup(function(e) {
+        if (e.keyCode === 13) chklogin();     // enter
+    });
         function reset_pass(){
             var user = document.getElementById("username").value;
             if( user != "" ){
