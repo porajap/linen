@@ -105,7 +105,7 @@ function ShowDocument($conn,$DATA){
 	$return[$count]['DocNo2'] 	= $Result['DocNo2'];
     $return[$count]['DocDate2'] = $Result['DocDate2'];
 	$return[$count]['Total2'] 	= $Result['Total2'];
-	$return[$count]['Precent'] 	= $Result['Precent'];
+	$return[$count]['Precent'] 	= abs($Result['Precent']);
 	$DepName = $Result['DepName'];
     $boolean = true;
     $count++;

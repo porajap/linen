@@ -61,7 +61,7 @@ $array2 = json_decode($json2,TRUE);
   jqui = jQuery.noConflict(true);
   </script>
   <link href="../css/menu_custom.css" rel="stylesheet"> 
-  <link href="../dist/css/sweetalert2.min.css" rel="stylesheet">
+  <link href="../dist/css/sweetalert2.css" rel="stylesheet">
   <script src="../dist/js/sweetalert2.min.js"></script>
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
   <link href="../css/responsive.css" rel="stylesheet">
@@ -470,6 +470,7 @@ $array2 = json_decode($json2,TRUE);
         closeOnConfirm: false,
         closeOnCancel: false,
         showCancelButton: true}).then(result => {
+          if (result.value) {
           var data = {
             'STATUS'    : 'CreateDocument',
             'hotpCode'  : hotpCode,
@@ -477,6 +478,9 @@ $array2 = json_decode($json2,TRUE);
             'userid'	: userid
           };
           senddata(JSON.stringify(data));
+        } else if (result.dismiss === 'cancel') {
+            swal.close();
+          } 
         })
     }
 

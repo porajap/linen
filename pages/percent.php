@@ -45,6 +45,7 @@ $array = json_decode($json,TRUE);
 
     <!-- Page level plugin CSS-->
     <link href="../template/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="../css/menu_custom.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../template/css/sb-admin.css" rel="stylesheet">
@@ -248,7 +249,7 @@ $array = json_decode($json,TRUE);
 															  "<td style='width: 15%;'nowrap>"+temp[i]['DocNo2']+"</td>"+
 															  "<td style='width: 10%;'nowrap>"+temp[i]['DocDate2']+"</td>"+
 															  "<td style='width: 10%;'nowrap>"+temp[i]['Total2']+"</td>"+
-															  "<td style='width: 25%;text-align: center'nowrap>"+temp[i]['Precent']+"</td>"+
+															  "<td style='width: 25%;text-align: center'nowrap>"+temp[i]['Precent']+ " %" +"</td>"+
 														  "</tr>";
 
 					                               if(rowCount == 0){
@@ -476,8 +477,16 @@ table tr:first-child th:first-child {
                               </div>
                               <div class="col-md-2 mhee">
                                 <div class='form-group row'>
-                                <a href="javascript:void(0)" onclick="ShowDocument();" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-3"><?php echo $array['search'][$language]; ?></a>
-
+                                <div class="search_custom ">
+                                            <div class="d-flex justify-content-start">
+                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                                                  <i class="fas fa-search"></i>
+                                              </div>
+                                              <button class="btn"  onclick="ShowDocument()" >
+                                                  <?php echo $array['search'][$language]; ?>
+                                              </button>
+                                            </div>
+                                          </div>
                                 <!-- <button  type="button" class="btn btn-info col-sm-9" onclick="ShowDocument()" id="bSearch"><?php echo $array['search'][$language]; ?></button> -->
                                 </div>
                               </div>
