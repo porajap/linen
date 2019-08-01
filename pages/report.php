@@ -53,7 +53,7 @@ $array2 = json_decode($json2,TRUE);
   <!-- Custom styles for this template-->
   <link href="../template/css/sb-admin.css" rel="stylesheet">
   <link href="../css/xfont.css" rel="stylesheet">
-
+  <!-- -----------------------------------------------  -->
   <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
   <script src="../jQuery-ui/jquery-1.12.4.js"></script>
   <script src="../jQuery-ui/jquery-ui.js"></script>
@@ -65,12 +65,14 @@ $array2 = json_decode($json2,TRUE);
   <script src="../dist/js/sweetalert2.min.js"></script>
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
   <link href="../css/responsive.css" rel="stylesheet">
-  <script src="dist/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script>
-  <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-  <script src="../datepicker/dist/js/datepicker.min.js"></script>
+  <!-- <script src="dist/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script> -->
+  <!-- <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css"> -->
+  <link rel="stylesheet" type="text/css" href="../daterangepicker/daterangepicker.css" />
+  <!-- <script src="../datepicker/dist/js/datepicker.min.js"></script> -->
   <!-- Include English language -->
-  <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+  <!-- <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script> -->
   <script src="../fontawesome/js/fontawesome.min.js"></script>
+
 
   <script type="text/javascript">
     var summary = [];
@@ -78,11 +80,12 @@ $array2 = json_decode($json2,TRUE);
 
     $(document).ready(function(e){
       $('#showday').hide();
-    $('#showmonth').hide();
-    $('#showyear').hide();
+      $('#showmonth').hide();
+      $('#showyear').hide();
       OnLoadPage();
-      getDepartment();
-      ShowMenu();
+      // getDepartment();
+      // ShowMenu();
+
 
     }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
@@ -460,6 +463,15 @@ function showdate(){
 
         }
        }
+
+       /* ------------------- */
+      .daterangepicker .drp-buttons .btn {
+        font-size: 12px!important;
+        padding: 4px 8px!important;
+      }
+      .daterangepicker table tr th {
+            background: none!important;
+      }
   </style>
 </head>
 
@@ -538,8 +550,8 @@ function showdate(){
                                       <div class="row">
                                         <div class="col-md-6" id="showday">
                                           <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8 datepicker-here" id="department">
+                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
+                                                <input type="text" class="form-control col-sm-8" name="datefilter" value="" style="font-size:24px;">
                                           </div>
                                         </div>
                                       <div class="col-md-6">
@@ -646,7 +658,26 @@ function showdate(){
       <!-- Demo scripts for this page-->
       <script src="../template/js/demo/datatables-demo.js"></script>
     <!-- Bootstrap core JavaScript-->
+    <script type="text/javascript" src="../daterangepicker/moment.min.js"></script>
+    <script type="text/javascript" src="../daterangepicker/daterangepicker.min.js"></script>
+    <script>
+      $(function() {
+        $('input[name="datefilter"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
 
+        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        });
+
+        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+      });
+    </script>
 
 </body>
 
