@@ -911,7 +911,6 @@ switch ($PmID) {
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 32px;text-transform: capitalize;">
         <span><?php echo $FName?></span>
       </div>
-
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0" >
       <div style="padding-top:15px;" hidden><a href="#" onclick="switchlang('th');">TH</a> / <a href="#" onclick="switchlang('en');">EN</a></div>

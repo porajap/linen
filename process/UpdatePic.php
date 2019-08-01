@@ -15,6 +15,7 @@ while ($Result = mysqli_fetch_assoc($Query)) {
     $update = "UPDATE users SET users.pic = '$filename' WHERE users.ID = $UserID";
     if(mysqli_query($conn, $update)){
         $result = "editsuccess";
+        session_unregister($_SESSION['pic']);
         $_SESSION['pic']  = $filename==null?'default_img.png':$filename;
     }else{
         $result = "editfailed";
