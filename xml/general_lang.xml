@@ -105,6 +105,7 @@
 <order><en>Order</en><th>ออเดอร์</th></order>
 <detail><en>Description</en><th>รายละเอียด</th></detail>
 <print><en>Print Report</en><th>พิมพ์รายงาน</th></print>
+<report><en>Report</en><th>ออกรายงาน</th></report>
 <docfirst><en>Please select document.</en><th>กรุณาเลือกเอกสาร</th></docfirst>
 <datestart><en>Starting date</en><th>วันที่เริ่ม</th></datestart>
 <dateend><en>End date</en><th>วันที่สิ้นสุด</th></dateend>
