@@ -27,6 +27,7 @@ $array = json_decode($json,TRUE);
     <title>Login | Linen</title>
 </head>
 <body>
+    <input type="hidden" id="chk" value="1">
     <!-- ====================== form Login======================= -->
         <div id="form_white">
             <div class="row">
@@ -162,9 +163,19 @@ $array = json_decode($json,TRUE);
     <!-- ==================== End form ==================== -->
     <script>
     $(document).keyup(function(e) {
-        if (e.keyCode === 13) chklogin();     // enter
+        if (e.keyCode === 13){
+            var chk = $('#chk').val();
+            if(chk == 1){
+                chklogin();
+            }else if(chk == 2){
+                sendmail();
+            }else if(chk == 3){
+                passwordUpdate();
+            }
+        }
     });
         function reset_pass(){
+            $('#chk').val(2);
             var user = document.getElementById("username").value;
             if( user != "" ){
                 $('#form_white').attr('hidden', true);
@@ -181,6 +192,8 @@ $array = json_decode($json,TRUE);
 
         function change_pass()
         {
+            $('#chk').val(3);
+
             $('#form_white').attr('hidden', true);
             $('#form_change').attr('hidden', false);
             $('#form_sendmail').attr('hidden', true);
@@ -190,6 +203,8 @@ $array = json_decode($json,TRUE);
 
         function back()
         {
+            $('#chk').val(1);
+
             $('#form_white').attr('hidden', false);
             $('#form_change').attr('hidden', true);
             $('#form_sendmail').attr('hidden', true);
