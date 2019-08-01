@@ -65,12 +65,12 @@ $array2 = json_decode($json2,TRUE);
   <script src="../dist/js/sweetalert2.min.js"></script>
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
   <link href="../css/responsive.css" rel="stylesheet">
-  <!-- <script src="dist/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script> -->
-  <!-- <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css"> -->
-  <link rel="stylesheet" type="text/css" href="../daterangepicker/daterangepicker.css" />
-  <!-- <script src="../datepicker/dist/js/datepicker.min.js"></script> -->
+  
+  <!-- <script src="../dist/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script> -->
+  <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+  <script src="../datepicker/dist/js/datepicker.min.js"></script>
   <!-- Include English language -->
-  <!-- <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script> -->
+  <script src="../datepicker/dist/js/datepicker.en.js"></script>
   <script src="../fontawesome/js/fontawesome.min.js"></script>
 
 
@@ -82,10 +82,15 @@ $array2 = json_decode($json2,TRUE);
       $('#showday').hide();
       $('#showmonth').hide();
       $('#showyear').hide();
+      $('#someday').hide();
       OnLoadPage();
       // getDepartment();
       // ShowMenu();
 
+      // Initialization
+      $('#oneday').datepicker({
+          maxDate: new Date()
+      })
 
     }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
@@ -181,119 +186,130 @@ function showdate(){
     $('#showyear').show();  
     }
 }
-    function senddata(data){
-      var form_data = new FormData();
-      form_data.append("DATA",data);
-      var URL = '../process/report.php';
-      $.ajax({
-        url: URL,
-        dataType: 'text',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: form_data,
-        type: 'post',
-        success: function (result) {
-          try {
-            var temp = $.parseJSON(result);
-          } catch (e) {
-            console.log('Error#542-decode error');
-          }
 
-          if(temp["status"]=='success'){
-            if(temp["form"]=='OnLoadPage'){
-              var PmID = <?php echo $PmID;?>;
-              var HptCode = '<?php echo $HptCode;?>';
-              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                if(PmID != 1 && HptCode == temp[i]['HptCode']){
-                  var Str = "<option value="+temp[i]['HptCode']+" selected>"+temp[i]['HptName']+"</option>";
-                  $("#side").append(Str);
-                  $("#side").attr('disabled', true);
-                  $("#hotpital").append(Str);
-                }else{
-                  var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                  $("#side").append(Str);
-                  $("#hotpital").append(Str);
-                }
-                
-              }
-            }else if(temp["form"]=='getDepartment'){
-              $("#department").empty();
-              $("#Dep2").empty();
-              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                $("#department").append(Str);
-                $("#Dep2").append(Str);
-              }
-            }
-          }else if (temp['status']=="failed") {
-            switch (temp['msg']) {
-              case "notchosen":
-              temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
-              break;
-              case "cantcreate":
-              temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
-              break;
-              case "noinput":
-              temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
-              break;
-              case "notfound":
-              temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
-              break;
-              case "addsuccess":
-              temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-              break;
-              case "addfailed":
-              temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
-              break;
-              case "editsuccess":
-              temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-              break;
-              case "editfailed":
-              temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
-              break;
-              case "cancelsuccess":
-              temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
-              break;
-              case "cancelfailed":
-              temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
-              break;
-              case "nodetail":
-              temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
-              break;
-            }
-            swal({
-              title: '',
-              text: temp['msg'],
-              type: 'warning',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 1500,
-              confirmButtonText: 'Ok'
-            })
-
-            $( "#docnofield" ).val( temp[0]['DocNo'] );
-            $( "#TableDocumentSS tbody" ).empty();
-            $( "#TableSendSterileDetail tbody" ).empty();
-            $( "#TableUsageCode tbody" ).empty();
-            $( "#TableItem tbody" ).empty();
-
-          }else{
-            console.log(temp['msg']);
-          }
-        },failure: function (result) {
-          alert(result);
-        },error: function (xhr, status, p3, p4) {
-          var err = "Error " + " " + status + " " + p3 + " " + p4;
-          if (xhr.responseText && xhr.responseText[0] == "{")
-          err = JSON.parse(xhr.responseText).Message;
-          console.log(err);
-          alert(err);
-        }
-      });
+  function formatdate(chk){
+    if(chk == 1){
+      $('#oneday').show();
+      $('#someday').hide();
+    }else if(chk == 2){
+      $('#oneday').hide();
+      $('#someday').show();
     }
+  }
+
+  function senddata(data){
+    var form_data = new FormData();
+    form_data.append("DATA",data);
+    var URL = '../process/report.php';
+    $.ajax({
+      url: URL,
+      dataType: 'text',
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: form_data,
+      type: 'post',
+      success: function (result) {
+        try {
+          var temp = $.parseJSON(result);
+        } catch (e) {
+          console.log('Error#542-decode error');
+        }
+
+        if(temp["status"]=='success'){
+          if(temp["form"]=='OnLoadPage'){
+            var PmID = <?php echo $PmID;?>;
+            var HptCode = '<?php echo $HptCode;?>';
+            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+              if(PmID != 1 && HptCode == temp[i]['HptCode']){
+                var Str = "<option value="+temp[i]['HptCode']+" selected>"+temp[i]['HptName']+"</option>";
+                $("#side").append(Str);
+                $("#side").attr('disabled', true);
+                $("#hotpital").append(Str);
+              }else{
+                var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+                $("#side").append(Str);
+                $("#hotpital").append(Str);
+              }
+              
+            }
+          }else if(temp["form"]=='getDepartment'){
+            $("#department").empty();
+            $("#Dep2").empty();
+            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+              var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+              $("#department").append(Str);
+              $("#Dep2").append(Str);
+            }
+          }
+        }else if (temp['status']=="failed") {
+          switch (temp['msg']) {
+            case "notchosen":
+            temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+            break;
+            case "cantcreate":
+            temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
+            break;
+            case "noinput":
+            temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
+            break;
+            case "notfound":
+            temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
+            break;
+            case "addsuccess":
+            temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+            break;
+            case "addfailed":
+            temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
+            break;
+            case "editsuccess":
+            temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+            break;
+            case "editfailed":
+            temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
+            break;
+            case "cancelsuccess":
+            temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
+            break;
+            case "cancelfailed":
+            temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
+            break;
+            case "nodetail":
+            temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
+            break;
+          }
+          swal({
+            title: '',
+            text: temp['msg'],
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 1500,
+            confirmButtonText: 'Ok'
+          })
+
+          $( "#docnofield" ).val( temp[0]['DocNo'] );
+          $( "#TableDocumentSS tbody" ).empty();
+          $( "#TableSendSterileDetail tbody" ).empty();
+          $( "#TableUsageCode tbody" ).empty();
+          $( "#TableItem tbody" ).empty();
+
+        }else{
+          console.log(temp['msg']);
+        }
+      },failure: function (result) {
+        alert(result);
+      },error: function (xhr, status, p3, p4) {
+        var err = "Error " + " " + status + " " + p3 + " " + p4;
+        if (xhr.responseText && xhr.responseText[0] == "{")
+        err = JSON.parse(xhr.responseText).Message;
+        console.log(err);
+        alert(err);
+      }
+    });
+  }
 
 
   </script>
@@ -465,13 +481,10 @@ function showdate(){
        }
 
        /* ------------------- */
-      .daterangepicker .drp-buttons .btn {
-        font-size: 12px!important;
-        padding: 4px 8px!important;
+       .datepicker-here{
+        font-size: 24px!important;
       }
-      .daterangepicker table tr th {
-            background: none!important;
-      }
+      
   </style>
 </head>
 
@@ -522,12 +535,12 @@ function showdate(){
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
-                                                    <select class="form-control col-sm-8" id="department"></select>
+                                                <select class="form-control col-sm-8" id="department"></select>
                                             </div>
                                         </div>
                                         <div class="col-md-6 ">
                                             <div class='form-group row'>
-                                                <div class="col-sm-4"></div>
+                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
                                                     <div>
                                                         <div class="custom-control custom-radio custom-control-inline">
                                                             <input type="radio" id="chkday" name="customRadioInline1" value='1' onclick="showdate()" class="custom-control-input">
@@ -545,15 +558,34 @@ function showdate(){
                                                     </div>
                                                 </div>
                                             </div>         
-                                        </div>
+                                      </div>
 
-                                      <div class="row">
-                                        <div class="col-md-6" id="showday">
+                                      <div class="row" id="showday">
+                                        <div class="col-md-6">
                                           <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8" name="datefilter" value="" style="font-size:24px;">
+                                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
+                                              <div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="chkoneday" name="format" value='1' onclick="formatdate(1)" class="custom-control-input" checked>
+                                                    <label class="custom-control-label" for="chkoneday">1 วัน</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="chksomeday" name="format" value='2' onclick="formatdate(2)" class="custom-control-input">
+                                                    <label class="custom-control-label" for="chksomeday">หลายวัน</label>
+                                                </div>
+                                              </div>
                                           </div>
                                         </div>
+                                        <div class="col-md-6" >
+                                          <div class='form-group row'>
+                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
+                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday">
+                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" > 
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    <div class="row">
                                       <div class="col-md-6">
                                         <div class='form-group row' id="showmonth">
                                             <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
@@ -658,26 +690,7 @@ function showdate(){
       <!-- Demo scripts for this page-->
       <script src="../template/js/demo/datatables-demo.js"></script>
     <!-- Bootstrap core JavaScript-->
-    <script type="text/javascript" src="../daterangepicker/moment.min.js"></script>
-    <script type="text/javascript" src="../daterangepicker/daterangepicker.min.js"></script>
-    <script>
-      $(function() {
-        $('input[name="datefilter"]').daterangepicker({
-            autoUpdateInput: false,
-            locale: {
-                cancelLabel: 'Clear'
-            }
-        });
 
-        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-        });
-
-        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-        });
-      });
-    </script>
 
 </body>
 

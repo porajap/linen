@@ -222,6 +222,8 @@
 <widthunit><en>width</en><th>ขนาดความกว้าง</th></widthunit>
 <searchuser><en>search user</en><th>ค้นหาผู้ใช้งาน</th></searchuser>
 <errorpic><en>Please Choose Picture</en><th>กรุณาเลือกรูปภาพ</th></errorpic>
+<formatdate><en>Format Date</en><th>รูปแบบวันที่</th></formatdate>
+<format><en>Format</en><th>รูปแบบ</th></format>
 
 
 </lang>
