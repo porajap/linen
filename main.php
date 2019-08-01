@@ -524,7 +524,8 @@ switch ($PmID) {
             html:data,
             showCloseButton: false,
             showConfirmButton: false,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            allowEscapeKey : false
           });
         },
       });
@@ -904,7 +905,6 @@ switch ($PmID) {
 
 <body>
   <header id="pageHeader" class="navbar navbar-expand static-top">
-
     <img src="img/logo.jpg" style="width: 100px;margin-top:55px;margin-bottom:20px;" alt="">
 
     <!-- Navbar username -->
@@ -935,8 +935,8 @@ switch ($PmID) {
       frameborder="0" style="height:100%; width:100%; "></iframe>
   </article>
 
+
   <nav id="mainNav" style="margin-top:25px;">
-  <input type="hidden" id='url_page'>
     <ul class="accordion" id="navmenu">
       <?php if($gen_head== 1){ ?>
       <li id="general">
