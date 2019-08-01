@@ -548,6 +548,8 @@ function showdate(){
                                             <input type="text" class="form-control col-sm-8 datepicker-here" id="department">
                                         </div>
                                     </div>
+                                  </div>
+                                  <div class="row">
                                     <div class="col-md-6">
                                         <div class='form-group row' id="showyear">
                                             <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
@@ -555,7 +557,6 @@ function showdate(){
                                         </div>
                                     </div>
                                   </div>
-
                                 </div>
                               </div> 
                             </div> <!-- tag column 1 -->
