@@ -1,7 +1,10 @@
 <?php
 session_start();
 require '../connect/connect.php';
-
+$Userid = $_SESSION['Userid'];
+if($Userid==""){
+  header("location:../index.html");
+}
 function getHospital($conn, $DATA)
 {
   $count = 0;

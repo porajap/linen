@@ -1,7 +1,11 @@
 <?php 
+session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
-
+$Userid = $_SESSION['Userid'];
+if($Userid==""){
+  header("location:../index.html");
+}
     $Username = $_POST['username'];
     $UserID = $_POST['UsID'];
 

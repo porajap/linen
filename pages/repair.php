@@ -226,13 +226,13 @@ $(document).ready(function(e){
         $('#isStatus').val(0)
       }
 
-      function open_dirty_doc(){
+      function open_claim_doc(){
         // dialogRefDocNo.dialog( "open" );
         $('#dialogRefDocNo').modal('show');
-        get_dirty_doc();
+        get_claim_doc();
       }
 
-      function get_dirty_doc(){
+      function get_claim_doc(){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
         var data = {
@@ -1291,7 +1291,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-8" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
+                                      <input class="form-control col-sm-8" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1639,7 +1639,7 @@ $(document).ready(function(e){
                   <div class="search_1 d-flex align-items-center d-flex justify-content-center">
                     <i class="fas fa-search"></i>
                  </div>
-                      <button class="btn"  onclick="get_dirty_doc()" >
+                      <button class="btn"  onclick="get_claim_doc()" >
                         <?php echo $array['search'][$language]; ?>
                       </button>
                 </div>
