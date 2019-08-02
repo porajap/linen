@@ -363,6 +363,7 @@ $(document).ready(function(e){
       }
 
       function getImport(Sel) {
+        var docno2 = $("#RefDocNo").val();
         var docno = $("#docno").val();
         /* declare an checkbox array */
         var iArray = [];
@@ -414,7 +415,8 @@ $(document).ready(function(e){
           'xunit'		  	: xunit,
           'DocNo'   		: docno,
           'Sel'       	: Sel,
-          'deptCode'    	: deptCode
+          'deptCode'    	: deptCode,
+          'RefDocNo'    	: docno2
         };
         senddata(JSON.stringify(data));
         // dialogItemCode.dialog( "close" );
@@ -600,22 +602,40 @@ $(document).ready(function(e){
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
         var dept = $("#Dep2").val();
-        // alert( isStatus );
+        var ItemCodeArray = [];
+        var Item = [];
+        var QtyArray = [];
+        var Qty = [];
+        $('input[name="item_array"]').each(function() {
+          if($(this).val()!=""){
+              ItemCodeArray.push($(this).val());
+          }
+            });
+        var ItemCode = ItemCodeArray.join(',') ;
+        // alert(ItemCode); 
+
+        $('input[name="qtyx"]').each(function() {
+                if($(this).val()!=""){
+                  QtyArray.push($(this).val());
+                }
+              });
+        var Qty = QtyArray.join(',') ;
+        // alert(Qty);
         if(isStatus==1)
         isStatus=0;
         else
         isStatus=1;
 
         if(isStatus==1){
-          $('#tab2').attr('hidden',true);
-        $('#switch_col').removeClass('col-md-10');
-        $('#switch_col').addClass('col-md-12');
           var data = {
             'STATUS'      : 'SaveBill',
             'xdocno'      : docno,
-            'xdocno2'      : docno2,
+            'xdocno2'     : docno2,
             'isStatus'    : isStatus,
-            'deptCode'    : dept
+            'deptCode'    : dept,
+            'ItemCode'    : ItemCode,
+            'Qty'         : Qty
+
           };
           console.log(data);
           senddata(JSON.stringify(data));
@@ -678,6 +698,19 @@ $(document).ready(function(e){
         // dialogRefDocNo.dialog( "close" );
         $('#dialogRefDocNo').modal('toggle')
       }
+
+      // function UpdateQty(row,rowid) {
+      //   var docno = $("#docno").val();
+      //   var Qty = $("#qty1_"+row).val();
+      //     var data = {
+      //       'STATUS'      : 'UpdateQty',
+      //       'Rowid'       : rowid,
+      //       'Qty'      : Qty,
+      //       'DocNo'      : docno
+
+      //     };
+      //     senddata(JSON.stringify(data));
+      // }
 
       function logoff() {
         swal({
@@ -863,7 +896,7 @@ $(document).ready(function(e){
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
 
-                  var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
+                  var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control ' style='font-size:24px;' id='Unit_"+i+"'>";
                   var nUnit = temp[i]['UnitName'];
                   for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
                     if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
@@ -873,10 +906,13 @@ $(document).ready(function(e){
                     }
                   }
                   chkunit += "</select>";
+                  var chkDocx = "<input  name = 'item_array'  value='"+temp[i]['ItemCode']+"'>";
+                  // var Qtyx = "<input  class='Qty_array'   value='"+temp[i]['Qty']+"'>";
 
                   var chkDoc = "<input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' ></div>";
+                  // var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else{this.value = 0}' OnBlur='UpdateQty(\""+i+"\",\""+temp[i]['RowID']+"\")' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else if(this.value < 0){this.value = 1}' ></div>";
                   // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['ParQty']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>+</button></div>";
                   //var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['MaxQty']+"' ></div>";
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
@@ -892,6 +928,8 @@ $(document).ready(function(e){
                   "<td style='width: 20%;font-size:24px;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
+                  "<td style='width: 12%;' nowrap hidden>"+chkDocx+"</td>"+
+                  // "<td style='width: 12%;' nowrap hidden>"+Qtyx+"</td>"+
                   "</tr>";
 
 

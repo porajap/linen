@@ -351,6 +351,8 @@ $array2 = json_decode($json2,TRUE);
           var xweight = weightArray.join(',') ;
           var xunit = unitArray.join(',') ;
 
+
+
           var Hotp = $('#hotpital option:selected').attr("value");
           if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
 
@@ -960,7 +962,7 @@ $array2 = json_decode($json2,TRUE);
                         var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
                         var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
+                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control'  style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
 
                         $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                         "<td style='width: 10%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1284,14 +1286,14 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"><?php echo $array['docdate'][$language]; ?></label>
-                                          <input type="text" class="form-control col-sm-8" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                          <input type="text" autocomplete="off" class="form-control col-sm-8" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
 
                                         </div>
                                       </div>
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label text-right"><?php echo $array['docno'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8"  name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                            <input type="text" autocomplete="off" class="form-control col-sm-8"  name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                         </div>
                                       </div>
                                     </div>
@@ -1300,13 +1302,13 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"><?php echo $array['employee'][$language]; ?></label>
-                                          <input type="text" class="form-control col-sm-8"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                          <input type="text" autocomplete="off" class="form-control col-sm-8"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                         </div>
                                       </div>
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"><?php echo $array['time'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                            <input type="text" autocomplete="off" class="form-control col-sm-8" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                         </div>
                                       </div>
                                     </div>
@@ -1315,7 +1317,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"><?php echo $array['totalweight'][$language]; ?></label>
-                                          <input class='form-control col-sm-8'  id='wTotal' placeholder="0.00">
+                                          <input class='form-control col-sm-8' autocomplete="off"  id='wTotal' placeholder="0.00">
                                         </div>
                                       </div>
                                       <div class="col-md-6">
