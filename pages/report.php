@@ -256,6 +256,9 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R1 tbody').empty();
             $('#table_R1').attr('hidden', false);
             $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
                 "<td style='width:5%'>"+(i+1)+"</td>"+
@@ -271,6 +274,9 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R2 tbody').empty();
             $('#table_R1').attr('hidden', true);
             $('#table_R2').attr('hidden', false);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
                 "<td style='width:5%'>"+(i+1)+"</td>"+
@@ -282,18 +288,107 @@ $array2 = json_decode($json2,TRUE);
               "</tr>";
               $("#table_R2 tbody").append(dataRow);
             }
+          }else if(temp["form"]=='r3'){
+            $('#table_R3 tbody').empty();
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', false);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
+            for (var i = 0; i < temp['countRow']; i++) {
+              var dataRow = "<tr>"+
+                "<td style='width:5%'>"+(i+1)+"</td>"+
+                "<td class='text-left' style='width:16%'>"+temp[i]['DocNo']+"</td>"+
+                "<td class='text-left' style='width:16%'>"+temp[i]['RefDocNo']+"</td>"+
+                "<td class='text-center' style='width:11%'>"+temp[i]['DocDate']+"</td>"+
+                "<td class='text-left pl-4' style='width:22%'>"+temp[i]['HptName']+"</td>"+
+                "<td class='text-left pl-4' style='width:20%'>"+temp[i]['facname']+"</td>"+
+                "<td class='text-left' style='width:10%'>แสดง</td>"+
+              "</tr>";
+              $("#table_R3 tbody").append(dataRow);
+            }
+          }else if(temp["form"]=='r6'){
+            $('#table_R6 tbody').empty();
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', false);
+            $('#table_R8').attr('hidden', true);
+            for (var i = 0; i < temp['countRow']; i++) {
+              var dataRow = "<tr>"+
+                "<td style='width:5%'>"+(i+1)+"</td>"+
+                "<td class='text-left' style='width:20%'>"+temp[i]['DocNo']+"</td>"+
+                "<td class='text-left' style='width:20%'>"+temp[i]['RefDocNo']+"</td>"+
+                "<td class='text-center pl-4' style='width:24%'>"+temp[i]['FacName']+"</td>"+
+                "<td class='text-center' style='width:11%'>"+temp[i]['DocDate']+"</td>"+
+                "<td class='text-left pl-4' style='width:10%'>"+temp[i]['DocTime']+"</td>"+
+                "<td class='text-left' style='width:10%'>แสดง</td>"+
+              "</tr>";
+              $("#table_R6 tbody").append(dataRow);
+            }
+          }else if(temp["form"]=='r8'){
+            $('#table_R8 tbody').empty();
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', false);
+            for (var i = 0; i < temp['countRow']; i++) {
+              var dataRow = "<tr>"+
+                "<td style='width:5%'>"+(i+1)+"</td>"+
+                "<td class='text-left' style='width:74%'>"+temp[i]['FacName']+"</td>"+
+                "<td class='text-center' style='width:11%'>"+temp[i]['DocDate']+"</td>"+
+                "<td class='text-left' style='width:10%'>แสดง</td>"+
+              "</tr>";
+              $("#table_R8 tbody").append(dataRow);
+            }
           }
         }else if (temp['status']=="notfound") {
           if(temp["form"]=='r1'){
             $('#table_R1').attr('hidden', false);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
             $('#table_R1 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
             $("#table_R1 tbody").append(dataRow);
           }else if(temp["form"]=='r2'){
+            $('#table_R1').attr('hidden', true);
             $('#table_R2').attr('hidden', false);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
             $('#table_R2 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
             $("#table_R2 tbody").append(dataRow);
+          }else if(temp["form"]=='r3'){
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', false);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
+            $('#table_R3 tbody').empty();
+            var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+            $("#table_R3 tbody").append(dataRow);
+          }else if(temp["form"]=='r6'){
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', false);
+            $('#table_R8').attr('hidden', true);
+            $('#table_R6 tbody').empty();
+            var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+            $("#table_R6 tbody").append(dataRow);
+          }else if(temp["form"]=='r8'){
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', false);
+            $('#table_R8 tbody').empty();
+            var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+            $("#table_R8 tbody").append(dataRow);
           }
           
         }else{
@@ -662,6 +757,51 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
                                         <th style='width: 30%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
                                         <th style='width: 12%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                                </tbody>
+                            </table>
+                            <!-- ---------------------------------Report 3--------------------------------------- -->
+                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R3" width="100%" cellspacing="0" role="grid" hidden>
+                                <thead id="theadsum" style="font-size:24px;">
+                                    <tr role="row" id='tr_1'>
+                                        <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+                                        <th style='width: 16%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
+                                        <th style='width: 16%;' nowrap class='text-center'><?php echo $array['refdocno'][$language]; ?></th>
+                                        <th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+                                        <th style='width: 22%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+                                        <th style='width: 20%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+                                        <th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                                </tbody>
+                            </table>
+                            <!-- ---------------------------------Report 6--------------------------------------- -->
+                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R6" width="100%" cellspacing="0" role="grid" hidden>
+                                <thead id="theadsum" style="font-size:24px;">
+                                    <tr role="row" id='tr_1'>
+                                        <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+                                        <th style='width: 20%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
+                                        <th style='width: 20%;' nowrap class='text-center'><?php echo $array['refdocno'][$language]; ?></th>
+                                        <th style='width: 24%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+                                        <th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+                                        <th style='width: 10%;' nowrap class='text-center'><?php echo $array['time2'][$language]; ?></th>
+                                        <th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                                </tbody>
+                            </table>
+                            <!-- ---------------------------------Report 8--------------------------------------- -->
+                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R8" width="100%" cellspacing="0" role="grid" hidden>
+                                <thead id="theadsum" style="font-size:24px;">
+                                    <tr role="row" id='tr_1'>
+                                        <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+                                        <th style='width: 74%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+                                        <th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+                                        <th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

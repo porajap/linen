@@ -251,25 +251,25 @@ function OnLoadPage($conn, $DATA)
     $count = 0;
     $boolean = false;
     if($chk == 'one'){
-      $Sql = "SELECT factory.facname,
-                clean.DocDate,
-                site.HptName
+      $Sql = "SELECT factory.facname, clean.DocDate, site.HptName, clean.DocNo, clean.RefDocNo
               FROM clean
               INNER JOIN factory ON factory.FacCode =clean.FacCode
               INNER JOIN site ON site.HptCode = clean.HptCode
-              WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
+              WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode' 
+              AND clean.FacCode = $FacCode GROUP BY clean.DocNo ORDER BY clean.DocNo ASC";
     }else{
-      $Sql = "SELECT factory.facname,
-                clean.DocDate,
-                site.HptName
+      $Sql = "SELECT factory.facname, clean.DocDate, site.HptName, clean.DocNo, clean.RefDocNo
               FROM clean
               INNER JOIN factory ON factory.FacCode =clean.FacCode
               INNER JOIN site ON site.HptCode = clean.HptCode
               WHERE clean.DocDate BETWEEN '$date1' AND '$date2'  
-              AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
+              AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode 
+              GROUP BY clean.DocNo ORDER BY clean.DocNo ASC";
     }
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['DocNo'] = $Result['DocNo'];
+      $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
       $return[$count]['facname'] = $Result['facname'];
       $return[$count]['DocDate'] = $Result['DocDate'];
       $return[$count]['HptName'] = $Result['HptName'];
@@ -280,6 +280,7 @@ function OnLoadPage($conn, $DATA)
     if($boolean == true){
       $return['status'] = 'success';
       $return['form'] = 'r3';
+      $return['countRow'] = $count;
       return $return;
     }else{
       $return['status'] = 'notfound';
@@ -292,25 +293,21 @@ function OnLoadPage($conn, $DATA)
     $count = 0;
     $boolean = false;
     if($chk == 'one'){
-      $Sql = "SELECT 
-                factory.FacName,
-                DATE(rewash.DocDate) AS DocDate,
-                TIME(rewash.DocDate) AS DocTime
+      $Sql = "SELECT  factory.FacName, DATE(rewash.DocDate) AS DocDate, TIME(rewash.DocDate) AS DocTime, rewash.DocNo, rewash.RefDocNo
               FROM rewash
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
-              WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode";
+              WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode GROUP BY rewash.DocNo ORDER BY rewash.DocNo ASC";
     }else{
-      $Sql = "SELECT 
-                factory.FacName,
-                DATE(rewash.DocDate) AS DocDate,
-                TIME(rewash.DocDate) AS DocTime
+      $Sql = "SELECT  factory.FacName, DATE(rewash.DocDate) AS DocDate, TIME(rewash.DocDate) AS DocTime, rewash.DocNo, rewash.RefDocNo
               FROM rewash
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
               WHERE rewash.DocDate BETWEEN '$date1' AND '$date2'   
-              AND rewash.FacCode = $FacCode";
+              AND rewash.FacCode = $FacCode GROUP BY rewash.DocNo ORDER BY rewash.DocNo ASC";
     }
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['DocNo'] = $Result['DocNo'];
+      $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
       $return[$count]['FacName'] = $Result['FacName'];
       $return[$count]['DocDate'] = $Result['DocDate'];
       $return[$count]['DocTime'] = $Result['DocTime'];
@@ -321,6 +318,7 @@ function OnLoadPage($conn, $DATA)
     if($boolean == true){
       $return['status'] = 'success';
       $return['form'] = 'r6';
+      $return['countRow'] = $count;
       return $return;
     }else{
       $return['status'] = 'notfound';
@@ -333,50 +331,21 @@ function OnLoadPage($conn, $DATA)
     $count = 0;
     $boolean = false;
     if($chk == 'one'){
-      $Sql = "SELECT 
-                  site.HptName,
-                  department.DepName,
-                  dirty.DocNo AS DocNo1,
-                  dirty.DocDate AS DocDate1,
-                  dirty.Total AS Total1,
-                  clean.DocNo AS DocNo2,
-                  clean.DocDate AS DocDate2,
-                  clean.Total AS Total2,
-              ROUND( (-1*((clean.Total - dirty.Total ) / dirty.Total) * 100), 2)  AS Precent
-              FROM clean
-              INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
-              INNER JOIN department ON clean.DepCode = department.DepCode
-              INNER JOIN site ON department.HptCode = site.HptCode
-              WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
-    }else{
-      $Sql = "SELECT 
-                site.HptName,
-                department.DepName,
-                dirty.DocNo AS DocNo1,
-                dirty.DocDate AS DocDate1,
-                dirty.Total AS Total1,
-                clean.DocNo AS DocNo2,
-                clean.DocDate AS DocDate2,
-                clean.Total AS Total2,
-            ROUND( (-1*((clean.Total - dirty.Total ) / dirty.Total) * 100), 2)  AS Precent
+      $Sql = "SELECT factory.FacName, DATE(clean.DocDate) AS DocDate
             FROM clean
-            INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
-            INNER JOIN department ON clean.DepCode = department.DepCode
-            INNER JOIN site ON department.HptCode = site.HptCode
+            INNER JOIN factory ON clean.FacCode = factory.FacCode
+            WHERE clean.DocDate LIKE '%$date1%'  AND clean.FacCode = $FacCode";
+    }else{
+      $Sql = "SELECT factory.FacName, DATE(clean.DocDate) AS DocDate
+            FROM clean
+            INNER JOIN factory ON clean.FacCode = factory.FacCode
             WHERE clean.DocDate BETWEEN '$date1' AND '$date2'
-            AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
+            AND clean.FacCode = $FacCode";
     }
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['HptName'] = $Result['HptName'];
-      $return[$count]['DepName'] = $Result['DepName'];
-      $return[$count]['DocNo1'] = $Result['DocNo1'];
-      $return[$count]['DocDate1'] = $Result['DocDate1'];
-      $return[$count]['Total1'] = $Result['Total1'];
-      $return[$count]['DocNo2'] = $Result['DocNo2'];
-      $return[$count]['DocDate2'] = $Result['DocDate2'];
-      $return[$count]['Total2'] = $Result['Total2'];
-      $return[$count]['Precent'] = $Result['Precent'];
+      $return[$count]['FacName'] = $Result['FacName'];
+      $return[$count]['DocDate'] = $Result['DocDate'];
       $count++;
       $boolean = true;
     }
@@ -384,6 +353,7 @@ function OnLoadPage($conn, $DATA)
     if($boolean == true){
       $return['status'] = 'success';
       $return['form'] = 'r8';
+      $return['countRow'] = $count;
       return $return;
     }else{
       $return['status'] = 'notfound';
