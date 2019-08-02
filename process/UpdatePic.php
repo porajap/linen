@@ -1,7 +1,11 @@
 <?php
+session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
-
+$Userid = $_SESSION['Userid'];
+if($Userid==""){
+  header("location:../index.html");
+}
 $UserID = $_POST['UserID'];
 
 $Sql = "SELECT users.UserName FROM users WHERE users.ID = $UserID LIMIT 1";

@@ -1,8 +1,12 @@
 <?php 
+session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 require '../PHPMailer/PHPMailerAutoload.php';
-
+$Userid = $_SESSION['Userid'];
+if($Userid==""){
+  header("location:../index.html");
+}
 
 $HptName = $_POST['HptName'];
 $DocNo = $_POST['DocNo'];
