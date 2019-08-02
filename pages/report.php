@@ -252,61 +252,27 @@ $array2 = json_decode($json2,TRUE);
               var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
               $("#hotpital").append(Str);
             }
+          }else if(temp["form"]=='r1'){
+            $('#table_R1 tbody').empty();
+            for (var i = 0; i < temp['countRow']; i++) {
+              var dataRow = "<tr>"+
+                "<td style='width:5%'>"+(i+1)+"</td>"+
+                "<td class='text-left' style='width:21%'>"+temp[i]['DocNo']+"</td>"+
+                "<td class='text-left' style='width:21%'>"+temp[i]['RefDocNo']+"</td>"+
+                "<td class='text-center' style='width:11%'>"+temp[i]['DocDate']+"</td>"+
+                "<td class='text-left pl-4' style='width:30%'>"+temp[i]['FacName']+"</td>"+
+                "<td class='text-left' style='width:10%'></td>"+
+              "</tr>";
+              $("#table_R1 tbody").append(dataRow);
+            }
           }
-        }else if (temp['status']=="failed") {
-          switch (temp['msg']) {
-            case "notchosen":
-            temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
-            break;
-            case "cantcreate":
-            temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
-            break;
-            case "noinput":
-            temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
-            break;
-            case "notfound":
-            temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
-            break;
-            case "addsuccess":
-            temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-            break;
-            case "addfailed":
-            temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
-            break;
-            case "editsuccess":
-            temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-            break;
-            case "editfailed":
-            temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
-            break;
-            case "cancelsuccess":
-            temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
-            break;
-            case "cancelfailed":
-            temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
-            break;
-            case "nodetail":
-            temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
-            break;
+        }else if (temp['status']=="notfound") {
+          if(temp["form"]=='r1'){
+            $('#table_R1 tbody').empty();
+            var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+            $("#table_R1 tbody").append(dataRow);
           }
-          swal({
-            title: '',
-            text: temp['msg'],
-            type: 'warning',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            showConfirmButton: false,
-            timer: 1500,
-            confirmButtonText: 'Ok'
-          })
-
-          $( "#docnofield" ).val( temp[0]['DocNo'] );
-          $( "#TableDocumentSS tbody" ).empty();
-          $( "#TableSendSterileDetail tbody" ).empty();
-          $( "#TableUsageCode tbody" ).empty();
-          $( "#TableItem tbody" ).empty();
-
+          
         }else{
           console.log(temp['msg']);
         }
@@ -520,106 +486,103 @@ $array2 = json_decode($json2,TRUE);
 
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <!-- /.content-wrapper -->
                     <div class="row">
                         <div class="col-md-10">
-                            <!-- tag column 1 -->
-                            <div class="container-fluid">
-                                <div class="card-body mt-3">
+                          <div class="container-fluid">
+                            <div class="card-body mt-3">
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-                                                <select class="form-control col-sm-8" id="factory"></select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                                <select class="form-control col-sm-8" id="hotpital" ></select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
-                                                <select class="form-control col-sm-8" id="typereport">
-                                                  <?php  for($i = 1 ; $i<=16; $i++){ ?>
-                                                    <option value="<?php echo $i?>"><?php echo $array['r'.$i][$language]; ?></option>  
-                                                  <?php } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 ">
-                                            <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
-                                                    <div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat">
-                                                            <label class="custom-control-label" for="chkday"> วัน</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="chkmonth" name="radioFormat" value='2'onclick="showdate()" class="custom-control-input radioFormat">
-                                                            <label class="custom-control-label" for="chkmonth"> เดือน</label>
-                                                        </div>
-
-                                                        <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
-                                                            <label class="custom-control-label" for="chkyear"> ปี</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>         
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div class='form-group row'>
+                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
+                                          <select class="form-control col-sm-8" id="factory"></select>
                                       </div>
-
-                                      <div class="row" id="showday">
-                                        <div class="col-md-6">
-                                          <div class='form-group row'>
-                                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
-                                              <div>
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
-                                                    <label class="custom-control-label" for="chkoneday">หนึ่งวัน</label>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
-                                                    <label class="custom-control-label" for="chksomeday">หลายวัน</label>
-                                                </div>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-6" >
-                                          <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd">
-                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd"> 
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <div class='form-group row' id="showmonth">
-                                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="month" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'>
-                                        </div>
-                                    </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                        <div class='form-group row' id="showyear">
-                                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
-                                        </div>
+                                  <div class="col-md-6">
+                                      <div class='form-group row'>
+                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                          <select class="form-control col-sm-8" id="hotpital" ></select>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <div class='form-group row'>
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
+                                        <select class="form-control col-sm-8" id="typereport">
+                                          <?php  for($i = 1 ; $i<=16; $i++){ ?>
+                                            <option value="<?php echo $i?>"><?php echo $array['r'.$i][$language]; ?></option>  
+                                          <?php } ?>
+                                        </select>
                                     </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
+                                      <div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat">
+                                            <label class="custom-control-label" for="chkday"> วัน</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chkmonth" name="radioFormat" value='2'onclick="showdate()" class="custom-control-input radioFormat">
+                                            <label class="custom-control-label" for="chkmonth"> เดือน</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
+                                            <label class="custom-control-label" for="chkyear"> ปี</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>         
+                              </div>
+
+                              <div class="row" id="showday">
+                                <div class="col-md-6">
+                                  <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
+                                      <div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
+                                            <label class="custom-control-label" for="chkoneday">หนึ่งวัน</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
+                                            <label class="custom-control-label" for="chksomeday">หลายวัน</label>
+                                        </div>
+                                      </div>
                                   </div>
                                 </div>
-                              </div> 
-                            </div> <!-- tag column 1 -->
-                                                              <!-- row btn -->
+                                <div class="col-md-6" >
+                                  <div class='form-group row'>
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
+                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd">
+                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd"> 
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class='form-group row' id="showmonth">
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
+                                      <input type="text" class="form-control col-sm-8 datepicker-here" id="month" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <div class='form-group row' id="showyear">
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
+                                        <input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div> 
+                        </div>  
                         <div class="row m-1  d-flex justify-content-end col-12" >
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
@@ -647,29 +610,20 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                
                         </div>
-                        <!-- end row btn -->
                     </div>
 
-                    <div class="row">
+                    <div class="row mx-2">
                         <div class="col-md-12">
                             <!-- tag column 1 -->
-                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped"
-                                id="TableItemDetail" width="98%" cellspacing="0" role="grid" style="">
+                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R1" width="100%" cellspacing="0" role="grid" style="">
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
-                                        <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                                        <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                                        <th style='width: 23%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                                        <th style='width: 12%;' nowrap><?php echo $array['unit'][$language]; ?></th>
-                                        <th style='width: 11%;' nowrap>
-                                            <center><?php echo $array['parsc'][$language]; ?></center>
-                                        </th>
-                                        <th style='width: 13%;' nowrap>
-                                            <center><?php echo $array['leftsc'][$language]; ?></center>
-                                        </th>
-                                        <th style='width: 17%;' nowrap>
-                                            <center><?php echo $array['order'][$language]; ?><center>
-                                        </th>
+                                        <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+                                        <th style='width: 21%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
+                                        <th style='width: 21%;' nowrap class='text-center'><?php echo $array['refdocno'][$language]; ?></th>
+                                        <th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+                                        <th style='width: 30%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+                                        <th style='width: 12%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

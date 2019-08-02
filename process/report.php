@@ -56,12 +56,24 @@ function OnLoadPage($conn, $DATA)
     $Format = $DATA['Format'];
     $FormatDay = $DATA['FormatDay'];
     $date = $DATA['date'];
+    $date1 = '';
+    $date2 = '';
 
     if($typeReport == 1){
-      $return = r1($conn, $FacCode);
+      if($Format == 1 || $Format == 3){
+        if($FormatDay == 1 || $Format == 3){
+          $date1 = $date;
+          $return = r1($conn, $HptCode, $FacCode, $date1, $date2, 'one');
+        }else{
+          $date1 = newDate1($date);
+          $date2 = newDate2($date);
+          $return = r1($conn, $HptCode, $FacCode, $date1, $date2, 'between');
+        }
+      }else if($Format == 2){
+        $date1 = newMount($date);
+        $return = r1($conn, $HptCode, $FacCode, $date1, $date2, 'one');
+      }
     }else if($typeReport == 2){
-        $date1 = '';
-        $date2 = '';
       if($Format == 1 || $Format == 3){
         if($FormatDay == 1 || $Format == 3){
           $date1 = $date;
@@ -76,8 +88,6 @@ function OnLoadPage($conn, $DATA)
         $return = r2($conn, $HptCode, $date1, $date2, 'one');
       }
     }else if($typeReport == 3){
-      $date1 = '';
-      $date2 = '';
       if($Format == 1 || $Format == 3){
         if($FormatDay == 1 || $Format == 3){
           $date1 = $date;
@@ -92,8 +102,6 @@ function OnLoadPage($conn, $DATA)
         $return = r3($conn, $HptCode, $FacCode, $date1, $date2, 'one');
       }
     }else if($typeReport == 6){
-      $date1 = '';
-      $date2 = '';
       if($Format == 1 || $Format == 3){
         if($FormatDay == 1 || $Format == 3){
           $date1 = $date;
@@ -108,8 +116,6 @@ function OnLoadPage($conn, $DATA)
         $return = r6($conn, $HptCode, $FacCode, $date1, $date2, 'one');
       }
     }else if($typeReport == 8){
-      $date1 = '';
-      $date2 = '';
       if($Format == 1 || $Format == 3){
         if($FormatDay == 1 || $Format == 3){
           $date1 = $date;
@@ -157,23 +163,46 @@ function OnLoadPage($conn, $DATA)
   }
   #----------------------------Format new date
 
-  function r1($conn, $factory){
+  function r1($conn, $HptCode, $FacCode, $date1, $date2, $chk){
     $boolean = false;
-    $Sql = "SELECT COUNT(*) AS cnt
-          FROM dirty
-          INNER JOIN factory ON dirty.FacCode = factory.FacCode
-          INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
-          INNER JOIN department ON dirty.DepCode = department.DepCode
-          WHERE dirty.FacCode = $factory";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $cnt = $Result['cnt'];
-          }
-    if($boolean == true){
-      return $cnt;
+    $count = 0;
+    if($chk == 'one'){
+      $Sql = "SELECT dirty.DocNo, dirty.DocDate, factory.FacName, dirty.RefDocNo
+        FROM dirty
+        INNER JOIN factory ON dirty.FacCode = factory.FacCode
+        INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
+        INNER JOIN department ON dirty.DepCode = department.DepCode
+        WHERE dirty.DocDate LIKE '%$date1%' AND dirty.FacCode = $FacCode GROUP BY dirty.DocNo ORDER BY dirty.DocNo ASC";
     }else{
-      return $cnt = 'notfound';
+      $Sql = "SELECT dirty.DocNo, dirty.DocDate, factory.FacName, dirty.RefDocNo
+        FROM dirty
+        INNER JOIN factory ON dirty.FacCode = factory.FacCode
+        INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
+        INNER JOIN department ON dirty.DepCode = department.DepCode
+        WHERE dirty.DocDate BETWEEN '$date1' AND '$date2' 
+        AND dirty.FacCode = $FacCode GROUP BY dirty.DocNo ORDER BY dirty.DocNo ASC";
     }
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $return[$count]['DocNo'] = $Result['DocNo'];
+        $return[$count]['DocDate'] = $Result['DocDate'];
+        $return[$count]['FacName'] = $Result['FacName'];
+        $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
+        $boolean = true;
+        $count ++ ;
+      }
+    
+      if($boolean == true){
+        $return['status'] = 'success';
+        $return['countRow'] = $count;
+        $return['form'] = 'r1';
+        return $return;
+      }else{
+        $return['status'] = 'notfound';
+        $return['form'] = 'r1';
+        return $return;
+      }
+      
   }
 
   function r2($conn, $HptCode, $date1, $date2, $chk){
@@ -183,28 +212,27 @@ function OnLoadPage($conn, $DATA)
             FROM claim
             INNER JOIN site ON claim.HptCode = site.HptCode
             WHERE claim.DocDate LIKE '%$date%' AND claim.HptCode = '$HptCode'";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $cnt = $Result['cnt'];
-            $boolean = true;
-          }
     }else{
       $Sql = "SELECT COUNT(*) AS cnt
             FROM claim
             INNER JOIN site ON claim.HptCode = site.HptCode
             WHERE claim.DocDate BETWEEN '$date1' AND '$date2' 
             AND claim.HptCode = '$HptCode'";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $cnt = $Result['cnt'];
-            $boolean = true;
-          }
+    }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return['status'] = $Result['cnt'];
+      $boolean = true;
     }
     
     if($boolean == true){
-      return $cnt;
+      $return['status'] = 'success';
+      $return['form'] = 'r2';
+      return $return;
     }else{
-      return $cnt = 'notfound';
+      $return['status'] = 'notfound';
+      $return['form'] = 'r2';
+      return $return;
     }
   }
 
@@ -219,14 +247,6 @@ function OnLoadPage($conn, $DATA)
               INNER JOIN factory ON factory.FacCode =clean.FacCode
               INNER JOIN site ON site.HptCode = clean.HptCode
               WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $return[$count]['facname'] = $Result['facname'];
-            $return[$count]['DocDate'] = $Result['DocDate'];
-            $return[$count]['HptName'] = $Result['HptName'];
-            $count++;
-            $boolean = true;
-          }
     }else{
       $Sql = "SELECT factory.facname,
                 clean.DocDate,
@@ -236,19 +256,24 @@ function OnLoadPage($conn, $DATA)
               INNER JOIN site ON site.HptCode = clean.HptCode
               WHERE clean.DocDate BETWEEN '$date1' AND '$date2'  
               AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $return[$count]['facname'] = $Result['facname'];
-            $return[$count]['DocDate'] = $Result['DocDate'];
-            $return[$count]['HptName'] = $Result['HptName'];
-            $count++;
-            $boolean = true;
-          }
     }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['facname'] = $Result['facname'];
+      $return[$count]['DocDate'] = $Result['DocDate'];
+      $return[$count]['HptName'] = $Result['HptName'];
+      $count++;
+      $boolean = true;
+    }
+
     if($boolean == true){
+      $return['status'] = 'success';
+      $return['form'] = 'r3';
       return $return;
     }else{
-      return $return = 'notfound';
+      $return['status'] = 'notfound';
+      $return['form'] = 'r3';
+      return $return;
     }
   }
 
@@ -263,14 +288,6 @@ function OnLoadPage($conn, $DATA)
               FROM rewash
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
               WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $return[$count]['FacName'] = $Result['FacName'];
-            $return[$count]['DocDate'] = $Result['DocDate'];
-            $return[$count]['DocTime'] = $Result['DocTime'];
-            $count++;
-            $boolean = true;
-          }
     }else{
       $Sql = "SELECT 
                 factory.FacName,
@@ -280,19 +297,24 @@ function OnLoadPage($conn, $DATA)
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
               WHERE rewash.DocDate BETWEEN '$date1' AND '$date2'   
               AND rewash.FacCode = $FacCode";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $return[$count]['FacName'] = $Result['FacName'];
-            $return[$count]['DocDate'] = $Result['DocDate'];
-            $return[$count]['DocTime'] = $Result['DocTime'];
-            $count++;
-            $boolean = true;
-          }
     }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['FacName'] = $Result['FacName'];
+      $return[$count]['DocDate'] = $Result['DocDate'];
+      $return[$count]['DocTime'] = $Result['DocTime'];
+      $count++;
+      $boolean = true;
+    }
+
     if($boolean == true){
+      $return['status'] = 'success';
+      $return['form'] = 'r6';
       return $return;
     }else{
-      return $return = 'notfound';
+      $return['status'] = 'notfound';
+      $return['form'] = 'r6';
+      return $return;
     }
   }
 
@@ -315,20 +337,6 @@ function OnLoadPage($conn, $DATA)
               INNER JOIN department ON clean.DepCode = department.DepCode
               INNER JOIN site ON department.HptCode = site.HptCode
               WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $return[$count]['HptName'] = $Result['HptName'];
-            $return[$count]['DepName'] = $Result['DepName'];
-            $return[$count]['DocNo1'] = $Result['DocNo1'];
-            $return[$count]['DocDate1'] = $Result['DocDate1'];
-            $return[$count]['Total1'] = $Result['Total1'];
-            $return[$count]['DocNo2'] = $Result['DocNo2'];
-            $return[$count]['DocDate2'] = $Result['DocDate2'];
-            $return[$count]['Total2'] = $Result['Total2'];
-            $return[$count]['Precent'] = $Result['Precent'];
-            $count++;
-            $boolean = true;
-          }
     }else{
       $Sql = "SELECT 
                 site.HptName,
@@ -346,25 +354,30 @@ function OnLoadPage($conn, $DATA)
             INNER JOIN site ON department.HptCode = site.HptCode
             WHERE clean.DocDate BETWEEN '$date1' AND '$date2'
             AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $return[$count]['HptName'] = $Result['HptName'];
-            $return[$count]['DepName'] = $Result['DepName'];
-            $return[$count]['DocNo1'] = $Result['DocNo1'];
-            $return[$count]['DocDate1'] = $Result['DocDate1'];
-            $return[$count]['Total1'] = $Result['Total1'];
-            $return[$count]['DocNo2'] = $Result['DocNo2'];
-            $return[$count]['DocDate2'] = $Result['DocDate2'];
-            $return[$count]['Total2'] = $Result['Total2'];
-            $return[$count]['Precent'] = $Result['Precent'];
-            $count++;
-            $boolean = true;
-          }
     }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['HptName'] = $Result['HptName'];
+      $return[$count]['DepName'] = $Result['DepName'];
+      $return[$count]['DocNo1'] = $Result['DocNo1'];
+      $return[$count]['DocDate1'] = $Result['DocDate1'];
+      $return[$count]['Total1'] = $Result['Total1'];
+      $return[$count]['DocNo2'] = $Result['DocNo2'];
+      $return[$count]['DocDate2'] = $Result['DocDate2'];
+      $return[$count]['Total2'] = $Result['Total2'];
+      $return[$count]['Precent'] = $Result['Precent'];
+      $count++;
+      $boolean = true;
+    }
+
     if($boolean == true){
+      $return['status'] = 'success';
+      $return['form'] = 'r8';
       return $return;
     }else{
-      return $return = 'notfound';
+      $return['status'] = 'notfound';
+      $return['form'] = 'r8';
+      return $return;
     }
   }
 
