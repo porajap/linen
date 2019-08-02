@@ -77,11 +77,11 @@ function OnLoadPage($conn, $DATA)
       if($Format == 1 || $Format == 3){
         if($FormatDay == 1 || $Format == 3){
           $date1 = $date;
-          $return = r2($conn, $HptCode, $date1, $date2, 'one');
+          $return = r2($conn, $HptCode, $FacCode, $date1, $date2, 'one');
         }else{
           $date1 = newDate1($date);
           $date2 = newDate2($date);
-          $return = r2($conn, $HptCode, $date1, $date2, 'between');
+          $return = r2($conn, $HptCode, $FacCode, $date1, $date2, 'between');
         }
       }else if($Format == 2){
         $date1 = newMount($date);
@@ -205,28 +205,39 @@ function OnLoadPage($conn, $DATA)
       
   }
 
-  function r2($conn, $HptCode, $date1, $date2, $chk){
+  function r2($conn, $HptCode, $FacCode, $date1, $date2, $chk){
     $boolean = false;
+    $count = 0;
     if($chk == 'one'){
-      $Sql = "SELECT  COUNT(*) AS cnt
+      $Sql = "SELECT  claim.DocNo, claim.DocDate, claim.RefDocNo, department.DepName
             FROM claim
             INNER JOIN site ON claim.HptCode = site.HptCode
-            WHERE claim.DocDate LIKE '%$date%' AND claim.HptCode = '$HptCode'";
+            INNER JOIN department ON department.DepCode = claim.DepCode
+            WHERE claim.DocDate LIKE '%$date1%' AND claim.HptCode = '$HptCode' AND claim.FacCode = $FacCode
+            GROUP BY claim.DocNo ORDER BY claim.DocNo ASC";
     }else{
-      $Sql = "SELECT COUNT(*) AS cnt
+      $Sql = "SELECT claim.DocNo, claim.DocDate, claim.RefDocNo, department.DepName
             FROM claim
             INNER JOIN site ON claim.HptCode = site.HptCode
+            INNER JOIN department ON department.DepCode = claim.DepCode
             WHERE claim.DocDate BETWEEN '$date1' AND '$date2' 
-            AND claim.HptCode = '$HptCode'";
+            AND claim.HptCode = '$HptCode' AND claim.FacCode = $FacCode
+            GROUP BY claim.DocNo ORDER BY claim.DocNo ASC";
     }
+    $return['sql'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return['status'] = $Result['cnt'];
+      $return[$count]['DocNo'] = $Result['DocNo'];
+      $return[$count]['DocDate'] = $Result['DocDate'];
+      $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
+      $return[$count]['DepName'] = $Result['DepName'];
       $boolean = true;
+      $count ++;
     }
     
     if($boolean == true){
       $return['status'] = 'success';
+      $return['countRow'] = $count;
       $return['form'] = 'r2';
       return $return;
     }else{
