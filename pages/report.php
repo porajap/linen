@@ -183,8 +183,17 @@ $array2 = json_decode($json2,TRUE);
     var Format = $("input[name='radioFormat']:checked").val();
     if(Format == 1){
       var FormatDay = $("input[name='formatDay']:checked").val();
-      var date = ();
+      if(FormatDay == 1){
+        var date = $('#oneday').val();
+      }else{
+        var date = $('#someday').val();
+      }
+    }else if(Format == 2){
+      var date = $('#month').val();
+    }else{
+      var date = $('#year').val();
     }
+    alert(date);
   }
   function senddata(data){
     var form_data = new FormData();
@@ -570,7 +579,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row' id="showmonth">
                                             <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8 datepicker-here" data-min-view="months" data-view="months" data-date-format="MM yyyy" data-language='en'>
+                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="month" data-min-view="months" data-view="months" data-date-format="MM yyyy" data-language='en'>
                                         </div>
                                     </div>
                                   </div>
@@ -578,7 +587,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="col-md-6">
                                         <div class='form-group row' id="showyear">
                                             <label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8 datepicker-here" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
+                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
                                         </div>
                                     </div>
                                   </div>
