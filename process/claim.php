@@ -475,7 +475,7 @@ function UpdateDetailQty($conn, $DATA)
   $OleQty =  $DATA["OleQty"];
   $UnitCode =  $DATA["unitcode"];
   $Sql = "UPDATE claim_detail
-	SET Qty1 = $OleQty,Qty2 = $Qty,UnitCode2 = $UnitCode
+	SET Qty1 = $Qty,Qty2 = $Qty,UnitCode2 = $UnitCode
 	WHERE claim_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
