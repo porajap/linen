@@ -236,7 +236,7 @@ $(document).ready(function(e){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
         var data = {
-          'STATUS' : 'get_dirty_doc',
+          'STATUS' : 'get_claim_doc',
           'DocNo'  : docno,
           'hptcode'  : hptcode
         };
@@ -1001,7 +1001,7 @@ $(document).ready(function(e){
                   }
                 }
 
-              }else if(temp['form']=="get_dirty_doc"){
+              }else if(temp['form']=="get_claim_doc"){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
