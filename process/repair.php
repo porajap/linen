@@ -862,7 +862,7 @@ function CreateDocument($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
   }
 
-  function get_dirty_doc($conn, $DATA)
+  function get_claim_doc($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
     $boolean = false;
@@ -891,7 +891,7 @@ function CreateDocument($conn, $DATA)
     // die;
     if ($boolean) {
       $return['status'] = "success";
-      $return['form'] = "get_dirty_doc";
+      $return['form'] = "get_claim_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;
@@ -944,8 +944,8 @@ function CreateDocument($conn, $DATA)
       CancelBill($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'UpdateRefDocNo') {
       UpdateRefDocNo($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'get_dirty_doc') {
-      get_dirty_doc($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'get_claim_doc') {
+      get_claim_doc($conn, $DATA);
     }
   } else {
     $return['status'] = "error";
