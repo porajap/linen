@@ -188,12 +188,37 @@ $array2 = json_decode($json2,TRUE);
       }else{
         var date = $('#someday').val();
       }
+      var data = {
+        'STATUS':'find_report',
+        'factory':factory,
+        'HptCode':HptCode,
+        'typeReport':typeReport,
+        'Format':Format,
+        'FormatDay':FormatDay,
+        'date':date
+      };
     }else if(Format == 2){
       var date = $('#month').val();
+      var data = {
+        'STATUS':'find_report',
+        'factory':factory,
+        'HptCode':HptCode,
+        'typeReport':typeReport,
+        'Format':Format,
+        'date':date
+      };
     }else{
       var date = $('#year').val();
+      var data = {
+        'STATUS':'find_report',
+        'factory':factory,
+        'HptCode':HptCode,
+        'typeReport':typeReport,
+        'Format':Format,
+        'date':date
+      };
     }
-    alert(date);
+    senddata(JSON.stringify(data));
   }
   function senddata(data){
     var form_data = new FormData();
@@ -569,8 +594,8 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6" >
                                           <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday">
-                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" > 
+                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd">
+                                                <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd"> 
                                           </div>
                                         </div>
                                       </div>
@@ -579,7 +604,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row' id="showmonth">
                                             <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="month" data-min-view="months" data-view="months" data-date-format="MM yyyy" data-language='en'>
+                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="month" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'>
                                         </div>
                                     </div>
                                   </div>
