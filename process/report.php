@@ -117,7 +117,7 @@ function OnLoadPage($conn, $DATA)
         }else{
           $date1 = newDate1($date);
           $date2 = newDate2($date);
-          $return = r6($conn, $HptCode, $FacCode, $date1, $date2, 'between');
+          $return = r8($conn, $HptCode, $FacCode, $date1, $date2, 'between');
         }
       }else if($Format == 2){
         $date1 = newMount($date);
@@ -367,6 +367,8 @@ function OnLoadPage($conn, $DATA)
       return $return = 'notfound';
     }
   }
+
+
   //==========================================================
   //
   //==========================================================
