@@ -42,7 +42,7 @@ $array = json_decode($json,TRUE);
                         <label for="username">Username</label>
                     </div>
                     <div class="input-group color1">
-                        <input type="text" class="form-control" id="username">
+                        <input type="text" class="form-control nonspa" onkeyup="make_char()" id="username" >
                     </div>
                     <div class='icon_username'>
                         <img src="img/icon1.png">
@@ -55,7 +55,7 @@ $array = json_decode($json,TRUE);
                         <label for="password">Password</label>
                     </div>
                     <div class="input-group color1">
-                        <input type="password" class="form-control" id="password" required>
+                        <input type="password" class="form-control nonspa" onkeyup="make_char()" id="password" required>
                     </div>
                     <div class='icon_password'>
                         <img src="img/icon2.png">
@@ -121,7 +121,7 @@ $array = json_decode($json,TRUE);
                         <label for="username">Username</label>
                     </div>
                     <div class="input-group color2">
-                        <input type="text" class="form-control change_input" id="username2" required>
+                        <input type="text" class="form-control change_input nonspa" onkeyup="make_char()" id="username2" required>
                     </div>
                 </div>
                 <!-- ------------------------------------------- -->
@@ -130,7 +130,7 @@ $array = json_decode($json,TRUE);
                         <label for="old_password">Old Password</label>
                     </div>
                     <div class="input-group color2">
-                        <input type="password" class="form-control change_input" id="oldpassword" required>
+                        <input type="password" class="form-control change_input nonspa" onkeyup="make_char()" id="oldpassword" required>
                     </div>
                 </div>
                 <!-- ------------------------------------------- -->
@@ -139,7 +139,7 @@ $array = json_decode($json,TRUE);
                         <label for="new_password">New Password</label>
                     </div>
                     <div class="input-group color2">
-                        <input type="password" class="form-control change_input" id="newpassword" required>
+                        <input type="password" class="form-control change_input nonspa" onkeyup="make_char()" id="newpassword" required>
                     </div>
                 </div>
                 <!-- ------------------------------------------- -->
@@ -148,7 +148,7 @@ $array = json_decode($json,TRUE);
                         <label for="confirm_password">Confirm Password</label>
                     </div>
                     <div class="input-group color2">
-                        <input type="password" class="form-control change_input" id="confirmpassword" required>
+                        <input type="password" class="form-control change_input nonspa" onkeyup="make_char()" id="confirmpassword" required>
                     </div>
                 </div>
                 <!-- ------------------------------------------- -->
@@ -276,6 +276,12 @@ $array = json_decode($json,TRUE);
                     text: 'Please recheck your username and password!'
                     })
             }
+        }
+
+        function make_char() {
+            $('.nonspa').on('input', function() {
+                this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');; //<-- replace all other than given set of values
+            });
         }
 
         function senddata(data) {
