@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="dist/js/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="dist/css/sweetalert2.min.css">
+    <script src="dist/js/jquery-3.3.1.min.js"></script>
+
+    <script type="text/javascript">
+        function chageTimeout() {
+            window.location.href = '../index.html';
+        }
+
+        $(document).ready(function(e) {
+            setTimeout('chageTimeout()', 3000); // กำหนดเวลาตรวจเช็คเริ่มต้น
+        });
+    </script>
+    <style>
+        body {}
+        
+        .bg {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+        
+        .center {
+            position: absolute;
+            width: 25%;
+            margin-top: 15%;
+            /* Half the height */
+            margin-left: 40%;
+            /* Half the width */
+        }
+    </style>
+    <title>Title</title>
+</head>
+
+<body>
+    <img class="bg" src="img/back01.jpg">
+    <!-- <div class="clearfix">
+        <img id="img1" class="center" src="img/logo.png">
+    </div> -->
+</body>
+
+</html>

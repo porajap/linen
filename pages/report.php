@@ -84,13 +84,8 @@ $array2 = json_decode($json2,TRUE);
       $('#showyear').hide();
       $('#someday').hide();
       OnLoadPage();
-      // getDepartment();
-      // ShowMenu();
 
-      // Initialization
-      $('#oneday').datepicker({
-          maxDate: new Date()
-      })
+
 
     }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
@@ -120,72 +115,55 @@ $array2 = json_decode($json2,TRUE);
 
   
 
-    //======= On create =======
-    //console.log(JSON.stringify(data));
-    function OnLoadPage(){
-      var data = {
-        'STATUS'  : 'OnLoadPage'
-      };
-      senddata(JSON.stringify(data));
-      $('#isStatus').val(0)
-    }
-    function ShowDocument(selecta){
-      var searchdocument = $('#searchdocument').val();
-      if( typeof searchdocument == 'undefined' ) searchdocument = "";
-      var hosCode = $('#side option:selected').attr("value");
-      if( typeof hosCode == 'undefined' ) hosCode = "1";
-      var deptCode = $('#Dep2 option:selected').attr("value");
-      if( typeof deptCode == 'undefined' ) deptCode = "1";
+  //======= On create =======
+  //console.log(JSON.stringify(data));
+  function OnLoadPage(){
+    var data = {
+      'STATUS'  : 'OnLoadPage'
+    };
+    senddata(JSON.stringify(data));
+    $('#isStatus').val(0)
+  }
 
-      var data = {
-        'STATUS'  	: 'ShowDocument',
-        'xdocno'	: searchdocument,
-        'selecta' : selecta,
-        'deptCode'	: deptCode,
-        'hosCode' :   hosCode
+  function logoff() {
+    swal({
+      title: '',
+      text: '<?php echo $array['logout'][$language]; ?>',
+      type: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      showConfirmButton: false,
+      timer: 1000,
+      confirmButtonText: 'Ok'
+    }).then(function () {
+      window.location.href="../logoff.php";
+    }, function (dismiss) {
+      window.location.href="../logoff.php";
+      if (dismiss === 'cancel') {
 
-      };
-      console.log(data);
-      senddata(JSON.stringify(data));
-    }
-    function logoff() {
-      swal({
-        title: '',
-        text: '<?php echo $array['logout'][$language]; ?>',
-        type: 'success',
-        showCancelButton: false,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        showConfirmButton: false,
-        timer: 1000,
-        confirmButtonText: 'Ok'
-      }).then(function () {
-        window.location.href="../logoff.php";
-      }, function (dismiss) {
-        window.location.href="../logoff.php";
-        if (dismiss === 'cancel') {
+      }
+    })
+  }
 
-        }
-      })
-    }
-function showdate(){
-  var chkday = $('#chkday:checked').val();
-  var chkmonth = $('#chkmonth:checked').val();
-  var chkyear = $('#chkyear:checked').val();
-  if(chkday ==1){
-    $('#showday').show();
-    $('#showmonth').hide();
-    $('#showyear').hide();
-  }else if (chkmonth ==2){
-    $('#showday').hide();
-    $('#showmonth').show();
-    $('#showyear').hide();  
-    }else if (chkyear ==3){
-    $('#showday').hide();
-    $('#showmonth').hide();
-    $('#showyear').show();  
-    }
-}
+  function showdate(){
+    var chkday = $('#chkday:checked').val();
+    var chkmonth = $('#chkmonth:checked').val();
+    var chkyear = $('#chkyear:checked').val();
+    if(chkday ==1){
+      $('#showday').show();
+      $('#showmonth').hide();
+      $('#showyear').hide();
+    }else if (chkmonth ==2){
+      $('#showday').hide();
+      $('#showmonth').show();
+      $('#showyear').hide();  
+      }else if (chkyear ==3){
+      $('#showday').hide();
+      $('#showmonth').hide();
+      $('#showyear').show();  
+      }
+  }
 
   function formatdate(chk){
     if(chk == 1){
@@ -197,6 +175,17 @@ function showdate(){
     }
   }
 
+  function search_fillter()
+  {
+    var factory = $('#factory').val();
+    var HptCode = $('#hotpital').val();
+    var typeReport = $('#typereport').val();
+    var Format = $("input[name='radioFormat']:checked").val();
+    if(Format == 1){
+      var FormatDay = $("input[name='formatDay']:checked").val();
+      var date = ();
+    }
+  }
   function senddata(data){
     var form_data = new FormData();
     form_data.append("DATA",data);
@@ -220,26 +209,14 @@ function showdate(){
           if(temp["form"]=='OnLoadPage'){
             var PmID = <?php echo $PmID;?>;
             var HptCode = '<?php echo $HptCode;?>';
-            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-              if(PmID != 1 && HptCode == temp[i]['HptCode']){
-                var Str = "<option value="+temp[i]['HptCode']+" selected>"+temp[i]['HptName']+"</option>";
-                $("#side").append(Str);
-                $("#side").attr('disabled', true);
-                $("#hotpital").append(Str);
-              }else{
-                var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                $("#side").append(Str);
-                $("#hotpital").append(Str);
-              }
-              
+            for (var i = 0; i < temp['Rowx']; i++) {
+              var Str = "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                $("#factory").append(Str);
             }
-          }else if(temp["form"]=='getDepartment'){
-            $("#department").empty();
-            $("#Dep2").empty();
-            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-              var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-              $("#department").append(Str);
-              $("#Dep2").append(Str);
+
+            for (var i = 0; i < temp['Row']; i++) {
+              var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+              $("#hotpital").append(Str);
             }
           }
         }else if (temp['status']=="failed") {
@@ -418,32 +395,32 @@ function showdate(){
     .datepicker{z-index:9999 !important}
     .hidden{visibility: hidden;}
     .mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.mhee button{
-            /* padding: 6px 8px 6px 16px; */
-            text-decoration: none;
-            font-size: 23px;
-            color: #2c3e50;
-            display: block;
-            background: none;
-            box-shadow:none !important;
+      /* padding: 6px 8px 6px 16px; */
+      text-decoration: none;
+      font-size: 25px;
+      color: #818181;
+      display: block;
+    }
+    .mhee a:hover {
+      color: #2c3e50;
+      font-weight:bold;
+      font-size:26px;
+    }
+    .mhee button{
+        /* padding: 6px 8px 6px 16px; */
+        text-decoration: none;
+        font-size: 23px;
+        color: #2c3e50;
+        display: block;
+        background: none;
+        box-shadow:none !important;
 
-            }
-            .mhee button:hover {
-            color: #2c3e50;
-            font-weight:bold;
-            font-size:26px;
         }
+        .mhee button:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+    }
     .sidenav {
       height: 100%;
       overflow-x: hidden;
@@ -520,7 +497,7 @@ function showdate(){
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-                                                <select class="form-control col-sm-8" id="department"></select>
+                                                <select class="form-control col-sm-8" id="factory"></select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -535,7 +512,11 @@ function showdate(){
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
-                                                <select class="form-control col-sm-8" id="department"></select>
+                                                <select class="form-control col-sm-8" id="typereport">
+                                                  <?php  for($i = 1 ; $i<=16; $i++){ ?>
+                                                    <option value="<?php echo $i?>"><?php echo $array['r'.$i][$language]; ?></option>  
+                                                  <?php } ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6 ">
@@ -543,16 +524,16 @@ function showdate(){
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
                                                     <div>
                                                         <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="chkday" name="customRadioInline1" value='1' onclick="showdate()" class="custom-control-input">
+                                                            <input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat">
                                                             <label class="custom-control-label" for="chkday"> วัน</label>
                                                         </div>
                                                         <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="chkmonth" name="customRadioInline1" value='2'onclick="showdate()" class="custom-control-input">
+                                                            <input type="radio" id="chkmonth" name="radioFormat" value='2'onclick="showdate()" class="custom-control-input radioFormat">
                                                             <label class="custom-control-label" for="chkmonth"> เดือน</label>
                                                         </div>
 
                                                         <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="chkyear" name="customRadioInline1" value='3' onclick="showdate()" class="custom-control-input">
+                                                            <input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
                                                             <label class="custom-control-label" for="chkyear"> ปี</label>
                                                         </div>
                                                     </div>
@@ -566,11 +547,11 @@ function showdate(){
                                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
                                               <div>
                                                 <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="chkoneday" name="format" value='1' onclick="formatdate(1)" class="custom-control-input" checked>
-                                                    <label class="custom-control-label" for="chkoneday">1 วัน</label>
+                                                    <input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
+                                                    <label class="custom-control-label" for="chkoneday">หนึ่งวัน</label>
                                                 </div>
                                                 <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="chksomeday" name="format" value='2' onclick="formatdate(2)" class="custom-control-input">
+                                                    <input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
                                                     <label class="custom-control-label" for="chksomeday">หลายวัน</label>
                                                 </div>
                                               </div>
@@ -588,16 +569,16 @@ function showdate(){
                                     <div class="row">
                                       <div class="col-md-6">
                                         <div class='form-group row' id="showmonth">
-                                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="department">
+                                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
+                                            <input type="text" class="form-control col-sm-8 datepicker-here" data-min-view="months" data-view="months" data-date-format="MM yyyy" data-language='en'>
                                         </div>
                                     </div>
                                   </div>
                                   <div class="row">
                                     <div class="col-md-6">
                                         <div class='form-group row' id="showyear">
-                                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8 datepicker-here" id="department">
+                                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
+                                            <input type="text" class="form-control col-sm-8 datepicker-here" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
                                         </div>
                                     </div>
                                   </div>
@@ -611,10 +592,9 @@ function showdate(){
                               <div class="search_1 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-search"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_create.png"> -->
                             </div>
                             <div>
-                              <button class="btn">
+                              <button class="btn" onclick="search_fillter();">
                                 <?php echo $array['search'][$language]; ?>
                               </button>
                             </div>
@@ -622,9 +602,8 @@ function showdate(){
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                              <i class="fab fa-searchengin"></i>
+                                <i class="fab fa-searchengin"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_create.png"> -->
                             </div>
                             <div>
                               <button class="btn">

@@ -224,6 +224,27 @@
 <errorpic><en>Please Choose Picture</en><th>กรุณาเลือกรูปภาพ</th></errorpic>
 <formatdate><en>Format Date</en><th>รูปแบบวันที่</th></formatdate>
 <format><en>Format</en><th>รูปแบบ</th></format>
+<year><en>Year</en><th>ปี</th></year>
+<month><en>Month</en><th>เดือน</th></month>
+
+<!-- -->
+<r1><en>Record dirty linen weight</en><th>Record dirty linen weight</th></r1>
+<r2><en>Report Claim</en><th>Report Claim</th></r2>
+<r3><en>Report Cleaned Linen Weight</en><th>Report Cleaned Linen Weight</th></r3>
+<r4><en>Report Daily Issue Request</en><th>Report Daily Issue Request</th></r4>
+<r5><en>Report Operations Time Spend</en><th>Report Operations Time Spend</th></r5>
+<r6><en>Report Rewash</en><th>Report Rewash</th></r6>
+<r7><en>Report Shot and Over item</en><th>Report Shot and Over item</th></r7>
+<r8><en>Report Soiled Clean Ratio</en><th>Report Soiled Clean Ratio</th></r8>
+<r9><en>Report stock count</en><th>Report stock count</th></r9>
+<r10><en>Report Summary billing</en><th>Report Summary billing</th></r10>
+<r11><en>Report Summary cleaned linen weight</en><th>Report Summary cleaned linen weight</th></r11>
+<r12><en>Report Summary Dirty</en><th>Report Summary Dirty</th></r12>
+<r13><en>Report Summary Soiled Clean Ratio</en><th>Report Summary Soiled Clean Ratio</th></r13>
+<r14><en>Report Summary</en><th>Report Summary</th></r14>
+<r15><en>Report Tracking status for laundry plant</en><th>Report Tracking status for laundry plant</th></r15>
+<r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>
+<!--  -->
 
 
 </lang>
