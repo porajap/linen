@@ -155,6 +155,7 @@ $(document).ready(function(e){
         if(docno != ""){
           $('#dialogItemCode').modal('show');
         }
+        ShowItem();
       }
 
       function OpenDialogUsageCode(itemcode){
@@ -172,48 +173,54 @@ $(document).ready(function(e){
         var xrow = $("#checkrow:checked").val() ;
         xrow = xrow.split(",");
         swal({
-          title: "<?php echo $array['confirm'][$language]; ?>",
+          title: "<?php echo $array['confirmdelete'][$language]; ?>",
           text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
           confirmButtonColor: '#d33',
           cancelButtonColor: '#3085d6',
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
+            if (result.value) {
             var data = {
               'STATUS'    : 'DeleteItem',
               'rowid'  : xrow[0],
               'DocNo'   : docno
             };
             senddata(JSON.stringify(data));
+          } else if (result.dismiss === 'cancel') {
+          swal.close();}
           })
         } 
 
       function CancelDocument(){
         var docno = $("#docno").val();
 
+        if(docno!= ""){
         swal({
-          title: "<?php echo $array['confirm'][$language]; ?>",
+          title: "<?php echo $array['confirmcancel'][$language]; ?>",
           text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
           confirmButtonColor: '#d33',
           cancelButtonColor: '#3085d6',
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
+            if (result.value) {
             CancelBill();
-            $('#tab2').attr('hidden',true);
-            $('#switch_col').removeClass('col-md-10');
-            $('#switch_col').addClass('col-md-12');
+
+            } else if (result.dismiss === 'cancel') {
+            swal.close();}
           })
+        }
       }
 
       //======= On create =======
@@ -229,7 +236,7 @@ $(document).ready(function(e){
       function open_claim_doc(){
         // dialogRefDocNo.dialog( "open" );
         $('#dialogRefDocNo').modal('show');
-        get_claim_doc();
+        // get_claim_doc();
       }
 
       function get_claim_doc(){
@@ -468,13 +475,13 @@ $(document).ready(function(e){
         var deptCode = $('#department option:selected').attr("value");
         $('#TableDetail tbody').empty();
         swal({
-          title: "<?php echo $array['confirm'][$language]; ?>",
+          title: "<?php echo $array['confirmdoc'][$language]; ?>",
           text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           closeOnConfirm: false,
@@ -596,8 +603,6 @@ $(document).ready(function(e){
       }
 
       function SaveBill(){
-      
-
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -625,8 +630,22 @@ $(document).ready(function(e){
         isStatus=0;
         else
         isStatus=1;
-
+        if(docno!=""){
         if(isStatus==1){
+        swal({
+            title: "<?php echo $array['confirmsave'][$language]; ?>",
+            text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true}).then(result => {
+              if (result.value) {
           var data = {
             'STATUS'      : 'SaveBill',
             'xdocno'      : docno,
@@ -635,18 +654,18 @@ $(document).ready(function(e){
             'deptCode'    : dept,
             'ItemCode'    : ItemCode,
             'Qty'         : Qty
-
           };
-          console.log(data);
           senddata(JSON.stringify(data));
-
           $('#profile-tab').tab('show');
           $("#bImport").prop('disabled', true);
           $("#bDelete").prop('disabled', true);
           $("#bSave").prop('disabled', true);
           $("#bCancel").prop('disabled', true);
-
           ShowDocument();
+        } else if (result.dismiss === 'cancel') {
+          swal.close();}
+        })
+        }
         }else{
           $("#bImport").prop('disabled', false);
           $("#bDelete").prop('disabled', false);
@@ -966,7 +985,7 @@ $(document).ready(function(e){
                   }
                 }
               }else if( (temp["form"]=='ShowItem') ){
-                var st1 = "style='font-size:24px;margin-left:3px; width:130px;font-family:THSarabunNew;font-size:24px;'";
+                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                 $( "#TableItem tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
@@ -986,7 +1005,7 @@ $(document).ready(function(e){
 
                   var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 10%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -994,7 +1013,7 @@ $(document).ready(function(e){
                   "<td style='width: 25%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
                   "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
-                  "<td style='width: 10%;' nowrap align='center'>"+Weight+"</td>"+
+                  "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableItem tbody").append( $StrTR );
@@ -1314,13 +1333,13 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <input type="text"autocomplete="off" class="form-control col-sm-8"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['docno'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1329,13 +1348,13 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-8" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
+                                      <input class="form-control col-sm-8" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['employee'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8" style="font-size:24px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8" style="font-size:24px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1344,13 +1363,13 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['time'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8" class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8" class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['totalweight'][$language]; ?></label>
-                                      <input class="form-control col-sm-8" style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                                      <input class="form-control col-sm-8" autocomplete="off" style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
                                     </div>
                                   </div>
                                 </div>
@@ -1654,7 +1673,7 @@ $(document).ready(function(e){
 </div>
 
 <!-- custom modal2 -->
-<div class="modal" id="dialogRefDocNo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="dialogRefDocNo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1668,8 +1687,8 @@ $(document).ready(function(e){
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-8" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['serchref'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-8" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
               </div>
             </div>
             <div class="search_custom col-md-2">

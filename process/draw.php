@@ -1066,13 +1066,18 @@ function CreateDocument($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$count :: ".$Result['Id']." / ".$Result['Weight']."')";
       //	mysqli_query($conn,$Sqlx);
+      if($Result['TotalQty'] > $Result['ParQty']){
+        $return[$count]['TotalQty'] = $Result['ParQty']==null?0:$Result['ParQty'] ;
+      }else{
+        $return[$count]['TotalQty']   = $Result['TotalQty']==null?0:$Result['TotalQty'];
+      }
       $return[$count]['RowID']      = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
       $return[$count]['ItemName']   = $Result['ItemName'];
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['ParQty']     = $Result['ParQty']==null?0:$Result['ParQty'];
       $return[$count]['CcQty']       = $Result['CcQty'];
-      $return[$count]['TotalQty']   = $Result['TotalQty']==null?0:$Result['TotalQty'];
+      // $return[$count]['TotalQty']   = $Result['TotalQty']==null?0:$Result['TotalQty'];
       $UnitCode                     = $Result['UnitCode'];
       $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;

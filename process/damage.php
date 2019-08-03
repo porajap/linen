@@ -700,23 +700,26 @@ function CreateDocument($conn, $DATA)
 
       
       $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // $return['sql']=$Sqlx;
-      // echo json_encode($return);
       $meQueryx = mysqli_query($conn, $Sqlx);
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
       }
-      $return['5555']=$Qtyx;
-      echo json_encode($return);
+      $SqlsumRe =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$ItemCode'";
+      $meQuerysumRe = mysqli_query($conn, $SqlsumRe);
+      while ($ResultsumRe = mysqli_fetch_assoc($meQuerysumRe)) {
+        $QtyRePair = $ResultsumRe['Qty']==null?0:$ResultsumRe['Qty'];
+      }
       $Sql =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // $return['sqlx']=$Sql;
-      // echo json_encode($return);
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $Qty = $Result['Qty1'];
       }  
-      $QtySUM =  $Qty - $Qtyx ;
-      if($QtySUM <=0){
+      if($Qtyx > $QtyRePair){
+        $QtySum = $Qty - ($Qtyx + $QtyRePair);
+        }else if ($QtyRePair > $Qtyx ){
+        $QtySum = $Qty - ($QtyRePair + $Qtyx);
+        } 
+      if($QtySum <=0){
          $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
          mysqli_query($conn, $update);
       }else{
@@ -832,14 +835,24 @@ function CreateDocument($conn, $DATA)
         $Qtyx = $Resultx['Qty'];
       }
 
+      $SqlsumRe =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$ItemCode'";
+      $meQuerysumRe = mysqli_query($conn, $SqlsumRe);
+      while ($ResultsumRe = mysqli_fetch_assoc($meQuerysumRe)) {
+        $QtyRePair = $ResultsumRe['Qty']==null?0:$ResultsumRe['Qty'];
+      }
 
       $Sql55 =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo'  AND ItemCode = '$ItemCode'";
       $meQuery55 = mysqli_query($conn, $Sql55);
       while ($Result55 = mysqli_fetch_assoc($meQuery55)) {
         $Qty = $Result55['Qty1'];
       }  
-      $QtySum = $Qty - $Qtyx;
-
+      if($Qtyx > $QtyRePair){
+        $QtySum = $Qty - ($Qtyx + $QtyRePair);
+        }else if ($QtyRePair > $Qtyx ){
+        $QtySum = $Qty - ($QtyRePair + $Qtyx);
+        }else{
+        $QtySum = $Qty - ($Qtyx + $QtyRePair);
+        }
       $return[$count]['RowID']    = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
       $return[$count]['ItemName']   = $Result['ItemName'];

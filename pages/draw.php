@@ -154,7 +154,7 @@ $array2 = json_decode($json2,TRUE);
   function open_dirty_doc(){
         // dialogRefDocNo.dialog( "open" );
         $('#dialogRefDocNo').modal('show');
-        get_dirty_doc();
+        // get_dirty_doc();
       }
       
       function get_dirty_doc(){
@@ -198,6 +198,7 @@ function OpenDialogItem(){
         if(docno != ""){
           $('#dialogItemCode').modal('show');
         }
+        ShowItem();
       }
 
   function OpenDialogUsageCode(itemcode){
@@ -242,13 +243,13 @@ function OpenDialogItem(){
 
     xrow = xrow.split(",");
     swal({
-      title: "<?php echo $array['confirm'][$language]; ?>",
+      title: "<?php echo $array['confirmdelete'][$language]; ?>",
       text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
       type: "warning",
       showCancelButton: true,
       confirmButtonClass: "btn-danger",
-      confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-      cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+      confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+      cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
       closeOnConfirm: false,
@@ -267,13 +268,13 @@ function OpenDialogItem(){
       var docno = $("#docno").val();
 
       swal({
-          title: "<?php echo $array['confirm'][$language]; ?>",
+          title: "<?php echo $array['confirmcancel'][$language]; ?>",
           text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
           confirmButtonColor: '#d33',
           cancelButtonColor: '#3085d6',
           closeOnConfirm: false,
@@ -509,13 +510,13 @@ function OpenDialogItem(){
       var deptCode = $('#department option:selected').attr("value");
       $('#TableDetail tbody').empty();
       swal({
-        title: "<?php echo $array['confirm'][$language]; ?>",
+        title: "<?php echo $array['confirmdoc'][$language]; ?>",
         text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         closeOnConfirm: false,
@@ -644,10 +645,22 @@ function OpenDialogItem(){
           else
           isStatus=1;
 
+if(docno!=""){
           if(isStatus==1){
-          $('#tab2').attr('hidden',true);
-          $('#switch_col').removeClass('col-md-10');
-          $('#switch_col').addClass('col-md-12');
+                swal({
+              title: "<?php echo $array['confirmsave'][$language]; ?>",
+              text: "<?php echo $array['docno'][$language]; ?>"+docno+"",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
             var data = {
               'STATUS'      : 'SaveBill',
               'xdocno'      : docno,
@@ -657,15 +670,15 @@ function OpenDialogItem(){
               'hotpCode'    : hotpCode
             };
             senddata(JSON.stringify(data));
-
-            $('#profile-tab').tab('show');
-
-              $("#bImport").prop('disabled', true);
-              $("#bDelete").prop('disabled', true);
-              $("#bSave").prop('disabled', true);
-              $("#bCancel").prop('disabled', true);
-
-              ShowDocument();
+                $('#profile-tab').tab('show');
+                $("#bImport").prop('disabled', true);
+                $("#bDelete").prop('disabled', true);
+                $("#bSave").prop('disabled', true);
+                $("#bCancel").prop('disabled', true);
+              } else if (result.dismiss === 'cancel') {
+                swal.close();}
+              })
+            }
           }else{
             $("#bImport").prop('disabled', false);
             $("#bDelete").prop('disabled', false);
@@ -1568,7 +1581,7 @@ a.nav-link{
                   </div> <!-- tag column 1 -->
              
                     <!-- search document -->
-                    <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                       <div class="row" style="margin-top:10px;">
                         <div class="col-md-2">
 
@@ -1848,7 +1861,7 @@ a.nav-link{
                 </div>
               </div> -->
                     <!-- custom modal2 -->
-          <div class="modal" id="dialogRefDocNo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="dialogRefDocNo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -1862,8 +1875,8 @@ a.nav-link{
                     <div class="row">
                       <div class="col-md-8">
                         <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                          <input type="text" class="form-control col-sm-8" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                          <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['serchref'][$language]; ?></label>
+                          <input type="text" class="form-control col-sm-8" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
                         </div>
                       </div>
                       <div class="col-md-2">
