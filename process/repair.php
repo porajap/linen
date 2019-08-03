@@ -700,32 +700,39 @@ function CreateDocument($conn, $DATA)
 
       
       $Sqlx =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // $return['sql']=$Sqlx;
-      // echo json_encode($return);
       $meQueryx = mysqli_query($conn, $Sqlx);
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
       }
-      $return['5555']=$Qtyx;
+
+      $SqlsumDa =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
+      $return['SqlsumDa']=$SqlsumDa;
       echo json_encode($return);
+      $meQuerysumDa = mysqli_query($conn, $SqlsumDa);
+      while ($ResultsumDa = mysqli_fetch_assoc($meQuerysumDa)) {
+        $QtyDaMage = $ResultsumDa['Qty']==null?0:$ResultsumDa['Qty'];
+      }
+
+
+
       $Sql =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // $return['sqlx']=$Sql;
-      // echo json_encode($return);
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $Qty = $Result['Qty1'];
       }  
-      $QtySUM =  $Qty - $Qtyx ;
-      if($QtySUM <=0){
+      if($Qtyx > $QtyDaMage){
+        $QtySum = $Qty - ($Qtyx + $QtyDaMage);
+        }else if ($QtyDaMage > $Qtyx ){
+        $QtySum = $Qty - ($QtyDaMage + $Qtyx);
+        }      
+
+      if($QtySum <=0){
          $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
          mysqli_query($conn, $update);
       }else{
         $update = "UPDATE claim SET IsRef = 0 WHERE DocNo = '$RefDocNo'";
          mysqli_query($conn, $update);
       }
-
-
-
     }
 
     $Sql = "UPDATE repair SET IsStatus = $isStatus WHERE repair.DocNo = '$DocNo'";
@@ -831,14 +838,24 @@ function CreateDocument($conn, $DATA)
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
       }
-
+      $SqlsumDa =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$ItemCode'";
+      $meQuerysumDa = mysqli_query($conn, $SqlsumDa);
+      while ($ResultsumDa = mysqli_fetch_assoc($meQuerysumDa)) {
+        $QtyDaMage = $ResultsumDa['Qty']==null?0:$ResultsumDa['Qty'];
+      }
 
       $Sql55 =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo'  AND ItemCode = '$ItemCode'";
       $meQuery55 = mysqli_query($conn, $Sql55);
       while ($Result55 = mysqli_fetch_assoc($meQuery55)) {
         $Qty = $Result55['Qty1'];
       }  
-      $QtySum = $Qty - $Qtyx;
+      if($Qtyx > $QtyDaMage){
+      $QtySum = $Qty - ($Qtyx + $QtyDaMage);
+      }else if ($QtyDaMage > $Qtyx ){
+      $QtySum = $Qty - ($QtyDaMage + $Qtyx);
+      }else{
+        $QtySum = $Qty - ($Qtyx + $QtyDaMage);
+      }
 
       $return[$count]['RowID']    = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];

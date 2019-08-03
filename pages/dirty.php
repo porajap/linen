@@ -128,6 +128,7 @@ $array2 = json_decode($json2,TRUE);
         $('#dialogItemCode').modal('show');
 
       }
+      ShowItem();
     }
 
     function OpenDialogUsageCode(itemcode){
@@ -158,49 +159,60 @@ $array2 = json_decode($json2,TRUE);
 
       xrow = xrow.split(",");
       swal({
-        title: "<?php echo $array['confirm'][$language]; ?>",
+        title: "<?php echo $array['confirmdelete'][$language]; ?>",
         text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
         closeOnConfirm: false,
         closeOnCancel: false,
         showCancelButton: true}).then(result => {
+          if (result.value) {
           var data = {
             'STATUS'    : 'DeleteItem',
             'rowid'  : xrow[0],
             'DocNo'   : docno
           };
           senddata(JSON.stringify(data));
+        } else if (result.dismiss === 'cancel') {
+          swal.close();
+          }
         })
     }
 
+
+
     function CancelDocument(){
       var docno = $("#docno").val();
-
+      if(docno!= ""){
       swal({
-        title: "<?php echo $array['confirm'][$language]; ?>",
+        title: "<?php echo $array['confirmcancel'][$language]; ?>",
         text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
         closeOnConfirm: false,
         closeOnCancel: false,
         showCancelButton: true}).then(result => {
+          if (result.value) {
+
           CancelBill();
-          $('#tab2').attr('hidden',true);
-          $('#switch_col').removeClass('col-md-10');
-          $('#switch_col').addClass('col-md-12');
+
+        } else if (result.dismiss === 'cancel') {
+          swal.close();}
+
         })
+      }
     }
+
 
         //======= On create =======
         //console.log(JSON.stringify(data));
@@ -423,13 +435,13 @@ $array2 = json_decode($json2,TRUE);
 
           $('#TableDetail tbody').empty();
           swal({
-            title: "<?php echo $array['confirm'][$language]; ?>",
+            title: "<?php echo $array['confirmdoc'][$language]; ?>",
             text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-danger",
-            confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-            cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             closeOnConfirm: false,
@@ -565,11 +577,23 @@ $array2 = json_decode($json2,TRUE);
               isStatus=0;
               else
               isStatus=1;
-
+              if(docno!=""){
               if(isStatus==1){
-              $('#tab2').attr('hidden',true);
-              $('#switch_col').removeClass('col-md-10');
-              $('#switch_col').addClass('col-md-12');
+
+                swal({
+              title: "<?php echo $array['confirmsave'][$language]; ?>",
+              text: "<?php echo $array['docno'][$language]; ?>"+docno+"",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
                 var data = {
                   'STATUS'      : 'SaveBill',
                   'docno'      : docno,
@@ -579,13 +603,18 @@ $array2 = json_decode($json2,TRUE);
 
                 };
                 senddata(JSON.stringify(data));
-
                 $('#profile-tab').tab('show');
+                $("#bImport").prop('disabled', true);
+                $("#bDelete").prop('disabled', true);
+                $("#bSave").prop('disabled', true);
+                $("#bCancel").prop('disabled', true);
+              } else if (result.dismiss === 'cancel') {
+                swal.close();}
+              })
+              }
 
-                  $("#bImport").prop('disabled', true);
-                  $("#bDelete").prop('disabled', true);
-                  $("#bSave").prop('disabled', true);
-                  $("#bCancel").prop('disabled', true);
+
+
 
                   // ShowDocument();
               }else{
@@ -761,7 +790,7 @@ $array2 = json_decode($json2,TRUE);
                         "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
                         "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                         "<td style='width: 15%;' nowrap>"+temp[i]['DepName']+"</td>"+
-                        "<td style='width: 15%;' nowrap>"+temp[i]['Record']+"</td>"+
+                        "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
                         "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
                         "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
                         "<td "+Style+" nowrap>"+Status+"</td>"+
@@ -873,11 +902,11 @@ $array2 = json_decode($json2,TRUE);
                       $("#wTotal").val(0);
 
                       var isStatus = $("#IsStatus").val();
-                      var st1 = "style='font-size:24px;margin-left:20px;width:140px;'";
+                      var st1 = "style='font-size:24px;margin-left:20px;width:150px;'";
                       for (var i = 0; i < temp["Row"]; i++) {
                         var rowCount = $('#TableItemDetail >tbody >tr').length;
 
-                        var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
+                        var chkunit ="<select "+st1+" disabled='true' onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
                         var nUnit = temp[i]['UnitName'];
                         for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
                           if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
@@ -939,7 +968,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       }
                     }else if( (temp["form"]=='ShowItem') ){
-                      var st1 = "style='font-size:24px;margin-left:20px; width:130px;font-family:THSarabunNew'";
+                      var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
                       var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                       $( "#TableItem tbody" ).empty();
                       for (var i = 0; i < temp["Row"]; i++) {
@@ -962,7 +991,7 @@ $array2 = json_decode($json2,TRUE);
                         var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
                         var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control'  style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
+                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control'  style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
 
                         $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                         "<td style='width: 10%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -970,7 +999,7 @@ $array2 = json_decode($json2,TRUE);
                         "<td style='width: 25%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
                         "<td style='width: 15%;'>"+chkunit+"</td>"+
                         "<td style='width: 15%;'>"+Qty+"</td>"+
-                        "<td style='width: 10%;'>"+Weight+"</td>"+
+                        "<td style='width: 15%;'>"+Weight+"</td>"+
                         "</tr>";
                         if(rowCount == 0){
                           $("#TableItem tbody").append( $StrTR );
@@ -1625,7 +1654,7 @@ $array2 = json_decode($json2,TRUE);
               <div class="col-md-8">
                 <div class='form-group row'>
                   <label class="col-sm-3 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                  <input type="text" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <input type="text" autocomplete="off"  class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                 </div>
               </div>
  

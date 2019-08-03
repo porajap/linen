@@ -147,8 +147,8 @@ $array2 = json_decode($json2,TRUE);
             $( "#TableItem tbody" ).empty();
             // dialogItemCode.dialog( "open" );
             $('#dialogItemCode').modal('show');
-
           }
+          ShowItem();
     }
 
   
@@ -215,26 +215,27 @@ $array2 = json_decode($json2,TRUE);
 
     function CancelDocument(){
         var docno = $("#docno").val();
-
+        if(docno!= ""){
         swal({
-            title: "<?php echo $array['confirm'][$language]; ?>",
+            title: "<?php echo $array['confirmcancel'][$language]; ?>",
             text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-danger",
-            confirmButtonText: "<?php echo $array['confirm' ][$language]; ?>",
-            cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+            confirmButtonText: "<?php echo $array['yes' ][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             closeOnConfirm: false,
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
+              if (result.value) {
             CancelBill();
-            $('#tab2').attr('hidden',true);
-            $('#switch_col').removeClass('col-md-10');
-            $('#switch_col').addClass('col-md-12');
-        })
 
+            } else if (result.dismiss === 'cancel') {
+            swal.close();}
+        })
+        }
       
     }
 
@@ -458,13 +459,13 @@ $array2 = json_decode($json2,TRUE);
       var deptCode = $('#department option:selected').attr("value");
       $('#TableDetail tbody').empty();
       swal({
-        title: "<?php echo $array['confirm'][$language]; ?>",
+        title: "<?php echo $array['confirmdoc'][$language]; ?>",
         text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         closeOnConfirm: false,
@@ -491,19 +492,22 @@ $array2 = json_decode($json2,TRUE);
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['delete'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
         closeOnConfirm: false,
         closeOnCancel: false,
         showCancelButton: true}).then(result => {
+          if (result.value) {
           var data = {
             'STATUS'      : 'CancelDocNo',
             'DocNo'       : docno
           };
           senddata(JSON.stringify(data));
           getSearchDocNo();
+        } else if (result.dismiss === 'cancel') {
+          swal.close();}
         })
     }
 
@@ -602,11 +606,8 @@ $array2 = json_decode($json2,TRUE);
         }else{
           isStatus=1;
         }
-
+        if(docno!=""){
         if(isStatus==1){
-      $('#tab2').attr('hidden',true);
-      $('#switch_col').removeClass('col-md-10');
-      $('#switch_col').addClass('col-md-12');
           if(chk == '' || chk == undefined){
             chk_par();
           }else{
@@ -619,7 +620,20 @@ $array2 = json_decode($json2,TRUE);
               Item.push( $("#item_array"+ItemCodeArray[j]).val() );
             }
             var ItemCode = Item.join(',') ;
-
+            swal({
+            title: "<?php echo $array['confirmsave'][$language]; ?>",
+            text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true}).then(result => {
+              if (result.value) {
               var data = {
                 'STATUS'      : 'SaveBill',
                 'xdocno'      : docno,
@@ -627,16 +641,20 @@ $array2 = json_decode($json2,TRUE);
                 'deptCode'    : dept,
                 'ItemCode'    : ItemCode
               };
-                senddata(JSON.stringify(data));
-                $('#profile-tab').tab('show');
-                $("#bImport").prop('disabled', true);
-                $("#bDelete").prop('disabled', true);
-                $("#bSave").prop('disabled', true);
-                $("#bCancel").prop('disabled', true);
-                ShowDocument();
-                if(input_chk == 1){
+              senddata(JSON.stringify(data));
+          $('#profile-tab').tab('show');
+          $("#bImport").prop('disabled', true);
+          $("#bDelete").prop('disabled', true);
+          $("#bSave").prop('disabled', true);
+          $("#bCancel").prop('disabled', true);
+          ShowDocument();
+          if(input_chk == 1){
                   $('#alert_par').modal('toggle');
                 }
+        } else if (result.dismiss === 'cancel') {
+          swal.close();}
+        })
+          }
           }
         }else{
           $("#bImport").prop('disabled', false);
@@ -1100,7 +1118,7 @@ $array2 = json_decode($json2,TRUE);
               }
 
             }else if( (temp["form"]=='ShowItem') ){
-              var st1 = "style='font-size:24px;margin-left:20px; width:130px;font-family:THSarabunNew'";
+              var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew'";
               var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
               $( "#TableItem tbody" ).empty();
 
@@ -1124,7 +1142,7 @@ $array2 = json_decode($json2,TRUE);
                 var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
                 var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='1' onkeyup='if(this.value>"+temp[i]['Qty']+"){this.value="+temp[i]['Qty']+"}else if(this.value<0){this.value=0}'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
+                var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
 
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 10%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1141,7 +1159,7 @@ $array2 = json_decode($json2,TRUE);
                 }
               }
             }else if( (temp["form"]=='ShowUsageCode') ){
-              var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
+              var st1 = "style='font-size:18px;margin-left:3px; width:150px;font-family:THSarabunNew;font-size:24px;'";
               var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
               $( "#TableUsageCode tbody" ).empty();
               for (var i = 0; i < temp["Row"]; i++) {
@@ -1161,7 +1179,7 @@ $array2 = json_decode($json2,TRUE);
 
                 //var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
+                var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
 
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"'>"+
                 "<td style='width: 10%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1290,16 +1308,7 @@ $array2 = json_decode($json2,TRUE);
       });
     }
 
-    function switch_tap1(){
-      $('#tab2').attr('hidden',false);
-      $('#switch_col').removeClass('col-md-12');
-      $('#switch_col').addClass('col-md-10');
-    }
-    function switch_tap2(){
-      $('#tab2').attr('hidden',true);
-      $('#switch_col').removeClass('col-md-10');
-      $('#switch_col').addClass('col-md-12');
-    }
+
   </script>
   <style media="screen">
 
@@ -1524,7 +1533,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right"><?php echo $array['docdate'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" class="form-control col-sm-8" name="searchitem"
                                                     id="docdate"
                                                     placeholder="<?php echo $array['docdate'][$language]; ?>">
                                             </div>
@@ -1533,7 +1542,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right"><?php echo $array['docno'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" class="form-control col-sm-8" name="searchitem"
                                                     id="docno" placeholder="<?php echo $array['docno'][$language]; ?>">
                                             </div>
                                         </div>
@@ -1544,7 +1553,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right"><?php echo $array['employee'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" class="form-control col-sm-8" name="searchitem"
                                                     id="recorder"
                                                     placeholder="<?php echo $array['employee'][$language]; ?>">
                                             </div>
@@ -1553,7 +1562,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right"><?php echo $array['time'][$language]; ?></label>
-                                                <input type="text" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" class="form-control col-sm-8" name="searchitem"
                                                     id="timerec" placeholder="<?php echo $array['time'][$language]; ?>">
                                             </div>
                                         </div>
@@ -2019,7 +2028,7 @@ $array2 = json_decode($json2,TRUE);
             </div>
             <div class="modal-footer">
               <button type="button" onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
-              <button type="button" class="btn btn-danger"  onclick="switch_tap1()" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
             </div>
           </div>
         </div>

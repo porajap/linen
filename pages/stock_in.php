@@ -142,6 +142,7 @@ $array2 = json_decode($json2,TRUE);
         $('#dialogItemCode').modal('show');
 
       }
+      ShowItem();
     }
 
     function show_btn(DocNo){
@@ -179,18 +180,19 @@ $array2 = json_decode($json2,TRUE);
       xrow          = xrow.split(",");
 
       swal({
-        title: "<?php echo $array['confirm'][$language]; ?>",
+        title: "<?php echo $array['confirmdelete'][$language]; ?>",
         text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
         closeOnConfirm: false,
         closeOnCancel: false,
         showCancelButton: true}).then(result => {
+          if (result.value) {
           var data = {
             'STATUS'    : 'DeleteItem',
             'rowid'     : xrow[0],
@@ -198,30 +200,31 @@ $array2 = json_decode($json2,TRUE);
             'DepCode'   : DepCode
           };
           senddata(JSON.stringify(data));
+        } else if (result.dismiss === 'cancel') {
+          swal.close();
+          }
         })
       }
 
       function CancelDocument(){
         var docno = $("#docno").val();
-
+        if(docno!= ""){
         swal({
-          title: "<?php echo $array['confirm'][$language]; ?>",
+          title: "<?php echo $array['confirmcancel'][$language]; ?>",
           text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
           confirmButtonColor: '#d33',
           cancelButtonColor: '#3085d6',
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
             CancelBill();
-            $('#tab2').attr('hidden',true);
-          $('#switch_col').removeClass('col-md-10');
-          $('#switch_col').addClass('col-md-12');
           })
+          }
         }
 
         //======= On create =======
@@ -428,13 +431,13 @@ $array2 = json_decode($json2,TRUE);
           var deptCode = $('#department option:selected').attr("value");
           $('#TableDetail tbody').empty();
           swal({
-            title: "<?php echo $array['confirm'][$language]; ?>",
+            title: "<?php echo $array['confirmdoc'][$language]; ?>",
             text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-danger",
-            confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-            cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             closeOnConfirm: false,
@@ -566,11 +569,22 @@ $array2 = json_decode($json2,TRUE);
               isStatus=0;
               else
               isStatus=1;
-
+if(docno!=""){
               if(isStatus==1){
-          $('#tab2').attr('hidden',true);
-          $('#switch_col').removeClass('col-md-10');
-          $('#switch_col').addClass('col-md-12');
+                swal({
+              title: "<?php echo $array['confirmsave'][$language]; ?>",
+              text: "<?php echo $array['docno'][$language]; ?>"+docno+"",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
                 var data = {
                   'STATUS'      : 'SaveBill',
                   'xdocno'      : docno,
@@ -579,14 +593,15 @@ $array2 = json_decode($json2,TRUE);
                   'hotpCode'    : hotpCode
                 };
                 senddata(JSON.stringify(data));
-
                 $('#profile-tab').tab('show');
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', true);
                 $("#bCancel").prop('disabled', true);
-
-                ShowDocument();
+              } else if (result.dismiss === 'cancel') {
+                swal.close();}
+              })
+            }
               }else{
                 $("#bImport").prop('disabled', false);
                 $("#bDelete").prop('disabled', false);
@@ -609,7 +624,7 @@ $array2 = json_decode($json2,TRUE);
                   $('#unit'+i).prop('disabled', false);
                 }
               }
-            }
+          }
 
             function UpdateRefDocNo(){
               var docno = $("#docno").val();

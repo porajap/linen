@@ -470,7 +470,7 @@ function CreateDocument($conn, $DATA)
     for ($i = 0; $i < $max; $i++) {
       $iItemStockId = $ItemStockId[$i];
       $iqty = $nqty[$i];
-      $iweight = $nweight[$i];
+      $iweight = $nweight[$i]==null?0:$nweight[$i];
       $iunit1 = 0;
       $iunit2 = $nunit[$i];
 
