@@ -85,7 +85,7 @@ function OnLoadPage($conn, $DATA)
         }
       }else if($Format == 2){
         $date1 = newMount($date);
-        $return = r2($conn, $HptCode, $date1, $date2, 'one');
+        $return = r2($conn, $HptCode, $FacCode, $date1, $date2, 'one');
       }
     }else if($typeReport == 3){
       if($Format == 1 || $Format == 3){
@@ -167,27 +167,25 @@ function OnLoadPage($conn, $DATA)
     $boolean = false;
     $count = 0;
     if($chk == 'one'){
-      $Sql = "SELECT dirty.DocNo, dirty.DocDate, factory.FacName, dirty.RefDocNo
-        FROM dirty
-        INNER JOIN factory ON dirty.FacCode = factory.FacCode
-        INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
-        INNER JOIN department ON dirty.DepCode = department.DepCode
-        WHERE dirty.DocDate LIKE '%$date1%' AND dirty.FacCode = $FacCode GROUP BY dirty.DocNo ORDER BY dirty.DocNo ASC";
+      $Sql = "SELECT  factory.FacName, clean.DocDate, site.HptName
+          FROM clean
+          INNER JOIN factory ON factory.FacCode =clean.FacCode
+          INNER JOIN site ON site.HptCode = clean.HptCode
+        WHERE clean.DocDate LIKE '%$date1%' 
+        AND clean.FacCode = $FacCode  ORDER BY clean.DocDate ASC";
     }else{
-      $Sql = "SELECT dirty.DocNo, dirty.DocDate, factory.FacName, dirty.RefDocNo
-        FROM dirty
-        INNER JOIN factory ON dirty.FacCode = factory.FacCode
-        INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
-        INNER JOIN department ON dirty.DepCode = department.DepCode
+      $Sql = "SELECT  factory.facname, clean.DocDate, site.HptName
+        FROM clean
+        INNER JOIN factory ON factory.FacCode =clean.FacCode
+        INNER JOIN site ON site.HptCode = clean.HptCode
         WHERE dirty.DocDate BETWEEN '$date1' AND '$date2' 
-        AND dirty.FacCode = $FacCode GROUP BY dirty.DocNo ORDER BY dirty.DocNo ASC";
+        AND clean.FacCode = $FacCode ORDER BY clean.DocNo ASC";
     }
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $return[$count]['DocNo'] = $Result['DocNo'];
+        $return[$count]['HptName'] = $Result['HptName'];
         $return[$count]['DocDate'] = $Result['DocDate'];
         $return[$count]['FacName'] = $Result['FacName'];
-        $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
         $boolean = true;
         $count ++ ;
       }
@@ -209,28 +207,24 @@ function OnLoadPage($conn, $DATA)
     $boolean = false;
     $count = 0;
     if($chk == 'one'){
-      $Sql = "SELECT  claim.DocNo, claim.DocDate, claim.RefDocNo, department.DepName
+      $Sql = "SELECT site.HptName, claim.DocDate
             FROM claim
             INNER JOIN site ON claim.HptCode = site.HptCode
-            INNER JOIN department ON department.DepCode = claim.DepCode
             WHERE claim.DocDate LIKE '%$date1%' AND claim.HptCode = '$HptCode' AND claim.FacCode = $FacCode
-            GROUP BY claim.DocNo ORDER BY claim.DocNo ASC";
+            ORDER BY claim.DocDate ASC";
     }else{
-      $Sql = "SELECT claim.DocNo, claim.DocDate, claim.RefDocNo, department.DepName
+      $Sql = "SELECT  site.HptName, claim.DocDate
             FROM claim
             INNER JOIN site ON claim.HptCode = site.HptCode
-            INNER JOIN department ON department.DepCode = claim.DepCode
             WHERE claim.DocDate BETWEEN '$date1' AND '$date2' 
             AND claim.HptCode = '$HptCode' AND claim.FacCode = $FacCode
-            GROUP BY claim.DocNo ORDER BY claim.DocNo ASC";
+            ORDER BY claim.DocDate ASC";
     }
     $return['sql'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['DocNo'] = $Result['DocNo'];
+      $return[$count]['HptName'] = $Result['HptName'];
       $return[$count]['DocDate'] = $Result['DocDate'];
-      $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
-      $return[$count]['DepName'] = $Result['DepName'];
       $boolean = true;
       $count ++;
     }
@@ -251,16 +245,16 @@ function OnLoadPage($conn, $DATA)
     $count = 0;
     $boolean = false;
     if($chk == 'one'){
-      $Sql = "SELECT factory.facname, clean.DocDate, site.HptName, clean.DocNo, clean.RefDocNo
+      $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
               FROM clean
-              INNER JOIN factory ON factory.FacCode =clean.FacCode
+              INNER JOIN factory ON factory.FacCode = clean.FacCode
               INNER JOIN site ON site.HptCode = clean.HptCode
               WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode' 
               AND clean.FacCode = $FacCode GROUP BY clean.DocNo ORDER BY clean.DocNo ASC";
     }else{
-      $Sql = "SELECT factory.facname, clean.DocDate, site.HptName, clean.DocNo, clean.RefDocNo
+      $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
               FROM clean
-              INNER JOIN factory ON factory.FacCode =clean.FacCode
+              INNER JOIN factory ON factory.FacCode = clean.FacCode
               INNER JOIN site ON site.HptCode = clean.HptCode
               WHERE clean.DocDate BETWEEN '$date1' AND '$date2'  
               AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode 
@@ -268,11 +262,9 @@ function OnLoadPage($conn, $DATA)
     }
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['DocNo'] = $Result['DocNo'];
-      $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
-      $return[$count]['facname'] = $Result['facname'];
-      $return[$count]['DocDate'] = $Result['DocDate'];
       $return[$count]['HptName'] = $Result['HptName'];
+      $return[$count]['FacName'] = $Result['FacName'];
+      $return[$count]['DocDate'] = $Result['DocDate'];
       $count++;
       $boolean = true;
     }
@@ -293,21 +285,19 @@ function OnLoadPage($conn, $DATA)
     $count = 0;
     $boolean = false;
     if($chk == 'one'){
-      $Sql = "SELECT  factory.FacName, DATE(rewash.DocDate) AS DocDate, TIME(rewash.DocDate) AS DocTime, rewash.DocNo, rewash.RefDocNo
+      $Sql = "SELECT  factory.FacName, DATE(rewash.DocDate) AS DocDate, TIME(rewash.DocDate) AS DocTime 
               FROM rewash
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
-              WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode GROUP BY rewash.DocNo ORDER BY rewash.DocNo ASC";
+              WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
     }else{
-      $Sql = "SELECT  factory.FacName, DATE(rewash.DocDate) AS DocDate, TIME(rewash.DocDate) AS DocTime, rewash.DocNo, rewash.RefDocNo
+      $Sql = "SELECT  factory.FacName, DATE(rewash.DocDate) AS DocDate, TIME(rewash.DocDate) AS DocTime 
               FROM rewash
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
               WHERE rewash.DocDate BETWEEN '$date1' AND '$date2'   
-              AND rewash.FacCode = $FacCode GROUP BY rewash.DocNo ORDER BY rewash.DocNo ASC";
+              AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
     }
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['DocNo'] = $Result['DocNo'];
-      $return[$count]['RefDocNo'] = $Result['RefDocNo']==null?'-':$Result['RefDocNo'];
       $return[$count]['FacName'] = $Result['FacName'];
       $return[$count]['DocDate'] = $Result['DocDate'];
       $return[$count]['DocTime'] = $Result['DocTime'];
