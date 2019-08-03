@@ -4,6 +4,7 @@ require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 $xDate = date('Y-m-d');
 $Userid = $_SESSION['Userid'];
+$lang = $_SESSION['lang'];
 if($Userid==""){
   header("location:../index.html");
 }
@@ -181,8 +182,9 @@ function OnLoadPage($conn, $DATA)
         WHERE dirty.DocDate BETWEEN '$date1' AND '$date2' 
         AND clean.FacCode = $FacCode ORDER BY clean.DocNo ASC";
     }
-      $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.'url1.php';
-      $return['data_send'] = $data_send;
+      $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.$lang;
+      $_SESSION['data_send'] = $data_send;
+      $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $return[$count]['HptName'] = $Result['HptName'];
@@ -222,8 +224,9 @@ function OnLoadPage($conn, $DATA)
             AND claim.HptCode = '$HptCode' AND claim.FacCode = $FacCode
             ORDER BY claim.DocDate ASC";
     }
-    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.'url2.php';
-    $return['data_send'] = $data_send;
+    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.$lang;
+    $_SESSION['data_send'] = $data_send;
+    $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['HptName'] = $Result['HptName'];
@@ -263,8 +266,9 @@ function OnLoadPage($conn, $DATA)
               AND clean.HptCode = '$HptCode' AND clean.FacCode = $FacCode 
               GROUP BY clean.DocNo ORDER BY clean.DocNo ASC";
     }
-    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.'url3.php';
-    $return['data_send'] = $data_send;
+    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.$lang;
+    $_SESSION['data_send'] = $data_send;
+    $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['HptName'] = $Result['HptName'];
@@ -301,8 +305,9 @@ function OnLoadPage($conn, $DATA)
               WHERE rewash.DocDate BETWEEN '$date1' AND '$date2'   
               AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
     }
-    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.'url6.php';
-    $return['data_send'] = $data_send;
+    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.$lang;
+    $_SESSION['data_send'] = $data_send;
+    $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['FacName'] = $Result['FacName'];
@@ -339,8 +344,9 @@ function OnLoadPage($conn, $DATA)
             WHERE clean.DocDate BETWEEN '$date1' AND '$date2'
             AND clean.FacCode = $FacCode";
     }
-    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.'url8.php';
-    $return['data_send'] = $data_send;
+    $data_send  = $HptCode.','.$FacCode.','.$date1.','.$date2.','.$chk.','.$lang;
+    $_SESSION['data_send'] = $data_send;
+    $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['FacName'] = $Result['FacName'];

@@ -222,25 +222,8 @@ $array2 = json_decode($json2,TRUE);
   }
 
   function send_data(data){ 
-    var subData = data.split(",");
-    var HptCode = subData[0];
-    var FacCode = subData[1];
-    var date1 = subData[2];
-    var date2 = subData[3];
-    var chk = subData[4];
-    var url = subData[5];
-    var URL = url; //your url send_from process process/report.php
-    $.ajax({
-      url: URL,
-      method: 'POST',
-      data: {
-        'HptCode':HptCode,
-        'FacCode':FacCode,
-        'date1':date1,
-        'date2':date2,
-        'chk':chk
-      },
-    });
+    var URL = data; //your url send_from process process/report.php
+    window.open(URL);
   }
   function senddata(data){
     var form_data = new FormData();
@@ -287,7 +270,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td class='text-left' style='width:36%'>"+temp[i]['HptName']+"</td>"+
                 "<td class='text-left pl-4' style='width:35%'>"+temp[i]['FacName']+"</td>"+
                 "<td class='text-center' style='width:12%'>"+temp[i]['DocDate']+"</td>"+
-                "<td class='text-center' style='width:12%'><button  onclick='send_data(\""+temp['data_send']+"\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
+                "<td class='text-center' style='width:12%'><button  onclick='send_data(\""+temp['url']+"\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
               "</tr>";
               $("#table_R1 tbody").append(dataRow);
             }
@@ -303,7 +286,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width:5%'>"+(i+1)+"</td>"+
                 "<td class='text-left' style='width:71%'>"+temp[i]['HptName']+"</td>"+
                 "<td class='text-center' style='width:12%'>"+temp[i]['DocDate']+"</td>"+
-                "<td class='text-left text-center' style='width:12%'><button onclick='send_data(\""+temp['data_send']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
+                "<td class='text-left text-center' style='width:12%'><button onclick='send_data(\""+temp['url']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
               "</tr>";
               $("#table_R2 tbody").append(dataRow);
             }
@@ -319,7 +302,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td class='text-left pl-4' style='width:59%'>"+temp[i]['FacName']+"</td>"+
                 "<td class='text-center' style='width:12%'>"+temp[i]['DocDate']+"</td>"+
                 "<td class='text-center pl-4' style='width:12%'>"+temp[i]['DocTime']+"</td>"+
-                "<td class='text-center text-center' style='width:12%'><button onclick='send_data(\""+temp['data_send']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
+                "<td class='text-center text-center' style='width:12%'><button onclick='send_data(\""+temp['url']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
               "</tr>";
               $("#table_R6 tbody").append(dataRow);
             }
@@ -335,7 +318,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width:5%'>"+(i+1)+"</td>"+
                 "<td class='text-left' style='width:74%'>"+temp[i]['FacName']+"</td>"+
                 "<td class='text-center' style='width:11%'>"+temp[i]['DocDate']+"</td>"+
-                "<td class='text-center text-center' style='width:12%'><button onclick='send_data(\""+temp['data_send']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
+                "<td class='text-center text-center' style='width:12%'><button onclick='send_data(\""+temp['url']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
               "</tr>";
               $("#table_R8 tbody").append(dataRow);
             }
