@@ -458,7 +458,7 @@ switch ($PmID) {
     function logoff(chk) {
       if(chk == 1){
         swal({
-          text: '<?php echo $array2['logout'][$language]; ?>',
+          text: '<?php echo $array2['youlogout'][$language]; ?>',
           type: 'info',
           showCancelButton: true,
           confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
@@ -467,7 +467,7 @@ switch ($PmID) {
         .then(function (result) {
           if (result.value) {
             swal({
-              text: '<?php echo $array2['logoutfinish'][$language]; ?>',
+              text: '<?php echo $array2['logout'][$language]; ?>',
               type: 'success',
               showCancelButton: false,
 
