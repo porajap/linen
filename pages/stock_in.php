@@ -222,7 +222,10 @@ $array2 = json_decode($json2,TRUE);
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
+            if (result.value) {
             CancelBill();
+          } else if (result.dismiss === 'cancel') {
+            swal.close();}
           })
           }
         }
@@ -569,8 +572,8 @@ $array2 = json_decode($json2,TRUE);
               isStatus=0;
               else
               isStatus=1;
-if(docno!=""){
               if(isStatus==1){
+                if(docno!=""){
                 swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>"+docno+"",

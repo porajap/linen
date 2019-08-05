@@ -268,10 +268,13 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function ShowItem(){
+          var deptCode = $('#department option:selected').attr("value");
+          if( typeof deptCode == 'undefined' ) deptCode = "1";
           var searchitem = $('#searchitem').val();
           var data = {
             'STATUS'  : 'ShowItem',
-            'xitem'	: searchitem
+            'xitem'	: searchitem,
+            'deptCode'	: deptCode
           };
           senddata(JSON.stringify(data));
         }
@@ -577,8 +580,9 @@ $array2 = json_decode($json2,TRUE);
               isStatus=0;
               else
               isStatus=1;
-              if(docno!=""){
+              
               if(isStatus==1){
+                if(docno!=""){
 
                 swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
@@ -611,6 +615,7 @@ $array2 = json_decode($json2,TRUE);
               } else if (result.dismiss === 'cancel') {
                 swal.close();}
               })
+
               }
 
 
@@ -829,7 +834,7 @@ $array2 = json_decode($json2,TRUE);
                       }else{
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
-                        //$("#bSave").prop('disabled', true);
+                        $("#bSave").prop('disabled', true);
                         $("#bCancel").prop('disabled', true);
 
                         $("#docno").prop('disabled', true);

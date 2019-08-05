@@ -231,7 +231,6 @@ $array2 = json_decode($json2,TRUE);
             showCancelButton: true}).then(result => {
               if (result.value) {
             CancelBill();
-
             } else if (result.dismiss === 'cancel') {
             swal.close();}
         })
@@ -606,8 +605,8 @@ $array2 = json_decode($json2,TRUE);
         }else{
           isStatus=1;
         }
-        if(docno!=""){
         if(isStatus==1){
+          if(docno!=""){
           if(chk == '' || chk == undefined){
             chk_par();
           }else{

@@ -322,10 +322,13 @@ $(document).ready(function(e){
       }
 
       function ShowItem(){
+        var deptCode = $('#department option:selected').attr("value");
+        if( typeof deptCode == 'undefined' ) deptCode = "1";
         var searchitem = $('#searchitem').val();
         var data = {
           'STATUS'  : 'ShowItem',
-          'xitem'	: searchitem
+          'xitem'	: searchitem,
+          'deptCode'	: deptCode
         };
         senddata(JSON.stringify(data));
       }
@@ -630,8 +633,8 @@ $(document).ready(function(e){
         else
         isStatus=1;
 
-        if(docno!=""){
         if(isStatus==1){
+          if(docno!=""){
           swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -966,7 +969,7 @@ $(document).ready(function(e){
                   }
                 }
               }else if( (temp["form"]=='ShowItem') ){
-                var st1 = "style='font-size:24px;margin-left:-10px; width:130px;font-family:THSarabunNew;font-size:24px;'";
+                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                 $( "#TableItem tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {

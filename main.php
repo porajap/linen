@@ -438,9 +438,16 @@ switch ($PmID) {
       senddata(JSON.stringify(data));
 
     }
-
   //==========================================================
-    window.addEventListener("beforeunload", function (e) {
+  window.addEventListener("beforeunload", function (e) {
+        var data = {
+          'STATUS': 'UpdateActive'
+        };
+        senddata(JSON.stringify(data));
+    });
+  //==========================================================
+  //==========================================================
+    window.addEventListener("unload", function (e) {
         var data = {
           'STATUS': 'UpdateActive'
         };
