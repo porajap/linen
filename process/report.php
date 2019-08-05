@@ -4,7 +4,6 @@ require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 $xDate = date('Y-m-d');
 $Userid = $_SESSION['Userid'];
-$lang = $_SESSION['lang'];
 if($Userid==""){
   header("location:../index.html");
 }
@@ -224,6 +223,7 @@ function OnLoadPage($conn, $DATA)
         }
       }
     }
+    $return['la'] = $_SESSION['lang'];
     echo json_encode($return);
   }
   // 
@@ -323,7 +323,7 @@ function OnLoadPage($conn, $DATA)
         ORDER BY  clean.DocNo ASC ";
       }
     }
-      $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format ,'chk' => $chk, 'lang' => $lang];
+      $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format ,'chk' => $chk];
       $_SESSION['data_send'] = $data_send;
       $return['url'] = '../pages/test_report.php';
       $meQuery = mysqli_query($conn, $Sql);
@@ -386,7 +386,7 @@ function OnLoadPage($conn, $DATA)
         ORDER BY claim.DocDate ASC";
       }
     }
-    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk, 'lang' => $lang];
+    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
@@ -451,7 +451,7 @@ function OnLoadPage($conn, $DATA)
       }
     }
     $return['sql'] = $Sql;
-    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk, 'lang' => $lang];
+    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
@@ -511,7 +511,7 @@ function OnLoadPage($conn, $DATA)
         GROUP BY shelfcount.DocNo ORDER BY shelfcount.DocNo ASC";
       }
     }
-    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk, 'lang' => $lang];
+    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = 'test_report.php?DocNo=';
     $meQuery = mysqli_query($conn, $Sql);
@@ -569,7 +569,7 @@ function OnLoadPage($conn, $DATA)
         AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
       }
     }
-    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk, 'lang' => $lang];
+    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
@@ -628,7 +628,7 @@ function OnLoadPage($conn, $DATA)
       }
     }
     $return['ql'] = $Sql;
-    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk, 'lang' => $lang];
+    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
     $meQuery = mysqli_query($conn, $Sql);
@@ -689,7 +689,7 @@ function OnLoadPage($conn, $DATA)
         ORDER BY dirty.DocNo ASC";
       }
     }
-    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk, 'lang' => $lang];
+    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = 'test_report.php?DocNo=';
     $meQuery = mysqli_query($conn, $Sql);
@@ -751,7 +751,7 @@ function OnLoadPage($conn, $DATA)
         ORDER BY dirty.DocNo ASC";
       }
     }
-    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk, 'lang' => $lang];
+    $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = 'test_report.php?DocNo=';
     $meQuery = mysqli_query($conn, $Sql);
