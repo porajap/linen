@@ -318,7 +318,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width:5%'>"+(i+1)+"</td>"+
                 "<td class='text-left' style='width:74%'>"+temp[i]['FacName']+"</td>"+
                 "<td class='text-center' style='width:11%'>"+temp[i]['DocDate']+"</td>"+
-                "<td class='text-center text-center' style='width:12%'><button onclick='send_data(\""+temp['url']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
+                "<td class='text-center text-center' style='width:10%'><button onclick='send_data(\""+temp['url']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
               "</tr>";
               $("#table_R8 tbody").append(dataRow);
             }
@@ -736,7 +736,7 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 59%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
                                         <th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
                                         <th style='width: 12%;' nowrap class='text-center'><?php echo $array['time2'][$language]; ?></th>
-                                        <th style='width: 12%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+                                        <th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
