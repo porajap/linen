@@ -223,7 +223,7 @@ function OnLoadPage($conn, $DATA)
         }
       }
     }
-    $return['la'] = $_SESSION['lang'];
+    $return['typeReport'] = typeReport($typeReport);
     echo json_encode($return);
   }
   // 
@@ -280,6 +280,30 @@ function OnLoadPage($conn, $DATA)
     $date['date2'] = $date2;
     return $date;
   }
+  function typeReport($typeReport){
+    $type = trim($typeReport);
+    $typeArray = 
+    [
+      'Record dirty linen weight' => 1,
+      'Report Claim' => 2,
+      'Report Cleaned Linen Weight' => 3,
+      'Report Daily Issue Request' => 4,
+      'Report Operations Time Spend' => 5,
+      'Report Rewash' => 6,
+      'Report Shot and Over item' => 7,
+      'Report Soiled Clean Ratio' => 8,
+      'Report stock count' => 9,
+      'Report Summary billing' => 10,
+      'Report Summary cleaned linen weight' => 11,
+      'Report Summary Dirty' => 12,
+      'Report Summary Soiled Clean Ratio' => 13,
+      'Report Summary' => 14,
+      'Report Tracking status for laundry plant' => 15,
+      'Report Tracking status for linen operation' => 16
+    ];
+    $myReport = array_search($type, $typeArray);
+    return $myReport;
+  }
   #----------------------------Format new date
 
   function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $chk){
@@ -287,19 +311,17 @@ function OnLoadPage($conn, $DATA)
     $count = 0;
     if($Format == 1 || $Format == 3){
       if($chk == 'one'){
-        $Sql = "SELECT  factory.FacName, clean.DocDate, site.HptName
-            FROM clean
-            INNER JOIN factory ON factory.FacCode =clean.FacCode
-            INNER JOIN site ON site.HptCode = clean.HptCode
-          WHERE clean.DocDate LIKE '%$date1%' 
-          AND clean.FacCode = $FacCode  ORDER BY clean.DocDate ASC";
+        $Sql = "SELECT  factory.FacName, dirty.DocDate
+            FROM dirty
+            INNER JOIN factory ON factory.FacCode = dirty.FacCode
+          WHERE dirty.DocDate LIKE '%$date1%' 
+          AND dirty.FacCode = $FacCode  ORDER BY dirty.DocDate ASC";
       }else{
-        $Sql = "SELECT  factory.FacName, clean.DocDate, site.HptName
-          FROM clean
+        $Sql = "SELECT  factory.FacName, dirty.DocDate 
+          FROM dirty
           INNER JOIN factory ON factory.FacCode =clean.FacCode
-          INNER JOIN site ON site.HptCode = clean.HptCode
-          WHERE clean.DocDate BETWEEN '$date1' AND '$date2' 
-          AND clean.FacCode = $FacCode ORDER BY clean.DocNo ASC";
+          WHERE dirty.DocDate BETWEEN '$date1' AND '$date2' 
+          AND dirty.FacCode = $FacCode ORDER BY dirty.DocNo ASC";
       }
     }else if($Format == 2){
       $date = subMonth($date1, $date2);
@@ -307,20 +329,17 @@ function OnLoadPage($conn, $DATA)
       $date1 = $date['date1'];
       $date2 = $date['date2'];
       if($chk == 'month'){
-          $Sql = "SELECT  factory.FacName, clean.DocDate, site.HptName
+          $Sql = "SELECT  factory.FacName, dirty.DocDate 
           FROM clean
           INNER JOIN factory ON factory.FacCode =clean.FacCode
-          INNER JOIN site ON site.HptCode = clean.HptCode
-        WHERE clean.DocDate LIKE '%$date1%' 
-        AND clean.FacCode = $FacCode  ORDER BY clean.DocDate ASC";
+        WHERE dirty.DocDate LIKE '%$date1%' 
+        AND dirty.FacCode = $FacCode  ORDER BY dirty.DocDate ASC";
       }else{
-        $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName  
-        FROM clean  
-        INNER JOIN factory ON factory.FacCode = clean.FacCode  
-        INNER JOIN site ON site.HptCode = clean.HptCode  
-        WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
-        AND clean.FacCode = 1
-        ORDER BY  clean.DocNo ASC ";
+        $Sql = "SELECT factory.FacName, dirty.DocDate 
+        FROM dirty  
+        INNER JOIN factory ON factory.FacCode = clean.FacCode   
+        WHERE YEAR(dirty.DocDate) = $year AND MONTH(dirty.DocDate) BETWEEN $date1 AND $date2
+        AND dirty.FacCode = 1 ORDER BY  dirty.DocNo ASC ";
       }
     }
       $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format ,'chk' => $chk];
@@ -328,7 +347,6 @@ function OnLoadPage($conn, $DATA)
       $return['url'] = '../pages/test_report.php';
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $return[$count]['HptName'] = $Result['HptName'];
         $return[$count]['DocDate'] = $Result['DocDate'];
         $return[$count]['FacName'] = $Result['FacName'];
         $boolean = true;
