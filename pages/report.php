@@ -853,7 +853,7 @@ $array2 = json_decode($json2,TRUE);
                     
                     <div class="row mx-2">
                         <div class="col-md-12">
-                            <!-- ---------------------------------Report 1 AND Report 3--------------------------------------- -->
+                            <!-- ---------------------------------Report  3--------------------------------------- -->
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R1" width="100%" cellspacing="0" role="grid" style="">
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
@@ -879,8 +879,8 @@ $array2 = json_decode($json2,TRUE);
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
                                 </tbody>
                             </table>
-                            <!-- ---------------------------------Report 1 AND Report 3--------------------------------------- -->
-                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R3" width="100%" cellspacing="0" role="grid" style="">
+                            <!-- ---------------------------------Report 3--------------------------------------- -->
+                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R3" width="100%" cellspacing="0" role="grid" hidden>
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
                                         <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
