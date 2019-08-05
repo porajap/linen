@@ -83,6 +83,7 @@ $array2 = json_decode($json2,TRUE);
       $('#showmonth').hide();
       $('#showyear').hide();
       $('#someday').hide();
+      $('#somemonth').hide();
       OnLoadPage();
 
 
@@ -158,11 +159,11 @@ $array2 = json_decode($json2,TRUE);
       $('#showday').hide();
       $('#showmonth').show();
       $('#showyear').hide();  
-      }else if (chkyear ==3){
+    }else if (chkyear == 3){
       $('#showday').hide();
       $('#showmonth').hide();
       $('#showyear').show();  
-      }
+    }
   }
 
   function formatdate(chk){
@@ -172,6 +173,16 @@ $array2 = json_decode($json2,TRUE);
     }else if(chk == 2){
       $('#oneday').hide();
       $('#someday').show();
+    }
+  }
+
+  function formatmonth(chk){
+    if(chk == 1){
+      $('#onemonth').show();
+      $('#somemonth').hide();
+    }else if(chk == 2){
+      $('#onemonth').hide();
+      $('#somemonth').show();
     }
   }
 
@@ -198,12 +209,19 @@ $array2 = json_decode($json2,TRUE);
         'date':date
       };
     }else if(Format == 2){
-      var date = $('#month').val();
+      var FormatMonth = $("input[name='formatMonth']:checked").val();
+      if(FormatMonth == 1){
+        var date = $('#onemonth').val();
+      }else{
+        var date = $('#somemonth').val();
+      }
+      // var date = $('#month').val();
       var data = {
         'STATUS':'find_report',
         'factory':factory,
         'HptCode':HptCode,
         'typeReport':typeReport,
+        'FormatMonth':FormatMonth,
         'Format':Format,
         'date':date
       };
@@ -642,6 +660,7 @@ $array2 = json_decode($json2,TRUE);
                                       </div>
                                   </div>
                                 </div>
+
                                 <div class="col-md-6" >
                                   <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
@@ -649,16 +668,45 @@ $array2 = json_decode($json2,TRUE);
                                         <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd"> 
                                   </div>
                                 </div>
+
                               </div>
 
-                              <div class="row">
+                              <div class="row" id="showmonth">
+                                <div class="col-md-6">
+                                  <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatmonth'][$language]; ?></label>
+                                      <div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
+                                            <label class="custom-control-label" for="chkonemonth">หนึ่งเดือน</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chksomemonth" name="formatMonth" value='2' onclick="formatmonth(2)" class="custom-control-input formatDay">
+                                            <label class="custom-control-label" for="chksomemonth">หลายเดือน</label>
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-6" >
+                                  <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
+                                    <input type="text" class="form-control col-sm-8 datepicker-here" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en' >
+                                    <input type="text" class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'  data-range="true" data-multiple-dates-separator=" - ">
+                                  </div>
+                                </div>
+                                
+                              </div>
+
+                              <!-- <div class="row">
                                 <div class="col-md-6">
                                   <div class='form-group row' id="showmonth">
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8 datepicker-here" id="month" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'>
+                                      <input type="text" class="form-control col-sm-8 datepicker-here" id="month" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en' >
                                   </div>
                                 </div>
-                              </div>
+                              </div> -->
+
                               <div class="row">
                                 <div class="col-md-6">
                                     <div class='form-group row' id="showyear">

@@ -232,6 +232,7 @@
 <month><en>Month</en><th>เดือน</th></month>
 <serchref><en>Month</en><th>ค้นหาเอกสารอ้างอิง</th></serchref>
 <youlogout><en>Do you want to logout ?</en><th>คุณต้องการออกจากระบบหรือไม่</th></youlogout>
+<formatmonth><en>Format month</en><th>รูปแบบเดือน</th></formatmonth>
 
 <!-- -->
 <r1><en>Record dirty linen weight</en><th>Record dirty linen weight</th></r1>
