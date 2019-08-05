@@ -317,7 +317,7 @@ $array = json_decode($json,TRUE);
                             showConfirmButton: false
                         });
                         setTimeout(function(){ 
-                            window.location.href = 'indexlogin.html';
+                            window.location.href = 'main.php';
                         }, 1000);
                     }else if(temp["form"] == 'change_password'){
                         swal({

@@ -1720,9 +1720,9 @@ $array2 = json_decode($json2, TRUE);
 
                 <div class="menu" id="NewItem">
                   <div class="d-flex justify-content-center">
-                    <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                        <i class="fas fa-chess-queen"></i>
-                    </div>
+                    <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                    <i class="fas fa-plus"></i>                    
+                  </div>
                   </div>
                   <div>
                     <button class="btn" onclick="NewItem()" id="bNewItem">
@@ -1747,10 +1747,10 @@ $array2 = json_decode($json2, TRUE);
                 <div class="menu" id="BlankItemBNT">
                   <div class="d-flex justify-content-center">
                     <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                        <i class="fas fa-eraser"></i>
+                    <i class="fas fa-brush"></i>                    
                     </div>
                   </div>
-                  <div>
+                <div>
                     <button class="btn" onclick="Blankinput()" id="bDelete">
                       <?php echo $array['clear'][$language]; ?>
                     </button>

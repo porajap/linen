@@ -92,15 +92,15 @@
         -webkit-transition: -webkit-transform .8s ease-in-out;
           transition:transform .8s ease-in-out;
       }
-      .menu i:hover{
+      /* .menu i:hover{
         -webkit-transform: rotate(360deg);
           transform: rotate(360deg);
-      }
+      } */
       /* end css for menu */
-      .search_custom i:hover{
+      /* .search_custom i:hover{
         -webkit-transform: rotate(360deg);
           transform: rotate(360deg);
-      }
+      } */
       .search_custom{
         width:100px;
         text-align:center;

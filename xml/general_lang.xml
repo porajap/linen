@@ -128,7 +128,7 @@
 <datestartcontract><en>DATE OF CNTRCT</en><th>วันที่ทำสัญญา</th></datestartcontract>
 <dateendcontract><en>CNTRCT TERM DATE</en><th>วันที่สิ้นสุดสัญญา</th></dateendcontract>
 <numbercontract><en>END OF CNTRCT (DATE)</en><th>สิ้นสุดสัญญา(วัน)</th></numbercontract>
-<clear><en>clear</en><th>ล้าง</th></clear>
+<clear><en>clear</en><th>ล้างข้อมูล</th></clear>
 <balance><en>balance</en><th>คงเหลือ</th></balance>
 <over><en>Over</en><th>เกิน Par</th></over>
 <adddata><en>Add new data</en><th>เพิ่มข้อมูล</th></adddata>

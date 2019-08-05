@@ -980,7 +980,7 @@ switch ($PmID) {
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/clean.php?lang=<?php echo $language; ?>" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['general']['sub'][2][$language]; ?><span style='color: #ff0000;'
+              <em></em><?php echo $array['menu']['general']['sub'][2][$language]; ?><span style='color: #1659A2;'
                 id='clean_Cnt'>0</span></a>
           </li>
           <?php } ?>
@@ -1002,7 +1002,7 @@ switch ($PmID) {
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/shelfcount.php?lang=<?php echo $language; ?>" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['general']['sub'][3][$language]; ?><span style='color: #ff0000;'
+              <em></em><?php echo $array['menu']['general']['sub'][3][$language]; ?><span style='color: #1659A2;'
                 id='shelfcount_Cnt'>0</span></a>
           </li>
           <?php } ?>
@@ -1085,7 +1085,7 @@ switch ($PmID) {
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/contract_parties_factory.php?lang=<?php echo $language; ?>"class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['account']['sub'][3][$language]; ?><span style='color: #ff0000;'
+              <em></em><?php echo $array['menu']['account']['sub'][3][$language]; ?><span style='color: #1659A2;'
                 id='CPF_Cnt'>0</span></a>
           </li>
           <?php } ?>
@@ -1093,7 +1093,7 @@ switch ($PmID) {
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/contract_parties_hospital.php?lang=<?php echo $language; ?>" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['account']['sub'][4][$language]; ?><span style='color: #ff0000;'
+              <em></em><?php echo $array['menu']['account']['sub'][4][$language]; ?><span style='color: #1659A2;'
                 id='HOS_Cnt'>0</span></a>
           </li>
           <?php } ?>
