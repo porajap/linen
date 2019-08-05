@@ -262,23 +262,34 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $boolean = false;
     $searchitem = str_replace(' ', '%', $DATA["xitem"]);
+    $deptCode = $DATA["deptCode"];
 
     // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
     // mysqli_query($conn,$Sqlx);
 
     $Sql = "SELECT
+    item_stock.RowID,
+    site.HptName,
+    department.DepName,
     item_category.CategoryName,
+    item_stock.UsageCode,
     item.ItemCode,
     item.ItemName,
     item.UnitCode,
     item_unit.UnitName,
-    item.ParQty
-    FROM item
-    INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
-    INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-    WHERE item.ItemName LIKE '%%'
-    GROUP BY item.ItemCode
-    ORDER BY item.ItemCode ASC LImit 100";
+    item_stock.ParQty,
+    item_stock.CcQty,
+    item_stock.TotalQty
+      FROM site
+  INNER JOIN department ON site.HptCode = department.HptCode
+  INNER JOIN item_stock ON department.DepCode = item_stock.DepCode
+  INNER JOIN item ON item_stock.ItemCode = item.ItemCode
+  LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
+  INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
+  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+  WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
+  GROUP BY item.ItemCode
+  ORDER BY item.ItemName ASC LImit 100";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['ItemCode'] = $Result['ItemCode'];

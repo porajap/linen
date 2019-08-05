@@ -305,10 +305,13 @@ $(document).ready(function(e){
       }
 
       function ShowItem(){
+        var deptCode = $('#department option:selected').attr("value");
+        if( typeof deptCode == 'undefined' ) deptCode = "1";
         var searchitem = $('#searchitem').val();
         var data = {
           'STATUS'  : 'ShowItem',
-          'xitem'	: searchitem
+          'xitem'	: searchitem , 
+          'deptCode'	: deptCode
         };
         senddata(JSON.stringify(data));
       }
@@ -632,8 +635,8 @@ $(document).ready(function(e){
         isStatus=0;
         else
         isStatus=1;
-        if(docno!=""){
         if(isStatus==1){
+          if(docno!=""){
           swal({
             title: "<?php echo $array['confirmsave'][$language]; ?>",
             text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",

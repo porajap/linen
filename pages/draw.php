@@ -266,7 +266,7 @@ function OpenDialogItem(){
 
   function CancelDocument(){
       var docno = $("#docno").val();
-
+    if(docno!=""){
       swal({
           title: "<?php echo $array['confirmcancel'][$language]; ?>",
           text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
@@ -280,11 +280,12 @@ function OpenDialogItem(){
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
+            if (result.value) {
           CancelBill();
-          $('#tab2').attr('hidden',true);
-          $('#switch_col').removeClass('col-md-10');
-          $('#switch_col').addClass('col-md-12');
+        } else if (result.dismiss === 'cancel') {
+          swal.close();}
       })
+    }
   }
 
     //======= On create =======
@@ -644,9 +645,8 @@ function OpenDialogItem(){
           isStatus=0;
           else
           isStatus=1;
-
-if(docno!=""){
           if(isStatus==1){
+            if(docno!=""){
                 swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>"+docno+"",
