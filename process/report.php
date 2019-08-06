@@ -35,7 +35,8 @@ function OnLoadPage($conn, $DATA)
   }
   $return['Row'] = $count;
 
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = 'BHQ' AND department.IsStatus = 0";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = 'BHQ' AND department.IsStatus = 0
+  GROUP BY department.DepName";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countDep]['DepCode'] = $Result['DepCode'];
@@ -65,7 +66,8 @@ function departmentWhere($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $boolean = false;
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.IsStatus = 0";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.IsStatus = 0
+  GROUP BY department.DepName";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
