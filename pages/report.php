@@ -84,9 +84,9 @@ $array2 = json_decode($json2,TRUE);
       $('#showyear').hide();
       $('#someday').hide();
       $('#somemonth').hide();
+      $('#myDay').hide();
+      $('#myMonth').hide();
       OnLoadPage();
-
-
 
     }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
@@ -112,9 +112,6 @@ $array2 = json_decode($json2,TRUE);
 
 
     });
-
-
-
 
   //======= On create =======
   //console.log(JSON.stringify(data));
@@ -153,15 +150,21 @@ $array2 = json_decode($json2,TRUE);
     var chkyear = $('#chkyear:checked').val();
     if(chkday ==1){
       $('#showday').show();
+      $('#myDay').show();
       $('#showmonth').hide();
       $('#showyear').hide();
+      $('#myMonth').hide();
     }else if (chkmonth ==2){
       $('#showday').hide();
+      $('#myDay').hide();
       $('#showmonth').show();
+      $('#myMonth').show();
       $('#showyear').hide();
     }else if (chkyear == 3){
       $('#showday').hide();
+      $('#myDay').hide();
       $('#showmonth').hide();
+      $('#myMonth').hide();
       $('#showyear').show();
     }
   }
@@ -191,6 +194,7 @@ $array2 = json_decode($json2,TRUE);
     var factory = $('#factory').val();
     var HptCode = $('#hotpital').val();
     var typeReport = $('#typereport').val();
+    var DepCode = $('#department').val();
     var Format = $("input[name='radioFormat']:checked").val();
     if(Format == 1){
       var FormatDay = $("input[name='formatDay']:checked").val();
@@ -203,6 +207,7 @@ $array2 = json_decode($json2,TRUE);
         'STATUS':'find_report',
         'factory':factory,
         'HptCode':HptCode,
+        'DepCode':DepCode,
         'typeReport':typeReport,
         'Format':Format,
         'FormatDay':FormatDay,
@@ -236,6 +241,15 @@ $array2 = json_decode($json2,TRUE);
         'date':date
       };
     }
+    senddata(JSON.stringify(data));
+  }
+
+  function departmentWhere(){
+    var HptCode = $('#hotpital').val();
+    var data = {
+      'STATUS':'departmentWhere',
+      'HptCode': HptCode
+    };
     senddata(JSON.stringify(data));
   }
 
@@ -279,6 +293,17 @@ $array2 = json_decode($json2,TRUE);
             for (var i = 0; i < temp['Row']; i++) {
               var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
               $("#hotpital").append(Str);
+            }
+
+            for (var i = 0; i < temp['RowDep']; i++) {
+              var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+              $("#department").append(Str);
+            }
+          }else if(temp["form"]=='departmentWhere'){
+            $("#department").empty();
+            for (var i = 0; i < temp['Row']; i++) {
+              var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+              $("#department").append(Str);
             }
           }else if(temp["form"]=='r1'){
             $('#type_report').text(temp['typeReport']);
@@ -730,7 +755,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                       <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                          <select class="form-control col-sm-8" id="hotpital" ></select>
+                                          <select class="form-control col-sm-8" id="hotpital" onchange="departmentWhere();"></select>
                                       </div>
                                   </div>
                               </div>
@@ -747,57 +772,50 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                 </div>
                                 <div class="col-md-6 ">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
-                                      <div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat">
-                                            <label class="custom-control-label" for="chkday"> วัน</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="chkmonth" name="radioFormat" value='2'onclick="showdate()" class="custom-control-input radioFormat">
-                                            <label class="custom-control-label" for="chkmonth"> เดือน</label>
-                                        </div>
+                                  <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
+                                    <select class="form-control col-sm-8" id="department">
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
 
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
-                                            <label class="custom-control-label" for="chkyear"> ปี</label>
-                                        </div>
+                              <div class="row">
+                                <div class="col-md-6 ">
+                                  <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
+                                    <div>
+                                      <div class="custom-control custom-radio custom-control-inline">
+                                          <input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat">
+                                          <label class="custom-control-label" for="chkday"> วัน</label>
+                                      </div>
+                                      <div class="custom-control custom-radio custom-control-inline">
+                                          <input type="radio" id="chkmonth" name="radioFormat" value='2'onclick="showdate()" class="custom-control-input radioFormat">
+                                          <label class="custom-control-label" for="chkmonth"> เดือน</label>
+                                      </div>
+
+                                      <div class="custom-control custom-radio custom-control-inline">
+                                          <input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
+                                          <label class="custom-control-label" for="chkyear"> ปี</label>
                                       </div>
                                     </div>
-                                </div>
-                              </div>
-
-                              <div class="row" id="showday">
-                                <div class="col-md-6">
-                                  <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
-                                      <div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked >
-                                            <label class="custom-control-label" for="chkoneday">หนึ่งวัน</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
-                                            <label class="custom-control-label" for="chksomeday">หลายวัน</label>
-                                        </div>
-                                      </div>
                                   </div>
                                 </div>
-
-                                <div class="col-md-6" >
-                                  <div class='form-group row'>
-                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd" autocomplete="off">
-                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd">
-                                  </div>
-                                </div>
-
-                              </div>
-
-                              <div class="row" id="showmonth">
-                                <div class="col-md-6">
-                                  <div class='form-group row'>
+                                <div class="col-md-6 ">
+                                    <div class='form-group row' id="showday">
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
+                                        <div>
+                                          <div class="custom-control custom-radio custom-control-inline">
+                                              <input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked >
+                                              <label class="custom-control-label" for="chkoneday">หนึ่งวัน</label>
+                                          </div>
+                                          <div class="custom-control custom-radio custom-control-inline">
+                                              <input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
+                                              <label class="custom-control-label" for="chksomeday">หลายวัน</label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class='form-group row' id="showmonth">
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatmonth'][$language]; ?></label>
                                       <div>
                                         <div class="custom-control custom-radio custom-control-inline">
@@ -809,28 +827,31 @@ $array2 = json_decode($json2,TRUE);
                                             <label class="custom-control-label" for="chksomemonth">หลายเดือน</label>
                                         </div>
                                       </div>
+                                    </div>
+                                    <div class='form-group row' id="showyear">
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
+                                      <input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
+                                    </div>
+                                  </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-6" id="myDay">
+                                  <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
+                                      <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd" autocomplete="off">
+                                      <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd">
                                   </div>
                                 </div>
-
-                                <div class="col-md-6" >
+                                <div class="col-md-6" id="myMonth">
                                   <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
                                     <input type="text" class="form-control col-sm-8 datepicker-here" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en' >
                                     <input type="text" class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'  data-range="true" data-multiple-dates-separator=" - ">
                                   </div>
                                 </div>
-
                               </div>
 
-
-                              <div class="row">
-                                <div class="col-md-6">
-                                    <div class='form-group row' id="showyear">
-                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
-                                    </div>
-                                </div>
-                              </div>
                             </div>
                           </div>
                         </div>
