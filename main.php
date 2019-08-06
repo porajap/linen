@@ -846,8 +846,7 @@ switch ($PmID) {
     header,
     footer,
     article,
-    nav,
-    div {
+    nav {
       padding: 10px;
       /* background: #FFF; */
     }
@@ -927,7 +926,7 @@ switch ($PmID) {
     <img src="img/logo.jpg" style="width: 100px;margin-top:55px;margin-bottom:20px;" alt="">
 
     <!-- Navbar username -->
-      <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 32px;text-transform: capitalize;">
+      <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">
         <span><?php echo $FName?></span>
       </div>
     <!-- Navbar -->
