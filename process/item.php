@@ -32,10 +32,10 @@ function ShowItem($conn, $DATA)
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory ORDER BY item.ItemCode ASC"; //AND IsActive = '$active'
+    $Sql .= " WHERE item.CategoryCode = $Catagory AND IsDirtyBag = 0 ORDER BY item.ItemCode ASC"; //AND IsActive = '$active'
   } else {
-    $Sql .= " WHERE item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-                OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%'"; // AND IsActive = '$active'
+    $Sql .= " WHERE  IsDirtyBag = 0 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
+                OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') "; // AND IsActive = '$active'
   }
   $return['sql'] = $Sql;
 

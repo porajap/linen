@@ -127,7 +127,7 @@ function ShowItem($conn, $DATA)
           item.ItemName
           FROM
           item
-          WHERE  item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%'  AND IsActive=1
+          WHERE   IsActive=1  AND IsDirtyBag = 0 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
           ORDER BY item.ItemCode
           ";
   // var_dump($Sql); die;
@@ -461,7 +461,7 @@ function SelectItemStock($conn, $DATA)
         UsageCode
       FROM item_stock
       INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-      WHERE item_stock.ItemCode = '$ItemCode[$i]' AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode
+      WHERE item_stock.ItemCode = '$ItemCode[$i]' AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
       -- GROUP BY item_stock.ItemCode
       ORDER BY item_stock.RowID DESC";
       $return['sql'] = $Sql;
@@ -515,7 +515,7 @@ function ShowItemStock($conn, $DATA)
           FROM
           item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9  AND (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+          WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9  AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
           ORDER BY item_stock.RowID DESC";
           $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);

@@ -660,8 +660,20 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE clean SET IsStatus = $isStatus WHERE clean.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
+    // ================================================================================
+    $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$DocNo2' ";
+    $meQuery = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $DocNoDirty = $Result['DocNo'];
+    }
+    if($DocNoDirty != "" ){
     $Sql = "UPDATE dirty SET IsRef = 1 WHERE dirty.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
+    }else{
+    $Sql = "UPDATE rewash SET IsRef = 1 WHERE rewash.DocNo = '$DocNo2'";
+    mysqli_query($conn, $Sql);
+    }
+    // ================================================================================
 
     $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
@@ -878,16 +890,17 @@ function CreateDocument($conn, $DATA)
     $hptcode = $DATA["hptcode"];
     $boolean = false;
     $count = 0;
-    $Sql = "SELECT dirty.DocNo
-    FROM dirty
-    INNER JOIN department ON dirty.DepCode = department.DepCode
+    $Sql = "SELECT DocNo FROM dirty     
+    INNER JOIN department ON dirty.DepCode = department.DepCode 
     INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE dirty.IsCancel = 0 
-    AND dirty.IsStatus = 3
-    AND dirty.IsRef = 0
-    AND site.HptCode = '$hptcode' 
-    ORDER BY dirty.Modify_Date DESC
-    LIMIT 100";
+    WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode' 
+    
+    UNION ALL 
+    
+    SELECT DocNo FROM rewash
+    INNER JOIN department ON rewash.DepCode = department.DepCode 
+    INNER JOIN site ON department.HptCode = site.HptCode
+    WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 3 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' ";
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

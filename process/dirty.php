@@ -311,29 +311,9 @@ function ShowItem($conn, $DATA)
   $searchitem = str_replace(' ', '%', $DATA["xitem"]);
   $deptCode = $DATA["deptCode"];
 
-  $Sql = "SELECT
-  item_stock.RowID,
-  site.HptName,
-  department.DepName,
-  item_category.CategoryName,
-  item_stock.UsageCode,
-  item.ItemCode,
-  item.ItemName,
-  item.UnitCode,
-  item_unit.UnitName,
-  item_stock.ParQty,
-  item_stock.CcQty,
-  item_stock.TotalQty
-    FROM site
-INNER JOIN department ON site.HptCode = department.HptCode
-INNER JOIN item_stock ON department.DepCode = item_stock.DepCode
-INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
-INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
-INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
-GROUP BY item.ItemCode
-ORDER BY item.ItemName ASC LImit 100";
+  $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
+
+  FROM item , item_unit WHERE item.UnitCode = item_unit.UnitCode AND IsDirtyBag = 1";
     $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

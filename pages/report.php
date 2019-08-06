@@ -60,12 +60,12 @@ $array2 = json_decode($json2,TRUE);
   <script type="text/javascript">
   jqui = jQuery.noConflict(true);
   </script>
-  <link href="../css/menu_custom.css" rel="stylesheet"> 
+  <link href="../css/menu_custom.css" rel="stylesheet">
   <link href="../dist/css/sweetalert2.css" rel="stylesheet">
   <script src="../dist/js/sweetalert2.min.js"></script>
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
   <link href="../css/responsive.css" rel="stylesheet">
-  
+
   <!-- <script src="../dist/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script> -->
   <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
   <script src="../datepicker/dist/js/datepicker.min.js"></script>
@@ -114,7 +114,7 @@ $array2 = json_decode($json2,TRUE);
     });
 
 
-  
+
 
   //======= On create =======
   //console.log(JSON.stringify(data));
@@ -158,11 +158,11 @@ $array2 = json_decode($json2,TRUE);
     }else if (chkmonth ==2){
       $('#showday').hide();
       $('#showmonth').show();
-      $('#showyear').hide();  
+      $('#showyear').hide();
     }else if (chkyear == 3){
       $('#showday').hide();
       $('#showmonth').hide();
-      $('#showyear').show();  
+      $('#showyear').show();
     }
   }
 
@@ -239,11 +239,11 @@ $array2 = json_decode($json2,TRUE);
     senddata(JSON.stringify(data));
   }
 
-  function send_data(data){ 
+  function send_data(data){
     var URL = data; //your url send_from process process/report.php
     window.open(URL);
   }
-  function send_data2(data){ 
+  function send_data2(data){
     var myData = data.split(',');
     var URL = myData[0]; //your url send_from process process/report.php
     window.open(URL + myData[1]);
@@ -501,7 +501,7 @@ $array2 = json_decode($json2,TRUE);
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
             $("#table_R15 tbody").append(dataRow);
           }
-          
+
         }else{
           console.log(temp['msg']);
         }
@@ -547,7 +547,7 @@ $array2 = json_decode($json2,TRUE);
     .table th, .table td {
         border-top: none !important;
     }
-    
+
     table tr th,
     table tr td {
       border-right: 0px solid #bbb;
@@ -614,7 +614,7 @@ $array2 = json_decode($json2,TRUE);
       color:white;
     }
     .btn_mheeCREATE{
-      background-color:#1458a3; 
+      background-color:#1458a3;
 
       color:white;
     }
@@ -674,7 +674,7 @@ $array2 = json_decode($json2,TRUE);
         padding-top: 6px;
         padding-left: 44px;
       }
-      @media (min-width: 992px) and (max-width: 1199.98px) { 
+      @media (min-width: 992px) and (max-width: 1199.98px) {
 
         .icon{
           padding-top: 6px;
@@ -690,7 +690,7 @@ $array2 = json_decode($json2,TRUE);
        .datepicker-here{
         font-size: 24px!important;
       }
-      
+
   </style>
 </head>
 
@@ -741,7 +741,7 @@ $array2 = json_decode($json2,TRUE);
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
                                         <select class="form-control col-sm-8" id="typereport">
                                           <?php  for($i = 1 ; $i<=16; $i++){ ?>
-                                            <option value="<?php echo $i?>"><?php echo $array['r'.$i][$language]; ?></option>  
+                                            <option value="<?php echo $i?>"><?php echo $array['r'.$i][$language]; ?></option>
                                           <?php } ?>
                                         </select>
                                     </div>
@@ -765,7 +765,7 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                       </div>
                                     </div>
-                                </div>         
+                                </div>
                               </div>
 
                               <div class="row" id="showday">
@@ -774,7 +774,7 @@ $array2 = json_decode($json2,TRUE);
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
                                       <div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
+                                            <input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked >
                                             <label class="custom-control-label" for="chkoneday">หนึ่งวัน</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
@@ -788,8 +788,8 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-6" >
                                   <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd">
-                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd"> 
+                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd" autocomplete="off">
+                                        <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd">
                                   </div>
                                 </div>
 
@@ -819,7 +819,7 @@ $array2 = json_decode($json2,TRUE);
                                     <input type="text" class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'  data-range="true" data-multiple-dates-separator=" - ">
                                   </div>
                                 </div>
-                                
+
                               </div>
 
 
@@ -832,8 +832,8 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
                               </div>
                             </div>
-                          </div> 
-                        </div>  
+                          </div>
+                        </div>
                         <div class="row m-1  d-flex justify-content-end col-12" >
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
@@ -846,14 +846,14 @@ $array2 = json_decode($json2,TRUE);
                                 <?php echo $array['search'][$language]; ?>
                               </button>
                             </div>
-                          </div>             
+                          </div>
                         </div>
                     </div>
                     <div class="row ml-5"><?php echo $array['typereport'][$language]; ?>&nbsp;<span id='type_report'></span></div>
-                    
+
                     <div class="row mx-2">
                         <div class="col-md-12">
-                            <!-- ---------------------------------Report  3--------------------------------------- -->
+                            <!-- ---------------------------------Report 1 AND Report 3--------------------------------------- -->
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R1" width="100%" cellspacing="0" role="grid" style="">
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
@@ -871,7 +871,7 @@ $array2 = json_decode($json2,TRUE);
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
                                         <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-                                        <th style='width: 71%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+                                        <th style='width: 71%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
                                         <th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
                                         <th style='width: 12%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
                                     </tr>
@@ -879,7 +879,7 @@ $array2 = json_decode($json2,TRUE);
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
                                 </tbody>
                             </table>
-                            <!-- ---------------------------------Report 3--------------------------------------- -->
+                            <!-- --------------------------------- Report 3--------------------------------------- -->
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R3" width="100%" cellspacing="0" role="grid" hidden>
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
@@ -948,7 +948,7 @@ $array2 = json_decode($json2,TRUE);
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
                                 </tbody>
                             </table>
-                        </div> 
+                        </div>
                     </div>
                 </div>
 
