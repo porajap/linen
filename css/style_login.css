@@ -1,0 +1,896 @@
+@font-face {
+    src: url('../fonts/DBHelvethaica.ttf');
+    font-family: myFirstFont;
+}
+body {
+    font-family: myFirstFont;
+    background-image: url(../img/background2.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 30px 30px 30px 30px white inset !important;
+}
+/* --------------------Seccion login form------------------------ */
+#login_form {
+    position: absolute;
+    /* display: block;
+    margin: auto;
+    left: 15%;
+    right: 15%;
+    top: 50%; */
+    /* transform: translateY(-50%);
+    resize: vertical; */
+    /* overflow: auto; */
+}
+#fram_white img{
+    width: 1340px;
+}
+#logo img{
+    position: absolute;
+    width: 287px;
+    left: 839px;
+    top: 95px;
+}
+
+#form_input{
+    position: absolute;
+    width: 408px;
+    left: 839px;
+    top: 305px;
+}
+input{
+    outline:none !important;
+    box-shadow: none !important;
+    padding-left: 50px !important;
+    font-size: 22px !important;
+}
+
+#icon_user {
+    position: absolute;
+    left: 0px;
+    top: 24px;
+    font-size: 24px;
+    color:#1659a2;
+    z-index:1;
+}
+#label_username{
+    padding-left: 50px;
+}
+.bmd-form-group [class*=" bmd-label"], .bmd-form-group [class^=bmd-label] {
+    font-size: 20px;
+    color:#919192;
+}
+
+#icon_password {
+    position: absolute;
+    left: 0px;
+    top: 140px;
+    font-size: 24px;
+    color:#1659a2;
+    z-index:1;
+}
+#label_password{
+    padding-left: 50px;
+}
+#password_input{
+    margin-top:40px;
+}
+/* --------------------End Seccion login form--------------------- */
+#mange_password {
+    margin-top:10px;
+    font-size: 20px;
+}
+#reset a{
+    position: absolute;
+    left:0px;
+    top: 207px;
+    color:#919192;
+}
+#reset a:hover{
+    font-size: 22px;
+    text-decoration: none;
+}
+#change{
+    position: absolute;
+    right:0px;
+    top: 207px;
+}
+#change a{
+    color:#1659a2;
+    border-bottom:1px dashed  #1659a2;
+}
+#change a:hover{
+    font-size: 22px;
+    text-decoration: none;
+}
+#btn_login {
+    position: absolute;
+    margin-top:92px;
+    left: 118px;
+}
+#btn_login .btn_custom {
+    background-color: #1659a2;
+    color:#fff;
+    font-size: 20px;
+    width:150px;
+    border-radius: 50px;
+    width: 200px;
+    height: 54px;
+    letter-spacing: 2px;
+    border-bottom: 4px solid #406868;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+}
+#btn_login .btn_custom:hover {
+    background-color: #1659a2;
+    border-color: #1659a2;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+#arrow_send {
+    margin-left: 56px;
+    font-size: 22px;
+}
+/* --------------------End manage Password ------------------------ */
+/* --------------------Seccion reset form------------------------ */
+#reset_form {
+    position: absolute;
+    /* left: 181px;
+    top: 50%;
+    transform: translateY(-50%);
+    resize: vertical;
+    overflow: auto; */
+}
+#icon_email {
+    position: absolute;
+    left: 0px;
+    top: 24px;
+    font-size: 24px;
+    color:#1659a2;
+}
+#label_email{
+    padding-left: 50px;
+}
+
+/* --------------------End Seccion reset form--------------------- */
+/* ------------------------Reset Password ------------------------ */
+#btn_reset {
+    position: absolute;
+    margin-top:92px;
+    left: 0px;
+}
+#form_inputReset{
+    position: absolute;
+    width: 408px;
+    left: 839px;
+    top: 305px;
+}
+#btn_send {
+    position: absolute;
+    margin-top:92px;
+    left: 0px;
+}
+#btn_reset .btn_black {
+    background-color: #919192;
+    color:#fff;
+    font-size: 16px;
+    width:136px;
+    border-radius: 50px;
+    height: 54px;
+    border-bottom: 4px solid #343838;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    text-transform: capitalize;
+}
+#btn_reset .btn_send {
+    background-color: #1659a2;
+    color:#fff;
+    font-size: 16px;
+    width:136px;
+    border-radius: 50px;
+    height: 54px;
+    border-bottom: 4px solid #406868;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    text-transform: capitalize;
+}
+#btn_reset .btn_black:hover {
+    background-color: #919192;
+    border-color: #919192;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+#btn_reset .btn_send:hover {
+    background-color: #1659a2;
+    border-color: #1659a2;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+#arrow_black{
+    margin-left: 35px;
+    font-size: 16px;
+}
+#arrow_send{
+    margin-left: 35px;
+    font-size: 16px;
+}
+#black_reset{
+    margin-right:129px;
+}
+/* --------------------------------------------------------------------- */
+#logo_change img{
+    position: absolute;
+    width: 287px;
+    left: 839px;
+    top: 95px;
+}
+#change_form {
+    position: absolute;
+    /* left: 181px;
+    top: 50%;
+    transform: translateY(-50%);
+    resize: vertical;
+    overflow: auto; */
+}
+#form_inputChange{
+    position: absolute;
+    width: 408px;
+    left: 839px;
+    top: 266px;
+}
+#btn_change {
+    position: absolute;
+    margin-top:40px;
+    left: 0px;
+}
+#btn_save {
+    position: absolute;
+    margin-top:92px;
+    left: 0px;
+}
+#btn_change .btn_black {
+    background-color: #919192;
+    color:#fff;
+    font-size: 16px;
+    width:136px;
+    border-radius: 50px;
+    height: 54px;
+    border-bottom: 4px solid #343838;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    text-transform: capitalize;
+}
+#btn_change .btn_save {
+    background-color: #1659a2;
+    color:#fff;
+    font-size: 16px;
+    width:136px;
+    border-radius: 50px;
+    height: 54px;
+    border-bottom: 4px solid #406868;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    text-transform: capitalize;
+}
+#btn_change .btn_black:hover {
+    background-color: #919192;
+    border-color: #919192;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+#btn_change .btn_save:hover {
+    background-color: #1659a2;
+    border-color: #1659a2;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+#black_save{
+    margin-left: 35px;
+    font-size: 16px;
+}
+#arrow_save{
+    margin-left: 35px;
+    font-size: 16px;
+}
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) { 
+    
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) { 
+    
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    #login_form {
+        position: absolute;
+        left: 89px;
+        top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+    }
+        /* --------------------Seccion reset form------------------------ */
+        #reset_form {
+            position: absolute;
+            left: 89px;
+            top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+        }
+        #form_inputReset{
+            position: absolute;
+            width: 280px;
+            left: 488px;
+            top: 210px;
+        }
+        #btn_reset .btn_black {
+            font-size: 16px;
+            width:110px;
+            height: 45px;
+        }
+        #btn_reset .btn_send {
+            font-size: 16px;
+            width:110px;
+            height: 45px;
+        }
+        #icon_email {
+            position: absolute;
+            left: 0px;
+            top: 24px;
+            font-size: 24px;
+            color:#1659a2;
+        }
+        #label_email{
+            padding-left: 50px;
+        }
+        #black_reset{
+            margin-right:55px;
+        }
+        #arrow_black{
+            margin-left: 10px;
+            font-size: 16px;
+        }
+        #arrow_send{
+            margin-left: 10px;
+            font-size: 16px;
+        }
+        #btn_reset {
+            margin-top:63px;
+        }
+        /* --------------------End Seccion reset form------------------------ */
+        /* --------------------Chnage Pass----------------------------------- */
+        #logo_change img{
+            position: absolute;
+            width: 165px;
+            left: 528px;
+            top: 19px;
+        }
+        #change_form {
+            position: absolute;
+            left: 89px;
+            top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+        }
+        #form_inputChange{
+            position: absolute;
+            width: 280px;
+            left: 488px;
+            top: 91px;
+        }
+        #btn_change {
+            position: absolute;
+            margin-top:9px;
+            left: 0px;
+        }
+        #oldCh{
+            margin-top:-18px;
+        }
+        #newCh{
+            margin-top:-18px;
+        }
+        #confirmCh{
+            margin-top:-18px;
+        }
+        #btn_black{
+            margin-right:63px;
+        }
+        #btn_change .btn_black {
+            font-size: 14px;
+            width:106px;
+            height: 54px;
+        }
+        #btn_change .btn_save {
+            font-size: 14px;
+            width:106px;
+            height: 54px;
+        }
+        #black_save{
+            margin-left: 30px;
+            font-size: 14px;
+        }
+        #arrow_save{
+            margin-left: 30px;
+            font-size: 14px;
+        }
+        /* --------------------End Chnage Pass-------------------------------- */
+    #fram_white img{
+        width: 810px;
+    }
+    #logo img{
+        position: absolute;
+        width: 222px;
+        left: 500px;
+        top: 55px;
+    }
+    
+    #form_input{
+        position: absolute;
+        width: 280px;
+        left: 493px;
+        top: 175px;
+    }
+    input{
+        outline:none !important;
+        box-shadow: none !important;
+        padding-left: 50px !important;
+        font-size: 20px !important;
+    }
+    
+    #icon_user {
+        position: absolute;
+        left: 0px;
+        top: 24px;
+        font-size: 22px;
+        color:#1659a2;
+    }
+    #label_username{
+        padding-left: 50px;
+    }
+    .bmd-form-group [class*=" bmd-label"], .bmd-form-group [class^=bmd-label] {
+        font-size: 18px;
+        color:#919192;
+    }
+    
+    #icon_password {
+        position: absolute;
+        left: 0px;
+        top: 114px;
+        font-size: 22px;
+        color:#1659a2;
+    }
+    #label_password{
+        padding-left: 50px;
+    }
+    #password_input{
+        margin-top:10px;
+    }
+    /* --------------------End Seccion login form--------------------- */
+    /* ------------------------Reset Password ------------------------ */
+    #mange_password {
+        margin-top:10px;
+        font-size: 16px;
+    }
+    #reset a{
+        position: absolute;
+        left:0px;
+        top: 176px;
+        color:#919192;
+    }
+    #reset a:hover{
+        font-size: 18px;
+        text-decoration: none;
+    }
+    #change{
+        position: absolute;
+        right:0px;
+        top: 176px;
+    }
+    #change a{
+        color:#1659a2;
+        border-bottom:1px dashed  #1659a2;
+    }
+    #change a:hover{
+        font-size: 18px;
+        text-decoration: none;
+    }
+    #btn_login {
+        position: absolute;
+        margin-top: 50px;
+        left: 44px;
+    }
+    #arrow{
+        margin-left: 56px;
+        font-size: 22px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    #login_form {
+        position: absolute;
+        left: 152px;
+        top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+    }
+        /* --------------------Seccion reset form------------------------ */
+        #reset_form {
+            position: absolute;
+            left: 152px;
+            top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+        }
+        #form_inputReset{
+            position: absolute;
+            width: 329px;
+            left: 519px;
+            top: 214px;
+        }
+        #btn_reset .btn_black {
+            font-size: 16px;
+            width:110px;
+            height: 45px;
+        }
+        #btn_reset .btn_send {
+            font-size: 16px;
+            width:110px;
+            height: 45px;
+        }
+        #icon_email {
+            position: absolute;
+            left: 0px;
+            top: 24px;
+            font-size: 24px;
+            color:#1659a2;
+        }
+        #label_email{
+            padding-left: 50px;
+        }
+        #black_reset{
+            margin-right:100px;
+        }
+        #arrow_black{
+            margin-left: 32px;
+            font-size: 16px;
+        }
+        #arrow_send{
+            margin-left: 32px;
+            font-size: 16px;
+        }
+        #btn_reset {
+            margin-top:63px;
+        }
+        /* --------------------End Seccion reset form------------------------ */
+        /* --------------------Chnage Pass----------------------------------- */
+        #logo_change img{
+            position: absolute;
+            width: 187px;
+            left: 569px;
+            top: 21px;
+        }
+        #change_form {
+            position: absolute;
+            left: 152px;
+            top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+        }
+        #form_inputChange{
+            position: absolute;
+            width: 329px;
+            left: 525px;
+            top: 103px;
+        }
+        #btn_change {
+            position: absolute;
+            margin-top:22px;
+            left: 0px;
+        }
+        #oldCh{
+            margin-top:-18px;
+        }
+        #newCh{
+            margin-top:-18px;
+        }
+        #confirmCh{
+            margin-top:-18px;
+        }
+        #black_reset{
+            margin-right:43px;
+        }
+        /* --------------------End Chnage Pass-------------------------------- */
+    #fram_white img{
+        width: 880px;
+    }
+    #logo img{
+        position: absolute;
+        width: 230px;
+        left: 564px;
+        top: 55px;
+    }
+    
+    #form_input{
+        position: absolute;
+        width: 329px;
+        left: 519px;
+        top: 180px;
+    }
+    input{
+        outline:none !important;
+        box-shadow: none !important;
+        padding-left: 50px !important;
+        font-size: 20px !important;
+    }
+    
+    #icon_user {
+        position: absolute;
+        left: 0px;
+        top: 24px;
+        font-size: 22px;
+        color:#1659a2;
+    }
+    #label_username{
+        padding-left: 50px;
+    }
+    .bmd-form-group [class*=" bmd-label"], .bmd-form-group [class^=bmd-label] {
+        font-size: 18px;
+        color:#919192;
+    }
+    
+    #icon_password {
+        position: absolute;
+        left: 0px;
+        top: 120px;
+        font-size: 22px;
+        color:#1659a2;
+    }
+    #label_password{
+        padding-left: 50px;
+    }
+    #password_input{
+        margin-top:22px;
+    }
+    /* --------------------End Seccion login form--------------------- */
+    /* ------------------------Reset Password ------------------------ */
+    #mange_password {
+        margin-top:10px;
+        font-size: 16px;
+    }
+    #reset a{
+        position: absolute;
+        left:0px;
+        top: 182px;
+        color:#919192;
+    }
+    #reset a:hover{
+        font-size: 18px;
+        text-decoration: none;
+    }
+    #change{
+        position: absolute;
+        right:0px;
+        top: 182px;
+    }
+    #change a{
+        color:#1659a2;
+        border-bottom:1px dashed  #1659a2;
+    }
+    #change a:hover{
+        font-size: 18px;
+        text-decoration: none;
+    }
+    #btn_login {
+        position: absolute;
+        margin-top: 62px;
+        left: 69px; 
+    }
+    #arrow{
+        margin-left: 56px;
+        font-size: 22px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1299.98px) {
+    #login_form {
+        position: absolute;
+        left: 135px;
+        top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+    }
+        /* --------------------Seccion reset form------------------------ */
+        #reset_form {
+            position: absolute;
+            left: 135px;
+            top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+        }
+        #form_inputReset{
+            position: absolute;
+            width: 329px;
+            left: 616px;
+            top: 290px;
+        }
+        #icon_email {
+            position: absolute;
+            left: 0px;
+            top: 24px;
+            font-size: 24px;
+            color:#1659a2;
+        }
+        #label_email{
+            padding-left: 50px;
+        }
+        #black_reset{
+            margin-right:52px;
+        }
+        #arrow_black{
+            margin-left: 32px;
+            font-size: 16px;
+        }
+        #arrow_send{
+            margin-left: 32px;
+            font-size: 16px;
+        }
+        #btn_reset {
+            position: absolute;
+            margin-top:77px;
+            left: 0px;
+        }
+        /* --------------------End Seccion reset form------------------------ */
+        /* --------------------Chnage Pass----------------------------------- */
+        #logo_change img{
+            position: absolute;
+            width: 198px;
+            left: 682px;
+            top: 32px;
+        }
+        #change_form {
+            position: absolute;
+            left: 135px;
+            top: 50%;
+        transform: translateY(-50%);
+        resize: vertical;
+        overflow: auto;
+        }
+        #form_inputChange{
+            position: absolute;
+            width: 329px;
+            left: 621px;
+            top: 124px;
+        }
+        #btn_change {
+            position: absolute;
+            margin-top:22px;
+            left: 0px;
+        }
+        /* --------------------End Chnage Pass-------------------------------- */
+    #fram_white img{
+        width: 1000px;
+    }
+    #logo img{
+        position: absolute;
+        width: 260px;
+        left: 625px;
+        top: 95px;
+    }
+    
+    #form_input{
+        position: absolute;
+        width: 355px;
+        left: 616px;
+        top: 240px;
+    }
+    input{
+        outline:none !important;
+        box-shadow: none !important;
+        padding-left: 50px !important;
+        font-size: 20px !important;
+    }
+    
+    #icon_user {
+        position: absolute;
+        left: 0px;
+        top: 24px;
+        font-size: 22px;
+        color:#1659a2;
+    }
+    #label_username{
+        padding-left: 50px;
+    }
+    .bmd-form-group [class*=" bmd-label"], .bmd-form-group [class^=bmd-label] {
+        font-size: 18px;
+        color:#919192;
+    }
+    
+    #icon_password {
+        position: absolute;
+        left: 0px;
+        top: 120px;
+        font-size: 22px;
+        color:#1659a2;
+    }
+    #label_password{
+        padding-left: 50px;
+    }
+    #password_input{
+        margin-top:22px;
+    }
+    /* --------------------End Seccion login form--------------------- */
+    /* ------------------------Reset Password ------------------------ */
+    #mange_password {
+        margin-top:10px;
+        font-size: 16px;
+    }
+    #reset a{
+        position: absolute;
+        left:0px;
+        top: 182px;
+        color:#919192;
+    }
+    #reset a:hover{
+        font-size: 18px;
+        text-decoration: none;
+    }
+    #change{
+        position: absolute;
+        right:0px;
+        top: 182px;
+    }
+    #change a{
+        color:#1659a2;
+        border-bottom:1px dashed  #1659a2;
+    }
+    #change a:hover{
+        font-size: 18px;
+        text-decoration: none;
+    }
+    #btn_login {
+        position: absolute;
+        margin-top: 50px;
+        left: 80px; 
+    }
+    #arrow{
+        margin-left: 56px;
+        font-size: 22px;
+    }
+}
+
