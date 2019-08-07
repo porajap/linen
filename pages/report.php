@@ -227,6 +227,7 @@ $array2 = json_decode($json2,TRUE);
         'HptCode':HptCode,
         'typeReport':typeReport,
         'FormatMonth':FormatMonth,
+        'DepCode':DepCode,
         'Format':Format,
         'date':date
       };
@@ -236,6 +237,7 @@ $array2 = json_decode($json2,TRUE);
         'STATUS':'find_report',
         'factory':factory,
         'HptCode':HptCode,
+        'DepCode':DepCode,
         'typeReport':typeReport,
         'Format':Format,
         'date':date
@@ -337,7 +339,7 @@ $array2 = json_decode($json2,TRUE);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
                 "<td style='width:5%'>"+(i+1)+"</td>"+
-                "<td class='text-left' style='width:71%'>"+temp[i]['HptName']+"</td>"+
+                "<td class='text-left' style='width:71%'>"+temp[i]['DepName']+"</td>"+
                 "<td class='text-center' style='width:12%'>"+temp[i]['DocDate']+"</td>"+
                 "<td class='text-left text-center' style='width:12%'><button onclick='send_data(\""+temp['url']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
               "</tr>";

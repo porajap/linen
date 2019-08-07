@@ -35,8 +35,7 @@ function OnLoadPage($conn, $DATA)
   }
   $return['Row'] = $count;
 
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = 'BHQ' AND department.IsStatus = 0
-  GROUP BY department.DepName";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = 'BHQ' AND department.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countDep]['DepCode'] = $Result['DepCode'];
@@ -66,8 +65,7 @@ function departmentWhere($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $boolean = false;
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.IsStatus = 0
-  GROUP BY department.DepName";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
@@ -351,19 +349,23 @@ function typeReport($typeReport){
 function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   $boolean = false;
   $count = 0;
-  if($Format == 1 || $Format == 3){
+  if($Format == 1 ){
     if($chk == 'one'){
       $Sql = "SELECT  factory.FacName, dirty.DocDate
-          FROM dirty
-          INNER JOIN factory ON factory.FacCode = dirty.FacCode
-        WHERE dirty.DocDate LIKE '%$date1%'
-        AND dirty.FacCode = $FacCode  ORDER BY dirty.DocDate ASC";
+              FROM dirty
+              INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
+              INNER JOIN factory ON factory.FacCode = dirty.FacCode
+              WHERE dirty.DocDate LIKE '%$date1%'
+              AND dirty.FacCode = $FacCode GROUP BY dirty.DocDate   ORDER BY dirty.DocDate ASC";
     }else{
       $Sql = "SELECT  factory.FacName, dirty.DocDate
-        FROM dirty
-        INNER JOIN factory ON factory.FacCode =dirty.FacCode
-        WHERE dirty.DocDate BETWEEN '$date1' AND '$date2'
-        AND dirty.FacCode = $FacCode ORDER BY dirty.DocNo ASC";
+              FROM dirty
+              INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
+              INNER JOIN factory ON factory.FacCode =dirty.FacCode
+              WHERE dirty.DocDate BETWEEN '$date1' AND '$date2'
+              AND dirty.FacCode = $FacCode
+              GROUP BY dirty.DocDate
+              ORDER BY dirty.DocNo ASC";
     }
   }else if($Format == 2){
     $date = subMonth($date1, $date2);
@@ -373,17 +375,27 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
     if($chk == 'month'){
         $Sql = "SELECT  factory.FacName, dirty.DocDate
         FROM dirty
+        INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
         INNER JOIN factory ON factory.FacCode =dirty.FacCode
       WHERE dirty.DocDate LIKE '%$date1%'
-      AND dirty.FacCode = $FacCode  ORDER BY dirty.DocDate ASC";
+      AND dirty.FacCode = $FacCode GROUP BY MONTH(dirty.DocDate) ORDER BY dirty.DocDate ASC";
     }else{
       $Sql = "SELECT factory.FacName, dirty.DocDate
       FROM dirty
+      INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
       INNER JOIN factory ON factory.FacCode = dirty.FacCode
       WHERE YEAR(dirty.DocDate) = $year AND MONTH(dirty.DocDate) BETWEEN $date1 AND $date2
-      AND dirty.FacCode = 1 ORDER BY  dirty.DocNo ASC ";
+      AND dirty.FacCode = 1 GROUP BY YEAR(dirty.DocDate) ORDER BY  dirty.DocNo ASC ";
     }
   }
+  else if($Format == 3){
+      $Sql = "SELECT  factory.FacName, dirty.DocDate
+      FROM dirty
+      INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
+      INNER JOIN factory ON factory.FacCode =dirty.FacCode
+    WHERE dirty.DocDate LIKE '%$date1%'
+    AND dirty.FacCode = $FacCode GROUP BY year(dirty.DocDate) ORDER BY dirty.DocDate ASC";
+    }
     $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format , 'DepCode' => $DepCode, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
@@ -413,8 +425,7 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk)
   $count = 0;
   if($Format == 1 || $Format == 3){
     if($chk == 'one'){
-      $Sql = "SELECT department.DepName,
-      claim.DocDate
+      $Sql = "SELECT department.DepName, claim.DocDate
             FROM claim
             INNER JOIN department ON claim.HptCode = department.HptCode
             WHERE claim.DocDate LIKE '%$date1%' AND claim.HptCode = '$HptCode'
@@ -433,14 +444,14 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk)
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if($chk == 'month'){
-      $Sql = "SELECT department.HptCode,
+      $Sql = "SELECT department.DepName,
       claim.DocDate
       FROM claim
       INNER JOIN department ON claim.HptCode = department.HptCode
       WHERE claim.DocDate LIKE '%$date1%' AND claim.HptCode = '$HptCode'
       ORDER BY claim.DocDate ASC";
     }else{
-      $Sql = "SELECT  department.HptCode,
+      $Sql = "SELECT  department.DepName,
       claim.DocDate
       FROM claim
       INNER JOIN department ON claim.HptCode = department.HptCode
@@ -454,7 +465,7 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk)
   $return['url'] = '../report_linen/report/Report_Claim.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['HptName'] = $Result['DepName'];
+    $return[$count]['DepName'] = $Result['DepName'];
     $return[$count]['DocDate'] = $Result['DocDate'];
     $boolean = true;
     $count ++;
@@ -475,7 +486,7 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk)
 function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   $count = 0;
   $boolean = false;
-  if($Format == 1 || $Format == 3){
+  if($Format == 1){
     if($chk == 'one'){
       $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
               FROM clean
@@ -503,15 +514,23 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
               INNER JOIN factory ON factory.FacCode = clean.FacCode
               INNER JOIN site ON site.HptCode = clean.HptCode
               WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode'
-              AND clean.FacCode = $FacCode GROUP BY clean.DocNo ORDER BY clean.DocNo ASC";
+              AND clean.FacCode = $FacCode GROUP BY month(clean.DocNo) ORDER BY clean.DocNo ASC";
     }else{
       $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
             FROM clean
             INNER JOIN factory ON factory.FacCode = clean.FacCode
             INNER JOIN site ON site.HptCode = clean.HptCode
             WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
-            AND clean.FacCode = $FacCode GROUP BY clean.DocNo ORDER BY clean.DocNo ASC";
+            AND clean.FacCode = $FacCode GROUP BY month(clean.DocNo) ORDER BY clean.DocNo ASC";
     }
+  }
+  else if($Format == 3){
+      $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
+              FROM clean
+              INNER JOIN factory ON factory.FacCode = clean.FacCode
+              INNER JOIN site ON site.HptCode = clean.HptCode
+              WHERE clean.DocDate LIKE '%$date1%' AND clean.HptCode = '$HptCode'
+              AND clean.FacCode = $FacCode GROUP BY clean.DocNo ORDER BY clean.DocNo ASC";
   }
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
@@ -601,17 +620,21 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
 function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   $count = 0;
   $boolean = false;
-  if($Format == 1 || $Format == 3){
+  if($Format == 1){
     if($chk == 'one'){
       $Sql = "SELECT  factory.FacName, rewash.DocDate
               FROM rewash
+              INNER JOIN rewash_detail ON rewash_detail.DocNo = rewash.DocNo
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
-              WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
+              WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode
+              GROUP BY rewash.DocDate
+              ORDER BY rewash.DocDate ASC";
     }else{
       $Sql = "SELECT  factory.FacName, rewash.DocDate
               FROM rewash
               INNER JOIN factory ON rewash.FacCode = factory.FacCode
               WHERE rewash.DocDate BETWEEN '$date1' AND '$date2'
+              GROUP BY rewash.DocDate
               AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
     }
   }else if($Format == 2){
@@ -623,15 +646,28 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
       $Sql = "SELECT  factory.FacName, rewash.DocDate
       FROM rewash
       INNER JOIN factory ON rewash.FacCode = factory.FacCode
-      WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
+      WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode
+      GROUP BY month (rewash.DocDate)
+       ORDER BY rewash.DocDate ASC";
     }else{
       $Sql = "SELECT  factory.FacName, rewash.DocDate
       FROM rewash
       INNER JOIN factory ON rewash.FacCode = factory.FacCode
       WHERE YEAR(rewash.DocDate) = $year AND MONTH(rewash.DocDate) BETWEEN $date1 AND $date2
-      AND rewash.FacCode = $FacCode ORDER BY rewash.DocDate ASC";
+      AND rewash.FacCode = $FacCode
+      GROUP BY year (rewash.DocDate)
+      ORDER BY rewash.DocDate ASC";
     }
   }
+  else if($Format == 3){
+      $Sql = "SELECT  factory.FacName, rewash.DocDate
+      FROM rewash
+      INNER JOIN factory ON rewash.FacCode = factory.FacCode
+      WHERE rewash.DocDate LIKE '%$date1%' AND rewash.FacCode = $FacCode
+      GROUP BY year (rewash.DocDate)
+       ORDER BY rewash.DocDate ASC";
+    }
+
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Rewash.php';
@@ -859,4 +895,3 @@ function r16($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     mysqli_close($conn);
     die;
   }
-  
