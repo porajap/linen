@@ -50,7 +50,7 @@ $array = json_decode($json,TRUE);
                 </div>
                 <div class="form-group bmd-form-group">
                     <label for="username" id="label_username" class="bmd-label-floating">Username</label>
-                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username">
+                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username" autofocus>
                 </div>
             </div>
             <!-- ----------------------------------------------------------------------------------- -->
@@ -167,8 +167,6 @@ $array = json_decode($json,TRUE);
     <script src="js/application.js"></script>
     <script>
     $(document).keyup(function(e) {
-
-        $('#username').focus();
         
         if (e.keyCode === 13){
             var chk = $('#chk').val();
@@ -395,9 +393,10 @@ $array = json_decode($json,TRUE);
                 } else if (temp["status"] == 'change_pass') {
                     $('#username2').val(temp['username']);
                     $('#oldpassword').val(temp['password']);
-                    $('#form_white').attr('hidden', true);
-                    $('#form_change').attr('hidden', false);
-                    $('#form_sendmail').attr('hidden', true);
+                    $('#login_form').attr('hidden', true);
+                    $('#change_form').attr('hidden', false);
+                    $('#reset_form').attr('hidden', true);
+                    $('#username2').focus();
                 } else {
                     // swal.hideLoading()
                     swal({
