@@ -443,8 +443,8 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
               INNER JOIN site ON site.HptCode = department.HptCode
               WHERE claim.Docdate BETWEEN '$date1' AND '$date2'
               AND claim.HptCode = '$HptCode'
-              AND claim.DepCode = '$DepCode'
-              AND factory.FacCode = '$FacCode'
+              AND claim.DepCode = $DepCode
+              AND factory.FacCode = $FacCode
               GROUP BY claim.DocDate ORDER BY claim.DocDate ASC";
     }
   }else if($Format == 2){
@@ -480,10 +480,10 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
               INNER JOIN factory ON factory.faccode = clean.FacCode
               INNER JOIN department ON claim.HptCode = department.HptCode
               INNER JOIN site ON site.HptCode = department.HptCode
-              WHERE  year (claim.DocDate) LIKE '%$date1%'
+              WHERE  YEAR(claim.DocDate) =  $date1
               AND claim.HptCode = '$HptCode'
-              AND claim.DepCode = '$DepCode'
-              AND factory.FacCode = '$FacCode'
+              AND claim.DepCode = $DepCode
+              AND factory.FacCode = $FacCode
               GROUP BY claim.DocDate ORDER BY claim.DocDate ASC";
   }
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
