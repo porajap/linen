@@ -50,7 +50,7 @@ $array = json_decode($json,TRUE);
                 </div>
                 <div class="form-group bmd-form-group">
                     <label for="username" id="label_username" class="bmd-label-floating">Username</label>
-                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username" autofocus>
+                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username">
                 </div>
             </div>
             <!-- ----------------------------------------------------------------------------------- -->
@@ -166,6 +166,10 @@ $array = json_decode($json,TRUE);
     <script src="js/bootstrap-material-design.js"></script>
     <script src="js/application.js"></script>
     <script>
+    $(document).ready(function(e){
+      $('#username').focus();
+
+    });
     $(document).keyup(function(e) {
         
         if (e.keyCode === 13){
@@ -178,7 +182,6 @@ $array = json_decode($json,TRUE);
                 passwordUpdate();
             }
         }
-        $('#username').fucus();
     });
         function reset_pass(){
             $('#chk').val(2);
