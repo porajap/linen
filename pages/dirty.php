@@ -78,6 +78,8 @@ $array2 = json_decode($json2,TRUE);
   var RowCnt=0;
 
   $(document).ready(function(e){
+
+       
   //  console.log(window.parent.location.href);
     OnLoadPage();
     getDepartment();
@@ -98,6 +100,7 @@ $array2 = json_decode($json2,TRUE);
         // console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
+
   }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
@@ -924,11 +927,11 @@ $array2 = json_decode($json2,TRUE);
 
                         var chkDoc = "<input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'>";
 
-                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"'></div>";
+                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' hidden style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"'></div>";
                         //var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['ParQty']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>+</button></div>";
                         //var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['MaxQty']+"' ></div>";
 
-                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                         var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -936,7 +939,7 @@ $array2 = json_decode($json2,TRUE);
                         "<td style='width: 6%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                         "<td style='text-overflow: ellipsis;overflow: hidden;width: 20%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
                         "<td style='text-overflow: ellipsis;overflow: hidden;width: 30%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                        "<td style='width: 20%;' nowrap>"+chkunit+"</td>"+
+                        "<td style='width: 18%;' nowrap>"+chkunit+"</td>"+
                         "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
                         "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
                         "</tr>";
@@ -972,6 +975,9 @@ $array2 = json_decode($json2,TRUE);
                           $('#unit'+i).prop('disabled', true);
                         }
                       }
+                      $('.numonly').on('input', function() {
+                      this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+                  });
                     }else if( (temp["form"]=='ShowItem') ){
                       var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
                       var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
@@ -994,16 +1000,16 @@ $array2 = json_decode($json2,TRUE);
                         chkunit += "</select>";
 
                         var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
-                        var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                        var Qty = "<div  class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control'  style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
+                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly'  style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
 
                         $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                         "<td style='width: 10%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                         "<td style='width: 20%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                        "<td style='width: 25%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                        "<td style='width: 15%;'>"+chkunit+"</td>"+
-                        "<td style='width: 15%;'>"+Qty+"</td>"+
+                        "<td style='width: 33%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                        "<td style='width: 21%;'>"+chkunit+"</td>"+
+                        "<td style='width: 15%;' hidden>"+Qty+"</td>"+
                         "<td style='width: 15%;'>"+Weight+"</td>"+
                         "</tr>";
                         if(rowCount == 0){
@@ -1012,6 +1018,9 @@ $array2 = json_decode($json2,TRUE);
                           $('#TableItem tbody:last-child').append( $StrTR );
                         }
                       }
+                                                    $('.numonly').on('input', function() {
+                                              this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+                                          });
                     }else if( (temp["form"]=='ShowUsageCode') ){
                       var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                       var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
@@ -1142,8 +1151,17 @@ $array2 = json_decode($json2,TRUE);
       body{
         font-family: myFirstFont;
         font-size:22px;
+        overflow: scroll;
+        overflow-x: hidden;
       }
-      
+      ::-webkit-scrollbar {
+          width: 0px;  /* Remove scrollbar space */
+          background: transparent;  /* Optional: just make scrollbar invisible */
+      }
+      /* Optional: show position indicator in red */
+      ::-webkit-scrollbar-thumb {
+          background: none;
+      }
 
       .nfont{
         font-family: myFirstFont;
@@ -1454,9 +1472,9 @@ $array2 = json_decode($json2,TRUE);
                                           <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 32%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 8%;' nowrap><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 14%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 34%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 8%;' nowrap hidden><?php echo $array['qty'][$language]; ?></th>
+                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                                   </thead>
                                   <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
                                   </tbody>
@@ -1693,8 +1711,8 @@ $array2 = json_decode($json2,TRUE);
                   <th style='width: 10%;' nowrap><?php echo $array['no'][$language]; ?></th>
                   <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
                   <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                  <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                  <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                  <th style='width: 30%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                  <th style='width: 15%;' nowrap hidden><?php echo $array['numofpiece'][$language]; ?></th>
                   <th style='width: 15%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                 </tr>
               </thead>

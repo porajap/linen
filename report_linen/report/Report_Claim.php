@@ -161,24 +161,27 @@ $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("P","A4");
 
-$Sql = "SELECT
-        department.DepName,
-        claim.DocDate,
-        site.HptName
-        FROM
-        claim
-        INNER JOIN department ON claim.HptCode = department.HptCode
-        INNER JOIN site ON site.HptCode = department.HptCode
-        $where
-        AND claim.HptCode = '$HptCode'
-				AND department.DepCode = '$DepCode'
+$Sql = "SELECT department.DepName,
+      claim.DocDate,
+      site.HptName,
+      factory.facname
+          FROM claim
+              INNER JOIN clean ON clean.refdocno = claim.docno
+              INNER JOIN dirty ON dirty.refdocno = clean.docno
+      				INNER JOIN factory ON factory.faccode = clean.FacCode
+              INNER JOIN department ON claim.HptCode = department.HptCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              $where
+              AND claim.HptCode = '$HptCode'
+              AND claim.DepCode = '$DepCode'
+              AND factory.FacCode = '$FacCode'
+              GROUP BY claim.DocDate ORDER BY claim.DocDate ASC
         ";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
          $DepName = $Result['DepName'];
          $HptName = $Result['HptName'];
 }
-
 $pdf->SetFont('THSarabun','b',12);
 $pdf->Cell(1);
 $pdf->Cell(150,10,iconv("UTF-8","TIS-620","Linen Department site : " .$HptName." ".$DepName),0,0,'L');
@@ -197,8 +200,8 @@ $query = "SELECT
 					INNER JOIN factory ON  factory.FacCode = clean.FacCode
 					INNER JOIN clean_detail ON clean.docno = clean_detail.docno
 					INNER JOIN claim_detail ON claim.DocNo = claim_detail.DocNo
-					INNER JOIN Repair ON claim.docno = Repair.refdocno
-          INNER JOIN repair_detail ON Repair.docno = repair_detail.docno
+					INNER JOIN repair ON claim.docno = repair.refdocno
+          INNER JOIN repair_detail ON repair.docno = repair_detail.docno
 					INNER JOIN damage ON claim.docno = damage.refdocno
           INNER JOIN damage_detail ON damage.docno = damage_detail.docno
 					INNER JOIN Department ON claim.HptCode = department.HptCode

@@ -420,10 +420,10 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
 
 }
 
-function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk){
-  $boolean = false;
+function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   $count = 0;
-  if($Format == 1 || $Format == 3){
+  $boolean = false;
+  if($Format == 1){
     if($chk == 'one'){
       $Sql = "SELECT department.DepName, claim.DocDate
             FROM claim
@@ -431,12 +431,21 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk)
             WHERE claim.DocDate LIKE '%$date1%' AND claim.HptCode = '$HptCode'
             ORDER BY claim.DocDate ASC";
     }else{
-      $Sql = "SELECT  department.HptName, claim.DocDate
-            FROM claim
-            INNER JOIN department ON claim.HptCode = department.HptCode
-            WHERE claim.DocDate BETWEEN '$date1' AND '$date2'
-            AND claim.HptCode = '$HptCode'
-            ORDER BY claim.DocDate ASC";
+      $Sql = "SELECT department.DepName,
+              claim.DocDate,
+              site.HptName,
+              factory.facname
+              FROM claim
+              INNER JOIN clean ON clean.refdocno = claim.docno
+              INNER JOIN dirty ON dirty.refdocno = clean.docno
+              INNER JOIN factory ON factory.faccode = clean.FacCode
+              INNER JOIN department ON claim.HptCode = department.HptCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              WHERE claim.Docdate BETWEEN '$date1' AND '$date2'
+              AND claim.HptCode = '$HptCode'
+              AND claim.DepCode = '$DepCode'
+              AND factory.FacCode = '$FacCode'
+              GROUP BY claim.DocDate ORDER BY claim.DocDate ASC";
     }
   }else if($Format == 2){
     $date = subMonth($date1, $date2);
@@ -460,6 +469,23 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk)
       ORDER BY claim.DocDate ASC";
     }
   }
+  else if($Format == 3){
+      $Sql = "SELECT department.DepName,
+              claim.DocDate,
+              site.HptName,
+              factory.facname
+              FROM claim
+              INNER JOIN clean ON clean.refdocno = claim.docno
+              INNER JOIN dirty ON dirty.refdocno = clean.docno
+              INNER JOIN factory ON factory.faccode = clean.FacCode
+              INNER JOIN department ON claim.HptCode = department.HptCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              WHERE  year (claim.DocDate) LIKE '%$date1%'
+              AND claim.HptCode = '$HptCode'
+              AND claim.DepCode = '$DepCode'
+              AND factory.FacCode = '$FacCode'
+              GROUP BY claim.DocDate ORDER BY claim.DocDate ASC";
+  }
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Claim.php';
@@ -467,14 +493,14 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  $chk)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepName'] = $Result['DepName'];
     $return[$count]['DocDate'] = $Result['DocDate'];
+    $count++;
     $boolean = true;
-    $count ++;
   }
 
   if($boolean == true){
     $return['status'] = 'success';
-    $return['countRow'] = $count;
     $return['form'] = 'r2';
+    $return['countRow'] = $count;
     return $return;
   }else{
     $return['status'] = 'notfound';

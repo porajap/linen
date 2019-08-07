@@ -164,7 +164,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 $pdf->SetFont('THSarabun', 'b', 12);
 $pdf->Cell(1);
 $pdf->Cell(145, 10, iconv("UTF-8", "TIS-620", "โรงซัก : " . $factory), 0, 0, 'L');
-$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'L');
+$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 
 
@@ -178,8 +178,10 @@ $query = "SELECT
           FROM clean
           INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
           INNER JOIN department ON clean.DepCode = department.DepCode
-          INNER JOIN site ON department.HptCode = site.HptCode
+          INNER JOIN site ON clean.HptCode = site.HptCode
+          INNER JOIN factory ON factory.FacCode = clean.FacCode
           $where
+          AND factory.FacCode= $FacCode
           ";
 
 
