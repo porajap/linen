@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang>
+<hospital><en>Hospital</en><th>โรงพยาบาล</th></hospital>
+<department><en>Department</en><th>แผนก</th></department>
+<docno><en>Doc. No.</en><th>เลขที่เอกสาร</th></docno>
+<docdate><en>Doc. Date</en><th>วันที่เอกสาร</th></docdate>
+<user><en>Responsible</en><th>ผู้บันทึก</th></user>
+<time><en>Time</en><th>เวลาที่บันทึก</th></time>
+<no><en>No.</en><th>ลำดับที่</th></no>
+<itemcode><en>Item Code</en><th>รหัสอุปกรณ์</th></itemcode>
+<itemname><en>Item Name</en><th>ชื่ออุปกรณ์</th></itemname>
+<unit><en>Unit</en><th>หน่วยนับ</th></unit>
+<printdate><en>Print Date.</en><th>วันที่พิมพ์รายงาน</th></printdate>
+<page><en>page. </en><th>หน้า </th></page>
+<amount><en>Amount</en><th>จำนวน</th></amount>
+<weight><en>Weight</en><th>น้ำหนัก</th></weight>
+<price><en>Total</en><th>เป็นเงิน</th></price>
+</lang>
