@@ -178,6 +178,7 @@ $array = json_decode($json,TRUE);
                 passwordUpdate();
             }
         }
+        $('#username').fucus();
     });
         function reset_pass(){
             $('#chk').val(2);
