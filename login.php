@@ -14,12 +14,17 @@ $array = json_decode($json,TRUE);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="css/style_login.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap-material-design.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+
+    <script src="js/jquery-1.4.2.min.js"></script> 
     <script src="js/jquery-3.3.1.slim.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
     <script src="dist/js/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="dist/css/sweetalert2.min.css">
     <script src="dist/js/jquery-3.3.1.min.js"></script>
@@ -28,141 +33,143 @@ $array = json_decode($json,TRUE);
 </head>
 <body>
     <input type="hidden" id="chk" value="1">
-    <!-- ====================== form Login======================= -->
-        <div id="form_white">
-            <div class="row">
-                <!-- logo -->
-                <div id="logo_top">
-                    <img src="img/logo.png">
-                </div>
-                <!-- end logo -->
-                <!-- input username -->
-                <div id="username_div">
-                    <div id="label1">
-                        <label for="username">Username</label>
-                    </div>
-                    <div class="input-group color1">
-                        <input type="text" class="form-control nonspa" onkeyup="make_char()" id="username" >
-                    </div>
-                    <div class='icon_username'>
-                        <img src="img/icon1.png">
-                    </div>
-                </div>
-                <!-- endinput username -->
-                <!-- input password -->
-                <div id="password_div">
-                    <div id="label2">
-                        <label for="password">Password</label>
-                    </div>
-                    <div class="input-group color1">
-                        <input type="password" class="form-control nonspa" onkeyup="make_char()" id="password" required>
-                    </div>
-                    <div class='icon_password'>
-                        <img src="img/icon2.png">
-                    </div>
-                </div>
-                <!-- endinput username -->
-                <div id="reset_pass">
-                    <a href="javascript:void(0)" onclick="reset_pass();">Reset Password</a>
-                </div>
-                <div id="change_pass">
-                    <a href="javascript:void(0)" onclick="change_pass();">Change Password</a>
-                </div>
-                <div id='btn_submit'>
-                    <div class="col-md-12">
-                        <a class='btn btn-block' onclick="chklogin();">LOGIN</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!-- ==================== End form ========================== -->
 
-    <!-- ====================== form Sendmail======================= -->
-        <div id="form_sendmail" hidden="true">
-            <div class="row">
-                <div id="logo_top2">
-                    <img src="img/logo.png">
-                </div>
-                <div id="title_change_1">
-                    <h3>Send password to email</h3>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div id="send_email_div">
-                    <div id="label_email">
-                        <label for="send_email">E-mail</label>
-                    </div>
-                    <div class="input-group color2">
-                        <input type="text" class="form-control change_input" id="email" required>
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div class="row" id="back1_row">
-                    <a class='btn btn-back' onclick="back();">Back</a>
-                </div>
-                <div class="row" id="send_row">
-                    <a class='btn btn-save' onclick="sendmail();">Sendmail</a>
-                </div>
-            </div>
-        </div>
-    <!-- ==================== End form ========================== -->
 
-    <!-- ====================== form change======================= -->
-      <div id="form_change" hidden="true">
-            <div class="row">
-                <div id="logo_top3">
-                    <img src="img/logo.png">
+    <!-- --------------------------------------------------------------------------------------------- -->
+    <div id="login_form">
+        <div id="fram_white">
+            <img src="img/frame1.png">
+        </div>
+        <div id="logo">
+            <img src="img/logo.png">
+        </div>
+        <div id="form_input">
+            <div id="username_input">
+                <div id="icon_user">
+                    <i class="fas fa-user"></i>
                 </div>
-                <div id="title_change">
-                    <h3>Change Password</h3>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div id="username_div2">
-                    <div id="label1">
-                        <label for="username">Username</label>
-                    </div>
-                    <div class="input-group color2">
-                        <input type="text" class="form-control change_input nonspa" onkeyup="make_char()" id="username2" required>
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div id="oldpassword_div">
-                    <div id="label_old">
-                        <label for="old_password">Old Password</label>
-                    </div>
-                    <div class="input-group color2">
-                        <input type="password" class="form-control change_input nonspa" onkeyup="make_char()" id="oldpassword" required>
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div id="newpassword_div">
-                    <div id="new_label">
-                        <label for="new_password">New Password</label>
-                    </div>
-                    <div class="input-group color2">
-                        <input type="password" class="form-control change_input nonspa" onkeyup="make_char()" id="newpassword" required>
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div id="confirm_div">
-                    <div id="confirm_label">
-                        <label for="confirm_password">Confirm Password</label>
-                    </div>
-                    <div class="input-group color2">
-                        <input type="password" class="form-control change_input nonspa" onkeyup="make_char()" id="confirmpassword" required>
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div class="row" id="back_row">
-                    <a class='btn btn-back' onclick="back();">Back</a>
-                </div>
-                <div class="row" id="save_row">
-                    <a class='btn btn-save' onclick="passwordUpdate();">Save</a>
+                <div class="form-group bmd-form-group">
+                    <label for="username" id="label_username" class="bmd-label-floating">Username</label>
+                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username">
                 </div>
             </div>
+            <!-- ----------------------------------------------------------------------------------- -->
+            <div id="password_input">
+                <div id="icon_password">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="form-group bmd-form-group">
+                    <label for="password" id="label_password" class="bmd-label-floating">Password</label>
+                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="password">
+                </div>
+            </div>
+            <!-- ----------------------------------------------------------------------------------- -->
+            <div id="mange_password">
+                <div id="reset">
+                    <a href="javascript:void(0)" onclick="reset_pass();">Reset password</a>
+                </div>
+                <div id="change">
+                    <a href="javascript:void(0)" onclick="change_pass();">Change password</a>
+                </div>
+            </div>
+            
+            <!-- ----------------------------------------------------------------------------------- -->
+            <div id="btn_login">
+                <button class="btn btn_custom" onclick="chklogin();">
+                    LOGIN
+                    <i class="fas fa-arrow-right" id="arrow"></i>
+                </button>
+            </div>
         </div>
-    <!-- ==================== End form ==================== -->
+    </div>
+    <!-- --------------------------------------------------------------------------------------------- -->
+    <div id="reset_form" hidden>
+        <div id="fram_white">
+            <img src="img/frame1.png">
+        </div>
+        <div id="logo">
+            <img src="img/logo.png">
+        </div>
+        <div id="form_inputReset">
+            <div id="email_input">
+                <div id="icon_email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group bmd-form-group">
+                    <label for="email" id="label_email" class="bmd-label-floating">Email</label>
+                    <input type="email" autocomplete="off" class="form-control" id="email" >
+                </div>
+            </div>
+            <!-- ----------------------------------------------------------------------------------- -->
+            <!-- ----------------------------------------------------------------------------------- -->
+            <div id="btn_reset">
+                <button class="btn btn_black" id="black_reset" onclick="back();">
+                    Black <i class="fas fa-undo-alt" id="arrow_black"></i>
+                </button>
+                <button class="btn btn_send" onclick="sendmail();">
+                    Send  <i class="fas fa-arrow-right" id="arrow_send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- --------------------------------------------------------------------------------------------- -->
+    <div id="change_form" hidden>
+        <div id="fram_white">
+            <img src="img/frame1.png">
+        </div>
+        <div id="logo_change">
+            <img src="img/logo.png">
+        </div>
+        <div id="form_inputChange">
+            <div id="usernameCh_input">
+                <div class="form-group bmd-form-group">
+                    <label for="username2" id="label_usernameCh" class="bmd-label-floating">Username</label>
+                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username2" required>
+                </div>
+            </div>
+            <div id="oldCh">
+                <div class="form-group bmd-form-group">
+                    <label for="oldpassword" id="label_old" class="bmd-label-floating">Old Password</label>
+                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="oldpassword" required> 
+                </div>
+            </div>
+            <div id="newCh">
+                <div class="form-group bmd-form-group">
+                    <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
+                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" required>
+                </div>
+            </div>
+            <div id="confirmCh">
+                <div class="form-group bmd-form-group">
+                    <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
+                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" required>
+                </div>
+            </div>
+            <!-- ----------------------------------------------------------------------------------- -->
+            <!-- ----------------------------------------------------------------------------------- -->
+            <div id="btn_change">
+                <button class="btn btn_black" id="black_reset" onclick="back();">
+                    Black <i class="fas fa-undo-alt" id="black_save"></i>
+                </button>
+                <button class="btn btn_save" onclick="passwordUpdate();">
+                    Save  <i class="fas fa-arrow-right" id="arrow_save"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- --------------------------------------------------------------------------------------------- -->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <!-- <script src="dist/js/sweetalert2.min.js"></script>
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script> -->
+    <script src="fontawesome/js/all.min.js"></script>
+    <script src="js/bootstrap-material-design.js"></script>
+    <script src="js/application.js"></script>
     <script>
     $(document).keyup(function(e) {
+
+        $('#username').focus();
+        
         if (e.keyCode === 13){
             var chk = $('#chk').val();
             if(chk == 1){
@@ -178,9 +185,10 @@ $array = json_decode($json,TRUE);
             $('#chk').val(2);
             var user = document.getElementById("username").value;
             if( user != "" ){
-                $('#form_white').attr('hidden', true);
-                $('#form_change').attr('hidden', true);
-                $('#form_sendmail').attr('hidden', false);
+                $('#login_form').attr('hidden', true);
+                $('#change_form').attr('hidden', true);
+                $('#reset_form').attr('hidden', false);
+                $('#email').focus();
             }else{
                 swal({
                     type: 'warning',
@@ -194,20 +202,22 @@ $array = json_decode($json,TRUE);
         {
             $('#chk').val(3);
 
-            $('#form_white').attr('hidden', true);
-            $('#form_change').attr('hidden', false);
-            $('#form_sendmail').attr('hidden', true);
+            $('#login_form').attr('hidden', true);
+            $('#change_form').attr('hidden', false);
+            $('#reset_form').attr('hidden', true);
             $('#oldpassword').val('');
+            $('#username2').focus();
             
         }
 
         function back()
         {
             $('#chk').val(1);
+            $('#login_form').attr('hidden', false);
+            $('#change_form').attr('hidden', true);
+            $('#reset_form').attr('hidden', true);
+            $('#username').focus();
 
-            $('#form_white').attr('hidden', false);
-            $('#form_change').attr('hidden', true);
-            $('#form_sendmail').attr('hidden', true);
         }
 
         function chklogin() {
