@@ -293,9 +293,11 @@ $array2 = json_decode($json2,TRUE);
             var PmID = <?php echo $PmID;?>;
             var HptCode = '<?php echo $HptCode;?>';
             $("#factory").empty();
+            var facValue0 = '<?php echo $array['factory'][$language]; ?>';
+            var fac = "<option value='0'>"+facValue0+"</option>";
             for (var i = 0; i < temp['Rowx']; i++) {
-              var Str = "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
-                $("#factory").append(Str);
+              fac += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+              $("#factory").append(fac);
             }
 
             $("#hotpital").empty();
@@ -560,16 +562,34 @@ $array2 = json_decode($json2,TRUE);
 
   function disabled_fill(){
     var typeReport = $('#typereport').val();
-    if(typeReport == 1 || typeReport == 6 || typeReport == 8 || typeReport == 13){
+    if(typeReport == 1 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15){
       $('#hotpital').attr('disabled', true);
       $('#department').attr('disabled', true);
+      $('#factory').attr('disabled', false);
       $('#hotpital').val(0);
       $('#department').val(0);
     }else if(typeReport == 2){
       $('#hotpital').attr('disabled', false);
       $('#department').attr('disabled', false);
+      $('#factory').attr('disabled', false);
       $('#hotpital').val('BHQ');
       $('#department').val(1);
+    }else if(typeReport == 3 || typeReport == 11 || typeReport == 12){
+      $('#department').attr('disabled', true);
+      $('#factory').attr('disabled', false);
+      $('#hotpital').attr('disabled', false);
+      $('#department').val(0);
+    }else if(typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 8 || typeReport == 14 || typeReport == 16){
+      $('#factory').attr('disabled', true);
+      $('#department').attr('disabled', false);
+      $('#hotpital').attr('disabled', false);
+      $('#factory').val(0);
+    }else if(typeReport == 10){
+      $('#factory').attr('disabled', true);
+      $('#department').attr('disabled', true);
+      $('#hotpital').attr('disabled', false);
+      $('#factory').val(0);
+      $('#department').val(0);
     }
   }
 
