@@ -27,13 +27,18 @@ $array = json_decode($json,TRUE);
     <script src="js/bootstrap.min.js"></script>
     <script src="dist/js/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="dist/css/sweetalert2.min.css">
-    <script src="dist/js/jquery-3.3.1.min.js"></script>
-
+    <style>
+        #password:read-only {
+            background-color:transparent; !important;
+        }
+        #password:-moz-read-only { /* For Firefox */
+            background-color:transparent; !important;
+        }
+    </style>
     <title>Login | Linen</title>
 </head>
 <body>
     <input type="hidden" id="chk" value="1">
-
 
     <!-- --------------------------------------------------------------------------------------------- -->
     <div id="login_form">
@@ -46,11 +51,11 @@ $array = json_decode($json,TRUE);
         <div id="form_input">
             <div id="username_input">
                 <div id="icon_user">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user" id="click_auto"></i>
                 </div>
                 <div class="form-group bmd-form-group">
                     <label for="username" id="label_username" class="bmd-label-floating">Username</label>
-                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username">
+                    <input type="text" autocomplete="off" class="form-control"  onkeyup="make_char()" id="username">
                 </div>
             </div>
             <!-- ----------------------------------------------------------------------------------- -->
@@ -60,7 +65,7 @@ $array = json_decode($json,TRUE);
                 </div>
                 <div class="form-group bmd-form-group">
                     <label for="password" id="label_password" class="bmd-label-floating">Password</label>
-                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="password">
+                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="password" onfocus="this.removeAttribute('readonly');" readonly>
                 </div>
             </div>
             <!-- ----------------------------------------------------------------------------------- -->
@@ -114,62 +119,64 @@ $array = json_decode($json,TRUE);
     </div>
     <!-- --------------------------------------------------------------------------------------------- -->
     <div id="change_form" hidden>
-        <div id="fram_white">
-            <img src="img/frame1.png">
-        </div>
-        <div id="logo_change">
-            <img src="img/logo.png">
-        </div>
-        <div id="form_inputChange">
-            <div id="usernameCh_input">
-                <div class="form-group bmd-form-group">
-                    <label for="username2" id="label_usernameCh" class="bmd-label-floating">Username</label>
-                    <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()" id="username2" required>
-                </div>
+        <div id="change_switch">
+            <div id="fram_white">
+                <img src="img/frame1.png">
             </div>
-            <div id="oldCh">
-                <div class="form-group bmd-form-group">
-                    <label for="oldpassword" id="label_old" class="bmd-label-floating">Old Password</label>
-                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="oldpassword" required> 
-                </div>
+            <div id="logo_change">
+                <img src="img/logo.png">
             </div>
-            <div id="newCh">
-                <div class="form-group bmd-form-group">
-                    <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
-                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" required>
+            <div id="form_inputChange">
+                <div id="usernameCh_input">
+                    <div class="form-group bmd-form-group">
+                        <label for="username2" id="label_usernameCh" class="bmd-label-floating">Username</label>
+                        <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()"  id="username2" >
+                    </div>
                 </div>
-            </div>
-            <div id="confirmCh">
-                <div class="form-group bmd-form-group">
-                    <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
-                    <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" required>
+                <div id="oldCh">
+                    <div class="form-group bmd-form-group">
+                        <label for="oldpassword" id="label_old" class="bmd-label-floating">Old Password</label>
+                        <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()"   id="oldpassword" > 
+                    </div>
                 </div>
-            </div>
-            <!-- ----------------------------------------------------------------------------------- -->
-            <!-- ----------------------------------------------------------------------------------- -->
-            <div id="btn_change">
-                <button class="btn btn_black" id="black_reset" onclick="back();">
-                    Black <i class="fas fa-undo-alt" id="black_save"></i>
-                </button>
-                <button class="btn btn_save" onclick="passwordUpdate();">
-                    Save  <i class="fas fa-arrow-right" id="arrow_save"></i>
-                </button>
+                <div id="newCh">
+                    <div class="form-group bmd-form-group">
+                        <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
+                        <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" >
+                    </div>
+                </div>
+                <div id="confirmCh">
+                    <div class="form-group bmd-form-group">
+                        <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
+                        <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" >
+                    </div>
+                </div>
+                <!-- ----------------------------------------------------------------------------------- -->
+                <!-- ----------------------------------------------------------------------------------- -->
+                <div id="btn_change">
+                    <button class="btn btn_black" id="black_reset" onclick="back();">
+                        Black <i class="fas fa-undo-alt" id="black_save"></i>
+                    </button>
+                    <button class="btn btn_save" onclick="passwordUpdate();">
+                        Save  <i class="fas fa-arrow-right" id="arrow_save"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     <!-- --------------------------------------------------------------------------------------------- -->
-    <!-- <script src="js/bootstrap.min.js"></script> -->
-    <!-- <script src="dist/js/sweetalert2.min.js"></script>
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
-    <script src="js/popper.min.js"></script> -->
+    <script src="dist/js/jquery-3.3.1.min.js"></script>
     <script src="fontawesome/js/all.min.js"></script>
     <script src="js/bootstrap-material-design.js"></script>
     <script src="js/application.js"></script>
     <script>
     $(document).ready(function(e){
-      $('#username').focus();
-
+        $('#username').focus();
     });
+
+    function typePass(){
+      $('#oldpassword').attr('type', 'password');
+    }
     $(document).keyup(function(e) {
         
         if (e.keyCode === 13){
@@ -183,6 +190,7 @@ $array = json_decode($json,TRUE);
             }
         }
     });
+
         function reset_pass(){
             $('#chk').val(2);
             var user = document.getElementById("username").value;
@@ -203,13 +211,11 @@ $array = json_decode($json,TRUE);
         function change_pass()
         {
             $('#chk').val(3);
-
             $('#login_form').attr('hidden', true);
             $('#change_form').attr('hidden', false);
             $('#reset_form').attr('hidden', true);
-            $('#oldpassword').val('');
             $('#username2').focus();
-            
+            typePass();
         }
 
         function back()
@@ -395,12 +401,26 @@ $array = json_decode($json,TRUE);
 
                     }
                 } else if (temp["status"] == 'change_pass') {
-                    $('#username2').val(temp['username']);
-                    $('#oldpassword').val(temp['password']);
                     $('#login_form').attr('hidden', true);
-                    $('#change_form').attr('hidden', false);
                     $('#reset_form').attr('hidden', true);
+                    $('#change_form').attr('hidden', false);
                     $('#username2').focus();
+                    var username = temp['username'];
+                    var password = temp['password'];
+                    $.ajax({
+                        url:"change_password.php",
+                        method:"POST",
+                        data:{
+                            username:username, 
+                            password:password 
+                        },
+                        success:function(data)
+                        {
+                            $('#change_switch').html(data);
+                        }
+                    });
+
+                    // typePass();
                 } else {
                     // swal.hideLoading()
                     swal({
@@ -433,9 +453,10 @@ $array = json_decode($json,TRUE);
                     console.log(err);
                 }
                 });
-            }
+        }
 
-
+        
+        
     function sendtomail(data) {
         var form_data = new FormData();
         form_data.append("DATA", data);
@@ -485,6 +506,7 @@ $array = json_decode($json,TRUE);
             }
         });
     }
+
 </script>
 </body>
 </html>
