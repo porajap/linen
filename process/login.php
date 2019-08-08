@@ -151,12 +151,12 @@ function sendmail($conn,$DATA)
     $user = $DATA['user'];
     $newpassword = rand_string(5);
 
-    $Sql = "UPDATE users SET users.`Password` = '$newpassword',Count = 0,users.IsActive = 0 WHERE users.email = '$email' AND users.Username = '$user'";
+    $Sql = "UPDATE users SET users.`Password` = '$newpassword', Count = 0, users.IsActive = 0 WHERE  users.Username = '$user'";
     $Chk = mysqli_query($conn,$Sql);
     if($Chk){
-        $Sql = "SELECT users.UserName,users.`Password`,users.FName
+        $Sql = "SELECT users.UserName, users.Password, users.FName
               FROM users
-              WHERE users.email = '$email'";
+              WHERE users.UserName = '$user' LIMIT 1";
         $meQuery = mysqli_query($conn,$Sql);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $return['UserName'] = $Result['UserName'];
