@@ -164,11 +164,32 @@ date_default_timezone_set("Asia/Bangkok");
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
+      f = true;
     }
-    var f = true;
-    var x = setInterval(function() {
-        get_dirty_doc();
-        }, 1000);
+
+    function update_dirty_doc() {
+      var docno = $("#searchdocument").val();
+      var hpt = $("#hospital").val();
+      var dep = $("#department").val();
+      var date = $("#datepicker1").val();
+      var dateArray = date.split("/");
+      date = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+      var data = {
+        'STATUS': 'get_dirty_doc',
+        'DocNo': docno,
+        'hpt': hpt,
+        'date': date,
+        'dep': dep
+      };
+      console.log(JSON.stringify(data));
+      senddata(JSON.stringify(data));
+    }
+
+    // var doc = [];
+    // var f = true;
+    // var x = setInterval(function() {
+    //     update_dirty_doc();
+    //     }, 1000);
 
     function get_hospital() {
       var data = {
@@ -239,9 +260,9 @@ date_default_timezone_set("Asia/Bangkok");
           if (temp["status"] == 'success') {
             if (temp["form"] == 'get_dirty_doc') {
                 for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                  var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
+                    var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
                         "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
-                        "<td style='width: 17%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+                        "<td id='td" + temp[i]['DocNo'] + "' style='width: 17%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
 
                         "<td style='width: 20%;' align='left'nowrap>"+
                         "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] + 
@@ -268,9 +289,9 @@ date_default_timezone_set("Asia/Bangkok");
                         "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['SendDiff'] + 
                         "</td>" +
                         "</tr>";
-                  $("#tbody").append(StrTR);
+                    $("#tbody").append(StrTR);
               }
-            } else if (temp["form"] == 'get_hospital') {
+            }else if (temp["form"] == 'get_hospital') {
               $("#hospital").empty();
               var Str = "<option value='All'><?php echo $array['Allside'][$language]; ?></option>";
               $("#hospital").append(Str);
@@ -506,7 +527,7 @@ date_default_timezone_set("Asia/Bangkok");
                 <!-- tag column 1 -->
                 <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
                   <thead id="theadsum" style="font-size:24px;">
-                    <tr role="row">
+                    <tr role="row" >
                       <th style='width: 3%;' nowrap>&nbsp;</th>
                       <th style='width: 17%;' nowrap><?php echo $array['docno'][$language]; ?></th>
                       <th style='width: 20%;' nowrap><?php echo $array['Receivetime'][$language]; ?></th>
