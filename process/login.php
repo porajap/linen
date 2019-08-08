@@ -3,7 +3,7 @@ session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 $xDate = date('Y-m-d');
-
+// 
 function checklogin($conn,$DATA)
 {
   if (isset($DATA)) {
