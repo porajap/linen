@@ -18,8 +18,8 @@ function OnLoadPage($conn, $DATA)
   $Sqlx = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0";
   $meQueryx = mysqli_query($conn, $Sqlx);
   while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
-    $return[$countx]['FacCode'] = $Resultx['FacCode'];
-    $return[$countx]['FacName'] = $Resultx['FacName'];
+    $return[$countx]['FacCode'] = trim($Resultx['FacCode']);
+    $return[$countx]['FacName'] = trim($Resultx['FacName']);
     $countx  ++;
   }
   $return['Rowx'] = $countx;
@@ -28,8 +28,8 @@ function OnLoadPage($conn, $DATA)
   $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE site.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['HptCode'] = $Result['HptCode'];
-    $return[$count]['HptName'] = $Result['HptName'];
+    $return[$count]['HptCode'] = trim($Result['HptCode']);
+    $return[$count]['HptName'] = trim($Result['HptName']);
     $count++;
     $boolean = true;
   }
@@ -38,8 +38,8 @@ function OnLoadPage($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = 'BHQ' AND department.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$countDep]['DepCode'] = $Result['DepCode'];
-    $return[$countDep]['DepName'] = $Result['DepName'];
+    $return[$countDep]['DepCode'] = trim($Result['DepCode']);
+    $return[$countDep]['DepName'] = trim($Result['DepName']);
     $countDep++;
     $boolean = true;
   }
@@ -68,8 +68,8 @@ function departmentWhere($conn, $DATA){
   $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['DepCode'] = $Result['DepCode'];
-    $return[$count]['DepName'] = $Result['DepName'];
+    $return[$count]['DepCode'] = trim($Result['DepCode']);
+    $return[$count]['DepName'] = trim($Result['DepName']);
     $count++;
     $boolean = true;
   }

@@ -88,6 +88,9 @@ $array2 = json_decode($json2,TRUE);
       $('#myMonth').hide();
       OnLoadPage();
 
+      $('#hotpital').attr('disabled', true);
+      $('#department').attr('disabled', true);
+
     }).mousemove(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
@@ -259,11 +262,13 @@ $array2 = json_decode($json2,TRUE);
     var URL = data; //your url send_from process process/report.php
     window.open(URL);
   }
+
   function send_data2(data){
     var myData = data.split(',');
     var URL = myData[0]; //your url send_from process process/report.php
     window.open(URL + myData[1]);
   }
+
   function senddata(data){
     var form_data = new FormData();
     form_data.append("DATA",data);
@@ -287,26 +292,35 @@ $array2 = json_decode($json2,TRUE);
           if(temp["form"]=='OnLoadPage'){
             var PmID = <?php echo $PmID;?>;
             var HptCode = '<?php echo $HptCode;?>';
+            $("#factory").empty();
             for (var i = 0; i < temp['Rowx']; i++) {
               var Str = "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                 $("#factory").append(Str);
             }
 
+            $("#hotpital").empty();
+            var hotValue0 = '<?php echo $array['side'][$language]; ?>';
+            var hot = "<option value='0'>"+hotValue0+"</option>";
             for (var i = 0; i < temp['Row']; i++) {
-              var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-              $("#hotpital").append(Str);
+              hot += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
             }
+            $("#hotpital").append(hot);
 
+            var depValue0 = '<?php echo $array['department'][$language]; ?>';
+            var dep1  = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['RowDep']; i++) {
-              var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-              $("#department").append(Str);
+              dep1 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
             }
+            $("#department").append(dep1);
+
           }else if(temp["form"]=='departmentWhere'){
             $("#department").empty();
+            var depValue0 = '<?php echo $array['hospital'][$language]; ?>';
+            var dep2  = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['Row']; i++) {
-              var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-              $("#department").append(Str);
+              dep2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
             }
+            $("#department").append(dep2);
           }else if(temp["form"]=='r1'){
             $('#type_report').text(temp['typeReport']);
             $('#table_R1 tbody').empty();
@@ -544,6 +558,20 @@ $array2 = json_decode($json2,TRUE);
     });
   }
 
+  function disabled_fill(){
+    var typeReport = $('#typereport').val();
+    if(typeReport == 1 || typeReport == 6 || typeReport == 8 || typeReport == 13){
+      $('#hotpital').attr('disabled', true);
+      $('#department').attr('disabled', true);
+      $('#hotpital').val(0);
+      $('#department').val(0);
+    }else if(typeReport == 2){
+      $('#hotpital').attr('disabled', false);
+      $('#department').attr('disabled', false);
+      $('#hotpital').val('BHQ');
+      $('#department').val(1);
+    }
+  }
 
   </script>
   <style media="screen">
@@ -749,29 +777,29 @@ $array2 = json_decode($json2,TRUE);
 
                               <div class="row">
                                   <div class="col-md-6">
-                                      <div class='form-group row'>
-                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-                                          <select class="form-control col-sm-8" id="factory"></select>
-                                      </div>
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
+                                      <select class="form-control col-sm-8" id="typereport"  onchange="disabled_fill();">
+                                        <?php  for($i = 1 ; $i<=16; $i++){ ?>
+                                          <option value="<?php echo $i?>"><?php echo $array['r'.$i][$language];?></option>
+                                        <?php } ?>
+                                      </select>
+                                    </div>
                                   </div>
                                   <div class="col-md-6">
                                       <div class='form-group row'>
-                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                          <select class="form-control col-sm-8" id="hotpital" onchange="departmentWhere();"></select>
+                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
+                                          <select class="form-control col-sm-8" id="factory"></select>
                                       </div>
                                   </div>
                               </div>
 
                               <div class="row">
                                 <div class="col-md-6">
-                                    <div class='form-group row'>
-                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
-                                        <select class="form-control col-sm-8" id="typereport">
-                                          <?php  for($i = 1 ; $i<=16; $i++){ ?>
-                                            <option value="<?php echo $i?>"><?php echo $array['r'.$i][$language]; ?></option>
-                                          <?php } ?>
-                                        </select>
-                                    </div>
+                                      <div class='form-group row'>
+                                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                          <select class="form-control col-sm-8" id="hotpital" onchange="departmentWhere();"></select>
+                                      </div>
                                 </div>
                                 <div class="col-md-6 ">
                                   <div class='form-group row'>
