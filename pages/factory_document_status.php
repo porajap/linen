@@ -145,7 +145,6 @@ date_default_timezone_set("Asia/Bangkok");
     //console.log(JSON.stringify(data));
     function OnLoadPage() {
       get_hospital();
-      get_dirty_doc();
     }
 
     function get_dirty_doc() {
@@ -166,6 +165,10 @@ date_default_timezone_set("Asia/Bangkok");
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
+    var f = true;
+    var x = setInterval(function() {
+        get_dirty_doc();
+        }, 1000);
 
     function get_hospital() {
       var data = {
@@ -173,6 +176,7 @@ date_default_timezone_set("Asia/Bangkok");
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
+      f = true;
     }
 
     function get_dep() {
@@ -189,6 +193,7 @@ date_default_timezone_set("Asia/Bangkok");
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
+      f = true;
     }
 
     function logoff() {
@@ -287,20 +292,24 @@ date_default_timezone_set("Asia/Bangkok");
           } else if (temp['status'] == "failed") {
             switch (temp['msg']) {
               case "notfound":
-                temp['msg'] = "<?php echo $array['notfoundDoc'][$language]; ?>";
-                break;
+                  temp['msg'] = "<?php echo $array['notfoundDoc'][$language]; ?>";
+                  break;
+
             }
-            swal({
-              title: '',
-              text: temp['msg'],
-              type: 'warning',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 2000,
-              confirmButtonText: 'Ok'
-            })
+            if(f){
+              swal({
+                title: '',
+                text: temp['msg'],
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
+              })
+              f = false;
+            }
 
             $("#docnofield").val(temp[0]['DocNo']);
             $("#TableDocumentSS tbody").empty();
