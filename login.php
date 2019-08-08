@@ -28,10 +28,10 @@ $array = json_decode($json,TRUE);
     <script src="dist/js/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="dist/css/sweetalert2.min.css">
     <style>
-        #password:read-only {
+        #password,#email:read-only {
             background-color:transparent; !important;
         }
-        #password:-moz-read-only { /* For Firefox */
+        #password,#email:-moz-read-only { /* For Firefox */
             background-color:transparent; !important;
         }
     </style>
@@ -89,32 +89,7 @@ $array = json_decode($json,TRUE);
     </div>
     <!-- --------------------------------------------------------------------------------------------- -->
     <div id="reset_form" hidden>
-        <div id="fram_white">
-            <img src="img/frame1.png">
-        </div>
-        <div id="logo">
-            <img src="img/logo.png">
-        </div>
-        <div id="form_inputReset">
-            <div id="email_input">
-                <div id="icon_email">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="form-group bmd-form-group">
-                    <label for="email" id="label_email" class="bmd-label-floating">Email</label>
-                    <input type="email" autocomplete="off" class="form-control" id="email" >
-                </div>
-            </div>
-            <!-- ----------------------------------------------------------------------------------- -->
-            <!-- ----------------------------------------------------------------------------------- -->
-            <div id="btn_reset">
-                <button class="btn btn_black" id="black_reset" onclick="back();">
-                    Black <i class="fas fa-undo-alt" id="arrow_black"></i>
-                </button>
-                <button class="btn btn_send" onclick="sendmail();">
-                    Send  <i class="fas fa-arrow-right" id="arrow_send"></i>
-                </button>
-            </div>
+        <div id="reset_switch">
         </div>
     </div>
     <!-- --------------------------------------------------------------------------------------------- -->
@@ -198,7 +173,6 @@ $array = json_decode($json,TRUE);
                 $('#login_form').attr('hidden', true);
                 $('#change_form').attr('hidden', true);
                 $('#reset_form').attr('hidden', false);
-                $('#email').focus();
                 getEmail(user);
 
             }else{
@@ -426,6 +400,18 @@ $array = json_decode($json,TRUE);
                             });
                             back();
                         } else{
+                            var email = temp["email"];
+                            $.ajax({
+                                url:"reset_password.php",
+                                method:"POST",
+                                data:{
+                                    email:email
+                                },
+                                success:function(data)
+                                {
+                                    $('#reset_switch').html(data);
+                                }
+                            });
                             swal({
                                 title: '',
                                 text: temp["msg"],
@@ -437,8 +423,6 @@ $array = json_decode($json,TRUE);
                                 confirmButtonText: 'Ok',
                                 showConfirmButton: false
                             });
-
-                            $('#email').val(temp["email"]);
                         }
 
                     }
@@ -462,7 +446,6 @@ $array = json_decode($json,TRUE);
                         }
                     });
 
-                    // typePass();
                 } else {
                     // swal.hideLoading()
                     swal({
