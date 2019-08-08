@@ -88,7 +88,6 @@ function checklogin($conn,$DATA)
   }
 }
 
-
 function cPassword($conn,$DATA)
 {
   if (isset($DATA)) {
@@ -182,6 +181,53 @@ function sendmail($conn,$DATA)
   }
 }
 
+function reset_pass($conn,$DATA)
+{
+  if (isset($DATA)) {
+
+    $user = $DATA['user'];
+    $email = "";
+    $Sql = "SELECT users.HptCode FROM users WHERE users.Username = '$user'";
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $HptCode = $Result['HptCode'];
+    }
+
+    $Sql = "SELECT users.email FROM users
+              WHERE users.Active_mail = 1 AND users.HptCode = '$HptCode' LIMIT 1";
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $email = $Result['email'];
+    }
+
+    if($email != ""){
+      $return['status'] = "success";
+      $return['form']   = "rPass";
+      $return['msg']    = "Get email success.";
+      $return['user'] = $user;
+      $return['email'] = $email;
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }else{
+      $return['status'] = "success";
+      $return['form']   = "rPass";
+      $return['email'] = "";
+      $return['msg'] = "Not found email. !";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+
+  }else{
+    $return['status'] = "failed";
+    $return['msg'] = "Not found chang password !";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
@@ -193,6 +239,8 @@ if(isset($_POST['DATA']))
     cPassword($conn, $DATA);
   }else if ($DATA['STATUS'] == 'sendmail') {
     sendmail($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'rPass') {
+    reset_pass($conn, $DATA);
   }
 }else{
 	$return['status'] = "error";

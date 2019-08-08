@@ -199,6 +199,8 @@ $array = json_decode($json,TRUE);
                 $('#change_form').attr('hidden', true);
                 $('#reset_form').attr('hidden', false);
                 $('#email').focus();
+                getEmail(user);
+
             }else{
                 swal({
                     type: 'warning',
@@ -206,6 +208,16 @@ $array = json_decode($json,TRUE);
                     text: 'Please enter username!'
                 })
             }
+        }
+
+        function getEmail(user) {
+            var data = {
+                'STATUS': 'rPass',
+                'PAGE': 'login',
+                'user': user
+            };
+            console.log(JSON.stringify(data));
+            senddata(JSON.stringify(data));
         }
 
         function change_pass()
@@ -398,6 +410,36 @@ $array = json_decode($json,TRUE);
                             })
                             back();
                         }, 1000);
+
+                    }else if(temp["form"] == 'rPass'){
+                        if(temp["email"] == ''){
+                            swal({
+                                title: '',
+                                text: temp["msg"],
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                timer: 1000,
+                                confirmButtonText: 'Ok',
+                                showConfirmButton: false
+                            });
+                            back();
+                        } else{
+                            swal({
+                                title: '',
+                                text: temp["msg"],
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                timer: 1000,
+                                confirmButtonText: 'Ok',
+                                showConfirmButton: false
+                            });
+
+                            $('#email').val(temp["email"]);
+                        }
 
                     }
                 } else if (temp["status"] == 'change_pass') {
