@@ -297,8 +297,9 @@ $array2 = json_decode($json2,TRUE);
             var fac = "<option value='0'>"+facValue0+"</option>";
             for (var i = 0; i < temp['Rowx']; i++) {
               fac += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
-              $("#factory").append(fac);
             }
+            $("#factory").append(fac);
+
 
             $("#hotpital").empty();
             var hotValue0 = '<?php echo $array['side'][$language]; ?>';
