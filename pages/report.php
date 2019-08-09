@@ -143,7 +143,6 @@ $array2 = json_decode($json2,TRUE);
     }, function (dismiss) {
       window.location.href="../logoff.php";
       if (dismiss === 'cancel') {
-
       }
     })
   }
@@ -268,6 +267,23 @@ $array2 = json_decode($json2,TRUE);
         var date = $('#oneday').val();
       }else{
         var date = $('#someday').val();
+        var chkDateRang = date.split('-');
+        if(chkDateRang[1] == null || chkDateRang[1] == undefined){
+          swal({
+            title: '',
+            text: '<?php echo $array['datefound'][$language]; ?>',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 1000,
+            confirmButtonText: 'Ok'
+          });
+          setTimeout(function(){ 
+            $('#someday').focus();
+          }, 1000);
+        }
       }
       var data = {
         'STATUS':'find_report',
@@ -285,6 +301,23 @@ $array2 = json_decode($json2,TRUE);
         var date = $('#onemonth').val();
       }else{
         var date = $('#somemonth').val();
+        var chkDateRang = date.split('-');
+        if(chkDateRang[1] == null || chkDateRang[1] == undefined){
+          swal({
+            title: '',
+            text: '<?php echo $array['datefound'][$language]; ?>',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 1000,
+            confirmButtonText: 'Ok'
+          });
+          setTimeout(function(){ 
+            $('#somemonth').focus();
+          }, 1000);
+        }
       }
       // var date = $('#month').val();
       var data = {
