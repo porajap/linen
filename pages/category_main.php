@@ -2,6 +2,7 @@
 session_start();
 $Userid = $_SESSION['Userid'];
 $TimeOut = $_SESSION['TimeOut'];
+$PmID = $_SESSION['PmID'];
 if($Userid==""){
   // header("location:../index.html");
 }
@@ -1005,7 +1006,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- =============================================================================================================================== -->
  <!-- /.content-wrapper -->
  <div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
-                              <div class="menu">
+                              <div class="menu"  <?php if($PmID == 3) echo 'hidden'; ?>>
                                 <div class="d-flex justify-content-center">
                                   <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                                       <i class="fas fa-save"></i>
@@ -1029,7 +1030,7 @@ $array2 = json_decode($json2,TRUE);
                                   </button>
                                 </div>
                               </div>
-                              <div class="menu">
+                              <div class="menu"  <?php if($PmID == 3) echo 'hidden'; ?>>
                                 <div class="d-flex justify-content-center">
                                   <div class="circle3 d-flex align-items-center d-flex justify-content-center">
                                       <i class="fas fa-trash-alt"></i>

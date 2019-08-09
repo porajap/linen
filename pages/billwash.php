@@ -819,9 +819,9 @@ $array2 = json_decode($json2,TRUE);
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                       "<td style='width: 6%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;'nowrap>"+temp[i]['ItemName']+"</td>"+
-                      "<td style='width: 19%;' align='center'nowrap>"+chkunit+"</td>"+
+                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
+                      "<td style='width: 18%;' align='center'nowrap>"+chkunit+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap>"+Weight+"</td>"+
                       "<td style='width: 5%;'>                     "+UnitName2+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
@@ -1319,8 +1319,8 @@ $array2 = json_decode($json2,TRUE);
                                   <th style='width: 6%;'nowrap><?php echo $array['no'][$language]; ?></th>
                                   <th style='width: 16%;'nowrap><?php echo $array['code'][$language]; ?></th>
                                   <th style='width: 17%;'nowrap><?php echo $array['item'][$language]; ?></th>
-                                  <th style='width: 19%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 14%;'nowrap><center><?php echo $array['total'][$language]; ?></center></th>
+                                  <th style='width: 19%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 12%;'nowrap><center><?php echo $array['perunit'][$language]; ?></center></th>
                                   <th style='width: 9%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
                                   <th style='width: 7%;'nowrap><center><?php echo $array['money'][$language]; ?></center></th>

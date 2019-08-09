@@ -641,7 +641,7 @@ function ShowDetail($conn, $DATA)
 
   }
 
-  if($Qty!=0 && $UniCode2 !=1){
+  if( $UniCode2 ==1){
     $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
       $PUQuery = mysqli_query($conn, $PriceUnit);
@@ -655,7 +655,7 @@ function ShowDetail($conn, $DATA)
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
       }
-  }else if($Qty==0 && $UniCode2 !=1 && $UniCode2 !=4){
+  }else if( $UniCode2 ==2){
     $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PUQuery = mysqli_query($conn, $PriceUnit);
@@ -682,7 +682,7 @@ function ShowDetail($conn, $DATA)
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
     }
-  }else{
+  }else if ($UniCode2 == 4){
     $Price = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);

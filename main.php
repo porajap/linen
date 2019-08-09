@@ -9,6 +9,7 @@ $logoff = $_SESSION['chk_logoff'];
 $Username = $_SESSION['Username'];
 $FName = $_SESSION['FName'];
 $Profile = $_SESSION['pic'];
+$Permission = $_SESSION['Permission'];
 if($Userid==""){
    header("location:index.html");
 }
@@ -29,29 +30,29 @@ switch ($PmID) {
         //genneral
         $gen_head=1;
         $gen_s1=1;
-        $gen_s2=1;
-        $gen_s3=1;
-        $gen_s4=1;
-        $gen_s5=1;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
         $gen_s6=1;
-        $gen_s7=1;
-        $gen_s8=1;
-        $gen_s9=1;
-        $gen_s10=1;
-        $gen_s11=1;
-        $gen_s12=1;
+        $gen_s7=0;
+        $gen_s8=0;
+        $gen_s9=0;
+        $gen_s10=0;
+        $gen_s11=0;
+        $gen_s12=0;
         //account
         $ac_head=1;
-        $ac_s1=1;
-        $ac_s2=1;
+        $ac_s1=0;
+        $ac_s2=0;
         $ac_s3=1;
-        $ac_s4=1;
+        $ac_s4=0;
         $ac_s5=1;
         //factory
-        $fac_head=1;
-        $fac_s1=1;
-        $fac_s2=1;
-        $fac_s3=1;
+        $fac_head=0;
+        $fac_s1=0;
+        $fac_s2=0;
+        $fac_s3=0;
         //report
         $re_head=0;
         $re_s1=0;
@@ -76,23 +77,23 @@ switch ($PmID) {
         //genneral
         $gen_head=1;
         $gen_s1=1;
-        $gen_s2=1;
-        $gen_s3=1;
-        $gen_s4=1;
-        $gen_s5=1;
+        $gen_s2=0;
+        $gen_s3=0;
+        $gen_s4=0;
+        $gen_s5=0;
         $gen_s6=1;
-        $gen_s7=1;
-        $gen_s8=1;
-        $gen_s9=1;
-        $gen_s10=1;
-        $gen_s11=1;
-        $gen_s12=1;
+        $gen_s7=0;
+        $gen_s8=0;
+        $gen_s9=0;
+        $gen_s10=0;
+        $gen_s11=0;
+        $gen_s12=0;
         //account
         $ac_head=1;
-        $ac_s1=1;
-        $ac_s2=1;
+        $ac_s1=0;
+        $ac_s2=0;
         $ac_s3=1;
-        $ac_s4=1;
+        $ac_s4=0;
         $ac_s5=1;
         //factory
         $fac_head=0;
@@ -100,8 +101,8 @@ switch ($PmID) {
         $fac_s2=0;
         $fac_s3=0;
         //report
-        $re_s1=1;
-        $re_head=1;
+        $re_s1=0;
+        $re_head=0;
         //system
         $sys_head=1;
         $sys_s1=0;
@@ -154,14 +155,14 @@ switch ($PmID) {
         $sys_s1=1;
         $sys_s2=1;
         $sys_s3=1;
-        $sys_s4=0;
+        $sys_s4=1;
         $sys_s5=1;
         $sys_s6=1;
         $sys_s7=1;
-        $sys_s8=0;
+        $sys_s8=1;
         $sys_s9=0;
-        $sys_s10=0;
-        $sys_s11=0;
+        $sys_s10=1;
+        $sys_s11=1;
         $sys_s12=1;
         $sys_s13=0;
         $sys_s14=1;
@@ -215,25 +216,25 @@ switch ($PmID) {
         break;
     case "5":
         //genneral
-        $gen_head=0;
-        $gen_s1=0;
-        $gen_s2=0;
-        $gen_s3=0;
-        $gen_s4=0;
-        $gen_s5=0;
-        $gen_s6=0;
-        $gen_s7=0;
-        $gen_s8=0;
-        $gen_s9=0;
-        $gen_s10=0;
-        $gen_s11=0;
-        $gen_s12=0;
+        $gen_head=1;
+        $gen_s1=1;
+        $gen_s2=1;
+        $gen_s3=1;
+        $gen_s4=1;
+        $gen_s5=1;
+        $gen_s6=1;
+        $gen_s7=1;
+        $gen_s8=1;
+        $gen_s9=1;
+        $gen_s10=1;
+        $gen_s11=1;
+        $gen_s12=1;
         //account
         $ac_head=1;
-        $ac_s1=0;
-        $ac_s2=0;
-        $ac_s3=0;
-        $ac_s4=0;
+        $ac_s1=1;
+        $ac_s2=1;
+        $ac_s3=1;
+        $ac_s4=1;
         $ac_s5=1;
         //factory
         $fac_head=0;
@@ -241,23 +242,23 @@ switch ($PmID) {
         $fac_s2=0;
         $fac_s3=0;
         //report
-        $re_head=0;
-        $re_s1=0;
+        $re_head=1;
+        $re_s1=1;
         //system
-        $sys_head=0;
-        $sys_s1=0;
-        $sys_s2=0;
-        $sys_s3=0;
-        $sys_s4=0;
-        $sys_s5=0;
-        $sys_s6=0;
-        $sys_s7=0;
-        $sys_s8=0;
-        $sys_s9=0;
-        $sys_s10=0;
-        $sys_s11=0;
-        $sys_s12=0;
-        $sys_s13=0;
+        $sys_head=1;
+        $sys_s1=1;
+        $sys_s2=1;
+        $sys_s3=1;
+        $sys_s4=1;
+        $sys_s5=1;
+        $sys_s6=1;
+        $sys_s7=1;
+        $sys_s8=1;
+        $sys_s9=1;
+        $sys_s10=1;
+        $sys_s11=1;
+        $sys_s12=1;
+        $sys_s13=1;
         $sys_s14=1;
         break;
     case "6":
@@ -927,7 +928,7 @@ switch ($PmID) {
 
     <!-- Navbar username -->
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">
-        <span><?php echo $FName?></span>
+        <span style='font-weight:bold;'><?php echo $FName?> </span> <span style='font-weight:bold;'> : </span>  <span style='font-weight:bold;'><?php echo $Permission?></span>
       </div>
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0" >

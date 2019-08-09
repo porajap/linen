@@ -696,7 +696,36 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
-
+    $n = 0;
+    $Sql = "SELECT
+    rewash_detail.ItemCode,
+    rewash_detail.UnitCode1,
+    rewash_detail.Qty1,
+    rewash_detail.Weight,
+    rewash_detail.IsCancel
+    FROM rewash_detail
+    WHERE rewash_detail.DocNo = '$RefDocNo'";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $zItemCode[$n] = $Result['ItemCode'];
+      $zUnitCode[$n] = $Result['UnitCode1'];
+      $zQty[$n]      = $Result['Qty1'];
+      $zWeight[$n]   = $Result['Weight'];
+      $zIsCancel[$n] = $Result['IsCancel'];
+      $n++;
+    }
+    for ($i = 0; $i < $n; $i++) {
+      $ItemCode = $zItemCode[$i];
+      $UnitCode = $zUnitCode[$i];
+      $Qty      = $zQty[$i];
+      $Weight   = $zWeight[$i];
+      $IsCancel = $zIsCancel[$i];
+      $Sql = "INSERT INTO clean_detail
+      (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
+      VALUES
+      ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
+      mysqli_query($conn, $Sql);
+    }
     // $n = 0;
     // $Sql = "SELECT
     // dirty_detail.ItemCode,
@@ -751,6 +780,58 @@ function CreateDocument($conn, $DATA)
 
     SelectDocument($conn, $DATA);
   }
+
+  function chk_percent($conn, $DATA){
+    $Total = 0;
+    $count=0;
+    $boolean = false;
+    $RefDocNo = $DATA['RefDocNo'];
+    $DocNo = $DATA['DocNo'];
+    $cTotal = $DATA['wTotal']==null?0:$Result['Total'];
+
+    
+    $Sql = "SELECT dirty.Total
+    FROM dirty WHERE dirty.DocNo = '$RefDocNo'";
+
+    $return['sql'] = $Sql;
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $dTotal	= $Result['Total']==null?0:$Result['Total'];
+      if($dTotal !=0){
+      $Total = ROUND( ((($cTotal - $dTotal )/ $dTotal)*100) , 2 );
+      }else{
+        $Total = 0;
+      }
+      $return[0]['Percent'] 	= $Total;
+      $return[0]['DocNo'] 	= $DocNo;
+      $boolean = true;
+      $count++;
+    }
+    $return['Row'] = $count;
+
+    if($Total > 8){
+      $over = abs($Total) - 8 ;
+      $return[0]['over'] 	= abs($over);
+      $return['status'] = "success";
+      $return['form'] = "chk_percent";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }else{
+      $return['Row'] = 'No';
+      $return['status'] = "success";
+      $return['form'] = "chk_percent";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+
+
+
+  }
+
+
+
 
   function ShowDetail($conn, $DATA)
   {
@@ -970,7 +1051,13 @@ function CreateDocument($conn, $DATA)
       UpdateRefDocNo($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'get_dirty_doc') {
       get_dirty_doc($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'chk_percent') {
+      chk_percent($conn, $DATA);
     }
+
+
+
+    
   } else {
     $return['status'] = "error";
     $return['msg'] = 'noinput';
