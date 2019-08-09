@@ -407,7 +407,8 @@ $array2 = json_decode($json2, TRUE);
       var Weight = $('#Weight').val();
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
-
+      var xCenter = 0;
+      if ($('#xCenter').is(':checked')) xCenter = 1;
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -443,7 +444,8 @@ $array2 = json_decode($json2, TRUE);
                 'SizeCode': SizeCode,
                 'Weight': Weight,
                 'qpu': qpu,
-                'sUnit': sUnit
+                'sUnit': sUnit,
+                'xCenter': xCenter
               };
               console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
@@ -493,7 +495,8 @@ $array2 = json_decode($json2, TRUE);
       var Weight = $('#Weight').val();
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
-
+      var xCenter = 0;
+      if ($('#xCenter').is(':checked')) xCenter = 1;
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -531,7 +534,8 @@ $array2 = json_decode($json2, TRUE);
                   'SizeCode': SizeCode,
                   'Weight': Weight,
                   'qpu': qpu,
-                  'sUnit': sUnit
+                  'sUnit': sUnit,
+                  'xCenter': xCenter
                 };
                 senddata(JSON.stringify(data));
               } else if (result.dismiss == 'cancel') {
@@ -685,7 +689,12 @@ $array2 = json_decode($json2, TRUE);
       $('#AddItemBNT').hide();
       $("input[name=formatitem][value=1]").prop('checked', true);
     }
-
+    function uncheckAll2() {
+                $('input[type=checkbox]').each(function() 
+                    { 
+                            this.checked = false; 
+                    });
+                }
     function Blankinput() {
       $(".radio-c :input").attr("disabled", false);
       $("input[name=formatitem][value=3]").prop('checked', true);
@@ -707,6 +716,7 @@ $array2 = json_decode($json2, TRUE);
       $('#NewItem').show();
       $('#AddItemBNT').hide();
       CreateItemCode();
+      uncheckAll2();
     }
 
     function getdetail(ItemCode) {
@@ -1093,6 +1103,17 @@ $array2 = json_decode($json2, TRUE);
                 $('#bCancel').attr('disabled', false);
                 $('#delete_icon').removeClass('opacity');
 
+                if (temp[0]['IsDirtyBag'] == 1)  {
+                                        $('input[type=checkbox]').each(function() 
+                                {   
+                                this.checked = true; 
+                                        });                                
+                                }else{
+                                $('input[type=checkbox]').each(function() 
+                                {   
+                                this.checked = false; 
+                                        });                               
+                                    }
                 if (temp[0]['RowID']) {
                   for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                     var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
@@ -1705,7 +1726,7 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div id="memu_tap1">
               <div class="row m-1 mt-5 d-flex justify-content-end" >
-                <div class="menu" id="ActiveBNT">
+                <div class="menu" id="ActiveBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
                   <div class="d-flex justify-content-center">
                     <div class="circle1 d-flex align-items-center d-flex justify-content-center">
                         <i class="fas fa-check"></i>
@@ -1718,7 +1739,7 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
 
-                <div class="menu" id="NewItem">
+                <div class="menu" id="NewItem" <?php if($PmID == 3) echo 'hidden'; ?>>
                   <div class="d-flex justify-content-center">
                     <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                     <i class="fas fa-plus"></i>                    
@@ -1731,7 +1752,7 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
 
-                <div class="menu" id="AddItemBNT">
+                <div class="menu" id="AddItemBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
                   <div class="d-flex justify-content-center">
                     <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                         <i class="fas fa-save"></i>
@@ -1757,7 +1778,7 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
 
-                <div class="menu" id="CancelBNT">
+                <div class="menu" id="CancelBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
                   <div class="d-flex justify-content-center">
                     <div class="circle3 d-flex align-items-center d-flex justify-content-center">
                         <i class="fas fa-trash-alt"></i>
@@ -1940,9 +1961,13 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                         </div>
                         <!-- =================================================================== -->
+                        
                         <div class="row">
                           <div class="col-md-6">
-
+                          <div class='form-group row'>
+                              <label style="top: -9px;" class="col-sm-4 col-form-label text-right"><?php echo $array['spacial'][$language]; ?></label>
+                              <input type="checkbox"  id="xCenter">
+                            </div>
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
@@ -2001,7 +2026,7 @@ $array2 = json_decode($json2, TRUE);
                         <!-- <a href="javascript:void(0)" onclick="AddUnit();" class="ml-3 "><img src="../img/icon/ic_save.png" style="width:34px;" class="mr-2"><?php echo $array['save'][$language]; ?></a> -->
                         <!-- <a href="javascript:void(0)" onclick="DeleteUnit();" class="ml-3 "><img src="../img/icon/ic_delete.png" style="width:36px;" class="mr-2"><?php echo $array['delete'][$language]; ?></a> -->
                         <!-- </div>  -->
-                        <div class="search_custom  ml-1">
+                        <div class="search_custom  ml-1" <?php if($PmID == 3) echo 'hidden'; ?>>
                           <div class="d-flex justify-content-start">
                             <div class="save_1 d-flex align-items-center d-flex justify-content-center">
                                 <i class="fas fa-save"></i>
@@ -2012,7 +2037,7 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                         </div>
 
-                        <div class="search_custom ">
+                        <div class="search_custom " <?php if($PmID == 3) echo 'hidden'; ?>>
                           <div class="d-flex justify-content-start">
                             <div class="del_1 d-flex align-items-center d-flex justify-content-center">
                                 <i class="fas fa-trash-alt"></i>

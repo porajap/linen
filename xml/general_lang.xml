@@ -209,6 +209,9 @@
 <thai><en>Thai</en><th>ไทย</th></thai>
 <eng><en>English</en><th>อังกฤษ</th></eng>
 <alertPar><en>Over Par</en><th>แจ้งเตือนจำนวนเกิน</th></alertPar>
+<alertPercent><en>Over Percent</en><th>แจ้งเตือนเปอร์เซ็นต์เกิน</th></alertPercent>
+<TotalPercent><en>Total Percent</en><th>เปอร์เซ็นต์ที่ได้</th></TotalPercent>
+<overPercent><en>Over Percent</en><th>เปอร์เซ็นต์ที่เกิน</th></overPercent>
 <par><en>Par</en><th>Par</th></par>
 <count> <en>count</en><th>นับได้</th></count>
 <minute><en>Minute</en><th>นาที</th></minute>
@@ -234,6 +237,8 @@
 <youlogout><en>Do you want to logout ?</en><th>คุณต้องการออกจากระบบหรือไม่</th></youlogout>
 <formatmonth><en>Format month</en><th>รูปแบบเดือน</th></formatmonth>
 <typereport><en>Type Report</en><th>ประเภทเอกสาร : </th></typereport>
+<wantsave><en>do you want to save</en><th>ต้องการบันทึกข้อมูล </th></wantsave>
+<spacial><en>Spacial Item</en><th>รายการพิเศษ</th></spacial>
 
 <!-- -->
 <r1><en>Record dirty linen weight</en><th>Record dirty linen weight</th></r1>

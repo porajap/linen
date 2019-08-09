@@ -78,6 +78,7 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+
   OnLoadPage();
   getDepartment();
   // CreateDocument();
@@ -333,6 +334,18 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
       }
 
+      function chk_percent(){
+      var RefDocNo = $('#RefDocNo').val();
+      var DocNo = $('#docno').val();
+      var wTotal = $('#wTotal').val();
+      var data = {
+        'STATUS'      : 'chk_percent',
+        'wTotal'      : wTotal,
+        'DocNo'    : DocNo,
+        'RefDocNo'    : RefDocNo
+      };
+        senddata(JSON.stringify(data));
+    }
       function ShowUsageCode(){
         // var searchitem = $('#searchitem1').val();
         var docno = $("#docno").val();
@@ -620,9 +633,8 @@ $(document).ready(function(e){
         }
       }
 
-      function SaveBill(){
+      function SaveBill(chk){
       
-
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -634,7 +646,10 @@ $(document).ready(function(e){
         isStatus=1;
 
         if(isStatus==1){
+          
           if(docno!=""){
+            if(chk == '' || chk == undefined){
+            chk_percent();}else{
           swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -664,9 +679,13 @@ $(document).ready(function(e){
           $("#bSave").prop('disabled', true);
           $("#bCancel").prop('disabled', true);
           ShowDocument();
+          if(input_chk == 1){
+                  $('#alert_par').modal('toggle');
+                }
         } else if (result.dismiss === 'cancel') {
           swal.close();}
         })
+        }
         }
         }else{
           $("#bImport").prop('disabled', false);
@@ -1060,6 +1079,23 @@ $(document).ready(function(e){
                     $('#TableRefDocNo tbody:last-child').append( $StrTR );
                   }
                 }
+              }else if(temp['form']=="chk_percent"){
+                result = '';
+              if(temp["Row"]>0){
+                for(var i = 0; i < temp['Row']; i++){
+                  result += "<tr>"+
+                    '<td nowrap style="width: 30%;" class="text-left">'+temp[0]['DocNo']+'</td>'+
+                    '<td nowrap style="width: 35%;" class="text-left">'+temp[0]['Percent']+'%'+'</td>'+
+                    '<td nowrap style="width: 32%;" class="text-right">'+temp[0]['over']+'%'+'</td>'+
+                  "</tr>";
+                }
+                $("#detail_percent").html(result);
+                $('#alert_percent').modal('show');
+                $('#input_chk').val(1);
+              }else if(temp["Row"]=="No"){
+                SaveBill(1);
+                }
+        
               }
 
             }else if (temp['status']=="failed") {
@@ -1274,7 +1310,7 @@ $(document).ready(function(e){
       <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][2][$language]; ?></li>
     </ol>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
-
+    <input type="hidden" id='input_chk' value='0'>
     <div id="wrapper">
           <div id="content-wrapper">            
             <div class="row">
@@ -1440,9 +1476,9 @@ $(document).ready(function(e){
                               <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 32%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 34%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                               <th style='width: 8%;' nowrap><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 14%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -1713,7 +1749,40 @@ $(document).ready(function(e){
   </div>
 </div>
 
-
+  <!-- custom modal3 -->
+  <div class="modal fade" id="alert_percent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title"><?php echo $array['alertPercent'][$language]; ?></h2>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card-body" style="padding:0px;">
+                <div class="row">
+                </div>
+                <table class="table table-fixed table-condensed table-striped" id="TablePar" cellspacing="0" role="grid">
+                  <thead style="font-size:24px;">
+                    <tr role="row">
+                    <th style='width: 25%;'nowrap class='text-left'><?php echo $array['docno'][$language]; ?></th>
+                    <th style='width: 35%;'nowrap class='text-left'><?php echo $array['TotalPercent'][$language]; ?></th>
+                    <th style='width: 40%;'nowrap class='text-right'><?php echo $array['overPercent'][$language]; ?></th>
+                    </tr>
+                  </thead>
+                  <tbody id="detail_percent" class="nicescrolled" style="font-size:23px;height:auto;">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['wantsave'][$language]; ?></button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
+            </div>
+          </div>
+        </div>
+      </div>
 <!-- Bootstrap core JavaScript-->
 <script src="../template/vendor/jquery/jquery.min.js"></script>
 <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

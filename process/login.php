@@ -37,6 +37,7 @@ function checklogin($conn,$DATA)
       $_SESSION['FName']    = $Result['FName'];
       $_SESSION['PmID']     = $Result['PmID'];
       $_SESSION['HptCode']  = $Result['HptCode'];
+      $_SESSION['Permission']  = $Result['Permission'];
       $_SESSION['HptName']  = $Result['HptName'];
       $_SESSION['TimeOut']  = $Result['TimeOut'];
       $_SESSION['chk_logoff']  = $Result['chk_logoff'];

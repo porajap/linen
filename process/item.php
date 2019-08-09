@@ -301,7 +301,8 @@ function getdetail($conn, $DATA)
           U2.UnitName AS UnitName2,
           Multiply,PriceUnit,
           item.QtyPerUnit,
-          item.UnitCode2
+          item.UnitCode2,
+          IsDirtyBag
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
@@ -332,6 +333,7 @@ function getdetail($conn, $DATA)
     $return[$count]['PriceUnit'] = $Result['PriceUnit'];
     $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
     $return[$count]['sUnitName'] = $Result['UnitCode2'];
+    $return[0]['IsDirtyBag'] = $Result['IsDirtyBag'];
     $count++;
   }
 
@@ -429,7 +431,8 @@ function AddItem($conn, $DATA)
             FacPrice = '" . $DATA['FacPrice'] . "',
             Weight = '" . $DATA['Weight'] . "',
             QtyPerUnit = '" . $DATA['qpu'] . "',
-            UnitCode2 = '" . $DATA['sUnit'] . "' 
+            UnitCode2 = '" . $DATA['sUnit'] . "',
+            IsDirtyBag = '" . $DATA['xCenter'] . "'  
             WHERE ItemCode = '" . $DATA['ItemCode'] . "'
             ";
     $Sql2 = "UPDATE item_multiple_unit 
@@ -581,7 +584,8 @@ function NewItem($conn, $DATA)
             Weight,
             IsActive,
             QtyPerUnit,
-            UnitCode2
+            UnitCode2,
+            IsDirtyBag
            )
             VALUES
             (
@@ -595,7 +599,9 @@ function NewItem($conn, $DATA)
               '" . $DATA['Weight'] . "',
               1,
               '" . $DATA['qpu'] . "',
-              '" . $DATA['sUnit'] . "'
+              '" . $DATA['sUnit'] . "',
+              '" . $DATA['xCenter'] . "'
+
             )
     ";
 
