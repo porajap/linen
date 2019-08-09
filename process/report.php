@@ -396,6 +396,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
     WHERE dirty.DocDate LIKE '%$date1%'
     AND dirty.FacCode = $FacCode GROUP BY year(dirty.DocDate) ORDER BY dirty.DocDate ASC";
     }
+    $return['sql'] = $Sql;
     $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format , 'DepCode' => $DepCode, 'chk' => $chk];
     $_SESSION['data_send'] = $data_send;
     $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';

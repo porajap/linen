@@ -24,7 +24,7 @@
     <!-- ----------------------------------------------------------------------------------- -->
     <div id="btn_reset">
         <button class="btn btn_black" id="black_reset" onclick="back();">
-            Black <i class="fas fa-undo-alt" id="arrow_black"></i>
+            Back <i class="fas fa-undo-alt" id="arrow_black"></i>
         </button>
         <button class="btn btn_send" onclick="sendmail();">
             Send  <i class="fas fa-arrow-right" id="arrow_send"></i>

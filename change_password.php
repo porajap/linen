@@ -41,7 +41,7 @@
     <!-- ----------------------------------------------------------------------------------- -->
     <div id="btn_change">
         <button class="btn btn_black" id="black_reset" onclick="back();">
-            Black <i class="fas fa-undo-alt" id="black_save"></i>
+            Back <i class="fas fa-undo-alt" id="black_save"></i>
         </button>
         <button class="btn btn_save" onclick="passwordUpdate();">
             Save  <i class="fas fa-arrow-right" id="arrow_save"></i>

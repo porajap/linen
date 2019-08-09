@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set("Asia/Bangkok");
 $Userid = $_SESSION['Userid'];
 $TimeOut = $_SESSION['TimeOut'];
 $PmID = $_SESSION['PmID'];
@@ -77,7 +78,8 @@ $array2 = json_decode($json2,TRUE);
   <script type="text/javascript">
     var summary = [];
     var xItemcode;
-
+    var currentDate = '<?php echo date('Y-m-d');?>';
+    var currentDate2 = '<?php echo date('Y/m/d');?>';
     $(document).ready(function(e){
       $('#showday').hide();
       $('#showmonth').hide();
@@ -87,7 +89,6 @@ $array2 = json_decode($json2,TRUE);
       $('#myDay').hide();
       $('#myMonth').hide();
       OnLoadPage();
-
       $('#hotpital').attr('disabled', true);
       $('#department').attr('disabled', true);
 
@@ -147,6 +148,48 @@ $array2 = json_decode($json2,TRUE);
     })
   }
 
+  function find_indexMonth(year){
+    var monthArray = new Array();
+    monthArray[0] = "January";
+    monthArray[1] = "February";
+    monthArray[2] = "March";
+    monthArray[3] = "April";
+    monthArray[4] = "May";
+    monthArray[5] = "June";
+    monthArray[6] = "July";
+    monthArray[7] = "August";
+    monthArray[8] = "September";
+    monthArray[9] = "October";
+    monthArray[10] = "November";
+    monthArray[11] = "December";
+
+    var d = new Date();
+    var n = monthArray[d.getMonth()];  
+    $('#onemonth').attr('value', year+'/'+n);
+  }
+// 
+  function find_indexMonth2(year){
+    var monthArray = new Array();
+    monthArray[0] = "January";
+    monthArray[1] = "February";
+    monthArray[2] = "March";
+    monthArray[3] = "April";
+    monthArray[4] = "May";
+    monthArray[5] = "June";
+    monthArray[6] = "July";
+    monthArray[7] = "August";
+    monthArray[8] = "September";
+    monthArray[9] = "October";
+    monthArray[10] = "November";
+    monthArray[11] = "December";
+
+    var date = new Date();
+    var nowMonth = monthArray[date.getMonth()];  
+    var nextMonth = monthArray[date.getMonth() + 1];  
+
+    $('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
+  }
+
   function showdate(){
     var chkday = $('#chkday:checked').val();
     var chkmonth = $('#chkmonth:checked').val();
@@ -157,13 +200,18 @@ $array2 = json_decode($json2,TRUE);
       $('#showmonth').hide();
       $('#showyear').hide();
       $('#myMonth').hide();
-    }else if (chkmonth ==2){
+    }else if (chkmonth == 2){
+      var Date = currentDate.split('-');
+      find_indexMonth(Date[0]);
       $('#showday').hide();
       $('#myDay').hide();
       $('#showmonth').show();
       $('#myMonth').show();
       $('#showyear').hide();
     }else if (chkyear == 3){
+      var Date = currentDate.split('-');
+      $('#year').attr('value', Date[0]);
+
       $('#showday').hide();
       $('#myDay').hide();
       $('#showmonth').hide();
@@ -179,6 +227,18 @@ $array2 = json_decode($json2,TRUE);
     }else if(chk == 2){
       $('#oneday').hide();
       $('#someday').show();
+      var currentDay = currentDate2;
+      var today = new Date();
+      var tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate()+1);
+      // tomorrow.toLocaleDateString();
+      var year = tomorrow.getFullYear();
+      var month = tomorrow.getMonth() + 1;
+      var day = tomorrow.getDate();
+      if(month < 10)month = '0'+month;
+      if(day < 10)day = '0'+day;
+      var myDate = currentDay + ' - ' + year + '/' + month + '/' + day;
+      $('#someday').attr('value' , myDate);
     }
   }
 
@@ -189,6 +249,9 @@ $array2 = json_decode($json2,TRUE);
     }else if(chk == 2){
       $('#onemonth').hide();
       $('#somemonth').show();
+
+      var year = currentDate.split('-');
+      find_indexMonth2(year[0]);
     }
   }
 
@@ -309,6 +372,7 @@ $array2 = json_decode($json2,TRUE);
             }
             $("#hotpital").append(hot);
 
+
             var depValue0 = '<?php echo $array['department'][$language]; ?>';
             var dep1  = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['RowDep']; i++) {
@@ -318,12 +382,13 @@ $array2 = json_decode($json2,TRUE);
 
           }else if(temp["form"]=='departmentWhere'){
             $("#department").empty();
-            var depValue0 = '<?php echo $array['hospital'][$language]; ?>';
+            var depValue0 = '<?php echo $array['department'][$language]; ?>';
             var dep2  = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['Row']; i++) {
-              dep2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+              dep2 += "<option value="+temp[i]['DepCode']+" id='select_"+i+"'>"+temp[i]['DepName']+"</option>";
             }
             $("#department").append(dep2);
+            $("#select_0").attr('selected', true);
           }else if(temp["form"]=='r1'){
             $('#type_report').text(temp['typeReport']);
             $('#table_R1 tbody').empty();
@@ -885,12 +950,12 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                   </div>
                               </div>
-
+                              
                               <div class="row">
                                 <div class="col-md-6" id="myDay">
                                   <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd" autocomplete="off">
+                                      <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd" autocomplete="off" value="<?php echo  date('Y-m-d');?>">
                                       <input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd">
                                   </div>
                                 </div>
