@@ -110,7 +110,7 @@ $return['sql'] = $Sql;
       Total,IsCancel,Detail,
       shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef )
       VALUES
-      ( '$DocNo',DATE(NOW()),$deptCode,'',
+      ( '$DocNo',NOW(),$deptCode,'',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW(),0 )";
@@ -217,7 +217,7 @@ function ShowDocument($conn, $DATA)
   $Sql = "SELECT site.HptName,
   department.DepName,
   shelfcount.DocNo,
-  shelfcount.DocDate,
+  DATE (shelfcount.DocDate) AS DocDate,
   shelfcount.Total,
   users.FName,
   TIME(shelfcount.Modify_Date)

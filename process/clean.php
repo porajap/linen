@@ -108,7 +108,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       clean.Modify_Code,clean.Modify_Date )
       VALUES
-      ( '$DocNo',DATE(NOW()),$deptCode,'$RefDocNo',
+      ( '$DocNo',NOW(),$deptCode,'$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -118,7 +118,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',DATE(NOW()),$deptCode,'$RefDocNo','Clean',$userid,DATE(NOW()))";
+      ('$DocNo',NOW(),$deptCode,'$RefDocNo','Clean',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -164,7 +164,7 @@ function CreateDocument($conn, $DATA)
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
-    $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,clean.DocDate,clean.RefDocNo,clean.Total,users.FName,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
+    $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) AS DocDate,clean.RefDocNo,clean.Total,users.FName,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
     FROM clean
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode

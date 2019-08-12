@@ -238,7 +238,11 @@
 <formatmonth><en>Format month</en><th>รูปแบบเดือน</th></formatmonth>
 <typereport><en>Type Report</en><th>ประเภทเอกสาร : </th></typereport>
 <datefound><en>Format date is Worng!</en><th>รูปแบบวันที่ไม่ถูกต้อง!</th></datefound>
-
+<spacial><en>Spacial Item</en><th>รายการพิเศษ</th></spacial>
+<editTime_deli><en>Edit shipping time</en><th>แก้ไขระยะเวลาขนส่ง</th></editTime_deli>
+<addTime_deli><en>Add shipping time</en><th>เพิ่มระยะเวลาขนส่ง</th></addTime_deli>
+<AllFac><en>All Factory</en><th>ทุกโรงซัก</th></AllFac>
+<noFac><en>no factory</en><th>ไม่มีโรงซักที่ยังไม่ได้เพิ่ม</th></noFac>
 <!-- -->
 <r1><en>Record dirty linen weight</en><th>Record dirty linen weight</th></r1>
 <r2><en>Report Claim</en><th>Report Claim</th></r2>

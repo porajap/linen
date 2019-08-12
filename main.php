@@ -928,7 +928,7 @@ switch ($PmID) {
 
     <!-- Navbar username -->
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">
-        <span style='font-weight:bold;'><?php echo $FName?> </span> <span style='font-weight:bold;'> : </span>  <span style='font-weight:bold;'><?php echo $Permission?></span>
+        <span style='font-weight:bold;'><?php echo $FName?> </span> <span style='font-weight:bold;'> [ </span>  <span style='font-weight:bold;'><?php echo $Permission?></span> <span style='font-weight:bold;'> ] </span>
       </div>
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0" >

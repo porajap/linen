@@ -108,7 +108,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       repair.Modify_Code,repair.Modify_Date )
       VALUES
-      ( '$DocNo',DATE(NOW()),$deptCode,'$RefDocNo',
+      ( '$DocNo',NOW(),$deptCode,'$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -164,7 +164,7 @@ function CreateDocument($conn, $DATA)
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
-    $Sql = "SELECT site.HptName,department.DepName,repair.DocNo,repair.DocDate,repair.RefDocNo,repair.Total,users.FName,TIME(repair.Modify_Date) AS xTime,repair.IsStatus
+    $Sql = "SELECT site.HptName,department.DepName,repair.DocNo, DATE(repair.DocDate) AS DocDate,repair.RefDocNo,repair.Total,users.FName,TIME(repair.Modify_Date) AS xTime,repair.IsStatus
     FROM repair
     INNER JOIN department ON repair.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode

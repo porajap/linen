@@ -1011,11 +1011,11 @@ function OpenDialogItem(){
                     $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 7%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                     "<td style='width: 20%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-                    "<td style='width: 28%;'nowrap>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width: 10%;'nowrap>"+temp[i]['UnitName']+"</td>"+
-                    "<td style='width: 10%;'nowrap>"+Max+"</td>"+
-                    "<td style='width: 15%;'nowrap>"+Qty+"</td>"+
-                    "<td style='width: 9%;'nowrap></td>"+
+                    "<td style='width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width: 16%;'nowrap>"+temp[i]['UnitName']+"</td>"+
+                    "<td style='width: 8%;'nowrap>"+Max+"</td>"+
+                    "<td style='width: 10%;margin-left: 168px;'nowrap>"+Qty+"</td>"+
+                    // "<td style='width: 9%;'nowrap></td>"+
                     "</tr>";
 
 
@@ -1564,13 +1564,13 @@ a.nav-link{
                           <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="98%" cellspacing="0" role="grid" style="">
                             <thead id="theadsum" style="font-size:24px;">
                               <tr role="row">
-                                <th style='width: 7%;'nowrap><?php echo $array['no'][$language]; ?></th>
+                                <th style='width: 6%;'nowrap><?php echo $array['no'][$language]; ?></th>
                                 <th style='width: 20%;'nowrap><?php echo $array['code'][$language]; ?></th>
-                                <th style='width: 28%;'nowrap><?php echo $array['item'][$language]; ?></th>
-                                <th style='width: 10%;'nowrap><?php echo $array['unit'][$language]; ?></th>
-                                <th style='width: 10%;'nowrap><center><?php echo $array['parsc'][$language]; ?></center></th>
-                                <th style='width: 15%;'nowrap><center><?php echo $array['leftsc'][$language]; ?></center></th>
-                                <th style='width: 10%;'nowrap><center> . <center></th>
+                                <th style='width: 21%;'nowrap><?php echo $array['item'][$language]; ?></th>
+                                <th style='width: 11%;'nowrap><?php echo $array['unit'][$language]; ?></th>
+                                <th style='width: 21%;'nowrap><center><?php echo $array['parsc'][$language]; ?></center></th>
+                                <th style='width: 21%;'nowrap><center><?php echo $array['leftsc'][$language]; ?></center></th>
+                                <!-- <th style='width: 10%;'nowrap><center> . <center></th> -->
                               </tr>
                             </thead>
                             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

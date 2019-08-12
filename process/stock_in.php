@@ -112,7 +112,7 @@ ORDER BY DocNo DESC LIMIT 1";
 		Total,IsCancel,Detail,
 		stock_in.Modify_Code,stock_in.Modify_Date )
       VALUES
-      ( '$DocNo',DATE(NOW()),$deptCode,'',
+      ( '$DocNo',NOW(),$deptCode,'',
 		0,NOW(),0,0,
 		0,0,'',
 		$userid,NOW() )";
@@ -166,7 +166,7 @@ function ShowDocument($conn, $DATA)
   $selecta = $DATA["selecta"];
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
   // mysqli_query($conn,$Sql);
-  $Sql = "SELECT site.HptName,department.DepName,stock_in.DocNo,stock_in.DocDate,stock_in.Total,users.FName,TIME(stock_in.Modify_Date) AS xTime,stock_in.IsStatus
+  $Sql = "SELECT site.HptName,department.DepName,stock_in.DocNo,DATE(stock_in.DocDate) AS DocDate,stock_in.Total,users.FName,TIME(stock_in.Modify_Date) AS xTime,stock_in.IsStatus
 FROM stock_in
 INNER JOIN department ON stock_in.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode

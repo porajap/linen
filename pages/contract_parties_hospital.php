@@ -636,7 +636,7 @@ body{
                             <div class="menu">
                               <div class="d-flex justify-content-center">
                                 <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                                    <i class="fas fa-eraser"></i>
+                                <i class="fas fa-redo-alt"></i>
                                 </div>
                               </div>
                               <div>

@@ -132,7 +132,7 @@ function CreateDocument($conn, $DATA)
 		Total,IsCancel,Detail,
 		dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode )
       VALUES
-      ( '$DocNo',DATE(NOW()),$deptCode,'',
+      ( '$DocNo',NOW(),$deptCode,'',
 		0,NOW(),0,0,
 		0,0,'',
 		$userid,NOW(),$FacCode )";
@@ -191,7 +191,7 @@ function ShowDocument($conn, $DATA)
   dirty.DepCode,
   department.DepName,
   dirty.DocNo,
-  dirty.DocDate,
+  DATE(dirty.DocDate) AS DocDate,
   dirty.Total,
   users.FName,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
   FROM dirty

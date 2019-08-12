@@ -107,7 +107,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       draw.Modify_Code,draw.Modify_Date )
       VALUES
-      ( '$DocNo',DATE(NOW()),$deptCode,'',
+      ( '$DocNo',NOW(),$deptCode,'',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -165,7 +165,7 @@ function CreateDocument($conn, $DATA)
     $Sql = "SELECT site.HptName,
     department.DepName,
     draw.DocNo,
-    draw.DocDate,
+    DATE(draw.DocDate) AS DocDate,
     draw.Total,
     users.FName,
     TIME(draw.Modify_Date)
@@ -757,7 +757,7 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["xdocno"];
     $DocNo2 = $DATA["xdocno2"];
     $hotpCode = $DATA["hotpCode"];
-    $Sql = "UPDATE shelfcount SET IsRef = 1 WHERE shelfcount.DocNo = '$DocNo2'";
+    $Sql = "UPDATE shelfcount SET IsRef = 1 , Delivery = DATE(NOW()) WHERE shelfcount.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
 
     $Sql = "SELECT

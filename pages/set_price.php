@@ -325,12 +325,12 @@ $array2 = json_decode($json2,TRUE);
             var CgSubID = $('#Category_Sub').val();
             $('#bSave').attr('disabled', true);
         $('#delete_icon').addClass('opacity');
-            if (Sel == 1) {
-                CgMainID = "-";
-                CgSubID = "-";
-            } else if (Sel == 2){
-                CgSubID = "-";
-            }
+            // if (Sel == 1) {
+            //     CgMainID = "-";
+            //     CgSubID = "-";
+            // } else if (Sel == 2){
+            //     CgSubID = "-";
+            // }
 
             var data = {
                 'STATUS': 'ShowItem1',
@@ -836,28 +836,37 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel").empty();
                             $("#hptsel1").empty();
                             $("#hptsel2").empty();
+                            var hotValue0 = '-';
+                            var StrTr = "<option value='0'>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                $("#hptsel").append(StrTr);
-                                $("#hptsel1").append(StrTr);
-                                $("#hptsel2").append(StrTr);
+                                StrTr += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+                           
                             }
+                            $("#hptsel1").append(StrTr);
+                            $("#hptsel2").append(StrTr);
+                            $("#hptsel").append(StrTr);
+
                         } else if ((temp["form"] == 'getCategoryMain')) {
                           $("#Category_Main").empty();
                           $("#Category_Main1").empty();
+                            var hotValue0 = '-';
+                            var StrTr = "<option value='0'>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTr = "<option value = '" + temp[i]['MainCategoryCode'] + "' > " + temp[i]['MainCategoryName'] + " </option>";
-                                $("#Category_Main").append(StrTr);
-                                $("#Category_Main1").append(StrTr);
+                                StrTr += "<option value="+temp[i]['MainCategoryCode']+">"+temp[i]['MainCategoryName']+"</option>";
                             }
+                            $("#Category_Main").append(StrTr);
+                            $("#Category_Main1").append(StrTr);
+
                         } else if ((temp["form"] == 'getCategorySub')) {
                           $("#Category_Sub").empty();
                           $("#Category_Sub1").empty();
+                            var hotValue0 = '-';
+                            var StrTr = "<option value='0'>"+hotValue0+"</option>";
                               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                  var StrTr = "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
-                                  $("#Category_Sub").append(StrTr);
-                                  $("#Category_Sub1").append(StrTr);
+                                StrTr += "<option value="+temp[i]['CategoryCode']+">"+temp[i]['CategoryName']+"</option>";
                               }
+                              $("#Category_Sub").append(StrTr);
+                                  $("#Category_Sub1").append(StrTr);
                         } 
 
                     } else if (temp['status'] == "failed") {
@@ -1108,7 +1117,8 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="row">
                                           <div class="col-md-2">
                                               <div class="row" style="margin-left:5px;">
-                                                  <select class="form-control" id="hptsel"></select>
+                                                  <select class="form-control" id="hptsel">
+                                                  </select>
                                               </div>
                                           </div>
                                           <div class="col-md-2">
@@ -1134,31 +1144,31 @@ $array2 = json_decode($json2,TRUE);
 
                                           <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
-                                              <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                              <!-- <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                                               <i class="far fa-hospital"></i>
                                               </div>
                                               <button class="btn"  onclick="ShowItem1(1)" >
                                                   <?php echo $array['search_hp'][$language]; ?>
-                                              </button>
+                                              </button> -->
                                             </div>
                                           </div>
                                           <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
-                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
+                                              <!-- <div class="circle6 d-flex align-items-center d-flex justify-content-center">
                                               <i class="fas fa-list"></i>
                                               </div>
                                               <button class="btn "  onclick="ShowItem1(2)" >
                                                   <?php echo $array['search_ct_main'][$language]; ?>
-                                              </button>
+                                              </button> -->
                                             </div>
                                           </div>
                                           <div class="search_custom col-md-4">
                                             <div class="d-flex justify-content-start">
                                               <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                 <i class="fas fa-list-ol"></i>
+                                              <i class="fas fa-search"></i>
                                               </div>
-                                              <button class="btn "  onclick="ShowItem1(3)" >
-                                                  <?php echo $array['search_ct_sub'][$language]; ?>
+                                              <button class="btn "  onclick="ShowItem1()" >
+                                                  <?php echo $array['search'][$language]; ?>
                                               </button>
                                             </div>
                                           </div>

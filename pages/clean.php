@@ -1476,9 +1476,9 @@ $(document).ready(function(e){
                               <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 34%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 31%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                               <th style='width: 8%;' nowrap><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 15%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

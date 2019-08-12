@@ -431,6 +431,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_15').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
@@ -450,6 +451,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_15').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
@@ -469,6 +471,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R3').attr('hidden', false);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_15').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
@@ -490,6 +493,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', false);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_15').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
@@ -497,7 +501,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td class='text-left' style='width:36%'>"+temp[i]['DocNo']+"</td>"+
                 "<td class='text-center' style='width:36%'>"+temp[i]['DepName']+"</td>"+
                 "<td class='text-center' style='width:12%'>"+temp[i]['DocDate']+"</td>"+
-                "<td class='text-left text-center' style='width:11%'><button onclick='send_data2(\""+temp['url']+','+temp[i]['DocNo']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
+                "<td class='text-left text-center' style='width:11%'><button onclick='send_data(\""+temp['url']+"\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
               "</tr>";
               $("#table_R4 tbody").append(dataRow);
             }
@@ -510,6 +514,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', false);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_15').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
@@ -531,6 +536,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', false);
+            $('#table_R9').attr('hidden', true);
             $('#table_15').attr('hidden', true);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
@@ -541,6 +547,27 @@ $array2 = json_decode($json2,TRUE);
               "</tr>";
               $("#table_R8 tbody").append(dataRow);
             }
+          }else if(temp["form"]=='r9'){
+            $('#type_report').text(temp['typeReport']);
+            $('#table_R6 tbody').empty();
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R4').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', false);
+            $('#table_15').attr('hidden', true);
+            for (var i = 0; i < temp['countRow']; i++) {
+              var dataRow = "<tr>"+
+                "<td style='width:5%'>"+(i+1)+"</td>"+
+                "<td class='text-left pl-4' style='width:59%'>"+temp[i]['DepName']+"</td>"+
+                "<td class='text-center' style='width:12%'>"+temp[i]['DocDate']+"</td>"+
+                "<td class='text-center pl-4' style='width:12%'>"+temp[i]['DocTime']+"</td>"+
+                "<td class='text-center text-center' style='width:12%'><button onclick='send_data(\""+temp['url']+"\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>"+
+              "</tr>";
+              $("#table_R9 tbody").append(dataRow);
+            }
           }else if(temp["form"]=='r15' || temp["form"]=='r16'){
             $('#type_report').text(temp['typeReport']);
             $('#table_R15 tbody').empty();
@@ -550,6 +577,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', false);
             for (var i = 0; i < temp['countRow']; i++) {
               var dataRow = "<tr>"+
@@ -571,6 +599,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', true);
             $('#table_R1 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
@@ -582,6 +611,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', true);
             $('#table_R2 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
@@ -594,6 +624,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', true);
             $('#table_R3 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
@@ -605,6 +636,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', false);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', true);
             $('#table_R4 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
@@ -616,6 +648,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', false);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', true);
             $('#table_R6 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
@@ -627,10 +660,23 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', false);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', true);
             $('#table_R8 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
             $("#table_R8 tbody").append(dataRow);
+          }else if(temp["form"]=='r9'){
+            $('#table_R1').attr('hidden', true);
+            $('#table_R2').attr('hidden', true);
+            $('#table_R3').attr('hidden', true);
+            $('#table_R4').attr('hidden', true);
+            $('#table_R6').attr('hidden', true);
+            $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', false);
+            $('#table_R15').attr('hidden', true);
+            $('#table_R9 tbody').empty();
+            var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+            $("#table_R9 tbody").append(dataRow);
           }else if(temp["form"]=='r15' || temp["form"]=='r16'){
             $('#table_R1').attr('hidden', true);
             $('#table_R2').attr('hidden', true);
@@ -638,6 +684,7 @@ $array2 = json_decode($json2,TRUE);
             $('#table_R4').attr('hidden', true);
             $('#table_R6').attr('hidden', true);
             $('#table_R8').attr('hidden', true);
+            $('#table_R9').attr('hidden', true);
             $('#table_R15').attr('hidden', false);
             $('#table_R15 tbody').empty();
             var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
@@ -667,13 +714,13 @@ $array2 = json_decode($json2,TRUE);
       $('#factory').attr('disabled', false);
       $('#hotpital').val(0);
       $('#department').val(0);
-    }else if(typeReport == 2){
+    }else if(typeReport == 3 ||typeReport == 2){
       $('#hotpital').attr('disabled', false);
       $('#department').attr('disabled', false);
       $('#factory').attr('disabled', false);
       $('#hotpital').val('BHQ');
       $('#department').val(1);
-    }else if(typeReport == 3 || typeReport == 11 || typeReport == 12){
+    }else if(typeReport == 11 || typeReport == 12){
       $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);
       $('#hotpital').attr('disabled', false);
@@ -689,6 +736,10 @@ $array2 = json_decode($json2,TRUE);
       $('#hotpital').attr('disabled', false);
       $('#factory').val(0);
       $('#department').val(0);
+    }else if(typeReport == 9){
+      $('#factory').attr('disabled', true);
+      $('#department').attr('disabled', false);
+      $('#hotpital').attr('disabled', false);
     }
   }
 
@@ -1097,6 +1148,19 @@ $array2 = json_decode($json2,TRUE);
                                     <tr role="row" id='tr_1'>
                                         <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
                                         <th style='width: 74%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+                                        <th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+                                        <th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                                </tbody>
+                            </table>
+                              <!-- ---------------------------------Report 9--------------------------------------- -->
+                                    <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R9" width="100%" cellspacing="0" role="grid" hidden>
+                                <thead id="theadsum" style="font-size:24px;">
+                                    <tr role="row" id='tr_1'>
+                                        <th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+                                        <th style='width: 74%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
                                         <th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
                                         <th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
                                     </tr>
