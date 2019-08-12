@@ -244,6 +244,26 @@ function find_report($conn, $DATA){
         $return = r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'monthbetween');
       }
     }
+  }else if($typeReport == 12){
+    if($Format == 1 || $Format == 3){
+      if($FormatDay == 1 || $Format == 3){
+        $date1 = $date;
+        $return = r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'one');
+      }else{
+        $date1 = newDate1($date);
+        $date2 = newDate2($date);
+        $return = r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'between');
+      }
+    }else if($Format == 2){
+      if($FormatMonth == 1){
+        $date1 = newMonth($date);
+        $return = r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'month');
+      }else{
+        $date1 = newMonth1($date);
+        $date2 = newMonth2($date);
+        $return = r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'monthbetween');
+      }
+    }
   }else if($typeReport == 15){
     if($Format == 1 || $Format == 3){
       if($FormatDay == 1 || $Format == 3){
@@ -803,6 +823,7 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
     return $return;
   }
 }
+
 function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   $count = 0;
   $boolean = false;
@@ -886,6 +907,74 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   }else{
     $return['status'] = 'notfound';
     $return['form'] = 'r9';
+    return $return;
+  }
+}
+
+function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
+  $count = 0;
+  $boolean = false;
+  if($Format == 1 || $Format == 3){
+    if($chk == 'one'){
+      $Sql = "SELECT factory.FacName,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode
+              ORDER BY clean.DocDate ASC";
+    }else{
+      $Sql = "SELECT factory.FacName,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE clean.DocDate BETWEEN '$date1' AND '$date2' AND factory.FacCode = $FacCode 
+              ORDER BY clean.DocDate ASC";
+    }
+  }else if($Format == 2){
+    $date = subMonth($date1, $date2);
+    $year = $date['year'];
+    $date1 = $date['date1'];
+    $date2 = $date['date2'];
+    if($chk == 'month'){
+      $Sql = "SELECT factory.FacName,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode
+              ORDER BY clean.DocDate ASC";
+    }else{
+      $Sql = "SELECT factory.FacName,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
+              ORDER BY clean.DocDate ASC";
+    }
+  }
+
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $_SESSION['data_send'] = $data_send;
+  $return['url'] = '../report_linen/report/report_stock_count.php';
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['FacName'] = $Result['FacName'];
+    $return[$count]['DocDate'] = $Result['DocDate'];
+    $count++;
+    $boolean = true;
+  }
+
+  if($boolean == true){
+    $return['status'] = 'success';
+    $return['form'] = 'r12';
+    $return['countRow'] = $count;
+    return $return;
+  }else{
+    $return['status'] = 'notfound';
+    $return['form'] = 'r12';
     return $return;
   }
 }
