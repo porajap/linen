@@ -409,7 +409,7 @@ $array2 = json_decode($json2,TRUE);
             var depValue0 = '<?php echo $array['department'][$language]; ?>';
             var dep1  = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['RowDep']; i++) {
-              dep1 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+              dep1 += "<option value="+temp[i]['DepCode']+" id='select"+i+"'>"+temp[i]['DepName']+"</option>";
             }
             $("#department").append(dep1);
 
@@ -719,7 +719,7 @@ $array2 = json_decode($json2,TRUE);
       $('#department').attr('disabled', false);
       $('#factory').attr('disabled', false);
       $('#hotpital').val('BHQ');
-      $('#department').val(1);
+      $('#select0').attr('selected', true);
     }else if(typeReport == 11 || typeReport == 12){
       $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);
