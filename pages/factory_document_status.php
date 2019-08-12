@@ -260,13 +260,12 @@ date_default_timezone_set("Asia/Bangkok");
           if (temp["status"] == 'success') {
             if (temp["form"] == 'get_dirty_doc') {
                 for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                    var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'>" +
-                        "<td style='width: 3%;' align='center'nowrap>&nbsp;</td>" +
-                        "<td id='td" + temp[i]['DocNo'] + "' style='width: 17%;' align='left'nowrap>" + temp[i]['DocNo'] + "</td>" +
+                    var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'  class='table-bordered'>"+
+                        "<td id='td" + temp[i]['DocNo'] + "' style='width: 20%;' align='center' ><br>" + temp[i]['DocNo'] + "<br><br><br></td>" +
 
-                        "<td style='width: 20%;' align='left'nowrap>"+
+                        "<td style='width: 20%;' align='center'nowrap><br>"+
                         "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] + 
-                        "</td>" +
+                        "<br><br><br></td>" +
 
                         "<td style='width: 20%;' align='left'nowrap>"+
                         "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] + 
@@ -525,7 +524,7 @@ date_default_timezone_set("Asia/Bangkok");
             <div class="row" style="margin-right:10px;">
               <div class="col-md-12">
                 <!-- tag column 1 -->
-                <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
+                <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped " id="TableDocument" width="100%" cellspacing="0" role="grid">
                   <thead id="theadsum" style="font-size:24px;">
                     <tr role="row" >
                       <th style='width: 3%;' nowrap>&nbsp;</th>
