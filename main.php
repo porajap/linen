@@ -72,6 +72,7 @@ switch ($PmID) {
         $sys_s12=1;
         $sys_s13=0;
         $sys_s14=1;
+        $sys_s15=1;
         break;
     case "2":
         //genneral
@@ -119,6 +120,7 @@ switch ($PmID) {
         $sys_s12=0;
         $sys_s13=0;
         $sys_s14=1;
+        $sys_s15=0;
         break;
     case "3":
         //genneral
@@ -166,6 +168,7 @@ switch ($PmID) {
         $sys_s12=1;
         $sys_s13=0;
         $sys_s14=1;
+        $sys_s15=0;
         break;
     case "4":
         //genneral
@@ -213,6 +216,7 @@ switch ($PmID) {
         $sys_s12=0;
         $sys_s13=0;
         $sys_s14=1;
+        $sys_s15=0;
         break;
     case "5":
         //genneral
@@ -260,6 +264,7 @@ switch ($PmID) {
         $sys_s12=1;
         $sys_s13=1;
         $sys_s14=1;
+        $sys_s15=0;
         break;
     case "6":
         //genneral
@@ -307,6 +312,7 @@ switch ($PmID) {
         $sys_s12=0;
         $sys_s13=0;
         $sys_s14=1;
+        $sys_s15=0;
         break;
 }
 
@@ -1245,6 +1251,13 @@ switch ($PmID) {
               href="pages/change_lang.php?lang=<?php echo $language; ?>" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][12][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($sys_s15== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/set_delivery_time.php?lang=<?php echo $language; ?>" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['system']['sub'][14][$language]; ?></a>
           </li>
           <?php } ?>
 
