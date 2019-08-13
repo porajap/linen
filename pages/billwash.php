@@ -618,12 +618,13 @@ $array2 = json_decode($json2,TRUE);
                   }else if(temp["form"]=='getDepartment'){
                     $("#department").empty();
                     $("#Dep2").empty();
-                    var Str = "<option value=''>ทุกแผนก</option>";
+                    var Str2 = "<option value=''>ทุกแผนก</option>";
                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                      Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                      Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                      var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                      $("#department").append(Str);
                     }
-                    $("#department").append(Str);
-                    $("#Dep2").append(Str);
+                    $("#Dep2").append(Str2);
                   }else if( (temp["form"]=='CreateDocument') ){
                     swal({
                       title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1497,22 +1498,24 @@ $array2 = json_decode($json2,TRUE);
 
               <!-- serach----------------------- -->
               <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                <div class="search_1 d-flex justify-content-start">
+                  <!-- <div class="search_1 d-flex align-items-center d-flex justify-content-center">
                       <i class="fas fa-search"></i>
-                  </div>
+                  </div> -->
                   <button class="btn" onclick="ShowItem()" id="bSave">
+                      <i class="fas fa-search mr-2"></i>
                       <?php echo $array['search'][$language]; ?>
                   </button>
                 </div>
               </div>
 
               <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="import_1 d-flex align-items-center d-flex justify-content-center">
+                <div class="import_1 d-flex justify-content-start">
+                  <!-- <div class="import_1 d-flex align-items-center d-flex justify-content-center">
                       <i class="fas fa-file-import"></i>
-                  </div>
+                  </div> -->
                   <button class="btn" onclick="getImport(1)" id="bSave">
+                      <i class="fas fa-file-import mr-2 pt-1"></i>
                       <?php echo $array['import'][$language]; ?>
                   </button>
                 </div>
