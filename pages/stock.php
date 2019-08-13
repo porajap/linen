@@ -118,12 +118,13 @@ $array = json_decode($json,TRUE);
   function getDepartment(){
     var HptCode = '<?php echo $HptCode; ?>';
     var Hotp = $('#hotpital option:selected').attr("value");
-    if( typeof Hotp == 'undefined' ) Hotp = HptCode;
-    var data = {
-      'STATUS'  : 'getDepartment',
-      'Hotp'	: Hotp
-    };
-    senddata(JSON.stringify(data));
+    if( typeof Hotp == undefined ) Hotp = HptCode;
+      var data = {
+        'STATUS'  : 'getDepartment',
+        'Hotp'	: Hotp
+      };
+      senddata(JSON.stringify(data));
+    
   }
 
   function ShowDocument(selecta){
@@ -194,17 +195,16 @@ $array = json_decode($json,TRUE);
               }
               $("#hotpital").append(Str);
             }
-            // if(PmID != 1){
-            //   $("#hotpital").val(HptCode);
-            // }
+
           }else if(temp["form"]=='getDepartment'){
             $("#department").empty();
             $("#Dep2").empty();
+            var Str = "<option value=''>ทุกแผนก</option>";
             for (var i = 0; i <  temp["Row"]; i++) {
-              var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-              $("#department").append(Str);
-              $("#Dep2").append(Str);
+              Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
             }
+            $("#department").append(Str);
+            $("#Dep2").append(Str);
           }else if(temp["form"]=='ShowDocument'){
             $( "#TableDocument tbody" ).empty();
 
@@ -434,25 +434,12 @@ $array = json_decode($json,TRUE);
                             <div class='form-group row'>
                               <input  type="text" class="form-control col-sm-5"  id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                               <div class="search_custom col-md-3">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                  <i class="fas fa-search"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowDocument(0)" >
-                                                  <?php echo $array['search'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <div class="search_custom col-md-4">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fab fa-searchengin"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowDocument(1)" >
-                                                  <?php echo $array['searchalldep'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
+                                  <div class="search_1 d-flex align-items-center justify-content-center">
+                                    <button class="btn"  onclick="ShowDocument(0)" >
+                                      <i class="fas fa-search mr-3"></i><?php echo $array['search'][$language]; ?>
+                                    </button>
+                                  </div>
+                              </div>
                                           
                             </div>
                           </div>

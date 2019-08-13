@@ -119,10 +119,10 @@
         font-size:26px;
         transition: width 2s, height 4s;
       }
-      .search_custom img{
+      /* .search_custom img{
         width:40px;
         height:40px;
-      }
+      } */
       .search_custom button{
         width:60px;
         text-align:center;
@@ -133,8 +133,12 @@
         border-radius:50px;
         background-color: #2d98da;
       }
-      .search_1{
+      .search_1 i{
         color:#ffffff;
+        padding: 5px;
+      }
+      .search_1 i:hover{
+        transition: width 2s, height 4s;
       }
             
       .search_2{

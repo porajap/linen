@@ -36,9 +36,10 @@ function OnLoadPage($conn,$DATA){
 
 function getDepartment($conn,$DATA){
   $PmID = $_SESSION['PmID'];
+  $HptCode = $_SESSION['HptCode'];
   $count = 0;
   $boolean = false;
-  $Hotp = $DATA["Hotp"];
+  $Hotp = $DATA["Hotp"]==''?"BHQ":$DATA["Hotp"];
 
   if($PmID != 1 && $PmID != 2 && $PmID != 3){
     $Sql = "SELECT department.DepCode,department.DepName,department.IsDefault
@@ -47,31 +48,22 @@ function getDepartment($conn,$DATA){
     AND  department.IsDefault = 1
     AND department.IsStatus = 0
     ORDER BY department.DepCode DESC";
-    $return['sql'] = $Sql;
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['DepCode'] = $Result['DepCode'];
-      $return[$count]['DepName'] = $Result['DepName'];
-      $return[$count]['IsDefault'] = $Result['IsDefault'];
-      $count++;
-      $boolean = true;
-    }
   }else{
     $Sql = "SELECT department.DepCode,department.DepName,department.IsDefault
     FROM department
     WHERE department.HptCode = '$Hotp' 
     AND department.IsStatus = 0
     ORDER BY department.DepCode DESC";
-    $return['sql'] = $Sql;
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['DepCode'] = $Result['DepCode'];
-      $return[$count]['DepName'] = $Result['DepName'];
-      $return[$count]['IsDefault'] = $Result['IsDefault'];
-      $count++;
-      $boolean = true;
-    }
   }
+  $meQuery = mysqli_query($conn,$Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['DepCode'] = $Result['DepCode'];
+    $return[$count]['DepName'] = $Result['DepName'];
+    $return[$count]['IsDefault'] = $Result['IsDefault'];
+    $count++;
+    $boolean = true;
+  }
+  $return['sql'] = $Sql;
   $return['Row'] = $count;
 
   if($boolean){
@@ -113,13 +105,12 @@ function ShowDocument($conn,$DATA){
   INNER JOIN department ON item_stock.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode ";
-  if ($selecta==0) {
+  if ($dept!=null) {
     $Sql.="WHERE site.HptCode = '$hos' AND item_stock.DepCode =  $dept AND item.ItemName LIKE '%$search%' ";
-  }elseif($selecta==2){
+  }elseif($dept==null){
     $Sql.="WHERE site.HptCode = '$hos'";
   }
   $Sql.="GROUP BY item_stock.ItemCode , item_stock.DepCode ORDER BY department.DepCode,item_stock.ItemCode";
-
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
