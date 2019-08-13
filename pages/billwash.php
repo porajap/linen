@@ -750,13 +750,20 @@ $array2 = json_decode($json2,TRUE);
                     $("#IsStatus").val(temp[0]['IsStatus']);
 
                     if(temp[0]['IsStatus']==0){
-                      $("#bSave").text('<?php echo $array['save'][$language]; ?>');
+                      alert(1);
+                      var word = '<?php echo $array['save'][$language]; ?>';
+                      var changeBtn = "<i class='fa fa-save'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn);
                       $("#bImport").prop('disabled', false);
                       $("#bDelete").prop('disabled', false);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', false);
                     }else if(temp[0]['IsStatus']==1){
-                      $("#bSave").text('<?php echo $array['edit'][$language]; ?>');
+                      var word = '<?php echo $array['edit'][$language]; ?>';
+                      var changeBtn = "<i class='fas fa-edit'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn);
                       $("#bImport").prop('disabled', true);
                       $("#bDelete").prop('disabled', true);
                       $("#bSave").prop('disabled', false);
@@ -1272,10 +1279,13 @@ $array2 = json_decode($json2,TRUE);
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn" onclick="SaveBill()" id="bSave">
-                                  <i class="fas fa-save" id="icon_edit"></i>
-                                  <div>
-                                    <?php echo $array['save'][$language]; ?>
+                                  <div id="icon_edit">
+                                    <i class="fas fa-save"></i>
+                                    <div>
+                                      <?php echo $array['save'][$language]; ?>
+                                    </div>
                                   </div>
+                                  
                                 </button>
                               </div>
                             </div>
