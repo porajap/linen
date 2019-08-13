@@ -167,7 +167,7 @@ FROM billwash
 INNER JOIN department ON billwash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN users ON billwash.Modify_Code = users.ID ";
-  if ($selecta == 0) {
+  if ($deptCode != null) {
     $Sql .= "WHERE billwash.DepCode = $deptCode AND billwash.DocNo LIKE '%$DocNo%' ";
   }
   $Sql .= "ORDER BY billwash.DocNo DESC LIMIT 500 ";

@@ -1,4 +1,7 @@
       /* css for menu */
+      .btn{
+            padding: 0px;
+      }
       .menu button{
         text-decoration: none;
         font-size: 23px;
@@ -17,21 +20,22 @@
         width:140px;
         text-align:center;
       }
-      .menu img{
+      /* .menu img{
         width:40px;
         height:40px;
-      }
+      } */
       .menu button{
         width:140px;
         text-align:center;
       }
-      .circle1{
+      .circle1 i{
         width: 40px;
         height: 40px;
         border-radius:50px;
         background-color:#3498db;
       }
-      .circle1{
+      .circle1 i{
+        padding: 7px;
         color:#ffffff;
       }
       .circle2{
@@ -40,7 +44,8 @@
         border-radius:50px;
         background-color:#8e44ad;
       }
-      .circle2{
+      .circle2 i{
+        padding: 7px;
         color:#ffffff;
       }
       .circle3{
@@ -49,7 +54,8 @@
         border-radius:50px;
         background-color:#c0392b;
       }
-      .circle3{
+      .circle3 i{
+        padding: 7px;
         color:#ffffff;
       }
       .circle4{
@@ -58,7 +64,8 @@
         border-radius:50px;
         background-color:#27ae60;
       }
-      .circle4{
+      .circle4 i{
+        padding: 7px;
         color:#ffffff;
       }
       .circle5{
@@ -67,7 +74,8 @@
         border-radius:50px;
         background-color:#eb4d4b;
       }
-      .circle5{
+      .circle5 i{
+        padding: 7px;
         color:#ffffff;
       }
       .circle6{
@@ -76,7 +84,8 @@
         border-radius:50px;
         background-color:#f0932b;
       }
-      .circle6{
+      .circle6 i{
+        padding: 7px;
         color:#ffffff;
       }
       .circle7{
@@ -85,7 +94,8 @@
         border-radius:50px;
         background-color:#7158e2;
       }
-      .circle7{
+      .circle7 i{
+        padding: 7px;
         color:#ffffff;
       }
       i{
