@@ -19,18 +19,18 @@ $where='';
 //print_r($data);
 if($chk == 'one'){
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (claim.Docdate) = DATE('$date1')";
     list($year,$mouth,$day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   }
   elseif ($format = 3) {
-      $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+      $where = "WHERE  year (claim.DocDate) LIKE '%$date1%'";
       $date_header= "ประจำปี : $date1";
     }
 }
 elseif($chk == 'between'){
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE claim.Docdate BETWEEN '$date1' AND '$date2'";
   list($year,$mouth,$day) = explode("-", $date1);
   list($year2,$mouth2,$day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -39,13 +39,13 @@ elseif($chk == 'between'){
 
 }
 elseif($chk == 'month'){
-    $where =   "WHERE month (shelfcount.Docdate) = ".$date1;
+    $where =   "WHERE month (claim.Docdate) = ".$date1;
     $datetime = new DatetimeTH();
     $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
 
 }
 elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(shelfcount.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE month(claim.Docdate) BETWEEN $date1 AND $date2";
   $datetime = new DatetimeTH();
   $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
 }
@@ -187,7 +187,9 @@ site.HptName
 FROM
 claim_detail
 INNER JOIN claim on claim.docno = claim_detail.DocNo
-INNER JOIN site on site.HptCode = claim.HptCode ";
+INNER JOIN site on site.HptCode = claim.HptCode
+$where
+AND claim.HptCode = '$HptCode'";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
         $HptName = $Result['HptName'];
@@ -208,6 +210,8 @@ claim_detail
 INNER JOIN claim on claim.docno = claim_detail.DocNo
 INNER JOIN item on item.ItemCode = claim_detail.ItemCode
 INNER JOIN item_unit on item_unit.UnitCode = claim_detail.UnitCode1
+$where
+AND claim.HptCode = '$HptCode'
 ";
 // var_dump($query); die;
 // Number of column

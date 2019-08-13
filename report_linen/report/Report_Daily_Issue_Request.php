@@ -160,6 +160,8 @@ $query = "SELECT
           shelfcount_detail.ParQty,
           shelfcount_detail.CcQty,
           shelfcount_detail.TotalQty,
+          shelfcount_detail.OverPar,
+          shelfcount_detail.Short,
           item.Weight
           FROM
           shelfcount
@@ -193,10 +195,10 @@ $issue=$Result['ParQty']-$Result['CcQty'];
   $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'L');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['Short']), 1, 0, 'L');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['Weight']), 1, 1, 'L');
   $i++;
 }
