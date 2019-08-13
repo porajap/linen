@@ -246,7 +246,7 @@ INNER JOIN item ON item.itemcode = dirty_detail.itemcode
           $where
           AND factory.FacCode = '$FacCode'
           AND department.HptCode = '$HptCode'
-          ORDER BY item.ItemName , department.DepName
+          ORDER BY item.ItemName , department.DepName ASC
           ";
 // Number of column
 $numfield = 4;
