@@ -670,21 +670,9 @@ body{
                                     </div>
                                   </div>
                                 </div>  
-                            
-                  <!-- <div class="row mt-4" style="margin-left:20px;margin-right: 20px;">
-                    <div class="col-md-4">
-                        <label><?php echo $array['side'][$language]; ?></label>
-                        <select style="font-size:24px;font-family:'THSarabunNew'" class="form-control" id="side" onchange="getDepartment();">
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label><?php echo $array['datestartcontract'][$language]; ?></label>
-                        <input type="text"  class="form-control datepicker-here" id="datepicker3" data-language='en' data-date-format='yyyy-mm-dd' >
-                    </div> -->
-
       <!-- =================================================================== -->
 
-      <div class="row ">
+                              <div class="row ">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
@@ -698,24 +686,6 @@ body{
                                     </div>
                                   </div>
                                 </div> 
-<!-- 
-                    <div class="col-md-4">
-                        <label><?php echo $array['dateendcontract'][$language]; ?></label>
-                        <input type="text"  class="form-control datepicker-here" id="datepicker4" data-language='en' data-date-format='yyyy-mm-dd' >
-                    </div>
-                  </div>
-
-                  <div class="row" style="margin-left:20px;margin-top:30px;">
-                    <div class="col-md-4">
-                        <label ><?php echo $array['detail'][$language]; ?></label><input type="hidden" id="xRowID" >
-                        <input type="text" class="form-control" style="font-family: 'THSarabunNew';font-size:24px;" id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
-                    </div>
-                  </div> -->
-
-                  <!-- <div class="row" style="margin-left:20px">
-                      <div style="width:900px;">
-                      <input type="text" class="form-control" style="font-family: 'THSarabunNew';font-size:24px;width:722px;" id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
-                  </div> -->
                   </div>
 
               </div>
