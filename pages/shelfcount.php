@@ -660,8 +660,11 @@ $array2 = json_decode($json2,TRUE);
           $("#bDelete").prop('disabled', false);
           $("#bSave").prop('disabled', false);
           $("#bCancel").prop('disabled', false);
-          $("#bSave").text('<?php echo $array['save'][$language]; ?>');
-          $("#IsStatus").val("0");
+          var word = '<?php echo $array['save'][$language]; ?>';
+            var changeBtn = "<i class='fa fa-save'></i>";
+            changeBtn += "<div>"+word+"</div>";
+            $('#icon_edit').html(changeBtn);          
+            $("#IsStatus").val("0");
             $("#docno").prop('disabled', false);
             $("#docdate").prop('disabled', false);
             $("#recorder").prop('disabled', false);
@@ -829,7 +832,6 @@ $array2 = json_decode($json2,TRUE);
                   $("#side").append(Str);
                   $("#hotpital").append(Str);
                 }
-                
               }
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();

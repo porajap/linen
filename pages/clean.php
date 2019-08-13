@@ -244,6 +244,11 @@ $(document).ready(function(e){
       //======= On create =======
       //console.log(JSON.stringify(data));
       function OnLoadPage(){
+        var docno = $("#docno").val();
+        // if(docno==""){
+        //   $("button").css("color", "red");
+
+        // }
         var data = {
           'STATUS'  : 'OnLoadPage'
         };
@@ -783,6 +788,7 @@ $(document).ready(function(e){
 
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
+                // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
                 for (var i = 0; i < (Object.keys(temp).length-2); i++) {
@@ -1555,69 +1561,7 @@ $(document).ready(function(e){
                 </div>
               </div>
 
-              <!-- <div class="col-md-2" id='tab2' <?php if($PmID == 1) echo 'hidden'; ?>> -->
-                <!-- button----------------------------------------- -->
-                <!-- <div class="sidenav mhee">
-                    <div class="" style="margin-top:5px;">
-                      <div class="card-body" style="padding:0px; margin-top:10px;">
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_create.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="CreateDocument()" id="bCreate">
-                              <?php echo $array['createdocno'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_import.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="OpenDialogItem()" id="bImport">
-                              <?php echo $array['import'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_delete.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="DeleteItem()" id="bDelete">
-                              <?php echo $array['delitem'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="SaveBill()" id="bSave">
-                              <?php echo $array['save'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="CancelDocument()" id="bCancel">
-                              <?php echo $array['cancel'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div> -->
-                <!-- end button----------------------------------------- -->
+              
               <!-- </div> -->
             </div>
           </div>
