@@ -404,21 +404,17 @@ $array2 = json_decode($json2,TRUE);
             $("#hotpital").append(hot);
 
 
-            var depValue0 = '<?php echo $array['department'][$language]; ?>';
-            var dep1 = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['RowDep']; i++) {
-              dep1 += "<option value="+temp[i]['DepCode']+" id='select"+i+"'>"+temp[i]['DepName']+"</option>";
+             var dep1 = "<option value="+temp[i]['DepCode']+" id='select"+i+"'>"+temp[i]['DepName']+"</option>";
+             $("#department").append(dep1);
             }
-            $("#department").append(dep1);
 
           }else if(temp["form"]=='departmentWhere'){
             $("#department").empty();
-            var depValue0 = '<?php echo $array['department'][$language]; ?>';
-            var dep2  = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['Row']; i++) {
-              dep2 += "<option value="+temp[i]['DepCode']+" id='select_"+i+"'>"+temp[i]['DepName']+"</option>";
+             var dep2 = "<option value="+temp[i]['DepCode']+" id='select_"+i+"'>"+temp[i]['DepName']+"</option>";
+             $("#department").append(dep2);
             }
-            $("#department").append(dep2);
             $("#select_0").attr('selected', true);
           }else if(temp["form"]=='r1'){
             $('#type_report').text(temp['typeReport']);
@@ -806,7 +802,7 @@ $array2 = json_decode($json2,TRUE);
       }
     });
   }
-
+ก
   function disabled_fill(){
     var typeReport = $('#typereport').val();
     if(typeReport == 1 || typeReport == 6 || typeReport == 8 || typeReport == 15){
@@ -817,7 +813,7 @@ $array2 = json_decode($json2,TRUE);
       $('#department').val(0);
     }else if(typeReport == 3 ||typeReport == 2){
       $('#hotpital').attr('disabled', false);
-      $('#department').attr('disabled', false);
+      $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);
       $('#selectHpt_0').attr("selected" , true);
       $('#select_0').attr("selected" , true);
@@ -828,18 +824,19 @@ $array2 = json_decode($json2,TRUE);
       $('#department').val(0);
     }else if(typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 8 || typeReport == 14 || typeReport == 16){
       $('#factory').attr('disabled', true);
-      $('#department').attr('disabled', false);
+      $('#department').attr('disabled', true);
       $('#hotpital').attr('disabled', false);
+      $('#select_0').attr("selected" , true);
       $('#factory').val(0);
     }else if(typeReport == 10 || typeReport == 11 || typeReport == 12){
       $('#factory').attr('disabled', true);
       $('#department').attr('disabled', true);
       $('#hotpital').attr('disabled', false);
       $('#factory').val(0);
-      $('#department').val(0);
+      $('#select_0').attr("selected" , true);
     }else if(typeReport == 9){
       $('#factory').attr('disabled', true);
-      $('#department').attr('disabled', false);
+      $('#department').attr('disabled', true);
       $('#hotpital').attr('disabled', false);
     }
   }
