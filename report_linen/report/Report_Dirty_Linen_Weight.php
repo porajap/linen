@@ -43,7 +43,7 @@ elseif($chk == 'month'){
 
 }
 elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(dirty.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE MONTH(dirty.DocDate) BETWEEN '$date1' AND '$date2'";
   $datetime = new DatetimeTH();
   $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
 }
@@ -78,7 +78,7 @@ class PDF extends FPDF
       $this->Cell(80);
       $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "แบบบันทึกส่งผ้าเปื้อน"), 0, 0, 'C');
       // Line break
-      $this->Ln(7);
+      $this->Ln(5);
     } else {
       // Line break
       $this->Ln(7);
@@ -104,6 +104,7 @@ class PDF extends FPDF
     $field = explode(",", $field);
     // Column widths
     $w = $width;
+    $this->Ln(1);
     // Header
     $this->SetFont('THSarabun', 'b', 14);
     for ($i = 0; $i < count($header); $i++)
@@ -227,27 +228,28 @@ $pdf->SetFont('THSarabun', 'b', 11);
 $pdf->Cell(1);
 $pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", "โรงซัก : " . $facname), 0, 0, 'L');
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
-$pdf->Ln(10);
+$pdf->Ln();
 
 $query = "SELECT
-          dirty.DocNo,
-          dirty_detail.Qty,
-          department.DepName
-          FROM
-          dirty
-          INNER JOIN factory ON dirty.FacCode = factory.FacCode
-          INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
-          INNER JOIN department ON dirty.DepCode = department.DepCode
+item.ItemName,
+dirty_detail.Weight,
+department.DepName
+FROM
+department
+INNER JOIN dirty ON dirty.DepCode = department.DepCode
+INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
+INNER JOIN factory ON dirty.FacCode = factory.FacCode
+INNER JOIN item ON item.itemcode = dirty_detail.itemcode
           $where
           AND factory.FacCode = '$FacCode'
-          ORDER BY dirty.DocNo
+          ORDER BY item.ItemName , department.DepName
           ";
 // Number of column
 $numfield = 4;
 // Field data (Must match with Query)
-$field = "DocNo, ,DepName,Qty";
+$field = "ItemName, ,DepName,Weight";
 // Table header
-$header = array("หมายเลขเอกสาร", 'ลำดับ', 'แผนก', 'น้ำหนัก(กิโลกรัม)');
+$header = array("ชื่อ", 'ลำดับ', 'แผนก', 'น้ำหนัก(กิโลกรัม)');
 // width of column table
 $width = array(50,60,40,40);
 // Get Data and store in Result

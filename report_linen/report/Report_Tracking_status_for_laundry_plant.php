@@ -4,13 +4,51 @@ require('connect.php');
 require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
-// Date
-// $eDate = "2018-06-06";
-$eDate = $_GET['eDate'];
-$eDate = explode("/", $eDate);
-$eDate = $eDate[2] . '-' . $eDate[1] . '-' . $eDate[0];
+session_start();
+$data=$_SESSION['data_send'];
+$HptCode=$data['HptCode'];
+$FacCode=$data['FacCode'];
+$date1=$data['date1'];
+$date2=$data['date2'];
+$chk=$data['chk'];
+$year=$data['year'];
+$format=$data['Format'];
+$DepCode=$data['DepCode'];
 
-$dept = $_GET['dept'];
+$where='';
+//print_r($data);
+if($chk == 'one'){
+  if ($format == 1) {
+    $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
+    list($year,$mouth,$day) = explode("-", $date1);
+    $datetime = new DatetimeTH();
+    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+  }
+  elseif ($format = 3) {
+      $where = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
+      $date_header= "ประจำปี : $date1";
+    }
+}
+elseif($chk == 'between'){
+  $where =   "WHERE dirty.Docdate BETWEEN '$date1' AND '$date2'";
+  list($year,$mouth,$day) = explode("-", $date1);
+  list($year2,$mouth2,$day2) = explode("-", $date2);
+  $datetime = new DatetimeTH();
+  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
+                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
+
+}
+elseif($chk == 'month'){
+    $where =   "WHERE month (dirty.Docdate) = ".$date1;
+    $datetime = new DatetimeTH();
+    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
+
+}
+elseif ($chk == 'monthbetween') {
+  $where =   "WHERE month(dirty.Docdate) BETWEEN $date1 AND $date2";
+  $datetime = new DatetimeTH();
+  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
+}
 
 $language = $_GET['lang'];
 if ($language == "en") {
@@ -41,11 +79,6 @@ class PDF extends FPDF
       $this->SetFont('THSarabun', 'b', 14);
       $this->Cell(80);
       $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "Tracking Status Laundry Plant Report "), 0, 0, 'C');
-
-      $this->Ln(10);
-      $this->Cell(10, 0, "");
-      $this->Cell(100, 10, iconv("UTF-8", "TIS-620", "โรงซัก....."), 0, 0, 'L');
-      $this->Cell(56, 10, iconv("UTF-8", "TIS-620", "ประจำเดือน"), 0, 0, 'R');
       $this->Ln(10);
     } else {
       // Line break
@@ -53,7 +86,67 @@ class PDF extends FPDF
     }
   }
 
+  function setTable($pdf, $header, $data, $width, $numfield, $field)
+  {
+    $field = explode(",", $field);
+    // Column widths
+    $w = $width;
+    // Header
+    $this->SetFont('THSarabun', 'b', 12);
 
+    $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
+    $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
+    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 0, 'C');
+    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
+    $this->Cell($w[5], 20, iconv("UTF-8", "TIS-620", $header[5]), 1, 0  , 'C');
+    $this->Ln();
+
+    $this->Cell(20, 0, iconv("UTF-8", "TIS-620", ""), 0, 0  , 'C');
+    for($i=0;$i<4;$i++){
+    $this->Cell(18.75,-10, iconv("UTF-8", "TIS-620", 'Start Time'), 1, 0, 'C');
+    $this->Cell(18.75,-10, iconv("UTF-8", "TIS-620", 'Finish Time '), 1, 0, 'C');
+  }
+    $this->Ln(0);
+
+
+    // set Data Details
+    $rows = 1;
+    $loop = 0;
+    $totalsum1 = 0;
+    $totalsum2 = 0;
+    echo $inner_array[$field[0]];
+    if (is_array($data)) {
+      foreach ($data as $data => $inner_array) {
+        list($hours,$min,$secord)=explode(":",$inner_array[$field[1]]);
+        list($hours2,$min2,$secord2)=explode(":",$inner_array[$field[8]]);
+        $total_hours = $hours -  $hours2;
+        $total_min = $min-$min2;
+        $this->SetFont('THSarabun', '', 10);
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[0]],8)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[1]],0,5)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[2]],0,5)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[3]],0,5)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[4]],0,5)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[5]],0,5)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[6]],0,5)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[7]],0,5)), 1, 0, 'C');
+        $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[8]],0,5)), 1, 0, 'C');
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", abs($total_hours)." ชั่วโมง ". abs($total_min)." นาที"), 1, 0, 'C');
+        $this->Ln();
+        $rows++;
+        $totalsum1 += $inner_array[$field[2]];
+        $totalsum2 += $inner_array[$field[4]];
+      }
+      }
+      // Footer Table
+
+
+    $footer_nextpage = $loop % 24;
+    if ($footer_nextpage >= 23) {
+      $pdf->AddPage("P", "A4");
+    }
+  }
 
   // Page footer
   function Footer()
@@ -76,80 +169,57 @@ $datetime = new DatetimeTH();
 
 // Using Coding
 $pdf->AddPage("P", "A4");
-$pdf->SetFont('THSarabun', 'b', 11);
-$pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Date"), 1, 0, 'C');
-$pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", "Receive Dirty Linen Time"), 1, 0, 'C');
-$pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", "Washing Time"), 1, 0, 'C');
-$pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", "Packing Time"), 1, 0, 'C');
-$pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", "Distribute Time"), 1, 1, 'C');
-
-
-
-
-for ($i = 1; $i < 100; $i++) {
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "$i/7/2561"), 1, 0, 'C');
-  $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
-  $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
-  $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
-  $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", ""), 1, 1, 'C');
-}
-
-
-
-
-
-/*$Sql = "SELECT
-        clean.DocNo,
-        clean.DocDate,
-        factory.FacName
-        FROM
-        clean
-        INNER JOIN factory ON clean.FacCode = factory.FacCode
-        WHERE clean.FacCode = 1";
-$meQuery = mysqli_query($conn,$Sql);
+$Sql = "SELECT
+factory.Facname
+FROM
+process
+INNER JOIN dirty ON Process.RefDocNo = dirty.DocNo
+INNER JOIN factory ON factory.FacCode = dirty.FacCode
+$where
+AND dirty.FacCode = $FacCode
+       ";
+$meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $factory = $Result['FacName'];
-        $DocDate = date('d/m/Y',strtotime($Result['DocDate']));
+  $Facname = $Result['Facname'];
 }
-
 $pdf->SetFont('THSarabun','b',11);
 $pdf->Cell(1);
-$pdf->Cell(165,10,iconv("UTF-8","TIS-620","โรงซัก : ".$factory),0,0,'L');
-$pdf->Cell(ุ60,10,iconv("UTF-8","TIS-620","วันที่ : " .$DocDate),0,0,'L');
+$pdf->Cell(165,10,iconv("UTF-8","TIS-620","โรงซัก : ".$Facname),0,0,'L');
+$pdf->Cell(ุ60,10,iconv("UTF-8","TIS-620",$date_header),0,0,'R');
 $pdf->Ln(10);
-/*
+
 $query = "SELECT
-          item.ItemName,
-          clean_detail.Qty,
-          ROUND((item.FacPrice * clean_detail.Qty)) AS TotalP
-          FROM
-          clean
-          INNER JOIN factory ON clean.FacCode = factory.FacCode
-          INNER JOIN clean_detail ON clean.DocNo = clean_detail.DocNo
-          INNER JOIN item ON clean_detail.ItemCode = item.ItemCode
-          WHERE clean.FacCode = 1";
+TIME (process.WashStartTime) AS WashStartTime ,
+TIME (process.WashEndTime) AS WashEndTime,
+TIME (process.PackStartTime)AS PackStartTime,
+TIME (process.PackEndTime)AS PackEndTime,
+TIME (process.SendStartTime)AS SendStartTime,
+TIME (process.SendEndTime)AS SendEndTime,
+dirty.FacCode,
+dirty.DocDate,
+TIME (dirty.ReceiveDate)AS ReceiveDate
+FROM
+process
+INNER JOIN dirty ON Process.RefDocNo = dirty.DocNo
+$where
+AND dirty.FacCode = $FacCode
+";
 // var_dump($query); die;
 // Number of column
-$numfield = 3;
+$numfield = 6;
 // Field data (Must match with Query)
-$field = "ItemName,Qty,TotalP";
+$field = "DocDate,ReceiveDate,SendEndTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total";
 // Table header
-$header = array('ITEM','จำนวน','จำนวนเงิน');
+$header = array('date','Receive Dirty Linen Time','Washing Time','Packing Time','Distribute Time','Total');
 // width of column table
-$width = array(80,55,55);
+$width = array(20,37.5,37.5,37.5,37.5,20);
 // Get Data and store in Result
 $result = $data->getdata($conn,$query,$numfield,$field);
 // Set Table
 $pdf->SetFont('THSarabun','b',10);
 $pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
 $pdf->Ln();
-// Get $totalsum
-$totalsum1 = 0;
-if(is_array($result)){
-  foreach($result as $result=>$inner_array){
-    $totalsum1 += $inner_array['TotalP'];
-  }
-}*/
+
 // Footer Table
 
 $ddate = date('d_m_Y');

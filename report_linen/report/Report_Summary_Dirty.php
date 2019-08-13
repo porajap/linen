@@ -4,6 +4,49 @@ require('connect.php');
 require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
+session_start();
+$data=$_SESSION['data_send'];
+$HptCode=$data['HptCode'];
+$FacCode=$data['FacCode'];
+$date1=$data['date1'];
+$date2=$data['date2'];
+$chk=$data['chk'];
+$year=$data['year'];
+$format=$data['Format'];
+$where='';
+//print_r($data);
+if($chk == 'one'){
+  if ($format == 1) {
+    $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
+    list($year,$mouth,$day) = explode("-", $date1);
+    $datetime = new DatetimeTH();
+    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+  }
+  elseif ($format = 3) {
+      $where = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
+      $date_header= "ประจำปี : $date1";
+    }
+}
+elseif($chk == 'between'){
+  $where =   "WHERE dirty.Docdate BETWEEN '$date1' AND '$date2'";
+  list($year,$mouth,$day) = explode("-", $date1);
+  list($year2,$mouth2,$day2) = explode("-", $date2);
+  $datetime = new DatetimeTH();
+  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
+                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
+
+}
+elseif($chk == 'month'){
+    $where =   "WHERE month (dirty.Docdate) = ".$date1;
+    $datetime = new DatetimeTH();
+    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
+
+}
+elseif ($chk == 'monthbetween') {
+  $where =   "WHERE MONTH(dirty.DocDate) BETWEEN '$date1' AND '$date2'";
+  $datetime = new DatetimeTH();
+  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
+}
 
 $language = $_GET['lang'];
 if ($language == "en") {
@@ -142,13 +185,13 @@ $Sql = "SELECT
         DATE(clean.DocDate) AS DocDate
         FROM
         clean
-        INNER JOIN factory ON clean.FacCode = factory.FacCode
-        WHERE DATE(clean.DocDate) = DATE ('$date1')
-        AND clean.FacCode = $FacCode";
+        INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+        INNER JOIN factory ON dirty.FacCode = factory.FacCode
+      ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $factory = $Result['FacName'];
-  $DocDate = date('d/m/Y', strtotime($Result['DocDate']));
+
 }
 
 $pdf->SetFont('THSarabun', 'b', 11);
@@ -169,9 +212,7 @@ $pdf->Ln(10);
             INNER JOIN claim ON clean.refdocno = claim.docno
             INNER JOIN repair ON claim.refdocno = repair.docno
             INNER JOIN repair_detail ON repair.docno = repair_detail.docno
-            WHERE DATE(clean.DocDate) = DATE ('$date1')
-            AND clean.FacCode = $FacCode
-            GROUP BY item.ItemName" ;
+            " ;
 // var_dump($query); die;
 // Number of column
 $numfield = 5;

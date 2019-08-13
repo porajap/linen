@@ -78,9 +78,9 @@ class PDF extends FPDF
       // Title
       $this->SetFont('THSarabun', 'b', 14);
       $this->Cell(80);
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "Tracking Status for linen operation Report "), 0, 0, 'C');
+      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "สรุปค่าบริการ รับ-ส่งผ้า (claim)"), 0, 0, 'C');
+            $this->Ln(5);
 
-      $this->Ln(10);
 
     } else {
       // Line break
@@ -99,7 +99,7 @@ class PDF extends FPDF
     $this->Ln();
 
     // set Data Details
-    $count = 0;
+    $count = 1;
     $rows = 1;
     $totalsum1 = 0;
     $totalsum2 = 0;
@@ -116,32 +116,48 @@ class PDF extends FPDF
           }
         }
         $pdf->SetFont('THSarabun', '', 12);
-        list($hours,$min,$secord)=explode(":",$inner_array[$field[2]]);
-        list($hours2,$min2,$secord2)=explode(":",$inner_array[$field[3]]);
-        list($hours3,$min3,$secord3)=explode(":",$inner_array[$field[4]]);
-        $total_hours = abs($hours+$hours2+$hours3);
-        $total_min = abs($min+$min2+$min3);
-        if ($total_min/60>=1) {
-          $total_hours+=$total_min/60;
-          $total_min=$total_min%60;
-        }
-        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[0]],8)), 1, 0, 'C');
-        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[1]],0,5)), 1, 0, 'C');
-        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[2]],0,5)), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[3]],0,5)), 1, 0, 'C');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[4]],1,5)), 1, 0, 'C');
-        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($total_hours)." ชั่วโมง ".$total_min." นาที"), 1, 0, 'C');
+        $total=$inner_array[$field[3]]*$inner_array[$field[4]];
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
+        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $total), 1, 0, 'C');
         $this->Ln();
-
+        $total_all+=$total;
+        $count++;
       }
     }
+    $tax=$total_all*7/100;
+    $total_with_tax = $tax + $total_all;
+    $pdf->Cell(78, 30, iconv("UTF-8", "TIS-620", "จำนวนเงิน"), 1, 0, 'C');
+    $pdf->Cell(84, 10, iconv("UTF-8", "TIS-620", "ยอดเงินก่อนภาษีมูลค่าเพิ่ม"), 1, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", number_format($total_all, 2)), 1, 1, 'C');
+    $pdf->Cell(78, 30, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(84, 10, iconv("UTF-8", "TIS-620", "ภาษีมูลค่าเพิ่ม 7%"), 1, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", number_format($tax, 2)), 1, 1, 'C');
+    $pdf->Cell(78, 30, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(84, 10, iconv("UTF-8", "TIS-620", "รวมเงินสุทธิ (รวมภาษีมูลค่าเพิ่ม)"), 1, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", number_format($total_with_tax, 2)), 1, 1, 'C');
+    $pdf->ln(10);
 
+    // Footer Table
 
-
+    $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 0, 'C');
+    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 1, 'C');
+    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 0, 'C');
+    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 1, 'C');
+    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 15, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 0, 'C');
+    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 15, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 1, 'C');
     if ($count % 25 >= 22) {
       $pdf->AddPage("P", "A4");
     }
-
     // Closing line
     $pdf->Cell(array_sum($w), 0, '', 'T');
   }
@@ -167,42 +183,41 @@ $data = new Data();
 $pdf->AddPage("P", "A4");
 
 $Sql = "SELECT
-department.DepName
+site.HptName
 FROM
-shelfcount
-INNER JOIN department on department.DepCode = shelfcount.DepCode
-$where
-AND department.DepCode = $depcode ";
+claim_detail
+INNER JOIN claim on claim.docno = claim_detail.DocNo
+INNER JOIN site on site.HptCode = claim.HptCode ";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $DepName = $Result['DepName'];
+        $HptName = $Result['HptName'];
 }
-$pdf->SetFont('THSarabun','b',11);
+      $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(1);
-$pdf->Cell(165,10,iconv("UTF-8","TIS-620","หน่วยงาน : ".$DepName),0,0,'L');
-$pdf->Cell(ุ60,10,iconv("UTF-8","TIS-620",$date_header),0,0,'R');
-$pdf->Ln(10);
+$pdf->Cell(190,10,iconv("UTF-8","TIS-620","โรงพยาบาล ".$HptName." ".$date_header),0,0,'C');
+$pdf->ln(10);
+
 
 $query = "SELECT
-shelfcount.DocDate,
-shelfcount.CycleTime,
-TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
-TIMEDIFF(shelfcount.PkEndTime,shelfcount.PkStartTime)AS PK ,
-TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV
+item.ItemName,
+claim_detail.Qty1,
+item_unit.Unitname,
+claim_detail.Price
 FROM
-shelfcount
-INNER JOIN department on department.DepCode = shelfcount.DepCode
-$where
-AND shelfcount.DepCode = $depcode";
+claim_detail
+INNER JOIN claim on claim.docno = claim_detail.DocNo
+INNER JOIN item on item.ItemCode = claim_detail.ItemCode
+INNER JOIN item_unit on item_unit.UnitCode = claim_detail.UnitCode1
+";
 // var_dump($query); die;
 // Number of column
 $numfield = 6;
 // Field data (Must match with Query)
-$field = "DocDate,CycleTime,SC,PK,DV,";
+$field = ",ItemName,Unitname,Qty1,Price,";
 // Table header
-$header = array('DATE','CycleTime','shelfcount_TIME','PACKING_TIME','DELIVERY TIME','TOTAL');
+$header = array('ลำดับ','รายการ','หน่วย','จำนวน','ราคาต่อหน่วย ','จำนวนเงิน');
 // width of column table
-$width = array(20,34,34,34,34,34);
+$width = array(28,50,28,28,28,28);
 // Get Data and store in Result
 $result = $data->getdata($conn,$query,$numfield,$field);
 // Set Table
@@ -210,7 +225,10 @@ $pdf->SetFont('THSarabun','b',10);
 $pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
 $pdf->Ln();
 
-// Footer Table
+
+
+
+
 
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_shelfcount_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Clean_' . $ddate . '.pdf');

@@ -166,15 +166,15 @@ $Sql = "SELECT department.DepName,
       site.HptName,
       factory.facname
           FROM claim
-              INNER JOIN clean ON clean.refdocno = claim.docno
-              INNER JOIN dirty ON dirty.refdocno = clean.docno
-      				INNER JOIN factory ON factory.faccode = clean.FacCode
+              INNER JOIN clean ON clean.docno = claim.refdocno
+              INNER JOIN dirty ON dirty.docno = clean.refdocno
+      				INNER JOIN factory ON factory.faccode = dirty.FacCode
               INNER JOIN department ON claim.HptCode = department.HptCode
               INNER JOIN site ON site.HptCode = department.HptCode
               $where
               AND claim.HptCode = '$HptCode'
-              AND claim.DepCode = '$DepCode'
-              AND factory.FacCode = '$FacCode'
+              AND claim.DepCode = $DepCode
+              AND factory.FacCode = $FacCode
               GROUP BY claim.DocDate ORDER BY claim.DocDate ASC
         ";
 $meQuery = mysqli_query($conn,$Sql);
@@ -191,23 +191,25 @@ $pdf->Ln(10);
 $query = "SELECT
           clean_detail.Qty AS CLEAN,
           claim_detail.Qty1 AS CLAIM,
-          repair_detail.Qty AS REPAIR,
-          damage_detail.Qty DAMAGE,
+          repair_detail.Qty AS REPAIR ,
+          damage_detail.Qty AS DAMAGE,
           factory.FacName
           FROM
           claim
-					INNER JOIN clean ON  clean.docno = claim.refdocno
-					INNER JOIN factory ON  factory.FacCode = clean.FacCode
-					INNER JOIN clean_detail ON clean.docno = clean_detail.docno
+					INNER JOIN clean ON  clean.DocNo = claim.RefDocNo
+					INNER JOIN dirty ON  clean.RefDocNo = dirty.DocNo
+					INNER JOIN factory ON  factory.FacCode = dirty.FacCode
+					INNER JOIN clean_detail ON clean.DocNo = clean_detail.DocNo
 					INNER JOIN claim_detail ON claim.DocNo = claim_detail.DocNo
-					INNER JOIN repair ON claim.docno = repair.refdocno
-          INNER JOIN repair_detail ON repair.docno = repair_detail.docno
-					INNER JOIN damage ON claim.docno = damage.refdocno
-          INNER JOIN damage_detail ON damage.docno = damage_detail.docno
-					INNER JOIN Department ON claim.HptCode = department.HptCode
+					INNER JOIN repair ON claim.RefDocNo = repair.DocNo
+          INNER JOIN repair_detail ON repair.DocNo = repair_detail.DocNo
+					INNER JOIN damage ON claim.RefDocNo = damage.DocNo
+          INNER JOIN damage_detail ON damage.DocNo = damage_detail.DocNo
+					INNER JOIN department ON claim.HptCode = department.HptCode
 					$where
           AND claim.HptCode = '$HptCode'
 					AND department.DepCode = '$DepCode'
+          AND factory.FacCode = $FacCode
           ";
 // var_dump($query); die;
 // Number of column
