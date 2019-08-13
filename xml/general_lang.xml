@@ -253,10 +253,10 @@
 <r7><en>Report Shot and Over item</en><th>Report Shot and Over item</th></r7>
 <r8><en>Report Soiled Clean Ratio</en><th>Report Soiled Clean Ratio</th></r8>
 <r9><en>Report stock count</en><th>Report stock count</th></r9>
-<r10><en>Report Summary billing</en><th>Report Summary billing</th></r10>
-<r11><en>Report Summary cleaned linen weight</en><th>Report Summary cleaned linen weight</th></r11>
-<r12><en>Report Summary Dirty</en><th>Report Summary Dirty</th></r12>
-<r13><en>Report Summary Soiled Clean Ratio</en><th>Report Summary Soiled Clean Ratio</th></r13>
+<r10><en>Report Billing Claim</en><th>Report Billing Claim</th></r10>
+<r11><en>Report Billing Customer</en><th>Report Billing Customer</th></r11>
+<r12><en>Report Billing Factory</en><th>Report Billing Factory</th></r12>
+<r13><en>Report Summary Dirty</en><th>Report Summary Dirty</th></r13>
 <r14><en>Report Summary</en><th>Report Summary</th></r14>
 <r15><en>Report Tracking status for laundry plant</en><th>Report Tracking status for laundry plant</th></r15>
 <r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>

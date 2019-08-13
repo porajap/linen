@@ -244,11 +244,11 @@ function find_report($conn, $DATA){
         $return = r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'monthbetween');
       }
     }
-  }else if($typeReport == 12){
+  }else if($typeReport == 13){
     if($Format == 1 || $Format == 3){
       if($FormatDay == 1 || $Format == 3){
         $date1 = $date;
-        $return = r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'one');
+        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'one');
       }else{
         $date1 = newDate1($date);
         $date2 = newDate2($date);
@@ -257,11 +257,11 @@ function find_report($conn, $DATA){
     }else if($Format == 2){
       if($FormatMonth == 1){
         $date1 = newMonth($date);
-        $return = r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'month');
+        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'month');
       }else{
         $date1 = newMonth1($date);
         $date2 = newMonth2($date);
-        $return = r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'monthbetween');
+        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'monthbetween');
       }
     }
   }else if($typeReport == 15){
@@ -373,10 +373,10 @@ function typeReport($typeReport){
     'Report Shot and Over item' => 7,
     'Report Soiled Clean Ratio' => 8,
     'Report stock count' => 9,
-    'Report Summary billing' => 10,
-    'Report Summary cleaned linen weight' => 11,
-    'Report Summary Dirty' => 12,
-    'Report Summary Soiled Clean Ratio' => 13,
+    'Report Billing Claim' => 10,
+    'Report Billing Customer' => 11,
+    'Report Billing Factory' => 12,
+    'Report Summary Dirty' => 13,
     'Report Summary' => 14,
     'Report Tracking status for laundry plant' => 15,
     'Report Tracking status for linen operation' => 16
@@ -877,7 +877,7 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   }
   else if($Format == 3){
       $Sql = "SELECT
-              item_stock.ExpireDate,
+              DATE(item_stock.ExpireDate) AS ExpireDateX ,
               department.DepName
               FROM
               item_stock
@@ -893,7 +893,7 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepName'] = $Result['DepName'];
-    $return[$count]['DocDate'] = $Result['ExpireDate'];
+    $return[$count]['DocDate'] = $Result['ExpireDateX'];
     $return[$count]['DocTime'] = $Result['DocTime'];
     $count++;
     $boolean = true;
@@ -911,25 +911,31 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   }
 }
 
-function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
+function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk){
   $count = 0;
   $boolean = false;
   if($Format == 1 || $Format == 3){
     if($chk == 'one'){
-      $Sql = "SELECT factory.FacName,
-              DATE(clean.DocDate) AS DocDate
+      $Sql = "SELECT 	factory.FacName, 
+                      site.HptName ,
+                      DATE(clean.DocDate) AS DocDate
               FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
               INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
               INNER JOIN factory ON dirty.FacCode = factory.FacCode
-              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode
+              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode AND site.HptCode ='$HptCode'
               ORDER BY clean.DocDate ASC";
     }else{
-      $Sql = "SELECT factory.FacName,
+              $Sql = "SELECT 	factory.FacName, 
+              site.HptName ,
               DATE(clean.DocDate) AS DocDate
               FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
               INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
               INNER JOIN factory ON dirty.FacCode = factory.FacCode
-              WHERE clean.DocDate BETWEEN '$date1' AND '$date2' AND factory.FacCode = $FacCode 
+              WHERE clean.DocDate BETWEEN '$date1' AND '$date2' AND factory.FacCode = $FacCode AND site.HptCode ='$HptCode'
               ORDER BY clean.DocDate ASC";
     }
   }else if($Format == 2){
@@ -938,20 +944,26 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if($chk == 'month'){
-      $Sql = "SELECT factory.FacName,
+              $Sql = "SELECT 	factory.FacName, 
+              site.HptName ,
               DATE(clean.DocDate) AS DocDate
               FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
               INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
-              INNER JOIN factory ON dirty.FacCode = factory.FacCode
-              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode           
+              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode AND site.HptCode ='$HptCode'
               ORDER BY clean.DocDate ASC";
     }else{
-      $Sql = "SELECT factory.FacName,
+              $Sql = "SELECT 	factory.FacName, 
+              site.HptName ,
               DATE(clean.DocDate) AS DocDate
               FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
               INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
-              INNER JOIN factory ON dirty.FacCode = factory.FacCode
-              WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode   
+              WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2 
               ORDER BY clean.DocDate ASC";
     }
   }
@@ -963,18 +975,19 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['FacName'] = $Result['FacName'];
     $return[$count]['DocDate'] = $Result['DocDate'];
+    $return[$count]['HptName'] = $Result['HptName'];
     $count++;
     $boolean = true;
   }
 
   if($boolean == true){
     $return['status'] = 'success';
-    $return['form'] = 'r12';
+    $return['form'] = 'r13';
     $return['countRow'] = $count;
     return $return;
   }else{
     $return['status'] = 'notfound';
-    $return['form'] = 'r12';
+    $return['form'] = 'r13';
     return $return;
   }
 }
