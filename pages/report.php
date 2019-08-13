@@ -758,7 +758,7 @@ $array2 = json_decode($json2,TRUE);
 
   function disabled_fill(){
     var typeReport = $('#typereport').val();
-    if(typeReport == 1 || typeReport == 6 || typeReport == 8  || typeReport == 15){
+    if(typeReport == 1 || typeReport == 6 || typeReport == 8 || typeReport == 15){
       $('#hotpital').attr('disabled', true);
       $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);
@@ -769,7 +769,7 @@ $array2 = json_decode($json2,TRUE);
       $('#department').attr('disabled', false);
       $('#factory').attr('disabled', false);
       $('#hotpital').val('BHQ');
-      $('#select0').attr('selected', true);
+      $('#department').val(1);
     }else if(typeReport == 11 || typeReport == 13){
       $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);
