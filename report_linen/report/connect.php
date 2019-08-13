@@ -4,16 +4,10 @@
  * set var
  */
 
-
 $cfHost = "localhost";
 $cfUser = "root";
 $cfPassword = "A$192dijd";
 $cfDatabase = "cssd_linen";
-
-// $cfHost = "poseintelligence.com";
-// $cfUser = "cssd_root";
-// $cfPassword = "A$192dijd";
-// $cfDatabase = "cssd_data";
 
 // A$192dijd
 

@@ -119,13 +119,13 @@ class PDF extends FPDF
         if ($rows > 23) {
           $loop++;
           if ($loop % 24 == 1) {
-                $this->SetFont('THSarabun', 'b', 12);
+                $this->SetFont('THSarabun', 'b', 14);
             for ($i = 0; $i < count($header); $i++)
               $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
             $this->Ln();
           }
         }
-        $this->SetFont('THSarabun', '', 12);
+        $this->SetFont('THSarabun', '', 14);
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
@@ -138,6 +138,7 @@ class PDF extends FPDF
       }
       }
       // Footer Table
+      $this->SetFont('THSarabun', 'B', 14);
       $footer = array('Total','', number_format($totalsum1, 2), '', number_format($totalsum2, 2),'');
       for ($i = 0; $i < count($footer); $i++)
       $pdf->Cell($width[$i], 7, iconv("UTF-8", "TIS-620", $footer[$i] . " "), 1, 0, 'R');
@@ -199,7 +200,7 @@ $field = "DocNo,ItemName,Weight,Price,Total";
 // Table header
 $header = array('DETAILS','ชื่อ', 'WEIGHT (Kg)', 'ราคาต่อหน่วย', 'จำนวนเงิน');
 // width of column table
-$width = array(50,30,20,45,45);
+$width = array(50,60,20,30,30);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table

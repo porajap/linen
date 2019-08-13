@@ -153,7 +153,8 @@ $Sql = "SELECT
         DATE(clean.DocDate) AS DocDate
         FROM
         clean
-        INNER JOIN factory ON clean.FacCode = factory.FacCode
+				INNER JOIN dirty ON clean.docno = dirty.RefDocNo
+        INNER JOIN factory ON dirty.FacCode = factory.FacCode
         $where
         AND factory.FacCode= $FacCode";
 $meQuery = mysqli_query($conn, $Sql);
@@ -176,10 +177,10 @@ $query = "SELECT
           clean.Total AS Total2,
           ROUND( (-1*((clean.Total - dirty.Total ) / dirty.Total) * 100), 2)  AS Precent
           FROM clean
-          INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
+          INNER JOIN dirty ON clean.DocNo = dirty.RefDocNo
           INNER JOIN department ON clean.DepCode = department.DepCode
-          INNER JOIN site ON clean.HptCode = site.HptCode
-          INNER JOIN factory ON factory.FacCode = clean.FacCode
+          INNER JOIN site ON department.HptCode = site.HptCode
+          INNER JOIN factory ON dirty.FacCode = factory.FacCode
           $where
           AND factory.FacCode= $FacCode
           ";

@@ -4,8 +4,51 @@ require('connect.php');
 require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
-// Date
-// $eDate = "2018-06-06";
+session_start();
+$data=$_SESSION['data_send'];
+$HptCode=$data['HptCode'];
+$FacCode=$data['FacCode'];
+$date1=$data['date1'];
+$date2=$data['date2'];
+$chk=$data['chk'];
+$year=$data['year'];
+$depcode=$data['DepCode'];
+$format=$data['Format'];
+$where='';
+
+//print_r($data);
+if($chk == 'one'){
+  if ($format == 1) {
+    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    list($year,$mouth,$day) = explode("-", $date1);
+    $datetime = new DatetimeTH();
+    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+  }
+  elseif ($format = 3) {
+      $where = "WHERE  year (shelfcount.Docdate) LIKE '%$date1%'";
+      $date_header= "ประจำปี : $date1";
+    }
+}
+elseif($chk == 'between'){
+  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  list($year,$mouth,$day) = explode("-", $date1);
+  list($year2,$mouth2,$day2) = explode("-", $date2);
+  $datetime = new DatetimeTH();
+  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
+                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
+
+}
+elseif($chk == 'month'){
+    $where =   "WHERE month (shelfcount.Docdate) = ".$date1;
+    $datetime = new DatetimeTH();
+    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
+
+}
+elseif ($chk == 'monthbetween') {
+  $where =   "WHERE month(shelfcount.Docdate) BETWEEN $date1 AND $date2";
+  $datetime = new DatetimeTH();
+  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
+}
 $language = $_GET['lang'];
 if ($language == "en") {
   $language = "en";
@@ -68,28 +111,34 @@ $Sql = "SELECT
         shelfcount.DocNo,
         DATE(shelfcount.DocDate) AS DocDate,
         TIME(shelfcount.DocDate) AS DocTime,
-        department.DepName
+        department.DepName,
+        shelfcount.CycleTime,
+				TIME(shelfcount.DvStartTime) as  DvStartTime
         FROM
         shelfcount
         INNER JOIN department ON shelfcount.DepCode = department.DepCode
-        WHERE shelfcount.DocNo = 'SCBHQ/1907-00001'";
+        $where
+        AND department.DepCode = $depcode
+        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DeptName = $Result['DepName'];
   $DocDate = $Result['DocDate'];
   $DocTime = $Result['DocTime'];
   $DocNo = $Result['DocNo'];
-  $rows = $Result['rows'];
+  $Delivery = $Result['DvStartTime'];
+  $Cycle = $Result['CycleTime'];
 }
 $pdf->SetFont('THSarabun', 'b', 12);
 $pdf->Cell(5);
-$pdf->Cell(60, 10, iconv("UTF-8", "TIS-620", "หน่วยงาน : " . $DeptName), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "วันที่ : " . $DocDate), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Time : " . $DocTime), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Cycle : " . $DocNo), 0, 0, 'L');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "หน่วยงาน : " . $DeptName), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Cycle : " . $Cycle), 0, 0, 'L');
+$pdf->Cell(115, 10, iconv("UTF-8", "TIS-620", $date_header ), 0, 0, 'R');
+
 $pdf->Ln(7);
 $pdf->Cell(5);
-$pdf->Cell(100, 10, iconv("UTF-8", "TIS-620", "Delivery : "), 0, 0, 'L');
+$pdf->Cell(110, 10, iconv("UTF-8", "TIS-620", "Delivery : ".$Delivery), 0, 0, 'L');
+$pdf->Cell(75, 10, iconv("UTF-8", "TIS-620", "Time : " . $DocTime), 0, 0, 'R');
 $pdf->Ln(10);
 
 
@@ -116,7 +165,9 @@ $query = "SELECT
           shelfcount
           INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
           INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
-          WHERE shelfcount.DocNo = 'SCBHQ/1907-00001'";
+          INNER JOIN department ON shelfcount.DepCode = department.DepCode
+          $where
+          AND department.DepCode = $depcode ";
 $meQuery = mysqli_query($conn, $query);
 $i = 1;
 $header = 0;
@@ -137,12 +188,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
       $pdf->ln();
     }
   }
+$issue=$Result['ParQty']-$Result['CcQty'];
   $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'L');
   $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 0, 'L');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['Weight']), 1, 1, 'L');
