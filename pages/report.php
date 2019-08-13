@@ -166,7 +166,7 @@ $array2 = json_decode($json2,TRUE);
     var n = monthArray[d.getMonth()];  
     $('#onemonth').attr('value', n+'/'+year);
   }
-// 
+
   function find_indexMonth2(year){
     var monthArray = new Array();
     monthArray[0] = "January";
@@ -387,6 +387,7 @@ $array2 = json_decode($json2,TRUE);
             var PmID = <?php echo $PmID;?>;
             var HptCode = '<?php echo $HptCode;?>';
             $("#factory").empty();
+            $("#department").empty();
             var facValue0 = '<?php echo $array['factory'][$language]; ?>';
             var fac = "<option value='0'>"+facValue0+"</option>";
             for (var i = 0; i < temp['Rowx']; i++) {
@@ -405,7 +406,7 @@ $array2 = json_decode($json2,TRUE);
 
 
             for (var i = 0; i < temp['RowDep']; i++) {
-             var dep1 = "<option value="+temp[i]['DepCode']+" id='select"+i+"'>"+temp[i]['DepName']+"</option>";
+             var dep1 = "<option value="+temp[i]['DepCode']+" id='select_"+i+"'>"+temp[i]['DepName']+"</option>";
              $("#department").append(dep1);
             }
 
@@ -810,7 +811,7 @@ $array2 = json_decode($json2,TRUE);
       $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);
       $('#hotpitalX').attr("selected" , true);
-      $('#department').val(0);
+      $('#selectHpt_0').attr("selected" , true);
     }else if(typeReport == 3 ||typeReport == 2){
       $('#hotpital').attr('disabled', false);
       $('#department').attr('disabled', true);
