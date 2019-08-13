@@ -175,11 +175,17 @@ function CreateDocument($conn, $DATA)
     INNER JOIN department ON draw.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON draw.Modify_Code = users.ID ";
-    if ($selecta == 0) {
-      $Sql.= "WHERE draw.DepCode = $deptCode AND draw.DocNo LIKE '%$DocNo%' ";
-    }elseif($selecta==1){
-      $Sql.="WHERE site.HptCode = '$Hotp'";
-    }
+      if ($deptCode != null) {
+        $Sql .= "WHERE draw.DepCode = $deptCode AND draw.DocNo LIKE '%$DocNo%' ";
+      }else{
+        $Sql.="WHERE site.HptCode = '$Hotp'";
+
+      }
+    // if ($selecta == 0) {
+    //   $Sql.= "WHERE draw.DepCode = $deptCode AND draw.DocNo LIKE '%$DocNo%' ";
+    // }elseif($selecta==1){
+    //   $Sql.="WHERE site.HptCode = '$Hotp'";
+    // }
     $Sql.= "ORDER BY draw.DocNo DESC LIMIT 500 ";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

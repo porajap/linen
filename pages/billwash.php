@@ -1343,8 +1343,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row" style="margin-top:10px;">
                           <div class="col-md-4">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Dep2">
-                              </select>
+                              <select class="form-control" style='font-size:24px;' id="Dep2"></select>
                             </div>
                           </div>
                           <div class="col-md-6 mhee">
@@ -1359,7 +1358,7 @@ $array2 = json_decode($json2,TRUE);
                             </div>
                           </div>
                         </div>
-                          
+                        
                         <div class="search_custom col-md-2" style="padding-left: 93px;">
                           <div class="circle6 d-flex justify-content-start">
                             <button class="btn"  onclick="SelectDocument()" id="btn_show" >
@@ -1367,7 +1366,7 @@ $array2 = json_decode($json2,TRUE);
                             </button>
                           </div>
                         </div>
-                        </div>
+                      </div>
 
                         <div class="row">
                           <div class="col-md-12"> <!-- tag column 1 -->
@@ -1508,9 +1507,6 @@ $array2 = json_decode($json2,TRUE);
               <!-- serach----------------------- -->
               <div class="search_custom col-md-2">
                 <div class="search_1 d-flex justify-content-start">
-                  <!-- <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                      <i class="fas fa-search"></i>
-                  </div> -->
                   <button class="btn" onclick="ShowItem()" id="bSave">
                       <i class="fas fa-search mr-2"></i>
                       <?php echo $array['search'][$language]; ?>
@@ -1520,9 +1516,6 @@ $array2 = json_decode($json2,TRUE);
 
               <div class="search_custom col-md-2">
                 <div class="import_1 d-flex justify-content-start">
-                  <!-- <div class="import_1 d-flex align-items-center d-flex justify-content-center">
-                      <i class="fas fa-file-import"></i>
-                  </div> -->
                   <button class="btn" onclick="getImport(1)" id="bSave">
                       <i class="fas fa-file-import mr-2 pt-1"></i>
                       <?php echo $array['import'][$language]; ?>

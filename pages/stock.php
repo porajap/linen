@@ -434,12 +434,12 @@ $array = json_decode($json,TRUE);
                             <div class='form-group row'>
                               <input  type="text" class="form-control col-sm-5"  id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                               <div class="search_custom col-md-3">
-                                  <div class="search_1 d-flex align-items-center justify-content-center">
-                                    <button class="btn"  onclick="ShowDocument(0)" >
-                                      <i class="fas fa-search mr-3"></i><?php echo $array['search'][$language]; ?>
-                                    </button>
-                                  </div>
+                              <div class="search_1 d-flex justify-content-start">
+                                <button class="btn"  onclick="ShowDocument(0)" >
+                                  <i class="fas fa-search mr-2"></i> <?php echo $array['search'][$language]; ?>
+                                </button>
                               </div>
+                            </div>
                                           
                             </div>
                           </div>

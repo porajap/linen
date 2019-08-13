@@ -579,7 +579,7 @@ $array2 = json_decode($json2,TRUE);
               var FacCode = $("#factory").val();
 
               // alert( isStatus );
-              if(isStatus==1)
+              if(isStatus==1 || isStatus==3)
               isStatus=0;
               else
               isStatus=1;
@@ -782,7 +782,7 @@ $array2 = json_decode($json2,TRUE);
                         var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' >";
                         var Status = "";
                         var Style  = "";
-                        if(temp[i]['IsStatus']==1){
+                        if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3){
                           Status = "<?php echo $array['savesuccess'][$language]; ?>";
                           Style  = "style='width: 10%;color: #20B80E;'";
                         }else{
@@ -828,7 +828,7 @@ $array2 = json_decode($json2,TRUE);
                         $("#bDelete").prop('disabled', false);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', false);
-                      }else if(temp[0]['IsStatus']==1){
+                      }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                         $("#bSave").text('<?php echo $array['edit'][$language]; ?>');
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
@@ -873,16 +873,30 @@ $array2 = json_decode($json2,TRUE);
                         var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
                         var Status = "";
                         var Style  = "";
-                        if(temp[i]['IsStatus']==1){
-                          Status = "<?php echo $array['savesuccess'][$language]; ?>";
-                          Style  = "style='width: 10%;color: #20B80E;'";
-                        }else{
+                        if(temp[i]['IsStatus']==0){
                           Status = "<?php echo $array['draft'][$language]; ?>";
                           Style  = "style='width: 10%;color: #3399ff;'";
-                        }if(temp[i]['IsStatus']==2){
-                          Status = "<?php echo $array['cancelbill'][$language]; ?>";
+                        }else if(temp[i]['IsStatus']==1 ){
+                          Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                          Style  = "style='width: 10%;color: #20B80E;'";
+                        }else if (temp[i]['IsStatus']==2){
+                           Status = "<?php echo $array['cancelbill'][$language]; ?>";
                           Style  = "style='width: 10%;color: #ff0000;'";
+                        }else if (temp[i]['IsStatus']==3){
+                          Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                          Style  = "style='width: 10%;color: #20B80E;'";
                         }
+
+                        // if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3){
+                        //   Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                        //   Style  = "style='width: 10%;color: #20B80E;'";
+                        // }else if(temp[i]['IsStatus']==3){
+                        //   Status = "<?php echo $array['draft'][$language]; ?>";
+                        //   Style  = "style='width: 10%;color: #3399ff;'";
+                        // } else if(temp[i]['IsStatus']==2){
+                        //   Status = "<?php echo $array['cancelbill'][$language]; ?>";
+                        //   Style  = "style='width: 10%;color: #ff0000;'";
+                        // }
 
                         $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                         "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
@@ -1019,7 +1033,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       }
                                                     $('.numonly').on('input', function() {
-                                              this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+                                              this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                                           });
                     }else if( (temp["form"]=='ShowUsageCode') ){
                       var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";

@@ -832,13 +832,15 @@ $array2 = json_decode($json2,TRUE);
                 
               }
             }else if(temp["form"]=='getDepartment'){
-              $("#department").empty();
-              $("#Dep2").empty();
-              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                $("#department").append(Str);
-                $("#Dep2").append(Str);
-              }
+                      $("#department").empty();
+                      $("#Dep2").empty();
+                      var Str2 = "<option value='0'>ทุกแผนก</option>";
+                      for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                        Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                        var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                        $("#department").append(Str);
+                      }
+                      $("#Dep2").append(Str2);
             }else if( (temp["form"]=='CreateDocument') ){
               $("#docno").val(temp[0]['DocNo']);
               $("#docdate").val(temp[0]['DocDate']);
@@ -1569,97 +1571,93 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
                             </div>
                         </div> <!-- tag column 1 -->
-                                                              <!-- row btn -->
-                                                              <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
+     <!-- row btn -->
+     <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle1 d-flex align-items-center d-flex justify-content-center">
+                              <div class="circle1 d-flex justify-content-center">
+                                <button class="btn" onclick="CreateDocument()" id="bCreate" >
                                   <i class="fas fa-file-medical"></i>
+                                  <div>
+                                    <?php echo $array['createdocno'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
-                              <!-- <img src="../img/icon/ic_create.png"> -->
-                            </div>
-                            <div>
-                              <button class="btn" onclick="CreateDocument()" id="bCreate" >
-                                <?php echo $array['createdocno'][$language]; ?>
-                              </button>
                             </div>
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
+                              <div class="circle2 d-flex justify-content-center">
+                                <button class="btn" onclick="OpenDialogItem()" id="bImport">
                                   <i class="fas fa-file-import"></i>
+                                  <div>
+                                    <?php echo $array['import'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
-                              <!-- <img src="../img/icon/ic_import.png"> -->
-                            </div>
-                            <div>
-                              <button class="btn" onclick="OpenDialogItem()" id="bImport">
-                                <?php echo $array['import'][$language]; ?>
-                              </button>
                             </div>
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center">
+                                <button class="btn" onclick="DeleteItem()" id="bDelete">
                                   <i class="fas fa-trash-alt"></i>
+                                  <div>
+                                    <?php echo $array['delitem'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
-                              <!-- <img src="../img/icon/ic_delete.png"> -->
-                            </div>
-                            <div>
-                              <button class="btn" onclick="DeleteItem()" id="bDelete">
-                                <?php echo $array['delitem'][$language]; ?>
-                              </button>
                             </div>
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                                  <i class="fas fa-save"></i>
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn" onclick="SaveBill()" id="bSave">
+                                  <div id="icon_edit">
+                                    <i class="fas fa-save"></i>
+                                    <div>
+                                      <?php echo $array['save'][$language]; ?>
+                                    </div>
+                                  </div>
+                                  
+                                </button>
                               </div>
-                              <!-- <img src="../img/icon/ic_save.png"> -->
-                            </div>
-                            <div>
-                              <button class="btn" onclick="SaveBill()" id="bSave">
-                                <?php echo $array['save'][$language]; ?>
-                              </button>
                             </div>
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle5 d-flex align-items-center d-flex justify-content-center">
+                              <div class="circle5 d-flex justify-content-center">
+                                <button class="btn" onclick="CancelDocument()" id="bCancel">
                                   <i class="fas fa-times"></i>
+                                  <div>
+                                    <?php echo $array['cancel'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
-                              <!-- <img src="../img/icon/ic_cancel.png"> -->
-                            </div>
-                            <div>
-                              <button class="btn" onclick="CancelDocument()" id="bCancel">
-                                <?php echo $array['cancel'][$language]; ?>
-                              </button>
                             </div>
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle7 d-flex align-items-center d-flex justify-content-center">
-                              <i class="fas fa-book"></i>                              
+                              <div class="circle7 d-flex justify-content-center">
+                                <button class="btn" onclick="ShowDetailSub()" id="bPrint">
+                                <i class="fas fa-book"></i>                              
+                                  <div>
+                                    <?php echo $array['detail'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
-                              <!-- <img src="../img/icon/ic_cancel.png"> -->
-                            </div>
-                            <div>
-                              <button class="btn" onclick="ShowDetailSub()" id="bCancel">
-                                <?php echo $array['detail'][$language]; ?>
-                              </button>
                             </div>
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                              <i class="fas fa-print"></i>
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn" onclick="PrintData()" id="bPrint">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
-                              <!-- <img src="../img/icon/ic_cancel.png"> -->
-                            </div>
-                            <div>
-                              <button class="btn" onclick="PrintData()" id="bCancel">
-                                <?php echo $array['print'][$language]; ?>
-                              </button>
                             </div>
                           </div>
                         </div>
@@ -1716,38 +1714,21 @@ $array2 = json_decode($json2,TRUE);
                                     name="searchdocument" id="searchdocument"
                                     placeholder="<?php echo $array['searchplace'][$language]; ?>">
                                     <div class="search_custom col-md-3">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                  <i class="fas fa-search"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowDocument(0)" >
-                                                  <?php echo $array['search'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <div class="search_custom col-md-3">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fab fa-searchengin"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowDocument(1)" >
-                                                  <?php echo $array['searchalldep'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-                            <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowDocument(2);"><?php echo $array['searchalldep'][$language]; ?></button> -->
+                                      <div class="search_1 d-flex justify-content-start">
+                                        <button class="btn"  onclick="ShowDocument(0)" >
+                                          <i class="fas fa-search mr-2"></i> <?php echo $array['search'][$language]; ?>
+                                        </button>
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="search_custom col-md-2" style="padding-left: 93px;">
+                          <div class="circle6 d-flex justify-content-start">
+                            <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                              <i class="fas fa-paste mr-2"></i> <?php echo $array['show'][$language]; ?>
+                            </button>
                           </div>
                         </div>
-                        <div class="search_custom col-md-2">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fas fa-paste"></i>
-                                              </div>
-                                              <button class="btn"  onclick="SelectDocument()" id="btn_show" >
-                                                  <?php echo $array['show'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
                     </div>
 
                     <div class="row">
@@ -1921,22 +1902,18 @@ $array2 = json_decode($json2,TRUE);
                   </div>
             <!-- serach----------------------- -->
             <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                      <i class="fas fa-search"></i>
-                  </div>
+                <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
+                      <i class="fas fa-search mr-2"></i>
                       <?php echo $array['search'][$language]; ?>
                   </button>
                 </div>
               </div>
 
               <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="import_1 d-flex align-items-center d-flex justify-content-center">
-                      <i class="fas fa-file-import"></i>
-                  </div>
+                <div class="import_1 d-flex justify-content-start">
                   <button class="btn" onclick="getImport(1)" id="bSave">
+                      <i class="fas fa-file-import mr-2 pt-1"></i>
                       <?php echo $array['import'][$language]; ?>
                   </button>
                 </div>

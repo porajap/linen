@@ -684,8 +684,11 @@ function OpenDialogItem(){
             $("#bDelete").prop('disabled', false);
             $("#bSave").prop('disabled', false);
             $("#bCancel").prop('disabled', false);
-            $("#bSave").text('<?php echo $array['save'][$language]; ?>');
-            $("#IsStatus").val("0");
+            var word = '<?php echo $array['save'][$language]; ?>';
+                      var changeBtn = "<i class='fa fa-save'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn);            
+              $("#IsStatus").val("0");
               $("#docno").prop('disabled', false);
               $("#docdate").prop('disabled', false);
               $("#recorder").prop('disabled', false);
@@ -831,11 +834,13 @@ function OpenDialogItem(){
                 }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
+                      var Str2 = "<option value=''>ทุกแผนก</option>";
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                        Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         $("#department").append(Str);
-                        $("#Dep2").append(Str);
                       }
+                      $("#Dep2").append(Str2);
                     }else if( (temp["form"]=='CreateDocument') ){
                   $("#docno").val(temp[0]['DocNo']);
                   $("#docdate").val(temp[0]['DocDate']);
@@ -951,13 +956,19 @@ function OpenDialogItem(){
                   $('#RefDocNo').val(temp[0]['RefDocNo']);
 
                   if(temp[0]['IsStatus']==0){
-                    $("#bSave").text('<?php echo $array['save'][$language]; ?>');
+                    var word = '<?php echo $array['save'][$language]; ?>';
+                    var changeBtn = "<i class='fa fa-save'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn);
                     $("#bImport").prop('disabled', false);
                     $("#bDelete").prop('disabled', false);
                     $("#bSave").prop('disabled', false);
                     $("#bCancel").prop('disabled', false);
                   }else if(temp[0]['IsStatus']==1){
-                    $("#bSave").text('<?php echo $array['edit'][$language]; ?>');
+                    var word = '<?php echo $array['edit'][$language]; ?>';
+                      var changeBtn = "<i class='fas fa-edit'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn);                    
                     $("#bImport").prop('disabled', true);
                     $("#bDelete").prop('disabled', true);
                     $("#bSave").prop('disabled', false);
@@ -1462,14 +1473,104 @@ a.nav-link{
                             </div>
                           </div>
                         </div> <!-- tag column 1 -->
+                                                <!-- row btn -->
+                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle1 d-flex justify-content-center">
+                                <button class="btn" onclick="CreateDocument()" id="bCreate" >
+                                  <i class="fas fa-file-medical"></i>
+                                  <div>
+                                    <?php echo $array['createdocno'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle2 d-flex justify-content-center">
+                                <button class="btn" onclick="OpenDialogItem()" id="bImport">
+                                  <i class="fas fa-file-import"></i>
+                                  <div>
+                                    <?php echo $array['import'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center">
+                                <button class="btn" onclick="DeleteItem()" id="bDelete">
+                                  <i class="fas fa-trash-alt"></i>
+                                  <div>
+                                    <?php echo $array['delitem'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn" onclick="SaveBill()" id="bSave">
+                                  <div id="icon_edit">
+                                    <i class="fas fa-save"></i>
+                                    <div>
+                                      <?php echo $array['save'][$language]; ?>
+                                    </div>
+                                  </div>
+                                  
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle5 d-flex justify-content-center">
+                                <button class="btn" onclick="CancelDocument()" id="bCancel">
+                                  <i class="fas fa-times"></i>
+                                  <div>
+                                    <?php echo $array['cancel'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle7 d-flex justify-content-center">
+                                <button class="btn" onclick="ShowDetailSub()" id="bPrint">
+                                <i class="fas fa-book"></i>                              
+                                  <div>
+                                    <?php echo $array['detail'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn" onclick="PrintData()" id="bPrint">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- end row btn -->
                                                                                     <!-- row btn -->
-                                                                                    <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
+                        <!-- <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-file-medical"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_create.png"> -->
                             </div>
                             <div>
                               <button class="btn" onclick="CreateDocument()" id="bCreate" >
@@ -1482,7 +1583,6 @@ a.nav-link{
                               <div class="circle2 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-file-import"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_import.png"> -->
                             </div>
                             <div>
                               <button class="btn" onclick="OpenDialogItem()" id="bImport">
@@ -1495,7 +1595,6 @@ a.nav-link{
                               <div class="circle3 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-trash-alt"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_delete.png"> -->
                             </div>
                             <div>
                               <button class="btn" onclick="DeleteItem()" id="bDelete">
@@ -1508,7 +1607,6 @@ a.nav-link{
                               <div class="circle4 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-save"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_save.png"> -->
                             </div>
                             <div>
                               <button class="btn" onclick="SaveBill()" id="bSave">
@@ -1521,7 +1619,6 @@ a.nav-link{
                               <div class="circle5 d-flex align-items-center d-flex justify-content-center">
                                   <i class="fas fa-times"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_cancel.png"> -->
                             </div>
                             <div>
                               <button class="btn" onclick="CancelDocument()" id="bCancel">
@@ -1534,7 +1631,6 @@ a.nav-link{
                               <div class="circle7 d-flex align-items-center d-flex justify-content-center">
                               <i class="fas fa-book"></i>                              
                               </div>
-                              <!-- <img src="../img/icon/ic_cancel.png"> -->
                             </div>
                             <div>
                               <button class="btn" onclick="ShowDetailSub()" id="bCancel">
@@ -1547,7 +1643,6 @@ a.nav-link{
                               <div class="circle6 d-flex align-items-center d-flex justify-content-center">
                               <i class="fas fa-print"></i>
                               </div>
-                              <!-- <img src="../img/icon/ic_cancel.png"> -->
                             </div>
                             <div>
                               <button class="btn" onclick="PrintData()" id="bCancel">
@@ -1555,7 +1650,7 @@ a.nav-link{
                               </button>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                         <!-- end row btn -->
                       </div>
 
@@ -1584,55 +1679,32 @@ a.nav-link{
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                       <div class="row" style="margin-top:10px;">
                         <div class="col-md-2">
-
-                          <select class="form-control" style='font-size:24px;' id="side" onchange="getDepartment();">
-                          </select>
-
+                          <select class="form-control" style='font-size:24px;' id="side" onchange="getDepartment();"></select>
                       </div>
                       <div class="col-md-2">
-
-                          <select class="form-control" style='font-size:24px;' id="Dep2" >
-                          </select>
-
+                          <select class="form-control" style='font-size:24px;' id="Dep2" ></select>
                       </div>
                       <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
                             <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                             <div class="search_custom col-md-3">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                  <i class="fas fa-search"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowDocument(0)" >
-                                                  <?php echo $array['search'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <div class="search_custom col-md-3">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fab fa-searchengin"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowDocument(1)" >
-                                                  <?php echo $array['searchalldep'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-                            <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowDocument(2);"><?php echo $array['searchalldep'][$language]; ?></button> -->
+                            <div class="search_custom col-md-3">
+                              <div class="search_1 d-flex justify-content-start">
+                                <button class="btn"  onclick="ShowDocument(0)" >
+                                  <i class="fas fa-search mr-2"></i> <?php echo $array['search'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div class="search_custom col-md-2">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fas fa-paste"></i>
-                                              </div>
-                                              <button class="btn"  onclick="SelectDocument()" id="btn_show" >
-                                                  <?php echo $array['show'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
+                        <div class="search_custom col-md-2" style="padding-left: 93px;">
+                          <div class="circle6 d-flex justify-content-start">
+                            <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                              <i class="fas fa-paste mr-2"></i> <?php echo $array['show'][$language]; ?>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-
                     <div class="row">
                       <div class="col-md-12"> <!-- tag column 1 -->
                         <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
@@ -1799,68 +1871,7 @@ a.nav-link{
               </div>
             </div>
           </div>
-
-          <!-- Dialog Modal-->
-          <!-- <div id="dialogListDetail" title="<?php echo $array['detail'][$language]; ?>"  style="z-index:999999 !important;font-family: 'THSarabunNew';font-size:24px;">
-            <div class="container">
-              <div class="dropdown-divider" style="margin-top:20px;; margin-bottom:20px;"></div> -->
-
-              <!-- <div class="row">
-                <div class="card-body" style="padding:0px;">
-                  <table class="table table-bordered table-hover" id="TableItemListDetailSub" cellspacing="0" role="grid" style="font-size:24px;width:100%;font-family: 'THSarabunNew'">
-                    <thead style="font-size:24px;">
-                      <tr role="row">
-                        <th style='width: 10%;'nowrap><?php echo $array['no'][$language]; ?></th>
-                        <th style='width: 10%;'nowrap><?php echo $array['rfid'][$language]; ?></th>
-                        <th style='width: 65%;'nowrap><?php echo $array['item'][$language]; ?></th>
-                        <th style='width: 15%;'nowrap><?php echo $array['unit'][$language]; ?></th>
-                      </tr>
-                    </thead>
-                    <tbody id="tbody1_modal" style="font-size:23px;height:300px;">
-                    </tbody>
-                  </table>
-                </div>
-              </div> -->
-
-               <!-- Dialog Modal RefDocNo-->
-               <!-- <div id="dialogRefDocNo" title="<?php echo $array['refdocno'][$language]; ?>"  style="z-index:999999 !important;font-family: 'THSarabunNew';font-size:24px;">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-10">
-
-                      <div class="row">
-                        <label><?php echo $array['searchplace'][$language]; ?></label>
-                        <div class="row" style="font-size:16px;margin-left:20px;width:350px;">
-                          <input type="text" class="form-control" style="font-size:24px;width:100%;font-family: 'THSarabunNew'" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                        </div>
-                        <button type="button" style="font-size:18px;margin-left:30px; width:100px;font-family: 'THSarabunNew'" class="btn btn-primary" name="button" onclick="get_dirty_doc();"><?php echo $array['search'][$language]; ?></button>
-                      </div>
-
-                    </div>
-                    <div class="col-md-1">
-                      <button type="button" style="font-size:18px;margin-left:70px; width:100px;font-family: 'THSarabunNew'" class="btn btn-warning" name="button" onclick="UpdateRefDocNo()"><?php echo $array['import'][$language]; ?></button>
-                    </div>
-                  </div>
-
-                  <div class="dropdown-divider" style="margin-top:20px;; margin-bottom:20px;"></div>
-
-                  <div class="row">
-                    <div class="card-body" style="padding:0px;">
-                      <table class="table table-fixed table-condensed table-striped" id="TableRefDocNo" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
-                        <thead style="font-size:24px;">
-                          <tr role="row">
-                            <th style='width: 15%;'nowrap><?php echo $array['no'][$language]; ?></th>
-                            <th style='width: 85%;'nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                          </tr>
-                        </thead>
-                        <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-                    <!-- custom modal2 -->
+                   <!-- custom modal2 -->
           <div class="modal fade" id="dialogRefDocNo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
@@ -1920,27 +1931,23 @@ a.nav-link{
                                   </div>
                                 </div>
                             <!-- serach----------------------- -->
-                            <div class="search_custom col-md-2">
-                          <div class="d-flex justify-content-start">
-                            <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                <i class="fas fa-search"></i>
-                            </div>
-                            <button class="btn" onclick="ShowItem()" id="bSave">
-                                <?php echo $array['search'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
+               <div class="search_custom col-md-2">
+                <div class="search_1 d-flex justify-content-start">
+                  <button class="btn" onclick="ShowItem()" id="bSave">
+                      <i class="fas fa-search mr-2"></i>
+                      <?php echo $array['search'][$language]; ?>
+                  </button>
+                </div>
+              </div>
 
-                        <div class="search_custom col-md-2">
-                          <div class="d-flex justify-content-start">
-                            <div class="import_1 d-flex align-items-center d-flex justify-content-center">
-                                <i class="fas fa-file-import"></i>
-                            </div>
-                            <button class="btn" onclick="getImport(1)" id="bSave">
-                                <?php echo $array['import'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
+              <div class="search_custom col-md-2">
+                <div class="import_1 d-flex justify-content-start">
+                  <button class="btn" onclick="getImport(1)" id="bSave">
+                      <i class="fas fa-file-import mr-2 pt-1"></i>
+                      <?php echo $array['import'][$language]; ?>
+                  </button>
+                </div>
+              </div>
                         <!-- end serach----------------------- -->
                               </div>
                               <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
