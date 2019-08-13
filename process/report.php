@@ -92,7 +92,7 @@ function departmentWhere($conn, $DATA){
 
 function find_report($conn, $DATA){
   $FacCode = $DATA['factory'];
-  $HptCode = $DATA['HptCode'];
+  $HptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
   $DepCode = $DATA['DepCode'];
   $typeReport = $DATA['typeReport'];
   $Format = $DATA['Format'];
