@@ -618,12 +618,13 @@ $array2 = json_decode($json2,TRUE);
                   }else if(temp["form"]=='getDepartment'){
                     $("#department").empty();
                     $("#Dep2").empty();
-                    var Str = "<option value=''>ทุกแผนก</option>";
+                    var Str2 = "<option value=''>ทุกแผนก</option>";
                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                      Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                      Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                      var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                      $("#department").append(Str);
                     }
-                    $("#department").append(Str);
-                    $("#Dep2").append(Str);
+                    $("#Dep2").append(Str2);
                   }else if( (temp["form"]=='CreateDocument') ){
                     swal({
                       title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -749,13 +750,19 @@ $array2 = json_decode($json2,TRUE);
                     $("#IsStatus").val(temp[0]['IsStatus']);
 
                     if(temp[0]['IsStatus']==0){
-                      $("#bSave").text('<?php echo $array['save'][$language]; ?>');
+                      var word = '<?php echo $array['save'][$language]; ?>';
+                      var changeBtn = "<i class='fa fa-save'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn);
                       $("#bImport").prop('disabled', false);
                       $("#bDelete").prop('disabled', false);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', false);
                     }else if(temp[0]['IsStatus']==1){
-                      $("#bSave").text('<?php echo $array['edit'][$language]; ?>');
+                      var word = '<?php echo $array['edit'][$language]; ?>';
+                      var changeBtn = "<i class='fas fa-edit'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn);
                       $("#bImport").prop('disabled', true);
                       $("#bDelete").prop('disabled', true);
                       $("#bSave").prop('disabled', false);
@@ -1271,10 +1278,13 @@ $array2 = json_decode($json2,TRUE);
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn" onclick="SaveBill()" id="bSave">
-                                  <i class="fas fa-save" id="icon_edit"></i>
-                                  <div>
-                                    <?php echo $array['save'][$language]; ?>
+                                  <div id="icon_edit">
+                                    <i class="fas fa-save"></i>
+                                    <div>
+                                      <?php echo $array['save'][$language]; ?>
+                                    </div>
                                   </div>
+                                  
                                 </button>
                               </div>
                             </div>
@@ -1497,22 +1507,24 @@ $array2 = json_decode($json2,TRUE);
 
               <!-- serach----------------------- -->
               <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="search_1 d-flex align-items-center d-flex justify-content-center">
+                <div class="search_1 d-flex justify-content-start">
+                  <!-- <div class="search_1 d-flex align-items-center d-flex justify-content-center">
                       <i class="fas fa-search"></i>
-                  </div>
+                  </div> -->
                   <button class="btn" onclick="ShowItem()" id="bSave">
+                      <i class="fas fa-search mr-2"></i>
                       <?php echo $array['search'][$language]; ?>
                   </button>
                 </div>
               </div>
 
               <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="import_1 d-flex align-items-center d-flex justify-content-center">
+                <div class="import_1 d-flex justify-content-start">
+                  <!-- <div class="import_1 d-flex align-items-center d-flex justify-content-center">
                       <i class="fas fa-file-import"></i>
-                  </div>
+                  </div> -->
                   <button class="btn" onclick="getImport(1)" id="bSave">
+                      <i class="fas fa-file-import mr-2 pt-1"></i>
                       <?php echo $array['import'][$language]; ?>
                   </button>
                 </div>

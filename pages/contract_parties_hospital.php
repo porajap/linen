@@ -570,21 +570,11 @@ body{
                                                   <input type="text"  autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
                                                 </div>
                                               </div>
-
-                                        <!-- <div class="col-md-4 mhee">
-                                          <div class='form-group row'>
-                                            <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3'>
-                                            <a href='javascript:void(0)' onclick="ShowDocument()" id="bSave">
-                                            <?php echo $array['search'][$language]; ?></a>                    
-                                          </div>
-                                        </div> -->
                                         <div class="search_custom col-md-2">
-                                          <div class="d-flex justify-content-start">
-                                            <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                <i class="fas fa-search"></i>
-                                            </div>
+                                          <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowDocument()" id="bSave">
-                                                <?php echo $array['search'][$language]; ?>
+                                              <i class="fas fa-search mr-2"></i>
+                                              <?php echo $array['search'][$language]; ?>
                                             </button>
                                           </div>
                                         </div>
@@ -623,38 +613,38 @@ body{
                           <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" <?php if($PmID == 2) echo 'hidden'; ?>>
                             <div class="menu">
                               <div class="d-flex justify-content-center">
-                                <div class="circle4 d-flex align-items-center d-flex justify-content-center">
+                                <div class="circle4 d-flex justify-content-center">
+                                  <button class="btn"  onclick="SaveRow()" id="bSave">
                                     <i class="fas fa-save"></i>
+                                    <div>
+                                      <?php echo $array['save'][$language]; ?>
+                                    </div>
+                                  </button>
                                 </div>
-                              </div>
-                              <div>
-                                <button class="btn"  onclick="SaveRow()" id="bSave">
-                                  <?php echo $array['save'][$language]; ?>
-                                </button>
                               </div>
                             </div>
                             <div class="menu">
                               <div class="d-flex justify-content-center">
-                                <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                                <i class="fas fa-redo-alt"></i>
+                                <div class="circle6 d-flex justify-content-center">
+                                  <button class="btn" onclick="ClearRow()" id="bDelete">
+                                    <i class="fas fa-redo-alt"></i>
+                                    <div>
+                                      <?php echo $array['clear'][$language]; ?>
+                                    </div>       
+                                  </button>
                                 </div>
-                              </div>
-                              <div>
-                                <button class="btn" onclick="ClearRow()" id="bDelete">
-                                  <?php echo $array['clear'][$language]; ?>
-                                </button>
                               </div>
                             </div>
                             <div class="menu">
                               <div class="d-flex justify-content-center">
-                                <div class="circle3 d-flex align-items-center d-flex justify-content-center">
+                                <div class="circle3 d-flex justify-content-center">
+                                  <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
                                     <i class="fas fa-trash-alt"></i>
+                                    <div>
+                                      <?php echo $array['cancel'][$language]; ?>
+                                    </div>  
+                                  </button>
                                 </div>
-                              </div>
-                              <div>
-                                <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
-                                  <?php echo $array['cancel'][$language]; ?>
-                                </button>
                               </div>
                             </div>
                           </div>
