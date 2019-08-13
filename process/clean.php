@@ -172,7 +172,6 @@ function CreateDocument($conn, $DATA)
     }elseif($deptCode==null){
       $Sql.="WHERE site.HptCode = '$Hotp'";
     }
-    $return['sql'] = $Sql;
     $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
