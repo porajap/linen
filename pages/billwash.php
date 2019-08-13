@@ -750,7 +750,6 @@ $array2 = json_decode($json2,TRUE);
                     $("#IsStatus").val(temp[0]['IsStatus']);
 
                     if(temp[0]['IsStatus']==0){
-                      alert(1);
                       var word = '<?php echo $array['save'][$language]; ?>';
                       var changeBtn = "<i class='fa fa-save'></i>";
                       changeBtn += "<div>"+word+"</div>";
