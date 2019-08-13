@@ -1638,7 +1638,7 @@ $(document).ready(function(e){
               </div>
 
               <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
+                <div class="import_1 d-flex justify-content-start">
                   <button class="btn" onclick="getImport(1)" id="bSave">
                     <i class="fas fa-file-import mr-2 pt-1"></i>
                     <?php echo $array['import'][$language]; ?>
