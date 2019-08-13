@@ -212,8 +212,11 @@ $Sql = "SELECT
         FROM
         dirty
         INNER JOIN factory ON factory.FacCode =dirty.FacCode
+        INNER JOIN department ON department.depcode =dirty.depcode
+        INNER JOIN site ON site.hptcode =department.hptcode
         $where
         AND  factory.FacCode = '$FacCode'
+        AND  site.HptCode = '$HptCode'
         " ;
 
 $meQuery = mysqli_query($conn, $Sql);
@@ -242,6 +245,7 @@ INNER JOIN factory ON dirty.FacCode = factory.FacCode
 INNER JOIN item ON item.itemcode = dirty_detail.itemcode
           $where
           AND factory.FacCode = '$FacCode'
+          AND department.HptCode = '$HptCode'
           ORDER BY item.ItemName , department.DepName
           ";
 // Number of column

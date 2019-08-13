@@ -397,7 +397,7 @@ $array2 = json_decode($json2,TRUE);
 
             $("#hotpital").empty();
             var hotValue0 = '<?php echo $array['side'][$language]; ?>';
-            var hot = "<option value='0'>"+hotValue0+"</option>";
+            var hot = "<option value=''>"+hotValue0+"</option>";
             for (var i = 0; i < temp['Row']; i++) {
               hot += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
             }
