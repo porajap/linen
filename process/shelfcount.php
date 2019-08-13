@@ -227,7 +227,7 @@ function ShowDocument($conn, $DATA)
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON shelfcount.Modify_Code = users.ID ";
-  if ($selecta == 0) {
+  if ($deptCode != null) {
     $Sql.= "WHERE shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$DocNo%' ";
   }
   $Sql.= "AND site.HptCode = '$hosCode' ";
