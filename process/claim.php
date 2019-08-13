@@ -168,7 +168,7 @@ FROM claim
 INNER JOIN department ON claim.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN users ON claim.Modify_Code = users.ID ";
-  if ($selecta == 0) {
+  if ($deptCode != null) {
     $Sql .= "WHERE claim.DepCode = $deptCode AND claim.DocNo LIKE '%$DocNo%' ";
   }
   $Sql .= "ORDER BY claim.DocNo DESC LIMIT 500 ";
