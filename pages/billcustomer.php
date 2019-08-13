@@ -1272,7 +1272,7 @@ $array2 = json_decode($json2,TRUE);
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn" onclick="SaveBill()" id="bSave">
-                                  <div class="icon_edit">
+                                  <div id="icon_edit">
                                     <i class="fas fa-save"></i>
                                     <div>
                                       <?php echo $array['save'][$language]; ?>
