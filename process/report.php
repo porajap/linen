@@ -14,6 +14,7 @@ function OnLoadPage($conn, $DATA)
   $boolean = false;
   $countx = 0;
   $countDep = 0;
+  $HptCode = $_SESSION['HptCode'];
 
   $Sqlx = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0";
   $meQueryx = mysqli_query($conn, $Sqlx);
@@ -35,7 +36,7 @@ function OnLoadPage($conn, $DATA)
   }
   $return['Row'] = $count;
 
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = 'BHQ' AND department.IsStatus = 0";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND  department.IsStatus = 0 AND department.IsDefault = 1";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countDep]['DepCode'] = trim($Result['DepCode']);
@@ -65,7 +66,7 @@ function departmentWhere($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $boolean = false;
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.IsStatus = 0";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.IsStatus = 0  AND department.IsDefault = 1";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = trim($Result['DepCode']);

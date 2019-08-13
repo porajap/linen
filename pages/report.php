@@ -397,15 +397,15 @@ $array2 = json_decode($json2,TRUE);
 
             $("#hotpital").empty();
             var hotValue0 = '<?php echo $array['side'][$language]; ?>';
-            var hot = "<option value=''>"+hotValue0+"</option>";
+            var hot = "<option value='' id='hotpitalX'>"+hotValue0+"</option>";
             for (var i = 0; i < temp['Row']; i++) {
-              hot += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+              hot += "<option value="+temp[i]['HptCode']+" id='selectHpt"+i+"'>"+temp[i]['HptName']+"</option>";
             }
             $("#hotpital").append(hot);
 
 
             var depValue0 = '<?php echo $array['department'][$language]; ?>';
-            var dep1  = "<option value='0'>"+depValue0+"</option>";
+            var dep1 = "<option value='0'>"+depValue0+"</option>";
             for (var i = 0; i < temp['RowDep']; i++) {
               dep1 += "<option value="+temp[i]['DepCode']+" id='select"+i+"'>"+temp[i]['DepName']+"</option>";
             }
@@ -813,14 +813,14 @@ $array2 = json_decode($json2,TRUE);
       $('#hotpital').attr('disabled', true);
       $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);
-      $('#hotpital').val(0);
+      $('#hotpitalX').attr("selected" , true);
       $('#department').val(0);
     }else if(typeReport == 3 ||typeReport == 2){
       $('#hotpital').attr('disabled', false);
       $('#department').attr('disabled', false);
       $('#factory').attr('disabled', false);
-      $('#hotpital').val('BHQ');
-      $('#department').val(1);
+      $('#selectHpt_0').attr("selected" , true);
+      $('#select_0').attr("selected" , true);
     }else if( typeReport == 13){
       $('#department').attr('disabled', true);
       $('#factory').attr('disabled', false);

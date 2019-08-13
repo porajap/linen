@@ -570,6 +570,7 @@ body{
                                                   <input type="text"  autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
                                                 </div>
                                               </div>
+                                              
                                         <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowDocument()" id="bSave">
@@ -611,6 +612,7 @@ body{
                           </div>
 
                           <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" <?php if($PmID == 2) echo 'hidden'; ?>>
+                          
                             <div class="menu">
                               <div class="d-flex justify-content-center">
                                 <div class="circle4 d-flex justify-content-center">

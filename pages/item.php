@@ -1677,16 +1677,14 @@ $array2 = json_decode($json2, TRUE);
                     <a href='javascript:void(0)' onclick="ShowItem()" id="bSave" class="search">
                       <?php echo $array['search'][$language]; ?></a>
                   </div> -->
-                  <div class="search_custom col-md-2 row">
-                    <div class="d-flex justify-content-start">
-                      <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                          <i class="fas fa-search"></i>
-                      </div>
-                      <button class="btn search" onclick="ShowItem()" id="bSave">
-                          <?php echo $array['search'][$language]; ?>
-                      </button>
-                    </div>
-                  </div>
+                  <div class="search_custom col-md-2">
+                                          <div class="search_1 d-flex justify-content-start">
+                                            <button class="btn" onclick="ShowItem()" id="bSave">
+                                              <i class="fas fa-search mr-2"></i>
+                                              <?php echo $array['search'][$language]; ?>
+                                            </button>
+                                          </div>
+                                        </div>
                 </div>
                 <!-- 
                 <div class="col-md-3">
@@ -1725,73 +1723,71 @@ $array2 = json_decode($json2, TRUE);
           <!-- tag column 1 -->
           <div class="container-fluid">
             <div id="memu_tap1">
+
               <div class="row m-1 mt-5 d-flex justify-content-end" >
                 <div class="menu" id="ActiveBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
-                  <div class="d-flex justify-content-center">
-                    <div class="circle1 d-flex align-items-center d-flex justify-content-center">
-                        <i class="fas fa-check"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <button class="btn" onclick="ActiveItem()" id="bActive">
-                      <?php echo $array['activeItem'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  onclick="NewItem()" id="bSave">
+                                <i class="fas fa-check"></i>
+                                  <div>
+                                    <?php echo $array['activeItem'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
 
                 <div class="menu" id="NewItem" <?php if($PmID == 3) echo 'hidden'; ?>>
-                  <div class="d-flex justify-content-center">
-                    <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                    <i class="fas fa-plus"></i>                    
-                  </div>
-                  </div>
-                  <div>
-                    <button class="btn" onclick="NewItem()" id="bNewItem">
-                      <?php echo $array['itemnew'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  onclick="NewItem()" id="bSave">
+                                <i class="fas fa-plus"></i>                    
+                                  <div>
+                                    <?php echo $array['itemnew'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
 
                 <div class="menu" id="AddItemBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
-                  <div class="d-flex justify-content-center">
-                    <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                        <i class="fas fa-save"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <button class="btn" onclick="AddItem()" id="bSave">
-                      <?php echo $array['save'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="menu" id="BlankItemBNT">
-                  <div class="d-flex justify-content-center">
-                    <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                    <i class="fas fa-redo-alt"></i>                    
-                    </div>
-                  </div>
-                <div>
-                    <button class="btn" onclick="Blankinput()" id="bDelete">
-                      <?php echo $array['clear'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="menu" id="CancelBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
-                  <div class="d-flex justify-content-center">
-                    <div class="circle3 d-flex align-items-center d-flex justify-content-center">
-                        <i class="fas fa-trash-alt"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
-                      <?php echo $array['cancel'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-                
-              </div>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  onclick="AddItem()" id="bSave">
+                                  <i class="fas fa-save"></i>
+                                  <div>
+                                    <?php echo $array['save'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" id="BlankItemBNT">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn" onclick="Blankinput()" id="bDelete">
+                                  <i class="fas fa-redo-alt"></i>
+                                  <div>
+                                    <?php echo $array['clear'][$language]; ?>
+                                  </div>       
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" id="CancelBNT" >
+                            <div class="d-flex justify-content-center" <?php if($PmID == 3) echo 'hidden'; ?>>
+                              <div class="circle3 d-flex justify-content-center">
+                                <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+                                  <i class="fas fa-trash-alt"></i>
+                                  <div>
+                                    <?php echo $array['cancel'][$language]; ?>
+                                  </div>  
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
             </div>
               
             <ul class="nav nav-tabs" id="myTab" role="tablist">
