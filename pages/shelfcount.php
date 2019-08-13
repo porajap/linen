@@ -834,13 +834,13 @@ $array2 = json_decode($json2,TRUE);
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
-                      var Str2 = "<option value='0'>ทุกแผนก</option>";
+                      var Str2 = "<option value=''>ทุกแผนก</option>";
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                        Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                        Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         $("#department").append(Str);
+                        $("#Dep2").append(Str2);
                       }
-                      $("#Dep2").append(Str2);
             }else if( (temp["form"]=='CreateDocument') ){
               $("#docno").val(temp[0]['DocNo']);
               $("#docdate").val(temp[0]['DocDate']);
@@ -975,13 +975,19 @@ $array2 = json_decode($json2,TRUE);
               $("#IsStatus").val(temp[0]['IsStatus']);
 
               if(temp[0]['IsStatus']==0){
-                $("#bSave").text('<?php echo $array['save'][$language]; ?>');
+                var word = '<?php echo $array['save'][$language]; ?>';
+                var changeBtn = "<i class='fa fa-save'></i>";
+                changeBtn += "<div>"+word+"</div>";
+                $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', false);
                 $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
               }else if(temp[0]['IsStatus']==1){
-                $("#bSave").text('<?php echo $array['edit'][$language]; ?>');
+                var word = '<?php echo $array['edit'][$language]; ?>';
+                var changeBtn = "<i class='fas fa-edit'></i>";
+                changeBtn += "<div>"+word+"</div>";
+                $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', false);
@@ -1016,13 +1022,19 @@ $array2 = json_decode($json2,TRUE);
                   $("#IsStatus").val(temp[0]['IsStatus']);
 
               if(temp[0]['IsStatus']==0){
-                $("#bSave").text('<?php echo $array['save'][$language]; ?>');
+                var word = '<?php echo $array['save'][$language]; ?>';
+                var changeBtn = "<i class='fa fa-save'></i>";
+                changeBtn += "<div>"+word+"</div>";
+                $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', false);
                 $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
               }else if(temp[0]['IsStatus']==1){
-                $("#bSave").text('<?php echo $array['edit'][$language]; ?>');
+                var word = '<?php echo $array['edit'][$language]; ?>';
+                var changeBtn = "<i class='fas fa-edit'></i>";
+                changeBtn += "<div>"+word+"</div>";
+                $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', false);
