@@ -169,9 +169,9 @@ function CreateDocument($conn, $DATA)
     INNER JOIN department ON damage.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON damage.Modify_Code = users.ID ";
-    if ($selecta == 0) {
-      $Sql .= "WHERE damage.DepCode = $deptCode AND damage.DocNo LIKE '%$DocNo%'";
-    }elseif($selecta==1){
+    if ($deptCode != null) {
+      $Sql .= "WHERE clean.DepCode = $deptCode AND clean.DocNo LIKE '%$DocNo%'";
+    }elseif($deptCode==null){
       $Sql.="WHERE site.HptCode = '$Hotp'";
     }
     $Sql .= "ORDER BY damage.DocNo DESC LIMIT 500";
