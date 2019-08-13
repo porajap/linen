@@ -1114,15 +1114,13 @@ $array2 = json_decode($json2,TRUE);
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
                                           <?php echo $array['search'][$language]; ?></a>       -->
-                                        <div class="search_custom col-md-2">
-                                            <div class="d-flex justify-content-start">
-                                            <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                            <button class="btn"  onclick="ShowItem()" id="bSave">
-                                                <?php echo $array['search'][$language]; ?>
+                                          <div class="search_custom col-md-2">
+                                          <div class="search_1 d-flex justify-content-start">
+                                            <button class="btn" onclick="ShowItem()" id="bSave">
+                                              <i class="fas fa-search mr-2"></i>
+                                              <?php echo $array['search'][$language]; ?>
                                             </button>
-                                            </div>
+                                          </div>
                                         </div>
 
                                     </div>
@@ -1158,44 +1156,45 @@ $array2 = json_decode($json2,TRUE);
                 </div> <!-- tag column 1 -->
             </div>
             <!-- /.content-wrapper -->
-<div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
-    <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
-        <div class="d-flex justify-content-center">
-            <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                <i class="fas fa-save"></i>
-            </div>
-        </div>
-        <div>
-            <button class="btn"  onclick="AddItem()" id="bSave">
-                <?php echo $array['save'][$language]; ?>
-            </button>
-        </div>
-        </div>
-        <div class="menu">
-        <div class="d-flex justify-content-center">
-            <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-            <i class="fas fa-redo-alt"></i>
-            </div>
-        </div>
-        <div>
-            <button class="btn" onclick="Blankinput()" id="bDelete">
-            <?php echo $array['clear'][$language]; ?>
-            </button>
-        </div>
-        </div>
-        <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
-        <div class="d-flex justify-content-center">
-            <div class="circle3 d-flex align-items-center d-flex justify-content-center">
-                <i class="fas fa-trash-alt"></i>
-            </div>
-        </div>
-        <div>
-            <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
-            <?php echo $array['cancel'][$language]; ?>
-            </button>
-        </div>
-    </div>
-</div>
+            <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
+                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  onclick="AddItem()" id="bSave">
+                                  <i class="fas fa-save"></i>
+                                  <div>
+                                    <?php echo $array['save'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn" onclick="Blankinput()" id="bDelete">
+                                  <i class="fas fa-redo-alt"></i>
+                                  <div>
+                                    <?php echo $array['clear'][$language]; ?>
+                                  </div>       
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu">
+                            <div class="d-flex justify-content-center" <?php if($PmID == 3) echo 'hidden'; ?>>
+                              <div class="circle3 d-flex justify-content-center">
+                                <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+                                  <i class="fas fa-trash-alt"></i>
+                                  <div>
+                                    <?php echo $array['cancel'][$language]; ?>
+                                  </div>  
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <!-- tag column 1 -->

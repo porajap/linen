@@ -1114,71 +1114,39 @@ $array2 = json_decode($json2,TRUE);
                                 <!-- tag column 1 -->
                                 <div class="container-fluid">
                                     <div class="card-body" style="padding:0px; margin-top:12px;">
-                                        <div class="row">
-                                          <div class="col-md-2">
+                                        <div class="row col-md-12">
+                                          <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                                  <select class="form-control" id="hptsel">
+                                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                                  <select class="form-control col-md-7" id="hptsel">
                                                   </select>
                                               </div>
                                           </div>
-                                          <div class="col-md-2">
+                                          <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                                  <select class="form-control" id="Category_Main" onchange="getCategorySub(1);"></select>
+                                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                                  <select class="form-control col-md-7" id="Category_Main" onchange="getCategorySub(1);"></select>
                                               </div>
                                           </div>
-                                          <div class="col-md-2">
+                                          <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                                  <select class="form-control" id="Category_Sub"></select>
+                                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                                  <select class="form-control col-md-7" id="Category_Sub"></select>
                                               </div>
                                           </div>
-                                          <div class="col-md-6 mhee">
-                                                <div class="row" style="margin-left:5px;">
-                                                    <!-- <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(1);">
-                                                        <?php echo $array['search_hp'][$language]; ?></button>
-                                                    <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(2);">
-                                                        <?php echo $array['search_ct_main'][$language]; ?></button>
-                                                    <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="ShowItem1(3);">
-                                                        <?php echo $array['search_ct_sub'][$language]; ?></button> -->
-<!--  -->
-                    
-
-                                          <div class="search_custom col-md-4">
-                                            <div class="d-flex justify-content-start">
-                                              <!-- <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="far fa-hospital"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowItem1(1)" >
-                                                  <?php echo $array['search_hp'][$language]; ?>
-                                              </button> -->
-                                            </div>
+                                          <div class="col-md-3 text-right">
+                                            <div class="row" style="margin-left:5px;">
+                                            <div class="search_custom col-md-2">
+                                          <div class="search_1 d-flex justify-content-start">
+                                            <button class="btn" onclick="ShowItem1()" id="bSave">
+                                              <i class="fas fa-search mr-2"></i>
+                                              <?php echo $array['search'][$language]; ?>
+                                            </button>
                                           </div>
-                                          <div class="search_custom col-md-4">
-                                            <div class="d-flex justify-content-start">
-                                              <!-- <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fas fa-list"></i>
-                                              </div>
-                                              <button class="btn "  onclick="ShowItem1(2)" >
-                                                  <?php echo $array['search_ct_main'][$language]; ?>
-                                              </button> -->
-                                            </div>
-                                          </div>
-                                          <div class="search_custom col-md-4">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fas fa-search"></i>
-                                              </div>
-                                              <button class="btn "  onclick="ShowItem1()" >
-                                                  <?php echo $array['search'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-                                                        <!-- <a href="javascript:void(0)"onclick="ShowItem1(3);" ><img src="../img/icon/list2.png" style='width:30px;' class="mr-1"><?php echo $array['search_ct_sub'][$language]; ?></a> -->
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-
-                                            </div>
                                         </div>
+                                        </div>
+                                       </div>
+                                     </div>
                                         <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
                                             <thead id="theadsum" style="font-size:11px;">
                                                 <tr role="row">
