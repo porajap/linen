@@ -169,9 +169,9 @@ function CreateDocument($conn, $DATA)
     INNER JOIN department ON repair.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON repair.Modify_Code = users.ID ";
-    if ($selecta == 0) {
+    if ($deptCode != null) {
       $Sql .= "WHERE repair.DepCode = $deptCode AND repair.DocNo LIKE '%$DocNo%'";
-    }elseif($selecta==1){
+    }elseif($deptCode==null){
       $Sql.="WHERE site.HptCode = '$Hotp'";
     }
     $Sql .= "ORDER BY repair.DocNo DESC LIMIT 500";
