@@ -11,7 +11,7 @@ function OnLoadPage($conn, $DATA)
 {
   $count = 0;
   $boolean = false;
-  $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE site.IsStatus = 0";
+  $Sql = "SELECT site.HptCode, site.HptName FROM site WHERE site.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
@@ -162,18 +162,17 @@ function CreateDocument($conn, $DATA)
     $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
     $Datepicker = $DATA["Datepicker"];
     $selecta = $DATA["selecta"];
-    // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
-    // mysqconn,$Sql);
     $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) AS DocDate,clean.RefDocNo,clean.Total,users.FName,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
     FROM clean
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON clean.Modify_Code = users.ID ";
-    if ($selecta == 0) {
+    if ($deptCode != null) {
       $Sql .= "WHERE clean.DepCode = $deptCode AND clean.DocNo LIKE '%$DocNo%'";
-    }elseif($selecta==1){
+    }elseif($deptCode==null){
       $Sql.="WHERE site.HptCode = '$Hotp'";
     }
+    $return['sql'] = $Sql;
     $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
