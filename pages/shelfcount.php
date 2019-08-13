@@ -835,11 +835,11 @@ $array2 = json_decode($json2,TRUE);
                       $("#department").empty();
                       $("#Dep2").empty();
                       var Str2 = "<option value=''>ทุกแผนก</option>";
+                      $("#Dep2").append(Str2);
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                        Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         $("#department").append(Str);
-                        $("#Dep2").append(Str2);
+                        $("#Dep2").append(Str);
                       }
             }else if( (temp["form"]=='CreateDocument') ){
               $("#docno").val(temp[0]['DocNo']);
