@@ -139,14 +139,18 @@ function ShowItem1($conn, $DATA)
   INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode
   INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode ";
   if( $xHptCode != null && $CgMainID == null && $CgSubID == null ){
-      $Sql .= "WHERE site.HptCode = '$xHptCode'";
+    $Sql .= "WHERE site.HptCode = '$xHptCode'";
   }else if($xHptCode != null && $CgMainID != null && $CgSubID == null){
-      $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID";
-  }else if($xHptCode != null && $CgMainID != null && $CgSubID !=null ){
-      $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID AND category_price.CategoryCode = $CgSubID";
+    $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID";
+  }else if($xHptCode != null && $CgMainID != null && $CgSubID != null ){
+    $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID AND category_price.CategoryCode = $CgSubID";
+  }else if($xHptCode == null && $CgMainID != null && $CgSubID == null ){
+    $Sql .= "WHERE item_main_category.MainCategoryCode = $CgMainID";
+  }else if($xHptCode == null && $CgMainID != null && $CgSubID != null ){
+    $Sql .= "WHERE item_main_category.MainCategoryCode = $CgMainID AND category_price.CategoryCode = $CgSubID";
+  }else if($xHptCode == null && $CgMainID == null && $CgSubID != null ){
+    $Sql .= "WHERE category_price.CategoryCode = $CgSubID";
   }
-  // var_dump($Sql); die;
-  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['RowID'] = $Result['RowID'];

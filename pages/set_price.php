@@ -1124,13 +1124,13 @@ $array2 = json_decode($json2,TRUE);
                                           </div>
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
                                                   <select class="form-control col-md-7" id="Category_Main" onchange="getCategorySub(1);"></select>
                                               </div>
                                           </div>
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
                                                   <select class="form-control col-md-7" id="Category_Sub"></select>
                                               </div>
                                           </div>
