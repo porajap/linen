@@ -127,10 +127,10 @@ input{
     height: 54px;
     letter-spacing: 2px;
     border-bottom: 4px solid #406868;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    /* transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
     -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
-    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37); */
 }
 #btn_login .btn_custom:hover {
     background-color: #1659a2;
@@ -190,10 +190,10 @@ input{
     border-radius: 50px;
     height: 54px;
     border-bottom: 4px solid #676768;;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    /* transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
     -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
-    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37); */
     text-transform: capitalize;
 }
 #btn_reset .btn_send {
@@ -204,10 +204,10 @@ input{
     border-radius: 50px;
     height: 54px;
     border-bottom: 4px solid #406868;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    /* transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
     -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
-    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37); */
     text-transform: capitalize;
 }
 #btn_reset .btn_black:hover {
@@ -274,10 +274,10 @@ input{
     border-radius: 50px;
     height: 54px;
     border-bottom: 4px solid #343838;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    /* transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
     -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
-    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37); */
     text-transform: capitalize;
 }
 #btn_change .btn_save {
@@ -288,10 +288,10 @@ input{
     border-radius: 50px;
     height: 54px;
     border-bottom: 4px solid #406868;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    /* transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
     -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
-    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37);
+    box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.37); */
     text-transform: capitalize;
 }
 #btn_change .btn_black:hover {
