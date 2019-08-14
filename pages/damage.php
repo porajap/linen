@@ -816,7 +816,7 @@ $(document).ready(function(e){
                 }, 1000);
                 $( "#TableItemDetail tbody" ).empty();
                 $("#wTotal").val(0);
-                $("#bSave").text('<?php echo $array['save'][$language]; ?>');
+                // $("#bSave").text('<?php echo $array['save'][$language]; ?>');
                 $("#bImport").prop('disabled', false);
                 $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
@@ -1003,7 +1003,7 @@ $(document).ready(function(e){
                 }
               }else if( (temp["form"]=='ShowItem') ){
                 var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
+                var st2 = "style='font-size: 20px;height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                 $( "#TableItem tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
@@ -1020,9 +1020,9 @@ $(document).ready(function(e){
 
                   var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
-                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 10%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1038,6 +1038,9 @@ $(document).ready(function(e){
                     $('#TableItem tbody:last-child').append( $StrTR );
                   }
                 }
+                $('.numonly').on('input', function() {
+                  this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                  });
               }else if( (temp["form"]=='ShowUsageCode') ){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
