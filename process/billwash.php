@@ -646,7 +646,7 @@ function ShowDetail($conn, $DATA)
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
       $PUQuery = mysqli_query($conn, $PriceUnit);
       while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-        $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Qty2'];
+        $return[$count]['CusPrice']   = ($PUResult['PriceUnit'] * $Result['Qty2']) * $Result['Weight'] ;
         $return['TotalPrice']  += $return[$count]['CusPrice'];
         $return[$count]['PriceUnit']   = $PUResult['PriceUnit'];
         // ============================================================
@@ -660,7 +660,7 @@ function ShowDetail($conn, $DATA)
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PUQuery = mysqli_query($conn, $PriceUnit);
     while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-      $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Weight'];
+      $return[$count]['CusPrice']   = ($PUResult['PriceUnit'] * $Result['Qty2']) * $Result['Weight'] ;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
 
         // ============================================================
