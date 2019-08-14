@@ -1113,8 +1113,8 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu">
-                            <div class="d-flex justify-content-center" <?php if($PmID == 3) echo 'hidden'; ?>>
+                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
                                   <i class="fas fa-trash-alt"></i>

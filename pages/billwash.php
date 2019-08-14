@@ -543,11 +543,11 @@ $array2 = json_decode($json2,TRUE);
           }
 
           function SaveBill(){
+            var total = $("#totalprice").data("value");
             var docno = $("#docno").val();
             var dept = $('#Dep2').val();
             var isStatus_chk = $("#IsStatus").val();
             var isStatus = $("#IsStatus").val();
-            // alert( isStatus );
             if(isStatus==1)
             isStatus=0;
             else
@@ -557,12 +557,27 @@ $array2 = json_decode($json2,TRUE);
               'STATUS'      : 'SaveBill',
               'xdocno'      : docno,
               'isStatus'    : isStatus,
-              'deptCode' : dept
+              'deptCode' : dept,
+              'total' : total
             };
             senddata(JSON.stringify(data));
             if(isStatus_chk==0){
               $('#profile-tab').tab('show');
             }
+                $("#bImport").prop('disabled', false);
+                $("#bDelete").prop('disabled', false);
+                $("#bSave").prop('disabled', false);
+                $("#bCancel").prop('disabled', false);
+                var word = '<?php echo $array['save'][$language]; ?>';
+                var changeBtn = "<i class='fa fa-save'></i>";
+                changeBtn += "<div>"+word+"</div>";
+                  $('#icon_edit').html(changeBtn);                
+                  $("#IsStatus").val("0");
+                  $("#docno").prop('disabled', false);
+                  $("#docdate").prop('disabled', false);
+                  $("#recorder").prop('disabled', false);
+                  $("#timerec").prop('disabled', false);
+                  $("#total").prop('disabled', false);
             ShowDocument();
           }
 
@@ -835,6 +850,7 @@ $array2 = json_decode($json2,TRUE);
                       "<td style='width: 5%;'>                     "+UnitName2+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
+                      "<td style='width: 7%;' align='right'nowrap hidden id='totalprice' data-value='"+temp['TotalPrice']+"'></td>"+
 
                       "</tr>";
                       if(rowCount == 0){

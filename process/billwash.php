@@ -520,11 +520,16 @@ function DeleteItem($conn, $DATA)
 
 function SaveBill($conn, $DATA)
 {
+  $total = $DATA["total"];
   $DocNo = $DATA["xdocno"];
-  $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE billwash SET IsStatus = $isStatus WHERE billwash.DocNo = '$DocNo'";
-  mysqli_query($conn, $Sql);
 
+  $isStatus = $DATA["isStatus"];
+  $Sql = "UPDATE billwash SET IsStatus = $isStatus , Total = $total WHERE billwash.DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+  $return['sql'] = $total;
+  $return['sql1'] = $Sql;
+
+   echo json_encode($return);
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   if ($isStatus == 1) {

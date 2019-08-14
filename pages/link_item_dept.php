@@ -1533,7 +1533,7 @@ $array2 = json_decode($json2,TRUE);
                   <!-- <div class="mhee">
                   <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true"> <?php echo $array['addnewitem'][$language]; ?></button>    
                   </div> -->
-                  <div class="menuMini">
+                  <div class="menuMini" <?php if($PmID == 3) echo 'hidden'; ?>>
                     <div class="d-flex justify-content-center">
                       <div class="circle4 d-flex justify-content-center">
                         <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true">
