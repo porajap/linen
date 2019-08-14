@@ -322,14 +322,9 @@ $array2 = json_decode($json2,TRUE);
             var HptCode = $('#hptsel').val();
             var CgMainID = $('#Category_Main').val();
             var CgSubID = $('#Category_Sub').val();
-            // $('#bSave').attr('disabled', true);
-            $('#delete_icon').addClass('opacity');
-            // if (Sel == 1) {
-            //     CgMainID = "-";
-            //     CgSubID = "-";
-            // } else if (Sel == 2){
-            //     CgSubID = "-";
-            // }
+            $('#bSave').attr('disabled', true);
+            // $('#delete_icon').addClass('opacity');
+     
 
             var data = {
                 'STATUS': 'ShowItem1',
@@ -503,7 +498,6 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function getdetail(RowID) {
-
             if (RowID != "" && RowID != undefined) {
                 var data = {
                     'STATUS': 'getdetail',
@@ -778,7 +772,6 @@ $array2 = json_decode($json2,TRUE);
                                 $('#Price').val(temp['Price']);
                             }
                             $('#bSave').attr('disabled', false);
-                            $('#delete_icon').removeClass('opacity');
                         } else if ((temp["form"] == 'SavePrice')) {
                             $('#RowID').val("");
                             $('#HotName').val("");
@@ -1138,7 +1131,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class="row" style="margin-left:5px;">
                                             <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
-                                            <button class="btn" onclick="ShowItem1()" id="bSave">
+                                            <button class="btn" onclick="ShowItem1()">
                                               <i class="fas fa-search mr-2"></i>
                                               <?php echo $array['search'][$language]; ?>
                                             </button>
@@ -1175,32 +1168,32 @@ $array2 = json_decode($json2,TRUE);
 <!-- =============================================================================================================================== -->
 
  <!-- /.content-wrapper -->
- <div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
-                              <div class="menu"  <?php if($PmID == 3) echo 'hidden'; ?>>
-                                <div class="d-flex justify-content-center">
-                                    <div class="circle4 d-flex justify-content-center"> 
-                                    <button class="btn"  onclick="SavePrice()" id="bSave" disabled="true">
-                                        <i class="fas fa-save"></i>
-                                        <div>
-                                            <?php echo $array['save'][$language]; ?>
-                                        </div>
-                                    </button>
-                                    </div>
-                                </div>
+ <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
+                        <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  onclick="SavePrice()" id="bSave" disabled="true">
+                                  <i class="fas fa-save"></i>
+                                  <div>
+                                    <?php echo $array['save'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
-                       
-                              <div class="menu"  <?php if($PmID == 3) echo 'hidden'; ?>>
-                                <div class="d-flex justify-content-center">
-                                    <div class="circle3 d-flex justify-content-center">
-                                        <button class="btn" onclick="OpenDialog(2)"  id="bDelete">
-                                            <i class="fas fa-money-check"></i>
-                                            <div>
-                                                <?php echo $array['setprice'][$language]; ?>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center">
+                                <button class="btn"  onclick="OpenDialog(2)" id="bDelete" >
+                                <i class="fas fa-money-check"></i>
+                                  <div>
+                                    <?php echo $array['setprice'][$language]; ?>
+                                  </div>
+                                </button>
                               </div>
+                            </div>
+                          </div>
+
                             </div>
 
 
@@ -1279,7 +1272,7 @@ $array2 = json_decode($json2,TRUE);
                                         <select class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptsel2"></select>
                                         <div class="search_custom col-md-2">
                                             <div class="search_1 d-flex justify-content-start">
-                                              <button class="btn"  onclick="ShowDoc()" id="bSave">
+                                              <button class="btn"  onclick="ShowDoc()" id="bSavex" >
                                                 <i class="fas fa-search mr-2"></i>
                                                 <?php echo $array['search'][$language]; ?>
                                               </button>

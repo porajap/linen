@@ -2016,33 +2016,23 @@ $array2 = json_decode($json2, TRUE);
                           <label><?php echo $array['multiply_price'][$language]; ?></label>
                         </div>
                         <input type="text" class="form-control numonly" style="font-size:24px;width:59px;" name="priceunit" id="priceunit" placeholder="0.00">
-                        <!-- <button style="margin-left:11px;width:64px;" type="button" class="btn btn-success" onclick="AddUnit();"><?php echo $array['save'][$language]; ?></button>
-                        <button style="margin-left:4px;width:64px;" type="button" class="btn btn-danger" onclick="DeleteUnit();"><?php echo $array['delete'][$language]; ?></button> -->
-                        <!-- <div class="mhee"> -->
-                        <!-- <a href="javascript:void(0)" onclick="AddUnit();" class="ml-3 "><img src="../img/icon/ic_save.png" style="width:34px;" class="mr-2"><?php echo $array['save'][$language]; ?></a> -->
-                        <!-- <a href="javascript:void(0)" onclick="DeleteUnit();" class="ml-3 "><img src="../img/icon/ic_delete.png" style="width:36px;" class="mr-2"><?php echo $array['delete'][$language]; ?></a> -->
-                        <!-- </div>  -->
-                        <div class="search_custom  ml-1" <?php if($PmID == 3) echo 'hidden'; ?>>
-                          <div class="d-flex justify-content-start">
-                            <div class="save_1 d-flex align-items-center d-flex justify-content-center">
-                                <i class="fas fa-save"></i>
-                            </div>
-                            <button class="btn" onclick="AddUnit();">
-                                <?php echo $array['save'][$language]; ?>
-                            </button>
-                          </div>
+                       
+                        <div class="search_custom  col-md-1" <?php if($PmID == 3) echo 'hidden'; ?>>
+                              <div class="circle4 d-flex justify-content-start">
+                                <button class="btn"  onclick="AddUnit()" id="bSave">
+                                <i class="fas fa-save mr-3"></i><?php echo $array['save'][$language]; ?>
+                                </button>
+                              </div>
                         </div>
 
-                        <div class="search_custom " <?php if($PmID == 3) echo 'hidden'; ?>>
-                          <div class="d-flex justify-content-start">
-                            <div class="del_1 d-flex align-items-center d-flex justify-content-center">
-                                <i class="fas fa-trash-alt"></i>
-                            </div>
-                            <button class="btn" onclick="DeleteUnit();">
-                                <?php echo $array['delete'][$language]; ?>
-                            </button>
-                          </div>
+                        <div class="search_custom  col-md-3" <?php if($PmID == 3) echo 'hidden'; ?>>
+                        <div class="circle3 d-flex justify-content-start">
+                                <button class="btn"  onclick="DeleteUnit()" >
+                                <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
+                                </button>
+                              </div>
                         </div>
+
                       </div>
                     </div>
                   </div>
