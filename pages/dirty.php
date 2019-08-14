@@ -830,16 +830,11 @@ $array2 = json_decode($json2,TRUE);
                         $("#bDelete").prop('disabled', false);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', false);
-<<<<<<< HEAD
                       }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
-                        $("#bSave").text('<?php echo $array['edit'][$language]; ?>');
-=======
-                      }else if(temp[0]['IsStatus']==1){
                         var word = '<?php echo $array['edit'][$language]; ?>';
                         var changeBtn = "<i class='fas fa-edit'></i>";
                         changeBtn += "<div>"+word+"</div>";
                         $('#icon_edit').html(changeBtn);
->>>>>>> 6a49ec6990863f255f292f99f2ce9630a7c9489d
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
                         $("#bSave").prop('disabled', false);
