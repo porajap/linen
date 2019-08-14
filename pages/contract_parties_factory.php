@@ -280,15 +280,16 @@ $array2 = json_decode($json2,TRUE);
                     parent.OnLoadPage();
                   }, 1000);
 											  var Style  = "";
-				                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-												   var rowCount = $('#TableDocument >tbody >tr').length;
-												   var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
+                        for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                          var rowCount = $('#TableDocument >tbody >tr').length;
+                          var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 
-                           var sDate = new Date();
+                          var sDate = new Date();
                           var eDate = new Date( temp[i]['EndDate'] );
                           var diff  = new Date(eDate - sDate);
 
                           var days = Math.round(diff/1000/60/60/24);
+                          var chkDetail = "<input type='radio' name='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
 
                           if(days <= 30){
 													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
@@ -297,13 +298,14 @@ $array2 = json_decode($json2,TRUE);
 												   }
                            var daytext = days <= 0 ? "หมดสัญญา" : days+" วัน" ;
 
-												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' onclick='getRow( "+temp[i]['RowID']+" )' >"+
+												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' >"+
+															  "<td style='width: 3%;'>"+chkDetail+"</td>"+
 															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
 															  "<td style='width: 25%;'>"+temp[i]['FacName']+"</td>"+
-															  "<td style='width: 15%;'>"+temp[i]['StartDate']+"</td>"+
-															  "<td style='width: 15%;'>"+temp[i]['EndDate']+"</td>"+
-															  "<td style='width: 15%; text-align: center;'>"+daytext+"</td>"+
-															  "<td style='width: 25%;'>"+temp[i]['Detail']+"</td>"+
+															  "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
+															  "<td style='width: 13%;'>"+temp[i]['EndDate']+"</td>"+
+															  "<td style='width: 13%; text-align: center;'>"+daytext+"</td>"+
+															  "<td style='width: 28%;'>"+temp[i]['Detail']+"</td>"+
 														  "</tr>";
 
 					                               if(rowCount == 0){
@@ -330,8 +332,7 @@ $array2 = json_decode($json2,TRUE);
                         $('#bCancel').attr('disabled', false);
                         $('#delete_icon').removeClass('opacity');
 										  }
-
-                        	}else if (temp['status']=="failed") {
+                    }else if (temp['status']=="failed") {
                             switch (temp['msg']) {
                               case "notchosen":
                                 temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -595,12 +596,13 @@ body{
               		<table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
                           <thead id="theadsum" style="font-size:24px;">
                             <tr role="row">
+                              <th style='width: 3%;' nowrap>&nbsp;</th>
                               <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 25%;'><?php echo $array['factory'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['dateendcontract'][$language]; ?></th>
-                              <th style='width: 15%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                              <th style='width: 25%;'><?php echo $array['detail'][$language]; ?></th>
+                              <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
+                              <th style='width: 13%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                              <th style='width: 13%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
+                              <th style='width: 28%;'><?php echo $array['detail'][$language]; ?></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
