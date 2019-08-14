@@ -563,6 +563,7 @@ $array2 = json_decode($json2,TRUE);
             if(isStatus_chk==0){
               $('#profile-tab').tab('show');
             }
+            ShowDocument();
           }
 
           function logoff() {
