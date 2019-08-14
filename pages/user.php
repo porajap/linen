@@ -408,11 +408,10 @@ $array2 = json_decode($json2,TRUE);
                     'STATUS': 'CancelItem',
                     'UsID': UsID
                 }
-                // console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
-            } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }
+                } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                }     
             })
         }
 

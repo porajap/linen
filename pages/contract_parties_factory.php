@@ -150,6 +150,9 @@ $array2 = json_decode($json2,TRUE);
 		$('#factory option[value="1"]').prop("selected", true);
     $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
+    $(".checkitem").each(function(){
+        $(".checkitem").prop("checked", false);
+    });
 	}
 
 	function CancelRow(){
@@ -182,25 +185,54 @@ $array2 = json_decode($json2,TRUE);
 		var isStatus = $("#IsStatus").val();
 		var id = $("#xRowID").val();
 		var facid = $('#factory option:selected').attr("value");
-	    if( typeof facid == 'undefined' ) facid = "1";
+    if( typeof facid == 'undefined' ) facid = "1";
 
 		var datepicker1 = $('#datepicker3').val();
-	    var datepicker2 = $('#datepicker4').val();
+    var datepicker2 = $('#datepicker4').val();
 		var xDetail = $("#xDetail").val();
-
-	    //datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	    //datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
-
-		var data = {
-			'STATUS'  	: 'SaveRow',
-			'isStatus'	: isStatus,
-			'RowID'		: id,
-			'facid'		: facid,
-			'sDate'		: datepicker1,
-			'eDate'		: datepicker2,
-			'Detail'	: xDetail
-		};
-		senddata(JSON.stringify(data));
+    swal({
+        title: "<?php echo $array['save'][$language]; ?>",
+        text: "",
+        type: "question",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+    }).then(result => {
+        if (result.value) {
+          swal({
+            title: '',
+            text: "<?php echo $array['savesuccess'][$language]; ?>",
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+          setTimeout(() => {
+            var data = {
+              'STATUS'  	: 'SaveRow',
+              'isStatus'	: isStatus,
+              'RowID'		: id,
+              'facid'		: facid,
+              'sDate'		: datepicker1,
+              'eDate'		: datepicker2,
+              'Detail'	: xDetail
+            };
+            senddata(JSON.stringify(data));
+          }, 2000);
+        } else if (result.dismiss === 'cancel') {
+            swal.close();
+        }     
+    })
+		
 	}
 
 	function ShowDocument(){
@@ -280,15 +312,16 @@ $array2 = json_decode($json2,TRUE);
                     parent.OnLoadPage();
                   }, 1000);
 											  var Style  = "";
-				                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-												   var rowCount = $('#TableDocument >tbody >tr').length;
-												   var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
+                        for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                          var rowCount = $('#TableDocument >tbody >tr').length;
+                          var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 
-                           var sDate = new Date();
+                          var sDate = new Date();
                           var eDate = new Date( temp[i]['EndDate'] );
                           var diff  = new Date(eDate - sDate);
 
                           var days = Math.round(diff/1000/60/60/24);
+                          var chkDetail = "<input type='radio' name='checkitem' class='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
 
                           if(days <= 30){
 													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
@@ -297,13 +330,14 @@ $array2 = json_decode($json2,TRUE);
 												   }
                            var daytext = days <= 0 ? "หมดสัญญา" : days+" วัน" ;
 
-												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' onclick='getRow( "+temp[i]['RowID']+" )' >"+
+												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' >"+
+															  "<td style='width: 3%;'>"+chkDetail+"</td>"+
 															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
 															  "<td style='width: 25%;'>"+temp[i]['FacName']+"</td>"+
-															  "<td style='width: 15%;'>"+temp[i]['StartDate']+"</td>"+
-															  "<td style='width: 15%;'>"+temp[i]['EndDate']+"</td>"+
-															  "<td style='width: 15%; text-align: center;'>"+daytext+"</td>"+
-															  "<td style='width: 25%;'>"+temp[i]['Detail']+"</td>"+
+															  "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
+															  "<td style='width: 13%;'>"+temp[i]['EndDate']+"</td>"+
+															  "<td style='width: 13%; text-align: center;'>"+daytext+"</td>"+
+															  "<td style='width: 28%;'>"+temp[i]['Detail']+"</td>"+
 														  "</tr>";
 
 					                               if(rowCount == 0){
@@ -330,8 +364,7 @@ $array2 = json_decode($json2,TRUE);
                         $('#bCancel').attr('disabled', false);
                         $('#delete_icon').removeClass('opacity');
 										  }
-
-                        	}else if (temp['status']=="failed") {
+                    }else if (temp['status']=="failed") {
                             switch (temp['msg']) {
                               case "notchosen":
                                 temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -595,12 +628,13 @@ body{
               		<table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
                           <thead id="theadsum" style="font-size:24px;">
                             <tr role="row">
+                              <th style='width: 3%;' nowrap>&nbsp;</th>
                               <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 25%;'><?php echo $array['factory'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['dateendcontract'][$language]; ?></th>
-                              <th style='width: 15%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                              <th style='width: 25%;'><?php echo $array['detail'][$language]; ?></th>
+                              <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
+                              <th style='width: 13%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                              <th style='width: 13%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
+                              <th style='width: 28%;'><?php echo $array['detail'][$language]; ?></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">

@@ -98,6 +98,24 @@
         padding: 7px;
         color:#ffffff;
       }
+      .menuMini button{
+        text-decoration: none;
+        font-size: 23px;
+        color: #2c3e50;
+        display: block;
+        background: none !important;
+        box-shadow:none !important;
+      }
+      .menuMini button:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+        transition: width 2s, height 4s;
+      }
+      .menuMini{
+        width:94px;
+        text-align:center;
+      }
       i{
         -webkit-transition: -webkit-transform .8s ease-in-out;
           transition:transform .8s ease-in-out;
