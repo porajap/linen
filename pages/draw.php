@@ -1413,7 +1413,7 @@ a.nav-link{
                         <div class="col-md-12"> <!-- tag column 1 -->
                           <div class="container-fluid">
                             <div class="card-body mt-3" >
-                            
+                        <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
@@ -1430,7 +1430,7 @@ a.nav-link{
                                     </div>
                                   </div>
                                 </div>
-                    <!-- =================================================================== -->
+                        <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
@@ -1445,9 +1445,7 @@ a.nav-link{
                                     </div>
                                   </div>
                                 </div>
-                    <!-- =================================================================== -->
-
-
+                        <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
@@ -1462,8 +1460,7 @@ a.nav-link{
                                     </div>
                                   </div>
                                 </div>
-                    <!-- =================================================================== -->
-
+                        <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
@@ -1472,12 +1469,11 @@ a.nav-link{
                                     </div>
                                   </div>
                                 </div>
-                    <!-- =================================================================== -->
+                        <!-- =================================================================== -->
                             </div>
                           </div>
                         </div> <!-- tag column 1 -->
-                                                <!-- row btn -->
-                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
+                        <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
@@ -1566,95 +1562,6 @@ a.nav-link{
                             </div>
                           </div>
                         </div>
-                        <!-- end row btn -->
-                                                                                    <!-- row btn -->
-                        <!-- <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle1 d-flex align-items-center d-flex justify-content-center">
-                                  <i class="fas fa-file-medical"></i>
-                              </div>
-                            </div>
-                            <div>
-                              <button class="btn" onclick="CreateDocument()" id="bCreate" >
-                                <?php echo $array['createdocno'][$language]; ?>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex align-items-center d-flex justify-content-center">
-                                  <i class="fas fa-file-import"></i>
-                              </div>
-                            </div>
-                            <div>
-                              <button class="btn" onclick="OpenDialogItem()" id="bImport">
-                                <?php echo $array['import'][$language]; ?>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex align-items-center d-flex justify-content-center">
-                                  <i class="fas fa-trash-alt"></i>
-                              </div>
-                            </div>
-                            <div>
-                              <button class="btn" onclick="DeleteItem()" id="bDelete">
-                                <?php echo $array['delitem'][$language]; ?>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                                  <i class="fas fa-save"></i>
-                              </div>
-                            </div>
-                            <div>
-                              <button class="btn" onclick="SaveBill()" id="bSave">
-                                <?php echo $array['save'][$language]; ?>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle5 d-flex align-items-center d-flex justify-content-center">
-                                  <i class="fas fa-times"></i>
-                              </div>
-                            </div>
-                            <div>
-                              <button class="btn" onclick="CancelDocument()" id="bCancel">
-                                <?php echo $array['cancel'][$language]; ?>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle7 d-flex align-items-center d-flex justify-content-center">
-                              <i class="fas fa-book"></i>                              
-                              </div>
-                            </div>
-                            <div>
-                              <button class="btn" onclick="ShowDetailSub()" id="bCancel">
-                                <?php echo $array['detail'][$language]; ?>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                              <i class="fas fa-print"></i>
-                              </div>
-                            </div>
-                            <div>
-                              <button class="btn" onclick="PrintData()" id="bCancel">
-                                <?php echo $array['print'][$language]; ?>
-                              </button>
-                            </div>
-                          </div>
-                        </div> -->
-                        <!-- end row btn -->
                       </div>
 
                       <div class="row">
@@ -1674,9 +1581,9 @@ a.nav-link{
                             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
                             </tbody>
                           </table>
-                      </div>
-                    </div>  
-                  </div> <!-- tag column 1 -->
+                        </div>
+                      </div>  
+                    </div>
              
                     <!-- search document -->
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -1687,7 +1594,7 @@ a.nav-link{
                       <div class="col-md-2">
                           <select class="form-control" style='font-size:24px;' id="Dep2" ></select>
                       </div>
-                      <div class="col-md-6 mhee">
+                      <div class="col-md-6">
                           <div class="row" style="margin-left:2px;">
                             <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                             <div class="search_custom col-md-3">
@@ -1707,128 +1614,30 @@ a.nav-link{
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12"> <!-- tag column 1 -->
-                        <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
-                          <thead id="theadsum" style="font-size:24px;">
-                            <tr role="row">
-                              <th style='width: 10%;'nowrap>&nbsp;</th>
-                              <th style='width: 15%;'nowrap><?php echo $array['docdate'][$language]; ?></th>
-                              <th style='width: 15%;'nowrap><?php echo $array['docno'][$language]; ?></th>
-                              <th style='width: 15%;'nowrap><?php echo $array['department'][$language]; ?></th>
-                              <th style='width: 15%;'nowrap><?php echo $array['employee'][$language]; ?></th>
-                              <th style='width: 20%;'nowrap><?php echo $array['time'][$language]; ?></th>
-                              <!-- <th style='width: 10%;'nowrap><?php echo $array['order'][$language]; ?></th> -->
-                              <th style='width: 10%;'nowrap><?php echo $array['status'][$language]; ?></th>
-                            </tr>
-                          </thead>
-                          <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
-                          </tbody>
-                        </table>
-                      </div> <!-- tag column 1 -->
-                    </div>
-                  </div> <!-- end row tab -->
-                </div>
-              </div>
-              <!-- <div class="col-md-2" id='tab2' <?php if($PmID == 1) echo 'hidden'; ?>> -->
-                <!-- button----------------------------------------- -->
-                <!-- <div class="sidenav mhee">
-                    <div class="" style="margin-top:5px;">
-                      <div class="card-body" style="padding:0px; margin-top:10px;">
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_create.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="CreateDocument()" id="bCreate">
-                              <?php echo $array['createdocno'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_import.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn"  onclick="OpenDialogItem()" id="bImport">
-                              <?php echo $array['import'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_delete.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn"  onclick="DeleteItem()" id="bDelete">
-                              <?php echo $array['delitem'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn"  onclick="SaveBill()" id="bSave">
-                              <?php echo $array['save'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn"  onclick="CancelDocument()" id="bCancel">
-                              <?php echo $array['cancel'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-              
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon">
-                            <img src="../img/icon/ic_detail.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn"  onclick="ShowDetailSub()" id="bShowDetailSub">
-                              <?php echo $array['detail'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-          
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_print.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn"  onclick="PrintData()" id="bPrint">
-                              <?php echo $array['print'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;" hidden>
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_detail.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn"  onclick="SendData()" id="bSend">
-                              <?php echo $array['sendlinen'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-                   
+                      <div class="row">
+                        <div class="col-md-12"> <!-- tag column 1 -->
+                          <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
+                            <thead id="theadsum" style="font-size:24px;">
+                              <tr role="row">
+                                <th style='width: 10%;'nowrap>&nbsp;</th>
+                                <th style='width: 15%;'nowrap><?php echo $array['docdate'][$language]; ?></th>
+                                <th style='width: 15%;'nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <th style='width: 15%;'nowrap><?php echo $array['department'][$language]; ?></th>
+                                <th style='width: 15%;'nowrap><?php echo $array['employee'][$language]; ?></th>
+                                <th style='width: 20%;'nowrap><?php echo $array['time'][$language]; ?></th>
+                                <!-- <th style='width: 10%;'nowrap><?php echo $array['order'][$language]; ?></th> -->
+                                <th style='width: 10%;'nowrap><?php echo $array['status'][$language]; ?></th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
+                            </tbody>
+                          </table>
+                        </div> <!-- tag column 1 -->
                       </div>
                     </div>
-                </div> -->
-                <!-- end button----------------------------------------- -->
-            <!-- </div> -->
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
 
