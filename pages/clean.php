@@ -1649,28 +1649,22 @@ $(document).ready(function(e){
                 <input type="text" class="form-control col-sm-8" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
               </div>
             </div>
-              <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                    <i class="fas fa-search"></i>
-                 </div>
-                      <button class="btn"  onclick="get_dirty_doc()" >
-                        <?php echo $array['search'][$language]; ?>
-                      </button>
-                </div>
-              </div>    
-              <!-- <button type="button" class="btn btn-primary  btn-block" name="button" onclick="get_dirty_doc();"><?php echo $array['search'][$language]; ?></button> -->
             <div class="search_custom col-md-2">
-                <div class="d-flex justify-content-start">
-                  <div class="import_1 d-flex align-items-center d-flex justify-content-center">
-                  <i class="fas fa-file-import"></i>
-                 </div>
-                      <button class="btn"  onclick="UpdateRefDocNo()" >
-                        <?php echo $array['import'][$language]; ?>
-                      </button>
+                <div class="search_1 d-flex justify-content-start">
+                  <button class="btn" onclick="get_dirty_doc()" id="bSave">
+                    <i class="fas fa-search mr-2"></i>
+                    <?php echo $array['search'][$language]; ?>
+                  </button>
                 </div>
-            </div>  
-              <!-- <button type="button" class="btn btn-warning btn-block" name="button" onclick="UpdateRefDocNo()"><?php echo $array['import'][$language]; ?></button> -->
+              </div>
+              <div class="search_custom col-md-2">
+                <div class="import_1 d-flex justify-content-start">
+                  <button class="btn" onclick="UpdateRefDocNo()" id="bSave">
+                  <i class="fas fa-file-import pt-1 mr-2"></i>
+                    <?php echo $array['import'][$language]; ?>
+                  </button>
+                </div>
+              </div>  
           </div>
           <table class="table table-fixed table-condensed table-striped" id="TableRefDocNo" cellspacing="0" role="grid">
             <thead style="font-size:24px;">
