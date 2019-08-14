@@ -182,7 +182,7 @@ $array2 = json_decode($json2,TRUE);
 		var isStatus = $("#IsStatus").val();
 		var id = $("#xRowID").val();
 		var facid = $('#factory option:selected').attr("value");
-	    if( typeof facid == 'undefined' ) facid = "1";
+    if( typeof facid == 'undefined' ) facid = "1";
 
 		var datepicker1 = $('#datepicker3').val();
     var datepicker2 = $('#datepicker4').val();
