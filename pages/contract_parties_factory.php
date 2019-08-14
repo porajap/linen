@@ -185,22 +185,51 @@ $array2 = json_decode($json2,TRUE);
 	    if( typeof facid == 'undefined' ) facid = "1";
 
 		var datepicker1 = $('#datepicker3').val();
-	    var datepicker2 = $('#datepicker4').val();
+    var datepicker2 = $('#datepicker4').val();
 		var xDetail = $("#xDetail").val();
-
-	    //datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	    //datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
-
-		var data = {
-			'STATUS'  	: 'SaveRow',
-			'isStatus'	: isStatus,
-			'RowID'		: id,
-			'facid'		: facid,
-			'sDate'		: datepicker1,
-			'eDate'		: datepicker2,
-			'Detail'	: xDetail
-		};
-		senddata(JSON.stringify(data));
+    swal({
+        title: "<?php echo $array['save'][$language]; ?>",
+        text: "",
+        type: "question",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+    }).then(result => {
+        if (result.value) {
+          swal({
+            title: '',
+            text: "<?php echo $array['savesuccess'][$language]; ?>",
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+          setTimeout(() => {
+            var data = {
+              'STATUS'  	: 'SaveRow',
+              'isStatus'	: isStatus,
+              'RowID'		: id,
+              'facid'		: facid,
+              'sDate'		: datepicker1,
+              'eDate'		: datepicker2,
+              'Detail'	: xDetail
+            };
+            senddata(JSON.stringify(data));
+          }, 2000);
+        } else if (result.dismiss === 'cancel') {
+            swal.close();
+        }     
+    })
+		
 	}
 
 	function ShowDocument(){

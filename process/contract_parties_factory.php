@@ -192,10 +192,6 @@ function SaveRow($conn,$DATA){
 			WHERE RowID = $RowID";
       mysqli_query($conn,$Sql);
   }
-
-//	 $Sql = "INSERT INTO log ( log ) VALUES ('$isStatus / $sDate  :  $eDate :: $facid ::: $Detail')";
-//     mysqli_query($conn,$Sql);
-
 	ShowDocument($conn,$DATA);
 }
 
