@@ -1201,30 +1201,14 @@ a.nav-link{
                     <div class="row">
                       <div class="col-md-6">
                         <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                          <select  class="form-control form-control col-sm-8" id="hotpital" onchange="getDepartment();" disabled='true'> </select>
+                          <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
+                          <select  class="form-control form-control col-sm-8" style="font-size:22px;" id="hotpital" onchange="getDepartment();" disabled='true'> </select>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
-                            <select class="form-control col-sm-8" id="department" disabled="true"> </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['docdate'][$language]; ?></label>
-                          <input type="text" class="form-control col-sm-8" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
-
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class='form-group row'>
-                            <label class="col-sm-4 col-form-label text-right"><?php echo $array['docno'][$language]; ?></label>
-                            <input type="text" class="form-control col-sm-8"  name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                          <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+                            <select class="form-control col-sm-8" style="font-size:22px;" id="department" disabled="true"> </select>
                         </div>
                       </div>
                     </div>
@@ -1232,14 +1216,15 @@ a.nav-link{
                     <div class="row">
                       <div class="col-md-6">
                         <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['employee'][$language]; ?></label>
-                          <input type="text" class="form-control col-sm-8"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                          <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
+                          <input type="text" class="form-control col-sm-8"style="font-size:22px;" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['time'][$language]; ?></label>
-                            <input type="text" class="form-control col-sm-8" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                            <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docno'][$language]; ?></label>
+                            <input type="text" class="form-control col-sm-8" style="font-size:22px;" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                         </div>
                       </div>
                     </div>
@@ -1247,15 +1232,30 @@ a.nav-link{
                     <div class="row">
                       <div class="col-md-6">
                         <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['totalweight'][$language]; ?></label>
-                          <input class='form-control col-sm-8'  id='wTotal' placeholder="0.00">
+                          <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['employee'][$language]; ?></label>
+                          <input type="text" class="form-control col-sm-8" style="font-size:22px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class='form-group row'>
+                          <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
+                            <input type="text" class="form-control col-sm-8" style="font-size:22px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class='form-group row'>
+                          <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['totalweight'][$language]; ?></label>
+                          <input class='form-control col-sm-8' style="font-size:22px;" id='wTotal' placeholder="0.00">
                         </div>
                       </div>
                       <div class="col-md-6" hidden>
                         <div class='form-group row'>
-                          <label class="col-sm-4 col-form-label text-right"><?php echo $array['refdocno'][$language]; ?></label>
-                            <input type="text" class="form-control col-sm-9" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
-                            <input class='form-control col-sm-8"' id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" OnBlur='UpdateRefDocNo()'>
+                          <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['refdocno'][$language]; ?></label>
+                            <input type="text" class="form-control col-sm-9" style="font-size:22px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                            <input class='form-control col-sm-8"' style="font-size:22px;" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" OnBlur='UpdateRefDocNo()'>
                         </div>
                       </div>
                     </div>
@@ -1371,7 +1371,7 @@ a.nav-link{
                             </div>
                           </div>
                         </div>
-                        <div class="search_custom col-md-2" style="padding-left: 93px;">
+                        <div class="search_custom col-md-2" style="padding-left: 65px;">
                           <div class="circle6 d-flex justify-content-start">
                             <button class="btn"  onclick="SelectDocument()" id="btn_show" >
                               <i class="fas fa-paste mr-2"></i> <?php echo $array['show'][$language]; ?>

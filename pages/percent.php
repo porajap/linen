@@ -447,14 +447,14 @@ table tr:first-child th:first-child {
                             <div class="row">
                               <div class="col-md-5">
                                 <div class='form-group row'>
-                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                  <select class="form-control col-sm-8" id="hotpital" onchange="getDepartment();"  <?php if($PmID != 2) {echo "disabled='true'" ;} ?> ></select>
+                                  <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
+                                  <select class="form-control col-sm-8" id="hotpital" style="font-size:22px;" onchange="getDepartment();"  <?php if($PmID != 2) {echo "disabled='true'" ;} ?> ></select>
                                 </div>
                               </div>
                               <div class="col-md-5">
                                 <div class='form-group row'>
-                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
-                                    <select  class="form-control col-sm-7" id="department"  <?php if($PmID != 2) {echo "disabled='true'" ;} ?> ></select>
+                                  <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+                                    <select  class="form-control col-sm-7" style="font-size:22px;" id="department"  <?php if($PmID != 2) {echo "disabled='true'" ;} ?> ></select>
                                 </div>
                               </div>
                             </div>
@@ -465,14 +465,14 @@ table tr:first-child th:first-child {
                             <div class="row">
                               <div class="col-md-5">
                                 <div class='form-group row'>
-                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                  <input type="text" class="form-control col-sm-8 datepicker-here"  id="datepicker1"  data-language='en' data-date-format='dd/mm/yyyy' >
+                                  <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['datestart'][$language]; ?></label>
+                                  <input type="text" class="form-control col-sm-8 datepicker-here" style="font-size:22px;" id="datepicker1"  data-language='en' data-date-format='dd/mm/yyyy' >
                                 </div>
                               </div>
                               <div class="col-md-5">
                                 <div class='form-group row'>
-                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                  <input type="text" class="form-control col-sm-7 datepicker-here"  id="datepicker2"  data-language='en' data-date-format='dd/mm/yyyy' >
+                                  <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['dateend'][$language]; ?></label>
+                                  <input type="text" class="form-control col-sm-7 datepicker-here" style="font-size:22px;"  id="datepicker2"  data-language='en' data-date-format='dd/mm/yyyy' >
                                 </div>
                               </div>
                               <div class="col-md-2 mhee">
