@@ -202,12 +202,12 @@ function ShowDocument($conn, $DATA)
   if($DocNo!=null){
     $Sql .= " WHERE dirty.DocNo = '$DocNo'";
   }else{
-    if ($selecta == 1) {
+    if ($deptCode != null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DepCode = $deptCode";
       if($xDocNo!=null){
         $Sql .= " OR dirty.DocNo LIKE '%$xDocNo%'";
       }
-    }else if($selecta == 2){
+    }else if($deptCode == null){
       $Sql .= " WHERE site.HptCode = '$Hotp'";
     }
   }

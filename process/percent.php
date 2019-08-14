@@ -84,17 +84,17 @@ function ShowDocument($conn,$DATA){
   site.HptName,
   department.DepName,
   dirty.DocNo AS DocNo1,
-  dirty.DocDate AS DocDate1,
+  DATE(dirty.DocDate) AS DocDate1,
   dirty.Total AS Total1,
   clean.DocNo AS DocNo2,
-  clean.DocDate AS DocDate2,
+  DATE(clean.DocDate) AS DocDate2,
   clean.Total AS Total2,
   ROUND( (((clean.Total - dirty.Total )/dirty.Total)*100), 2)  AS Precent
   FROM clean
   INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
   INNER JOIN department ON clean.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
-  WHERE dirty.DocDate BETWEEN '$sDate' AND '$eDate'
+  WHERE DATE(dirty.DocDate) BETWEEN '$sDate' AND '$eDate'
   AND department.DepCode = $deptCode
   ORDER BY clean.DocNo DESC LIMIT 100";
   $return['sql'] = $Sql;

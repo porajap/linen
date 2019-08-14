@@ -247,9 +247,9 @@ $array = json_decode($json,TRUE);
 															  "<td style='width: 10%;'nowrap>"+temp[i]['DocDate1']+"</td>"+
 															  "<td style='width: 10%;'nowrap>"+temp[i]['Total1']+"</td>"+
 															  "<td style='width: 15%;'nowrap>"+temp[i]['DocNo2']+"</td>"+
-															  "<td style='width: 10%;'nowrap>"+temp[i]['DocDate2']+"</td>"+
+															  "<td style='width: 18%;'nowrap>"+temp[i]['DocDate2']+"</td>"+
 															  "<td style='width: 10%;'nowrap>"+temp[i]['Total2']+"</td>"+
-															  "<td style='width: 25%;text-align: center'nowrap>"+temp[i]['Precent']+ " %" +"</td>"+
+															  "<td style='width: 11%;text-align: center'nowrap>"+temp[i]['Precent']+ " %" +"</td>"+
 														  "</tr>";
 
 					                               if(rowCount == 0){
@@ -506,9 +506,9 @@ table tr:first-child th:first-child {
                               <th style='width: 10%;'nowrap><?php echo $array['date'][$language]; ?></th>
                               <th style='width: 10%;'nowrap><?php echo $array['weight'][$language]; ?></th>
                               <th style='width: 15%;'nowrap><?php echo $array['cleandoc'][$language]; ?></th>
-                              <th style='width: 10%;'nowrap><?php echo $array['date'][$language]; ?></th>
-                              <th style='width: 10%;'nowrap><?php echo $array['weight'][$language]; ?></th>
-                              <th style='width: 25%;padding-left:150px;'><?php echo $array['percent'][$language]; ?></th>
+                              <th style='width: 17%;'nowrap><?php echo $array['date'][$language]; ?></th>
+                              <th style='width: 15%;'nowrap><?php echo $array['weight'][$language]; ?></th>
+                              <th style='width: 13%;'><?php echo $array['percent'][$language]; ?></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
