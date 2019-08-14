@@ -55,7 +55,7 @@ $array2 = json_decode($json2,TRUE);
     <link href="../template/css/sb-admin.css" rel="stylesheet">
     <link href="../css/xfont.css" rel="stylesheet">
     <!-- <link href="../css/responsive.css" rel="stylesheet"> -->
-
+    <link href="../css/menu_custom.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
     <script src="../jQuery-ui/jquery-1.12.4.js"></script>
     <script src="../jQuery-ui/jquery-ui.js"></script>
@@ -1308,101 +1308,101 @@ $array2 = json_decode($json2,TRUE);
   //---------------HERE------------------//
 
     </script>
-    <style media="screen">
-      @font-face {
-            font-family: myFirstFont;
-            src: url("../fonts/DB Helvethaica X.ttf");
+  <style media="screen">
+          @font-face {
+                font-family: myFirstFont;
+                src: url("../fonts/DB Helvethaica X.ttf");
+                }
+      
+
+            .nfont{
+              font-family: myFirstFont;
+              font-size:22px;
             }
-  
+          body,#dialog,#buttonmodal,#datepickermodal{
+            font-family: myFirstFont;
+            font-size:22px;
+          }
+          #buttonmodal,#datepickermodal{
+            font-family: myFirstFont;
+            font-size:24px!important;
+          }
 
-        .nfont{
-          font-family: myFirstFont;
-          font-size:22px;
-        }
-    body,#dialog,#buttonmodal,#datepickermodal{
-      font-family: myFirstFont;
-		   font-size:22px;
-		}
-    #buttonmodal,#datepickermodal{
-      font-family: myFirstFont;
-		   font-size:24px!important;
-		}
+          input,select{
+            font-size:24px!important;
+          }
+          th,td{
+            font-size:22px!important;
+          }
+          .table > thead > tr >th {
+            background-color: #1659a2;
+          }
 
-    input,select{
-      font-size:24px!important;
-    }
-    th,td{
-      font-size:22px!important;
-    }
-    .table > thead > tr >th {
-      background-color: #1659a2;
-    }
+          table tr th,
+          table tr td {
+            border-right: 0px solid #bbb;
+            border-bottom: 0px solid #bbb;
+            padding: 5px;
+          }
+          table tr th:first-child,
+          table tr td:first-child {
+            border-left: 0px solid #bbb;
+          }
+          table tr th {
+            background: #eee;
+            border-top: 0px solid #bbb;
+            text-align: left;
+          }
 
-    table tr th,
-    table tr td {
-      border-right: 0px solid #bbb;
-      border-bottom: 0px solid #bbb;
-      padding: 5px;
-    }
-    table tr th:first-child,
-    table tr td:first-child {
-      border-left: 0px solid #bbb;
-    }
-    table tr th {
-      background: #eee;
-      border-top: 0px solid #bbb;
-      text-align: left;
-    }
+          /* top-left border-radius */
+          table tr:first-child th:first-child {
+            border-top-left-radius: 6px;
+          }
 
-    /* top-left border-radius */
-    table tr:first-child th:first-child {
-      border-top-left-radius: 6px;
-    }
+          /* top-right border-radius */
+          table tr:first-child th:last-child {
+            border-top-right-radius: 6px;
+          }
 
-    /* top-right border-radius */
-    table tr:first-child th:last-child {
-      border-top-right-radius: 6px;
-    }
+          /* bottom-left border-radius */
+          table tr:last-child td:first-child {
+            border-bottom-left-radius: 6px;
+          }
 
-    /* bottom-left border-radius */
-    table tr:last-child td:first-child {
-      border-bottom-left-radius: 6px;
-    }
+          /* bottom-right border-radius */
+          table tr:last-child td:last-child {
+            border-bottom-right-radius: 6px;
+          }
+          button{
+            font-size: 24px!important;
+          }
+          .mhee a{
+        /* padding: 6px 8px 6px 16px; */
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+      }
+      .mhee a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+      }
+      .mhee button{
+        /* padding: 6px 8px 6px 16px; */
+        font-size: 21px;
+        color: #2c3e50;
+        background:none;
+        box-shadow:none!important;
+        margin-left:-20px;
+      }
 
-    /* bottom-right border-radius */
-    table tr:last-child td:last-child {
-      border-bottom-right-radius: 6px;
-    }
-    button{
-      font-size: 24px!important;
-    }
-    .mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.mhee button{
-  /* padding: 6px 8px 6px 16px; */
-  font-size: 21px;
-  color: #2c3e50;
-  background:none;
-  box-shadow:none!important;
-  margin-left:-20px;
-}
-
-.mhee button:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-  outline:none;
-}
+      .mhee button:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+        outline:none;
+      }
       a.nav-link{
         width:auto!important;
       }
@@ -1443,7 +1443,7 @@ $array2 = json_decode($json2,TRUE);
             margin-top: -4%;
         }
     }
-    </style>
+  </style>
   </head>
 
   <body id="page-top">
@@ -1498,6 +1498,14 @@ $array2 = json_decode($json2,TRUE);
                       <div class='form-group form-inline'>
                         <label style='width:25% 'class='text-right mr-sm-2 pl-4'><?php echo $array['search'][$language]; ?></label>
                         <input type="text" autocomplete="off" class="form-control" style='width:55%' name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                        <div class="menuMini rch_custom ml-2">
+                          <div class="search_1 d-flex justify-content-start">
+                            <button class="btn"  onclick="ShowItem()" >
+                              <i class="fas fa-search mr-2"></i>
+                              <?php echo $array['search'][$language]; ?>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1521,10 +1529,22 @@ $array2 = json_decode($json2,TRUE);
                 </div>
 
                 <div class="col-xl-1 col-12 text-center" id='btn_margin'>
-                <img src="../img/icon/ic_import.png" style='width:34px;margin-right: 20px;' class=' mr-4 opacity' id="delete_icon" >
-         <div class="mhee">
-         <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true"> <?php echo $array['addnewitem'][$language]; ?></button>    
-         </div>
+                  <!-- <img src="../img/icon/ic_import.png" style='width:34px;margin-right: 20px;' class=' mr-4 opacity' id="delete_icon" > -->
+                  <!-- <div class="mhee">
+                  <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true"> <?php echo $array['addnewitem'][$language]; ?></button>    
+                  </div> -->
+                  <div class="menuMini">
+                    <div class="d-flex justify-content-center">
+                      <div class="circle4 d-flex justify-content-center">
+                        <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true">
+                          <i class="fas fa-file-import"></i>
+                          <div>
+                            <?php echo $array['addnewitem'][$language]; ?>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="col-xl-6 col-12">
@@ -1534,14 +1554,28 @@ $array2 = json_decode($json2,TRUE);
                           <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['itemnew'][$language]; ?></a>
                         </li>
                       </ul>
-                      <div class="row ml-2 mhee" style='margin-top:10px;'>
-                        <div class='form-group form-inline'>
-                          <label class="mr-2"><?php echo $array['search'][$language]; ?></label>
-                          <input type="text" class="form-control mr-2" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                          <img src="../img/icon/ic_delete.png" style='margin-left: 15px;width:36px;' class='mr-3 ' >
-                          <a href='javascript:void(0)' onclick="DeleteItem()" id="btn_Delete"> <?php echo $array['delete'][$language]; ?></a>             
+                      <div class="row">
+                        <div class="col-6">
+                        <input type="text" class="form-control" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                      </div>
+                      <div class="menuMini">
+                        <div class="search_1 d-flex justify-content-start">
+                          <button class="btn"  onclick="ShowItemStock()" >
+                            <i class="fas fa-search mr-2"></i>
+                            <?php echo $array['search'][$language]; ?>
+                          </button>
                         </div>
                       </div>
+                      <div class="menuMini  ml-2">
+                        <div class="circle5 d-flex justify-content-start">
+                          <button class="btn"  onclick="DeleteItem()" >
+                            <i class="fas fa-trash-alt mr-2"></i>
+                            <?php echo $array['delete'][$language]; ?>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                      
                     <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemStock" width="100%" cellspacing="0" role="grid">
                       <thead id="theadsum" style="font-size:11px;">
                         <tr role="row">
