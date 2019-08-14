@@ -86,12 +86,22 @@ function ShowDoc($conn, $DATA)
 {
     $count = 0;
     $HptCode = $DATA['HptCode'];
-    $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName
-    FROM category_price_time
-    INNER JOIN site ON category_price_time.HptCode = site.HptCode
-    WHERE site.HptCode = '$HptCode' AND category_price_time.`Status` = 0 
-    GROUP BY site.HptCode,category_price_time.xDate,category_price_time.DocNo
-    ORDER BY category_price_time.xDate ASC";
+    if($HptCode != null){
+      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName
+        FROM category_price_time
+        INNER JOIN site ON category_price_time.HptCode = site.HptCode
+        WHERE site.HptCode = '$HptCode' AND category_price_time.`Status` = 0 
+        GROUP BY site.HptCode,category_price_time.xDate,category_price_time.DocNo
+        ORDER BY category_price_time.xDate ASC";
+    }else{
+      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName
+        FROM category_price_time
+        INNER JOIN site ON category_price_time.HptCode = site.HptCode
+        WHERE category_price_time.`Status` = 0 
+        GROUP BY site.HptCode,category_price_time.xDate,category_price_time.DocNo
+        ORDER BY category_price_time.xDate ASC";
+    }
+    
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $return[$count]['DocNo'] = $Result['DocNo'];
@@ -108,9 +118,8 @@ function ShowDoc($conn, $DATA)
         mysqli_close($conn);
         die;
     }else{
-        $return['status'] = "success";
-        $return['form'] = "ShowDoc";
-        $return['msg'] = "";
+        $return['status'] = "failed";
+        $return['msg'] = "notfound";
         echo json_encode($return);
         mysqli_close($conn);
         die;
@@ -129,14 +138,15 @@ function ShowItem1($conn, $DATA)
   INNER JOIN site ON category_price.HptCode = site.HptCode
   INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode
   INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode ";
-  if( ('$xHptCode'!="-") && ($CgMainID=="-") && ($CgSubID=="-") ){
+  if( $xHptCode != null && $CgMainID == null && $CgSubID == null ){
       $Sql .= "WHERE site.HptCode = '$xHptCode'";
-  }else if( ('$xHptCode'!="-") && ($CgMainID!="-")  && ($CgSubID=="-") ){
+  }else if($xHptCode != null && $CgMainID != null && $CgSubID == null){
       $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID";
-  }else if( ('$xHptCode'!="-") && ($CgMainID!="-") && ($CgSubID!="-") ){
+  }else if($xHptCode != null && $CgMainID != null && $CgSubID !=null ){
       $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID AND category_price.CategoryCode = $CgSubID";
   }
   // var_dump($Sql); die;
+  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['RowID'] = $Result['RowID'];
@@ -154,14 +164,8 @@ function ShowItem1($conn, $DATA)
     mysqli_close($conn);
     die;
   }else{
-      $return[0]['RowID'] = "";
-      $return[0]['HptName'] = "";
-      $return[0]['MainCategoryName'] = "";
-      $return[0]['CategoryName'] = "";
-      $return[0]['Price'] = "";
-    $return['status'] = "success";
-    $return['form'] = "ShowItem1";
-    $return['msg'] = $Sql;
+    $return['status'] = "failed";
+    $return['msg'] = 'notfound';
     echo json_encode($return);
     mysqli_close($conn);
     die;

@@ -287,7 +287,7 @@ $array2 = json_decode($json2,TRUE);
 
         function onCreate() {
             var xDate = $('#datepicker').val();
-            var HptCode = $("#hptsel1").val();
+            var HptCode = $("#hptselModal").val();
             if(xDate==""){
                 $('#rem').show(5).css("color","red");
             }else{
@@ -315,7 +315,6 @@ $array2 = json_decode($json2,TRUE);
                 'Keyword': Keyword
             };
 
-            // console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
 
@@ -323,8 +322,8 @@ $array2 = json_decode($json2,TRUE);
             var HptCode = $('#hptsel').val();
             var CgMainID = $('#Category_Main').val();
             var CgSubID = $('#Category_Sub').val();
-            $('#bSave').attr('disabled', true);
-        $('#delete_icon').addClass('opacity');
+            // $('#bSave').attr('disabled', true);
+            $('#delete_icon').addClass('opacity');
             // if (Sel == 1) {
             //     CgMainID = "-";
             //     CgSubID = "-";
@@ -764,11 +763,10 @@ $array2 = json_decode($json2,TRUE);
                                 var rowCount = i;
                             }
                             $('#rowCount').val(rowCount+1);
-                            $("#hptsel1").empty();
+                            $("#hptselModal").empty();
                             for (var i = 0; i < 1; i++) {
                                 var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-
-                                $("#hptsel1").append(StrTr);
+                                $("#hptselModal").append(StrTr);
                             }
 
                         } else if ((temp["form"] == 'getdetail')) {
@@ -837,9 +835,11 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel1").empty();
                             $("#hptsel2").empty();
                             var hotValue0 = '-';
-                            var StrTr = "<option value='0'>"+hotValue0+"</option>";
+                            var StrTr = "<option value=''>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+                                var StrTr2 = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+                                $("#hptselModal").append(StrTr2);
                            
                             }
                             $("#hptsel1").append(StrTr);
@@ -850,7 +850,7 @@ $array2 = json_decode($json2,TRUE);
                           $("#Category_Main").empty();
                           $("#Category_Main1").empty();
                             var hotValue0 = '-';
-                            var StrTr = "<option value='0'>"+hotValue0+"</option>";
+                            var StrTr = "<option value=''>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['MainCategoryCode']+">"+temp[i]['MainCategoryName']+"</option>";
                             }
@@ -861,7 +861,7 @@ $array2 = json_decode($json2,TRUE);
                           $("#Category_Sub").empty();
                           $("#Category_Sub1").empty();
                             var hotValue0 = '-';
-                            var StrTr = "<option value='0'>"+hotValue0+"</option>";
+                            var StrTr = "<option value=''>"+hotValue0+"</option>";
                               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['CategoryCode']+">"+temp[i]['CategoryName']+"</option>";
                               }
@@ -1178,27 +1178,27 @@ $array2 = json_decode($json2,TRUE);
  <div class="row col-12 m-1 mt-5 d-flex justify-content-end" >
                               <div class="menu"  <?php if($PmID == 3) echo 'hidden'; ?>>
                                 <div class="d-flex justify-content-center">
-                                  <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                                      <i class="fas fa-save"></i>
-                                  </div>
-                                </div>
-                                <div>
-                                  <button class="btn"  onclick="SavePrice()" id="bSave" disabled="true">
-                                    <?php echo $array['save'][$language]; ?>
-                                  </button>
+                                    <div class="circle4 d-flex justify-content-center"> 
+                                    <button class="btn"  onclick="SavePrice()" id="bSave" disabled="true">
+                                        <i class="fas fa-save"></i>
+                                        <div>
+                                            <?php echo $array['save'][$language]; ?>
+                                        </div>
+                                    </button>
+                                    </div>
                                 </div>
                               </div>
                        
                               <div class="menu"  <?php if($PmID == 3) echo 'hidden'; ?>>
                                 <div class="d-flex justify-content-center">
-                                  <div class="circle3 d-flex align-items-center d-flex justify-content-center">
-                                  <i class="fas fa-money-check"></i>
-                                  </div>
-                                </div>
-                                <div>
-                                  <button class="btn" onclick="OpenDialog(2)"  id="bDelete">
-                                    <?php echo $array['setprice'][$language]; ?>
-                                  </button>
+                                    <div class="circle3 d-flex justify-content-center">
+                                        <button class="btn" onclick="OpenDialog(2)"  id="bDelete">
+                                            <i class="fas fa-money-check"></i>
+                                            <div>
+                                                <?php echo $array['setprice'][$language]; ?>
+                                            </div>
+                                        </button>
+                                    </div>
                                 </div>
                               </div>
                             </div>
@@ -1275,35 +1275,25 @@ $array2 = json_decode($json2,TRUE);
                         <div class="card-body" style="padding:0px; margin-top:12px;margin-left:30px;">
                             <div class="row">
                                 <div class="col-md-11">
-                                    <div class="row mhee">
+                                    <div class="row">
                                         <select class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptsel2"></select>
-                                        <!-- <input type="hidden" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:210px;" name="search2" id="search2" placeholder="<?php echo $array['search'][$language]; ?>" > -->
                                         <div class="search_custom col-md-2">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                  <i class="fas fa-search"></i>
-                                              </div>
+                                            <div class="search_1 d-flex justify-content-start">
                                               <button class="btn"  onclick="ShowDoc()" id="bSave">
-                                                  <?php echo $array['search'][$language]; ?>
+                                                <i class="fas fa-search mr-2"></i>
+                                                <?php echo $array['search'][$language]; ?>
                                               </button>
                                             </div>
                                           </div>
-                                        <!-- <a href="javascript:void(0)" onclick="ShowDoc();" class="mr-3 ml-3" style="font-size: 25px !important;"><img src="../img/icon/i_search.png" style='width:35px; ' class="mr-1"><?php echo $array['search'][$language]; ?></a> -->
-                                        <!-- <button type="button" style="margin-left:20px;" class="btn btn-primary" name="button" onclick="ShowDoc();">
-                                            <?php echo $array['search'][$language]; ?></button> -->
 
-                                            <div class="search_custom col-md-2">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="circle6 d-flex align-items-center d-flex justify-content-center">
-                                              <i class="fas fa-paste"></i>
-                                              </div>
+                                        <div class="search_custom col-md-2">
+                                            <div class="circle6 d-flex justify-content-start">
                                               <button class="btn"  onclick="OpenDialog(1)" id="show_btn" disabled='true'>
-                                                  <?php echo $array['show'][$language]; ?>
+                                                <i class="fas fa-paste mr-2 pt-1"></i>
+                                                <?php echo $array['show'][$language]; ?>
                                               </button>
                                             </div>
                                           </div>
-                                        <!-- <button onclick="OpenDialog(1);" class="mr-3 ml-3 btn" id="show_btn" disabled='true' style="font-size: 25px !important; background:none; margin-top: -7px;"><img src="../img/icon/doc.png" style='width:35px; ' class="mr-1"><?php echo $array['show'][$language]; ?></button> -->
-                                        <!-- <button type="button" class="btn btn-warning ml-2" name="button" disabled='true' onclick="OpenDialog(1);" id='show_btn'><?php echo $array['show'][$language]; ?></button> -->
                                     </div>
                                 </div>
                             </div>
@@ -1394,7 +1384,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="row">
                         <div class="col-md-12 mhee">
                             <div class="row mb-3">
-                                <select class="form-control ml-2" style="font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptsel1" onchange="getDate_price();"></select>
+                                <select class="form-control ml-2" style="font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
 
                                 <label id="rem" style="margin-left:20px;"> *** </label>
                                 <input type="text" autocomplete="off" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:168px;" id="datepicker" data-language='en' data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
@@ -1403,35 +1393,26 @@ $array2 = json_decode($json2,TRUE);
 
 
                                 <div class="search_custom col-md-2" id="create1">
-                                    <div class="d-flex justify-content-start">
-                                        <div class="circle1 d-flex align-items-center d-flex justify-content-center">
-                                        <i class="fas fa-file-medical"></i>
-                                        </div>
+                                    <div class="circle1 d-flex justify-content-start">
                                         <button class="btn" onclick="onCreate()" >
+                                            <i class="fas fa-file-medical mr-2"></i>
                                             <?php echo $array['createdocno'][$language]; ?>
                                         </button>
                                     </div>
                                 </div>
-                                <!-- <button onclick="onCreate();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="create1"><img src="../img/icon/ic_create.png" style='width:31px; ' class="mr-1"><?php echo $array['createdocno'][$language]; ?></button> -->
-
-                                <!-- <button type="button" style="font-size:18px;margin-left:20px; width:100px;font-family: 'THSarabunNew'" class="btn btn-warning" id="create1" disabled="true" name="button" onclick="onCreate();"><?php echo $array['createdocno'][$language]; ?></button> -->
                                 <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:210px;" name="search1"   id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >
                                 <div class="search_custom col-md-2" id="btn_save"  hidden="true">
-                                    <div class="d-flex justify-content-start">
-                                        <div class="import_1 d-flex align-items-center d-flex justify-content-center">
-                                            <i class="fas fa-file-import"></i>
-                                        </div>
+                                    <div class="import_1 d-flex justify-content-start">
                                         <button class="btn" onclick="UpdatePrice()" >
+                                            <i class="fas fa-file-import mr-2 pt-1"></i>
                                             <?php echo $array['updateprice'][$language]; ?>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="search_custom col-md-2" id="btn_saveDoc"  hidden="true">
-                                    <div class="d-flex justify-content-start">
-                                        <div class="circle4 d-flex align-items-center d-flex justify-content-center">
-                                        <i class="fas fa-save"></i>
-                                        </div>
+                                    <div class="circle4 d-flex justify-content-start">
                                         <button class="btn" onclick="saveDoc()" >
+                                            <i class="fas fa-save mr-2"></i>
                                             <?php echo $array['savedoc'][$language]; ?>
                                         </button>
                                     </div>
