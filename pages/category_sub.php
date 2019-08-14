@@ -73,6 +73,7 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        
         //On create
         GetmainCat();
         ShowItem();
@@ -490,6 +491,26 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
         }
       }
+
+      function ascnumber(check){
+        if(check == 0){
+
+          $( "#down" ).removeClass( "white" );
+          $( "#up" ).removeClass( "black" );
+
+          $( "#down" ).addClass( "black" );
+          $( "#up" ).addClass( "white" );
+        }else if(check == 1){
+          $( "#up" ).removeClass( "white" );
+          $( "#up" ).addClass( "black" );
+
+          $( "#down" ).removeClass( "black" );
+          $( "#down" ).addClass( "white" );
+        }
+
+
+      }
+
 
       function SavePY(){
         $('#TableDocumentSS tbody').empty();
@@ -941,6 +962,18 @@ $array2 = json_decode($json2,TRUE);
   display: block;
 }
 
+.white{
+  color: #fff;
+}
+.white:hover{
+  color: #fff;
+}
+.black{
+  color: #818181;
+}
+.black:hover{
+  color: #818181;
+}
 .sidenav a:hover {
   color: #2c3e50;
   font-weight:bold;
@@ -1019,7 +1052,8 @@ $array2 = json_decode($json2,TRUE);
                           <thead id="theadsum" style="font-size:11px;">
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>
-                              <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
+                              <th style='width: 10%;'><?php echo $array['no'][$language]; ?> <a href="javascript:void(0)"  class="white"  onclick="ascnumber(0)" id="up"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                                                                                             <a href="javascript:void(0)" class="black" onclick="ascnumber(1)" id="down"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a></th>
                               <th style='width: 15%;'><?php echo $array['codecode'][$language]; ?></th>
                               <th style='width: 70%;'><?php echo $array['category'][$language]; ?></th>
                             </tr>

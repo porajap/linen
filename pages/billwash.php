@@ -651,6 +651,7 @@ $array2 = json_decode($json2,TRUE);
                       confirmButtonText: 'Ok',
                       closeOnConfirm: false
                     });
+                    $('.dis').attr('disabled', false);
 
                     $( "#TableItemDetail tbody" ).empty();
                     $("#total").val("0.00");
@@ -764,7 +765,6 @@ $array2 = json_decode($json2,TRUE);
                     $("#timerec").val(temp[0]['RecNow']);
                     $("#total").val(temp[0]['Total']);
                     $("#IsStatus").val(temp[0]['IsStatus']);
-
                     if(temp[0]['IsStatus']==0){
                       var word = '<?php echo $array['save'][$language]; ?>';
                       var changeBtn = "<i class='fa fa-save'></i>";
@@ -1270,7 +1270,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center">
-                                <button class="btn" onclick="OpenDialogItem()" id="bImport">
+                                <button class="btn dis" onclick="OpenDialogItem()" id="bImport" disabled="true">
                                   <i class="fas fa-file-import"></i>
                                   <div>
                                     <?php echo $array['import'][$language]; ?>
@@ -1282,7 +1282,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center">
-                                <button class="btn" onclick="DeleteItem()" id="bDelete">
+                                <button class="btn dis" onclick="DeleteItem()" id="bDelete" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
                                     <?php echo $array['delitem'][$language]; ?>
@@ -1294,7 +1294,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
-                                <button class="btn" onclick="SaveBill()" id="bSave">
+                                <button class="btn dis" onclick="SaveBill()" id="bSave" disabled="true">
                                   <div id="icon_edit">
                                     <i class="fas fa-save"></i>
                                     <div>
@@ -1309,7 +1309,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center">
-                                <button class="btn" onclick="CancelBill()" id="bCancel">
+                                <button class="btn dis" onclick="CancelBill()" id="bCancel" disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>
                                     <?php echo $array['cancel'][$language]; ?>
@@ -1321,7 +1321,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintData()" id="bPrint">
+                                <button class="btn " onclick="PrintData()" id="bPrint" >
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>
