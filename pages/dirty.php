@@ -820,7 +820,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#wTotal").val(temp[0]['Total']);
                       $("#IsStatus").val(temp[0]['IsStatus']);
                       $("#factory").val(temp[0]['FacCode']);
-
+// 
                       if(temp[0]['IsStatus']==0){
                         var word = '<?php echo $array['save'][$language]; ?>';
                         var changeBtn = "<i class='fa fa-save'></i>";
