@@ -1498,7 +1498,7 @@ $array2 = json_decode($json2,TRUE);
                       <div class='form-group form-inline'>
                         <label style='width:25% 'class='text-right mr-sm-2 pl-4'><?php echo $array['search'][$language]; ?></label>
                         <input type="text" autocomplete="off" class="form-control" style='width:55%' name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                        <div class="menuMini rch_custom ml-2">
+                        <div class="menuMini  ml-2">
                           <div class="search_1 d-flex justify-content-start">
                             <button class="btn"  onclick="ShowItem()" >
                               <i class="fas fa-search mr-2"></i>
