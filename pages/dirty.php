@@ -630,8 +630,11 @@ $array2 = json_decode($json2,TRUE);
                 $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
-                $("#bSave").text('<?php echo $array['save'][$language]; ?>');
-                $("#IsStatus").val("0");
+                var word = '<?php echo $array['save'][$language]; ?>';
+                var changeBtn = "<i class='fa fa-save'></i>";
+                changeBtn += "<div>"+word+"</div>";
+                  $('#icon_edit').html(changeBtn);                
+                  $("#IsStatus").val("0");
                   $("#docno").prop('disabled', false);
                   $("#docdate").prop('disabled', false);
                   $("#recorder").prop('disabled', false);
@@ -999,7 +1002,7 @@ $array2 = json_decode($json2,TRUE);
                         });
                     }else if( (temp["form"]=='ShowItem') ){
                       var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
-                      var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
+                      var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                       $( "#TableItem tbody" ).empty();
                       for (var i = 0; i < temp["Row"]; i++) {
                         var rowCount = $('#TableItem >tbody >tr').length;
@@ -1019,9 +1022,9 @@ $array2 = json_decode($json2,TRUE);
                         chkunit += "</select>";
 
                         var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
-                        var Qty = "<div  class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                        var Qty = "<div  class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly'  style='height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
+                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly'  style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
 
                         $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                         "<td style='width: 10%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1702,12 +1705,12 @@ $array2 = json_decode($json2,TRUE);
             <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
               <thead style="font-size:24px;">
                 <tr role="row">
-                  <th style='width: 10%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                  <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                  <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                  <th style='width: 30%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                  <th style='width: 15%;' nowrap hidden><?php echo $array['numofpiece'][$language]; ?></th>
-                  <th style='width: 15%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                <th style='width: 10%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
+                <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 15%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                 </tr>
               </thead>
               <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
