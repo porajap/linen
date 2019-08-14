@@ -152,6 +152,10 @@ $array2 = json_decode($json2,TRUE);
 
     $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
+
+    $(".checkitem").each(function(){
+        $(".checkitem").prop("checked", false);
+    });
 	}
 
 	function CancelRow(){
@@ -320,7 +324,7 @@ $array2 = json_decode($json2,TRUE);
                            var sDate = new Date();
                           var eDate = new Date( temp[i]['EndDate'] );
                           var diff  = new Date(eDate - sDate);
-                          var chkDetail = "<input type='radio' name='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
+                          var chkDetail = "<input type='radio' name='checkitem' class='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
                           var days = Math.round(diff/1000/60/60/24);
 
 												  if(days <= 30){

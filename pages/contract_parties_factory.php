@@ -150,6 +150,9 @@ $array2 = json_decode($json2,TRUE);
 		$('#factory option[value="1"]').prop("selected", true);
     $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
+    $(".checkitem").each(function(){
+        $(".checkitem").prop("checked", false);
+    });
 	}
 
 	function CancelRow(){
@@ -318,7 +321,7 @@ $array2 = json_decode($json2,TRUE);
                           var diff  = new Date(eDate - sDate);
 
                           var days = Math.round(diff/1000/60/60/24);
-                          var chkDetail = "<input type='radio' name='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
+                          var chkDetail = "<input type='radio' name='checkitem' class='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
 
                           if(days <= 30){
 													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
