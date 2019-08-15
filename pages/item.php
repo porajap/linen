@@ -924,6 +924,20 @@ $array2 = json_decode($json2, TRUE);
       $('#memu_tap1').attr('hidden', true);
       $('#myTab').addClass('mt-5');
     }
+		function getplaceholder(){
+			var sUnitName = $('#sUnitName option:selected').attr("value");
+
+			if(sUnitName ==2){
+				$('#QtyPerUnit').removeAttr("placeholder");     
+				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Weightitem'][$language]; ?>");      
+			}else if(sUnitName ==4){
+				$('#QtyPerUnit').removeAttr("placeholder");     
+				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Sizeitem'][$language]; ?>");    
+			}else{
+				$('#QtyPerUnit').removeAttr("placeholder");     
+				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Quality'][$language]; ?>");    
+			}
+		}
 		//<!-- --------------------Function--------------------- --!>
 		//<!-- --------------------desplay--------------------- --!>
     function senddata(data) {
@@ -1970,9 +1984,9 @@ $array2 = json_decode($json2, TRUE);
 
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['widthunit'][$language]; ?></label>
 
-                              <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['size'][$language]; ?>">
+                              <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['Quality'][$language]; ?>">
 
-                              <select class="form-control col-sm-5" id="sUnitName"></select>
+                              <select class="form-control col-sm-5" id="sUnitName" onchange="getplaceholder();"></select>
 
                             </div>
                           </div>
