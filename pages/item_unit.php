@@ -73,6 +73,7 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        Blankinput();
         //On create
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
         //On create

@@ -1108,7 +1108,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="container-fluid">
                                     <div class="card-body" style="padding:0px; margin-top:12px;">
                                         <div class="row col-md-12">
-                                          <div class="col-md-3">
+                                          <div class="col-md-4">
                                               <div class="row" style="margin-left:5px;">
                                               <label class="col-sm-5 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                                   <select class="form-control col-md-7" id="hptsel">
@@ -1121,13 +1121,13 @@ $array2 = json_decode($json2,TRUE);
                                                   <select class="form-control col-md-7" id="Category_Main" onchange="getCategorySub(1);"></select>
                                               </div>
                                           </div>
-                                          <div class="col-md-3">
+                                          <div class="col-md-4">
                                               <div class="row" style="margin-left:5px;">
                                               <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
-                                                  <select class="form-control col-md-7" id="Category_Sub"></select>
+                                                  <select class="form-control col-md-6" id="Category_Sub"></select>
                                               </div>
                                           </div>
-                                          <div class="col-md-3 text-right">
+                                          <div class="col-md-1 text-right">
                                             <div class="row" style="margin-left:5px;">
                                             <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">

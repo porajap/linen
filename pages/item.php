@@ -76,7 +76,12 @@ $array2 = json_decode($json2, TRUE);
       $('#ActiveBNT').hide();
       $('#AddItemBNT').hide();
       $('#xPrice').hide();
-
+      $('#searchitem').keyup(function(e){
+            if(e.keyCode == 13)
+            {
+                ShowItem();
+            }
+        });
       GetHospital();
       GetmainCat();
       getCatagory();
