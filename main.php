@@ -956,8 +956,7 @@ switch ($PmID) {
 
   <article id="mainArticle" style="margin-top:25px;">
     <input type="hidden" id=last_move>
-    <iframe name="ifrm" id="ifrm" src="pages/menu.php?lang=<?php echo $language; ?>" class="current_page"
-      frameborder="0" style="height:100%; width:100%; "></iframe>
+    <iframe name="ifrm" id="ifrm" src="pages/menu.php?lang=<?php echo $language; ?>" class="current_page"  frameborder="0" style="height:100%; width:100%; "></iframe>
   </article>
 
 

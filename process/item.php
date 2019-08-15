@@ -11,6 +11,8 @@ function ShowItem($conn, $DATA)
   $Keyword = $DATA['Keyword'];
   $Catagory = $DATA['Catagory'];
   $active = $DATA['active'];
+  $column = $DATA['column'];
+  $sort = $DATA['sort'];
   $Sql = "SELECT
             item.ItemCode,
             item.ItemName,
@@ -33,13 +35,12 @@ function ShowItem($conn, $DATA)
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory ORDER BY item.ItemCode ASC"; //AND IsActive = '$active'
+    $Sql .= " WHERE item.CategoryCode = $Catagory";
   } else {
     $Sql .= " WHERE  item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-                OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%' "; // AND IsActive = '$active'
+    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%' ";
   }
-  $return['sql'] = $Sql;
-
+  $Sql .= " ORDER BY item.$column $sort";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] = $Result['ItemCode'];
