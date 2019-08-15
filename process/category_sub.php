@@ -8,7 +8,8 @@ if($Userid==""){
 function ShowItem($conn, $DATA)
 {
   $count = 0;
-  $Keyword = $DATA['Keyword'];
+  $check =        $DATA['check'];
+  $Keyword =      $DATA['Keyword'];
   $maincatagory = $DATA['maincatagory'];
   $Sql = "SELECT
           item_category.CategoryCode,
@@ -17,10 +18,10 @@ function ShowItem($conn, $DATA)
           FROM
           item_category
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
-          WHERE item_main_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0
-          AND item_category.CategoryName LIKE '%$Keyword%'
-          ";
-  // var_dump($Sql); die;
+          WHERE item_main_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%'";
+          if($check ==2){
+           $Sql .= "ORDER BY item_category.CategoryCode DESC";
+          }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['CategoryCode'] = $Result['CategoryCode'];
@@ -91,7 +92,7 @@ function getdetail($conn, $DATA)
           FROM
           item_category
           WHERE item_category.IsStatus = 0
-          AND item_category.CategoryCode = $CategoryCode LIMIT 1
+          AND item_category.CategoryCode = $CategoryCode LIMIT 1 
           ";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);

@@ -80,10 +80,6 @@ $array2 = json_decode($json2,TRUE);
         
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
         //On create
-        // var userid = '<?php echo $Userid; ?>';
-        // if(userid!="" && userid!=null && userid!=undefined){
-
-          //var dept = $('#Deptsel').val();
           var keyword = $('#searchitem').val();
           var data = {
             'STATUS'  : 'ShowItem',
@@ -92,14 +88,6 @@ $array2 = json_decode($json2,TRUE);
 
           console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
-        // }
-
-        // var data2 = {
-        //   'STATUS'  : 'getSection',
-        //   'DEPT'    : dept
-        // };
-        // console.log(JSON.stringify(data2));
-        // senddata(JSON.stringify(data2));
 
         $('#searchitem').keyup(function(e){
             if(e.keyCode == 13)
@@ -322,7 +310,19 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
-      function ShowItem(){
+      function ShowItem(check){
+        if(check == 1){
+          $( "#down" ).removeClass( "white" );
+          $( "#up" ).removeClass( "black" );
+          $( "#down" ).addClass( "black" );
+          $( "#up" ).addClass( "white" );
+          
+        }else if(check == 2){
+          $( "#up" ).removeClass( "white" );
+          $( "#up" ).addClass( "black" );
+          $( "#down" ).removeClass( "black" );
+          $( "#down" ).addClass( "white" );
+        }
       var maincatagory = $('#maincatagory option:selected').attr("value");
       if( typeof maincatagory == 'undefined' ) maincatagory = "1";
         //var dept = $('#Deptsel').val();
@@ -330,7 +330,8 @@ $array2 = json_decode($json2,TRUE);
         var data = {
           'STATUS'  : 'ShowItem',
           'maincatagory' : maincatagory,
-          'Keyword' : keyword
+          'Keyword' : keyword,
+          'check' : check
         };
 
         console.log(JSON.stringify(data));
@@ -492,24 +493,7 @@ $array2 = json_decode($json2,TRUE);
         }
       }
 
-      function ascnumber(check){
-        if(check == 0){
 
-          $( "#down" ).removeClass( "white" );
-          $( "#up" ).removeClass( "black" );
-
-          $( "#down" ).addClass( "black" );
-          $( "#up" ).addClass( "white" );
-        }else if(check == 1){
-          $( "#up" ).removeClass( "white" );
-          $( "#up" ).addClass( "black" );
-
-          $( "#down" ).removeClass( "black" );
-          $( "#down" ).addClass( "white" );
-        }
-
-
-      }
 
 
       function SavePY(){
@@ -679,11 +663,8 @@ $array2 = json_decode($json2,TRUE);
                             }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
-                                // $('#CategoryCode').val(temp['CategoryCode']);
-                                // $('#CategoryName').val(temp['CategoryName']);
                                 $('#CategoryCode').val(temp['CategoryCode']);
                                 $('#CategoryName').val(temp['CategoryName']);
-                                //$('#IsStatus').val(temp['IsStatus']);
                                   $('#bCancel').attr('disabled', false);
                                   $('#delete_icon').removeClass('opacity');
                               }
@@ -1052,9 +1033,9 @@ $array2 = json_decode($json2,TRUE);
                           <thead id="theadsum" style="font-size:11px;">
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>
-                              <th style='width: 10%;'><?php echo $array['no'][$language]; ?> <a href="javascript:void(0)"  class="white"  onclick="ascnumber(0)" id="up"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                                                                                             <a href="javascript:void(0)" class="black" onclick="ascnumber(1)" id="down"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a></th>
-                              <th style='width: 15%;'><?php echo $array['codecode'][$language]; ?></th>
+                              <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
+                              <th style='width: 15%;'><?php echo $array['codecode'][$language]; ?><a href="javascript:void(0)" style="padding-left: 5px;" class="white"  onclick="ShowItem(1)" id="up"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                                                                                             <a href="javascript:void(0)" class="black" onclick="ShowItem(2)" id="down"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a></th>
                               <th style='width: 70%;'><?php echo $array['category'][$language]; ?></th>
                             </tr>
                           </thead>

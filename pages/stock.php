@@ -266,8 +266,9 @@ $array = json_decode($json,TRUE);
             temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
             break;
           }
+          
           swal({
-            title: '',
+            title: '<?php echo $array['notfoundmsg'][$language]; ?>',
             text: temp['msg'],
             type: 'warning',
             showCancelButton: false,
