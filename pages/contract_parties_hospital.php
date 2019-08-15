@@ -332,15 +332,15 @@ $array2 = json_decode($json2,TRUE);
 												   }else{
                             Style  = "style='font-weight: bold;color: #000000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
 												   }
-                           var daytext = days <= 0 ? "หมดสัญญา" : days+" วัน" ;
+                           var daytext = days <= 0 ? "หมดสัญญา" : days ;
 												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"'>"+
 															  "<td style='width: 3%;'>"+chkDetail+"</td>"+
 															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
 															  "<td style='width: 25%;'>"+temp[i]['HptName']+"</td>"+
 															  "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
-															  "<td style='width: 13%;'>"+temp[i]['EndDate']+"</td>"+
-															  "<td style='width: 13%; text-align: center;'>"+daytext+"</td>"+
-															  "<td style='width: 28%;'>"+temp[i]['Detail']+"</td>"+
+															  "<td style='width: 8%;'>"+temp[i]['EndDate']+"</td>"+
+															  "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
+															  "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
 														  "</tr>";
 
                               if(rowCount == 0){
@@ -633,9 +633,9 @@ body{
                                                         <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
                                                         <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
                                                         <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                                                        <th style='width: 13%;'><?php echo $array['dateendcontract'][$language]; ?></th>
-                                                        <th style='width: 13%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                                                        <th style='width: 28%;'><?php echo $array['detail'][$language]; ?></th>
+                                                        <th style='width: 7%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                                                        <th style='width: 31%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
+                                                        <th style='width: 16%;'><?php echo $array['detail'][$language]; ?></th>
                                                       </tr>
                                                     </thead>
                                                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">

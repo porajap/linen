@@ -123,11 +123,15 @@
 <deptnum><en>Department(Number)</en><th>แผนก(จำนวน)</th></deptnum>
 <factnum><en>Factory(Number)</en><th>โรงงานซัก(จำนวน)</th></factnum>
 <money><en>Cost</en><th>เป็นเงิน</th></money>
+<Quality><en>Quality</en><th>ปริมาณ</th></Quality>
+<Weightitem><en>Weight</en><th>นํ้าหนัก</th></Weightitem>
+<Sizeitem><en>Size</en><th>ขนาด</th></Sizeitem>
+
 <printbill><en>Print Bill</en><th>พิมพ์บิล</th></printbill>
 <factory><en>Washing factory</en><th>โรงงานซัก</th></factory>
-<datestartcontract><en>DATE OF CNTRCT</en><th>วันที่ทำสัญญา</th></datestartcontract>
-<dateendcontract><en>CNTRCT TERM DATE</en><th>วันที่สิ้นสุดสัญญา</th></dateendcontract>
-<numbercontract><en>END OF CNTRCT (DATE)</en><th>สิ้นสุดสัญญา(วัน)</th></numbercontract>
+<datestartcontract><en>Start Date</en><th>วันที่ทำสัญญา</th></datestartcontract>
+<dateendcontract><en>End Date</en><th>วันที่สิ้นสุดสัญญา</th></dateendcontract>
+<numbercontract><en>Remaining Duration (Days)</en><th>สิ้นสุดสัญญา(วัน)</th></numbercontract>
 <clear><en>clear</en><th>ทำใหม่</th></clear>
 <balance><en>balance</en><th>คงเหลือ</th></balance>
 <over><en>Over</en><th>เกิน Par</th></over>

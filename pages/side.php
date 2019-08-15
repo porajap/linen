@@ -75,6 +75,7 @@ $array2 = json_decode($json2,TRUE);
 
       $(document).ready(function(e){
         //On create
+        Blankinput();
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
         //On create
         // var userid = '<?php echo $Userid; ?>';
