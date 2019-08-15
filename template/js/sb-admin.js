@@ -37,4 +37,21 @@
     event.preventDefault();
   });
 
+
+  $(document).scroll(function() {
+    var scrollDistance = $(this).scrollTop();
+    if (scrollDistance > 100) {
+      $('.scroll-to-down').fadeOut();
+    } else {
+      $('.scroll-to-down').fadeIn();
+    }
+  });
+  $("#pageDown").on('click', function(event) {
+    var $anchor = $(this);
+    $('html, body').stop().animate({
+      scrollTop: ($($anchor.attr('href')).offset().top)
+    }, 1000, 'easeInOutExpo');
+    event.preventDefault();
+  });
+
 })(jQuery); // End of use strict
