@@ -11,8 +11,8 @@ function ShowItem($conn, $DATA)
   $Keyword = $DATA['Keyword'];
   $Catagory = $DATA['Catagory'];
   $active = $DATA['active'];
-  $column = $DATA['column'];
-  $sort = $DATA['sort'];
+  $column = $DATA['column']==null?'ItemCode':$DATA['column'];
+  $sort = $DATA['sort']==null?'ASC':$DATA['sort'];
   $Sql = "SELECT
             item.ItemCode,
             item.ItemName,
