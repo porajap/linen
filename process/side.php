@@ -17,8 +17,9 @@ function ShowItem($conn, $DATA)
           site
            WHERE site.IsStatus = 0
                     AND (site.HptCode LIKE '%$Keyword%' OR
-                    site.HptName LIKE '%$Keyword%'
-          )";
+                    site.HptName LIKE '%$Keyword%' 
+          )       
+";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

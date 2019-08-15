@@ -633,9 +633,9 @@ body{
                                                         <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
                                                         <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
                                                         <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                                                        <th style='width: 7%;'><?php echo $array['dateendcontract'][$language]; ?></th>
-                                                        <th style='width: 31%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                                                        <th style='width: 16%;'><?php echo $array['detail'][$language]; ?></th>
+                                                        <th style='width: 10%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                                                        <th style='width: 26%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
+                                                        <th style='width: 18%;'><?php echo $array['detail'][$language]; ?></th>
                                                       </tr>
                                                     </thead>
                                                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">

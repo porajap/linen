@@ -12,7 +12,7 @@
 <shipping><en>Shipping</en><th>ขนส่ง</th></shipping>
 <Signature><en>Signature</en><th>ลายเซ็น</th></Signature>
 <Allside><en>All Hospital</en><th>ทุกโรงพยาบาล</th></Allside>
-<Alldep><en>All Department</en><th>ทุกแผนก</th></Alldep>
+<Alldep><en>All Ward</en><th>ทุกแผนก</th></Alldep>
 
 <DuplicateItemcode><en>Duplicate Itemcode</en><th>รหัสรายการซ้ำ</th></DuplicateItemcode>
 <perunit><en>perunit</en><th>ขนาดต่อหน่วย</th></perunit>
@@ -230,7 +230,7 @@
 <addfailedmsg><en>addfailedmsg</en><th>ไม่สามารถเพิ่มข้อมูลได้</th></addfailedmsg>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
-<widthunit><en>Measurement</en><th>ขนาดความกว้าง</th></widthunit>
+<widthunit><en>Measurement</en><th>มาตรวัด</th></widthunit>
 <searchuser><en>search user</en><th>ค้นหาผู้ใช้งาน</th></searchuser>
 <errorpic><en>Please Choose Picture</en><th>กรุณาเลือกรูปภาพ</th></errorpic>
 <formatdate><en>Format Date</en><th>รูปแบบวันที่</th></formatdate>

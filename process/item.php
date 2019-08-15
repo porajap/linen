@@ -13,7 +13,7 @@ function ShowItem($conn, $DATA)
   $Catagory = $DATA['Catagory'];
   $active = $DATA['active'];
   $column = $DATA['column']==null?'ItemCode':$DATA['column'];
-  $sort = $DATA['sort']==null?'ASC':$DATA['sort'];
+  $sort = $DATA['sort']==null?'DESC':$DATA['sort'];
   $Sql = "SELECT
             item.ItemCode,
             item.ItemName,
