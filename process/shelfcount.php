@@ -91,7 +91,6 @@ function CreateDocument($conn, $DATA)
   AND department.HptCode = '$hotpCode'
   ORDER BY DocNo DESC LIMIT 1";
 
-$return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $DocNo = $Result['DocNo'];
@@ -1284,7 +1283,6 @@ function chk_par($conn, $DATA)
     WHERE shelfcount.DocNo = '$DocNo' 
     AND shelfcount_detail.ItemCode = '$ItemCode[$i]' 
     AND shelfcount.DepCode = $DepCode";
-    $return['sql'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $MoreThan = $Result['TotalQty'] +  $Result['TotalQty2'];
@@ -1319,6 +1317,19 @@ function chk_par($conn, $DATA)
   }
   
 }
+
+function userKeyValue($conn, $DATA){
+  $Row = $DATA['Row'];
+  $Max = $DATA['Max'];
+  $chk = $DATA['chk'];
+  $Order = $DATA['Order'];
+  if($chk == 'short'){
+    $Sql = "UPDATE shelfcount_detail SET Short = $Order WHERE Id = $Row";
+  }else if($chk == 'over'){
+    $Sql = "UPDATE shelfcount_detail SET Over = $Order WHERE Id = $Row";
+  }
+  mysqli_query($conn, $Sql);
+}
   //==========================================================
   //
   //==========================================================
@@ -1328,48 +1339,50 @@ function chk_par($conn, $DATA)
 
     if ($DATA['STATUS'] == 'OnLoadPage') {
       OnLoadPage($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'getDepartment') {
+    }elseif ($DATA['STATUS'] == 'getDepartment') {
       getDepartment($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'ShowItem') {
+    }elseif ($DATA['STATUS'] == 'ShowItem') {
       ShowItem($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'ShowUsageCode') {
+    }elseif ($DATA['STATUS'] == 'ShowUsageCode') {
       ShowUsageCode($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'ShowDocument') {
+    }elseif ($DATA['STATUS'] == 'ShowDocument') {
       ShowDocument($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'ShowDocument_sub') {
+    }elseif ($DATA['STATUS'] == 'ShowDocument_sub') {
       ShowDocument_sub($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'SelectDocument') {
+    }elseif ($DATA['STATUS'] == 'SelectDocument') {
       SelectDocument($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'CreateDocument') {
+    }elseif ($DATA['STATUS'] == 'CreateDocument') {
       CreateDocument($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'CancelDocNo') {
+    }elseif ($DATA['STATUS'] == 'CancelDocNo') {
       CancelDocNo($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'getImport') {
+    }elseif ($DATA['STATUS'] == 'getImport') {
       getImport($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'ShowDetail') {
+    }elseif ($DATA['STATUS'] == 'ShowDetail') {
       ShowDetail($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'UpdateDetailQty') {
+    }elseif ($DATA['STATUS'] == 'UpdateDetailQty') {
       UpdateDetailQty($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'UpdateDetailQty_key') {
+    }elseif ($DATA['STATUS'] == 'UpdateDetailQty_key') {
       UpdateDetailQty_key($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'updataDetail') {
+    }elseif ($DATA['STATUS'] == 'updataDetail') {
       updataDetail($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'UpdateDetailWeight') {
+    }elseif ($DATA['STATUS'] == 'UpdateDetailWeight') {
       UpdateDetailWeight($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'DeleteItem') {
+    }elseif ($DATA['STATUS'] == 'DeleteItem') {
       DeleteItem($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'SaveBill') {
+    }elseif ($DATA['STATUS'] == 'SaveBill') {
       SaveBill($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'CancelBill') {
+    }elseif ($DATA['STATUS'] == 'CancelBill') {
       CancelBill($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'UpdateRefDocNo') {
+    }elseif ($DATA['STATUS'] == 'UpdateRefDocNo') {
       UpdateRefDocNo($conn, $DATA);
-    } elseif ($DATA['STATUS'] == 'ShowDetailSub') {
+    }elseif ($DATA['STATUS'] == 'ShowDetailSub') {
       ShowDetailSub($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'ShowMenu') {
       ShowMenu($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'chk_par') {
       chk_par($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'userKeyValue') {
+      userKeyValue($conn, $DATA);
     }
   } else {
     $return['status'] = "error";
