@@ -1020,7 +1020,7 @@ $array2 = json_decode($json2,TRUE);
   <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
   <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][1][$language]; ?></li>
 </ol>
-    <div id="wrapper">
+    <div id="wrapper"></div>
       <!-- content-wrapper -->
       <div id="content-wrapper">
           <div class="row">
@@ -1039,9 +1039,8 @@ $array2 = json_decode($json2,TRUE);
                                             </button>
                                           </div>
                                         </div>
-                                          
-                                        </div>
                                       </div>
+                                    </div>
                                
                         </div>
                         <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
