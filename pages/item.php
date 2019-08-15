@@ -70,7 +70,6 @@ $array2 = json_decode($json2, TRUE);
 
   <script type="text/javascript">
     var summary = [];
-
     $(document).ready(function(e) {
       $('#NewItem').show();
       $('#BlankItemBNT').show();
@@ -117,6 +116,7 @@ $array2 = json_decode($json2, TRUE);
       $('.charonly').on('input', function() {
         this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
       });
+
     }).mousemove(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -690,11 +690,11 @@ $array2 = json_decode($json2, TRUE);
       $("input[name=formatitem][value=1]").prop('checked', true);
     }
     function uncheckAll2() {
-                $('input[type=checkbox]').each(function() 
-                    { 
-                            this.checked = false; 
-                    });
-                }
+      $('input[type=checkbox]').each(function() 
+          { 
+                  this.checked = false; 
+          });
+    }
     function Blankinput() {
       $(".radio-c :input").attr("disabled", false);
       $("input[name=formatitem][value=3]").prop('checked', true);
@@ -1629,12 +1629,17 @@ $array2 = json_decode($json2, TRUE);
 
 <body id="page-top">
   <!-- iii -->
+  <!-- Scroll to Top Button-->
+ 
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
     <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][3][$language]; ?></li>
   </ol>
-
+   
   <div id="wrapper">
+    <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
+      <i class="fas fa-angle-down"></i>
+    </a>
     <!-- content-wrapper -->
     <div id="content-wrapper">
       <!--
@@ -2063,6 +2068,9 @@ $array2 = json_decode($json2, TRUE);
         </div>
       </div>
 
+
+      <div id="page-down">
+      </div>
       <!-- /#wrapper -->
       <!-- Scroll to Top Button-->
       <a class="scroll-to-top rounded" href="#page-top">
