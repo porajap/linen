@@ -70,6 +70,7 @@ date_default_timezone_set("Asia/Bangkok");
   <script src="../datepicker/dist/js/datepicker.min.js"></script>
   <!-- Include English language -->
   <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+  <link href="../css/menu_custom.css" rel="stylesheet">
 
   <script type="text/javascript">
     var summary = [];
@@ -143,6 +144,8 @@ date_default_timezone_set("Asia/Bangkok");
 
     //======= On create =======
     //console.log(JSON.stringify(data));
+    var f = true;
+
     function OnLoadPage() {
       get_hospital();
     }
@@ -157,6 +160,7 @@ date_default_timezone_set("Asia/Bangkok");
       $("#tbody").empty();
       var data = {
         'STATUS': 'get_dirty_doc',
+        'From': 'get_dirty_doc',
         'DocNo': docno,
         'hpt': hpt,
         'date': date,
@@ -176,6 +180,7 @@ date_default_timezone_set("Asia/Bangkok");
       date = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
       var data = {
         'STATUS': 'get_dirty_doc',
+        'From': 'update_dirty_doc',
         'DocNo': docno,
         'hpt': hpt,
         'date': date,
@@ -186,10 +191,9 @@ date_default_timezone_set("Asia/Bangkok");
     }
 
     // var doc = [];
-    // var f = true;
-    // var x = setInterval(function() {
-    //     update_dirty_doc();
-    //     }, 1000);
+    var x = setInterval(function() {
+      update_dirty_doc();
+    }, 1000);
 
     function get_hospital() {
       var data = {
@@ -259,38 +263,108 @@ date_default_timezone_set("Asia/Bangkok");
 
           if (temp["status"] == 'success') {
             if (temp["form"] == 'get_dirty_doc') {
-                for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                    var StrTR = "<tr id='tr" + temp[i]['DocNo'] + "'  class='table-bordered'>"+
-                        "<td id='td" + temp[i]['DocNo'] + "' style='width: 20%;' align='center' ><br>" + temp[i]['DocNo'] + "<br><br><br></td>" +
+              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                var StrTR = "<tr id='row" + temp[i]['DocNo'] + "'  class='table-bordered' data-p = '" + temp[i]['IsProcess'] + "'>" +
+                  "<td id='td" + temp[i]['DocNo'] + "' style='width: 20%;' align='center' ><br>" + temp[i]['DocNo'] + "<br><br><br></td>" +
 
-                        "<td style='width: 20%;' align='center'nowrap><br>"+
-                        "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] + 
-                        "<br><br><br></td>" +
+                  "<td style='width: 20%;' align='center'nowrap><br>" +
+                  "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] +
+                  "<br><br><br></td>" +
 
-                        "<td style='width: 20%;' align='left'nowrap>"+
-                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] + 
-                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['WashStartTime'] + 
-                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['WashEndTime']+
-                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['WashDiff'] + 
-                        "</td>" +
+                  "<td style='width: 20%;' align='left'nowrap>" +
+                  "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] +
+                  "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['WashStartTime'] +
+                  "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['WashEndTime'] +
+                  "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['WashDiff'] +
+                  "</td>" +
 
-                        "<td style='width: 20%;' align='left'nowrap>"+
-                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Pack'] + 
-                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['PackStartTime'] + 
-                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['PackEndTime']+
-                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['PackDiff'] + 
-                        "</td>" +
+                  "<td style='width: 20%;' align='left'nowrap>" +
+                  "<?php echo $array['date'][$language]; ?> : " + temp[i]['Pack'] +
+                  "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['PackStartTime'] +
+                  "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['PackEndTime'] +
+                  "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['PackDiff'] +
+                  "</td>" +
 
-                        "<td style='width: 20%;' align='left'nowrap>"+
-                        "<?php echo $array['date'][$language]; ?> : " + temp[i]['Send'] + 
-                        "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['SendStartTime'] + 
-                        "<br><?php echo $array['tFinish'][$language]; ?> : "+temp[i]['SendEndTime']+
-                        "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['SendDiff'] + 
-                        "</td>" +
-                        "</tr>";
-                    $("#tbody").append(StrTR);
+                  "<td style='width: 20%;' align='left'nowrap>" +
+                  "<?php echo $array['date'][$language]; ?> : " + temp[i]['Send'] +
+                  "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['SendStartTime'] +
+                  "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['SendEndTime'] +
+                  "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['SendDiff'] +
+                  "</td>" +
+                  "</tr>";
+                $("#tbody").append(StrTR);
               }
-            }else if (temp["form"] == 'get_hospital') {
+            } else if (temp["form"] == 'update_dirty_doc') {
+              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                var tr = temp[i]['DocNo'];
+                console.log($('#row' + tr).data("p"));
+                if ($('#row' + tr).data("p") != "" && $('#row' + tr).data("p") != null) {
+                  if ($('#row' + tr).data("p") != temp[i]['IsProcess']) {
+                    var StrTR = "<td id='td" + temp[i]['DocNo'] + "' style='width: 20%;' align='center' ><br>" + temp[i]['DocNo'] + "<br><br><br></td>" +
+
+                      "<td style='width: 20%;' align='center'nowrap><br>" +
+                      "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] +
+                      "<br><br><br></td>" +
+
+                      "<td style='width: 20%;' align='left'nowrap>" +
+                      "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] +
+                      "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['WashStartTime'] +
+                      "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['WashEndTime'] +
+                      "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['WashDiff'] +
+                      "</td>" +
+
+                      "<td style='width: 20%;' align='left'nowrap>" +
+                      "<?php echo $array['date'][$language]; ?> : " + temp[i]['Pack'] +
+                      "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['PackStartTime'] +
+                      "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['PackEndTime'] +
+                      "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['PackDiff'] +
+                      "</td>" +
+
+                      "<td style='width: 20%;' align='left'nowrap>" +
+                      "<?php echo $array['date'][$language]; ?> : " + temp[i]['Send'] +
+                      "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['SendStartTime'] +
+                      "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['SendEndTime'] +
+                      "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['SendDiff'] +
+                      "</td>";
+                    $('#row' + tr).empty();
+                    $('#row' + tr).append(StrTR);
+                    $('#row' + tr).data("p", temp[i]['IsProcess']);
+                  }
+                } else {
+                  var StrTR = "<tr id='row" + temp[i]['DocNo'] + "'  class='table-bordered' data-p = '" + temp[i]['IsProcess'] + "'>" +
+                    "<td id='td" + temp[i]['DocNo'] + "' style='width: 20%;' align='center' ><br>" + temp[i]['DocNo'] + "<br><br><br></td>" +
+
+                    "<td style='width: 20%;' align='center'nowrap><br>" +
+                    "<?php echo $array['time2'][$language]; ?> : " + temp[i]['Receivetime'] +
+                    "<br><br><br></td>" +
+
+                    "<td style='width: 20%;' align='left'nowrap>" +
+                    "<?php echo $array['date'][$language]; ?> : " + temp[i]['Wash'] +
+                    "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['WashStartTime'] +
+                    "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['WashEndTime'] +
+                    "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['WashDiff'] +
+                    "</td>" +
+
+                    "<td style='width: 20%;' align='left'nowrap>" +
+                    "<?php echo $array['date'][$language]; ?> : " + temp[i]['Pack'] +
+                    "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['PackStartTime'] +
+                    "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['PackEndTime'] +
+                    "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['PackDiff'] +
+                    "</td>" +
+
+                    "<td style='width: 20%;' align='left'nowrap>" +
+                    "<?php echo $array['date'][$language]; ?> : " + temp[i]['Send'] +
+                    "<br><?php echo $array['Starttime'][$language]; ?> : " + temp[i]['SendStartTime'] +
+                    "<br><?php echo $array['tFinish'][$language]; ?> : " + temp[i]['SendEndTime'] +
+                    "<br><?php echo $array['protime'][$language]; ?> : " + temp[i]['SendDiff'] +
+                    "</td>" +
+                    "</tr>";
+                  $("#tbody").append(StrTR);
+                }
+
+              }
+
+            } else if (temp["form"] == 'get_hospital') {
               $("#hospital").empty();
               var Str = "<option value='All'><?php echo $array['Allside'][$language]; ?></option>";
               $("#hospital").append(Str);
@@ -312,11 +386,11 @@ date_default_timezone_set("Asia/Bangkok");
           } else if (temp['status'] == "failed") {
             switch (temp['msg']) {
               case "notfound":
-                  temp['msg'] = "<?php echo $array['notfoundDoc'][$language]; ?>";
-                  break;
+                temp['msg'] = "<?php echo $array['notfoundDoc'][$language]; ?>";
+                break;
 
             }
-            if(f){
+            if (f) {
               swal({
                 title: '',
                 text: temp['msg'],
@@ -330,12 +404,6 @@ date_default_timezone_set("Asia/Bangkok");
               })
               f = false;
             }
-
-            $("#docnofield").val(temp[0]['DocNo']);
-            $("#TableDocumentSS tbody").empty();
-            $("#TableSendSterileDetail tbody").empty();
-            $("#TableUsageCode tbody").empty();
-            $("#TableItem tbody").empty();
           } else {
             console.log(temp['msg']);
           }
@@ -491,55 +559,60 @@ date_default_timezone_set("Asia/Bangkok");
       <div class="row">
         <!-- start row tab -->
         <div class="col-md-12" style='padding-left: 26px;'>
-            <div class="row">
-              <div class="col-md-2">
-                <div class="row" style="font-size:24px;margin-left:2px;">
-                  <input type="text" style='font-size:24px;' class="form-control datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy'>
-                </div>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="row" style="font-size:24px;margin-left:2px;">
+                <input type="text" style='font-size:24px;' class="form-control datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy'>
               </div>
-              <div class="col-md-3">
-                <div class="row" style="font-size:24px;margin-left:2px;">
-                  <select class="form-control" style='font-size:24px;' id="hospital" onchange="get_dep()">
-                  </select>
-                </div>
+            </div>
+            <div class="col-md-3">
+              <div class="row" style="font-size:24px;margin-left:2px;">
+                <select class="form-control" style='font-size:24px;' id="hospital" onchange="get_dep()">
+                </select>
               </div>
-              <div class="col-md-2">
-                <div class="row" style="font-size:24px;margin-left:2px;">
-                  <select class="form-control" style='font-size:24px;' id="department">
-                  </select>
-                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="row" style="font-size:24px;margin-left:2px;">
+                <select class="form-control" style='font-size:24px;' id="department">
+                </select>
               </div>
-              <div class="col-md-3">
-                <div class="row" style="margin-left:2px;">
-                  <input type="text" class="form-control" style="font-size:24px;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>">
-                </div>
+            </div>
+            <div class="col-md-3">
+              <div class="row" style="margin-left:2px;">
+                <input type="text" class="form-control" style="font-size:24px;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>">
               </div>
-              <div class="col-md-1">
-                <div class="row" style="margin-left:2px;">
-                  <button type="button" style="margin-left:10px;" class="btn btn-primary" name="button" onclick="get_dirty_doc();"><?php echo $array['search'][$language]; ?></button>
+            </div>
+            <div class="col-md-1">
+              <div class="search_custom">
+                <div class="search_1 d-flex justify-content-start">
+                  <button class="btn" onclick="get_dirty_doc()" id="bSave">
+                    <i class="fas fa-search mr-2"></i>
+                    <?php echo $array['search'][$language]; ?>
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="row" style="margin-right:10px;">
-              <div class="col-md-12">
-                <!-- tag column 1 -->
-                <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped " id="TableDocument" width="100%" cellspacing="0" role="grid">
-                  <thead id="theadsum" style="font-size:24px;">
-                    <tr role="row" >
-                      <th style='width: 3%;' nowrap>&nbsp;</th>
-                      <th style='width: 17%;' nowrap><?php echo $array['docno'][$language]; ?></th>
-                      <th style='width: 20%;' nowrap><?php echo $array['Receivetime'][$language]; ?></th>
-                      <th style='width: 20%;' nowrap><?php echo $array['Wash'][$language]; ?></th>
-                      <th style='width: 20%;' nowrap><?php echo $array['packing'][$language]; ?></th>
-                      <th style='width: 20%;' nowrap><?php echo $array['shipping'][$language]; ?></th>
-                    </tr>
-                  </thead>
-                  <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
-                  </tbody>
-                </table>
-              </div> <!-- tag column 1 -->
-            </div>
+          <div class="row" style="margin-right:10px;">
+            <div class="col-md-12">
+              <!-- tag column 1 -->
+              <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped " id="TableDocument" width="100%" cellspacing="0" role="grid">
+                <thead id="theadsum" style="font-size:24px;">
+                  <tr role="row">
+                    <th style='width: 3%;' nowrap>&nbsp;</th>
+                    <th style='width: 17%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                    <th style='width: 20%;' nowrap><?php echo $array['Receivetime'][$language]; ?></th>
+                    <th style='width: 20%;' nowrap><?php echo $array['Wash'][$language]; ?></th>
+                    <th style='width: 20%;' nowrap><?php echo $array['packing'][$language]; ?></th>
+                    <th style='width: 20%;' nowrap><?php echo $array['shipping'][$language]; ?></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
+                </tbody>
+              </table>
+            </div> <!-- tag column 1 -->
+          </div>
         </div>
       </div>
     </div>
