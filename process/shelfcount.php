@@ -1320,7 +1320,6 @@ function chk_par($conn, $DATA)
 
 function userKeyValue($conn, $DATA){
   $Row = $DATA['Row'];
-  $Max = $DATA['Max'];
   $chk = $DATA['chk'];
   $Order = $DATA['Order'];
   if($chk == 'short'){
