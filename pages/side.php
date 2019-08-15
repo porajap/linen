@@ -90,15 +90,6 @@ $array2 = json_decode($json2,TRUE);
 
           console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
-        // }
-
-        // var data2 = {
-        //   'STATUS'  : 'getSection',
-        //   'DEPT'    : dept
-        // };
-        // console.log(JSON.stringify(data2));
-        // senddata(JSON.stringify(data2));
-
         $('#searchitem').keyup(function(e){
 
             if(e.keyCode == 13)
@@ -368,10 +359,7 @@ $array2 = json_decode($json2,TRUE);
             swal.close();
           }
               })
-
-          }
-
-          
+          }          
         }else{
           swal({
             title: '',
@@ -1032,15 +1020,9 @@ $array2 = json_decode($json2,TRUE);
   <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
   <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][1][$language]; ?></li>
 </ol>
-    <div id="wrapper">
+    <div id="wrapper"></div>
       <!-- content-wrapper -->
       <div id="content-wrapper">
-<!--
-          <div class="mycheckbox">
-            <input type="checkbox" name='useful' id='useful' onclick='setTag()'/><label for='useful' style='color:#FFFFFF'> </label>
-          </div>
--->
-
           <div class="row">
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
@@ -1057,9 +1039,8 @@ $array2 = json_decode($json2,TRUE);
                                             </button>
                                           </div>
                                         </div>
-                                          
-                                        </div>
                                       </div>
+                                    </div>
                                
                         </div>
                         <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
@@ -1159,7 +1140,8 @@ $array2 = json_decode($json2,TRUE);
 
     </div>
 
-
+    <div id="page-down">
+      </div>
 <!-- /#wrapper -->
 <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

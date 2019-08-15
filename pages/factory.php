@@ -1082,11 +1082,13 @@ $array2 = json_decode($json2,TRUE);
 
   <body id="page-top">
   <ol class="breadcrumb">
-  
           <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
           <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][0][$language]; ?></li>
         </ol>
     <div id="wrapper">
+    <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
+      <i class="fas fa-angle-down"></i>
+    </a>
       <!-- content-wrapper -->
       <div id="content-wrapper">
 <!--
@@ -1256,51 +1258,14 @@ $array2 = json_decode($json2,TRUE);
               </div> <!-- tag column 1 -->
 
 <!-- =============================================================================================== -->
-<!-- <div class="sidenav mhee" style=" margin-left: 25px;margin-top: 73px;">
-  <div class="" style="margin-top:5px;">
-    <div class="card-body" style="padding:0px; margin-top:10px;">
-      <div class="row" style="margin-top:0px;">
-        <div class="col-md-3 icon" >
-          <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-        </div>
-        <div class="col-md-9">
-          <button class="btn" onclick="AddItem()" id="bSave">
-            <?php echo $array['save'][$language]; ?>
-          </button>
-        </div>
-      </div>
-      <div class="row" style="margin-top:0px;">
-        <div class="col-md-3 icon" >
-          <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
-        </div>
-        <div class="col-md-9">
-          <button class="btn" onclick="Blankinput()" id="bDelete">
-            <?php echo $array['clear'][$language]; ?>
-          </button>
-        </div>
-      </div>
-      <div class="row" style="margin-top:0px;">
-        <div class="col-md-3 icon" >
-          <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
-        </div>
-        <div class="col-md-9">
-          <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
-            <?php echo $array['cancel'][$language]; ?>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 
-
+<div id="page-down">
+      </div>
 <!-- /#wrapper -->
 <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
-
-
     <!-- Bootstrap core JavaScript-->
     <script src="../template/vendor/jquery/jquery.min.js"></script>
     <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

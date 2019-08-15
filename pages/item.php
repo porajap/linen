@@ -107,7 +107,6 @@ $array2 = json_decode($json2, TRUE);
       var data = {
         'STATUS': 'getUnit'
       };
-
       // console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
 
@@ -122,12 +121,17 @@ $array2 = json_decode($json2, TRUE);
         this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
       });
 
+			$('.activeSort').click(function () {
+        $("a").removeClass("white");
+        $(this).attr("class", "white");
+      });
     }).mousemove(function(e) {
       parent.afk();
     }).keyup(function(e) {
       parent.afk();
     });
 
+		//<!-- --------------------Function--------------------- --!>
     dialog = jqui("#dialog").dialog({
       autoOpen: false,
       height: 650,
@@ -362,17 +366,17 @@ $array2 = json_decode($json2, TRUE);
     }
 
 
-    function ShowItem() {
+    function ShowItem(column, sort) {
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
-      // alert(item);
       var active = '0';
-
       var data = {
         'STATUS': 'ShowItem',
         'Catagory': catagory,
         'Keyword': item,
-        'active': active
+        'active': active,
+        'column': column,
+        'sort': sort
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -920,7 +924,22 @@ $array2 = json_decode($json2, TRUE);
       $('#memu_tap1').attr('hidden', true);
       $('#myTab').addClass('mt-5');
     }
+		function getplaceholder(){
+			var sUnitName = $('#sUnitName option:selected').attr("value");
 
+			if(sUnitName ==2){
+				$('#QtyPerUnit').removeAttr("placeholder");     
+				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Weightitem'][$language]; ?>");      
+			}else if(sUnitName ==4){
+				$('#QtyPerUnit').removeAttr("placeholder");     
+				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Sizeitem'][$language]; ?>");    
+			}else{
+				$('#QtyPerUnit').removeAttr("placeholder");     
+				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Quality'][$language]; ?>");    
+			}
+		}
+		//<!-- --------------------Function--------------------- --!>
+		//<!-- --------------------desplay--------------------- --!>
     function senddata(data) {
       var form_data = new FormData();
       form_data.append("DATA", data);
@@ -1647,19 +1666,6 @@ $array2 = json_decode($json2, TRUE);
     </a>
     <!-- content-wrapper -->
     <div id="content-wrapper">
-      <!--
-          <div class="container-fluid">
-            <ol class="breadcrumb" style="font-size:20px;">
-              <li class="breadcrumb-item"><a href="#">รายการ</a></li>
-              <li class="breadcrumb-item active">Item</li>
-            </ol>
-          </div>
-
-          <div class="mycheckbox">
-            <input type="checkbox" name='useful' id='useful' onclick='setTag()'/><label for='useful' style='color:#FFFFFF'> </label>
-          </div> style="font-family: 'THSarabunNew'; font-size:20px;"
--->
-
       <div class="row">
         <div class="col-md-12">
           <!-- tag column 1 -->
@@ -1684,39 +1690,34 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <div class="col-md-2">
-                  <!-- <div class="row" style="margin-left:0px;">
-                    <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3 mhee'>
-                    <a href='javascript:void(0)' onclick="ShowItem()" id="bSave" class="search">
-                      <?php echo $array['search'][$language]; ?></a>
-                  </div> -->
                   <div class="search_custom col-md-2">
-                                          <div class="search_1 d-flex justify-content-start">
-                                            <button class="btn" onclick="ShowItem()" id="bSave">
-                                              <i class="fas fa-search mr-2"></i>
-                                              <?php echo $array['search'][$language]; ?>
-                                            </button>
-                                          </div>
-                                        </div>
+										<div class="search_1 d-flex justify-content-start">
+											<button class="btn" onclick="ShowItem()" id="bSave">
+												<i class="fas fa-search mr-2"></i>
+												<?php echo $array['search'][$language]; ?>
+											</button>
+										</div>
+									</div>
                 </div>
-                <!-- 
-                <div class="col-md-3">
-                  <div class="row mhee" style="margin-left:0px;">
-                    <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;" class='mr-3'>
-                    <a href='javascript:void(0)' onclick="ShowItem_Active_0()" id="bSave">
-                      <?php echo $array['search_active'][$language]; ?></a>
-                  </div>
-                </div>
-                -->
               </div>
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
                 <thead id="theadsum">
-                  <tr role="row">
+                  <tr role="row" id="tableSort">
                     <th style='width: 5%; font-size:13px;'>&nbsp;</th>
                     <th style='width: 5%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                    <th style='width: 25%;' nowrap><?php echo $array['codecode'][$language]; ?></th>
-                    <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                    <th style='width: 13%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
-                    <th style='width: 10%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                    <th style='width: 25%;' nowrap><?php echo $array['codecode'][$language]; ?>
+                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white"  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                      <a href="javascript:void(0)" class="activeSort"  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                    </th>
+                    <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?> </th>
+										<th style='width: 13%;' nowrap><?php echo $array['unit2'][$language]; ?>
+											<a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort" onclick="ShowItem('UnitCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                      <a href="javascript:void(0)"class="activeSort"  onclick="ShowItem('UnitCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+										</th>
+										<th style='width: 10%;' nowrap><?php echo $array['size'][$language]; ?>
+											<a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort" onclick="ShowItem('SizeCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                      <a href="javascript:void(0)"class="activeSort"  onclick="ShowItem('SizeCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+										</th>
                     <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                     <th style='width: 10%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
                   </tr>
@@ -1983,9 +1984,9 @@ $array2 = json_decode($json2, TRUE);
 
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['widthunit'][$language]; ?></label>
 
-                              <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['size'][$language]; ?>">
+                              <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['Quality'][$language]; ?>">
 
-                              <select class="form-control col-sm-5" id="sUnitName"></select>
+                              <select class="form-control col-sm-5" id="sUnitName" onchange="getplaceholder();"></select>
 
                             </div>
                           </div>
@@ -2072,7 +2073,7 @@ $array2 = json_decode($json2, TRUE);
           </div>
         </div>
       </div>
-
+    
 
       <div id="page-down">
       </div>

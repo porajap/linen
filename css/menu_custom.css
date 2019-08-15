@@ -207,3 +207,17 @@
       .search_custom .del_1{
         color:#ffffff;
       }
+
+
+
+      
+    .white{
+      color: #fff !important;
+    }
+    .white:hover{
+      color: #fff;
+    }
+
+    #tableSort a{
+      color: #818181;
+    }
