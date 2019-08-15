@@ -1189,6 +1189,19 @@ $array2 = json_decode($json2,TRUE);
             </div>
         </div> <!-- tag column 2 -->
     </div>
+
+    <div class="tab-pane show active" id="profile" role="tabpanel" aria-labelledby="home-tab">
+    <!-- /.content-wrapper -->
+            <div class="row  m-2">
+              <div class="col-md-12"> <!-- tag column 1 -->
+                  <div class="container-fluid">
+                    <div class="card-body" style="padding:0px;">
+ 
+   
+                </div>
+            </div>
+        </div> <!-- tag column 2 -->
+    </div>
   </div>
 
     <div id="page-down">
