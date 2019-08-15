@@ -68,6 +68,7 @@ function get_dep($conn, $DATA)
 function get_dirty_doc($conn, $DATA)
 {
     $count = 0;
+    $From = $DATA['From'];
     $DocNo = $DATA['DocNo'];
     $hpt = $DATA['hpt'];
     $dep = $DATA['dep'];
@@ -76,6 +77,7 @@ function get_dirty_doc($conn, $DATA)
         $Sql = "SELECT * 
                 FROM  (
                             SELECT process.DocNo,
+                            dirty.IsProcess,
                             IFNULL(DATE_FORMAT(dirty.ReceiveDate, '%T'),'-') AS Receivetime,
                             IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
                             IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
@@ -95,6 +97,7 @@ function get_dirty_doc($conn, $DATA)
                             AND dirty.ReceiveDate LIKE '%$date%'
                         UNION ALL
                             SELECT process.DocNo,
+                            rewash.IsProcess,
                             IFNULL(DATE_FORMAT(rewash.ReceiveDate, '%T'),'-') AS Receivetime,
                             IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
                             IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
@@ -118,6 +121,7 @@ function get_dirty_doc($conn, $DATA)
         $Sql = "SELECT * 
                 FROM  (
                             SELECT process.DocNo,
+                            dirty.IsProcess,
                             IFNULL(DATE_FORMAT(dirty.ReceiveDate, '%T'),'-') AS Receivetime,
                             IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
                             IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
@@ -139,6 +143,7 @@ function get_dirty_doc($conn, $DATA)
                             AND dirty.ReceiveDate LIKE '%$date%'
                         UNION ALL
                             SELECT process.DocNo,
+                            rewash.IsProcess,
                             IFNULL(DATE_FORMAT(rewash.ReceiveDate, '%T'),'-') AS Receivetime,
                             IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
                             IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
@@ -164,6 +169,7 @@ function get_dirty_doc($conn, $DATA)
         $Sql = "SELECT * 
                 FROM  (
                             SELECT process.DocNo,
+                            dirty.IsProcess,
                             IFNULL(DATE_FORMAT(dirty.ReceiveDate, '%T'),'-') AS Receivetime,
                             IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
                             IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
@@ -184,6 +190,7 @@ function get_dirty_doc($conn, $DATA)
                             AND dirty.ReceiveDate LIKE '%$date%'
                         UNION ALL
                             SELECT process.DocNo,
+                            rewash.IsProcess,
                             IFNULL(DATE_FORMAT(rewash.ReceiveDate, '%T'),'-') AS Receivetime,
                             IFNULL(DATE_FORMAT(WashStartTime, '%d/%M/%Y'),'-') AS Wash,
                             IFNULL(DATE_FORMAT(WashStartTime, '%T'),'-') AS WashStartTime,
@@ -210,6 +217,7 @@ function get_dirty_doc($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $return[$count]['DocNo'] = $Result['DocNo'];
+        $return[$count]['IsProcess'] = $Result['IsProcess'];
         $return[$count]['Receivetime'] = $Result['Receivetime'];
         $return[$count]['Wash'] = $Result['Wash'];
         $return[$count]['WashDiff'] = $Result['WashDiff'];
@@ -230,7 +238,7 @@ function get_dirty_doc($conn, $DATA)
 
     if ($count > 0) {
         $return['status'] = "success";
-        $return['form'] = "get_dirty_doc";
+        $return['form'] = $From;
         echo json_encode($return);
         mysqli_close($conn);
         die;
