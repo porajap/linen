@@ -1693,7 +1693,7 @@ $array2 = json_decode($json2, TRUE);
                     <th style='width: 5%;' nowrap><?php echo $array['no'][$language]; ?></th>
                     <th style='width: 25%;' nowrap><?php echo $array['codecode'][$language]; ?>
                       <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white"  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)" class="activeSort"  onclick="ShowItem('ItemCode','DESC')" id="down1"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                      <a href="javascript:void(0)" class="activeSort"  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                     </th>
                     <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?> </th>
 										<th style='width: 13%;' nowrap><?php echo $array['unit2'][$language]; ?>
