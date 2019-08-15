@@ -1525,7 +1525,7 @@ $array2 = json_decode($json2,TRUE);
   </ol>
   <hr style='width: 98%;height:1px;background-color: #ecf0f1;'>
   <input type="hidden" id='input_chk' value='0'>
-  <input type="text" id='chk_Key' value='0'>
+  <input type="hidden" id='chk_Key' value='0'>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
       <div id="wrapper">
           <!-- content-wrapper -->
