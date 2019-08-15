@@ -827,6 +827,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel").empty();
                             $("#hptsel1").empty();
                             $("#hptsel2").empty();
+                            $("#hptselModal").empty();
                             var hotValue0 = '-';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {

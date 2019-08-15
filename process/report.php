@@ -265,7 +265,8 @@ function find_report($conn, $DATA){
           $return = r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'monthbetween');
         }
       }
-    }}else if($typeReport == 13){
+    }
+  }else if($typeReport == 13){
     if($Format == 1 || $Format == 3){
       if($FormatDay == 1 || $Format == 3){
         $date1 = $date;

@@ -22,7 +22,9 @@ function ShowItem($conn, $DATA)
           WHERE department.IsStatus = 0
           AND site.HptCode = '$xHptCode'
           AND ( department.DepCode LIKE '%$Keyword%' OR
-          department.DepName LIKE '%$Keyword%')";
+          department.DepName LIKE '%$Keyword%')
+          ORDER BY department.DepName ASC
+          ";
           $return['sql'] = $Sql;
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
