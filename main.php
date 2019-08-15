@@ -395,7 +395,7 @@ switch ($PmID) {
           hms = "00:00:00";
       else
           hms = "00:00";
-      $('#ShowTime').val( redirectInSecond + ' / Timeout : ' + hms );
+              $('#ShowTime').val( redirectInSecond + ' / Timeout : ' + hms );
       return last_move;
     }
 
@@ -415,7 +415,7 @@ switch ($PmID) {
         if(mins < 10){mins = "0" + mins;}
         if(hrs < 10){hrs = "0" + hrs;}
         var hms = hrs + ':' + mins + ':' + secs;
-
+        
         $('#ShowTime').val( 'Timeout : ' + hms );
 
         if( micro > target ) {

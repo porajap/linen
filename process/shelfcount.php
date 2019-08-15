@@ -1250,6 +1250,7 @@ function chk_par($conn, $DATA)
 
   $HptCode = $DATA['HptCode'];
   $DepCode = $DATA['DepCode'];
+  $chk_alert = $DATA['chk_alert'];
   $DocNo = $DATA['DocNo'];
   $ItemCodeArray = $DATA['ItemCode'];
 
@@ -1299,8 +1300,11 @@ function chk_par($conn, $DATA)
       }
     }
   }
-
+  if($chk_alert == 1){
+    $return['Row'] = 'No';
+  }else{
     $return['Row'] = $count;
+  }
   if($count>0){
     $return['status'] = "success";
     $return['form'] = "chk_par";

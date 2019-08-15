@@ -683,6 +683,7 @@ $array2 = json_decode($json2,TRUE);
     }
 
     function chk_par(){
+      var chk_alert = $('#chk_Key').val();
       var ItemCodeArray = [];
       var Item = [];
       var HptCode = $('#hotpital option:selected').attr("value");
@@ -701,7 +702,8 @@ $array2 = json_decode($json2,TRUE);
         'HptCode'      : HptCode,
         'DepCode'    : DepCode,
         'DocNo'    : DocNo,
-        'ItemCode'    : ItemCode
+        'ItemCode'    : ItemCode,
+        'chk_alert'    : chk_alert
       };
         senddata(JSON.stringify(data));
     }
@@ -799,6 +801,7 @@ $array2 = json_decode($json2,TRUE);
     function userKeyValue(row, i, max){
       var Order = $('#order'+i).val();
       $('#chk_userKey_'+i).val(1);
+      $('#chk_Key').val(1);
       if(max >= Order){
         var chk = 'short';
       }else{
@@ -1522,6 +1525,7 @@ $array2 = json_decode($json2,TRUE);
   </ol>
   <hr style='width: 98%;height:1px;background-color: #ecf0f1;'>
   <input type="hidden" id='input_chk' value='0'>
+  <input type="text" id='chk_Key' value='0'>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
       <div id="wrapper">
           <!-- content-wrapper -->
