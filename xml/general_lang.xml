@@ -20,7 +20,7 @@
 <spu><en>Size per unit</en><th>ขนาดต่อหน่วย</th></spu>
 <activeItem><en>Active</en><th>Active</th></activeItem>
 <email><en>Email</en><th>Email</th></email>
-<no><en>No.</en><th>ลำดับ</th></no>
+<no><en>Number</en><th>ลำดับ</th></no>
 <yes><en>Yes</en><th>ใช่</th></yes>
 <isno><en>No</en><th>ไม่ใช่</th></isno>
 <Timeleft><en>TIME LT</en><th>เหลือเวลา</th></Timeleft>
@@ -186,7 +186,7 @@
 <choose><en>Choose</en><th>เลือก</th></choose>
 <nono><en>No.</en><th>รหัส</th></nono>
 <xcenter><en>Center</en><th>ศูนย์กลาง</th></xcenter>
-<defaultname><en>Defaul.</en><th>N Health</th></defaultname>
+<defaultname><en>Default</en><th>N Health</th></defaultname>
 <dirty><en>Dirty</en><th>รับผ้าสกปรก</th></dirty>
 <clean><en>Clean</en><th>รับผ้าสะอาด</th></clean>
 <percent1><en>Percent</en><th>เปอร์เซ็นต์</th></percent1>
@@ -206,8 +206,8 @@
 <back><en>Back</en><th>กลับ</th></back>
 <changetimeout><en>Edit screen time</en><th>แก้ไขเวลาพักหน้าจอ</th></changetimeout>
 <changelang><en>Change Language</en><th>เปลี่ยนภาษา</th></changelang>
-<thai><en>Thai</en><th>ไทย</th></thai>
-<eng><en>English</en><th>อังกฤษ</th></eng>
+<thai><en>Thai</en><th>Thai</th></thai>
+<eng><en>English</en><th>English</th></eng>
 <alertPar><en>Over Par</en><th>แจ้งเตือนจำนวนเกิน</th></alertPar>
 <alertPercent><en>Over Percent</en><th>แจ้งเตือนเปอร์เซ็นต์เกิน</th></alertPercent>
 <TotalPercent><en>Total Percent</en><th>เปอร์เซ็นต์ที่ได้</th></TotalPercent>
@@ -226,7 +226,7 @@
 <addfailedmsg><en>addfailedmsg</en><th>ไม่สามารถเพิ่มข้อมูลได้</th></addfailedmsg>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
-<widthunit><en>width</en><th>ขนาดความกว้าง</th></widthunit>
+<widthunit><en>Measurement</en><th>ขนาดความกว้าง</th></widthunit>
 <searchuser><en>search user</en><th>ค้นหาผู้ใช้งาน</th></searchuser>
 <errorpic><en>Please Choose Picture</en><th>กรุณาเลือกรูปภาพ</th></errorpic>
 <formatdate><en>Format Date</en><th>รูปแบบวันที่</th></formatdate>
