@@ -1054,6 +1054,7 @@ $array2 = json_decode($json2, TRUE);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
                 var chkDoc = "<input type='radio' name='checkitem' id='checkitem' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\")'>";
                 // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
@@ -1061,10 +1062,11 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                   "<td style='width: 25%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='width: 25%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
-                  "<td style='width: 15%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
-                  "<td style='width: 11%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                  "<td style='width: 20%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 14%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                  "<td style='width: 7%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                   "<td style='width: 12%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
                   "</tr>";
 
                 if (rowCount == 0) {
@@ -1702,10 +1704,11 @@ $array2 = json_decode($json2, TRUE);
                     <th style='width: 5%; font-size:13px;'>&nbsp;</th>
                     <th style='width: 5%;' nowrap><?php echo $array['no'][$language]; ?></th>
                     <th style='width: 25%;' nowrap><?php echo $array['codecode'][$language]; ?></th>
-                    <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                    <th style='width: 15%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
-                    <th style='width: 13%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                    <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                    <th style='width: 13%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+                    <th style='width: 10%;' nowrap><?php echo $array['size'][$language]; ?></th>
                     <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                    <th style='width: 10%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
                   </tr>
                 </thead>
                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
@@ -1981,7 +1984,6 @@ $array2 = json_decode($json2, TRUE);
                       </div>
                     </div>
                   </div> <!-- tag column 1 -->
-
                 </div>
               </div>
 
@@ -2059,68 +2061,6 @@ $array2 = json_decode($json2, TRUE);
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-2 mhee">
-          <div class="sidenav" style=" margin-left: 0px;margin-top: 73px;">
-            <div class="" style="margin-top:5px;">
-              <div class="card-body" style="padding:0px; margin-top:10px;">
-                <div class="row" style="margin-top:0px;" id="ActiveBNT">
-                  <div class="col-md-3 icon">
-                    <img src="../img/icon/i_active.png" style='width:36px;' class='mr-3'>
-                  </div>
-                  <div class="col-md-9">
-                    <button class="btn" onclick="ActiveItem()" id="bActive">
-                      <?php echo $array['activeItem'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-                <div class="row" style="margin-top:0px;" id="NewItem">
-                  <div class="col-md-3 icon">
-                    <img src="../img/icon/i_listnew.png" style='width:36px;' class='mr-3'>
-                  </div>
-                  <div class="col-md-9">
-                    <button class="btn" onclick="NewItem()" id="bNewItem">
-                      <?php echo $array['itemnew'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-                <div class="row" style="margin-top:0px;" id="AddItemBNT">
-                  <div class="col-md-3 icon">
-                    <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                  </div>
-                  <div class="col-md-9">
-                    <button class="btn" onclick="AddItem()" id="bSave">
-                      <?php echo $array['save'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="row" style="margin-top:0px;" id="BlankItemBNT">
-                  <div class="col-md-3 icon">
-                    <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
-                  </div>
-                  <div class="col-md-9">
-                    <button class="btn" onclick="Blankinput()" id="bDelete">
-                      <?php echo $array['clear'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-                <div class="row" style="margin-top:0px;" id="CancelBNT">
-                  <div class="col-md-3 icon">
-                    <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
-                  </div>
-                  <div class="col-md-9">
-                    <button class="btn" href='javascript:void(0)' onclick="CancelItem()" id="bCancel" disabled="true">
-                      <?php echo $array['cancel'][$language]; ?>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div> -->
-
-
       </div>
 
       <!-- /#wrapper -->

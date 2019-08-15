@@ -26,16 +26,17 @@ function ShowItem($conn, $DATA)
             item.CusPrice,
             item.FacPrice,
             item.Weight,
-            item.Picture
+            item.Picture,
+            item.IsDirtyBag
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory AND IsDirtyBag = 0 ORDER BY item.ItemCode ASC"; //AND IsActive = '$active'
+    $Sql .= " WHERE item.CategoryCode = $Catagory ORDER BY item.ItemCode ASC"; //AND IsActive = '$active'
   } else {
-    $Sql .= " WHERE  IsDirtyBag = 0 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-                OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') "; // AND IsActive = '$active'
+    $Sql .= " WHERE  item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
+                OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%' "; // AND IsActive = '$active'
   }
   $return['sql'] = $Sql;
 
@@ -50,6 +51,7 @@ function ShowItem($conn, $DATA)
     $return[$count]['FacPrice'] = $Result['FacPrice'];
     $return[$count]['Weight'] = $Result['Weight'];
     $return[$count]['Picture'] = $Result['Picture'];
+    $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag'];
     $count++;
   }
 
