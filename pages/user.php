@@ -75,13 +75,13 @@ $array2 = json_decode($json2,TRUE);
 
         $(document).ready(function(e) {
             Blankinput();
+            ShowItem();
             //On create
             $('.TagImage').bind('click', {
                 imgId: $(this).attr('id')
             }, function(evt) {
                 alert(evt.imgId);
             });
-            ShowItem();
             getHotpital();
             getEmployee();
             getPermission();
@@ -1018,16 +1018,11 @@ $array2 = json_decode($json2,TRUE);
   <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][10][$language]; ?></li>
 </ol>
     <div id="wrapper">
+        <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
+            <i class="fas fa-angle-down"></i>
+        </a>
         <!-- content-wrapper -->
-        <div id="content-wrapper">
             <!--
-          <div class="mycheckbox">
-            <input type="checkbox" name='useful' id='useful' onclick='setTag()'/><label for='useful' style='color:#FFFFFF'> </label>
-          </div>
--->
-
-            <div class="row">
-                <div class="col-md-12">
                     <!-- tag column 1 -->
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:-12px;">
@@ -1084,8 +1079,7 @@ $array2 = json_decode($json2,TRUE);
                             </table>
 
                         </div>
-                    </div>
-                </div> <!-- tag column 1 -->
+                    </div><!-- tag column 1 -->
             </div>
    <!-- =================================================================== -->
 <!-- /.content-wrapper -->
@@ -1229,7 +1223,8 @@ $array2 = json_decode($json2,TRUE);
                 </div> <!-- tag column 2 -->
 <!-- =============================================================================================== -->
 
-
+<div id="page-down">
+      </div>
             <!-- /#wrapper -->
             <!-- Scroll to Top Button-->
             <a class="scroll-to-top rounded" href="#page-top">

@@ -74,6 +74,9 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        getHotpital();
+        $('#addhot').show();
+      $('#adduser').hide();
         //On create
         Blankinput();
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
@@ -141,6 +144,14 @@ $array2 = json_decode($json2,TRUE);
           }
       }
 
+      function getHotpital(){
+          var data2 = {
+              'STATUS': 'getHotpital'
+          };
+          // console.log(JSON.stringify(data2));
+          senddata(JSON.stringify(data2));
+        }
+
       function getDocDetail() {
           // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
             if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length){
@@ -159,7 +170,7 @@ $array2 = json_decode($json2,TRUE);
 
         /* we join the array separated by the comma */
         var DocNo = chkArray.join(',') ;
-  // alert( DocNo );
+        // alert( DocNo );
         $('#TableDetail tbody').empty();
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
         var data = {
@@ -388,43 +399,105 @@ $array2 = json_decode($json2,TRUE);
           });
         }
       }
+      function Adduser(){
+        var count = 0;
+        var idcontract = $('#idcontract').val();
+        var ContractName = $('#ContractName').val();
+        var Position = $('#Position').val();
+        var phone = $('#phone').val();
+        var host = $('#host').val();
+          if(count==0){
+            swal({
+              title: "<?php echo $array['addoredit'][$language]; ?>",
+              text: "<?php echo $array['addoredit'][$language]; ?>",
+              type: "question",
+              showCancelButton: true,
+              confirmButtonClass: "btn-success",
+              confirmButtonText:  "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#6fc864',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
 
-      function CancelItem() {
-        swal({
-          title: "<?php echo $array['canceldata'][$language]; ?>",
-          text: "<?php echo $array['canceldata1'][$language]; ?>",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
-          closeOnConfirm: false,
-          closeOnCancel: false,
-          showCancelButton: true}).then(result => {
-            if (result.value) {
-            var idcontract = $('#idcontract').val();
-            var HptCode = $('#HptCode').val();
-            var data = {
-              'STATUS' : 'CancelItem',
-              'HptCode' : HptCode ,
-              'idcontract' : idcontract 
-            }
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-          } else if (result.dismiss === 'cancel') {
+                var data = {
+                  'STATUS' : 'Adduser',
+                  'ContractName' : ContractName,
+                  'Position' : Position,
+                  'phone' : phone,
+                  'idcontract' : idcontract,
+                  'host' : host
+                };
+
+                console.log(JSON.stringify(data));
+                senddata(JSON.stringify(data));
+              } else if (result.dismiss === 'cancel') {
             swal.close();
           }
+              })
+                  
+        }else{
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
           })
+          $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', 'red');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
+        }
+      }
+      function CancelItem() {
+          swal({
+            title: "<?php echo $array['canceldata'][$language]; ?>",
+            text: "<?php echo $array['canceldata1'][$language]; ?>",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true}).then(result => {
+              if (result.value) {
+              var idcontract = $('#idcontract').val();
+              var HptCode = $('#HptCode').val();
+              var data = {
+                'STATUS' : 'CancelItem',
+                'HptCode' : HptCode ,
+                'idcontract' : idcontract 
+              }
+              console.log(JSON.stringify(data));
+              senddata(JSON.stringify(data));
+            } else if (result.dismiss === 'cancel') {
+              swal.close();
+            }
+            })
       }
 
       function Blankinput() {
         $('.checkblank').each(function() {
           $(this).val("");
         });
+        $('#ContractName').val("");
+        $('#Position').val("");
+        $('#phone').val("");
+        $('#host').val("BHQ");
         $('#HptCode').val("");
-        //$('#Dept').val("1");
         ShowItem();
         $('#bCancel').attr('disabled', true);
         $('#delete_icon').addClass('opacity');
@@ -560,6 +633,14 @@ $array2 = json_decode($json2,TRUE);
         })
       }
 
+      function menu_tapShow(){
+        $('#addhot').show();
+        $('#adduser').hide();    
+    }
+    function menu_tapHide(){
+      $('#addhot').hide();
+        $('#adduser').show();  
+    }
       function senddata(data){
          var form_data = new FormData();
          form_data.append("DATA",data);
@@ -612,7 +693,15 @@ $array2 = json_decode($json2,TRUE);
                                    $('#TableItem tbody:last-child').append( StrTR );
                                  }
                               }
-                            }else if( (temp["form"]=='getdetail') ){
+                            }else if ((temp["form"] == 'getHotpital')) {
+                              $("#host").empty();
+                              $("#hptsel").empty();
+                              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                  var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                                  $("#host").append(StrTr);
+                                  $("#hptsel").append(StrTr);
+                              }
+                        }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
                                 $('#HptCode').val(temp['HptCode']);
@@ -887,7 +976,6 @@ $array2 = json_decode($json2,TRUE);
                        }
             });
       }
-
     </script>
     <style media="screen">
     @font-face {
@@ -897,6 +985,9 @@ $array2 = json_decode($json2,TRUE);
         body{
           font-family: myFirstFont;
           font-size:22px;
+          overflow :  hidden;
+          /* overflow-y: hidden; */
+
         }
 
         .nfont{
@@ -1050,7 +1141,7 @@ $array2 = json_decode($json2,TRUE);
                                           <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
-                                            <button class="btn" onclick="ShowItem()" id="bSave">
+                                            <button class="btn" onclick="ShowItem()" id="bSavesave">
                                               <i class="fas fa-search mr-2"></i>
                                               <?php echo $array['search'][$language]; ?>
                                             </button>
@@ -1084,10 +1175,22 @@ $array2 = json_decode($json2,TRUE);
 <!-- =============================================================================================================================== -->
  <!-- /.content-wrapper -->
  <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" >
-                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
+                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?> id="addhot">
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
+                                  <i class="fas fa-save"></i>
+                                  <div>
+                                    <?php echo $array['save'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?> id="adduser" >
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  onclick="Adduser()" id="bSave">
                                   <i class="fas fa-save"></i>
                                   <div>
                                     <?php echo $array['save'][$language]; ?>
@@ -1124,15 +1227,15 @@ $array2 = json_decode($json2,TRUE);
 
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                       <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
+                        <a class="nav-link active" id="home-tab" onclick="menu_tapShow();"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
+                        <a class="nav-link" id="profile-tab"  onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
                       </li>
                   </ul>
 <!-- =============================================================================================================================== -->
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
     <!-- /.content-wrapper -->
             <div class="row  m-2">
               <div class="col-md-12"> <!-- tag column 1 -->
@@ -1147,12 +1250,6 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text"  class="form-control col-sm-8 checkblank" id="HptCode"    placeholder="<?php echo $array['code'][$language]; ?>">
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 " id="ContractName"  placeholder="<?php echo $array['ContractName'][$language]; ?>" >
-                                    </div>
-                                  </div>
                                 </div>                        
    <!-- =================================================================== -->
                                 <div class="row">
@@ -1162,27 +1259,8 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text"  class="form-control col-sm-8 checkblank" id="HptName"    placeholder="<?php echo $array['hosname'][$language]; ?>">
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 " id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
-                                    </div>
-                                  </div>
                                 </div>  
-   <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 " id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6" hidden>
-                                    <div class='form-group row'>
-                                        <input type="text" class="form-control col-sm-8 " id="idcontract">
-                                    </div>
-                                  </div>
-                                </div>
+
                               </div>
 <!-- =============================================================================================== -->
                 </div>
@@ -1190,19 +1268,53 @@ $array2 = json_decode($json2,TRUE);
         </div> <!-- tag column 2 -->
     </div>
 
-    <div class="tab-pane show active" id="profile" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="home-tab">
     <!-- /.content-wrapper -->
             <div class="row  m-2">
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px;">
- 
-   
-                </div>
-            </div>
-        </div> <!-- tag column 2 -->
-    </div>
-  </div>
+
+                                <div class="row mt-4">
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
+                                      <input type="text"  class="form-control col-sm-8 " id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
+                                        <input type="text" class="form-control col-sm-8 " id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
+                                    </div>
+                                  </div>
+                                </div> 
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
+                                      <input type="text"  class="form-control col-sm-8 " id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                      <select  class="form-control col-sm-8 " id="host"></select>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="col-md-6" hidden>
+                                    <div class='form-group row'>
+                                        <input type="text" class="form-control col-sm-8 " id="idcontract">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div> <!-- tag column 2 -->
+                      </div>
+                    </div>
+                  </div>
 
     <div id="page-down">
       </div>

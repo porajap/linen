@@ -1710,15 +1710,12 @@ $array2 = json_decode($json2, TRUE);
                       <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
                       <a href="javascript:void(0)" class="activeSort white"  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                     </th>
-                    <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?> </th>
-										<th style='width: 13%;' nowrap><?php echo $array['unit2'][$language]; ?>
-											<a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort" onclick="ShowItem('UnitCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)"class="activeSort"  onclick="ShowItem('UnitCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-										</th>
-										<th style='width: 10%;' nowrap><?php echo $array['size'][$language]; ?>
-											<a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort" onclick="ShowItem('SizeCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)"class="activeSort"  onclick="ShowItem('SizeCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-										</th>
+                    <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?>
+                    <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                      <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                     </th>
+										<th style='width: 13%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+										<th style='width: 10%;' nowrap><?php echo $array['size'][$language]; ?></th>
                     <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                     <th style='width: 10%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
                   </tr>

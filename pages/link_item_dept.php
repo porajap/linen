@@ -1453,6 +1453,9 @@ $array2 = json_decode($json2,TRUE);
   <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][7][$language]; ?></li>
 </ol>
     <div id="wrapper">
+      <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
+        <i class="fas fa-angle-down"></i>
+      </a>
       <div id="content-wrapper">
         <div class="row">
 
@@ -1630,6 +1633,8 @@ $array2 = json_decode($json2,TRUE);
             </div>
         </div>
 
+        <div id="page-down">
+      </div>
         <!-- /#wrapper -->
         <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top">

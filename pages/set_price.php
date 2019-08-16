@@ -1436,6 +1436,7 @@ $array2 = json_decode($json2,TRUE);
         </div>
     </div>
 </div>
+
             <!-- Bootstrap core JavaScript-->
             <script src="../template/vendor/jquery/jquery.min.js"></script>
             <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
