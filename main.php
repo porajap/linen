@@ -54,8 +54,8 @@ switch ($PmID) {
         $fac_s2=0;
         $fac_s3=0;
         //report
-        $re_head=0;
-        $re_s1=0;
+        $re_head=1;
+        $re_s1=1;
         //system
         $sys_head=1;
         $sys_s1=1;
@@ -102,8 +102,8 @@ switch ($PmID) {
         $fac_s2=0;
         $fac_s3=0;
         //report
-        $re_s1=0;
-        $re_head=0;
+        $re_s1=1;
+        $re_head=1;
         //system
         $sys_head=1;
         $sys_s1=0;
@@ -150,8 +150,8 @@ switch ($PmID) {
         $fac_s2=0;
         $fac_s3=0;
         //report
-        $re_head=0;
-        $re_s1=0;
+        $re_head=1;
+        $re_s1=1;
         //system
         $sys_head=1;
         $sys_s1=1;
@@ -246,8 +246,8 @@ switch ($PmID) {
          $fac_s2=0;
          $fac_s3=0;
          //report
-         $re_head=0;
-         $re_s1=0;
+         $re_head=1;
+         $re_s1=1;
          //system
          $sys_head=1;
          $sys_s1=1;

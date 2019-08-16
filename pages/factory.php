@@ -1391,7 +1391,7 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array[''][$language]; ?></label>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
                                       <select  class="form-control col-sm-8 " id="host"></select>
                                     </div>
                                   </div>

@@ -274,7 +274,7 @@ function CancelItem($conn, $DATA)
 function getFactory($conn, $DATA)
   {
       $count = 0;
-      $Sql = "SELECT Factory.FacCode,Factory.FacName FROM Factory 	WHERE IsCancel = 0";
+      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory 	WHERE IsCancel = 0";
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $return[$count]['FacCode']  = $Result['FacCode'];

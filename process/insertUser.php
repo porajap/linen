@@ -11,6 +11,7 @@ if($Userid==""){
     $UserName = $_POST['UserName'];
     $Password = $_POST['Password'];
     $host = $_POST['host'];
+    $department = $_POST['department'];
     $FName = $_POST['FName'];
     $Permission = $_POST['Permission'];
     $facID = $_POST['facID'];
@@ -38,6 +39,7 @@ if($Userid==""){
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
             $Sql = "UPDATE users SET 
                 users.HptCode='$host',
+                users.DepCode=$department,
                 users.UserName='$UserName',
                 users.Password ='$Password',
                 users.FName='$FName',
@@ -51,6 +53,7 @@ if($Userid==""){
         }else{
             $Sql = "UPDATE users SET 
                 users.HptCode='$host',
+                users.DepCode=$department,
                 users.UserName='$UserName',
                 users.Password='$Password',
                 users.FName='$FName',
@@ -71,6 +74,7 @@ if($Userid==""){
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
             $Sql = "INSERT INTO users(
                 users.HptCode,
+                users.DepCode,
                 users.UserName,
                 users.Password,
                 users.FName,
@@ -89,6 +93,7 @@ if($Userid==""){
                 VALUES
                 (
                     '$host',
+                    $department,
                     '$UserName',
                     '$Password',
                     '$FName',
@@ -106,6 +111,7 @@ if($Userid==""){
         }else{
             $Sql = "INSERT INTO users(
                 users.HptCode,
+                users.DepCode,
                 users.UserName,
                 users.Password,
                 users.FName,
@@ -123,6 +129,7 @@ if($Userid==""){
                 VALUES
                 (
                     '$host',
+                    $department,
                     '$UserName',
                     '$Password',
                     '$FName',

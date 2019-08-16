@@ -69,7 +69,7 @@
 <code><en>Code</en><th>รหัส</th></code>
 <item><en>Lists</en><th>รายการ</th></item>
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
-<unit><en>MEAS U.</en><th>หน่วยนับ</th></unit>
+<unit><en>Measurement</en><th>หน่วยนับ</th></unit>
 <unit2><en>Unit</en><th>หน่วยนับ</th></unit2>
 <weight><en>Weight</en><th>น้ำหนัก</th></weight>
 <numofpiece><en>No. of pieces</en><th>จำนวนชิ้น</th></numofpiece>

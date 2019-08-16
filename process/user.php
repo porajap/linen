@@ -8,6 +8,7 @@ if($Userid==""){
 function ShowItem($conn, $DATA)
 {
   $count = 0;
+  $department2 = $DATA['department2'];
   $xHptCode = $DATA['HptCode'];
   if($xHptCode==""){
     $xHptCode = 1;
@@ -15,12 +16,17 @@ function ShowItem($conn, $DATA)
 
   $Keyword = $DATA['Keyword'];
   $Sql="SELECT users.ID,users.FName,users.`Password`,users.UserName,users.email,users.Active_mail,
-        -- CONCAT(IFNULL(employee.FirstName,''),' ',IFNULL(employee.LastName,'')) AS xName
         permission.Permission, HptName
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON site.HptCode = users.HptCode
-        WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%') AND site.HptCode = '$xHptCode'";
+        INNER JOIN department ON department.DepCode = users.DepCode
+        WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%')";
+          if ($department2 != "") {
+            $Sql .= " AND department.DepCode = $department2   ";
+          }else{
+            $Sql .= "AND site.HptCode = '$xHptCode'";
+          }
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -85,10 +91,11 @@ function getdetail($conn, $DATA)
   //    mysqli_query($conn,$Sqlx);
 
   $Sql = "SELECT users.ID,users.UserName,users.`Password`,users.FName,site.HptName,site.HptCode,permission.Permission,
-      permission.PmID, factory.FacCode , users.email , users.Active_mail, users.pic
+      permission.PmID, factory.FacCode , users.email , users.Active_mail, users.pic , users.DepCode , department.DepName
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON users.HptCode = site.HptCode
+        INNER JOIN department ON department.DepCode = department.DepCode
         LEFT JOIN factory ON factory.FacCode = users.FacCode  
         WHERE users.ID = $ID AND users.IsCancel = 0";
         $return['sql'] = $Sql;
@@ -102,6 +109,8 @@ function getdetail($conn, $DATA)
       $return['Permission'] = $Result['Permission'];
       $return['PmID'] = $Result['PmID'];
       $return['HptName'] = $Result['HptName'];
+      $return['DepName'] = $Result['DepName'];
+      $return['DepCode'] = $Result['DepCode'];
       $return['HptCode'] = $Result['HptCode'];
       $return['FacCode'] = $Result['FacCode'];
       $return['email'] = $Result['email'];
@@ -129,6 +138,16 @@ function getdetail($conn, $DATA)
         $count++;
     }
     $return['EmpCnt'] = $count;
+
+    $count = 0;
+    $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE IsStatus = 0";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $return['dep'.$count]['xDepCode']  = $Result['DepCode'];
+        $return['dep'.$count]['xDepName']  = $Result['DepName'];
+        $count++;
+    }
+    $return['DepCnt'] = $count;
 
   if($count>0){
     $return['status'] = "success";
@@ -229,12 +248,14 @@ function getPermission($conn, $DATA)
 }
 
 function CancelItem($conn, $DATA)
-{
+{      
+
     $UsID = $DATA['UsID'];
     $Sql = "UPDATE users SET IsCancel = 1 WHERE ID = $UsID;";
     mysqli_query($conn, $Sql);
     $return['status'] = "success";
     $return['form'] = "CancelItem";
+    $return['msg'] = "cancelsuccess";
     echo json_encode($return);
     mysqli_close($conn);
     die;
@@ -264,8 +285,70 @@ function getFactory($conn, $DATA)
     die;
 
 }
+function getDepartment($conn, $DATA)
+{
+  $count = 0;
+  $boolean = false;
+  $Hotp = $DATA["Hotp"];
+  $Sql = "SELECT department.DepCode,department.DepName
+		  FROM department
+		  WHERE department.HptCode = '$Hotp'
+		  AND department.IsStatus = 0
+      ORDER BY department.DepCode DESC";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['DepCode'] = $Result['DepCode'];
+    $return[$count]['DepName'] = $Result['DepName'];
+    $count++;
+    $boolean = true;
+  }
 
+  if ($boolean) {
+    $return['status'] = "success";
+    $return['form'] = "getDepartment";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "failed";
+    $return['form'] = "getDepartment";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+function getDepartment2($conn, $DATA)
+{
+  $count = 0;
+  $boolean = false;
+  $Hotp = $DATA["Hotp"];
+  $Sql = "SELECT department.DepCode,department.DepName
+		  FROM department
+		  WHERE department.HptCode = '$Hotp'
+		  AND department.IsStatus = 0
+      ORDER BY department.DepCode DESC";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['DepCode'] = $Result['DepCode'];
+    $return[$count]['DepName'] = $Result['DepName'];
+    $count++;
+    $boolean = true;
+  }
 
+  if ($boolean) {
+    $return['status'] = "success";
+    $return['form'] = "getDepartment2";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "failed";
+    $return['form'] = "getDepartment2";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 // function AddItem($conn, $DATA)
 // {
 //     $count = 0;
@@ -392,6 +475,10 @@ if(isset($_POST['DATA']))
         getFactory($conn,$DATA);
       }  else if ($DATA['STATUS'] == 'getSection') {
         getSection($conn,$DATA);
+      } elseif ($DATA['STATUS'] == 'getDepartment') {
+        getDepartment($conn, $DATA);
+      } elseif ($DATA['STATUS'] == 'getDepartment2') {
+        getDepartment2($conn, $DATA);
       }
 
 

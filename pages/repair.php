@@ -798,12 +798,12 @@ $(document).ready(function(e){
                 for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                   var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                   Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                  $("#Dep2").append(Str);
                   $("#department").append(Str);
                 }
                 if(PmID != 1){
                   $("#Dep2").val(temp[0]['DepCode']);
                 }
-                $("#Dep2").append(Str2);
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",

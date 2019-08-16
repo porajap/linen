@@ -74,8 +74,10 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
-            Blankinput();
-            ShowItem();
+            getDepartment2();
+            getDepartment();
+            resetinput();            
+            // ShowItem();
             //On create
             $('.TagImage').bind('click', {
                 imgId: $(this).attr('id')
@@ -148,6 +150,25 @@ $array2 = json_decode($json2,TRUE);
           // console.log(JSON.stringify(data2));
           senddata(JSON.stringify(data2));
         }
+        function getDepartment(){
+            var Hotp = $('#host option:selected').attr("value");
+            if( typeof Hotp == 'undefined' ) Hotp = "BHQ";
+            var data = {
+            'STATUS'  : 'getDepartment',
+            'Hotp'	: Hotp
+            };
+            senddata(JSON.stringify(data));
+        }
+        function getDepartment2(){
+            var Hotp = $('#hptsel option:selected').attr("value");
+            if( typeof Hotp == 'undefined' ) Hotp = "BHQ";
+            var data = {
+            'STATUS'  : 'getDepartment2',
+            'Hotp'	: Hotp
+            };
+            senddata(JSON.stringify(data));
+        }
+        
         function uncheckAll2() {
                 $('input[type=checkbox]').each(function() 
                     { 
@@ -253,13 +274,14 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function ShowItem() {
-            
+            var department2 = $('#department2').val();
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
             var data = {
                 'STATUS': 'ShowItem',
                 'HptCode': HptCode,
-                'Keyword': keyword
+                'Keyword': keyword,
+                'department2': department2
             };
             senddata(JSON.stringify(data));
         }
@@ -277,6 +299,7 @@ $array2 = json_decode($json2,TRUE);
                 var Password = $('#Password').val();
                 var FName = $('#flname').val();
                 var host = $('#host').val();
+                var department = $('#department').val();
                 var Permission = $('#Permission').val();
                 var facID = $('#factory').val();
                 var email = $('#email').val();
@@ -312,6 +335,7 @@ $array2 = json_decode($json2,TRUE);
                         form_data.append('Password', Password);
                         form_data.append('FName', FName);
                         form_data.append('host', host);
+                        form_data.append('department', department);
                         form_data.append('Permission', Permission);
                         form_data.append('facID', facID);
                         form_data.append('email', email);
@@ -415,19 +439,32 @@ $array2 = json_decode($json2,TRUE);
                 }     
             })
         }
-
-        function Blankinput() {
+        function resetinput(){
             $('#username').val("");
             $('#Password').val("");
             $('#flname').val("");
-            $('#host tbody').empty();
+            // $('#host tbody').empty();
+            $('#department2').val("");
             $('#Permission tbody').empty();
             $('#UsID').empty();
             $('#email').val("");
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $(".dropify-clear").click(); 
-            
+        }
+        function Blankinput() {
+            $('#username').val("");
+            $('#Password').val("");
+            $('#flname').val("");
+            // $('#host tbody').empty();
+            $('#department2').val("");
+            $('#Permission tbody').empty();
+            $('#UsID').empty();
+            $('#email').val("");
+            $('#bCancel').attr('disabled', true);
+            $('#delete_icon').addClass('opacity');
+            $(".dropify-clear").click(); 
+
             // $('#xemail').attr("checked", false);
             // $('.xemail').each(function() {
             //     $(this).val("");
@@ -435,11 +472,14 @@ $array2 = json_decode($json2,TRUE);
             // });
             $(".dropify-clear").click(); 
             getHotpital();
+            getDepartment();
             getEmployee();
             getPermission();
             ShowItem();
             uncheckAll2();
-
+            setTimeout(() => {
+                getDepartment();
+            }, 0);
         }
 
         function getdetail(ID) {
@@ -532,6 +572,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#username').val(temp['UserName']);
                                 $('#Password').val(temp['Password']);
                                 $('#flname').val(temp['FName']);
+                                $('#department').val(temp['DepCode']);
                                 $('#email').val(temp['email']);
                                 $('#bCancel').attr('disabled', false);
                                 $('#delete_icon').removeClass('opacity');
@@ -547,7 +588,6 @@ $array2 = json_decode($json2,TRUE);
                                 this.checked = false; 
                                         });                               
                                     }
-
                                 var StrTr="";
                                 $("#host").empty();
                                 for (var i = 0; i < temp['EmpCnt']; i++) {
@@ -558,7 +598,6 @@ $array2 = json_decode($json2,TRUE);
                                     }
                                     $("#host").append(StrTr);
                                 }
-
                                 StrTr="";
                                 $("#Permission").empty();
                                 for (var i = 0; i < temp['PmCnt']; i++) {
@@ -590,7 +629,7 @@ $array2 = json_decode($json2,TRUE);
                                     drEvent.destroy();
                                     drEvent.init();
                             }
-                        } else if ((temp["form"] == 'AddItem')) {
+                        }else if ((temp["form"] == 'AddItem')) {
                             switch (temp['msg']) {
                                 case "notchosen":
                                     temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -646,7 +685,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hptsel2').val("1");
                                 ShowItem();
                             })
-                        } else if ((temp["form"] == 'EditItem')) {
+                        }else if ((temp["form"] == 'EditItem')) {
                             switch (temp['msg']) {
                                 case "notchosen":
                                     temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -704,7 +743,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hptsel2').val("1");
                                 ShowItem();
                             })
-                        } else if ((temp["form"] == 'CancelItem')) {
+                        }else if ((temp["form"] == 'CancelItem')) {
                             switch (temp['msg']) {
                                 case "notchosen":
                                     temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -758,7 +797,7 @@ $array2 = json_decode($json2,TRUE);
                             }, function(dismiss) {
                                 Blankinput();
                             })
-                        } else if ((temp["form"] == 'getHotpital')) {
+                        }else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
                             $("#hptsel").empty();
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -766,95 +805,112 @@ $array2 = json_decode($json2,TRUE);
                                 $("#host").append(StrTr);
                                 $("#hptsel").append(StrTr);
                             }
-                        }else if ((temp["form"] == 'getHotpital_user')) {
-                            $("#host").empty();
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                $("#host").append(StrTr);
+                        }else if(temp["form"]=='getDepartment'){
+                            $("#department").empty();
+                            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                            var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                            $("#department").append(Str);
                             }
-                        } else if ((temp["form"] == 'getEmployee')) {
-                            $("#EmpCode").empty();
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTr = "<option value = '" + temp[i]['EmpCode'] + "'> " + temp[i]['xName'] + " </option>";
-                                $("#EmpCode").append(StrTr);
-                            }
-                        } else if ((temp["form"] == 'getPermission')) {
-                            $("#Permission").empty();
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTr = "<option value = '" + temp[i]['PmID'] + "'> " + temp[i]['Permission'] + " </option>";
-                                $("#Permission").append(StrTr);
-                            }
-                        } else if ((temp["form"] == 'getFactory')) {
-                            $("#factory").empty();
-                            var StrTr = "<option value = '0'><?php echo $array['facname'][$language]; ?></option>";
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                StrTr += "<option value = '" + temp[i]['FacCode'] + "'> " + temp[i]['FacName'] + " </option>";
-                            }
-                            $("#factory").append(StrTr);
-                        }      
-                    } else if (temp['status'] == "failed") {
-                        switch (temp['msg']) {
-                            case "notchosen":
-                                temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
-                                break;
-                            case "cantcreate":
-                                temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
-                                break;
-                            case "noinput":
-                                temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
-                                break;
-                            case "notfound":
-                                temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
-                                break;
-                            case "addsuccess":
-                                temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-                                break;
-                            case "addfailed":
-                                temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
-                                break;
-                            case "editsuccess":
-                                temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-                                break;
-                            case "editfailed":
-                                temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
-                                break;
-                            case "cancelsuccess":
-                                temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
-                                break;
-                            case "cancelfailed":
-                                temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
-                                break;
-                            case "nodetail":
-                                temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
-                                break;
-                        }
-                        swal({
-                            title: '',
-                            text: temp['msg'],
-                            type: 'warning',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            showConfirmButton: false,
-                            timer: 2000,
-                            confirmButtonText: 'Ok'
-                        })
+                        }else if(temp["form"]=='getDepartment2'){
+                                    $("#department").empty();
+                                    $("#department2").empty();
+                                    var Str2 = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
+                                    for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                                        Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                                    var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                                    $("#department").append(Str);
+                                    }
+                                    $("#department2").append(Str2);
 
-                    } else if (temp['status'] == "notfound") {
-                        // swal({
-                        //   title: '',
-                        //   text: temp['msg'],
-                        //   type: 'info',
-                        //   showCancelButton: false,
-                        //   confirmButtonColor: '#3085d6',
-                        //   cancelButtonColor: '#d33',
-                        //   showConfirmButton: false,
-                        //   timer: 2000,
-                        //   confirmButtonText: 'Ok'
-                        // })
-                        $("#TableItem tbody").empty();
-                    }
-                },
+                        }else if ((temp["form"] == 'getHotpital_user')) {
+                                    $("#host").empty();
+                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                        var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                                        $("#host").append(StrTr);
+                                    }
+                                } else if ((temp["form"] == 'getEmployee')) {
+                                    $("#EmpCode").empty();
+                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                        var StrTr = "<option value = '" + temp[i]['EmpCode'] + "'> " + temp[i]['xName'] + " </option>";
+                                        $("#EmpCode").append(StrTr);
+                                    }
+                                } else if ((temp["form"] == 'getPermission')) {
+                                    $("#Permission").empty();
+                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                        var StrTr = "<option value = '" + temp[i]['PmID'] + "'> " + temp[i]['Permission'] + " </option>";
+                                        $("#Permission").append(StrTr);
+                                    }
+                                } else if ((temp["form"] == 'getFactory')) {
+                                    $("#factory").empty();
+                                    var StrTr = "<option value = '0'><?php echo $array['facname'][$language]; ?></option>";
+                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                        StrTr += "<option value = '" + temp[i]['FacCode'] + "'> " + temp[i]['FacName'] + " </option>";
+                                    }
+                                    $("#factory").append(StrTr);
+                                }      
+                            } else if (temp['status'] == "failed") {
+                                switch (temp['msg']) {
+                                    case "notchosen":
+                                        temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+                                        break;
+                                    case "cantcreate":
+                                        temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
+                                        break;
+                                    case "noinput":
+                                        temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
+                                        break;
+                                    case "notfound":
+                                        temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
+                                        break;
+                                    case "addsuccess":
+                                        temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                        break;
+                                    case "addfailed":
+                                        temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                        break;
+                                    case "editsuccess":
+                                        temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                        break;
+                                    case "editfailed":
+                                        temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                        break;
+                                    case "cancelsuccess":
+                                        temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
+                                        break;
+                                    case "cancelfailed":
+                                        temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
+                                        break;
+                                    case "nodetail":
+                                        temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
+                                        break;
+                                }
+                                swal({
+                                    title: '',
+                                    text: temp['msg'],
+                                    type: 'warning',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    confirmButtonText: 'Ok'
+                                })
+
+                            } else if (temp['status'] == "notfound") {
+                                swal({
+                                title: '',
+                                text:  "<?php echo $array['notfoundmsg'][$language]; ?>",
+                                type: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                confirmButtonText: 'Ok'
+                                })
+                                $("#TableItem tbody").empty();
+                            }
+                        },
                 failure: function(result) {
                     alert(result);
                 },
@@ -1030,13 +1086,19 @@ $array2 = json_decode($json2,TRUE);
 
                             <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
-                                        <select class="form-control" id="hptsel">
+                                        <select class="form-control" id="hptsel" onchange="getDepartment2();">
 
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-left:5px;">
+                                        <select class="form-control" id="department2">
 
-                                <div class="col-md-9">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="row" style="margin-left:5px;">
                                         <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchuser'][$language]; ?>">
                                         <div class="search_custom col-md-2">
@@ -1151,15 +1213,17 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 " id="host"></select>
+                                      <select  class="form-control col-sm-8 " id="host" onchange="getDepartment();"></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['flname'][$language]; ?></label>
-                                    <input type="text"  class="form-control col-sm-8 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
+                                      <div class='form-group row'>
+                                       <label class="col-sm-4 col-form-label text-right" style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
+                                        <select class="form-control col-sm-8" style="font-size:22px;"  id="department" >
+                                        </select>
                                     </div>
                                   </div>
+
                                 </div>   
    <!-- =================================================================== -->
                                 <div class="row">
@@ -1180,16 +1244,16 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['permission'][$language]; ?></label>
-                                    <select  class="form-control col-sm-8 " id="Permission"  onchange="factory_show(this.value);"></select>
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['flname'][$language]; ?></label>
+                                        <input type="text"  class="form-control col-sm-8 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
-                                        <select  class="form-control col-sm-8 " id="factory" disabled="true"></select>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['permission'][$language]; ?></label>
+                                    <select  class="form-control col-sm-8 " id="Permission"  onchange="factory_show(this.value);"></select>
                                     </div>
-                                  </div>
+                                  </div>   
                                 </div>   
 <!-- =================================================================== -->  
                                 <div class="row">
@@ -1216,6 +1280,12 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                         </div>
                                     </div>
+                                <div class="col-md-6">
+                                    <div class='form-group row'>
+                                        <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
+                                        <select  class="form-control col-sm-8 " id="factory" disabled="true"></select>
+                                    </div>
+                                  </div>
                                 </div>
                 <!-- ะำหะ -->
                         </div>

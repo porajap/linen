@@ -171,7 +171,7 @@ function CreateDocument($conn, $DATA)
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON damage.Modify_Code = users.ID ";
     if ($deptCode != null) {
-      $Sql .= "WHERE clean.DepCode = $deptCode AND clean.DocNo LIKE '%$DocNo%'";
+      $Sql .= "WHERE damage.DepCode = $deptCode AND damage.DocNo LIKE '%$DocNo%'";
     }elseif($deptCode==null){
       $Sql.="WHERE site.HptCode = '$Hotp'";
     }
