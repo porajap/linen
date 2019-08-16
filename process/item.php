@@ -9,6 +9,7 @@ function ShowItem($conn, $DATA)
 {
   
   $count = 0;
+  $maincatagory = $DATA['maincatagory'];
   $Keyword = $DATA['Keyword'];
   $Catagory = $DATA['Catagory'];
   $active = $DATA['active'];
@@ -33,13 +34,14 @@ function ShowItem($conn, $DATA)
             item.IsDirtyBag
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory";
+    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
   } else {
-    $Sql .= " WHERE  item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%' ";
+    $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
+    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
   }
   $Sql .= " ORDER BY item.$column $sort";
   $meQuery = mysqli_query($conn, $Sql);
@@ -293,6 +295,7 @@ function getdetail($conn, $DATA)
           item.ItemCode,
           item.ItemName,
           item.CategoryCode,
+          item_main_category.MainCategoryCode,
           item.UnitCode,
           item_unit.UnitName,
           item.SizeCode,
@@ -309,6 +312,7 @@ function getdetail($conn, $DATA)
           IsDirtyBag
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
           INNER JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
           LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
@@ -324,6 +328,7 @@ function getdetail($conn, $DATA)
     $return[$count]['ItemCode'] = $Result['ItemCode'];
     $return[$count]['ItemName'] = $Result['ItemName'];
     $return[$count]['CategoryCode'] = $Result['CategoryCode'];
+    $return[$count]['MainCategoryCode'] = $Result['MainCategoryCode'];
     $return[$count]['UnitCode'] = $Result['UnitCode'];
     $return[$count]['SizeCode'] = $Result['SizeCode'];
     $return[$count]['CusPrice'] = $Result['CusPrice'];

@@ -367,6 +367,8 @@ $array2 = json_decode($json2, TRUE);
 
 
     function ShowItem(column, sort) {
+
+      var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
       var active = '0';
@@ -376,7 +378,8 @@ $array2 = json_decode($json2, TRUE);
         'Keyword': item,
         'active': active,
         'column': column,
-        'sort': sort
+        'sort': sort,
+        'maincatagory': maincatagory
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -417,6 +420,7 @@ $array2 = json_decode($json2, TRUE);
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
+    
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if (count == 0) {
         $('.checkblank').each(function() {
@@ -1113,7 +1117,7 @@ $array2 = json_decode($json2, TRUE);
               if ((Object.keys(temp).length - 2) > 0) {
                 $("#TableUnit tbody").empty();
                 // console.log(temp);
-
+                // $('#maincatagory2').val(temp[0]['MainCategoryCode']);
                 $('#catagory2').val(temp[0]['CategoryCode']);
                 $('#ItemCode').val(temp[0]['ItemCode']);
                 console.log(temp[0]['ItemCode']);
@@ -1129,6 +1133,8 @@ $array2 = json_decode($json2, TRUE);
                 $('#sUnitName').val(temp[0]['sUnitName']);
                 $('#bCancel').attr('disabled', false);
                 $('#delete_icon').removeClass('opacity');
+
+                
 
                 if (temp[0]['IsDirtyBag'] == 1)  {
                                         $('input[type=checkbox]').each(function() 

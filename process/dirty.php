@@ -9,6 +9,7 @@ if($Userid==""){
 }
 function OnLoadPage($conn, $DATA)
 {
+  $Hotp = $DATA["Hotp"];
   $count = 0;
   $countx = 0;
 
@@ -26,7 +27,7 @@ function OnLoadPage($conn, $DATA)
 $return['Rowx'] = $countx;
 
 
-  $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE site.IsStatus = 0";
+  $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];

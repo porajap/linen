@@ -220,8 +220,10 @@ $array2 = json_decode($json2,TRUE);
         //======= On create =======
         //console.log(JSON.stringify(data));
         function OnLoadPage(){
+          Hotp = "<?php echo $HptCode; ?>";
           var data = {
-            'STATUS'  : 'OnLoadPage'
+            'STATUS'  : 'OnLoadPage',
+            'Hotp'	: Hotp
           };
           senddata(JSON.stringify(data));
           $('#isStatus').val(0)

@@ -8,9 +8,10 @@ if($Userid==""){
   header("location:../index.html");
 }
 function OnLoadPage($conn,$DATA){
+  $HptCode = $_SESSION['HptCode'];
   $count = 0;
   $boolean = false;
-  $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE site.IsStatus = 0";
+  $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
