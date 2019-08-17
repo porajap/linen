@@ -828,7 +828,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel1").empty();
                             $("#hptsel2").empty();
                             $("#hptselModal").empty();
-                            var hotValue0 = '-';
+                            var hotValue0 = '  <?php echo $array['Allside'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
@@ -843,18 +843,18 @@ $array2 = json_decode($json2,TRUE);
                         } else if ((temp["form"] == 'getCategoryMain')) {
                           $("#Category_Main").empty();
                           $("#Category_Main1").empty();
-                            var hotValue0 = '-';
+                            var hotValue0 = '<?php echo $array['AllCatmain'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['MainCategoryCode']+">"+temp[i]['MainCategoryName']+"</option>";
                             }
                             $("#Category_Main").append(StrTr);
                             $("#Category_Main1").append(StrTr);
-
+                            
                         } else if ((temp["form"] == 'getCategorySub')) {
                           $("#Category_Sub").empty();
                           $("#Category_Sub1").empty();
-                            var hotValue0 = '-';
+                            var hotValue0 = '<?php echo $array['AllCatsub'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['CategoryCode']+">"+temp[i]['CategoryName']+"</option>";
@@ -946,6 +946,7 @@ $array2 = json_decode($json2,TRUE);
             body{
             font-family: myFirstFont;
             font-size:22px;
+            overflow:hidden;
             }
 
             .nfont{

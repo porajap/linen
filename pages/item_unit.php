@@ -77,27 +77,13 @@ $array2 = json_decode($json2,TRUE);
         //On create
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
         //On create
-        // var userid = '<?php echo $Userid; ?>';
-        // if(userid!="" && userid!=null && userid!=undefined){
-
-          //var dept = $('#Deptsel').val();
           var keyword = $('#searchitem').val();
           var data = {
             'STATUS'  : 'ShowItem',
             'Keyword' : keyword
           };
-
           console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
-        // }
-
-        // var data2 = {
-        //   'STATUS'  : 'getSection',
-        //   'DEPT'    : dept
-        // };
-        // console.log(JSON.stringify(data2));
-        // senddata(JSON.stringify(data2));
-
         $('#searchitem').keyup(function(e){
             if(e.keyCode == 13)
             {
@@ -149,34 +135,34 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function getDocDetail() {
-          // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-            if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length){
-              $('input[name="checkAllDoc').prop('checked',true);
-            }else {
-              $('input[name="checkAllDoc').prop('checked',false);
-            }
+            // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
+              if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length){
+                $('input[name="checkAllDoc').prop('checked',true);
+              }else {
+                $('input[name="checkAllDoc').prop('checked',false);
+              }
 
-        /* declare an checkbox array */
-        var chkArray = [];
+          /* declare an checkbox array */
+          var chkArray = [];
 
-        /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-        $("#checkdocno:checked").each(function() {
-          chkArray.push($(this).val());
-        });
+          /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
+          $("#checkdocno:checked").each(function() {
+            chkArray.push($(this).val());
+          });
 
-        /* we join the array separated by the comma */
-        var DocNo = chkArray.join(',') ;
-  // alert( DocNo );
-        $('#TableDetail tbody').empty();
-        var dept = '<?php echo $_SESSION['Deptid']; ?>';
-        var data = {
-          'STATUS'  : 'getDocDetail',
-          'DEPT'    : dept,
-          'DocNo'   : DocNo
-        };
-          console.log(JSON.stringify(data));
-          senddata(JSON.stringify(data));
-      }
+          /* we join the array separated by the comma */
+          var DocNo = chkArray.join(',') ;
+          // alert( DocNo );
+              $('#TableDetail tbody').empty();
+              var dept = '<?php echo $_SESSION['Deptid']; ?>';
+              var data = {
+                'STATUS'  : 'getDocDetail',
+                'DEPT'    : dept,
+                'DocNo'   : DocNo
+              };
+                console.log(JSON.stringify(data));
+                senddata(JSON.stringify(data));
+        }
 
   var isChecked1 = false;
   var isChecked2 = false;
@@ -909,148 +895,148 @@ $array2 = json_decode($json2,TRUE);
             });
       }
 
-    </script>
-     <style media="screen">
-    @font-face {
+      </script>
+  <style media="screen">
+      @font-face {
+              font-family: myFirstFont;
+              src: url("../fonts/DB Helvethaica X.ttf");
+              }
+          body{
             font-family: myFirstFont;
-            src: url("../fonts/DB Helvethaica X.ttf");
-            }
-        body{
-          font-family: myFirstFont;
-          font-size:22px;
+            font-size:22px;
+          }
+
+          .nfont{
+            font-family: myFirstFont;
+            font-size:22px;
+          }
+      input,select{
+        font-size:24px!important;
+      }
+      th,td{
+        font-size:24px!important;
+      }
+      .table > thead > tr >th {
+        background-color: #1659a2;
+      }
+
+      table tr th,
+      table tr td {
+        border-right: 0px solid #bbb;
+        border-bottom: 0px solid #bbb;
+        padding: 5px;
+      }
+      table tr th:first-child,
+      table tr td:first-child {
+        border-left: 0px solid #bbb;
+      }
+      table tr th {
+        background: #eee;
+        border-top: 0px solid #bbb;
+        text-align: left;
+      }
+
+      /* top-left border-radius */
+      table tr:first-child th:first-child {
+      border-top-left-radius: 15px;
+      }
+      table tr:first-child th:first-child {
+        border-bottom-left-radius: 15px;
+      }
+
+      /* top-right border-radius */
+      table tr:first-child th:last-child {
+        border-top-right-radius: 15px;
+      }
+      table tr:first-child th:last-child {
+        border-bottom-right-radius: 15px;
+      }
+
+      /* bottom-left border-radius */
+      table tr:last-child td:first-child {
+        border-bottom-left-radius: 6px;
+      }
+
+      /* bottom-right border-radius */
+      table tr:last-child td:last-child {
+        border-bottom-right-radius: 6px;
+      }
+      button{
+          font-size: 24px!important;
         }
+      a.nav-link{
+        width:auto!important;
+      }
+      .datepicker{z-index:9999 !important}
+      .hidden{visibility: hidden;}
+      .mhee a{
+      /* padding: 6px 8px 6px 16px; */
+      text-decoration: none;
+      font-size: 25px;
+      color: #818181;
+      display: block;
+    }
+      .mhee a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+      }
+      .mhee button{
+        /* padding: 6px 8px 6px 16px; */
+        font-size: 25px;
+        color: #2c3e50;
+        background:none;
+        box-shadow:none!important;
+      }
 
-        .nfont{
-          font-family: myFirstFont;
-          font-size:22px;
+      .mhee button:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+        outline:none;
+      }
+        .sidenav {
+        height: 100%;
+        overflow-x: hidden;
+        /* padding-top: 20px; */
+        border-left: 2px solid #bdc3c7;
+      }
+
+      .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+      }
+
+      .sidenav a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+      }
+      .icon{
+          padding-top: 6px;
+          padding-left: 33px;
         }
-    input,select{
-      font-size:24px!important;
-    }
-    th,td{
-      font-size:24px!important;
-    }
-    .table > thead > tr >th {
-      background-color: #1659a2;
-    }
+        .opacity{
+          opacity:0.5;
+        }
+        @media (min-width: 992px) and (max-width: 1199.98px) { 
 
-    table tr th,
-    table tr td {
-      border-right: 0px solid #bbb;
-      border-bottom: 0px solid #bbb;
-      padding: 5px;
+          .icon{
+            padding-top: 6px;
+            padding-left: 23px;
+          }
+          .sidenav{
+            margin-left:30px;
+          }
+          .sidenav a {
+            font-size: 20px;
+
+          }
     }
-    table tr th:first-child,
-    table tr td:first-child {
-      border-left: 0px solid #bbb;
-    }
-    table tr th {
-      background: #eee;
-      border-top: 0px solid #bbb;
-      text-align: left;
-    }
-
-    /* top-left border-radius */
-    table tr:first-child th:first-child {
-    border-top-left-radius: 15px;
-  }
-  table tr:first-child th:first-child {
-    border-bottom-left-radius: 15px;
-  }
-
-  /* top-right border-radius */
-  table tr:first-child th:last-child {
-    border-top-right-radius: 15px;
-  }
-  table tr:first-child th:last-child {
-    border-bottom-right-radius: 15px;
-  }
-
-  /* bottom-left border-radius */
-  table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
-
-  /* bottom-right border-radius */
-  table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  button{
-      font-size: 24px!important;
-    }
-  a.nav-link{
-    width:auto!important;
-  }
-  .datepicker{z-index:9999 !important}
-  .hidden{visibility: hidden;}
-  .mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.mhee button{
-  /* padding: 6px 8px 6px 16px; */
-  font-size: 25px;
-  color: #2c3e50;
-  background:none;
-  box-shadow:none!important;
-}
-
-.mhee button:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-  outline:none;
-}
-  .sidenav {
-  height: 100%;
-  overflow-x: hidden;
-  /* padding-top: 20px; */
-  border-left: 2px solid #bdc3c7;
-}
-
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-
-.sidenav a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.icon{
-    padding-top: 6px;
-    padding-left: 33px;
-  }
-  .opacity{
-    opacity:0.5;
-  }
-  @media (min-width: 992px) and (max-width: 1199.98px) { 
-
-    .icon{
-      padding-top: 6px;
-      padding-left: 23px;
-    }
-    .sidenav{
-      margin-left:30px;
-    }
-    .sidenav a {
-      font-size: 20px;
-
-    }
-  }
-    </style>
+  </style>
   </head>
 
   <body id="page-top">
@@ -1062,12 +1048,6 @@ $array2 = json_decode($json2,TRUE);
     <div id="wrapper">
       <!-- content-wrapper -->
       <div id="content-wrapper">
-<!--
-          <div class="mycheckbox">
-            <input type="checkbox" name='useful' id='useful' onclick='setTag()'/><label for='useful' style='color:#FFFFFF'> </label>
-          </div>
--->
-
           <div class="row">
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
@@ -1076,10 +1056,6 @@ $array2 = json_decode($json2,TRUE);
                         <div class="col-md-9">
                                         <div class="row" style="margin-left:5px;">
                                           <input type="text" class="form-control" autocomplete="off" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                                         
-                                          <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave"> -->
-                                          <!-- <?php echo $array['search'][$language]; ?></a> -->
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">
@@ -1088,10 +1064,9 @@ $array2 = json_decode($json2,TRUE);
                                             </button>
                                           </div>
                                         </div>
-                                          
-                                        </div>
                                       </div>
-                               
+                                    </div>
+                              
                         </div>
                         <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
                           <thead id="theadsum" style="font-size:11px;">

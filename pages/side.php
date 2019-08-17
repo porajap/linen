@@ -1136,7 +1136,7 @@ $array2 = json_decode($json2,TRUE);
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px; margin-top:-12px;">
                         <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-9 mt-3">
                                         <div class="row" style="margin-left:5px;">
                                           <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                                           <div class="search_custom col-md-2">
@@ -1293,7 +1293,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 " id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-8 numonly" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">

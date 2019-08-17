@@ -13,7 +13,8 @@
 <Signature><en>Signature</en><th>ลายเซ็น</th></Signature>
 <Allside><en>All Hospital</en><th>ทุกโรงพยาบาล</th></Allside>
 <Alldep><en>All Ward</en><th>ทุกแผนก</th></Alldep>
-
+<AllCatmain><en>All CategoryMain</en><th>ทุกหมวดหมู่หลัก</th></AllCatmain>
+<AllCatsub><en>All CategorySub</en><th>ทุกหมวดหมู่รอง</th></AllCatsub>
 <DuplicateItemcode><en>Duplicate Itemcode</en><th>รหัสรายการซ้ำ</th></DuplicateItemcode>
 <perunit><en>perunit</en><th>ขนาดต่อหน่วย</th></perunit>
 <custom><en>Blank ID</en><th>รหัสเปล่า</th></custom>

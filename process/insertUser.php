@@ -65,9 +65,9 @@ if($Userid==""){
                 WHERE users.ID = $UsID";
         }
         if(mysqli_query($conn, $Sql)){
-            $result= "editsuccess";
+            $result= 3;
         }else{
-            $result = "editfailed";
+            $result = 4;
         }
     }else{
         if($_FILES['file']!=""){
@@ -145,9 +145,9 @@ if($Userid==""){
                 )";
         }
         if(mysqli_query($conn, $Sql)){
-            $result = "addsuccess";
+            $result = 1;
         }else{
-            $result = "addfailedmsg";
+            $result = 2;
         }
     }
 

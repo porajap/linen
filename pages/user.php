@@ -351,20 +351,20 @@ $array2 = json_decode($json2,TRUE);
                             type: 'post',
                             success: function(result){
                                 var msg = "";
-                                switch (result) {
-                                    case "addsuccess":
-                                        msg = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-                                        break;
-                                    case "addfailed":
-                                        msg = "<?php echo $array['addfailedmsg'][$language]; ?>";
-                                        break;
-                                    case "editsuccess":
-                                        msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-                                        break;
-                                    case "editfailed":
-                                        msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
-                                        break;
-                                }
+
+                                        if(result ==1){
+                                            msg = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                        }else if(result ==2){
+                                            msg = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                        }else if(result ==3){
+                                            msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                        }else if(result ==4){
+                                            msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                        }
+
+
+
+                        
                                 swal({
                                     title: '',
                                     text: msg,
