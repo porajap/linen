@@ -187,8 +187,15 @@ $array2 = json_decode($json2,TRUE);
         })
     }
 
-
-
+    function Blankinput() {
+            $('#docno').val("");
+            $('#docdate').val("");
+            $('#recorder').val("");
+            $('#timerec').val("");
+            $('#wTotal').val("");
+            getDepartment();
+            OnLoadPage();
+    }
     function CancelDocument(){
       var docno = $("#docno").val();
       if(docno!= ""){
@@ -616,6 +623,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', true);
                 $("#bCancel").prop('disabled', true);
+                Blankinput();
               } else if (result.dismiss === 'cancel') {
                 swal.close();}
               })
@@ -727,6 +735,7 @@ $array2 = json_decode($json2,TRUE);
                         $("#hotpital").append(Str);
                       }
 
+                      $("#factory").empty();
                       for (var i = 0; i < temp["Rowx"]; i++) {
                         var Str = "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                         $("#factory").append(Str);
