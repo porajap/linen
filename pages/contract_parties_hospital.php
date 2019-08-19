@@ -625,7 +625,7 @@ body{
                           </div>
 
                           <div class="row">
-                                        <div style='width: 98%;'> <!-- tag column 1 -->
+                                        <div style='width: 98%;margin-top: -25px;'> <!-- tag column 1 -->
                                             <table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
                                                     <thead id="theadsum" style="font-size:24px;">
                                                       <tr role="row">

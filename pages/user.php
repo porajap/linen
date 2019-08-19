@@ -361,10 +361,6 @@ $array2 = json_decode($json2,TRUE);
                                         }else if(result ==4){
                                             msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
                                         }
-
-
-
-                        
                                 swal({
                                     title: '',
                                     text: msg,
@@ -1080,7 +1076,7 @@ $array2 = json_decode($json2,TRUE);
         <!-- content-wrapper -->
             <!--
                     <!-- tag column 1 -->
-                    <div class="container-fluid">
+                    <div class="container-fluid mt-3">
                         <div class="card-body" style="padding:0px; margin-top:-12px;">
                             <div class="row">
 
@@ -1133,7 +1129,7 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 13%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['activemail'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
-                                        <th style='width: 17%;' nowrap> <?php echo $array['side'][$language]; ?>  </th>
+                                        <th style='width: 17%;' nowrap> <?php echo $array['department'][$language]; ?>  </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:380px;">

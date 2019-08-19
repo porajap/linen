@@ -16,14 +16,14 @@ function ShowItem($conn, $DATA)
 
   $Keyword = $DATA['Keyword'];
   $Sql="SELECT users.ID,users.FName,users.`Password`,users.UserName,users.email,users.Active_mail,
-        permission.Permission, HptName
+        permission.Permission, HptName , DepName
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON site.HptCode = users.HptCode
         INNER JOIN department ON department.DepCode = users.DepCode
         WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%')";
           if ($department2 != "") {
-            $Sql .= " AND department.DepCode = $department2   ";
+            $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
           }else{
             $Sql .= "AND site.HptCode = '$xHptCode'";
           }
@@ -36,7 +36,7 @@ function ShowItem($conn, $DATA)
     $return[$count]['UserName'] = $Result['UserName'];
     $return[$count]['email'] = $Result['email'];
 	  $return[$count]['Permission'] = $Result['Permission'];
-	  $return[$count]['HptName'] = $Result['HptName'];
+	  $return[$count]['HptName'] = $Result['DepName'];
 	  $return[$count]['Active_mail'] = $Result['Active_mail'];
     $count++;
   }
