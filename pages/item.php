@@ -1687,7 +1687,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
                 <div class="col-md-4">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                    <label class="col-sm-4 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
                     <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
                   </div>
                 </div>

@@ -12,11 +12,11 @@
 <shipping><en>Shipping</en><th>ขนส่ง</th></shipping>
 <Signature><en>Signature</en><th>ลายเซ็น</th></Signature>
 <Allside><en>All Hospital</en><th>ทุกโรงพยาบาล</th></Allside>
-<Alldep><en>All Ward</en><th>ทุกแผนก</th></Alldep>
+<Alldep><en>All ward</en><th>ทุกแผนก</th></Alldep>
 <AllCatmain><en>All CategoryMain</en><th>ทุกหมวดหมู่หลัก</th></AllCatmain>
 <AllCatsub><en>All CategorySub</en><th>ทุกหมวดหมู่รอง</th></AllCatsub>
 <DuplicateItemcode><en>Duplicate Itemcode</en><th>รหัสรายการซ้ำ</th></DuplicateItemcode>
-<perunit><en>perunit</en><th>ขนาดต่อหน่วย</th></perunit>
+<perunit><en>Per unit</en><th>ขนาดต่อหน่วย</th></perunit>
 <custom><en>Blank ID</en><th>รหัสเปล่า</th></custom>
 <spu><en>Size per unit</en><th>ขนาดต่อหน่วย</th></spu>
 <activeItem><en>Active</en><th>Active</th></activeItem>
@@ -36,7 +36,7 @@
 <searchalldep><en>SRCH DEP</en><th>ค้นหาทุกแผนก</th></searchalldep>
 <searchdep><en>Search To Department</en><th>ค้นหาตามแผนก</th></searchdep>
 <searchall><en>SRCH All</en><th>ค้นหาทั้งหมด</th></searchall>
-<titledirty><en>Receive dirty linen</en><th>รับผ้าสกปรก</th></titledirty>
+<titledirty><en>Dirty linen receive records</en><th>รับผ้าสกปรก</th></titledirty>
 <titlestockin><en>Receive into stock</en><th>รับเข้าสต๊อก</th></titlestockin>
 <titleclean><en>Receive clean linen</en><th>รับผ้าสะอาด</th></titleclean>
 <titlerepair><en>Receive repair linen</en><th>รับผ้าที่ถูกซ่อม</th></titlerepair>
@@ -46,27 +46,27 @@
 <titlecus><en>Customer bill records</en><th>บันทึกบิลลูกค้า</th></titlecus>
 <titlewash><en>Washing bill records</en><th>บันทึกบิลซัก</th></titlewash>
 <titlecontractfac><en>Factory Contract</en><th>สัญญาโรงงาน</th></titlecontractfac>
-<priceunit><en>PriceUnit</en><th>ราคาต่อหน่วย</th></priceunit>
+<priceunit><en>Price unit</en><th>ราคาต่อหน่วย</th></priceunit>
 <choosedate><en>Please Choose Date</en><th>กรุณาเลือกวันที่</th></choosedate>
 <titlecontracthos><en>Hospital Contract</en><th>สัญญาโรงพยาบาล</th></titlecontracthos>
 <titlefactory><en>Factory</en><th>โรงงานซัก</th></titlefactory>
 <titlefactoryin><en>FactoryIn</en><th>รับผ้าสกปรก</th></titlefactoryin>
 <titlefactoryout><en>Send clean linen</en><th>ส่งผ้าสะอาด</th></titlefactoryout>
 <titledraw><en>Save draw</en><th>บันทึกเบิก</th></titledraw>
-<oldFormatItemCode><en>Old Format Code</en><th>รูปแบบรหัสเก่า</th></oldFormatItemCode>
-<newFormatItemCode><en>New Format Code</en><th>รูปแบบรหัสใหม่</th></newFormatItemCode>
+<oldFormatItemCode><en>Old format code</en><th>รูปแบบรหัสเก่า</th></oldFormatItemCode>
+<newFormatItemCode><en>New format code</en><th>รูปแบบรหัสใหม่</th></newFormatItemCode>
 <logout><en>Logout success</en><th>ออกจากระบบสำเร็จ</th></logout>
 <side><en>Hospital</en><th>โรงพยาบาล</th></side>
 <department><en>Department</en><th>แผนก</th></department>
 <docdate><en>Document date</en><th>วันที่เอกสาร</th></docdate>
-<docno><en>Doc No</en><th>เลขที่เอกสาร</th></docno>
+<docno><en>Document number</en><th>เลขที่เอกสาร</th></docno>
 <refdocno><en>Reference</en><th>เอกสารอ้างอิง</th></refdocno>
 <employee><en>Recorder</en><th>ผู้บันทึก</th></employee>
 <empcode><en>Employee Code</en><th>รหัสพนักงาน</th></empcode>
 <empfname><en>First Name</en><th>ชื่อพนักงาน</th></empfname>
 <emplname><en>Last Name</en><th>นามสกุล</th></emplname>
 <time><en>Record time</en><th>เวลาที่บันทึก</th></time>
-<totalweight><en>Total Weight</en><th>น้ำหนักรวม</th></totalweight>
+<totalweight><en>Total weight</en><th>น้ำหนักรวม</th></totalweight>
 <code><en>Code</en><th>รหัส</th></code>
 <item><en>Lists</en><th>รายการ</th></item>
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
@@ -79,7 +79,7 @@
 <delitem><en>Delete items</en><th>ลบรายการ</th></delitem>
 <save><en>Save</en><th>บันทึก</th></save>
 <cancel><en>Cancel</en><th>ยกเลิก</th></cancel>
-<searchplace><en>Search Document</en><th>ค้นหารายการ</th></searchplace>
+<searchplace><en>Search document</en><th>ค้นหารายการ</th></searchplace>
 <show><en>Show items</en><th>แสดงรายการ</th></show>
 <status><en>Status</en><th>สถานะ</th></status>
 <close><en>Close</en><th>ปิด</th></close>
@@ -104,7 +104,7 @@
 <dirtydoc><en>Dirty linen receipt document</en><th>เอกสารรับผ้าสกปรก</th></dirtydoc>
 <dirtydoc1><en>Please select Dirty clothes Document</en><th>กรุณาเลือกเอกสารรับผ้าสกปรก</th></dirtydoc1>
 <cleandoc><en>CL LI RCPT</en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
-<totalnum><en>The total number</en><th>จำนวนทั้งหมด</th></totalnum>
+<totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
 <parsc><en>Par</en><th>จำนวนทั้งหมด</th></parsc>
 <leftsc><en>Left</en><th>จำนวน</th></leftsc>
 <qty><en>Number</en><th>จำนวน</th></qty>
@@ -114,26 +114,27 @@
 <print><en>Print Report</en><th>พิมพ์รายงาน</th></print>
 <report><en>Report</en><th>ออกรายงาน</th></report>
 <docfirst><en>Please select document.</en><th>กรุณาเลือกเอกสาร</th></docfirst>
-<datestart><en>Starting date</en><th>วันที่เริ่ม</th></datestart>
+<datestart><en>Start date</en><th>วันที่เริ่ม</th></datestart>
 <dateend><en>End date</en><th>วันที่สิ้นสุด</th></dateend>
 <percent><en>Percent</en><th>เปอร์เซ็นต์</th></percent>
 <date><en>Date</en><th>วันที่</th></date>
 <categorymain><en>Main category</en><th>หมวดหมู่หลัก</th></categorymain>
-<categorysub><en>Secondary category</en><th>หมวดหมู่รอง</th></categorysub>
+<categorysub><en>Sub category</en><th>หมวดหมู่รอง</th></categorysub>
 <category><en>Category</en><th>หมวดหมู่</th></category>
 <deptnum><en>Department(Number)</en><th>แผนก(จำนวน)</th></deptnum>
 <factnum><en>Factory(Number)</en><th>โรงงานซัก(จำนวน)</th></factnum>
 <money><en>Cost</en><th>เป็นเงิน</th></money>
-<Quality><en>Quality</en><th>ปริมาณ</th></Quality>
+<Quality><en>Quantity</en><th>ปริมาณ</th></Quality>
 <Weightitem><en>Weight</en><th>นํ้าหนัก</th></Weightitem>
 <Sizeitem><en>Size</en><th>ขนาด</th></Sizeitem>
+<wantsave><en>Want save</en><th>ต้องการบันทึกข้อมูล</th></wantsave>
 
 <printbill><en>Print Bill</en><th>พิมพ์บิล</th></printbill>
-<factory><en>Washing factory</en><th>โรงงานซัก</th></factory>
+<factory><en>Laundry</en><th>โรงงานซัก</th></factory>
 <datestartcontract><en>Start Date</en><th>วันที่ทำสัญญา</th></datestartcontract>
 <dateendcontract><en>End Date</en><th>วันที่สิ้นสุดสัญญา</th></dateendcontract>
-<numbercontract><en>Remaining Duration (Days)</en><th>สิ้นสุดสัญญา(วัน)</th></numbercontract>
-<clear><en>clear</en><th>ทำใหม่</th></clear>
+<numbercontract><en>Remaining duration (Days)</en><th>สิ้นสุดสัญญา(วัน)</th></numbercontract>
+<clear><en>Clear</en><th>ทำใหม่</th></clear>
 <balance><en>balance</en><th>คงเหลือ</th></balance>
 <over><en>Over</en><th>เกิน Par</th></over>
 <adddata><en>Add new data</en><th>เพิ่มข้อมูล</th></adddata>
@@ -149,7 +150,7 @@
 <pleasewait><en>Please wait..</en><th>กรุณารอสักครู่</th></pleasewait>
 <processing><en>Processing</en><th>ระบบกำลังประมวลผล</th></processing>
 <faccode><en>ID</en><th>รหัสโรงซัก</th></faccode>
-<facname><en>Factory Name</en><th>ชื่อโรงซัก</th></facname>
+<facname><en>Laundry</en><th>ชื่อโรงซัก</th></facname>
 <discount><en>Discount</en><th>ส่วนลด</th></discount>
 <add><en>Add</en><th>เพิ่ม</th></add>
 <address><en>Address</en><th>ที่อยู่</th></address>
@@ -157,19 +158,19 @@
 <taxid><en>Tax ID</en><th>เลขที่ผู้เสียภาษี</th></taxid>
 <postid><en>Post ID</en><th>รหัสไปรษณีย์</th></postid>
 <hoscode><en>Hospital code</en><th>รหัสโรงพยาบาล</th></hoscode>
-<hosname><en>Hospital Name</en><th>ชื่อโรงพยาบาล</th></hosname>
-<codecode><en>Dept. code</en><th>รหัส</th></codecode>
+<hosname><en>Hospital</en><th>ชื่อโรงพยาบาล</th></hosname>
+<codecode><en>Department code</en><th>รหัส</th></codecode>
 <customer><en>Customer</en><th>ลูกค้า</th></customer>
 <addoredit><en>Add or Edit</en><th>เพิ่มหรือแก้ไขข้อมูล</th></addoredit>
 <addoredit1><en>Do you want to Add/Edit ?</en><th>คุณต้องการเพิ่มหรือแก้ไขข้อมูลใหม่ใช่หรือไม่ ?</th></addoredit1>
 <size><en>Size</en><th>ขนาด</th></size>
 <pricefac><en>FTY PC.</en><th>ราคาโรงงาน</th></pricefac>
 <pricecus><en>MKT PC.</en><th>ราคาลูกค้า</th></pricecus>
-<multiply><en>Multiple Unit</en><th>ตัวคูณ</th></multiply>
-<multiply_unit><en>Multiple Unit</en><th>ตัวคูณหน่วยนับ</th></multiply_unit>
-<multiply_price><en>Multiple Price</en><th>ตัวคูณราคา</th></multiply_price>
+<multiply><en>Multiple unit</en><th>ตัวคูณ</th></multiply>
+<multiply_unit><en>Multiple unit</en><th>ตัวคูณหน่วยนับ</th></multiply_unit>
+<multiply_price><en>Multiple price</en><th>ตัวคูณราคา</th></multiply_price>
 <mulmultiply><en>Multiple Unit</en><th>หลายหน่วยนับ</th></mulmultiply>
-<secunit><en>2nd U.</en><th>หน่วยนับรอง</th></secunit>
+<secunit><en>Sub unit</en><th>หน่วยนับรอง</th></secunit>
 <choosemsg><en>Please select your document.</en><th>กรุณาเลือกเอกสาร</th></choosemsg>
 <nodetailmsg><en>No detail in both department.</en><th>ไม่มีข้อมูลในแผนกที่ค้นหา</th></nodetailmsg>
 <cantcreatemsg><en>Cannot Create Document</en><th>ไม่สามารถสร้างเอกสารได้</th></cantcreatemsg>
@@ -205,7 +206,7 @@
 <username><en>User</en><th>ผู้ใช้งาน</th></username>
 <password><en>Password</en><th>รหัสผ่าน</th></password>
 <flname><en>Firstname-Surname</en><th>ชื่อ-สกุล</th></flname>
-<setprice><en>Set Price</en><th>กำหนดราคา</th></setprice>
+<setprice><en>Set price</en><th>กำหนดราคา</th></setprice>
 <datepicker><en>Select Date</en><th>เลือกวันที่</th></datepicker>
 <saveprice><en>Price records</en><th>บันทึกราคา</th></saveprice>
 <back><en>Back</en><th>กลับ</th></back>
@@ -237,10 +238,10 @@
 <formatdate><en>Format Date</en><th>รูปแบบวันที่</th></formatdate>
 <format><en>Format</en><th>รูปแบบ</th></format>
 <year><en>Year</en><th>ปี</th></year>
-<ContractName><en>ContractName</en><th>ผู้ติดต่อ</th></ContractName>
+<ContractName><en>Contact name</en><th>ผู้ติดต่อ</th></ContractName>
 <Position><en>Position</en><th>ตำแหน่ง</th></Position>
-<phone><en>NumberPhone</en><th>เบอร์โทรศัพท์</th></phone>
-<adduser><en>adduser</en><th>เพิ่มผู้ติดต่อ</th></adduser>
+<phone><en>Phone number</en><th>เบอร์โทรศัพท์</th></phone>
+<adduser><en>Add user</en><th>เพิ่มผู้ติดต่อ</th></adduser>
 
 <month><en>Month</en><th>เดือน</th></month>
 <serchref><en>Month</en><th>ค้นหาเอกสารอ้างอิง</th></serchref>

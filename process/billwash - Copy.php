@@ -3,7 +3,6 @@ session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 $xDate = date('Y-m-d');
-
 $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
@@ -82,11 +81,11 @@ function CreateDocument($conn, $DATA)
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT CONCAT('BC',lpad('$hotpCode', 3, 0),'/',SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
+  $Sql = "SELECT CONCAT('BW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
 LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
 CURRENT_TIME() AS RecNow
-FROM billcustomer
-WHERE DocNo Like CONCAT('BC',lpad('$hotpCode', 3, 0),'/',SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
+FROM billwash
+WHERE DocNo Like CONCAT('BW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
 AND HptCode = '$hotpCode'
 ORDER BY DocNo DESC LIMIT 1";
 
@@ -102,7 +101,7 @@ ORDER BY DocNo DESC LIMIT 1";
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO billcustomer
+    $Sql = "INSERT INTO billwash
       ( HptCode,DepCode,DocNo,DocDate,
 		RefDocNo,TaxNo,TaxDate,
 		DiscountPercent,DiscountBath,
@@ -163,15 +162,15 @@ function ShowDocument($conn, $DATA)
   $selecta = $DATA["selecta"];
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
   // mysqli_query($conn,$Sql);
-  $Sql = "SELECT site.HptName,department.DepName,billcustomer.DocNo,billcustomer.DocDate,billcustomer.Total,users.FName,TIME(billcustomer.Modify_Date) AS xTime,billcustomer.IsStatus
-FROM billcustomer
-INNER JOIN department ON billcustomer.DepCode = department.DepCode
+  $Sql = "SELECT site.HptName,department.DepName,billwash.DocNo,billwash.DocDate,billwash.Total,users.FName,TIME(billwash.Modify_Date) AS xTime,billwash.IsStatus
+FROM billwash
+INNER JOIN department ON billwash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN users ON billcustomer.Modify_Code = users.ID ";
+INNER JOIN users ON billwash.Modify_Code = users.ID ";
   if ($deptCode != null) {
-    $Sql .= "WHERE billcustomer.DepCode = $deptCode AND billcustomer.DocNo LIKE '%$DocNo%' ";
+    $Sql .= "WHERE billwash.DepCode = $deptCode AND billwash.DocNo LIKE '%$DocNo%' ";
   }
-  $Sql .= "ORDER BY billcustomer.DocNo DESC LIMIT 500 ";
+  $Sql .= "ORDER BY billwash.DocNo DESC LIMIT 500 ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName']   = $Result['HptName'];
@@ -212,12 +211,12 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billcustomer.DocNo,billcustomer.DocDate,billcustomer.Total,users.FName,TIME(billcustomer.Modify_Date) AS xTime,billcustomer.IsStatus
-FROM billcustomer
-INNER JOIN department ON billcustomer.DepCode = department.DepCode
+  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billwash.DocNo,billwash.DocDate,billwash.Total,users.FName,TIME(billwash.Modify_Date) AS xTime,billwash.IsStatus
+FROM billwash
+INNER JOIN department ON billwash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN users ON billcustomer.Modify_Code = users.ID
-WHERE billcustomer.DocNo = '$DocNo'";
+INNER JOIN users ON billwash.Modify_Code = users.ID
+WHERE billwash.DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName']   = $Result['HptName'];
@@ -425,10 +424,10 @@ function getImport($conn, $DATA)
     }
 
     $Sql = "SELECT COUNT(*) as Cnt
-		  FROM billcustomer_detail
-		  INNER JOIN item  ON billcustomer_detail.ItemCode = item.ItemCode
-		  INNER JOIN billcustomer ON billcustomer.DocNo = billcustomer_detail.DocNo
-		  WHERE billcustomer.DocNo = '$DocNo'
+		  FROM billwash_detail
+		  INNER JOIN item  ON billwash_detail.ItemCode = item.ItemCode
+		  INNER JOIN billwash ON billwash.DocNo = billwash_detail.DocNo
+		  WHERE billwash.DocNo = '$DocNo'
 		  AND item.ItemCode = '$ItemCode'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -452,13 +451,13 @@ function getImport($conn, $DATA)
 	mysqli_query($conn,$Sqlx);*/
 
     if ($chkUpdate == 0) {
-      $Sql = "INSERT INTO billcustomer_detail
+      $Sql = "INSERT INTO billwash_detail
 			(DocNo,ItemCode,UnitCode1,UnitCode2,Qty1,Qty2,Weight,IsCancel,Price,Total,UnitCode3)
 			VALUES
 			('$DocNo','$ItemCode',$iunit1,$iunit2,$iqty2,$iqty,$iweight,0,0,0,$UnitCode2)";
       mysqli_query($conn, $Sql);
     } else {
-      $Sql = "UPDATE billcustomer_detail
+      $Sql = "UPDATE billwash_detail
 			SET Qty2 = (Qty2 + $iqty),Weight = $iweight
 			WHERE DocNo = '$DocNo'
 		    AND ItemCode = '$ItemCode'";
@@ -474,9 +473,9 @@ function UpdateDetailQty($conn, $DATA)
   $Qty  =  $DATA["Qty"];
   $OleQty =  $DATA["OleQty"];
   $UnitCode =  $DATA["unitcode"];
-  $Sql = "UPDATE billcustomer_detail
+  $Sql = "UPDATE billwash_detail
 	SET Qty1 = $OleQty,Qty2 = $Qty,UnitCode2 = $UnitCode
-	WHERE billcustomer_detail.Id = $RowID";
+	WHERE billwash_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
 }
@@ -487,10 +486,10 @@ function UpdateDetailWeight($conn, $DATA)
     $Weight  =  $DATA["Weight"];
     // $Price  =  $DATA["Price"];
     $isStatus = $DATA["isStatus"];
-    $Sql = "UPDATE billcustomer_detail
+    $Sql = "UPDATE billwash_detail
     SET Weight = $Weight
     -- ,Total = $Price
-    WHERE billcustomer_detail.Id = $RowID";
+    WHERE billwash_detail.Id = $RowID";
     $return['sql']=$Sql;
     echo json_encode($return);
 
@@ -503,9 +502,9 @@ function updataDetail($conn, $DATA)
   $RowID  = $DATA["Rowid"];
   $UnitCode =  $DATA["unitcode"];
   $qty =  $DATA["qty"];
-  $Sql = "UPDATE billcustomer_detail
+  $Sql = "UPDATE billwash_detail
 	SET UnitCode2 = $UnitCode,Qty2 = $qty
-	WHERE billcustomer_detail.Id = $RowID";
+	WHERE billwash_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
 }
@@ -513,19 +512,24 @@ function updataDetail($conn, $DATA)
 function DeleteItem($conn, $DATA)
 {
   $RowID  = $DATA["rowid"];
-  $Sql = "DELETE FROM billcustomer_detail
-	WHERE billcustomer_detail.Id = $RowID";
+  $Sql = "DELETE FROM billwash_detail
+	WHERE billwash_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
 }
 
 function SaveBill($conn, $DATA)
 {
+  $total = $DATA["total"];
   $DocNo = $DATA["xdocno"];
-  $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE billcustomer SET IsStatus = $isStatus WHERE billcustomer.DocNo = '$DocNo'";
-  mysqli_query($conn, $Sql);
 
+  $isStatus = $DATA["isStatus"];
+  $Sql = "UPDATE billwash SET IsStatus = $isStatus , Total = $total WHERE billwash.DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+  $return['sql'] = $total;
+  $return['sql1'] = $Sql;
+
+   echo json_encode($return);
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   if ($isStatus == 1) {
@@ -538,29 +542,34 @@ function SaveBill($conn, $DATA)
 
 function ShowDetail($conn, $DATA)
 {
+  session_start();
   $count = 0;
   $Total = 0;
   $boolean = false;
   $DocNo = $DATA["DocNo"];
+  $HptCode = $_SESSION['HptCode'];
   //==========================================================
   $Sql = "SELECT
-  billcustomer_detail.Id,
-  billcustomer_detail.ItemCode,
+  billwash_detail.Id,
+  billwash_detail.ItemCode,
   item.ItemName,
   item_unit.UnitName,
   (SELECT UnitName2 FROM item_unit WHERE UnitCode = UnitCode3) AS UnitName2,
-  billcustomer_detail.UnitCode1,
-  billcustomer_detail.Qty1,
-  billcustomer_detail.UnitCode2,
-  billcustomer_detail.Qty2,
-  billcustomer_detail.Weight,
-  billcustomer_detail.Total
+  billwash_detail.UnitCode1,
+  billwash_detail.Qty1,
+  billwash_detail.UnitCode2,
+  billwash_detail.Qty2,
+  billwash_detail.Weight,
+  billwash_detail.Total , 
+  item.CategoryCode , 
+	category_price.Price
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  INNER JOIN billcustomer_detail ON billcustomer_detail.ItemCode = item.ItemCode
-  WHERE billcustomer_detail.DocNo = '$DocNo'
-  ORDER BY billcustomer_detail.Id DESC";
+  INNER JOIN billwash_detail ON billwash_detail.ItemCode = item.ItemCode
+  INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+  WHERE billwash_detail.DocNo = '$DocNo' AND HptCode = '$HptCode'
+  ORDER BY billwash_detail.Id DESC";
   $return['sql']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -580,6 +589,8 @@ function ShowDetail($conn, $DATA)
     $UniCode2 					= $Result['UnitCode2'];
     $Qty                = $Result['Qty2'];
     $weight                = $Result['Weight'];
+    $CategoryCode                = $Result['CategoryCode'];
+    $PriceCategory               = $Result['Price'];
 
     // if( $Qty ==0){
     //   $return[$count]['hidden']     = 'hidden="true"';
@@ -593,38 +604,36 @@ function ShowDetail($conn, $DATA)
     $count2 = 0;
 
   if($UniCode2 == 2 || $UniCode2 == 4){
-    $P_Unit1 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
+    $P_Unit1 = "SELECT item_multiple_unit.Multiply FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 2 ";
       $P_Query1 = mysqli_query($conn, $P_Unit1);
       while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
-        $Price1  = $P_Result1['PriceUnit'];
         $Multiply1  = $P_Result1['Multiply'];
       }
 
-    $P_Unit2 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
+    $P_Unit2 = "SELECT item_multiple_unit.Multiply FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 4 ";
       $P_Query2 = mysqli_query($conn, $P_Unit2);
       while ($P_Result2 = mysqli_fetch_assoc($P_Query2)) {
-        $Price2  = $P_Result2['PriceUnit'];
         $Multiply2  = $P_Result2['Multiply'];
       }
 
       if($UniCode2 == 2){
-        $cal = $Price1;
+        $cal = $PriceCategory;
         for ($i = 0; $i < $Qty; $i++) {
           $total = $total + $cal;
       }
               // ============================================================
-              $insert = "UPDATE billcustomer_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
+              $insert = "UPDATE billwash_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
               $INQuery = mysqli_query($conn, $insert);
               // ============================================================
       }else{
-        $cal = $Price2 / $Multiply2;
+        $cal = $PriceCategory / $Multiply2;
         for ($i = 0; $i < $Qty; $i++) {
             $total = $total + $cal;
         }
                  // ============================================================
-                 $insert = "UPDATE billcustomer_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
+                 $insert = "UPDATE billwash_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
                  $INQuery = mysqli_query($conn, $insert);
                  // ============================================================
       }
@@ -635,37 +644,36 @@ function ShowDetail($conn, $DATA)
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 1 ";
       $P_Query1 = mysqli_query($conn, $P_Unit1);
       while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
-        $PriceUnit  = $P_Result1['PriceUnit'];
+        $PriceUnit  = $PriceCategory;
       }
       $return[$count]['cal']   = $PriceUnit;
-
   }
 
-  if($Qty!=0 && $UniCode2 !=1){
+  if( $UniCode2 ==1){
     $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
       $PUQuery = mysqli_query($conn, $PriceUnit);
       while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-        $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Qty2'];
+        $return[$count]['CusPrice']   = ($PriceCategory * $Result['Qty2']) * $Result['Weight'] ;
         $return['TotalPrice']  += $return[$count]['CusPrice'];
-        $return[$count]['PriceUnit']   = $PUResult['PriceUnit'];
+        $return[$count]['PriceUnit']   = $PriceCategory;
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE billcustomer_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
       }
-  }else if($Qty==0 && $UniCode2 !=1 && $UniCode2 !=4){
+  }else if( $UniCode2 ==2){
     $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PUQuery = mysqli_query($conn, $PriceUnit);
     while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-      $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Weight'];
+      $return[$count]['CusPrice']   = ($PriceCategory * $Result['Qty2']) * $Result['Weight'] ;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
 
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE billcustomer_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
     }
@@ -674,26 +682,26 @@ function ShowDetail($conn, $DATA)
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = $Result['Qty2'] * $PResult['PriceUnit']  ;
+      $return[$count]['CusPrice']   = $Result['Qty2'] * $PriceCategory ;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE billcustomer_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
     }
-  }else{
+  }else if ($UniCode2 == 4){
     $Price = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = ( $Result['Qty2'] * $Result['Weight']  ) * $PResult['PriceUnit'];
+      $return[$count]['CusPrice']   = ( $Result['Qty2'] * $Result['Weight']  ) * $PriceCategory;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
 
         // ============================================================
-        $PriceUnit = $PResult['PriceUnit'];
+        $PriceUnit = $PriceCategory;
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE billcustomer_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
     }
@@ -756,7 +764,7 @@ function ShowDetail($conn, $DATA)
   $return['Row'] = $count;
   //==========================================================
   if ($count == 0) $Total = 0;
-  $Sql = "UPDATE billcustomer SET Total = $Total WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE billwash SET Total = $Total WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   $return[0]['Total']    = round($Total, 2);
   //================================================================
@@ -781,7 +789,7 @@ function CancelBill($conn, $DATA)
   $DocNo = $DATA["DocNo"];
   // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
   // mysqli_query($conn,$Sql);
-  $Sql = "UPDATE billcustomer SET IsStatus = 2  WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE billwash SET IsStatus = 2  WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   ShowDocument_sub($conn, $DATA);
 }
@@ -797,14 +805,14 @@ function ShowDocument_sub($conn, $DATA)
   $Datepicker = $DATA["Datepicker"];
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
   // mysqli_query($conn,$Sql);
-  $Sql = "SELECT site.HptName,department.DepName,billcustomer.DocNo,billcustomer.DocDate,billcustomer.Total,users.FName,TIME(billcustomer.Modify_Date) AS xTime,billcustomer.IsStatus
-FROM billcustomer
-INNER JOIN department ON billcustomer.DepCode = department.DepCode
+  $Sql = "SELECT site.HptName,department.DepName,billwash.DocNo,billwash.DocDate,billwash.Total,users.FName,TIME(billwash.Modify_Date) AS xTime,billwash.IsStatus
+FROM billwash
+INNER JOIN department ON billwash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN users ON billcustomer.Modify_Code = users.ID
-WHERE billcustomer.DepCode = $deptCode
-AND billcustomer.DocNo LIKE '%$DocNo%'
-ORDER BY billcustomer.DocNo DESC LIMIT 500";
+INNER JOIN users ON billwash.Modify_Code = users.ID
+WHERE billwash.DepCode = $deptCode
+AND billwash.DocNo LIKE '%$DocNo%'
+ORDER BY billwash.DocNo DESC LIMIT 500";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName']   = $Result['HptName'];

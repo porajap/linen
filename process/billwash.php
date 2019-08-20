@@ -542,10 +542,12 @@ function SaveBill($conn, $DATA)
 
 function ShowDetail($conn, $DATA)
 {
+  session_start();
   $count = 0;
   $Total = 0;
   $boolean = false;
   $DocNo = $DATA["DocNo"];
+  $HptCode = $_SESSION['HptCode'];
   //==========================================================
   $Sql = "SELECT
   billwash_detail.Id,
@@ -558,12 +560,15 @@ function ShowDetail($conn, $DATA)
   billwash_detail.UnitCode2,
   billwash_detail.Qty2,
   billwash_detail.Weight,
-  billwash_detail.Total
+  billwash_detail.Total , 
+  item.CategoryCode , 
+	category_price.Price
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
   INNER JOIN billwash_detail ON billwash_detail.ItemCode = item.ItemCode
-  WHERE billwash_detail.DocNo = '$DocNo'
+  INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+  WHERE billwash_detail.DocNo = '$DocNo' AND HptCode = '$HptCode'
   ORDER BY billwash_detail.Id DESC";
   $return['sql']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -584,6 +589,8 @@ function ShowDetail($conn, $DATA)
     $UniCode2 					= $Result['UnitCode2'];
     $Qty                = $Result['Qty2'];
     $weight                = $Result['Weight'];
+    $CategoryCode                = $Result['CategoryCode'];
+    $PriceCategory               = $Result['Price'];
 
     // if( $Qty ==0){
     //   $return[$count]['hidden']     = 'hidden="true"';
@@ -603,10 +610,10 @@ function ShowDetail($conn, $DATA)
       while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
         $Price1  = $P_Result1['PriceUnit'];
         $Multiply1  = $P_Result1['Multiply'];
-
       }
 
-    $P_Unit2 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
+
+      $P_Unit2 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 4 ";
       $P_Query2 = mysqli_query($conn, $P_Unit2);
       while ($P_Result2 = mysqli_fetch_assoc($P_Query2)) {
@@ -640,20 +647,18 @@ function ShowDetail($conn, $DATA)
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 1 ";
       $P_Query1 = mysqli_query($conn, $P_Unit1);
       while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
-        $PriceUnit  = $P_Result1['PriceUnit'];
+        $PriceUnit  = $PriceCategory;
       }
       $return[$count]['cal']   = $PriceUnit;
-
   }
-
   if( $UniCode2 ==1){
     $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
       $PUQuery = mysqli_query($conn, $PriceUnit);
       while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-        $return[$count]['CusPrice']   = ($PUResult['PriceUnit'] * $Result['Qty2']) * $Result['Weight'] ;
+        $return[$count]['CusPrice']   = ($PriceCategory * $Result['Qty2']) * $Result['Weight'] ;
         $return['TotalPrice']  += $return[$count]['CusPrice'];
-        $return[$count]['PriceUnit']   = $PUResult['PriceUnit'];
+        $return[$count]['PriceUnit']   = $PriceCategory;
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
         $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
@@ -665,7 +670,7 @@ function ShowDetail($conn, $DATA)
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PUQuery = mysqli_query($conn, $PriceUnit);
     while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-      $return[$count]['CusPrice']   = ($PUResult['PriceUnit'] * $Result['Qty2']) * $Result['Weight'] ;
+      $return[$count]['CusPrice']   = ($PriceCategory * $Result['Qty2']) * $Result['Weight'] ;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
 
         // ============================================================
@@ -679,7 +684,7 @@ function ShowDetail($conn, $DATA)
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = $Result['Qty2'] * $PResult['PriceUnit']  ;
+      $return[$count]['CusPrice']   = $Result['Qty2'] * $PriceCategory ;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
@@ -692,11 +697,11 @@ function ShowDetail($conn, $DATA)
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = ( $Result['Qty2'] * $Result['Weight']  ) * $PResult['PriceUnit'];
+      $return[$count]['CusPrice']   = ( $Result['Qty2'] * $Result['Weight']  ) * $PriceCategory;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
 
         // ============================================================
-        $PriceUnit = $PResult['PriceUnit'];
+        $PriceUnit = $PriceCategory;
         $CusPrice = $return[$count]['CusPrice'];
         $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);

@@ -830,7 +830,6 @@ function CreateDocument($conn, $DATA)
         $resultSC = mysqli_query( $conn, $sqlSC);
             while ($rowXX = mysqli_fetch_array($resultSC)) {
               $DepCodeSC = $rowXX["DepCode"];
-
             }
 
             $sqlSCX = "SELECT shelfcount_detail.ItemCode FROM shelfcount_detail WHERE DocNo = '$DocNo2'";
@@ -847,11 +846,8 @@ function CreateDocument($conn, $DATA)
       AND department.IsStatus = 0";
       $resultSCS = mysqli_query( $conn, $sqlSCS);
           while ($rowXXX = mysqli_fetch_array($resultSCS)) {
-
             $DepCodeDraw = $rowXXX["DepCode"];
-
           }
-
   // =======================================================================================
           $loop = 0;
       $sql_update =  "SELECT
@@ -878,8 +874,6 @@ function CreateDocument($conn, $DATA)
           mysqli_query($conn, "UPDATE item_stock SET CcQty=$CcQty,TotalQty= (TotalQty-$TotalQty)  WHERE DepCode = $DepCodeDraw AND ItemCode = '$ItemCode'");
 
           mysqli_query($conn, "UPDATE item_stock SET CcQty=$CcQty,TotalQty= (TotalQty+$TotalQty)  WHERE DepCode = $DepCodeSC   AND ItemCode ='$ItemCode'");
-          // mysqli_query($conn, "UPDATE item_stock_detail SET Qty=(Qty + $CcQty) WHERE ItemCode = '$ItemCode' AND DepCode=$zDepCode");
-          // mysqli_query($conn, "UPDATE item_stock_detail SET Qty=(Qty - $CcQty) WHERE ItemCode = '$ItemCode' AND DepCode=$zDept");
       }
 
       //==========================================================================================================//

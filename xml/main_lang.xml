@@ -20,7 +20,7 @@
       </sub>
       <sub>
         <en>
-          Dirty linen receipt records
+          Dirty linen
         </en>
         <th>
           บันทึกรับผ้าสกปรก
@@ -28,7 +28,7 @@
       </sub>
       <sub>
         <en>
-          CL LI RCPT REC
+          Clean linen
         </en>
         <th>
           บันทึกรับผ้าสะอาด
@@ -36,15 +36,15 @@
       </sub>
       <sub>
         <en>
-          Shelf Count
+          Shelf count
         </en>
         <th>
-          Shelf Count
+          Shelf count
         </th>
       </sub>
       <sub>
         <en>
-          CALC In PCT.
+          Soiled clean ratio
         </en>
         <th>
           คิดเป็นเปอร์เซ็นต์
@@ -92,7 +92,7 @@
       </sub>
       <sub>
         <en>
-          RePair
+          Repair
         </en>
         <th>
           บันทึกรับผ้าที่ถูกซ่อม
@@ -110,7 +110,7 @@
     <account>
       <title>
         <en>
-        Accounting - Financial
+        Accounting
         </en>
         <th>
           บัญชี-การเงิน
@@ -134,7 +134,7 @@
     </sub>
     <sub>
       <en>
-        Washing Bill
+        Washing bill
       </en>
       <th>
         บันทึกบิลซัก
@@ -142,7 +142,7 @@
     </sub>
     <sub>
       <en>
-        WM CTRPT
+        Laundry contract
       </en>
       <th>
         คู่สัญญาโรงซัก
@@ -150,7 +150,7 @@
     </sub>
     <sub>
       <en>
-        Site Contract
+        Site contract
       </en>
       <th>
         คู่สัญญาโรงพยาบาล
@@ -260,7 +260,7 @@
     </sub>
     <sub>
       <en>
-        Subcategory
+        Sub category
       </en>
       <th>
         ประเภทรายการรอง

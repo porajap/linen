@@ -409,11 +409,7 @@ function additemstock($conn, $DATA)
     while ($MResult = mysqli_fetch_assoc($MQuery)) {
       if ($MResult['cnt'] == 0) {
         $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
-                 ($unitCode, $unitCode, 1, '$Itemcode[$i]' , $CusPrice) ";
-        mysqli_query($conn, $Sql2);
-      } else {
-        $Sql2 = "UPDATE item_multiple_unit SET  PriceUnit = $CusPrice 
-          WHERE ItemCode =  '$Itemcode[$i]' AND MpCode =$unitCode ";
+                 ($unitCode, $unitCode, 1, '$Itemcode[$i]' , '') ";
         mysqli_query($conn, $Sql2);
       }
     }

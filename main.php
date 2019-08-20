@@ -32,12 +32,12 @@ switch ($PmID) {
         $gen_s1=1;
         $gen_s2=1;
         $gen_s3=1;
-        $gen_s4=1;
+        $gen_s4=0;
         $gen_s5=1;
         $gen_s6=1;
         $gen_s7=0;
         $gen_s8=0;
-        $gen_s9=1;
+        $gen_s9=0;
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
@@ -80,12 +80,12 @@ switch ($PmID) {
         $gen_s1=1;
         $gen_s2=1;
         $gen_s3=1;
-        $gen_s4=1;
+        $gen_s4=0;
         $gen_s5=1;
         $gen_s6=1;
         $gen_s7=0;
         $gen_s8=0;
-        $gen_s9=1;
+        $gen_s9=0;
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
@@ -128,19 +128,19 @@ switch ($PmID) {
         $gen_s1=1;
         $gen_s2=1;
         $gen_s3=1;
-        $gen_s4=1;
+        $gen_s4=0;
         $gen_s5=1;
         $gen_s6=1;
         $gen_s7=0;
         $gen_s8=0;
-        $gen_s9=1;
+        $gen_s9=0;
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
         //account
         $ac_head=1;
         $ac_s1=0;
-        $ac_s2=0;
+        $ac_s2=1;
         $ac_s3=1;
         $ac_s4=0;
         $ac_s5=1;
@@ -224,12 +224,12 @@ switch ($PmID) {
          $gen_s1=1;
          $gen_s2=1;
          $gen_s3=1;
-         $gen_s4=1;
+         $gen_s4=0;
          $gen_s5=1;
          $gen_s6=1;
          $gen_s7=0;
          $gen_s8=0;
-         $gen_s9=1;
+         $gen_s9=0;
          $gen_s10=1;
          $gen_s11=1;
          $gen_s12=1;
@@ -387,7 +387,6 @@ switch ($PmID) {
       last_move = afk();
     });
 
-    <!-- ============================================================================ -->
     function afk() {
       $("#ShowTime").attr('hidden',true);
       last_move = new Date();

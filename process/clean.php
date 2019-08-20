@@ -786,30 +786,35 @@ function CreateDocument($conn, $DATA)
     $boolean = false;
     $RefDocNo = $DATA['RefDocNo'];
     $DocNo = $DATA['DocNo'];
-    $cTotal = $DATA['wTotal']==null?0:$Result['Total'];
 
-    
+    $Sql = "SELECT clean.Total
+    FROM clean WHERE clean.DocNo = '$DocNo'";
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $cTotal	= $Result['Total']==null?0:$Result['Total'];
+    }
+
     $Sql = "SELECT dirty.Total
     FROM dirty WHERE dirty.DocNo = '$RefDocNo'";
-
     $return['sql'] = $Sql;
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $dTotal	= $Result['Total']==null?0:$Result['Total'];
-      if($dTotal !=0){
-      $Total = ROUND( ((($cTotal - $dTotal )/ $dTotal)*100) , 2 );
-      }else{
-        $Total = 0;
-      }
-      $return[0]['Percent'] 	= $Total;
-      $return[0]['DocNo'] 	= $DocNo;
       $boolean = true;
       $count++;
     }
-    $return['Row'] = $count;
+    if($dTotal !=0){
+      $Total =  ROUND( ((($cTotal - $dTotal )/$dTotal)*100), 2)  ;
+      }else{
+        $Total = 0;
+      }
+      $return['xxx'] = $Total;
+      $return[0]['Percent'] 	= $Total;
+      $return[0]['DocNo'] 	= $DocNo;
+      $return['Row'] = $count;
 
     if($Total > 8){
-      $over = abs($Total) - 8 ;
+      $over = $Total - 8 ;
       $return[0]['over'] 	= abs($over);
       $return['status'] = "success";
       $return['form'] = "chk_percent";
