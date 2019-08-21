@@ -684,7 +684,7 @@ $(document).ready(function(e){
           $("#bCancel").prop('disabled', true);
           ShowDocument();
           if(input_chk == 1){
-                  $('#alert_par').modal('toggle');
+                  $('#alert_percent').modal('toggle');
                 }
         } else if (result.dismiss === 'cancel') {
           swal.close();}
