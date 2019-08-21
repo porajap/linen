@@ -946,7 +946,6 @@ $array2 = json_decode($json2,TRUE);
             body{
             font-family: myFirstFont;
             font-size:22px;
-            overflow:hidden;
             }
 
             .nfont{
@@ -1091,6 +1090,9 @@ $array2 = json_decode($json2,TRUE);
   <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][11][$language]; ?></li>
 </ol>
     <div id="wrapper">
+    <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
+      <i class="fas fa-angle-down"></i>
+    </a>
         <!-- content-wrapper -->
         <div id="content-wrapper">
             <div class="container-fluid">
@@ -1315,53 +1317,7 @@ $array2 = json_decode($json2,TRUE);
                 </div>
             </div>
 
-            <!-- /#wrapper -->
-            <!-- Scroll to Top Button-->
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fas fa-angle-up"></i>
-            </a>
-
-            <!-- Dialog Modal-->
-            <!-- <div id="dialog" title="<?php echo $array['import'][$language]; ?>"  style="z-index:999999 !important;font-family: 'THSarabunNew';font-size:24px;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div class="row">
-                                <select class="form-control" style="font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptsel1"></select>
-
-                                <label id="rem" style="margin-left:20px;"> *** </label>
-                                <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" id="datepicker" data-language='en' data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
-                                <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
-
-                                <button type="button" style="font-size:18px;margin-left:20px; width:100px;font-family: 'THSarabunNew'" class="btn btn-warning" id="create1" name="button" onclick="onCreate();"><?php echo $array['createdocno'][$language]; ?></button>
-                                <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:210px;" name="search1"  id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >
-                                <button type="button" style="font-size:18px;margin-left:20px; width:100px;font-family: 'THSarabunNew'" class="btn btn-primary" name="button" onclick="UpdatePrice();"><?php echo $array['saveprice'][$language]; ?></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dropdown-divider" style="margin-top:20px; margin-bottom:20px;"></div>
-
-                    <div class="row">
-                        <div class="card-body" style="padding:0px;">
-                            <table class="table table-fixed table-condensed table-striped" id="TableItemPrice" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
-                                <thead style="font-size:24px;">
-                                <tr role="row">
-                                    <th style='width: 5%;'>&nbsp;</th>
-                                    <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
-                                    <th style='width: 25%;'><?php echo $array['categorymain'][$language]; ?></th>
-                                    <th style='width: 25%;'><?php echo $array['categorysub'][$language]; ?></th>
-                                    <th style='width: 20%;'><?php echo $array['price'][$language]; ?></th>
-                                </tr>
-                                </thead>
-                                <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:290px;">
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-            </div> -->
+      
 
             <!-- -----------------------------Custom1------------------------------------ -->
 <div class="modal" id="dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1437,7 +1393,10 @@ $array2 = json_decode($json2,TRUE);
         </div>
     </div>
 </div>
-
+<div id="page-down" style="height:50px"></div>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
             <!-- Bootstrap core JavaScript-->
             <script src="../template/vendor/jquery/jquery.min.js"></script>
             <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

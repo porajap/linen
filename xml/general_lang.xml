@@ -128,7 +128,7 @@
 <Weightitem><en>Weight</en><th>นํ้าหนัก</th></Weightitem>
 <Sizeitem><en>Size</en><th>ขนาด</th></Sizeitem>
 <wantsave><en>Want save</en><th>ต้องการบันทึกข้อมูล</th></wantsave>
-
+<insert_form><en>Please Complete The Information</en><th>กรุณากรอกข้อมูลให้ครบ</th></insert_form>
 <printbill><en>Print Bill</en><th>พิมพ์บิล</th></printbill>
 <factory><en>Laundry</en><th>โรงงานซัก</th></factory>
 <datestartcontract><en>Start Date</en><th>วันที่ทำสัญญา</th></datestartcontract>
@@ -271,6 +271,7 @@
 <r14><en>Report Summary</en><th>Report Summary</th></r14>
 <r15><en>Report Tracking status for laundry plant</en><th>Report Tracking status for laundry plant</th></r15>
 <r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>
+<r17><en>Report Damage And LOSS</en><th>Report Damage And LOSS</th></r17>
 <!--  -->
 
 
