@@ -804,7 +804,7 @@ function CreateDocument($conn, $DATA)
       $count++;
     }
     if($dTotal !=0){
-      $Total =  ROUND( ((($cTotal - $dTotal )/$dTotal)*100), 2)  ;
+      $Total =  ROUND( ((($cTotal - $dTotal )/$dTotal)*100)*-1 , 2)  ;
       }else{
         $Total = 0;
       }
