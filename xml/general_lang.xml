@@ -242,6 +242,7 @@
 <Position><en>Position</en><th>ตำแหน่ง</th></Position>
 <phone><en>Phone number</en><th>เบอร์โทรศัพท์</th></phone>
 <adduser><en>Add user</en><th>เพิ่มผู้ติดต่อ</th></adduser>
+<Measurementcode><en>Measurement code</en><th>รหัสหน่วยนับ</th></Measurementcode>
 
 <month><en>Month</en><th>เดือน</th></month>
 <serchref><en>Month</en><th>ค้นหาเอกสารอ้างอิง</th></serchref>
