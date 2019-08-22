@@ -13,6 +13,7 @@ $date2=$data['date2'];
 $chk=$data['chk'];
 $year=$data['year'];
 $format=$data['Format'];
+$DepCode=$data['DepCode'];
 $where='';
 //print_r($data);
 if($chk == 'one'){
@@ -66,7 +67,6 @@ class PDF extends FPDF
   {
     $datetime = new DatetimeTH();
     $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
 
     if ($this->page == 1) {
       // Move to the right
@@ -129,19 +129,15 @@ class PDF extends FPDF
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'R');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'R');
         $this->Ln();
         $rows++;
         $totalsum1 += $inner_array[$field[2]];
-        $totalsum2 += $inner_array[$field[4]];
       }
       }
       // Footer Table
       $this->SetFont('THSarabun', 'B', 14);
-      $footer = array('Total','', number_format($totalsum1, 2), '', number_format($totalsum2, 2),'');
-      for ($i = 0; $i < count($footer); $i++)
-      $pdf->Cell($width[$i], 7, iconv("UTF-8", "TIS-620", $footer[$i] . " "), 1, 0, 'R');
+      $this->Cell(140, 10, iconv("UTF-8", "TIS-620", "Total"), 1, 0, 'C');
+      $this->Cell(50, 10, iconv("UTF-8", "TIS-620", $totalsum1), 1, 0, 'C');
       $pdf->Ln(10);
 
     $footer_nextpage = $loop % 24;
@@ -168,7 +164,10 @@ $Sql = "SELECT
         FROM
         rewash
         INNER JOIN factory ON rewash.FacCode = factory.FacCode
-        WHERE rewash.FacCode = $FacCode";
+        INNER JOIN department ON department.depcode = rewash.depcode
+        $where
+        AND rewash.FacCode = $FacCode
+        AND department.HptCode = '$HptCode'";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $factory = $Result['FacName'];
@@ -183,24 +182,26 @@ $pdf->Ln(10);
 $query = "SELECT
           item.ItemName,
           rewash.DocNo,
-          rewash_detail.Weight,
+          rewash_detail.qty1,
           rewash_detail.Price,
-          ROUND((rewash_detail.Weight*rewash_detail.Price),2) AS Total
+          ROUND((rewash_detail.qty1*rewash_detail.Price),2) AS Total
           FROM
           rewash_detail
           INNER JOIN item ON rewash_detail.ItemCode = item.ItemCode
           INNER JOIN rewash ON rewash_detail.DocNo = rewash.DocNo
+          INNER JOIN department ON department.depcode = rewash.depcode
           $where
-          AND rewash.FacCode = $FacCode";
+          AND rewash.FacCode = $FacCode
+          AND department.HptCode = '$HptCode'";
 // var_dump($query); die;
 // Number of column
 $numfield = 5;
 // Field data (Must match with Query)
-$field = "DocNo,ItemName,Weight,Price,Total";
+$field = "DocNo,ItemName,qty1";
 // Table header
-$header = array('DETAILS','ชื่อ', 'WEIGHT (Kg)', 'ราคาต่อหน่วย', 'จำนวนเงิน');
+$header = array('DETAILS','ชื่อ', 'จำนวน(ชิ้น)',);
 // width of column table
-$width = array(50,60,20,30,30);
+$width = array(60,80,50);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table

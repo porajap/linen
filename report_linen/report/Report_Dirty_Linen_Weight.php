@@ -13,6 +13,7 @@ $date2=$data['date2'];
 $chk=$data['chk'];
 $year=$data['year'];
 $format=$data['Format'];
+$DepCode=$data['DepCode'];
 $where='';
 //print_r($data);
 if($chk == 'one'){
@@ -74,7 +75,7 @@ class PDF extends FPDF
       $this->Cell(190, 10, iconv("UTF-8", "TIS-620", "วันที่พิมพ์รายงาน " . $printdate), 0, 0, 'R');
       $this->Ln(5);
       // Title
-      $this->SetFont('THSarabun', 'b', 14);
+      $this->SetFont('THSarabun', 'b', 20);
       $this->Cell(80);
       $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "แบบบันทึกส่งผ้าเปื้อน"), 0, 0, 'C');
       // Line break
@@ -116,7 +117,7 @@ class PDF extends FPDF
     $check=0;
     $r=0;
 
-    $this->SetFont('THSarabun', '', 12);
+    $this->SetFont('THSarabun', '', 14);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
         if ($r > 22) {
@@ -149,9 +150,9 @@ class PDF extends FPDF
        $sum_check[]=$check;
        }
 
-        $this->SetFont('THSarabun', '', 12);
+        $this->SetFont('THSarabun', '', 14);
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'R');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]],2)), 1, 0, 'R');
         $this->Ln();
         $totalsum += $inner_array[$field[3]];
         $r++;
@@ -163,13 +164,13 @@ class PDF extends FPDF
 $count_value = array_count_values($sum_check);
 $total=array_sum($count_value);
     }
-    $this->SetFont('THSarabun', 'b', 12);
+    $this->SetFont('THSarabun', 'b', 14);
     $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620",'Total'), 1, 0, 'L');
     $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",$total ), 1, 0, 'C');
     $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", ''), 1, 0, 'C');
-    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $totalsum), 1, 1, 'R');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($totalsum,2)), 1, 1, 'R');
     for ($i=0; $i <$check ; $i++) {
-      $this->SetFont('THSarabun', '', 12);
+      $this->SetFont('THSarabun', '', 14);
       $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620",$name[$i]), 1, 0, 'L');
       $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",$count_value[$i+1] ), 1, 0, 'C');
       $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", ''), 1, 0, 'C');
@@ -238,8 +239,8 @@ item.ItemName,
 dirty_detail.Weight,
 department.DepName
 FROM
-department
-INNER JOIN dirty ON dirty.DepCode = department.DepCode
+dirty
+INNER JOIN  department ON dirty.DepCode = department.DepCode
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
 INNER JOIN item ON item.itemcode = dirty_detail.itemcode
@@ -255,7 +256,7 @@ $field = "ItemName, ,DepName,Weight";
 // Table header
 $header = array("ชื่อ", 'ลำดับ', 'แผนก', 'น้ำหนัก(กิโลกรัม)');
 // width of column table
-$width = array(50,60,40,40);
+$width = array(70,25,60,35);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table

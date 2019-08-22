@@ -115,12 +115,21 @@ Class PDF extends FPDF
     $loop = 1;
     $rows=1;
     $new_header= 0;
+    $reject=0;
+    $repair=0;
+    $damaged=0;
+    $totalsum1 = '';
+    $totalsum2 = '';
+    $totalsum3 = '';
+  
     $this->SetFont('THSarabun','',12);
     if(is_array($data)){
     foreach($data as $data=>$inner_array){
+      if($inner_array[$field[1]] != 0){
       $reject=100-(($inner_array[$field[1]]-$inner_array[$field[2]])/$inner_array[$field[1]]*100);
       $repair=100-(($inner_array[$field[1]]-$inner_array[$field[3]])/$inner_array[$field[1]]*100);
       $damaged=100-(($inner_array[$field[1]]-$inner_array[$field[4]])/$inner_array[$field[1]]*100);
+      }
       if ($rows>23) {
           $new_header++;
         if( $new_header%24==1) {
@@ -130,23 +139,36 @@ Class PDF extends FPDF
       }
     }
       $this->Cell($w[0],10,iconv("UTF-8","TIS-620",$inner_array[$field[0]]),1,0,'C');
-      $this->Cell($w[1],10,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),1,0,'R');
-      $this->Cell($w[2],10,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),1,0,'R');
-      $this->Cell($w[3],10,iconv("UTF-8","TIS-620",$inner_array[$field[3]]),1,0,'R');
-      $this->Cell($w[4],10,iconv("UTF-8","TIS-620",$inner_array[$field[4]]),1,0,'R');
-      $this->Cell($w[5],10,iconv("UTF-8","TIS-620",$reject),1,0,'R');
-      $this->Cell($w[6],10,iconv("UTF-8","TIS-620",$repair),1,0,'R');
-      $this->Cell($w[7],10,iconv("UTF-8","TIS-620",$damaged),1,1,'R');
-
+      $this->Cell($w[1],10,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),1,0,'C');
+      $this->Cell($w[2],10,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),1,0,'C');
+      $this->Cell($w[3],10,iconv("UTF-8","TIS-620",$inner_array[$field[3]]),1,0,'C');
+      $this->Cell($w[4],10,iconv("UTF-8","TIS-620",$inner_array[$field[4]]),1,0,'C');
+      $this->Cell($w[5],10,iconv("UTF-8","TIS-620",number_format($reject,2)."%"),1,0,'C');
+      $this->Cell($w[6],10,iconv("UTF-8","TIS-620",number_format($repair,2)."%"),1,0,'C');
+      $this->Cell($w[7],10,iconv("UTF-8","TIS-620",number_format($damaged,2)."%"),1,1,'C');
+      $totalsum1+= $inner_array[$field[1]];
+      $totalsum2+= $inner_array[$field[2]];
+      $totalsum3+= $inner_array[$field[3]];
+      $totalsum4+= $inner_array[$field[4]];
+      $totalsum5+= $reject;
+      $totalsum6+= $repair;
+      $totalsum7+= $damaged;
         $rows++;
-
 
 
     }
   }
-
+  $this->Cell($w[0],10,iconv("UTF-8","TIS-620","รวม"),1,0,'C');
+  $this->Cell($w[1],10,iconv("UTF-8","TIS-620",$totalsum1),1,0,'C');
+  $this->Cell($w[2],10,iconv("UTF-8","TIS-620",$totalsum2),1,0,'C');
+  $this->Cell($w[3],10,iconv("UTF-8","TIS-620",$totalsum3),1,0,'C');
+  $this->Cell($w[4],10,iconv("UTF-8","TIS-620",$totalsum4),1,0,'C');
+  $this->Cell($w[5],10,iconv("UTF-8","TIS-620",number_format($totalsum5,2)."%"),1,0,'C');
+  $this->Cell($w[6],10,iconv("UTF-8","TIS-620",number_format($totalsum6,2)."%"),1,0,'C');
+  $this->Cell($w[7],10,iconv("UTF-8","TIS-620",number_format($totalsum7,2)."%"),1,1,'C');
     // Closing line
-    $pdf->Cell(array_sum($w),0,'','T');
+
+
   }
 
   }
@@ -165,17 +187,17 @@ $Sql = "SELECT department.DepName,
       claim.DocDate,
       site.HptName,
       factory.facname
-          FROM claim
-              INNER JOIN clean ON clean.docno = claim.refdocno
-              INNER JOIN dirty ON dirty.docno = clean.refdocno
-      				INNER JOIN factory ON factory.faccode = dirty.FacCode
-              INNER JOIN department ON claim.HptCode = department.HptCode
-              INNER JOIN site ON site.HptCode = department.HptCode
-              $where
-              AND claim.HptCode = '$HptCode'
-              AND claim.DepCode = $DepCode
-              AND factory.FacCode = $FacCode
-              GROUP BY claim.DocDate ORDER BY claim.DocDate ASC
+      FROM claim
+      INNER JOIN clean ON clean.docno = claim.refdocno
+      INNER JOIN dirty ON dirty.docno = clean.refdocno
+      INNER JOIN factory ON factory.faccode = dirty.FacCode
+      INNER JOIN department ON claim.DepCode = department.DepCode
+      INNER JOIN site ON site.HptCode = department.HptCode
+      $where
+      AND claim.HptCode = '$HptCode'
+      AND claim.DepCode = $DepCode
+      AND factory.FacCode = $FacCode
+      GROUP BY claim.DocDate ORDER BY claim.DocDate ASC
         ";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -188,28 +210,52 @@ $pdf->Cell(150,10,iconv("UTF-8","TIS-620","Linen Department site : " .$HptName."
 $pdf->Cell(ุ60,10,iconv("UTF-8","TIS-620",$date_header),0,0,'R');
 $pdf->Ln(10);
 
-$query = "SELECT
-          clean_detail.Qty AS CLEAN,
-          claim_detail.Qty1 AS CLAIM,
-          repair_detail.Qty AS REPAIR ,
-          damage_detail.Qty AS DAMAGE,
-          factory.FacName
-          FROM
-          claim
-					INNER JOIN clean ON  clean.DocNo = claim.RefDocNo
-					INNER JOIN dirty ON  clean.RefDocNo = dirty.DocNo
-					INNER JOIN factory ON  factory.FacCode = dirty.FacCode
-					INNER JOIN clean_detail ON clean.DocNo = clean_detail.DocNo
-					INNER JOIN claim_detail ON claim.DocNo = claim_detail.DocNo
-					INNER JOIN repair ON claim.RefDocNo = repair.DocNo
-          INNER JOIN repair_detail ON repair.DocNo = repair_detail.DocNo
-					INNER JOIN damage ON claim.RefDocNo = damage.DocNo
-          INNER JOIN damage_detail ON damage.DocNo = damage_detail.DocNo
-					INNER JOIN department ON claim.HptCode = department.HptCode
-					$where
-          AND claim.HptCode = '$HptCode'
-					AND department.DepCode = '$DepCode'
-          AND factory.FacCode = $FacCode
+  $query = "SELECT a.DocNo,
+  IFNULL(CLEAN, 0) AS CLEAN,
+    IFNULL(CLAIM, 0) AS CLAIM,
+    IFNULL(REPAIR, 0) AS REPAIR,
+    IFNULL(DAMAGE, 0) AS DAMAGE,
+    FacName
+    FROM (SELECT  sum(clean_detail.Qty) AS CLEAN,
+      claim.DocNo,factory.FacName
+  FROM  claim,clean,clean_detail,dirty,factory
+  WHERE  
+   clean.DocNo=clean_detail.DocNo
+  AND dirty.DocNo=clean.RefDocNo
+  AND factory.FacCode=dirty.FacCode
+  AND claim.HptCode = '$HptCode'
+  AND clean.DepCode = '$DepCode'
+  AND factory.FacCode = $FacCode
+  GROUP BY claim.DocNo) a,
+  (SELECT  sum(claim_detail.Qty1) AS CLAIM,
+      claim.DocNo
+  FROM  claim,claim_detail
+  WHERE  claim.DocNo=claim_detail.DocNo
+  AND claim.HptCode = '$HptCode'
+  AND claim.DepCode = '$DepCode'
+  GROUP BY claim.DocNo) b,
+  (
+  SELECT  claim.DocNo,SUM(repair_detail.Qty) AS REPAIR
+  FROM claim
+  INNER JOIN repair ON claim.DocNo = repair.RefDocNo
+  LEFT JOIN repair_detail ON repair.DocNo=repair_detail.DocNo
+  WHERE  claim.HptCode = '$HptCode'
+  AND claim.DepCode = '$DepCode'
+  GROUP BY claim.DocNo
+  ) c,
+  (SELECT  claim.DocNo,SUM(damage_detail.Qty) AS DAMAGE
+  FROM claim
+  INNER JOIN damage ON claim.DocNo = damage.RefDocNo
+  LEFT JOIN damage_detail ON damage.DocNo=damage_detail.DocNo
+  WHERE  
+   claim.HptCode = '$HptCode'
+  AND claim.DepCode = '$DepCode'
+  GROUP BY claim.DocNo) d
+  WHERE 
+  b.DocNo=c.DocNo
+  AND b.DocNo=d.DocNo
+
+            
           ";
 // var_dump($query); die;
 // Number of column
@@ -227,34 +273,17 @@ $pdf->SetFont('THSarabun','b',10);
 $pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
 $pdf->Ln();
 // Get $totalsum
-$totalsum1 = 0;
-$totalsum2 = 0;
-$totalsum3 = 0;
-$totalsum4 = 0;
-$totalsum5 = 0;
-$totalsum6 = 0;
-$totalsum7 = 0;
-if(is_array($result)){
-  foreach($result as $result=>$inner_array){
-    $reject=100-(($inner_array['CLEAN']-$inner_array['CLAIM'])/$inner_array['CLEAN']*100);
-    $repair=100-(($inner_array['CLEAN']-$inner_array['REPAIR'])/$inner_array['CLEAN']*100);
-    $damaged=100-(($inner_array['CLEAN']-$inner_array['DAMAGE'])/$inner_array['CLEAN']*100);
-
-    $totalsum1 += $inner_array['CLEAN'];
-    $totalsum2 += $inner_array['CLAIM'];
-    $totalsum3 += $inner_array['REPAIR'];
-    $totalsum4 += $inner_array['DAMAGE'];
-    $totalsum5 += $reject;
-    $totalsum6 += $repair;
-    $totalsum7 += $damaged;
-  }
-}
-// Footer Table
-$footer = array('รวม',number_format($totalsum1,2),number_format($totalsum2,2),number_format($totalsum3,2),number_format($totalsum4,2),number_format($totalsum5,2),number_format($totalsum6,2),number_format($totalsum7,2));
-$pdf->SetFont('THSarabun','b',12);
-for($i=0;$i<count($footer);$i++)
-  $pdf->Cell($width[$i],7,iconv("UTF-8","TIS-620",$footer[$i]." "),1,0,'R');
-$pdf->Ln(8);
 
 $ddate = date('d_m_Y');
 $pdf->Output('I','Report_Claim_'.$ddate.'.pdf');
+/**FROM (SELECT  sum(clean_detail.Qty) AS CLEAN,
+      claim.DocNo,factory.FacName
+  FROM  claim,clean,clean_detail,dirty,factory
+  WHERE  claim.RefDocNo=clean.DocNo
+  AND  clean.DocNo=clean_detail.DocNo
+  AND dirty.DocNo=clean.RefDocNo
+  AND factory.FacCode=dirty.FacCode
+  AND claim.HptCode = '$HptCode'
+  AND claim.DepCode = '$DepCode'
+  AND factory.FacCode = $FacCode
+  GROUP BY claim.DocNo) a, */

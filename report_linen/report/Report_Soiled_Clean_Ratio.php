@@ -13,6 +13,7 @@ $date2=$data['date2'];
 $chk=$data['chk'];
 $year=$data['year'];
 $format=$data['Format'];
+$DepCode = $data['DepCode'];
 $where='';
 //print_r($data);
 if($chk == 'one'){
@@ -117,17 +118,24 @@ class PDF extends FPDF
         if ($rows > 23) {
           $count++;
           if ($count % 25 == 1) {
-            $this->SetFont('THSarabun', 'b', 12);
+            $this->SetFont('THSarabun', 'b', 14);
             for ($i = 0; $i < count($header); $i++)
               $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
             $this->Ln();
           }
         }
-        $this->SetFont('THSarabun', '', 12);
-        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'L');
-        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'L');
-        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'R');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'R');
+        if($inner_array[$field[3]] == null  ){
+          $inner_array[$field[3]] = 0;
+          $inner_array[$field[3]]  =$inner_array[$field[2]]-$inner_array[$field[3]];
+        }elseif($inner_array[$field[3]] == null){
+          $inner_array[$field[3]]  =$inner_array[$field[2]]-$inner_array[$field[3]];
+        }
+        $this->SetFont('THSarabun', '', 14);
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", abs($inner_array[$field[4]])."%"), 1, 0, 'C');
         $this->Ln();
         $rows++;
       }
@@ -153,10 +161,12 @@ $Sql = "SELECT
         DATE(clean.DocDate) AS DocDate
         FROM
         clean
-				INNER JOIN dirty ON clean.docno = dirty.RefDocNo
+				INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
         INNER JOIN factory ON dirty.FacCode = factory.FacCode
+        INNER JOIN department ON department.depcode = clean.depcode
         $where
-        AND factory.FacCode= $FacCode";
+        AND factory.FacCode= $FacCode
+        AND clean.depcode= $DepCode";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -170,30 +180,36 @@ $pdf->Ln(10);
 
 
 $query = "SELECT
-          site.HptName,
-          department.DepName,
-          dirty.DocNo AS DocNo1,
-          dirty.Total AS Total1,
-          clean.Total AS Total2,
-          ROUND( (-1*((clean.Total - dirty.Total ) / dirty.Total) * 100), 2)  AS Precent
-          FROM clean
-          INNER JOIN dirty ON clean.DocNo = dirty.RefDocNo
-          INNER JOIN department ON clean.DepCode = department.DepCode
-          INNER JOIN site ON department.HptCode = site.HptCode
-          INNER JOIN factory ON dirty.FacCode = factory.FacCode
+site.HptName,
+department.DepName,
+clean.DocNo AS DocNo2,
+dirty.DocNo AS DocNo1,
+IFNULL(dirty.Total,0) AS Total1,
+IFNULL(clean.Total,0) AS Total2,
+CASE
+WHEN clean.Total > dirty.Total THEN ROUND( (-1*((clean.Total - dirty.Total ) / clean.Total) * 100), 2)  
+WHEN dirty.Total > clean.Total  THEN ROUND( (-1*((dirty.Total - clean.Total ) / dirty.Total) * 100), 2)  
+END AS Precent
+FROM clean
+INNER JOIN dirty ON clean.RefDocNo = dirty.DocNO
+INNER JOIN department ON clean.DepCode = department.DepCode
+INNER JOIN site ON department.HptCode = site.HptCode
+INNER JOIN factory ON dirty.FacCode = factory.FacCode
           $where
           AND factory.FacCode= $FacCode
+          AND clean.depcode= $DepCode
+          ORDER BY dirty.DocNo
           ";
 
 
 // Number of column
 $numfield = 5;
 // Field data (Must match with Query)
-$field = "DocNo1,Total1,Total2,Precent";
+$field = "DocNo2,DocNo1,Total1,Total2,Precent";
 // Table header"
-$header = array('หมายเลขเอกสาร','ส่งผ้าเปื้อน Weight (Kg)', 'รับผ้าสะอาด Weight (Kg)', 'ส่วนต่าง (%)');
+$header = array('หมายเลขเอกสารสะอาด','หมายเลขเอกสารสกปรก','ส่งผ้าเปื้อน Weight (Kg)', 'รับผ้าสะอาด Weight (Kg)', 'ส่วนต่าง (%)');
 // width of column table
-$width = array(40, 60, 60, 30);
+$width = array(35,35, 40, 40, 40);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
