@@ -689,8 +689,6 @@ function CreateDocument($conn, $DATA)
 
       $update55 = "UPDATE repair_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
       mysqli_query($conn, $update55);
-
-
       
       $Sqlx =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
       $meQueryx = mysqli_query($conn, $Sqlx);
@@ -699,8 +697,6 @@ function CreateDocument($conn, $DATA)
       }
 
       $SqlsumDa =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      $return['SqlsumDa']=$SqlsumDa;
-      echo json_encode($return);
       $meQuerysumDa = mysqli_query($conn, $SqlsumDa);
       while ($ResultsumDa = mysqli_fetch_assoc($meQuerysumDa)) {
         $QtyDaMage = $ResultsumDa['Qty']==null?0:$ResultsumDa['Qty'];
@@ -726,7 +722,27 @@ function CreateDocument($conn, $DATA)
         $update = "UPDATE claim SET IsRef = 0 WHERE DocNo = '$RefDocNo'";
          mysqli_query($conn, $update);
       }
+
     }
+      // =============================
+      $select="SELECT repair.DepCode FROM repair WHERE DocNo = '$DocNo'";
+      $result = mysqli_query( $conn, $select);
+      while ($ResultRe = mysqli_fetch_array($result)) {
+        $DepCodeRe = $ResultRe["DepCode"];
+      }
+ // =============================
+
+  $sql_update =  "SELECT
+  repair_detail.ItemCode,
+  repair_detail.Qty
+  FROM repair_detail
+  WHERE repair_detail.DocNo = '$DocNo'";
+  $result = mysqli_query( $conn, $sql_update);
+  while ($row = mysqli_fetch_array($result)) {
+      $xItemCode 	= $row["ItemCode"];
+      $xTotalQty 	= $row["Qty"];
+      mysqli_query($conn, "UPDATE item_stock SET TotalQty= (TotalQty+$xTotalQty)  WHERE DepCode = $DepCodeRe   AND ItemCode ='$xItemCode'");
+  }
 
     $Sql = "UPDATE repair SET IsStatus = $isStatus WHERE repair.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
