@@ -521,8 +521,6 @@ if(isset($_POST['DATA']))
         getdetail($conn,$DATA);
       }else if ($DATA['STATUS'] == 'CancelDocNo') {
           CancelDocNo($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'getDate_price') {
-        getDate_price($conn,$DATA);
       }else if ($DATA['STATUS'] == 'saveDoc') {
         saveDoc($conn,$DATA);
       }
