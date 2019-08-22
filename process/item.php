@@ -375,8 +375,6 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
-  // EditItem
-  // var_dump($DATA); die;
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
           item
@@ -397,13 +395,23 @@ function AddItem($conn, $DATA)
             QtyPerUnit = '" . $DATA['qpu'] . "',
             UnitCode2 = '" . $DATA['sUnit'] . "',
             IsDirtyBag = '" . $DATA['xCenter'] . "'  
-            WHERE ItemCode = '" . $DATA['ItemCode'] . "'
-            ";
-    $Sql2 = "UPDATE item_multiple_unit 
-            SET UnitCode = '" . $DATA['UnitName'] . "',
-                MpCode = '" . $DATA['UnitName'] . "'
-            WHERE ItemCode = '" . $DATA['ItemCode'] . "'
-            AND UnitCode = MpCode";
+            WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
+
+            $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+            $meQueryMp = mysqli_query($conn, $Select);
+            while($ResultMp = mysqli_fetch_assoc($meQueryMp)) {
+              $MpCode = $ResultMp['MpCode'];
+              if($MpCode == $DATA['UnitName']){
+                $Sql2 = "UPDATE item_multiple_unit  SET UnitCode = '" . $DATA['UnitName'] . "', PriceUnit = 1 WHERE ItemCode = '" . $DATA['ItemCode'] . "' AND MpCode = $MpCode";
+              }else{
+                $Sql2 = "UPDATE item_multiple_unit  SET UnitCode = '" . $DATA['UnitName'] . "' WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
+              }
+              mysqli_query($conn, $Sql2);
+            }
+
+            
+    
+
     if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "AddItem";
@@ -636,14 +644,22 @@ function AddUnit($conn, $DATA)
   while ($MResult = mysqli_fetch_assoc($MQuery)) {
 
     if ($MResult['cnt'] == 0) {
-      $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
-              ($MpCode, $UnitCode, $Multiply, '$ItemCode' , $priceunit) ";
-      $return['Sql2'] = $Sql2;
+      if($UnitCode == $MpCode){
+        $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
+        ($MpCode, $UnitCode, $Multiply, '$ItemCode' , 1) ";
+      }else{
+          $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
+            ($MpCode, $UnitCode, $Multiply, '$ItemCode' , $priceunit) ";
+      }
       mysqli_query($conn, $Sql2);
     } else {
-      $Sql1 = "UPDATE item_multiple_unit SET  MpCode = $MpCode , UnitCode = $UnitCode , Multiply = $Multiply , ItemCode = '$ItemCode' , PriceUnit = $priceunit
-               WHERE ItemCode = '$ItemCode' AND MpCode = $MpCode AND UnitCode  = $UnitCode  ";
-      $return['Sql1'] = $Sql1;
+      if($UnitCode == $MpCode){
+        $Sql1 = "UPDATE item_multiple_unit SET  MpCode = $MpCode , UnitCode = $UnitCode , Multiply = $Multiply , ItemCode = '$ItemCode' , PriceUnit = 1
+                WHERE ItemCode = '$ItemCode' AND MpCode = $MpCode AND UnitCode  = $UnitCode  ";
+      }else{
+        $Sql1 = "UPDATE item_multiple_unit SET  MpCode = $MpCode , UnitCode = $UnitCode , Multiply = $Multiply , ItemCode = '$ItemCode' , PriceUnit = $priceunit
+                WHERE ItemCode = '$ItemCode' AND MpCode = $MpCode AND UnitCode  = $UnitCode  ";
+      }
       mysqli_query($conn, $Sql1);
     }
     $count++;
