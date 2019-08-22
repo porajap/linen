@@ -473,7 +473,7 @@ function CreateDocument($conn, $DATA)
     $ItemStockId = explode(",", $xItemStockId);
     $xqty = $DATA["xqty"];
     $nqty = explode(",", $xqty);
-    $xweight = $DATA["xweight"];
+    $xweight = $DATA["xweight"]==null?0:$DATA["xweight"] ;
     $nweight = explode(",", $xweight);
     $xunit = $DATA["xunit"];
     $nunit = explode(",", $xunit);

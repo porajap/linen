@@ -472,7 +472,7 @@ function CreateDocument($conn, $DATA)
     $ItemStockId = explode(",", $xItemStockId);
     $xqty = $DATA["xqty"];
     $nqty = explode(",", $xqty);
-    $xweight = $DATA["xweight"];
+    $xweight = $DATA["xweight"]==null?0:$DATA["xweight"] ;
     $nweight = explode(",", $xweight);
     $xunit = $DATA["xunit"];
     $nunit = explode(",", $xunit);
@@ -549,24 +549,7 @@ function CreateDocument($conn, $DATA)
           mysqli_query($conn, $Sql);
         }
       }
-      // $Sqlx =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // mysqli_query($conn, $Sqlx);
-      // while ($Result = mysqli_fetch_assoc($meQuery)) {
-      //   $Qtyx = $Result['Qty'];
-      // }
-      // $Sqlx =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // mysqli_query($conn, $Sqlx);
-      // while ($Result = mysqli_fetch_assoc($meQuery)) {
-      //   $Qty = $Result['Qty1'];
-      // }  
-      // $QtySUM = $Qtyx - $Qty;
-      // if($QtySUM <=0){
-      //    $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
-      //    mysqli_query($conn, $update);
-      // }else{
-      //   $update = "UPDATE claim SET IsRef = 0 WHERE DocNo = '$RefDocNo'";
-      //    mysqli_query($conn, $update);
-      // }
+
 
     }
 

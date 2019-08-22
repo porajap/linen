@@ -863,9 +863,9 @@ $(document).ready(function(e){
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 19%;' nowrap>"+temp[i]['Record']+"</td>"+
+                    "<td style='width: 14%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                    // "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
 
@@ -946,14 +946,8 @@ $(document).ready(function(e){
                   }
                   chkunit += "</select>";
                   var chkDocx = "<input  name = 'item_array'  value='"+temp[i]['ItemCode']+"'>";
-                  // var Qtyx = "<input  class='Qty_array'   value='"+temp[i]['Qty']+"'>";
-
                   var chkDoc = "<input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'>";
-
-                  // var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else{this.value = 0}' OnBlur='UpdateQty(\""+i+"\",\""+temp[i]['RowID']+"\")' ></div>";
                   var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else if(this.value < 0){this.value = 1}' ></div>";
-                  // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['ParQty']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>+</button></div>";
-                  //var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['MaxQty']+"' ></div>";
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
@@ -962,13 +956,9 @@ $(document).ready(function(e){
                   "<td style='width: 6%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   "<td style='text-overflow: ellipsis;overflow: hidden;width: 20%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
                   "<td style='text-overflow: ellipsis;overflow: hidden;width: 30%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                  // "<td style='width: 20%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                  // "<td style='width: 30%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 20%;font-size:24px;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 29%;font-size:24px;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
-                  "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
                   "<td style='width: 12%;' nowrap hidden>"+chkDocx+"</td>"+
-                  // "<td style='width: 12%;' nowrap hidden>"+Qtyx+"</td>"+
                   "</tr>";
 
 
@@ -1031,9 +1021,8 @@ $(document).ready(function(e){
                   "<td style='width: 10%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
                   "<td style='width: 25%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 26%;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
-                  "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableItem tbody").append( $StrTR );
@@ -1389,12 +1378,12 @@ $(document).ready(function(e){
                                       <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8" class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                  <!-- <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['totalweight'][$language]; ?></label>
                                       <input class="form-control col-sm-8" autocomplete="off" style="font-size:22px;" style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </div>
                               </div>
                             </div>
@@ -1477,8 +1466,7 @@ $(document).ready(function(e){
                               <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?></th>
                               <th style='width: 32%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 8%;' nowrap><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 14%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 22%;' nowrap><center><?php echo $array['qty'][$language]; ?></center></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -1529,10 +1517,9 @@ $(document).ready(function(e){
                                   <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
                                   <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
                                   <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
+                                  <th style='width: 18%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                                  <th style='width: 16%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                  <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                                 </tr>
                               </thead>
                               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
@@ -1544,71 +1531,6 @@ $(document).ready(function(e){
                   <!-- end row tab -->
                 </div>
               </div>
-
-              <!-- <div class="col-md-2" id='tab2' <?php if($PmID == 1) echo 'hidden'; ?>> -->
-                <!-- button----------------------------------------- -->
-                <!-- <div class="sidenav mhee">
-                    <div class="" style="margin-top:5px;">
-                      <div class="card-body" style="padding:0px; margin-top:10px;">
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_create.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="CreateDocument()" id="bCreate">
-                              <?php echo $array['createdocno'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_import.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="OpenDialogItem()" id="bImport">
-                              <?php echo $array['import'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_delete.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="DeleteItem()" id="bDelete">
-                              <?php echo $array['delitem'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="SaveBill()" id="bSave">
-                              <?php echo $array['save'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="CancelDocument()" id="bCancel">
-                              <?php echo $array['cancel'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div> -->
-                <!-- end button----------------------------------------- -->
-              <!-- </div> -->
             </div>
           </div>
         </div>
@@ -1658,10 +1580,9 @@ $(document).ready(function(e){
               <tr role="row">
                 <th style='width: 10%;' nowrap><?php echo $array['no'][$language]; ?></th>
                 <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
-                <th style='width: 15%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                <th style='width: 10%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 44%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 16%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
               </tr>
             </thead>
             <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
