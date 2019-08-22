@@ -624,6 +624,7 @@ $(document).ready(function(e){
         var weight = $("#weight_"+row).val();
         var price = 0; //$("#price_"+row).val();
         var isStatus = $("#IsStatus").val();
+        
         //alert(rowid+" :: "+docno+" :: "+weight);
         if(isStatus==0){
           var data = {
@@ -643,6 +644,7 @@ $(document).ready(function(e){
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
         var dept = $("#Dep2").val();
+        var input_chk = $('#input_chk').val();
         // alert( isStatus );
         if(isStatus==1)
         isStatus=0;
