@@ -269,7 +269,7 @@ function getdetail($conn, $DATA)
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-          LEFT JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
+           LEFT JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
           LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
           LEFT JOIN item_unit AS U1 ON item_multiple_unit.UnitCode = U1.UnitCode
 		  LEFT JOIN item_unit AS U2 ON item_multiple_unit.MpCode = U2.UnitCode
