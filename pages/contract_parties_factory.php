@@ -328,7 +328,7 @@ $array2 = json_decode($json2,TRUE);
 												   }else{
                             Style  = "style='font-weight: bold;color: #000000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
 												   }
-                           var daytext = days <= 0 ? "หมดสัญญา" : days+" วัน" ;
+                           var daytext = days <= 0 ? "หมดสัญญา" : days ;
 
 												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' >"+
 															  "<td style='width: 3%;'>"+chkDetail+"</td>"+
