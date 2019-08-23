@@ -83,7 +83,7 @@ class PDF extends FPDF
             $this->Ln();
           }
         }
-        $this->Cell($w[0], 6, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]->format("l Y-m-d H:i:s\n");), 1, 0, 'C');
+        $this->Cell($w[0], 6, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]->format("l Y-m-d H:i:s\n")), 1, 0, 'C');
         $this->Cell($w[1], 6, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 6, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 6, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
