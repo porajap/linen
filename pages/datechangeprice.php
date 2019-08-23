@@ -86,7 +86,7 @@ $array = json_decode($json,TRUE);
 
   $(document).ready(function(e) {
       OnLoadPage();
-  }).mousemove(function(e) { parent.afk();parent.last_move = new Date();
+  }).click(function(e) { parent.afk();parent.last_move = new Date();
   }).keyup(function(e) { parent.last_move = new Date();
   });
 

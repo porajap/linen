@@ -87,9 +87,9 @@ $array2 = json_decode($json2,TRUE);
 		OnLoadPage();
     ShowDocument();
 		// getDepartment();
-    }).mousemove(function(e) { parent.afk();
-        }).keyup(function(e) { parent.afk();
-        });
+  }).click(function(e) { parent.afk();
+      }).keyup(function(e) { parent.afk();
+      });
 
     jqui(document).ready(function($){
 
