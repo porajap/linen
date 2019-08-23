@@ -2007,7 +2007,7 @@ $array2 = json_decode($json2, TRUE);
                   <div class="container-fluid mhee">
                     <div class="card-body" style="padding:0px; margin-top:10px;">
                       <div class="row">
-                        <div style="margin-left:20px;width:60px;">
+                        <div style="margin-left:20px;width:117px;">
                           <label><?php echo $array['unit'][$language]; ?></label>
                         </div>
                         <div style="width:160px;">
@@ -2042,7 +2042,7 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                         </div>
 
-                        <div class="search_custom  col-md-3" <?php if($PmID == 3) echo 'hidden'; ?>>
+                        <div class="search_custom  col-md-2" <?php if($PmID == 3) echo 'hidden'; ?>>
                         <div class="circle3 d-flex justify-content-start">
                                 <button class="btn"  onclick="DeleteUnit()" >
                                 <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
