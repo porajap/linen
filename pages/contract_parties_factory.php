@@ -173,11 +173,15 @@ $array2 = json_decode($json2,TRUE);
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
-			  var data = {
-				'STATUS'  : 'CancelRow',
-				'RowID'	: id
-			  };
-			  senddata(JSON.stringify(data));
+        if (result.value) {
+          var data = {
+          'STATUS'  : 'CancelRow',
+          'RowID'	: id
+          };
+          senddata(JSON.stringify(data));
+        }else if (result.dismiss === 'cancel') {
+          swal.close();
+        } 
 		})
     }
 
