@@ -199,7 +199,7 @@ $array = json_decode($json,TRUE);
           }else if(temp["form"]=='getDepartment'){
             $("#department").empty();
             $("#Dep2").empty();
-            var Str = "<option value=''>ทุกแผนก</option>";
+            var Str = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
             for (var i = 0; i <  temp["Row"]; i++) {
               Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
             }
@@ -426,7 +426,7 @@ $array = json_decode($json,TRUE);
 
                           <div class="col-md-3">
                             <div class='form-group row'>
-                              <label class="col-sm-3 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+                              <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
                               <select  class="form-control col-sm-7" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3) {echo "disabled='true'" ;} ?> id="department"></select>
                             </div>
                           </div>
