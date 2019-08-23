@@ -578,7 +578,7 @@ function NewItem($conn, $DATA)
     ";
 
     $Sql2 = "INSERT INTO item_multiple_unit( MpCode, UnitCode, Multiply, ItemCode , PriceUnit ) VALUES
-    ( '" . $DATA['UnitName'] . "',  '" . $DATA['UnitName'] . "', 1, '" . $DATA['ItemCode'] . "', $CusPrice) ";
+    ( '" . $DATA['UnitName'] . "',  '" . $DATA['UnitName'] . "', 1, '" . $DATA['ItemCode'] . "', 1) ";
 
     if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
