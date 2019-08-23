@@ -1380,12 +1380,12 @@ $(document).ready(function(e){
                                       <input type="text" autocomplete="off"   style="font-size:22px;"  class="form-control col-sm-8" class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                  <!-- <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:22px;" ><?php echo $array['totalweight'][$language]; ?></label>
                                       <input class="form-control col-sm-8" autocomplete="off"  style="font-size:22px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </div>
                               </div>
                             </div>
