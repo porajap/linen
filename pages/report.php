@@ -1784,7 +1784,6 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 												</div>
 											</div>
-
 										</div>
 									</div>
 								</div>
