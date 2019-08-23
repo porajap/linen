@@ -735,6 +735,22 @@ switch ($PmID) {
       $('#editProfile').modal('show');
     }
 
+    function checkFileLength() {
+      let $upload_file_elem = $('.upload-doc input[type="file"]');
+      let file_length = $upload_file_elem.length;
+      let validation = 0;
+
+      for (i = 0; i < file_length; i++) {
+          if ($($upload_file_elem[i]).val() != '') {
+              validation++;
+          }
+      }
+
+      if (validation >= 1) {
+          $('#comfirm_submit').removeAttr('disabled');
+      }
+    }
+
     function confirmPic(){
       if($('#image').val() !=''){
         var UserID = <?php echo $Userid;?>;
@@ -792,21 +808,6 @@ switch ($PmID) {
       }
     }
 
-    function checkFileLength() {
-      let $upload_file_elem = $('.upload-doc input[type="file"]');
-      let file_length = $upload_file_elem.length;
-      let validation = 0;
-
-      for (i = 0; i < file_length; i++) {
-          if ($($upload_file_elem[i]).val() != '') {
-              validation++;
-          }
-      }
-
-      if (validation >= 1) {
-          $('#comfirm_submit').removeAttr('disabled');
-      }
-    }
   </script>
 
   <style>
