@@ -734,7 +734,7 @@ switch ($PmID) {
       // alert(UserID);
       $('#editProfile').modal('show');
     }
-
+// 
     function checkFileLength() {
       let $upload_file_elem = $('.upload-doc input[type="file"]');
       let file_length = $upload_file_elem.length;
