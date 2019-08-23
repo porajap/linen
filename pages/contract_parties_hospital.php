@@ -161,27 +161,31 @@ $array2 = json_decode($json2,TRUE);
 	function CancelRow(){
 		var id = $("#xRowID").val();
     setTimeout(function () {
-                    parent.OnLoadPage();
-                  }, 1000);
+      parent.OnLoadPage();
+    }, 1000);
 		swal({
-          title: "<?php echo $array['confirm'][$language]; ?>",
-          text: "<?php echo $array['factory'][$language]; ?> : " +$('#side option:selected').text(),
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          closeOnConfirm: false,
-          closeOnCancel: false,
-          showCancelButton: true}).then(result => {
-			  var data = {
-				'STATUS'  : 'CancelRow',
-				'RowID'	: id
-			  };
-			  senddata(JSON.stringify(data));
-		})
+      title: "<?php echo $array['confirm'][$language]; ?>",
+      text: "<?php echo $array['factory'][$language]; ?> : " +$('#side option:selected').text(),
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonClass: "btn-danger",
+      confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+      cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      closeOnConfirm: false,
+      closeOnCancel: false,
+      showCancelButton: true}).then(result => {
+        if (result.value) {
+          var data = {
+          'STATUS'  : 'CancelRow',
+          'RowID'	: id
+          };
+          senddata(JSON.stringify(data));
+        }else if (result.dismiss === 'cancel') {
+          swal.close();
+        }
+		  })
     }
 
 	function SaveRow(){

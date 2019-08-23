@@ -183,12 +183,16 @@ $array2 = json_decode($json2,TRUE);
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
-            var data = {
-              'STATUS'    : 'DeleteItem',
-              'rowid'  : xrow[0],
-              'DocNo'   : docno
-            };
-            senddata(JSON.stringify(data));
+            if (result.value) {
+              var data = {
+                'STATUS'    : 'DeleteItem',
+                'rowid'  : xrow[0],
+                'DocNo'   : docno
+              };
+              senddata(JSON.stringify(data));
+            }else if (result.dismiss === 'cancel') {
+              swal.close();
+            }
           })
       }
 
@@ -430,12 +434,16 @@ $array2 = json_decode($json2,TRUE);
             closeOnConfirm: false,
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
-              var data = {
-                'STATUS'      : 'CancelDocNo',
-                'DocNo'       : docno
-              };
-              senddata(JSON.stringify(data));
-              getSearchDocNo();
+              if (result.value) {
+                var data = {
+                  'STATUS'      : 'CancelDocNo',
+                  'DocNo'       : docno
+                };
+                senddata(JSON.stringify(data));
+                getSearchDocNo();
+              }else if (result.dismiss === 'cancel') {
+                swal.close();
+              }
             })
         }
 

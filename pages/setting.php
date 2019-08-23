@@ -53,27 +53,27 @@ $array2 = json_decode($json2,TRUE);
         }).then((result) => {
             if (result.value) {
 
-            var data = {
-                'STATUS' : 'SETLANG',
-                'lang' : lang,
-                'UserID' : <?php echo $Id ?>
-            }
-            senddata(JSON.stringify(data));
+                var data = {
+                    'STATUS' : 'SETLANG',
+                    'lang' : lang,
+                    'UserID' : <?php echo $Id ?>
+                }
+                senddata(JSON.stringify(data));
 
-            swal({
-            title: "<?php echo $array['success'][$language]; ?>",
-                type: "success",
-                showCancelButton: false,
-                timer: 1000,
-                confirmButtonText: 'Ok',
-                showConfirmButton: false
-            });
-            setTimeout(function () {
-                parent.location.reload();
-            }, 1000);
-        } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }
+                swal({
+                title: "<?php echo $array['success'][$language]; ?>",
+                    type: "success",
+                    showCancelButton: false,
+                    timer: 1000,
+                    confirmButtonText: 'Ok',
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    parent.location.reload();
+                }, 1000);
+            } else if (result.dismiss === 'cancel') {
+                swal.close();
+            }
         })
         
         if(lang == "th"){
@@ -98,30 +98,29 @@ $array2 = json_decode($json2,TRUE);
             cancelButtonText: '<?php echo $array['isno'][$language]; ?>'
             }).then((result) => {
                 if (result.value) {
-
-            if(timeout!=0 && timeout!='' && timeout != null){
-                parent.redirectInSecond = timeout;
-                parent.target = parent.redirectInSecond * 1000;
-                parent.target = parent.target * 60;
-                var data = {
-                    'STATUS' : 'cTimeout',
-                    'timeout': timeout,
-                    'ID' : Id
-                };
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-           
-            }else{
-                swal({
-                    type: 'warning',
-                    title: 'Something Wrong',
-                    text: 'Please recheck your Time out!'
-                })
-            }
-        } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }
-        })
+                    if(timeout!=0 && timeout!='' && timeout != null){
+                        parent.redirectInSecond = timeout;
+                        parent.target = parent.redirectInSecond * 1000;
+                        parent.target = parent.target * 60;
+                        var data = {
+                            'STATUS' : 'cTimeout',
+                            'timeout': timeout,
+                            'ID' : Id
+                        };
+                        console.log(JSON.stringify(data));
+                        senddata(JSON.stringify(data));
+                
+                    }else{
+                        swal({
+                            type: 'warning',
+                            title: 'Something Wrong',
+                            text: 'Please recheck your Time out!'
+                        })
+                    }
+                } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                }
+            })
 
         }
 
