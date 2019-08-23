@@ -185,15 +185,15 @@ $(document).ready(function(e){
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
-            if (result.value) {
-            var data = {
-              'STATUS'    : 'DeleteItem',
-              'rowid'  : xrow[0],
-              'DocNo'   : docno
-            };
-            senddata(JSON.stringify(data));
+          if (result.value) {
+              var data = {
+                'STATUS'    : 'DeleteItem',
+                'rowid'  : xrow[0],
+                'DocNo'   : docno
+              };
+              senddata(JSON.stringify(data));
           } else if (result.dismiss === 'cancel') {
-          swal.close();}
+            swal.close();}
           })
         } 
 

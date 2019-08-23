@@ -1784,21 +1784,20 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 												</div>
 											</div>
-
 										</div>
 									</div>
 								</div>
 								<div class="row m-1  d-flex justify-content-end col-12">
 									<div class="menu" <?php if ($PmID == 1) echo 'hidden'; ?>>
 										<div class="d-flex justify-content-center">
-											<div class="search_1 d-flex align-items-center d-flex justify-content-center">
-												<i class="fas fa-search"></i>
+											<div class="search_1 d-flex justify-content-center">
+												<button class="btn" onclick="search_fillter();">
+													<i class="fas fa-search"></i>
+													<div>
+														<?php echo $array['search'][$language]; ?>
+													</div>
+												</button>
 											</div>
-										</div>
-										<div>
-											<button class="btn" onclick="search_fillter();">
-												<?php echo $array['search'][$language]; ?>
-											</button>
 										</div>
 									</div>
 								</div>

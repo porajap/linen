@@ -1235,7 +1235,7 @@ $array2 = json_decode($json2,TRUE);
              </div>
     <!-- /.content-wrapper -->
                         <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?> id="addhot">
+                          <div class="menu"  id="addhot" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -1247,7 +1247,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>id="adduser">
+                          <div class="menu" id="adduser" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="Adduser()" id="bSave">
