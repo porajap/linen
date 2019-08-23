@@ -8,7 +8,7 @@ $last_move = $_GET["last_move"];
 $logoff = $_SESSION['chk_logoff'];
 $Username = $_SESSION['Username'];
 $FName = $_SESSION['FName'];
-$Profile = $_SESSION['pic'];
+$Profile = $_SESSION['pic']==null?'default_img.png':$_SESSION['pic'];
 $Permission = $_SESSION['Permission'];
 if($Userid==""){
    header("location:index.html");
@@ -379,7 +379,10 @@ switch ($PmID) {
         $('#url_page').val(sub[0]);
       });
 
-
+      checkFileLength();
+      $('.upload-doc input[type="file"]').on('change', function () {
+          checkFileLength();
+      });
 
     }).keyup(function (e) {
       last_move = afk();
@@ -786,6 +789,22 @@ switch ($PmID) {
             timer: 2000,
             confirmButtonText: 'Ok'
         });
+      }
+    }
+
+    function checkFileLength() {
+      let $upload_file_elem = $('.upload-doc input[type="file"]');
+      let file_length = $upload_file_elem.length;
+      let validation = 0;
+
+      for (i = 0; i < file_length; i++) {
+          if ($($upload_file_elem[i]).val() != '') {
+              validation++;
+          }
+      }
+
+      if (validation >= 1) {
+          $('#comfirm_submit').removeAttr('disabled');
       }
     }
   </script>
@@ -1297,7 +1316,7 @@ switch ($PmID) {
         <!-- Modal body -->
         <div class="modal-body">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 upload-doc">
                 <input type="file" class="dropify"  accept="image/x-png,image/gif,image/jpeg" id="image" name="image" data-default-file='profile/img/<?php echo $Profile;?>'/>
             </div>
           </div>
@@ -1305,7 +1324,7 @@ switch ($PmID) {
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button class="btn btn-custom1" onclick='confirmPic();'> <?php echo $array2['yes'][$language]; ?></button>
+          <button class="btn btn-custom1" onclick='confirmPic();' disabled id="comfirm_submit"> <?php echo $array2['yes'][$language]; ?></button>
           <button type="button" class="btn btn-custom2" data-dismiss="modal"> <?php echo $array2['isno'][$language]; ?></button>
         </div>
         
