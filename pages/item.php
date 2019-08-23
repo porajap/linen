@@ -125,7 +125,7 @@ $array2 = json_decode($json2, TRUE);
         $("a").removeClass("white");
         $(this).attr("class", "white");
       });
-    }).mousemove(function(e) {
+    }).click(function(e) {
       parent.afk();
     }).keyup(function(e) {
       parent.afk();

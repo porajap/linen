@@ -56,7 +56,7 @@ if($Userid==""){
 	$(document).ready(function(e){
 
 		// on create
-    }).mousemove(function(e) { parent.last_move = new Date();;
+    }).click(function(e) { parent.last_move = new Date();;
     }).keyup(function(e) { parent.last_move = new Date();;
     });
 

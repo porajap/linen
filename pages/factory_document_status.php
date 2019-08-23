@@ -78,7 +78,7 @@ date_default_timezone_set("Asia/Bangkok");
     $(document).ready(function(e) {
       $("#datepicker1").val("<?php echo date("d/m/Y"); ?>");
       OnLoadPage();
-    }).mousemove(function(e) {
+    }).click(function(e) {
       parent.afk();
     }).keyup(function(e) {
       parent.afk();

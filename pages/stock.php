@@ -73,7 +73,7 @@ $array = json_decode($json,TRUE);
   $(document).ready(function(e){
     OnLoadPage();
     getDepartment();
-  }).mousemove(function(e) { parent.afk();
+  }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
 

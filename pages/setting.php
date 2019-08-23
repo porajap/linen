@@ -36,7 +36,7 @@ $array2 = json_decode($json2,TRUE);
                 this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
             });
 
-        }).mousemove(function(e) { parent.afk();parent.last_move = new Date();
+        }).click(function(e) { parent.afk();parent.last_move = new Date();
         }).keyup(function(e) { parent.last_move = new Date();
         });
 

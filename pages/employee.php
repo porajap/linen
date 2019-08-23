@@ -101,7 +101,7 @@ $array = json_decode($json, true);
                 this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
             });
 
-        }).mousemove(function(e) { parent.last_move = new Date();;
+        }).click(function(e) { parent.last_move = new Date();;
         }).keyup(function(e) { parent.last_move = new Date();;
         });
 

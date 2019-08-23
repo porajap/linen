@@ -71,7 +71,7 @@ $array = json_decode($json,TRUE);
 		$("#IsStatus").val('0');
 		OnLoadPage();
 	  getDepartment();
-    }).mousemove(function(e) { parent.last_move = new Date();;
+    }).click(function(e) { parent.last_move = new Date();;
     }).keyup(function(e) { parent.last_move = new Date();;
     });
 

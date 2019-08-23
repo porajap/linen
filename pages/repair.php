@@ -96,7 +96,7 @@ $(document).ready(function(e){
       // console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
-}).mousemove(function(e) { parent.afk();
+}).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
 
