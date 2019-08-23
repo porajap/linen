@@ -477,16 +477,14 @@ table tr:first-child th:first-child {
                               </div>
                               <div class="col-md-2 mhee">
                                 <div class='form-group row'>
-                                <div class="search_custom ">
-                                            <div class="d-flex justify-content-start">
-                                              <div class="search_1 d-flex align-items-center d-flex justify-content-center">
-                                                  <i class="fas fa-search"></i>
-                                              </div>
-                                              <button class="btn"  onclick="ShowDocument()" >
-                                                  <?php echo $array['search'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
+                                <div class="search_custom col-md-3">
+                              <div class="search_1 d-flex justify-content-start">
+                                <button class="btn"  onclick="ShowDocument()" >
+                                  <i class="fas fa-search mr-2"></i> <?php echo $array['search'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
+                            <!--  -->
                                 <!-- <button  type="button" class="btn btn-info col-sm-9" onclick="ShowDocument()" id="bSearch"><?php echo $array['search'][$language]; ?></button> -->
                                 </div>
                               </div>
