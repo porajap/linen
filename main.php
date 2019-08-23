@@ -381,9 +381,9 @@ switch ($PmID) {
 
 
 
-    }).mousemove(function (e) {
-      last_move = afk();
     }).keyup(function (e) {
+      last_move = afk();
+    }).click(function (e) {
       last_move = afk();
     });
 
