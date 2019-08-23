@@ -101,9 +101,9 @@
 <savesuccess><en>Saved</en><th>บันทึกสำเร็จ</th></savesuccess>
 <draft><en>Draft</en><th>ยังไม่ได้บันทึก</th></draft>
 <cancelbill><en>Cancel</en><th>ยกเลิกบิล</th></cancelbill>
-<dirtydoc><en>Dirty linen receipt document</en><th>เอกสารรับผ้าสกปรก</th></dirtydoc>
+<dirtydoc><en>Dirty linen document </en><th>เอกสารรับผ้าสกปรก</th></dirtydoc>
 <dirtydoc1><en>Please select Dirty clothes Document</en><th>กรุณาเลือกเอกสารรับผ้าสกปรก</th></dirtydoc1>
-<cleandoc><en>CL LI RCPT</en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
+<cleandoc><en>Clean linen document </en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
 <totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
 <parsc><en>Par</en><th>จำนวนทั้งหมด</th></parsc>
 <leftsc><en>Left</en><th>จำนวน</th></leftsc>
