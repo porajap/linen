@@ -91,10 +91,17 @@ function ShowDocument($conn,$DATA){
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $date = explode("-", $Result['StartDate']);
+    $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+
+    $date2 = explode("-", $Result['EndDate']);
+    $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
 	$return[$count]['RowID'] 		= $Result['RowID'];
 	$return[$count]['FacName'] 		= $Result['FacName'];
-	$return[$count]['StartDate'] 	= $Result['StartDate'];
-    $return[$count]['EndDate'] 		= $Result['EndDate'];
+	$return[$count]['StartDate'] 	= $newdate;
+  $return[$count]['EndDate2'] 		= $newdate2;    
+  $return[$count]['EndDate'] 		= $Result['EndDate'];
     $return[$count]['Detail'] 		= $Result['Detail'];
 	$return[$count]['LeftDay'] 		= $Result['LeftDay'];
     $boolean = true;

@@ -1888,7 +1888,7 @@ $array2 = json_decode($json2, TRUE);
 
                                   <label class="col-sm-3 col-form-label text-right"><?php echo $array['pack'][$language]; ?></label>
                                   <select class="form-control col-sm-4 checkblank numonly" id="numPack" onchange="CreateItemCode()">
-                                    <option value="01">1 Psc</option>
+                                    <option value="01">1 PCS</option>
                                     <option value="05">5 Pc</option>
                                     <option value="10">10 Pc</option>
                                     <option value="15">15 Pc</option>

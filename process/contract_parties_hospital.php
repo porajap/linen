@@ -98,9 +98,16 @@ function ShowDocument($conn,$DATA){
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $date = explode("-", $Result['StartDate']);
+    $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+
+    $date2 = explode("-", $Result['EndDate']);
+    $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
 	$return[$count]['RowID'] 		= $Result['RowID'];
 	$return[$count]['HptName'] 		= $Result['HptName'];
-	$return[$count]['StartDate'] 	= $Result['StartDate'];
+	$return[$count]['StartDate'] 	= $newdate;
+  $return[$count]['EndDate2'] 		= $newdate2;
   $return[$count]['EndDate'] 		= $Result['EndDate'];
   $return[$count]['Detail'] 		= $Result['Detail'];
   $return[$count]['LeftDay'] 		= $Result['LeftDay'];

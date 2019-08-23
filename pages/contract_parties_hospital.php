@@ -85,14 +85,22 @@ $array2 = json_decode($json2,TRUE);
 
     $("#IsStatus").val('0');
 		OnLoadPage();
-    ShowDocument();
+    // ShowDocument();
 		// getDepartment();
   }).click(function(e) { parent.afk();
       }).keyup(function(e) { parent.afk();
       });
 
     jqui(document).ready(function($){
-
+      $('.only').on('input', function() {
+        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+      });
+      $('.numonly').on('input', function() {
+        this.value = this.value.replace(/[^0-9./]/g, ''); //<-- replace all other than given set of values
+      });
+      $('.charonly').on('input', function() {
+        this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
+      });
 		dialog = jqui( "#dialog" ).dialog({
 		  autoOpen: false,
 		  height: 650,
@@ -199,6 +207,8 @@ $array2 = json_decode($json2,TRUE);
 	    if( typeof depid == 'undefined' ) depid = "1";
 		var datepicker1 = $('#datepicker3').val();
     var datepicker2 = $('#datepicker4').val();
+    datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
 		var xDetail = $("#xDetail").val();
 
 	  swal({
@@ -249,8 +259,8 @@ $array2 = json_decode($json2,TRUE);
 	function ShowDocument(){
 	  var datepicker1 = $('#datepicker1').val();
 	  var datepicker2 = $('#datepicker2').val();
-	  //datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	  //datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+	  datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
 
 	  var deptCode = $('#department option:selected').attr("value");
 	  if( typeof deptCode == 'undefined' ) deptCode = "1";
@@ -342,7 +352,7 @@ $array2 = json_decode($json2,TRUE);
 															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
 															  "<td style='width: 25%;'>"+temp[i]['HptName']+"</td>"+
 															  "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
-															  "<td style='width: 8%;'>"+temp[i]['EndDate']+"</td>"+
+															  "<td style='width: 8%;'>"+temp[i]['EndDate2']+"</td>"+
 															  "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
 															  "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
 														  "</tr>";
@@ -598,14 +608,14 @@ body{
                                     <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                                  <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
+                                                  <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here only"  id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
                                                 </div>
                                               </div>
 
                                               <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                                  <input type="text"  autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
+                                                  <input type="text"  autocomplete="off" class="form-control col-sm-8 datepicker-here only"  id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
                                                 </div>
                                               </div>
                                               
@@ -717,13 +727,13 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 datepicker-here" id="datepicker3"  data-language='en' data-date-format='yyyy-mm-dd' >
+                                        <input type="text" class="form-control col-sm-8 datepicker-here only" id="datepicker3"  data-language='en' data-date-format='dd-mm-yyyy' >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 datepicker-here" id="datepicker4" data-language='en' data-date-format='yyyy-mm-dd' >
+                                      <input type="text"  class="form-control col-sm-8 datepicker-here only" id="datepicker4" data-language='en' data-date-format='dd-mm-yyyy' >
                                     </div>
                                   </div>
                                 </div> 
