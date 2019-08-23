@@ -160,6 +160,8 @@
 <hoscode><en>Hospital code</en><th>รหัสโรงพยาบาล</th></hoscode>
 <hosname><en>Hospital</en><th>ชื่อโรงพยาบาล</th></hosname>
 <codecode><en>Department code</en><th>รหัส</th></codecode>
+<categorycode><en>Category code </en><th>รหัสหมวดหมู่</th></categorycode>
+<categorysubcode><en>Code</en><th>รหัสหมวดหมู่รอง</th></categorysubcode>
 <customer><en>Customer</en><th>ลูกค้า</th></customer>
 <addoredit><en>Add or Edit</en><th>เพิ่มหรือแก้ไขข้อมูล</th></addoredit>
 <addoredit1><en>Do you want to Add/Edit ?</en><th>คุณต้องการเพิ่มหรือแก้ไขข้อมูลใหม่ใช่หรือไม่ ?</th></addoredit1>

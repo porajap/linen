@@ -1073,7 +1073,7 @@ $array2 = json_decode($json2,TRUE);
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['codecode'][$language]; ?></th>
+                              <th style='width: 15%;'><?php echo $array['Measurementcode'][$language]; ?></th>
                               <th style='width: 70%;'><?php echo $array['unit'][$language]; ?></th>
                             </tr>
                           </thead>

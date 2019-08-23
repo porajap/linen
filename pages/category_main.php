@@ -990,7 +990,7 @@ $array2 = json_decode($json2,TRUE);
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['codecode'][$language]; ?></th>
+                              <th style='width: 15%;'><?php echo $array['categorycode'][$language]; ?></th>
                               <th style='width: 70%;'><?php echo $array['category'][$language]; ?></th>
                             </tr>
                           </thead>
@@ -1060,8 +1060,8 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['codecode'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 " id="CategoryCode"    placeholder="<?php echo $array['codecode'][$language]; ?>" disabled="true">
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorycode'][$language]; ?></label>
+                                      <input type="text"  class="form-control col-sm-8 " id="CategoryCode"    placeholder="<?php echo $array['categorycode'][$language]; ?>" disabled="true">
                                     </div>
                                   </div>
                                 </div>  
