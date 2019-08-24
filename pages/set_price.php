@@ -496,10 +496,7 @@ $array2 = json_decode($json2,TRUE);
             $('#hptsel2').val("1");
             $('#Category_Sub2').val("");
             $('#Category_Main2').val("");
-            $('#Price').val("");
-
-            
-            
+            $('#Price').val("");    
             ShowItem();
         }
 
