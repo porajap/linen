@@ -634,7 +634,7 @@ $array2 = json_decode($json2,TRUE);
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                           
                                  var rowCount = $('#TableItem >tbody >tr').length;
-                                 var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' class='check1' value='"+temp[i]['MainCategoryCode']+"' onclick='getdetail(\""+temp[i]["MainCategoryCode"]+"\")'>";
+                                 var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem'class='check1' value='"+temp[i]['MainCategoryCode']+"' onclick='getdetail(\""+temp[i]["MainCategoryCode"]+"\")'>";
                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                  StrTR = "<tr id='tr"+temp[i]['MainCategoryCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
