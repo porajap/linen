@@ -479,16 +479,25 @@ $array2 = json_decode($json2,TRUE);
         //$('#Dept').val("1");
         ShowItem();
       }
+      function getdetail(CategoryCode,row) {
+        $('.check1').on('change', function() {
+          $('.check1').not(this).prop('checked',false);
+        });
 
-      function getdetail(CategoryCode) {
-        if(CategoryCode!=""&&CategoryCode!=undefined){
-          var data = {
-            'STATUS'      : 'getdetail',
-            'CategoryCode'       : CategoryCode
-          };
+        var x = document.getElementById("checkitem_"+row).checked;
+        if(x == true){
+          if(CategoryCode!=""&&CategoryCode!=undefined){
+            var data = {
+              'STATUS'      : 'getdetail',
+              'CategoryCode'       : CategoryCode
+            };
 
-          console.log(JSON.stringify(data));
-          senddata(JSON.stringify(data));
+            console.log(JSON.stringify(data));
+            senddata(JSON.stringify(data));
+          }
+        }else{
+          $('#CategoryCode').val("");
+          $('#CategoryName').val("");
         }
       }
 
@@ -644,7 +653,7 @@ $array2 = json_decode($json2,TRUE);
                               console.log(temp);
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                  var rowCount = $('#TableItem >tbody >tr').length;
-                                 var chkDoc = "<input type='radio' name='checkitem' id='checkitem' value='"+temp[i]['CategoryCode']+"' onclick='getdetail(\""+temp[i]["CategoryCode"]+"\")'>";
+                                 var chkDoc = "<input type='checkbox' name='checkitem' class='check1' id='checkitem_"+i+"' value='"+temp[i]['CategoryCode']+"' onclick='getdetail(\""+temp[i]["CategoryCode"]+"\",\""+i+"\")'>";
                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                  StrTR = "<tr id='tr"+temp[i]['CategoryCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
@@ -997,7 +1006,6 @@ $array2 = json_decode($json2,TRUE);
             <input type="checkbox" name='useful' id='useful' onclick='setTag()'/><label for='useful' style='color:#FFFFFF'> </label>
           </div>
 -->
-
           <div class="row">
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
