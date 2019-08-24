@@ -42,7 +42,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Bootstrap core CSS-->
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-    <link href="../bootstrap/css/myinput.css" rel="stylesheet">
+    <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
 
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -494,10 +494,26 @@ $array2 = json_decode($json2,TRUE);
             });
             $('#DepCode').val("");
             $('#hptsel2').val("1");
+            $('#Category_Sub2').val("");
+            $('#Category_Main2').val("");
+            $('#Price').val("");
+
+            
+            
             ShowItem();
         }
 
-        function getdetail(RowID) {
+        function getdetail(RowID , row) {
+        var previousValue = $('#checkitem_'+row).attr('previousValue');
+        var name = $('#checkitem_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#checkitem_'+row).removeAttr('checked');
+          $('#checkitem_'+row).attr('previousValue', false);
+          $('#checkitem_'+row).prop('checked', false);
+          Blankinput();
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('#checkitem_'+row).attr('previousValue', 'checked');
             if (RowID != "" && RowID != undefined) {
                 var data = {
                     'STATUS': 'getdetail',
@@ -508,6 +524,7 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
             }
         }
+    }
         function cancelDoc(DocNo,row){
             $('.btn_cancel').each(function() {
                 $(".btn_cancel").attr("disabled", true);
@@ -713,7 +730,7 @@ $array2 = json_decode($json2,TRUE);
                             // console.log(temp);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var rowCount = $('#TableItem >tbody >tr').length;
-                                var chkDoc = "<input type='radio' name='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\")'>";
+                                var chkDoc = "<input type='radio' name='checkitem'  id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\",\""+i+"\")'>";
                                 var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                                 StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
