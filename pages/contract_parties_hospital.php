@@ -349,7 +349,7 @@ $array2 = json_decode($json2,TRUE);
                            var sDate = new Date();
                           var eDate = new Date( temp[i]['EndDate'] );
                           var diff  = new Date(eDate - sDate);
-                          var chkDetail = "<label class='container'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
+                          var chkDetail = "<label class='container'style='margin-top: 50%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
                           var days = Math.round(diff/1000/60/60/24);
 
 												  if(days <= 30){
