@@ -142,12 +142,23 @@ $array2 = json_decode($json2,TRUE);
 		 dialog.dialog( "open" );
     }
 
-	function getRow(id){
+	function getRow(id , row){
+    var previousValue = $('#checkitem_'+row).attr('previousValue');
+        var name = $('#checkitem_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#checkitem_'+row).removeAttr('checked');
+          $('#checkitem_'+row).attr('previousValue', false);
+          $('#checkitem_'+row).prop('checked', false);
+          ClearRow();
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('#checkitem_'+row).attr('previousValue', 'checked');
 		 var data = {
         'STATUS'  : 'getRow',
 		'RowID'	: id
       };
       senddata(JSON.stringify(data));
+        }
     }
 
 	function ClearRow(){
@@ -335,7 +346,7 @@ $array2 = json_decode($json2,TRUE);
                           var diff  = new Date(eDate - sDate);
 
                           var days = Math.round(diff/1000/60/60/24);
-                          var chkDetail = "<input type='radio' name='checkitem' class='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
+                          var chkDetail = "<input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "'  onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'>";
 
                           if(days <= 30){
 													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
@@ -696,44 +707,45 @@ body{
     </div>
   </div>
 </div>
-<div class="col-md-12">
-    <div class="row" style="margin-left:20px">
-      <div style="width:277px;">
-          <label><?php echo $array['factory'][$language]; ?></label>
-      </div>
-      <div style="width:250px;">
-          <label><?php echo $array['datestartcontract'][$language]; ?></label>
-      </div>
-      <div style="width:250px;">
-          <label><?php echo $array['dateendcontract'][$language]; ?></label>
-      </div>
-    </div>
 
-    <div class="row" style="margin-left:20px;">
-      <div>
-          <select style="font-size:24px;width:251px;font-family: 'THSarabunNew'" class="form-control" id="factory" onchange="getDepartment();">
-          </select>
-      </div>
-      <div style="width:250px;">
-          <input type="text" style="font-size:24px;width:220px;margin-left:20px;" class="form-control datepicker-here only" id="datepicker3" data-language='en' data-date-format='dd-mm-yyyy' >
-      </div>
-      <div style="width:250px;">
-          <input type="text" style="font-size:24px;width:220px;" class="form-control datepicker-here only" id="datepicker4" data-language='en' data-date-format='dd-mm-yyyy' >
-      </div>
-    </div>
+<div class=" col-md-12 p-5">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
+                        </li>
+                      </ul>
+     <!-- =================================================================== -->
+                      <div class="row mt-4">
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                      <select   class="form-control col-sm-8" id="factory" onchange="getDepartment();" ></select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['detail'][$language]; ?></label></label><input type="hidden" id="xRowID" >
+                                        <input type="text" class="form-control col-sm-8 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
+                                    </div>
+                                  </div>
+                                </div>  
+      <!-- =================================================================== -->
 
-
-    <div class="row" style="margin-left:20px;margin-top:30px;">
-      <div style="width:250px;">
-          <label ><?php echo $array['detail'][$language]; ?></label><input type="hidden" id="xRowID" >
-      </div>
-    </div>
-    <div class="row" style="margin-left:20px">
-      <div style="width:900px;">
-        <input type="text" class="form-control" style="font-family: 'THSarabunNew';font-size:24px;width:722px;" id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
-      </div>
-    </div>
-</div>
+                              <div class="row ">
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
+                                        <input type="text" class="form-control col-sm-8 datepicker-here only" id="datepicker3"  data-language='en' data-date-format='dd-mm-yyyy' >
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
+                                      <input type="text"  class="form-control col-sm-8 datepicker-here only" id="datepicker4" data-language='en' data-date-format='dd-mm-yyyy' >
+                                    </div>
+                                  </div>
+                                </div> 
+                  </div>
 </div> <!-- end row tab -->
 
 </div>

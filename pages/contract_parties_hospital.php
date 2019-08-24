@@ -143,12 +143,23 @@ $array2 = json_decode($json2,TRUE);
 		 dialog.dialog( "open" );
     }
 
-	function getRow(id){
+	function getRow(id , row){
+    var previousValue = $('#checkitem_'+row).attr('previousValue');
+        var name = $('#checkitem_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#checkitem_'+row).removeAttr('checked');
+          $('#checkitem_'+row).attr('previousValue', false);
+          $('#checkitem_'+row).prop('checked', false);
+          ClearRow();
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('#checkitem_'+row).attr('previousValue', 'checked');
 		 var data = {
         'STATUS'  : 'getRow',
 		'RowID'	: id
       };
       senddata(JSON.stringify(data));
+        }
     }
 
 	function ClearRow(){
@@ -338,7 +349,7 @@ $array2 = json_decode($json2,TRUE);
                            var sDate = new Date();
                           var eDate = new Date( temp[i]['EndDate'] );
                           var diff  = new Date(eDate - sDate);
-                          var chkDetail = "<input type='radio' name='checkitem' class='checkitem' id='checkitem' value='" + temp[i]['RowID'] + "' onclick='getRow( "+temp[i]['RowID']+" )'>";
+                          var chkDetail = "<input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'>";
                           var days = Math.round(diff/1000/60/60/24);
 
 												  if(days <= 30){

@@ -363,6 +363,18 @@ $array2 = json_decode($json2,TRUE);
         }
       }
 
+      function resetradio(row){
+        var previousValue = $('.checkitem_'+row).attr('previousValue');
+        var name = $('.checkitem_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('.checkitem_'+row).removeAttr('checked');
+          $('.checkitem_'+row).attr('previousValue', false);
+          $('.checkitem_'+row).prop('checked', false);
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('.checkitem_'+row).attr('previousValue', 'checked');
+        }
+    }
       function convertUnit(rowid,selectObject){
         var docno = $("#docno").val();
         var data = selectObject.value;
@@ -840,7 +852,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                      var chkDoc = "<input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'>";
+                      var chkDoc = "<input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
                       // var hidden = temp[i]['hidden'];
@@ -1431,44 +1443,7 @@ $array2 = json_decode($json2,TRUE);
                       <i class="fas fa-angle-up"></i>
                     </a>
 
-                    <!-- Dialog Modal
-                    <div id="dialog" title="นำเข้า"  style="z-index:999999 !important;font-family: 'THSarabunNew';font-size:24px;">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-10">
-                            <div class="row">
-                              <label><?php echo $array['searchplace'][$language]; ?></label>
-                              <div class="row" style="font-size:16px;margin-left:20px;width:350px;">
-                                <input type="text" class="form-control" style="font-size:24px;width:100%;font-family: 'THSarabunNew'" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                              </div>
-
-                              <button type="button" style="font-size:18px;margin-left:30px; width:100px;font-family: 'THSarabunNew'" class="btn btn-primary" name="button" onclick="ShowItem();"><?php echo $array['search'][$language]; ?></button>
-                            </div>
-                          </div>
-                          <div class="col-md-1">
-                            <button type="button" style="font-size:18px;margin-left:70px; width:100px;font-family: 'THSarabunNew'" class="btn btn-warning" name="button" onclick="getImport(1);"><?php echo $array['import'][$language]; ?></button>
-                          </div>
-                        </div>
-                        <div class="dropdown-divider" style="margin-top:20px;; margin-bottom:20px;"></div>
-                        <div class="row">
-
-                          <div class="card-body" style="padding:0px;">
-                            <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
-                              <thead style="font-size:24px;">
-                                <tr role="row">
-                                  <th style='width: 10%;'nowrap><?php echo $array['no'][$language]; ?></th>
-                                  <th style='width: 15%;'nowrap><?php echo $array['code'][$language]; ?></th>
-                                  <th style='width: 25%;'nowrap><?php echo $array['item'][$language]; ?></th>
-                                  <th style='width: 20%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                                  <th style='width: 15%;'nowrap><center><?php echo $array['numofpiece'][$language]; ?></center></th>
-                                  <th style='width: 15%;'nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
-                                </tr>
-                              </thead>
-                              <tbody id="tbody1_modal" style="font-size:23px;">
-                              </tbody>
-                            </table>
-                          </div>
-                        </div> -->
+                  
 
                         <div id="dialogUsageCode" title="<?php echo $array['import'][$language]; ?>"  style="z-index:999999 !important;font-family: 'THSarabunNew';font-size:24px;">
                           <div class="container">
