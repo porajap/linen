@@ -40,7 +40,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Bootstrap core CSS-->
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-    <link href="../bootstrap/css/myinput.css" rel="stylesheet">
+    <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
 
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -480,12 +480,17 @@ $array2 = json_decode($json2,TRUE);
         ShowItem();
       }
       function getdetail(CategoryCode,row) {
-        $('.check1').on('change', function() {
-          $('.check1').not(this).prop('checked',false);
-        });
-
-        var x = document.getElementById("checkitem_"+row).checked;
-        if(x == true){
+        var previousValue = $('#checkitem_'+row).attr('previousValue');
+        var name = $('#checkitem_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#checkitem_'+row).removeAttr('checked');
+          $('#checkitem_'+row).attr('previousValue', false);
+          $('#checkitem_'+row).prop('checked', false);
+          $('#CategoryCode').val("");
+          $('#CategoryName').val("");
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('#checkitem_'+row).attr('previousValue', 'checked');
           if(CategoryCode!=""&&CategoryCode!=undefined){
             var data = {
               'STATUS'      : 'getdetail',
@@ -495,10 +500,8 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
           }
-        }else{
-          $('#CategoryCode').val("");
-          $('#CategoryName').val("");
         }
+
       }
 
 
@@ -653,7 +656,7 @@ $array2 = json_decode($json2,TRUE);
                               console.log(temp);
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                  var rowCount = $('#TableItem >tbody >tr').length;
-                                 var chkDoc = "<input type='checkbox' name='checkitem' class='check1' id='checkitem_"+i+"' value='"+temp[i]['CategoryCode']+"' onclick='getdetail(\""+temp[i]["CategoryCode"]+"\",\""+i+"\")'>";
+                                 var chkDoc = "<input type='radio' name='checkitem' class='check1' id='checkitem_"+i+"' value='"+temp[i]['CategoryCode']+"' onclick='getdetail(\""+temp[i]["CategoryCode"]+"\",\""+i+"\")'>";
                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                  StrTR = "<tr id='tr"+temp[i]['CategoryCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+

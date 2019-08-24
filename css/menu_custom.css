@@ -223,21 +223,7 @@
       color: #818181;
     }
 
-  input[type="checkbox"]::before {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      top: -4px;
-      left: 0px;
-      background-color: white;
-      border-width: 2px;
-      border-style: solid;
-      border-color: rgb(71, 68, 68);
-      border-image: initial;
-      border-radius: 30px;
-  }
-  input[type=checkbox]:checked:after {
-    top: -1px;
+  input[type="radio"] {
+    width: 100%;
+    height: 18px;
   }
