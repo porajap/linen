@@ -229,7 +229,7 @@
       position: absolute;
       width: 20px;
       height: 20px;
-      top: -2px;
+      top: -4px;
       left: 0px;
       background-color: white;
       border-width: 2px;
@@ -239,5 +239,5 @@
       border-radius: 30px;
   }
   input[type=checkbox]:checked:after {
-    top: 0px;
+    top: -1px;
   }
