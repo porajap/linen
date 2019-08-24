@@ -222,3 +222,7 @@
     #tableSort a{
       color: #818181;
     }
+
+    input[type=radio]:before {
+      border-radius: 30px;
+  }
