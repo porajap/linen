@@ -38,7 +38,7 @@ $array2 = json_decode($json2, TRUE);
   <!-- Bootstrap core CSS-->
   <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-  <link href="../bootstrap/css/myinput.css" rel="stylesheet">
+  <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
 
   <!-- Custom fonts for this template-->
   <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -732,7 +732,7 @@ $array2 = json_decode($json2, TRUE);
       uncheckAll2();
     }
 
-    function getdetail(ItemCode) {
+    function getdetail(ItemCode,row) {
 
       if (ItemCode.length > 9) {
         $("input[name=formatitem][value=1]").prop('checked', true);
@@ -745,6 +745,16 @@ $array2 = json_decode($json2, TRUE);
         $('#oldCodetype').hide();
       }
       $('#ItemCode').attr("disabled", true);
+      var previousValue = $('#checkitem_'+row).attr('previousValue');
+        var name = $('#checkitem_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#checkitem_'+row).removeAttr('checked');
+          $('#checkitem_'+row).attr('previousValue', false);
+          $('#checkitem_'+row).prop('checked', false);
+          Blankinput();
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('#checkitem_'+row).attr('previousValue', 'checked');
       if (ItemCode != "" && ItemCode != undefined) {
         var data = {
           'STATUS': 'getdetail',
@@ -757,6 +767,7 @@ $array2 = json_decode($json2, TRUE);
       $('#NewItem').hide();
       $('#AddItemBNT').show();
       $(".radio-c :input").attr("disabled", true);
+      }
     }
 
     function ActiveItem() {
@@ -1084,7 +1095,7 @@ $array2 = json_decode($json2, TRUE);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
-                var chkDoc = "<input type='radio' name='checkitem' id='checkitem' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\")'>";
+                var chkDoc = "<input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'>";
                 // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
