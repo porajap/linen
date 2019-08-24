@@ -486,8 +486,7 @@ $array2 = json_decode($json2,TRUE);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
-          $('#CategoryCode').val("");
-          $('#CategoryName').val("");
+          Blankinput();
         } else {
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
