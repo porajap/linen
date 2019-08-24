@@ -42,7 +42,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Bootstrap core CSS-->
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-    <link href="../bootstrap/css/myinput.css" rel="stylesheet">
+    <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="../dropify/dist/css/dropify.min.css">
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -478,7 +478,17 @@ $array2 = json_decode($json2,TRUE);
             }, 0);
         }
 
-        function getdetail(ID) {
+        function getdetail(ID , row) {
+        var previousValue = $('#checkitem_'+row).attr('previousValue');
+        var name = $('#checkitem_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#checkitem_'+row).removeAttr('checked');
+          $('#checkitem_'+row).attr('previousValue', false);
+          $('#checkitem_'+row).prop('checked', false);
+          Blankinput();
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('#checkitem_'+row).attr('previousValue', 'checked');
             if (ID != "" && ID != undefined) {
                 var data = {
                     'STATUS': 'getdetail',
@@ -488,6 +498,7 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
             }
         }
+    }
 
         function factory_show(facID){
             if(facID == 4){
@@ -535,7 +546,7 @@ $array2 = json_decode($json2,TRUE);
                                 var email = temp[i]['email'] == null ?'-':temp[i]['email'];
                                 var active_mail = temp[i]['Active_mail'] == 1 ?'X':'';
                                 var rowCount = $('#TableItem >tbody >tr').length;
-                                var chkDoc = "<input type='radio' name='checkitem' id='checkitem' value='" + temp[i]['ID'] + "' onclick='getdetail(\"" + temp[i]["ID"] + "\")'>";
+                                var chkDoc = "<input type='radio' name='checkitem' id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['ID'] + "' onclick='getdetail(\"" + temp[i]["ID"] + "\",\""+i+"\")'>";
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                 StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
                                     "<td style='width: 3%;' nowrap>" + chkDoc + "</td>" +
