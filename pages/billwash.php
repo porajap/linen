@@ -691,7 +691,7 @@ $array2 = json_decode($json2,TRUE);
 
                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                       var rowCount = $('#TableDocument >tbody >tr').length;
-                      var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
+                      var chkDoc = "<label class='container'><input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                       var Status = "";
                       var Style  = "";
                       if(temp[i]['IsStatus']==1){
@@ -852,7 +852,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                      var chkDoc = "<input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'>";
+                      var chkDoc = "<label class='container'><input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'><span class='checkmark' style='margin-top:5px;'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
                       // var hidden = temp[i]['hidden'];
@@ -861,7 +861,7 @@ $array2 = json_decode($json2,TRUE);
                       // var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:30px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
                       var PriceUnit = temp[i]['cal']==undefined?'-':Math.round(temp[i]['cal']);
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                      "<td style='width: 6%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                      "<td style='width: 6%;'nowrap>"+chkDoc+" </td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                       "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
