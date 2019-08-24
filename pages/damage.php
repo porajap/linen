@@ -168,6 +168,21 @@ $(document).ready(function(e){
         }
       }
 
+      function resetradio(row){
+
+      var previousValue = $('.checkrow_'+row).attr('previousValue');
+        var name = $('.checkrow_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('.checkrow_'+row).removeAttr('checked');
+          $('.checkrow_'+row).attr('previousValue', false);
+          $('.checkrow_'+row).prop('checked', false);
+          // Blankinput();
+        } else {
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('.checkrow_'+row).attr('previousValue', 'checked');
+        }
+      }
+
       function DeleteItem(){
         var docno = $("#docno").val();
         var xrow = $("#checkrow:checked").val() ;
@@ -944,7 +959,7 @@ $(document).ready(function(e){
                   var chkDocx = "<input  name = 'item_array'  value='"+temp[i]['ItemCode']+"'>";
                   // var Qtyx = "<input  class='Qty_array'   value='"+temp[i]['Qty']+"'>";
 
-                  var chkDoc = "<input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'>";
+                  var chkDoc = "<input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'>";
 
                   // var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else{this.value = 0}' OnBlur='UpdateQty(\""+i+"\",\""+temp[i]['RowID']+"\")' ></div>";
                   var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else if(this.value < 0){this.value = 1}' ></div>";
