@@ -727,7 +727,7 @@ $array2 = json_decode($json2,TRUE);
                             // console.log(temp);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var rowCount = $('#TableItem >tbody >tr').length;
-                                var chkDoc = "<label class='container'><input type='radio' name='checkitem'  id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
+                                var chkDoc = "<label class='container'style='margin-top: 20%;'><input type='radio' name='checkitem'  id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
                                 var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                                 StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
