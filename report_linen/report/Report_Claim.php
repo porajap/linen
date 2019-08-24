@@ -212,7 +212,7 @@ $pdf->Ln(10);
 
   $query = "SELECT a.DocNo,
   IFNULL(CLEAN, 0) AS CLEAN,
-    IFNULL(CLAIM, 0) AS CLAIM,
+    IFNULL(REWASH, 0) AS REWASH,
     IFNULL(REPAIR, 0) AS REPAIR,
     IFNULL(DAMAGE, 0) AS DAMAGE,
     FacName
@@ -227,10 +227,13 @@ $pdf->Ln(10);
   AND clean.DepCode = '$DepCode'
   AND factory.FacCode = $FacCode
   GROUP BY claim.DocNo) a,
-  (SELECT  sum(claim_detail.Qty1) AS CLAIM,
+  (SELECT  sum(rewash_detail.Qty1) AS REWASH,
       claim.DocNo
-  FROM  claim,claim_detail
+  FROM  claim,claim_detail,rewash_detail,rewash,clean
   WHERE  claim.DocNo=claim_detail.DocNo
+	AND rewash.DocNo=rewash_detail.DocNo
+	AND rewash.RefDocNo=clean.DocNo
+	AND claim.RefDocNo=clean.DocNo
   AND claim.HptCode = '$HptCode'
   AND claim.DepCode = '$DepCode'
   GROUP BY claim.DocNo) b,
@@ -255,13 +258,14 @@ $pdf->Ln(10);
   b.DocNo=c.DocNo
   AND b.DocNo=d.DocNo
 
+
             
           ";
 // var_dump($query); die;
 // Number of column
 $numfield = 8;
 // Field data (Must match with Query)
-$field = "FacName,CLEAN,CLAIM,REPAIR,DAMAGE, , , ";
+$field = "FacName,CLEAN,REWASH,REPAIR,DAMAGE, , , ";
 // Table header
 $header = array('โรงซัก','ผ้าที่รับ(จำนวน)','Reject(จำนวน)','Repair(จำนวน)','Damaged(จำนวน)','Reject(%)','Repair(%)','Damaged(%)');
 // width of column table
