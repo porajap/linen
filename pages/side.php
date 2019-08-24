@@ -946,7 +946,11 @@ $array2 = json_decode($json2,TRUE);
                               case "nodetail":
                                 temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
                                 break;
+                                case "adduserfailed":
+                                temp['msg'] = "<?php echo $array['adduserfailed'][$language]; ?>";
+                                break;
                             }
+                            
                             swal({
                               title: '',
                               text: temp['msg'],
@@ -1305,7 +1309,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 numonly" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-8 numonly" maxlength="10" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">

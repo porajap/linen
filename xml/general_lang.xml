@@ -231,7 +231,8 @@
 <dateP><en>Date OF UPD PC.</en><th>วันที่อัพเดทราคา</th></dateP>
 <activemail><en>Main Email</en><th>Main Email</th></activemail>
 <img><en>Profile Image</en><th>ภาพโปรไฟล์</th></img>
-<addfailedmsg><en>addfailedmsg</en><th>ไม่สามารถเพิ่มข้อมูลได้</th></addfailedmsg>
+<addfailedmsg><en>addfailed</en><th>ไม่สามารถเพิ่มข้อมูลได้</th></addfailedmsg>
+<adduserfailed><en>adduserfailed</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 2 คน</th></adduserfailed>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
 <widthunit><en>Measurement</en><th>มาตรวัด</th></widthunit>

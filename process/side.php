@@ -193,7 +193,14 @@ function Adduser($conn, $DATA)
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
 
-  if($idcontract==""){
+  // ==============CHECK HOSPITAL====================
+  $Sql="SELECT COUNT(HptCode) AS cnt FROM contractsite WHERE HptCode = '$host'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $cnt  = $Result['cnt'];
+  }
+  // ===============================================
+  if($cnt < 2){
     $Sql="INSERT INTO contractsite (contractsite.HptCode , contractsite.contractName , contractsite.permission , contractsite.Number) 
     VALUE ('$host','$ContractName','$Position','$phone')";
   if(mysqli_query($conn, $Sql)){
@@ -225,7 +232,7 @@ function Adduser($conn, $DATA)
         die;
       }else{
         $return['status'] = "failed";
-        $return['msg'] = "editfailed";
+        $return['msg'] = "adduserfailed";
         echo json_encode($return);
         mysqli_close($conn);
         die;
