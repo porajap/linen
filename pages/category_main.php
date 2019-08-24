@@ -73,6 +73,8 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+
+
         Blankinput();
         //On create
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
@@ -120,6 +122,8 @@ $array2 = json_decode($json2,TRUE);
       }).keyup(function(e) { parent.afk();
       });
 
+
+
       dialog = jqui( "#dialog" ).dialog({
         autoOpen: false,
         height: 650,
@@ -166,7 +170,7 @@ $array2 = json_decode($json2,TRUE);
 
         /* we join the array separated by the comma */
         var DocNo = chkArray.join(',') ;
-  // alert( DocNo );
+        // alert( DocNo );
         $('#TableDetail tbody').empty();
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
         var data = {
@@ -445,6 +449,12 @@ $array2 = json_decode($json2,TRUE);
           }
           })
       }
+      function blankitem() {
+        $('#CategoryCode').val("");
+        $('#CategoryName').val("");
+        $('#bCancel').attr('disabled', true);
+    $('#delete_icon').addClass('opacity');
+      }
 
       function Blankinput() {
         $('.checkblank').each(function() {
@@ -459,6 +469,9 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function getdetail(CategoryCode) {
+
+
+
         if(CategoryCode!=""&&CategoryCode!=undefined){
           var data = {
             'STATUS'      : 'getdetail',
@@ -615,11 +628,13 @@ $array2 = json_decode($json2,TRUE);
                           swal.close();
                           if(temp["status"]=='success'){
                             if( (temp["form"]=='ShowItem') ){
+              
                               $( "#TableItem tbody" ).empty();
                               console.log(temp);
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                          
                                  var rowCount = $('#TableItem >tbody >tr').length;
-                                 var chkDoc = "<input type='radio' name='checkitem' id='checkitem' value='"+temp[i]['MainCategoryCode']+"' onclick='getdetail(\""+temp[i]["MainCategoryCode"]+"\")'>";
+                                 var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' class='check1' value='"+temp[i]['MainCategoryCode']+"' onclick='getdetail(\""+temp[i]["MainCategoryCode"]+"\")'>";
                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                  StrTR = "<tr id='tr"+temp[i]['MainCategoryCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
@@ -634,14 +649,18 @@ $array2 = json_decode($json2,TRUE);
                                    $('#TableItem tbody:last-child').append( StrTR );
                                  }
                               }
+                              // ===================
+                                $('.check1').on('change', function() {
+                                      $('.check1').not(this).prop('checked',false);
+                                      blankitem();
+                              });
+                              // ===================
+
                             }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
-                                // $('#CategoryCode').val(temp['CategoryCode']);
-                                // $('#CategoryName').val(temp['CategoryName']);
                                 $('#CategoryCode').val(temp['MainCategoryCode']);
                                 $('#CategoryName').val(temp['MainCategoryName']);
-                                //$('#IsStatus').val(temp['IsStatus']);
                               }
                               $('#bCancel').attr('disabled', false);
                               $('#delete_icon').removeClass('opacity');

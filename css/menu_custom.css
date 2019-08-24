@@ -223,7 +223,7 @@
       color: #818181;
     }
 
-  input[type="radio"]::before {
+  input[type="checkbox"]::before {
       content: "";
       display: block;
       position: absolute;
@@ -238,6 +238,6 @@
       border-image: initial;
       border-radius: 30px;
   }
-  input[type=radio]:checked:after {
+  input[type=checkbox]:checked:after {
     top: 0px;
   }
