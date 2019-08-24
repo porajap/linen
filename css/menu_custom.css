@@ -254,8 +254,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
     background-color: rgb(168, 167, 167);
     border-radius: 50%;
   }
