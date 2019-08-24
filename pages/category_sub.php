@@ -490,6 +490,7 @@ $array2 = json_decode($json2,TRUE);
         } else {
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
+          
           if(CategoryCode!=""&&CategoryCode!=undefined){
             var data = {
               'STATUS'      : 'getdetail',
