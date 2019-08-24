@@ -283,11 +283,11 @@
   }
   
   /* Style the indicator (dot/circle) */
-  .container .checkmark:after {
+  /* .container .checkmark:after {
     top: 6px;
     left: 6px;
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: white;
-  }
+  } */
