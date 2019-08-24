@@ -805,7 +805,7 @@ $array2 = json_decode($json2,TRUE);
 
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var rowCount = $('#TableDocument >tbody >tr').length;
-                        var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' >";
+                        var chkDoc = "<label class='container'><input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                         var Status = "";
                         var Style  = "";
                         if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3){

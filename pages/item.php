@@ -1095,7 +1095,7 @@ $array2 = json_decode($json2, TRUE);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
-                var chkDoc = "<input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'>";
+                var chkDoc = "<label class='container'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
