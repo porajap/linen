@@ -1,9 +1,9 @@
-input[type=radio] {
+/* input[type=radio] {
   position: relative;
   cursor: pointer;
   margin-top : -7px;
   margin-left: 0px;
-}
+} */
 
 /* input[type=radio]:before {
   content: "";
