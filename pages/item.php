@@ -1104,7 +1104,6 @@ $array2 = json_decode($json2, TRUE);
                 var rowCount = $('#TableItem >tbody >tr').length;
   
                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
@@ -1170,7 +1169,7 @@ $array2 = json_decode($json2, TRUE);
                   for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                     var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
                     var rowCount = $('#TableUnit >tbody >tr').length;
-                    var chkDoc = "<input type='radio' name='checkitem2' id='checkitem2' value='" + temp[i]['RowID'] + "'>";
+                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem2' id='checkitem2' value='" + temp[i]['RowID'] + "'><span class='checkmark'></span></label>";
                     StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
                       "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                       "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
