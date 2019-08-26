@@ -29,6 +29,7 @@ switch ($PmID) {
     case "1":
         //genneral
         $gen_head=1;
+        $gen_s0=1;
         $gen_s1=1;
         $gen_s2=1;
         $gen_s3=1;
@@ -77,6 +78,7 @@ switch ($PmID) {
     case "2":
         //genneral
         $gen_head=1;
+        $gen_s0=1;
         $gen_s1=1;
         $gen_s2=1;
         $gen_s3=1;
@@ -125,6 +127,7 @@ switch ($PmID) {
     case "3":
         //genneral
         $gen_head=1;
+        $gen_s0=1;
         $gen_s1=1;
         $gen_s2=1;
         $gen_s3=1;
@@ -173,6 +176,7 @@ switch ($PmID) {
     case "4":
         //genneral
         $gen_head=0;
+        $gen_s0=0;
         $gen_s1=0;
         $gen_s2=0;
         $gen_s3=0;
@@ -221,6 +225,7 @@ switch ($PmID) {
     case "5":
          //genneral
          $gen_head=1;
+         $gen_s0=1;
          $gen_s1=1;
          $gen_s2=1;
          $gen_s3=1;
@@ -991,6 +996,13 @@ switch ($PmID) {
           <?php if($gen_s1== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/menu.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][0][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s0== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/newwash.php?lang=<?php echo $language; ?>" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][12][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s2== 1){ ?>
