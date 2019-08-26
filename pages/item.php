@@ -1153,31 +1153,17 @@ $array2 = json_decode($json2, TRUE);
                 $('#bCancel').attr('disabled', false);
                 $('#delete_icon').removeClass('opacity');
 
-                
-
                 if (temp[0]['IsDirtyBag'] == 1)  {
-                    $('#xCenter').each(function() 
-                    {   
-                    this.checked = true; 
-                            });                                
-                    }else{
-                    $('#xCenter').each(function() 
-                    {   
-                    this.checked = false; 
-                            });                               
-                                    }
-
-                if (temp[0]['Itemnew'] == 1)  {
-                    $('#xItemnew').each(function() 
-                    {   
-                    this.checked = true; 
-                            });                                
-                    }else{
-                    $('#xItemnew').each(function() 
-                    {   
-                    this.checked = false; 
-                            });                               
-                                    }
+                  $('#xCenter').prop('checked', true);
+                }else{
+                  $('#xCenter').prop('checked', false);
+                }
+                
+                if(temp[0]['Itemnew']){
+                  $('#xItemnew').prop('checked', true);
+                }else{
+                  $('#xItemnew').prop('checked', false);
+                }
 
                 if (temp[0]['RowID']) {
                   for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
