@@ -476,10 +476,8 @@ $array2 = json_decode($json2,TRUE);
           var FacCode = $('#factory option:selected').attr("value");
           if(deptCode == ''){
             checkblank();
-            $('#department').focus();
           }else if(FacCode == ''){
             checkblank();
-            $('#factory').focus();
           }else{
             $('#TableDetail tbody').empty();
             swal({
