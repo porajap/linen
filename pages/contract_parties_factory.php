@@ -617,17 +617,15 @@ body{
                         <div class="col-md-4">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
                                     </div>
                                   </div>
-<!-- sscssc -->
                                   <div class="col-md-4">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
                                     </div>
                                   </div>
-
                               <div class="search_custom col-md-2">
                                 <div class="search_1 d-flex justify-content-start">
                                   <button class="btn" onclick="ShowDocument()" id="bSave">
@@ -636,20 +634,13 @@ body{
                                   </button>
                                 </div>
                               </div>
-                       
-                        </div>
-
-
-
-
-                  
-                </div>
-            </div>
-        </div> <!-- tag column 1 -->
-    </div>
-
+                          </div>
+                      </div>
+                  </div>
+              </div> <!-- tag column 1 -->
+          </div>
 <div class="row">
-              <div style='width: 98%;'> <!-- tag column 1 -->
+              <div style='width: 98%;margin-top: -25px;'> <!-- tag column 1 -->
               		<table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
                           <thead id="theadsum" style="font-size:24px;">
                             <tr role="row">

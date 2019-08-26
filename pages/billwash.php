@@ -691,7 +691,7 @@ $array2 = json_decode($json2,TRUE);
 
                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                       var rowCount = $('#TableDocument >tbody >tr').length;
-                      var chkDoc = "<label class='container'><input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
+                      var chkDoc = "<label class='container'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                       var Status = "";
                       var Style  = "";
                       if(temp[i]['IsStatus']==1){
@@ -852,7 +852,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                      var chkDoc = "<label class='container'><input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'><span class='checkmark' style='margin-top:5px;'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label>";
+                      var chkDoc = "<label class='container'style='margin-top: 5%;'><input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'><span class='checkmark' style='margin-top:15%;'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
                       // var hidden = temp[i]['hidden'];
@@ -1499,8 +1499,8 @@ $array2 = json_decode($json2,TRUE);
             <div class="row">
               <div class="col-md-8">
                 <div class='form-group row'>
-                  <label class="col-sm-3 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                  <input type="text"  autocomplete="off" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
+                  <input type="text"  autocomplete="off" class="form-control col-sm-8" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                 </div>
               </div>
 

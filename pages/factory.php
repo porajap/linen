@@ -481,6 +481,7 @@ $array2 = json_decode($json2,TRUE);
                   'host' : host
                 };
 
+                Blankinput();
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
               } else if (result.dismiss === 'cancel') {
