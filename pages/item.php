@@ -24,7 +24,6 @@ $array2 = json_decode($json2, TRUE);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -1861,7 +1860,11 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
+<<<<<<< HEAD
                                   <input type='radio' name='formatitem'  id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+=======
+                                  <input type='checkbox' name='formatitem' class="format_chk" id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+>>>>>>> 19735449396bf0e5c95f1dc065b3e1d0a4918f80
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
