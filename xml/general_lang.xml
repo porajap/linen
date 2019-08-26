@@ -246,7 +246,10 @@
 <phone><en>Phone number</en><th>เบอร์โทรศัพท์</th></phone>
 <adduser><en>Add user</en><th>เพิ่มผู้ติดต่อ</th></adduser>
 <Measurementcode><en>Measurement code</en><th>รหัสหน่วยนับ</th></Measurementcode>
-
+<oneday><en>One Day</en><th>หนึ่งวัน</th></oneday>
+<manyday><en>Several Day</en><th>หลายวัน</th></manyday>
+<onemonth><en>One Month</en><th>หนึ่งเดือน</th></onemonth>
+<manymonth><en>Several Month</en><th>หลายเดือน</th></manymonth>
 <month><en>Month</en><th>เดือน</th></month>
 <serchref><en>Month</en><th>ค้นหาเอกสารอ้างอิง</th></serchref>
 <youlogout><en>Do you want to logout ?</en><th>คุณต้องการออกจากระบบหรือไม่</th></youlogout>
