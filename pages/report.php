@@ -262,7 +262,30 @@ $array2 = json_decode($json2, TRUE);
 				find_indexMonth2(year[0]);
 			}
 		}
-
+		function Blankinput() {
+        $('.checkblank').each(function() {
+          $(this).val("");
+        });
+        var factory = $('#factory').val();
+				var department =	$('#department').val();
+				var hotpital =	$('#hotpital').val();
+				var Format = $("input[name='radioFormat']:checked").val();
+				if (factory == '' || factory == undefined || factory == '0'){
+					$('#factory').addClass('border-danger');
+				}
+				if (department == '' || department == undefined || department == '0'){
+					$('#department').addClass('border-danger');
+				}
+				if (hotpital == '' || hotpital == undefined || hotpital == '0'){
+					$('#hotpital').addClass('border-danger');
+				}
+      }
+			function blank(){
+				$('#factory').removeClass('border-danger');
+			}
+			function blank_format(){
+				$('#text1').remove('');
+			}
 		function search_fillter() {
 			var factory = $('#factory').val();
 			var HptCode = $('#hotpital').val();
@@ -280,7 +303,8 @@ $array2 = json_decode($json2, TRUE);
 					showConfirmButton: false,
 					timer: 1000,
 					confirmButtonText: 'Ok'
-				});
+				}); 
+				Blankinput() 
 			} else if (typeReport == 1 || typeReport == 3 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
 				if (factory == '' || factory == undefined || factory == '0') {
 					swal({
@@ -294,6 +318,7 @@ $array2 = json_decode($json2, TRUE);
 						timer: 1000,
 						confirmButtonText: 'Ok'
 					});
+					Blankinput() 
 				}
 			} else if (typeReport == 2 || typeReport == 4 || typeReport == 5 || typeReport == 8 || typeReport == 7 || typeReport == 9 || typeReport == 14 || typeReport == 16) {
 				if (DepCode == '' || DepCode == undefined || DepCode == '0') {
@@ -308,6 +333,7 @@ $array2 = json_decode($json2, TRUE);
 						timer: 1000,
 						confirmButtonText: 'Ok'
 					});
+					Blankinput() 
 				}
 			} else if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
 				if (HptCode == '' || HptCode == undefined || HptCode == '0') {
@@ -322,6 +348,7 @@ $array2 = json_decode($json2, TRUE);
 						timer: 1000,
 						confirmButtonText: 'Ok'
 					});
+					Blankinput() 
 				}
 			}
 			if (Format == 1) {
@@ -465,7 +492,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#department").empty();
 							$("#hotpital").empty();
 
-							var facValue0 = '<?php echo $array['factory'][$language]; ?>';
+							var facValue0 = '-';
 							var fac = "<option value='0'>" + facValue0 + "</option>";
 							for (var i = 0; i < temp['Rowx']; i++) {
 								fac += "<option value=" + temp[i]['FacCode'] + ">" + temp[i]['FacName'] + "</option>";
@@ -1146,7 +1173,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R1 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R1 tbody").append(dataRow);
 						} else if (temp["form"] == 'r2') {
 							$('#table_R1').attr('hidden', true);
@@ -1167,7 +1194,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R2 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R2 tbody").append(dataRow);
 						} else if (temp["form"] == 'r3') {
 							$('#table_R1').attr('hidden', true);
@@ -1188,7 +1215,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R3 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R3 tbody").append(dataRow);
 						} else if (temp["form"] == 'r4') {
 							$('#table_R1').attr('hidden', true);
@@ -1209,7 +1236,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R4 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R4 tbody").append(dataRow);
 						} else if (temp["form"] == 'r5') {
 							$('#table_R1').attr('hidden', true);
@@ -1230,7 +1257,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R4 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R5 tbody").append(dataRow);
 						} else if (temp["form"] == 'r6') {
 							$('#table_R1').attr('hidden', true);
@@ -1251,7 +1278,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R6 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R6 tbody").append(dataRow);
 						} else if (temp["form"] == 'r7') {
 							$('#table_R1').attr('hidden', true);
@@ -1272,7 +1299,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R7 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R7 tbody").append(dataRow);
 						} else if (temp["form"] == 'r8') {
 							$('#table_R1').attr('hidden', true);
@@ -1293,7 +1320,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R8 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R8 tbody").append(dataRow);
 						} else if (temp["form"] == 'r9') {
 							$('#table_R1').attr('hidden', true);
@@ -1314,7 +1341,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R9 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R9 tbody").append(dataRow);
 						} else if (temp["form"] == 'r10' || temp["form"] == 'r11' || temp["form"] == 'r12') {
 							$('#table_R1').attr('hidden', true);
@@ -1335,7 +1362,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R10 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R10 tbody").append(dataRow);
 						} else if (temp["form"] == 'r13') {
 							$('#table_R1').attr('hidden', true);
@@ -1356,7 +1383,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R13 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R13 tbody").append(dataRow);
 						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
 							$('#table_R1').attr('hidden', true);
@@ -1377,7 +1404,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', false);
 							$('#table_R17').attr('hidden', true);
 							$('#table_R15 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R15 tbody").append(dataRow);
 						}
 						else if (temp["form"] == 'r17' ) {
@@ -1399,7 +1426,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', false);
 							$('#table_R17 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'>ไม่พบเอกสาร</td></tr>";
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R17 tbody").append(dataRow);
 						}
 
@@ -1696,22 +1723,22 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6">
 													<div class='form-group row checkblank'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-														<select class="form-control col-sm-8" id="factory" style="font-size:22px;"></select>
+														<select class="form-control col-sm-8 bo" id="factory" style="font-size:22px;" onchange="blank();"></select>
 													</div>
 												</div>
 											</div>
 
 											<div class="row">
 												<div class="col-md-6">
-													<div class='form-group row'>
+													<div class='form-group row checkblank'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
 														<select class="form-control col-sm-8" id="hotpital" style="font-size:22px;" onchange="departmentWhere();"></select>
 													</div>
 												</div>
 												<div class="col-md-6 ">
-													<div class='form-group row'>
+													<div class='form-group row checkblank '>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
-														<select class="form-control col-sm-8" style="font-size:22px;" id="department">
+														<select class="form-control col-sm-8" style="font-size:22px;" id="department" onchange="blank();" >
 														</select>
 													</div>
 												</div>
@@ -1723,17 +1750,20 @@ $array2 = json_decode($json2, TRUE);
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
 														<div>
 															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat">
-																<label class="custom-control-label" for="chkday"> วัน</label>
+																<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat ">
+																<label class="custom-control-label" for="chkday"> <?php echo $array['day'][$language]; ?></label>
 															</div>
 															<div class="custom-control custom-radio custom-control-inline">
 																<input type="radio" id="chkmonth" name="radioFormat" value='2' onclick="showdate()" class="custom-control-input radioFormat">
-																<label class="custom-control-label" for="chkmonth"> เดือน</label>
+																<label class="custom-control-label" for="chkmonth"> <?php echo $array['month'][$language]; ?></label>
 															</div>
 
 															<div class="custom-control custom-radio custom-control-inline">
 																<input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
-																<label class="custom-control-label" for="chkyear"> ปี</label>
+																<label class="custom-control-label" for="chkyear"> <?php echo $array['year'][$language]; ?></label>
+															</div>
+															<div class="custom-control custom-radio custom-control-inline">
+																<p id="text1" onchange="blank_format();"></p>
 															</div>
 														</div>
 													</div>
@@ -1744,11 +1774,11 @@ $array2 = json_decode($json2, TRUE);
 														<div>
 															<div class="custom-control custom-radio custom-control-inline">
 																<input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
-																<label class="custom-control-label" for="chkoneday">หนึ่งวัน</label>
+																<label class="custom-control-label" for="chkoneday"><?php echo $array['oneday'][$language]; ?></label>
 															</div>
 															<div class="custom-control custom-radio custom-control-inline">
 																<input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
-																<label class="custom-control-label" for="chksomeday">หลายวัน</label>
+																<label class="custom-control-label" for="chksomeday"><?php echo $array['manyday'][$language]; ?></label>
 															</div>
 														</div>
 													</div>
@@ -1757,11 +1787,11 @@ $array2 = json_decode($json2, TRUE);
 														<div>
 															<div class="custom-control custom-radio custom-control-inline">
 																<input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
-																<label class="custom-control-label" for="chkonemonth">หนึ่งเดือน</label>
+																<label class="custom-control-label" for="chkonemonth"><?php echo $array['onemonth'][$language]; ?></label>
 															</div>
 															<div class="custom-control custom-radio custom-control-inline">
 																<input type="radio" id="chksomemonth" name="formatMonth" value='2' onclick="formatmonth(2)" class="custom-control-input formatDay">
-																<label class="custom-control-label" for="chksomemonth">หลายเดือน</label>
+																<label class="custom-control-label" for="chksomemonth"><?php echo $array['manymonth'][$language]; ?></label>
 															</div>
 														</div>
 													</div>
