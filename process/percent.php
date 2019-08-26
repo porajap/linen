@@ -101,10 +101,14 @@ function ShowDocument($conn,$DATA){
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    $date2 = explode("-", $Result['DocDate1']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
 	$return[$count]['HptName'] 	= $Result['HptName'];
 	$return[$count]['DepName'] 	= $Result['DepName'];
     $return[$count]['DocNo1'] 	= $Result['DocNo1'];
-    $return[$count]['DocDate1'] = $Result['DocDate1'];
+    $return[$count]['DocDate1'] = $newdate;
 	$return[$count]['Total1'] 	= $Result['Total1'];
 	$return[$count]['DocNo2'] 	= $Result['DocNo2'];
     $return[$count]['DocDate2'] = $Result['DocDate2'];
