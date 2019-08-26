@@ -37,7 +37,6 @@ input[type=checkbox] {
   position: relative;
   cursor: pointer;
 }
-
 input[type=checkbox]:before {
   content: "";
   display: block;
