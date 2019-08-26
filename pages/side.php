@@ -646,10 +646,12 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function menu_tapShow(){
+        Blankinput();
         $('#addhot').show();
         $('#adduser').hide();    
     }
     function menu_tapHide(){
+      Blankinput();
       $('#addhot').hide();
         $('#adduser').show();  
     }
