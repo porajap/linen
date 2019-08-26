@@ -718,6 +718,16 @@ $array2 = json_decode($json2,TRUE);
               })
             }
 
+            function updateQty(RowID, i){
+              var newQty = $('#qty1_'+i).val();
+              var data = {
+                'STATUS' : 'updateQty',
+                'RowID' : RowID,
+                'newQty' : newQty
+              }
+              senddata(JSON.stringify(data));
+            }
+
             function senddata(data){
               var form_data = new FormData();
               form_data.append("DATA",data);
@@ -973,7 +983,7 @@ $array2 = json_decode($json2,TRUE);
 
                         var chkDoc = "<label class='container'style='margin-top: 5%;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark' style='margin-top:15%;'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label>";
 
-                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"'></div>";
+                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'></div>";
                         //var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['ParQty']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>+</button></div>";
                         //var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['MaxQty']+"' ></div>";
 
