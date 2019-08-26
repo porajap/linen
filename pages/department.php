@@ -42,7 +42,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Bootstrap core CSS-->
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-    <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
+    <link href="../bootstrap/css/myinput.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
