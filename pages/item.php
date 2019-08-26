@@ -1158,8 +1158,8 @@ $array2 = json_decode($json2, TRUE);
                 }else{
                   $('#xCenter').prop('checked', false);
                 }
-                
-                if(temp[0]['Itemnew']){
+
+                if(temp[0]['Itemnew'] == 1){
                   $('#xItemnew').prop('checked', true);
                 }else{
                   $('#xItemnew').prop('checked', false);
