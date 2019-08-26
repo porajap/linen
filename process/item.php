@@ -266,7 +266,8 @@ function getdetail($conn, $DATA)
           Multiply,PriceUnit,
           item.QtyPerUnit,
           item.UnitCode2,
-          IsDirtyBag
+          IsDirtyBag,
+          Itemnew
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
@@ -278,7 +279,6 @@ function getdetail($conn, $DATA)
           WHERE item.ItemCode = '$ItemCode'";
 
   // var_dump($Sql); die;
-  $return['sql'] = $Sql;
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -300,6 +300,7 @@ function getdetail($conn, $DATA)
     $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
     $return[$count]['sUnitName'] = $Result['UnitCode2'];
     $return[0]['IsDirtyBag'] = $Result['IsDirtyBag'];
+    $return[0]['Itemnew'] = $Result['Itemnew'];
     $count++;
   }
 
@@ -411,9 +412,6 @@ function AddItem($conn, $DATA)
               }
               mysqli_query($conn, $Sql2);
             }
-
-            
-    
 
     if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
