@@ -454,39 +454,61 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
         }
 
+        function checkblank(){
+          $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
+        }
+        function removeClassBorder1(){
+          $('#department').removeClass('border-danger');
+        }
+        function removeClassBorder2(){
+          $('#factory').removeClass('border-danger');
+        }
         function CreateDocument(){
           var userid = '<?php echo $Userid; ?>';
           var hotpCode = $('#hotpital option:selected').attr("value");
           var deptCode = $('#department option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
-
-          $('#TableDetail tbody').empty();
-          swal({
-            title: "<?php echo $array['confirmdoc'][$language]; ?>",
-            text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            closeOnConfirm: false,
-            closeOnCancel: false,
-            showCancelButton: true}).then(result => {
-              if (result.value) {
-              var data = {
-                'STATUS'    : 'CreateDocument',
-                'hotpCode'  : hotpCode,
-                'deptCode'  : deptCode,
-                'userid'	: userid,
-                'FacCode'	: FacCode
-              };
-              senddata(JSON.stringify(data));
-            } else if (result.dismiss === 'cancel') {
-            swal.close();
+          if(deptCode == ''){
+            checkblank();
+            $('#department').focus();
+          }else if(FacCode == ''){
+            checkblank();
+            $('#factory').focus();
+          }else{
+            $('#TableDetail tbody').empty();
+            swal({
+              title: "<?php echo $array['confirmdoc'][$language]; ?>",
+              text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
+                var data = {
+                  'STATUS'    : 'CreateDocument',
+                  'hotpCode'  : hotpCode,
+                  'deptCode'  : deptCode,
+                  'userid'	: userid,
+                  'FacCode'	: FacCode
+                };
+                senddata(JSON.stringify(data));
+              } else if (result.dismiss === 'cancel') {
+                swal.close();
+                }
+              })
           }
-            })
         }
 
           function canceldocno(docno) {
@@ -759,10 +781,11 @@ $array2 = json_decode($json2,TRUE);
                       }
 
                       $("#factory").empty();
+                      var Str = "<option value='' selected>-</option>";
                       for (var i = 0; i < temp["Rowx"]; i++) {
-                        var Str = "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
-                        $("#factory").append(Str);
+                        Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                       }
+                      $("#factory").append(Str);
                       // if(PmID != 1){
                       //   $("#hotpital").val(HptCode);
                       // }
@@ -773,11 +796,12 @@ $array2 = json_decode($json2,TRUE);
                       $("#Dep2").empty();
                       var Str2 = "<option value='' selected>-</option>";
                       for (var i = 0; i < temp["Row"]; i++) {
-                        var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                        // var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                        $("#department").append(Str);
+                        // $("#department").append(Str);
                       }
                       $("#Dep2").append(Str2);
+                      $("#department").append(Str2);
                     }else if( (temp["form"]=='CreateDocument') ){
                       swal({
                         title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -857,7 +881,6 @@ $array2 = json_decode($json2,TRUE);
                       $("#wTotal").val(temp[0]['Total']);
                       $("#IsStatus").val(temp[0]['IsStatus']);
                       $("#factory").val(temp[0]['FacCode']);
-// 
                       if(temp[0]['IsStatus']==0){
                         var word = '<?php echo $array['save'][$language]; ?>';
                         var changeBtn = "<i class='fa fa-save'></i>";
@@ -1385,7 +1408,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="col-md-6">
                                       <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                          <select class="form-control col-sm-8"  style="font-size:22px;"  id="department" > </select>
+                                          <select class="form-control col-sm-8 checkblank border"  style="font-size:22px;"  id="department" onchange="removeClassBorder1();"> </select>
                                       </div>
                                     </div>
                                   </div>
@@ -1431,7 +1454,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['factory'][$language]; ?></label>
-                                          <select  class="form-control form-control col-sm-8"  style="font-size:22px;"  id="factory"  > </select>
+                                          <select  class="form-control form-control col-sm-8 checkblank"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder2();"> </select>
                                         </div>
                                       </div>
                                       <div class="col-md-6" hidden>
