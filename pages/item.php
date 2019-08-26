@@ -602,6 +602,7 @@ $array2 = json_decode($json2, TRUE);
       $('input.format_chk').on('change', function() {
           $('input.format_chk').not(this).prop('checked', false);  
       });
+      
       var Catagory = $('#catagory2').val();
       var modeCode = $('#formatitem:checked').val();
       var modeCheck = $('#checkitem:checked').val();
