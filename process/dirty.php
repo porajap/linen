@@ -861,6 +861,13 @@ function CancelBill($conn, $DATA){
   $Sql = "UPDATE dirty SET IsStatus = 2  WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
 }
+
+function updateQty($conn, $DATA){
+  $newQty = $DATA['newQty'];
+  $RowID = $DATA['RowID'];
+  $Sql = "UPDATE dirty_detail SET Qty = $newQty WHERE Id = $RowID";
+  mysqli_query($conn, $Sql);
+}
 //==========================================================
 //
 //==========================================================
@@ -902,6 +909,8 @@ if (isset($_POST['DATA'])) {
     CancelBill($conn, $DATA);
   } elseif ($DATA['STATUS'] == 'UpdateRefDocNo') {
     UpdateRefDocNo($conn, $DATA);
+  } elseif ($DATA['STATUS'] == 'updateQty') {
+    updateQty($conn, $DATA);
   }
 } else {
   $return['status'] = "error";

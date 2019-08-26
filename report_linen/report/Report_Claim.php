@@ -229,9 +229,8 @@ $pdf->Ln(10);
   GROUP BY claim.DocNo) a,
   (SELECT  sum(rewash_detail.Qty1) AS REWASH,
       claim.DocNo
-  FROM  claim,claim_detail,rewash_detail,rewash,clean
-  WHERE  claim.DocNo=claim_detail.DocNo
-	AND rewash.DocNo=rewash_detail.DocNo
+  FROM  claim,rewash_detail,rewash,clean
+  WHERE  rewash.DocNo=rewash_detail.DocNo
 	AND rewash.RefDocNo=clean.DocNo
 	AND claim.RefDocNo=clean.DocNo
   AND claim.HptCode = '$HptCode'
@@ -257,6 +256,7 @@ $pdf->Ln(10);
   WHERE 
   b.DocNo=c.DocNo
   AND b.DocNo=d.DocNo
+  AND b.DocNo=a.DocNo
 
 
             

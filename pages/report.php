@@ -98,7 +98,7 @@ $array2 = json_decode($json2, TRUE);
 			$('#hotpital').attr('disabled', true);
 			$('#department').attr('disabled', true);
 
-		}).click(function(e) {
+		}).mousemove(function(e) {
 			parent.afk();
 		}).keyup(function(e) {
 			parent.afk();
@@ -234,6 +234,8 @@ $array2 = json_decode($json2, TRUE);
 				$('#oneday').hide();
 				$('#someday').show();
 				var currentDay = currentDate2;
+				var dateone = currentDate.split('-');
+				dateone = dateone[2]+"/"+dateone[1]+"/"+dateone[0];
 				var today = new Date();
 				var tomorrow = new Date(today);
 				tomorrow.setDate(today.getDate() + 1);
@@ -243,7 +245,7 @@ $array2 = json_decode($json2, TRUE);
 				var day = tomorrow.getDate();
 				if (month < 10) month = '0' + month;
 				if (day < 10) day = '0' + day;
-				var myDate = currentDay + ' - ' + year + '/' + month + '/' + day;
+				var myDate = dateone + ' - ' + day + '/' + month + '/' + year;
 				$('#someday').attr('value', myDate);
 			}
 		}
@@ -326,11 +328,13 @@ $array2 = json_decode($json2, TRUE);
 				var FormatDay = $("input[name='formatDay']:checked").val();
 				if (FormatDay == 1) {
 					var date = $('#oneday').val();
+					var dmy = date.split('/');
+					var ymd = dmy[2]+"-"+dmy[1]+"-"+dmy[0];
 					day = date;
 				} else {
 					var date = $('#someday').val();
 					var chkDateRang = date.split('-');
-					if (chkDateRang[1] == null || chkDateRang[1] == undefined) {
+					if (chkDateRang[0] == null || chkDateRang[0] == undefined ||  chkDateRang[1] == null || chkDateRang[1] == undefined) {
 						swal({
 							title: '',
 							text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -356,7 +360,7 @@ $array2 = json_decode($json2, TRUE);
 					'typeReport': typeReport,
 					'Format': Format,
 					'FormatDay': FormatDay,
-					'date': date
+					'date': ymd
 				};
 			} else if (Format == 2) {
 				var FormatMonth = $("input[name='formatMonth']:checked").val();
@@ -1584,7 +1588,7 @@ $array2 = json_decode($json2, TRUE);
 		}
 
 		.mhee button {
-			/* padding: 6px 8px 6px 16px;*/
+			/* padding: 6px 8px 6px 16px; */
 			text-decoration: none;
 			font-size: 23px;
 			color: #2c3e50;
@@ -1772,8 +1776,8 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6" id="myDay">
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="yyyy-mm-dd" autocomplete="off" value="<?php echo  date('Y-m-d'); ?>">
-														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="yyyy/mm/dd">
+														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="dd/mm/yyyy" autocomplete="off" value="<?php echo  date('d/m/Y'); ?>">
+														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd-mm-yyyy">
 													</div>
 												</div>
 												<div class="col-md-6" id="myMonth">
@@ -1784,20 +1788,21 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 												</div>
 											</div>
+
 										</div>
 									</div>
 								</div>
 								<div class="row m-1  d-flex justify-content-end col-12">
 									<div class="menu" <?php if ($PmID == 1) echo 'hidden'; ?>>
 										<div class="d-flex justify-content-center">
-											<div class="search_1 d-flex justify-content-center">
-												<button class="btn" onclick="search_fillter();">
-													<i class="fas fa-search"></i>
-													<div>
-														<?php echo $array['search'][$language]; ?>
-													</div>
-												</button>
+											<div class="search_1 d-flex align-items-center d-flex justify-content-center">
+												<i class="fas fa-search"></i>
 											</div>
+										</div>
+										<div>
+											<button class="btn" onclick="search_fillter();">
+												<?php echo $array['search'][$language]; ?>
+											</button>
 										</div>
 									</div>
 								</div>
