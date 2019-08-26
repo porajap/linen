@@ -959,12 +959,10 @@ $(document).ready(function(e){
                   var chkDocx = "<input  name = 'item_array'  value='"+temp[i]['ItemCode']+"'>";
                   // var Qtyx = "<input  class='Qty_array'   value='"+temp[i]['Qty']+"'>";
 
-                  var chkDoc = "<label class='radio'style='margin-top: 5%;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark' style='margin-top:15%;'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label>";
+                  var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label></div>";
 
-                  // var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else{this.value = 0}' OnBlur='UpdateQty(\""+i+"\",\""+temp[i]['RowID']+"\")' ></div>";
                   var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else if(this.value < 0){this.value = 1}' ></div>";
-                  // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['ParQty']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode']+"\")'>+</button></div>";
-                  //var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['MaxQty']+"' ></div>";
+
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
@@ -1315,7 +1313,7 @@ $(document).ready(function(e){
   <body id="page-top">
 
     <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
       <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][11][$language]; ?></li>
     </ol>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>

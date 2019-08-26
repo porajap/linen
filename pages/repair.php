@@ -960,7 +960,7 @@ $(document).ready(function(e){
                   }
                   chkunit += "</select>";
                   var chkDocx = "<input  name = 'item_array'  value='"+temp[i]['ItemCode']+"'>";
-                  var chkDoc = "<label class='radio'style='margin-top: 5%;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark' style='margin-top:15%;'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label>";
+                  var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label></div>";
                   var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else if(this.value < 0){this.value = 1}' ></div>";
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 

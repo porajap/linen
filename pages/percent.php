@@ -18,8 +18,11 @@ if(empty($_SESSION['lang'])){
 
 header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/general_lang.xml');
+$xml2 = simplexml_load_file('../xml/main_lang.xml');
 $json = json_encode($xml);
 $array = json_decode($json,TRUE);
+$json2 = json_encode($xml2);
+$array2 = json_decode($json2,TRUE);
  ?>
 
 <!DOCTYPE html>
@@ -428,6 +431,10 @@ table tr:first-child th:first-child {
   </head>
 
   <body id="page-top">
+  <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
+      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][4][$language]; ?></li>
+    </ol>
   <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
 
     <div id="wrapper">
