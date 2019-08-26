@@ -420,8 +420,10 @@ $array2 = json_decode($json2, TRUE);
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
+      var xItemnew = 0;
     
       if ($('#xCenter').is(':checked')) xCenter = 1;
+      if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -458,7 +460,8 @@ $array2 = json_decode($json2, TRUE);
                 'Weight': Weight,
                 'qpu': qpu,
                 'sUnit': sUnit,
-                'xCenter': xCenter
+                'xCenter': xCenter,
+                'xItemnew': xItemnew
               };
               console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
@@ -509,7 +512,9 @@ $array2 = json_decode($json2, TRUE);
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
+      var xItemnew = 0;
       if ($('#xCenter').is(':checked')) xCenter = 1;
+      if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -548,7 +553,8 @@ $array2 = json_decode($json2, TRUE);
                   'Weight': Weight,
                   'qpu': qpu,
                   'sUnit': sUnit,
-                  'xCenter': xCenter
+                  'xCenter': xCenter,
+                  'xItemnew': xItemnew
                 };
                 senddata(JSON.stringify(data));
               } else if (result.dismiss == 'cancel') {
@@ -1094,18 +1100,20 @@ $array2 = json_decode($json2, TRUE);
               $("#TableUnit tbody").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
+                var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
                 var chkDoc = "<label class='container'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
-                  "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
-                  "<td style='width: 25%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='width: 20%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
-                  "<td style='width: 14%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
-                  "<td style='width: 7%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
-                  "<td style='width: 12%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
-                  "<td style='width: 10%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
+                  "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                  "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
+                  "<td style='width: 15%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                  "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                  "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 11%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
                   "</tr>";
 
                 if (rowCount == 0) {
@@ -1148,16 +1156,29 @@ $array2 = json_decode($json2, TRUE);
                 
 
                 if (temp[0]['IsDirtyBag'] == 1)  {
-                                        $('input[type=checkbox]').each(function() 
-                                {   
-                                this.checked = true; 
-                                        });                                
-                                }else{
-                                $('input[type=checkbox]').each(function() 
-                                {   
-                                this.checked = false; 
-                                        });                               
+                    $('#xCenter').each(function() 
+                    {   
+                    this.checked = true; 
+                            });                                
+                    }else{
+                    $('#xCenter').each(function() 
+                    {   
+                    this.checked = false; 
+                            });                               
                                     }
+
+                if (temp[0]['Itemnew'] == 1)  {
+                    $('#xItemnew').each(function() 
+                    {   
+                    this.checked = true; 
+                            });                                
+                    }else{
+                    $('#xItemnew').each(function() 
+                    {   
+                    this.checked = false; 
+                            });                               
+                                    }
+
                 if (temp[0]['RowID']) {
                   for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                     var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
@@ -1722,19 +1743,20 @@ $array2 = json_decode($json2, TRUE);
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">
                     <th style='width: 5%; font-size:13px;'>&nbsp;</th>
-                    <th style='width: 5%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                    <th style='width: 25%;' nowrap><?php echo $array['codecode'][$language]; ?>
+                    <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                    <th style='width: 19%;' nowrap><?php echo $array['codecode'][$language]; ?>
                       <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
                       <a href="javascript:void(0)" class="activeSort white"  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                     </th>
-                    <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?>
+                    <th style='width: 15%;' nowrap><?php echo $array['item'][$language]; ?>
                     <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
                       <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                      </th>
-										<th style='width: 13%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
-										<th style='width: 10%;' nowrap><?php echo $array['size'][$language]; ?></th>
-                    <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
-                    <th style='width: 10%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
+										<th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+										<th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                    <th style='width: 14%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                    <th style='width: 11%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
+                    <th style='width: 10%;' nowrap><?php echo $array['newitem'][$language]; ?></th>
                   </tr>
                 </thead>
                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
@@ -1851,7 +1873,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
-                                    <input type='radio' name='formatitem' id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+                                  <input type='radio' name='formatitem' id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
@@ -1992,8 +2014,11 @@ $array2 = json_decode($json2, TRUE);
                           <div class='form-group row'>
                               <label style="top: -9px;" class="col-sm-4 col-form-label text-right"><?php echo $array['spacial'][$language]; ?></label>
                               <input type="checkbox"  id="xCenter">
+                              <label style="top: -9px;" class="col-sm-4 col-form-label text-right"><?php echo $array['newitem'][$language]; ?></label>
+                              <input type="checkbox"  id="xItemnew">
                             </div>
                           </div>
+                          
                           <div class="col-md-6">
                             <div class='form-group row'>
 
@@ -2076,6 +2101,7 @@ $array2 = json_decode($json2, TRUE);
                         <th align='center' style='width: 19%;'><?php echo $array['secunit'][$language]; ?></th>
                         <th align='center' style='width: 14%;'><?php echo $array['multiply_unit'][$language]; ?></th>
                         <th align='center' style='width: 17%;'><?php echo $array['multiply_price'][$language]; ?></th>
+                        
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:200px;">

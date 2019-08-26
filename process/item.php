@@ -31,7 +31,8 @@ function ShowItem($conn, $DATA)
             item.FacPrice,
             item.Weight,
             item.Picture,
-            item.IsDirtyBag
+            item.IsDirtyBag,
+            item.Itemnew
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
@@ -56,6 +57,7 @@ function ShowItem($conn, $DATA)
     $return[$count]['Weight'] = $Result['Weight'];
     $return[$count]['Picture'] = $Result['Picture'];
     $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag'];
+    $return[$count]['Itemnew'] = $Result['Itemnew'];
     $count++;
   }
 
@@ -394,7 +396,8 @@ function AddItem($conn, $DATA)
             Weight = '" . $DATA['Weight'] . "',
             QtyPerUnit = '" . $DATA['qpu'] . "',
             UnitCode2 = '" . $DATA['sUnit'] . "',
-            IsDirtyBag = '" . $DATA['xCenter'] . "'  
+            IsDirtyBag = '" . $DATA['xCenter'] . "',  
+            Itemnew = '" . $DATA['xItemnew'] . "'
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
 
             $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
@@ -557,7 +560,8 @@ function NewItem($conn, $DATA)
             IsActive,
             QtyPerUnit,
             UnitCode2,
-            IsDirtyBag
+            IsDirtyBag,
+            Itemnew
            )
             VALUES
             (
@@ -572,7 +576,8 @@ function NewItem($conn, $DATA)
               1,
               '" . $DATA['qpu'] . "',
               '" . $DATA['sUnit'] . "',
-              '" . $DATA['xCenter'] . "'
+              '" . $DATA['xCenter'] . "',
+              '" . $DATA['xItemnew'] . "'
 
             )
     ";
