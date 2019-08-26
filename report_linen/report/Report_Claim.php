@@ -5,83 +5,77 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data=$_SESSION['data_send'];
-$HptCode=$data['HptCode'];
-$FacCode=$data['FacCode'];
-$date1=$data['date1'];
-$date2=$data['date2'];
-$chk=$data['chk'];
-$year=$data['year'];
-$format=$data['Format'];
-$DepCode=$data['DepCode'];
+$data = $_SESSION['data_send'];
+$HptCode = $data['HptCode'];
+$FacCode = $data['FacCode'];
+$date1 = $data['date1'];
+$date2 = $data['date2'];
+$chk = $data['chk'];
+$year = $data['year'];
+$format = $data['Format'];
+$DepCode = $data['DepCode'];
 
-$where='';
+$where = '';
 //print_r($data);
-if($chk == 'one'){
+if ($chk == 'one') {
   if ($format == 1) {
     $where =   "WHERE DATE (claim.Docdate) = DATE('$date1')";
-    list($year,$mouth,$day) = explode("-", $date1);
+    list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
-    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+    $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+  } elseif ($format = 3) {
+    $where = "WHERE  year (claim.DocDate) LIKE '%$date1%'";
+    $date_header = "ประจำปี : $date1";
   }
-  elseif ($format = 3) {
-      $where = "WHERE  year (claim.DocDate) LIKE '%$date1%'";
-      $date_header= "ประจำปี : $date1";
-    }
-}
-elseif($chk == 'between'){
+} elseif ($chk == 'between') {
   $where =   "WHERE claim.Docdate BETWEEN '$date1' AND '$date2'";
-  list($year,$mouth,$day) = explode("-", $date1);
-  list($year2,$mouth2,$day2) = explode("-", $date2);
+  list($year, $mouth, $day) = explode("-", $date1);
+  list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
-  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
-                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
-
-}
-elseif($chk == 'month'){
-    $where =   "WHERE month (claim.Docdate) = ".$date1;
-    $datetime = new DatetimeTH();
-    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
-
-}
-elseif ($chk == 'monthbetween') {
+  $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year) . " ถึง " .
+    "วันที่ " . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
+} elseif ($chk == 'month') {
+  $where =   "WHERE month (claim.Docdate) = " . $date1;
+  $datetime = new DatetimeTH();
+  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1);
+} elseif ($chk == 'monthbetween') {
   $where =   "WHERE month(claim.Docdate) BETWEEN $date1 AND $date2";
   $datetime = new DatetimeTH();
-  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
+  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1) . " ถึง " . $datetime->getTHmonthFromnum($date2);
 }
 
 $language = $_GET['lang'];
-if($language=="en"){
+if ($language == "en") {
   $language = "en";
-}else{
+} else {
   $language = "th";
 }
 
-header ('Content-type: text/html; charset=utf-8');
+header('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/report_lang.xml');
 $json = json_encode($xml);
-$array = json_decode($json,TRUE);
+$array = json_decode($json, TRUE);
 
-Class PDF extends FPDF
+class PDF extends FPDF
 {
   function Header()
   {
     $datetime = new DatetimeTH();
-    $printdate = date('d')." ".$datetime->getTHmonth(date('F'))." พ.ศ. ".$datetime->getTHyear(date('Y'));
-    $edate = $eDate[0]." ".$datetime->getTHmonthFromnum($eDate[1])." พ.ศ. ".$datetime->getTHyear($eDate[2]);
+    $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
+    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
 
-    if($this->page==1){
+    if ($this->page == 1) {
       // Move to the right
-      $this->SetFont('THSarabun','',10);
-      $this->Cell(190,10,iconv("UTF-8","TIS-620","วันที่พิมพ์รายงาน ".$printdate),0,0,'R');
+      $this->SetFont('THSarabun', '', 10);
+      $this->Cell(190, 10, iconv("UTF-8", "TIS-620", "วันที่พิมพ์รายงาน " . $printdate), 0, 0, 'R');
       $this->Ln(5);
       // Title
-      $this->SetFont('THSarabun','b',20);
+      $this->SetFont('THSarabun', 'b', 20);
       $this->Cell(80);
-      $this->Cell(30,10,iconv("UTF-8","TIS-620","รายงานผ้าชำรุดเสียหาย "),0,0,'C');
+      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "รายงานผ้าชำรุดเสียหาย "), 0, 0, 'C');
       // Line break
       $this->Ln(10);
-    }else{
+    } else {
       // Line break
       $this->Ln(7);
     }
@@ -92,86 +86,83 @@ Class PDF extends FPDF
   // Page footer
   function Footer()
   {
-      // Position at 1.5 cm from bottom
-      $this->SetY(-15);
-      // Arial italic 8
-      $this->SetFont('THSarabun','i',9);
-      // Page number
-      $this->Cell(0,10,iconv("UTF-8","TIS-620",'').$this->PageNo().'/{nb}',0,0,'R');
+    // Position at 1.5 cm from bottom
+    $this->SetY(-15);
+    // Arial italic 8
+    $this->SetFont('THSarabun', 'i', 9);
+    // Page number
+    $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') . $this->PageNo() . '/{nb}', 0, 0, 'R');
   }
 
-  function setTable($pdf,$header,$data,$width,$numfield,$field)
+  function setTable($pdf, $header, $data, $width, $numfield, $field)
   {
-    $field = explode(",",$field);
+    $field = explode(",", $field);
     // Column widths
     $w = $width;
     // Header
-    $this->SetFont('THSarabun','b',12);
-    for($i=0;$i<count($header);$i++)
-        $this->Cell($w[$i],10,iconv("UTF-8","TIS-620",$header[$i]),1,0,'C');
+    $this->SetFont('THSarabun', 'b', 12);
+    for ($i = 0; $i < count($header); $i++)
+      $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
     $this->Ln();
 
     // set Data Details
     $loop = 1;
-    $rows=1;
-    $new_header= 0;
-    $reject=0;
-    $repair=0;
-    $damaged=0;
+    $rows = 1;
+    $new_header = 0;
+    $reject = 0;
+    $repair = 0;
+    $damaged = 0;
     $totalsum1 = '';
     $totalsum2 = '';
     $totalsum3 = '';
-  
-    $this->SetFont('THSarabun','',12);
-    if(is_array($data)){
-    foreach($data as $data=>$inner_array){
-      if($inner_array[$field[1]] != 0){
-      $reject=100-(($inner_array[$field[1]]-$inner_array[$field[2]])/$inner_array[$field[1]]*100);
-      $repair=100-(($inner_array[$field[1]]-$inner_array[$field[3]])/$inner_array[$field[1]]*100);
-      $damaged=100-(($inner_array[$field[1]]-$inner_array[$field[4]])/$inner_array[$field[1]]*100);
-      }
-      if ($rows>23) {
+
+    $this->SetFont('THSarabun', '', 12);
+    if (is_array($data)) {
+      foreach ($data as $data => $inner_array) {
+        if ($inner_array[$field[1]] != 0) {
+          $reject = 100 - (($inner_array[$field[1]] - $inner_array[$field[2]]) / $inner_array[$field[1]] * 100);
+          $repair = 100 - (($inner_array[$field[1]] - $inner_array[$field[3]]) / $inner_array[$field[1]] * 100);
+          $damaged = 100 - (($inner_array[$field[1]] - $inner_array[$field[4]]) / $inner_array[$field[1]] * 100);
+        }
+        if ($rows > 23) {
           $new_header++;
-        if( $new_header%24==1) {
-          for($i=0;$i<count($header);$i++)
-              $this->Cell($w[$i],10,iconv("UTF-8","TIS-620",$header[$i]),1,0,'C');
-                  $this->Ln();
+          if ($new_header % 24 == 1) {
+            for ($i = 0; $i < count($header); $i++)
+              $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+            $this->Ln();
+          }
+        }
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
+        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($reject, 2) . "%"), 1, 0, 'C');
+        $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", number_format($repair, 2) . "%"), 1, 0, 'C');
+        $this->Cell($w[7], 10, iconv("UTF-8", "TIS-620", number_format($damaged, 2) . "%"), 1, 1, 'C');
+        $totalsum1 += $inner_array[$field[1]];
+        $totalsum2 += $inner_array[$field[2]];
+        $totalsum3 += $inner_array[$field[3]];
+        $totalsum4 += $inner_array[$field[4]];
+        $totalsum5 += $reject;
+        $totalsum6 += $repair;
+        $totalsum7 += $damaged;
+        $rows++;
       }
     }
-      $this->Cell($w[0],10,iconv("UTF-8","TIS-620",$inner_array[$field[0]]),1,0,'C');
-      $this->Cell($w[1],10,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),1,0,'C');
-      $this->Cell($w[2],10,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),1,0,'C');
-      $this->Cell($w[3],10,iconv("UTF-8","TIS-620",$inner_array[$field[3]]),1,0,'C');
-      $this->Cell($w[4],10,iconv("UTF-8","TIS-620",$inner_array[$field[4]]),1,0,'C');
-      $this->Cell($w[5],10,iconv("UTF-8","TIS-620",number_format($reject,2)."%"),1,0,'C');
-      $this->Cell($w[6],10,iconv("UTF-8","TIS-620",number_format($repair,2)."%"),1,0,'C');
-      $this->Cell($w[7],10,iconv("UTF-8","TIS-620",number_format($damaged,2)."%"),1,1,'C');
-      $totalsum1+= $inner_array[$field[1]];
-      $totalsum2+= $inner_array[$field[2]];
-      $totalsum3+= $inner_array[$field[3]];
-      $totalsum4+= $inner_array[$field[4]];
-      $totalsum5+= $reject;
-      $totalsum6+= $repair;
-      $totalsum7+= $damaged;
-        $rows++;
-
-
-    }
-  }
-  $this->Cell($w[0],10,iconv("UTF-8","TIS-620","รวม"),1,0,'C');
-  $this->Cell($w[1],10,iconv("UTF-8","TIS-620",$totalsum1),1,0,'C');
-  $this->Cell($w[2],10,iconv("UTF-8","TIS-620",$totalsum2),1,0,'C');
-  $this->Cell($w[3],10,iconv("UTF-8","TIS-620",$totalsum3),1,0,'C');
-  $this->Cell($w[4],10,iconv("UTF-8","TIS-620",$totalsum4),1,0,'C');
-  $this->Cell($w[5],10,iconv("UTF-8","TIS-620",number_format($totalsum5,2)."%"),1,0,'C');
-  $this->Cell($w[6],10,iconv("UTF-8","TIS-620",number_format($totalsum6,2)."%"),1,0,'C');
-  $this->Cell($w[7],10,iconv("UTF-8","TIS-620",number_format($totalsum7,2)."%"),1,1,'C');
+    $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", "รวม"), 1, 0, 'C');
+    $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $totalsum1), 1, 0, 'C');
+    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $totalsum2), 1, 0, 'C');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $totalsum3), 1, 0, 'C');
+    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $totalsum4), 1, 0, 'C');
+    $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($totalsum5, 2) . "%"), 1, 0, 'C');
+    $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", number_format($totalsum6, 2) . "%"), 1, 0, 'C');
+    $this->Cell($w[7], 10, iconv("UTF-8", "TIS-620", number_format($totalsum7, 2) . "%"), 1, 1, 'C');
     // Closing line
 
 
   }
-
-  }
+}
 
 // *** Prepare Data Resource *** //
 // Instanciation of inherited class
@@ -181,7 +172,7 @@ $data = new Data();
 $datetime = new DatetimeTH();
 
 // Using Coding
-$pdf->AddPage("P","A4");
+$pdf->AddPage("P", "A4");
 
 $Sql = "SELECT department.DepName,
       claim.DocDate,
@@ -199,18 +190,18 @@ $Sql = "SELECT department.DepName,
       AND factory.FacCode = $FacCode
       GROUP BY claim.DocDate ORDER BY claim.DocDate ASC
         ";
-$meQuery = mysqli_query($conn,$Sql);
+$meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-         $DepName = $Result['DepName'];
-         $HptName = $Result['HptName'];
+  $DepName = $Result['DepName'];
+  $HptName = $Result['HptName'];
 }
-$pdf->SetFont('THSarabun','b',12);
+$pdf->SetFont('THSarabun', 'b', 12);
 $pdf->Cell(1);
-$pdf->Cell(150,10,iconv("UTF-8","TIS-620","Linen Department site : " .$HptName." ".$DepName),0,0,'L');
-$pdf->Cell(ุ60,10,iconv("UTF-8","TIS-620",$date_header),0,0,'R');
+$pdf->Cell(150, 10, iconv("UTF-8", "TIS-620", "Linen Department site : " . $HptName . " " . $DepName), 0, 0, 'L');
+$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 
-  $query = "SELECT a.DocNo,
+$query = "SELECT a.DocNo,
   IFNULL(CLEAN, 0) AS CLEAN,
     IFNULL(REWASH, 0) AS REWASH,
     IFNULL(REPAIR, 0) AS REPAIR,
@@ -229,17 +220,17 @@ $pdf->Ln(10);
   GROUP BY claim.DocNo) a,
   (SELECT  sum(rewash_detail.Qty1) AS REWASH,
       claim.DocNo
-  FROM  claim,rewash_detail,rewash,clean
-  WHERE  rewash.DocNo=rewash_detail.DocNo
-	AND rewash.RefDocNo=clean.DocNo
-	AND claim.RefDocNo=clean.DocNo
-  AND claim.HptCode = '$HptCode'
+  FROM  claim
+LEFT  JOIN rewash ON rewash.RefDocNo=claim.DocNo
+LEFT  JOIN rewash_detail ON rewash.DocNo=rewash_detail.DocNo
+WHERE
+   claim.HptCode = '$HptCode'
   AND claim.DepCode = '$DepCode'
   GROUP BY claim.DocNo) b,
   (
   SELECT  claim.DocNo,SUM(repair_detail.Qty) AS REPAIR
   FROM claim
-  INNER JOIN repair ON claim.DocNo = repair.RefDocNo
+  LEFT JOIN repair ON claim.DocNo = repair.RefDocNo
   LEFT JOIN repair_detail ON repair.DocNo=repair_detail.DocNo
   WHERE  claim.HptCode = '$HptCode'
   AND claim.DepCode = '$DepCode'
@@ -247,7 +238,7 @@ $pdf->Ln(10);
   ) c,
   (SELECT  claim.DocNo,SUM(damage_detail.Qty) AS DAMAGE
   FROM claim
-  INNER JOIN damage ON claim.DocNo = damage.RefDocNo
+  LEFT JOIN damage ON claim.DocNo = damage.RefDocNo
   LEFT JOIN damage_detail ON damage.DocNo=damage_detail.DocNo
   WHERE  
    claim.HptCode = '$HptCode'
@@ -267,19 +258,19 @@ $numfield = 8;
 // Field data (Must match with Query)
 $field = "FacName,CLEAN,REWASH,REPAIR,DAMAGE, , , ";
 // Table header
-$header = array('โรงซัก','ผ้าที่รับ(จำนวน)','Reject(จำนวน)','Repair(จำนวน)','Damaged(จำนวน)','Reject(%)','Repair(%)','Damaged(%)');
+$header = array('โรงซัก', 'ผ้าที่รับ(จำนวน)', 'Reject(จำนวน)', 'Repair(จำนวน)', 'Damaged(จำนวน)', 'Reject(%)', 'Repair(%)', 'Damaged(%)');
 // width of column table
-$width = array(25,25,25,25,25,20,20,25);
+$width = array(25, 25, 25, 25, 25, 20, 20, 25);
 // Get Data and store in Result
-$result = $data->getdata($conn,$query,$numfield,$field);
+$result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
-$pdf->SetFont('THSarabun','b',10);
-$pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
+$pdf->SetFont('THSarabun', 'b', 10);
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->Ln();
 // Get $totalsum
 
 $ddate = date('d_m_Y');
-$pdf->Output('I','Report_Claim_'.$ddate.'.pdf');
+$pdf->Output('I', 'Report_Claim_' . $ddate . '.pdf');
 /**FROM (SELECT  sum(clean_detail.Qty) AS CLEAN,
       claim.DocNo,factory.FacName
   FROM  claim,clean,clean_detail,dirty,factory

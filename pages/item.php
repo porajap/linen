@@ -602,7 +602,6 @@ $array2 = json_decode($json2, TRUE);
       $('input.format_chk').on('change', function() {
           $('input.format_chk').not(this).prop('checked', false);  
       });
-      
       var Catagory = $('#catagory2').val();
       var modeCode = $('#formatitem:checked').val();
       var modeCheck = $('#checkitem:checked').val();
@@ -1106,6 +1105,7 @@ $array2 = json_decode($json2, TRUE);
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
+  
                 var chkDoc = "<label class='container'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 // var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
@@ -1863,7 +1863,11 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
+<<<<<<< HEAD
                                   <input type='checkbox' name='formatitem' class="format_chk" id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+=======
+                                 <input type='radio' name='formatitem' id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+>>>>>>> 8c34d1bfd7216c51d07606eddbe55654521aca53
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
