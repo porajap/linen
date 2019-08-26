@@ -970,6 +970,13 @@ function CreateDocument($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
   }
 
+  function updateQty($conn, $DATA){
+    $newQty = $DATA['newQty'];
+    $RowID = $DATA['RowID'];
+    $Sql = "UPDATE clean_detail SET Qty = $newQty WHERE Id = $RowID";
+    mysqli_query($conn, $Sql);
+  }
+
   function get_dirty_doc($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
@@ -1057,7 +1064,9 @@ function CreateDocument($conn, $DATA)
       get_dirty_doc($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'chk_percent') {
       chk_percent($conn, $DATA);
-    }
+    } elseif ($DATA['STATUS'] == 'updateQty') {
+    updateQty($conn, $DATA);
+  }
 
 
 
