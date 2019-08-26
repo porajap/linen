@@ -830,6 +830,7 @@ $array2 = json_decode($json2,TRUE);
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
                       $("#Dep2").val(temp[0]['DepCode']);
+                      $("#department").val(temp[0]['DepCode']);
                       // $("#docdate").val(temp[0]['DocDate']);
                       // $("#recorder").val(temp[0]['Record']);
                       // $("#timerec").val(temp[0]['RecNow']);
