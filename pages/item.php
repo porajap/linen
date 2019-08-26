@@ -24,7 +24,6 @@ $array2 = json_decode($json2, TRUE);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -125,6 +124,7 @@ $array2 = json_decode($json2, TRUE);
         $("a").removeClass("white");
         $(this).attr("class", "white");
       });
+
     }).click(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -599,9 +599,6 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function CreateItemCode() {
-      $('input.format_chk').on('change', function() {
-          $('input.format_chk').not(this).prop('checked', false);  
-      });
       var Catagory = $('#catagory2').val();
       var modeCode = $('#formatitem:checked').val();
       var modeCheck = $('#checkitem:checked').val();
@@ -1863,7 +1860,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
-                                  <input type='checkbox' name='formatitem' class="format_chk" id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+                                  <input type='radio' name='formatitem'  id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
@@ -1871,7 +1868,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c' style="align-content:center">
-                                    <input type='checkbox' name='formatitem' class="format_chk" id='formatitem' value='1' onclick="CreateItemCode()">
+                                    <input type='radio' name='formatitem' id='formatitem' value='1' onclick="CreateItemCode()">
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['oldFormatItemCode'][$language]; ?></label>
                                 </div>
@@ -1879,7 +1876,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c' style="align-content:center">
-                                    <input type='checkbox' name='formatitem' class="format_chk" id='formatitem' value='2' onclick="CreateItemCode()">
+                                    <input type='radio' name='formatitem'  id='formatitem' value='2' onclick="CreateItemCode()">
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['newFormatItemCode'][$language]; ?></label>
                                 </div>

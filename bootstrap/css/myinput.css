@@ -1,11 +1,11 @@
-/* input[type=radio] {
+#formatitem {
   position: relative;
   cursor: pointer;
   margin-top : -7px;
   margin-left: 0px;
-} */
+}
 
-/* input[type=radio]:before {
+#formatitem:before {
   content: "";
   display: block;
   position: absolute;
@@ -18,7 +18,7 @@
   background-color: white;
 }
 
-input[type=radio]:checked:after {
+#formatitem:checked:after {
   content: "";
   display: block;
   width: 7px;
@@ -31,13 +31,12 @@ input[type=radio]:checked:after {
   position: absolute;
   top: 2px;
   left: 6px;
-} */
-
+}
+/*
 input[type=checkbox] {
   position: relative;
   cursor: pointer;
 }
-
 input[type=checkbox]:before {
   content: "";
   display: block;
