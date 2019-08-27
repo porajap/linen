@@ -619,43 +619,14 @@ function ShowDetail($conn, $DATA)
       }
          $cal =  ($PriceCategory*$Price1) / $Multiply1;
          $return[$count]['cal']   = $cal;
-  // if($UniCode2 == 2 || $UniCode2 == 4){
-  //   $P_Unit1 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
-  //     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 2 ";
-  //     $P_Query1 = mysqli_query($conn, $P_Unit1);
-  //     while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
-  //       $Price1  = $P_Result1['PriceUnit'];
-  //       $Multiply1  = $P_Result1['Multiply'];
-  //     }
-
-
-  //     $P_Unit2 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
-  //     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 4 ";
-  //     $P_Query2 = mysqli_query($conn, $P_Unit2);
-  //     while ($P_Result2 = mysqli_fetch_assoc($P_Query2)) {
-  //       $Price2  = $P_Result2['PriceUnit'];
-  //       $Multiply2  = $P_Result2['Multiply'];
-  //     }
-
-  //     if($UniCode2 == 2){
-  //       $cal = $Price1;
-  //     }else{
-  //       $cal = $Price2 / $Multiply2;
-  //     }
-  //     $return[$count]['cal']   = $cal;
-  // }else if($UniCode2 == 1){
-  //   $P_Unit1 = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
-  //     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 1 ";
-  //     $P_Query1 = mysqli_query($conn, $P_Unit1);
-  //     while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
-  //       $PriceUnit  = $PriceCategory;
-  //     }
-  //     $return[$count]['cal']   = $PriceUnit;
-  // }
-
-
-
-
+         for ($i = 0; $i < $Qty; $i++) {
+          $total = $total + $cal;
+                    // ============================================================
+                    $insert = "UPDATE billwash_detail SET  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
+                    $INQuery = mysqli_query($conn, $insert);
+                    // ============================================================
+      }
+          
 
 
   if( $UniCode2 >0){
@@ -668,7 +639,7 @@ function ShowDetail($conn, $DATA)
         $return[$count]['PriceUnit']   = $PriceCategory;
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice  WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
       }
@@ -681,7 +652,7 @@ function ShowDetail($conn, $DATA)
       $return['TotalPrice']  += $return[$count]['CusPrice'];
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE billwash_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE billwash_detail SET Total = $CusPrice  WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
     }
