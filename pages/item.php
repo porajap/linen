@@ -384,7 +384,23 @@ $array2 = json_decode($json2, TRUE);
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
-
+    function ShowItemMaster(column, sort) {
+      var maincatagory = $("#maincatagory").val();
+      var item = $("#searchitem").val();
+      var catagory = $("#catagory1").val();
+      var active = '0';
+      var data = {
+        'STATUS': 'ShowItemMaster',
+        'Catagory': catagory,
+        'Keyword': item,
+        'active': active,
+        'column': column,
+        'sort': sort,
+        'maincatagory': maincatagory
+      };
+      console.log(JSON.stringify(data));
+      senddata(JSON.stringify(data));
+    }
     function ShowItem_Active_0() {
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
@@ -938,12 +954,30 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function menu_tapShow(){
+      $('#TableItem').attr("hidden", false);
+      $('#TableItemMaster').attr("hidden", true);
       $('#memu_tap1').attr('hidden', false);
       $('#myTab').removeClass('mt-5');
+      $('#searchItem_1').attr('hidden', false);
+      $('#searchItem_2').attr('hidden', true);
     }
-    function menu_tapHide(){
-      $('#memu_tap1').attr('hidden', true);
-      $('#myTab').addClass('mt-5');
+    function menu_tapHide(chk){
+      if(chk != 2){
+        $('#TableItem').attr("hidden", false);
+        $('#TableItemMaster').attr("hidden", true);
+        $('#memu_tap1').attr('hidden', true);
+        $('#myTab').addClass('mt-5');
+        $('#searchItem_1').attr('hidden', false);
+        $('#searchItem_2').attr('hidden', true);
+      }else if(chk == 2){
+        $('#TableItem').attr("hidden", true);
+        $('#TableItemMaster').attr("hidden", false);
+        $('#memu_tap1').attr('hidden', true);
+        $('#myTab').addClass('mt-5');
+        $('#searchItem_1').attr('hidden', true);
+        $('#searchItem_2').attr('hidden', false);
+      }
+
     }
 		function getplaceholder(){
 			var sUnitName = $('#sUnitName option:selected').attr("value");
@@ -1095,7 +1129,8 @@ $array2 = json_decode($json2, TRUE);
 
               }
             } else if ((temp["form"] == 'ShowItem') || (temp["form"] == 'ShowItem_Active_0')) {
-
+              $('#TableItem').attr("hidden", false);
+              $('#TableItemMaster').attr("hidden", true);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -1132,11 +1167,39 @@ $array2 = json_decode($json2, TRUE);
               $('#typeLinen').val("P");
               $('#numPack').val("01");
 
-            } else if ((temp["form"] == 'getdetail')) {
+            } else if ((temp["form"] == 'ShowItemMaster')) {
+                $('#TableItem').attr("hidden", true);
+                $('#TableItemMaster').attr("hidden", false);
+                $("#TableItemMaster tbody").empty();
+                $("#TableItemMaster tbody").empty();
+                for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
+                  var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
+                  var rowCount = $('#TableItemMaster >tbody >tr').length;
+
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
+                    "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
+                    "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                    "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
+                    "<td style='width: 15%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                    "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                    "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                    "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
+                    "<td style='width: 11%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
+                    "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
+                    "</tr>";
+
+                  if (rowCount == 0) {
+                    $("#TableItemMaster tbody").append($StrTR);
+                  } else {
+                    $('#TableItemMaster tbody:last-child').append($StrTR);
+                  }
+                }
+              }
+            else if ((temp["form"] == 'getdetail')) {
               if ((Object.keys(temp).length - 2) > 0) {
                 $("#TableUnit tbody").empty();
-                // console.log(temp);
-                // $('#maincatagory2').val(temp[0]['MainCategoryCode']);
                 $('#catagory2').val(temp[0]['CategoryCode']);
                 $('#ItemCode').val(temp[0]['ItemCode']);
                 console.log(temp[0]['ItemCode']);
@@ -1165,9 +1228,9 @@ $array2 = json_decode($json2, TRUE);
                   $('#xItemnew').prop('checked', false);
                 }
 
-                if (temp[0]['RowID']) {
-                  for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                    var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
+                if (temp['RowCount']!=0) {
+                  for (var i = 0; i < temp['RowCount']; i++) {
+                    // var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
                     var rowCount = $('#TableUnit >tbody >tr').length;
                     var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem2' id='checkitem2' value='" + temp[i]['RowID'] + "'><span class='checkmark'></span></label>";
                     StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
@@ -1177,7 +1240,7 @@ $array2 = json_decode($json2, TRUE);
                       "<td style='width: 15%;' align='left'nowrap>" + temp[i]['MpCode'] + "</td>" +
                       "<td style='width: 17%;' align='left'nowrap>" + temp[i]['UnitName2'] + "</td>" +
                       "<td style='width: 15%;' align='left'nowrap>" + temp[i]['Multiply'] + "</td>" +
-                      "<td style='width: 15%;' align='left'nowrap>" + PriceUnit + "</td>" +
+                      "<td style='width: 15%;' align='left'nowrap>" + temp[i]['PriceUnit'] + "</td>" +
                       "</tr>";
 
                     if (rowCount == 0) {
@@ -1186,6 +1249,31 @@ $array2 = json_decode($json2, TRUE);
                       $('#TableUnit tbody:last-child').append(StrTR);
                     }
                   }
+                }
+
+                if (temp['RowMaster'] != 0) {
+                  $("#TableMaster tbody").empty();
+                  for (var i = 0; i < temp['RowMaster']; i++) {
+                    var rowCount = $('#TableMaster >tbody >tr').length;
+                    var chkDoc = "<label class='radio' style='margin-top: 20%;'><input type='radio' value='" + temp[i]['RowID'] + "'><span class='checkmark'></span></label>";
+                    var QtyInput = "<input class='form-control text-center' style='width:200px;' value='"+temp[i]['Qty']+"'>"
+                    StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
+                      "<td style='width: 5%;' align='center' nowrap>" + chkDoc + "</td>" +
+                      "<td style='width: 5%;' nowrap><label> " + (i + 1) + "</label></td>" +
+                      "<td style='width: 45%;text-align:left;'  nowrap>" + temp[i]['ItemName'] + "</td>" +
+                      "<td style='width: 45%;' align='center' nowrap>" + QtyInput + "</td>" +
+                      "</tr>";
+
+                    if (rowCount == 0) {
+                      $("#TableMaster tbody").append(StrTR);
+                    } else {
+                      $('#TableMaster tbody:last-child').append(StrTR);
+                    }
+                  }
+                }else{
+                  $("#TableMaster tbody").empty();
+                  StrTR = "<td style='width: 100%;text-align:center;'><?php echo $array['notfoundmsg'][$language]; ?></td>"
+                  $("#TableMaster tbody").append(StrTR);
                 }
 
               }
@@ -1715,9 +1803,17 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <div class="col-md-2">
-                  <div class="search_custom col-md-2">
+                  <div class="search_custom col-md-2" id="searchItem_1">
 										<div class="search_1 d-flex justify-content-start">
-											<button class="btn" onclick="ShowItem()" id="bSave">
+											<button class="btn" onclick="ShowItem()">
+												<i class="fas fa-search mr-2"></i>
+												<?php echo $array['search'][$language]; ?>
+											</button>
+										</div>
+                  </div>
+                  <div class="search_custom col-md-2" id="searchItem_2" hidden>
+										<div class="search_1 d-flex justify-content-start">
+											<button class="btn" onclick="ShowItemMaster()">
 												<i class="fas fa-search mr-2"></i>
 												<?php echo $array['search'][$language]; ?>
 											</button>
@@ -1748,7 +1844,30 @@ $array2 = json_decode($json2, TRUE);
                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
                 </tbody>
               </table>
-
+              
+              <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemMaster" width="100%" cellspacing="0" role="grid" hidden>
+                <thead id="theadsum">
+                  <tr role="row" id="tableSort">
+                    <th style='width: 5%; font-size:13px;'>&nbsp;</th>
+                    <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                    <th style='width: 19%;' nowrap><?php echo $array['codecode'][$language]; ?>
+                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItemMaster('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                      <a href="javascript:void(0)" class="activeSort white"  onclick="ShowItemMaster('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                    </th>
+                    <th style='width: 15%;' nowrap><?php echo $array['item'][$language]; ?>
+                    <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItemMaster('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                      <a href="javascript:void(0)" class="activeSort "  onclick="ShowItemMaster('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                     </th>
+										<th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+										<th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                    <th style='width: 14%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                    <th style='width: 11%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
+                    <th style='width: 10%;' nowrap><?php echo $array['newitem'][$language]; ?></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
+                </tbody>
+              </table>
             </div>
           </div>
         </div> <!-- tag column 1 -->
@@ -1833,6 +1952,9 @@ $array2 = json_decode($json2, TRUE);
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="profile-tab"  onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['mulmultiply'][$language]; ?></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="itemset-tab"  onclick="menu_tapHide(2);" data-toggle="tab" href="#itemset" role="tab" aria-controls="itemset" aria-selected="false"><?php echo $array['itemset'][$language]; ?></a>
               </li>
             </ul>
 
@@ -2065,11 +2187,11 @@ $array2 = json_decode($json2, TRUE);
                         </div>
 
                         <div class="search_custom  col-md-2" <?php if($PmID == 3) echo 'hidden'; ?>>
-                        <div class="circle3 d-flex justify-content-start">
-                                <button class="btn"  onclick="DeleteUnit()" >
+                          <div class="circle3 d-flex justify-content-start">
+                            <button class="btn"  onclick="DeleteUnit()" >
                                 <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
-                                </button>
-                              </div>
+                            </button>
+                          </div>
                         </div>
 
                       </div>
@@ -2094,6 +2216,51 @@ $array2 = json_decode($json2, TRUE);
                     </tbody>
                   </table>
                 </div>
+              </div>
+
+              <div class="tab-pane" id="itemset" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row">
+                  <div class="container-fluid">
+                    <div class="card-body" style="padding:0px; margin-top:10px;">
+                      <div class="form-inline row p-4">
+                        <div class="offset-8 col-4">
+                          <div class="row d-flex justify-content-end">
+                            <div class="search_custom  col-3">
+                              <div class="circle4 d-flex justify-content-start">
+                                <button class="btn">
+                                <i class="fas fa-file-import mr-3"></i><?php echo $array['import'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="search_custom  col-3">
+                              <div class="circle3 d-flex justify-content-start">
+                                <button class="btn" >
+                                    <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top:5px;">
+                  <table class="table table-fixed table-condensed table-striped" id="TableMaster" width="100%" cellspacing="0" role="grid">
+                    <thead id="theadsum" style="font-size:18px;">
+                      <tr role="row">
+                        <th style='width: 5%;'>&nbsp;</th>
+                        <th style='width: 5%;text-align:center;'><?php echo $array['no'][$language]; ?></th>
+                        <th style='width: 45%;text-align:center;'><?php echo $array['item'][$language]; ?></th>
+                        <th style='width: 45%;text-align:center;'><?php echo $array['qty'][$language]; ?></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:200px;">
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
 
             </div>
