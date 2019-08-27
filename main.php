@@ -359,13 +359,13 @@ switch ($PmID) {
 
   <script type="text/javascript">
     var summary = [];
-
     // // ===================================================================
     var last_move, cur_date, target;
     var redirectInSecond = <?php echo $TimeOut ?>; // กำหนดเวลา redirect เป็นวินาที
     var chk_logoff = <?php echo $logoff ?>; 
     var redirect_url = 'http://poseintelligence.dyndns.biz:8181/linen-test/login.php'; // กำหนด url ที่ต้องการเมื่อครบเวลาที่กำหนด
     $(document).ready(function (e) {
+
       if(chk_logoff == 1 ){
         setActive();
       }
@@ -468,6 +468,33 @@ switch ($PmID) {
         senddata(JSON.stringify(data));
     });
   //==========================================================
+    openFullscreen();
+    var elem = document.documentElement;
+    function openFullscreen() {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+    }
+    function closeFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
 
     function logoff(chk) {
       if(chk == 1){
@@ -605,7 +632,6 @@ switch ($PmID) {
     }
 
     function switchlang(lang) {
-      
       if (document.URL.indexOf('#') >= 0) {
         var data = {
           'STATUS' : 'SETLANG',

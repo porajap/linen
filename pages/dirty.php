@@ -73,13 +73,22 @@ $array2 = json_decode($json2,TRUE);
   <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
 
   <script type="text/javascript">
+
   var summary = [];
   var xItemcode;
   var RowCnt=0;
 
-  $(document).ready(function(e){
-
-       
+  window.onbeforeunload = function (e) {
+      e = e || window.event;
+      if (window.event.keyCode == 116) {
+          alert("f5 pressed");
+      }
+      else {
+          alert("Window closed");
+      }  
+  };
+  
+  $(document).ready(function(e){ 
   //  console.log(window.parent.location.href);
     OnLoadPage();
 
