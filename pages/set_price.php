@@ -78,6 +78,9 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
+            $('.numonly').on('input', function() {
+                this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+            });
             //On create
             $('.TagImage').bind('click', {
                 imgId: $(this).attr('id')
@@ -727,7 +730,7 @@ $array2 = json_decode($json2,TRUE);
                             // console.log(temp);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var rowCount = $('#TableItem >tbody >tr').length;
-                                var chkDoc = "<label class='container'style='margin-top: 20%;'><input type='radio' name='checkitem'  id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
+                                var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem'  id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
                                 var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                                 StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
@@ -1264,7 +1267,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class="col-md-6">
                                                 <div class='form-group row'>
                                                 <label class="col-sm-4 col-form-label text-right"><?php echo $array['price'][$language]; ?></label>
-                                                <input type="text"  class="form-control col-sm-8 " id="Price"    placeholder="<?php echo $array['price'][$language]; ?>">
+                                                <input type="text"  class="form-control col-sm-8 numonly" id="Price"    placeholder="<?php echo $array['price'][$language]; ?>">
                                                 </div>
                                             </div>
                                             </div>  
@@ -1352,9 +1355,9 @@ $array2 = json_decode($json2,TRUE);
                                 <select class="form-control ml-2" style="font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
 
                                 <label id="rem" style="margin-left:20px;"> *** </label>
-                                <input type="text" autocomplete="off" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:168px;" id="datepicker" data-language='en' data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
+                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:168px;" id="datepicker" data-language='en' data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
                                 <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:150px;" id="datepicker"> -->
-                                <input type="text" autocomplete="off"  class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                <input type="text" autocomplete="off"  disabled="true" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
 
 
                                 <div class="search_custom col-md-2" id="create1">

@@ -214,8 +214,8 @@
 <back><en>Back</en><th>กลับ</th></back>
 <changetimeout><en>Edit screen time</en><th>แก้ไขเวลาพักหน้าจอ</th></changetimeout>
 <changelang><en>Change Language</en><th>เปลี่ยนภาษา</th></changelang>
-<thai><en>Thai</en><th>Thai</th></thai>
-<eng><en>English</en><th>English</th></eng>
+<thai><en>Thai</en><th>ไทย</th></thai>
+<eng><en>English</en><th>อังกฤษ</th></eng>
 <alertPar><en>Over Par</en><th>แจ้งเตือนจำนวนเกิน</th></alertPar>
 <alertPercent><en>Over Percent</en><th>แจ้งเตือนเปอร์เซ็นต์เกิน</th></alertPercent>
 <TotalPercent><en>Total Percent</en><th>เปอร์เซ็นต์ที่ได้</th></TotalPercent>

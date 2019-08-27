@@ -1245,7 +1245,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['xcenter'][$language]; ?></label>
-                                      <input type="checkbox"  id="xCenter">
+                                      <input type="checkbox"  id="xCenter" style="margin-top: 1.5%;">
                                     </div>
                                   </div>
                                 </div> 
