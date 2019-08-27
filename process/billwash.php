@@ -223,7 +223,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billwash.DocNo,billwash.DocDate,billwash.Total,users.FName,TIME(billwash.Modify_Date) AS xTime,billwash.IsStatus
+  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billwash.DocNo,DATE(billwash.DocDate) AS DocDate ,billwash.Total,users.FName,TIME(billwash.Modify_Date) AS xTime,billwash.IsStatus
 FROM billwash
 INNER JOIN department ON billwash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
@@ -231,11 +231,13 @@ INNER JOIN users ON billwash.Modify_Code = users.ID
 WHERE billwash.DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
     $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $Result['DocDate'];
+    $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
