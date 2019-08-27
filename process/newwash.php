@@ -109,8 +109,8 @@ function CreateDocument($conn, $DATA)
   $Sql = "SELECT CONCAT('NW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
   CURRENT_TIME() AS RecNow
-  FROM dirty
-  INNER JOIN department on dirty.DepCode = department.DepCode
+  FROM newlinentable
+  INNER JOIN department on newlinentable.DepCode = department.DepCode
   WHERE DocNo Like CONCAT('NW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
   AND department.HptCode = '$hotpCode'
   ORDER BY DocNo DESC LIMIT 1";
@@ -127,11 +127,11 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO dirty
+    $Sql = "INSERT INTO newlinentable
       ( DocNo,DocDate,DepCode,RefDocNo,
 		TaxNo,TaxDate,DiscountPercent,DiscountBath,
 		Total,IsCancel,Detail,
-		dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode )
+		newlinentable.Modify_Code,newlinentable.Modify_Date,newlinentable.FacCode )
       VALUES
       ( '$DocNo',NOW(),$deptCode,'',
 		0,NOW(),0,0,
@@ -142,7 +142,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
   (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
   VALUES
-  ('$DocNo',DATE(NOW()),$deptCode,'','Dirty',$userid,DATE(NOW()))";
+  ('$DocNo',DATE(NOW()),$deptCode,'','newlinentable',$userid,DATE(NOW()))";
       mysqli_query($conn, $Sql);
 
       $Sql = "SELECT users.FName
@@ -189,37 +189,37 @@ function ShowDocument($conn, $DATA)
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
   // mysqli_query($conn,$Sql);
   $Sql = "SELECT site.HptName,
-  dirty.DepCode,
+  newlinentable.DepCode,
   department.DepName,
-  dirty.DocNo,
-  DATE(dirty.DocDate) AS DocDate,
-  dirty.Total,
-  users.FName,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
-  FROM dirty
-  INNER JOIN department ON dirty.DepCode = department.DepCode
+  newlinentable.DocNo,
+  DATE(newlinentable.DocDate) AS DocDate,
+  newlinentable.Total,
+  users.FName,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
+  FROM newlinentable
+  INNER JOIN department ON newlinentable.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
-  INNER JOIN users ON dirty.Modify_Code = users.ID ";
+  INNER JOIN users ON newlinentable.Modify_Code = users.ID ";
 
   if($DocNo!=null){
-    $Sql .= " WHERE dirty.DocNo = '$DocNo'";
+    $Sql .= " WHERE newlinentable.DocNo = '$DocNo'";
   }else{
     if ($deptCode != null) {
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DepCode = $deptCode";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DepCode = $deptCode";
       if($xDocNo!=null){
-        $Sql .= " OR dirty.DocNo LIKE '%$xDocNo%'";
+        $Sql .= " OR newlinentable.DocNo LIKE '%$xDocNo%'";
       }
     }else if($deptCode == null){
       $Sql .= " WHERE site.HptCode = '$Hotp'";
     }
   }
   // if($selecta == null){
-  //   $Sql .= " WHERE dirty.DocNo = '$DocNo'";
+  //   $Sql .= " WHERE newlinentable.DocNo = '$DocNo'";
   // }else if ($selecta == 1) {
-  //   $Sql .= " WHERE dirty.HptCode = $Hotp AND dirty.DepCode = $deptCode OR dirty.DocNo LIKE '%$xDocNo%'";
+  //   $Sql .= " WHERE newlinentable.HptCode = $Hotp AND newlinentable.DepCode = $deptCode OR newlinentable.DocNo LIKE '%$xDocNo%'";
   // }else if($selecta == 2){
   //   $Sql .= " WHERE site.HptCode = '$Hotp'";
   // }
-  $Sql .= " ORDER BY dirty.DocNo DESC LIMIT 500";
+  $Sql .= " ORDER BY newlinentable.DocNo DESC LIMIT 500";
 
   $return['sql'] = $Sql;
 
@@ -264,12 +264,12 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,dirty.DocNo,dirty.DocDate,dirty.Total,users.FName,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
-  FROM dirty
-  INNER JOIN department ON dirty.DepCode = department.DepCode
+    $Sql = "SELECT   site.HptName,department.DepName,newlinentable.DocNo,newlinentable.DocDate,newlinentable.Total,users.FName,newlinentable.FacCode,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
+  FROM newlinentable
+  INNER JOIN department ON newlinentable.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
-  INNER JOIN users ON dirty.Modify_Code = users.ID
-  WHERE dirty.DocNo = '$DocNo'";
+  INNER JOIN users ON newlinentable.Modify_Code = users.ID
+  WHERE newlinentable.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['HptName']   = $Result['HptName'];
@@ -525,10 +525,10 @@ function getImport($conn, $DATA)
     }
 
     $Sql = "SELECT COUNT(*) as Cnt
-		  FROM dirty_detail
-		  INNER JOIN item  ON dirty_detail.ItemCode = item.ItemCode
-		  INNER JOIN dirty ON dirty.DocNo = dirty_detail.DocNo
-		  WHERE dirty.DocNo = '$DocNo'
+		  FROM newlinentable_detail
+		  INNER JOIN item  ON newlinentable_detail.ItemCode = item.ItemCode
+		  INNER JOIN newlinentable ON newlinentable.DocNo = newlinentable_detail.DocNo
+		  WHERE newlinentable.DocNo = '$DocNo'
 		  AND item.ItemCode = '$ItemCode'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -549,13 +549,13 @@ function getImport($conn, $DATA)
 
     if ($chkUpdate == 0) {
       if ($Sel == 1) {
-        $Sql = "INSERT INTO dirty_detail
+        $Sql = "INSERT INTO newlinentable_detail
             (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
             VALUES
             ('$DocNo','$ItemCode',$iunit2,$iqty,$iweight,0)";
         mysqli_query($conn, $Sql);
       } else {
-        $Sql = "INSERT INTO dirty_detail_sub
+        $Sql = "INSERT INTO newlinentable_detail_sub
             (DocNo,ItemCode,UsageCode)
             VALUES
             ('$DocNo','$ItemCode','$UsageCode')";
@@ -566,12 +566,12 @@ function getImport($conn, $DATA)
       }
     } else {
       if ($Sel == 1) {
-        $Sql = "UPDATE dirty_detail
+        $Sql = "UPDATE newlinentable_detail
           SET Weight = $iweight,Qty = (Qty+$iqty2)
           WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
         mysqli_query($conn, $Sql);
       } else {
-        $Sql = "INSERT INTO dirty_detail_sub
+        $Sql = "INSERT INTO newlinentable_detail_sub
               (DocNo,ItemCode,UsageCode)
               VALUES
               ('$DocNo','$ItemCode','$UsageCode')";
@@ -584,7 +584,7 @@ function getImport($conn, $DATA)
   }
   if ($Sel == 2) {
     $n = 0;
-    $Sql = "SELECT COUNT(*) AS Qty FROM dirty_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+    $Sql = "SELECT COUNT(*) AS Qty FROM newlinentable_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $Qty[$n] = $Result['Qty'];
@@ -595,19 +595,19 @@ function getImport($conn, $DATA)
       // $Sqlx = "INSERT INTO log ( log ) VALUES ('$n :: $xQty :: $chkUpdate :: $iweight')";
       // mysqli_query($conn,$Sqlx);
       if ($chkUpdate == 0) {
-        $Sql = "INSERT INTO dirty_detail
+        $Sql = "INSERT INTO newlinentable_detail
               (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
               VALUES
               ('$DocNo','$ItemCode',$iunit2,$xQty,0,0)";
       } else {
-        $Sql = "UPDATE dirty_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+        $Sql = "UPDATE newlinentable_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
       }
       mysqli_query($conn, $Sql);
     }
   }
 
     $n = 0;
-    $Sql = "SELECT UsageCode FROM dirty_detail_sub WHERE DocNo = '$DocNo'";
+    $Sql = "SELECT UsageCode FROM newlinentable_detail_sub WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $zUsageCode[$n] = $Result['UsageCode'];
@@ -635,9 +635,9 @@ function UpdateDetailQty($conn, $DATA)
   $Qty  =  $DATA["Qty"];
   $OleQty =  $DATA["OleQty"];
   $UnitCode =  $DATA["unitcode"];
-  $Sql = "UPDATE dirty_detail
+  $Sql = "UPDATE newlinentable_detail
 	SET Qty1 = $OleQty,Qty2 = $Qty,UnitCode2 = $UnitCode
-	WHERE dirty_detail.Id = $RowID";
+	WHERE newlinentable_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
 }
@@ -653,20 +653,20 @@ function UpdateDetailWeight($conn, $DATA)
   //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
   //	mysqli_query($conn,$Sqlx);
 
-  $Sql = "UPDATE dirty_detail
+  $Sql = "UPDATE newlinentable_detail
 	SET Weight = $Weight
-	WHERE dirty_detail.Id = $RowID";
+	WHERE newlinentable_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
 
   //	$wTotal = 0;
   //	$Sql = "SELECT SUM(Weight) AS wTotal
-  //	FROM dirty_detail
+  //	FROM newlinentable_detail
   //	WHERE DocNo = '$DocNo'";
   //	$meQuery = mysqli_query($conn,$Sql);
   //	while ($Result = mysqli_fetch_assoc($meQuery)) {
   //		$wTotal  	= $Result['wTotal'];
   //	}
-  //    $Sql = "UPDATE dirty SET Total = $wTotal WHERE DocNo = '$DocNo'";
+  //    $Sql = "UPDATE newlinentable SET Total = $wTotal WHERE DocNo = '$DocNo'";
   //  	mysqli_query($conn,$Sql);
 
   ShowDetail($conn, $DATA);
@@ -677,9 +677,9 @@ function updataDetail($conn, $DATA)
   $RowID  = $DATA["Rowid"];
   $UnitCode =  $DATA["unitcode"];
   $qty =  $DATA["qty"];
-  $Sql = "UPDATE dirty_detail
+  $Sql = "UPDATE newlinentable_detail
 	SET UnitCode = $UnitCode
-	WHERE dirty_detail.Id = $RowID";
+	WHERE newlinentable_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
 }
@@ -689,10 +689,10 @@ function DeleteItem($conn, $DATA)
   $RowID  = $DATA["rowid"];
   $DocNo = $DATA["DocNo"];
   $n = 0;
-  $Sql = "SELECT dirty_detail_sub.UsageCode,dirty_detail.ItemCode
-  FROM dirty_detail
-  INNER JOIN dirty_detail_sub ON dirty_detail.DocNo = dirty_detail_sub.DocNo
-  WHERE  dirty_detail.Id = $RowID";
+  $Sql = "SELECT newlinentable_detail_sub.UsageCode,newlinentable_detail.ItemCode
+  FROM newlinentable_detail
+  INNER JOIN newlinentable_detail_sub ON newlinentable_detail.DocNo = newlinentable_detail_sub.DocNo
+  WHERE  newlinentable_detail.Id = $RowID";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $ItemCode = $Result['ItemCode'];
@@ -706,12 +706,12 @@ function DeleteItem($conn, $DATA)
     mysqli_query($conn, $Sql);
   }
 
-  $Sql = "DELETE FROM dirty_detail_sub
+  $Sql = "DELETE FROM newlinentable_detail_sub
 	WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
   mysqli_query($conn, $Sql);
 
-  $Sql = "DELETE FROM dirty_detail
-	WHERE dirty_detail.Id = $RowID";
+  $Sql = "DELETE FROM newlinentable_detail
+	WHERE newlinentable_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
 
   ShowDetail($conn, $DATA);
@@ -722,7 +722,7 @@ function SaveBill($conn, $DATA)
   $DocNo = $DATA["docno"];
   $isStatus = $DATA["isStatus"];
 
-  $Sql = "UPDATE dirty SET IsStatus = $isStatus WHERE dirty.DocNo = '$DocNo'";
+  $Sql = "UPDATE newlinentable SET IsStatus = $isStatus WHERE newlinentable.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
@@ -735,7 +735,7 @@ function UpdateRefDocNo($conn, $DATA)
 {
   $DocNo = $DATA["xdocno"];
   $RefDocNo = $DATA["RefDocNo"];
-  $Sql = "UPDATE dirty SET RefDocNo = '$RefDocNo' WHERE dirty.DocNo = '$DocNo'";
+  $Sql = "UPDATE newlinentable SET RefDocNo = '$RefDocNo' WHERE newlinentable.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   ShowDocument($conn, $DATA);
 }
@@ -748,21 +748,21 @@ function ShowDetail($conn, $DATA)
   $DocNo = $DATA["DocNo"];
   //==========================================================
   $Sql = "SELECT
-  dirty_detail.Id,
-  dirty_detail.ItemCode,
+  newlinentable_detail.Id,
+  newlinentable_detail.ItemCode,
   item.ItemName,
   item.UnitCode AS UnitCode1,
   item_unit.UnitName,
-  dirty_detail.UnitCode AS UnitCode2,
-  dirty_detail.Weight,
-  dirty_detail.Qty,
+  newlinentable_detail.UnitCode AS UnitCode2,
+  newlinentable_detail.Weight,
+  newlinentable_detail.Qty,
   item.UnitCode
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-  INNER JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
-  INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
-  WHERE dirty_detail.DocNo = '$DocNo'
-  ORDER BY dirty_detail.Id DESC";
+  INNER JOIN newlinentable_detail ON newlinentable_detail.ItemCode = item.ItemCode
+  INNER JOIN item_unit ON newlinentable_detail.UnitCode = item_unit.UnitCode
+  WHERE newlinentable_detail.DocNo = '$DocNo'
+  ORDER BY newlinentable_detail.Id DESC";
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -835,7 +835,7 @@ function ShowDetail($conn, $DATA)
 
   if ($count == 0) $Total = 0;
 
-  $Sql = "UPDATE dirty SET Total = $Total WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE newlinentable SET Total = $Total WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   $return[0]['Total']    = round($Total, 2);
 
@@ -862,14 +862,14 @@ function CancelBill($conn, $DATA){
   $DocNo = $DATA["DocNo"];
   // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
   // mysqli_query($conn,$Sql);
-  $Sql = "UPDATE dirty SET IsStatus = 2  WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE newlinentable SET IsStatus = 2  WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
 }
 
 function updateQty($conn, $DATA){
   $newQty = $DATA['newQty'];
   $RowID = $DATA['RowID'];
-  $Sql = "UPDATE dirty_detail SET Qty = $newQty WHERE Id = $RowID";
+  $Sql = "UPDATE newlinentable_detail SET Qty = $newQty WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
 }
 //==========================================================
