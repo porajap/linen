@@ -74,6 +74,13 @@ $array2 = json_decode($json2,TRUE);
   var summary = [];
 
   $(document).ready(function(e){
+    $('#searchtxt').keyup(function(e){
+
+      if(e.keyCode == 13)
+      {
+          ShowDocument();
+      }
+      });
     OnLoadPage();
     getDepartment();
   }).click(function(e) { parent.afk();

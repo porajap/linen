@@ -108,7 +108,7 @@ function ShowDocument($conn,$DATA){
   if ($dept!=null) {
     $Sql.="WHERE site.HptCode = '$hos' AND item_stock.DepCode =  $dept AND item.ItemName LIKE '%$search%' ";
   }elseif($dept==null){
-    $Sql.="WHERE site.HptCode = '$hos'";
+    $Sql.="WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%$search%'";
   }
   $Sql.="GROUP BY item_stock.ItemCode , item_stock.DepCode ORDER BY department.DepCode,item_stock.ItemCode";
   $return['sql'] = $Sql;
