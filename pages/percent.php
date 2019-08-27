@@ -70,6 +70,7 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script src="../datepicker/dist/js/i18n/datepicker.th.js"></script>
 
     <script type="text/javascript">
       var summary = [];
@@ -473,13 +474,13 @@ table tr:first-child th:first-child {
                               <div class="col-md-5">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['datestart'][$language]; ?></label>
-                                  <input type="text" class="form-control col-sm-8 datepicker-here" style="font-size:22px;" id="datepicker1"  data-language='en' data-date-format='dd/mm/yyyy' >
+                                  <input type="text" class="form-control col-sm-8 datepicker-here" style="font-size:22px;" id="datepicker1"  data-language=<?php echo $language ?> data-date-format='dd/mm/yyyy' >
                                 </div>
                               </div>
                               <div class="col-md-5">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['dateend'][$language]; ?></label>
-                                  <input type="text" class="form-control col-sm-7 datepicker-here" style="font-size:22px;"  id="datepicker2"  data-language='en' data-date-format='dd/mm/yyyy' >
+                                  <input type="text" class="form-control col-sm-7 datepicker-here" style="font-size:22px;"  id="datepicker2"  data-language=<?php echo $language ?> data-date-format='dd/mm/yyyy' >
                                 </div>
                               </div>
                               <div class="col-md-2 mhee">
