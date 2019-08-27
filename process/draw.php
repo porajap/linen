@@ -93,9 +93,14 @@ function CreateDocument($conn, $DATA)
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
-    $return[0]['DocDate'] = $Result['DocDate'];
+    $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
   }
@@ -189,10 +194,14 @@ function CreateDocument($conn, $DATA)
     $Sql.= "ORDER BY draw.DocNo DESC LIMIT 500 ";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
-      $return[$count]['DocDate']   = $Result['DocDate'];
+      $return[$count]['DocDate']   = $newdate;
       $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
@@ -227,7 +236,7 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,draw.DocNo,draw.DocDate,draw.Total,users.FName,TIME(draw.Modify_Date) AS xTime,draw.IsStatus,draw.RefDocNo
+    $Sql = "SELECT   site.HptName,department.DepName,draw.DocNo,DATE(draw.DocDate) AS DocDate,draw.Total,users.FName,TIME(draw.Modify_Date) AS xTime,draw.IsStatus,draw.RefDocNo
     FROM draw
     INNER JOIN department ON draw.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -235,10 +244,14 @@ function CreateDocument($conn, $DATA)
     WHERE draw.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
-      $return[$count]['DocDate']   = $Result['DocDate'];
+      $return[$count]['DocDate']   = $newdate;
       $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
