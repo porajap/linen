@@ -305,22 +305,6 @@ function getdetail($conn, $DATA)
   }
   $return['RowCount'] = $count;
 
-  $countMaster = 0;
-  $SqlMaster = "SELECT 
-      item_set.RowID, item_set.mItemCode, item_set.ItemCode, item.ItemName, item_set.Qty
-    FROM item_set 
-    INNER JOIN item ON item.ItemCode = item_set.ItemCode
-    WHERE item_set.mItemCode = '$ItemCode' OR item_set.ItemCode = '$ItemCode'";
-  $masterQuery = mysqli_query($conn, $SqlMaster);
-  while ($Result = mysqli_fetch_assoc($masterQuery)) {
-    $return[$countMaster]['RowID'] = $Result['RowID'];
-    $return[$countMaster]['ItemCode'] = $Result['ItemCode'];
-    $return[$countMaster]['ItemName'] = $Result['ItemName'];
-    $return[$countMaster]['Qty'] = $Result['Qty'];
-    $countMaster++;
-  }
-  $return['RowMaster'] = $countMaster;
-
   if ($count > 0) {
     $return['status'] = "success";
     $return['form'] = "getdetail";
@@ -932,6 +916,124 @@ function ShowItemMaster($conn, $DATA)
   }
 }
 
+function getdetailMaster($conn, $DATA)
+{
+  $count = 0;
+  $ItemCode = $DATA['ItemCode'];
+  // ====================================================================================
+
+  $countMaster = 0;
+  $SqlMaster = "SELECT 
+      item_set.RowID, item_set.mItemCode, item_set.ItemCode, item.ItemName, item_set.Qty
+    FROM item_set 
+    INNER JOIN item ON item.ItemCode = item_set.ItemCode
+    WHERE item_set.mItemCode = '$ItemCode' OR item_set.ItemCode = '$ItemCode'";
+  $masterQuery = mysqli_query($conn, $SqlMaster);
+  while ($Result = mysqli_fetch_assoc($masterQuery)) {
+    $return[$countMaster]['RowID'] = $Result['RowID'];
+    $return[$countMaster]['ItemCode'] = $Result['ItemCode'];
+    $mItemCode = $Result['mItemCode'];
+    $return[$countMaster]['ItemName'] = $Result['ItemName'];
+    $return[$countMaster]['Qty'] = $Result['Qty'];
+    $countMaster++;
+
+  }
+  $return['RowMaster'] = $countMaster;
+  $return['mItemCode'] = $mItemCode==null?$ItemCode:$mItemCode;
+
+  if ($countMaster > 0) {
+    $return['status'] = "success";
+    $return['form'] = "getdetailMaster";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "success";
+    $return['form'] = "getdetailMaster";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
+function deleteMaster($conn, $DATA){
+  $RowID = $DATA['RowID'];
+  $Sql = "DELETE FROM item_set WHERE RowID = $RowID";
+  mysqli_query($conn, $Sql);
+}
+function SaveQtyMaster($conn, $DATA){
+  $RowID = $DATA['RowID'];
+  $Qty = $DATA['Qty'];
+  $Sql = "UPDATE item_set SET Qty = $Qty  WHERE RowID = $RowID";
+  mysqli_query($conn, $Sql);
+}
+function ShowItemModal($conn, $DATA)
+{
+  
+  $count = 0;
+  $maincatagory = $DATA['maincatagory'];
+  $Keyword = $DATA['Keyword'];
+  $Catagory = $DATA['Catagory'];
+  $Sql = "SELECT
+            item.ItemCode,
+            item.ItemName
+          FROM item
+          INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
+          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
+
+  if ($Keyword == '') {
+    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
+  } else {
+    $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
+    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
+  }
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['ItemCode'] = $Result['ItemCode'];
+    $return[$count]['ItemName'] = $Result['ItemName'];
+    $count++;
+  }
+  $return['RowMaster'] = $count;
+  if ($count > 0) {
+    $return['status'] = "success";
+    $return['form'] = "ShowItemModal";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['form'] = "ShowItemModal";
+    $return['status'] = "failed";
+    $return['msg'] = "notfound";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+function AddItemMaster($conn, $DATA){
+  $ItemCodeMaster = $DATA['ItemCode'];
+  $ItemCode = explode(',', $DATA['ArrayItemCode']);
+  $Qty = explode(',', $DATA['ArrayQty']);
+  $limit = sizeof($ItemCode, 0);
+  $count = 0;
+  for($i=0; $i < $limit; $i++)
+  {
+    $countMaster = "SELECT COUNT(ItemCode) AS cnt FROM item_set WHERE mItemCode = '$ItemCodeMaster' AND ItemCode = '$ItemCode[$i]'";
+    $meQuery = mysqli_query($conn, $countMaster);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($Result['cnt'] == 0){
+        $Sql = "INSERT INTO item_set(mItemCode, ItemCode, Qty) VALUES ('$ItemCodeMaster', '$ItemCode[$i]', $Qty[$i])";
+      }else{
+        $Sql = "UPDATE item_set SET Qty = $Qty[$i] WHERE mItemCode = '$ItemCodeMaster' AND ItemCode = '$ItemCode[$i]'";
+      }
+      // $return['sql'] = $Sql; 
+      // echo json_encode($return);
+      mysqli_query($conn, $Sql);
+    }
+  }
+  getdetailMaster($conn, $DATA);
+}
+
 if (isset($_POST['DATA'])) {
   $data = $_POST['DATA'];
   $DATA = json_decode(str_replace('\"', '"', $data), true);
@@ -970,6 +1072,16 @@ if (isset($_POST['DATA'])) {
     checkItemCode($conn, $DATA);
   }else if ($DATA['STATUS'] == 'ShowItemMaster') {
     ShowItemMaster($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'getdetailMaster') {
+    getdetailMaster($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'deleteMaster') {
+    deleteMaster($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'SaveQtyMaster') {
+    SaveQtyMaster($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'ShowItemModal') {
+    ShowItemModal($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'AddItemMaster') {
+    AddItemMaster($conn, $DATA);
   }
 } else {
   $return['status'] = "error";
