@@ -792,6 +792,16 @@ $array2 = json_decode($json2, TRUE);
       }
     }
 
+    function getdetailMaster(ItemCode,row) {
+      $('#btn_importMaster').attr('disabled', false);
+      if (ItemCode != "" && ItemCode != undefined) {
+        var data = {
+          'STATUS': 'getdetailMaster',
+          'ItemCode': ItemCode
+        };
+        senddata(JSON.stringify(data));
+      }
+    }
     function ActiveItem() {
       var ItemCode = $('#ItemCode').val();
       if (ItemCode != "" && ItemCode != undefined) {
@@ -993,6 +1003,127 @@ $array2 = json_decode($json2, TRUE);
 				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Quality'][$language]; ?>");    
 			}
 		}
+    function undisableDel(){
+      $('#btn_deleteMaster').attr('disabled', false);
+    }
+    function deleteMaster(){
+      var RowID = $(".masterChk:checked").val();
+      swal({
+        title: "<?php echo $array['canceldata'][$language]; ?>",
+        text: "<?php echo $array['canceldata1'][$language]; ?>",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+      }).then(result => {
+        var ItemCode = $('#ItemCode').val();
+        $('#btn_deleteMaster').attr('disabled', true);
+        if (result.value) {
+          $('#tr'+RowID).remove();
+          var data = {
+            'STATUS' : 'deleteMaster',
+            'RowID' : RowID
+          };
+          senddata(JSON.stringify(data));
+        } else if (result.dismiss == 'cancel') {
+          $('#btn_deleteMaster').attr('disabled', false);
+          swal.close();
+        }
+      })
+    }
+    function SaveQtyMaster(RowID, row){
+      swal({
+        title: '<?php echo $array['pleasewait'][$language]; ?>',
+        text: '<?php echo $array['processing'][$language]; ?>',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+      var NewQty = $('#masterQty_'+row).val();
+      var data = {
+        'STATUS':'SaveQtyMaster',
+        'RowID':RowID,
+        'Qty':NewQty
+      };
+      senddata(JSON.stringify(data));
+    }
+    function openModal(){
+      $('#masterModal').modal('show');
+    }
+    function ShowItemModal() {
+      var maincatagory = $("#maincatagoryModal").val();
+      var catagory = $("#catagoryModal").val();
+      var item = $("#searchitemModal").val();
+      var data = {
+        'STATUS': 'ShowItemModal',
+        'Catagory': catagory,
+        'Keyword': item,
+        'maincatagory': maincatagory
+      };
+      senddata(JSON.stringify(data));
+    }
+    function AddItemMaster(){
+      var chkArrayRow = [];
+      var ItemCodeArray = [];
+      var QtyArray = [];
+      var ItemCode = $('#ItemCodeM_chk').val();
+      $(".addMasterChk:checked").each(function() {
+        chkArrayRow.push($(this).val());
+      });
+      for (var i = 0; i < chkArrayRow.length; i++) {
+        ItemCodeArray.push($('#addItemCodeM_'+chkArrayRow[i]).data('value'));
+        QtyArray.push($('#addMaster_'+chkArrayRow[i]).val());
+      }
+      var ArrayItemCode = ItemCodeArray.join(',');
+      var Qty = QtyArray.join(',');
+      swal({
+        title: "<?php echo $array['adddata'][$language]; ?>",
+        text: "<?php echo $array['adddata1'][$language]; ?>",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+      }).then(result => {
+        if (result.value) {
+          var sv = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+          swal({
+              title: sv,
+              text: '',
+              type: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 1000
+          });
+          setTimeout(() => {
+            var data = {
+              'STATUS' : 'AddItemMaster',
+              'ItemCode' : ItemCode,
+              'ArrayItemCode' : ArrayItemCode,
+              'ArrayQty' : Qty
+            };
+            $('#masterModal').modal('toggle');
+            $('#tbody_modal').empty();
+            senddata(JSON.stringify(data));
+          }, 1000);
+          
+        } else if (result.dismiss == 'cancel') {
+          swal.close();
+        }
+      })
+    }
 		//<!-- --------------------Function--------------------- --!>
 		//<!-- --------------------desplay--------------------- --!>
     function senddata(data) {
@@ -1074,11 +1205,13 @@ $array2 = json_decode($json2, TRUE);
               getSearchDocNo();
             } else if ((temp["form"] == 'getCatagory')) {
               $("#catagory1").empty();
+              $("#catagoryModal").empty();
               $("#catagory2").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var StrTr = "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
                 $("#catagory1").append(StrTr);
                 $("#catagory2").append(StrTr);
+                $("#catagoryModal").append(StrTr);
               }
               CreateItemCode();
             } else if ((temp["form"] == 'GetHospital')) {
@@ -1091,6 +1224,7 @@ $array2 = json_decode($json2, TRUE);
                 var StrTr = "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
                 $("#maincatagory").append(StrTr);
                 $("#maincatagory2").append(StrTr);
+                $("#maincatagoryModal").append(StrTr);
                 // $("#catagory2").append(StrTr);
               }
             } else if ((temp["form"] == 'getUnit')) {
@@ -1177,7 +1311,7 @@ $array2 = json_decode($json2, TRUE);
                   var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
 
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                     "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                     "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
@@ -1196,8 +1330,7 @@ $array2 = json_decode($json2, TRUE);
                     $('#TableItemMaster tbody:last-child').append($StrTR);
                   }
                 }
-              }
-            else if ((temp["form"] == 'getdetail')) {
+            } else if ((temp["form"] == 'getdetail')) {
               if ((Object.keys(temp).length - 2) > 0) {
                 $("#TableUnit tbody").empty();
                 $('#catagory2').val(temp[0]['CategoryCode']);
@@ -1250,32 +1383,33 @@ $array2 = json_decode($json2, TRUE);
                     }
                   }
                 }
+              }
+            } else if ((temp["form"] == 'getdetailMaster')) {
+              $('#ItemCodeM_chk').val(temp['mItemCode']);
+              if (temp['RowMaster'] != 0) {
+                // $("#TableMaster tbody").empty();
+                $("#empty_data").remove();
+                for (var i = 0; i < temp['RowMaster']; i++) {
+                  var rowCount = $('#TableMaster >tbody >tr').length;
+                  var chkItem = "<label class='radio' style='margin-top: 20%;'><input type='radio' value='" + temp[i]['RowID'] + "' name='masterChk' class='masterChk' id='masterRow_"+i+"' onclick='undisableDel();'><span class='checkmark'></span></label>";
+                  var QtyInput = "<input class='form-control text-center' style='width:200px;' id='masterQty_"+i+"' value='"+temp[i]['Qty']+"' onKeyPress='if(event.keyCode==13){SaveQtyMaster(\""+temp[i]['RowID']+"\",\""+i+"\")}'>"
+                  StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
+                    "<td style='width: 5%;' align='center' nowrap>" + chkItem + "</td>" +
+                    "<td style='width: 5%;' nowrap><label> " + (i + 1) + "</label></td>" +
+                    "<td style='width: 45%;text-align:left;'  nowrap>" + temp[i]['ItemName'] + "</td>" +
+                    "<td style='width: 45%;' align='center' nowrap>" + QtyInput + "</td>" +
+                    "</tr>";
 
-                if (temp['RowMaster'] != 0) {
-                  $("#TableMaster tbody").empty();
-                  for (var i = 0; i < temp['RowMaster']; i++) {
-                    var rowCount = $('#TableMaster >tbody >tr').length;
-                    var chkDoc = "<label class='radio' style='margin-top: 20%;'><input type='radio' value='" + temp[i]['RowID'] + "'><span class='checkmark'></span></label>";
-                    var QtyInput = "<input class='form-control text-center' style='width:200px;' value='"+temp[i]['Qty']+"'>"
-                    StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
-                      "<td style='width: 5%;' align='center' nowrap>" + chkDoc + "</td>" +
-                      "<td style='width: 5%;' nowrap><label> " + (i + 1) + "</label></td>" +
-                      "<td style='width: 45%;text-align:left;'  nowrap>" + temp[i]['ItemName'] + "</td>" +
-                      "<td style='width: 45%;' align='center' nowrap>" + QtyInput + "</td>" +
-                      "</tr>";
-
-                    if (rowCount == 0) {
-                      $("#TableMaster tbody").append(StrTR);
-                    } else {
-                      $('#TableMaster tbody:last-child').append(StrTR);
-                    }
+                  if (rowCount == 0) {
+                    $("#TableMaster tbody").append(StrTR);
+                  } else {
+                    $('#TableMaster tbody:last-child').append(StrTR);
                   }
-                }else{
-                  $("#TableMaster tbody").empty();
-                  StrTR = "<td style='width: 100%;text-align:center;'><?php echo $array['notfoundmsg'][$language]; ?></td>"
-                  $("#TableMaster tbody").append(StrTR);
                 }
-
+              }else{
+                $("#TableMaster tbody").empty();
+                StrTR = "<td id='empty_data' style='width: 100%;text-align:center;'><?php echo $array['notfoundmsg'][$language]; ?></td>"
+                $("#TableMaster tbody").append(StrTR);
               }
             } else if ((temp["form"] == 'AddItem')) {
               $('#NewItem').show();
@@ -1511,7 +1645,20 @@ $array2 = json_decode($json2, TRUE);
                 timer: 2000,
                 confirmButtonText: 'Ok'
               })
-            }
+            } else if ((temp["form"] == 'ShowItemModal')) {
+              $('#TableItemModal tbody').empty();
+              for (var i = 0; i < temp['RowMaster']; i++) {
+                var chkDoc = "<input type='checkbox' name='addMasterChk' class='addMasterChk' value='"+i+ "'>";
+                var Qty = "<input type='text' class='text-center' value='1' id='addMaster_"+i+"'>";
+                $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
+                  "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
+                  "<td style='width: 31%;' align='left'nowrap id='addItemCodeM_"+i+"' data-value='"+temp[i]['ItemCode']+"'>" + temp[i]['ItemCode'] + "</td>" +
+                  "<td style='width: 31%;' align='ledt'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 31%;text-align:center;' align='center'nowrap>"+Qty+"</td>" +
+                  "</tr>";
+                  $("#TableItemModal tbody").append($StrTR);
+              }
+            } 
           } else if (temp['status'] == "failed") {
             $("#TableItem tbody").empty();
             $("#TableUnit tbody").empty();
@@ -2227,14 +2374,14 @@ $array2 = json_decode($json2, TRUE);
                           <div class="row d-flex justify-content-end">
                             <div class="search_custom  col-3">
                               <div class="circle4 d-flex justify-content-start">
-                                <button class="btn">
+                                <button class="btn" id="btn_importMaster" onclick="openModal()"  disabled>
                                 <i class="fas fa-file-import mr-3"></i><?php echo $array['import'][$language]; ?>
                                 </button>
                               </div>
                             </div>
                             <div class="search_custom  col-3">
                               <div class="circle3 d-flex justify-content-start">
-                                <button class="btn" >
+                                <button class="btn" id="btn_deleteMaster" onclick="deleteMaster()" disabled>
                                     <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
                                 </button>
                               </div>
@@ -2251,7 +2398,7 @@ $array2 = json_decode($json2, TRUE);
                     <thead id="theadsum" style="font-size:18px;">
                       <tr role="row">
                         <th style='width: 5%;'>&nbsp;</th>
-                        <th style='width: 5%;text-align:center;'><?php echo $array['no'][$language]; ?></th>
+                        <th style='width: 5%;text-align:left;'><?php echo $array['no'][$language]; ?></th>
                         <th style='width: 45%;text-align:center;'><?php echo $array['item'][$language]; ?></th>
                         <th style='width: 45%;text-align:center;'><?php echo $array['qty'][$language]; ?></th>
                       </tr>
@@ -2267,7 +2414,70 @@ $array2 = json_decode($json2, TRUE);
           </div>
         </div>
       </div>
-    
+
+<div class="modal" id="masterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+  <input type="hidden" id="ItemCodeM_chk">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+                  <div class="card-body" style="padding:0px;">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                      <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagoryModal" onchange="getCatagory();"></select>
+                    </div>
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                      <select class="col-sm-7 form-control" style="font-size:24px;" id="catagoryModal"></select>
+                    </div>
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label"><?php echo $array['search'][$language]; ?></label>
+                      <input type="text" autocomplete="off" class="form-control col-sm-7" style="font-size:24px;" name="searchitem" id="searchitemModal" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                    </div>
+                    <div class="row my-2 d-flex justify-content-end">
+                      <div class="col-md-2">
+                        <div class="search_custom col-md-2" id="searchItem_1">
+                          <div class="search_1 d-flex justify-content-start">
+                            <button class="btn" onclick="ShowItemModal()">
+                              <i class="fas fa-search mr-2"></i>
+                              <?php echo $array['search'][$language]; ?>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="search_custom col-md-2" id="searchItem_1">
+                          <div class="circle6 d-flex justify-content-start">
+                            <button class="btn" onclick="AddItemMaster()">
+                              <i class="fas fa-file-import mr-2"></i>
+                              <?php echo $array['import'][$language]; ?>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table table-fixed table-condensed table-striped" id="TableItemModal" width="100%" cellspacing="0" role="grid" style="font-size:24px;font-family: 'THSarabunNew'">
+                      <thead style="font-size:24px;">
+                          <tr role="row">
+                          <th style='width: 5%;'>&nbsp;</th>
+                              <th style='width: 31%;' nowrap><?php echo $array['code'][$language]; ?></th>
+                              <th style='width: 31%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 31%;text-align:center' nowrap><?php echo $array['qty'][$language]; ?></th>
+                          </tr>
+                      </thead>
+                      <tbody id="tbody_modal" class="nicescrolled" style="font-size:23px;height:300px;">
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 
       <div id="page-down">
       </div>

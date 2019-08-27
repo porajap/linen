@@ -1338,8 +1338,7 @@ $array2 = json_decode($json2,TRUE);
 
             <!-- -----------------------------Custom1------------------------------------ -->
 <div class="modal" id="dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<input type="hidden" id="rowCount">
-
+    <input type="hidden" id="rowCount">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
