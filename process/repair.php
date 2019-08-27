@@ -222,7 +222,7 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,repair.DocNo,repair.DocDate,repair.Total,users.FName,TIME(repair.Modify_Date) AS xTime,repair.IsStatus,repair.RefDocNo
+    $Sql = "SELECT   site.HptName,department.DepName,repair.DocNo,DATE(repair.DocDate) AS DocDate ,repair.Total,users.FName,TIME(repair.Modify_Date) AS xTime,repair.IsStatus,repair.RefDocNo
     FROM repair
     INNER JOIN department ON repair.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -230,10 +230,12 @@ function CreateDocument($conn, $DATA)
     WHERE repair.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
-      $return[$count]['DocDate']   = $Result['DocDate'];
+      $return[$count]['DocDate']   = $newdate;
       $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
