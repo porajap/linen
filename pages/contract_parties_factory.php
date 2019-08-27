@@ -67,10 +67,10 @@ $array2 = json_decode($json2,TRUE);
 
 
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-    <script src="../datepicker/dist/js/datepicker.min.js"></script>
+    <script src="../datepicker/dist/js/datepicker.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
-    <script src="../datepicker/dist/js/i18n/datepicker.th.js"></script>
+    <script src="../datepicker/dist/js/datepicker.th.js"></script>
 
     <script type="text/javascript">
       var summary = [];
@@ -82,6 +82,7 @@ $array2 = json_decode($json2,TRUE);
       }
 
     $(document).ready(function(e){
+
       $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
@@ -618,7 +619,7 @@ body{
                         <div class="col-md-4">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                                     </div>
                                   </div>
                                   <div class="col-md-4">

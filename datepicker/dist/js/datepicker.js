@@ -49,7 +49,7 @@
             clearButton: false,
 
             showEvent: 'focus',
-            autoClose: false,
+            autoClose: true,
 
             // navigation
             monthsField: 'monthsShort',
@@ -419,7 +419,7 @@
                 case /h/.test(result):
                     result = replacer(result, boundary('h'), hours);
                 case /yyyy/.test(result):
-                    result = replacer(result, boundary('yyyy'), d.year);
+                    result = replacer(result, boundary('yyyy'), d.year + 543);
                 case /yyyy1/.test(result):
                     result = replacer(result, boundary('yyyy1'), decade[0]);
                 case /yyyy2/.test(result):
