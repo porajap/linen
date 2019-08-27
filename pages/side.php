@@ -493,6 +493,7 @@ $array2 = json_decode($json2,TRUE);
         $('.checkblank').each(function() {
           $(this).val("");
         });
+        $('#idcontract').val("");
         $('#ContractName').val("");
         $('#Position').val("");
         $('#phone').val("");

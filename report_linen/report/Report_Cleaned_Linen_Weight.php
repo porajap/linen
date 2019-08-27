@@ -63,7 +63,6 @@ class PDF extends FPDF
   {
     $datetime = new DatetimeTH();
     $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
 
     if ($this->page == 1) {
       // Move to the right

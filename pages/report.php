@@ -71,10 +71,9 @@ $array2 = json_decode($json2, TRUE);
 	<link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 	<script src="../datepicker/dist/js/datepicker.min.js"></script>
 	<!-- Include English language -->
+	<script src="../datepicker/dist/js/i18n/datepicker.th.js"></script>
 	<script src="../datepicker/dist/js/datepicker.en.js"></script>
 	<script src="../fontawesome/js/fontawesome.min.js"></script>
-
-
 	<script type="text/javascript">
 		var summary = [];
 		var xItemcode;
@@ -156,6 +155,8 @@ $array2 = json_decode($json2, TRUE);
 
 		function find_indexMonth(year) {
 			var monthArray = new Array();
+			var language= '<?php echo $language?>';
+			if(language == 'en' ){
 			monthArray[0] = "January";
 			monthArray[1] = "February";
 			monthArray[2] = "March";
@@ -168,6 +169,20 @@ $array2 = json_decode($json2, TRUE);
 			monthArray[9] = "October";
 			monthArray[10] = "November";
 			monthArray[11] = "December";
+			}else{
+			monthArray[0] = "มกราคม";
+			monthArray[1] = "กุมภาพันธ์";
+			monthArray[2] = "มีนาคม";
+			monthArray[3] = "เมษายน";
+			monthArray[4] = "พฤษภาคม";
+			monthArray[5] = "มิถุนายน";
+			monthArray[6] = "กรกฎาคม";
+			monthArray[7] = "สิงหาคม";
+			monthArray[8] = "กันยายน";
+			monthArray[9] = "ตุลาคม";
+			monthArray[10] = "พฤศจิกายน";
+			monthArray[11] = "ธันวาคม";
+			}
 			var d = new Date();
 			var n = monthArray[d.getMonth()];
 			$('#onemonth').attr('value', n + '/' + year);
@@ -175,7 +190,9 @@ $array2 = json_decode($json2, TRUE);
 		}
 
 		function find_indexMonth2(year) {
-			var monthArray = new Array();
+		var monthArray = new Array();
+			var language= '<?php echo $language?>';
+			if(language == 'en' ){
 			monthArray[0] = "January";
 			monthArray[1] = "February";
 			monthArray[2] = "March";
@@ -188,6 +205,20 @@ $array2 = json_decode($json2, TRUE);
 			monthArray[9] = "October";
 			monthArray[10] = "November";
 			monthArray[11] = "December";
+			}else{
+			monthArray[0] = "มกราคม";
+			monthArray[1] = "กุมภาพันธ์";
+			monthArray[2] = "มีนาคม";
+			monthArray[3] = "เมษายน";
+			monthArray[4] = "พฤษภาคม";
+			monthArray[5] = "มิถุนายน";
+			monthArray[6] = "กรกฎาคม";
+			monthArray[7] = "สิงหาคม";
+			monthArray[8] = "กันยายน";
+			monthArray[9] = "ตุลาคม";
+			monthArray[10] = "พฤศจิกายน";
+			monthArray[11] = "ธันวาคม";
+			}
 
 			var date = new Date();
 			var nowMonth = monthArray[date.getMonth()];
@@ -356,7 +387,7 @@ $array2 = json_decode($json2, TRUE);
 				if (FormatDay == 1) {
 					var date = $('#oneday').val();
 					var dmy = date.split('/');
-					var ymd = dmy[2]+"-"+dmy[1]+"-"+dmy[0];
+					var date = dmy[2]+"-"+dmy[1]+"-"+dmy[0];
 					day = date;
 				} else {
 					var date = $('#someday').val();
@@ -378,6 +409,7 @@ $array2 = json_decode($json2, TRUE);
 						}, 1000);
 					}
 					many_day = date;
+					alert(many_day);
 				}
 				var data = {
 					'STATUS': 'find_report',
@@ -387,7 +419,7 @@ $array2 = json_decode($json2, TRUE);
 					'typeReport': typeReport,
 					'Format': Format,
 					'FormatDay': FormatDay,
-					'date': ymd
+					'date': date
 				};
 			} else if (Format == 2) {
 				var FormatMonth = $("input[name='formatMonth']:checked").val();
@@ -414,6 +446,7 @@ $array2 = json_decode($json2, TRUE);
 						}, 1000);
 					}
 					many_month = date;
+					
 				}
 				// var date = $('#month').val();
 				var data = {
@@ -1715,6 +1748,12 @@ $array2 = json_decode($json2, TRUE);
 															<option value="<?php echo 6 ?>"><?php echo $array['r' . 6][$language]; ?></option>
 															<option value="<?php echo 8 ?>"><?php echo $array['r' . 8][$language]; ?></option>
 															<option value="<?php echo 17 ?>"><?php echo $array['r' . 17][$language]; ?></option>
+															<option value="<?php echo 4 ?>"><?php echo $array['r' . 4][$language]; ?></option>
+															<option value="<?php echo 10 ?>"><?php echo $array['r' . 10][$language]; ?></option>
+															<option value="<?php echo 11 ?>"><?php echo $array['r' . 11][$language]; ?></option>
+															<option value="<?php echo 12 ?>"><?php echo $array['r' . 12][$language]; ?></option>
+															<option value="<?php echo 7 ?>"><?php echo $array['r' . 7][$language]; ?></option>
+															<option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option>
 
 															<?php //} ?>
 														</select>
@@ -1797,7 +1836,7 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 													<div class='form-group row' id="showyear">
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
-														<input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='en'>
+														<input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language?>'>
 													</div>
 												</div>
 											</div>
@@ -1806,15 +1845,15 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6" id="myDay">
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' id="oneday" data-date-format="dd/mm/yyyy" autocomplete="off" value="<?php echo  date('d/m/Y'); ?>">
-														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='en' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd-mm-yyyy">
+														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language?>' id="oneday" data-date-format="dd/mm/yyyy" autocomplete="off" value="<?php echo  date('d/m/Y'); ?>">
+														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
 													</div>
 												</div>
 												<div class="col-md-6" id="myMonth">
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-														<input type="text" class="form-control col-sm-8 datepicker-here" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en'>
-														<input type="text" class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='en' data-range="true" data-multiple-dates-separator=" - ">
+														<input type="text" class="form-control col-sm-8 datepicker-here" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language?>'>
+														<input type="text" class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language?>' data-range="true" data-multiple-dates-separator=" - ">
 													</div>
 												</div>
 											</div>

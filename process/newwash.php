@@ -117,9 +117,13 @@ function CreateDocument($conn, $DATA)
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
-    $return[0]['DocDate'] = $Result['DocDate'];
+    $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
     $Sql = "INSERT INTO log ( log ) VALUES ('" . $Result['DocDate'] . " : " . $Result['DocNo'] . " :: $hotpCode :: $deptCode')";
@@ -264,7 +268,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,newlinentable.DocNo,newlinentable.DocDate,newlinentable.Total,users.FName,newlinentable.FacCode,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
+    $Sql = "SELECT   site.HptName,department.DepName,newlinentable.DocNo,DATE(newlinentable.DocDate) AS DocDate,newlinentable.Total,users.FName,newlinentable.FacCode,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
   FROM newlinentable
   INNER JOIN department ON newlinentable.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -272,10 +276,15 @@ function SelectDocument($conn, $DATA)
   WHERE newlinentable.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
+      
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $Result['DocDate'];
+    $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];

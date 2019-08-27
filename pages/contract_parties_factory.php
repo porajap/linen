@@ -70,6 +70,7 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script src="../datepicker/dist/js/i18n/datepicker.th.js"></script>
 
     <script type="text/javascript">
       var summary = [];
@@ -617,13 +618,13 @@ body{
                         <div class="col-md-4">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker1" data-language='en' data-date-format='dd/mm/yyyy' >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?> data-date-format='dd/mm/yyyy' >
                                     </div>
                                   </div>
                                   <div class="col-md-4">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker2" data-language='en' data-date-format='dd/mm/yyyy' >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here numonly charonly" id="datepicker2" data-language=<?php echo $language ?> data-date-format='dd/mm/yyyy' >
                                     </div>
                                   </div>
                               <div class="search_custom col-md-2">
@@ -726,13 +727,13 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 datepicker-here only" id="datepicker3"  data-language='en' data-date-format='dd-mm-yyyy' >
+                                        <input type="text" class="form-control col-sm-8 datepicker-here only" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 datepicker-here only" id="datepicker4" data-language='en' data-date-format='dd-mm-yyyy' >
+                                      <input type="text"  class="form-control col-sm-8 datepicker-here only" id="datepicker4" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
                                     </div>
                                   </div>
                                 </div> 
