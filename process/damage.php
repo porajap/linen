@@ -93,9 +93,13 @@ function CreateDocument($conn, $DATA)
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
-    $return[0]['DocDate'] = $Result['DocDate'];
+    $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
     // $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
@@ -178,10 +182,14 @@ function CreateDocument($conn, $DATA)
     $Sql .= "ORDER BY damage.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
-      $return[$count]['DocDate']   = $Result['DocDate'];
+      $return[$count]['DocDate']   = $newdate;
       $return[$count]['RefDocNo']   = $Result['RefDocNo'];
       $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];

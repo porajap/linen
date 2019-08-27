@@ -117,9 +117,13 @@ function CreateDocument($conn, $DATA)
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    $date1 = explode("-", $Result['DocDate']);
+    $newdate2 = $date1[2].'-'.$date1[1].'-'.$date1[0];
+
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
-    $return[0]['DocDate'] = $Result['DocDate'];
+    $return[0]['DocDate'] = $newdate2;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
     $Sql = "INSERT INTO log ( log ) VALUES ('" . $Result['DocDate'] . " : " . $Result['DocNo'] . " :: $hotpCode :: $deptCode')";
@@ -225,11 +229,16 @@ function ShowDocument($conn, $DATA)
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
+
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $Result['DocDate'];
+    $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
@@ -256,6 +265,7 @@ function ShowDocument($conn, $DATA)
 
 function SelectDocument($conn, $DATA)
 {
+   
   $boolean = false;
   $count = 0;
   $DocNo = $DATA["xdocno"];
@@ -268,6 +278,11 @@ function SelectDocument($conn, $DATA)
   WHERE dirty.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+      $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
+  
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
