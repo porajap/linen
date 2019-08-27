@@ -36,7 +36,7 @@ $array2 = json_decode($json2,TRUE);
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo $array['dirty'][$language]; ?></title>
+  <title><?php echo $array['newwash'][$language]; ?></title>
 
   <link rel="icon" type="image/png" href="../img/pose_favicon.png">
   <!-- Bootstrap core CSS-->
@@ -78,8 +78,9 @@ $array2 = json_decode($json2,TRUE);
   var RowCnt=0;
 
   $(document).ready(function(e){
-
-       
+    $('.only').on('input', function() {
+        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+      });
   //  console.log(window.parent.location.href);
     OnLoadPage();
 
@@ -1414,14 +1415,14 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
 
                                         </div>
                                       </div>
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docno'][$language]; ?></label>
-                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8"  name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only"  name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                         </div>
                                       </div>
                                     </div>
@@ -1430,13 +1431,13 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
-                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                         </div>
                                       </div>
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['time'][$language]; ?></label>
-                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                         </div>
                                       </div>
                                     </div>
@@ -1445,7 +1446,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['totalweight'][$language]; ?></label>
-                                          <input class='form-control col-sm-8' autocomplete="off"  style="font-size:22px;"  id='wTotal' placeholder="0.00">
+                                          <input class='form-control col-sm-8 only'  autocomplete="off"  style="font-size:22px; "  id='wTotal' placeholder="0.00">
                                         </div>
                                       </div>
                                       <div class="col-md-6">
@@ -1457,8 +1458,8 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6" hidden>
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-9"  style="font-size:22px;"  name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
-                                            <input class='form-control col-sm-8"'  style="font-size:22px;"  id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" OnBlur='UpdateRefDocNo()'>
+                                            <input type="text" class="form-control col-sm-9 only"  style="font-size:22px;"  name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                            <input class='form-control col-sm-8 only"'  style="font-size:22px;"  id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" OnBlur='UpdateRefDocNo()'>
                                         </div>
                                       </div>
                                     </div>

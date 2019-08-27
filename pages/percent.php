@@ -82,10 +82,13 @@ $array2 = json_decode($json2,TRUE);
         }
 
     $(document).ready(function(e){
+      $('.only').on('input', function() {
+        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+      });
         var d = new Date();
 
-        $('#datepicker1').val(twoDigit(d.getDate())+"/"+(twoDigit(d.getMonth()+1))+"/"+d.getFullYear());
-        $('#datepicker2').val(twoDigit(d.getDate())+"/"+(twoDigit(d.getMonth()+1))+"/"+d.getFullYear());
+        $('#datepicker1').val(twoDigit(d.getDate())+"-"+(twoDigit(d.getMonth()+1))+"-"+d.getFullYear());
+        $('#datepicker2').val(twoDigit(d.getDate())+"-"+(twoDigit(d.getMonth()+1))+"-"+d.getFullYear());
 
         OnLoadPage();
 		    getDepartment();
@@ -474,13 +477,13 @@ table tr:first-child th:first-child {
                               <div class="col-md-5">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['datestart'][$language]; ?></label>
-                                  <input type="text" class="form-control col-sm-8 datepicker-here" style="font-size:22px;" id="datepicker1"  data-language=<?php echo $language ?> data-date-format='dd/mm/yyyy' >
+                                  <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here only" style="font-size:22px;" id="datepicker1"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
                                 </div>
                               </div>
                               <div class="col-md-5">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['dateend'][$language]; ?></label>
-                                  <input type="text" class="form-control col-sm-7 datepicker-here" style="font-size:22px;"  id="datepicker2"  data-language=<?php echo $language ?> data-date-format='dd/mm/yyyy' >
+                                  <input type="text" autocomplete="off" class="form-control col-sm-7 datepicker-here only" style="font-size:22px;"  id="datepicker2"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
                                 </div>
                               </div>
                               <div class="col-md-2 mhee">

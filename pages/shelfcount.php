@@ -77,6 +77,9 @@ $array2 = json_decode($json2,TRUE);
     var xItemcode;
 
     $(document).ready(function(e){
+      $('.only').on('input', function() {
+        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+      });
       $("#bSend").hide();
       OnLoadPage();
       getDepartment();
@@ -1573,7 +1576,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only" name="searchitem"
                                                     id="docdate"
                                                     placeholder="<?php echo $array['docdate'][$language]; ?>">
                                             </div>
@@ -1582,7 +1585,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docno'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only" name="searchitem"
                                                     id="docno" placeholder="<?php echo $array['docno'][$language]; ?>">
                                             </div>
                                         </div>
@@ -1593,7 +1596,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['employee'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only" name="searchitem"
                                                     id="recorder"
                                                     placeholder="<?php echo $array['employee'][$language]; ?>">
                                             </div>
@@ -1602,7 +1605,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8" name="searchitem"
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only" name="searchitem"
                                                     id="timerec" placeholder="<?php echo $array['time'][$language]; ?>">
                                             </div>
                                         </div>
@@ -1798,128 +1801,11 @@ $array2 = json_decode($json2,TRUE);
               </div>
             </div>
 
-            <!-- <div class="col-md-2" id='tab2' <?php if($PmID == 1) echo 'hidden'; ?>> -->
-                <!-- button----------------------------------------- -->
-                <!-- <div class="sidenav mhee">
-                    <div class="" style="margin-top:5px;">
-                      <div class="card-body" style="padding:0px; margin-top:10px;">
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_create.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="CreateDocument()" id="bCreate">
-                              <?php echo $array['createdocno'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_import.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="OpenDialogItem()" id="bImport">
-                              <?php echo $array['import'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_delete.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="DeleteItem()" id="bDelete">
-                              <?php echo $array['delitem'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="SaveBill()" id="bSave">
-                              <?php echo $array['save'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="CancelDocument()" id="bCancel">
-                              <?php echo $array['cancel'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-              
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon">
-                            <img src="../img/icon/ic_detail.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="ShowDetailSub()" id="bShowDetailSub">
-                              <?php echo $array['detail'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-          
-                        <div class="row" style="margin-top:0px;">
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_print.png" style='width:40px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="PrintData()" id="bPrint">
-                              <?php echo $array['print'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-
-                        <div class="row" style="margin-top:0px;" hidden>
-                          <div class="col-md-3 icon" >
-                            <img src="../img/icon/ic_detail.png" style='width:34px;' class='mr-3'>
-                          </div>
-                          <div class="col-md-9">
-                            <button  class="btn" onclick="SendData()" id="bSend">
-                              <?php echo $array['sendlinen'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-                   
-                      </div>
-                    </div>
-                </div> -->
-                <!-- end button----------------------------------------- -->
-            <!-- </div> -->
           </div>
         </div>
 
       </div>
 
-    <!-- Dialog Modal
-      <div id="dialogListDetail" title="<?php echo $array['detail'][$language]; ?>"  style="z-index:999999 !important;font-family: 'THSarabunNew';font-size:24px;">
-        <div class="container">
-          <div class="dropdown-divider" style="margin-top:20px;; margin-bottom:20px;"></div>
-          <div class="row">
-            <div class="card-body" style="padding:0px;">
-              <table class="table table-bordered table-hover" id="TableItemListDetailSub" cellspacing="0" role="grid" style="font-size:24px;width:100%;font-family: 'THSarabunNew'">
-                <thead style="font-size:24px;">
-                  <tr role="row">
-                    <th style='width: 10%;'nowrap><?php echo $array['no'][$language]; ?></th>
-                    <th style='width: 25%;'nowrap><?php echo $array['rfid'][$language]; ?></th>
-                    <th style='width: 50%;'nowrap><?php echo $array['item'][$language]; ?></th>
-                    <th style='width: 15%;'nowrap><?php echo $array['unit'][$language]; ?></th>
-                  </tr>
-                </thead>
-                <tbody id="tbody1_modal" style="font-size:23px;height:300px;">
-                </tbody>
-              </table>
-            </div> -->
 
       <!-- -----------------------------Custom1------------------------------------ -->
       <div class="modal" id="dialogItemCode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -1491,6 +1491,7 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = claim.HptCode
               WHERE claim.DocDate LIKE '%$date1%'
               AND claim.HptCode = '$HptCode'
+              AND claim.DepCode = '$DepCode'
               GROUP BY claim.DocDate
               ORDER BY claim.DocDate ASC";
     } else {
@@ -1501,6 +1502,7 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = claim.HptCode
               WHERE claim.DocDate BETWEEN '$date1' AND '$date2'
               AND claim.HptCode = '$HptCode'
+              AND claim.DepCode = '$DepCode'
               GROUP BY MONTH(claim.DocDate) ORDER BY claim.DocDate ASC";
     }
   } else if ($Format == 2) {
@@ -1516,6 +1518,7 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = claim.HptCode
               WHERE claim.DocDate LIKE '%$date1%'
               AND claim.HptCode = '$HptCode'
+              AND claim.DepCode = '$DepCode'
               GROUP BY MONTH (claim.DocDate)
               ORDER BY claim.DocDate ASC";
     } else {
@@ -1526,6 +1529,7 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN site on site.HptCode = claim.HptCode
       WHERE YEAR(claim.DocDate) = $year AND MONTH(claim.DocDate) BETWEEN $date1 AND $date2
       AND claim.HptCode = '$HptCode'
+      AND claim.DepCode = '$DepCode'
       GROUP BY year (claim.DocDate)
       ORDER BY claim.DocDate ASC";
     }
@@ -1537,6 +1541,7 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN site on site.HptCode = claim.HptCode
       WHERE claim.DocDate LIKE '%$date1%'
       AND claim.HptCode = '$HptCode'
+      AND claim.DepCode = '$DepCode'
       GROUP BY year (claim.DocDate)
        ORDER BY claim.DocDate ASC";
   }
@@ -1584,6 +1589,7 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = billcustomer.HptCode
               WHERE billcustomer.DocDate LIKE '%$date1%'
               AND billcustomer.HptCode = '$HptCode'
+              AND billcustomer.DepCode = '$DepCode'
               GROUP BY billcustomer.DocDate
               ORDER BY billcustomer.DocDate ASC";
     } else {
@@ -1596,6 +1602,7 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = billcustomer.HptCode
               WHERE billcustomer.DocDate BETWEEN '$date1' AND '$date2'
               AND billcustomer.HptCode = '$HptCode'
+              AND billcustomer.DepCode = '$DepCode'
               GROUP BY billcustomer.DocDate ORDER BY billcustomer.DocDate ASC";
     }
   } else if ($Format == 2) {
@@ -1613,6 +1620,7 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = billcustomer.HptCode
               WHERE billcustomer.DocDate LIKE '%$date1%'
               AND billcustomer.HptCode = '$HptCode'
+              AND billcustomer.DepCode = '$DepCode'
               GROUP BY month (billcustomer.DocDate)
               ORDER BY billcustomer.DocDate ASC";
     } else {
@@ -1625,6 +1633,7 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN site on site.HptCode = billcustomer.HptCode
       WHERE YEAR(billcustomer.DocDate) = $year AND MONTH(billcustomer.DocDate) BETWEEN $date1 AND $date2
       AND billcustomer.HptCode = '$HptCode'
+      AND billcustomer.DepCode = '$DepCode'
       GROUP BY year (billcustomer.DocDate)
       ORDER BY billcustomer.DocDate ASC";
     }
@@ -1638,6 +1647,7 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN site on site.HptCode = billcustomer.HptCode
       WHERE billcustomer.DocDate LIKE '%$date1%'
       AND billcustomer.HptCode = '$HptCode'
+      AND billcustomer.DepCode = '$DepCode'
       GROUP BY year (billcustomer.DocDate)
        ORDER BY billcustomer.DocDate ASC";
   }
@@ -1685,6 +1695,7 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = billwash.HptCode
               WHERE billwash.DocDate LIKE '%$date1%'
               AND billwash.HptCode = '$HptCode'
+              AND billwash.DepCode = '$DepCode'
               GROUP BY billwash.DocDate
               ORDER BY billwash.DocDate ASC";
     } else {
@@ -1697,6 +1708,7 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = billwash.HptCode
               WHERE billwash.DocDate BETWEEN '$date1' AND '$date2'
               AND billwash.HptCode = '$HptCode'
+              AND billwash.DepCode = '$DepCode'
               GROUP BY billwash.DocDate ORDER BY billwash.DocDate ASC";
     }
   } else if ($Format == 2) {
@@ -1714,6 +1726,7 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site on site.HptCode = billwash.HptCode
               WHERE billwash.DocDate LIKE '%$date1%'
               AND billwash.HptCode = '$HptCode'
+              AND billwash.DepCode = '$DepCode'
               GROUP BY month (billwash.DocDate)
               ORDER BY billwash.DocDate ASC";
     } else {
@@ -1726,6 +1739,7 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN site on site.HptCode = billwash.HptCode
       WHERE YEAR(billwash.DocDate) = $year AND MONTH(billwash.DocDate) BETWEEN $date1 AND $date2
       AND billwash.HptCode = '$HptCode'
+      AND billwash.DepCode = '$DepCode'
       GROUP BY year (billwash.DocDate)
       ORDER BY billwash.DocDate ASC";
     }
@@ -1738,6 +1752,8 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN billwash on billwash.docno = billwash_detail.DocNo
       INNER JOIN site on site.HptCode = billwash.HptCode
       WHERE billwash.DocDate LIKE '%$date1%'
+      AND billwash.HptCode = '$HptCode'
+      AND billwash.DepCode = '$DepCode'
       GROUP BY year (billwash.DocDate)
        ORDER BY billwash.DocDate ASC";
   }

@@ -287,12 +287,12 @@ switch ($PmID) {
         $gen_s11=0;
         $gen_s12=0;
         //account
-        $ac_head=1;
+        $ac_head=0;
         $ac_s1=0;
         $ac_s2=0;
         $ac_s3=0;
-        $ac_s4=1;
-        $ac_s5=1;
+        $ac_s4=0;
+        $ac_s5=0;
         //factory
         $fac_head=0;
         $fac_s1=0;
@@ -306,11 +306,11 @@ switch ($PmID) {
         $sys_s1=0;
         $sys_s2=0;
         $sys_s3=0;
-        $sys_s4=0;
+        $sys_s4=1;
         $sys_s5=0;
         $sys_s6=0;
         $sys_s7=0;
-        $sys_s8=1;
+        $sys_s8=0;
         $sys_s9=0;
         $sys_s10=0;
         $sys_s11=0;

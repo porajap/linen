@@ -52,6 +52,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Custom styles for this template-->
     <link href="../template/css/sb-admin.css" rel="stylesheet">
 	  <link href="../css/xfont.css" rel="stylesheet">
+    <script src="js/bootstrap-datepicker-thai.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="../jQuery-ui/jquery-1.12.4.js"></script>
@@ -621,14 +622,14 @@ body{
                                     <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                                  <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here only"  id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' >
+                                                  <input type="text" autocomplete="off" class="form-control col-sm-8 datepicker-here only"  id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                                                 </div>
                                               </div>
 
                                               <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                                  <input type="text"  autocomplete="off" class="form-control col-sm-8 datepicker-here only"  id="datepicker2" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' >
+                                                  <input type="text"  autocomplete="off" class="form-control col-sm-8 datepicker-here only"  id="datepicker2" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                                                 </div>
                                               </div>
                                               
@@ -834,11 +835,7 @@ body{
     <script src="../template/js/demo/datatables-demo.js"></script>
 
     <!--======================================================================== -->
-    <script src="//getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
-    <script src="//getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <script src="js/bootstrap-datepicker-thai.js"></script>
-    <script src="js/locales/bootstrap-datepicker.th.js"></script>
+
     <!--============================================================================== -->
   </body>
 

@@ -73,6 +73,9 @@ $array2 = json_decode($json2,TRUE);
   var xItemcode;
 
   $(document).ready(function(e){
+    $('.only').on('input', function() {
+        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+      });
     $("#bSend").hide();
     OnLoadPage();
     getDepartment();
@@ -1435,13 +1438,13 @@ a.nav-link{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8" style="font-size:22px;" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <input type="text" class="form-control col-sm-8 only" style="font-size:22px;" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docno'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8" style="font-size:22px;" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                      <input type="text" class="form-control col-sm-8 only" style="font-size:22px;" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1450,13 +1453,13 @@ a.nav-link{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-8" id='RefDocNo' style="font-size:22px;" placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
+                                      <input class="form-control col-sm-8 only" id='RefDocNo' style="font-size:22px;" placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['employee'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8" style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                      <input type="text" class="form-control col-sm-8 only" style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1465,7 +1468,7 @@ a.nav-link{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
-                                      <input type="text" class="form-control col-sm-8" class="form-control" style="font-size:22px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                      <input type="text" class="form-control col-sm-8 only" class="form-control" style="font-size:22px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1702,12 +1705,22 @@ a.nav-link{
                           <input type="text" class="form-control col-sm-8" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
                         </div>
                       </div>
-                      <div class="col-md-2">
-                        <button type="button" class="btn btn-primary  btn-block" name="button" onclick="get_dirty_doc();"><?php echo $array['search'][$language]; ?></button>
-                      </div>
-                      <div class="col-md-2">
-                        <button type="button" class="btn btn-warning btn-block" name="button" onclick="UpdateRefDocNo()"><?php echo $array['import'][$language]; ?></button>
-                      </div>
+                      <div class="search_custom col-md-2">
+                <div class="search_1 d-flex justify-content-start">
+                  <button class="btn" onclick="get_dirty_doc()" id="bSave">
+                    <i class="fas fa-search mr-2"></i>
+                    <?php echo $array['search'][$language]; ?>
+                  </button>
+                </div>
+              </div>
+              <div class="search_custom col-md-2">
+                <div class="import_1 d-flex justify-content-start">
+                  <button class="btn" onclick="UpdateRefDocNo()" id="bSave">
+                  <i class="fas fa-file-import pt-1 mr-2"></i>
+                    <?php echo $array['import'][$language]; ?>
+                  </button>
+                </div>
+              </div>  
                     </div>
                     <table class="table table-fixed table-condensed table-striped" id="TableRefDocNo" cellspacing="0" role="grid">
                       <thead style="font-size:24px;">

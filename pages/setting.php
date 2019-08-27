@@ -321,7 +321,7 @@ $array2 = json_decode($json2,TRUE);
         }
     
     </style>
-    <title>Login</title>
+    <title><?php echo $array['setting'][$language]; ?></title>
   </head>
   <body>
 

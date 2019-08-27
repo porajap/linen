@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
-
+<newwash><en>newwash</en><th>รับผ้าใหม่ส่งซัก</th></newwash>
+<setting><en>Setting</en><th>ตั้งค่า</th></setting>
 <notfoundDoc><en>Not found Document</en><th>ไม่พบเอกสาร</th></notfoundDoc>
 <time2><en>Time</en><th>เวลา</th></time2>
 <Receivetime><en>Receive time</en><th>เวลารับเอกสาร</th></Receivetime>

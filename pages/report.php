@@ -386,9 +386,10 @@ $array2 = json_decode($json2, TRUE);
 				var FormatDay = $("input[name='formatDay']:checked").val();
 				if (FormatDay == 1) {
 					var date = $('#oneday').val();
-					var dmy = date.split('/');
+					var dmy = date.split('-');
 					var date = dmy[2]+"-"+dmy[1]+"-"+dmy[0];
 					day = date;
+					
 				} else {
 					var date = $('#someday').val();
 					var chkDateRang = date.split('-');
@@ -409,7 +410,6 @@ $array2 = json_decode($json2, TRUE);
 						}, 1000);
 					}
 					many_day = date;
-					alert(many_day);
 				}
 				var data = {
 					'STATUS': 'find_report',
@@ -549,7 +549,7 @@ $array2 = json_decode($json2, TRUE);
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
 							$("#department").append(dep1);
-							$("#department").val(DepCode);
+							
 
 						} else if (temp["form"] == 'departmentWhere') {
 							$("#department").empty();
@@ -1499,7 +1499,7 @@ $array2 = json_decode($json2, TRUE);
 
 			} else if (typeReport == 10 || typeReport == 11 || typeReport == 12) {
 				$('#factory').attr('disabled', true);
-				$('#department').attr('disabled', true);
+				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', true);
 				$('#factory').val(0);
 
@@ -1836,7 +1836,7 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 													<div class='form-group row' id="showyear">
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
-														<input type="text" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language?>'>
+														<input type="text"readonly="true"  class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language?>'>
 													</div>
 												</div>
 											</div>
@@ -1845,15 +1845,15 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6" id="myDay">
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language?>' id="oneday" data-date-format="dd/mm/yyyy" autocomplete="off" value="<?php echo  date('d/m/Y'); ?>">
-														<input type="text" class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
+														<input type="text" readonly="true" class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language?>' id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
+														<input type="text"readonly="true"  class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
 													</div>
 												</div>
 												<div class="col-md-6" id="myMonth">
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-														<input type="text" class="form-control col-sm-8 datepicker-here" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language?>'>
-														<input type="text" class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language?>' data-range="true" data-multiple-dates-separator=" - ">
+														<input type="text"readonly="true"  class="form-control col-sm-8 datepicker-here" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language?>'>
+														<input type="text"readonly="true"  class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language?>' data-range="true" data-multiple-dates-separator=" - ">
 													</div>
 												</div>
 											</div>
