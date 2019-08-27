@@ -13,7 +13,7 @@ $date2=$data['date2'];
 $chk=$data['chk'];
 $year=$data['year'];
 $format=$data['Format'];
-$DepCode=$date['DepCode'];
+$DepCode=$data['DepCode'];
 $where='';
 //print_r($data);
 if($chk == 'one'){
@@ -155,8 +155,7 @@ shelfcount
 INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
 INNER JOIN department ON department.depcode = shelfcount.DepCode
 $where
-AND shelfcount.DepCode = $DepCode
- ";
+AND shelfcount.depcode = '$DepCode'";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $depname = $Result['depname'];
@@ -168,21 +167,20 @@ $pdf->Cell(145, 10, iconv("UTF-8", "TIS-620", "หน่วยงาน : " . $d
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'L');
 $pdf->Ln(10);
 
-
 $query = "SELECT
-shelfcount_detail.ParQty,
-shelfcount_detail.OverPar,
-shelfcount_detail.CcQty,
-shelfcount_detail.TotalQty,
-shelfcount_detail.Short,
+IFNULL(shelfcount_detail.ParQty,0) AS ParQty,
+IFNULL(shelfcount_detail.OverPar,0) AS OverPar,
+IFNULL(shelfcount_detail.CcQty,0) AS CcQty,
+IFNULL(shelfcount_detail.TotalQty,0) AS TotalQty,
+IFNULL(shelfcount_detail.Short,0) AS Short ,
 item.ItemName
 FROM
 shelfcount_detail
 INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
 INNER JOIN item ON Item.ItemCode = shelfcount_detail.ItemCode
+INNER JOIN department ON department.DepCode = shelfcount.DepCode
 $where
-AND shelfcount.DepCode = $DepCode
- ";
+AND shelfcount.depcode = '$DepCode'";
 // var_dump($query); die;
 // Number of column
 $numfield = 9;

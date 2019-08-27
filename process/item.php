@@ -272,7 +272,7 @@ function getdetail($conn, $DATA)
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-           LEFT JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
+          LEFT JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
           LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
           LEFT JOIN item_unit AS U1 ON item_multiple_unit.UnitCode = U1.UnitCode
 		  LEFT JOIN item_unit AS U2 ON item_multiple_unit.MpCode = U2.UnitCode
@@ -296,13 +296,30 @@ function getdetail($conn, $DATA)
     $return[$count]['MpCode'] = $Result['MpCode'];
     $return[$count]['UnitName2'] = $Result['UnitName2'];
     $return[$count]['Multiply'] = $Result['Multiply'];
-    $return[$count]['PriceUnit'] = $Result['PriceUnit'];
+    $return[$count]['PriceUnit'] = $Result['PriceUnit']==null?0:$Result['PriceUnit'];
     $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
     $return[$count]['sUnitName'] = $Result['UnitCode2'];
     $return[0]['IsDirtyBag'] = $Result['IsDirtyBag'];
     $return[0]['Itemnew'] = $Result['Itemnew'];
     $count++;
   }
+  $return['RowCount'] = $count;
+
+  $countMaster = 0;
+  $SqlMaster = "SELECT 
+      item_set.RowID, item_set.mItemCode, item_set.ItemCode, item.ItemName, item_set.Qty
+    FROM item_set 
+    INNER JOIN item ON item.ItemCode = item_set.ItemCode
+    WHERE item_set.mItemCode = '$ItemCode' OR item_set.ItemCode = '$ItemCode'";
+  $masterQuery = mysqli_query($conn, $SqlMaster);
+  while ($Result = mysqli_fetch_assoc($masterQuery)) {
+    $return[$countMaster]['RowID'] = $Result['RowID'];
+    $return[$countMaster]['ItemCode'] = $Result['ItemCode'];
+    $return[$countMaster]['ItemName'] = $Result['ItemName'];
+    $return[$countMaster]['Qty'] = $Result['Qty'];
+    $countMaster++;
+  }
+  $return['RowMaster'] = $countMaster;
 
   if ($count > 0) {
     $return['status'] = "success";
@@ -843,6 +860,77 @@ function DeleteUnit($conn, $DATA)
 //     die;
 //   }
 // }
+function ShowItemMaster($conn, $DATA)
+{
+  
+  $count = 0;
+  $maincatagory = $DATA['maincatagory'];
+  $Keyword = $DATA['Keyword'];
+  $Catagory = $DATA['Catagory'];
+  $active = $DATA['active'];
+  $column = $DATA['column']==null?'ItemCode':$DATA['column'];
+  $sort = $DATA['sort']==null?'DESC':$DATA['sort'];
+  $Sql = "SELECT
+            item.ItemCode,
+            item.ItemName,
+            item_category.CategoryName,
+            item_unit.UnitName,
+          CASE item.SizeCode
+          WHEN '1' THEN 'SS'
+          WHEN '2' THEN 'S'
+          WHEN '3' THEN 'M'
+          WHEN '4' THEN 'L'
+          WHEN '5' THEN 'XL'
+          WHEN '6' THEN 'XXL' END AS SizeCode,
+            item.CusPrice,
+            item.FacPrice,
+            item.Weight,
+            item.Picture,
+            item.IsDirtyBag,
+            item.Itemnew
+          FROM item
+          INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
+          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
+
+  if ($Keyword == '') {
+    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode = $maincatagory AND item.isset = 1";
+  } else {
+    $Sql .= " WHERE item_main_category.MainCategoryCode = $maincatagory AND item.isset = 1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
+    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
+  }
+  $Sql .= " ORDER BY item.$column $sort";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['ItemCode'] = $Result['ItemCode'];
+    $return[$count]['ItemName'] = $Result['ItemName'];
+    $return[$count]['CategoryName'] = $Result['CategoryName'];
+    $return[$count]['UnitName'] = $Result['UnitName'];
+    $return[$count]['SizeCode'] = $Result['SizeCode'];
+    $return[$count]['CusPrice'] = $Result['CusPrice'];
+    $return[$count]['FacPrice'] = $Result['FacPrice'];
+    $return[$count]['Weight'] = $Result['Weight'];
+    $return[$count]['Picture'] = $Result['Picture'];
+    $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag'];
+    $return[$count]['Itemnew'] = $Result['Itemnew'];
+    $count++;
+  }
+
+  if ($count > 0) {
+    $return['status'] = "success";
+    $return['form'] = "ShowItemMaster";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['form'] = "ShowItemMaster";
+    $return['status'] = "failed";
+    $return['msg'] = "notfound";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 
 if (isset($_POST['DATA'])) {
   $data = $_POST['DATA'];
@@ -880,6 +968,8 @@ if (isset($_POST['DATA'])) {
     ActiveItem($conn, $DATA);
   } else if ($DATA['STATUS'] == 'checkItemCode') {
     checkItemCode($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'ShowItemMaster') {
+    ShowItemMaster($conn, $DATA);
   }
 } else {
   $return['status'] = "error";

@@ -157,12 +157,12 @@ $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Weight"), 1, 1, 'C');
 
 $query = "SELECT
           item.ItemName,
-          shelfcount_detail.ParQty,
-          shelfcount_detail.CcQty,
-          shelfcount_detail.TotalQty,
-          shelfcount_detail.OverPar,
-          shelfcount_detail.Short,
-          item.Weight
+          IFNULL(shelfcount_detail.ParQty,0) AS ParQty,
+          IFNULL(shelfcount_detail.CcQty,0) AS CcQty,
+          IFNULL(shelfcount_detail.TotalQty,0) AS TotalQty,
+          IFNULL(shelfcount_detail.OverPar,0) AS OverPar,
+          IFNULL(shelfcount_detail.Short,0) AS Short,
+          IFNULL(item.Weight,0) AS Weight
           FROM
           shelfcount
           INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -191,15 +191,15 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
     }
   }
 $issue=$Result['ParQty']-$Result['CcQty'];
-  $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'L');
-  $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['Short']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 0, 'L');
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['Weight']), 1, 1, 'L');
+  $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'C');
+  $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['Short']), 1, 0, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 0, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['Weight']), 1, 1, 'C');
   $i++;
 }
 

@@ -12,25 +12,25 @@ $date1=$data['date1'];
 $date2=$data['date2'];
 $chk=$data['chk'];
 $year=$data['year'];
-$depcode=$data['DepCode'];
+$DepCode=$data['DepCode'];
 $format=$data['Format'];
 $where='';
 
 //print_r($data);
 if($chk == 'one'){
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (billwash.Docdate) = DATE('$date1')";
     list($year,$mouth,$day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   }
   elseif ($format = 3) {
-      $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+      $where = "WHERE  year (billwash.DocDate) LIKE '%$date1%'";
       $date_header= "ประจำปี : $date1";
     }
 }
 elseif($chk == 'between'){
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE billwash.Docdate BETWEEN '$date1' AND '$date2'";
   list($year,$mouth,$day) = explode("-", $date1);
   list($year2,$mouth2,$day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -39,13 +39,13 @@ elseif($chk == 'between'){
 
 }
 elseif($chk == 'month'){
-    $where =   "WHERE month (shelfcount.Docdate) = ".$date1;
+    $where =   "WHERE month (billwash.Docdate) = ".$date1;
     $datetime = new DatetimeTH();
     $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
 
 }
 elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(shelfcount.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE month(billwash.Docdate) BETWEEN $date1 AND $date2";
   $datetime = new DatetimeTH();
   $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
 }
@@ -185,9 +185,12 @@ $pdf->AddPage("P", "A4");
 $Sql = "SELECT
 site.HptName
 FROM
-claim_detail
-INNER JOIN claim on claim.docno = claim_detail.DocNo
-INNER JOIN site on site.HptCode = claim.HptCode ";
+billwash_detail
+INNER JOIN billwash on billwash.docno = billwash_detail.DocNo
+INNER JOIN site on site.HptCode = billwash.HptCode
+$where
+AND billwash.HptCode = '$HptCode' 
+AND billwash.DepCode = '$DepCode'";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
         $HptName = $Result['HptName'];
@@ -208,6 +211,10 @@ billwash_detail
 INNER JOIN billwash on billwash.docno = billwash_detail.DocNo
 INNER JOIN item on item.ItemCode = billwash_detail.ItemCode
 INNER JOIN item_unit on item_unit.UnitCode = billwash_detail.UnitCode1
+INNER JOIN site on site.HptCode = billwash.HptCode
+$where
+AND billwash.HptCode = '$HptCode'
+AND billwash.DepCode = '$DepCode'
 ";
 // var_dump($query); die;
 // Number of column

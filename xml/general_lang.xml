@@ -262,6 +262,8 @@
 <addTime_deli><en>Add shipping time</en><th>เพิ่มระยะเวลาขนส่ง</th></addTime_deli>
 <AllFac><en>All Factory</en><th>ทุกโรงซัก</th></AllFac>
 <noFac><en>no factory</en><th>ไม่มีโรงซักที่ยังไม่ได้เพิ่ม</th></noFac>
+<itemset><en>Item set</en><th>เซ็ทรายการ</th></itemset>
+<itemmas><en>Item master</en><th>Item master</th></itemmas>
 <!-- -->
 <r1><en>Record dirty linen weight</en><th>Record dirty linen weight</th></r1>
 <r2><en>Report Claim</en><th>Report Claim</th></r2>

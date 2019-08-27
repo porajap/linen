@@ -12,7 +12,7 @@ $date1=$data['date1'];
 $date2=$data['date2'];
 $chk=$data['chk'];
 $year=$data['year'];
-$depcode=$data['DepCode'];
+$DepCode=$data['DepCode'];
 $format=$data['Format'];
 $where='';
 
@@ -189,7 +189,8 @@ claim_detail
 INNER JOIN claim on claim.docno = claim_detail.DocNo
 INNER JOIN site on site.HptCode = claim.HptCode
 $where
-AND claim.HptCode = '$HptCode'";
+AND claim.HptCode = '$HptCode'
+AND claim.DepCode = '$DepCode'";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
         $HptName = $Result['HptName'];
@@ -212,6 +213,7 @@ INNER JOIN item on item.ItemCode = claim_detail.ItemCode
 INNER JOIN item_unit on item_unit.UnitCode = claim_detail.UnitCode1
 $where
 AND claim.HptCode = '$HptCode'
+AND claim.DepCode = '$DepCode'
 ";
 // var_dump($query); die;
 // Number of column
@@ -228,11 +230,5 @@ $result = $data->getdata($conn,$query,$numfield,$field);
 $pdf->SetFont('THSarabun','b',10);
 $pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
 $pdf->Ln();
-
-
-
-
-
-
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Clean_' . $ddate . '.pdf');
