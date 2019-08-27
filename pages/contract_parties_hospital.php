@@ -64,6 +64,12 @@ $array2 = json_decode($json2,TRUE);
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
 
+    <!-- =========================================================== -->
+    <!-- <link href="//getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="css/datepicker.css" rel="stylesheet" media="screen">
+    <link href="//getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+    <link href="//getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
+<!-- ============================================================================ -->
 
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
@@ -745,6 +751,7 @@ body{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-8 datepicker-here only" id="datepicker4" data-language='en' data-date-format='dd-mm-yyyy' >
+ 
                                     </div>
                                   </div>
                                 </div> 
@@ -830,6 +837,13 @@ body{
     <!-- Demo scripts for this page-->
     <script src="../template/js/demo/datatables-demo.js"></script>
 
+    <!--======================================================================== -->
+    <script src="//getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
+    <script src="//getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/bootstrap-datepicker-thai.js"></script>
+    <script src="js/locales/bootstrap-datepicker.th.js"></script>
+    <!--============================================================================== -->
   </body>
 
 </html>
