@@ -134,14 +134,7 @@ function AddItem($conn, $DATA)
     $boolcount = $Result['Countn'];
   }
 
-  $Sqlx = "SELECT COUNT(*) AS Countc
-          FROM
-          contractsite
-          WHERE contractsite.id = '$idcontract'";
-  $meQueryx = mysqli_query($conn,$Sqlx);
-  while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
-    $boolcountc = $Resultx['Countc'];
-  }
+
   // ==============================================
 
   if($boolcount==0){
@@ -193,6 +186,17 @@ function Adduser($conn, $DATA)
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
 
+//=======================================
+  $Sqlx = "SELECT COUNT(*) AS Countc
+  FROM
+  contractsite
+  WHERE contractsite.id = '$idcontract'";
+$meQueryx = mysqli_query($conn,$Sqlx);
+while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
+$boolcountc = $Resultx['Countc'];
+}
+//=======================================
+
   // ==============CHECK HOSPITAL====================
   $Sql="SELECT COUNT(HptCode) AS cnt FROM contractsite WHERE HptCode = '$host'";
   $meQuery = mysqli_query($conn, $Sql);
@@ -200,7 +204,8 @@ function Adduser($conn, $DATA)
     $cnt  = $Result['cnt'];
   }
   // ===============================================
-  if($cnt < 2){
+  if($boolcountc ==0){
+    if($cnt < 2){
     $Sql="INSERT INTO contractsite (contractsite.HptCode , contractsite.contractName , contractsite.permission , contractsite.Number) 
     VALUE ('$host','$ContractName','$Position','$phone')";
   if(mysqli_query($conn, $Sql)){
@@ -210,6 +215,10 @@ function Adduser($conn, $DATA)
     echo json_encode($return);
     mysqli_close($conn);
     die;
+    }else{
+      $return['status'] = "failed";
+      $return['msg'] = "addfailed";
+    }
   }else{
     $return['status'] = "failed";
     $return['msg'] = "addfailed";
