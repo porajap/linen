@@ -905,7 +905,7 @@ $array2 = json_decode($json2,TRUE);
 
               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                 var rowCount = $('#TableDocument >tbody >tr').length;
-                var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' >";
+                var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                 var Status = "";
                 var Style  = "";
                 if(temp[i]['IsStatus']==1){
@@ -1086,7 +1086,7 @@ $array2 = json_decode($json2,TRUE);
               var st1 = "style='font-size:24px;margin-left:20px; width:130px;font-family:THSarabunNew'";
               for (var i = 0; i < temp["Row"]; i++) {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
-                var chkDoc = "<input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'>";
+                var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px; '> "+(i+1)+"</label></label></div>";
                 var chkunit ="<select onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='unit"+i+"'>";
 
                 for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1109,7 +1109,7 @@ $array2 = json_decode($json2,TRUE);
                 var Price = "";
 
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                "<td style='width: 6%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                "<td style='width: 6%;'nowrap>"+chkDoc+"</td>"+
                 "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;'nowrap><input type='hidden' id='item_array"+temp[i]['ItemCode']+"' value='"+temp[i]['ItemCode']+"' class='item_array'></input>"+temp[i]['ItemCode']+"</td>"+
                 "<td style='text-overflow: ellipsis;overflow: hidden;width: 24%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                 "<td style='width: 12%;'nowrap>"+temp[i]['UnitName']+"</td>"+
