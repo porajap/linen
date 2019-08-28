@@ -77,7 +77,6 @@ $array2 = json_decode($json2,TRUE);
 
     <script type="text/javascript">
       var summary = [];
-
       function twoDigit(s){
           var sNum = s.toString();
           if(sNum.length==1) sNum = "0"+s;
@@ -98,7 +97,8 @@ $array2 = json_decode($json2,TRUE);
     $("#IsStatus").val('0');
 		OnLoadPage();
     // ShowDocument();
-		// getDepartment();
+    // getDepartment();
+
   }).click(function(e) { parent.afk();
       }).keyup(function(e) { parent.afk();
       });
