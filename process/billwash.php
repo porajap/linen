@@ -77,6 +77,7 @@ function CreateDocument($conn, $DATA)
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
+  $lang = $_SESSION['lang'];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
@@ -92,10 +93,13 @@ ORDER BY DocNo DESC LIMIT 1";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
-    
+    if($lang =='en'){
     $date2 = explode("-", $Result['DocDate']);
     $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-
+  }else if ($lang == 'th'){
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+  }
 
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
@@ -166,6 +170,7 @@ function ShowDocument($conn, $DATA)
   $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $Datepicker = $DATA["Datepicker"];
   $selecta = $DATA["selecta"];
+  $lang = $_SESSION['lang'];
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
   // mysqli_query($conn,$Sql);
   $Sql = "SELECT site.HptName,department.DepName,billwash.DocNo,billwash.DocDate,billwash.Total,users.FName,TIME(billwash.Modify_Date) AS xTime,billwash.IsStatus
@@ -181,8 +186,13 @@ INNER JOIN users ON billwash.Modify_Code = users.ID ";
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     
+    if($lang =='en'){
     $date2 = explode("-", $Result['DocDate']);
     $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  }else if ($lang == 'th'){
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+  }
 
 
     $return[$count]['HptName']   = $Result['HptName'];
@@ -223,6 +233,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
+  $lang = $_SESSION['lang'];
   $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billwash.DocNo,DATE(billwash.DocDate) AS DocDate ,billwash.Total,users.FName,TIME(billwash.Modify_Date) AS xTime,billwash.IsStatus
 FROM billwash
 INNER JOIN department ON billwash.DepCode = department.DepCode
@@ -231,8 +242,16 @@ INNER JOIN users ON billwash.Modify_Code = users.ID
 WHERE billwash.DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $date2 = explode("-", $Result['DocDate']);
-    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    
+    if($lang =='en'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    }else if ($lang == 'th'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+    }
+
+
     $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DepName']   = $Result['DepName'];

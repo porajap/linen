@@ -64,12 +64,14 @@ $array2 = json_decode($json2,TRUE);
     <link href="../dist/css/sweetalert2.css" rel="stylesheet">
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
-
+<!-- =================================== -->
     <?php if ($language =='th'){ ?>
       <script src="../datepicker/dist/js/datepicker.js"></script>
     <?php }else if($language =='en'){ ?>
         <script src="../datepicker/dist/js/datepicker-en.js"></script>
     <?php } ?>
+<!-- =================================== -->
+
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
