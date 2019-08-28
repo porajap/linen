@@ -515,6 +515,7 @@ $(document).ready(function(e){
               'userid'	: userid
             };
             senddata(JSON.stringify(data));
+            $('#RefDocNo').attr('disabled', false);
           } else if (result.dismiss === 'cancel') {
             swal.close();
           } 
@@ -1377,7 +1378,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-8 only"  style="font-size:22px;"  autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
+                                      <input class="form-control col-sm-8 only"  style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
                                     </div>
                                   </div>
                                   <div class="col-md-6">

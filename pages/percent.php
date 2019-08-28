@@ -164,8 +164,14 @@ $array2 = json_decode($json2,TRUE);
 	function ShowDocument(){
 	  var datepicker1 = $('#datepicker1').val();
 	  var datepicker2 = $('#datepicker2').val();
-	  datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+    var lang = '<?php echo $language; ?>';
+    if(lang =='th'){
+	  datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	  datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    }else if(lang =='en'){
+    datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
 	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    }
 
 	  var deptCode = $('#department option:selected').attr("value");
 	  if( typeof deptCode == 'undefined' ) deptCode = "1";
