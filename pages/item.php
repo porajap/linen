@@ -2128,7 +2128,10 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
-                                  <input type='radio' name='formatitem'  id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+                                    <label class="radio" style="margin-top: 20%;">
+                                      <input type='radio' name='formatitem'  id='formatitem' value='3' onclick="CreateItemCode()" checked="checked">
+                                      <span class="checkmark"></span>
+                                    </label>
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
@@ -2136,7 +2139,10 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c' style="align-content:center">
-                                    <input type='radio' name='formatitem' id='formatitem' value='1' onclick="CreateItemCode()">
+                                    <label class="radio" style="margin-top: 20%;">
+                                      <input type='radio' name='formatitem' id='formatitem' value='1' onclick="CreateItemCode()">
+                                      <span class="checkmark"></span>
+                                    </label>
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['oldFormatItemCode'][$language]; ?></label>
                                 </div>
@@ -2144,7 +2150,10 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c' style="align-content:center">
-                                    <input type='radio' name='formatitem'  id='formatitem' value='2' onclick="CreateItemCode()">
+                                    <label class="radio" style="margin-top: 20%;">
+                                      <input type='radio' name='formatitem'  id='formatitem' value='2' onclick="CreateItemCode()">
+                                      <span class="checkmark"></span>
+                                    </label>
                                   </div>
                                   <label class="col-sm-10 col-form-label text-left"><?php echo $array['newFormatItemCode'][$language]; ?></label>
                                 </div>
@@ -2268,9 +2277,15 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                           <div class='form-group row'>
                               <label style="top: -9px;" class="col-sm-4 col-form-label text-right"><?php echo $array['spacial'][$language]; ?></label>
-                              <input type="checkbox"  id="xCenter">
+                              <label class="radio" style="margin:0px !important;">
+                                <input type="checkbox"  id="xCenter">
+                                <span class="checkmark"></span>
+                              </label>
                               <label style="top: -9px;" class="col-sm-4 col-form-label text-right"><?php echo $array['newitem'][$language]; ?></label>
-                              <input type="checkbox"  id="xItemnew">
+                              <label class="radio" style="margin:0px !important;">
+                                <input type="checkbox"  id="xItemnew">
+                                <span class="checkmark"></span>
+                              </label>
                             </div>
                           </div>
                           
