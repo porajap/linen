@@ -837,7 +837,7 @@ function OpenDialogItem(){
                 }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
-                      var Str2 = "<option value=''>ทุกแผนก</option>";
+                      var Str2 = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
