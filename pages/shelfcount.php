@@ -859,7 +859,7 @@ $array2 = json_decode($json2,TRUE);
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
-                      var Str2 = "<option value=''>ทุกแผนก</option>";
+                      var Str2 = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
                       $("#Dep2").append(Str2);
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
