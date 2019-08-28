@@ -70,6 +70,7 @@ function getDepartment($conn,$DATA){
 // mysqli_query($conn,$Sqlx);
 
 function ShowDocument($conn,$DATA){
+  $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
   $deptCode = $DATA["deptCode"];
@@ -102,8 +103,14 @@ function ShowDocument($conn,$DATA){
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
-    $date2 = explode("-", $Result['DocDate1']);
-    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    
+if($lang =='en'){
+  $date2 = explode("-", $Result['DocDate']);
+  $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+}else if ($lang == 'th'){
+  $date2 = explode("-", $Result['DocDate']);
+  $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+}
 
 	$return[$count]['HptName'] 	= $Result['HptName'];
 	$return[$count]['DepName'] 	= $Result['DepName'];

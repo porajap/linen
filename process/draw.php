@@ -72,6 +72,7 @@ function getDepartment($conn, $DATA)
 
 function CreateDocument($conn, $DATA)
 {
+  $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
   $hotpCode = $DATA["hotpCode"];
@@ -95,8 +96,13 @@ function CreateDocument($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     
-    $date2 = explode("-", $Result['DocDate']);
-    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    if($lang =='en'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    }else if ($lang == 'th'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+    }
 
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
@@ -156,6 +162,7 @@ function CreateDocument($conn, $DATA)
 
   function ShowDocument($conn, $DATA)
   {
+    $lang = $_SESSION['lang'];
     $boolean = false;
     $count = 0;
     $Hotp = $DATA["Hotp"];
@@ -195,8 +202,13 @@ function CreateDocument($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      if($lang =='en'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      }else if ($lang == 'th'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      }
 
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
@@ -232,6 +244,7 @@ function CreateDocument($conn, $DATA)
 
   function SelectDocument($conn, $DATA)
   {
+    $lang = $_SESSION['lang'];
     $boolean = false;
     $count = 0;
     $DocNo = $DATA["xdocno"];
@@ -245,8 +258,13 @@ function CreateDocument($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      if($lang =='en'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      }else if ($lang == 'th'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      }
 
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
