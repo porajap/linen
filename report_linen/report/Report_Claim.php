@@ -19,7 +19,8 @@ $where = '';
 //print_r($data);
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (claim.Docdate) = DATE('$date1')";
+    $where_clean =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
+    $where_claim =   "WHERE DATE (claim.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
@@ -28,18 +29,21 @@ if ($chk == 'one') {
     $date_header = "ประจำปี : $date1";
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE claim.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_clean =   "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_claim =   "WHERE claim.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
   $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year) . " ถึง " .
     "วันที่ " . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (claim.Docdate) = " . $date1;
+  $where_clean =   "WHERE month (clean.Docdate) = " . $date1;
+  $where_claim =   "WHERE month (claim.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1);
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(claim.Docdate) BETWEEN $date1 AND $date2";
+  $where_clean =   "WHERE month(clean.Docdate) BETWEEN $date1 AND $date2";
+  $where_claim =   "WHERE month(claim.Docdate) BETWEEN $date1 AND $date2";
   $datetime = new DatetimeTH();
   $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1) . " ถึง " . $datetime->getTHmonthFromnum($date2);
 }
@@ -201,53 +205,55 @@ $pdf->Cell(150, 10, iconv("UTF-8", "TIS-620", "Linen Department site : " . $HptN
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 
-$query = "SELECT a.DocNo,
-  IFNULL(CLEAN, 0) AS CLEAN,
-    IFNULL(REWASH, 0) AS REWASH,
-    IFNULL(REPAIR, 0) AS REPAIR,
-    IFNULL(DAMAGE, 0) AS DAMAGE,
-    FacName
-    FROM (SELECT  sum(clean_detail.Qty) AS CLEAN,
-      claim.DocNo,factory.FacName
-  FROM  claim,clean,clean_detail,dirty,factory
-  WHERE  
-   clean.DocNo=clean_detail.DocNo
-  AND dirty.DocNo=clean.RefDocNo
-  AND factory.FacCode=dirty.FacCode
-  AND claim.HptCode = '$HptCode'
-  AND clean.DepCode = '$DepCode'
-  AND factory.FacCode = $FacCode
-  GROUP BY claim.DocNo) a,
-  (SELECT  sum(rewash_detail.Qty1) AS REWASH,
-      claim.DocNo
-  FROM  claim
-LEFT  JOIN rewash ON rewash.RefDocNo=claim.DocNo
-LEFT  JOIN rewash_detail ON rewash.DocNo=rewash_detail.DocNo
-WHERE
-   claim.HptCode = '$HptCode'
-  AND claim.DepCode = '$DepCode'
-  GROUP BY claim.DocNo) b,
-  (
-  SELECT  claim.DocNo,SUM(repair_detail.Qty) AS REPAIR
-  FROM claim
-  LEFT JOIN repair ON claim.DocNo = repair.RefDocNo
-  LEFT JOIN repair_detail ON repair.DocNo=repair_detail.DocNo
-  WHERE  claim.HptCode = '$HptCode'
-  AND claim.DepCode = '$DepCode'
-  GROUP BY claim.DocNo
-  ) c,
-  (SELECT  claim.DocNo,SUM(damage_detail.Qty) AS DAMAGE
-  FROM claim
-  LEFT JOIN damage ON claim.DocNo = damage.RefDocNo
-  LEFT JOIN damage_detail ON damage.DocNo=damage_detail.DocNo
-  WHERE  
-   claim.HptCode = '$HptCode'
-  AND claim.DepCode = '$DepCode'
-  GROUP BY claim.DocNo) d
-  WHERE 
-  b.DocNo=c.DocNo
-  AND b.DocNo=d.DocNo
-  AND b.DocNo=a.DocNo
+$query = "SELECT 
+IFNULL(CLEAN, 0) AS CLEAN,
+  IFNULL(REWASH, 0) AS REWASH,
+  IFNULL(REPAIR, 0) AS REPAIR,
+  IFNULL(DAMAGE, 0) AS DAMAGE,
+  FacName
+  FROM (SELECT
+sum(clean_detail.Qty) AS CLEAN,
+factory.FacName
+FROM
+clean
+INNER JOIN dirty ON dirty.docno = clean.RefDocNo
+INNER JOIN factory ON factory.FacCode = dirty.FacCode
+INNER JOIN clean_detail ON clean.DocNo = clean_detail.DocNo
+INNER JOIN department ON department.DepCode = clean.DepCode
+$where_clean
+AND department.HptCode = '$HptCode'
+AND clean.DepCode = '$DepCode'
+AND factory.FacCode = $FacCode
+GROUP BY
+date(clean.DocDate)) a,
+(SELECT  sum(rewash_detail.Qty1) AS REWASH
+FROM  clean
+INNER JOIN rewash ON clean.RefDocNo=rewash.DocNo
+INNER JOIN rewash_detail ON rewash.DocNo=rewash_detail.DocNo
+INNER JOIN department ON department.DepCode = clean.DepCode
+$where_clean
+AND clean.DepCode = '$DepCode'
+AND	department.HptCode='$HptCode'
+GROUP BY date(clean.Docdate )) b,
+(
+SELECT  claim.DocNo,SUM(repair_detail.Qty) AS REPAIR
+FROM claim
+INNER JOIN  repair ON claim.DocNo = repair.RefDocNo
+INNER JOIN repair_detail ON repair.DocNo=repair_detail.DocNo
+$where_claim
+AND claim.HptCode = '$HptCode'
+AND claim.DepCode = '$DepCode'
+GROUP BY date(claim.Docdate)
+) c,
+(SELECT  claim.DocNo,SUM(damage_detail.Qty) AS DAMAGE
+FROM claim
+INNER JOIN damage ON claim.DocNo = damage.RefDocNo
+INNER JOIN damage_detail ON damage.DocNo=damage_detail.DocNo
+$where_claim
+AND claim.HptCode = '$HptCode'
+AND claim.DepCode = '$DepCode'
+GROUP BY date(claim.Docdate)) d
+
 
 
             
@@ -282,3 +288,46 @@ $pdf->Output('I', 'Report_Claim_' . $ddate . '.pdf');
   AND claim.DepCode = '$DepCode'
   AND factory.FacCode = $FacCode
   GROUP BY claim.DocNo) a, */
+
+
+//   SELECT a.DocNo,
+//   IFNULL(CLEAN, 0) AS CLEAN,
+//     IFNULL(REWASH, 0) AS REWASH,
+//     IFNULL(REPAIR, 0) AS REPAIR,
+//     IFNULL(DAMAGE, 0) AS DAMAGE,
+//     FacName
+//     FROM (SELECT  sum(clean_detail.Qty) AS CLEAN,
+//       claim.DocNo,factory.FacName
+//   FROM  claim,clean,clean_detail,dirty,factory
+//   WHERE  
+//    clean.DocNo=clean_detail.DocNo
+//   AND dirty.DocNo=clean.RefDocNo
+//   AND factory.FacCode=dirty.FacCode
+//   AND claim.HptCode = '$HptCode'
+//   AND clean.DepCode = '$DepCode'
+//   AND factory.FacCode = 1
+//   GROUP BY claim.DocNo) a,
+//   (SELECT  sum(rewash_detail.Qty1) AS REWASH
+//   FROM  clean
+// LEFT  JOIN rewash ON clean.RefDocNo=rewash.DocNo
+// LEFT  JOIN rewash_detail ON rewash.DocNo=rewash_detail.DocNo
+// WHERE
+//    clean.HptCode = '$HptCode'
+//   GROUP BY clean.DocNo) b,
+//   (
+//   SELECT  claim.DocNo,SUM(repair_detail.Qty) AS REPAIR
+//   FROM claim
+//   LEFT JOIN repair ON claim.DocNo = repair.RefDocNo
+//   LEFT JOIN repair_detail ON repair.DocNo=repair_detail.DocNo
+//   WHERE  claim.HptCode = '$HptCode'
+//   AND claim.DepCode = '$DepCode'
+//   GROUP BY claim.DocNo
+//   ) c,
+//   (SELECT  claim.DocNo,SUM(damage_detail.Qty) AS DAMAGE
+//   FROM claim
+//   LEFT JOIN damage ON claim.DocNo = damage.RefDocNo
+//   LEFT JOIN damage_detail ON damage.DocNo=damage_detail.DocNo
+//   WHERE  
+//    claim.HptCode = '$HptCode'
+//   AND claim.DepCode = '$DepCode'
+//   GROUP BY claim.DocNo) d

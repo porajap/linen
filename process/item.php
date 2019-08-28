@@ -1029,12 +1029,6 @@ function AddItemMaster($conn, $DATA){
   $test = 0;
   for($i=0; $i < $limit; $i++)
   {
-    // $selectMas = "SELECT mItemCode FROM item_set WHERE ItemCode = '$ItemCode[$i]' LIMIT 1";
-    // $return[$i]['SELECT'] = $selectMas;
-    // $MasmeQuery = mysqli_query($conn, $selectMas);
-    // while ($SeResult = mysqli_fetch_assoc($MasmeQuery)) {
-    //   $mItemCode = $SeResult['mItemCode'];
-    // }
     $cntMom = "SELECT COUNT(mItemCode) AS cntMom FROM item_set WHERE ItemCode = '$ItemCode[$i]'";
     $MomQuery = mysqli_query($conn, $cntMom);
     while ($MomResult = mysqli_fetch_assoc($MomQuery)) {

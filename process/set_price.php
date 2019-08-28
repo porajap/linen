@@ -86,6 +86,7 @@ function ShowDoc($conn, $DATA)
 {
     $count = 0;
     $HptCode = $DATA['HptCode'];
+    $lang = $_SESSION['lang'];
     if($HptCode != null){
       $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName
         FROM category_price_time
@@ -104,8 +105,15 @@ function ShowDoc($conn, $DATA)
     
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($lang =='en'){
+        $date2 = explode("-", $Result['xDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      }else if ($lang == 'th'){
+        $date2 = explode("-", $Result['xDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      }
         $return[$count]['DocNo'] = $Result['DocNo'];
-        $return[$count]['xDate'] = $Result['xDate'];
+        $return[$count]['xDate'] = $newdate;
         $return[$count]['HptName'] = $Result['HptName'];
         $return[$count]['HptCode'] = $Result['HptCode'];
         $count++;

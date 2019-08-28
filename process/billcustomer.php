@@ -78,6 +78,7 @@ function CreateDocument($conn, $DATA)
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
+  $lang = $_SESSION['lang'];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
@@ -92,9 +93,16 @@ ORDER BY DocNo DESC LIMIT 1";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($lang =='en'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    }else if ($lang == 'th'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+    }
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
-    $return[0]['DocDate'] = $Result['DocDate'];
+    $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
     //	  $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']."')";
@@ -161,6 +169,7 @@ function ShowDocument($conn, $DATA)
   $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $Datepicker = $DATA["Datepicker"];
   $selecta = $DATA["selecta"];
+  $lang = $_SESSION['lang'];
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
   // mysqli_query($conn,$Sql);
   $Sql = "SELECT site.HptName,department.DepName,billcustomer.DocNo,billcustomer.DocDate,billcustomer.Total,users.FName,TIME(billcustomer.Modify_Date) AS xTime,billcustomer.IsStatus
@@ -174,10 +183,17 @@ INNER JOIN users ON billcustomer.Modify_Code = users.ID ";
   $Sql .= "ORDER BY billcustomer.DocNo DESC LIMIT 500 ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($lang =='en'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    }else if ($lang == 'th'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+    }
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $Result['DocDate'];
+    $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
@@ -212,6 +228,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
+  $lang = $_SESSION['lang'];
   $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billcustomer.DocNo,billcustomer.DocDate,billcustomer.Total,users.FName,TIME(billcustomer.Modify_Date) AS xTime,billcustomer.IsStatus
 FROM billcustomer
 INNER JOIN department ON billcustomer.DepCode = department.DepCode
@@ -220,11 +237,18 @@ INNER JOIN users ON billcustomer.Modify_Code = users.ID
 WHERE billcustomer.DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($lang =='en'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    }else if ($lang == 'th'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+    }
     $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $Result['DocDate'];
+    $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];

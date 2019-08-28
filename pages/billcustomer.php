@@ -1231,8 +1231,8 @@ $array2 = json_decode($json2,TRUE);
                         </div>
 
                         <!-- row btn -->
-                        <div class="row m-1 mt-4 d-flex justify-content-end" <?php if($PmID == 1) echo 'hidden'; ?>>
-                          <div class="menu">
+                        <div class="row m-1 mt-4 d-flex justify-content-end">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate">
@@ -1244,7 +1244,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport">
@@ -1256,7 +1256,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete">
@@ -1268,7 +1268,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn" onclick="SaveBill()" id="bSave">
@@ -1282,7 +1282,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center">
                                 <button class="btn" onclick="CancelBill()" id="bCancel">
@@ -1294,7 +1294,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
                                 <button class="btn" onclick="PrintData()" id="bPrint">
