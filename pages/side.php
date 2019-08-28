@@ -221,6 +221,18 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
+      function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
+        }
+        function removeClassBorder1(){
+          $('#host').removeClass('border-danger');
+        }
 
       function CreateSentSterile() {
         var userid = '<?php echo $Userid; ?>';
@@ -406,6 +418,9 @@ $array2 = json_decode($json2,TRUE);
         var Position = $('#Position').val();
         var phone = $('#phone').val();
         var host = $('#host').val();
+        if(host==''){
+          checkblank2();
+      }else{
           if(count==0){
             swal({
               title: "<?php echo $array['addoredit'][$language]; ?>",
@@ -436,7 +451,9 @@ $array2 = json_decode($json2,TRUE);
               } else if (result.dismiss === 'cancel') {
             swal.close();
           }
+              
               })
+          
                   
         }else{
           swal({
@@ -458,7 +475,9 @@ $array2 = json_decode($json2,TRUE);
             }
           });
         }
+
       }
+    }
       function CancelItem() {
           swal({
             title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -1318,7 +1337,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 " id="host"></select>
+                                      <select  class="form-control col-sm-8 checkblank2 border" id="host" onchange="removeClassBorder1();"></select>
                                     </div>
                                   </div>
 
