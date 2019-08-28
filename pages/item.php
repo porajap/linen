@@ -437,7 +437,6 @@ $array2 = json_decode($json2, TRUE);
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
       var xItemnew = 0;
-      alert(ItemName);
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if ($('#masterItem').is(':checked')) {
@@ -1297,19 +1296,21 @@ $array2 = json_decode($json2, TRUE);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
+                var isset = temp[i]['isset'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
   
                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
-                  "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                  "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                   "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='width: 15%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 12%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                   "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
-                  "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
-                  "<td style='width: 11%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
                   "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
+                  "<td style='width: 8%;' align='center'nowrap>" + isset + "</td>" +
                   "</tr>";
 
                 if (rowCount == 0) {
@@ -2055,20 +2056,21 @@ $array2 = json_decode($json2, TRUE);
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">
                     <th style='width: 5%; font-size:13px;'>&nbsp;</th>
-                    <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                    <th style='width: 5%;' nowrap><?php echo $array['no'][$language]; ?></th>
                     <th style='width: 19%;' nowrap><?php echo $array['codecode'][$language]; ?>
                       <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
                       <a href="javascript:void(0)" class="activeSort white"  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                     </th>
-                    <th style='width: 15%;' nowrap><?php echo $array['item'][$language]; ?>
+                    <th style='width: 12%;' nowrap><?php echo $array['item'][$language]; ?>
                     <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
                       <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                      </th>
 										<th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
 										<th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
-                    <th style='width: 14%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                    <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                     <th style='width: 11%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
                     <th style='width: 10%;' nowrap><?php echo $array['newitem'][$language]; ?></th>
+                    <th style='width: 8%;' nowrap><?php echo $array['itemmas'][$language]; ?></th>
                   </tr>
                 </thead>
                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
