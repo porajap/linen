@@ -267,7 +267,8 @@ function getdetail($conn, $DATA)
           item.QtyPerUnit,
           item.UnitCode2,
           IsDirtyBag,
-          Itemnew
+          Itemnew,
+          isset
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
@@ -301,6 +302,7 @@ function getdetail($conn, $DATA)
     $return[$count]['sUnitName'] = $Result['UnitCode2'];
     $return[0]['IsDirtyBag'] = $Result['IsDirtyBag'];
     $return[0]['Itemnew'] = $Result['Itemnew'];
+    $return[0]['isset'] = $Result['isset'];
     $count++;
   }
   $return['RowCount'] = $count;
@@ -379,6 +381,11 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
+  if($DATA['masterItem'] == 1){
+    $Del = "DELETE FROM item_set WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+    mysqli_query($conn, $Del);
+  }
+  $return['ItemName'] = $DATA['ItemName'];
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
           item
@@ -399,7 +406,8 @@ function AddItem($conn, $DATA)
             QtyPerUnit = '" . $DATA['qpu'] . "',
             UnitCode2 = '" . $DATA['sUnit'] . "',
             IsDirtyBag = '" . $DATA['xCenter'] . "',  
-            Itemnew = '" . $DATA['xItemnew'] . "'
+            Itemnew = '" . $DATA['xItemnew'] . "',
+            isset = ". $DATA['masterItem']."
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
 
             $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
@@ -413,7 +421,7 @@ function AddItem($conn, $DATA)
               }
               mysqli_query($conn, $Sql2);
             }
-
+            $return['sql'] = $Sql;
     if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "AddItem";
@@ -1033,6 +1041,46 @@ function AddItemMaster($conn, $DATA){
   }
   getdetailMaster($conn, $DATA);
 }
+function chkItemMaster($conn, $DATA){
+  $ItemCode = $DATA['ItemCode'];
+  $masterItem = $DATA['masterItem'];
+  if($masterItem == 1){
+    $Sql = "SELECT COUNT(ItemCode) AS cnt FROM item_set WHERE ItemCode = '$ItemCode'";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($Result['cnt'] > 0){
+        $return['cnt'] = 1;
+        $return['chk'] = 'chk_addMaster';
+      }else{
+        $return['cnt'] = 0;
+        $return['chk'] = 'chk_addMaster';
+      }
+    }
+  }else{
+    $Sql = "SELECT COUNT(mItemCode) AS cnt FROM item_set WHERE ItemCode = '$ItemCode'";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($Result['cnt'] > 0){
+        $return['cnt'] = 1;
+        $return['chk'] = 'chk_delItem';
+        $return['mItemCode'] = $ItemCode;
+      }else{
+        $return['cnt'] = 0;
+        $return['chk'] = 'chk_delItem';
+      }
+    }
+  }
+    
+    $return['status'] = "success";
+    $return['form'] = "chkItemMaster";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+}
+function DelMaster($conn, $DATA){
+  $mItemCode = "DELETE FROM item_set WHERE mItemCode = '".$DATA['mItemCode']."'";
+  $mysqli_query($conn, $Sql);
+}
 
 if (isset($_POST['DATA'])) {
   $data = $_POST['DATA'];
@@ -1082,6 +1130,10 @@ if (isset($_POST['DATA'])) {
     ShowItemModal($conn, $DATA);
   }else if ($DATA['STATUS'] == 'AddItemMaster') {
     AddItemMaster($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'chkItemMaster') {
+    chkItemMaster($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'DelMaster') {
+    DelMaster($conn, $DATA);
   }
 } else {
   $return['status'] = "error";

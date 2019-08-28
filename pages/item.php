@@ -437,9 +437,14 @@ $array2 = json_decode($json2, TRUE);
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
       var xItemnew = 0;
-    
+      alert(ItemName);
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#xItemnew').is(':checked')) xItemnew = 1;
+      if ($('#masterItem').is(':checked')) {
+        masterItem = 1;
+      }else{
+        masterItem = 0;
+      }
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -477,9 +482,10 @@ $array2 = json_decode($json2, TRUE);
                 'qpu': qpu,
                 'sUnit': sUnit,
                 'xCenter': xCenter,
-                'xItemnew': xItemnew
+                'xItemnew': xItemnew,
+                'masterItem': masterItem
               };
-              console.log(JSON.stringify(data));
+              // console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
             } else if (result.dismiss == 'cancel') {
               swal.close();
@@ -1124,6 +1130,27 @@ $array2 = json_decode($json2, TRUE);
         }
       })
     }
+    function chkItemMaster(){
+      var ItemCode = $('#ItemCode').val();
+      if ($('#masterItem').is(':checked')) {
+        masterItem = 1;
+      }else{
+        masterItem = 0;
+      }
+      var data = {
+        'STATUS': 'chkItemMaster',
+        'ItemCode': ItemCode,
+        'masterItem': masterItem
+      };
+      senddata(JSON.stringify(data));
+    }
+    function DelMaster(mItemCode){
+      var data = {
+        'STATUS': 'DelMaster',
+        'mItemCode': mItemCode
+      };
+      senddata(JSON.stringify(data));
+    }
 		//<!-- --------------------Function--------------------- --!>
 		//<!-- --------------------desplay--------------------- --!>
     function senddata(data) {
@@ -1359,6 +1386,12 @@ $array2 = json_decode($json2, TRUE);
                   $('#xItemnew').prop('checked', true);
                 }else{
                   $('#xItemnew').prop('checked', false);
+                }
+
+                if(temp[0]['isset'] == 1){
+                  $('#masterItem').prop('checked', true);
+                }else{
+                  $('#masterItem').prop('checked', false);
                 }
 
                 if (temp['RowCount']!=0) {
@@ -1657,6 +1690,56 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='width: 31%;text-align:center;' align='center'nowrap>"+Qty+"</td>" +
                   "</tr>";
                   $("#TableItemModal tbody").append($StrTR);
+              }
+            } else if ((temp["form"] == 'chkItemMaster')) {
+              if(temp['chk'] == 'chk_addMaster'){
+                if(temp['cnt'] == 1){
+                  swal({
+                    title: "<?php echo $array['itemmas'][$language]; ?>",
+                    text: "<?php echo $array['isset'][$language]; ?>",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+                    cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    closeOnConfirm: false,
+                    closeOnCancel: false,
+                    showCancelButton: true
+                  }).then(result => {
+                    if (result.value) {
+                      swal.close();
+                    } else if (result.dismiss == 'cancel') {
+                      $('#masterItem').prop('checked', false);
+                    }
+                  })
+                }
+              }else if(temp['chk'] == 'chk_delItem'){
+                if(temp['cnt'] == 0){
+                  swal({
+                    title: "<?php echo $array['itemmas'][$language]; ?>",
+                    text: "<?php echo $array['ismaster'][$language]; ?>",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+                    cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    closeOnConfirm: false,
+                    closeOnCancel: false,
+                    showCancelButton: true
+                  }).then(result => {
+                    if (result.value) {
+                      DelMaster(temp['mItemCode']);
+                      swal.close();
+                    } else if (result.dismiss == 'cancel') {
+                      swal.close();
+                      // $('#masterItem').prop('checked', false);
+                    }
+                  })
+                }
               }
             } 
           } else if (temp['status'] == "failed") {
@@ -2276,14 +2359,19 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row">
                           <div class="col-md-6">
                           <div class='form-group row'>
-                              <label style="top: -9px;" class="col-sm-4 col-form-label text-right"><?php echo $array['spacial'][$language]; ?></label>
+                              <label style="top: -9px;" class="col col-form-label text-right"><?php echo $array['spacial'][$language]; ?></label>
                               <label class="radio" style="margin:0px !important;">
                                 <input type="checkbox"  id="xCenter">
                                 <span class="checkmark"></span>
                               </label>
-                              <label style="top: -9px;" class="col-sm-4 col-form-label text-right"><?php echo $array['newitem'][$language]; ?></label>
+                              <label style="top: -9px;" class="col col-form-label text-right"><?php echo $array['newitem'][$language]; ?></label>
                               <label class="radio" style="margin:0px !important;">
                                 <input type="checkbox"  id="xItemnew">
+                                <span class="checkmark"></span>
+                              </label>
+                              <label style="top: -9px;" class="col col-form-label text-right"><?php echo $array['itemmas'][$language]; ?></label>
+                              <label class="radio" style="margin:0px !important;">
+                                <input type="checkbox"  id="masterItem" onclick="chkItemMaster();">
                                 <span class="checkmark"></span>
                               </label>
                             </div>
