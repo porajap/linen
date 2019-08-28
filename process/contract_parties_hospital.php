@@ -73,15 +73,12 @@ function ShowDocument($conn,$DATA){
   $count = 0;
   $deptCode = $DATA["deptCode"];
   $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
-
+  $lang = $_SESSION['lang'];
   $sDate = $DATA["sDate"];
   $eDate = $DATA["eDate"];
 
   $sl1 = strlen($sDate);
   $sl2 = strlen($eDate);
-
-//	 $Sql = "INSERT INTO log ( log ) VALUES ('$sl1  :  $sl2')";
-//     mysqli_query($conn,$Sql);
 
   $Sql = "SELECT
     contract_parties_hospital.RowID,
@@ -98,11 +95,24 @@ function ShowDocument($conn,$DATA){
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $date = explode("-", $Result['StartDate']);
-    $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+    
+    if($lang =='en'){
 
-    $date2 = explode("-", $Result['EndDate']);
-    $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      $date = explode("-", $Result['StartDate']);
+      $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+  
+      $date2 = explode("-", $Result['EndDate']);
+      $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  
+      }else if ($lang == 'th'){
+  
+      $date = explode("-", $Result['StartDate']);
+      $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+  
+      $date2 = explode("-", $Result['EndDate']);
+      $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
+  
+      }
 
 	$return[$count]['RowID'] 		= $Result['RowID'];
 	$return[$count]['HptName'] 		= $Result['HptName'];
@@ -139,7 +149,7 @@ function getRow($conn,$DATA){
   $boolean = false;
   $count = 0;
   $RowID = $DATA["RowID"];
-
+  $lang = $_SESSION['lang'];
 //	 $Sql = "INSERT INTO log ( log ) VALUES ('$sl1  :  $sl2')";
 //     mysqli_query($conn,$Sql);
 
@@ -157,11 +167,28 @@ function getRow($conn,$DATA){
   AND RowID = $RowID";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($lang =='en'){
+
+      $date = explode("-", $Result['StartDate']);
+      $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+  
+      $date2 = explode("-", $Result['EndDate']);
+      $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  
+      }else if ($lang == 'th'){
+  
+      $date = explode("-", $Result['StartDate']);
+      $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+  
+      $date2 = explode("-", $Result['EndDate']);
+      $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
+  
+      }
 	$return[$count]['RowID'] 		= $Result['RowID'];
 	$return[$count]['HptCode'] 		= $Result['HptCode'];
 	$return[$count]['HptName'] 		= $Result['HptName'];
-	$return[$count]['StartDate'] 	= $Result['StartDate'];
-    $return[$count]['EndDate'] 		= $Result['EndDate'];
+	$return[$count]['StartDate'] 	= $newdate;
+    $return[$count]['EndDate'] 		= $newdate2;
     $return[$count]['Detail'] 		= $Result['Detail'];
 	$return[$count]['LeftDay'] 		= $Result['LeftDay'];
 	$Hosp 							= $Result['HptCode'];

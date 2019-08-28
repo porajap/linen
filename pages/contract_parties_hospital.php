@@ -66,9 +66,12 @@ $array2 = json_decode($json2,TRUE);
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
 
 
-
+    <?php if ($language =='th'){ ?>
+      <script src="../datepicker/dist/js/datepicker.js"></script>
+    <?php }else if($language =='en'){ ?>
+        <script src="../datepicker/dist/js/datepicker-en.js"></script>
+    <?php } ?>
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-    <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
     <script src="../datepicker/dist/js/i18n/datepicker.th.js"></script>
@@ -221,8 +224,14 @@ $array2 = json_decode($json2,TRUE);
 	    if( typeof depid == 'undefined' ) depid = "1";
 		var datepicker1 = $('#datepicker3').val();
     var datepicker2 = $('#datepicker4').val();
+    var lang = '<?php echo $language; ?>';
+    if(lang =='th'){
+	  datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	  datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    }else if(lang =='en'){
     datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
 	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    }
 		var xDetail = $("#xDetail").val();
 
 	  swal({
@@ -273,8 +282,14 @@ $array2 = json_decode($json2,TRUE);
 	function ShowDocument(){
 	  var datepicker1 = $('#datepicker1').val();
 	  var datepicker2 = $('#datepicker2').val();
-	  datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+    var lang = '<?php echo $language; ?>';
+    if(lang =='th'){
+	  datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	  datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    }else if(lang =='en'){
+    datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
 	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    }
 
 	  var deptCode = $('#department option:selected').attr("value");
 	  if( typeof deptCode == 'undefined' ) deptCode = "1";
@@ -352,7 +367,7 @@ $array2 = json_decode($json2,TRUE);
                            var sDate = new Date();
                           var eDate = new Date( temp[i]['EndDate'] );
                           var diff  = new Date(eDate - sDate);
-                          var chkDetail = "<label class='radio'style='margin-top: 50%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
+                          var chkDetail = "<label class='radio'style='margin-top: 27%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
                           var days = Math.round(diff/1000/60/60/24);
 
 												  if(days <= 30){

@@ -73,7 +73,7 @@ function ShowDocument($conn,$DATA){
   $count = 0;
   $deptCode = $DATA["deptCode"];
   $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
-
+  $lang = $_SESSION['lang'];
   $sDate = $DATA["sDate"];
   $eDate = $DATA["eDate"];
 
@@ -91,12 +91,24 @@ function ShowDocument($conn,$DATA){
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    if($lang =='en'){
+
     $date = explode("-", $Result['StartDate']);
     $newdate = $date[2].'-'.$date[1].'-'.$date[0];
 
     $date2 = explode("-", $Result['EndDate']);
     $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
 
+    }else if ($lang == 'th'){
+
+    $date = explode("-", $Result['StartDate']);
+    $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+
+    $date2 = explode("-", $Result['EndDate']);
+    $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
+
+    }
 	$return[$count]['RowID'] 		= $Result['RowID'];
 	$return[$count]['FacName'] 		= $Result['FacName'];
 	$return[$count]['StartDate'] 	= $newdate;
@@ -132,6 +144,7 @@ function getRow($conn,$DATA){
   $boolean = false;
   $count = 0;
   $RowID = $DATA["RowID"];
+  $lang = $_SESSION['lang'];
 
 //	 $Sql = "INSERT INTO log ( log ) VALUES ('$sl1  :  $sl2')";
 //     mysqli_query($conn,$Sql);
@@ -144,11 +157,28 @@ function getRow($conn,$DATA){
   AND RowID = $RowID";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($lang =='en'){
+
+      $date = explode("-", $Result['StartDate']);
+      $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+  
+      $date2 = explode("-", $Result['EndDate']);
+      $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  
+      }else if ($lang == 'th'){
+  
+      $date = explode("-", $Result['StartDate']);
+      $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+  
+      $date2 = explode("-", $Result['EndDate']);
+      $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
+  
+      }
 	$return[$count]['RowID'] 		= $Result['RowID'];
 	$return[$count]['FacCode'] 		= $Result['FacCode'];
 	$return[$count]['FacName'] 		= $Result['FacName'];
-	$return[$count]['StartDate'] 	= $Result['StartDate'];
-    $return[$count]['EndDate'] 		= $Result['EndDate'];
+	$return[$count]['StartDate'] 	= $newdate;
+    $return[$count]['EndDate'] 		= $newdate2;
     $return[$count]['Detail'] 		= $Result['Detail'];
 	$return[$count]['LeftDay'] 		= $Result['LeftDay'];
     $boolean = true;
@@ -233,7 +263,7 @@ if(isset($_POST['DATA']))
         ShowDocument($conn,$DATA);
       }elseif($DATA['STATUS']=='getRow'){
         getRow($conn,$DATA);
-      }elseif($DATA['STATUS']=='SaveRow'){
+      }elseif($DATA['STATUS']=='F'){
         SaveRow($conn,$DATA);
       }elseif($DATA['STATUS']=='CancelRow'){
         CancelRow($conn,$DATA);
