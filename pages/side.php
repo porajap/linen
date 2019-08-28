@@ -516,7 +516,7 @@ $array2 = json_decode($json2,TRUE);
         $('#ContractName').val("");
         $('#Position').val("");
         $('#phone').val("");
-        $('#host').val("BHQ");
+        $('#host').val("");
         $('#HptCode').val("");
         ShowItem();
         $('#bCancel').attr('disabled', true);

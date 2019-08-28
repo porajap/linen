@@ -44,8 +44,8 @@ switch ($PmID) {
         $gen_s12=1;
         //account
         $ac_head=1;
-        $ac_s1=0;
-        $ac_s2=0;
+        $ac_s1=1;
+        $ac_s2=1;
         $ac_s3=1;
         $ac_s4=1;
         $ac_s5=1;
@@ -93,8 +93,8 @@ switch ($PmID) {
         $gen_s12=1;
         //account
         $ac_head=1;
-        $ac_s1=0;
-        $ac_s2=0;
+        $ac_s1=1;
+        $ac_s2=1;
         $ac_s3=1;
         $ac_s4=1;
         $ac_s5=1;
@@ -142,8 +142,8 @@ switch ($PmID) {
         $gen_s12=1;
         //account
         $ac_head=1;
-        $ac_s1=0;
-        $ac_s2=0;
+        $ac_s1=1;
+        $ac_s2=1;
         $ac_s3=1;
         $ac_s4=1;
         $ac_s5=1;
@@ -364,6 +364,10 @@ switch ($PmID) {
     var redirectInSecond = <?php echo $TimeOut ?>; // กำหนดเวลา redirect เป็นวินาที
     var chk_logoff = <?php echo $logoff ?>; 
     var redirect_url = 'http://poseintelligence.dyndns.biz:8181/linen-test/login.php'; // กำหนด url ที่ต้องการเมื่อครบเวลาที่กำหนด
+
+
+
+
     $(document).ready(function (e) {
 
       if(chk_logoff == 1 ){
@@ -382,6 +386,13 @@ switch ($PmID) {
         var href = $(this).attr('href');
         var sub = href.split("?");
         $('#url_page').val(sub[0]);
+
+        $.post( "process/refresh.php", { href: href })
+        .done(function( data ) {
+            // alert( "Data Loaded: " + data);
+            
+        });
+
       });
 
       checkFileLength();
@@ -1003,10 +1014,16 @@ switch ($PmID) {
       </li>
     </ul>
   </header>
-
+  <?php
+if(empty($_SESSION['href'])){
+  $src="pages/menu.php?lang=<?php echo $language; ?>";
+}else{
+$src=$_SESSION['href']; 
+}
+?> 
   <article id="mainArticle" style="margin-top:25px;">
     <input type="hidden" id=last_move>
-    <iframe name="ifrm" id="ifrm" src="pages/menu.php?lang=<?php echo $language; ?>" class="current_page"  frameborder="0" style="height:100%; width:100%; "></iframe>
+    <iframe name="ifrm" id="ifrm" src="<?php echo $src; ?>" class="current_page"  frameborder="0" style="height:100%; width:100%; "></iframe>
   </article>
 
 

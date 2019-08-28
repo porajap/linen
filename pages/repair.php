@@ -941,6 +941,7 @@ $(document).ready(function(e){
 
                   $('#unit'+i).prop('disabled', true);
                 }
+                $('#RefDocNo').attr('disabled', false);
                 ShowDetail();
               }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
                 $( "#TableItemDetail tbody" ).empty();
@@ -1031,7 +1032,7 @@ $(document).ready(function(e){
 
                   var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
-                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly ' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
 

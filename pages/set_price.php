@@ -729,7 +729,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#TableDoc tbody").empty();
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var rowCount = $('#TableDoc >tbody >tr').length;
-                                var chkDoc = "<input type='radio' class='checkblank' data-value='"+i+"' name='checkdocno' id='checkdocno' " + "value='" + temp[i]['DocNo'] + "," + temp[i]['xDate'] + "," + temp[i]['HptCode'] + "," + temp[i]['HptName'] + "' onclick='cancelDoc(\"" + temp[i]["DocNo"] + "\","+i+")'>";
+                                var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' class='checkblank' data-value='"+i+"' name='checkdocno' id='checkdocno' " + "value='" + temp[i]['DocNo'] + "," + temp[i]['xDate'] + "," + temp[i]['HptCode'] + "," + temp[i]['HptName'] + "' onclick='cancelDoc(\"" + temp[i]["DocNo"] + "\","+i+")'><span class='checkmark'></span></label>";
                                     StrTR = "<tr id='tr"+temp[i]['DocNo']+"'>" +
                                         "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                         "<td style='width: 25%;'>" + temp[i]['HptName'] + "</td>" +
@@ -750,7 +750,7 @@ $array2 = json_decode($json2,TRUE);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem'  id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
-                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                                 StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
                                 "<td style='width: 5%;' nowrap>" + chkDoc + "</td>" +
@@ -766,12 +766,15 @@ $array2 = json_decode($json2,TRUE);
                                     $('#TableItem tbody:last-child').append(StrTR);
                                 }
                             }
+                            $('.numonly').on('input', function() {
+                                this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                            });
                         }else if ((temp["form"] == 'ShowItem2')) {
                             $("#TableItemPrice tbody").empty();
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var RowID = "<input type='hidden' name='RowID_"+i+"' id='RowID_"+i+"' value='" + temp[i]['RowID'] +"'>";
-                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control price_array' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' onKeyPress='if(event.keyCode==13){SavePriceTime("+i+")}'></div>";
+                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control price_array numonly' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' onKeyPress='if(event.keyCode==13){SavePriceTime("+i+")}'></div>";
                                 var chkPrice = "<input type='radio' name='checkPrice' class='checkPrice' value='"+temp[i]['RowID']+"'>";
                                 var chkCategoryCode = "<input type='radio' name='chkCategoryCode' class='chkCategoryCode' value='"+temp[i]['CategoryCode']+"'>";
 
@@ -798,7 +801,9 @@ $array2 = json_decode($json2,TRUE);
                                 var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 $("#hptselModal").append(StrTr);
                             }
-
+                            $('.numonly').on('input', function() {
+                                this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                            });
                         } else if ((temp["form"] == 'getdetail')) {
                             if ((Object.keys(temp).length - 2) > 0) {
                                 $('#RowID').val(temp['RowID']);
