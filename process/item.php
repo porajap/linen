@@ -993,9 +993,9 @@ function ShowItemModal($conn, $DATA)
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
+    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory AND item.isset = 0";
   } else {
-    $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
+    $Sql .= " WHERE item_main_category.MainCategoryCode = $maincatagory  AND item.isset = 0 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
   }
   $meQuery = mysqli_query($conn, $Sql);
@@ -1028,21 +1028,54 @@ function AddItemMaster($conn, $DATA){
   $count = 0;
   for($i=0; $i < $limit; $i++)
   {
-    $countMaster = "SELECT COUNT(ItemCode) AS cnt FROM item_set WHERE mItemCode = '$ItemCodeMaster' AND ItemCode = '$ItemCode[$i]'";
-    $meQuery = mysqli_query($conn, $countMaster);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      if($Result['cnt'] == 0){
-        $Sql = "INSERT INTO item_set(mItemCode, ItemCode, Qty) VALUES ('$ItemCodeMaster', '$ItemCode[$i]', $Qty[$i])";
-      }else{
-        $Sql = "UPDATE item_set SET Qty = $Qty[$i] WHERE mItemCode = '$ItemCodeMaster' AND ItemCode = '$ItemCode[$i]'";
+    $selectMas = "SELECT mItemCode FROM item_set WHERE ItemCode = '$ItemCode[$i]' LIMIT 1";
+    $MasmeQuery = mysqli_query($conn, $selectMas);
+    while ($SeResult = mysqli_fetch_assoc($MasmeQuery)) {
+      $mItemCode = $SeResult['mItemCode'];
+    }
+    if($mItemCode == null){
+      $insert = "INSERT INTO item_set(mItemCode, ItemCode, Qty) VALUES ('$ItemCodeMaster', '$ItemCode[$i]', $Qty[$i])";
+      mysqli_query($conn, $insert);
+      $return['insert'] = $insert;
+    }else{
+      $SeMaster = "SELECT mItemCode, ItemName FROM item_set 
+      INNER JOIN item ON item.ItemCode = item_set.ItemCode
+      WHERE item_set.ItemCode = '$ItemCode[$i]' LIMIT 1";
+      $SeMQuery = mysqli_query($conn, $SeMaster);
+      while ($SeMResutl = mysqli_fetch_assoc($SeMQuery)) {
+        if($SeMResutl['mItemCode'] == $ItemCodeMaster){
+          $Sql = "UPDATE item_set SET Qty = $Qty[$i] WHERE mItemCode = '$ItemCodeMaster' AND ItemCode = '$ItemCode[$i]'";
+          mysqli_query($conn, $Sql);
+        }else{
+          $return[$count]['doublyItemCode'] = $ItemCode[$i];
+          $return[$count]['doublyItemName'] = $SeMResutl['ItemName'];
+        }
+        $count ++;
       }
-      // $return['sql'] = $Sql; 
-      // echo json_encode($return);
-      mysqli_query($conn, $Sql);
     }
   }
-  getdetailMaster($conn, $DATA);
+
+      $return['status'] = "success";
+      $return['ItemCodeMaster'] = $DATA['ItemCode'];
+      $return['form'] = "AddItemMaster";
+      $return['count'] = $count;
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    // $countMaster = "SELECT COUNT(ItemCode) AS cnt FROM item_set WHERE mItemCode = '$ItemCodeMaster' AND ItemCode = '$ItemCode[$i]'";
+    // $meQuery = mysqli_query($conn, $countMaster);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   if($Result['cnt'] == 0){
+    //     $Sql = "INSERT INTO item_set(mItemCode, ItemCode, Qty) VALUES ('$ItemCodeMaster', '$ItemCode[$i]', $Qty[$i])";
+    //   }else{
+    //     $Sql = "UPDATE item_set SET Qty = $Qty[$i] WHERE mItemCode = '$ItemCodeMaster' AND ItemCode = '$ItemCode[$i]'";
+    //   }
+    //   // $return['sql'] = $Sql; 
+    //   // echo json_encode($return);
+    //   mysqli_query($conn, $Sql);
+    // }
 }
+  // getdetailMaster($conn, $DATA);
 function chkItemMaster($conn, $DATA){
   $ItemCode = $DATA['ItemCode'];
   $masterItem = $DATA['masterItem'];

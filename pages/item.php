@@ -1742,6 +1742,12 @@ $array2 = json_decode($json2, TRUE);
                   })
                 }
               }
+            } else if ((temp["form"] == 'AddItemMaster')) {
+              if(temp['count'] > 0){
+                for (var i = 0; i < temp['count']; i++) {
+                  alert(temp[i]['doublyItemCode']);
+                }
+              }
             } 
           } else if (temp['status'] == "failed") {
             $("#TableItem tbody").empty();
