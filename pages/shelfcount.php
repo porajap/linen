@@ -311,6 +311,18 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
 
+    function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
+        }
+        function removeClassBorder1(){
+          $('#department').removeClass('border-danger');
+        }
     function SelectDocument(){
 
       var selectdocument = "";
@@ -459,6 +471,9 @@ $array2 = json_decode($json2,TRUE);
       var userid = '<?php echo $Userid; ?>';
       var hotpCode = $('#hotpital option:selected').attr("value");
       var deptCode = $('#department option:selected').attr("value");
+      if(deptCode==''){
+          checkblank2();
+      }else{
       $('#TableDetail tbody').empty();
       swal({
         title: "<?php echo $array['confirmdoc'][$language]; ?>",
@@ -485,6 +500,7 @@ $array2 = json_decode($json2,TRUE);
             swal.close();
           } 
         })
+      }
     }
 
     function canceldocno(docno) {
@@ -859,12 +875,15 @@ $array2 = json_decode($json2,TRUE);
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
+                      var StrTr = "<option value='' selected>-</option>";
                       var Str2 = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
                       $("#Dep2").append(Str2);
+                      $("#department").append(StrTr);
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                        $("#department").append(Str);
+                        var StrTr2 = "<option value = '" + temp[i]['DepCode'] + "'> " + temp[i]['DepName'] + " </option>";
                         $("#Dep2").append(Str);
+                        $("#department").append(StrTr2);
                       }
             }else if( (temp["form"]=='CreateDocument') ){
               $("#docno").val(temp[0]['DocNo']);
@@ -1566,7 +1585,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                                                <select class="form-control col-sm-8" style="font-size:22px;" id="department"></select>
+                                                <select class="form-control col-sm-8 checkblank2 border" style="font-size:22px;" id="department"  onchange="removeClassBorder1();"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -1746,7 +1765,7 @@ $array2 = json_decode($json2,TRUE);
                         </div>
                         <div class="col-md-2">
 
-                            <select class="form-control" style='font-size:24px;' id="Dep2">
+                            <select class="form-control " style='font-size:24px;' id="Dep2" >
                             </select>
 
                         </div>
