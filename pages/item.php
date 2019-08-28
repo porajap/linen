@@ -367,7 +367,6 @@ $array2 = json_decode($json2, TRUE);
 
 
     function ShowItem(column, sort) {
-
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
@@ -379,6 +378,21 @@ $array2 = json_decode($json2, TRUE);
         'active': active,
         'column': column,
         'sort': sort,
+        'maincatagory': maincatagory
+      };
+      console.log(JSON.stringify(data));
+      senddata(JSON.stringify(data));
+    }
+    function ShowItem2(mItemCode) {
+      var maincatagory = $("#maincatagory").val();
+      var item = $("#searchitem").val();
+      var catagory = $("#catagory1").val();
+      var active = '0';
+      var data = {
+        'STATUS': 'ShowItem2',
+        'Catagory': catagory,
+        'Keyword': item,
+        'mItemCode': mItemCode,
         'maincatagory': maincatagory
       };
       console.log(JSON.stringify(data));
@@ -401,6 +415,20 @@ $array2 = json_decode($json2, TRUE);
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
+    function ShowItemMaster2(ItemCode) {
+      var maincatagory = $("#maincatagory").val();
+      var item = $("#searchitem").val();
+      var catagory = $("#catagory1").val();
+      var data = {
+        'STATUS': 'ShowItemMaster2',
+        'Catagory': catagory,
+        'Keyword': item,
+        'ItemCode': ItemCode,
+        'maincatagory': maincatagory
+      };
+      senddata(JSON.stringify(data));
+    }
+
     function ShowItem_Active_0() {
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
@@ -801,6 +829,7 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function getdetailMaster(ItemCode,row) {
+      $('#btn_importMaster').attr('disabled', false);
       if (ItemCode != "" && ItemCode != undefined) {
         var data = {
           'STATUS': 'getdetailMaster',
@@ -1067,10 +1096,12 @@ $array2 = json_decode($json2, TRUE);
     function ShowItemModal() {
       var maincatagory = $("#maincatagoryModal").val();
       var catagory = $("#catagoryModal").val();
+      var ItemCode = $("#ItemCodeM_chk").val();
       var item = $("#searchitemModal").val();
       var data = {
         'STATUS': 'ShowItemModal',
         'Catagory': catagory,
+        'ItemCode': ItemCode,
         'Keyword': item,
         'maincatagory': maincatagory
       };
@@ -1134,69 +1165,8 @@ $array2 = json_decode($json2, TRUE);
       })
     }
  
-    function DelMaster(mItemCode){
-      var data = {
-        'STATUS': 'DelMaster',
-        'mItemCode': mItemCode
-      };
-      senddata(JSON.stringify(data));
-    }
-    function ConfirmMaster(){
-      var ItemCodeMaster = $('#ItemCodeMom').val();
-      var chkArrayRow = [];
-      var ItemCodeArray = [];
-      var QtyArray = [];
-      $(".doublyChk:checked").each(function() {
-        chkArrayRow.push($(this).val());
-      });
-      for (var i = 0; i < chkArrayRow.length; i++) {
-        ItemCodeArray.push($('#addItemCodeB_'+chkArrayRow[i]).data('value'));
-        QtyArray.push($('#addMasterB_'+chkArrayRow[i]).val());
-      }
-      var ArrayItemCode = ItemCodeArray.join(',');
-      var Qty = QtyArray.join(',');
-      swal({
-        title: "<?php echo $array['editdata'][$language]; ?>",
-        text: "<?php echo $array['editdata1'][$language]; ?>",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        closeOnConfirm: false,
-        closeOnCancel: false,
-        showCancelButton: true
-      }).then(result => {
-        if (result.value) {
-          var sv = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-          swal({
-              title: sv,
-              text: '',
-              type: 'success',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 1000
-          });
-          setTimeout(() => {
-            var data = {
-              'STATUS' : 'ConfirmMaster',
-              'ItemCode' : ItemCode,
-              'ArrayItemCode' : ArrayItemCode,
-              'ArrayQty' : Qty
-            };
-            $('#masterModaldoubly').modal('toggle');
-            senddata(JSON.stringify(data));
-          }, 1000);
-        } else if (result.dismiss == 'cancel') {
-          swal.close();
-          getdetailMaster(temp['ItemCodeMaster']);
-        }
-      })
-    }
+
+  
 		//<!-- --------------------Function--------------------- --!>
 		//<!-- --------------------desplay--------------------- --!>
     function senddata(data) {
@@ -1376,17 +1346,60 @@ $array2 = json_decode($json2, TRUE);
               $('#typeLinen').val("P");
               $('#numPack').val("01");
 
+            } else if ((temp["form"] == 'ShowItem2')) {
+              // $('#TableItemMaster').attr("hidden", true);
+              $("#TableItem tbody").empty();
+              $("#TableUnit tbody").empty();
+              for (var i = 0; i < temp['RowCount']; i++) {
+                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
+                var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
+                var isset = temp[i]['isset'] == 1 ?'X':'';
+                var rowCount = $('#TableItem >tbody >tr').length;
+                if(temp['mItemCode'] == temp[i]['ItemCode']){
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input checked='true' type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  getdetail(temp['mItemCode'], i);
+                }else{
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                }
+                $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
+                  "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
+                  "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                  "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
+                  "<td style='width: 12%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                  "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
+                  "<td style='width: 8%;' align='center'nowrap>" + isset + "</td>" +
+                  "</tr>";
+
+                if (rowCount == 0) {
+                  $("#TableItem tbody").append($StrTR);
+                } else {
+                  $('#TableItem tbody:last-child').append($StrTR);
+                }
+              }
+              $('.checkblank').each(function() {
+                $(this).val("");
+              });
+              $('#catagory2').val("1");
+              $('#UnitName').val("1");
+              $('#SizeCode').val("1");
+              $('#hospital').val("BHQ");
+              $('#typeLinen').val("P");
+              $('#numPack').val("01");
+
             } else if ((temp["form"] == 'ShowItemMaster')) {
                 $('#TableItem').attr("hidden", true);
                 $('#TableItemMaster').attr("hidden", false);
-                $("#TableItemMaster tbody").empty();
                 $("#TableItemMaster tbody").empty();
                 for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                   var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                   var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
 
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                     "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                     "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
@@ -1405,6 +1418,38 @@ $array2 = json_decode($json2, TRUE);
                     $('#TableItemMaster tbody:last-child').append($StrTR);
                   }
                 }
+            } else if ((temp["form"] == 'ShowItemMaster2')) {
+                $('#TableItem').attr("hidden", true);
+                $('#TableItemMaster').attr("hidden", false);
+                $("#TableItemMaster tbody").empty();
+                for (var i = 0; i < temp['CountRow']; i++) {
+                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
+                  var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
+                  var rowCount = $('#TableItemMaster >tbody >tr').length;
+                  if(temp['mItemCode'] == temp[i]['ItemCode']){
+                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' checked='true' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  }else{
+                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  }
+                  $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
+                    "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
+                    "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                    "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
+                    "<td style='width: 15%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                    "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                    "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                    "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
+                    "<td style='width: 11%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
+                    "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
+                    "</tr>";
+
+                  if (rowCount == 0) {
+                    $("#TableItemMaster tbody").append($StrTR);
+                  } else {
+                    $('#TableItemMaster tbody:last-child').append($StrTR);
+                  }
+                }
+                ShowItem2(temp['mItemCode']);
             } else if ((temp["form"] == 'getdetail')) {
               if ((Object.keys(temp).length - 2) > 0) {
                 $("#TableUnit tbody").empty();
@@ -1467,26 +1512,24 @@ $array2 = json_decode($json2, TRUE);
                 }
               }
             } else if ((temp["form"] == 'getdetailMaster')) {
+              $('#ItemCodeM_chk').val(temp['mItemCode']);
               if (temp['RowMaster'] != 0) {
                 // $("#TableMaster tbody").empty();
                 $("#empty_data").remove();
+                var StrTR = "";
                 for (var i = 0; i < temp['RowMaster']; i++) {
                   var rowCount = $('#TableMaster >tbody >tr').length;
                   var chkItem = "<label class='radio' style='margin-top: 20%;'><input type='radio' value='" + temp[i]['RowID'] + "' name='masterChk' class='masterChk' id='masterRow_"+i+"' onclick='undisableDel();'><span class='checkmark'></span></label>";
                   var QtyInput = "<input class='form-control text-center' style='width:200px;' id='masterQty_"+i+"' value='"+temp[i]['Qty']+"' onKeyPress='if(event.keyCode==13){SaveQtyMaster(\""+temp[i]['RowID']+"\",\""+i+"\")}'>"
-                  StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
+                  StrTR += "<tr id='tr" + temp[i]['RowID'] + "'>" +
                     "<td style='width: 5%;' align='center' nowrap>" + chkItem + "</td>" +
                     "<td style='width: 5%;' nowrap><label> " + (i + 1) + "</label></td>" +
                     "<td style='width: 45%;text-align:left;'  nowrap>" + temp[i]['ItemName'] + "</td>" +
                     "<td style='width: 45%;' align='center' nowrap>" + QtyInput + "</td>" +
                     "</tr>";
-
-                  if (rowCount == 0) {
-                    $("#TableMaster tbody").append(StrTR);
-                  } else {
-                    $('#TableMaster tbody:last-child').append(StrTR);
-                  }
                 }
+                $("#TableMaster tbody").html(StrTR);
+
               }else{
                 $("#TableMaster tbody").empty();
                 StrTR = "<td id='empty_data' style='width: 100%;text-align:center;'><?php echo $array['notfoundmsg'][$language]; ?></td>"
@@ -1740,25 +1783,8 @@ $array2 = json_decode($json2, TRUE);
                   $("#TableItemModal tbody").append($StrTR);
               }
             } else if ((temp["form"] == 'AddItemMaster')) {
-              if(temp['count'] > 0){
-                $('#TableItemModaldoubly tbody').empty();
-                $('#ItemCodeMom').val(temp['ItemCodeMaster']);
-                for (var i = 0; i < temp['count']; i++) {
-                  var iQty = temp[i]['Qty'];
-                  var chkB = "<input type='checkbox' name='doublyChk' class='doublyChk' value='"+i+ "'>";
-                  var Qty = "<input type='text' class='text-center' value='"+iQty+"' id='addMasterB_"+i+"'>";
-                  StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
-                    "<td style='width: 5%;' align='center'nowrap>" + chkB + "</td>" +
-                    "<td style='width: 31%;' align='left'nowrap id='addItemCodeB_"+i+"' data-value='"+temp[i]['doublyItemCode']+"'>" + temp[i]['doublyItemCode'] + "</td>" +
-                    "<td style='width: 31%;' align='ledt'nowrap>" + temp[i]['doublyItemName'] + "</td>" +
-                    "<td style='width: 31%;text-align:center;' align='center'nowrap>"+Qty+"</td>" +
-                    "</tr>";
-                    $("#TableItemModaldoubly tbody").append(StrTR);
-                }
-                $('#masterModaldoubly').modal('toggle');
-              }else{
-                getdetailMaster(temp['ItemCodeMaster']);
-              }
+              getdetailMaster(temp['ItemCodeMaster']);
+              ShowItemMaster2(temp['ItemCodeMaster']);
             } 
           } else if (temp['status'] == "failed") {
             $("#TableItem tbody").empty();
@@ -2539,7 +2565,7 @@ $array2 = json_decode($json2, TRUE);
 
 <div class="modal" id="masterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
-  <input type="text" id="ItemCodeM_chk">
+  <input type="hidden" id="ItemCodeM_chk">
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
