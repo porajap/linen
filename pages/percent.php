@@ -65,12 +65,17 @@ $array2 = json_decode($json2,TRUE);
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
 
+     <?php if ($language =='th'){ ?>
+      <script src="../datepicker/dist/js/datepicker.js"></script>
+    <?php }else if($language =='en'){ ?>
+        <script src="../datepicker/dist/js/datepicker-en.js"></script>
+    <?php } ?>
 
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-    <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
     <script src="../datepicker/dist/js/i18n/datepicker.th.js"></script>
+
 
     <script type="text/javascript">
       var summary = [];
@@ -85,10 +90,18 @@ $array2 = json_decode($json2,TRUE);
       $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
-        var d = new Date();
+      var lang = '<?php echo $language; ?>';
+      var d = new Date();
 
+      if(lang =='th'){
+        $('#datepicker1').val(twoDigit(d.getDate())+"-"+(twoDigit(d.getMonth()+1))+"-"+(d.getFullYear()+543));
+        $('#datepicker2').val(twoDigit(d.getDate())+"-"+(twoDigit(d.getMonth()+1))+"-"+(d.getFullYear()+543));
+      }
+        
+      else if(lang =='en'){
         $('#datepicker1').val(twoDigit(d.getDate())+"-"+(twoDigit(d.getMonth()+1))+"-"+d.getFullYear());
         $('#datepicker2').val(twoDigit(d.getDate())+"-"+(twoDigit(d.getMonth()+1))+"-"+d.getFullYear());
+      }
 
         OnLoadPage();
 		    getDepartment();
