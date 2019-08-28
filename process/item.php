@@ -1026,14 +1026,21 @@ function AddItemMaster($conn, $DATA){
   $Qty = explode(',', $DATA['ArrayQty']);
   $limit = sizeof($ItemCode, 0);
   $count = 0;
+  $test = 0;
   for($i=0; $i < $limit; $i++)
   {
-    $selectMas = "SELECT mItemCode FROM item_set WHERE ItemCode = '$ItemCode[$i]' LIMIT 1";
-    $MasmeQuery = mysqli_query($conn, $selectMas);
-    while ($SeResult = mysqli_fetch_assoc($MasmeQuery)) {
-      $mItemCode = $SeResult['mItemCode'];
+    // $selectMas = "SELECT mItemCode FROM item_set WHERE ItemCode = '$ItemCode[$i]' LIMIT 1";
+    // $return[$i]['SELECT'] = $selectMas;
+    // $MasmeQuery = mysqli_query($conn, $selectMas);
+    // while ($SeResult = mysqli_fetch_assoc($MasmeQuery)) {
+    //   $mItemCode = $SeResult['mItemCode'];
+    // }
+    $cntMom = "SELECT COUNT(mItemCode) AS cntMom FROM item_set WHERE ItemCode = '$ItemCode[$i]'";
+    $MomQuery = mysqli_query($conn, $cntMom);
+    while ($MomResult = mysqli_fetch_assoc($MomQuery)) {
+      $cntMom = $MomResult['cntMom'];
     }
-    if($mItemCode == null){
+    if($cntMom == 0){
       $insert = "INSERT INTO item_set(mItemCode, ItemCode, Qty) VALUES ('$ItemCodeMaster', '$ItemCode[$i]', $Qty[$i])";
       mysqli_query($conn, $insert);
       $return['insert'] = $insert;
@@ -1054,7 +1061,6 @@ function AddItemMaster($conn, $DATA){
       }
     }
   }
-
       $return['status'] = "success";
       $return['ItemCodeMaster'] = $DATA['ItemCode'];
       $return['form'] = "AddItemMaster";
