@@ -105,11 +105,17 @@ function ShowDocument($conn,$DATA){
 
     
 if($lang =='en'){
-  $date2 = explode("-", $Result['DocDate']);
+  $date2 = explode("-", $Result['DocDate1']);
   $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+
+  $date2 = explode("-", $Result['DocDate2']);
+  $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
 }else if ($lang == 'th'){
-  $date2 = explode("-", $Result['DocDate']);
+  $date2 = explode("-", $Result['DocDate1']);
   $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+
+  $date2 = explode("-", $Result['DocDate2']);
+  $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
 }
 
 	$return[$count]['HptName'] 	= $Result['HptName'];
@@ -118,7 +124,7 @@ if($lang =='en'){
     $return[$count]['DocDate1'] = $newdate;
 	$return[$count]['Total1'] 	= $Result['Total1'];
 	$return[$count]['DocNo2'] 	= $Result['DocNo2'];
-    $return[$count]['DocDate2'] = $Result['DocDate2'];
+    $return[$count]['DocDate2'] = $newdate2;
 	$return[$count]['Total2'] 	= $Result['Total2'];
 	$return[$count]['Precent'] 	= $Result['Precent'];
 	$DepName = $Result['DepName'];
