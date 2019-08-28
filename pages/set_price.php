@@ -66,12 +66,17 @@ $array2 = json_decode($json2,TRUE);
     <link href="../dist/css/sweetalert2.css" rel="stylesheet">
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
-
+    <?php if ($language =='th'){ ?>
+      <script src="../datepicker/dist/js/datepicker.js"></script>
+    <?php }else if($language =='en'){ ?>
+        <script src="../datepicker/dist/js/datepicker-en.js"></script>
+    <?php } ?>
 
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-    <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script src="../datepicker/dist/js/i18n/datepicker.th.js"></script>    
+    
     <link href="../css/menu_custom.css" rel="stylesheet">
 
     <script type="text/javascript">
@@ -291,12 +296,17 @@ $array2 = json_decode($json2,TRUE);
         function onCreate() {
             var xDate = $('#datepicker').val();
             var HptCode = $("#hptselModal").val();
+            var lang = '<?php echo $language; ?>';
             if(xDate==""){
                 $('#rem').show(5).css("color","red");
             }else{
                 $('#rem').hide();
                 /* we join the array separated by the comma */
+                if(lang =='th'){
+                xDate = xDate.substr(6,4)-543+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
+            }else if(lang =='en'){
                 xDate = xDate.substr(6,4)+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
+            }
                 var data = {
                     'STATUS' : 'CreateDoc',
                     'Price' : Price,
@@ -578,6 +588,7 @@ $array2 = json_decode($json2,TRUE);
 
         function OpenDialog(Sel){
             var selectdocument = "";
+            var lang = '<?php echo $language; ?>';
 
             if(Sel==1) {
                 $("#checkdocno:checked").each(function () {
@@ -589,9 +600,17 @@ $array2 = json_decode($json2,TRUE);
             $("#datepicker").val("");
 
             if(selectdocument!=""){
+
                 var aData = selectdocument.split(",");
+                var newdate = aData[1].split("-");
+                if(lang =='en'){
+                var date = newdate[2] +"-"+ newdate[1] +"-"+ newdate[0] ;
+                }else if(lang =='th'){
+                    var date = newdate[2] +"-"+ newdate[1] +"-"+ (Number(newdate[0])+543) ;
+
+                }
                 $("#docno").val(aData[0]);
-                $("#datepicker").val(aData[1]);
+                $("#datepicker").val(date);
                 $("#create1").hide();
 
                 $("#hptsel1").empty();
@@ -1354,7 +1373,7 @@ $array2 = json_decode($json2,TRUE);
                                 <select class="form-control ml-2" style="font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
 
                                 <label id="rem" style="margin-left:20px;"> *** </label>
-                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:168px;" id="datepicker" data-language='en' data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
+                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
                                 <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:150px;" id="datepicker"> -->
                                 <input type="text" autocomplete="off"  disabled="true" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
 
@@ -1384,10 +1403,6 @@ $array2 = json_decode($json2,TRUE);
                                         </button>
                                     </div>
                                 </div>
-                                <!-- <button onclick="UpdatePrice();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="btn_save" hidden="true"><img src="../img/icon/ic_import.png" style='width:31px; ' class="mr-1"><?php echo $array['updateprice'][$language]; ?></button> -->
-                                <!-- <button onclick="saveDoc();" class="mr-3 ml-3 btn" style="font-size: 25px !important;background:none ;" id="btn_saveDoc" hidden="true"><img src="../img/icon/ic_save.png" style='width:31px; ' class="mr-1"><?php echo $array['savedoc'][$language]; ?></button> -->
-
-                                <!-- <button type="button" style="font-size:18px;margin-left:20px; width:100px;font-family: 'THSarabunNew'" class="btn btn-primary" name="button" id="btn_save" disabled="true" onclick="UpdatePrice();"><?php echo $array['saveprice'][$language]; ?></button> -->
                             </div>
                         </div>
                     </div>
