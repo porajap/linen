@@ -742,6 +742,7 @@ $array2 = json_decode($json2, TRUE);
       $('.checkblank').each(function() {
         $(this).val("");
       });
+      $('#bSave_chk').attr('disabled', false);
       $('#ItemCode').attr('disabled', false);
       $('#ItemCode').val("");
       $('#catagory2').val("1");
@@ -757,10 +758,12 @@ $array2 = json_decode($json2, TRUE);
       $('#AddItemBNT').hide();
       CreateItemCode();
       uncheckAll2();
+      $('#btn_importMaster').attr('disabled', true);
     }
 
     function getdetail(ItemCode,row) {
-
+      $('#bSave_chk').attr('disabled', false);
+      $('#btn_importMaster').attr('disabled', false);
       if (ItemCode.length > 9) {
         $("input[name=formatitem][value=1]").prop('checked', true);
         $('#oldCodetype').show();
@@ -798,7 +801,6 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function getdetailMaster(ItemCode,row) {
-      $('#btn_importMaster').attr('disabled', false);
       if (ItemCode != "" && ItemCode != undefined) {
         var data = {
           'STATUS': 'getdetailMaster',
@@ -1013,6 +1015,7 @@ $array2 = json_decode($json2, TRUE);
     }
     function deleteMaster(){
       var RowID = $(".masterChk:checked").val();
+      var ItemCode = $("#ItemCodeM_chk").val();
       swal({
         title: "<?php echo $array['canceldata'][$language]; ?>",
         text: "<?php echo $array['canceldata1'][$language]; ?>",
@@ -1033,7 +1036,8 @@ $array2 = json_decode($json2, TRUE);
           $('#tr'+RowID).remove();
           var data = {
             'STATUS' : 'deleteMaster',
-            'RowID' : RowID
+            'RowID' : RowID,
+            'ItemCode' : ItemCode
           };
           senddata(JSON.stringify(data));
         } else if (result.dismiss == 'cancel') {
@@ -1129,26 +1133,69 @@ $array2 = json_decode($json2, TRUE);
         }
       })
     }
-    function chkItemMaster(){
-      var ItemCode = $('#ItemCode').val();
-      if ($('#masterItem').is(':checked')) {
-        masterItem = 1;
-      }else{
-        masterItem = 0;
-      }
-      var data = {
-        'STATUS': 'chkItemMaster',
-        'ItemCode': ItemCode,
-        'masterItem': masterItem
-      };
-      senddata(JSON.stringify(data));
-    }
+ 
     function DelMaster(mItemCode){
       var data = {
         'STATUS': 'DelMaster',
         'mItemCode': mItemCode
       };
       senddata(JSON.stringify(data));
+    }
+    function ConfirmMaster(){
+      var ItemCodeMaster = $('#ItemCodeMom').val();
+      var chkArrayRow = [];
+      var ItemCodeArray = [];
+      var QtyArray = [];
+      $(".doublyChk:checked").each(function() {
+        chkArrayRow.push($(this).val());
+      });
+      for (var i = 0; i < chkArrayRow.length; i++) {
+        ItemCodeArray.push($('#addItemCodeB_'+chkArrayRow[i]).data('value'));
+        QtyArray.push($('#addMasterB_'+chkArrayRow[i]).val());
+      }
+      var ArrayItemCode = ItemCodeArray.join(',');
+      var Qty = QtyArray.join(',');
+      swal({
+        title: "<?php echo $array['editdata'][$language]; ?>",
+        text: "<?php echo $array['editdata1'][$language]; ?>",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+      }).then(result => {
+        if (result.value) {
+          var sv = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+          swal({
+              title: sv,
+              text: '',
+              type: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 1000
+          });
+          setTimeout(() => {
+            var data = {
+              'STATUS' : 'ConfirmMaster',
+              'ItemCode' : ItemCode,
+              'ArrayItemCode' : ArrayItemCode,
+              'ArrayQty' : Qty
+            };
+            $('#masterModaldoubly').modal('toggle');
+            senddata(JSON.stringify(data));
+          }, 1000);
+        } else if (result.dismiss == 'cancel') {
+          swal.close();
+          getdetailMaster(temp['ItemCodeMaster']);
+        }
+      })
     }
 		//<!-- --------------------Function--------------------- --!>
 		//<!-- --------------------desplay--------------------- --!>
@@ -1363,6 +1410,7 @@ $array2 = json_decode($json2, TRUE);
                 $("#TableUnit tbody").empty();
                 $('#catagory2').val(temp[0]['CategoryCode']);
                 $('#ItemCode').val(temp[0]['ItemCode']);
+                $('#ItemCodeM_chk').val(temp[0]['ItemCode']);
                 console.log(temp[0]['ItemCode']);
                 console.log($('#ItemCode').val());
                 $('#ItemName').val(temp[0]['ItemName']);
@@ -1419,7 +1467,6 @@ $array2 = json_decode($json2, TRUE);
                 }
               }
             } else if ((temp["form"] == 'getdetailMaster')) {
-              $('#ItemCodeM_chk').val(temp['mItemCode']);
               if (temp['RowMaster'] != 0) {
                 // $("#TableMaster tbody").empty();
                 $("#empty_data").remove();
@@ -1692,61 +1739,25 @@ $array2 = json_decode($json2, TRUE);
                   "</tr>";
                   $("#TableItemModal tbody").append($StrTR);
               }
-            } else if ((temp["form"] == 'chkItemMaster')) {
-              if(temp['chk'] == 'chk_addMaster'){
-                if(temp['cnt'] == 1){
-                  swal({
-                    title: "<?php echo $array['itemmas'][$language]; ?>",
-                    text: "<?php echo $array['isset'][$language]; ?>",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-                    cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    closeOnConfirm: false,
-                    closeOnCancel: false,
-                    showCancelButton: true
-                  }).then(result => {
-                    if (result.value) {
-                      swal.close();
-                    } else if (result.dismiss == 'cancel') {
-                      $('#masterItem').prop('checked', false);
-                    }
-                  })
-                }
-              }else if(temp['chk'] == 'chk_delItem'){
-                if(temp['cnt'] == 0){
-                  swal({
-                    title: "<?php echo $array['itemmas'][$language]; ?>",
-                    text: "<?php echo $array['ismaster'][$language]; ?>",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-                    cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    closeOnConfirm: false,
-                    closeOnCancel: false,
-                    showCancelButton: true
-                  }).then(result => {
-                    if (result.value) {
-                      DelMaster(temp['mItemCode']);
-                      swal.close();
-                    } else if (result.dismiss == 'cancel') {
-                      swal.close();
-                      // $('#masterItem').prop('checked', false);
-                    }
-                  })
-                }
-              }
             } else if ((temp["form"] == 'AddItemMaster')) {
               if(temp['count'] > 0){
+                $('#TableItemModaldoubly tbody').empty();
+                $('#ItemCodeMom').val(temp['ItemCodeMaster']);
                 for (var i = 0; i < temp['count']; i++) {
-                  alert(temp[i]['doublyItemCode']);
+                  var iQty = temp[i]['Qty'];
+                  var chkB = "<input type='checkbox' name='doublyChk' class='doublyChk' value='"+i+ "'>";
+                  var Qty = "<input type='text' class='text-center' value='"+iQty+"' id='addMasterB_"+i+"'>";
+                  StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
+                    "<td style='width: 5%;' align='center'nowrap>" + chkB + "</td>" +
+                    "<td style='width: 31%;' align='left'nowrap id='addItemCodeB_"+i+"' data-value='"+temp[i]['doublyItemCode']+"'>" + temp[i]['doublyItemCode'] + "</td>" +
+                    "<td style='width: 31%;' align='ledt'nowrap>" + temp[i]['doublyItemName'] + "</td>" +
+                    "<td style='width: 31%;text-align:center;' align='center'nowrap>"+Qty+"</td>" +
+                    "</tr>";
+                    $("#TableItemModaldoubly tbody").append(StrTR);
                 }
+                $('#masterModaldoubly').modal('toggle');
+              }else{
+                getdetailMaster(temp['ItemCodeMaster']);
               }
             } 
           } else if (temp['status'] == "failed") {
@@ -2379,7 +2390,7 @@ $array2 = json_decode($json2, TRUE);
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-right"><?php echo $array['itemmas'][$language]; ?></label>
                               <label class="radio" style="margin:0px !important;">
-                                <input type="checkbox"  id="masterItem" onclick="chkItemMaster();">
+                                <input type="checkbox"  id="masterItem" >
                                 <span class="checkmark"></span>
                               </label>
                             </div>
@@ -2438,7 +2449,7 @@ $array2 = json_decode($json2, TRUE);
                        
                         <div class="search_custom  col-md-1" <?php if($PmID == 3) echo 'hidden'; ?>>
                               <div class="circle4 d-flex justify-content-start">
-                                <button class="btn"  onclick="AddUnit()" id="bSave">
+                                <button class="btn"  onclick="AddUnit()" id="bSave_chk" disabled>
                                 <i class="fas fa-save mr-3"></i><?php echo $array['save'][$language]; ?>
                                 </button>
                               </div>
@@ -2446,7 +2457,7 @@ $array2 = json_decode($json2, TRUE);
 
                         <div class="search_custom  col-md-2" <?php if($PmID == 3) echo 'hidden'; ?>>
                           <div class="circle3 d-flex justify-content-start">
-                            <button class="btn"  onclick="DeleteUnit()" >
+                            <button class="btn"  onclick="DeleteUnit()" disabled id="btn_del">
                                 <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
                             </button>
                           </div>
@@ -2528,7 +2539,7 @@ $array2 = json_decode($json2, TRUE);
 
 <div class="modal" id="masterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
-  <input type="hidden" id="ItemCodeM_chk">
+  <input type="text" id="ItemCodeM_chk">
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -2587,6 +2598,43 @@ $array2 = json_decode($json2, TRUE);
               </div>
           </div>
       </div>
+</div>
+
+<div class="modal" id="masterModaldoubly" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <input type="text" id="ItemCodeMom">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3><?php echo $array['issetb'][$language]; ?></h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex justify-content-end">
+          <div class="search_custom col-md-2" id="searchItem_1">
+            <div class="circle6 d-flex justify-content-start">
+              <button class="btn" onclick="ConfirmMaster()">
+                <i class="fas fa-check mr-2"></i>
+                <?php echo $array['confirm'][$language]; ?>
+              </button>
+            </div>
+          </div>
+        </div>
+        <table class="table table-fixed table-condensed table-striped" id="TableItemModaldoubly" width="100%" cellspacing="0" role="grid" style="font-size:24px;font-family: 'THSarabunNew'">
+            <thead style="font-size:24px;">
+                <tr role="row">
+                <th style='width: 5%;'>&nbsp;</th>
+                    <th style='width: 31%;' nowrap><?php echo $array['code'][$language]; ?></th>
+                    <th style='width: 31%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                    <th style='width: 31%;text-align:center' nowrap><?php echo $array['qty'][$language]; ?></th>
+                </tr>
+            </thead>
+            <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+            </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 

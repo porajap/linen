@@ -267,6 +267,8 @@
 <itemmas><en>Item master</en><th>Item master</th></itemmas>
 <isset><en>This item in another set you want to Delete?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการลบออกหรือไม่</th></isset>
 <ismaster><en>This item in Master you want to Delete?</en><th>รายการนี้เป็นรายการมาสเตอร์ คุณต้องการลบข้อมูลทั้งหมดหรือไม่</th></ismaster>
+<issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
+
 <!-- -->
 <r1><en>Record dirty linen weight</en><th>Record dirty linen weight</th></r1>
 <r2><en>Report Claim</en><th>Report Claim</th></r2>
