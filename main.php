@@ -386,6 +386,13 @@ switch ($PmID) {
         var href = $(this).attr('href');
         var sub = href.split("?");
         $('#url_page').val(sub[0]);
+
+        $.post( "process/refresh.php", { href: href })
+        .done(function( data ) {
+            // alert( "Data Loaded: " + data);
+            
+        });
+
       });
 
       checkFileLength();
@@ -1007,10 +1014,16 @@ switch ($PmID) {
       </li>
     </ul>
   </header>
-
+  <?php
+if(empty($_SESSION['href'])){
+  $src="pages/menu.php?lang=<?php echo $language; ?>";
+}else{
+$src=$_SESSION['href']; 
+}
+?> 
   <article id="mainArticle" style="margin-top:25px;">
     <input type="hidden" id=last_move>
-    <iframe name="ifrm" id="ifrm" src="pages/menu.php?lang=<?php echo $language; ?>" class="current_page"  frameborder="0" style="height:100%; width:100%; "></iframe>
+    <iframe name="ifrm" id="ifrm" src="<?php echo $src; ?>" class="current_page"  frameborder="0" style="height:100%; width:100%; "></iframe>
   </article>
 
 
