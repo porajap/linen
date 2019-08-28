@@ -709,11 +709,13 @@ $array2 = json_decode($json2,TRUE);
                             }else if ((temp["form"] == 'getHotpital')) {
                               $("#host").empty();
                               $("#hptsel").empty();
+                              var StrTr = "<option value='' selected>-</option>";
                               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                  var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                  $("#host").append(StrTr);
+                                   StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                   $("#hptsel").append(StrTr);
                               }
+                              $("#host").append(StrTr);
+
                         }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
