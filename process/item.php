@@ -915,7 +915,7 @@ function ShowItemMaster($conn, $DATA)
     $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $count++;
   }
-
+  $return['CountRow'] = $count;
   if ($count > 0) {
     $return['status'] = "success";
     $return['form'] = "ShowItemMaster";
@@ -932,8 +932,7 @@ function ShowItemMaster($conn, $DATA)
   }
 }
 function ShowItemMaster2($conn, $DATA)
-{
-  
+{ 
   $count = 0;
   $ItemCode = $DATA['ItemCode'];
   $maincatagory = $DATA['maincatagory'];
