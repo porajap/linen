@@ -86,7 +86,7 @@ $array2 = json_decode($json2,TRUE);
       }
 
     $(document).ready(function(e){
-
+      ShowDocument();
       $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });

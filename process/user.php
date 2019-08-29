@@ -10,8 +10,9 @@ function ShowItem($conn, $DATA)
   $count = 0;
   $department2 = $DATA['department2'];
   $xHptCode = $DATA['HptCode'];
+  $HptCode1 = $_SESSION['HptCode'];
   if($xHptCode==""){
-    $xHptCode = 1;
+    $xHptCode = $HptCode1;
   }
 
   $Keyword = $DATA['Keyword'];
@@ -27,6 +28,7 @@ function ShowItem($conn, $DATA)
           }else{
             $Sql .= "AND site.HptCode = '$xHptCode'";
           }
+          $return['sql'] = $Sql;
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

@@ -11,6 +11,9 @@ function ShowItem($conn, $DATA)
   $check =        $DATA['check'];
   $Keyword =      $DATA['Keyword'];
   $maincatagory = $DATA['maincatagory'];
+  if($maincatagory==""){
+    $maincatagory = 1;
+  }
   $Sql = "SELECT
           item_category.CategoryCode,
           item_category.CategoryName,
@@ -19,9 +22,8 @@ function ShowItem($conn, $DATA)
           item_category
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           WHERE item_main_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%'";
-          if($check ==2){
-           $Sql .= "ORDER BY item_category.CategoryCode DESC";
-          }
+
+          $return['sql']= $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['CategoryCode'] = $Result['CategoryCode'];

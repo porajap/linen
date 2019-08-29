@@ -310,18 +310,7 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function ShowItem(check){
-        if(check == 1){
-          $( "#down" ).removeClass( "white" );
-          $( "#up" ).removeClass( "black" );
-          $( "#down" ).addClass( "black" );
-          $( "#up" ).addClass( "white" );
-          
-        }else if(check == 2){
-          $( "#up" ).removeClass( "white" );
-          $( "#up" ).addClass( "black" );
-          $( "#down" ).removeClass( "black" );
-          $( "#down" ).addClass( "white" );
-        }
+
         var maincatagory = $('#maincatagory option:selected').attr("value");
         if( typeof maincatagory == 'undefined' ) maincatagory = "1";
         //var dept = $('#Deptsel').val();

@@ -88,7 +88,7 @@ $array2 = json_decode($json2,TRUE);
       }
 
     $(document).ready(function(e){
-
+      ShowDocument();
     $("#IsStatus").val('0');
 		OnLoadPage();
     // ShowDocument();

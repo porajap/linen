@@ -827,6 +827,10 @@ $array2 = json_decode($json2,TRUE);
                       $("#recorder").prop('disabled', false);
                       $("#timerec").prop('disabled', false);
                       $("#total").prop('disabled', false);
+                      $('#bCancel').attr('disabled', false);
+                      $('#bSave').attr('disabled', false);
+                      $('#bDelete').attr('disabled', false);
+                      $('#bImport').attr('disabled', false);
                     }else if(temp["form"]=='ShowDocument'){
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
@@ -1484,7 +1488,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center">
-                                <button class="btn" onclick="OpenDialogItem()" id="bImport">
+                                <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true">
                                   <i class="fas fa-file-import"></i>
                                   <div>
                                     <?php echo $array['import'][$language]; ?>
@@ -1496,7 +1500,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center">
-                                <button class="btn" onclick="DeleteItem()" id="bDelete">
+                                <button class="btn" onclick="DeleteItem()" id="bDelete" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
                                     <?php echo $array['delitem'][$language]; ?>
@@ -1508,7 +1512,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div  class="circle4 d-flex justify-content-center">
-                                <button class="btn" onclick="SaveBill()" id="bSave">
+                                <button class="btn" onclick="SaveBill()" id="bSave" disabled="true">
                                   <div id="icon_edit">
                                     <i class="fas fa-save"></i>
                                     <div>
@@ -1522,7 +1526,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center">
-                                <button class="btn" onclick="CancelDocument()" id="bCancel">
+                                <button class="btn" onclick="CancelDocument()" id="bCancel" disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>
                                     <?php echo $array['cancel'][$language]; ?>
@@ -1531,7 +1535,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                         
+
                         </div>
                         <!-- end row btn -->
                       </div>
@@ -1633,8 +1637,8 @@ $array2 = json_decode($json2,TRUE);
             <div class="row">
               <div class="col-md-8">
                 <div class='form-group row'>
-                  <label class="col-sm-3 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                  <input type="text" autocomplete="off"  class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
+                  <input type="text" autocomplete="off"  class="form-control col-sm-8" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                 </div>
               </div>
  
