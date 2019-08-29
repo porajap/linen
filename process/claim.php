@@ -562,10 +562,12 @@ function SaveBill($conn, $DATA)
 
 function ShowDetail($conn, $DATA)
 {
+  session_start();
   $count = 0;
   $Total = 0;
   $boolean = false;
   $DocNo = $DATA["DocNo"];
+  $HptCode = $_SESSION['HptCode'];
   //==========================================================
   $Sql = "SELECT
   claim_detail.Id,
@@ -578,151 +580,94 @@ function ShowDetail($conn, $DATA)
   claim_detail.UnitCode2,
   claim_detail.Qty2,
   claim_detail.Weight,
-  claim_detail.Total
+  claim_detail.Total , 
+  item.CategoryCode , 
+	category_price.Price
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
   INNER JOIN claim_detail ON claim_detail.ItemCode = item.ItemCode
-  WHERE claim_detail.DocNo = '$DocNo'
+  INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+  WHERE claim_detail.DocNo = '$DocNo' AND HptCode = '$HptCode'
   ORDER BY claim_detail.Id DESC";
   $return['sql']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['RowID']    = $Result['Id'];
-    $return[$count]['ItemCode']   = $Result['ItemCode'];
-    $return[$count]['ItemName']   = $Result['ItemName'];
-    $return[$count]['UnitName']   = $Result['UnitName'];
-    $return[$count]['UnitCode1']   = $Result['UnitCode1'];
-    $return[$count]['UnitCode2']   = $Result['UnitCode2'];
-    $return[$count]['UnitName2']   = $Result['UnitName2'];
-    $return[$count]['Qty1']     = $Result['Qty1'];
-    $return[$count]['Qty2']     = $Result['Qty2'];
-    $return[$count]['Weight']     = $Result['Weight'];
-    $return[$count]['Price']     = $Result['Total'];
-    $UnitCode           = $Result['UnitCode1'];
-    $ItemCode               = $Result['ItemCode'];
-    $UniCode2 					= $Result['UnitCode2'];
-    $Qty                = $Result['Qty2'];
-    $weight                = $Result['Weight'];
-
-    // if( $Qty ==0){
-    //   $return[$count]['hidden']     = 'hidden="true"';
-
-    // }else{
-    //   $return[$count]['hidden']     = 'hidden="false"';
-
-    // }
+    $return[$count]['RowID']        = $Result['Id'];
+    $return[$count]['ItemCode']     = $Result['ItemCode'];
+    $return[$count]['ItemName']     = $Result['ItemName'];
+    $return[$count]['UnitName']     = $Result['UnitName'];
+    $return[$count]['UnitCode1']    = $Result['UnitCode1'];
+    $return[$count]['UnitCode2']    = $Result['UnitCode2'];
+    $return[$count]['UnitName2']    = $Result['UnitName2'];
+    $return[$count]['Qty1']         = $Result['Qty1'];
+    $return[$count]['Qty2']         = $Result['Qty2'];
+    $return[$count]['Weight']       = $Result['Weight'];
+    $return[$count]['Price']        = $Result['Total'];
+    $UnitCode                       = $Result['UnitCode1'];
+    $ItemCode                       = $Result['ItemCode'];
+    $UniCode2 					            = $Result['UnitCode2'];
+    $Qty                            = $Result['Qty2'];
+    $weight                         = $Result['Weight'];
+    $CategoryCode                   = $Result['CategoryCode'];
+    $PriceCategory                  = $Result['Price'];
 
     
     $count2 = 0;
 
-  if($UniCode2 == 2 || $UniCode2 == 4){
+
     $P_Unit1 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
-      WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 2 ";
+      WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
       $P_Query1 = mysqli_query($conn, $P_Unit1);
       while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
         $Price1  = $P_Result1['PriceUnit'];
         $Multiply1  = $P_Result1['Multiply'];
-
       }
-
-    $P_Unit2 = "SELECT item_multiple_unit.PriceUnit, item_multiple_unit.Multiply FROM item_multiple_unit 
-      WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 4 ";
-      $P_Query2 = mysqli_query($conn, $P_Unit2);
-      while ($P_Result2 = mysqli_fetch_assoc($P_Query2)) {
-        $Price2  = $P_Result2['PriceUnit'];
-        $Multiply2  = $P_Result2['Multiply'];
-      }
-
-      if($UniCode2 == 2){
-        $cal = $Price1;
-        for ($i = 0; $i < $Qty; $i++) {
+         $cal =  ($PriceCategory*$Price1) / $Multiply1;
+         $return[$count]['cal']   = $cal;
+         for ($i = 0; $i < $Qty; $i++) {
           $total = $total + $cal;
+                    // ============================================================
+                    $insert = "UPDATE claim_detail SET  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
+                    $INQuery = mysqli_query($conn, $insert);
+                    // ============================================================
       }
-              // ============================================================
-              $insert = "UPDATE claim_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
-              $INQuery = mysqli_query($conn, $insert);
-              // ============================================================
-      }else{
-        $cal = $Price2 / $Multiply2;
-        for ($i = 0; $i < $Qty; $i++) {
-            $total = $total + $cal;
-        }
-                 // ============================================================
-                 $insert = "UPDATE claim_detail SET Total = $total ,  Price = $cal WHERE ItemCode = '$ItemCode ' AND DocNo = '$DocNo'";
-                 $INQuery = mysqli_query($conn, $insert);
-                 // ============================================================
-      }
-      $return[$count]['cal']   = $cal;
+          
 
-  }else if($UniCode2 == 1){
-    $P_Unit1 = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
-      WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = 1 ";
-      $P_Query1 = mysqli_query($conn, $P_Unit1);
-      while ($P_Result1 = mysqli_fetch_assoc($P_Query1)) {
-        $PriceUnit  = $P_Result1['PriceUnit'];
-      }
-      $return[$count]['cal']   = $PriceUnit;
 
-  }
-
-  if($Qty!=0 && $UniCode2 !=1){
+  if( $UniCode2 >0){
     $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
       WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
       $PUQuery = mysqli_query($conn, $PriceUnit);
       while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-        $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Qty2'];
+        $return[$count]['CusPrice']   = ($cal * $Result['Qty2']) * $Result['Weight'] ;
         $return['TotalPrice']  += $return[$count]['CusPrice'];
-        $return[$count]['PriceUnit']   = $PUResult['PriceUnit'];
+        $return[$count]['PriceUnit']   = $PriceCategory;
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE claim_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE claim_detail SET Total = $CusPrice  WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
       }
-  }else if($Qty==0 && $UniCode2 !=1 && $UniCode2 !=4){
-    $PriceUnit = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
-    WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
-    $PUQuery = mysqli_query($conn, $PriceUnit);
-    while ($PUResult = mysqli_fetch_assoc($PUQuery)) {
-      $return[$count]['CusPrice']   = $PUResult['PriceUnit'] * $Result['Weight'];
-      $return['TotalPrice']  += $return[$count]['CusPrice'];
-
-        // ============================================================
-        $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE claim_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
-        $INQuery = mysqli_query($conn, $insert);
-        // ============================================================
-    }
   }else if ($weight==0 ){
     $Price = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
     WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
     $PQuery = mysqli_query($conn, $Price);
     while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = $Result['Qty2'] * $PResult['PriceUnit']  ;
+      $return[$count]['CusPrice']   = $Result['Qty2'] * $cal ;
       $return['TotalPrice']  += $return[$count]['CusPrice'];
         // ============================================================
         $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE claim_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
-        $INQuery = mysqli_query($conn, $insert);
-        // ============================================================
-    }
-  }else{
-    $Price = "SELECT item_multiple_unit.PriceUnit FROM item_multiple_unit 
-    WHERE item_multiple_unit.ItemCode = '$ItemCode' AND item_multiple_unit.MpCode = $UniCode2 ";
-    $PQuery = mysqli_query($conn, $Price);
-    while ($PResult = mysqli_fetch_assoc($PQuery)) {
-      $return[$count]['CusPrice']   = ( $Result['Qty2'] * $Result['Weight']  ) * $PResult['PriceUnit'];
-      $return['TotalPrice']  += $return[$count]['CusPrice'];
-
-        // ============================================================
-        $PriceUnit = $PResult['PriceUnit'];
-        $CusPrice = $return[$count]['CusPrice'];
-        $insert = "UPDATE claim_detail SET Total = $CusPrice , Price = $PriceUnit WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
+        $insert = "UPDATE claim_detail SET Total = $CusPrice  WHERE ItemCode = '$ItemCode' AND DocNo = '$DocNo'";
         $INQuery = mysqli_query($conn, $insert);
         // ============================================================
     }
   }
+
+
+
+
+
 
     $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode 
     AND item_multiple_unit.ItemCode = '$ItemCode'";
@@ -800,6 +745,7 @@ function ShowDetail($conn, $DATA)
     die;
   }
 }
+
 
 function CancelBill($conn, $DATA)
 {

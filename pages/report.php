@@ -112,7 +112,9 @@ $array2 = json_decode($json2, TRUE);
 		});
 
 		jqui(document).ready(function($) {
-
+			$('.only').on('input', function() {
+        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+      });
 
 			dialogUsageCode = jqui("#dialogUsageCode").dialog({
 				autoOpen: false,
@@ -368,8 +370,22 @@ $array2 = json_decode($json2, TRUE);
 					confirmButtonText: 'Ok'
 				});
 				Blankinput()
-			} else if (typeReport == 1 || typeReport == 3 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
-				if (factory == '' || factory == undefined) {
+			} 
+			if (typeReport == 0) {
+				swal({
+					title: '',
+					text: '<?php echo $array['insert_form'][$language]; ?>',
+					type: 'warning',
+					showCancelButton: false,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					showConfirmButton: false,
+					timer: 1000,
+					confirmButtonText: 'Ok'
+				});
+				
+			}if (typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
+				if (factory == '' || factory == undefined || factory == 0) {
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -383,8 +399,8 @@ $array2 = json_decode($json2, TRUE);
 					});
 					Blankinput()
 				}
-			} else if (typeReport == 2 || typeReport == 4 || typeReport == 5 || typeReport == 8 || typeReport == 7 || typeReport == 9 || typeReport == 14 || typeReport == 16) {
-				if (DepCode == '' || DepCode == undefined) {
+			}  if (typeReport == 2 || typeReport == 4 || typeReport == 5 || typeReport == 8 || typeReport == 7 || typeReport == 9 || typeReport == 14 || typeReport == 16) {
+				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -398,7 +414,7 @@ $array2 = json_decode($json2, TRUE);
 					});
 					Blankinput()
 				}
-			} else if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
+			}  if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
 				if (HptCode == '' || HptCode == undefined) {
 					swal({
 						title: '',
@@ -605,7 +621,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#hotpital").val(HptCode);
 
 							$("#department").empty();
-							var depValue0 = '<?php echo $array['department'][$language]; ?>';
+							var depValue0 = '-';
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
@@ -1814,6 +1830,7 @@ $array2 = json_decode($json2, TRUE);
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
 															<?php //for ($i = 1; $i <= 16; $i++) { 
 															?>
+																<option value="0">-</option>
 															<option value="<?php echo 1 ?>"><?php echo $array['r' . 1][$language]; ?></option>
 															<option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
 															<option value="<?php echo 3 ?>"><?php echo $array['r' . 3][$language]; ?></option>
@@ -1909,7 +1926,7 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 													<div class='form-group row' id="showyear">
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
-														<input type="text" readonly="true" class="form-control col-sm-8 datepicker-here" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language ?>'>
+														<input type="text"  class="form-control col-sm-8 datepicker-here only" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language ?>'>
 													</div>
 												</div>
 											</div>
@@ -1918,15 +1935,15 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6" id="myDay">
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-														<input type="text" readonly="true" class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
-														<input type="text" readonly="true" class="form-control col-sm-8 datepicker-here" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
+														<input type="text"  class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
+														<input type="text"  class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
 													</div>
 												</div>
 												<div class="col-md-6" id="myMonth">
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-														<input type="text" readonly="true" class="form-control col-sm-8 datepicker-here" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>'>
-														<input type="text" readonly="true" class="form-control col-sm-8 datepicker-here" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - ">
+														<input type="text"  class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>'>
+														<input type="text"  class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - ">
 													</div>
 												</div>
 											</div>

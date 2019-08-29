@@ -79,7 +79,7 @@ class PDF extends FPDF
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]].$inner_array[$field[5]]), 1, 0, 'C');
         $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620",$inner_array[$field[6]]), 1, 0, 'C');
-        $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", $total), 1, 0, 'C');
+        $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", number_format($total ,2)), 1, 0, 'C');
         $this->Ln();
         $total_all+=$total;
         $count++;
@@ -138,7 +138,8 @@ $pdf = new PDF();
 $font = new Font($pdf);
 $data = new Data();
 $pdf->AddPage("P", "A4");
-$Docno = $_GET['Docno'];
+$DocNo = $_GET['DocNo'];
+
 $Sql = "SELECT
 billwash.DocNo,
 DATE_FORMAT(billwash.DocDate,'%d-%m-%Y') AS DocDate,
@@ -198,6 +199,7 @@ $query = "SELECT
 					billwash_detail.Total,
           billwash_detail.Price
           FROM billwash_detail
+          INNER JOIN billwash ON billwash.docno = billwash_detail.docno
 					INNER JOIN item_unit ON billwash_detail.UnitCode2 = item_unit.UnitCode
 					INNER JOIN item ON item.ItemCode = billwash_detail.ItemCode
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
