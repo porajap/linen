@@ -744,6 +744,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#Position').val(temp['permission']);
                                 $('#phone').val(temp['Number']);
                                 $('#idcontract').val(temp['id']);
+                                $('#host').val(temp['HptCode']);
 
 
                                 

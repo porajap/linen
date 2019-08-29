@@ -777,6 +777,7 @@ $array2 = json_decode($json2,TRUE);
                             }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
+                                $('#host').val(temp['FacCode']);
                                 $('#FacCode').val(temp['FacCode']);
                                 $('#DepCode').val(temp['DepCode']);
                                 $('#FacName').val(temp['FacName']);
