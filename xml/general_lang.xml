@@ -234,6 +234,7 @@
 <img><en>Profile Image</en><th>ภาพโปรไฟล์</th></img>
 <addfailedmsg><en>addfailed</en><th>ไม่สามารถเพิ่มข้อมูลได้</th></addfailedmsg>
 <adduserfailed><en>Cannot add more than 2 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 2 คน</th></adduserfailed>
+<adduserfacfailed><en>Cannot add more than 1 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 1 คน</th></adduserfacfailed>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
 <widthunit><en>Measurement</en><th>มาตรวัด</th></widthunit>

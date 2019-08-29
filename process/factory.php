@@ -308,7 +308,29 @@ function Adduser($conn, $DATA)
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
 
-  if($idcontract==""){
+
+//=======================================
+$Sqlx = "SELECT COUNT(*) AS Countc
+FROM
+contractfac
+WHERE contractfac.id = '$idcontract'";
+$meQueryx = mysqli_query($conn,$Sqlx);
+while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
+$boolcountc = $Resultx['Countc'];
+}
+//=======================================
+
+// ==============CHECK FACTORY====================
+$Sql="SELECT COUNT(FacCode) AS cnt FROM contractfac WHERE FacCode = '$host'";
+$meQuery = mysqli_query($conn, $Sql);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $cnt  = $Result['cnt'];
+}
+// ===============================================
+
+
+  if($boolcountc ==0){
+    if($cnt < 1){
     $Sql="INSERT INTO contractfac (contractfac.FacCode , contractfac.contractName , contractfac.permission , contractfac.Number) 
     VALUE ('$host','$ContractName','$Position','$phone')";
   if(mysqli_query($conn, $Sql)){
@@ -325,6 +347,13 @@ function Adduser($conn, $DATA)
     mysqli_close($conn);
     die;
   }
+}else{
+  $return['status'] = "failed";
+  $return['msg'] = "adduserfacfailed";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
   }else{
       $Sql="UPDATE contractfac SET   contractfac.FacCode = '$host' , 
                                      contractfac.contractName = '$ContractName' , 

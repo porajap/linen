@@ -139,7 +139,18 @@ $array2 = json_decode($json2,TRUE);
         }
 
       }
-
+      function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
+        }
+        function removeClassBorder1(){
+          $('#department').removeClass('border-danger');
+        }
       function getDepartment(){
         var Hotp = $('#hotpital option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
@@ -594,6 +605,10 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Addtodoc(){
+        var dept = $('#department').val();
+        if(dept==''){
+          checkblank2();
+      }else{
         swal({
           title: "<?php echo $array['adddata'][$language]; ?>",
           text: "<?php echo $array['adddata1'][$language]; ?>",
@@ -627,7 +642,6 @@ $array2 = json_decode($json2,TRUE);
               });
 
 
-              var dept = $('#department').val();
               var par = $('#parnum').val();
               var hotpital = $('#hotpital').val();
 
@@ -651,7 +665,7 @@ $array2 = json_decode($json2,TRUE);
             }
           })
       }
-
+    }
       function Chkblank(){
         if($('#parnum').val()!=""){
           var icheck = 0;
@@ -903,10 +917,11 @@ $array2 = json_decode($json2,TRUE);
                               }
                             }else if( (temp["form"]=='getDepartment') ){
                               $("#department").empty();
+                              var Str = "<option value=''>-</option>";
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-        												var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-        												$("#department").append(Str);
+        												 Str  += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
         											}
+                              $("#department").append(Str);
                             }else if( (temp["form"]=='AddItem') ){
                               switch (temp['msg']) {
                                 case "notchosen":
@@ -1482,7 +1497,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
                         <label style='width:25%' class='text-right mr-sm-2 pl-4'><?php echo $array['department'][$language]; ?></label>
-                        <select class="form-control " style='width:55%' id="department" > </select>
+                        <select class="form-control checkblank2 border" style='width:55%' id="department" onchange="removeClassBorder1();"> </select>
                       </div>
                     </div>
                   </div>

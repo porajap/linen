@@ -134,7 +134,18 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
 	  $('#IsStatus').val(0)
 	}
-
+  function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
+        }
+        function removeClassBorder1(){
+          $('#factory').removeClass('border-danger');
+        }
 	function getDepartment(){
 	  var Hotp = $('#factory option:selected').attr("value");
 	  if( typeof Hotp == 'undefined' ) Hotp = "BHQ";
@@ -227,7 +238,11 @@ $array2 = json_decode($json2,TRUE);
     datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
 	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
     }
+
 		var xDetail = $("#xDetail").val();
+    if(facid==''){
+          checkblank2();
+      }else{
     swal({
         title: "<?php echo $array['save'][$language]; ?>",
         text: "",
@@ -270,8 +285,8 @@ $array2 = json_decode($json2,TRUE);
             swal.close();
         }     
     })
-		
-	}
+  }
+}
 
 	function ShowDocument(){
 	  var datepicker1 = $('#datepicker1').val();
@@ -337,10 +352,11 @@ $array2 = json_decode($json2,TRUE);
 							}
                         	if(temp["status"]=='success'){
 										  if(temp["form"]=='OnLoadPage'){
+                        var Str = "<option value='' selected>-</option>";
 											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-												var Str = "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
-												$("#factory").append(Str);
+												 Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
 											}
+                      $("#factory").append(Str);
 										  }else if(temp["form"]=='getDepartment'){
 											$("#department").empty();
 											$("#Dep2").empty();
@@ -728,7 +744,7 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-                                      <select  style="font-size:22px;" class="form-control col-sm-8" id="factory" onchange="getDepartment();" ></select>
+                                      <select  style="font-size:22px;" class="form-control col-sm-8 checkblank2 border" id="factory" onchange="removeClassBorder1();" ></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6">

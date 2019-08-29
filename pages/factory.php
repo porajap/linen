@@ -565,7 +565,7 @@ $array2 = json_decode($json2,TRUE);
         $('#ContractName').val("");
         $('#Position').val("");
         $('#phone').val("");
-        $('#host').val("1");
+        $('#host').val("");
         $('#FacCode').val("");
         ShowItem();
         $('#bCancel').attr('disabled', true);
@@ -1020,6 +1020,9 @@ $array2 = json_decode($json2,TRUE);
                                 break;
                               case "nodetail":
                                 temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
+                                break;
+                                case "adduserfacfailed":
+                                temp['msg'] = "<?php echo $array['adduserfacfailed'][$language]; ?>";
                                 break;
                             }
                             swal({
