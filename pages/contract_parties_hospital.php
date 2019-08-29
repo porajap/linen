@@ -134,7 +134,18 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
 	  $('#IsStatus').val(0)
 	}
-
+  function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
+        }
+        function removeClassBorder1(){
+          $('#side').removeClass('border-danger');
+        }
 	function getDepartment(){
 	  var Hotp = $('#side option:selected').attr("value");
 	  if( typeof Hotp == 'undefined' ) Hotp = "1";
@@ -233,7 +244,9 @@ $array2 = json_decode($json2,TRUE);
 	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
     }
 		var xDetail = $("#xDetail").val();
-
+    if(hotid==''){
+          checkblank2();
+      }else{
 	  swal({
         title: "<?php echo $array['save'][$language]; ?>",
         text: "",
@@ -278,7 +291,7 @@ $array2 = json_decode($json2,TRUE);
         }     
     })
 	}
-
+}
 	function ShowDocument(){
 	  var datepicker1 = $('#datepicker1').val();
 	  var datepicker2 = $('#datepicker2').val();
@@ -344,10 +357,11 @@ $array2 = json_decode($json2,TRUE);
 							}
                         	if(temp["status"]=='success'){
 										  if(temp["form"]=='OnLoadPage'){
+                        var Str = "<option value='' selected>-</option>";
 											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-												var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-												$("#side").append(Str);
+												 Str += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
 											}
+                      $("#side").append(Str);
 										  }else if(temp["form"]=='getDepartment'){
 											$("#department").empty();
 											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
@@ -740,7 +754,7 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                      <select  style="font-size:22px;"  class="form-control col-sm-8" id="side" onchange="getDepartment();" ></select>
+                                      <select  style="font-size:22px;"  class="form-control col-sm-8 checkblank2 border" id="side" onchange="removeClassBorder1();" ></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6">

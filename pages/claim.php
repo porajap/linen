@@ -166,6 +166,18 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
 
+    function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
+        }
+        function removeClassBorder1(){
+          $('#department').removeClass('border-danger');
+        }
       function DeleteItem(){
         var docno = $("#docno").val();
         var xrow = $("#checkrow:checked").val() ;
@@ -388,6 +400,9 @@ $array2 = json_decode($json2,TRUE);
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
+        if(deptCode==''){
+          checkblank2();
+      }else{
         $('#TableDetail tbody').empty();
         swal({
           title: "<?php echo $array['confirm'][$language]; ?>",
@@ -415,7 +430,7 @@ $array2 = json_decode($json2,TRUE);
           }
           })
       }
-
+    }
         function canceldocno(docno) {
           swal({
             title: "<?php echo $array['confirmdelete'][$language]; ?>",
@@ -622,8 +637,8 @@ $array2 = json_decode($json2,TRUE);
                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                       var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                       Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                      $("#department").append(Str);
                     }
+                    $("#department").append(Str2);
                     $("#Dep2").append(Str2);
 
                   }else if( (temp["form"]=='CreateDocument') ){
@@ -1190,7 +1205,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select class="form-control col-sm-7"  style="font-size:22px;"  id="department" >
+                                        <select class="form-control col-sm-7 checkblank2 border"  style="font-size:22px;"  id="department" onchange="removeClassBorder1();">
                                         </select>
                                     </div>
                                   </div>
