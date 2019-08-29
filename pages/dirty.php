@@ -837,11 +837,11 @@ $array2 = json_decode($json2,TRUE);
                       $("#bDelete").prop('disabled', false);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', false);
-                      $("#docno").prop('disabled', false);
-                      $("#docdate").prop('disabled', false);
-                      $("#recorder").prop('disabled', false);
-                      $("#timerec").prop('disabled', false);
-                      $("#total").prop('disabled', false);
+                      // $("#docno").prop('disabled', false);
+                      // $("#docdate").prop('disabled', false);
+                      // $("#recorder").prop('disabled', false);
+                      // $("#timerec").prop('disabled', false);
+                      // $("#total").prop('disabled', false);
                       $('#bCancel').attr('disabled', false);
                       $('#bSave').attr('disabled', false);
                       $('#bDelete').attr('disabled', false);
@@ -1045,11 +1045,11 @@ $array2 = json_decode($json2,TRUE);
                           $('#TableItemDetail tbody:last-child').append( $StrTR );
                         }
                         if(isStatus==0){
-                          $("#docno").prop('disabled', false);
-                          $("#docdate").prop('disabled', false);
-                          $("#recorder").prop('disabled', false);
-                          $("#timerec").prop('disabled', false);
-                          $("#total").prop('disabled', false);
+                          // $("#docno").prop('disabled', false);
+                          // $("#docdate").prop('disabled', false);
+                          // $("#recorder").prop('disabled', false);
+                          // $("#timerec").prop('disabled', false);
+                          // $("#total").prop('disabled', false);
 
                           $('#qty1_'+i).prop('disabled', false);
                           $('#weight_'+i).prop('disabled', false);
@@ -1353,6 +1353,10 @@ $array2 = json_decode($json2,TRUE);
             font-size:26px;
 
         }
+        .only1:disabled, .form-control[readonly] {
+        background-color: transparent !important;
+        opacity: 1;
+    }
       .sidenav a {
         padding: 6px 8px 6px 16px;
         text-decoration: none;
@@ -1434,14 +1438,14 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only only1" disabled="true" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
 
                                         </div>
                                       </div>
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docno'][$language]; ?></label>
-                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only"  name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only only1" disabled="true"  name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                         </div>
                                       </div>
                                     </div>
@@ -1450,13 +1454,13 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
-                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only only1" disabled="true"  name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                         </div>
                                       </div>
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['time'][$language]; ?></label>
-                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                            <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only only1" disabled="true" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                         </div>
                                       </div>
                                     </div>
@@ -1465,7 +1469,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['totalweight'][$language]; ?></label>
-                                          <input class='form-control col-sm-8 only' autocomplete="off"  style="font-size:22px;"  id='wTotal' placeholder="0.00">
+                                          <input class='form-control col-sm-8 only only1' disabled="true" autocomplete="off"  style="font-size:22px;"  id='wTotal' placeholder="0.00">
                                         </div>
                                       </div>
                                       <div class="col-md-6">

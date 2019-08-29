@@ -844,11 +844,11 @@ $(document).ready(function(e){
                 $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
-                $("#docno").prop('disabled', false);
-                $("#docdate").prop('disabled', false);
-                $("#recorder").prop('disabled', false);
-                $("#timerec").prop('disabled', false);
-                $("#total").prop('disabled', false);
+                // $("#docno").prop('disabled', false);
+                // $("#docdate").prop('disabled', false);
+                // $("#recorder").prop('disabled', false);
+                // $("#timerec").prop('disabled', false);
+                // $("#total").prop('disabled', false);
                 $("#docno").val(temp[0]['DocNo']);
                 $("#docdate").val(temp[0]['DocDate']);
                 $("#recorder").val(temp[0]['Record']);
@@ -996,11 +996,11 @@ $(document).ready(function(e){
                     $('#TableItemDetail tbody:last-child').append( $StrTR );
                   }
                   if(isStatus==0){
-                    $("#docno").prop('disabled', false);
-                    $("#docdate").prop('disabled', false);
-                    $("#recorder").prop('disabled', false);
-                    $("#timerec").prop('disabled', false);
-                    $("#total").prop('disabled', false);
+                    // $("#docno").prop('disabled', false);
+                    // $("#docdate").prop('disabled', false);
+                    // $("#recorder").prop('disabled', false);
+                    // $("#timerec").prop('disabled', false);
+                    // $("#total").prop('disabled', false);
 
                     $('#qty1_'+i).prop('disabled', false);
                     $('#weight_'+i).prop('disabled', false);
@@ -1307,6 +1307,10 @@ $(document).ready(function(e){
         padding-top: 6px;
         padding-left: 44px;
       }
+      .only1:disabled, .form-control[readonly] {
+    background-color: transparent !important;
+    opacity: 1;
+}
       @media (min-width: 992px) and (max-width: 1199.98px) { 
 
       .icon{
@@ -1348,22 +1352,22 @@ $(document).ready(function(e){
                   <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <!-- /.content-wrapper -->
                     <div class="row">
-                        <div class="col-md-11">
+                    <div class="col-md-11">
                             <!-- tag column 1 -->
                             <div class="container-fluid">
                               <div class="card-body mt-3">
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8" id="hotpital" style="font-size:22px;"  onchange="getDepartment();" disabled="true">
+                                      <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
+                                      <select  class="form-control col-sm-8"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
                                       </select>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select class="form-control col-sm-8"  style="font-size:22px;"  id="department" disabled="true">
+                                        <select class="form-control col-sm-8" style="font-size:22px;" id="department" disabled="true">
                                         </select>
                                     </div>
                                   </div>
@@ -1373,13 +1377,13 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text"autocomplete="off" style="font-size:22px;"  class="form-control col-sm-8 only"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-8 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docno'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" style="font-size:22px;" disabled="true" class="form-control col-sm-8 only1" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1388,13 +1392,13 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-8 only" autocomplete="off" disabled="true" style="font-size:22px;"  id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
+                                      <input class="form-control col-sm-8 only" style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-8 only" style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                      <input type="text" autocomplete="off"  class="form-control col-sm-8 only1" disabled="true"  style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1402,16 +1406,16 @@ $(document).ready(function(e){
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['time'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"   style="font-size:22px;"  class="form-control col-sm-8 only" class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['time'][$language]; ?></label>
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
-                                  <!-- <div class="col-md-6">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"  style="font-size:22px;" ><?php echo $array['totalweight'][$language]; ?></label>
-                                      <input class="form-control col-sm-8" autocomplete="off"  style="font-size:22px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['totalweight'][$language]; ?></label>
+                                      <input class="form-control col-sm-8 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
                                     </div>
-                                  </div> -->
+                                  </div>
                                 </div>
                               </div>
                             </div>

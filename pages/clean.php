@@ -1006,11 +1006,11 @@ $(document).ready(function(e){
                     $('#TableItemDetail tbody:last-child').append( $StrTR );
                   }
                   if(isStatus==0){
-                    $("#docno").prop('disabled', false);
-                    $("#docdate").prop('disabled', false);
-                    $("#recorder").prop('disabled', false);
-                    $("#timerec").prop('disabled', false);
-                    $("#total").prop('disabled', false);
+                    // $("#docno").prop('disabled', false);
+                    // $("#docdate").prop('disabled', false);
+                    // $("#recorder").prop('disabled', false);
+                    // $("#timerec").prop('disabled', false);
+                    // $("#total").prop('disabled', false);
 
                     $('#qty1_'+i).prop('disabled', false);
                     $('#weight_'+i).prop('disabled', false);

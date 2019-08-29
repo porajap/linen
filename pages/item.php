@@ -2404,21 +2404,25 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row">
                           <div class="col-md-6">
                           <div class='form-group row'>
-                              <label style="top: -9px;" class="col col-form-label text-right"><?php echo $array['spacial'][$language]; ?></label>
-                              <label class="radio" style="margin:0px !important;">
-                                <input type="checkbox"  id="xCenter">
-                                <span class="checkmark"></span>
-                              </label>
-                              <label style="top: -9px;" class="col col-form-label text-right"><?php echo $array['newitem'][$language]; ?></label>
-                              <label class="radio" style="margin:0px !important;">
-                                <input type="checkbox"  id="xItemnew">
-                                <span class="checkmark"></span>
-                              </label>
-                              <label style="top: -9px;" class="col col-form-label text-right"><?php echo $array['itemmas'][$language]; ?></label>
-                              <label class="radio" style="margin:0px !important;">
-                                <input type="checkbox"  id="masterItem" >
-                                <span class="checkmark"></span>
-                              </label>
+
+                          <label class="radio " style="margin:0px !important;">
+                          <input type="checkbox"  id="xCenter">
+                          <span class="checkmark"></span>
+                          </label>
+                          <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['spacial'][$language]; ?></label>
+
+                          <label class="radio" style="margin:0px !important;">
+                          <input type="checkbox"  id="xItemnew">
+                          <span class="checkmark"></span>
+                          </label>
+                          <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['newitem'][$language]; ?></label>
+
+                          <label class="radio" style="margin:0px !important;">
+                          <input type="checkbox"  id="masterItem" >
+                          <span class="checkmark"></span>
+                          </label>
+                          <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['itemmas'][$language]; ?></label>
+
                             </div>
                           </div>
                           
