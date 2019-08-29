@@ -452,8 +452,8 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
-  if($DATA['masterItem'] == 1){
-    $Del = "DELETE FROM item_set WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+  if($DATA['masterItem'] == 0){
+    $Del = "DELETE FROM item_set WHERE mItemCode = '" . $DATA['ItemCode'] . "'";
     mysqli_query($conn, $Del);
   }
   $return['ItemName'] = $DATA['ItemName'];
@@ -492,7 +492,6 @@ function AddItem($conn, $DATA)
               }
               mysqli_query($conn, $Sql2);
             }
-            $return['sql'] = $Sql;
     if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "AddItem";
@@ -915,7 +914,7 @@ function ShowItemMaster($conn, $DATA)
     $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $count++;
   }
-
+  $return['CountRow'] = $count;
   if ($count > 0) {
     $return['status'] = "success";
     $return['form'] = "ShowItemMaster";
@@ -932,8 +931,7 @@ function ShowItemMaster($conn, $DATA)
   }
 }
 function ShowItemMaster2($conn, $DATA)
-{
-  
+{ 
   $count = 0;
   $ItemCode = $DATA['ItemCode'];
   $maincatagory = $DATA['maincatagory'];

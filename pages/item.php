@@ -399,6 +399,7 @@ $array2 = json_decode($json2, TRUE);
       senddata(JSON.stringify(data));
     }
     function ShowItemMaster(column, sort) {
+      $("#TableItemMaster tbody").empty();
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
@@ -1394,11 +1395,10 @@ $array2 = json_decode($json2, TRUE);
                 $('#TableItem').attr("hidden", true);
                 $('#TableItemMaster').attr("hidden", false);
                 $("#TableItemMaster tbody").empty();
-                for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                for (var i = 0; i < temp['CountRow']; i++) {
                   var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                   var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
-
                   var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                     "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
