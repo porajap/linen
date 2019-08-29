@@ -1236,6 +1236,7 @@ $array2 = json_decode($json2,TRUE);
         font-size:22px;
         overflow: scroll;
         overflow-x: hidden;
+        width:100%;
       }
       ::-webkit-scrollbar {
           width: 0px;  /* Remove scrollbar space */

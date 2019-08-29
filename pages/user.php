@@ -938,6 +938,7 @@ $array2 = json_decode($json2,TRUE);
             body{
             font-family: myFirstFont;
             font-size:22px;
+            width:100%;
             }
 
         .nfont{
