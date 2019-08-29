@@ -321,6 +321,18 @@ switch ($PmID) {
         break;
 }
 
+if(empty($_SESSION['href'])){
+  $src="pages/menu.php?lang=<?php echo $language; ?>";
+}else{
+$src=$_SESSION['href']; 
+$active_li=$_SESSION['active_li']; 
+$id_h=$_SESSION['id_h']; 
+echo '<script type="text/javascript">';
+echo "var act = '$active_li';";
+echo "var id_h = '$id_h';"; 
+echo '</script>';
+}
+
 ?>
 <!DOCTYPE html
   PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -378,22 +390,28 @@ switch ($PmID) {
       target = target * 60;
       last_move = new Date() // กำหนดค่าเริ่มต้นให้ last_move
       setTimeout( 'chk_last_move()', 1000 ); // กำหนดเวลาตรวจเช็คเริ่มต้น
-
+        
+       
       //li active
       $('.current_page').click(function () {
         $("a").removeClass("active_li");
         $(this).attr("class", "active_li");
         var href = $(this).attr('href');
+        var id_a = $(this).attr('id');
         var sub = href.split("?");
         $('#url_page').val(sub[0]);
-
-        $.post( "process/refresh.php", { href: href })
+  
+        $.post( "process/refresh.php", { href: href, active_li:"active_li",id:id_a })
         .done(function( data ) {
             // alert( "Data Loaded: " + data);
             
         });
-
+       
       });
+
+      if(act=="active_li"){
+        $("#"+id_h).attr("class", "active_li"); 
+       }
 
       checkFileLength();
       $('.upload-doc input[type="file"]').on('change', function () {
@@ -849,7 +867,7 @@ switch ($PmID) {
         });
       }
     }
-
+  
   </script>
 
   <style>
@@ -1014,13 +1032,10 @@ switch ($PmID) {
       </li>
     </ul>
   </header>
-  <?php
-if(empty($_SESSION['href'])){
-  $src="pages/menu.php?lang=<?php echo $language; ?>";
-}else{
-$src=$_SESSION['href']; 
-}
-?> 
+
+
+ 
+
   <article id="mainArticle" style="margin-top:25px;">
     <input type="hidden" id=last_move>
     <iframe name="ifrm" id="ifrm" src="<?php echo $src; ?>" class="current_page"  frameborder="0" style="height:100%; width:100%; "></iframe>
@@ -1037,27 +1052,27 @@ $src=$_SESSION['href'];
 
         <ul class="sub-menu">
           <?php if($gen_s1== 1){ ?>
-          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/menu.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/menu.php?lang=<?php echo $language; ?>" id="act1" class="current_page" onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][0][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s0== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/newwash.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/newwash.php?lang=<?php echo $language; ?>" id="act2" class="current_page "
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][12][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s2== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/dirty.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/dirty.php?lang=<?php echo $language; ?>" id="act3" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][1][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s3== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/clean.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/clean.php?lang=<?php echo $language; ?>" id="act4" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][2][$language]; ?><span style='color: #1659A2;'
                 id='clean_Cnt'>0</span></a>
@@ -1065,21 +1080,21 @@ $src=$_SESSION['href'];
           <?php } ?>
           <?php if($gen_s11== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/repair.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/repair.php?lang=<?php echo $language; ?>" id="act5" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][10][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s12== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/damage.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/damage.php?lang=<?php echo $language; ?>" id="act6" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][11][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s4== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/shelfcount.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/shelfcount.php?lang=<?php echo $language; ?>" id="act7" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][3][$language]; ?><span style='color: #1659A2;'
                 id='shelfcount_Cnt'>0</span></a>
@@ -1087,14 +1102,14 @@ $src=$_SESSION['href'];
           <?php } ?>
           <?php if($gen_s5== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/percent.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/percent.php?lang=<?php echo $language; ?>" id="act8" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][4][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s6== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/stock.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/stock.php?lang=<?php echo $language; ?>" id="act9" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][5][$language]; ?></a>
           </li>
@@ -1103,7 +1118,7 @@ $src=$_SESSION['href'];
 
           <?php if($gen_s7== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/stock_in.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/stock_in.php?lang=<?php echo $language; ?>" id="act10" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][6][$language]; ?></a>
           </li>
@@ -1111,7 +1126,7 @@ $src=$_SESSION['href'];
 
           <?php if($gen_s8== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/stock_in.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/stock_in.php?lang=<?php echo $language; ?>" id="act11" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][7][$language]; ?></a>
           </li>
@@ -1119,7 +1134,7 @@ $src=$_SESSION['href'];
 
           <?php if($gen_s9== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/draw.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/draw.php?lang=<?php echo $language; ?>" id="act12" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][8][$language]; ?></a>
           </li>
@@ -1143,26 +1158,26 @@ $src=$_SESSION['href'];
 
         <ul class="sub-menu">
           <?php if($ac_s1== 1){ ?>
-          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/claim.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em><?php echo $array['menu']['account']['sub'][0][$language]; ?></a>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/claim.php?lang=<?php echo $language; ?>" id="act13" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em><?php echo $array['menu']['account']['sub'][0][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($ac_s2== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/billcustomer.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/billcustomer.php?lang=<?php echo $language; ?>" id="act14" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['account']['sub'][1][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($ac_s3== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/billwash.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/billwash.php?lang=<?php echo $language; ?>" id="act15" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['account']['sub'][2][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($ac_s4== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/contract_parties_factory.php?lang=<?php echo $language; ?>"class="current_page"
+              href="pages/contract_parties_factory.php?lang=<?php echo $language; ?>" id="act16" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['account']['sub'][3][$language]; ?><span style='color: #1659A2;'
                 id='CPF_Cnt'>0</span></a>
@@ -1170,7 +1185,7 @@ $src=$_SESSION['href'];
           <?php } ?>
           <?php if($ac_s5== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/contract_parties_hospital.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/contract_parties_hospital.php?lang=<?php echo $language; ?>" id="act17" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['account']['sub'][4][$language]; ?><span style='color: #1659A2;'
                 id='HOS_Cnt'>0</span></a>
@@ -1191,21 +1206,21 @@ $src=$_SESSION['href'];
         <ul class="sub-menu">
           <?php if($fac_s1== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/factory_in.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/factory_in.php?lang=<?php echo $language; ?>" id="act18" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['xfactory']['sub'][0][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($fac_s2== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/factory_out.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/factory_out.php?lang=<?php echo $language; ?>" id="act19" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['xfactory']['sub'][1][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($fac_s3== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/factory_document_status.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/factory_document_status.php?lang=<?php echo $language; ?>" id="act20" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['xfactory']['sub'][2][$language]; ?></a>
           </li>
@@ -1224,7 +1239,7 @@ $src=$_SESSION['href'];
         <ul class="sub-menu">
           <?php if($re_s1== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/report.php"class="current_page"
+              href="pages/report.php" id="act21" class="current_page"
               onclick="return loadIframe('ifrm', this.href)"><em></em><?php echo $array['menu']['report']['title'][$language]; ?></a></li>
           <?php } ?>
         </ul>
@@ -1239,28 +1254,28 @@ $src=$_SESSION['href'];
         <ul class="sub-menu">
           <?php if($sys_s1== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/factory.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/factory.php?lang=<?php echo $language; ?>" id="act22" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][0][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($sys_s2== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/side.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/side.php?lang=<?php echo $language; ?>" id="act23" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][1][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($sys_s3== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/department.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/department.php?lang=<?php echo $language; ?>" id="act24" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][2][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($sys_s4== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/item.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/item.php?lang=<?php echo $language; ?>" id="act25" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][3][$language]; ?>
               <!-- <span style='color: #ff0000;' id='Item_Cnt'>0</span> -->
@@ -1270,35 +1285,35 @@ $src=$_SESSION['href'];
         
           <?php if($sys_s5== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/category_main.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/category_main.php?lang=<?php echo $language; ?>" id="act26" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][4][$language]; ?></span></a>
           </li>
           <?php } ?>
           <?php if($sys_s6== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/category_sub.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/category_sub.php?lang=<?php echo $language; ?>" id="act27" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][5][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($sys_s7== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/item_unit.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/item_unit.php?lang=<?php echo $language; ?>" id="act28" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][6][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($sys_s8== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/link_item_dept.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/link_item_dept.php?lang=<?php echo $language; ?>" id="act29" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][7][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($sys_s9== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="change_timeout.php?lang=<?php echo $language; ?>" class="current_page"
+              href="change_timeout.php?lang=<?php echo $language; ?>" id="act30" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][8][$language]; ?></a>
           </li>
@@ -1306,7 +1321,7 @@ $src=$_SESSION['href'];
         
           <?php if($sys_s11== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/user.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/user.php?lang=<?php echo $language; ?>" id="act31" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][10][$language]; ?></a>
           </li>
@@ -1314,7 +1329,7 @@ $src=$_SESSION['href'];
 
           <?php if($sys_s12== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/set_price.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/set_price.php?lang=<?php echo $language; ?>" id="act32" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][11][$language]; ?></a>
           </li>
@@ -1322,14 +1337,14 @@ $src=$_SESSION['href'];
 
           <?php if($sys_s13== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/change_lang.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/change_lang.php?lang=<?php echo $language; ?>" id="act33" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][12][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($sys_s15== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/set_delivery_time.php?lang=<?php echo $language; ?>" class="current_page"
+              href="pages/set_delivery_time.php?lang=<?php echo $language; ?>" id="act34" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['system']['sub'][14][$language]; ?></a>
           </li>
@@ -1337,7 +1352,7 @@ $src=$_SESSION['href'];
 
             <?php if($sys_s14== 1){ ?>
                 <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-                       href="pages/setting.php?lang=<?php echo $language; ?>" class="current_page"
+                       href="pages/setting.php?lang=<?php echo $language; ?>" id="act35" class="current_page"
                        onclick="return loadIframe('ifrm', this.href)">
                         <em></em><?php echo $array['menu']['system']['sub'][13][$language]; ?></a>
                 </li>
