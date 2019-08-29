@@ -359,3 +359,10 @@
     -webkit-transform: scale(0.4);
             transform: scale(0.4);
   }
+
+  /* .form-control:disabled, .form-control[readonly] {
+    background-color: transparent !important;
+    opacity: 1;
+    cursor:no-drop;
+
+} */

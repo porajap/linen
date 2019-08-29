@@ -854,10 +854,10 @@ $(document).ready(function(e){
                 $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
-                $("#docno").prop('disabled', false);
-                $("#docdate").prop('disabled', false);
-                $("#recorder").prop('disabled', false);
-                $("#timerec").prop('disabled', false);
+                // $("#docno").prop('disabled', false);
+                // $("#docdate").prop('disabled', false);
+                // $("#recorder").prop('disabled', false);
+                // $("#timerec").prop('disabled', false);
                 $("#total").prop('disabled', false);
                 $("#docno").val(temp[0]['DocNo']);
                 $("#docdate").val(temp[0]['DocDate']);
@@ -1285,6 +1285,10 @@ $(document).ready(function(e){
         background-color: #1659a2;
       }
 
+  .only1:disabled, .form-control[readonly] {
+    background-color: transparent !important;
+    opacity: 1;
+}
       .sidenav {
         height: 100%;
         overflow-x: hidden;
@@ -1402,13 +1406,13 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-8 only"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-8 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['docno'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" style="font-size:22px;"  class="form-control col-sm-8 only" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" style="font-size:22px;" disabled="true" class="form-control col-sm-8 only1" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1423,7 +1427,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  class="form-control col-sm-8 only" style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                                      <input type="text" autocomplete="off"  class="form-control col-sm-8 only1" disabled="true"  style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>
@@ -1432,13 +1436,13 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['time'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-8 only" class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-8 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['totalweight'][$language]; ?></label>
-                                      <input class="form-control col-sm-8 only" autocomplete="off" style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                                      <input class="form-control col-sm-8 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
                                     </div>
                                   </div>
                                 </div>
