@@ -221,7 +221,7 @@ $boolcountc = $Resultx['Countc'];
     }
   }else{
     $return['status'] = "failed";
-    $return['msg'] = "addfailed";
+    $return['msg'] = "adduserfailed";
     echo json_encode($return);
     mysqli_close($conn);
     die;
