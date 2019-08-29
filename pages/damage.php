@@ -470,6 +470,10 @@ $(document).ready(function(e){
         }
       }
 
+      function dis(){
+              $('.dis').attr('disabled', false);
+            }
+
       function convertUnit(rowid,selectObject){
         var docno = $("#docno").val();
         var data = selectObject.value;
@@ -1035,7 +1039,7 @@ $(document).ready(function(e){
                   }
                   chkunit += "</select>";
 
-                  var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
+                  var chkDoc = "<input type='checkbox' name='checkitem' onclick='dis()' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
                   var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly ' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
@@ -1588,7 +1592,7 @@ $(document).ready(function(e){
 
               <div class="search_custom col-md-2">
                 <div class="import_1 d-flex justify-content-start">
-                  <button class="btn" onclick="getImport(1)" id="bSave">
+                  <button class="btn dis" onclick="getImport(1)" id="bSave"disabled="true">
                     <i class="fas fa-file-import mr-2 pt-1"></i>
                     <?php echo $array['import'][$language]; ?>
                   </button>

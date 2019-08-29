@@ -295,6 +295,10 @@ $array2 = json_decode($json2,TRUE);
         $('#profile-tab').tab('show');
       }
 
+      function dis(){
+              $('.disx').attr('disabled', false);
+            }
+
       function getImport(Sel) {
         var docno = $("#docno").val();
         /* declare an checkbox array */
@@ -661,7 +665,8 @@ $array2 = json_decode($json2,TRUE);
                     $("#docdate").val(temp[0]['DocDate']);
                     $("#recorder").val(temp[0]['Record']);
                     $("#timerec").val(temp[0]['RecNow']);
-    
+                    $('.dis').attr('disabled', false);
+
 
                   }else if(temp["form"]=='ShowDocument'){
                     $( "#TableDocument tbody" ).empty();
@@ -907,7 +912,7 @@ $array2 = json_decode($json2,TRUE);
                       }
                       chkunit += "</select>";
 
-                      var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
+                      var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' onclick='dis()' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
                       var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' readonly style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='"+temp[i]['QtyPerUnit']+"' ></div>";
@@ -1276,7 +1281,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center">
-                                <button class="btn" onclick="OpenDialogItem()" id="bImport">
+                                <button class="btn dis" onclick="OpenDialogItem()" id="bImport" disabled="true">
                                   <i class="fas fa-file-import"></i>
                                   <div>
                                     <?php echo $array['import'][$language]; ?>
@@ -1288,7 +1293,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center">
-                                <button class="btn" onclick="DeleteItem()" id="bDelete">
+                                <button class="btn dis" onclick="DeleteItem()" id="bDelete" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
                                     <?php echo $array['delitem'][$language]; ?>
@@ -1300,7 +1305,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
-                                <button class="btn" onclick="SaveBill()" id="bSave">
+                                <button class="btn dis" onclick="SaveBill()" id="bSave" disabled="true">
                                   <div id="icon_edit">
                                     <i class="fas fa-save"></i>
                                     <div>
@@ -1314,7 +1319,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center">
-                                <button class="btn" onclick="CancelBill()" id="bCancel">
+                                <button class="btn dis" onclick="CancelBill()" id="bCancel" disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>
                                     <?php echo $array['cancel'][$language]; ?>
@@ -1326,7 +1331,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div  class="circle6 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintData()" id="bPrint">
+                                <button class="btn dis" onclick="PrintData()" id="bPrint" disabled="true">
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>
@@ -1527,8 +1532,8 @@ $array2 = json_decode($json2,TRUE);
             <div class="row">
               <div class="col-md-8">
                 <div class='form-group row'>
-                  <label class="col-sm-3 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                  <input type="text"  autocomplete="off" class="form-control col-sm-9" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
+                  <input type="text"  autocomplete="off" class="form-control col-sm-8" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                 </div>
               </div>
 
@@ -1544,7 +1549,7 @@ $array2 = json_decode($json2,TRUE);
 
               <div class="search_custom col-md-2">
                 <div class="import_1 d-flex justify-content-start">
-                  <button class="btn" onclick="getImport(1)" id="bSave">
+                  <button class="btn disx" onclick="getImport(1)" id="bSave" disabled="true">
                     <i class="fas fa-file-import mr-2 pt-1"></i>
                     <?php echo $array['import'][$language]; ?>
                   </button>

@@ -311,6 +311,10 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
 
+    function dis(){
+              $('.dis').attr('disabled', false);
+            }
+
     function checkblank2(){
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -1202,7 +1206,7 @@ $array2 = json_decode($json2,TRUE);
                 }
                 chkunit += "</select>";
 
-                var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
+                var chkDoc = "<input type='checkbox' name='checkitem' id='checkitem' onclick='dis()' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
                 var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' onkeyup='if(this.value>"+temp[i]['Qty']+"){this.value="+temp[i]['Qty']+"}else if(this.value<0){this.value=0}'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
                 var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
@@ -1862,7 +1866,7 @@ $array2 = json_decode($json2,TRUE);
 
               <div class="search_custom col-md-2">
                 <div class="import_1 d-flex justify-content-start">
-                  <button class="btn" onclick="getImport(1)" id="bSave">
+                  <button class="btn dis" onclick="getImport(1)" id="bSave" disabled="true">
                       <i class="fas fa-file-import mr-2 pt-1"></i>
                       <?php echo $array['import'][$language]; ?>
                   </button>
