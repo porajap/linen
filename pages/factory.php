@@ -1429,7 +1429,7 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text"  class="form-control col-sm-8 numonly checkblank3" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                  <div class="col-md-6" hidden>
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
                                       <select  class="form-control col-sm-8 checkblank2 checkblank3" id="host"onchange="removeClassBorder1();"></select>

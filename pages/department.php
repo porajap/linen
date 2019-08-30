@@ -667,8 +667,8 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
                                     "<td style='width: 15%;'>" + temp[i]['DepCode'] + "</td>" +
-                                    "<td style='width: 50%;'>" + temp[i]['DepName'] + "</td>" +
-									"<td style='width: 20%; text-align: center;'>" + temp[i]['DefaultName'] + "</td>" +
+                                    "<td style='width: 19.5%;'>" + temp[i]['DepName'] + "</td>" +
+									"<td style='width: 50%;'>" + temp[i]['DefaultName'] + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -1151,11 +1151,11 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 15%;'>
                                             <?php echo $array['codecode'][$language]; ?>
                                         </th>
-                                        <th style='width: 48%;'>
+                                        <th style='width: 17%;'>
                                             <?php echo $array['department'][$language]; ?>
                                         </th>
-                                        <th style='width: 22%; text-align: center;'>
-                                            <?php echo $array['defaultname'][$language]; ?>
+                                        <th style='width: 53%; '>
+                                            <?php echo $array['xcenter'][$language]; ?>
                                         </th>
                                     </tr>
                                 </thead>
