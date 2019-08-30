@@ -293,7 +293,7 @@ $array = json_decode($json,TRUE);
 
         function setActive(){
             var Username = $('#username').val();
-            var Password = ('#password').val();
+            var Password = $('#password').val();
             if(Username != '' && Password != ''){
                 var data = {
                     'STATUS' : 'SetActive',
