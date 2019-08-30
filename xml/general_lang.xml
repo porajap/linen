@@ -271,7 +271,8 @@
 <issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
 
 <!-- -->
-<r1><en>Record dirty linen weight</en><th>Record dirty linen weight</th></r1>
+<r0><en>-</en><th>-</th></r0>
+<r1><en>Record Dirty linen Weight</en><th>Record Dirty linen weight</th></r1>
 <r2><en>Report Claim</en><th>Report Claim</th></r2>
 <r3><en>Report Cleaned Linen Weight</en><th>Report Cleaned Linen Weight</th></r3>
 <r4><en>Report Daily Issue Request</en><th>Report Daily Issue Request</th></r4>
@@ -279,7 +280,7 @@
 <r6><en>Report Rewash</en><th>Report Rewash</th></r6>
 <r7><en>Report Shot and Over item</en><th>Report Shot and Over item</th></r7>
 <r8><en>Report Soiled Clean Ratio</en><th>Report Soiled Clean Ratio</th></r8>
-<r9><en>Report stock count</en><th>Report stock count</th></r9>
+<r9><en>Report Stock Count</en><th>Report Stock Count</th></r9>
 <r10><en>Report Billing Claim</en><th>Report Billing Claim</th></r10>
 <r11><en>Report Billing Customer</en><th>Report Billing Customer</th></r11>
 <r12><en>Report Billing Factory</en><th>Report Billing Factory</th></r12>
@@ -287,7 +288,7 @@
 <r14><en>Report Summary</en><th>Report Summary</th></r14>
 <r15><en>Report Tracking status for laundry plant</en><th>Report Tracking status for laundry plant</th></r15>
 <r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>
-<r17><en>Report Damage And LOSS</en><th>Report Damage And LOSS</th></r17>
+<r17><en>Report Damage And Loss</en><th>Report Damage And Loss</th></r17>
 <!--  -->
 
 

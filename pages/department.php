@@ -668,6 +668,7 @@ $array2 = json_decode($json2,TRUE);
                             console.log(temp);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var rowCount = $('#TableItem >tbody >tr').length;
+                                var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                 StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
@@ -675,7 +676,7 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
                                     "<td style='width: 15%;'>" + temp[i]['DepCode'] + "</td>" +
                                     "<td style='width: 19.5%;'>" + temp[i]['DepName'] + "</td>" +
-									"<td style='width: 50%;'>" + temp[i]['DefaultName'] + "</td>" +
+									"<td style='width: 50%;'>" +  DefaultName  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {

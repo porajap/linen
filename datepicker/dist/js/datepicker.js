@@ -421,9 +421,9 @@
                 case /yyyy/.test(result):
                     result = replacer(result, boundary('yyyy'), d.year + 543);
                 case /yyyy1/.test(result):
-                    result = replacer(result, boundary('yyyy1'), decade[0]);
+                    result = replacer(result, boundary('yyyy1'), decade[0] + 543);
                 case /yyyy2/.test(result):
-                    result = replacer(result, boundary('yyyy2'), decade[1]);
+                    result = replacer(result, boundary('yyyy2'), decade[1] +543);
                 case /yy/.test(result):
                     result = replacer(result, boundary('yy'), d.year.toString().slice(-2));
             }
@@ -1579,7 +1579,7 @@
                     break;
                 case 'year':
                     var decade = parent.curDecade;
-                    html = d.year;
+                    html = d.year+543;
                     if (d.year < decade[0] || d.year > decade[1]) {
                         classes += ' -other-decade-';
                         if (!opts.selectOtherYears) {

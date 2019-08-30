@@ -46,6 +46,7 @@ $array2 = json_decode($json2, TRUE);
 	<link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../bootstrap/css/tbody.css" rel="stylesheet">
 	<link href="../bootstrap/css/myinput.css" rel="stylesheet">
+	
 	<!-- Page level plugin CSS-->
 	<link href="../template/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
@@ -77,7 +78,7 @@ $array2 = json_decode($json2, TRUE);
 	<script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
 	<script src="../datepicker/dist/js/datepicker.th.js"></script>
 
-
+	<link href="../css/report.css" rel="stylesheet">
 
 
 	<script src="../fontawesome/js/fontawesome.min.js"></script>
@@ -104,6 +105,7 @@ $array2 = json_decode($json2, TRUE);
 			OnLoadPage();
 			$('#hotpital').attr('disabled', true);
 			$('#department').attr('disabled', true);
+			$('#cycle').attr('disabled', true);
 
 		}).mousemove(function(e) {
 			parent.afk();
@@ -195,6 +197,9 @@ $array2 = json_decode($json2, TRUE);
 			}
 			var d = new Date();
 			var n = monthArray[d.getMonth()];
+			if(language == 'th'){
+			var year = parseInt(year) + 543;
+			}
 			$('#onemonth').attr('value', n + '-' + year);
 			m = n;
 		}
@@ -233,7 +238,9 @@ $array2 = json_decode($json2, TRUE);
 			var date = new Date();
 			var nowMonth = monthArray[date.getMonth()];
 			var nextMonth = monthArray[date.getMonth() + 1];
-
+			if(language == 'th'){
+			var year = parseInt(year) + 543;
+			}
 			$('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
 		}
 
@@ -399,7 +406,7 @@ $array2 = json_decode($json2, TRUE);
 					});
 					Blankinput()
 				}
-			}  if (typeReport == 2 || typeReport == 4 || typeReport == 5 || typeReport == 8 || typeReport == 7 || typeReport == 9 || typeReport == 14 || typeReport == 16) {
+			}  if (typeReport == 2 || typeReport == 4 ||   typeReport == 8 || typeReport == 7 || typeReport == 9 || typeReport == 14 || typeReport == 16) {
 				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
 					swal({
 						title: '',
@@ -501,6 +508,14 @@ $array2 = json_decode($json2, TRUE);
 				} else {
 					var date = $('#somemonth').val();
 					var chkDateRang = date.split('-');
+					if(language =="th"){
+					var month1 =chkDateRang[0].split('/');
+					var month2 =chkDateRang[1].split('/');
+					var m1 = parseInt(month1[1])-543;
+					var m2 = parseInt(month2[1])-543;
+					date = month1[0]+"/"+m1+"-"+month2[0]+"/"+m2;
+					}
+					
 					if (chkDateRang[1] == null || chkDateRang[1] == undefined) {
 						swal({
 							title: '',
@@ -1562,24 +1577,28 @@ $array2 = json_decode($json2, TRUE);
 				$('#hotpital').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#factory').attr('disabled', false);
+				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
 			} else if ( typeReport == 14 || typeReport == 16) {
-				$('#department').attr('disabled', true);
+				$('#department').attr('disabled', false);
 				$('#factory').attr('disabled', true);
 				$('#hotpital').attr('disabled', true);
+				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
-			} else if (  typeReport == 7) {
+			} else if ( typeReport == 7) {
 				$('#factory').attr('disabled', false);
-				$('#department').attr('disabled', true);
+				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', true);
+				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
 			} else if (typeReport == 4 ||typeReport == 10 || typeReport == 11 || typeReport == 12) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', true);
+				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
 			}
@@ -1587,6 +1606,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', true);
+				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
 			}
@@ -1828,11 +1848,11 @@ $array2 = json_decode($json2, TRUE);
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['type'][$language]; ?></label>
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
-															<?php //for ($i = 1; $i <= 16; $i++) { 
+															<?php for ($i = 0; $i <= 17; $i++) { 
 															?>
-																<option value="0">-</option>
-															<option value="<?php echo 1 ?>"><?php echo $array['r' . 1][$language]; ?></option>
-															<option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
+														<!-- <option value="0">-</option>	 -->
+															<option value="<?php echo $i ?>"><?php echo $array['r' . $i][$language]; ?></option>
+															<!-- <option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
 															<option value="<?php echo 3 ?>"><?php echo $array['r' . 3][$language]; ?></option>
 															<option value="<?php echo 6 ?>"><?php echo $array['r' . 6][$language]; ?></option>
 															<option value="<?php echo 8 ?>"><?php echo $array['r' . 8][$language]; ?></option>
@@ -1842,9 +1862,9 @@ $array2 = json_decode($json2, TRUE);
 															<option value="<?php echo 11 ?>"><?php echo $array['r' . 11][$language]; ?></option>
 															<option value="<?php echo 12 ?>"><?php echo $array['r' . 12][$language]; ?></option>
 															<option value="<?php echo 7 ?>"><?php echo $array['r' . 7][$language]; ?></option>
-															<option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option>
+															<option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option> -->
 
-															<?php //} 
+															<?php } 
 															?>
 														</select>
 													</div>
@@ -1870,13 +1890,33 @@ $array2 = json_decode($json2, TRUE);
 														<select class="form-control col-sm-8" style="font-size:22px;" id="department" onchange="blank();">
 														</select>
 													</div>
-												</div>
+													
+												
+													</div>
 											</div>
-
+		
+											<div class="row" >
+												<div class="col-md-6">
+													<div class='form-group row checkblank'>
+														<label class="col-sm-4 col-form-label text-right">Cycle</label>
+														<select class="form-control col-sm-8" id="cycle" style="font-size:22px;" onchange="disabled_fill();">
+														<option value="0">ทั้งหมด</option>
+																<option value="1">เช้า</option>
+																<option value="2">บ่าย</option>
+														</select>
+													</div>
+												</div>
+											
+													</div>
+											</div>
+									
+												
+											</div>
+										
 											<div class="row">
 												<div class="col-md-6 ">
 													<div class='form-group row'>
-														<label class="col-sm-4 col-form-label text-right"><?php echo $array['format'][$language]; ?></label>
+														<label class="col-sm-4 col-form-label text-right mj"><?php echo $array['format'][$language]; ?></label>
 														<div>
 															<div class="custom-control custom-radio custom-control-inline">
 																<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat ">
@@ -1896,8 +1936,13 @@ $array2 = json_decode($json2, TRUE);
 															</div>
 														</div>
 													</div>
+													
 												</div>
+
+												
 												<div class="col-md-6 ">
+												
+									
 													<div class='form-group row' id="showday">
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
 														<div>
@@ -1928,6 +1973,7 @@ $array2 = json_decode($json2, TRUE);
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
 														<input type="text"  class="form-control col-sm-8 datepicker-here only" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language ?>'>
 													</div>
+												
 												</div>
 											</div>
 
@@ -1951,6 +1997,8 @@ $array2 = json_decode($json2, TRUE);
 										</div>
 									</div>
 								</div>
+							
+						
 								<div class="row m-1  d-flex justify-content-end col-12">
 									<div class="menu" <?php if ($PmID == 1) echo 'hidden'; ?>>
 										<div class="d-flex justify-content-center">

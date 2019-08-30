@@ -527,7 +527,7 @@ function newMonth2($date)
   $numMonth = chk_mount($month2[0]);
   $date2 = $month2[1] . '-' . $numMonth;
   return $date2;
-}
+} 
 function subMonth($date1, $date2)
 {
   $month1 = explode('-', $date1);
@@ -1802,7 +1802,7 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               WHERE clean.DocDate LIKE '%$date1%'
               AND factory.FacCode = $FacCode
               AND site.HptCode ='$HptCode'
-              GROUP BY clean.DocDate
+              GROUP BY date(clean.DocDate)
               ORDER BY clean.DocDate ASC";
     } else {
       $Sql = "SELECT 	factory.FacName,

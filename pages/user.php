@@ -551,7 +551,7 @@ $array2 = json_decode($json2,TRUE);
                             console.log(temp);
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var email = temp[i]['email'] == null ?'-':temp[i]['email'];
-                                var active_mail = temp[i]['Active_mail'] == 1 ?'X':'';
+                                var active_mail = temp[i]['Active_mail'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var chkDoc = "<label class='radio'style='margin-top: 50%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['ID'] + "' onclick='getdetail(\"" + temp[i]["ID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";

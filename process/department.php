@@ -16,7 +16,7 @@ function ShowItem($conn, $DATA)
   $Sql = "SELECT site.HptCode,
           CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,
           department.DepCode,department.DepName,department.IsDefault,
-		  CASE department.IsDefault WHEN 0 THEN '' WHEN 1 THEN 'X' END AS DefaultName
+		  CASE department.IsDefault WHEN 0 THEN '0' WHEN 1 THEN '1' END AS DefaultName
           FROM site
           INNER JOIN department ON site.HptCode = department.HptCode
           WHERE department.IsStatus = 0
