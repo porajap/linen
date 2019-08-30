@@ -505,6 +505,8 @@ $array2 = json_decode($json2,TRUE);
               }
               console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
+              getHotpital();
+              ShowItem();
             } else if (result.dismiss === 'cancel') {
               swal.close();
             }
