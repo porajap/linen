@@ -487,8 +487,10 @@ echo '</script>';
     });
   //==========================================================
   window.addEventListener('offline', function(e) { 
-    sessionStorage.clear();
-    window.location.assign("index.html")
+    $.post("clearSession.php",function(data,status){
+      window.location.assign("index.html");
+    });
+    
   });
 
   //==========================================================
