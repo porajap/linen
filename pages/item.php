@@ -1074,7 +1074,7 @@ $array2 = json_decode($json2, TRUE);
         closeOnCancel: false,
         showCancelButton: true
       }).then(result => {
-        var ItemCode = $('#ItemCode').val();
+        // var ItemCode = $('#ItemCode').val();
         $('#btn_deleteMaster').attr('disabled', true);
         if (result.value) {
           for (i = 0; i < chkArrayRow.length; ++i) {
@@ -2071,6 +2071,8 @@ $array2 = json_decode($json2, TRUE);
     </a>
     <!-- content-wrapper -->
     <div id="content-wrapper">
+  <input type="hidden" id="ItemCodeM_chk">
+
       <div class="row">
         <div class="col-md-12">
           <!-- tag column 1 -->
@@ -2587,7 +2589,6 @@ $array2 = json_decode($json2, TRUE);
 
 <div class="modal" id="masterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
-  <input type="hidden" id="ItemCodeM_chk">
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -2648,43 +2649,6 @@ $array2 = json_decode($json2, TRUE);
       </div>
 </div>
 
-<div class="modal" id="masterModaldoubly" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <input type="text" id="ItemCodeMom">
-    <div class="modal-content">
-      <div class="modal-header">
-          <h3><?php echo $array['issetb'][$language]; ?></h3>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-      </div>
-      <div class="modal-body">
-        <div class="row d-flex justify-content-end">
-          <div class="search_custom col-md-2" id="searchItem_1">
-            <div class="circle6 d-flex justify-content-start">
-              <button class="btn" onclick="ConfirmMaster()">
-                <i class="fas fa-check mr-2"></i>
-                <?php echo $array['confirm'][$language]; ?>
-              </button>
-            </div>
-          </div>
-        </div>
-        <table class="table table-fixed table-condensed table-striped" id="TableItemModaldoubly" width="100%" cellspacing="0" role="grid" style="font-size:24px;font-family: 'THSarabunNew'">
-            <thead style="font-size:24px;">
-                <tr role="row">
-                <th style='width: 5%;'>&nbsp;</th>
-                    <th style='width: 31%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                    <th style='width: 31%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                    <th style='width: 31%;text-align:center' nowrap><?php echo $array['qty'][$language]; ?></th>
-                </tr>
-            </thead>
-            <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-            </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
 
       <div id="page-down">
       </div>

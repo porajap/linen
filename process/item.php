@@ -1136,6 +1136,11 @@ function AddItemMaster($conn, $DATA){
       // getdetailMaster($conn, $DATA);
     }
   }
+
+  $delChild = "DELETE FROM item_set WHERE ItemCode = '$ItemCodeMaster'";
+  mysqli_query($conn, $delChild);
+
+
       $return['status'] = "success";
       $return['ItemCodeMaster'] = $DATA['ItemCode'];
       $return['form'] = "AddItemMaster";
