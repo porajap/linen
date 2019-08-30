@@ -788,6 +788,8 @@ $array2 = json_decode($json2, TRUE);
       CreateItemCode();
       uncheckAll2();
       $('#btn_importMaster').attr('disabled', true);
+      $('#btn_del').attr('disabled', true);
+
     }
 
     function getdetail(ItemCode,row) {
@@ -869,7 +871,7 @@ $array2 = json_decode($json2, TRUE);
         showCancelButton: true
       }).then(result => {
         var ItemCode = $('#ItemCode').val();
-
+        $('#btn_del').attr('disabled', true);
         if (result.value) {
           var data = {
           'STATUS': 'DeleteUnit',
@@ -1165,7 +1167,9 @@ $array2 = json_decode($json2, TRUE);
         }
       })
     }
- 
+    function disabledDel(){
+      $('#btn_del').attr('disabled', false);
+    }
 
   
 		//<!-- --------------------Function--------------------- --!>
@@ -1492,7 +1496,7 @@ $array2 = json_decode($json2, TRUE);
                   for (var i = 0; i < temp['RowCount']; i++) {
                     // var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
                     var rowCount = $('#TableUnit >tbody >tr').length;
-                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem2' id='checkitem2' value='" + temp[i]['RowID'] + "'><span class='checkmark'></span></label>";
+                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem2' id='checkitem2' value='" + temp[i]['RowID'] + "' onclick='disabledDel();'><span class='checkmark'></span></label>";
                     StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
                       "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                       "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
