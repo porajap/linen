@@ -372,7 +372,7 @@ function getdetail($conn, $DATA)
     $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
     $return[$count]['sUnitName'] = $Result['UnitCode2'];
     $return[0]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['IsDirtyBag'];
-    $return[0]['Itemnew'] = $Result['Itemnew']==null?0:$Result['isset'];
+    $return[0]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $return[0]['isset'] = $Result['isset']==null?0:$Result['isset'];
     $count++;
   }
