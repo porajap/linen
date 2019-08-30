@@ -378,8 +378,6 @@ echo '</script>';
     var redirect_url = 'http://poseintelligence.dyndns.biz:8181/linen-test/login.php'; // กำหนด url ที่ต้องการเมื่อครบเวลาที่กำหนด
 
 
-
-
     $(document).ready(function (e) {
       if(chk_logoff == 1 ){
         setActive();
@@ -489,11 +487,9 @@ echo '</script>';
     });
   //==========================================================
   window.addEventListener('offline', function(e) { 
-    var data = {
-          'STATUS': 'UpdateActive'
-        };
-        logoff();
-        senddata(JSON.stringify(data));    });
+    sessionStorage.clear();
+    window.location.assign("index.html")
+  });
 
   //==========================================================
     window.addEventListener("unload", function (e) {
@@ -503,33 +499,6 @@ echo '</script>';
         senddata(JSON.stringify(data));
     });
   //==========================================================
-    // openFullscreen();
-    // var elem = document.documentElement;
-    // function openFullscreen() {
-    //     if (elem.requestFullscreen) {
-    //         elem.requestFullscreen();
-    //     } else if (elem.mozRequestFullScreen) {
-    //         /* Firefox */
-    //         elem.mozRequestFullScreen();
-    //     } else if (elem.webkitRequestFullscreen) {
-    //         /* Chrome, Safari & Opera */
-    //         elem.webkitRequestFullscreen();
-    //     } else if (elem.msRequestFullscreen) {
-    //         /* IE/Edge */
-    //         elem.msRequestFullscreen();
-    //     }
-    // }
-    // function closeFullscreen() {
-    //     if (document.exitFullscreen) {
-    //         document.exitFullscreen();
-    //     } else if (document.mozCancelFullScreen) {
-    //         document.mozCancelFullScreen();
-    //     } else if (document.webkitExitFullscreen) {
-    //         document.webkitExitFullscreen();
-    //     } else if (document.msExitFullscreen) {
-    //         document.msExitFullscreen();
-    //     }
-    // }
 
     function logoff(chk) {
       if(chk == 1){

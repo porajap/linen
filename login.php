@@ -76,6 +76,9 @@ $array = json_decode($json,TRUE);
                 <div id="change">
                     <a href="javascript:void(0)" onclick="change_pass();">Change password</a>
                 </div>
+                <div id="setActive">
+                    <a href="javascript:void(0)" onclick="setActive();" title="Reset login"><i class="fas fa-key"></i></i></a>
+                </div>
             </div>
             
             <!-- ----------------------------------------------------------------------------------- -->
@@ -148,34 +151,6 @@ $array = json_decode($json,TRUE);
     $(document).ready(function(e){
         $('#username').focus();
     });
-
-    // openFullscreen();
-    // var elem = document.documentElement;
-    // function openFullscreen() {
-    //     if (elem.requestFullscreen) {
-    //         elem.requestFullscreen();
-    //     } else if (elem.mozRequestFullScreen) {
-    //         /* Firefox */
-    //         elem.mozRequestFullScreen();
-    //     } else if (elem.webkitRequestFullscreen) {
-    //         /* Chrome, Safari & Opera */
-    //         elem.webkitRequestFullscreen();
-    //     } else if (elem.msRequestFullscreen) {
-    //         /* IE/Edge */
-    //         elem.msRequestFullscreen();
-    //     }
-    // }
-    // function closeFullscreen() {
-    //     if (document.exitFullscreen) {
-    //         document.exitFullscreen();
-    //     } else if (document.mozCancelFullScreen) {
-    //         document.mozCancelFullScreen();
-    //     } else if (document.webkitExitFullscreen) {
-    //         document.webkitExitFullscreen();
-    //     } else if (document.msExitFullscreen) {
-    //         document.msExitFullscreen();
-    //     }
-    // }
 
     function typePass(){
       $('#oldpassword').attr('type', 'password');
@@ -316,6 +291,25 @@ $array = json_decode($json,TRUE);
             });
         }
 
+        function setActive(){
+            var Username = $('#username').val();
+            var Password = ('#password').val();
+            if(Username != '' && Password != ''){
+                var data = {
+                    'STATUS' : 'SetActive',
+                    'Username' : Username,
+                    'Password' : Password
+                };
+                senddata(JSON.stringify(data));
+            }else{
+                swal({
+                    type: 'warning',
+                    title: 'Something Wrong',
+                    text: 'Please recheck your username and password!'
+                })
+            }
+        }
+
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -453,6 +447,43 @@ $array = json_decode($json,TRUE);
                             });
                         }
 
+                    }else if(temp["form"] == 'SetActive'){
+                        if(temp['count'] == 1){
+                            swal({
+                                title: temp["msg"],
+                                text: temp["text"],
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                timer: 1000,
+                                confirmButtonText: 'Ok',
+                                showConfirmButton: false
+                            });
+                            setTimeout(() => {
+                                var Username = temp['Username'];
+                                var Password = temp['Password'];
+                                var Email = temp['Email'];
+                                var data = {
+                                    'Username':Username,
+                                    'Password':Password,
+                                    'Email':Email
+                                };
+                                mailSetAvtice(JSON.stringify(data),);
+                            }, 1000);
+                        }else if(temp['count'] == 0){
+                            swal({
+                                title: '',
+                                text: temp["msg"],
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                timer: 1000,
+                                confirmButtonText: 'Ok',
+                                showConfirmButton: false
+                            });
+                        }
                     }
                 } else if (temp["status"] == 'change_pass') {
                     $('#login_form').attr('hidden', true);
@@ -507,8 +538,6 @@ $array = json_decode($json,TRUE);
                 }
                 });
         }
-
-        
         
     function sendtomail(data) {
         var form_data = new FormData();
@@ -540,8 +569,6 @@ $array = json_decode($json,TRUE);
                     }).then(function () {
 
                     }, function (dismiss) {
-                        // dismiss can be 'cancel', 'overlay',
-                        // 'close', and 'timer'
                         if (dismiss === 'cancel') {
 
                         }
@@ -560,6 +587,53 @@ $array = json_decode($json,TRUE);
         });
     }
 
+    function mailSetAvtice(data) {
+        var form_data = new FormData();
+        form_data.append("DATA", data);
+            var URL = 'mailSetActive.php';
+            $.ajax({
+                url: URL,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (result) {
+                try{
+                    var temp = $.parseJSON(result);
+                    console.log(result);
+                } catch (e) {
+                    console.log('Error#542-decode error');
+                }
+                swal({
+                         title: 'Something Wrong',
+                         text: temp["msg"],
+                         type: 'success',
+                         showCancelButton: false,
+                         confirmButtonColor: '#3085d6',
+                         cancelButtonColor: '#d33',
+                         confirmButtonText: 'Ok'
+                    }).then(function () {
+
+                    }, function (dismiss) {
+                        if (dismiss === 'cancel') {
+
+                        }
+                    })
+
+                },
+                failure: function (result) {
+                alert(result);
+            },
+            error: function (xhr, status, p3, p4) {
+                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                if (xhr.responseText && xhr.responseText[0] == "{")
+                    err = JSON.parse(xhr.responseText).Message;
+                console.log(err);
+            }
+        });
+    }
 </script>
 </body>
 </html>

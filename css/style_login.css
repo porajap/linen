@@ -101,7 +101,7 @@ input{
 }
 #change{
     position: absolute;
-    right:0px;
+    right:63px;
     top: 207px;
 }
 #change a{
@@ -109,6 +109,18 @@ input{
     border-bottom:1px dashed  #1659a2;
 }
 #change a:hover{
+    font-size: 22px;
+    text-decoration: none;
+}
+#setActive{
+    position: absolute;
+    right:0px;
+    top: 207px;
+}
+#setActive a{
+    color:#1659a2;
+}
+#setActive a:hover{
     font-size: 22px;
     text-decoration: none;
 }
@@ -512,7 +524,7 @@ input{
     }
     #change{
         position: absolute;
-        right:0px;
+        right:23px;
         top: 176px;
     }
     #change a{
@@ -523,6 +535,11 @@ input{
         font-size: 18px;
         text-decoration: none;
     }
+    #setActive{
+        position: absolute;
+        right:-3px;
+        top: 176px;
+    }
     #btn_login {
         position: absolute;
         margin-top: 50px;
@@ -532,6 +549,7 @@ input{
         margin-left: 56px;
         font-size: 22px;
     }
+
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -702,7 +720,7 @@ input{
     }
     #change{
         position: absolute;
-        right:0px;
+        right:51px;
         top: 182px;
     }
     #change a{
@@ -717,6 +735,11 @@ input{
         position: absolute;
         margin-top: 62px;
         left: 69px; 
+    }
+    #setActive {
+        position: absolute;
+        right: 0px;
+        top: 182px;
     }
     #arrow{
         margin-left: 56px;
@@ -872,7 +895,7 @@ input{
     }
     #change{
         position: absolute;
-        right:0px;
+        right:63px;
         top: 182px;
     }
     #change a{
@@ -887,6 +910,11 @@ input{
         position: absolute;
         margin-top: 50px;
         left: 80px; 
+    }
+    #setActive {
+        position: absolute;
+        right: 0px;
+        top: 182px;
     }
     #arrow{
         margin-left: 56px;

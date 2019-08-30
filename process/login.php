@@ -231,6 +231,48 @@ function reset_pass($conn,$DATA)
   }
 }
 
+function SetActive($conn,$DATA){
+  $Username = $DATA['Username'];
+  $Password = $DATA['Password'];
+  $count = "SELECT COUNT(*) AS cnt, HptCode FROM users WHERE UserName = '$Username' AND Password = '$Password' LIMIT 1";
+  $meQuery = mysqli_query($conn, $count);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($Result['cnt'] > 0){
+      $HptCode = $Result['HptCode'];
+      $update = "UPDATE users SET IsActive = 0 WHERE UserName = '$Username' AND Password = '$Password' LIMIT 1";
+      mysqli_query($conn, $update);
+
+      $mailSelect = "SELECT email FROM users WHERE HptCode = '$HptCode' AND Active_mail = 1 LIMIT 1";
+      $mailQuery = mysqli_query($conn, $mailSelect);
+      while ($MResult = mysqli_fetch_assoc($mailQuery)) {
+        $Email = $MResult['email'];
+      }
+
+    }
+  }
+  if($Result['cnt'] > 0){
+    $return['count']  = 1;
+    $return['status'] = "success";
+    $return['form']   = "SetActive";
+    $return['Username'] = $Username;
+    $return['Password'] = $Password;
+    $return['Email'] = $Email;
+    $return['msg']   = "Set login success!";
+    $return['text']   = "Can go back to log in again";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }else{
+    $return['count']  = 0;
+    $return['status'] = "success";
+    $return['form']   = "SetActive";
+    $return['msg']   = "Username or Password is Wrong!";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
@@ -244,6 +286,8 @@ if(isset($_POST['DATA']))
     sendmail($conn, $DATA);
   }else if ($DATA['STATUS'] == 'rPass') {
     reset_pass($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'SetActive') {
+    SetActive($conn, $DATA);
   }
 }else{
 	$return['status'] = "error";
