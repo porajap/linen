@@ -492,7 +492,8 @@ function AddItem($conn, $DATA)
               }
               mysqli_query($conn, $Sql2);
             }
-    if (mysqli_query($conn, $Sql) && mysqli_query($conn, $Sql2)) {
+            
+    if (mysqli_query($conn, $Sql) || mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
       $return['form'] = "AddItem";
       $return['msg'] = "editsuccess";
