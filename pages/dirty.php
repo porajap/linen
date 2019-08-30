@@ -172,11 +172,13 @@ $array2 = json_decode($json2,TRUE);
       var previousValue = $('.checkrow_'+row).attr('previousValue');
         var name = $('.checkrow_'+row).attr('name');
         if (previousValue == 'checked') {
+          $('#bDelete').attr('disabled', true);
           $('.checkrow_'+row).removeAttr('checked');
           $('.checkrow_'+row).attr('previousValue', false);
           $('.checkrow_'+row).prop('checked', false);
           // Blankinput();
         } else {
+          $('#bDelete').attr('disabled', false);
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('.checkrow_'+row).attr('previousValue', 'checked');
         }
@@ -686,7 +688,6 @@ $array2 = json_decode($json2,TRUE);
               }else{
                 
                 $("#bImport").prop('disabled', false);
-                $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -833,18 +834,8 @@ $array2 = json_decode($json2,TRUE);
                       $( "#TableItemDetail tbody" ).empty();
                       $("#wTotal").val(0);
                       // $("#bSave").text('<?php echo $array['save'][$language]; ?>');
-                      $("#bImport").prop('disabled', false);
-                      $("#bDelete").prop('disabled', false);
-                      $("#bSave").prop('disabled', false);
-                      $("#bCancel").prop('disabled', false);
-                      // $("#docno").prop('disabled', false);
-                      // $("#docdate").prop('disabled', false);
-                      // $("#recorder").prop('disabled', false);
-                      // $("#timerec").prop('disabled', false);
-                      // $("#total").prop('disabled', false);
                       $('#bCancel').attr('disabled', false);
                       $('#bSave').attr('disabled', false);
-                      $('#bDelete').attr('disabled', false);
                       $('#bImport').attr('disabled', false);
                     }else if(temp["form"]=='ShowDocument'){
                       $( "#TableDocument tbody" ).empty();
@@ -906,7 +897,6 @@ $array2 = json_decode($json2,TRUE);
                         changeBtn += "<div>"+word+"</div>";
                         $('#icon_edit').html(changeBtn);
                         $("#bImport").prop('disabled', false);
-                        $("#bDelete").prop('disabled', false);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', false);
                       }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
@@ -1025,7 +1015,7 @@ $array2 = json_decode($json2,TRUE);
 
                         var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px; '> "+(i+1)+"</label></label></div>";
 
-                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'></div>";
+                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'></div>";
 
                         var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1072,7 +1062,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       }
                         $('.numonly').on('input', function() {
-                        this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+                        this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                         });
                     }else if( (temp["form"]=='ShowItem') ){
                       var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";

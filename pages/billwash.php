@@ -386,14 +386,17 @@ $array2 = json_decode($json2,TRUE);
         var previousValue = $('.checkitem_'+row).attr('previousValue');
         var name = $('.checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
+          $('#bDelete').attr('disabled', true);
           $('.checkitem_'+row).removeAttr('checked');
           $('.checkitem_'+row).attr('previousValue', false);
           $('.checkitem_'+row).prop('checked', false);
         } else {
+          $('#bDelete').attr('disabled', false);
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('.checkitem_'+row).attr('previousValue', 'checked');
         }
     }
+
       function convertUnit(rowid,selectObject){
         var docno = $("#docno").val();
         var data = selectObject.value;
@@ -607,7 +610,6 @@ $array2 = json_decode($json2,TRUE);
               $('#profile-tab').tab('show');
             }
                 $("#bImport").prop('disabled', false);
-                $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -694,6 +696,7 @@ $array2 = json_decode($json2,TRUE);
                       closeOnConfirm: false
                     });
                     $('.dis').attr('disabled', false);
+                    $('#bDelete').attr('disabled', true);
 
                     $( "#TableItemDetail tbody" ).empty();
                     $("#total").val("0.00");
@@ -813,9 +816,9 @@ $array2 = json_decode($json2,TRUE);
                       changeBtn += "<div>"+word+"</div>";
                       $('#icon_edit').html(changeBtn);
                       $("#bImport").prop('disabled', false);
-                      $("#bDelete").prop('disabled', false);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', false);
+                      $("#bPrint").prop('disabled', false);
                     }else if(temp[0]['IsStatus']==1){
                       var word = '<?php echo $array['edit'][$language]; ?>';
                       var changeBtn = "<i class='fas fa-edit'></i>";
@@ -875,7 +878,7 @@ $array2 = json_decode($json2,TRUE);
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
                       var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px; '> "+(i+1)+"</label></label></div>";
-                      var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
+                      var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control numonly' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
                       // var hidden = temp[i]['hidden'];
                       var UnitName2 =  "<lable id='unitname2_"+temp[i]['RowID']+"' "+hidden+"  > "+ temp[i]['UnitName2'] +"<lable>";
@@ -929,6 +932,9 @@ $array2 = json_decode($json2,TRUE);
                         $('#unit'+i).prop('disabled', true);
                       }
                     }
+                    $('.numonly').on('input', function() {
+                        this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                        });
                   }else if( (temp["form"]=='ShowItem') ){
                     var st1 = "style='font-size:24px;margin-left:30px; width:160px;font-family:THSarabunNew'";
                     var st2 = "style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
@@ -1370,7 +1376,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
-                                <button class="btn disx" onclick="PrintData()" id="bPrint"disabled="true" >
+                                <button class="btn dis" onclick="PrintData()" id="bPrint"disabled="true" >
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>
@@ -1545,7 +1551,7 @@ $array2 = json_decode($json2,TRUE);
 
               <div class="search_custom col-md-2">
                 <div class="import_1 d-flex justify-content-start">
-                  <button class="btn dis" onclick="getImport(1)" id="bSave"disabled="true">
+                  <button class="btn disx" onclick="getImport(1)" id="bSave"disabled="true">
                       <i class="fas fa-file-import mr-2 pt-1"></i>
                       <?php echo $array['import'][$language]; ?>
                   </button>

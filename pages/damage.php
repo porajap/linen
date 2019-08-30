@@ -106,35 +106,7 @@ $(document).ready(function(e){
 
   jqui(document).ready(function($){
 
-    // dialogRefDocNo = jqui( "#dialogRefDocNo" ).dialog({
-    //   autoOpen: false,
-    //   height: 670,
-    //   width: 1200,
-    //   modal: true,
-    //   buttons: {
-    //     "<?php echo $array['close'][$language]; ?>": function() {
-    //       dialogRefDocNo.dialog( "close" );
-    //     }
-    //   },
-    //   close: function() {
-    //     console.log("close");
-    //   }
-    // });
 
-    // dialogItemCode = jqui( "#dialogItemCode" ).dialog({
-    //   autoOpen: false,
-    //   height: 500,
-    //   width: '86%',
-    //   modal: true,
-    //   buttons: {
-    //     "<?php echo $array['close'][$language]; ?>": function() {
-    //       dialogItemCode.dialog( "close" );
-    //     }
-    //   },
-    //   close: function() {
-    //     console.log("close");
-    //   }
-    // });
 
     dialogUsageCode = jqui( "#dialogUsageCode" ).dialog({
       autoOpen: false,
@@ -176,11 +148,13 @@ $(document).ready(function(e){
       var previousValue = $('.checkrow_'+row).attr('previousValue');
         var name = $('.checkrow_'+row).attr('name');
         if (previousValue == 'checked') {
+          $('#bDelete').attr('disabled', true);
           $('.checkrow_'+row).removeAttr('checked');
           $('.checkrow_'+row).attr('previousValue', false);
           $('.checkrow_'+row).prop('checked', false);
           // Blankinput();
         } else {
+          $('#bDelete').attr('disabled', false);
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('.checkrow_'+row).attr('previousValue', 'checked');
         }
@@ -694,7 +668,6 @@ $(document).ready(function(e){
         }
         }else{
           $("#bImport").prop('disabled', false);
-          $("#bDelete").prop('disabled', false);
           $("#bSave").prop('disabled', false);
           $("#bCancel").prop('disabled', false);
           var word = '<?php echo $array['save'][$language]; ?>';
@@ -840,15 +813,6 @@ $(document).ready(function(e){
                 $( "#TableItemDetail tbody" ).empty();
                 $("#wTotal").val(0);
                 // $("#bSave").text('<?php echo $array['save'][$language]; ?>');
-                $("#bImport").prop('disabled', false);
-                $("#bDelete").prop('disabled', false);
-                $("#bSave").prop('disabled', false);
-                $("#bCancel").prop('disabled', false);
-                // $("#docno").prop('disabled', false);
-                // $("#docdate").prop('disabled', false);
-                // $("#recorder").prop('disabled', false);
-                // $("#timerec").prop('disabled', false);
-                // $("#total").prop('disabled', false);
                 $("#docno").val(temp[0]['DocNo']);
                 $("#docdate").val(temp[0]['DocDate']);
                 $("#recorder").val(temp[0]['Record']);
@@ -856,7 +820,6 @@ $(document).ready(function(e){
                 $("#RefDocNo").val("");
                 $('#bCancel').attr('disabled', false);
                 $('#bSave').attr('disabled', false);
-                $('#bDelete').attr('disabled', false);
                 $('#bImport').attr('disabled', false);
               }else if(temp["form"]=='ShowDocument'){
 
@@ -916,7 +879,6 @@ $(document).ready(function(e){
                   changeBtn += "<div>"+word+"</div>";
                   $('#icon_edit').html(changeBtn);                  
                   $("#bImport").prop('disabled', false);
-                  $("#bDelete").prop('disabled', false);
                   $("#bSave").prop('disabled', false);
                   $("#bCancel").prop('disabled', false);
                 }else if(temp[0]['IsStatus']==1){
@@ -974,9 +936,9 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else if(this.value < 0){this.value = 1}' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value >"+temp[i]['QtySum']+"){this.value = "+temp[i]['QtySum']+"}else if(this.value < 0){this.value = 1}' ></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1022,6 +984,9 @@ $(document).ready(function(e){
                     $('#unit'+i).prop('disabled', true);
                   }
                 }
+                $('.numonly').on('input', function() {
+                        this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                        });
               }else if( (temp["form"]=='ShowItem') ){
                 var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='font-size: 20px;height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"

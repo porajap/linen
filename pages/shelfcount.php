@@ -250,7 +250,21 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
       $('#isStatus').val(0)
     }
-
+    function resetradio(row){
+    var previousValue = $('.checkrow_'+row).attr('previousValue');
+      var name = $('.checkrow_'+row).attr('name');
+      if (previousValue == 'checked') {
+        $('#bDelete').attr('disabled', true);
+        $('.checkrow_'+row).removeAttr('checked');
+        $('.checkrow_'+row).attr('previousValue', false);
+        $('.checkrow_'+row).prop('checked', false);
+        // Blankinput();
+      } else {
+        $('#bDelete').attr('disabled', false);
+        $("input[name="+name+"]:radio").attr('previousValue', false);
+        $('.checkrow_'+row).attr('previousValue', 'checked');
+      }
+    }
     function getDepartment(){
       var Hotp = $('#hotpital option:selected').attr("value");
       if( typeof Hotp == 'undefined' ) 
@@ -680,7 +694,6 @@ $array2 = json_decode($json2,TRUE);
           }
         }else{
           $("#bImport").prop('disabled', false);
-          $("#bDelete").prop('disabled', false);
           $("#bSave").prop('disabled', false);
           $("#bCancel").prop('disabled', false);
           var word = '<?php echo $array['save'][$language]; ?>';
@@ -896,7 +909,6 @@ $array2 = json_decode($json2,TRUE);
               $("#timerec").val(temp[0]['RecNow']);
               $('#bCancel').attr('disabled', false);
               $('#bSave').attr('disabled', false);
-              $('#bDelete').attr('disabled', false);
               $('#bImport').attr('disabled', false);
               $('#bdetail').attr('disabled', false);
               $('#bPrint').attr('disabled', false);
@@ -1033,7 +1045,6 @@ $array2 = json_decode($json2,TRUE);
                 changeBtn += "<div>"+word+"</div>";
                 $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', false);
-                $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
               }else if(temp[0]['IsStatus']==1){
@@ -1080,7 +1091,6 @@ $array2 = json_decode($json2,TRUE);
                 changeBtn += "<div>"+word+"</div>";
                 $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', false);
-                $("#bDelete").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
               }else if(temp[0]['IsStatus']==1){
@@ -1129,9 +1139,9 @@ $array2 = json_decode($json2,TRUE);
 
                 chkunit += "</select>";
 
-                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='if(this.value > "+temp[i]['ParQty']+"){this.value="+temp[i]['ParQty']+"}else if(this.value<0){this.value=0}' onblur='keydownupdate(\""+temp[i]['RowID']+"\",\""+i+"\")' ><button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
+                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee ' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control numonly' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='if(this.value > "+temp[i]['ParQty']+"){this.value="+temp[i]['ParQty']+"}else if(this.value<0){this.value=0}' onblur='keydownupdate(\""+temp[i]['RowID']+"\",\""+i+"\")' ><button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
 
-                var Order = "<input class='form-control' id='order"+i+"' type='text' style='text-align:center;' value='"+(temp[i]['TotalQty'])+"' onkeyup='userKeyValue(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\");'>";
+                var Order = "<input class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;' value='"+(temp[i]['TotalQty'])+"' onkeyup='userKeyValue(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\");'>";
 
                 var Max = "<input class='form-control' id='max"+i+"' type='text' style='text-align:center;' value='"+(temp[i]['ParQty'])+"' disabled>";
 
@@ -1183,7 +1193,9 @@ $array2 = json_decode($json2,TRUE);
                   $('#unit'+i).prop('disabled', true);
                 }
               }
-
+              $('.numonly').on('input', function() {
+                        this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                        });
             }else if( (temp["form"]=='ShowItem') ){
               var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew'";
               var st2 = "style='height:40px;width:60px; font-size:20px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"

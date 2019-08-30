@@ -1041,10 +1041,15 @@ function getdetailMaster($conn, $DATA)
 }
 
 function deleteMaster($conn, $DATA){
-  $RowID = $DATA['RowID'];
+  $RowID = explode("," , $DATA['ArraychkArrayRow']);
   $ItemCode = $DATA['ItemCode'];
-  $Sql = "DELETE FROM item_set WHERE RowID = $RowID";
-  mysqli_query($conn, $Sql);
+  $limit = sizeof($RowID);
+
+  for($i=0; $i<$limit; $i++){
+    $Sql = "DELETE FROM item_set WHERE RowID = $RowID[$i]";
+    mysqli_query($conn, $Sql);
+  }
+
 
   $count = "SELECT COUNT(*) AS cnt FROM item_set WHERE mItemCode = '$ItemCode'";
   $Query = mysqli_query($conn, $count);

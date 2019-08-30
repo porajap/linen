@@ -145,7 +145,21 @@ $array2 = json_decode($json2,TRUE);
 
       }
     }
-
+    function resetradio(row){
+      var previousValue = $('.checkrow_'+row).attr('previousValue');
+        var name = $('.checkrow_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#bDelete').attr('disabled', true);
+          $('.checkrow_'+row).removeAttr('checked');
+          $('.checkrow_'+row).attr('previousValue', false);
+          $('.checkrow_'+row).prop('checked', false);
+          // Blankinput();
+        } else {
+          $('#bDelete').attr('disabled', false);
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('.checkrow_'+row).attr('previousValue', 'checked');
+        }
+      }
     function checkblank2(){
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -833,7 +847,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                      var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span><label style='margin-left:10px; '> "+(i+1)+"</label></label></div>";
+                      var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label></div>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
                       // var hidden = temp[i]['hidden'];
