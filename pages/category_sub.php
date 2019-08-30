@@ -463,6 +463,13 @@ $array2 = json_decode($json2,TRUE);
         $('.checkblank').each(function() {
           $(this).val("");
         });
+        $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', '');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
         $('#CategoryCode').val("");
         $('#CategoryName').val("");
         //$('#Dept').val("1");

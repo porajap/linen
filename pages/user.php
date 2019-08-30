@@ -452,6 +452,13 @@ $array2 = json_decode($json2,TRUE);
             $('#username').val("");
             $('#Password').val("");
             $('#flname').val("");
+            $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', '');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
             // $('#host tbody').empty();
             $('#department2').val("");
             $('#Permission tbody').empty();
