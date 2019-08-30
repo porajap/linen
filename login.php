@@ -456,7 +456,7 @@ $array = json_decode($json,TRUE);
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
-                                timer: 1000,
+                                timer: 2000,
                                 confirmButtonText: 'Ok',
                                 showConfirmButton: false
                             });
@@ -470,7 +470,7 @@ $array = json_decode($json,TRUE);
                                     'Email':Email
                                 };
                                 mailSetAvtice(JSON.stringify(data),);
-                            }, 1000);
+                            }, 2000);
                         }else if(temp['count'] == 0){
                             swal({
                                 title: '',

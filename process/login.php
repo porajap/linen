@@ -232,6 +232,7 @@ function reset_pass($conn,$DATA)
 }
 
 function SetActive($conn,$DATA){
+  $boolean = false;
   $Username = $DATA['Username'];
   $Password = $DATA['Password'];
   $count = "SELECT COUNT(*) AS cnt, HptCode FROM users WHERE UserName = '$Username' AND Password = '$Password' LIMIT 1";
@@ -247,10 +248,13 @@ function SetActive($conn,$DATA){
       while ($MResult = mysqli_fetch_assoc($mailQuery)) {
         $Email = $MResult['email'];
       }
-
+      $boolean = true;
     }
   }
-  if($Result['cnt'] > 0){
+  // $return['count'] = $count;
+  // $return['update'] = $update;
+  // $return['mailSelect'] = $mailSelect;
+  if($boolean = true){
     $return['count']  = 1;
     $return['status'] = "success";
     $return['form']   = "SetActive";
