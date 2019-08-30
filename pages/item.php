@@ -1323,9 +1323,9 @@ $array2 = json_decode($json2, TRUE);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
-                var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
-                var isset = temp[i]['isset'] == 1 ?'X':'';
+                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                var isset = temp[i]['isset'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
   
                 var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
@@ -1363,9 +1363,9 @@ $array2 = json_decode($json2, TRUE);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
               for (var i = 0; i < temp['RowCount']; i++) {
-                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
-                var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
-                var isset = temp[i]['isset'] == 1 ?'X':'';
+                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                var isset = temp[i]['isset'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
                 if(temp['mItemCode'] == temp[i]['ItemCode']){
                   var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input checked='true' type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
@@ -1407,8 +1407,8 @@ $array2 = json_decode($json2, TRUE);
                 $('#TableItemMaster').attr("hidden", false);
                 $("#TableItemMaster tbody").empty();
                 for (var i = 0; i < temp['CountRow']; i++) {
-                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
-                  var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
+                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                  var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
                   var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
@@ -1434,8 +1434,8 @@ $array2 = json_decode($json2, TRUE);
                 $('#TableItemMaster').attr("hidden", false);
                 $("#TableItemMaster tbody").empty();
                 for (var i = 0; i < temp['CountRow']; i++) {
-                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
-                  var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
+                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                  var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
                   if(temp['mItemCode'] == temp[i]['ItemCode']){
                     var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' checked='true' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
