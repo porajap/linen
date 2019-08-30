@@ -1328,12 +1328,12 @@ $array2 = json_decode($json2, TRUE);
                 var isset = temp[i]['isset'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
   
-                var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                   "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 12%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 12%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                   "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                   "<td style='width: 10%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
@@ -1368,16 +1368,16 @@ $array2 = json_decode($json2, TRUE);
                 var isset = temp[i]['isset'] == 1 ?'X':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
                 if(temp['mItemCode'] == temp[i]['ItemCode']){
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input checked='true' type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input checked='true' type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   getdetail(temp['mItemCode'], i);
                 }else{
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 }
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                   "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='width: 12%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 12%;text-overflow: ellipsis;overflow: hidden;' title='"+temp[i]['ItemName']+"' align='left' nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                   "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                   "<td style='width: 10%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
@@ -1410,12 +1410,12 @@ $array2 = json_decode($json2, TRUE);
                   var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'X':'';
                   var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                     "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                     "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                     "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                    "<td style='width: 15%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                    "<td style='width: 15%;text-overflow: ellipsis;overflow: hidden;' title='"+temp[i]['ItemName']+"' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
                     "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                     "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                     "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
@@ -1438,9 +1438,9 @@ $array2 = json_decode($json2, TRUE);
                   var ItemNew = temp[i]['Itemnew'] == 1 ?'X':'';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
                   if(temp['mItemCode'] == temp[i]['ItemCode']){
-                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' checked='true' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                    var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' checked='true' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   }else{
-                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                    var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                   }
                   $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                     "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
