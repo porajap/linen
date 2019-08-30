@@ -46,7 +46,7 @@ $mail->Username = "poseinttelligence@gmail.com";
 $mail->Password = "pose6628";
 $mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
 
-$mail->addAddress($email, $FName);
+$mail->addAddress($Email, $Username);
 $mail->Subject = $Subject;
 $mail->msgHTML($body);
 $mail->AltBody = 'This is a plain-text message body';
