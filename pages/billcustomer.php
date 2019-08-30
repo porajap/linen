@@ -679,6 +679,7 @@ $array2 = json_decode($json2,TRUE);
                     $("#recorder").val(temp[0]['Record']);
                     $("#timerec").val(temp[0]['RecNow']);
                     $('.dis').attr('disabled', false);
+                    $("#bDelete").prop('disabled', true);
 
                   }else if(temp["form"]=='ShowDocument'){
                     $( "#TableDocument tbody" ).empty();
@@ -786,9 +787,9 @@ $array2 = json_decode($json2,TRUE);
                       changeBtn += "<div>"+word+"</div>";
                       $('#icon_edit').html(changeBtn);
                       $("#bImport").prop('disabled', false);
-                      $("#bDelete").prop('disabled', false);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', false);
+                      $("#bPrint").prop('disabled', false);
                     }else if(temp[0]['IsStatus']==1){
                       var word = '<?php echo $array['edit'][$language]; ?>';
                       var changeBtn = "<i class='fas fa-edit'></i>";
@@ -798,6 +799,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#bDelete").prop('disabled', true);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', true);
+                      $("#bPrint").prop('disabled', true);
                     }else{
                       $("#bImport").prop('disabled', true);
                       $("#bDelete").prop('disabled', true);
