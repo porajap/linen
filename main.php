@@ -381,7 +381,7 @@ echo '</script>';
 
 
     $(document).ready(function (e) {
-
+      checkconnection();
       if(chk_logoff == 1 ){
         setActive();
       }
@@ -435,6 +435,17 @@ echo '</script>';
       return last_move;
     }
 
+    function checkconnection() {
+    var status = navigator.onLine;
+    if (status) {
+        alert('Internet connected !!');
+    } else {
+      var data = {
+          'STATUS': 'UpdateActive'
+        };
+        senddata(JSON.stringify(data));    
+        }
+}
     function chk_last_move(){
       cur_date = new Date(); // อ่านเวลาปัจจุบันไว้ใน cur_date
       if( cur_date>last_move){ // ตรวจสอบเวลา
