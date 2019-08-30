@@ -814,10 +814,11 @@ $array2 = json_decode($json2,TRUE);
                             }
                         }else if(temp["form"]=='getDepartment'){
                             $("#department").empty();
+                            var Str = "<option value=''>-</option>";
                             for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                            var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                            $("#department").append(Str);
+                             Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                             }
+                            $("#department").append(Str);
                         }else if(temp["form"]=='getDepartment2'){
                                     $("#department").empty();
                                     $("#department2").empty();
@@ -843,10 +844,11 @@ $array2 = json_decode($json2,TRUE);
                                     }
                                 } else if ((temp["form"] == 'getPermission')) {
                                     $("#Permission").empty();
+                                    var StrTr = "<option value=''>-</option>";
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                        var StrTr = "<option value = '" + temp[i]['PmID'] + "'> " + temp[i]['Permission'] + " </option>";
-                                        $("#Permission").append(StrTr);
+                                         StrTr += "<option value = '" + temp[i]['PmID'] + "'> " + temp[i]['Permission'] + " </option>";
                                     }
+                                    $("#Permission").append(StrTr);
                                 } else if ((temp["form"] == 'getFactory')) {
                                     $("#factory").empty();
                                     var StrTr = "<option value = '0'><?php echo $array['facname'][$language]; ?></option>";
@@ -1221,13 +1223,13 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 " id="host" onchange="getDepartment();"></select>
+                                      <select  class="form-control col-sm-8 checkblank" id="host" onchange="getDepartment();"></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                       <div class='form-group row'>
                                        <label class="col-sm-4 col-form-label text-right" style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select class="form-control col-sm-8" style="font-size:22px;"  id="department" >
+                                        <select class="form-control col-sm-8 checkblank" style="font-size:22px;"  id="department" >
                                         </select>
                                     </div>
                                   </div>
@@ -1259,7 +1261,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['permission'][$language]; ?></label>
-                                    <select  class="form-control col-sm-8 " id="Permission"  onchange="factory_show(this.value);"></select>
+                                    <select  class="form-control col-sm-8 checkblank " id="Permission"  onchange="factory_show(this.value);"></select>
                                     </div>
                                   </div>   
                                 </div>   
