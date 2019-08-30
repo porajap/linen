@@ -468,9 +468,13 @@ $array2 = json_decode($json2,TRUE);
         var Position = $('#Position').val();
         var phone = $('#phone').val();
         var host = $('#host').val();
-        if(host==''){
-          checkblank2();
-      }else{
+
+        $(".checkblank3").each(function() {
+          if($( this ).val()==""||$(this).val()==undefined){
+            count++;
+          }
+        });
+
           if(count==0){
             swal({
               title: "<?php echo $array['addoredit'][$language]; ?>",
@@ -516,7 +520,7 @@ $array2 = json_decode($json2,TRUE);
             timer: 2000,
             confirmButtonText: 'Ok'
           })
-          $('.checkblank').each(function() {
+          $('.checkblank3').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
             }else{
@@ -525,8 +529,8 @@ $array2 = json_decode($json2,TRUE);
           });
         }
       }
-    }
-      function CancelItem() {
+    
+     function CancelItem() {
         swal({
           title: "<?php echo $array['canceldata'][$language]; ?>",
           text: "<?php echo $array['canceldata1'][$language]; ?>",
@@ -1408,13 +1412,13 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 " id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-8 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 " id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
+                                        <input type="text" class="form-control col-sm-8 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div> 
@@ -1422,13 +1426,13 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 numonly " id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-8 numonly checkblank3" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 checkblank2" id="host"onchange="removeClassBorder1();"></select>
+                                      <select  class="form-control col-sm-8 checkblank2 checkblank3" id="host"onchange="removeClassBorder1();"></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6" hidden>
