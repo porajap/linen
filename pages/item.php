@@ -1511,7 +1511,7 @@ $array2 = json_decode($json2, TRUE);
                   }
                 }
               }
-            } else if ((temp["form"] == '              Master')) {
+            } else if ((temp["form"] == 'getdetailMaster')) {
               $('#ItemCodeM_chk').val(temp['mItemCode']);
               if (temp['RowMaster'] != 0) {
                 // $("#TableMaster tbody").empty();
