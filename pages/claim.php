@@ -101,24 +101,7 @@ $array2 = json_decode($json2,TRUE);
 
     jqui(document).ready(function($){
 
-      // dialog = jqui( "#dialog" ).dialog({
-      //   autoOpen: false,
-      //   height: 650,
-      //   width: 1200,
-      //   modal: true,
-      //   buttons: {
-      //     "<?php echo $array['close'][$language]; ?>": function() {
-      //       dialog.dialog( "close" );
-      //     }
-      //   },
-      //   close: function() {
-      //     console.log("close");
-      //   }
-      // });
 
-      // jqui( "#dialogItem" ).button().on( "click", function() {
-      //   dialog.dialog( "open" );
-      // });
 
       dialogUsageCode = jqui( "#dialogUsageCode" ).dialog({
         autoOpen: false,
@@ -146,7 +129,21 @@ $array2 = json_decode($json2,TRUE);
       }
     }
 
-
+    function resetradio(row){
+      var previousValue = $('.checkrow_'+row).attr('previousValue');
+        var name = $('.checkrow_'+row).attr('name');
+        if (previousValue == 'checked') {
+          $('#bDelete').attr('disabled', true);
+          $('.checkrow_'+row).removeAttr('checked');
+          $('.checkrow_'+row).attr('previousValue', false);
+          $('.checkrow_'+row).prop('checked', false);
+          // Blankinput();
+        } else {
+          $('#bDelete').attr('disabled', false);
+          $("input[name="+name+"]:radio").attr('previousValue', false);
+          $('.checkrow_'+row).attr('previousValue', 'checked');
+        }
+      }
     function OpenDialogUsageCode(itemcode){
       xItemcode = itemcode;
       var docno = $("#docno").val();
@@ -666,6 +663,7 @@ $array2 = json_decode($json2,TRUE);
                     $("#recorder").val(temp[0]['Record']);
                     $("#timerec").val(temp[0]['RecNow']);
                     $('.dis').attr('disabled', false);
+                    $("#bDelete").attr('disabled', true);
 
 
                   }else if(temp["form"]=='ShowDocument'){
@@ -778,9 +776,8 @@ $array2 = json_decode($json2,TRUE);
                       var changeBtn = "<i class='fa fa-save'></i>";
                       changeBtn += "<div>"+word+"</div>";
                       $('#icon_edit').html(changeBtn);
-
+                      $("#bPrint").prop('disabled', false);
                       $("#bImport").prop('disabled', false);
-                      $("#bDelete").prop('disabled', false);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', false);
                     }else if(temp[0]['IsStatus']==1){
@@ -792,6 +789,8 @@ $array2 = json_decode($json2,TRUE);
                       $("#bDelete").prop('disabled', true);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', true);
+                      $("#bPrint").prop('disabled', true);
+
                     }else{
                       $("#bImport").prop('disabled', true);
                       $("#bDelete").prop('disabled', true);
@@ -841,7 +840,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                      var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span><label style='margin-left:10px; '> "+(i+1)+"</label></label></div>";
+                      var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px;'> "+(i+1)+"</label></label></div>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
                       // var hidden = temp[i]['hidden'];
