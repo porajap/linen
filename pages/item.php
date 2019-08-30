@@ -1322,7 +1322,7 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                   "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='width: 12%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 12%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                   "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                   "<td style='width: 10%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
@@ -1511,7 +1511,7 @@ $array2 = json_decode($json2, TRUE);
                   }
                 }
               }
-            } else if ((temp["form"] == 'getdetailMaster')) {
+            } else if ((temp["form"] == '              Master')) {
               $('#ItemCodeM_chk').val(temp['mItemCode']);
               if (temp['RowMaster'] != 0) {
                 // $("#TableMaster tbody").empty();
