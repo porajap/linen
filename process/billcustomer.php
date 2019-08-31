@@ -3,7 +3,6 @@ session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 $xDate = date('Y-m-d');
-
 $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
@@ -83,23 +82,25 @@ function CreateDocument($conn, $DATA)
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT CONCAT('BC',lpad('$hotpCode', 3, 0),'/',SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
+  $Sql = "SELECT CONCAT('BC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
 LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
 CURRENT_TIME() AS RecNow
 FROM billcustomer
-WHERE DocNo Like CONCAT('BC',lpad('$hotpCode', 3, 0),'/',SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
+WHERE DocNo Like CONCAT('BC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
 AND HptCode = '$hotpCode'
 ORDER BY DocNo DESC LIMIT 1";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-    }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-    }
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  }else if ($lang == 'th'){
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+  }
+
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
     $return[0]['DocDate'] = $newdate;
@@ -183,13 +184,17 @@ INNER JOIN users ON billcustomer.Modify_Code = users.ID ";
   $Sql .= "ORDER BY billcustomer.DocNo DESC LIMIT 500 ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-    }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-    }
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  }else if ($lang == 'th'){
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+  }
+
+
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
@@ -229,7 +234,7 @@ function SelectDocument($conn, $DATA)
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
   $lang = $_SESSION['lang'];
-  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billcustomer.DocNo,billcustomer.DocDate,billcustomer.Total,users.FName,TIME(billcustomer.Modify_Date) AS xTime,billcustomer.IsStatus
+  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,billcustomer.DocNo,DATE(billcustomer.DocDate) AS DocDate ,billcustomer.Total,users.FName,TIME(billcustomer.Modify_Date) AS xTime,billcustomer.IsStatus
 FROM billcustomer
 INNER JOIN department ON billcustomer.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
@@ -237,6 +242,7 @@ INNER JOIN users ON billcustomer.Modify_Code = users.ID
 WHERE billcustomer.DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
     if($lang =='en'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
@@ -244,6 +250,8 @@ WHERE billcustomer.DocNo = '$DocNo'";
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
+
+
     $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DepName']   = $Result['DepName'];
@@ -545,11 +553,16 @@ function DeleteItem($conn, $DATA)
 
 function SaveBill($conn, $DATA)
 {
+  $total = $DATA["total"];
   $DocNo = $DATA["xdocno"];
-  $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE billcustomer SET IsStatus = $isStatus WHERE billcustomer.DocNo = '$DocNo'";
-  mysqli_query($conn, $Sql);
 
+  $isStatus = $DATA["isStatus"];
+  $Sql = "UPDATE billcustomer SET IsStatus = $isStatus , Total = $total WHERE billcustomer.DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+  $return['sql'] = $total;
+  $return['sql1'] = $Sql;
+
+   echo json_encode($return);
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   if ($isStatus == 1) {
