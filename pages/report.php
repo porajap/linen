@@ -1222,10 +1222,10 @@ $array2 = json_decode($json2, TRUE);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:36%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:12%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:12%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>" +
+									"<td class='text-center' style='width:52%'>" + temp[i]['DepName'] + "</td>" +
+									"<td class='text-center pl-4' style='width:15%'>" + temp[i]['HptName'] + "</td>" +
+									"<td class='text-center' style='width:15%'>" + show_date + "</td>" +
+									"<td class='text-center' style='width:13%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>" +
 									"</tr>";
 								$("#table_R14 tbody").append(dataRow);
 							}
@@ -1571,8 +1571,8 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R10').attr('hidden', true);
 							$('#table_R11').attr('hidden', true);
 							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', false);
-							$('#table_R14').attr('hidden', true);
+							$('#table_R13').attr('hidden', true);
+							$('#table_R14').attr('hidden', false);
 							$('#table_R15').attr('hidden', true);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
@@ -2251,10 +2251,10 @@ $array2 = json_decode($json2, TRUE);
 										<thead id="theadsum" style="font-size:24px;">
 											<tr role="row" id='tr_1'>
 												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 59%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+												<th style='width: 52%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+												<th style='width: 15%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+												<th style='width: 15%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+												<th style='width: 13%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 											</tr>
 										</thead>
 										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
