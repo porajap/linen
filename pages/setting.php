@@ -357,6 +357,7 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-3 ml-4">
                 <div class="card">
                     <div class="card-body">
