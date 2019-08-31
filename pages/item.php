@@ -1054,7 +1054,9 @@ $array2 = json_decode($json2, TRUE);
     }
     function deleteMaster(){
       var chkArrayRow=[];
-      // var RowID = $(".masterChk:checked").val();
+      var maincatagory = $("#maincatagory").val();
+      var item = $("#searchitem").val();
+      var catagory = $("#catagory1").val();
       var ItemCode = $("#ItemCodeM_chk").val();
       $(".masterChk:checked").each(function() {
         chkArrayRow.push($(this).val());
@@ -1083,7 +1085,10 @@ $array2 = json_decode($json2, TRUE);
           var data = {
             'STATUS' : 'deleteMaster',
             'ArraychkArrayRow' : ArraychkArrayRow,
-            'ItemCode' : ItemCode
+            'ItemCode' : ItemCode,
+            'maincatagory' : maincatagory,
+            'item' : item,
+            'Catagory' : catagory
           };
           senddata(JSON.stringify(data));
         } else if (result.dismiss == 'cancel') {
@@ -1410,6 +1415,7 @@ $array2 = json_decode($json2, TRUE);
               $('#numPack').val("01");
 
             } else if ((temp["form"] == 'ShowItemMaster')) {
+              if(temp['CountRow']>0){
                 $('#TableItem').attr("hidden", true);
                 $('#TableItemMaster').attr("hidden", false);
                 $("#TableItemMaster tbody").empty();
@@ -1436,6 +1442,12 @@ $array2 = json_decode($json2, TRUE);
                     $('#TableItemMaster tbody:last-child').append($StrTR);
                   }
                 }
+              }else{
+                $("#TableItemMaster tbody").empty();
+                StrTR = "<tr><td style='width: 100%;' align='center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                $("#TableItemMaster tbody").append(StrTR);
+              }
+                
             } else if ((temp["form"] == 'ShowItemMaster2')) {
                 $('#TableItem').attr("hidden", true);
                 $('#TableItemMaster').attr("hidden", false);

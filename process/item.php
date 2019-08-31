@@ -924,7 +924,7 @@ function ShowItemMaster($conn, $DATA)
     die;
   } else {
     $return['form'] = "ShowItemMaster";
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);
@@ -1057,6 +1057,7 @@ function deleteMaster($conn, $DATA){
     if($Result['cnt'] == 0){
       $update = "UPDATE item SET isset = 0 WHERE ItemCode = '$ItemCode'";
       mysqli_query($conn, $update);
+      ShowItemMaster($conn, $DATA);
     }
   }
 }
