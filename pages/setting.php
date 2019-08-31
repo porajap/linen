@@ -42,6 +42,7 @@ $array2 = json_decode($json2,TRUE);
 
     function switchlang() {
         var lang = $('#lang').val();
+        var langOld = '<?php echo $language; ?>';
         swal({
         title:'<?php echo $array['changelang'][$language]; ?>',
         type: 'info',
@@ -52,7 +53,11 @@ $array2 = json_decode($json2,TRUE);
         cancelButtonText: '<?php echo $array['isno'][$language]; ?>'
         }).then((result) => {
             if (result.value) {
-
+                if(lang == "th"){
+                    $('#lang').val('th');
+                }else{
+                    $('#lang').val('en');
+                }
                 var data = {
                     'STATUS' : 'SETLANG',
                     'lang' : lang,
@@ -73,14 +78,16 @@ $array2 = json_decode($json2,TRUE);
                 }, 1000);
             } else if (result.dismiss === 'cancel') {
                 swal.close();
+                $('#lang').val(langOld);
+             
             }
         })
         
-        if(lang == "th"){
-            $('#lang').val('en');
-        }else{
-            $('#lang').val('th');
-        }
+        // if(lang == "th"){
+        //     $('#lang').val('en');
+        // }else{
+        //     $('#lang').val('th');
+        // }
 
     }
 
@@ -357,7 +364,7 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-3 ml-4">
                 <div class="card">
                     <div class="card-body">
