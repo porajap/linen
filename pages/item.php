@@ -116,6 +116,7 @@ $array2 = json_decode($json2, TRUE);
       $('.numonly').on('input', function() {
         this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
       });
+
       $('.charonly').on('input', function() {
         this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
       });
@@ -130,7 +131,7 @@ $array2 = json_decode($json2, TRUE);
     }).keyup(function(e) {
       parent.afk();
     });
-
+   
 		//<!-- --------------------Function--------------------- --!>
     dialog = jqui("#dialog").dialog({
       autoOpen: false,
@@ -1803,7 +1804,7 @@ $array2 = json_decode($json2, TRUE);
               $('#TableItemModal tbody').empty();
               for (var i = 0; i < temp['RowMaster']; i++) {
                 var chkDoc = "<input type='checkbox' name='addMasterChk' class='addMasterChk' value='"+i+ "'>";
-                var Qty = "<input type='text' class='text-center' value='1' id='addMaster_"+i+"'>";
+                var Qty = "<input type='text' class='text-center numberonly' value='1' id='addMaster_"+i+"' >";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 31%;' align='left'nowrap id='addItemCodeM_"+i+"' data-value='"+temp[i]['ItemCode']+"'>" + temp[i]['ItemCode'] + "</td>" +
@@ -1812,6 +1813,9 @@ $array2 = json_decode($json2, TRUE);
                   "</tr>";
                   $("#TableItemModal tbody").append($StrTR);
               }
+              $('.numberonly').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+              });
             } else if ((temp["form"] == 'AddItemMaster')) {
               getdetailMaster(temp['ItemCodeMaster']);
               ShowItemMaster2(temp['ItemCodeMaster']);
