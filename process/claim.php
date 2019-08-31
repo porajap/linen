@@ -3,7 +3,6 @@ session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 $xDate = date('Y-m-d');
-
 $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
@@ -93,13 +92,15 @@ ORDER BY DocNo DESC LIMIT 1";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-    }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-    }
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  }else if ($lang == 'th'){
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+  }
+
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
     $return[0]['DocDate'] = $newdate;
@@ -183,13 +184,17 @@ INNER JOIN users ON claim.Modify_Code = users.ID ";
   $Sql .= "ORDER BY claim.DocNo DESC LIMIT 500 ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-    }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-    }
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  }else if ($lang == 'th'){
+    $date2 = explode("-", $Result['DocDate']);
+    $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+  }
+
+
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
@@ -229,7 +234,7 @@ function SelectDocument($conn, $DATA)
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
   $lang = $_SESSION['lang'];
-  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,claim.DocNo,claim.DocDate,claim.Total,users.FName,TIME(claim.Modify_Date) AS xTime,claim.IsStatus
+  $Sql = "SELECT   site.HptName,department.DepCode,department.DepName,claim.DocNo,DATE(claim.DocDate) AS DocDate ,claim.Total,users.FName,TIME(claim.Modify_Date) AS xTime,claim.IsStatus
 FROM claim
 INNER JOIN department ON claim.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
@@ -237,6 +242,7 @@ INNER JOIN users ON claim.Modify_Code = users.ID
 WHERE claim.DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
     if($lang =='en'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
@@ -244,6 +250,8 @@ WHERE claim.DocNo = '$DocNo'";
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
+
+
     $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DepName']   = $Result['DepName'];
@@ -499,7 +507,7 @@ function UpdateDetailQty($conn, $DATA)
   $OleQty =  $DATA["OleQty"];
   $UnitCode =  $DATA["unitcode"];
   $Sql = "UPDATE claim_detail
-	SET Qty1 = $Qty,Qty2 = $Qty,UnitCode2 = $UnitCode
+	SET Qty1 = $OleQty,Qty2 = $Qty,UnitCode2 = $UnitCode
 	WHERE claim_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
@@ -545,11 +553,16 @@ function DeleteItem($conn, $DATA)
 
 function SaveBill($conn, $DATA)
 {
+  $total = $DATA["total"];
   $DocNo = $DATA["xdocno"];
-  $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE claim SET IsStatus = $isStatus WHERE claim.DocNo = '$DocNo'";
-  mysqli_query($conn, $Sql);
 
+  $isStatus = $DATA["isStatus"];
+  $Sql = "UPDATE claim SET IsStatus = $isStatus , Total = $total WHERE claim.DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+  $return['sql'] = $total;
+  $return['sql1'] = $Sql;
+
+   echo json_encode($return);
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   if ($isStatus == 1) {
@@ -745,7 +758,6 @@ function ShowDetail($conn, $DATA)
     die;
   }
 }
-
 
 function CancelBill($conn, $DATA)
 {

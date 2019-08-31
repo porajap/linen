@@ -228,7 +228,7 @@
 <savedoc><en>Save Doc</en><th>บันทึกเอกสาร</th></savedoc>
 <updateprice><en>Update price</en><th>อัพเดทราคา</th></updateprice>
 <day><en>Day</en><th>วัน</th></day>
-<set><en>SET OF CHG PC.</en><th>กำหนดเวลาเปลี่ยนราคา</th></set>
+<set><en>Set Of Change Price</en><th>กำหนดเวลาเปลี่ยนราคา</th></set>
 <dateP><en>Date OF UPD PC.</en><th>วันที่อัพเดทราคา</th></dateP>
 <activemail><en>Main Email</en><th>Main Email</th></activemail>
 <img><en>Profile Image</en><th>ภาพโปรไฟล์</th></img>
