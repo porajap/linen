@@ -360,6 +360,7 @@ $array2 = json_decode($json2, TRUE);
 		// }
 		function search_fillter() {
 			var factory = $('#factory').val();
+			var cycle = $('#cycle').val();
 			var HptCode = $('#hotpital').val();
 			var typeReport = $('#typereport').val();
 			var DepCode = $('#department').val();
@@ -498,6 +499,7 @@ $array2 = json_decode($json2, TRUE);
 					'typeReport': typeReport,
 					'Format': Format,
 					'FormatDay': FormatDay,
+					'cycle':	cycle,
 					'date': date
 				};
 			} else if (Format == 2) {
@@ -544,6 +546,7 @@ $array2 = json_decode($json2, TRUE);
 					'FormatMonth': FormatMonth,
 					'DepCode': DepCode,
 					'Format': Format,
+					'cycle':	cycle,
 					'date': date
 				};
 			} else {
@@ -560,6 +563,7 @@ $array2 = json_decode($json2, TRUE);
 					'DepCode': DepCode,
 					'typeReport': typeReport,
 					'Format': Format,
+					'cycle':	cycle,
 					'date': date
 				};
 
@@ -1667,7 +1671,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', true);
-				$('#cycle').attr('disabled', true);
+				$('#cycle').attr('disabled', false);
 				$('#factory').val(0);
 				$('#department').val(0);
 			}

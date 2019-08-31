@@ -14,6 +14,7 @@ $chk=$data['chk'];
 $year=$data['year'];
 $depcode=$data['DepCode'];
 $format=$data['Format'];
+$cycle2=$data['cycle'];
 $where='';
 
 //print_r($data);
@@ -119,6 +120,7 @@ $Sql = "SELECT
         INNER JOIN department ON shelfcount.DepCode = department.DepCode
         $where
         AND department.DepCode = $depcode
+        AND shelfcount.CycleTime = $cycle2
         ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -127,12 +129,12 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DocTime = $Result['DocTime'];
   $DocNo = $Result['DocNo'];
   $Delivery = $Result['DvStartTime'];
-  $Cycle = $Result['CycleTime'];
+  $CycleTime = $Result['CycleTime'];
 }
 $pdf->SetFont('THSarabun', 'b', 12);
 $pdf->Cell(5);
 $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "หน่วยงาน : " . $DeptName), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Cycle : " . $Cycle), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Cycle : " . $CycleTime), 0, 0, 'L');
 $pdf->Cell(115, 10, iconv("UTF-8", "TIS-620", $date_header ), 0, 0, 'R');
 
 $pdf->Ln(7);
