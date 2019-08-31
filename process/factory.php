@@ -35,7 +35,7 @@ function ShowItem($conn, $DATA)
             factory.Post LIKE '%$Keyword%' OR
             factory.Tel LIKE '%$Keyword%' OR
             factory.TaxID LIKE '%$Keyword%'
-            )
+            ) 
           ";
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);

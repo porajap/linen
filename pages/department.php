@@ -734,6 +734,7 @@ $array2 = json_decode($json2,TRUE);
                                 case "nodetail":
                                     temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
                                     break;
+
                             }
                             swal({
                                 title: '',
@@ -916,6 +917,9 @@ $array2 = json_decode($json2,TRUE);
                             case "nodetail":
                                 temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
                                 break;
+                                case "editcenterfailedmsg":
+                                    temp['msg'] = "<?php echo $array['editcenterfailedmsg'][$language]; ?>";
+                                    break;
                         }
                         swal({
                             title: '',

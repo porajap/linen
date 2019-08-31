@@ -42,6 +42,7 @@ $array2 = json_decode($json2,TRUE);
 
     function switchlang() {
         var lang = $('#lang').val();
+        var langOld = '<?php echo $language; ?>';
         swal({
         title:'<?php echo $array['changelang'][$language]; ?>',
         type: 'info',
@@ -52,7 +53,11 @@ $array2 = json_decode($json2,TRUE);
         cancelButtonText: '<?php echo $array['isno'][$language]; ?>'
         }).then((result) => {
             if (result.value) {
-
+                if(lang == "th"){
+                    $('#lang').val('th');
+                }else{
+                    $('#lang').val('en');
+                }
                 var data = {
                     'STATUS' : 'SETLANG',
                     'lang' : lang,
@@ -73,14 +78,16 @@ $array2 = json_decode($json2,TRUE);
                 }, 1000);
             } else if (result.dismiss === 'cancel') {
                 swal.close();
+                $('#lang').val(langOld);
+             
             }
         })
         
-        if(lang == "th"){
-            $('#lang').val('en');
-        }else{
-            $('#lang').val('th');
-        }
+        // if(lang == "th"){
+        //     $('#lang').val('en');
+        // }else{
+        //     $('#lang').val('th');
+        // }
 
     }
 
@@ -333,59 +340,61 @@ $array2 = json_decode($json2,TRUE);
         <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][13][$language]; ?></li>
     </ol>
 
-    <div class="row mt-5">
-        <div class="offset-3 col-md-3 mr-3">
-            <div class="card">
-                <div class="card-body">
-                    <div  class="d-flex justify-content-center mt-3">
-                        <img src="../img/icon/clock.png">
-                    </div>
-                    <div  class="d-flex justify-content-center mt-3">
-                        <h4><?php echo $array['changetimeout'][$language]; ?></h4>
-                    </div>
-                    <div  class="d-flex justify-content-center mt-5">
-                        <div class="input-group">
-                            <input type="text" class="form-control text-center numonly" id="timeout"  value="<?= $TimeOut ?>" maxlength="10" required onkeyup='if(this.value > 30){this.value=30}'>
+        <div class="row d-flex justify-content-center align-items-center" style="height: 774px">
+            <div class="col-md-3 mr-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div  class="d-flex justify-content-center mt-3">
+                            <img src="../img/icon/clock.png">
                         </div>
-                        <div id="label1">
-                            <label for="timeout"><?php echo $array['minute'][$language]; ?></label>
+                        <div  class="d-flex justify-content-center mt-3">
+                            <h4><?php echo $array['changetimeout'][$language]; ?></h4>
+                        </div>
+                        <div  class="d-flex justify-content-center mt-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control text-center numonly" id="timeout"  value="<?= $TimeOut ?>" maxlength="10" required onkeyup='if(this.value > 30){this.value=30}'>
+                            </div>
+                            <div id="label1">
+                                <label for="timeout"><?php echo $array['minute'][$language]; ?></label>
+                            </div>
+                        </div>
+                        <div  class="d-flex justify-content-center mt-5">
+                            <button class="btn btn_customer" onclick="timeoutUpdate();"><?php echo $array['save'][$language]; ?></button>
                         </div>
                     </div>
-                    <div  class="d-flex justify-content-center mt-5">
-                        <button class="btn btn_customer" onclick="timeoutUpdate();"><?php echo $array['save'][$language]; ?></button>
+                </div>
+            </div>
+
+            <div class="col-md-3 ml-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div  class="d-flex justify-content-center mt-3">
+                            <img src="../img/icon/lang.png">
+                        </div>
+                        <div  class="d-flex justify-content-center mt-3">
+                            <h4><?php echo $array['changelang'][$language]; ?></h4>
+                        </div>
+                        <div  class="d-flex justify-content-center mt-5">
+                            <div class="input-group">
+                                <select  class="form-control" id="lang">
+                                    <?php if($language=='th'){ ?>
+                                        <option selected value="th" ><?php echo $array['thai'][$language]; ?></option>
+                                        <option value="en"><?php echo $array['eng'][$language]; ?></option>
+                                    <?php } else { ?>
+                                        <option value="th"><?php echo $array['thai'][$language]; ?></option>
+                                        <option selected value="en"><?php echo $array['eng'][$language]; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div  class="d-flex justify-content-center mt-5" >
+                            <button class="btn btn_customer" onclick="switchlang()"><?php echo $array['save'][$language]; ?></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 ml-3">
-            <div class="card">
-                <div class="card-body">
-                    <div  class="d-flex justify-content-center mt-3">
-                        <img src="../img/icon/lang.png">
-                    </div>
-                    <div  class="d-flex justify-content-center mt-3">
-                        <h4><?php echo $array['changelang'][$language]; ?></h4>
-                    </div>
-                    <div  class="d-flex justify-content-center mt-5">
-                        <div class="input-group">
-                            <select  class="form-control" id="lang">
-                                <?php if($language=='th'){ ?>
-                                    <option selected value="th" ><?php echo $array['thai'][$language]; ?></option>
-                                    <option value="en"><?php echo $array['eng'][$language]; ?></option>
-                                <?php } else { ?>
-                                    <option value="th"><?php echo $array['thai'][$language]; ?></option>
-                                    <option selected value="en"><?php echo $array['eng'][$language]; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div  class="d-flex justify-content-center mt-5" >
-                        <button class="btn btn_customer" onclick="switchlang()"><?php echo $array['save'][$language]; ?></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        
 
   </body>
 </html>

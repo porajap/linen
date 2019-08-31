@@ -125,16 +125,16 @@ function AddItem($conn, $DATA)
   $DepName = $DATA['DepName'];
   $xCenter = $DATA['xCenter'];
 
-  // $Sql =  "SELECT COUNT(*) as Cnt FROM department
-  // WHERE department.HptCode =  $HptCode and department.IsDefault = 1";
-  // $meQuery = mysqli_query($conn, $Sql);
-  // while ($Result = mysqli_fetch_assoc($meQuery)) {
-  //   $count = $Result['Cnt'];
-  // }
+  $Sql =  "SELECT COUNT(*) as Cnt FROM department
+  WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $count = $Result['Cnt'];
+  }
 
   if($count > 0){
      $return['status'] = "failed";
-    $return['msg'] = "editfailed";
+    $return['msg'] = "editcenterfailedmsg";
     echo json_encode($return);
     mysqli_close($conn);
     die;
@@ -180,20 +180,20 @@ function EditItem($conn, $DATA)
   $DepName = $DATA['DepName'];
   $xCenter = $DATA['xCenter'];
 
-  // $Sql =  "SELECT COUNT(*) as Cnt FROM department
-  // WHERE department.HptCode =  $HptCode and department.IsDefault = 1";
-  // $meQuery = mysqli_query($conn, $Sql);
-  // while ($Result = mysqli_fetch_assoc($meQuery)) {
-  //   $count = $Result[ 'Cnt'];
-  // }
+  $Sql =  "SELECT COUNT(*) as Cnt FROM department
+  WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $count = $Result[ 'Cnt'];
+  }
 
-  // if($count > 0){
-  //   $return['status'] = "failed";
-  //   $return['msg'] = "editfailed";
-  //   echo json_encode($return);
-  //   mysqli_close($conn);
-  //   die;
-  // }
+  if($count > 0){
+    $return['status'] = "failed";
+    $return['msg'] = "editcenterfailedmsg";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
 
   if($DATA["DepCode"]!=""){
     $Sql = "UPDATE department SET

@@ -757,24 +757,24 @@ function CreateDocument($conn, $DATA)
 
     }
       // =============================
-      $select="SELECT repair.DepCode FROM repair WHERE DocNo = '$DocNo'";
-      $result = mysqli_query( $conn, $select);
-      while ($ResultRe = mysqli_fetch_array($result)) {
-        $DepCodeRe = $ResultRe["DepCode"];
-      }
+      // $select="SELECT repair.DepCode FROM repair WHERE DocNo = '$DocNo'";
+      // $result = mysqli_query( $conn, $select);
+      // while ($ResultRe = mysqli_fetch_array($result)) {
+      //   $DepCodeRe = $ResultRe["DepCode"];
+      // }
  // =============================
 
-  $sql_update =  "SELECT
-  repair_detail.ItemCode,
-  repair_detail.Qty
-  FROM repair_detail
-  WHERE repair_detail.DocNo = '$DocNo'";
-  $result = mysqli_query( $conn, $sql_update);
-  while ($row = mysqli_fetch_array($result)) {
-      $xItemCode 	= $row["ItemCode"];
-      $xTotalQty 	= $row["Qty"];
-      mysqli_query($conn, "UPDATE item_stock SET TotalQty= (TotalQty+$xTotalQty)  WHERE DepCode = $DepCodeRe   AND ItemCode ='$xItemCode'");
-  }
+  // $sql_update =  "SELECT
+  // repair_detail.ItemCode,
+  // repair_detail.Qty
+  // FROM repair_detail
+  // WHERE repair_detail.DocNo = '$DocNo'";
+  // $result = mysqli_query( $conn, $sql_update);
+  // while ($row = mysqli_fetch_array($result)) {
+  //     $xItemCode 	= $row["ItemCode"];
+  //     $xTotalQty 	= $row["Qty"];
+  //     mysqli_query($conn, "UPDATE item_stock SET TotalQty= (TotalQty+$xTotalQty)  WHERE DepCode = $DepCodeRe   AND ItemCode ='$xItemCode'");
+  // }
 
     $Sql = "UPDATE repair SET IsStatus = $isStatus WHERE repair.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
