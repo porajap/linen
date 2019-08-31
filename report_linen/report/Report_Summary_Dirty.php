@@ -17,18 +17,18 @@ $where='';
 //print_r($data);
 if($chk == 'one'){
   if ($format == 1) {
-    $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
     list($year,$mouth,$day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   }
   elseif ($format = 3) {
-      $where = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
+      $where = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
       $date_header= "ประจำปี : $date1";
     }
 }
 elseif($chk == 'between'){
-  $where =   "WHERE dirty.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
   list($year,$mouth,$day) = explode("-", $date1);
   list($year2,$mouth2,$day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -37,13 +37,13 @@ elseif($chk == 'between'){
 
 }
 elseif($chk == 'month'){
-    $where =   "WHERE month (dirty.Docdate) = ".$date1;
+    $where =   "WHERE month (clean.Docdate) = ".$date1;
     $datetime = new DatetimeTH();
     $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
 
 }
 elseif ($chk == 'monthbetween') {
-  $where =   "WHERE MONTH(dirty.DocDate) BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE MONTH(clean.DocDate) BETWEEN '$date1' AND '$date2'";
   $datetime = new DatetimeTH();
   $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
 }
@@ -107,7 +107,7 @@ class PDF extends FPDF
     // Column widths
     $w = $width;
     // Header
-    $this->SetFont('THSarabun', 'b', 14);
+    $this->SetFont('THSarabun', 'b', 13);
     for ($i = 0; $i < count($header); $i++)
       $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
     $this->Ln();
@@ -123,7 +123,7 @@ class PDF extends FPDF
         if ($rows > 22) {
           $count++;
           if ($count % 25 == 1) {
-            $this->SetFont('THSarabun', 'b', 14);
+            $this->SetFont('THSarabun', 'b', 12);
             for ($i = 0; $i < count($header); $i++)
               $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
             $this->Ln();
@@ -187,6 +187,7 @@ $Sql = "SELECT
         clean
         INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
         INNER JOIN factory ON dirty.FacCode = factory.FacCode
+        $where
       ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -197,7 +198,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 $pdf->SetFont('THSarabun', 'b', 11);
 $pdf->Cell(1);
 $pdf->Cell(160, 10, iconv("UTF-8", "TIS-620", "โรงซัก : " . $factory), 0, 0, 'L');
-$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", "วันที่ : " . $DocDate), 0, 0, 'L');
+$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 
   $query = "SELECT
@@ -209,9 +210,15 @@ $pdf->Ln(10);
             clean
             INNER JOIN clean_detail ON clean.docno = clean_detail.docno
             INNER JOIN item ON item.itemcode = clean_detail.itemcode
-            INNER JOIN claim ON clean.refdocno = claim.docno
-            INNER JOIN repair ON claim.refdocno = repair.docno
+            INNER JOIN claim ON clean.docno = claim.refdocno
+            INNER JOIN repair ON claim.docno = repair.refdocno
             INNER JOIN repair_detail ON repair.docno = repair_detail.docno
+            INNER JOIN Dirty ON dirty.DocNo = clean.refdocno
+            INNER JOIN factory ON dirty.FacCode = factory.FacCode
+            $where
+            AND  dirty.faccode = $FacCode
+            GROUP BY item.ItemName
+            ORDER BY item.ItemName ASC
             " ;
 // var_dump($query); die;
 // Number of column
@@ -221,7 +228,7 @@ $field = "ItemName,clean_weight,repair_Weight,FacPrice,TOTAL";
 // Table header
 $header = array('DETAILS', 'WEIGHT - Clean (Kg)','WEIGHT - Repair (Kg)', 'ราคาต่อกิโลกรัม', 'รวมเป็นเงิน');
 // width of column table
-$width = array(50,40,40,40,20);
+$width = array(60,32.5,32.5,32.5,32.5);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table

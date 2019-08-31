@@ -5,49 +5,43 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data=$_SESSION['data_send'];
-$HptCode=$data['HptCode'];
-$FacCode=$data['FacCode'];
-$date1=$data['date1'];
-$date2=$data['date2'];
-$chk=$data['chk'];
-$year=$data['year'];
-$DepCode=$data['DepCode'];
-$format=$data['Format'];
-$where='';
+$data = $_SESSION['data_send'];
+$HptCode = $data['HptCode'];
+$FacCode = $data['FacCode'];
+$date1 = $data['date1'];
+$date2 = $data['date2'];
+$chk = $data['chk'];
+$year = $data['year'];
+$DepCode = $data['DepCode'];
+$format = $data['Format'];
+$where = '';
 
 //print_r($data);
-if($chk == 'one'){
+if ($chk == 'one') {
   if ($format == 1) {
     $where =   "WHERE DATE (billwash.Docdate) = DATE('$date1')";
-    list($year,$mouth,$day) = explode("-", $date1);
+    list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
-    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+    $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+  } elseif ($format = 3) {
+    $where = "WHERE  year (billwash.DocDate) LIKE '%$date1%'";
+    $date_header = "ประจำปี : $date1";
   }
-  elseif ($format = 3) {
-      $where = "WHERE  year (billwash.DocDate) LIKE '%$date1%'";
-      $date_header= "ประจำปี : $date1";
-    }
-}
-elseif($chk == 'between'){
+} elseif ($chk == 'between') {
   $where =   "WHERE billwash.Docdate BETWEEN '$date1' AND '$date2'";
-  list($year,$mouth,$day) = explode("-", $date1);
-  list($year2,$mouth2,$day2) = explode("-", $date2);
+  list($year, $mouth, $day) = explode("-", $date1);
+  list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
-  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
-                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
-
-}
-elseif($chk == 'month'){
-    $where =   "WHERE month (billwash.Docdate) = ".$date1;
-    $datetime = new DatetimeTH();
-    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
-
-}
-elseif ($chk == 'monthbetween') {
+  $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year) . " ถึง " .
+    "วันที่ " . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
+} elseif ($chk == 'month') {
+  $where =   "WHERE month (billwash.Docdate) = " . $date1;
+  $datetime = new DatetimeTH();
+  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1);
+} elseif ($chk == 'monthbetween') {
   $where =   "WHERE month(billwash.Docdate) BETWEEN $date1 AND $date2";
   $datetime = new DatetimeTH();
-  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
+  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1) . " ถึง " . $datetime->getTHmonthFromnum($date2);
 }
 
 $language = $_GET['lang'];
@@ -79,9 +73,7 @@ class PDF extends FPDF
       $this->SetFont('THSarabun', 'b', 14);
       $this->Cell(80);
       $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "สรุปค่าบริการ รับ-ส่งผ้า (Factory)"), 0, 0, 'C');
-            $this->Ln(5);
-
-
+      $this->Ln(5);
     } else {
       // Line break
       $this->Ln(7);
@@ -116,7 +108,7 @@ class PDF extends FPDF
           }
         }
         $pdf->SetFont('THSarabun', '', 12);
-        $total=$inner_array[$field[3]]*$inner_array[$field[4]];
+        $total = $inner_array[$field[3]] * $inner_array[$field[4]];
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
@@ -124,11 +116,11 @@ class PDF extends FPDF
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
         $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $total), 1, 0, 'C');
         $this->Ln();
-        $total_all+=$total;
+        $total_all += $total;
         $count++;
       }
     }
-    $tax=$total_all*7/100;
+    $tax = $total_all * 7 / 100;
     $total_with_tax = $tax + $total_all;
     $pdf->Cell(78, 30, iconv("UTF-8", "TIS-620", "จำนวนเงิน"), 1, 0, 'C');
     $pdf->Cell(84, 10, iconv("UTF-8", "TIS-620", "ยอดเงินก่อนภาษีมูลค่าเพิ่ม"), 1, 0, 'C');
@@ -191,13 +183,13 @@ INNER JOIN site on site.HptCode = billwash.HptCode
 $where
 AND billwash.HptCode = '$HptCode' 
 AND billwash.DepCode = '$DepCode'";
-$meQuery = mysqli_query($conn,$Sql);
+$meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $HptName = $Result['HptName'];
+  $HptName = $Result['HptName'];
 }
-      $pdf->SetFont('THSarabun', 'b', 14);
+$pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(1);
-$pdf->Cell(190,10,iconv("UTF-8","TIS-620","โรงพยาบาล ".$HptName." ".$date_header),0,0,'C');
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", "โรงพยาบาล " . $HptName . " " . $date_header), 0, 0, 'C');
 $pdf->ln(10);
 
 
@@ -222,14 +214,14 @@ $numfield = 6;
 // Field data (Must match with Query)
 $field = ",ItemName,Unitname,Qty1,Price,";
 // Table header
-$header = array('ลำดับ','รายการ','หน่วย','จำนวน','ราคาต่อหน่วย ','จำนวนเงิน');
+$header = array('ลำดับ', 'รายการ', 'หน่วย', 'จำนวน', 'ราคาต่อหน่วย ', 'จำนวนเงิน');
 // width of column table
-$width = array(28,50,28,28,28,28);
+$width = array(28, 50, 28, 28, 28, 28);
 // Get Data and store in Result
-$result = $data->getdata($conn,$query,$numfield,$field);
+$result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
-$pdf->SetFont('THSarabun','b',10);
-$pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
+$pdf->SetFont('THSarabun', 'b', 10);
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->Ln();
 
 
