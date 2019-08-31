@@ -16,7 +16,7 @@ $format=$data['Format'];
 $DepCode=$data['DepCode'];
 
 $where='';
-//print_r($data);
+// print_r($data);
 if($chk == 'one'){
   if ($format == 1) {
     $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
@@ -25,7 +25,7 @@ if($chk == 'one'){
     $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   }
   elseif ($format = 3) {
-      $where = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
+      $where = "WHERE (dirty.DocDate) LIKE '%$date1%'";
       $date_header= "ประจำปี : $date1";
     }
 }
@@ -170,17 +170,14 @@ $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("P", "A4");
 $Sql = "SELECT
-factory.Facname
+FacName
 FROM
-process
-INNER JOIN dirty ON Process.RefDocNo = dirty.DocNo
-INNER JOIN factory ON factory.FacCode = dirty.FacCode
-$where
-AND dirty.FacCode = $FacCode
-       ";
+factory
+WHERE  FacCode=$FacCode
+ ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $Facname = $Result['Facname'];
+  $Facname = $Result['FacName'];
 }
 $pdf->SetFont('THSarabun','b',11);
 $pdf->Cell(1);
@@ -200,7 +197,7 @@ dirty.DocDate,
 TIME (dirty.ReceiveDate)AS ReceiveDate
 FROM
 process
-INNER JOIN dirty ON Process.RefDocNo = dirty.DocNo
+INNER JOIN dirty ON Process.DocNo = dirty.DocNo
 $where
 AND dirty.FacCode = $FacCode
 ";

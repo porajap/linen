@@ -1888,6 +1888,109 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   }
 }
+function r14($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
+{
+  $count = 0;
+  $boolean = false;
+  if ($Format == 1 || $Format == 3) {
+    if ($chk == 'one') {
+      $Sql = "SELECT 	factory.FacName,
+                      site.HptName ,
+                      DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE clean.DocDate LIKE '%$date1%'
+              AND factory.FacCode = $FacCode
+              AND site.HptCode ='$HptCode'
+              GROUP BY date(clean.DocDate)
+              ORDER BY clean.DocDate ASC";
+    } else {
+      $Sql = "SELECT 	factory.FacName,
+              site.HptName ,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE clean.DocDate BETWEEN '$date1' AND '$date2' AND factory.FacCode = $FacCode AND site.HptCode ='$HptCode'
+              GROUP BY MONTH (clean.DocDate)
+              ORDER BY clean.DocDate ASC";
+    }
+  } else if ($Format == 2) {
+    $date = subMonth($date1, $date2);
+    $year = $date['year'];
+    $date1 = $date['date1'];
+    $date2 = $date['date2'];
+    if ($chk == 'month') {
+      $Sql = "SELECT 	factory.FacName,
+              site.HptName ,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode AND site.HptCode ='$HptCode'
+              GROUP BY MONTH (clean.DocDate)
+              ORDER BY clean.DocDate ASC";
+    } else {
+      $Sql = "SELECT 	factory.FacName,
+              site.HptName ,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
+              GROUP BY YEAR (clean.DocDate)
+              ORDER BY clean.DocDate ASC";
+    }
+  } else if ($Format == 3) {
+    $Sql = "SELECT 	factory.FacName,
+              site.HptName ,
+              DATE(clean.DocDate) AS DocDate
+              FROM clean
+              INNER JOIN department ON clean.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
+              INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              WHERE clean.DocDate LIKE '%$date1%' AND factory.FacCode = $FacCode AND site.HptCode ='$HptCode'
+              GROUP BY YEAR (clean.DocDate)
+              ORDER BY clean.DocDate ASC";
+  }
+
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $_SESSION['data_send'] = $data_send;
+  $return['url'] = '../report_linen/report/Report_Summary_Dirty.php';
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['FacName'] = $Result['FacName'];
+    $return[$count]['DocDate'] = $Result['DocDate'];
+    $return[$count]['HptName'] = $Result['HptName'];
+    $count++;
+    $boolean = true;
+  }
+
+  if ($boolean == true) {
+    $return['status'] = 'success';
+    $return['form'] = 'r14';
+    $return['countRow'] = $count;
+    $return['date1'] = $date1;
+    $return['date2'] = $date2;
+    $return['Format'] = $Format;
+    $return['chk'] = $chk;
+    return $return;
+  } else {
+    $return['status'] = 'notfound';
+    $return['form'] = 'r14';
+    return $return;
+  }
+}
 function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 {
   $count = 0;
