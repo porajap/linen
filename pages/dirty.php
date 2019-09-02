@@ -665,7 +665,6 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS'      : 'SaveBill',
                   'docno'      : docno,
                   'isStatus'    : isStatus,
-                  'deptCode'    : DepCode,
                   'Hotp'    : HptCode,
                   'FacCode'    : FacCode
 
@@ -843,8 +842,8 @@ $array2 = json_decode($json2,TRUE);
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
 
-                      $("#Dep2").val(temp['xdeptCode']);
-                      $("#department").val(temp['xdeptCode']);
+                      // $("#Dep2").val(temp['xdeptCode']);
+                      // $("#department").val(temp['xdeptCode']);
 
 
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
