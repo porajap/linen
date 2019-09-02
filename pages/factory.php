@@ -777,12 +777,11 @@ $array2 = json_decode($json2,TRUE);
                                  StrTR = "<tr id='tr"+temp[i]['FacCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
-                                                "<td style='width: 13%;'>"+temp[i]['FacCode']+"</td>"+
                                                 "<td style='width: 21%;'>"+temp[i]['FacName']+"</td>"+
                                                 "<td style='width: 13%;'>"+temp[i]['DiscountPercent']+"</td>"+
                                                 "<td style='width: 14%;'>"+temp[i]['contractName']+"</td>"+
                                                 "<td style='width: 15%;'>"+temp[i]['permission']+"</td>"+
-                                                "<td style='width: 9%;'>"+temp[i]['Number']+"</td>"+
+                                                "<td style='width: 22%;'>"+temp[i]['Number']+"</td>"+
                                                 "<td style='width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
                                                 "</tr>";
 
@@ -1271,12 +1270,11 @@ $array2 = json_decode($json2,TRUE);
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
-                              <th style='width: 13%;'><?php echo $array['faccode'][$language]; ?></th>
                               <th style='width: 19%;'><?php echo $array['facname'][$language]; ?></th>
                               <th style='width: 14%;'><?php echo $array['discount'][$language]; ?></th>
                               <th style='width: 14%;'><?php echo $array['ContractName'][$language]; ?></th>
                               <th style='width: 13%;'><?php echo $array['Position'][$language]; ?></th>
-                              <th style='width: 12%;'><?php echo $array['phone'][$language]; ?></th>
+                              <th style='width: 25%;'><?php echo $array['phone'][$language]; ?></th>
 
                             </tr>
                           </thead>
