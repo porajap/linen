@@ -892,9 +892,9 @@ $array2 = json_decode($json2,TRUE);
                                  var txtno = "<input type='number' style='text-align:center;' class='form-control numonly' name='txtno' id='txtno_"+temp[i]['ItemCode']+"' placeholder='0' maxlength='3' min='0'>";
                                  StrTR = "<tr id='tr"+temp[i]['ItemCode']+"'>"+
                                                 "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                                                "<td style='width: 28%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                                                "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                                                "<td style='width: 16%;' nowrap>"+txtno+"</td>"+
+                                                "<td style='width: 28%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
+                                                "<td style='width: 60%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                                                "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
 
 
@@ -1168,9 +1168,8 @@ $array2 = json_decode($json2,TRUE);
                                 var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" style=" margin-left: -34px;width: 168px;">';
                                 StrTR = "<tr id='tr"+i+"'>"+
                                                 "<td style='width: 5%;' nowrap>"+chkItem+"</td>"+
-                                                "<td style='width: 25%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
+                                                "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
                                                 "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                                                // "<td style='width: 10%;' nowrap><center>"+temp[i]['ParQty']+"</center></td>"+
                                                 "<td style='width: 24%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
 
@@ -1223,13 +1222,12 @@ $array2 = json_decode($json2,TRUE);
                                   }
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
                                 var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+i+"' value='"+temp[i]['ItemCode']+"' >";
-                                var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" style=" margin-left: -34px;width: 168px;">';
+                                var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" >';
                                  StrTR = "<tr id='tr"+i+"'>"+
-                                                "<td style='width: 5%;' nowrap>"+chkItem+"</td>"+
-                                                "<td style='width: 25%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                                                "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                                                // "<td style='width: 10%;' nowrap><center>"+temp[i]['ParQty']+"</center></td>"+
-                                                "<td style='width: 24%;' nowrap>"+txtno+"</td>"+
+                                                "<td style='width: 10%;' nowrap>"+chkItem+"</td>"+
+                                                "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
+                                                "<td style='width: 60%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                                                "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
 
                                 $('#TableItemStock tbody:last-child').append(StrTR);
@@ -1473,12 +1471,11 @@ $array2 = json_decode($json2,TRUE);
       </a>
       <div id="content-wrapper">
         <div class="row">
-
           <div class="container-fluid">
             <div class="card-body p-3" style="margin-top:16px;">
 
               <div class="row">
-                <div class="col-xl-5 col-12">
+                <div class="col-xl-5 col-7">
                   <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:10px;">
                     <li class="nav-item">
                       <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['item'][$language]; ?></a>
@@ -1527,92 +1524,83 @@ $array2 = json_decode($json2,TRUE);
                       </div>
                     </div>
                   </div>
-
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
-                        <thead id="theadsum" style="font-size:11px;">
-                          <tr role="row">
-                            <th style='width: 10%;' nowrap>&nbsp;</th>
-                            <th style='width: 28%;' nowrap><?php echo $array['nono'][$language]; ?></th>
-                            <th style='width: 46%;' nowrap><center><?php echo $array['item'][$language]; ?></center></th>
-                            <th style='width: 16%;' nowrap><?php echo $array['total'][$language]; ?></th>
-                          </tr>
-                        </thead>
-                        <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:420px;">
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-xl-1 col-12 text-center" id='btn_margin'>
-                  <!-- <img src="../img/icon/ic_import.png" style='width:34px;margin-right: 20px;' class=' mr-4 opacity' id="delete_icon" > -->
-                  <!-- <div class="mhee">
-                  <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true"> <?php echo $array['addnewitem'][$language]; ?></button>    
-                  </div> -->
-                  <div class="menuMini" <?php if($PmID == 3) echo 'hidden'; ?>>
-                    <div class="d-flex justify-content-center">
-                      <div class="circle4 d-flex justify-content-center">
-                        <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true">
-                          <i class="fas fa-file-import"></i>
-                          <div>
-                            <?php echo $array['addnewitem'][$language]; ?>
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-xl-6 col-12">
-                  <div class="card-body" id='magin_cus'>
-                      <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:10px;">
-                        <li class="nav-item">
-                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['itemnew'][$language]; ?></a>
-                        </li>
-                      </ul>
-                      <div class="row">
-                        <div class="col-6">
-                        <input type="text" class="form-control" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                      </div>
-                      <div class="menuMini" hidden>
-                        <div class="search_1 d-flex justify-content-start">
-                          <button class="btn"  onclick="ShowItemStock()" >
-                            <i class="fas fa-search mr-2"></i>
-                            <?php echo $array['search'][$language]; ?>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="menuMini  ml-2">
-                        <div class="circle5 d-flex justify-content-start">
-                          <button class="btn"  onclick="DeleteItem()" >
-                            <i class="fas fa-trash-alt mr-2"></i>
-                            <?php echo $array['delete'][$language]; ?>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                      
-                    <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemStock" width="100%" cellspacing="0" role="grid">
-                      <thead id="theadsum" style="font-size:11px;">
-                        <tr role="row">
-                          <th style='width: 5%;' nowrap>&nbsp;</th>
-                          <th style='width: 24%;' nowrap><?php echo $array['nono'][$language]; ?></th>
-                          <th style='width: 47%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                          <!-- <th style='width: 11%;' nowrap>Par</th> -->
-                          <th style='width: 24%;' nowrap><?php echo $array['rfid'][$language]; ?></th>
-                        </tr>
-                      </thead>
-                      <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:420px;">
-                      </tbody>
-                    </table>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
 
+        </div>
+        <div class="row">
+          <div class="col">
+            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
+              <thead id="theadsum" style="font-size:11px;">
+                <tr role="row">
+                  <th style='width: 10%;' nowrap>&nbsp;</th>
+                  <th style='width: 28%;' nowrap hidden><?php echo $array['nono'][$language]; ?></th>
+                  <th style='width: 60%;' nowrap><center><?php echo $array['item'][$language]; ?></center></th>
+                  <th style='width: 30%;' nowrap><?php echo $array['total'][$language]; ?></th>
+                </tr>
+              </thead>
+              <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:420px;">
+              </tbody>
+            </table>
+          </div>
+          <div class="col-1 d-flex justify-content-center">
+            <div class="menuMini" <?php if($PmID == 3) echo 'hidden'; ?>>
+              <div class="d-flex justify-content-center">
+                <div class="circle4 d-flex justify-content-center">
+                  <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true">
+                    <i class="fas fa-file-import"></i>
+                    <div>
+                      <?php echo $array['addnewitem'][$language]; ?>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:10px;margin-top:-17%">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['itemnew'][$language]; ?></a>
+                  </li>
+                </ul>
+                <div class="row">
+                  <div class="col-6">
+                    <input type="text" class="form-control" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  </div>
+                  <div class="menuMini" hidden>
+                    <div class="search_1 d-flex justify-content-start">
+                      <button class="btn"  onclick="ShowItemStock()" >
+                        <i class="fas fa-search mr-2"></i>
+                        <?php echo $array['search'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="menuMini  ml-2">
+                    <div class="circle5 d-flex justify-content-start">
+                      <button class="btn"  onclick="DeleteItem()" >
+                        <i class="fas fa-trash-alt mr-2"></i>
+                        <?php echo $array['delete'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+              <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemStock" cellspacing="0" role="grid">
+                <thead id="theadsum" style="font-size:11px;">
+                  <tr role="row">
+                    <th style='width: 10%;' nowrap>&nbsp;</th>
+                    <th style='width: 24%;' nowrap hidden><?php echo $array['nono'][$language]; ?></th>
+                    <th style='width:60%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                    <!-- <th style='width: 11%;' nowrap>Par</th> -->
+                    <th style='width: 30%;' nowrap><?php echo $array['rfid'][$language]; ?></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:420px;">
+                </tbody>
+              </table>
+          </div>
         </div>
       </div>
     </div>
