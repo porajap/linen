@@ -819,6 +819,7 @@ $array2 = json_decode($json2,TRUE);
                               }).then(function() {
                                 ShowItem();
                                 Blankinput();
+                                getHotpital();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                   $(this).val("");
