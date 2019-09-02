@@ -2192,7 +2192,7 @@ $array2 = json_decode($json2, TRUE);
             <div id="memu_tap1">
 
               <div class="row m-1 mt-5 d-flex justify-content-end" >
-                <div class="menu" id="ActiveBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
+                <div class="menu" id="ActiveBNT" <?php if($PmID != 6) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="NewItem()" id="bSave">
@@ -2205,7 +2205,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu" id="NewItem" <?php if($PmID == 3) echo 'hidden'; ?>>
+                <div class="menu" id="NewItem" <?php if($PmID != 6) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="NewItem()" id="bSave">
@@ -2218,7 +2218,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu" id="AddItemBNT" <?php if($PmID == 3) echo 'hidden'; ?>>
+                <div class="menu" id="AddItemBNT" <?php if($PmID != 6) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -2242,7 +2242,7 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" id="CancelBNT"<?php if($PmID == 3) echo 'hidden'; ?> >
+                          <div class="menu" id="CancelBNT" <?php if($PmID != 6) echo 'hidden'; ?> >
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
