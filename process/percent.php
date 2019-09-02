@@ -99,7 +99,7 @@ function ShowDocument($conn,$DATA){
   WHERE DATE(dirty.DocDate) BETWEEN '$sDate' AND '$eDate'
   AND department.DepCode = $deptCode
   ORDER BY clean.DocNo DESC LIMIT 100";
-  $return['sql'] = $Sql;
+  // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -145,7 +145,7 @@ if($lang =='en'){
     $return[$count]['Elc'] = "";
     $return['status'] = "failed";
     $return['form'] = "ShowDocument";
-	$return['msg'] = "nodetail";
+	  $return['msg'] = "nodetail";
     echo json_encode($return);
     mysqli_close($conn);
     die;

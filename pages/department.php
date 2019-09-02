@@ -376,6 +376,7 @@ $array2 = json_decode($json2,TRUE);
                             'STATUS': 'AddItem',
                             'HptCode': HptCode,
                             'DepName': DepName,
+                            'DepCode': DepCode,
                             'xCenter': xCenter
                         };
 

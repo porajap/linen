@@ -320,7 +320,7 @@ $array2 = json_decode($json2,TRUE);
                                 temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
                                 break;
                               case "nodetail":
-                                temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
+                                temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
                                 break;
                             }
 								  swal({
