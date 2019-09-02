@@ -196,8 +196,6 @@ function ShowDocument($conn, $DATA)
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $Datepicker = $DATA["Datepicker"];
   $selecta = $DATA["selecta"];
-  // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
-  // mysqli_query($conn,$Sql);
   $Sql = "SELECT site.HptName,
   dirty.DepCode,
   department.DepName,
@@ -210,9 +208,7 @@ function ShowDocument($conn, $DATA)
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
-  if($DocNo!=null){
-    $Sql .= " WHERE dirty.DocNo = '$DocNo'";
-  }else{
+  
     if ($deptCode != null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DepCode = $deptCode";
       if($xDocNo!=null){
@@ -221,17 +217,7 @@ function ShowDocument($conn, $DATA)
     }else if($deptCode == null){
       $Sql .= " WHERE site.HptCode = '$Hotp'";
     }
-  }
-  // if($selecta == null){
-  //   $Sql .= " WHERE dirty.DocNo = '$DocNo'";
-  // }else if ($selecta == 1) {
-  //   $Sql .= " WHERE dirty.HptCode = $Hotp AND dirty.DepCode = $deptCode OR dirty.DocNo LIKE '%$xDocNo%'";
-  // }else if($selecta == 2){
-  //   $Sql .= " WHERE site.HptCode = '$Hotp'";
-  // }
   $Sql .= " ORDER BY dirty.DocNo DESC LIMIT 500";
-
-  $return['sql'] = $Sql;
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -256,6 +242,7 @@ function ShowDocument($conn, $DATA)
     $boolean = true;
     $count++;
   }
+  $return['xdeptCode'] = $deptCode==null?'':$deptCode;
 
   if ($boolean) {
     $return['status'] = "success";

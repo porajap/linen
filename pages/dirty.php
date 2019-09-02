@@ -296,7 +296,7 @@ $array2 = json_decode($json2,TRUE);
           var searchdocument = $('#searchdocument').val();
           if( typeof searchdocument == 'undefined' ) searchdocument = "";
           var deptCode = $('#Dep2 option:selected').attr("value");
-          if( typeof deptCode == 'undefined' ) deptCode = "1";
+          // if( typeof deptCode == 'undefined' ) deptCode = "1";
           var data = {
             'STATUS'  	: 'ShowDocument',
             'xdocno'	: searchdocument,
@@ -636,6 +636,7 @@ $array2 = json_decode($json2,TRUE);
               var dept = $("#Dep2").val();
               var DepCode = $("#department").val();
               var FacCode = $("#factory").val();
+              var HptCode = $("#hotpital").val();
 
               // alert( isStatus );
               if(isStatus==1 || isStatus==3)
@@ -664,7 +665,8 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS'      : 'SaveBill',
                   'docno'      : docno,
                   'isStatus'    : isStatus,
-                  'deptCode'    : dept,
+                  'deptCode'    : DepCode,
+                  'Hotp'    : HptCode,
                   'FacCode'    : FacCode
 
                 };
@@ -840,12 +842,10 @@ $array2 = json_decode($json2,TRUE);
                     }else if(temp["form"]=='ShowDocument'){
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
-                      $("#Dep2").val(temp[0]['DepCode']);
-                      $("#department").val(temp[0]['DepCode']);
-                      // $("#docdate").val(temp[0]['DocDate']);
-                      // $("#recorder").val(temp[0]['Record']);
-                      // $("#timerec").val(temp[0]['RecNow']);
-                      // $("#total").val(temp[0]['Total']);
+
+                      $("#Dep2").val(temp['xdeptCode']);
+                      $("#department").val(temp['xdeptCode']);
+
 
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var rowCount = $('#TableDocument >tbody >tr').length;
