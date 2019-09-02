@@ -1530,7 +1530,7 @@ $array2 = json_decode($json2,TRUE);
           </div>
 
         </div>
-        <div class="row">
+        <div class="row p-2">
           <div class="col">
             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
               <thead id="theadsum" style="font-size:11px;">
