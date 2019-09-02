@@ -649,8 +649,8 @@ $array2 = json_decode($json2,TRUE);
                                  StrTR = "<tr id='tr"+temp[i]['MainCategoryCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
-                                                "<td style='width: 15%;'>"+temp[i]['MainCategoryCode']+"</td>"+
-                                                "<td style='width: 70%;'>"+temp[i]['MainCategoryName']+"</td>"+
+                                                "<td style='width: 15%;' hidden>"+temp[i]['MainCategoryCode']+"</td>"+
+                                                "<td style='width: 85%;'>"+temp[i]['MainCategoryName']+"</td>"+
                                                 "</tr>";
 
                                  if(rowCount == 0){
@@ -1012,8 +1012,8 @@ $array2 = json_decode($json2,TRUE);
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
-                              <th style='width: 15%;'><?php echo $array['categorycode'][$language]; ?></th>
-                              <th style='width: 70%;'><?php echo $array['category'][$language]; ?></th>
+                              <th style='width: 15%;' hidden><?php echo $array['categorycode'][$language]; ?></th>
+                              <th style='width: 85%;'><?php echo $array['category'][$language]; ?></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:250px;">
