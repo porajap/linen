@@ -1127,7 +1127,7 @@ $array2 = json_decode($json2,TRUE);
               var st1 = "style='font-size:24px;margin-left:20px; width:130px;font-family:THSarabunNew'";
               for (var i = 0; i < temp["Row"]; i++) {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
-                var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px; '> "+(i+1)+"</label></label></div>";
+                var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
                 var chkunit ="<select onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='unit"+i+"'>";
 
                 for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1150,12 +1150,12 @@ $array2 = json_decode($json2,TRUE);
                 var Price = "";
 
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                "<td style='width: 6%;'nowrap>"+chkDoc+"</td>"+
+                "<td style='width: 9%;'nowrap>"+chkDoc+"</td>"+
                 "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;'nowrap><input type='hidden' id='item_array"+temp[i]['ItemCode']+"' value='"+temp[i]['ItemCode']+"' class='item_array'></input>"+temp[i]['ItemCode']+"</td>"+
-                "<td style='text-overflow: ellipsis;overflow: hidden;width: 24%;'nowrap>"+temp[i]['ItemName']+"</td>"+
-                "<td style='width: 12%;'nowrap>"+temp[i]['UnitName']+"</td>"+
-                "<td style='width: 9%;'nowrap>"+Max+"</td>"+
-                "<td style='width: 18%;'nowrap>"+Qty+"</td>"+
+                "<td style='text-overflow: ellipsis;overflow: hidden;width: 22%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                "<td style='width: 14%;'nowrap>"+temp[i]['UnitName']+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Max+"</td>"+
+                "<td style='width: 15%;'nowrap>"+Qty+"</td>"+
                 "<td style='width: 9%;'nowrap>"+Order+"</td>"+
                 "<td hidden><input type='text' value='0' id='chk_userKey_"+i+"'></td>"+
                 "</tr>";
@@ -1758,17 +1758,18 @@ $array2 = json_decode($json2,TRUE);
                                 id="TableItemDetail" width="98%" cellspacing="0" role="grid" style="">
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
-                                        <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                                    <th style="width: 3%;">&nbsp;</th>
+                                        <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                                         <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                                        <th style='width: 23%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                                        <th style='width: 12%;' nowrap><?php echo $array['unit'][$language]; ?></th>
-                                        <th style='width: 11%;' nowrap>
+                                        <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                                        <th style='width: 15%;' nowrap><?php echo $array['unit'][$language]; ?></th>
+                                        <th style='width: 9%;' nowrap>
                                             <center><?php echo $array['parsc'][$language]; ?></center>
                                         </th>
-                                        <th style='width: 13%;' nowrap>
+                                        <th style='width: 12%;' nowrap>
                                             <center><?php echo $array['leftsc'][$language]; ?></center>
                                         </th>
-                                        <th style='width: 17%;' nowrap>
+                                        <th style='width: 16%;' nowrap>
                                             <center><?php echo $array['order'][$language]; ?><center>
                                         </th>
                                     </tr>

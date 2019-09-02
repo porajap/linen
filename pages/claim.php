@@ -1393,7 +1393,7 @@ $array2 = json_decode($json2,TRUE);
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" style="">
                               <thead id="theadsum" style="font-size:24px;">
                                 <tr role="row">
-                                  <th style='width: 6%;'nowrap><?php echo $array['no'][$language]; ?></th>
+                                  <th style='width: 6%;'nowrap><?php echo $array['sn'][$language]; ?></th>
                                   <th style='width: 16%;'nowrap><?php echo $array['code'][$language]; ?></th>
                                   <th style='width: 17%;'nowrap><?php echo $array['item'][$language]; ?></th>
                                   <th style='width: 14%;'nowrap><center><?php echo $array['total'][$language]; ?></center></th>

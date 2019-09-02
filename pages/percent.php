@@ -529,7 +529,7 @@ table tr:first-child th:first-child {
               		<table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
                           <thead id="theadsum" style="font-size:24px;">
                             <tr role="row">
-                              <th style='width: 5%;'nowrap><?php echo $array['no'][$language]; ?></th>
+                              <th style='width: 5%;'nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 15%;'nowrap><?php echo $array['dirtydoc'][$language]; ?></th>
                               <th style='width: 10%;'nowrap><?php echo $array['date'][$language]; ?></th>
                               <th style='width: 10%;'nowrap><?php echo $array['weight'][$language]; ?></th>

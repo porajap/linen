@@ -71,7 +71,7 @@
 <code><en>Code</en><th>รหัส</th></code>
 <item><en>List</en><th>รายการ</th></item>
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
-<sn><en>S/N</en><th>รหัส</th></sn>
+<sn><en>S/N</en><th>ลำดับ</th></sn>
 
 <unit><en>Measurement</en><th>หน่วยนับ</th></unit>
 <unit2><en>Unit</en><th>หน่วยนับ</th></unit2>
@@ -110,7 +110,7 @@
 <totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
 <parsc><en>Par</en><th>จำนวนทั้งหมด</th></parsc>
 <leftsc><en>Left</en><th>จำนวน</th></leftsc>
-<qty><en>Number</en><th>จำนวน</th></qty>
+<qty><en>QTY</en><th>จำนวน</th></qty>
 <total><en>Number</en><th>จำนวน</th></total>
 <order><en>Order</en><th>ออเดอร์</th></order>
 <detail><en>Description</en><th>รายละเอียด</th></detail>

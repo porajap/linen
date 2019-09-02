@@ -1977,10 +1977,11 @@ $array2 = json_decode($json2, TRUE);
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['type'][$language]; ?></label>
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
-															<?php for ($i = 0; $i <= 17; $i++) {
+														<option value="0"><?php echo $array['r' . 0][$language]; ?></option>
+															<?php for ($i = 1; $i <= 17; $i++) {
 																?>
 																<!-- <option value="0">-</option>	 -->
-																<option value="<?php echo $i ?>"><?php echo $array['r' . $i][$language]; ?></option>
+																<option value="<?php echo $i ?>"><?php echo $i.". ".$array['r' . $i][$language]; ?></option>
 																<!-- <option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
 															<option value="<?php echo 3 ?>"><?php echo $array['r' . 3][$language]; ?></option>
 															<option value="<?php echo 6 ?>"><?php echo $array['r' . 6][$language]; ?></option>
