@@ -36,22 +36,22 @@ function OnLoadPage($conn,$DATA){
 
 function getDepartment($conn,$DATA){
   $PmID = $_SESSION['PmID'];
-  $HptCode = $_SESSION['HptCode'];
+  // $HptCode = $_SESSION['HptCode'];
   $count = 0;
   $boolean = false;
-  $Hotp = $DATA["Hotp"]==''?"BHQ":$DATA["Hotp"];
+  $HptCode = $DATA["HptCode"]==null?$_SESSION['HptCode']:$DATA["HptCode"];
 
   if($PmID != 1 && $PmID != 2 && $PmID != 3){
     $Sql = "SELECT department.DepCode,department.DepName,department.IsDefault
     FROM department
-    WHERE department.HptCode = '$Hotp' 
+    WHERE department.HptCode = '$HptCode' 
     AND  department.IsDefault = 1
     AND department.IsStatus = 0
     ORDER BY department.DepCode DESC";
   }else{
     $Sql = "SELECT department.DepCode,department.DepName,department.IsDefault
     FROM department
-    WHERE department.HptCode = '$Hotp' 
+    WHERE department.HptCode = '$HptCode' 
     AND department.IsStatus = 0
     ORDER BY department.DepCode DESC";
   }

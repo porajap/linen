@@ -131,7 +131,7 @@ $array2 = json_decode($json2,TRUE);
     if( typeof Hotp == undefined ) Hotp = HptCode;
       var data = {
         'STATUS'  : 'getDepartment',
-        'Hotp'	: Hotp
+        'HptCode'	: Hotp
       };
       senddata(JSON.stringify(data));
     
