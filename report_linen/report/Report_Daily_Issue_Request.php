@@ -137,16 +137,16 @@ $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "หน่วยงาน : " . $De
 $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Cycle : " . $CycleTime), 0, 0, 'L');
 $pdf->Cell(115, 10, iconv("UTF-8", "TIS-620", $date_header ), 0, 0, 'R');
 
-$pdf->Ln(7);
-$pdf->Cell(5);
-$pdf->Cell(110, 10, iconv("UTF-8", "TIS-620", "Delivery : ".$Delivery), 0, 0, 'L');
-$pdf->Cell(75, 10, iconv("UTF-8", "TIS-620", "Time : " . $DocTime), 0, 0, 'R');
 $pdf->Ln(10);
+// $pdf->Cell(5);
+// $pdf->Cell(110, 10, iconv("UTF-8", "TIS-620", "Delivery : ".$Delivery), 0, 0, 'L');
+// $pdf->Cell(75, 10, iconv("UTF-8", "TIS-620", "Time : " . $DocTime), 0, 0, 'R');
+
 
 
 //Header
 $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "No"), 1, 0, 'C');
-$pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", "ItemName"), 1, 0, 'C');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "ItemName"), 1, 0, 'C');
 $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Par Qty"), 1, 0, 'C');
 $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Shelf Count"), 1, 0, 'C');
 $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Max"), 1, 0, 'C');
@@ -181,7 +181,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
     $header++;
     if ($header % 24 == 1) {
       $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "No"), 1, 0, 'C');
-      $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", "ItemName"), 1, 0, 'C');
+      $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "ItemName"), 1, 0, 'C');
       $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Par Qty"), 1, 0, 'C');
       $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Shelf Count"), 1, 0, 'C');
       $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "Max"), 1, 0, 'C');
@@ -194,7 +194,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   }
 $issue=$Result['ParQty']-$Result['CcQty'];
   $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'C');
-  $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'C');
+  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'C');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'C');
   $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
@@ -220,33 +220,33 @@ if ($page >= 20) {
   $pdf->AddPage("P", "A4");
 }
 
-$pdf->Ln();
+// $pdf->Ln();
 
-$pdf->SetFont('THSarabun', 'b', 10);
-$pdf->SetFont('THSarabun', 'b', 11);
-$pdf->Cell(5);
-$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", "Sign...................................................Packing"), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Date........................................Time............................."), 0, 0, 'L');
-$pdf->Ln(7);
-$pdf->Cell(5);
-$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", "Sign...................................................Passenger"), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Date........................................Time............................."), 0, 0, 'L');
-$pdf->Ln(7);
-$pdf->Cell(5);
-$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", "Sign...................................................Receiver"), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Date........................................Time............................."), 0, 0, 'L');
-$pdf->Ln(7);
-$pdf->Ln(7);
-$pdf->Cell(5);
-$image1 = "chb.jpg";
-$pdf->Image($image1, $pdf->GetX(), $pdf->GetY(), 5);
-$pdf->Cell(7);
-$pdf->Cell(30, 5, iconv("UTF-8", "TIS-620", "Check"), 0, 0, 'L');
-$image2 = "chb.jpg";
-$pdf->Image($image2, $pdf->GetX(), $pdf->GetY(), 5);
-$pdf->Cell(7);
-$pdf->Cell(40, 5, iconv("UTF-8", "TIS-620", "Not Check"), 0, 0, 'L');
-$pdf->Ln(7);
+// $pdf->SetFont('THSarabun', 'b', 10);
+// $pdf->SetFont('THSarabun', 'b', 11);
+// $pdf->Cell(5);
+// $pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", "Sign...................................................Packing"), 0, 0, 'L');
+// $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Date........................................Time............................."), 0, 0, 'L');
+// $pdf->Ln(7);
+// $pdf->Cell(5);
+// $pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", "Sign...................................................Passenger"), 0, 0, 'L');
+// $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Date........................................Time............................."), 0, 0, 'L');
+// $pdf->Ln(7);
+// $pdf->Cell(5);
+// $pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", "Sign...................................................Receiver"), 0, 0, 'L');
+// $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Date........................................Time............................."), 0, 0, 'L');
+// $pdf->Ln(7);
+// $pdf->Ln(7);
+// $pdf->Cell(5);
+// $image1 = "chb.jpg";
+// $pdf->Image($image1, $pdf->GetX(), $pdf->GetY(), 5);
+// $pdf->Cell(7);
+// $pdf->Cell(30, 5, iconv("UTF-8", "TIS-620", "Check"), 0, 0, 'L');
+// $image2 = "chb.jpg";
+// $pdf->Image($image2, $pdf->GetX(), $pdf->GetY(), 5);
+// $pdf->Cell(7);
+// $pdf->Cell(40, 5, iconv("UTF-8", "TIS-620", "Not Check"), 0, 0, 'L');
+// $pdf->Ln(7);
 
 // Footer Table
 $ddate = date('d_m_Y');

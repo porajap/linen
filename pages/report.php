@@ -46,7 +46,7 @@ $array2 = json_decode($json2, TRUE);
 	<link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../bootstrap/css/tbody.css" rel="stylesheet">
 	<link href="../bootstrap/css/myinput.css" rel="stylesheet">
-	
+
 	<!-- Page level plugin CSS-->
 	<link href="../template/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
@@ -67,9 +67,9 @@ $array2 = json_decode($json2, TRUE);
 	<link href="../css/responsive.css" rel="stylesheet">
 	<!-- =================================== -->
 	<?php if ($language == 'th') { ?>
-	<script src="../datepicker/dist/js/datepicker.js"></script>
+		<script src="../datepicker/dist/js/datepicker.js"></script>
 	<?php } else if ($language == 'en') { ?>
-	<script src="../datepicker/dist/js/datepicker-en.js"></script>
+		<script src="../datepicker/dist/js/datepicker-en.js"></script>
 	<?php } ?>
 	<!-- =================================== -->
 
@@ -92,7 +92,7 @@ $array2 = json_decode($json2, TRUE);
 		var many_day = '';
 		var month = '';
 		var many_month = '';
-		var show_year = '' ;
+		var show_year = '';
 
 		$(document).ready(function(e) {
 			$('#showday').hide();
@@ -115,8 +115,8 @@ $array2 = json_decode($json2, TRUE);
 
 		jqui(document).ready(function($) {
 			$('.only').on('input', function() {
-        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
-      });
+				this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+			});
 
 			dialogUsageCode = jqui("#dialogUsageCode").dialog({
 				autoOpen: false,
@@ -197,8 +197,8 @@ $array2 = json_decode($json2, TRUE);
 			}
 			var d = new Date();
 			var n = monthArray[d.getMonth()];
-			if(language == 'th'){
-			var year = parseInt(year) + 543;
+			if (language == 'th') {
+				var year = parseInt(year) + 543;
 			}
 			$('#onemonth').attr('value', n + '-' + year);
 			m = n;
@@ -238,8 +238,8 @@ $array2 = json_decode($json2, TRUE);
 			var date = new Date();
 			var nowMonth = monthArray[date.getMonth()];
 			var nextMonth = monthArray[date.getMonth() + 1];
-			if(language == 'th'){
-			var year = parseInt(year) + 543;
+			if (language == 'th') {
+				var year = parseInt(year) + 543;
 			}
 			$('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
 		}
@@ -274,10 +274,10 @@ $array2 = json_decode($json2, TRUE);
 				if (language == 'th') {
 					var Date = currentDate.split('-');
 					var year = parseInt(Date[0]) + 543;
-				}else{
+				} else {
 					year = Date[0];
 				}
-				$('#year').attr('value',year);
+				$('#year').attr('value', year);
 
 				$('#showday').hide();
 				$('#myDay').hide();
@@ -292,7 +292,7 @@ $array2 = json_decode($json2, TRUE);
 			if (chk == 1) {
 				$('#oneday').show();
 				$('#someday').hide();
-			
+
 			} else if (chk == 2) {
 				$('#oneday').hide();
 				$('#someday').show();
@@ -300,7 +300,7 @@ $array2 = json_decode($json2, TRUE);
 				var dateone = currentDate.split('-');
 				if (language == 'th') {
 					dateone[0] = parseInt(dateone[0]) + 543;
-				}else if(language == 'en'){
+				} else if (language == 'en') {
 					dateone[0] = parseInt(dateone[0]);
 				}
 				dateone = dateone[2] + "/" + dateone[1] + "/" + dateone[0];
@@ -310,7 +310,7 @@ $array2 = json_decode($json2, TRUE);
 				// tomorrow.toLocaleDateString();
 				if (language == 'th') {
 					var year = tomorrow.getFullYear() + 543;
-				} else if(language == 'en') {
+				} else if (language == 'en') {
 					var year = tomorrow.getFullYear();
 				}
 				var month = tomorrow.getMonth() + 1;
@@ -334,36 +334,57 @@ $array2 = json_decode($json2, TRUE);
 				find_indexMonth2(date[0]);
 			}
 		}
-		// // function Blankinput() {
-		//     $('.checkblank').each(function() {
-		//       $(this).val("");
-		//     });
-		//     var factory = $('#factory').val();
-		// 		var department =	$('#department').val();
-		// 		var hotpital =	$('#hotpital').val();
-		// 		var Format = $("input[name='radioFormat']:checked").val();
-		// 		if (factory == '' || factory == undefined || factory == '0'){
-		// 			$('#factory').addClass('border-danger');
-		// 		}
-		// 		if (department == '' || department == undefined || department == '0'){
-		// 			$('#department').addClass('border-danger');
-		// 		}
-		// 		if (hotpital == '' || hotpital == undefined || hotpital == '0'){
-		// 			$('#hotpital').addClass('border-danger');
-		// 		}
-		//   }
-		// function blank(){
-		// 	$('#factory').removeClass('border-danger');
-		// }
-		// function blank_format(){
-		// 	$('#text1').remove('');
-		// }
+
+		function Blankinput() {
+			$('.checkblank').each(function() {
+				$(this).val("");
+			});
+			var typeReport = $('#typereport').val();
+			var factory = $('#factory').val();
+			var department = $('#department').val();
+			var hotpital = $('#hotpital').val();
+			var Format = $("input[name='radioFormat']:checked").val();
+			if (typeReport == '0' || typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
+				if (factory == '' || factory == undefined || factory == '0') {
+					$('#factory').addClass('border-danger');
+				}
+			}
+			if (typeReport == 2 || typeReport == 4 || typeReport == 8 || typeReport == 7 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12) {
+				if (department == '' || department == undefined || department == '0') {
+					$('#department').addClass('border-danger');
+				}
+			}
+			if (typeReport == '0' || typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
+				if (hotpital == '' || hotpital == undefined || hotpital == '0') {
+					$('#hotpital').addClass('border-danger');
+				}
+			}
+		}
+
+		function blank_fac() {
+			$('#factory').removeClass('border-danger');
+
+		}
+
+		function blank_dep() {
+
+			$('#department').removeClass('border-danger');
+		}
+
+		function blank_report() {
+			$('#typereport').removeClass('border-danger');
+		}
+
+		function blank_hot() {
+			$('#hotpital').remove('');
+		}
+
 		function search_fillter() {
 			var factory = $('#factory').val();
-			var cycle = $('#cycle').val();
 			var HptCode = $('#hotpital').val();
 			var typeReport = $('#typereport').val();
 			var DepCode = $('#department').val();
+			var cycle = $('#cycle').val();
 			var Format = $("input[name='radioFormat']:checked").val();
 			if (Format == '' || Format == undefined) {
 				swal({
@@ -378,7 +399,7 @@ $array2 = json_decode($json2, TRUE);
 					confirmButtonText: 'Ok'
 				});
 				Blankinput()
-			} 
+			}
 			if (typeReport == 0) {
 				swal({
 					title: '',
@@ -391,8 +412,9 @@ $array2 = json_decode($json2, TRUE);
 					timer: 1000,
 					confirmButtonText: 'Ok'
 				});
-				
-			}if (typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
+
+			}
+			if (typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
 				if (factory == '' || factory == undefined || factory == 0) {
 					swal({
 						title: '',
@@ -407,7 +429,8 @@ $array2 = json_decode($json2, TRUE);
 					});
 					Blankinput()
 				}
-			}  if (typeReport == 2 || typeReport == 4 ||   typeReport == 8 || typeReport == 7 || typeReport == 9 || typeReport == 14 || typeReport == 16) {
+			}
+			if (typeReport == 2 || typeReport == 4 || typeReport == 8 || typeReport == 7 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12) {
 				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
 					swal({
 						title: '',
@@ -422,7 +445,8 @@ $array2 = json_decode($json2, TRUE);
 					});
 					Blankinput()
 				}
-			}  if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
+			}
+			if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
 				if (HptCode == '' || HptCode == undefined) {
 					swal({
 						title: '',
@@ -444,15 +468,15 @@ $array2 = json_decode($json2, TRUE);
 
 				if (FormatDay == 1) {
 					var date = $('#oneday').val();
-							day = date;
+					day = date;
 					var dmy = date.split('-');
 					if (language == 'th') {
 						var year1 = parseInt(dmy[2]) - 543;
 						date = year1 + "-" + dmy[1] + "-" + dmy[0];
-					}else{
-					date = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
+					} else {
+						date = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
 					}
-			
+
 				} else {
 					var date = $('#someday').val();
 					many_day = date;
@@ -463,12 +487,12 @@ $array2 = json_decode($json2, TRUE);
 						var year1 = parseInt(date1[2]) - 543;
 						var year2 = parseInt(date2[2]) - 543;
 						date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
-					}else{
+					} else {
 						var dmy = date.split('-');
 						var date1 = dmy[0].split('/');
 						var date2 = dmy[1].split('/');
-						var year1 = parseInt(date1[2]) ;
-						var year2 = parseInt(date2[2]) ;
+						var year1 = parseInt(date1[2]);
+						var year2 = parseInt(date2[2]);
 						date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
 					}
 
@@ -489,7 +513,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#someday').focus();
 						}, 1000);
 					}
-				
+
 				}
 				var data = {
 					'STATUS': 'find_report',
@@ -503,21 +527,27 @@ $array2 = json_decode($json2, TRUE);
 					'date': date
 				};
 			} else if (Format == 2) {
+				var language = '<?php echo $language ?>';
 				var FormatMonth = $("input[name='formatMonth']:checked").val();
 				if (FormatMonth == 1) {
 					var date = $('#onemonth').val();
+					var date1 = date.split('-');
+					if (language == "th") {
+						var year=parseInt(date1[1])-543;
+						date =date1[0]+"-"+year;
+					}
+					
 					month = date;
 				} else {
 					var date = $('#somemonth').val();
 					var chkDateRang = date.split('-');
-					if(language =="th"){
-					var month1 =chkDateRang[0].split('/');
-					var month2 =chkDateRang[1].split('/');
-					var m1 = parseInt(month1[1])-543;
-					var m2 = parseInt(month2[1])-543;
-					date = month1[0]+"/"+m1+"-"+month2[0]+"/"+m2;
+					if (language == "th") {
+						var month1 = chkDateRang[0].split('/');
+						var month2 = chkDateRang[1].split('/');
+						var m1 = parseInt(month1[1]) - 543;
+						var m2 = parseInt(month2[1]) - 543;
+						date = month1[0] + "/" + m1 + "-" + month2[0] + "/" + m2;
 					}
-					
 					if (chkDateRang[1] == null || chkDateRang[1] == undefined) {
 						swal({
 							title: '',
@@ -548,13 +578,13 @@ $array2 = json_decode($json2, TRUE);
 					'Format': Format,
 					'cycle':	cycle,
 					'date': date
-				};
+				}
 			} else {
 				var language = '<?php echo $language ?>';
 				var date = $('#year').val();
 				show_year = date;
-				if(language == 'th'){
-					date = Number(date)-543;
+				if (language == 'th') {
+					date = Number(date) - 543;
 				}
 				var data = {
 					'STATUS': 'find_report',
@@ -568,6 +598,15 @@ $array2 = json_decode($json2, TRUE);
 				};
 
 			}
+			senddata(JSON.stringify(data));
+		}
+
+		function departmentWhere() {
+			var HptCode = $('#hotpital').val();
+			var data = {
+				'STATUS': 'departmentWhere',
+				'HptCode': HptCode
+			};
 			senddata(JSON.stringify(data));
 		}
 
@@ -1226,10 +1265,10 @@ $array2 = json_decode($json2, TRUE);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:52%'>" + temp[i]['DepName'] + "</td>" +
-									"<td class='text-center pl-4' style='width:15%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:15%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:13%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>" +
+									"<td class='text-center' style='width:36%'>" + temp[i]['FacName'] + "</td>" +
+									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['HptName'] + "</td>" +
+									"<td class='text-center' style='width:12%'>" + show_date + "</td>" +
+									"<td class='text-center' style='width:12%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>พิมพ์</button></td>" +
 									"</tr>";
 								$("#table_R14 tbody").append(dataRow);
 							}
@@ -1580,7 +1619,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R15').attr('hidden', true);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
-							$('#table_R14 tbody').empty();
+							$('#table_R13 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R14 tbody").append(dataRow);
 						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
@@ -1653,37 +1692,54 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
-			} else if ( typeReport == 14 || typeReport == 16) {
+			} else if (typeReport == 14 || typeReport == 16) {
 				$('#department').attr('disabled', false);
 				$('#factory').attr('disabled', true);
 				$('#hotpital').attr('disabled', true);
 				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
-			} else if ( typeReport == 7) {
+			} else if (typeReport == 7 || typeReport == 9) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#hotpital').attr('disabled', true);
+				$('#cycle').attr('disabled', true);
+				$('#factory').val(0);
+				$('#department').val(0);
+			} else if (typeReport == 10 || typeReport == 11 || typeReport == 12) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#hotpital').attr('disabled', true);
+				$('#cycle').attr('disabled', true);
+				$('#factory').val(0);
+				$('#department').val(0);
+			} else if (typeReport == 2 || typeReport == 8) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', true);
 				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
-			} else if (typeReport == 4 ||typeReport == 10 || typeReport == 11 || typeReport == 12) {
+			} else if (typeReport == 4) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', true);
 				$('#cycle').attr('disabled', false);
 				$('#factory').val(0);
 				$('#department').val(0);
-			}
-			else if (typeReport == 2 || typeReport == 8 ) {
-				$('#factory').attr('disabled', false);
-				$('#department').attr('disabled', false);
+				
+
+			} else if (typeReport == 17) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', true);
 				$('#cycle').attr('disabled', true);
 				$('#factory').val(0);
 				$('#department').val(0);
 			}
-			
+			$('#typereport').removeClass('border-danger');
+			$('#factory').removeClass('border-danger');
+			$('#department').removeClass('border-danger');
 		}
 	</script>
 	<style media="screen">
@@ -1921,18 +1977,23 @@ $array2 = json_decode($json2, TRUE);
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['type'][$language]; ?></label>
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
-															<?php for ($i = 0; $i <= 17; $i++) { 
-															?>
-																<option value="<?php echo $i ?>">
-																	<?php 
-																		if($i == 0){
-																			echo $array['r' . $i][$language]; 
-																		}else{
-																			echo $i.". ".$array['r' . $i][$language]; 
-																		}
-																	?>
-																</option>
-															<?php } 
+															<?php for ($i = 0; $i <= 17; $i++) {
+																?>
+																<!-- <option value="0">-</option>	 -->
+																<option value="<?php echo $i ?>"><?php echo $array['r' . $i][$language]; ?></option>
+																<!-- <option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
+															<option value="<?php echo 3 ?>"><?php echo $array['r' . 3][$language]; ?></option>
+															<option value="<?php echo 6 ?>"><?php echo $array['r' . 6][$language]; ?></option>
+															<option value="<?php echo 8 ?>"><?php echo $array['r' . 8][$language]; ?></option>
+															<option value="<?php echo 17 ?>"><?php echo $array['r' . 17][$language]; ?></option>
+															<option value="<?php echo 4 ?>"><?php echo $array['r' . 4][$language]; ?></option>
+															<option value="<?php echo 10 ?>"><?php echo $array['r' . 10][$language]; ?></option>
+															<option value="<?php echo 11 ?>"><?php echo $array['r' . 11][$language]; ?></option>
+															<option value="<?php echo 12 ?>"><?php echo $array['r' . 12][$language]; ?></option>
+															<option value="<?php echo 7 ?>"><?php echo $array['r' . 7][$language]; ?></option>
+															<option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option> -->
+
+															<?php }
 															?>
 														</select>
 													</div>
@@ -1940,7 +2001,7 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6">
 													<div class='form-group row checkblank'>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-														<select class="form-control col-sm-8 bo" id="factory" style="font-size:22px;" onchange="blank();"></select>
+														<select class="form-control col-sm-8 bo" id="factory" style="font-size:22px;" onchange="blank_fac();"></select>
 													</div>
 												</div>
 											</div>
@@ -1955,298 +2016,298 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6 ">
 													<div class='form-group row checkblank '>
 														<label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
-														<select class="form-control col-sm-8" style="font-size:22px;" id="department" onchange="blank();">
+														<select class="form-control col-sm-8" style="font-size:22px;" id="department" onchange="blank_dep();">
 														</select>
 													</div>
-													
-												
-													</div>
+
+
+												</div>
 											</div>
-		
-											<div class="row" >
+
+											<div class="row">
 												<div class="col-md-6">
 													<div class='form-group row checkblank'>
 														<label class="col-sm-4 col-form-label text-right">Cycle</label>
-														<select class="form-control col-sm-8" id="cycle" style="font-size:22px;" onchange="disabled_fill();">
-														<option value="0">ทั้งหมด</option>
-																<option value="1">เช้า</option>
-																<option value="2">บ่าย</option>
+														<select class="form-control col-sm-8" id="cycle" style="font-size:22px;">
+															<option value="0">ทั้งหมด</option>
+															<option value="1">เช้า</option>
+															<option value="2">บ่าย</option>
 														</select>
 													</div>
 												</div>
-											
-													</div>
-											</div>
-									
-												
-											</div>
-										
-											<div class="row">
-												<div class="col-md-6 ">
-													<div class='form-group row'>
-														<label class="col-sm-4 col-form-label text-right mj"><?php echo $array['format'][$language]; ?></label>
-														<div>
-															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat ">
-																<label class="custom-control-label" for="chkday"> <?php echo $array['day'][$language]; ?></label>
-															</div>
-															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chkmonth" name="radioFormat" value='2' onclick="showdate()" class="custom-control-input radioFormat">
-																<label class="custom-control-label" for="chkmonth"> <?php echo $array['month'][$language]; ?></label>
-															</div>
 
-															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
-																<label class="custom-control-label" for="chkyear"> <?php echo $array['year'][$language]; ?></label>
-															</div>
-															<div class="custom-control custom-radio custom-control-inline">
-																<p id="text1" onchange="blank_format();"></p>
-															</div>
-														</div>
-													</div>
-													
-												</div>
+											</div>
+										</div>
 
-												
-												<div class="col-md-6 ">
-												
-									
-													<div class='form-group row' id="showday">
-														<label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
-														<div>
-															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
-																<label class="custom-control-label" for="chkoneday"><?php echo $array['oneday'][$language]; ?></label>
-															</div>
-															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
-																<label class="custom-control-label" for="chksomeday"><?php echo $array['manyday'][$language]; ?></label>
-															</div>
-														</div>
+
+									</div>
+
+									<div class="row">
+										<div class="col-md-6 ">
+											<div class='form-group row'>
+												<label class="col-sm-4 col-form-label text-right mj"><?php echo $array['format'][$language]; ?></label>
+												<div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat ">
+														<label class="custom-control-label" for="chkday"> <?php echo $array['day'][$language]; ?></label>
 													</div>
-													<div class='form-group row' id="showmonth">
-														<label class="col-sm-4 col-form-label text-right"><?php echo $array['formatmonth'][$language]; ?></label>
-														<div>
-															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
-																<label class="custom-control-label" for="chkonemonth"><?php echo $array['onemonth'][$language]; ?></label>
-															</div>
-															<div class="custom-control custom-radio custom-control-inline">
-																<input type="radio" id="chksomemonth" name="formatMonth" value='2' onclick="formatmonth(2)" class="custom-control-input formatDay">
-																<label class="custom-control-label" for="chksomemonth"><?php echo $array['manymonth'][$language]; ?></label>
-															</div>
-														</div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" id="chkmonth" name="radioFormat" value='2' onclick="showdate()" class="custom-control-input radioFormat">
+														<label class="custom-control-label" for="chkmonth"> <?php echo $array['month'][$language]; ?></label>
 													</div>
-													<div class='form-group row' id="showyear">
-														<label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
-														<input type="text"  class="form-control col-sm-8 datepicker-here only" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language ?>'>
+
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
+														<label class="custom-control-label" for="chkyear"> <?php echo $array['year'][$language]; ?></label>
 													</div>
-												
+													<div class="custom-control custom-radio custom-control-inline">
+														<p id="text1" onchange="blank_format();"></p>
+													</div>
 												</div>
 											</div>
 
-											<div class="row">
-												<div class="col-md-6" id="myDay">
-													<div class='form-group row'>
-														<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-														<input type="text"  class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
-														<input type="text"  class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
+										</div>
+
+
+										<div class="col-md-6 ">
+
+
+											<div class='form-group row' id="showday">
+												<label class="col-sm-4 col-form-label text-right"><?php echo $array['formatdate'][$language]; ?></label>
+												<div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
+														<label class="custom-control-label" for="chkoneday"><?php echo $array['oneday'][$language]; ?></label>
+													</div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
+														<label class="custom-control-label" for="chksomeday"><?php echo $array['manyday'][$language]; ?></label>
 													</div>
 												</div>
-												<div class="col-md-6" id="myMonth">
-													<div class='form-group row'>
-														<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
-														<input type="text"  class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>'>
-														<input type="text"  class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - ">
+											</div>
+											<div class='form-group row' id="showmonth">
+												<label class="col-sm-4 col-form-label text-right"><?php echo $array['formatmonth'][$language]; ?></label>
+												<div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
+														<label class="custom-control-label" for="chkonemonth"><?php echo $array['onemonth'][$language]; ?></label>
+													</div>
+													<div class="custom-control custom-radio custom-control-inline">
+														<input type="radio" id="chksomemonth" name="formatMonth" value='2' onclick="formatmonth(2)" class="custom-control-input formatDay">
+														<label class="custom-control-label" for="chksomemonth"><?php echo $array['manymonth'][$language]; ?></label>
 													</div>
 												</div>
+											</div>
+											<div class='form-group row' id="showyear">
+												<label class="col-sm-4 col-form-label text-right"><?php echo $array['year'][$language]; ?></label>
+												<input type="text" class="form-control col-sm-8 datepicker-here only" id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language ?>'>
 											</div>
 
 										</div>
 									</div>
-								</div>
-							
-						
-								<div class="row m-1  d-flex justify-content-end col-12">
-									<div class="menu" <?php if ($PmID == 1) echo 'hidden'; ?>>
-										<div class="d-flex justify-content-center">
-											<div class="search_1 d-flex align-items-center d-flex justify-content-center">
-												<i class="fas fa-search"></i>
+
+									<div class="row">
+										<div class="col-md-6" id="myDay">
+											<div class='form-group row'>
+												<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
+												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
+												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
 											</div>
 										</div>
-										<div>
-											<button class="btn" onclick="search_fillter();">
-												<?php echo $array['search'][$language]; ?>
-											</button>
+										<div class="col-md-6" id="myMonth">
+											<div class='form-group row'>
+												<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
+												<input type="text" class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" data-language='<?php echo $language ?>'>
+												<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - ">
+											</div>
 										</div>
 									</div>
+
 								</div>
 							</div>
-							<div class="row ml-5"><?php echo $array['typereport'][$language]; ?>&nbsp;<span id='type_report'></span></div>
+						</div>
 
-							<div class="row mx-2">
-								<div class="col-md-12">
-									<!-- ---------------------------------Report 1 AND Report 3--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R1" width="100%" cellspacing="0" role="grid" style="">
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 35%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-												<th style='width: 22%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 13%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
 
-									<!-- ---------------------------------Report 2--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R2" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
+						<div class="row m-1  d-flex justify-content-end col-12">
+							<div class="menu" <?php if ($PmID == 1) echo 'hidden'; ?>>
+								<div class="d-flex justify-content-center">
+									<div class="search_1 d-flex align-items-center d-flex justify-content-center">
+										<i class="fas fa-search"></i>
+									</div>
+								</div>
+								<div>
+									<button class="btn" onclick="search_fillter();">
+										<?php echo $array['search'][$language]; ?>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row ml-5"><?php echo $array['typereport'][$language]; ?>&nbsp;<span id='type_report'></span></div>
 
-										</thead>
+					<div class="row mx-2">
+						<div class="col-md-12">
+							<!-- ---------------------------------Report 1 AND Report 3--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R1" width="100%" cellspacing="0" role="grid" style="">
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+										<th style='width: 22%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 13%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
 
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- --------------------------------- Report 3--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R3" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 36%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 35%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
+							<!-- ---------------------------------Report 2--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R2" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
 
-									<!-- ---------------------------------Report 4--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R4" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 36%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-												<th style='width: 36%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 11%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 5--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R4" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 36%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-												<th style='width: 36%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 11%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 6--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R6" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 30%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 39%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-												<th style='width: 16%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
+								</thead>
 
-									<!-- ---------------------------------Report 7--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R7" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 69%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-												<th style='width: 16%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- --------------------------------- Report 3--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R3" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
 
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 8--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R8" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 9--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R9" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 74%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-												<th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 10--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R10" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 74%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 13--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R13" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 59%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-										<!-- ---------------------------------Report 14--------------------------------------- -->
-										<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R14" width="100%" cellspacing="0" role="grid" hidden>
+							<!-- ---------------------------------Report 4--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R4" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
+										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 11%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------Report 5--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R4" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
+										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 11%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------Report 6--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R6" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 39%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+										<th style='width: 16%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+
+							<!-- ---------------------------------Report 7--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R7" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 69%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+										<th style='width: 16%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------Report 8--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R8" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------Report 9--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R9" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 74%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+										<th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------Report 10--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R10" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 74%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------Report 13--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R13" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 59%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+								<!-- ---------------------------------Report 14--------------------------------------- -->
+								<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R14" width="100%" cellspacing="0" role="grid" hidden>
 										<thead id="theadsum" style="font-size:24px;">
 											<tr role="row" id='tr_1'>
 												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
@@ -2259,44 +2320,44 @@ $array2 = json_decode($json2, TRUE);
 										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 										</tbody>
 									</table>
-									<!-- ---------------------------------Report 15--------------------------------------- -->
+							<!-- ---------------------------------Report 15--------------------------------------- -->
 
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R15" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 36%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-												<th style='width: 36%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-												<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 11%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 17--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R15" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
+										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 11%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------Report 17--------------------------------------- -->
 
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R17" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										</thead>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R17" width="100%" cellspacing="0" role="grid" hidden>
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
 
-								</div>
-							</div>
 						</div>
-
 					</div>
 				</div>
+
 			</div>
 		</div>
+	</div>
+	</div>
 	</div>
 
 	<!-- Dialog Modal

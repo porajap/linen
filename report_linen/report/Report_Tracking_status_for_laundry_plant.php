@@ -16,7 +16,7 @@ $format=$data['Format'];
 $DepCode=$data['DepCode'];
 
 $where='';
-// print_r($data);
+//print_r($data);
 if($chk == 'one'){
   if ($format == 1) {
     $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
@@ -25,7 +25,7 @@ if($chk == 'one'){
     $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   }
   elseif ($format = 3) {
-      $where = "WHERE (dirty.DocDate) LIKE '%$date1%'";
+      $where = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
       $date_header= "ประจำปี : $date1";
     }
 }
@@ -115,7 +115,6 @@ class PDF extends FPDF
     $loop = 0;
     $totalsum1 = 0;
     $totalsum2 = 0;
-    echo $inner_array[$field[0]];
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
         list($hours,$min,$secord)=explode(":",$inner_array[$field[1]]);
@@ -170,14 +169,17 @@ $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("P", "A4");
 $Sql = "SELECT
-FacName
+factory.Facname
 FROM
-factory
-WHERE  FacCode=$FacCode
- ";
+process
+INNER JOIN dirty ON process.DocNo = dirty.DocNo
+INNER JOIN factory ON factory.FacCode = dirty.FacCode
+$where
+AND dirty.FacCode = $FacCode
+       ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $Facname = $Result['FacName'];
+  $Facname = $Result['Facname'];
 }
 $pdf->SetFont('THSarabun','b',11);
 $pdf->Cell(1);
@@ -187,7 +189,7 @@ $pdf->Ln(10);
 
 $query = "SELECT
 TIME (process.WashStartTime) AS WashStartTime ,
-TIME (process.WashEndTime) AS WashEndTime,
+TIME (process.WashEndTime) AS WashEndT  ime,
 TIME (process.PackStartTime)AS PackStartTime,
 TIME (process.PackEndTime)AS PackEndTime,
 TIME (process.SendStartTime)AS SendStartTime,
@@ -197,7 +199,7 @@ dirty.DocDate,
 TIME (dirty.ReceiveDate)AS ReceiveDate
 FROM
 process
-INNER JOIN dirty ON Process.DocNo = dirty.DocNo
+INNER JOIN dirty ON process.DocNo = dirty.DocNo
 $where
 AND dirty.FacCode = $FacCode
 ";

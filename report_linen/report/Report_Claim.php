@@ -25,7 +25,8 @@ if ($chk == 'one') {
     $datetime = new DatetimeTH();
     $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   } elseif ($format = 3) {
-    $where = "WHERE  year (claim.DocDate) LIKE '%$date1%'";
+    $where_clean = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
+    $where_claim = "WHERE  year (claim.DocDate) LIKE '%$date1%'";
     $date_header = "ประจำปี : $date1";
   }
 } elseif ($chk == 'between') {

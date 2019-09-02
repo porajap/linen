@@ -199,13 +199,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
       $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "จำนวน"), 1, 1, 'C');
     }
   }
-  $pdf->SetFont('THSarabun', '', 15);
+  $pdf->SetFont('THSarabun', '', 14);
   $DocDate = date('d/m/Y', strtotime($Result['ExpireDate']));
   $depcode = $Result['Depcode'];
   $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'C');
-  $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'L');
-  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'R');
-  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 1, 'R');
+  $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'C');
+  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
+  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 1, 'C');
   $i++;
 }
 
