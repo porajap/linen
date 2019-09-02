@@ -123,11 +123,8 @@ function update_logoff($conn,$DATA)
 function logoff($conn, $DATA)
 {
   $Userid = $DATA['Userid'];
-  $Sql = "UPDATE users SET users.chk_logoff = 0 WHERE users.ID = $Userid";
-  mysqli_query($conn,$Sql);
-
-  $Sql = "UPDATE users SET users.IsActive = 0 WHERE users.ID = $Userid";
-  mysqli_query($conn,$Sql);
+  $Sql = "UPDATE users SET users.chk_logoff = 0, users.IsActive = 0 WHERE users.ID = $Userid";
+  mysqli_query($conn, $Sql);
 
   session_destroy();
 }
