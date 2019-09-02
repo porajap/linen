@@ -857,7 +857,7 @@ $array2 = json_decode($json2,TRUE);
 
                     var isStatus = $("#IsStatus").val();
 
-                    var st1 = "style='font-size:24px;margin-left:30px; width:170px;'";
+                    var st1 = "style='font-size:24px;margin-left:30px; width:153px;'";
                     for (var i = 0; i < temp["Row"]; i++) {
                       var rowCount = $('#TableItemDetail >tbody >tr').length;
 
@@ -877,7 +877,7 @@ $array2 = json_decode($json2,TRUE);
                         }
                       chkunit += "</select>";
                       var CusPrice = temp[i]['CusPrice'].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                      var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:10px; '> "+(i+1)+"</label></label></div>";
+                      var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkitem_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
                       var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control numonly' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['Qty2']+"' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
                       var OleQty = "<div class='row' style='margin-left:2px;'><input type='hidden' class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='OleQty_"+i+"' value='"+temp[i]['Qty1']+"' ></div>";
                       // var hidden = temp[i]['hidden'];
@@ -886,13 +886,13 @@ $array2 = json_decode($json2,TRUE);
                       // var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:150px; margin-left:30px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
                       var PriceUnit = temp[i]['cal']==undefined?'-':Math.round(temp[i]['cal']);
                       $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                      "<td style='width: 6%;'nowrap>"+chkDoc+" </td>"+
+                      "<td style='width: 9%;'nowrap>"+chkDoc+" </td>"+
                       "<td style='text-overflow: ellipsis;overflow: hidden;width: 16%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;'nowrap>"+temp[i]['ItemName']+"</td>"+
-                      "<td style='width: 14%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
-                      "<td style='width: 18%;' align='center'nowrap>"+chkunit+"</td>"+
-                      "<td style='width: 8%;' align='center'nowrap>"+Weight+"</td>"+
-                      "<td style='width: 5%;'>                     "+UnitName2+"</td>"+
+                      "<td style='text-overflow: ellipsis;overflow: hidden;width: 15%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                      "<td style='width: 11%;' align='center'nowrap >"+Qty+OleQty+"</td>"+
+                      "<td style='width: 21%;' align='center'nowrap>"+chkunit+"</td>"+
+                      "<td style='width: 6%;' align='center'nowrap>"+Weight+"</td>"+
+                      "<td style='width: 6%;'>                     "+UnitName2+"</td>"+
                       "<td style='width: 8%;' align='center'nowrap >"+PriceUnit+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap >"+CusPrice+"</td>"+
                       "<td style='width: 7%;' align='right'nowrap hidden id='totalprice' data-value='"+temp['TotalPrice']+"'></td>"+
@@ -1393,13 +1393,14 @@ $array2 = json_decode($json2,TRUE);
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" style="">
                               <thead id="theadsum" style="font-size:24px;">
                                 <tr role="row">
-                                  <th style='width: 6%;'nowrap><?php echo $array['no'][$language]; ?></th>
-                                  <th style='width: 16%;'nowrap><?php echo $array['code'][$language]; ?></th>
-                                  <th style='width: 17%;'nowrap><?php echo $array['item'][$language]; ?></th>
+                                <th style="width: 3%;">&nbsp;</th>
+                                  <th style='width: 6%;'nowrap><?php echo $array['sn'][$language]; ?></th>
+                                  <th style='width: 17%;'nowrap><?php echo $array['code'][$language]; ?></th>
+                                  <th style='width: 12%;'nowrap><?php echo $array['item'][$language]; ?></th>
                                   <th style='width: 14%;'nowrap><center><?php echo $array['total'][$language]; ?></center></th>
-                                  <th style='width: 19%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                                  <th style='width: 17%;'nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                                   <th style='width: 12%;'nowrap><center><?php echo $array['perunit'][$language]; ?></center></th>
-                                  <th style='width: 9%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
+                                  <th style='width: 12%;'nowrap><center><?php echo $array['priceunit'][$language]; ?></center></th>
                                   <th style='width: 7%;'nowrap><center><?php echo $array['money'][$language]; ?></center></th>
                                 </tr>
                               </thead>

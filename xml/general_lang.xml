@@ -22,7 +22,7 @@
 <spu><en>Size per unit</en><th>ขนาดต่อหน่วย</th></spu>
 <activeItem><en>Active</en><th>Active</th></activeItem>
 <email><en>Email</en><th>Email</th></email>
-<no><en>Number</en><th>ลำดับ</th></no>
+<no><en>S/N</en><th>ลำดับ</th></no>
 <yes><en>Yes</en><th>ใช่</th></yes>
 <isno><en>No</en><th>ไม่ใช่</th></isno>
 <Timeleft><en>TIME LT</en><th>เหลือเวลา</th></Timeleft>
