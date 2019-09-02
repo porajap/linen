@@ -69,8 +69,10 @@
 <time><en>Record time</en><th>เวลาที่บันทึก</th></time>
 <totalweight><en>Total weight</en><th>น้ำหนักรวม</th></totalweight>
 <code><en>Code</en><th>รหัส</th></code>
-<item><en>Lists</en><th>รายการ</th></item>
+<item><en>List</en><th>รายการ</th></item>
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
+<sn><en>S/N</en><th>รหัส</th></sn>
+
 <unit><en>Measurement</en><th>หน่วยนับ</th></unit>
 <unit2><en>Unit</en><th>หน่วยนับ</th></unit2>
 <weight><en>Weight</en><th>น้ำหนัก</th></weight>
