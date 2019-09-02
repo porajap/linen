@@ -254,7 +254,7 @@ function SetActive($conn,$DATA){
   // $return['count'] = $count;
   // $return['update'] = $update;
   // $return['mailSelect'] = $mailSelect;
-  if($boolean = true){
+  if($boolean == true){
     $return['count']  = 1;
     $return['status'] = "success";
     $return['form']   = "SetActive";

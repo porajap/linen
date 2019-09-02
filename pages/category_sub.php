@@ -681,6 +681,38 @@ $array2 = json_decode($json2,TRUE);
                               $("#maincatagory").append(StrTr);
                               }
                             }else if( (temp["form"]=='AddItem') ){
+                              switch (temp['msg']) {
+                                case "notchosen":
+                                  temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+                                  break;
+                                case "cantcreate":
+                                  temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
+                                  break;
+                                case "noinput":
+                                  temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
+                                  break;
+                                case "notfound":
+                                  temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
+                                  break;
+                                case "addsuccess":
+                                  temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "addfailed":
+                                  temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                  break;
+                                case "editsuccess":
+                                  temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "editfailed":
+                                  temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                  break;
+                                case "cancelsuccessmsg":
+                                  temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "cancelfailed":
+                                  temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
+                                  break;
+                              }
                               swal({
                                 title: '',
                                 text: temp['msg'],
@@ -705,6 +737,38 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                               })
                             }else if( (temp["form"]=='EditItem') ){
+                              switch (temp['msg']) {
+                                case "notchosen":
+                                  temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+                                  break;
+                                case "cantcreate":
+                                  temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
+                                  break;
+                                case "noinput":
+                                  temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
+                                  break;
+                                case "notfound":
+                                  temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
+                                  break;
+                                case "addsuccess":
+                                  temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "addfailed":
+                                  temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                  break;
+                                case "editsuccess":
+                                  temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "editfailed":
+                                  temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                  break;
+                                case "cancelsuccessmsg":
+                                  temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "cancelfailed":
+                                  temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
+                                  break;
+                              }
                               swal({
                                 title: '',
                                 text: temp['msg'],
@@ -729,6 +793,38 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                               })
                             }else if( (temp["form"]=='CancelItem') ){
+                              switch (temp['msg']) {
+                                case "notchosen":
+                                  temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+                                  break;
+                                case "cantcreate":
+                                  temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
+                                  break;
+                                case "noinput":
+                                  temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
+                                  break;
+                                case "notfound":
+                                  temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
+                                  break;
+                                case "addsuccess":
+                                  temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "addfailed":
+                                  temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                  break;
+                                case "editsuccess":
+                                  temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "editfailed":
+                                  temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                  break;
+                                case "cancelsuccess":
+                                  temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "cancelfailed":
+                                  temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
+                                  break;
+                              }
                               swal({
                                 title: '',
                                 text: temp['msg'],

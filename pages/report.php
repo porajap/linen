@@ -1923,20 +1923,15 @@ $array2 = json_decode($json2, TRUE);
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
 															<?php for ($i = 0; $i <= 17; $i++) { 
 															?>
-														<!-- <option value="0">-</option>	 -->
-															<option value="<?php echo $i ?>"><?php echo $i.".".$array['r' . $i][$language]; ?></option>
-															<!-- <option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
-															<option value="<?php echo 3 ?>"><?php echo $array['r' . 3][$language]; ?></option>
-															<option value="<?php echo 6 ?>"><?php echo $array['r' . 6][$language]; ?></option>
-															<option value="<?php echo 8 ?>"><?php echo $array['r' . 8][$language]; ?></option>
-															<option value="<?php echo 17 ?>"><?php echo $array['r' . 17][$language]; ?></option>
-															<option value="<?php echo 4 ?>"><?php echo $array['r' . 4][$language]; ?></option>
-															<option value="<?php echo 10 ?>"><?php echo $array['r' . 10][$language]; ?></option>
-															<option value="<?php echo 11 ?>"><?php echo $array['r' . 11][$language]; ?></option>
-															<option value="<?php echo 12 ?>"><?php echo $array['r' . 12][$language]; ?></option>
-															<option value="<?php echo 7 ?>"><?php echo $array['r' . 7][$language]; ?></option>
-															<option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option> -->
-
+																<option value="<?php echo $i ?>">
+																	<?php 
+																		if($i == 0){
+																			echo $array['r' . $i][$language]; 
+																		}else{
+																			echo $i.". ".$array['r' . $i][$language]; 
+																		}
+																	?>
+																</option>
 															<?php } 
 															?>
 														</select>
