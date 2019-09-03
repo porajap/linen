@@ -65,6 +65,7 @@ function checklogin($conn,$DATA)
           $return['msg'] = "Login Success";
           $Sql = "UPDATE users SET users.IsActive = 1 WHERE users.ID = $ID";
           mysqli_query($conn,$Sql);
+          
         }else if($IsActive == 1){
           $return['status'] = "failed";
           $return['msg'] = "Username Password is Active";

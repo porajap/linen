@@ -379,6 +379,7 @@ echo '</script>';
 
 
     $(document).ready(function (e) {
+      checksession();
       if(chk_logoff == 1 ){
         setActive();
       }
@@ -470,13 +471,19 @@ echo '</script>';
         }
         return i;
     }
-    <!-- ======================================================================== -->
     function OnLoadPage() {
       var data = {
         'STATUS': 'OnLoadPage'
       };
       senddata(JSON.stringify(data));
 
+    }
+
+    function checksession(){
+      var data = {
+        'STATUS': 'checksession'
+      };
+      senddata(JSON.stringify(data));
     }
   //==========================================================
   window.addEventListener("beforeunload", function (e) {
@@ -494,12 +501,7 @@ echo '</script>';
   });
 
   //==========================================================
-    window.addEventListener("unload", function (e) {
-        var data = {
-          'STATUS': 'UpdateActive'
-        };
-        senddata(JSON.stringify(data));
-    });
+
   //==========================================================
 
     function logoff(chk) {

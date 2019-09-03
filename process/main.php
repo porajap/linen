@@ -165,12 +165,23 @@ function login_again($conn, $DATA)
 
 }
 
+
+
 function UpdateActive($conn, $DATA)
 {
   $UserID = $_SESSION['Userid'];
-
   $Sql = "UPDATE users SET IsActive = 0, chk_logoff = 0 WHERE ID = $UserID";
+  $_SESSION['IsActive'] = 1;
   mysqli_query($conn,$Sql);
+}
+
+function checksession($conn, $DATA){
+  $IsActive = $_SESSION['IsActive'];
+  $UserID = $_SESSION['Userid'];
+  if($IsActive ==1){
+    $Sql = "UPDATE users SET IsActive = 1, chk_logoff = 0 WHERE ID = $UserID";
+    mysqli_query($conn,$Sql);
+  }
 }
 //==========================================================
 //==========================================================
@@ -195,6 +206,8 @@ if(isset($_POST['DATA']))
         login_again($conn, $DATA);
       }else if ($DATA['STATUS'] == 'UpdateActive') {
         UpdateActive($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'checksession') {
+        checksession($conn, $DATA);
       }
 
 }else{
