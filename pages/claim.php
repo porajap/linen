@@ -904,18 +904,11 @@ $array2 = json_decode($json2,TRUE);
                         $('#TableItemDetail tbody:last-child').append( $StrTR );
                       }
                       if(isStatus==0){
-                        // $("#docno").prop('disabled', false);
-                        // $("#docdate").prop('disabled', false);
-                        // $("#recorder").prop('disabled', false);
-                        // $("#department").prop('disabled', false);
-                        // $("#timerec").prop('disabled', false);
-                        // $("#total").prop('disabled', false);
-
+                        $("#bPrint").prop('disabled', false);
                         $('#qty1_'+i).prop('disabled', false);
                         $('#weight_'+i).prop('disabled', false);
                         $('#price_'+i).prop('disabled', false);
                         $('#price_'+i).prop('disabled', false);
-
                         $('#unit'+i).prop('disabled', false);
                       }else{
                         $("#docno").prop('disabled', true);
@@ -924,11 +917,10 @@ $array2 = json_decode($json2,TRUE);
                         $("#department").prop('disabled', true);
                         $("#timerec").prop('disabled', true);
                         $("#total").prop('disabled', true);
-
                         $('#qty1_'+i).prop('disabled', true);
                         $('#weight_'+i).prop('disabled', true);
                         $('#price_'+i).prop('disabled', true);
-
+                        $("#bPrint").prop('disabled', false);
                         $('#unit'+i).prop('disabled', true);
                       }
                     }
