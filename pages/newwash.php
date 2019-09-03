@@ -846,7 +846,7 @@ $array2 = json_decode($json2,TRUE);
                           Status = "<?php echo $array['draft'][$language]; ?>";
                           Style  = "style='width: 10%;color: #3399ff;'";
                         }if(temp[i]['IsStatus']==2){
-                          Status = "<?php echo $array['cancel'][$language]; ?>";
+                          Status = "<?php echo $array['Canceldoc'][$language]; ?>";
                           Style  = "style='width: 10%;color: #ff0000;'";
                         }
 

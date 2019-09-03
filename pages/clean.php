@@ -852,7 +852,7 @@ $(document).ready(function(e){
                     Status = "<?php echo $array['draft'][$language]; ?>";
                     Style  = "style='width: 10%;color: #3399ff;'";
                   }if(temp[i]['IsStatus']==2){
-                    Status = "<?php echo $array['cancelbill'][$language]; ?>";
+                    Status = "<?php echo $array['Canceldoc'][$language]; ?>";
                     Style  = "style='width: 10%;color: #ff0000;'";
                   }
 
