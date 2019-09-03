@@ -1537,7 +1537,7 @@ $array2 = json_decode($json2,TRUE);
                                 <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>
-                                    <?php echo $array['cancel'][$language]; ?>
+                                    <?php echo $array['Canceldoc'][$language]; ?>
                                   </div>
                                 </button>
                               </div>

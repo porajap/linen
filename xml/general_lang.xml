@@ -72,6 +72,7 @@
 <item><en>List</en><th>รายการ</th></item>
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
 <sn><en>S/N</en><th>ลำดับ</th></sn>
+<Canceldoc><en>Cancel</en><th>ยกเลิกเอกสาร</th></Canceldoc>
 
 <unit><en>Measurement</en><th>หน่วยนับ</th></unit>
 <unit2><en>Unit</en><th>หน่วยนับ</th></unit2>
