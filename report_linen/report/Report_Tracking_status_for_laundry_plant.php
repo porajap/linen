@@ -25,7 +25,7 @@ if($chk == 'one'){
     $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   }
   elseif ($format = 3) {
-      $where = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
+      $where = "WHERE  year (dirty.Docdate) LIKE '%$date1%'";
       $date_header= "ประจำปี : $date1";
     }
 }
@@ -68,7 +68,7 @@ class PDF extends FPDF
   {
     $datetime = new DatetimeTH();
     $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
+   
 
     if ($this->page == 1) {
       // Move to the right
@@ -121,7 +121,7 @@ class PDF extends FPDF
         list($hours2,$min2,$secord2)=explode(":",$inner_array[$field[8]]);
         $total_hours = $hours -  $hours2;
         $total_min = $min-$min2;
-        $this->SetFont('THSarabun', '', 10);
+        $this->SetFont('THSarabun', '', 12);
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[0]],8)), 1, 0, 'C');
         $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[1]],0,5)), 1, 0, 'C');
         $this->Cell(18.75, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[2]],0,5)), 1, 0, 'C');
@@ -189,7 +189,7 @@ $pdf->Ln(10);
 
 $query = "SELECT
 TIME (process.WashStartTime) AS WashStartTime ,
-TIME (process.WashEndTime) AS WashEndT  ime,
+TIME (process.WashEndTime) AS WashEndTime,
 TIME (process.PackStartTime)AS PackStartTime,
 TIME (process.PackEndTime)AS PackEndTime,
 TIME (process.SendStartTime)AS SendStartTime,
@@ -209,7 +209,7 @@ $numfield = 6;
 // Field data (Must match with Query)
 $field = "DocDate,ReceiveDate,SendEndTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total";
 // Table header
-$header = array('date','Receive Dirty Linen Time','Washing Time','Packing Time','Distribute Time','Total');
+$header = array('Date','Receive Dirty Linen Time','Washing Time','Packing Time','Distribute Time','Total');
 // width of column table
 $width = array(20,37.5,37.5,37.5,37.5,20);
 // Get Data and store in Result

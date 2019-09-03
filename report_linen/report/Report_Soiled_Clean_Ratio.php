@@ -5,48 +5,42 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data=$_SESSION['data_send'];
-$HptCode=$data['HptCode'];
-$FacCode=$data['FacCode'];
-$date1=$data['date1'];
-$date2=$data['date2'];
-$chk=$data['chk'];
-$year=$data['year'];
-$format=$data['Format'];
+$data = $_SESSION['data_send'];
+$HptCode = $data['HptCode'];
+$FacCode = $data['FacCode'];
+$date1 = $data['date1'];
+$date2 = $data['date2'];
+$chk = $data['chk'];
+$year = $data['year'];
+$format = $data['Format'];
 $DepCode = $data['DepCode'];
-$where='';
+$where = '';
 //print_r($data);
-if($chk == 'one'){
+if ($chk == 'one') {
   if ($format == 1) {
     $where =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
-    list($year,$mouth,$day) = explode("-", $date1);
+    list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
-    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+    $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+  } elseif ($format = 3) {
+    $where = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
+    $date_header = "ประจำปี : $date1";
   }
-  elseif ($format = 3) {
-      $where = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
-      $date_header= "ประจำปี : $date1";
-    }
-}
-elseif($chk == 'between'){
+} elseif ($chk == 'between') {
   $where =   "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
-  list($year,$mouth,$day) = explode("-", $date1);
-  list($year2,$mouth2,$day2) = explode("-", $date2);
+  list($year, $mouth, $day) = explode("-", $date1);
+  list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
-  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
-                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
-
-}
-elseif($chk == 'month'){
-    $where =   "WHERE month (clean.Docdate) = ".$date1;
-    $datetime = new DatetimeTH();
-    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
-
-}
-elseif ($chk == 'monthbetween') {
+  $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year) . " ถึง " .
+    "วันที่ " . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
+} elseif ($chk == 'month') {
+  $where =   "WHERE month (clean.Docdate) = " . $date1;
+  $datetime = new DatetimeTH();
+  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1);
+} elseif ($chk == 'monthbetween') {
   $where =   "WHERE month(clean.Docdate) BETWEEN $date1 AND $date2";
   $datetime = new DatetimeTH();
-  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
+  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1) . " ถึง " . $datetime->getTHmonthFromnum($date2);
 }
 
 $language = $_GET['lang'];
@@ -124,18 +118,18 @@ class PDF extends FPDF
             $this->Ln();
           }
         }
-        if($inner_array[$field[3]] == null  ){
+        if ($inner_array[$field[3]] == null) {
           $inner_array[$field[3]] = 0;
-          $inner_array[$field[3]]  =$inner_array[$field[2]]-$inner_array[$field[3]];
-        }elseif($inner_array[$field[3]] == null){
-          $inner_array[$field[3]]  =$inner_array[$field[2]]-$inner_array[$field[3]];
+          $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
+        } elseif ($inner_array[$field[3]] == null) {
+          $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
         }
         $this->SetFont('THSarabun', '', 12);
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", abs($inner_array[$field[4]])."%"), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", abs($inner_array[$field[4]]) . "%"), 1, 0, 'C');
         $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[5]]), 1, 0, 'C');
         $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[6]]), 1, 0, 'C');
         $this->Ln();
@@ -181,44 +175,50 @@ $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 
 
-$query = "SELECT
-site.HptName,
-department.DepName,
-clean.DocNo AS DocNo2,
-dirty.DocNo AS DocNo1,
-rewash.DocNo AS DocNo3,
+$query = "SELECT DepName,clean_DocNo,dirty_DocNo,Total1,Total2,Precent,rewash_DocNo,TOTAL
+FROM (SELECT department.DepName,
+COALESCE(clean.DocNo,'-') AS clean_DocNo,
+COALESCE(dirty.DocNo,'-') AS dirty_DocNo,
 IFNULL(dirty.Total,0) AS Total1,
 IFNULL(clean.Total,0) AS Total2,
 item.weight,
-rewash_detail.qty1,
-sum(item.weight *rewash_detail.qty1 ) as weight ,
 CASE
-WHEN clean.Total > dirty.Total THEN ROUND( (-1*((clean.Total - dirty.Total ) / clean.Total) * 100), 2)  
-WHEN dirty.Total > clean.Total  THEN ROUND( (-1*((dirty.Total - clean.Total ) / dirty.Total) * 100), 2)  
-END AS Precent
-FROM clean
-INNER JOIN dirty ON clean.RefDocNo = dirty.DocNO
-INNER JOIN rewash ON rewash.RefDocNo = clean.DocNO
-INNER JOIN rewash_detail ON rewash.DocNo = rewash_detail.DocNO
-INNER JOIN item ON item.itemcode = rewash_detail.itemcode
-INNER JOIN department ON clean.DepCode = department.DepCode
-INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN factory ON dirty.FacCode = factory.FacCode
-          $where
-          AND factory.FacCode= $FacCode
-          AND clean.depcode= $DepCode
-          ORDER BY dirty.DocNo
+WHEN clean.Total > dirty.Total THEN COALESCE(ROUND( (-1*((clean.Total - dirty.Total ) / clean.Total) * 100), 2),'-'  )
+WHEN dirty.Total > clean.Total  THEN COALESCE(ROUND( (-1*((dirty.Total - clean.Total ) / dirty.Total) * 100), 2),'-'  )
+END AS Precent 
+FROM clean 
+INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
+INNER JOIN clean_detail ON clean.DocNo=clean_detail.DocNo
+INNER JOIN item ON item.ItemCode=clean_detail.ItemCode
+INNER JOIN department ON department.DepCode=dirty.DepCode
+INNER JOIN factory ON factory.FacCode= dirty.FacCode
+$where
+AND factory.FacCode=  $FacCode
+AND clean.depcode= $DepCode)a,
+(SELECT
+COALESCE(rewash.DocNo,'-') AS rewash_DocNo,
+ COALESCE(sum(item.weight *rewash_detail.qty1 ),'-') AS TOTAL 
+FROM rewash
+INNER JOIN rewash_detail ON rewash.DocNo = rewash_detail.DocNo
+INNER JOIN clean ON clean.RefDocNo = rewash.DocNo
+INNER JOIN item ON rewash_detail.ItemCode = Item.ItemCode
+INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
+INNER JOIN factory ON factory.FacCode= dirty.FacCode
+$where
+AND factory.FacCode=  $FacCode
+AND clean.depcode= $DepCode ) b
+          
           ";
 
 
 // Number of column
 $numfield = 5;
 // Field data (Must match with Query)
-$field = "DocNo1,DocNo2,Total1,Total2,Precent,DocNo3,weight";
+$field = "dirty_DocNo,clean_DocNo,Total1,Total2,Precent,rewash_DocNo,TOTAL";
 // Table header"
-$header = array('หมายเลขเอกสารสกปรก','หมายเลขเอกสารสะอาด','ส่งผ้าเปื้อน Weight (Kg)', 'รับผ้าสะอาด Weight (Kg)', 'ส่วนต่าง (%)','หมายเลขเอกสารซักใหม่','จำนวนผ้าซักใหม่  (Kg)');
+$header = array('หมายเลขเอกสารสกปรก', 'หมายเลขเอกสารสะอาด', 'ส่งผ้าเปื้อน Weight (Kg)', 'รับผ้าสะอาด Weight (Kg)', 'ส่วนต่าง (%)', 'หมายเลขเอกสารซักใหม่', 'จำนวนผ้าซักใหม่  (Kg)');
 // width of column table
-$width = array(25,25, 30, 30, 30, 25, 25);
+$width = array(25, 25, 30, 30, 30, 25, 25);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table

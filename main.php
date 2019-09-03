@@ -501,7 +501,12 @@ echo '</script>';
   });
 
   //==========================================================
-
+  window.addEventListener("unload", function (e) {
+        var data = {
+          'STATUS': 'UpdateActive'
+        };
+        senddata(JSON.stringify(data));
+    });
   //==========================================================
 
     function logoff(chk) {

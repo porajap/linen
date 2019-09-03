@@ -156,7 +156,6 @@ INNER JOIN site ON billcustomer.HptCode = site.HptCode
 INNER JOIN department ON billcustomer.DepCode = department.DepCode
 INNER JOIN item ON billcustomer_detail.ItemCode = item.ItemCode
 INNER JOIN users ON billcustomer.Modify_Code = users.ID
-INNER JOIN employee ON users.ID = employee.EmpCode
 WHERE billcustomer.DocNo = '$DocNo'
 ";
 $meQuery = mysqli_query($conn,$Sql);

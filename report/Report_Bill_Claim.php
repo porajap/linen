@@ -156,7 +156,6 @@ INNER JOIN site ON claim.HptCode = site.HptCode
 INNER JOIN department ON claim.DepCode = department.DepCode
 INNER JOIN item ON claim_detail.ItemCode = item.ItemCode
 INNER JOIN users ON claim.Modify_Code = users.ID
-INNER JOIN employee ON users.ID = employee.EmpCode
 WHERE claim.DocNo = '$DocNo'
 ";
 $meQuery = mysqli_query($conn,$Sql);

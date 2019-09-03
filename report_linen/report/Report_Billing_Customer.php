@@ -203,7 +203,7 @@ $pdf->ln(10);
 
 $query = "SELECT
 item.ItemName,
-billcustomer_detail.Qty1,
+SUM(billcustomer_detail.Qty1) AS Qty1,
 item_unit.Unitname,
 billcustomer_detail.Price
 FROM
@@ -215,6 +215,7 @@ INNER JOIN site on site.HptCode = billcustomer.HptCode
 $where
 AND billcustomer.HptCode = '$HptCode'
 AND billcustomer.DepCode = '$DepCode'
+GROUP BY item.ItemName
 ";
 // var_dump($query); die;
 // Number of column
