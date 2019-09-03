@@ -1708,8 +1708,8 @@ $(document).ready(function(e){
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['wantsave'][$language]; ?></button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
+              <button type="button" onclick="SaveBill(1)" class="btn btn-success" style="width: 15%;"><?php echo $array['wantsave'][$language]; ?></button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 10%;"><?php echo $array['cancel'][$language]; ?></button>
             </div>
           </div>
         </div>
