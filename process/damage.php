@@ -730,8 +730,12 @@ function CreateDocument($conn, $DATA)
     $isStatus = $DATA["isStatus"];
 
     $max = sizeof($ItemCodex, 0);
-
-    for ($i = 0; $i < $max; $i++) {
+    $Sqlcount =  "SELECT COUNT(*) AS cnt FROM claim_detail WHERE DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sqlcount);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $cnt = $Result['cnt'];
+    }  
+    for ($i = 0; $i < $cnt; $i++) {
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
 
@@ -740,36 +744,31 @@ function CreateDocument($conn, $DATA)
 
 
       
-      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
+      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' ";
       $meQueryx = mysqli_query($conn, $Sqlx);
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
       }
-      $SqlsumRe =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$ItemCode'";
+      $SqlsumRe =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' ";
       $meQuerysumRe = mysqli_query($conn, $SqlsumRe);
       while ($ResultsumRe = mysqli_fetch_assoc($meQuerysumRe)) {
         $QtyRePair = $ResultsumRe['Qty']==null?0:$ResultsumRe['Qty'];
       }
-      $Sql =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $Qty = $Result['Qty1'];
-      }  
+    }
+    $Sql =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $Qty = $Result['Qty1'];
       if($Qtyx > $QtyRePair){
         $QtySum = $Qty - ($Qtyx + $QtyRePair);
         }else if ($QtyRePair > $Qtyx ){
         $QtySum = $Qty - ($QtyRePair + $Qtyx);
         } 
-      if($QtySum <=0){
-         $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
-         mysqli_query($conn, $update);
-      }else{
-        $update = "UPDATE claim SET IsRef = 0 WHERE DocNo = '$RefDocNo'";
-         mysqli_query($conn, $update);
-      }
+    }  
 
-
-
+    if($QtySum <=0){
+       $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
+       mysqli_query($conn, $update);
     }
 
     $Sql = "UPDATE damage SET IsStatus = $isStatus WHERE damage.DocNo = '$DocNo'";
