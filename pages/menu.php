@@ -178,7 +178,7 @@ $array = json_decode($json,TRUE);
     return " <a href='shelfcount.php?DocNo="+text2+"'><div class='card'>"+
       "<div class='card-header'>"+text1+"</div>"+
       "<div class='card-main'>"+
-        "<i class='material-icons'>"+text2+"</i>"+
+        "<label class='material-icons'>"+text2+"</label>"+
         "<div class='main-description'>"+text3+"</div>"+
       "</div>"+
     "</div> </a>";
