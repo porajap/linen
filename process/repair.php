@@ -749,11 +749,13 @@ function CreateDocument($conn, $DATA)
         $QtySum = $Qty - ($QtyDaMage + $Qtyx);
         } 
     }  
+  
 
     if($QtySum <=0){
        $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
        mysqli_query($conn, $update);
     }
+
     $Sql = "UPDATE repair SET IsStatus = $isStatus WHERE repair.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
@@ -771,7 +773,9 @@ function CreateDocument($conn, $DATA)
     $hptcode = $DATA["hptcode"];
     $DocNo = $DATA["xdocno"];
     $RefDocNo = $DATA["RefDocNo"];
-
+    // $checkitem = $DATA["checkitem"];
+    // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo / $RefDocNo')";
+    // mysqli_query($conn,$Sqlx);
     $Sql = "UPDATE repair SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
