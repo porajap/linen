@@ -2002,13 +2002,13 @@ $array2 = json_decode($json2, TRUE);
 															<option value="<?php echo 1 ?>"><?php echo $array['r' . 1][$language]; ?></option>
 															<option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
 															<option value="<?php echo 3 ?>"><?php echo $array['r' . 3][$language]; ?></option>
-															<option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option>
+															<!-- <option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option> -->
 															<option value="<?php echo 6 ?>"><?php echo $array['r' . 6][$language]; ?></option>
 															<option value="<?php echo 8 ?>"><?php echo $array['r' . 8][$language]; ?></option>
 															<option value="<?php echo 10 ?>"><?php echo $array['r' . 10][$language]; ?></option>
 															<option value="<?php echo 11 ?>"><?php echo $array['r' . 11][$language]; ?></option>
 															<option value="<?php echo 12 ?>"><?php echo $array['r' . 12][$language]; ?></option>
-															<option value="<?php echo 15 ?>"><?php echo $array['r' . 15][$language]; ?></option>
+															<!-- <option value="<?php echo 15 ?>"><?php echo $array['r' . 15][$language]; ?></option> -->
 															<option value="<?php echo 17 ?>"><?php echo $array['r' . 17][$language]; ?></option> 
 
 												

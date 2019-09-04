@@ -93,52 +93,51 @@ class PDF extends FPDF
     $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') . $this->PageNo() . '/{nb}', 0, 0, 'R');
   }
 
-  function setTable($pdf, $header, $data, $width, $numfield, $field)
-  {
-    $field = explode(",", $field);
-    // Column widths
-    $w = $width;
-    // Header
-    $this->SetFont('THSarabun', 'b', 10);
-    for ($i = 0; $i < count($header); $i++)
-      $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
-    $this->Ln();
+  // function setTable($pdf, $header, $data, $width, $numfield, $field)
+  // {
+  //   $field = explode(",", $field);
+  //   // Column widths
+  //   $w = $width;
+  //   // Header
+  //   $this->SetFont('THSarabun', 'b', 10);
+  //   for ($i = 0; $i < count($header); $i++)
+  //     $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+  //   $this->Ln();
 
-    // set Data Details
-    $count = 0;
-    $rows = 1;
-    if (is_array($data)) {
-      foreach ($data as $data => $inner_array) {
-        if ($rows > 23) {
-          $count++;
-          if ($count % 25 == 1) {
-            $this->SetFont('THSarabun', 'b', 10);
-            for ($i = 0; $i < count($header); $i++)
-              $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
-            $this->Ln();
-          }
-        }
-        if ($inner_array[$field[3]] == null) {
-          $inner_array[$field[3]] = 0;
-          $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
-        } elseif ($inner_array[$field[3]] == null) {
-          $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
-        }
-        $this->SetFont('THSarabun', '', 12);
-        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
-        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
-        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", abs($inner_array[$field[4]]) . "%"), 1, 0, 'C');
-        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[5]]), 1, 0, 'C');
-        $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[6]]), 1, 0, 'C');
-        $this->Ln();
-        $rows++;
-      }
-    }
-    // Closing line
-    $pdf->Cell(array_sum($w), 0, '', 'T');
-  }
+  //   // set Data Details
+  //   $count = 0;
+  //   $rows = 1;
+  //   if (is_array($data)) {
+  //     foreach ($data as $data => $inner_array) {
+  //       if ($rows > 23) {
+  //         $count++;
+  //         if ($count % 25 == 1) {
+  //           $this->SetFont('THSarabun', 'b', 10);
+  //           for ($i = 0; $i < count($header); $i++)
+  //             $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+  //           $this->Ln();
+  //         }
+  //       }
+  //       if ($inner_array[$field[3]] == null) {
+  //         $inner_array[$field[3]] = 0;
+  //         $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
+  //       } elseif ($inner_array[$field[3]] == null) {
+  //         $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
+  //       }
+  //       $this->SetFont('THSarabun', '', 12);
+  //       $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+  //       $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+  //       $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+  //       $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+  //       $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", abs($inner_array[$field[4]]) . "%"), 1, 0, 'C');
+        
+  //       $this->Ln();
+  //       $rows++;
+  //     }
+  //   }
+  //   // Closing line
+  //   $pdf->Cell(array_sum($w), 0, '', 'T');
+  // }
 }
 //39 42
 // *** Prepare Data Resource *** //
@@ -173,10 +172,16 @@ $pdf->Cell(1);
 $pdf->Cell(145, 10, iconv("UTF-8", "TIS-620", "โรงซัก : " . $factory), 0, 0, 'L');
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
+$pdf->SetFont('THSarabun', 'b', 10);
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสกปรก"), 1, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสะอาด"), 1, 0, 'C');
+  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่งผ้าเปื้อน Weight (Kg)"), 1, 0, 'C');
+  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "รับผ้าสะอาด Weight (Kg)"), 1, 0, 'C');
+  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่วนต่าง (%)"), 1, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารซักใหม่"), 1, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "จำนวนผ้าซักใหม่  (Kg)"), 1, 1, 'C');
 
-
-$query = "SELECT DepName,clean_DocNo,dirty_DocNo,Total1,Total2,Precent,rewash_DocNo,TOTAL
-FROM (SELECT department.DepName,
+$query = "SELECT department.DepName,
 COALESCE(clean.DocNo,'-') AS clean_DocNo,
 COALESCE(dirty.DocNo,'-') AS dirty_DocNo,
 IFNULL(dirty.Total,0) AS Total1,
@@ -185,6 +190,7 @@ item.weight,
 CASE
 WHEN clean.Total > dirty.Total THEN COALESCE(ROUND( (-1*((clean.Total - dirty.Total ) / clean.Total) * 100), 2),'-'  )
 WHEN dirty.Total > clean.Total  THEN COALESCE(ROUND( (-1*((dirty.Total - clean.Total ) / dirty.Total) * 100), 2),'-'  )
+WHEN dirty.Total = clean.Total THEN dirty.Total - clean.Total
 END AS Precent 
 FROM clean 
 INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
@@ -194,23 +200,49 @@ INNER JOIN department ON department.DepCode=dirty.DepCode
 INNER JOIN factory ON factory.FacCode= dirty.FacCode
 $where
 AND factory.FacCode=  $FacCode
-AND clean.depcode= $DepCode)a,
-(SELECT
-COALESCE(rewash.DocNo,'-') AS rewash_DocNo,
- COALESCE(sum(item.weight *rewash_detail.qty1 ),'-') AS TOTAL 
-FROM rewash
-INNER JOIN rewash_detail ON rewash.DocNo = rewash_detail.DocNo
-INNER JOIN clean ON clean.RefDocNo = rewash.DocNo
-INNER JOIN item ON rewash_detail.ItemCode = Item.ItemCode
-INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
-INNER JOIN factory ON factory.FacCode= dirty.FacCode
-$where
-AND factory.FacCode=  $FacCode
-AND clean.depcode= $DepCode ) b
-          
-          ";
+AND clean.depcode= $DepCode
+group by clean.DocNo,dirty.DocNo ";
+          $Sql1 = "SELECT
+          COALESCE(rewash.DocNo,'-') AS rewash_DocNo,
+          COALESCE(sum(item.weight *rewash_detail.qty1 ),'-') AS TOTAL 
+          FROM rewash
+          INNER JOIN rewash_detail ON rewash.DocNo = rewash_detail.DocNo
+          INNER JOIN clean ON clean.RefDocNo = rewash.DocNo
+          INNER JOIN item ON rewash_detail.ItemCode = Item.ItemCode
+        $where
+        AND clean.depcode= $DepCode 
+        group by rewash.DocNo";
+        $count=0;
+  $meQuery = mysqli_query($conn, $Sql1);
+ 
+  for ($i = 0; $i < count($header); $i++){
+  $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+$this->Ln();
+  }
+  
+  $meQuery1 = mysqli_query($conn, $query);
+  while ($Result = mysqli_fetch_assoc($meQuery1)) {
 
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $Result['dirty_DocNo']), 1, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $Result['clean_DocNo']), 1, 0, 'C');
+  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $Result['Total1']), 1, 0, 'C');
+  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $Result['Total2']), 1, 0, 'C');
+  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", ABS($Result['Precent'])."%"), 1, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 1, 'C');
 
+  }
+  $pdf->SetY(42);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  
+    $rewash_DocNo = $Result['rewash_DocNo'];
+    $TOTAL = $Result['TOTAL'];
+    
+    $pdf->Cell(140, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $rewash_DocNo), 1, 0, 'C');
+    $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $TOTAL), 1, 1, 'C');
+    $count++;
+  }
 // Number of column
 $numfield = 5;
 // Field data (Must match with Query)
@@ -223,7 +255,7 @@ $width = array(25, 25, 30, 30, 30, 25, 25);
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
 $pdf->SetFont('THSarabun', 'b', 12);
-$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
+// $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->Ln();
 // Get $totalsum
 
