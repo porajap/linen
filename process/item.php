@@ -13,7 +13,7 @@ function ShowItem($conn, $DATA)
   $Keyword = $DATA['Keyword'];
   $Catagory = $DATA['Catagory'];
   $active = $DATA['active'];
-  $column = $DATA['column']==null?'ItemCode':$DATA['column'];
+  $column = $DATA['column']==null?'itemDate':$DATA['column'];
   $sort = $DATA['sort']==null?'DESC':$DATA['sort'];
   $Sql = "SELECT
             item.ItemCode,
@@ -639,7 +639,8 @@ function NewItem($conn, $DATA)
             QtyPerUnit,
             UnitCode2,
             IsDirtyBag,
-            Itemnew
+            Itemnew,
+            itemDate
            )
             VALUES
             (
@@ -655,7 +656,8 @@ function NewItem($conn, $DATA)
               '" . $DATA['qpu'] . "',
               '" . $DATA['sUnit'] . "',
               '" . $DATA['xCenter'] . "',
-              '" . $DATA['xItemnew'] . "'
+              '" . $DATA['xItemnew'] . "',
+              NOW()
 
             )
     ";
