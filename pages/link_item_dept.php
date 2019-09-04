@@ -126,17 +126,25 @@ $array2 = json_decode($json2,TRUE);
         });
 
       function chkbox(ItemCode){
-        $('#bSave').attr('disabled', false);
-        $('#delete_icon').removeClass('opacity');
-        console.log($('#checkitem_'+ItemCode));
-        if($('#checkitem_'+ItemCode).is(":checked")){
-          $('#checkitem_'+ItemCode).prop('checked', true);
-          $('#txtno_'+ItemCode).val("");
-          $('#txtno_'+ItemCode).focus();
+        var par = $('#parnum').val();
+        if(par==''){
+          checkblank2();
+          $('#parnum').focus();
         }else{
-          $('#checkitem_'+ItemCode).prop('checked', false);
-          $('#txtno_'+ItemCode).val("");
+          $('#bSave').attr('disabled', false);
+          $('#delete_icon').removeClass('opacity');
+          console.log($('#checkitem_'+ItemCode));
+          if($('#checkitem_'+ItemCode).is(":checked")){
+            $('#checkitem_'+ItemCode).prop('checked', true);
+            $('#txtno_'+ItemCode).val("");
+            $('#txtno_'+ItemCode).focus();
+            $('#txtno_'+ItemCode).val(par);
+          }else{
+            $('#checkitem_'+ItemCode).prop('checked', false);
+            $('#txtno_'+ItemCode).val("");
+          }
         }
+        
 
       }
       function checkblank2(){
