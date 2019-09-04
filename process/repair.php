@@ -714,73 +714,48 @@ function CreateDocument($conn, $DATA)
     $isStatus = $DATA["isStatus"];
 
     $max = sizeof($ItemCodex, 0);
+    $Sqlcount =  "SELECT COUNT(*) AS cnt FROM claim_detail WHERE DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sqlcount);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $cnt = $Result['cnt'];
+    }  
 
-    for ($i = 0; $i < $max; $i++) {
+    for ($i = 0; $i < $cnt; $i++) {
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
 
       $update55 = "UPDATE repair_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
       mysqli_query($conn, $update55);
       
-      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
+      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' ";
       $meQueryx = mysqli_query($conn, $Sqlx);
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
       }
 
-      $SqlsumDa =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
+      $SqlsumDa =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo'  ";
       $meQuerysumDa = mysqli_query($conn, $SqlsumDa);
       while ($ResultsumDa = mysqli_fetch_assoc($meQuerysumDa)) {
         $QtyDaMage = $ResultsumDa['Qty']==null?0:$ResultsumDa['Qty'];
       }
-
-
-
-      $Sql =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $Qty = $Result['Qty1'];
-      }  
+    }
+    $Sql =  "SELECT SUM(Qty1) AS Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $Qty = $Result['Qty1'];
       if($Qtyx > $QtyDaMage){
         $QtySum = $Qty - ($Qtyx + $QtyDaMage);
         }else if ($QtyDaMage > $Qtyx ){
         $QtySum = $Qty - ($QtyDaMage + $Qtyx);
-        }      
+        } 
+    }  
 
-      if($QtySum <=0){
-         $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
-         mysqli_query($conn, $update);
-      }else{
-        $update = "UPDATE claim SET IsRef = 0 WHERE DocNo = '$RefDocNo'";
-         mysqli_query($conn, $update);
-      }
-
+    if($QtySum <=0){
+       $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
+       mysqli_query($conn, $update);
     }
-      // =============================
-      // $select="SELECT repair.DepCode FROM repair WHERE DocNo = '$DocNo'";
-      // $result = mysqli_query( $conn, $select);
-      // while ($ResultRe = mysqli_fetch_array($result)) {
-      //   $DepCodeRe = $ResultRe["DepCode"];
-      // }
- // =============================
-
-  // $sql_update =  "SELECT
-  // repair_detail.ItemCode,
-  // repair_detail.Qty
-  // FROM repair_detail
-  // WHERE repair_detail.DocNo = '$DocNo'";
-  // $result = mysqli_query( $conn, $sql_update);
-  // while ($row = mysqli_fetch_array($result)) {
-  //     $xItemCode 	= $row["ItemCode"];
-  //     $xTotalQty 	= $row["Qty"];
-  //     mysqli_query($conn, "UPDATE item_stock SET TotalQty= (TotalQty+$xTotalQty)  WHERE DepCode = $DepCodeRe   AND ItemCode ='$xItemCode'");
-  // }
-
     $Sql = "UPDATE repair SET IsStatus = $isStatus WHERE repair.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
-
-    // $Sql = "UPDATE dirty SET IsRef = 1 WHERE dirty.DocNo = '$DocNo2'";
-    // mysqli_query($conn, $Sql);
 
     $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
@@ -796,9 +771,7 @@ function CreateDocument($conn, $DATA)
     $hptcode = $DATA["hptcode"];
     $DocNo = $DATA["xdocno"];
     $RefDocNo = $DATA["RefDocNo"];
-    // $checkitem = $DATA["checkitem"];
-    // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo / $RefDocNo')";
-    // mysqli_query($conn,$Sqlx);
+
     $Sql = "UPDATE repair SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
