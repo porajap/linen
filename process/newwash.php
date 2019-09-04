@@ -598,7 +598,7 @@ function getImport($conn, $DATA)
     } else {
       if ($Sel == 1) {
         $Sql = "UPDATE newlinentable_detail
-          SET Weight = $iweight,Qty = (Qty+$iqty2)
+          SET Weight = (weight+$iweight),Qty = (Qty+$iqty2)
           WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
         mysqli_query($conn, $Sql);
       } else {
@@ -657,7 +657,8 @@ function getImport($conn, $DATA)
 	  $Sql = "UPDATE item_stock SET DepCode = $DepCode WHERE UsageCode = '$xUsageCode'";
       $meQuery = mysqli_query($conn, $Sql);
     }
-  	ShowDetail($conn, $DATA);
+    ShowDetail($conn, $DATA);
+    
 }
 
 function UpdateDetailQty($conn, $DATA)

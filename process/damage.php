@@ -568,7 +568,7 @@ function CreateDocument($conn, $DATA)
       } else {
         if ($Sel == 1) {
           $Sql = " UPDATE damage_detail
-          SET Weight = $iweight, Qty = (Qty + $iqty2)
+          SET Weight = (Weight+$iweight), Qty = (Qty + $iqty2)
           WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
           mysqli_query($conn, $Sql);
         } else {

@@ -444,7 +444,8 @@ $array2 = json_decode($json2,TRUE);
         'deptCode'     : deptCode
       };
       senddata(JSON.stringify(data));
-      $('#dialogItemCode').modal('toggle')
+      ShowItem();
+      // $('#dialogItemCode').modal('toggle')
       dialogUsageCode.dialog( "close" );
     }
 

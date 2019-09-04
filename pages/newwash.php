@@ -353,6 +353,8 @@ $array2 = json_decode($json2,TRUE);
           ShowDocument(3);
         }
 
+
+
         function getImport(Sel) {
           //alert(Sel);
           var docno = $("#docno").val();
@@ -416,7 +418,8 @@ $array2 = json_decode($json2,TRUE);
           };
           console.log(data);
           senddata(JSON.stringify(data));
-          $('#dialogItemCode').modal('toggle')
+          ShowItem();
+          // $('#dialogItemCode').modal('toggle')
           // dialogUsageCode.dialog( "close" );
         }
 
@@ -1022,12 +1025,6 @@ $array2 = json_decode($json2,TRUE);
                           $('#TableItemDetail tbody:last-child').append( $StrTR );
                         }
                         if(isStatus==0){
-                          // $("#docno").prop('disabled', false);
-                          // $("#docdate").prop('disabled', false);
-                          // $("#recorder").prop('disabled', false);
-                          // $("#timerec").prop('disabled', false);
-                          // $("#total").prop('disabled', false);
-
                           $('#qty1_'+i).prop('disabled', false);
                           $('#weight_'+i).prop('disabled', false);
                           $('#price_'+i).prop('disabled', false);
