@@ -878,9 +878,9 @@ $array2 = json_decode($json2,TRUE);
                             var StrTr = "<option value=''>-</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-
+                                var Str = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                                $("#hptsel").append(Str);
                             }
-                            $("#hptsel").append(StrTr);
                             $("#hptsel2").append(StrTr);
                         }
                     } else if (temp['status'] == "failed") {
@@ -1125,15 +1125,15 @@ $array2 = json_decode($json2,TRUE);
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:-12px;">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="row" style="margin-left:5px;">
-                                        <select class="form-control" id="hptsel">
-
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                        <select class="form-control col-md-8" id="hptsel">
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-md-9">
+                                <div class="col-md-8">
                                     <div class="row" style="margin-left:5px;">
                                         <input type="text" autocomplete="off"  class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
@@ -1233,7 +1233,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 " id="hptsel2" >
+                                      <select  class="form-control col-sm-8 checkblank" id="hptsel2" >
                                       </select>
                                     </div>
                                   </div>
@@ -1265,46 +1265,6 @@ $array2 = json_decode($json2,TRUE);
                         </div>
                     </div>
                 </div> <!-- tag column 2 -->
-<!-- <div class="sidenav mhee" style=" margin-left: 200px;margin-top: 73px;">
-              <div class="" style="margin-top:5px;">
-                <div class="card-body" style="padding:0px; margin-top:10px;">
-
-                                    <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_save.png" style='width:36px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="AddItem()" id="bSave">
-                                          <?php echo $array['save'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-<div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/i_clean.png" style='width:40px;' class='mr-3'>
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="Blankinput()" id="bDelete">
-                                          <?php echo $array['clear'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-          <div class="row" style="margin-top:0px;">
-                                      <div class="col-md-3 icon" >
-                                        <img src="../img/icon/ic_cancel.png" style='width:34px;' class='mr-3 opacity' id="delete_icon">
-                                      </div>
-                                      <div class="col-md-9">
-                                        <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
-                                          <?php echo $array['cancel'][$language]; ?>
-                                        </button>
-                                      </div>
-                                    </div>
-              </div>
-            </div>
-          </div>
-            </div> -->
-
-
             <!-- /#wrapper -->
             <!-- Scroll to Top Button-->
             <a class="scroll-to-top rounded" href="#page-top">
