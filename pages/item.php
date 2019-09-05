@@ -1335,6 +1335,9 @@ $array2 = json_decode($json2, TRUE);
               $('#TableItemMaster').attr("hidden", true);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
+              // for (var j = 0; j < (Object.keys(temp).length - 2); j++) {
+              //  "+ (j + 1) +"
+              // }
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
