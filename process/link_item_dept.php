@@ -439,46 +439,65 @@ function additemstock($conn, $DATA)
 
 function SelectItemStock($conn, $DATA)
 {
-  $boolean = 0;
+  $boolean = false;
   $count = 0;
+  $countx = 0;
   $DepCode = $DATA['DepCode'];
   $ItemCode = explode(",", $DATA['ItemCode']);
   $Number = explode(",",$DATA['Number']);
   $return['num'] = $Number;
 
   for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
-    for ($j=0; $j < $Number[$i] ; $j++) {
-      $Sql = "SELECT
-        item_stock.RowID, 
+    $count2 = 0;
+    $SqlItem = "SELECT
         item_stock.ItemCode,
-        item.ItemName,
-        item_stock.ParQty,
-        DATE(item_stock.ExpireDate) AS ExpireDate,
-        UsageCode
+        item.ItemName
       FROM item_stock
       INNER JOIN item ON item_stock.ItemCode = item.ItemCode
       WHERE item_stock.ItemCode = '$ItemCode[$i]' AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
-      -- GROUP BY item_stock.ItemCode
+      GROUP BY item_stock.ItemCode
       ORDER BY item_stock.RowID DESC";
-      $return['sql'] = $Sql;
-      $meQuery = mysqli_query($conn,$Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $return[$count]['RowID'] = $Result['RowID'];
-        $return[$count]['ItemCode'] = $Result['ItemCode'];
-        $return[$count]['ItemName'] = $Result['ItemName'];
-        $return[$count]['DepCode'] = $Result['DepCode'];
-        $return[$count]['ParQty'] = $Result['ParQty'];
-        if($Result['UsageCode']=="" || $Result['UsageCode']==null){
-          $return[$count]['UsageCode'] = '';
+      $ItemQuery = mysqli_query($conn, $SqlItem);
+      while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
+        $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
+        $return[$countx]['ItemNameX'] = $IResult['ItemName'];
+        $xItemCode = $IResult['ItemCode'];
+        $index = 'ItemCode_'.$xItemCode.'_'.$countx;
+        for ($j=0; $j < $Number[$i] ; $j++) {
+          $Sql = "SELECT
+            item_stock.RowID, 
+            item_stock.ItemCode,
+            item.ItemName,
+            item_stock.ParQty,
+            DATE(item_stock.ExpireDate) AS ExpireDate,
+            UsageCode
+          FROM item_stock
+          INNER JOIN item ON item_stock.ItemCode = item.ItemCode
+          WHERE item_stock.ItemCode = '$ItemCode[$i]' AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
+          -- GROUP BY item_stock.ItemCode
+          ORDER BY item_stock.RowID DESC";
+          $meQuery = mysqli_query($conn,$Sql);
+          while ($Result = mysqli_fetch_assoc($meQuery)) {
+            $return[$index][$count2]['RowID'] = $Result['RowID'];
+            $return[$index][$count2]['ItemCode'] = $Result['ItemCode'];
+            $return[$index][$count2]['ItemName'] = $Result['ItemName'];
+            $return[$index][$count2]['DepCode'] = $Result['DepCode'];
+            $return[$index][$count2]['ParQty'] = $Result['ParQty'];
+            if($Result['UsageCode']=="" || $Result['UsageCode']==null){
+              $return[$index][$count2]['UsageCode'] = '';
+            }
+            $return[$index][$count2]['ExpireDate'] = $tempdate;
+          }
+          $count2++;
         }
-        $return[$count]['ExpireDate'] = $tempdate;
+        $countx++;
       }
-      $count++;
-    }
+    $return[$i]['num'] = $Number[$i];
+    $boolean = true;
   }
-  $return['count'] = $count;
+  $return['countx'] = $countx;
 
-  if($count>0){
+  if($boolean==true){
     $return['status'] = "success";
     $return['form'] = "SelectItemStock";
     echo json_encode($return);
@@ -513,7 +532,7 @@ function ShowItemStock($conn, $DATA)
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
           WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9  AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
           ORDER BY item_stock.RowID DESC";
-          $return['sql'] = $Sql;
+          // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['RowID'] = $Result['RowID'];
