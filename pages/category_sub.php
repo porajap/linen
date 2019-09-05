@@ -1106,18 +1106,15 @@ $array2 = json_decode($json2,TRUE);
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px; margin-top:-12px;">
                         <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                               <div class="row" style="font-size:24px;margin-left:2px;">
-                                  <select class="form-control" style="font-size:24px;" id="maincatagory" onchange="ShowItem();"></select>
+                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['catmain'][$language]; ?></label>
+                                  <select class="form-control col-md-8" style="font-size:24px;" id="maincatagory" onchange="ShowItem();"></select>
                               </div>
-                                      </div>
-                        <div class="col-md-9">
+                        </div>
+                        <div class="col-md-8">
                                         <div class="row" style="margin-left:5px;">
                                           <input type="text"  autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                                         
-                                          <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave"> -->
-                                          <!-- <?php echo $array['search'][$language]; ?></a> -->
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">

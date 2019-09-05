@@ -73,6 +73,7 @@
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
 <sn><en>S/N</en><th>ลำดับ</th></sn>
 <Canceldoc><en>Cancel</en><th>ยกเลิกเอกสาร</th></Canceldoc>
+<catmain><en>Category main</en><th>ประเภทรายการหลัก</th></catmain>
 
 <unit><en>Measurement</en><th>หน่วยนับ</th></unit>
 <unit2><en>Unit</en><th>หน่วยนับ</th></unit2>
@@ -244,7 +245,7 @@
 <editcenterfailedmsg><en>The center can add 1 hospital per department</en><th>ศูนย์กลางสามารถเพิ่มได้โรงพยาบาลละ 1 แผนก</th></editcenterfailedmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
 <widthunit><en>Measurement</en><th>มาตรวัด</th></widthunit>
-<searchuser><en>search user</en><th>ค้นหาผู้ใช้งาน</th></searchuser>
+<searchuser><en>search user</en><th>ค้นหาจาก ชื่อ - สกุล</th></searchuser>
 <errorpic><en>Please Choose Picture</en><th>กรุณาเลือกรูปภาพ</th></errorpic>
 <formatdate><en>Format Date</en><th>รูปแบบวันที่</th></formatdate>
 <format><en>Format</en><th>รูปแบบ</th></format>

@@ -875,12 +875,13 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                             })
                         } else if ((temp["form"] == 'getSection')) {
+                            var StrTr = "<option value=''>-</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                $("#hptsel").append(StrTr);
-                                $("#hptsel2").append(StrTr);
-                            }
+                                 StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
 
+                            }
+                            $("#hptsel").append(StrTr);
+                            $("#hptsel2").append(StrTr);
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
