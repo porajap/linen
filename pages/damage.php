@@ -421,8 +421,9 @@ $(document).ready(function(e){
           'RefDocNo'    	: docno2
         };
         senddata(JSON.stringify(data));
+        ShowItem();
         // dialogItemCode.dialog( "close" );
-        $('#dialogItemCode').modal('toggle');
+        // $('#dialogItemCode').modal('toggle');
 
         dialogUsageCode.dialog( "close" );
       }

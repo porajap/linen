@@ -445,8 +445,9 @@ $(document).ready(function(e){
           'deptCode'    	: deptCode
         };
         senddata(JSON.stringify(data));
+        ShowItem();
         // dialogItemCode.dialog( "close" );
-        $('#dialogItemCode').modal('toggle');
+        // $('#dialogItemCode').modal('toggle');
 
         dialogUsageCode.dialog( "close" );
       }

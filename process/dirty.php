@@ -581,7 +581,7 @@ function getImport($conn, $DATA)
     } else {
       if ($Sel == 1) {
         $Sql = "UPDATE dirty_detail
-          SET Weight = $iweight,Qty = (Qty+$iqty2)
+          SET Weight = (Weight+$iweight),Qty = (Qty+$iqty2)
           WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
         mysqli_query($conn, $Sql);
       } else {

@@ -431,7 +431,8 @@ $array2 = json_decode($json2,TRUE);
           };
           console.log(data);
           senddata(JSON.stringify(data));
-          $('#dialogItemCode').modal('toggle')
+          ShowItem();
+          // $('#dialogItemCode').modal('toggle')
           // dialogUsageCode.dialog( "close" );
         }
 
