@@ -754,6 +754,7 @@ $array2 = json_decode($json2,TRUE);
       function DeleteItem(){
         var length =  $('#TableItemStock >tbody >tr').length;
         var DepCode = $('#department').val();
+        // var count = $('#count_child_').val();
         if(length>0){
           swal({
             title: "",
@@ -769,18 +770,27 @@ $array2 = json_decode($json2,TRUE);
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
               if (result.value) {
+                var count_rowArray = [];
                 var chkArray = [];
                 var RowArray = [];
                 
                 $('input[name="chkItem"]:checked').each(function() {
                   chkArray.push($(this).data('value'));
                 });
-
                 $('input[name="chkItem"]:checked').each(function() {
                   RowArray.push($(this).val());
                 });
                 for (i = 0; i < RowArray.length; ++i) {
                     $('#tr_child_'+RowArray[i]).remove();
+                }
+                for (i = 0; i < chkArray.length; ++i) {
+                  count_rowArray.push($('#count_row_'+chkArray[i]).val());
+                  var sub = parseInt($('#count_child_'+chkArray[i]).val()) - 1;
+                  $('#count_child_'+chkArray[i]).val(sub);
+                  if(sub <= 0){
+                    alert(sub);
+                    $('#tr_mom_'+chkArray[i]).remove();
+                  }
                 }
                 var ItemCode = chkArray.join(',');
                 var RowID = RowArray.join(',');
@@ -1236,7 +1246,7 @@ $array2 = json_decode($json2,TRUE);
                                     var UsageCode = temp[i]['UsageCode'];
                                   }
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
-                                StrTR = "<tr id='tr"+i+"'>"+
+                                StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"'>"+
                                           "<td style='width: 10%;padding-left:26px' nowrap>"+(i+1)+".</td>"+
                                           "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                           "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
@@ -1244,6 +1254,7 @@ $array2 = json_decode($json2,TRUE);
                                             "<button class='btn btn-info p-1' id='showStock_"+i+"' onclick=showStock("+i+");>แสดง</button>"+
                                             "<button class='btn btn-warning p-1' id='hideStock_"+i+"' onclick=hideStock("+i+"); hidden>ซ่อน</button>"+
                                           "</td>"+
+                                          "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                         "</tr>";
 
                                 for(var j = 0; j < temp[i]['num']; j++){
