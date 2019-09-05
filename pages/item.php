@@ -1347,7 +1347,7 @@ $array2 = json_decode($json2, TRUE);
                 var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
-                  "<td style='width: 8%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                  "<td style='width: 8%;padding-right: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                   "<td style='width: 16%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
                   "<td style='text-overflow: ellipsis;overflow: hidden; width: 12%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
@@ -2137,11 +2137,14 @@ $array2 = json_decode($json2, TRUE);
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">
-                    <th style='width: 7%; font-size:13px;'>&nbsp;</th>
-                    <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
+                    <th style='width: 5%; font-size:13px;'>&nbsp;</th>
+                    <th style='width: 8%;' nowrap><?php echo $array['sn'][$language]; ?>
+                    <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white"  onclick="ShowItem('itemDate','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                    <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('itemDate','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                    </th>
                     <th style='width: 16%;' nowrap><?php echo $array['code'][$language]; ?>
                       <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)" class="activeSort white"  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                      <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                     </th>
                     <th style='width: 12%;' nowrap><?php echo $array['item'][$language]; ?>
                     <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  

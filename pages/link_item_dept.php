@@ -788,7 +788,6 @@ $array2 = json_decode($json2,TRUE);
                   var sub = parseInt($('#count_child_'+chkArray[i]).val()) - 1;
                   $('#count_child_'+chkArray[i]).val(sub);
                   if(sub <= 0){
-                    alert(sub);
                     $('#tr_mom_'+chkArray[i]).remove();
                   }
                 }
