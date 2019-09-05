@@ -1237,8 +1237,8 @@ $array2 = json_decode($json2,TRUE);
                                 // confirmButtonText: 'Ok'
                               })
                             }else if(temp['form']=="SelectItemStock"){
+                              var chk_row = $('#chk_row').val();
                               for (var i = 0; i < temp['countx']; i++) {
-
                                   if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
                                       var UsageCode = "";
                                   }else{
@@ -1246,12 +1246,12 @@ $array2 = json_decode($json2,TRUE);
                                   }
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
                                 StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"'>"+
-                                          "<td style='width: 10%;padding-left:26px' nowrap>"+(i+1)+".</td>"+
+                                          "<td style='width: 10%;padding-left:26px' nowrap></td>"+
                                           "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                           "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
                                           "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
-                                            "<button class='btn btn-info p-1' id='showStock_"+i+"' onclick=showStock("+i+");>แสดง</button>"+
-                                            "<button class='btn btn-warning p-1' id='hideStock_"+i+"' onclick=hideStock("+i+"); hidden>ซ่อน</button>"+
+                                            "<button class='btn btn-info p-1' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");>แสดง</button>"+
+                                            "<button class='btn btn-warning p-1' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden>ซ่อน</button>"+
                                           "</td>"+
                                           "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                         "</tr>";
@@ -1259,7 +1259,7 @@ $array2 = json_decode($json2,TRUE);
                                 for(var j = 0; j < temp[i]['num']; j++){
                                 var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' >";
                                   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
-                                  StrTR += "<tr class='tr_child_"+i+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
+                                  StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                               "<td style='width:10%'></td>"+
                                               "<td style='width: 10%;' nowrap><label class='mr-3'>" + (j+1) + ")</label>" + chkItem + "</td>"+
                                               "<td style='width: 25%;' nowrap hidden>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"</td>"+
@@ -1268,8 +1268,9 @@ $array2 = json_decode($json2,TRUE);
                                             "</tr>";
                                 }
                                 $('#TableItemStock tbody:last-child').append(StrTR);
-
+                                chk_row++;
                               }
+                              $('#chk_row').val(chk_row);
                             }
                           }else if (temp['status']=="failed") {
                             switch (temp['msg']) {
@@ -1502,6 +1503,7 @@ $array2 = json_decode($json2,TRUE);
   <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
   <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][7][$language]; ?></li>
 </ol>
+<input type="text" value='0' id='chk_row' hidden>
     <div id="wrapper">
       <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
         <i class="fas fa-angle-down"></i>
