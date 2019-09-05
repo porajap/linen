@@ -769,32 +769,28 @@ $array2 = json_decode($json2,TRUE);
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
               if (result.value) {
+                var chkArray = [];
+                var RowArray = [];
+                
+                $('input[name="chkItem"]:checked').each(function() {
+                  chkArray.push($(this).val());
+                });
 
+                $('input[name="chkItem"]:checked').each(function() {
+                  RowArray.push($(this).data('value'));
+                });
+                for (i = 0; i < chkArray.length; ++i) {
+                    $('#tr_child_'+chkArray[i]).remove();
+                }
+                var ItemCode = chkArray.join(',') ;
+                // alert(ItemCode);
 
-              var chkArray = [];
-              var RowArray = [];
-              
-              $('input[name="chkItem"]:checked').each(function() {
-                chkArray.push($(this).val());
-              });
-
-              $('input[name="chkItem"]:checked').each(function() {
-                RowArray.push($(this).data('value'));
-              });
-              for (i = 0; i < RowArray.length; ++i) {
-                  $('#tr'+RowArray[i]).remove();
-              }
-
-              var ItemCode = chkArray.join(',') ;
-              // alert(ItemCode);
-
-              var data = {
-                'STATUS' : 'DeleteItem',
-                'DepCode' : DepCode,
-                'ItemCode' : ItemCode
-              };
-              // // console.log(JSON.stringify(data));
-              senddata(JSON.stringify(data));
+                var data = {
+                  'STATUS' : 'DeleteItem',
+                  'DepCode' : DepCode,
+                  'ItemCode' : ItemCode
+                };
+                senddata(JSON.stringify(data));
             } else if (result.dismiss === 'cancel') {
             swal.close();
           }
@@ -1232,8 +1228,6 @@ $array2 = json_decode($json2,TRUE);
                               })
                             }else if(temp['form']=="SelectItemStock"){
                               for (var i = 0; i < temp['countx']; i++) {
-                                // alert(temp['BHQLPCATO000263_0'][0]['RowID']);
-                                // alert(temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][0]['RowID']);
 
                                   if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
                                       var UsageCode = "";
@@ -1241,9 +1235,8 @@ $array2 = json_decode($json2,TRUE);
                                     var UsageCode = temp[i]['UsageCode'];
                                   }
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
-                                var chkItemX = "<input type='checkbox' name='chkItemX' id='chkItemX' data-value='"+i+"' value='"+temp[i]['ItemCodeX']+"' >";
                                 StrTR = "<tr id='tr"+i+"'>"+
-                                          "<td style='width: 10%;' nowrap>"+chkItemX+"</td>"+
+                                          "<td style='width: 10%;padding-left:26px' nowrap>"+(i+1)+".</td>"+
                                           "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                           "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
                                           "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
@@ -1251,14 +1244,13 @@ $array2 = json_decode($json2,TRUE);
                                             "<button class='btn btn-warning p-1' id='hideStock_"+i+"' onclick=hideStock("+i+"); hidden>ซ่อน</button>"+
                                           "</td>"+
                                         "</tr>";
-                                // $('#TableItemStock tbody:last-child').append(StrTR);
 
                                 for(var j = 0; j < temp[i]['num']; j++){
                                 var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+j+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' >";
                                   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
-                                  StrTR += "<tr class='tr_child_"+i+"' hidden>"+
+                                  StrTR += "<tr class='tr_child_"+i+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                               "<td style='width:10%'></td>"+
-                                              "<td style='width: 10%;' nowrap><label class='mr-3'>" + (j+1) + ".</label>" + chkItem + "</td>"+
+                                              "<td style='width: 10%;' nowrap><label class='mr-3'>" + (j+1) + ")</label>" + chkItem + "</td>"+
                                               "<td style='width: 25%;' nowrap hidden>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"</td>"+
                                               "<td style='width: 50%;' nowrap>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemName']+"</td>"+
                                               "<td style='width: 25%;' nowrap>"+txtno+"</td>"+

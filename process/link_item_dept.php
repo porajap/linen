@@ -487,8 +487,8 @@ function SelectItemStock($conn, $DATA)
               $return[$index][$count2]['UsageCode'] = '';
             }
             $return[$index][$count2]['ExpireDate'] = $tempdate;
+            $count2++;
           }
-          $count2++;
         }
         $countx++;
       }
