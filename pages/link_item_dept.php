@@ -773,21 +773,22 @@ $array2 = json_decode($json2,TRUE);
                 var RowArray = [];
                 
                 $('input[name="chkItem"]:checked').each(function() {
-                  chkArray.push($(this).val());
+                  chkArray.push($(this).data('value'));
                 });
 
                 $('input[name="chkItem"]:checked').each(function() {
-                  RowArray.push($(this).data('value'));
+                  RowArray.push($(this).val());
                 });
-                for (i = 0; i < chkArray.length; ++i) {
-                    $('#tr_child_'+chkArray[i]).remove();
+                for (i = 0; i < RowArray.length; ++i) {
+                    $('#tr_child_'+RowArray[i]).remove();
                 }
-                var ItemCode = chkArray.join(',') ;
-                // alert(ItemCode);
+                var ItemCode = chkArray.join(',');
+                var RowID = RowArray.join(',');
 
                 var data = {
                   'STATUS' : 'DeleteItem',
                   'DepCode' : DepCode,
+                  'RowID' : RowID,
                   'ItemCode' : ItemCode
                 };
                 senddata(JSON.stringify(data));
@@ -1246,7 +1247,7 @@ $array2 = json_decode($json2,TRUE);
                                         "</tr>";
 
                                 for(var j = 0; j < temp[i]['num']; j++){
-                                var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+j+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' >";
+                                var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' >";
                                   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
                                   StrTR += "<tr class='tr_child_"+i+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                               "<td style='width:10%'></td>"+
