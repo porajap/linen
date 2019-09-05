@@ -85,6 +85,8 @@
 <cancel><en>Delete</en><th>ลบ</th></cancel>
 <searchplace><en>Search document</en><th>ค้นหารายการ</th></searchplace>
 <show><en>Show items</en><th>แสดงรายการ</th></show>
+<showshow><en>Show</en><th>แสดง</th></showshow>
+<hidehide><en>hide</en><th>ซ่อน</th></hidehide>
 <status><en>Status</en><th>สถานะ</th></status>
 <close><en>Close</en><th>ปิด</th></close>
 <confirm><en>Confirm</en><th>ยืนยัน</th></confirm>

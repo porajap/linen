@@ -1250,8 +1250,8 @@ $array2 = json_decode($json2,TRUE);
                                           "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                           "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
                                           "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
-                                            "<button class='btn btn-info p-1' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");>แสดง</button>"+
-                                            "<button class='btn btn-warning p-1' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden>ซ่อน</button>"+
+                                            "<button class='btn btn-info p-1' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
+                                            "<button class='btn btn-warning p-1' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
                                           "</td>"+
                                           "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                         "</tr>";
