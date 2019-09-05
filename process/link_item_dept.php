@@ -691,10 +691,11 @@ function DeleteItem($conn, $DATA)
   $boolean = false;
   $count = 0;
   $DepCode = $DATA['DepCode'];
+  $RowID = explode(',' , $DATA['RowID']);
   $ItemCode = explode(',' , $DATA['ItemCode']);
   $limit = sizeof($ItemCode, 0);
   for ($i = 0; $i < $limit; $i++) {
-    $Sql = "DELETE FROM item_stock WHERE ItemCode = '$ItemCode[$i]' AND DepCode = $DepCode LIMIT 1";
+    $Sql = "DELETE FROM item_stock WHERE RowID = '$RowID[$i]' AND DepCode = $DepCode LIMIT 1";
     mysqli_query($conn,$Sql);
 
     $Update = "UPDATE item_stock SET TotalQty = (TotalQty - 1) WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
