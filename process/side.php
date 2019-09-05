@@ -256,7 +256,12 @@ $boolcountc = $Resultx['Countc'];
 function getHotpital($conn, $DATA)
 {
   $count = 0;
-  $Sql = "SELECT site.HptCode,site.HptName FROM site 	WHERE IsStatus = 0";
+  $Sql = "SELECT site.HptCode, site.HptName, cs.contractName, COUNT(site.HptCode)
+  FROM site 	
+  LEFT JOIN contractsite cs ON cs.HptCode = site.HptCode
+  WHERE IsStatus = 0
+  GROUP BY site.HptCode
+  HAVING COUNT(site.HptCode) < 2";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];
