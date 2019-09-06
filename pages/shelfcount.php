@@ -917,7 +917,6 @@ $array2 = json_decode($json2,TRUE);
               $('#bCancel').attr('disabled', false);
               $('#bSave').attr('disabled', false);
               $('#bImport').attr('disabled', false);
-              $('#bdetail').attr('disabled', false);
               $('#bPrint').attr('disabled', false);
               // ShowDocument_sub();
               swal({
@@ -1982,8 +1981,8 @@ $array2 = json_decode($json2,TRUE);
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
+              <button type="button" style="width:5%;"onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
+              <button type="button" style="width:5%;"class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
             </div>
           </div>
         </div>
