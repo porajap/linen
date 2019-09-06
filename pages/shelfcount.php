@@ -1053,6 +1053,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
+                $("#bdetail").prop('disabled', true);
               }else if(temp[0]['IsStatus']==1){
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1062,6 +1063,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', true);
+                $("#bdetail").prop('disabled', false);
               }else{
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);

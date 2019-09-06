@@ -514,6 +514,8 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+        $('#hostdetail').attr('hidden', true);
+       $('#hostdetail55').attr('hidden', false);
         $('.checkblank').each(function() {
           $(this).val("");
         });
@@ -764,6 +766,10 @@ $array2 = json_decode($json2,TRUE);
                                 $('#phone').val(temp['Number']);
                                 $('#idcontract').val(temp['id']);
                                 $('#host').val(temp['HptCode']);
+                                $('#hosdetail1').val(temp['HptName']);
+
+                                $('#hostdetail').attr('hidden', false);
+                                $('#hostdetail55').attr('hidden', true);
 
 
                                 
@@ -1355,13 +1361,18 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text"  class="form-control col-sm-8 numonly checkblank3" maxlength="10" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                  <div class="col-md-6" id="hostdetail55">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
                                       <select  class="form-control col-sm-8 checkblank2  checkblank3" id="host" onchange="removeClassBorder1();"></select>
                                     </div>
                                   </div>
-
+                                  <div class="col-md-6"  hidden id="hostdetail">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
+                                      <input type="text"  class="form-control col-sm-8 " disabled="true" id="hosdetail1" placeholder="<?php echo $array['hosname'][$language]; ?>">
+                                    </div>
+                                  </div>
 
                                   <div class="col-md-6" hidden>
                                     <div class='form-group row'>
