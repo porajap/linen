@@ -1729,6 +1729,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
+
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle7 d-flex justify-content-center">
