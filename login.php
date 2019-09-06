@@ -57,7 +57,7 @@ $array = json_decode($json,TRUE);
                     <input type="text" autocomplete="off" class="form-control"  onkeyup="make_char()" id="username">
                 </div>
             </div>
-            <!-- ----------------------------------------------------------------------------------- -->
+            <!-- ---------------------- ------------------------------------------------------------ -->
             <div id="password_input">
                 <div id="icon_password">
                     <i class="fas fa-lock"></i>
