@@ -125,10 +125,25 @@ class PDF extends FPDF
             $this->Ln();
           }
         }
+        for ($i=0; $i <count($inner_array[$field[0]]) ; $i++) {
+          if ($inner_array[$field[0]]==$date) {
+                $this->Cell($w[0], 10, "", 1, 0, 'C');
+                $loop++;
+          }
+        else {
+          $count=1;
+          $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+          $date=$inner_array[$field[0]];
+          $loop=0;
+          $check++;
+        }
+        $sum_loop[]=$loop;
+        $sum_check[]=$check;
+        }
         $this->SetFont('THSarabun', '', 14);
-        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+        
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
-        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]])), 1, 0, 'C');
         $this->Ln();
         $rows++;
         $totalsum1 += $inner_array[$field[2]];
@@ -137,7 +152,7 @@ class PDF extends FPDF
       // Footer Table
       $this->SetFont('THSarabun', 'B', 14);
       $this->Cell(140, 10, iconv("UTF-8", "TIS-620", "Total"), 1, 0, 'C');
-      $this->Cell(50, 10, iconv("UTF-8", "TIS-620", $totalsum1), 1, 0, 'C');
+      $this->Cell(50, 10, iconv("UTF-8", "TIS-620", number_format($totalsum1)), 1, 0, 'C');
       $pdf->Ln(10);
 
     $footer_nextpage = $loop % 24;

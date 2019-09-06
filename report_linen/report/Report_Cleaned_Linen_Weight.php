@@ -174,7 +174,7 @@ function setmuntiTable($pdf, $header, $data, $width, $numfield, $field)
   $this->Cell(30, 7, iconv("UTF-8", "TIS-620", $totalsum), 1, 1, 'R');
 
   // Closing line
-  $pdf->Cell(array_sum($w), 0, '', 'T');
+
 }
 
 
@@ -236,6 +236,7 @@ AND category_price.HptCode= '$HptCode'
 AND dirty.FacCode = $FacCode
 AND department.HptCode = '$HptCode'
 GROUP BY clean_detail.ItemCode
+
             ";
 
 // var_dump($query); die;
@@ -256,5 +257,15 @@ $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->Ln();
 // Get $totalsum
 
+    $pdf->Ln(8);
+    $pdf->SetFont('THSarabun', 'b', 11);
+    $pdf->Cell(5);
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่ห้องผ้า..................................................."), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่โรงซัก........................................"), 0, 0, 'L');
+    $pdf->Ln(7);
+    $pdf->Cell(5);
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "วันที่......................................................................"), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "วันที่.........................................................."), 0, 0, 'L');
+    $pdf->Ln(7);
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Cleaned_Linen_Weight_' . $ddate . '.pdf');

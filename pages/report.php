@@ -102,7 +102,8 @@ $array2 = json_decode($json2, TRUE);
 			$('#somemonth').hide();
 			$('#myDay').hide();
 			$('#myMonth').hide();
-			$('#text').hide();
+			$('#textto').hide();
+			$('#textto2').hide();
 			OnLoadPage();
 			$('#hotpital').attr('disabled', true);
 			$('#department').attr('disabled', true);
@@ -296,10 +297,11 @@ $array2 = json_decode($json2, TRUE);
 			if (chk == 1) {
 				$('#oneday').show();
 				$('#someday').hide();
-
+				$('#textto').hide();
 			} else if (chk == 2) {
 				$('#oneday').show();
 				$('#someday').show();
+				$('#textto').show();
 				var currentDay = currentDate2;
 				var dateone = currentDate.split('-');
 				if (language == 'th') {
@@ -332,10 +334,11 @@ $array2 = json_decode($json2, TRUE);
 			if (chk == 1) {
 				$('#onemonth').show();
 				$('#somemonth').hide();
+				$('#textto2').hide();
 			} else if (chk == 2) {
 				$('#onemonth').show();
 				$('#somemonth').show();
-				$('#text').show();
+				$('#textto2').show();
 
 				var date = currentDate.split('-');
 				find_indexMonth2(date[0]);
@@ -2159,7 +2162,7 @@ $array2 = json_decode($json2, TRUE);
 											<div class='form-group row'>
 												<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only"  data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy"  autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
-												<label class="col-sm-4 col-form-label text-right" for="someday">ถึง</label>
+												<label class="col-sm-4 col-form-label text-right" id="textto">ถึง</label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="someday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
 											</div>
 										</div>
@@ -2167,7 +2170,7 @@ $array2 = json_decode($json2, TRUE);
 											<div class='form-group row'>
 												<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" data-language='<?php echo $language ?>'>
-												<label class="col-sm-4 col-form-label text-right" for="somemonth">ถึง</label>
+												<label class="col-sm-4 col-form-label text-right" id="textto2">ถึง</label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" data-language='<?php echo $language ?>'>
 												<!-- <input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - "> -->
 											</div>

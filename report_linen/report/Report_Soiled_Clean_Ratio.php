@@ -231,6 +231,16 @@ while ($Result = mysqli_fetch_assoc($meQuery1)) {
   $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
   $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 1, 'C');
 }
+$pdf->Ln(8);
+    $pdf->SetFont('THSarabun', 'b', 11);
+    $pdf->Cell(5);
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่ห้องผ้า..................................................."), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่โรงซัก........................................"), 0, 0, 'L');
+    $pdf->Ln(7);
+    $pdf->Cell(5);
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "วันที่......................................................................"), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "วันที่.........................................................."), 0, 0, 'L');
+    $pdf->Ln(7);
 $pdf->SetY(42);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -258,5 +268,6 @@ $pdf->SetFont('THSarabun', 'b', 12);
 $pdf->Ln();
 // Get $totalsum
 
+    
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Soiled_Clean_Ratio_' . $ddate . '.pdf');
