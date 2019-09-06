@@ -1733,9 +1733,9 @@ $array2 = json_decode($json2,TRUE);
                             <div class="d-flex justify-content-center">
                               <div class="circle7 d-flex justify-content-center">
                                 <button class="btn" onclick="ShowDetailSub()" id="bdetail"disabled="true">
-                                <i class="fas fa-book"></i>                              
-                                  <div>
-                                    <?php echo $array['detail'][$language]; ?>
+                                <i class="fas fa-shopping-cart"></i>                                  
+                                <div>
+                                    <?php echo $array['Jaipar'][$language]; ?>
                                   </div>
                                 </button>
                               </div>
