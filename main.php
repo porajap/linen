@@ -994,7 +994,7 @@ echo '</script>';
 
 <body>
   <header id="pageHeader" class="navbar navbar-expand static-top">
-    <img src="img/logo.png" style="width: 9%;margin-top:55px;margin-bottom:20px;" alt="">
+    <img src="img/7.png" style="width:12%;margin-top:55px;margin-bottom:20px;" alt="">
 
     <!-- Navbar username -->
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">

@@ -45,7 +45,7 @@ $array = json_decode($json,TRUE);
             <img src="img/frame1.png">
         </div>
         <div id="logo">
-            <img src="img/logo3.jpg">
+            <img src="img/logo.png">
         </div>
         <div id="form_input">
             <div id="username_input">
