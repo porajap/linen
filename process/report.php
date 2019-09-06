@@ -658,6 +658,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
+  $return['555'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DocDate3'] = $Result['DocDate3'];
@@ -1991,8 +1992,9 @@ function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
           FROM dirty
           INNER JOIN process ON dirty.DocNo = process.DocNo
           INNER JOIN factory ON dirty.FacCode = factory.FacCode
-          WHERE dirty.DocDate LIKE '%$date1%' ORDER BY dirty.DocNo ASC
-          GROUP BY  dirty.DocDate";
+          WHERE dirty.DocDate LIKE '%$date1%' 
+          GROUP BY  dirty.DocDate
+          ORDER BY dirty.DocNo ASC";
     } else {
       $Sql = "SELECT process.DocNo, factory.FacName, dirty.DocDate
             FROM dirty

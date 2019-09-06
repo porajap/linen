@@ -1653,7 +1653,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R15').attr('hidden', true);
 							$('#table_R16').attr('hidden', true);
 							$('#table_R17').attr('hidden', true);
-							$('#table_R13 tbody').empty();
+							$('#table_R14 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R14 tbody").append(dataRow);
 						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
@@ -1784,6 +1784,7 @@ $array2 = json_decode($json2, TRUE);
 			$('#department').removeClass('border-danger');
 			$('#cycle').removeClass('border-danger');
 		}
+
 	</script>
 	<style media="screen">
 		@font-face {
@@ -2021,9 +2022,26 @@ $array2 = json_decode($json2, TRUE);
 														<label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['type'][$language]; ?></label>
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
 														<option value="0"><?php echo $array['r' . 0][$language]; ?></option>
-														<?php for($i=1;$i<=17;$i++){?>
-															<option value=<?php echo $i ?>><?php echo"$i. ".$array['r' . $i][$language]; ?></option>
-													<?php	}?>
+									
+															<option value=1><?php echo"1. ".$array['r' . 1][$language]; ?></option>
+															<option value=2><?php echo"2. ".$array['r' . 2][$language]; ?></option>
+															<option value=3><?php echo"3. ".$array['r' . 3][$language]; ?></option>
+															<option value=4><?php echo"4. ".$array['r' . 4][$language]; ?></option>
+															<option value=5><?php echo"5. ".$array['r' . 5][$language]; ?></option>
+															<option value=6><?php echo"6. ".$array['r' . 6][$language]; ?></option>
+															<option value=7><?php echo"7. ".$array['r' . 7][$language]; ?></option>
+															<option value=8><?php echo"8. ".$array['r' . 8][$language]; ?></option>
+															<option value=9><?php echo"9. ".$array['r' . 9][$language]; ?></option>
+															<!-- <option value=10><?php echo"10. ".$array['r' . 10][$language]; ?></option>
+															<option value=11><?php echo"11. ".$array['r' . 11][$language]; ?></option>
+															<option value=12><?php echo"12. ".$array['r' . 12][$language]; ?></option> -->
+															<option value=13><?php echo"13. ".$array['r' . 13][$language]; ?></option>
+															<option value=14><?php echo"14. ".$array['r' . 14][$language]; ?></option>
+															<option value=15><?php echo"15. ".$array['r' . 15][$language]; ?></option>
+															<option value=16><?php echo"16. ".$array['r' . 16][$language]; ?></option>
+															<option value=17><?php echo"17. ".$array['r' . 17][$language]; ?></option>
+														
+											
 
 														</select>
 													</div>
@@ -2141,7 +2159,7 @@ $array2 = json_decode($json2, TRUE);
 											<div class='form-group row'>
 												<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only"  data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy"  autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
-												<label class="col-sm-4 col-form-label text-right" for="somemonth">-</label>
+												<label class="col-sm-4 col-form-label text-right" for="someday">ถึง</label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="someday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
 											</div>
 										</div>
@@ -2149,7 +2167,7 @@ $array2 = json_decode($json2, TRUE);
 											<div class='form-group row'>
 												<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" data-language='<?php echo $language ?>'>
-												<label class="col-sm-4 col-form-label text-right" for="somemonth">-</label>
+												<label class="col-sm-4 col-form-label text-right" for="somemonth">ถึง</label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" data-language='<?php echo $language ?>'>
 												<!-- <input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - "> -->
 											</div>

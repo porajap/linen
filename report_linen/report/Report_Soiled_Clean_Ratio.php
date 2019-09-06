@@ -130,7 +130,7 @@ class PDF extends FPDF
   //       $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
   //       $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
   //       $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", abs($inner_array[$field[4]]) . "%"), 1, 0, 'C');
-        
+
   //       $this->Ln();
   //       $rows++;
   //     }
@@ -173,13 +173,13 @@ $pdf->Cell(145, 10, iconv("UTF-8", "TIS-620", "โรงซัก : " . $factory
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 $pdf->SetFont('THSarabun', 'b', 10);
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสกปรก"), 1, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสะอาด"), 1, 0, 'C');
-  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่งผ้าเปื้อน Weight (Kg)"), 1, 0, 'C');
-  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "รับผ้าสะอาด Weight (Kg)"), 1, 0, 'C');
-  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่วนต่าง (%)"), 1, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารซักใหม่"), 1, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "จำนวนผ้าซักใหม่  (Kg)"), 1, 1, 'C');
+$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสกปรก"), 1, 0, 'C');
+$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสะอาด"), 1, 0, 'C');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่งผ้าเปื้อน Weight (Kg)"), 1, 0, 'C');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "รับผ้าสะอาด Weight (Kg)"), 1, 0, 'C');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่วนต่าง (%)"), 1, 0, 'C');
+$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารซักใหม่"), 1, 0, 'C');
+$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "จำนวนผ้าซักใหม่  (Kg)"), 1, 1, 'C');
 
 $query = "SELECT department.DepName,
 COALESCE(clean.DocNo,'-') AS clean_DocNo,
@@ -202,9 +202,9 @@ $where
 AND factory.FacCode=  $FacCode
 AND clean.depcode= $DepCode
 group by clean.DocNo,dirty.DocNo ";
-          $Sql1 = "SELECT
+$Sql1 = "SELECT
           COALESCE(rewash.DocNo,'-') AS rewash_DocNo,
-          COALESCE(sum(item.weight *rewash_detail.qty1 ),'-') AS TOTAL 
+          COALESCE(sum(item.weight *rewash_detail.qty ),'-') AS TOTAL 
           FROM rewash
           INNER JOIN rewash_detail ON rewash.DocNo = rewash_detail.DocNo
           INNER JOIN clean ON clean.RefDocNo = rewash.DocNo
@@ -212,37 +212,36 @@ group by clean.DocNo,dirty.DocNo ";
         $where
         AND clean.depcode= $DepCode 
         group by rewash.DocNo";
-        $count=0;
-  $meQuery = mysqli_query($conn, $Sql1);
- 
-  for ($i = 0; $i < count($header); $i++){
+$count = 0;
+$meQuery = mysqli_query($conn, $Sql1);
+
+for ($i = 0; $i < count($header); $i++) {
   $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
-$this->Ln();
-  }
-  
-  $meQuery1 = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery1)) {
+  $this->Ln();
+}
+
+$meQuery1 = mysqli_query($conn, $query);
+while ($Result = mysqli_fetch_assoc($meQuery1)) {
 
   $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $Result['dirty_DocNo']), 1, 0, 'C');
   $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $Result['clean_DocNo']), 1, 0, 'C');
   $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $Result['Total1']), 1, 0, 'C');
   $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $Result['Total2']), 1, 0, 'C');
-  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", ABS($Result['Precent'])."%"), 1, 0, 'C');
+  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", ABS($Result['Precent']) . "%"), 1, 0, 'C');
   $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
   $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 1, 'C');
+}
+$pdf->SetY(42);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
 
-  }
-  $pdf->SetY(42);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-  
-    $rewash_DocNo = $Result['rewash_DocNo'];
-    $TOTAL = $Result['TOTAL'];
-    
-    $pdf->Cell(140, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $rewash_DocNo), 1, 0, 'C');
-    $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $TOTAL), 1, 1, 'C');
-    $count++;
-  }
+  $rewash_DocNo = $Result['rewash_DocNo'];
+  $TOTAL = $Result['TOTAL'];
+
+  $pdf->Cell(140, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $rewash_DocNo), 1, 0, 'C');
+  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $TOTAL), 1, 1, 'C');
+  $count++;
+}
 // Number of column
 $numfield = 5;
 // Field data (Must match with Query)

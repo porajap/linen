@@ -137,7 +137,7 @@ class PDF extends FPDF
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $total), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($total,2)), 1, 0, 'C');
         $this->Ln();
         $rows++;
         $totalsum1 += $inner_array[$field[1]];
@@ -201,24 +201,37 @@ $pdf->Cell(160, 10, iconv("UTF-8", "TIS-620", "โรงซัก : " . $factory
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 
-  $query = "SELECT
-            item.ItemName,
-            SUM(clean_detail.Weight) as clean_weight,
-            SUM(repair_detail.Weight) as repair_Weight,
-            item.FacPrice
-            FROM
-            clean
-            INNER JOIN clean_detail ON clean.docno = clean_detail.docno
-            INNER JOIN item ON item.itemcode = clean_detail.itemcode
-            INNER JOIN claim ON clean.docno = claim.refdocno
-            INNER JOIN repair ON claim.docno = repair.refdocno
-            INNER JOIN repair_detail ON repair.docno = repair_detail.docno
-            INNER JOIN Dirty ON dirty.DocNo = clean.refdocno
-            INNER JOIN factory ON dirty.FacCode = factory.FacCode
-            $where
-            AND  dirty.faccode = $FacCode
-            GROUP BY item.ItemName
-            ORDER BY item.ItemName ASC
+  $query = "SELECT 
+  IFNULL(clean_weight, 0) AS clean_weight,
+IFNULL(repair_Weight, 0) AS repair_Weight,
+    FacPrice,
+ItemName
+FROM(
+SELECT
+COALESCE (sum(clean_detail.Weight),'-') AS clean_weight, item.FacPrice as  FacPrice,
+item.ItemName as ItemName
+FROM 
+clean
+INNER JOIN clean_detail ON clean_detail.DocNo = clean.DocNo
+INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
+INNER JOIN factory ON factory.FacCode = dirty.FacCode
+INNER JOIN item ON clean_detail.ItemCode=item.ItemCode
+$where
+AND dirty.FacCode= $FacCode
+GROUP BY item.ItemCode  )a,
+(
+SELECT 
+COALESCE (sum(repair_detail.Weight),'-') AS  repair_Weight
+FROM
+repair
+INNER JOIN repair_detail ON repair.DocNo= repair_detail.DocNo
+INNER JOIN claim ON claim.DocNo=repair.DocNo
+INNER JOIN clean ON claim.RefDocNo=clean.DocNo
+INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
+INNER JOIN factory ON factory.FacCode = dirty.FacCode
+$where
+AND dirty.FacCode=$FacCode)b
+
             " ;
 // var_dump($query); die;
 // Number of column
@@ -236,9 +249,5 @@ $pdf->SetFont('THSarabun', 'b', 10);
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->Ln();
 // Get $totalsum
-
-
-
-
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Summary_Dirty_' . $ddate . '.pdf');

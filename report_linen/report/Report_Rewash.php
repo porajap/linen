@@ -182,9 +182,7 @@ $pdf->Ln(10);
 $query = "SELECT
           item.ItemName,
           rewash.DocNo,
-          rewash_detail.qty1,
-          rewash_detail.Price,
-          ROUND((rewash_detail.qty1*rewash_detail.Price),2) AS Total
+          rewash_detail.Qty
           FROM
           rewash_detail
           INNER JOIN item ON rewash_detail.ItemCode = item.ItemCode
@@ -197,7 +195,7 @@ $query = "SELECT
 // Number of column
 $numfield = 5;
 // Field data (Must match with Query)
-$field = "DocNo,ItemName,qty1";
+$field = "DocNo,ItemName,Qty";
 // Table header
 $header = array('DETAILS','ชื่อ', 'จำนวน(ชิ้น)',);
 // width of column table

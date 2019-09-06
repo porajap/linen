@@ -20,18 +20,24 @@ $where = '';
 if ($chk == 'one') {
   if ($format == 1) {
     $where_clean =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
-    $where_claim =   "WHERE DATE (claim.Docdate) = DATE('$date1')";
+    $where_rewash =   "WHERE DATE (rewash.Docdate) = DATE('$date1')";
+    $where_repair =   "WHERE DATE (repair.Docdate) = DATE('$date1')";
+    $where_damage =   "WHERE DATE (damage.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
   } elseif ($format = 3) {
     $where_clean = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
-    $where_claim = "WHERE  year (claim.DocDate) LIKE '%$date1%'";
+    $where_rewash = "WHERE  year (rewash.DocDate) LIKE '%$date1%'";
+    $where_repair = "WHERE  year (repair.DocDate) LIKE '%$date1%'";
+    $where_damage = "WHERE  year (damage.DocDate) LIKE '%$date1%'";
     $date_header = "ประจำปี : $date1";
   }
 } elseif ($chk == 'between') {
   $where_clean =   "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
-  $where_claim =   "WHERE claim.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_rewash =   "WHERE rewash.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_repair =   "WHERE repair.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_damage =   "WHERE damage.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -39,12 +45,16 @@ if ($chk == 'one') {
     "วันที่ " . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
 } elseif ($chk == 'month') {
   $where_clean =   "WHERE month (clean.Docdate) = " . $date1;
-  $where_claim =   "WHERE month (claim.Docdate) = " . $date1;
+  $where_rewash =   "WHERE month (rewash.Docdate) = " . $date1;
+  $where_repair =   "WHERE month (repair.Docdate) = " . $date1;
+  $where_damage =   "WHERE month (damage.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1);
 } elseif ($chk == 'monthbetween') {
   $where_clean =   "WHERE month(clean.Docdate) BETWEEN $date1 AND $date2";
-  $where_claim =   "WHERE month(claim.Docdate) BETWEEN $date1 AND $date2";
+  $where_rewash =   "WHERE month(rewash.Docdate) BETWEEN $date1 AND $date2";
+  $where_repair =   "WHERE month(repair.Docdate) BETWEEN $date1 AND $date2";
+  $where_damage =   "WHERE month(damage.Docdate) BETWEEN $date1 AND $date2";
   $datetime = new DatetimeTH();
   $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1) . " ถึง " . $datetime->getTHmonthFromnum($date2);
 }
@@ -221,14 +231,16 @@ clean
 INNER JOIN clean_detail ON clean_detail.DocNo = clean.DocNo
 INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
 INNER JOIN factory ON factory.FacCode = dirty.FacCode
-WHERE clean.DepCode = $DepCode
+$where_clean 
+AND clean.DepCode = $DepCode
 AND dirty.FacCode=$FacCode
 )a,
 (SELECT  sum(rewash_detail.Qty) AS REWASH
 FROM  clean
 INNER JOIN rewash ON clean.RefDocNo=rewash.DocNo
 INNER JOIN rewash_detail ON rewash.DocNo=rewash_detail.DocNo
-WHERE clean.DepCode = $DepCode
+$where_rewash 
+AND clean.DepCode = $DepCode
 )b,
 (SELECT COALESCE(claim.DocNo,'-') AS DocNo 
 ,COALESCE(SUM(repair_detail.Qty),'-') AS REPAIR
@@ -237,7 +249,8 @@ INNER JOIN repair ON claim.DocNo = repair.RefDocNo
 INNER JOIN repair_detail ON repair.DocNo=repair_detail.DocNo
 INNER JOIN clean ON claim.RefDocNo=clean.DocNo
 INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
-WHERE repair.DepCode = $DepCode
+$where_repair
+ AND repair.DepCode = $DepCode
 AND dirty.FacCode=$FacCode)c,
 (SELECT  COALESCE(claim.DocNo,'-')  as DocNo
 ,COALESCE(SUM(damage_detail.Qty),'-') AS DAMAGE
@@ -246,7 +259,8 @@ INNER JOIN damage ON claim.DocNo = damage.RefDocNo
 INNER JOIN damage_detail ON damage.DocNo=damage_detail.DocNo
 INNER JOIN clean ON claim.RefDocNo=clean.DocNo
 INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
-WHERE damage.DepCode = $DepCode
+$where_damage 
+AND damage.DepCode = $DepCode
 AND dirty.FacCode=$FacCode)d
 
 

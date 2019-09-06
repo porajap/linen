@@ -209,7 +209,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(80);
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "โรงพยาบาล" . $side), 0, 0, 'C');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "โรงพยาบาล   " . $side), 0, 0, 'C');
 $pdf->Ln(7);
 $pdf->SetFont('THSarabun', 'b', 11);
 $pdf->Cell(1);
