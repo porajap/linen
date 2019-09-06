@@ -635,7 +635,7 @@ $array2 = json_decode($json2,TRUE);
 
       var docno = $("#docno").val();
       var isStatus = $("#IsStatus").val();
-      var dept = $('#Dep2').val();
+      var dept = $('#department').val();
       // alert( isStatus );
       var input_chk = $('#input_chk').val();
         if(isStatus==1){
@@ -650,13 +650,18 @@ $array2 = json_decode($json2,TRUE);
           }else{
             var ItemCodeArray = [];
             var Item = [];
+            var QtyItemArray = [];
             $(".item_array").each(function() {
               ItemCodeArray.push($(this).val());
             });
             for(var j=0;j<ItemCodeArray.length; j++){
               Item.push( $("#item_array"+ItemCodeArray[j]).val() );
             }
+            $(".QtyItem").each(function() {
+              QtyItemArray.push($(this).val());
+            });
             var ItemCode = Item.join(',') ;
+            var Qty = QtyItemArray.join(',') ;
             swal({
             title: "<?php echo $array['confirmsave'][$language]; ?>",
             text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -676,7 +681,8 @@ $array2 = json_decode($json2,TRUE);
                 'xdocno'      : docno,
                 'isStatus'    : isStatus,
                 'deptCode'    : dept,
-                'ItemCode'    : ItemCode
+                'ItemCode'    : ItemCode,
+                'Qty'    : Qty
               };
               senddata(JSON.stringify(data));
           $('#profile-tab').tab('show');
@@ -1140,7 +1146,7 @@ $array2 = json_decode($json2,TRUE);
 
                 chkunit += "</select>";
 
-                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee ' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control numonly' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='if(this.value > "+temp[i]['ParQty']+"){this.value="+temp[i]['ParQty']+"}else if(this.value<0){this.value=0}' onblur='keydownupdate(\""+temp[i]['RowID']+"\",\""+i+"\")' ><button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
+                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee ' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control numonly QtyItem' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='if(this.value > "+temp[i]['ParQty']+"){this.value="+temp[i]['ParQty']+"}else if(this.value<0){this.value=0}' onblur='keydownupdate(\""+temp[i]['RowID']+"\",\""+i+"\")' ><button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
 
                 var Order = "<input class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;' value='"+(temp[i]['TotalQty'])+"' onkeyup='userKeyValue(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\");'>";
 

@@ -862,6 +862,7 @@ function SaveBill($conn, $DATA)
 
   $ItemCodeArray = $DATA['ItemCode'];
   $ItemCode = explode(",", $ItemCodeArray);
+  $QtyArray = explode(",", $DATA['Qty']);
   $limit = sizeof($ItemCode, 0);
   for ($i = 0; $i < $limit; $i++) {
     $Sql = "SELECT 
@@ -890,13 +891,12 @@ function SaveBill($conn, $DATA)
     WHERE shelfcount.DocNo = '$DocNo' 
     AND shelfcount_detail.ItemCode = '$ItemCode[$i]' 
     AND shelfcount.DepCode = $DepCode";
-    $return['sql'] = $Sql;
+
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $MoreThan = $Result['TotalQty'] +  $Result['TotalQty2'];
       if($MoreThan>$Result['ParQty']){
         $OverPar = $MoreThan - $Result['ParQty'];
-
         $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = $OverPar WHERE shelfcount_detail.DocNo = '$DocNo' 
         AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
         mysqli_query($conn, $update);
@@ -906,6 +906,8 @@ function SaveBill($conn, $DATA)
         mysqli_query($conn, $update);
       }
     }
+    $updateStock = "UPDATE item_stock SET TotalQty = $QtyArray[$i] WHERE DepCode = $DepCode AND ItemCode = '$ItemCode[$i]'";
+    mysqli_query($conn, $updateStock);
   }
   $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ
   FROM shelfcount_detail WHERE shelfcount_detail.DocNo = '$DocNo'";
@@ -981,9 +983,6 @@ function SaveBill($conn, $DATA)
         $ParQty = $xParQty[$i];
         $CcQty = $xCcQty[$i];
         $TotalQty = $xTotalQty[$i];
-        // mysqli_query($conn, "UPDATE item_stock SET ParQty=$ParQty,CcQty=$CcQty,TotalQty=$TotalQty WHERE ItemCode = '$ItemCode'");
-        // mysqli_query($conn, "UPDATE item_stock_detail SET Qty=(Qty + $CcQty) WHERE ItemCode = '$ItemCode' AND DepCode=$zDepCode");
-        // mysqli_query($conn, "UPDATE item_stock_detail SET Qty=(Qty - $CcQty) WHERE ItemCode = '$ItemCode' AND DepCode=$zDept");
     }
 
   $Sql = "DELETE FROM shelfcount_detail_sub  WHERE DocNo = '$DocNo'";
