@@ -855,7 +855,7 @@ $array2 = json_decode($json2,TRUE);
                                     $("#Permission").append(StrTr);
                                 } else if ((temp["form"] == 'getFactory')) {
                                     $("#factory").empty();
-                                    var StrTr = "<option value = '0'><?php echo $array['facname'][$language]; ?></option>";
+                                    var StrTr = "<option value = '0'>-</option>";
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                         StrTr += "<option value = '" + temp[i]['FacCode'] + "'> " + temp[i]['FacName'] + " </option>";
                                     }
