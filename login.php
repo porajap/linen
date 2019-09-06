@@ -39,7 +39,6 @@ $array = json_decode($json,TRUE);
 </head>
 <body>
     <input type="hidden" id="chk" value="1">
-
     <!-- --------------------------------------------------------------------------------------------- -->
     <div id="login_form">
         <div id="fram_white">
