@@ -526,7 +526,7 @@ table tr:first-child th:first-child {
 
           <div class="row">
               <div style='width: 98%;'> <!-- tag column 1 -->
-              		<table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
+              		<table style="margin-top:-15px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
                           <thead id="theadsum" style="font-size:24px;">
                             <tr role="row">
                               <th style='width: 5%;'nowrap><?php echo $array['sn'][$language]; ?></th>

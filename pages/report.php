@@ -102,10 +102,13 @@ $array2 = json_decode($json2, TRUE);
 			$('#somemonth').hide();
 			$('#myDay').hide();
 			$('#myMonth').hide();
+			$('#text').hide();
 			OnLoadPage();
 			$('#hotpital').attr('disabled', true);
 			$('#department').attr('disabled', true);
 			$('#cycle').attr('disabled', true);
+	
+
 
 		}).mousemove(function(e) {
 			parent.afk();
@@ -241,7 +244,8 @@ $array2 = json_decode($json2, TRUE);
 			if (language == 'th') {
 				var year = parseInt(year) + 543;
 			}
-			$('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
+			// $('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
+			$('#somemonth').attr('value', nowMonth + '-' + year );
 		}
 
 		function showdate() {
@@ -294,7 +298,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#someday').hide();
 
 			} else if (chk == 2) {
-				$('#oneday').hide();
+				$('#oneday').show();
 				$('#someday').show();
 				var currentDay = currentDate2;
 				var dateone = currentDate.split('-');
@@ -303,7 +307,7 @@ $array2 = json_decode($json2, TRUE);
 				} else if (language == 'en') {
 					dateone[0] = parseInt(dateone[0]);
 				}
-				dateone = dateone[2] + "/" + dateone[1] + "/" + dateone[0];
+				dateone = dateone[2] + "-" + dateone[1] + "-" + dateone[0];
 				var today = new Date();
 				var tomorrow = new Date(today);
 				tomorrow.setDate(today.getDate() + 1);
@@ -317,8 +321,10 @@ $array2 = json_decode($json2, TRUE);
 				var day = tomorrow.getDate();
 				if (month < 10) month = '0' + month;
 				if (day < 10) day = '0' + day;
-				var myDate = dateone + ' - ' + day + '/' + month + '/' + year;
+				// var myDate = dateone + ' - ' + day + '/' + month + '/' + year;
+				var myDate = dateone ;
 				$('#someday').attr('value', myDate);
+				
 			}
 		}
 
@@ -327,8 +333,9 @@ $array2 = json_decode($json2, TRUE);
 				$('#onemonth').show();
 				$('#somemonth').hide();
 			} else if (chk == 2) {
-				$('#onemonth').hide();
+				$('#onemonth').show();
 				$('#somemonth').show();
+				$('#text').show();
 
 				var date = currentDate.split('-');
 				find_indexMonth2(date[0]);
@@ -480,24 +487,33 @@ $array2 = json_decode($json2, TRUE);
 					}
 
 				} else {
-					var date = $('#someday').val();
-					many_day = date;
+					var one = $('#oneday').val();
+					var some = $('#someday').val();
+					
 					if (language == 'th') {
-						var dmy = date.split('-');
-						var date1 = dmy[0].split('/');
-						var date2 = dmy[1].split('/');
-						var year1 = parseInt(date1[2]) - 543;
-						var year2 = parseInt(date2[2]) - 543;
-						date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
+						var day1 = one.split('-');
+						var day2 = some.split('-');
+						var year1 = parseInt(day1[2]) - 543;
+						var year2 = parseInt(day2[2]) - 543;
+						date = year1 + "/" + day1[1] + "/" + day1[0] + "-" + year2 + "/" + day2[1] + "/" + day2[0]
+						// var date1 = dmy[0].split('/');
+						// var date2 = dmy[1].split('/');
+						// var year1 = parseInt(date1[2]) - 543;
+						// var year2 = parseInt(date2[2]) - 543;
+						// date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
 					} else {
-						var dmy = date.split('-');
-						var date1 = dmy[0].split('/');
-						var date2 = dmy[1].split('/');
-						var year1 = parseInt(date1[2]);
-						var year2 = parseInt(date2[2]);
-						date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
+						var day1 = one.split('-');
+						var day2 = some.split('-');
+						var year1 = parseInt(day1[2]);
+						var year2 = parseInt(day2[2]);
+						date = year1 + "/" + day1[1] + "/" + day1[0] + "-" + year2 + "/" + day2[1] + "/" + day2[0]
+						// var date1 = dmy[0].split('/');
+						// var date2 = dmy[1].split('/');
+						// var year1 = parseInt(date1[2]);
+						// var year2 = parseInt(date2[2]);
+						// date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
 					}
-
+					many_day = date;
 					var chkDateRang = date.split('-');
 					if (chkDateRang[0] == null || chkDateRang[0] == undefined || chkDateRang[1] == null || chkDateRang[1] == undefined) {
 						swal({
@@ -541,31 +557,38 @@ $array2 = json_decode($json2, TRUE);
 
 					month = date;
 				} else {
-					var date = $('#somemonth').val();
-					var chkDateRang = date.split('-');
+					var one = $('#onemonth').val();
+					var some = $('#somemonth').val();
 					if (language == "th") {
-						var month1 = chkDateRang[0].split('/');
-						var month2 = chkDateRang[1].split('/');
+						var month1 = one.split('-');
+						var month2 = some.split('-');
 						var m1 = parseInt(month1[1]) - 543;
 						var m2 = parseInt(month2[1]) - 543;
 						date = month1[0] + "/" + m1 + "-" + month2[0] + "/" + m2;
 					}
-					if (chkDateRang[1] == null || chkDateRang[1] == undefined) {
-						swal({
-							title: '',
-							text: '<?php echo $array['insert_form'][$language]; ?>',
-							type: 'warning',
-							showCancelButton: false,
-							confirmButtonColor: '#3085d6',
-							cancelButtonColor: '#d33',
-							showConfirmButton: false,
-							timer: 1000,
-							confirmButtonText: 'Ok'
-						});
-						setTimeout(function() {
-							$('#somemonth').focus();
-						}, 1000);
+					else{
+						var month1 = one.split('-');
+						var month2 = some.split('-');
+						var m1 = parseInt(month1[1]);
+						var m2 = parseInt(month2[1]);
+						date = month1[0] + "/" + m1 + "-" + month2[0] + "/" + m2;
 					}
+					// if (chkDateRang[1] == null || chkDateRang[1] == undefined) {
+					// 	swal({
+					// 		title: '',
+					// 		text: '<?php echo $array['insert_form'][$language]; ?>',
+					// 		type: 'warning',
+					// 		showCancelButton: false,
+					// 		confirmButtonColor: '#3085d6',
+					// 		cancelButtonColor: '#d33',
+					// 		showConfirmButton: false,
+					// 		timer: 1000,
+					// 		confirmButtonText: 'Ok'
+					// 	});
+					// 	setTimeout(function() {
+					// 		$('#somemonth').focus();
+					// 	}, 1000);
+					// }
 					many_month = date;
 
 				}
@@ -1997,21 +2020,11 @@ $array2 = json_decode($json2, TRUE);
 													<div class='form-group row'>
 														<label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['type'][$language]; ?></label>
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
-															<option value="0"><?php echo $array['r' . 0][$language]; ?></option>
-													
-															<option value="<?php echo 1 ?>"><?php echo $array['r' . 1][$language]; ?></option>
-															<option value="<?php echo 2 ?>"><?php echo $array['r' . 2][$language]; ?></option>
-															<option value="<?php echo 3 ?>"><?php echo $array['r' . 3][$language]; ?></option>
-															<!-- <option value="<?php echo 5 ?>"><?php echo $array['r' . 5][$language]; ?></option> -->
-															<option value="<?php echo 6 ?>"><?php echo $array['r' . 6][$language]; ?></option>
-															<option value="<?php echo 8 ?>"><?php echo $array['r' . 8][$language]; ?></option>
-															<option value="<?php echo 10 ?>"><?php echo $array['r' . 10][$language]; ?></option>
-															<option value="<?php echo 11 ?>"><?php echo $array['r' . 11][$language]; ?></option>
-															<option value="<?php echo 12 ?>"><?php echo $array['r' . 12][$language]; ?></option>
-															<!-- <option value="<?php echo 15 ?>"><?php echo $array['r' . 15][$language]; ?></option> -->
-															<option value="<?php echo 17 ?>"><?php echo $array['r' . 17][$language]; ?></option> 
+														<option value="0"><?php echo $array['r' . 0][$language]; ?></option>
+														<?php for($i=1;$i<=17;$i++){?>
+															<option value=<?php echo $i ?>><?php echo"$i. ".$array['r' . $i][$language]; ?></option>
+													<?php	}?>
 
-												
 														</select>
 													</div>
 												</div>
@@ -2127,15 +2140,18 @@ $array2 = json_decode($json2, TRUE);
 										<div class="col-md-6" id="myDay">
 											<div class='form-group row'>
 												<label class="col-sm-4 col-form-label text-right"><?php echo $array['choosedate'][$language]; ?></label>
-												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
-												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - " id="someday" data-date-format="dd/mm/yyyy">
+												<input type="text" class="form-control col-sm-8 datepicker-here only"  data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy"  autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
+												<label class="col-sm-4 col-form-label text-right" for="somemonth">-</label>
+												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="someday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
 											</div>
 										</div>
 										<div class="col-md-6" id="myMonth">
 											<div class='form-group row'>
 												<label class="col-sm-4 col-form-label text-right"><?php echo $array['month'][$language]; ?></label>
 												<input type="text" class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" data-language='<?php echo $language ?>'>
-												<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - ">
+												<label class="col-sm-4 col-form-label text-right" for="somemonth">-</label>
+												<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" data-language='<?php echo $language ?>'>
+												<!-- <input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - "> -->
 											</div>
 										</div>
 									</div>

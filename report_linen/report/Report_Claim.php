@@ -208,52 +208,47 @@ $pdf->Ln(10);
 
 $query = "SELECT 
 IFNULL(CLEAN, 0) AS CLEAN,
-  IFNULL(REWASH, 0) AS REWASH,
-  IFNULL(REPAIR, 0) AS REPAIR,
-  IFNULL(DAMAGE, 0) AS DAMAGE,
-  FacName
-  FROM (SELECT
+ IFNULL(REWASH, 0) AS REWASH,
+ IFNULL(REPAIR, 0) AS REPAIR,
+IFNULL(DAMAGE, 0) AS DAMAGE,
+ FacName
+FROM (
+SELECT
 sum(clean_detail.Qty) AS CLEAN,
 factory.FacName
 FROM
 clean
-INNER JOIN dirty ON dirty.docno = clean.RefDocNo
+INNER JOIN clean_detail ON clean_detail.DocNo = clean.DocNo
+INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
 INNER JOIN factory ON factory.FacCode = dirty.FacCode
-INNER JOIN clean_detail ON clean.DocNo = clean_detail.DocNo
-INNER JOIN department ON department.DepCode = clean.DepCode
-$where_clean
-AND department.HptCode = '$HptCode'
-AND clean.DepCode = '$DepCode'
-AND factory.FacCode = $FacCode
-GROUP BY
-date(clean.DocDate)) a,
-(SELECT  sum(rewash_detail.Qty1) AS REWASH
+WHERE clean.DepCode = $DepCode
+AND dirty.FacCode=$FacCode
+)a,
+(SELECT  sum(rewash_detail.Qty) AS REWASH
 FROM  clean
 INNER JOIN rewash ON clean.RefDocNo=rewash.DocNo
 INNER JOIN rewash_detail ON rewash.DocNo=rewash_detail.DocNo
-INNER JOIN department ON department.DepCode = clean.DepCode
-$where_clean
-AND clean.DepCode = '$DepCode'
-AND	department.HptCode='$HptCode'
-GROUP BY date(clean.Docdate )) b,
-(
-SELECT  claim.DocNo,SUM(repair_detail.Qty) AS REPAIR
+WHERE clean.DepCode = $DepCode
+)b,
+(SELECT COALESCE(claim.DocNo,'-') AS DocNo 
+,COALESCE(SUM(repair_detail.Qty),'-') AS REPAIR
 FROM claim
-INNER JOIN  repair ON claim.DocNo = repair.RefDocNo
+INNER JOIN repair ON claim.DocNo = repair.RefDocNo
 INNER JOIN repair_detail ON repair.DocNo=repair_detail.DocNo
-$where_claim
-AND claim.HptCode = '$HptCode'
-AND claim.DepCode = '$DepCode'
-GROUP BY date(claim.Docdate)
-) c,
-(SELECT  claim.DocNo,SUM(damage_detail.Qty) AS DAMAGE
+INNER JOIN clean ON claim.RefDocNo=clean.DocNo
+INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
+WHERE repair.DepCode = $DepCode
+AND dirty.FacCode=$FacCode)c,
+(SELECT  COALESCE(claim.DocNo,'-')  as DocNo
+,COALESCE(SUM(damage_detail.Qty),'-') AS DAMAGE
 FROM claim
 INNER JOIN damage ON claim.DocNo = damage.RefDocNo
 INNER JOIN damage_detail ON damage.DocNo=damage_detail.DocNo
-$where_claim
-AND claim.HptCode = '$HptCode'
-AND claim.DepCode = '$DepCode'
-GROUP BY date(claim.Docdate)) d
+INNER JOIN clean ON claim.RefDocNo=clean.DocNo
+INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
+WHERE damage.DepCode = $DepCode
+AND dirty.FacCode=$FacCode)d
+
 
 
 

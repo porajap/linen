@@ -782,7 +782,8 @@ $array2 = json_decode($json2, TRUE);
       $('#bSave_chk').attr('disabled', false);
       $('#ItemCode').attr('disabled', false);
       $('#ItemCode').val("");
-      $('#catagory2').val("1");
+      $('#maincatagory2').val("");
+      $('#catagory2').val("");
       $('#UnitName').val("1");
       $('#SizeCode').val("1");
       $('#hospital').val("BHQ");
@@ -1275,12 +1276,14 @@ $array2 = json_decode($json2, TRUE);
               $("#catagory1").empty();
               $("#catagoryModal").empty();
               $("#catagory2").empty();
+              var Str = "<option value=''>-</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var StrTr = "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
+                Str += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
                 $("#catagory1").append(StrTr);
-                $("#catagory2").append(StrTr);
                 $("#catagoryModal").append(StrTr);
               }
+              $("#catagory2").append(Str);
               CreateItemCode();
             } else if ((temp["form"] == 'GetHospital')) {
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -1288,13 +1291,15 @@ $array2 = json_decode($json2, TRUE);
                 $("#hospital").append(StrTr);
               }
             } else if ((temp["form"] == 'GetmainCat')) {
+              var Str = "<option value=''>-</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var StrTr = "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
+                 Str += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
                 $("#maincatagory").append(StrTr);
-                $("#maincatagory2").append(StrTr);
                 $("#maincatagoryModal").append(StrTr);
                 // $("#catagory2").append(StrTr);
               }
+              $("#maincatagory2").append(Str);
             } else if ((temp["form"] == 'getUnit')) {
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var StrTr = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
@@ -1367,7 +1372,6 @@ $array2 = json_decode($json2, TRUE);
               $('.checkblank').each(function() {
                 $(this).val("");
               });
-              $('#catagory2').val("1");
               $('#UnitName').val("1");
               $('#SizeCode').val("1");
               $('#hospital').val("BHQ");
@@ -1411,6 +1415,7 @@ $array2 = json_decode($json2, TRUE);
               $('.checkblank').each(function() {
                 $(this).val("");
               });
+              $('#maincatagory2').val("1");
               $('#catagory2').val("1");
               $('#UnitName').val("1");
               $('#SizeCode').val("1");
@@ -1487,6 +1492,7 @@ $array2 = json_decode($json2, TRUE);
             } else if ((temp["form"] == 'getdetail')) {
               if ((Object.keys(temp).length - 2) > 0) {
                 $("#TableUnit tbody").empty();
+                $('#maincatagory2').val(temp[0]['MainCategoryCode']);
                 $('#catagory2').val(temp[0]['CategoryCode']);
                 $('#ItemCode').val(temp[0]['ItemCode']);
                 $('#ItemCodeM_chk').val(temp[0]['ItemCode']);

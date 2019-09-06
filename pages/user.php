@@ -1106,7 +1106,7 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="row" style="margin-left:5px;">
+                                    <div class="row" style="margin-left:-35px;">
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
                                         <select class="form-control col-md-8" id="department2">
                                         </select>
