@@ -1766,6 +1766,18 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle8 d-flex justify-content-center">
+                                <button class="btn" onclick="PrintData()" id="bPrint"disabled="true">
+                                <i class="fas fa-frog"></i>                                  
+                                <div>
+                                    <?php echo $array['Sticker'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <!-- end row btn -->
                     </div>
