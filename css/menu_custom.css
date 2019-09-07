@@ -79,6 +79,7 @@
         padding: 7px;
         color:#ffffff;
       }
+      
       .circle6{
         width: 40px;
         height: 40px;
@@ -96,6 +97,16 @@
         background-color:#7158e2;
       }
       .circle7 i{
+        padding: 7px;
+        color:#ffffff;
+      }
+      .circle8{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#99CCCC;
+      }
+      .circle8 i{
         padding: 7px;
         color:#ffffff;
       }

@@ -120,6 +120,7 @@
 <order><en>Order</en><th>ออเดอร์</th></order>
 <detail><en>Description</en><th>รายละเอียด</th></detail>
 <print><en>Print Report</en><th>พิมพ์รายงาน</th></print>
+<Sticker><en>Print Sticker</en><th>พิมพ์สติ๊กเกอร์</th></Sticker>
 <report><en>Report</en><th>ออกรายงาน</th></report>
 <docfirst><en>Please select document.</en><th>กรุณาเลือกเอกสาร</th></docfirst>
 <datestart><en>Start date</en><th>วันที่เริ่ม</th></datestart>
