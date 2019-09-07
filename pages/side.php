@@ -418,6 +418,7 @@ $array2 = json_decode($json2,TRUE);
         var Position = $('#Position').val();
         var phone = $('#phone').val();
         var host = $('#host').val();
+        var hosdetail = $('#hosdetail1').val();
         $(".checkblank3").each(function() {
           if($( this ).val()==""||$(this).val()==undefined){
             count++;
@@ -446,7 +447,9 @@ $array2 = json_decode($json2,TRUE);
                   'Position' : Position,
                   'phone' : phone,
                   'idcontract' : idcontract,
-                  'host' : host
+                  'host' : host ,
+                  'hosdetail' : hosdetail 
+                  
                 };
 
                 console.log(JSON.stringify(data));
@@ -507,6 +510,7 @@ $array2 = json_decode($json2,TRUE);
               senddata(JSON.stringify(data));
               getHotpital();
               ShowItem();
+              Blankinput();
             } else if (result.dismiss === 'cancel') {
               swal.close();
             }
@@ -552,6 +556,9 @@ $array2 = json_decode($json2,TRUE);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
+          
+
+
           Blankinput();
         } else {
           $("input[name="+name+"]:radio").attr('previousValue', false);
@@ -767,9 +774,9 @@ $array2 = json_decode($json2,TRUE);
                                 $('#idcontract').val(temp['id']);
                                 $('#host').val(temp['HptCode']);
                                 $('#hosdetail1').val(temp['HptName']);
-
                                 $('#hostdetail').attr('hidden', false);
                                 $('#hostdetail55').attr('hidden', true);
+                                $('#host').removeClass('checkblank3');
 
 
                                 
@@ -1364,7 +1371,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6" id="hostdetail55">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 checkblank2  checkblank3" id="host" onchange="removeClassBorder1();"></select>
+                                      <select  class="form-control col-sm-8   checkblank3" id="host" onchange="removeClassBorder1();"></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6"  hidden id="hostdetail">

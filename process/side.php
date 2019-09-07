@@ -185,6 +185,7 @@ function Adduser($conn, $DATA)
   $Position = $DATA['Position'];
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
+  $hosdetail = $DATA['hosdetail'];
 
 //=======================================
   $Sqlx = "SELECT COUNT(*) AS Countc
@@ -227,7 +228,12 @@ $boolcountc = $Resultx['Countc'];
     die;
   }
   }else{
-      $Sql="UPDATE contractsite SET  contractsite.HptCode = '$host' , 
+      $Sql="SELECT site.HptCode FROM site WHERE HptName ='$hosdetail'";
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $HptCodeupdate  = $Result['HptCode'];
+      }
+      $Sql="UPDATE contractsite SET  contractsite.HptCode = '$HptCodeupdate' , 
                                      contractsite.contractName = '$ContractName' , 
                                      contractsite.permission = '$Position' , 
                                      contractsite.Number = '$phone' 

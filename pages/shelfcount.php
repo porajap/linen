@@ -1776,7 +1776,7 @@ $array2 = json_decode($json2,TRUE);
                                             <center><?php echo $array['parsc'][$language]; ?></center>
                                         </th>
                                         <th style='width: 12%;' nowrap>
-                                            <center><?php echo $array['leftsc'][$language]; ?></center>
+                                            <center><?php echo $array['count'][$language]; ?></center>
                                         </th>
                                         <th style='width: 16%;' nowrap>
                                             <center><?php echo $array['order'][$language]; ?><center>

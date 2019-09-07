@@ -229,7 +229,7 @@
 <TotalPercent><en>Total Percent</en><th>เปอร์เซ็นต์ที่ได้</th></TotalPercent>
 <overPercent><en>Over Percent</en><th>เปอร์เซ็นต์ที่เกิน</th></overPercent>
 <par><en>Par</en><th>Par</th></par>
-<count> <en>count</en><th>นับได้</th></count>
+<count> <en>Left</en><th>นับได้</th></count>
 <minute><en>Minute</en><th>นาที</th></minute>
 <datafail><en>Please fill in the information correctly.</en><th>กรูณากรอกข้อมูลให้ถูกต้อง</th></datafail>
 <savedoc><en>Save Doc</en><th>บันทึกเอกสาร</th></savedoc>
