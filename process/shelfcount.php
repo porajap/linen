@@ -1381,6 +1381,10 @@ function userKeyValue($conn, $DATA){
   }
   mysqli_query($conn, $Sql);
 }
+
+function SaveDraw($conn, $DATA){
+  
+}
   //==========================================================
   //
   //==========================================================
@@ -1434,6 +1438,8 @@ function userKeyValue($conn, $DATA){
       chk_par($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'userKeyValue') {
       userKeyValue($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'SaveDraw') {
+      SaveDraw($conn, $DATA);
     }
   } else {
     $return['status'] = "error";
