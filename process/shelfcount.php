@@ -305,7 +305,7 @@ function SelectDocument($conn, $DATA)
     DATE(shelfcount.DocDate) AS DocDate,
     shelfcount.Total,
     users.FName,TIME(shelfcount.Modify_Date) AS xTime,
-  shelfcount.IsStatus
+    shelfcount.IsStatus
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -1027,6 +1027,7 @@ function UpdateRefDocNo($conn, $DATA)
 
 function ShowDetail($conn, $DATA)
 {
+  $countqty = 0;
   $count = 0;
   $Total = 0;
   $boolean = false;
@@ -1051,7 +1052,7 @@ function ShowDetail($conn, $DATA)
        $DepCode = $Result['DepCode'];
    }
  //==========================================================
-  
+
   $Sql = "SELECT
   shelfcount_detail.Id,
   shelfcount_detail.ItemCode,
@@ -1066,19 +1067,28 @@ function ShowDetail($conn, $DATA)
   ) AS ParQtyx,
   shelfcount_detail.ParQty,
   shelfcount_detail.CcQty,
-  shelfcount_detail.TotalQty
+  shelfcount_detail.TotalQty,
+ (
+  SELECT item_stock.TotalQty  FROM item_stock 
+    INNER JOIN department ON department.DepCode = item_stock.DepCode
+    INNER JOIN site ON site.HptCode = department.HptCode
+		WHERE item_stock.ItemCode = shelfcount_detail.ItemCode 
+    AND site.HptCode = 'BHQ' AND department.IsDefault = 1 LIMIT 1
+ ) AS TotalX
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
   INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
   WHERE shelfcount_detail.DocNo = '$DocNo'
-  ORDER BY shelfcount_detail.Id DESC ";
+  ORDER BY shelfcount_detail.Id DESC";
   $return['sql55'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$count :: ".$Result['Id']." / ".$Result['Weight']."')";
     //	mysqli_query($conn,$Sqlx);
+
+   
     $return[$count]['RowID']      = $Result['Id'];
     $return[$count]['ItemCode']   = $Result['ItemCode'];
     $return[$count]['ItemName']   = $Result['ItemName'];
@@ -1089,7 +1099,10 @@ function ShowDetail($conn, $DATA)
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $UnitCode                     = $Result['UnitCode'];
     $ItemCode                     = $Result['ItemCode'];
+    $return[$count]['TotalX']         = $Result['TotalX']==null?0:$Result['TotalX'];
     $count2 = 0;
+
+
 
     $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode 
                 AND item_multiple_unit.ItemCode = '$ItemCode'";
