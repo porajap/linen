@@ -859,7 +859,14 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
-
+    function draw(){
+      var DocNo = $('#ocno').val();
+      var data = {
+        'STATUS':'SaveDraw',
+        'DocNo':DocNo
+      };
+      senddata(JSON.stringify(data));
+    }
  
 
 
@@ -1562,7 +1569,7 @@ $array2 = json_decode($json2,TRUE);
       .only1:disabled, .form-control[readonly] {
     background-color: transparent !important;
     opacity: 1;
-}
+    }
       @media (min-width: 992px) and (max-width: 1199.98px) { 
 
         .icon{
