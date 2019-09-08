@@ -860,7 +860,7 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
     function draw(){
-      var DocNo = $('#ocno').val();
+      var DocNo = $('#docno').val();
       var data = {
         'STATUS':'SaveDraw',
         'DocNo':DocNo
@@ -1338,6 +1338,34 @@ $array2 = json_decode($json2,TRUE);
               }else if(temp["Row"]=="No"){
                 SaveBill(1);
                 // $('#alert_par').modal('toggle');
+              }
+            }else if( (temp["form"]=='SaveDraw') ){
+              if(temp['chk'] == "OK"){
+                swal({
+                  title: '',
+                  text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }else{
+                result = '';
+                if(temp["CountRow"]>0){
+                  for(var i = 0; i < temp['CountRow']; i++){
+                    result += "<tr>"+
+                      '<td nowrap style="width: 5%;">'+(i+1)+'</td>'+
+                      '<td nowrap style="width: 25%;" class="text-left">'+temp[i]['ItemCode']+'</td>'+
+                      '<td nowrap style="width: 30%;" class="text-left">'+temp[i]['ItemName']+'</td>'+
+                      '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['ParQty']+'</td>'+
+                      '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['CcQty']+'</td>'+
+                      '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['TotalQty']+'</td>'+
+                      '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['QtyCenter']+'</td>'+
+                    "</tr>";
+                  }
+                  $("#detailQty").html(result);
+                }
+                $('#SaveDrawModal').modal('show');
               }
             }
           }else if (temp['status']=="failed") {
@@ -2012,7 +2040,48 @@ $array2 = json_decode($json2,TRUE);
           </div>
         </div>
       </div>
-    <!-- Dialog Modal
+
+
+
+    <!-- Dialog Modal !-->
+    <div class="modal fade" id="SaveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title"><?php echo $array['alertPar'][$language]; ?></h2>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card-body" style="padding:0px;">
+                <div class="row">
+                </div>
+                <table class="table table-fixed table-condensed table-striped" id="TablePar" cellspacing="0" role="grid">
+                  <thead style="font-size:24px;">
+                    <tr role="row">
+                    <th style='width: 5%;'nowrap ><?php echo $array['no'][$language]; ?></th>
+                    <th style='width: 25%;'nowrap class='text-left'><?php echo $array['code'][$language]; ?></th>
+                    <th style='width: 20%;'nowrap class='text-left'><?php echo $array['item'][$language]; ?></th>
+                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th>
+                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['count'][$language]; ?></th>
+                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['order'][$language]; ?></th>
+                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['QtyCenter'][$language]; ?></th>
+                    </tr>
+                  </thead>
+                  <tbody id="detailQty" class="nicescrolled" style="font-size:23px;height:auto;">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" style="width:5%;"onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
+              <button type="button" style="width:5%;"class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
     <!-- Bootstrap core JavaScript-->
       <script src="../template/vendor/jquery/jquery.min.js"></script>
       <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
