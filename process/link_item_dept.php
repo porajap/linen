@@ -9,10 +9,11 @@ function getHospital($conn, $DATA)
 {
   $count = 0;
   $userid = $DATA['Userid'];
+  $HptCode = $DATA['HptCode'];
   $Sql = "SELECT
           site.HptCode,site.HptName
           FROM site
-          WHERE site.IsStatus = 0 
+          WHERE site.IsStatus = 0  
           -- AND site.HptCode 
           -- = (SELECT
 					-- users.HptCode

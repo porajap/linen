@@ -117,7 +117,7 @@ $array2 = json_decode($json2,TRUE);
 
 
 
-        getDepartment();
+        // getDepartment();
         getHospital();
         ShowItem();
         // ShowItemStock();
@@ -173,9 +173,11 @@ $array2 = json_decode($json2,TRUE);
 
       function getHospital(){
     	  var userid = "<?php echo $_SESSION['Userid']; ?>";
+        var HptCode = "<?php echo $_SESSION['HptCode']; ?>";
         var data = {
           'STATUS'  : 'getHospital',
-      		'Userid'	: userid
+      		'Userid'	: userid,
+          'HptCode'	: HptCode
             };
         senddata(JSON.stringify(data));
     	}
@@ -950,6 +952,7 @@ $array2 = json_decode($json2,TRUE);
                               if(PmID != 1){
                                 $("#hotpital").val(HptCode);
                               }
+                              getDepartment();
                             }else if( (temp["form"]=='getDepartment') ){
                               $("#department").empty();
                               var Str = "<option value=''>-</option>";
