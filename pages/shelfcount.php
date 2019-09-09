@@ -1706,6 +1706,19 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        <div class='form-group row'>
+                                                <label
+                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
+                                                <select class="form-control col-sm-8"  style="font-size:22px;" id="cycle">
+                                                <option value="1"><?php echo $array['morning'][$language]; ?></option>
+                                                <option value="2"><?php echo $array['afternoon'][$language]; ?></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div> <!-- tag column 1 -->

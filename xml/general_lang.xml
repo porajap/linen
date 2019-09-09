@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+<Cycle><en>Cycle</en><th>รอบส่ง</th></Cycle>
+<morning><en>morning</en><th>รอบเช้า</th></morning>
+<afternoon><en>afternoon</en><th>รอบบ่าย</th></afternoon>
 <Mainstock><en>Mainstock</en><th>คลังหลัก</th></Mainstock>
 <Jaipar><en>Jaipar</en><th>จ่ายผ้า</th></Jaipar>
 <newwash><en>newwash</en><th>รับผ้าใหม่ส่งซัก</th></newwash>
