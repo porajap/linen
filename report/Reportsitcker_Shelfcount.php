@@ -94,14 +94,14 @@ class PDF extends FPDF
       $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้ตรวจ: หมี อิอิ'),0,1,'R');      
       $pdf->SetFont('THSarabun','b',14);
       // $pdf->SetX(55);   
-      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,1,'R');
-      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,0,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620"),0,1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620"),0,0,'R');
 
       $pdf->Cell(25,5,$pdf->Image($image2,12, $pdf->GetY(), 18.6 ),0,0,'L');
       $pdf->Cell(25,5,$pdf->Image($image1, 54, $pdf->GetY(), 4.8 ),0,1,'R');
-      $pdf->Cell(50,2,iconv("UTF-8","TIS-620",),0,1,'R');
-      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,1,'R');
-      $pdf->Cell(50,10,iconv("UTF-8","TIS-620",),0,1,'L');
+      $pdf->Cell(50,2,iconv("UTF-8","TIS-620"),0,1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620"),0,1,'R');
+      $pdf->Cell(50,10,iconv("UTF-8","TIS-620"),0,1,'L');
       $count++;
       $pdf->ln(5);
 
