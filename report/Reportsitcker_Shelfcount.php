@@ -52,15 +52,15 @@ class PDF extends FPDF
   }
 
   // Page footer
-  function Footer()
-  {
-      // Position at 1.5 cm from bottom
-      $this->SetY(-15);
-      // Arial italic 8
-      $this->SetFont('THSarabun','i',13);
-      // Page number
-      $this->Cell(0,10,iconv("UTF-8","TIS-620",$array['page'][$language]).$this->PageNo().'/{nb}',0,0,'R');
-  }
+  // function Footer()
+  // {
+  //     // Position at 1.5 cm from bottom
+  //     $this->SetY(-15);
+  //     // Arial italic 8
+  //     $this->SetFont('THSarabun','i',13);
+  //     // Page number
+  //     $this->Cell(0,10,iconv("UTF-8","TIS-620",$array['page'][$language]).$this->PageNo().'/{nb}',0,0,'R');
+  // }
 
   function setTable($pdf,$header,$data,$width,$numfield,$field)
   {
@@ -80,12 +80,11 @@ class PDF extends FPDF
     $this->SetFont('THSarabun','',14);
     // $pdf->SetX(2);  
     // $pdf->SetY(20);  
-    
     if(is_array($data)){
- 
+       $pdf->SetY(10);   
+
     foreach($data as $data=>$inner_array){
       $pdf->SetFont('THSarabun','b',16);
-
       $pdf->Cell(50,7,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),0,1,'L');
       $pdf->SetFont('THSarabun','b',14);
       $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'60 x 120 CM.'),0,1,0);
@@ -93,7 +92,7 @@ class PDF extends FPDF
       $pdf->Cell(25,5,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),0,1,'R');
       $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้จัด: หมี อิอิ'),0,0,'L');
       $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้ตรวจ: หมี อิอิ'),0,1,'R');      
-      $pdf->SetFont('THSarabun','b',12);
+      $pdf->SetFont('THSarabun','b',14);
       // $pdf->SetX(55);   
       $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,1,'R');
       $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,0,'R');
@@ -117,7 +116,7 @@ class PDF extends FPDF
 
 // *** Prepare Data Resource *** //
 // Instanciation of inherited class
-$pdf = new PDF();
+$pdf = new PDF('P','mm',array(70,150));
 $font = new Font($pdf);
 $data = new Data();
 $datetime = new DatetimeTH();
@@ -126,7 +125,6 @@ $DocNo = $_GET['DocNo'];
 
 // Using Coding
 $pdf->AddPage();
-
 
 $Sql = "SELECT   site.HptName,
         department.DepName,
