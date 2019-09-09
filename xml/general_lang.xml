@@ -228,6 +228,7 @@
 <eng><en>English</en><th>อังกฤษ</th></eng>
 <alertPar><en>Over Par</en><th>แจ้งเตือนจำนวนเกิน</th></alertPar>
 <alertdraw><en>Qty inadequate</en><th>จำนวนคลังหลักมีไม่พอ</th></alertdraw>
+<alertdraw2><en>Qty inadequate</en><th>จำนวนคลังหลักมีไม่พอ2</th></alertdraw2>
 <alertPercent><en>Over Percent</en><th>แจ้งเตือนเปอร์เซ็นต์เกิน</th></alertPercent>
 <TotalPercent><en>Total Percent</en><th>เปอร์เซ็นต์ที่ได้</th></TotalPercent>
 <overPercent><en>Over Percent</en><th>เปอร์เซ็นต์ที่เกิน</th></overPercent>
