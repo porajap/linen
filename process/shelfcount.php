@@ -1418,14 +1418,16 @@ function SaveDraw($conn, $DATA){
     while ($Result4 = mysqli_fetch_assoc($meQuery4)) {
       $QtyCenter = $Result4['TotalQty']==null?0:$Result4['TotalQty'];
       if($QtyCenter > $Oder){
-        $updateQty = "UPDATE item_stock SET TotalQty = TotalQty + $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $SCDepCode";
-        mysqli_query($conn, $updateQty);
+        // $updateQty = "UPDATE item_stock SET TotalQty = TotalQty + $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $SCDepCode";
+        // mysqli_query($conn, $updateQty);
 
         $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode";
         mysqli_query($conn, $updateQtyCenter);
 
         // $delete = "DELETE item_stock WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode LIMIT $Oder";
         // mysqli_query($conn, $delete);
+        $UpdateStatus = "UPDATE shelfcount SET IsStatus = 3 WHERE DocNo = '$DocNo'";
+        mysqli_query($conn, $UpdateStatus);
       }else if($QtyCenter < $Oder || $QtyCenter == 0){
         $return[$count]['ItemCode']  = $Result3['ItemCode'];
         $return[$count]['ItemName']  = $Result3['ItemName'];
@@ -1455,6 +1457,36 @@ function SaveDraw($conn, $DATA){
     die;
   }
   
+}
+
+function SaveQty_SC($conn, $DATA){
+  $DocNo = $DATA['DocNo'];
+  $HptCode = $DATA['HptCode'];
+  $DepCodePage = $DATA['DepCode'];
+  $ItemCodeArray = explode(",", $DATA['ItemCode']);
+  $QtyArray = explode(",", $DATA['Qty']);
+  $Sql = "SELECT department.DepCode  FROM department WHERE department.HptCode = '$HptCode' AND department.IsDefault = 1 AND department.IsStatus = 0";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepCode = $Result['DepCode'];
+  }
+  $limit = sizeof($ItemCodeArray, 0);
+  for($i=0; $i<$limit; $i++){
+    $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $QtyArray[$i] WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCode";
+    mysqli_query($conn, $updateQtyCenter);
+
+    $updateSC_detail = "UPDATE shelfcount_detail SET TotalQty = $QtyArray[$i] WHERE ItemCode = '$ItemCodeArray[$i]' AND DocNo = '$DocNo'";
+    mysqli_query($conn, $updateSC_detail);
+  }
+
+  $updateSC = "UPDATE shelfcount SET IsStatus = 3 WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $updateSC);
+
+  $return['status'] = "success";
+  $return['form'] = "SaveQty_SC";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }
   //==========================================================
   //
@@ -1511,6 +1543,8 @@ function SaveDraw($conn, $DATA){
       userKeyValue($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'SaveDraw') {
       SaveDraw($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'SaveQty_SC') {
+      SaveQty_SC($conn, $DATA);
     }
   } else {
     $return['status'] = "error";
@@ -1519,3 +1553,4 @@ function SaveDraw($conn, $DATA){
     mysqli_close($conn);
     die;
   }
+  

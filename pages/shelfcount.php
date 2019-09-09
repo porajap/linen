@@ -107,24 +107,6 @@ $array2 = json_decode($json2,TRUE);
         }
       });
 
-      // dialog1 = jqui( "#dialogListDetail" ).dialog({
-      //   autoOpen: false,
-      //   height: 650,
-      //   width: 1200,
-      //   modal: true,
-      //   buttons: {
-      //     "<?php echo $array['close'][$language]; ?>": function() {
-      //       dialog1.dialog( "close" );
-      //     }
-      //   },
-      //   close: function() {
-      //     console.log("close");
-      //   }
-      // });
-
-      //    jqui( "#dialogItem" ).button().on( "click", function() {
-      //      dialog.dialog( "open" );
-      //    });
 
     });
 
@@ -868,6 +850,30 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
 
+    function SaveQty_SC(){
+      var DocNo = $('#docno').val();
+      var HptCode = $('#hotpital').val();
+      var DepCode = $('#department').val();
+      var ItemCodeArray = [];
+      var QtyArray = [];
+      $(".chkItem").each(function() {
+        ItemCodeArray.push($(this).val());
+        QtyArray.push($(this).data('qty'));
+      });
+      var ItemCode = ItemCodeArray.join(',');
+      var Qty = QtyArray.join(',');
+      var data = {
+        'STATUS':'SaveQty_SC',
+        'DocNo':DocNo,
+        'HptCode':HptCode,
+        'DepCode':DepCode,
+        'ItemCode':ItemCode,
+        'Qty':Qty
+      };
+      senddata(JSON.stringify(data));
+      $('#SaveDrawModal').modal('toggle');
+
+    }
 
     function senddata(data){
       var form_data = new FormData();
@@ -1046,7 +1052,7 @@ $array2 = json_decode($json2,TRUE);
               }
 
             }else if(temp["form"]=='SelectDocument'){
-              $('#home-tab').tab('show')
+              $('#home-tab').tab('show');
               $( "#TableItemDetail tbody" ).empty();
               $("#docno").val(temp[0]['DocNo']);
               $("#docdate").val(temp[0]['DocDate']);
@@ -1354,9 +1360,9 @@ $array2 = json_decode($json2,TRUE);
                 if(temp["CountRow"]>0){
                   for(var i = 0; i < temp['CountRow']; i++){
                     if(temp[i]['QtyCenter'] == 0){
-                      var chkItem = "<input type='checkbox' disabled title='<?php echo $array['empItem'][$language]; ?>'>";
+                      var chkItem = "<input type='checkbox' disabled title='<?php echo $array['empItem'][$language]; ?>' class='chkItem' value='"+temp[i]['ItemCode']+"' data-qty='0'>";
                     }else if(temp[i]['QtyCenter'] < temp[i]['TotalQty']){
-                      var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' class='chkItem_"+i+"' value='"+temp[i]['ItemCode']+"'  onclick='chkItem()'>";
+                      var chkItem = "<input type='checkbox' name='chkItem' class='chkItem' id='chkItem_"+i+"' value='"+temp[i]['ItemCode']+"' data-qty='"+temp[i]['QtyCenter']+"'>";
                     }
                     result += "<tr>"+
                       '<td nowrap style="width: 5%;">'+chkItem+'</td>'+
@@ -1372,6 +1378,18 @@ $array2 = json_decode($json2,TRUE);
                 }
                 $('#SaveDrawModal').modal('show');
               }
+            }else if( (temp["form"]=='SaveQty_SC') ){
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              $('#SaveDrawModal').modal('toggle');
+              $('#profile-tab').tab('show');
+              ShowDocument();
             }
           }else if (temp['status']=="failed") {
             switch (temp['msg']) {
@@ -2067,9 +2085,6 @@ $array2 = json_decode($json2,TRUE);
           <div class="modal-content">
             <div class="modal-header">
               <h2 class="modal-title"><?php echo $array['alertdraw'][$language]; ?></h2>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
             </div>
             <div class="modal-body">
               <div class="card-body" style="padding:0px;">
@@ -2094,8 +2109,8 @@ $array2 = json_decode($json2,TRUE);
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" style="width:5%;"onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
-              <button type="button" style="width:5%;"class="btn btn-danger" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+              <button type="button" style="width:5%;" onclick="SaveQty_SC()" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
+              <button type="button" style="width:5%;" class="btn btn-danger" onclick="SaveQty_SC()"><?php echo $array['close'][$language]; ?></button>
             </div>
           </div>
         </div>
