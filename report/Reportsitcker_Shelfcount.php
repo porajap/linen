@@ -78,27 +78,31 @@ class PDF extends FPDF
     $image1 = "../img/mhee1.png";
     $image2 = "../img/qrcode.png";
     $this->SetFont('THSarabun','',14);
+    // $pdf->SetX(2);  
+    // $pdf->SetY(20);  
+    
     if(is_array($data)){
+ 
     foreach($data as $data=>$inner_array){
       $pdf->SetFont('THSarabun','b',16);
-      $pdf->SetFillColor(189,189,189);
-      $pdf->Cell(50,7,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),'LTR',1,'L',true);
+
+      $pdf->Cell(50,7,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),0,1,'L');
       $pdf->SetFont('THSarabun','b',14);
-      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'60 x 120 CM.'),'LR',1,'L');
-      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",$inner_array[$field[5]].' ชิ้น'),'L',0,'L');
-      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),'R',1,'R');
-      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้จัด: หมี อิอิ'),'L',0,'L');
-      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้ตรวจ: หมี อิอิ'),'R',1,'R');      
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'60 x 120 CM.'),0,1,0);
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",$inner_array[$field[5]].' ชิ้น'),0,0,'L');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),0,1,'R');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้จัด: หมี อิอิ'),0,0,'L');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้ตรวจ: หมี อิอิ'),0,1,'R');      
       $pdf->SetFont('THSarabun','b',12);
       // $pdf->SetX(55);   
-      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),' LR',1,'R');
-      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),' LR',0,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,0,'R');
 
       $pdf->Cell(25,5,$pdf->Image($image2,12, $pdf->GetY(), 18.6 ),0,0,'L');
       $pdf->Cell(25,5,$pdf->Image($image1, 54, $pdf->GetY(), 4.8 ),0,1,'R');
-      $pdf->Cell(50,2,iconv("UTF-8","TIS-620",),'LR',1,'R');
-      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),'LR',1,'R');
-      $pdf->Cell(50,10,iconv("UTF-8","TIS-620",),'LBR',1,'L');
+      $pdf->Cell(50,2,iconv("UTF-8","TIS-620",),0,1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),0,1,'R');
+      $pdf->Cell(50,10,iconv("UTF-8","TIS-620",),0,1,'L');
       $count++;
       $pdf->ln(5);
 
