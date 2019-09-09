@@ -43,7 +43,7 @@ class PDF extends FPDF
       // Title
       $this->SetFont('THSarabun','b',21);
       $this->Cell(80);
-      $this->Cell(30,10,iconv("UTF-8","TIS-620","Daily Return Request"),0,0,'C');
+      // $this->Cell(30,10,iconv("UTF-8","TIS-620","Daily Return Request"),0,0,'C');
       // Line break
       $this->Ln(10);
     }else{
@@ -69,29 +69,34 @@ class PDF extends FPDF
     $w = $width;
     // Header
     $this->SetFont('THSarabun','b',16);
-    for($i=0;$i<count($header);$i++)
-        $this->Cell($w[$i],7,iconv("UTF-8","TIS-620",$header[$i]),1,0,'C');
-    $this->Ln();
+    // for($i=0;$i<count($header);$i++)
+    //     $this->Cell($w[$i],7,iconv("UTF-8","TIS-620",$header[$i]),1,0,'C');
+    // $this->Ln();
 
     // set Data Details
     $count = 0;
     $this->SetFont('THSarabun','',14);
     if(is_array($data)){
     foreach($data as $data=>$inner_array){
-      $this->Cell($w[0],6,iconv("UTF-8","TIS-620",$count+1),1,0,'C');
-      $this->Cell($w[1],6,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),1,0,'C');
-      $this->Cell($w[2],6,iconv("UTF-8","TIS-620","  ".$inner_array[$field[2]]),1,0,'L');
-      $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$inner_array[$field[3]]." "),1,0,'R');
-      $this->Cell($w[4],6,iconv("UTF-8","TIS-620",$inner_array[$field[4]]." "),1,0,'R');
-      $this->Cell($w[5],6,iconv("UTF-8","TIS-620",$inner_array[$field[5]]." "),1,0,'R');
-      $this->Cell($w[6],6,iconv("UTF-8","TIS-620",$inner_array[$field[6]]),1,0,'C');
-      $this->Ln();
+      $pdf->SetFont('THSarabun','b',10);
+      $pdf->setFillColor(230,230,230);
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'พร7A'),'LTR',1,'L');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'A TEC Trimavie 13-09'),'LR',1,'L');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'เตรียม: ศุภานัน '),'L',0,'L');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",' ตรวจ: หมี อิอิ'),'R',1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'ห่อ : รจนา  ฆ่าเชื้อ : รจนา'),'LR',1,'L');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'เครื่อง :SA & FH /รอบ: 1 No.001659'),'LR',1,'L');
+      $pdf->SetFont('THSarabun','b',12);
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'EXP : 11/02/63'),'LR',1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'ผลิต 16/08/62'),'LR',1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),'LBR',1,'L');
       $count++;
+      $pdf->ln(5);
     }
   }
 
     // Closing line
-    $pdf->Cell(array_sum($w),0,'','T');
+    // $pdf->Cell(array_sum($w),0,'','T');
   }
 
   }
@@ -133,27 +138,27 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $xTime = $Result['xTime'];
 }
 
-$pdf->SetFont('THSarabun','b',16);
-$pdf->Cell(15);
-$pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['site'][$language]),0,0,'L');
-$pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$HptName),0,0,'L');
-$pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['department'][$language]),0,0,'L');
-$pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$DepName),0,0,'L');
-$pdf->Ln();
-$pdf->Cell(15);
-$pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['docno'][$language]),0,0,'L');
-$pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$DocNo),0,0,'L');
-$pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['docdate'][$language]),0,0,'L');
-$pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$DocDate),0,0,'L');
-$pdf->Ln();
-$pdf->Cell(15);
-$pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['user'][$language]),0,0,'L');
-$pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$FirstName." ".$LastName),0,0,'L');
-$pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['time'][$language]),0,0,'L');
-$pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$xTime),0,0,'L');
-$pdf->SetMargins(15,0,0);
-$pdf->Ln();
-$pdf->Ln();
+// $pdf->SetFont('THSarabun','b',16);
+// $pdf->Cell(15);
+// $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['site'][$language]),0,0,'L');
+// $pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$HptName),0,0,'L');
+// $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['department'][$language]),0,0,'L');
+// $pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$DepName),0,0,'L');
+// $pdf->Ln();
+// $pdf->Cell(15);
+// $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['docno'][$language]),0,0,'L');
+// $pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$DocNo),0,0,'L');
+// $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['docdate'][$language]),0,0,'L');
+// $pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$DocDate),0,0,'L');
+// $pdf->Ln();
+// $pdf->Cell(15);
+// $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['user'][$language]),0,0,'L');
+// $pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$FirstName." ".$LastName),0,0,'L');
+// $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['time'][$language]),0,0,'L');
+// $pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$xTime),0,0,'L');
+// $pdf->SetMargins(15,0,0);
+// $pdf->Ln();
+// $pdf->Ln();
 $query = "SELECT
           shelfcount_detail.ItemCode,
           item.ItemName,

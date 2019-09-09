@@ -472,6 +472,7 @@ $array2 = json_decode($json2,TRUE);
       var userid = '<?php echo $Userid; ?>';
       var hotpCode = $('#hotpital option:selected').attr("value");
       var deptCode = $('#department option:selected').attr("value");
+      var cycle = $("#cycle").val();
       if(deptCode==''){
           checkblank2();
       }else{
@@ -494,7 +495,8 @@ $array2 = json_decode($json2,TRUE);
             'STATUS'    : 'CreateDocument',
             'hotpCode'  : hotpCode,
             'deptCode'  : deptCode,
-            'userid'	: userid
+            'userid'	: userid,
+            'cycle'	: cycle
           };
           senddata(JSON.stringify(data));
         } else if (result.dismiss === 'cancel') {
@@ -753,7 +755,26 @@ $array2 = json_decode($json2,TRUE);
         })
       }
     }
-
+    function PrintstickerData(){
+      var docno = $('#docno').val();
+      var lang = '<?php echo $language; ?>';
+      if(docno!=""&&docno!=undefined){
+        var url  = "../report/Reportsitcker_Shelfcount.php?DocNo="+docno+"&lang="+lang;
+        window.open(url);
+      }else{
+        swal({
+          title: '',
+          text: '<?php echo $array['docfirst'][$language]; ?>',
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showConfirmButton: false,
+          timer: 2000,
+          confirmButtonText: 'Ok'
+        })
+      }
+    }
     function SendData(){
       var docno = $('#docno').val();
       swal({
@@ -1833,7 +1854,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle8 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintData()" id="bPrint"disabled="true">
+                                <button class="btn" onclick="PrintstickerData()" id="bPrintsticker">
                                 <i class="fas fa-frog"></i>                                  
                                 <div>
                                     <?php echo $array['Sticker'][$language]; ?>
