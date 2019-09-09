@@ -302,6 +302,7 @@ function SelectDocument($conn, $DATA)
   $Sql = "SELECT   site.HptName,
     department.DepName,
     shelfcount.DocNo,
+    shelfcount.DepCode,
     DATE(shelfcount.DocDate) AS DocDate,
     shelfcount.Total,
     users.FName,TIME(shelfcount.Modify_Date) AS xTime,
@@ -324,6 +325,7 @@ function SelectDocument($conn, $DATA)
 
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DepName']   = $Result['DepName'];
+    $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'] ;

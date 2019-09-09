@@ -867,7 +867,6 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
- 
 
 
     function senddata(data){
@@ -1054,6 +1053,7 @@ $array2 = json_decode($json2,TRUE);
               $("#recorder").val(temp[0]['Record']);
               $("#timerec").val(temp[0]['RecNow']);
               $("#IsStatus").val(temp[0]['IsStatus']);
+              $("#department").val(temp[0]['DepCode']);
 
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -2048,7 +2048,7 @@ $array2 = json_decode($json2,TRUE);
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h2 class="modal-title"><?php echo $array['alertPar'][$language]; ?></h2>
+              <h2 class="modal-title"><?php echo $array['alertdraw'][$language]; ?></h2>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -2062,11 +2062,12 @@ $array2 = json_decode($json2,TRUE);
                     <tr role="row">
                     <th style='width: 5%;'nowrap ><?php echo $array['no'][$language]; ?></th>
                     <th style='width: 25%;'nowrap class='text-left'><?php echo $array['code'][$language]; ?></th>
-                    <th style='width: 20%;'nowrap class='text-left'><?php echo $array['item'][$language]; ?></th>
+                    <th style='width: 30%;'nowrap class='text-left'><?php echo $array['item'][$language]; ?></th>
+                    <!-- <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th> -->
                     <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th>
                     <th style='width: 10%;'nowrap class='text-right'><?php echo $array['count'][$language]; ?></th>
                     <th style='width: 10%;'nowrap class='text-right'><?php echo $array['order'][$language]; ?></th>
-                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['QtyCenter'][$language]; ?></th>
+                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['Mainstock'][$language]; ?></th>
                     </tr>
                   </thead>
                   <tbody id="detailQty" class="nicescrolled" style="font-size:23px;height:auto;">

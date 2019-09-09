@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+<Mainstock><en>Mainstock</en><th>คลังหลัก</th></Mainstock>
 <Jaipar><en>Jaipar</en><th>จ่ายผ้า</th></Jaipar>
 <newwash><en>newwash</en><th>รับผ้าใหม่ส่งซัก</th></newwash>
 <setting><en>Setting</en><th>ตั้งค่า</th></setting>
@@ -226,6 +227,7 @@
 <thai><en>Thai</en><th>ไทย</th></thai>
 <eng><en>English</en><th>อังกฤษ</th></eng>
 <alertPar><en>Over Par</en><th>แจ้งเตือนจำนวนเกิน</th></alertPar>
+<alertdraw><en>Qty inadequate</en><th>จำนวนคลังหลักมีไม่พอ</th></alertdraw>
 <alertPercent><en>Over Percent</en><th>แจ้งเตือนเปอร์เซ็นต์เกิน</th></alertPercent>
 <TotalPercent><en>Total Percent</en><th>เปอร์เซ็นต์ที่ได้</th></TotalPercent>
 <overPercent><en>Over Percent</en><th>เปอร์เซ็นต์ที่เกิน</th></overPercent>
