@@ -1353,8 +1353,13 @@ $array2 = json_decode($json2,TRUE);
                 result = '';
                 if(temp["CountRow"]>0){
                   for(var i = 0; i < temp['CountRow']; i++){
+                    if(temp[i]['QtyCenter'] == 0){
+                      var chkItem = "<input type='checkbox' disabled title='<?php echo $array['empItem'][$language]; ?>'>";
+                    }else if(temp[i]['QtyCenter'] < temp[i]['TotalQty']){
+                      var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' class='chkItem_"+i+"' value='"+temp[i]['ItemCode']+"'  onclick='chkItem()'>";
+                    }
                     result += "<tr>"+
-                      '<td nowrap style="width: 5%;">'+(i+1)+'</td>'+
+                      '<td nowrap style="width: 5%;">'+chkItem+'</td>'+
                       '<td nowrap style="width: 25%;" class="text-left">'+temp[i]['ItemCode']+'</td>'+
                       '<td nowrap style="width: 30%;" class="text-left">'+temp[i]['ItemName']+'</td>'+
                       '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['ParQty']+'</td>'+
@@ -1704,8 +1709,8 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
                             </div>
                         </div> <!-- tag column 1 -->
-     <!-- row btn -->
-     <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
+                        <!-- row btn -->
+                        <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
@@ -2077,7 +2082,7 @@ $array2 = json_decode($json2,TRUE);
             </div>
             <div class="modal-footer">
               <button type="button" style="width:5%;"onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
-              <button type="button" style="width:5%;"class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
+              <button type="button" style="width:5%;"class="btn btn-danger" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
             </div>
           </div>
         </div>

@@ -232,6 +232,7 @@
 <alertPercent><en>Over Percent</en><th>แจ้งเตือนเปอร์เซ็นต์เกิน</th></alertPercent>
 <TotalPercent><en>Total Percent</en><th>เปอร์เซ็นต์ที่ได้</th></TotalPercent>
 <overPercent><en>Over Percent</en><th>เปอร์เซ็นต์ที่เกิน</th></overPercent>
+<empItem><en>Item In Main Stock Empty</en><th>คลังหลักไม่มีรายการ</th></empItem>
 <par><en>Par</en><th>Par</th></par>
 <count> <en>Left</en><th>นับได้</th></count>
 <minute><en>Minute</en><th>นาที</th></minute>
