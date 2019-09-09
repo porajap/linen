@@ -78,20 +78,20 @@ class PDF extends FPDF
     $this->SetFont('THSarabun','',14);
     if(is_array($data)){
     foreach($data as $data=>$inner_array){
-      // $this->Cell($w[0],6,iconv("UTF-8","TIS-620",$count+1),1,0,'C');
-      // $this->Cell($w[1],6,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),1,0,'C');
-      // $this->Cell($w[2],6,iconv("UTF-8","TIS-620","  ".$inner_array[$field[2]]),1,0,'L');
-      // $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$inner_array[$field[3]]." "),1,0,'R');
-      // $this->Cell($w[4],6,iconv("UTF-8","TIS-620",$inner_array[$field[4]]." "),1,0,'R');
-      // $this->Cell($w[5],6,iconv("UTF-8","TIS-620",$inner_array[$field[5]]." "),1,0,'R');
-      // $this->Cell($w[6],6,iconv("UTF-8","TIS-620",$inner_array[$field[6]]),1,0,'C');
+      $this->Cell($w[0],6,iconv("UTF-8","TIS-620",$count+1),1,0,'C');
+      $this->Cell($w[1],6,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),1,0,'C');
+      $this->Cell($w[2],6,iconv("UTF-8","TIS-620","  ".$inner_array[$field[2]]),1,0,'L');
+      $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$inner_array[$field[3]]." "),1,0,'R');
+      $this->Cell($w[4],6,iconv("UTF-8","TIS-620",$inner_array[$field[4]]." "),1,0,'R');
+      $this->Cell($w[5],6,iconv("UTF-8","TIS-620",$inner_array[$field[5]]." "),1,0,'R');
+      $this->Cell($w[6],6,iconv("UTF-8","TIS-620",$inner_array[$field[6]]),1,0,'C');
       $this->Ln();
       $count++;
     }
   }
 
     // Closing line
-    // $pdf->Cell(array_sum($w),0,'','T');
+    $pdf->Cell(array_sum($w),0,'','T');
   }
 
   }
@@ -197,17 +197,20 @@ $pdf->Ln();
 // for($i=0;$i<count($footer);$i++)
 //   $pdf->Cell($width[$i],7,iconv("UTF-8","TIS-620",$footer[$i]),1,0,'C');
 // $pdf->Ln(8);
-$pdf->SetFont('THSarabun','b',10);
-$pdf->Cell(50,5,iconv("UTF-8","TIS-620",'พร7A'),'LTR',1,'L');
-$pdf->Cell(50,5,iconv("UTF-8","TIS-620",'A TEC Trimavie 13-09'),'LR',1,'L');
-$pdf->Cell(25,5,iconv("UTF-8","TIS-620",'เตรียม: ศุภานัน '),'L',0,'L');
-$pdf->Cell(25,5,iconv("UTF-8","TIS-620",' ตรวจ: เล็กข้างกาด'),'R',1,'R');
-$pdf->Cell(50,5,iconv("UTF-8","TIS-620",'ห่อ : รจนา  ฆ่าเชื้อ : รจนา'),'LR',1,'L');
-$pdf->Cell(50,5,iconv("UTF-8","TIS-620",'เครื่อง :SA & FH /รอบ: 1 No.001659'),'LR',1,'L');
-$pdf->SetFont('THSarabun','b',12);
-$pdf->Cell(50,5,iconv("UTF-8","TIS-620",'EXP : 11/02/63'),'LR',1,'R');
-$pdf->Cell(50,5,iconv("UTF-8","TIS-620",'ผลิต 16/08/62'),'LR',1,'R');
-$pdf->Cell(50,5,iconv("UTF-8","TIS-620",),'LBR',1,'L');
+
+
+// $pdf->SetFont('THSarabun','b',10);
+// $pdf->setFillColor(230,230,230);
+// $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'พร7A'),'LTR',1,'L');
+// $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'A TEC Trimavie 13-09'),'LR',1,'L');
+// $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'เตรียม: ศุภานัน '),'L',0,'L');
+// $pdf->Cell(25,5,iconv("UTF-8","TIS-620",' ตรวจ: เล็กข้างกาด'),'R',1,'R');
+// $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'ห่อ : รจนา  ฆ่าเชื้อ : รจนา'),'LR',1,'L');
+// $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'เครื่อง :SA & FH /รอบ: 1 No.001659'),'LR',1,'L');
+// $pdf->SetFont('THSarabun','b',12);
+// $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'EXP : 11/02/63'),'LR',1,'R');
+// $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'ผลิต 16/08/62'),'LR',1,'R');
+// $pdf->Cell(50,5,iconv("UTF-8","TIS-620",),'LBR',1,'L');
 
 $ddate = date('d_m_Y');
 $pdf->Output('I','Report_Stock_'.$ddate.'.pdf');
