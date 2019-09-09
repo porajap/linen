@@ -615,8 +615,6 @@ $array2 = json_decode($json2,TRUE);
     }
 
     function SaveBill(chk){
-
-
       var docno = $("#docno").val();
       var isStatus = $("#IsStatus").val();
       var dept = $('#department').val();
@@ -629,59 +627,67 @@ $array2 = json_decode($json2,TRUE);
         }
         if(isStatus==1){
           if(docno!=""){
-          if(chk == '' || chk == undefined){
-            chk_par();
-          }else{
-            var ItemCodeArray = [];
-            var Item = [];
-            var QtyItemArray = [];
-            $(".item_array").each(function() {
-              ItemCodeArray.push($(this).val());
-            });
-            for(var j=0;j<ItemCodeArray.length; j++){
-              Item.push( $("#item_array"+ItemCodeArray[j]).val() );
-            }
-            $(".QtyItem").each(function() {
-              QtyItemArray.push($(this).val());
-            });
-            var ItemCode = Item.join(',') ;
-            var Qty = QtyItemArray.join(',') ;
-            swal({
-            title: "<?php echo $array['confirmsave'][$language]; ?>",
-            text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            closeOnConfirm: false,
-            closeOnCancel: false,
-            showCancelButton: true}).then(result => {
-              if (result.value) {
-              var data = {
-                'STATUS'      : 'SaveBill',
-                'xdocno'      : docno,
-                'isStatus'    : isStatus,
-                'deptCode'    : dept,
-                'ItemCode'    : ItemCode,
-                'Qty'    : Qty
-              };
-              senddata(JSON.stringify(data));
-          $('#profile-tab').tab('show');
-          $("#bImport").prop('disabled', true);
-          $("#bDelete").prop('disabled', true);
-          $("#bSave").prop('disabled', true);
-          $("#bCancel").prop('disabled', true);
-          ShowDocument();
-          if(input_chk == 1){
-                  $('#alert_par').modal('toggle');
-                }
-        } else if (result.dismiss === 'cancel') {
-          swal.close();}
-        })
-          }
+            // if(chk == '' || chk == undefined){
+            //   chk_par();
+            // }else{
+              var ItemCodeArray = [];
+              var Item = [];
+              var QtyItemArray = [];
+              $(".item_array").each(function() {
+                ItemCodeArray.push($(this).val());
+              });
+              for(var j=0;j<ItemCodeArray.length; j++){
+                Item.push( $("#item_array"+ItemCodeArray[j]).val() );
+              }
+              $(".QtyItem").each(function() {
+                QtyItemArray.push($(this).val());
+              });
+              var ItemCode = Item.join(',') ;
+              var Qty = QtyItemArray.join(',') ;
+              swal({
+                title: "<?php echo $array['confirmsave'][$language]; ?>",
+                text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                swal({
+                  title: '',
+                  text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                if (result.value) {
+                  var data = {
+                    'STATUS'      : 'SaveBill',
+                    'xdocno'      : docno,
+                    'isStatus'    : isStatus,
+                    'deptCode'    : dept,
+                    'ItemCode'    : ItemCode,
+                    'Qty'    : Qty
+                  };
+                  senddata(JSON.stringify(data));
+                  $('#profile-tab').tab('show');
+                  $("#bImport").prop('disabled', true);
+                  $("#bDelete").prop('disabled', true);
+                  $("#bSave").prop('disabled', true);
+                  $("#bCancel").prop('disabled', true);
+                  ShowDocument();
+                  if(input_chk == 1){
+                            $('#alert_par').modal('toggle');
+                          }
+                } else if (result.dismiss === 'cancel') {
+                  swal.close();}
+              })
+            //}
           }
         }else{
           $("#bImport").prop('disabled', false);
