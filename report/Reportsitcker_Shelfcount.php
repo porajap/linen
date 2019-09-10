@@ -83,7 +83,6 @@ $Sql = "SELECT
   ORDER BY item.ItemName ASC ";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    // add a page
     $pdf->AddPage();
     $ItemCode = $Result['ItemCode'];
     $ItemName = $Result['ItemName'];
