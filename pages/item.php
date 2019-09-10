@@ -1340,9 +1340,18 @@ $array2 = json_decode($json2, TRUE);
               $('#TableItemMaster').attr("hidden", true);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
-              // for (var j = 0; j < (Object.keys(temp).length - 2); j++) {
-              //  "+ (j + 1) +"
-              // }
+// ======================================================================
+              for (var j = 0; j < temp["countx"]; j++) {
+               "+ (j + 1) +"
+              }
+              if( temp['down'] ==1){
+                var top     = "hidden";
+                var down     = "";
+              }else{
+                var top     = "";
+                var down     = "hidden";
+              }
+// ======================================================================
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
@@ -1352,7 +1361,8 @@ $array2 = json_decode($json2, TRUE);
                 var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
-                  "<td style='width: 8%;padding-right: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                  "<td style='width: 8%;padding-right: 5%;' "+top+"   align='center'nowrap><label> " + (i+1) + "</label></td>" +
+                  "<td style='width: 8%;padding-right: 5%;' "+down+"  align='center'nowrap><label> " + j-- + "</label></td>" +
                   "<td style='width: 16%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
                   "<td style='text-overflow: ellipsis;overflow: hidden; width: 12%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
@@ -2379,14 +2389,14 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
-                              <select class="form-control col-sm-8" id="maincatagory2" onchange="getCatagory2()"></select>
+                              <select class="form-control col-sm-8 checkblank" id="maincatagory2" onchange="getCatagory2()"></select>
                             </div>
                           </div>
 
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
-                              <select class="form-control col-sm-8" id="catagory2" onchange="CreateItemCode()"></select>
+                              <select class="form-control col-sm-8 checkblank" id="catagory2" onchange="CreateItemCode()"></select>
                             </div>
                           </div>
 

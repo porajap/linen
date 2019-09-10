@@ -61,14 +61,21 @@ function ShowItem($conn, $DATA)
     $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $return[$count]['isset'] = $Result['isset']==null?0:$Result['isset'];
     $count++;
+
   }
+  if($column == 'itemDate' && $sort=='ASC'){
+    $return['down'] = 1;
+  }
+  $return['countx'] =$count;
 
   if ($count > 0) {
     $return['status'] = "success";
     $return['form'] = "ShowItem";
+
     echo json_encode($return);
     mysqli_close($conn);
     die;
+
   } else {
     $return['form'] = "ShowItem";
     $return['status'] = "failed";

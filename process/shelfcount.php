@@ -1420,10 +1420,8 @@ function SaveDraw($conn, $DATA){
       if($QtyCenter > $Oder){
         // $updateQty = "UPDATE item_stock SET TotalQty = TotalQty + $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $SCDepCode";
         // mysqli_query($conn, $updateQty);
-
         $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode";
         mysqli_query($conn, $updateQtyCenter);
-
         // $delete = "DELETE item_stock WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode LIMIT $Oder";
         // mysqli_query($conn, $delete);
         $UpdateStatus = "UPDATE shelfcount SET IsStatus = 3 WHERE DocNo = '$DocNo'";

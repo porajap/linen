@@ -1008,6 +1008,12 @@ $array2 = json_decode($json2,TRUE);
                 }if(temp[i]['IsStatus']==2){
                   Status = "<?php echo $array['Canceldoc'][$language]; ?>";
                   Style  = "style='width: 10%;color: #ff0000;'";
+                }if(temp[i]['IsStatus']==3){
+                  Status = "<?php echo $array['Delivery'][$language]; ?>";
+                  Style  = "style='width: 10%;color: #CD853F;'";
+                }else if(temp[i]['IsStatus']==4){
+                  Status = "<?php echo $array['Successx'][$language]; ?>";
+                  Style  = "style='width: 10%;color: #20B80E;'";
                 }
 
                 $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
@@ -1861,7 +1867,7 @@ $array2 = json_decode($json2,TRUE);
                             <div class="d-flex justify-content-center">
                               <div class="circle8 d-flex justify-content-center">
                                 <button class="btn" onclick="PrintstickerData()" id="bPrintsticker">
-                                <i class="fas fa-frog"></i>                                  
+                                <i class="fas fa-print"></i>
                                 <div>
                                     <?php echo $array['Sticker'][$language]; ?>
                                   </div>

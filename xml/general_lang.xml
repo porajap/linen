@@ -78,6 +78,9 @@
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
 <sn><en>S/N</en><th>ลำดับ</th></sn>
 <Canceldoc><en>Cancel</en><th>ยกเลิกเอกสาร</th></Canceldoc>
+<Delivery><en>Delivery</en><th>จัดส่งของ</th></Delivery>
+<Successx><en>Success</en><th>เสร็จสิ้น</th></Successx>
+
 <catmain><en>Category main</en><th>ประเภทรายการหลัก</th></catmain>
 <cycle><en>Cycle</en><th>รอบที่</th></cycle>
 <unit><en>Measurement</en><th>หน่วยนับ</th></unit>
