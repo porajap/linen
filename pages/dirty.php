@@ -1227,7 +1227,26 @@ $array2 = json_decode($json2,TRUE);
               $('#switch_col').addClass('col-md-12');
             }
             //===============================================
-
+            function PrintData(){
+              var docno = $('#docno').val();
+              var lang = '<?php echo $language; ?>';
+              if(docno!=""&&docno!=undefined){
+                var url  = "../report/Report_Dirty.php?DocNo="+docno+"&lang="+lang;
+                window.open(url);
+              }else{
+                swal({
+                  title: '',
+                  text: '<?php echo $array['docfirst'][$language]; ?>',
+                  type: 'info',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  showConfirmButton: false,
+                  timer: 2000,
+                  confirmButtonText: 'Ok'
+                })
+              }
+            }
         </script>
     <style media="screen">
       @font-face {
@@ -1544,7 +1563,18 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                         
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn" onclick="PrintData()" id="bPrint">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <!-- end row btn -->
                       </div>

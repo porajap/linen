@@ -63,6 +63,8 @@
 <newFormatItemCode><en>New format code</en><th>รูปแบบรหัสใหม่</th></newFormatItemCode>
 <logout><en>Logout success</en><th>ออกจากระบบสำเร็จ</th></logout>
 <side><en>Hospital</en><th>โรงพยาบาล</th></side>
+<sidex><en>Hospital</en><th>โรงพยาบาล</th></sidex>
+
 <department><en>Department</en><th>แผนก</th></department>
 <docdate><en>Document date</en><th>วันที่เอกสาร</th></docdate>
 <docno><en>Document number</en><th>เลขที่เอกสาร</th></docno>
