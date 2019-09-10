@@ -144,20 +144,20 @@ $(document).ready(function(e){
       }
       function resetradio(row){
 
-      var previousValue = $('.checkrow_'+row).attr('previousValue');
-        var name = $('.checkrow_'+row).attr('name');
-        if (previousValue == 'checked') {
-          $('#bDelete').attr('disabled', true);
-          $('.checkrow_'+row).removeAttr('checked');
-          $('.checkrow_'+row).attr('previousValue', false);
-          $('.checkrow_'+row).prop('checked', false);
-          // Blankinput();
-        } else {
-          $('#bDelete').attr('disabled', false);
-          $("input[name="+name+"]:radio").attr('previousValue', false);
-          $('.checkrow_'+row).attr('previousValue', 'checked');
+        var previousValue = $('.checkrow_'+row).attr('previousValue');
+          var name = $('.checkrow_'+row).attr('name');
+          if (previousValue == 'checked') {
+            $('#bDelete').attr('disabled', true);
+            $('.checkrow_'+row).removeAttr('checked');
+            $('.checkrow_'+row).attr('previousValue', false);
+            $('.checkrow_'+row).prop('checked', false);
+            // Blankinput();
+          } else {
+            $('#bDelete').attr('disabled', false);
+            $("input[name="+name+"]:radio").attr('previousValue', false);
+            $('.checkrow_'+row).attr('previousValue', 'checked');
+          }
         }
-      }
       function DeleteItem(){
         var docno = $("#docno").val();
         var xrow = $("#checkrow:checked").val() ;
@@ -282,18 +282,18 @@ $(document).ready(function(e){
       }
 
       function getDepartment(){
-      var Hotp = $('#hotpital option:selected').attr("value");
-      if( typeof Hotp == 'undefined' ) 
-      {
-        Hotp = '<?php echo $HptCode; ?>';
-      var data = {
-        'STATUS'  : 'getDepartment',
-        'Hotp'	: Hotp
-      };
+        var Hotp = $('#hotpital option:selected').attr("value");
+        if( typeof Hotp == 'undefined' ) 
+        {
+          Hotp = '<?php echo $HptCode; ?>';
+        var data = {
+          'STATUS'  : 'getDepartment',
+          'Hotp'	: Hotp
+        };
 
-      senddata(JSON.stringify(data));
+        senddata(JSON.stringify(data));
+        }
       }
-    }
 
       function ShowDocument(selecta){
         var Hotp = $('#hotpital option:selected').attr("value");
@@ -1191,13 +1191,33 @@ $(document).ready(function(e){
         $('#switch_col').removeClass('col-md-12');
         $('#switch_col').addClass('col-md-10');
       }
+
       function switch_tap2(){
         $('#tab2').attr('hidden',true);
         $('#switch_col').removeClass('col-md-10');
         $('#switch_col').addClass('col-md-12');
       }
       //===============================================
-
+    function PrintData(){
+      var docno = $('#docno').val();
+      var lang = '<?php echo $language; ?>';
+      if(docno!=""&&docno!=undefined){
+        var url  = "../report/Report_Clean.php?DocNo="+docno+"&lang="+lang;
+        window.open(url);
+      }else{
+        swal({
+          title: '',
+          text: '<?php echo $array['docfirst'][$language]; ?>',
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showConfirmButton: false,
+          timer: 2000,
+          confirmButtonText: 'Ok'
+        })
+      }
+    }
     </script>
     <style media="screen">
      /* ======================================== */
@@ -1481,7 +1501,18 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                         
+                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn" onclick="PrintData()" id="bPrint">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <!-- end row btn -->
                     </div>

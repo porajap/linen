@@ -6,7 +6,7 @@
   try {
     $fp = pfsockopen("192.168.1.61",9100);
 
-    $print_data = "SIZE 60 mm,76 mm  \r\n";
+    $print_data = "SIZE 50 mm,48 mm  \r\n";
     fputs($fp, $print_data);
     $print_data = "GAP 3 mm,0 mm  \r\n";
     fputs($fp, $print_data);
@@ -15,18 +15,24 @@
     $print_data = "CLS  \r\n";
     fputs($fp, $print_data);
 
-    for($i=0;$i<5;$i++){
+    for($i=0;$i<1;$i++){
       $print_data = "TEXT 50 ,20 ,\"2\",0,1,1,\"ทดสอบการพิมพ์...\" \r\n";
       fputs($fp, $print_data);
-
-      $print_data = "TEXT 50 ,50 ,\"2\",0,1,1,\"I'm Testing...\" \r\n";
-      fputs($fp, $print_data);
+      
 
       $print_data = "QRCODE 50,100,H,4,A,0,\"ABCabc123\" \r\n";
       fputs($fp, $print_data);
 
       $print_data = "PRINT 1,1 \r\n";
       fputs($fp, $print_data);
+
+
+
+
+
+
+
+      
     }
     
      fclose($fp);

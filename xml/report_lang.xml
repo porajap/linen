@@ -17,5 +17,8 @@
 <price><en>Total</en><th>เป็นเงิน</th></price>
 <perunit><en>perunit</en><th>ขนาดต่อหน่วย</th></perunit>
 <priceunit><en>PriceUnit</en><th>ราคาต่อหน่วย</th></priceunit>
+<Laundry><en>Laundry</en><th>โรงงานซัก</th></Laundry>
+<qty><en>Qty</en><th>จำนวน</th></qty>
+<Weightitem><en>Weight</en><th>นํ้าหนัก</th></Weightitem>
 
 </lang>

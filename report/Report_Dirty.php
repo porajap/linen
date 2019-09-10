@@ -43,7 +43,7 @@ class PDF extends FPDF
       // Title
       $this->SetFont('THSarabun','b',21);
       $this->Cell(80);
-      $this->Cell(30,10,iconv("UTF-8","TIS-620","Daily Return Request"),0,0,'C');
+      $this->Cell(30,10,iconv("UTF-8","TIS-620","Dirty Report"),0,0,'C');
       // Line break
       $this->Ln(10);
     }else{
@@ -64,6 +64,8 @@ class PDF extends FPDF
 
   function setTable($pdf,$header,$data,$width,$numfield,$field)
   {
+    $total = 0;
+    $wtotal = 0;
     $field = explode(",",$field);
     // Column widths
     $w = $width;
@@ -84,12 +86,21 @@ class PDF extends FPDF
       $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$inner_array[$field[3]]." "),1,0,'R');
       $this->Cell($w[4],6,iconv("UTF-8","TIS-620",$inner_array[$field[4]]." "),1,0,'R');
       $this->Cell($w[5],6,iconv("UTF-8","TIS-620",$inner_array[$field[5]]." "),1,0,'R');
-      $this->Cell($w[6],6,iconv("UTF-8","TIS-620",$inner_array[$field[6]]),1,0,'C');
+      
       $this->Ln();
+      $total=$inner_array[$field[3]] + $total;
+      $wtotal=$inner_array[$field[4]] + $wtotal;
       $count++;
     }
+    
   }
-
+  $this->Cell($w[0],6,iconv("UTF-8","TIS-620",),1,0,'C');
+  $this->Cell($w[1],6,iconv("UTF-8","TIS-620",),1,0,'C');
+  $this->Cell($w[2],6,iconv("UTF-8","TIS-620",),1,0,'L');
+  $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$total." "),1,0,'R');
+  $this->Cell($w[4],6,iconv("UTF-8","TIS-620",number_format($wtotal ,2)." "),1,0,'R');
+  $this->Cell($w[5],6,iconv("UTF-8","TIS-620",),1,0,'R');
+  $this->Ln();
     // Closing line
     $pdf->Cell(array_sum($w),0,'','T');
   }
@@ -111,17 +122,19 @@ $pdf->AddPage();
 
 $Sql = "SELECT   site.HptName,
         department.DepName,
-        shelfcount.DocNo,
-        DATE_FORMAT(shelfcount.DocDate,'%d-%m-%Y')AS DocDate,
-        shelfcount.Total,
+        dirty.DocNo,
+        DATE_FORMAT(dirty.DocDate,'%d-%m-%Y')AS DocDate,
+        dirty.Total,
         users.FName,
-        TIME(shelfcount.Modify_Date) AS xTime,
-        shelfcount.IsStatus
-        FROM shelfcount
-        INNER JOIN department ON shelfcount.DepCode = department.DepCode
+        TIME(dirty.Modify_Date) AS xTime,
+        dirty.IsStatus,
+        factory.FacName
+        FROM dirty
+        INNER JOIN department ON dirty.DepCode = department.DepCode
         INNER JOIN site ON department.HptCode = site.HptCode
-        INNER JOIN users ON shelfcount.Modify_Code = users.ID
-        WHERE shelfcount.DocNo = '$DocNo'";
+        INNER JOIN users ON dirty.Modify_Code = users.ID
+        INNER JOIN factory ON dirty.FacCode = factory.FacCode
+        WHERE dirty.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptName = $Result['HptName'];
@@ -131,6 +144,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $Total = $Result['Total'];
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
+  $FacName = $Result['FacName'];
 }
 
 $pdf->SetFont('THSarabun','b',16);
@@ -148,24 +162,29 @@ $pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$DocDate),0,0,'L');
 $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['user'][$language]),0,0,'L');
-$pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$FirstName." ".$LastName),0,0,'L');
+$pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$FirstName),0,0,'L');
 $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['time'][$language]),0,0,'L');
 $pdf->Cell(40,10,iconv("UTF-8","TIS-620",": ".$xTime),0,0,'L');
+$pdf->Ln();
+$pdf->Cell(15);
+$pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['Laundry'][$language]),0,0,'L');
+$pdf->Cell(78,10,iconv("UTF-8","TIS-620",": ".$FacName),0,0,'L');
+
+
 $pdf->SetMargins(15,0,0);
 $pdf->Ln();
 $pdf->Ln();
 $query = "SELECT
-          shelfcount_detail.ItemCode,
+          dirty_detail.ItemCode,
           item.ItemName,
           item_unit.UnitName,
-          shelfcount_detail.ParQty,
-          shelfcount_detail.CcQty,
-          shelfcount_detail.TotalQty
+          dirty_detail.Qty,
+          dirty_detail.Weight
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-          INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
-          WHERE shelfcount_detail.DocNo = '$DocNo'
+          INNER JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
+          WHERE dirty_detail.DocNo = '$DocNo'
 		  GROUP BY item.ItemCode
           ORDER BY item.ItemName ASC
           ";
@@ -173,11 +192,11 @@ $query = "SELECT
 // Number of column
 $numfield = 7;
 // Field data (Must match with Query)
-$field = "no,ItemCode,ItemName,ParQty,CcQty,TotalQty,UnitName";
+$field = "no,ItemCode,ItemName,Qty,Weight,UnitName";
 // Table header
-$header = array($array['no'][$language],$array['itemcode'][$language],$array['itemname'][$language],'Par','Left(Shelf)','Order',$array['unit'][$language]);
+$header = array($array['no'][$language],$array['itemcode'][$language],$array['itemname'][$language],$array['qty'][$language],$array['Weightitem'][$language],$array['unit'][$language]);
 // width of column table
-$width = array(15,35,45,20,25,20,20);
+$width = array(15,35,60,20,25,25);
 // Get Data and store in Result
 $result = $data->getdata($conn,$query,$numfield,$field);
 // Set Table
