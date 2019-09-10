@@ -1,71 +1,13 @@
 <?php
-require '../connect/connect.php';
-session_start();
+
 date_default_timezone_set("Asia/Bangkok");
-
-// Include the main TCPDF library (search for installation path).
-require_once('../tcpdf/tcpdf.php');
-
-
-// $custom_layout = array(50, 48);
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, "mm", array(50, 48), true, 'UTF-8', false);
-
-// set document information
-$pdf->SetTitle('TCPDF Example 050');
-
-//Add a custom size  
-
-// set default monospaced font
-$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-// set margins
-$pdf->SetMargins(1, 1, 1);
-$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-// set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-$pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
-// set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-// set some language-dependent strings (optional)
-if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-    require_once(dirname(__FILE__).'/lang/eng.php');
-    $pdf->setLanguageArray($l);
-}
-
-// ---------------------------------------------------------
-
-
-// set font
-$pdf->SetFont('helvetica', '', 11);
-
-
+$xDate = date('Y-m-d');
+require '../connect/connect.php';
 
 $DocNo = $_GET['DocNo'];
 $lang = $_GET['lang'];
 $UserID = $_SESSION['PmID'];
 $count = 0;
-
-// set style for barcode
-$style = array(
-  'position' => 'B',
-  'align' => 'C',
-  'stretch' => false,
-  'fitwidth' => true,
-  'cellfitalign' => '',
-  'border' => true,
-  'hpadding' => '20',
-  'vpadding' => 'auto',
-  'fgcolor' => array(0,0,0),
-  'bgcolor' => false, //array(255,255,255),
-  'text' => true,
-  'font' => 'helvetica',
-  'fontsize' => 8,
-  'stretchtext' => 4
-);
 
 $Sql = "SELECT
   shelfcount_detail.ItemCode,
@@ -73,38 +15,61 @@ $Sql = "SELECT
   item_unit.UnitName,
   shelfcount_detail.ParQty,
   shelfcount_detail.CcQty,
-  shelfcount_detail.TotalQty
+  shelfcount_detail.TotalQty,
+  users.FName,
+	(
+		SELECT users.FName FROM users WHERE ID = 98
+	) AS UserC
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
   INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
+  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+	INNER JOIN users ON users.ID = shelfcount.Modify_Code
   WHERE shelfcount_detail.DocNo = '$DocNo'
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC ";
-  $meQuery = mysqli_query($conn,$Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $pdf->AddPage();
-    $ItemCode = $Result['ItemCode'];
-    $ItemName = $Result['ItemName'];
-    $UnitName = $Result['UnitName'];
-    $TotalQty = $Result['TotalQty'];
-    $dataQR = $DocNo.' '.$ItemCode.' จำนวน/ขนาด: '.$TotalQty.' '.$UnitName;
-    $count ++;
-    $html = '<table>
-      <tr width="100%"><td align="left" style="font-size:12px;font-weight:bold;">'.$ItemName.'</td></tr>
-      <tr width="100%"><td align="right">'.$ItemCode.'</td></tr>
-      <tr width="100%"><td align="left">'.$TotalQty.' '.$UnitName.'</td><td align="right">'.$ItemCode.'</td></tr>
-    </table>';
-    $pdf->writeHTML($html, true, false, true, false, '');
-    $pdf->SetAutoPageBreak(TRUE, 0);
-    $pdf->write2DBarcode($dataQR, 'QRCODE,H', 2, 0, 20, 90, $style);
 
+
+  
+  try {
+    $fp = pfsockopen("192.168.1.61",9100);
+    
+    $print_data = "SIZE 50 mm,48 mm  \r\n";
+    fputs($fp, $print_data);
+    $print_data = "GAP 3 mm,0 mm  \r\n";
+    fputs($fp, $print_data);
+    $print_data = "DIRECTION 1,0  \r\n";
+    fputs($fp, $print_data);
+    $print_data = "CLS  \r\n";
+    fputs($fp, $print_data);
+
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $ItemCode = $Result['ItemCode'];
+      $ItemName = $Result['ItemName'];
+      $UnitName = $Result['UnitName'];
+      $TotalQty = $Result['TotalQty'];
+      $FName = $Result['FName'];
+      $UserC = $Result['UserC'];
+      $dataQR = $ItemCode;
+      $print_data = "TEXT 50 ,20 ,\"2\",0,1,1,\"$ItemName\" \r\n";
+      fputs($fp, $print_data);
+
+      $print_data = "TEXT 50 ,50 ,\"2\",0,1,1,\"$ItemCode\" \r\n";
+      fputs($fp, $print_data);
+
+      $print_data = "QRCODE 50,100,Q,4,A,0,\"$dataQR\" \r\n";
+      fputs($fp, $print_data);
+
+      $print_data = "PRINT 1,1 \r\n";
+      fputs($fp, $print_data);
+    }   
+    fclose($fp);
+
+    array_push($resArray, array('Label_Type' => $xIpaddress));
+    echo json_encode(array("result" => $resArray));
+  } catch (Exception $e) {
+    array_push($resArray, array('Label_Type' => 'Caught exception: ', $e->getMessage(), "\n"));
+    echo json_encode(array("result" => $resArray));
   }
-
-// -------------------------------------------------------------------
-//Close and output PDF document
-$pdf->Output('example_050.pdf', 'I');
-
-//============================================================+
-// END OF FILE
-//============================================================+
