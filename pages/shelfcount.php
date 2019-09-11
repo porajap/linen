@@ -891,20 +891,32 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
+
     function PrintSticker(ItemCode, ItemName, Qty){
       $('#sp_ItemCode').text(ItemCode);
+      $('#ItemCode').val(ItemCode);
       $('#sp_ItemName').text(ItemName);
+      $('#numberSticker').val(Qty);
       $('#maxNumSticker').val(Qty);
       $('#numberModal').modal('show');
     }
     function chk_numbrtSticker(qty){
       var max =  Number($('#maxNumSticker').val());
       var Qty = Number(qty);
-      if(max>=Qty){
+      if(max>=Qty || Qty<=0){
         $('#numberSticker').val(Qty);
       }else if(Qty>max){
         $('#numberSticker').val(max);
       }
+    }
+    function StickerPrint(){
+      var lang = '<?php echo $language; ?>';
+      var DocNo = $('#docno').val();
+      var ItemCode = $('#ItemCode').val();
+      var TotalQty =  $('#maxNumSticker').val();
+      var sendQty = $('#numberSticker').val();
+      var url  = "../report/Sticker_Shelfcount.php?DocNo="+DocNo+"&ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang;
+      window.open(url);
     }
     function senddata(data){
       var form_data = new FormData();
@@ -2251,13 +2263,14 @@ $array2 = json_decode($json2,TRUE);
                 </div>
                 <div class="col-9">
                   <input type="hidden" id="maxNumSticker">
+                  <input type="hidden" id="ItemCode">
                   <input type="text" class="form-control numonly_dot" id="numberSticker" autocomplete="off" onkeyup="chk_numbrtSticker(this.value);" style="font-size: 22px;">
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" style="width:10%;" class="btn btn-success"><?php echo $array['btnPrint'][$language]; ?></button>
+            <button type="button" style="width:10%;" onclick="StickerPrint();" class="btn btn-success"><?php echo $array['btnPrint'][$language]; ?></button>
             <button type="button" style="width:10%;" class="btn btn-danger" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
           </div>
         </div>
