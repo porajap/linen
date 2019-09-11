@@ -476,6 +476,7 @@ $array2 = json_decode($json2,TRUE);
         ShowItem();
       }
       function getdetail(CategoryCode,row) {
+        var number = parseInt(row)+1;
         var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
@@ -490,7 +491,8 @@ $array2 = json_decode($json2,TRUE);
           if(CategoryCode!=""&&CategoryCode!=undefined){
             var data = {
               'STATUS'      : 'getdetail',
-              'CategoryCode'       : CategoryCode
+              'CategoryCode'       : CategoryCode ,
+              'number' : number 
             };
 
             console.log(JSON.stringify(data));

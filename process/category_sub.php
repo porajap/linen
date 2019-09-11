@@ -86,6 +86,7 @@ function getdetail($conn, $DATA)
 {
   $count = 0;
   $CategoryCode = $DATA['CategoryCode'];
+  $number = $DATA['number'];
   //---------------HERE------------------//
   $Sql = "SELECT
           item_category.CategoryCode,
@@ -99,7 +100,7 @@ function getdetail($conn, $DATA)
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['CategoryCode'] = $Result['CategoryCode'];
+    $return['CategoryCode'] = $number;
     $return['CategoryName'] = $Result['CategoryName'];
     //$return['IsStatus'] = $Result['IsStatus'];
     $count++;

@@ -48,6 +48,7 @@ function getdetail($conn, $DATA)
 {
   $count = 0;
   $UnitCode = $DATA['UnitCode'];
+  $number = $DATA['number'];
   //---------------HERE------------------//
   $Sql = "SELECT
           item_unit.UnitCode,
@@ -61,7 +62,7 @@ function getdetail($conn, $DATA)
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['UnitCode'] = $Result['UnitCode'];
+    $return['UnitCode'] = $number;
     $return['UnitName'] = $Result['UnitName'];
     //$return['IsStatus'] = $Result['IsStatus'];
     $count++;
