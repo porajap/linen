@@ -43,7 +43,6 @@ $count = 0;
 // echo '<br>sendQty : '.$sendQty ;
 
 // echo "<br>";
-
 $loop1 = floor($TotalQty/$sendQty);
 for($i=1;$i<=$loop1;$i++){
   echo '<br>'.$i.'. ItemCode : '. $ItemCode;

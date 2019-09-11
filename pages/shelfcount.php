@@ -892,6 +892,7 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
 
+    
     function PrintSticker(ItemCode, ItemName, Qty){
       $('#sp_ItemCode').text(ItemCode);
       $('#ItemCode').val(ItemCode);
