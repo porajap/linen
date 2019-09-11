@@ -129,7 +129,7 @@ define ('PDF_MARGIN_HEADER', 5);
 /**
  * Footer margin.
  */
-define ('PDF_MARGIN_FOOTER', 10);
+define ('PDF_MARGIN_FOOTER', 0);
 
 /**
  * Top margin.
@@ -139,7 +139,7 @@ define ('PDF_MARGIN_TOP', 27);
 /**
  * Bottom margin.
  */
-define ('PDF_MARGIN_BOTTOM', 25);
+define ('PDF_MARGIN_BOTTOM', 0);
 
 /**
  * Left margin.
