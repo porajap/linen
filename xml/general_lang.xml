@@ -130,7 +130,9 @@
 <detail><en>Description</en><th>รายละเอียด</th></detail>
 <print><en>Print Report</en><th>พิมพ์รายงาน</th></print>
 <Sticker><en>Print Sticker</en><th>พิมพ์สติ๊กเกอร์</th></Sticker>
+<btnPrint><en>Print</en><th>พิมพ์</th></btnPrint>
 <report><en>Report</en><th>ออกรายงาน</th></report>
+<pleaseenter><en>Please Enter Number Sticker : 1 Sticker</en><th>กรุณากรอกจำนวนสติกเกอร์ : 1 ดวง</th></pleaseenter>
 <docfirst><en>Please select document.</en><th>กรุณาเลือกเอกสาร</th></docfirst>
 <datestart><en>Start date</en><th>วันที่เริ่ม</th></datestart>
 <dateend><en>End date</en><th>วันที่สิ้นสุด</th></dateend>

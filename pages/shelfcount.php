@@ -761,26 +761,7 @@ $array2 = json_decode($json2,TRUE);
         })
       }
     }
-    function PrintstickerData(){
-      var docno = $('#docno').val();
-      var lang = '<?php echo $language; ?>';
-      if(docno!=""&&docno!=undefined){
-        var url  = "../report/Reportsitcker_Shelfcount.php?DocNo="+docno+"&lang="+lang;
-        window.open(url);
-      }else{
-        swal({
-          title: '',
-          text: '<?php echo $array['docfirst'][$language]; ?>',
-          type: 'info',
-          showCancelButton: false,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          showConfirmButton: false,
-          timer: 2000,
-          confirmButtonText: 'Ok'
-        })
-      }
-    }
+    
     function SendData(){
       var docno = $('#docno').val();
       swal({
@@ -902,6 +883,29 @@ $array2 = json_decode($json2,TRUE);
 
     }
 
+    function PrintstickerModal(){
+      var DocNo = $('#docno').val();
+      var data = {
+        'STATUS':'PrintstickerModal',
+        'DocNo':DocNo
+      };
+      senddata(JSON.stringify(data));
+    }
+    function PrintSticker(ItemCode, ItemName, Qty){
+      $('#sp_ItemCode').text(ItemCode);
+      $('#sp_ItemName').text(ItemName);
+      $('#maxNumSticker').val(Qty);
+      $('#numberModal').modal('show');
+    }
+    function chk_numbrtSticker(qty){
+      var max =  Number($('#maxNumSticker').val());
+      var Qty = Number(qty);
+      if(max>=Qty){
+        $('#numberSticker').val(Qty);
+      }else if(Qty>max){
+        $('#numberSticker').val(max);
+      }
+    }
     function senddata(data){
       var form_data = new FormData();
       form_data.append("DATA",data);
@@ -1296,8 +1300,11 @@ $array2 = json_decode($json2,TRUE);
                 }
               }
               $('.numonly').on('input', function() {
-                  this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-                  });
+                this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+              });
+              $('.numonly_dot').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+              });
             }else if( (temp["form"]=='ShowUsageCode') ){
               var st1 = "style='font-size:18px;margin-left:3px; width:150px;font-family:THSarabunNew;font-size:24px;'";
               var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
@@ -1423,6 +1430,27 @@ $array2 = json_decode($json2,TRUE);
               $('#SaveDrawModal').modal('toggle');
               $('#profile-tab').tab('show');
               ShowDocument();
+            }else if( (temp["form"]=='PrintstickerModal') ){
+              result = '';
+                if(temp["RowCount"]>0){
+                  for(var i = 0; i < temp['RowCount']; i++){
+                    if(temp[i]['TotalQty'] == 0){
+                      var btnPrint = "<button class='btn btn-info' style='width:70px;' disabled><?php echo $array['btnPrint'][$language]; ?></button>";
+                    }else if(temp[i]['TotalQty'] > 0){
+                      var btnPrint = "<button class='btn btn-info' style='width:70px;' onclick='PrintSticker(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\",\""+temp[i]['TotalQty']+"\");'><?php echo $array['btnPrint'][$language]; ?></button>";
+                    }
+                    result += "<tr>"+
+                      '<td nowrap style="width: 28%;" class="text-left">'+temp[i]['ItemCode']+'</td>'+
+                      '<td nowrap style="width: 30%;" class="text-left">'+temp[i]['ItemName']+'</td>'+
+                      '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['ParQty']+'</td>'+
+                      '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['CcQty']+'</td>'+
+                      '<td nowrap style="width: 10%;" class="text-right">'+temp[i]['TotalQty']+'</td>'+
+                      '<td nowrap style="width: 12%;" class="text-center">'+btnPrint+'</td>'+
+                    "</tr>";
+                  }
+                  $("#detailSticker").html(result);
+                }
+                $('#PrintStickerModal').modal('show');
             }
           }else if (temp['status']=="failed") {
             switch (temp['msg']) {
@@ -1866,7 +1894,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle8 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintstickerData()" id="bPrintsticker">
+                                <button class="btn" onclick="PrintstickerModal()" id="bPrintsticker">
                                 <i class="fas fa-print"></i>
                                 <div>
                                     <?php echo $array['Sticker'][$language]; ?>
@@ -2103,7 +2131,7 @@ $array2 = json_decode($json2,TRUE);
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" style="width:5%;"onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
+              <button type="button" style="width:7%;"onclick="SaveBill(1)" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
               <button type="button" style="width:5%;"class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
             </div>
           </div>
@@ -2114,40 +2142,117 @@ $array2 = json_decode($json2,TRUE);
 
     <!-- Dialog Modal !-->
     <div class="modal fade" id="SaveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2 class="modal-title"><?php echo $array['alertdraw'][$language]; ?></h2>
-            </div>
-            <div class="modal-body">
-              <div class="card-body" style="padding:0px;">
-                <div class="row">
-                </div>
-                <table class="table table-fixed table-condensed table-striped" id="TablePar" cellspacing="0" role="grid">
-                  <thead style="font-size:24px;">
-                    <tr role="row">
-                    <th style='width: 5%;'nowrap ><?php echo $array['no'][$language]; ?></th>
-                    <th style='width: 25%;'nowrap class='text-left'><?php echo $array['code'][$language]; ?></th>
-                    <th style='width: 30%;'nowrap class='text-left'><?php echo $array['item'][$language]; ?></th>
-                    <!-- <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th> -->
-                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th>
-                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['count'][$language]; ?></th>
-                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['order'][$language]; ?></th>
-                    <th style='width: 10%;'nowrap class='text-right'><?php echo $array['Mainstock'][$language]; ?></th>
-                    </tr>
-                  </thead>
-                  <tbody id="detailQty" class="nicescrolled" style="font-size:23px;height:auto;">
-                  </tbody>
-                </table>
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title"><?php echo $array['alertdraw'][$language]; ?></h2>
+          </div>
+          <div class="modal-body">
+            <div class="card-body" style="padding:0px;">
+              <div class="row">
               </div>
+              <table class="table table-fixed table-condensed table-striped" id="TablePar" cellspacing="0" role="grid">
+                <thead style="font-size:24px;">
+                  <tr role="row">
+                  <th style='width: 5%;'nowrap ><?php echo $array['no'][$language]; ?></th>
+                  <th style='width: 25%;'nowrap class='text-left'><?php echo $array['code'][$language]; ?></th>
+                  <th style='width: 30%;'nowrap class='text-left'><?php echo $array['item'][$language]; ?></th>
+                  <!-- <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th> -->
+                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th>
+                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['count'][$language]; ?></th>
+                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['order'][$language]; ?></th>
+                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['Mainstock'][$language]; ?></th>
+                  </tr>
+                </thead>
+                <tbody id="detailQty" class="nicescrolled" style="font-size:23px;height:auto;">
+                </tbody>
+              </table>
             </div>
-            <div class="modal-footer">
-              <button type="button" style="width:5%;" onclick="SaveQty_SC()" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
-              <button type="button" style="width:5%;" class="btn btn-danger" onclick="SaveQty_SC()"><?php echo $array['close'][$language]; ?></button>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" style="width:7%;" onclick="SaveQty_SC()" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
+            <button type="button" style="width:5%;" class="btn btn-danger" onclick="SaveQty_SC()"><?php echo $array['close'][$language]; ?></button>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="modal fade" id="PrintStickerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title"><?php echo $array['Sticker'][$language]; ?></h2>
+          </div>
+          <div class="modal-body">
+            <div class="card-body" style="padding:0px;">
+              <div class="row">
+              </div>
+              <table class="table table-fixed table-condensed table-striped" id="TablePar" cellspacing="0" role="grid">
+                <thead style="font-size:24px;">
+                  <tr role="row">
+                  <th style='width: 28%;'nowrap class='text-left'><?php echo $array['code'][$language]; ?></th>
+                  <th style='width: 30%;'nowrap class='text-left'><?php echo $array['item'][$language]; ?></th>
+                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th>
+                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['count'][$language]; ?></th>
+                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['order'][$language]; ?></th>
+                  <th style='width: 12%;'nowrap class='text-center'><?php echo $array['Sticker'][$language]; ?></th>
+                  </tr>
+                </thead>
+                <tbody id="detailSticker" class="nicescrolled" style="font-size:23px;height:auto;">
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" style="width:7%;" class="btn btn-success"><?php echo $array['confirm'][$language]; ?></button>
+            <button type="button" style="width:5%;" class="btn btn-danger" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="numberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content" style="margin-top: 50px;background-color:#fff;">
+          <div class="modal-header">
+            <h2 class="modal-title"><?php echo $array['pleaseenter'][$language]; ?></h2>
+          </div>
+          <div class="modal-body">
+            <div class="card-body" style="padding:0px;">
+              <div class="row">
+                <div class="col-3">
+                  <?php echo $array['code'][$language]; ?>: 
+                </div>
+                <div class="col-9">
+                  <span id="sp_ItemCode"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  <?php echo $array['item'][$language]; ?>: 
+                </div>
+                <div class="col-9">
+                  <span id="sp_ItemName"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  <?php echo $array['qty'][$language]; ?>: 
+                </div>
+                <div class="col-9">
+                  <input type="hidden" id="maxNumSticker">
+                  <input type="text" class="form-control numonly_dot" id="numberSticker" autocomplete="off" onkeyup="chk_numbrtSticker(this.value);" style="font-size: 22px;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" style="width:10%;" class="btn btn-success"><?php echo $array['btnPrint'][$language]; ?></button>
+            <button type="button" style="width:10%;" class="btn btn-danger" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <!-- Bootstrap core JavaScript-->
       <script src="../template/vendor/jquery/jquery.min.js"></script>
