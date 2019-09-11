@@ -79,7 +79,7 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // NOTE: 2D barcode algorithms must be implemented on 2dbarcode.php class file.
 
 // set font
-$pdf->SetFont('helvetica', '', 6);
+$pdf->SetFont('thsarabunnew', '', 6);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -96,7 +96,7 @@ $style = array(
 
 $loop1 = floor($TotalQty/$sendQty);
 for($i=1;$i<=$loop1;$i++){
-  $html = '<table style="border: 1px solid black;">	
+  $html = '<table>	
       <tr width="100%"><td align="left" width="100%" style="font-size:7px;font-weight:bold;">'.$ItemName.'</td></tr>	
       <tr width="100%"><td align="right">'.$ItemCode.'</td></tr>
       <tr width="100%"><td align="left" width="45%">'.$TotalQty.' '.$UnitName.'</td><td align="right" width="55%">'.$ItemCode.'</td></tr>

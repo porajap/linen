@@ -660,7 +660,7 @@ $(document).ready(function(e){
         isStatus=0;
         else
         isStatus=1;
-        if(isStatus==1){
+        if(isStatus==1 ){
           if(docno!=""){
           swal({
             title: "<?php echo $array['confirmsave'][$language]; ?>",
@@ -865,7 +865,7 @@ $(document).ready(function(e){
                   var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                   var Status = "";
                   var Style  = "";
-                  if(temp[i]['IsStatus']==1){
+                  if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
                     Status = "<?php echo $array['savesuccess'][$language]; ?>";
                     Style  = "style='width: 10%;color: #20B80E;'";
                   }else{
@@ -913,7 +913,7 @@ $(document).ready(function(e){
                   $("#bImport").prop('disabled', false);
                   $("#bSave").prop('disabled', false);
                   $("#bCancel").prop('disabled', false);
-                }else if(temp[0]['IsStatus']==1){
+                }else if(temp[0]['IsStatus']==1 ||temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
