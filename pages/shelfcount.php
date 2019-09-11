@@ -1009,7 +1009,7 @@ $array2 = json_decode($json2,TRUE);
                 }else{
                   Status = "<?php echo $array['draft'][$language]; ?>";
                   Style  = "style='width: 10%;color: #3399ff;'";
-                }if(temp[i]['IsStatus']==2){
+                }if(temp[i]['IsStatus']==9){
                   Status = "<?php echo $array['Canceldoc'][$language]; ?>";
                   Style  = "style='width: 10%;color: #ff0000;'";
                 }if(temp[i]['IsStatus']==3){
@@ -1097,6 +1097,7 @@ $array2 = json_decode($json2,TRUE);
               $("#timerec").val(temp[0]['RecNow']);
               $("#IsStatus").val(temp[0]['IsStatus']);
               $("#department").val(temp[0]['DepCode']);
+              $("#cycle").val(temp[0]['CycleTime']);
 
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -1145,6 +1146,7 @@ $array2 = json_decode($json2,TRUE);
                   $("#recorder").val(temp[0]['Record']);
                   $("#timerec").val(temp[0]['RecNow']);
                   $("#IsStatus").val(temp[0]['IsStatus']);
+                  $("#cycle").val(temp[0]['CycleTime']);
 
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -1791,8 +1793,16 @@ $array2 = json_decode($json2,TRUE);
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
                                                 <select class="form-control col-sm-8"  style="font-size:22px;" id="cycle">
-                                                <option value="1"><?php echo $array['morning'][$language]; ?></option>
-                                                <option value="2"><?php echo $array['afternoon'][$language]; ?></option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
                                                 </select>
                                             </div>
                                         </div>

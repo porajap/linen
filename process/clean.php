@@ -996,7 +996,7 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["DocNo"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
     // mysqli_query($conn,$Sql);
-    $Sql = "UPDATE clean SET IsStatus = 2  WHERE DocNo = '$DocNo'";
+    $Sql = "UPDATE clean SET IsStatus = 9  WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
   }
 

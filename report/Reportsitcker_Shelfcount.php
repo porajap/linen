@@ -1,75 +1,113 @@
 <?php
-
+require('fpdf.php');
+require('../connect/connect.php');
+require('Class.php');
+header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
-$xDate = date('Y-m-d');
-require '../connect/connect.php';
+// Date
+// $eDate = "2018-06-06";
+$eDate = $_GET['eDate'];
+$eDate = explode("/",$eDate);
+$eDate = $eDate[2].'-'.$eDate[1].'-'.$eDate[0];
+
+$dept = $_GET['dept'];
+
+$language = $_GET['lang'];
+if($language=="en"){
+  $language = "en";
+}else{
+  $language = "th";
+}
+header ('Content-type: text/html; charset=utf-8');
+$xml = simplexml_load_file('../xml/report_lang.xml');
+$json = json_encode($xml);
+$array = json_decode($json,TRUE);
+
+class PDF extends FPDF
+{
+  function setTable($pdf,$header,$data,$width,$numfield,$field)
+  {
+    $field = explode(",",$field);
+    // Column widths
+    $w = $width;
+    // Header
+    $this->SetFont('THSarabun','b',16);
+    $count = 0;
+    $image1 = "../img/mhee1.png";
+    $image2 = "../img/qrcode.png";
+    $this->SetFont('THSarabun','',14);
+    // $pdf->SetX(2);  
+    // $pdf->SetY(20);  
+    if(is_array($data)){
+       $pdf->SetY(10);   
+
+    foreach($data as $data=>$inner_array){
+      $pdf->SetFont('THSarabun','b',14);
+      $pdf->Cell(50,7,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),0,1,'L');
+      $pdf->SetFont('THSarabun','b',12);
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620",'60 x 120 CM.'),0,1,0);
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",$inner_array[$field[5]].' ชิ้น'),0,0,'L');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",$inner_array[$field[1]]),0,1,'R');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้จัด: หมี อิอิ'),0,0,'L');
+      $pdf->Cell(25,5,iconv("UTF-8","TIS-620",'ผู้ตรวจ: หมี อิอิ'),0,1,'R');      
+      $pdf->SetFont('THSarabun','b',12);
+      // $pdf->SetX(55);   
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620"),0,1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620"),0,0,'R');
+
+      $pdf->Cell(25,5,$pdf->Image($image2,12, $pdf->GetY(), 15.6 ),0,0,'L');
+      $pdf->Cell(25,5,$pdf->Image($image1, 54, $pdf->GetY(), 3.8 ),0,1,'R');
+      $pdf->Cell(50,2,iconv("UTF-8","TIS-620"),0,1,'R');
+      $pdf->Cell(50,5,iconv("UTF-8","TIS-620"),0,1,'R');
+      $pdf->Cell(50,10,iconv("UTF-8","TIS-620"),0,1,'L');
+      $count++;
+      $pdf->ln(5);
+
+    }
+  }
+  }
+
+  }
+$pdf = new PDF('P','mm',array(70,150));
+$font = new Font($pdf);
+$data = new Data();
+$datetime = new DatetimeTH();
 
 $DocNo = $_GET['DocNo'];
-$lang = $_GET['lang'];
-$UserID = $_SESSION['PmID'];
-$count = 0;
 
-$Sql = "SELECT
-  shelfcount_detail.ItemCode,
-  item.ItemName,
-  item_unit.UnitName,
-  shelfcount_detail.ParQty,
-  shelfcount_detail.CcQty,
-  shelfcount_detail.TotalQty,
-  users.FName,
-	(
-		SELECT users.FName FROM users WHERE ID = 98
-	) AS UserC
-  FROM item
-  INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
-  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
-	INNER JOIN users ON users.ID = shelfcount.Modify_Code
-  WHERE shelfcount_detail.DocNo = '$DocNo'
-  GROUP BY item.ItemCode
-  ORDER BY item.ItemName ASC ";
+// Using Coding
+$pdf->AddPage();
 
-
-  
-  try {
-    $fp = pfsockopen("192.168.1.61",9100);
-    
-    $print_data = "SIZE 50 mm,48 mm  \r\n";
-    fputs($fp, $print_data);
-    $print_data = "GAP 3 mm,0 mm  \r\n";
-    fputs($fp, $print_data);
-    $print_data = "DIRECTION 1,0  \r\n";
-    fputs($fp, $print_data);
-    $print_data = "CLS  \r\n";
-    fputs($fp, $print_data);
-
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $ItemCode = $Result['ItemCode'];
-      $ItemName = $Result['ItemName'];
-      $UnitName = $Result['UnitName'];
-      $TotalQty = $Result['TotalQty'];
-      $FName = $Result['FName'];
-      $UserC = $Result['UserC'];
-      $dataQR = $ItemCode;
-      $print_data = "TEXT 50 ,20 ,\"2\",0,1,1,\"$ItemName\" \r\n";
-      fputs($fp, $print_data);
-
-      $print_data = "TEXT 50 ,50 ,\"2\",0,1,1,\"$ItemCode\" \r\n";
-      fputs($fp, $print_data);
-
-      $print_data = "QRCODE 50,100,Q,4,A,0,\"$dataQR\" \r\n";
-      fputs($fp, $print_data);
-
-      $print_data = "PRINT 1,1 \r\n";
-      fputs($fp, $print_data);
-    }   
-    fclose($fp);
-
-    array_push($resArray, array('Label_Type' => $xIpaddress));
-    echo json_encode(array("result" => $resArray));
-  } catch (Exception $e) {
-    array_push($resArray, array('Label_Type' => 'Caught exception: ', $e->getMessage(), "\n"));
-    echo json_encode(array("result" => $resArray));
-  }
+$query = "SELECT
+          shelfcount_detail.ItemCode,
+          item.ItemName,
+          item_unit.UnitName,
+          shelfcount_detail.ParQty,
+          shelfcount_detail.CcQty,
+          shelfcount_detail.TotalQty
+          FROM item
+          INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+          INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
+          WHERE shelfcount_detail.DocNo = '$DocNo'
+    GROUP BY item.ItemCode
+          ORDER BY item.ItemName ASC
+          ";
+// var_dump($query); die;
+// Number of column
+$numfield = 7;
+// Field data (Must match with Query)
+$field = "no,ItemCode,ItemName,ParQty,CcQty,TotalQty,UnitName";
+// Table header
+$header = array($array['no'][$language],$array['itemcode'][$language],$array['itemname'][$language],'Par','Left(Shelf)','Order',$array['unit'][$language]);
+// width of column table
+$width = array(15,35,45,20,25,20,20);
+// Get Data and store in Result
+$result = $data->getdata($conn,$query,$numfield,$field);
+// Set Table
+$pdf->SetFont('THSarabun','b',14);
+$pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
+$pdf->Ln();
+$ddate = date('d_m_Y');
+$pdf->Output('I','Report_Stock_'.$ddate.'.pdf');
+?>

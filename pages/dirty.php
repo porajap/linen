@@ -858,7 +858,7 @@ $array2 = json_decode($json2,TRUE);
                         }else{
                           Status = "<?php echo $array['draft'][$language]; ?>";
                           Style  = "style='width: 10%;color: #3399ff;'";
-                        }if(temp[i]['IsStatus']==2){
+                        }if(temp[i]['IsStatus']==9){
                           Status = "<?php echo $array['Canceldoc'][$language]; ?>";
                           Style  = "style='width: 10%;color: #ff0000;'";
                         }
@@ -1104,9 +1104,9 @@ $array2 = json_decode($json2,TRUE);
                           $('#TableItem tbody:last-child').append( $StrTR );
                         }
                       }
-                                                    $('.numonly').on('input', function() {
-                                              this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-                                          });
+                        $('.numonly').on('input', function() {
+                        this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                    });
                     }else if( (temp["form"]=='ShowUsageCode') ){
                       var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                       var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
