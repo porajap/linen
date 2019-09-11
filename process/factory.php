@@ -77,6 +77,7 @@ function getdetail($conn, $DATA)
   {
     $count = 0;
     $FacCode = $DATA['FacCode'];
+    $number = $DATA['number'];
     //---------------HERE------------------//
     $Sql = "SELECT
             factory.FacCode,
@@ -104,7 +105,7 @@ function getdetail($conn, $DATA)
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return['FacCode'] = $Result['FacCode'];
+      $return['FacCode'] = $number;
       $return['FacName'] = $Result['FacName'];
       $return['DiscountPercent'] = $Result['DiscountPercent'];
       $return['Price'] = $Result['Price'];

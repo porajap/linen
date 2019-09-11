@@ -592,6 +592,7 @@ $array2 = json_decode($json2,TRUE);
 
       function getdetail(FacCode , row) {
        
+        var number = parseInt(row)+1;
         var id = $('#id_'+row).data('value');
         var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
@@ -605,9 +606,10 @@ $array2 = json_decode($json2,TRUE);
           $('#checkitem_'+row).attr('previousValue', 'checked');
         if(FacCode!=""&&FacCode!=undefined){
           var data = {
-            'STATUS'      : 'getdetail',
+            'STATUS'        : 'getdetail',
             'FacCode'       : FacCode , 
-            'id'            : id 
+            'id'            : id ,
+            'number'        : number 
           };
 
           console.log(JSON.stringify(data));

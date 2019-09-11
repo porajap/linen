@@ -57,6 +57,7 @@ function getdetail($conn, $DATA)
 {
   $count = 0;
   $DepCode = $DATA['DepCode'];
+  $number = $DATA['number'];
   //---------------HERE------------------//
   $Sql = "SELECT
           department.DepCode,
@@ -70,7 +71,7 @@ function getdetail($conn, $DATA)
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['DepCode'] 		= $Result['DepCode'];
+    $return['DepCode'] 		= $number;
     $return['HptCode'] 		= $Result['HptCode'];
     $return['DepName'] 		= $Result['DepName'];
     $return['IsStatus'] 	= $Result['IsStatus'];

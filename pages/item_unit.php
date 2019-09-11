@@ -453,6 +453,7 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function getdetail(UnitCode , row) {
+        var number = parseInt(row)+1;
         var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
@@ -466,7 +467,8 @@ $array2 = json_decode($json2,TRUE);
         if(UnitCode!=""&&UnitCode!=undefined){
           var data = {
             'STATUS'      : 'getdetail',
-            'UnitCode'       : UnitCode
+            'UnitCode'       : UnitCode , 
+            'number' : number 
           };
 
           console.log(JSON.stringify(data));
