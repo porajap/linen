@@ -123,12 +123,12 @@ function CreateDocument($conn, $DATA)
     ( DocNo,DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
-      shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime)
+      shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime)
       VALUES
       ( '$DocNo',NOW(),$deptCode,'',
       0,DATE(NOW()),0,0,
       0,0,'',
-      $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle)";
+      $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() )";
       mysqli_query($conn, $Sql);
 
       $Sql = "INSERT INTO daily_request
@@ -316,6 +316,9 @@ function SelectDocument($conn, $DATA)
   INNER JOIN users ON shelfcount.Modify_Code = users.ID
   WHERE shelfcount.DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
+
+
+
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     if($lang =='en'){
@@ -325,6 +328,7 @@ function SelectDocument($conn, $DATA)
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
+
 
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DepName']   = $Result['DepName'];
@@ -339,7 +343,8 @@ function SelectDocument($conn, $DATA)
     $boolean = true;
     $count++;
   }
-
+  $Sql = "UPDATE shelfcount SET PkStartTime = NOW() WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
   if ($boolean) {
     $return['status'] = "success";
     $return['form'] = "SelectDocument";
@@ -922,7 +927,7 @@ function SaveBill($conn, $DATA)
     $Sum = $Res['Summ'];
   }
   $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus,Total = $Sum WHERE shelfcount.DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
   $isStatus = $DATA["isStatus"];
@@ -1424,6 +1429,8 @@ function SaveDraw($conn, $DATA){
       if($QtyCenter > $Oder){
         // $updateQty = "UPDATE item_stock SET TotalQty = TotalQty + $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $SCDepCode";
         // mysqli_query($conn, $updateQty);
+        $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
+        mysqli_query($conn, $Sql);
         $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode";
         mysqli_query($conn, $updateQtyCenter);
         // $delete = "DELETE item_stock WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode LIMIT $Oder";
@@ -1431,6 +1438,8 @@ function SaveDraw($conn, $DATA){
         $UpdateStatus = "UPDATE shelfcount SET IsStatus = 3 WHERE DocNo = '$DocNo'";
         mysqli_query($conn, $UpdateStatus);
       }else if($QtyCenter < $Oder || $QtyCenter == 0){
+        $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
+        mysqli_query($conn, $Sql);
         $return[$count]['ItemCode']  = $Result3['ItemCode'];
         $return[$count]['ItemName']  = $Result3['ItemName'];
         $return[$count]['ParQty']    = $Result3['ParQty'];
