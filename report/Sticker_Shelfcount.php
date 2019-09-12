@@ -124,20 +124,20 @@ $pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
 $pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
 
 
-$pdf->SetY(25);
-$pdf->SetFont('thsarabunnew', '', 15);
-$pdf->SetX(29);
+$pdf->SetY(26);
+$pdf->SetFont('thsarabunnew', '', 14);
+$pdf->SetX(27);
 $pdf->Cell(36, 1, 'ผู้จัด ' , 0, 1, 'L', 0, '', 1);
-$pdf->SetX(29);
-$pdf->SetFont('thsarabunnew', '', 13);
+$pdf->SetX(27);
+$pdf->SetFont('thsarabunnew', '', 12);
 $pdf->Cell(36, 1, $FName , 0, 1, 'L', 0, '', 1);
 
-$pdf->SetX(29);
-$pdf->SetFont('thsarabunnew', '', 15);
+$pdf->SetX(27);
+$pdf->SetFont('thsarabunnew', '', 14);
 $pdf->Cell(38, 1, 'ผู้ตรวจ' , 0, 1, 'L', 0, '', 1);
 $pdf->SetY(42);
-$pdf->SetFont('thsarabunnew', '', 13);
-$pdf->SetX(29);
+$pdf->SetFont('thsarabunnew', '', 12);
+$pdf->SetX(27);
 $pdf->Cell(38, 1, '. . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
 
   // $pdf->lastPage();
@@ -175,19 +175,19 @@ if($loop2<$TotalQty){
   
   
   $pdf->SetY(25);
-  $pdf->SetFont('thsarabunnew', '', 15);
-  $pdf->SetX(29);
+  $pdf->SetFont('thsarabunnew', '', 14);
+  $pdf->SetX(27);
   $pdf->Cell(36, 1, 'ผู้จัด ' , 0, 1, 'L', 0, '', 1);
-  $pdf->SetX(29);
-  $pdf->SetFont('thsarabunnew', '', 13);
+  $pdf->SetX(27);
+  $pdf->SetFont('thsarabunnew', '', 12);
   $pdf->Cell(36, 1, $FName , 0, 1, 'L', 0, '', 1);
   
-  $pdf->SetX(29);
-  $pdf->SetFont('thsarabunnew', '', 15);
+  $pdf->SetX(27);
+  $pdf->SetFont('thsarabunnew', '', 14);
   $pdf->Cell(38, 1, 'ผู้ตรวจ' , 0, 1, 'L', 0, '', 1);
   $pdf->SetY(42);
-  $pdf->SetFont('thsarabunnew', '', 13);
-  $pdf->SetX(29);
+  $pdf->SetFont('thsarabunnew', '', 12);
+  $pdf->SetX(27);
   $pdf->Cell(38, 1, '. . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
   
     // $pdf->lastPage();
