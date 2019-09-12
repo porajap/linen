@@ -311,9 +311,10 @@
 <r14><en>Report Summary</en><th>Report Summary</th></r14>
 <r15><en>Report Tracking status for laundry plant</en><th>Report Tracking status for laundry plant</th></r15>
 <r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>
-<r17><en>Report Damage And Loss</en><th>Report Damage And Loss</th></r17>
+<r17><en>Report Damage</en><th>Report Damage</th></r17>
 <r18><en>Report Tracking status for linen operation By Ward</en><th>Report Tracking status for linen operation By Ward</th></r18>
 <r19><en>Report Tracking status for linen operation By User</en><th>Report Tracking status for linen operation By User</th></r19>
+<r20><en>Report Summary billing</en><th>Report Summary billing</th></r20>
 <!--  -->
 
 
