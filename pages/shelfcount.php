@@ -112,13 +112,20 @@ $array2 = json_decode($json2,TRUE);
 
     function find_item() {
       var DocNo = $('#docno').val();
-      var itemCode = $('#barcode').val();
       var DepCode = $('#department').val();
+
+
+
+      var itemCode1 = $('#barcode').val();
+      var itemCode2 = itemCode1.split(',');
+      var itemCode = itemCode2[0];
+      var qty = itemCode2[1]
       var data = {
         'STATUS': 'find_item',
         'DepCode': DepCode,
         'itemCode': itemCode,
-        'DocNo': DocNo
+        'DocNo': DocNo,
+        'qty': qty
       };
       senddata(JSON.stringify(data));
       $('#barcode').val("");
@@ -560,6 +567,50 @@ $array2 = json_decode($json2,TRUE);
         $('#iqty'+cnt).val(sub);
       }
     }
+    // function keydownupdate(rowid,cnt){
+    //   var max = $('#max'+cnt).val();
+    //   var par = $('#qty1_'+cnt).val();
+    //   var sub = max - par;
+    //   var docno = $("#docno").val();
+    //   var isStatus = $("#IsStatus").val();
+    //   if((sub>=0) && (sub<=500)) {
+    //     if(isStatus==0){
+    //       console.log(sub);
+    //       $('#order'+cnt).val(sub);
+    //       var data = {
+    //         'STATUS'      : 'UpdateDetailQty_key',
+    //         'Rowid'       : rowid,
+    //         'DocNo'       : docno,
+    //         'CcQty'		    : par,
+    //         'TotalQty'		: sub
+    //       };
+    //       senddata(JSON.stringify(data));
+    //     }
+    //   }
+    // }
+    function keydownupdate(rowid,cnt){
+      var deptCode = $('#department option:selected').attr("value");
+      var Dep = $("#Dep_").val();
+      var max = $('#max'+cnt).val();
+      var docno = $("#docno").val();
+      var add = parseInt($('#qty1_'+cnt).val());
+      var isStatus = $("#IsStatus").val();
+      if(isStatus==0){
+        if(add>max){
+          $('#qty1_'+cnt).val(max);
+        }else{
+          $('#qty1_'+cnt).val(add);
+          var data = {
+            'STATUS'      : 'UpdateDetailQty',
+            'Rowid'       : rowid,
+            'DocNo'       : docno,
+            'CcQty'		    : add,
+            'max'		: max
+          };
+          senddata(JSON.stringify(data));
+        }
+      }
+    }
 
     function addnum1(rowid,cnt,unitcode) {
       var deptCode = $('#department option:selected').attr("value");
@@ -796,27 +847,7 @@ $array2 = json_decode($json2,TRUE);
       })
     }
 
-    function keydownupdate(rowid,cnt){
-      var max = $('#max'+cnt).val();
-      var par = $('#qty1_'+cnt).val();
-      var sub = max - par;
-      var docno = $("#docno").val();
-      var isStatus = $("#IsStatus").val();
-      if((sub>=0) && (sub<=500)) {
-        if(isStatus==0){
-          console.log(sub);
-          $('#order'+cnt).val(sub);
-          var data = {
-            'STATUS'      : 'UpdateDetailQty_key',
-            'Rowid'       : rowid,
-            'DocNo'       : docno,
-            'CcQty'		    : par,
-            'TotalQty'		: sub
-          };
-          senddata(JSON.stringify(data));
-        }
-      }
-    }
+
     function logoff() {
       swal({
         title: '',
@@ -989,6 +1020,7 @@ $array2 = json_decode($json2,TRUE);
               $('#bSave').attr('disabled', false);
               $('#bImport').attr('disabled', false);
               $('#bPrint').attr('disabled', false);
+              $('#barcode').attr('disabled', false);
               // ShowDocument_sub();
               swal({
                 title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1133,6 +1165,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
                 $("#bdetail").prop('disabled', true);
+                $("#barcode").prop('disabled', false);
               }else if(temp[0]['IsStatus']==1){
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1143,6 +1176,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', true);
                 $("#bdetail").prop('disabled', false);
+                $("#barcode").prop('disabled', false);
               }else{
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
@@ -1835,9 +1869,8 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" id="barcode" style="font-size:22px;" class="form-control col-sm-8 "  name="searchitem"
-                                                    id="docdate"
-                                                    placeholder="<?php echo $array['barcode'][$language]; ?>">
+                                                <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-8 "  name="searchitem"
+                                                placeholder="<?php echo $array['barcode'][$language]; ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -1937,7 +1970,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle8 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintstickerModal()" id="bPrintsticker">
+                                <button class="btn" onclick="PrintstickerModal()" id="bPrintsticker" >
                                 <i class="fas fa-print"></i>
                                 <div>
                                     <?php echo $array['Sticker'][$language]; ?>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
-<barcode><en>barcode</en><th>บาร์โค๊ด</th></barcode>
+<barcode><en>QrCode</en><th>คิวอาร์โค๊ด</th></barcode>
 <Cycle><en>Cycle</en><th>รอบส่ง</th></Cycle>
 <morning><en>Morning</en><th>รอบเช้า</th></morning>
 <afternoon><en>Afternoon</en><th>รอบบ่าย</th></afternoon>
