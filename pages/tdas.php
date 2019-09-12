@@ -78,27 +78,17 @@ $array2 = json_decode($json2,TRUE);
         $(document).ready(function(e) {
 
             var HptCode = $('#hptsel').val();
-            var Keyword = $('#searchitem').val();
+
             var data = {
-                'STATUS': 'ShowItem',
-                'HptCode': HptCode,
-                'Keyword': Keyword
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-            // }
-
-            var data2 = {
                 'STATUS': 'getSection',
                 'HptCode': HptCode
             };
-            console.log(JSON.stringify(data2));
-            senddata(JSON.stringify(data2));
+            console.log(JSON.stringify(data));
+            senddata(JSON.stringify(data));
 
         }).click(function(e) { parent.afk();
-      }).keyup(function(e) { parent.afk();
-      });
+        }).keyup(function(e) { parent.afk();
+        });
 
         dialog = jqui("#dialog").dialog({
             autoOpen: false,
@@ -183,6 +173,58 @@ $array2 = json_decode($json2,TRUE);
             })
         }
 
+        function TotalQty1(){
+            Qty = 0;
+            $(".qty1").each(function() {
+                Qty += Number($(this).val());
+            });
+            $('#totalQty1').val(Qty);
+        }
+        function TotalQty(){
+            for(var i = 0; i<=4; i++){
+                Qty = 0;
+                $(".qty"+i).each(function() {
+                    Qty += Number($(this).val());
+                });
+                Total = Qty.toFixed(2);
+                $('#totalQty'+i).val(Total);
+            }
+            Calculate();
+
+        }
+        function SaveQty(){
+            alert('Test');
+        }
+        function Calculate(){
+            var DepCount =   $('#DepCount').val();
+            var RowChg = $('#RowChg').val();
+            for(var j = 0; j<RowChg; j++){
+                for(var i = 0; i<DepCount; i++){
+                    Qty = 0;
+                    var percent = Number($('#percent_'+i).val())/100;
+                    var result = 0;
+                    var change = Number($('#change_'+j).val());
+                    $(".col_"+i).each(function() {
+                        Qty += Number($(this).val());
+                    });
+                    result = (Qty * percent * change) + Qty;
+                    TotalResult = result.toFixed(2);
+                    $('.result_'+j+i).val(TotalResult);
+                }
+                SumRow = 0;
+                $(".SumRow_"+j).each(function() {
+                    SumRow += Number($(this).val());
+                });
+                TotalSum = SumRow.toFixed(2);
+                $('#SumRow_'+j).val(TotalSum);
+
+                const ParValue = Number($('#total_par2').val())
+                var Par = Number($(".TotalSum_"+j).val());
+                resutlTotal = ParValue * Par;
+                TotalPar = resutlTotal.toFixed(2);
+                $('#CalRow_'+j).val(TotalPar);
+            }
+        }
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -213,36 +255,143 @@ $array2 = json_decode($json2,TRUE);
                     }
                     swal.close();
                     if (temp["status"] == 'success') {
-                        if ((temp["form"] == 'ShowItem')) {
-                            $("#TableItem tbody").empty();
-                            console.log(temp);
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var rowCount = $('#TableItem >tbody >tr').length;
-                                var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                                var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                                // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
-                                    "<td style='width: 5%;'>" + chkDoc + "</td>" +
-                                    "<td style='width: 10%;'>" + (i + 1) + "</td>" +
-                                    "<td style='width: 19.5%;'>" + temp[i]['DepName'] + "</td>" +
-									"<td style='width: 65%;'>" +  DefaultName  + "</td>" +
+                        if ((temp["form"] == 'getSection')) {
+                            var HeadTB = "<tr style='height:50px;'>" + 
+                                            "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
+                                            "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
+                                            "<th style='width :15%;'  class='text-left'>Department</th>"+
+                                            "<th style='width :13%;' class='text-center'>Change <br>(ความถึ่ในการเปลี่ยน)</th>";
+                            for (var i = 0; i < temp['CountRow']; i++) {
+                                HeadTB += "<th  class='text-center' style='width :12%;'>" + temp[i]['DepName'] + "</th>" ;
+                            }
+                            var DepCount = i;
+                            HeadTB += "<th class='text-center'nowrap style=width:12%;'>TOTAL</th>"+
+                            "<th class='text-center' ' nowrap style='width:12%;'>TOTAL</th>"+
+                            "<th class='text-center'nowrap style='width:12%;'>TOTAL</th>"+
+                            "</tr>";
+                            HeadTB += "<tr style='height:50px;'>"+
+                                        "<th style='width:12%;' nowrap  class='text-left'>COST CENTER</th>"+
+                                        "<th colspan='"+(i+1)+"'></th>"+
+                                        "<th  nowrap  class='text-center' style='padding-left: 20px;padding-right: 20px;'>Ex.STOCK</th>"+
+                                        "<th  nowrap  class='text-center' style='padding-left: 20px;padding-right: 20px;'>PAR</th>"+
+                                        "<th  nowrap  class='text-center' style='padding-left: 20px;padding-right: 20px;'>PAR</th>"+
                                     "</tr>";
+                                HeadTB += "<tr style='height:50px;'>"+
+                                "<th style='width:12%;' nowrap  class='text-left'>Name</th>"+
+                                "<th colspan='"+(i+2)+"'></th>"+
+                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par1']+"' id='total_par1'></th>"+
+                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par2']+"' id='total_par2' onkeyup='if(event.keyCode==13){SaveQty()}else{Calculate()}'></th>"+
+                            "</tr>";
+                            $('#theadsum').html(HeadTB);
 
-                                if (rowCount == 0) {
-                                    $("#TableItem tbody").append(StrTR);
-                                } else {
-                                    $('#TableItem tbody:last-child').append(StrTR);
+                            StrTRx = "<tr style='height:50px;'>"+
+                                "<td style='width :5%;'  class='text-left'  rowspan='4'></td>"+
+                                "<td style='width:5%;' class='text-center'>1</td>"+
+                                "<td style='width:5%;' class='text-left'>จำนวนเตียงรวม <br>(Total Patient Room)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty1 = temp[i]['Qty1']==null?0:temp[i]['Qty1'];
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty1 numonly_dot col_"+i+"' value='"+Qty1+"' onkeyup='if(event.keyCode==13){SaveQty()}else{TotalQty()}'></td>" ;
                                 }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty1' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;'  class='text-center'>2</td>"+
+                                "<td style='width:5%;'  class='text-left'>ห้องพักญาติ <br>(Relative Room In VIP)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty2 = temp[i]['Qty2']==null?0:temp[i]['Qty2'];
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+"' value='"+Qty2+"' onkeyup='if(event.keyCode==13){SaveQty()}else{TotalQty()}'></td>" ;
+                                }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty2' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;'  class='text-center'>3</td>"+
+                                "<td style='width:5%;'  class='text-left'>จำนวนผู้ป่วย <br>(AVG Patient Census)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty3 = temp[i]['Qty3']==null?0:temp[i]['Qty3'];
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty3 numonly_dot col_"+i+"' value='"+Qty3+"' onkeyup='if(event.keyCode==13){SaveQty()}else{Calculate()}'></td>" ;
+                                }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center totalQty3' id='totalQty3' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;'  class='text-center'>4</td>"+
+                                "<td style='width:5%;'  class='text-left'>จำนวนผู้ป่วยกลับบ้าน <br>(Dis charge plan)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty4 = temp[i]['Qty4']==null?0:temp[i]['Qty4'];
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty4 numonly_dot col_"+i+"' value='"+Qty4+"' onkeyup='if(event.keyCode==13){SaveQty()}else{TotalQty()}'></td>" ;
+                                }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty4' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;' nowrap  class='text-center'></td>"+
+                                "<td nowrap  class='text-center'  style='width:15%;'>"+
+                                    "<select name='type_"+i+"' id='type_"+i+"' class='form-control'>"+
+                                        "<option>เลือกทั้งหมด</option>"+
+                                        "<option>PPU</option>"+
+                                        "<option>NONPPU</option>"+
+                                    "</select>"+
+                                "</td>"+
+                                "<td  nowrap  class='text-center'>"+
+                                    "<select name='safty_"+i+"' id='safty_"+i+"' class='form-control'>"+
+                                        "<option>Total Safty stock</option>"+
+                                        "<option>เลือกทั้งหมด</option>"+
+                                    "</select>"+
+                                "</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < (temp['CountRow']); i++) {
+                                    StrTRx += "<td  nowrap  class='text-center'>"+
+                                        "<select name='percent_"+i+"' id='percent_"+i+"' class='form-control' onchange='Calculate();'>";
+                                        for (var j = 0; j < (temp['CountPercent']); j++) {
+                                            if(temp[j]['percent_value']==temp[i]['Hptpercent']){
+                                                StrTRx += "<option value='"+temp[j]['percent_value']+"' selected>"+temp[j]['percent_value']+'%'+"</option>";
+                                            }else{
+                                                StrTRx += "<option value='"+temp[j]['percent_value']+"'>"+temp[j]['percent_value']+'%'+"</option>";
+                                            }
+                                        }
+                                        StrTRx += "</select>"+
+                                    "</td>";
+                                }
+                                StrTRx +=   "<td  nowrap  class='text-center'> </td>"+
+                                    "<td  nowrap  class='text-center'> </td>"+
+                                    "<td  nowrap  class='text-center'> </td>"+
+                                    "</tr>";
+                            if(temp['RowCount']>0){
+                                for (var j = 0; j < (temp['RowCount']); j++) {
+                                    change_value = temp[j]['change_value']==null?0:temp[j]['change_value'];
+                                    StrTRx += "<tr style='height:50px;'>"+
+                                        "<td style='width :5%;' class='text-center'>"+(j+1)+"</td>"+
+                                        "<td  nowrap  class='text-left'>"+temp[j]['mainType']+"</td>"+
+                                        "<td  nowrap  class='text-left'>"+temp[j]['ItemName']+"</td>"+
+                                        "<td  nowrap  class='text-left'><input type='text' value='"+change_value+"' id='change_"+j+"' class='form-control text-center' onkeyup='if(event.keyCode==13){SaveQty()}else{TotalQty()}'></td>";
+                                        for (var i = 0; i < temp['CountRow']; i++) {
+                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' disabled></td>" ;
+                                        }
+                                    StrTRx += "<td  class='text-center'>"+"<input type='text' class='form-control text-center' disabled></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
+                                    "</tr>";
+                                }
+                                var RowChg = j;
                             }
-                        }else if ((temp["form"] == 'getSection')) {
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTRx = "<th style='width :12%;'>" + temp[i]['DepName'] + "</th>" +
-                                $('#TableItem > thead tr').append(StrTRx);
-                            }
-                            $('#TableItem > thead tr').append('<th style="width:6%;"> TOTAL</th>');
-                            $('#TableItem > thead tr').append('<th style="width:6%;"> TOTAL</th>');
-                            $('#TableItem > thead tr').append('<th style="width:6%;"> TOTAL</th>');
-
+                            $('#body_table').html(StrTRx);
+                            $('.numonly_dot').on('input', function() {
+                                this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+                            });
+                            $('#DepCount').val(DepCount);
+                            $('#RowChg').val(RowChg);
+                            TotalQty();
+                            Calculate();
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -322,174 +471,90 @@ $array2 = json_decode($json2,TRUE);
             });
         }
     </script>
-     <style media="screen">
-    @font-face {
+    <style media="screen">
+        @font-face {
             font-family: myFirstFont;
             src: url("../fonts/DB Helvethaica X.ttf");
             }
         body{
-          font-family: myFirstFont;
-          font-size:22px;
+            font-family: myFirstFont;
+            font-size:22px;
+        }
+        input,select{
+            font-size:24px!important;
+        }
+        th,td{
+            font-size:22px!important;
+        }
+        .table > thead > tr >th {
+            background-color: #1659a2;
+        }
+        .table > thead > tr >td {
+            background-color: #fff;
+            color: #000;
+        }
+        
+        table tr th,
+        table tr td {
+            border-right: 0px solid #bbb;
+            border-bottom: 0px solid #bbb;
+            padding: 5px;
+        }
+        table tr th:first-child,
+        table tr td:first-child {
+            border-left: 0px solid #bbb;
+        }
+        table tr th {
+            background: #eee;
+            border-top: 0px solid #bbb;
+            text-align: left;
         }
 
-        .nfont{
-          font-family: myFirstFont;
-          font-size:22px;
+        /* top-left border-radius */
+        table tr:first-child th:first-child {
+            border-top-left-radius: 15px;
         }
-    input,select{
-      font-size:24px!important;
-    }
-    th,td{
-      font-size:24px!important;
-    }
-    .table > thead > tr >th {
-      background-color: #1659a2;
-    }
+        table tr:first-child th:first-child {
+            border-bottom-left-radius: 15px;
+        }
 
-    table tr th,
-    table tr td {
-      border-right: 0px solid #bbb;
-      border-bottom: 0px solid #bbb;
-      padding: 5px;
-    }
-    table tr th:first-child,
-    table tr td:first-child {
-      border-left: 0px solid #bbb;
-    }
-    table tr th {
-      background: #eee;
-      border-top: 0px solid #bbb;
-      text-align: left;
-    }
+        /* top-right border-radius */
+        table tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+        table tr:first-child th:last-child {
+            border-bottom-right-radius: 15px;
+        }
 
-    /* top-left border-radius */
-    table tr:first-child th:first-child {
-    border-top-left-radius: 15px;
-  }
-  table tr:first-child th:first-child {
-    border-bottom-left-radius: 15px;
-  }
+        /* bottom-left border-radius */
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 6px;
+        }
 
-  /* top-right border-radius */
-  table tr:first-child th:last-child {
-    border-top-right-radius: 15px;
-  }
-  table tr:first-child th:last-child {
-    border-bottom-right-radius: 15px;
-  }
+        /* bottom-right border-radius */
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 6px;
+        }
 
-  /* bottom-left border-radius */
-  table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
+        select {
+            text-align: center;
+            text-align-last: center;
+            /* webkit*/
+        }
 
-  /* bottom-right border-radius */
-  table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  button{
-      font-size: 24px!important;
-    }
-  a.nav-link{
-    width:auto!important;
-  }
-  .datepicker{z-index:9999 !important}
-  .hidden{visibility: hidden;}
-  
-  .sidenav {
-  height: 100%;
-  overflow-x: hidden;
-  /* padding-top: 20px; */
-  border-left: 2px solid #bdc3c7;
-}
-
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.mhee button{
-  /* padding: 6px 8px 6px 16px; */
-  font-size: 25px;
-  color: #2c3e50;
-  background:none;
-  box-shadow:none!important;
-}
-
-.mhee button:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-  outline:none;
-}
-.sidenav a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.icon{
-    padding-top: 6px;
-    padding-left: 33px;
-  }
-  .opacity{
-    opacity:0.5;
-  }
-  @media (min-width: 992px) and (max-width: 1199.98px) { 
-
-    .icon{
-      padding-top: 6px;
-      padding-left: 23px;
-    }
-    .sidenav{
-      margin-left:30px;
-    }
-    .sidenav a {
-      font-size: 20px;
-
-    }
-  }
     </style>
 </head>
 
 <body id="page-top">
-
-    <div id="wrapper">
+        <input type="hidden" id="DepCount">
+        <input type="hidden" id="RowChg">
         <!-- content-wrapper -->
-        <div id="content-wrapper">
-
-          
-                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
-                                <thead id="theadsum" style="font-size:11px;">
-                                    <tr role="row">
-                                                <th style="width:10%;">DEPARTMENT</th>
-                                                <!-- <th style="width:10%;">TOTAL</th>
-                                                <th style="width:10%;">TOTAL</th>
-                                                <th style="width:10%;">TOTAL</th> -->
-                                    </tr>
-                                </thead>
-                                <!-- <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:250px;">
-                                </tbody> -->
-                            </table>
-
-                        </div>
-                    </div>
-                </div> <!-- tag column 1 -->
-            </div>
-
+                <table style="margin-top:10px;" class="table" id="TableItem" cellspacing="0" role="grid" >
+                    <thead id="theadsum" style="font-size:11px;">
+                    </thead>
+                    <tbody id="body_table">
+                    </tbody>
+                </table>
 
             <!-- Bootstrap core JavaScript-->
             <script src="../template/vendor/jquery/jquery.min.js"></script>
