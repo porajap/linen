@@ -251,6 +251,14 @@ $array2 = json_decode($json2,TRUE);
             };
             senddata(JSON.stringify(data));
         }
+        function SavePar(){
+            var Qty = $('#total_par2').val();
+            var data = {
+                'STATUS': 'SavePar',
+                'Qty': Qty
+            };
+            senddata(JSON.stringify(data));
+        }
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -304,7 +312,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<th style='width:12%;' nowrap  class='text-left'>Name</th>"+
                                 "<th colspan='"+(i+2)+"'></th>"+
                                 "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par1']+"' id='total_par1'></th>"+
-                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par2']+"' id='total_par2' onkeyup='if(event.keyCode==13){SaveQty()}else{Calculate()}'></th>"+
+                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par2']+"' id='total_par2' onkeyup='if(event.keyCode==13){SavePar()}else{Calculate()}'></th>"+
                             "</tr>";
                             $('#theadsum').html(HeadTB);
 

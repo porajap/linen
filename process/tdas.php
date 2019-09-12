@@ -147,6 +147,22 @@ function SaveChange($conn, $DATA){
     mysqli_query($conn, $Sql);
   }
 }
+function SavePar($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $ItemCode = $DATA['ItemCode'];
+  $Qty = $DATA['Qty'];
+
+  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_total WHERE HptCode = '$HptCode'";
+  $meQuery = mysqli_query($conn, $SqlFind);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($Result['cnt'] > 0){
+      $Sql = "UPDATE tdas_total SET total_par2 = $Qty WHERE HptCode = '$HptCode'";
+    }else{
+      $Sql = "INSERT INTO tdas_total (HptCode, total_par2)VALUES('$HptCode', $Qty)";
+    }
+    mysqli_query($conn, $Sql);
+  }
+}
 
 if(isset($_POST['DATA']))
 {
@@ -159,6 +175,8 @@ if(isset($_POST['DATA']))
         SaveQty($conn, $DATA);
       }else if($DATA['STATUS'] == 'SaveChange'){
         SaveChange($conn, $DATA);
+      }else if($DATA['STATUS'] == 'SavePar'){
+        SavePar($conn, $DATA);
       }
 
 
