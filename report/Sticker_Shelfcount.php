@@ -191,7 +191,7 @@ if($loop2<$TotalQty){
   $pdf->Cell(38, 1, '. . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
   
     // $pdf->lastPage();
-    $pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', 1,23, 26, 26, $style, 'L');
+    $pdf->write2DBarcode($ItemCode.','.$totallast, 'QRCODE,L', 1,23, 26, 26, $style, 'L');
   }
 
 // ---------------------------------------------------------
