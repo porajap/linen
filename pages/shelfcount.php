@@ -120,6 +120,8 @@ $array2 = json_decode($json2,TRUE);
         'itemCode': itemCode,
         'DocNo': DocNo
       };
+      senddata(JSON.stringify(data));
+      $('#barcode').val("");
     }
     function ShowMenu(){
       var DocnoXXX = "<?php echo $DocnoXXX ?>";

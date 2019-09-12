@@ -1533,39 +1533,40 @@ function find_item($conn, $DATA)
   $itemCode = $DATA["itemCode"];
   $DocNo = $DATA["DocNo"];
 
-  $Sql = "SELECT
+  $Sqlx = "SELECT
             item_stock.ParQty
           FROM item_stock
-          WHERE  item_stock.DepCode = $DepCode  AND item_stock.ItemCode ='$itemCode' ";
-          $meQuery = mysqli_query($conn, $Sql);
-          while ($Result = mysqli_fetch_assoc($meQuery)) {
-            $chkUpdate = $Result['ParQty'];
-          }
+          WHERE  item_stock.DepCode = $DepCode  AND item_stock.ItemCode ='$itemCode' LIMIT 1";
+          $meQueryx = mysqli_query($conn, $Sqlx);
+          while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
+            $ParQty = $Resultx['ParQty'];
+          
+          
     $Sql = "SELECT COUNT(*) as Cnt
             FROM shelfcount_detail
             INNER JOIN item  ON shelfcount_detail.ItemCode = item.ItemCode
-            INNER JOIN shelfcount ON sale.DocNo = shelfcount_detail.DocNo
+            INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
             WHERE shelfcount.DocNo = '$DocNo'
             AND item.ItemCode = '$ItemCode'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $chkUpdate = $Result['Cnt'];
     }
+    
     if ($chkUpdate == 0) {
       $Sql = "INSERT INTO shelfcount_detail
-              (DocNo, ItemCode, UnitCode,ParQty, CcQty,TotalQty,IsCancel, OverPar, Over , Short)
+              (DocNo, ItemCode, UnitCode,ParQty, CcQty,TotalQty,IsCancel, OverPar)
               VALUES
-              ('$DocNo','$ItemCode', 1, 1, 1, 1,     0 , 0 , 0 , 0)";
+              ('$DocNo','$itemCode', 1, $ParQty, 1, 1,     0 , 0 )";
       mysqli_query($conn, $Sql);
       #----------------------------------------------------------------------------------------------------------
     } else {
       $Sql = "UPDATE shelfcount_detail SET CcQty = (CcQty + 1)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
       mysqli_query($conn, $Sql);
       #----------------------------------------------------------------------------------------------------------
-
     }
-  
-  ShowItem_Doc($conn, $DATA);
+  }
+  // ShowItem_Doc($conn, $DATA);
 }
 
   //==========================================================
