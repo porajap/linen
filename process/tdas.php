@@ -97,6 +97,13 @@ function getSection($conn, $DATA)
   }
   $return['CountPercent'] = $count;
 
+  $Sql = "SELECT total_par1, total_par2 FROM tdas_total WHERE HptCode = '$HptCode'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return['total_par1']  = $Result['total_par1'];
+    $return['total_par2']  = $Result['total_par2'];
+  }
+
   $return['status'] = "success";
   $return['form'] = "getSection";
   echo json_encode($return);
