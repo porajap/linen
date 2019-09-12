@@ -1562,8 +1562,12 @@ function find_item($conn, $DATA)
       mysqli_query($conn, $Sql);
       #----------------------------------------------------------------------------------------------------------
     } else {
-      $Sql = "UPDATE shelfcount_detail SET CcQty = (CcQty + $qty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
-      mysqli_query($conn, $Sql);
+      $Sqlxx = "UPDATE shelfcount_detail SET CcQty = (CcQty + $qty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
+      mysqli_query($conn, $Sqlxx);
+        
+      $Sqlx = "UPDATE shelfcount_detail SET TotalQty = ($ParQty-CcQty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
+      mysqli_query($conn, $Sqlx);
+      
       #----------------------------------------------------------------------------------------------------------
     }
   }
