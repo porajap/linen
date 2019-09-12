@@ -210,7 +210,6 @@ $array2 = json_decode($json2,TRUE);
                 'Type': Type,
                 'Qty': Qty
             };
-            console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
         function Calculate(){
@@ -242,6 +241,23 @@ $array2 = json_decode($json2,TRUE);
                 TotalPar = resutlTotal.toFixed(2);
                 $('#CalRow_'+j).val(TotalPar);
             }
+        }
+        function SaveChange(ItemCode, row){
+            var Qty = $('#change_'+row).val();
+            var data = {
+                'STATUS': 'SaveChange',
+                'ItemCode': ItemCode,
+                'Qty': Qty
+            };
+            senddata(JSON.stringify(data));
+        }
+        function SavePar(){
+            var Qty = $('#total_par2').val();
+            var data = {
+                'STATUS': 'SavePar',
+                'Qty': Qty
+            };
+            senddata(JSON.stringify(data));
         }
         function senddata(data) {
             var form_data = new FormData();
@@ -296,7 +312,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<th style='width:12%;' nowrap  class='text-left'>Name</th>"+
                                 "<th colspan='"+(i+2)+"'></th>"+
                                 "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par1']+"' id='total_par1'></th>"+
-                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par2']+"' id='total_par2' onkeyup='if(event.keyCode==13){SaveQty()}else{Calculate()}'></th>"+
+                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' value='"+temp['total_par2']+"' id='total_par2' onkeyup='if(event.keyCode==13){SavePar()}else{Calculate()}'></th>"+
                             "</tr>";
                             $('#theadsum').html(HeadTB);
 
@@ -389,7 +405,7 @@ $array2 = json_decode($json2,TRUE);
                                         "<td style='width :5%;' class='text-center'>"+(j+1)+"</td>"+
                                         "<td  nowrap  class='text-left'>"+temp[j]['mainType']+"</td>"+
                                         "<td  nowrap  class='text-left'>"+temp[j]['ItemName']+"</td>"+
-                                        "<td  nowrap  class='text-left'><input type='text' value='"+change_value+"' id='change_"+j+"' class='form-control text-center' onkeyup='if(event.keyCode==13){SaveQty()}else{TotalQty()}'></td>";
+                                        "<td  nowrap  class='text-left'><input type='text' value='"+change_value+"' id='change_"+j+"' class='form-control text-center change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
                                         for (var i = 0; i < temp['CountRow']; i++) {
                                             StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' disabled></td>" ;
                                         }

@@ -39,6 +39,7 @@ function getSection($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['mainType']  = $Result['MainCategoryName'];
     $return[$count]['ItemName']  = $Result['ItemName'];
+    $return[$count]['ItemCode']  = $Result['ItemCode'];
     $ItemCode[$count]  = $Result['ItemCode'];
     $count++;
   }
@@ -130,6 +131,39 @@ function SaveQty($conn, $DATA){
   }
 }
 
+function SaveChange($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $ItemCode = $DATA['ItemCode'];
+  $Qty = $DATA['Qty'];
+
+  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_change WHERE HptCode = '$HptCode' AND ItemCode = '$ItemCode'";
+  $meQuery = mysqli_query($conn, $SqlFind);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($Result['cnt'] > 0){
+      $Sql = "UPDATE tdas_change SET change_value = $Qty WHERE HptCode = '$HptCode' AND ItemCode = '$ItemCode'";
+    }else{
+      $Sql = "INSERT INTO tdas_change (HptCode, ItemCode, change_value)VALUES('$HptCode', '$ItemCode', $Qty)";
+    }
+    mysqli_query($conn, $Sql);
+  }
+}
+function SavePar($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $ItemCode = $DATA['ItemCode'];
+  $Qty = $DATA['Qty'];
+
+  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_total WHERE HptCode = '$HptCode'";
+  $meQuery = mysqli_query($conn, $SqlFind);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($Result['cnt'] > 0){
+      $Sql = "UPDATE tdas_total SET total_par2 = $Qty WHERE HptCode = '$HptCode'";
+    }else{
+      $Sql = "INSERT INTO tdas_total (HptCode, total_par2)VALUES('$HptCode', $Qty)";
+    }
+    mysqli_query($conn, $Sql);
+  }
+}
+
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
@@ -139,7 +173,12 @@ if(isset($_POST['DATA']))
         getSection($conn, $DATA);
       }else if($DATA['STATUS'] == 'SaveQty'){
         SaveQty($conn, $DATA);
+      }else if($DATA['STATUS'] == 'SaveChange'){
+        SaveChange($conn, $DATA);
+      }else if($DATA['STATUS'] == 'SavePar'){
+        SavePar($conn, $DATA);
       }
+
 
 }else{
 	$return['status'] = "error";
