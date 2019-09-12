@@ -74,14 +74,14 @@ function getSection($conn, $DATA)
   for($i=0;$i<$limit;$i++){
     $Type3 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 3 AND DepCode = $DepCode[$i]";
     $TypeQuery3 = mysqli_query($conn, $Type3);
-    while ($Result = mysqli_fetch_assoc($TypeQuery2)) {
+    while ($Result = mysqli_fetch_assoc($TypeQuery3)) {
       $return[$i]['ID3']  = $Result['ID'];
       $return[$i]['Qty3']  = $Result['Qty']==null?0:$Result['Qty'];
     }
   }
   for($i=0;$i<$limit;$i++){
     $Type4 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 4 AND DepCode = $DepCode[$i]";
-    $TypeQuery4 = mysqli_query($conn, $Type2);
+    $TypeQuery4 = mysqli_query($conn, $Type4);
     while ($Result = mysqli_fetch_assoc($TypeQuery4)) {
       $return[$i]['ID2']  = $Result['ID'];
       $return[$i]['Qty4']  = $Result['Qty']==null?0:$Result['Qty'];
@@ -112,17 +112,33 @@ function getSection($conn, $DATA)
 
 }
 
+function SaveQty($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $DepCode = $DATA['DepCode'];
+  $Type = $DATA['Type'];
+  $Qty = $DATA['Qty'];
 
+  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_qty WHERE HptCode = '$HptCode' AND DepCode = $DepCode AND Type = $Type";
+  $meQuery = mysqli_query($conn, $SqlFind);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($Result['cnt'] > 0){
+      $Sql = "UPDATE tdas_qty SET Qty = $Qty WHERE HptCode = '$HptCode' AND DepCode = $DepCode AND Type = $Type";
+    }else{
+      $Sql = "INSERT INTO tdas_qty (HptCode, DepCode, Type, Qty)VALUES('$HptCode', $DepCode, $Type, $Qty)";
+    }
+    mysqli_query($conn, $Sql);
+  }
+}
 
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
   $DATA = json_decode(str_replace ('\"','"', $data), true);
 
-      if ($DATA['STATUS'] == 'ShowItem') {
-        ShowItem($conn, $DATA);
-      }else if ($DATA['STATUS'] == 'getSection') {
+      if ($DATA['STATUS'] == 'getSection') {
         getSection($conn, $DATA);
+      }else if($DATA['STATUS'] == 'SaveQty'){
+        SaveQty($conn, $DATA);
       }
 
 }else{
