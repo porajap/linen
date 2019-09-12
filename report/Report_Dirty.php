@@ -94,12 +94,12 @@ class PDF extends FPDF
     }
     
   }
-  $this->Cell($w[0],6,iconv("UTF-8","TIS-620",),1,0,'C');
-  $this->Cell($w[1],6,iconv("UTF-8","TIS-620",),1,0,'C');
-  $this->Cell($w[2],6,iconv("UTF-8","TIS-620",),1,0,'L');
+  $this->Cell($w[0],6,iconv("UTF-8","TIS-620",""),1,0,'C');
+  $this->Cell($w[1],6,iconv("UTF-8","TIS-620",""),1,0,'C');
+  $this->Cell($w[2],6,iconv("UTF-8","TIS-620",""),1,0,'L');
   $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$total." "),1,0,'R');
   $this->Cell($w[4],6,iconv("UTF-8","TIS-620",number_format($wtotal ,2)." "),1,0,'R');
-  $this->Cell($w[5],6,iconv("UTF-8","TIS-620",),1,0,'R');
+  $this->Cell($w[5],6,iconv("UTF-8","TIS-620",""),1,0,'R');
   $this->Ln();
     // Closing line
     $pdf->Cell(array_sum($w),0,'','T');

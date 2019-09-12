@@ -200,6 +200,7 @@
     </sub>
   </xfactory>
   <report>
+
     <title>
       <en>
         Reporting
@@ -208,14 +209,6 @@
         รายงาน
       </th>
     </title>
-    <sub>
-      <en>
-        Connect
-      </en>
-      <th>
-        Connect
-      </th>
-    </sub>
   </report>
   <system>
     <title>
@@ -324,10 +317,10 @@
     </sub>
     <sub>
       <en>
-        Change Language
+        Tdas
       </en>
       <th>
-        เปลี่ยนภาษา
+        Tdas
       </th>
     </sub>
     <sub>
@@ -371,5 +364,6 @@
         แก้ไขโปรไฟล์
       </th>
     </editprofile>
+    
   </menu>
 </linen>

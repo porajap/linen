@@ -57,6 +57,7 @@ switch ($PmID) {
         //report
         $re_head=1;
         $re_s1=1;
+        $re_s2=1;
         //system
         $sys_head=1;
         $sys_s1=1;
@@ -104,8 +105,10 @@ switch ($PmID) {
         $fac_s2=0;
         $fac_s3=0;
         //report
-        $re_s1=1;
         $re_head=1;
+        $re_s1=1;
+        $re_s2=1;
+
         //system
         $sys_head=1;
         $sys_s1=0;
@@ -155,6 +158,7 @@ switch ($PmID) {
         //report
         $re_head=1;
         $re_s1=1;
+        $re_s2=1;
         //system
         $sys_head=1;
         $sys_s1=1;
@@ -204,6 +208,7 @@ switch ($PmID) {
         //report
         $re_head=0;
         $re_s1=0;
+        $re_s2=0;
         //system
         $sys_head=1;
         $sys_s1=0;
@@ -253,6 +258,7 @@ switch ($PmID) {
          //report
          $re_head=0;
          $re_s1=0;
+         $re_s2=0;
          //system
          $sys_head=0;
          $sys_s1=0;
@@ -302,6 +308,7 @@ switch ($PmID) {
         //report
         $re_head=1;
         $re_s1=1;
+        $re_s2=1;
         //system
         $sys_head=1;
         $sys_s1=1;
@@ -1226,6 +1233,14 @@ echo '</script>';
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/report.php" id="act21" class="current_page"
               onclick="return loadIframe('ifrm', this.href)"><em></em><?php echo $array['menu']['report']['title'][$language]; ?></a></li>
+          <?php } ?>
+        </ul>
+        <ul class="sub-menu">
+          <?php if($re_s2==1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+          href="pages/tdas.php?lang=<?php echo $language; ?>" id="act22" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['system']['sub'][12][$language]; ?></a>
           <?php } ?>
         </ul>
       </li>
