@@ -119,7 +119,7 @@ $pdf->SetFont('thsarabunnew', '', 14);
 $pdf->Cell(50,  0, $ItemName, 0, 1, 'L', 0, '', 0);
 $pdf->SetY(19);
 $pdf->SetFont('thsarabunnew', '', 14);
-// $pdf->Cell(11, 4, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
+$pdf->Cell(11, 4, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
 $pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
 $pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
 
@@ -169,7 +169,7 @@ if($loop2<$TotalQty){
   $pdf->Cell(50,  0, $ItemName, 0, 1, 'L', 0, '', 0);
   $pdf->SetY(19);
   $pdf->SetFont('thsarabunnew', '', 14);
-  // $pdf->Cell(11, 4, $totallast. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
+  $pdf->Cell(11, 4, $totallast. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
   $pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
   $pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
   
