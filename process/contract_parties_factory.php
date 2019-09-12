@@ -215,6 +215,8 @@ function SaveRow($conn,$DATA){
   $eDate = $DATA["eDate"];
   $Detail = $DATA["Detail"];
 
+
+
   if($isStatus==0){
   	  $Sql = "INSERT INTO contract_parties_factory
       ( StartDate,EndDate,FacCode,Detail,IsStatus )
@@ -229,7 +231,8 @@ function SaveRow($conn,$DATA){
 			WHERE RowID = $RowID";
       mysqli_query($conn,$Sql);
   }
-	ShowDocument($conn,$DATA);
+  ShowDocument($conn,$DATA);
+
 }
 
 function CancelRow($conn,$DATA){
@@ -263,7 +266,7 @@ if(isset($_POST['DATA']))
         ShowDocument($conn,$DATA);
       }elseif($DATA['STATUS']=='getRow'){
         getRow($conn,$DATA);
-      }elseif($DATA['STATUS']=='F'){
+      }elseif($DATA['STATUS']=='SaveRow'){
         SaveRow($conn,$DATA);
       }elseif($DATA['STATUS']=='CancelRow'){
         CancelRow($conn,$DATA);

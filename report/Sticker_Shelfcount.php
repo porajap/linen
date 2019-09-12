@@ -47,26 +47,29 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 // Include the main TCPDF library (search for installation path).
 require_once('../tcpdf/tcpdf.php');
 
+
+
+
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(50,48), true, 'UTF-8', false);
 
-
-$pdf->SetTitle('TCPDF Example 050');
-
+$pdf->SetTitle('Sticker_Shelfcount');
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 // set margins
 $pdf->SetMargins(1, 2, 1);
-// $pdf->SetHeaderMargin(10);
-// $pdf->SetFooterMargin(10);
-
-// set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+$pdf->SetHeaderMargin(10);
+$pdf->SetFooterMargin(10);
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
 // set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+
 
 // set some language-dependent strings (optional)
 if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
@@ -76,13 +79,10 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 
 // ---------------------------------------------------------
 
-// NOTE: 2D barcode algorithms must be implemented on 2dbarcode.php class file.
-
 // set font
-$pdf->SetFont('thsarabunnew', '', 10);
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+$pdf->SetFont('thsarabunnew', '', 13);
+$imagex = "../img/mhee1.png";
+$image2 = "../img/mhee2.png";
 // set style for barcode
 $style = array(
     'border' => false,
@@ -93,34 +93,47 @@ $style = array(
     'module_width' => 1, // width of a single module in points
     'module_height' => 1 // height of a single module in points
 );
-
+// add a page
 $loop1 = floor($TotalQty/$sendQty);
 for($i=1;$i<=$loop1;$i++){
-  $html = '<table>	
-      <tr width="100%"><td align="left" width="100%" >'.$ItemName.'</td></tr>	
-      <tr width="100%"><td align="left" width="45%">'.$TotalQty.' '.$UnitName.'</td><td align="right" width="55%">'.$ItemCode.'</td></tr>
-      <tr width="100%"><td align="right" width="100%"> </td></tr>
-      <tr width="100%"><td align="right" width="100%"> </td></tr>
-      <tr width="100%"><td align="right" width="100%"> </td></tr>
-      <tr width="100%"><td align="right" width="100%"> </td></tr>
-      <tr width="100%"><td align="right" width="100%"><img src="../img/mhee1.png" style="width:100%"></td></tr>
-    </table>';
-  $pdf->AddPage();
-  $pdf->writeHTML($html, true, false, true, false, '');
-  $pdf->lastPage();
-  // $pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,L', 17,10, 5, 5, $style, 'N');
+$pdf->AddPage();
+$pdf->SetY(6);
+$pdf->SetX(5);
+$pdf->SetFont('thsarabunnew', '', 16);
+$pdf->Cell(50,  5, $ItemName, 0, 1, 'L', 0, '', 0);
+$pdf->SetFont('thsarabunnew', '', 15);
+$pdf->Cell(11, 5, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
+$pdf->Cell(34, 5, $ItemCode , 0, 1, 'R', 0, '', 1);
+$pdf->SetFont('thsarabunnew', '', 16);
+$pdf->Cell(20, 5, 'ผู้จัด '. $FName , 0, 0, 'L', 0, '', 1);
+$pdf->Cell(25, 5, 'ผู้ตรวจ '. '. . .' , 0, 0, 'R', 0, '', 1);
+$pdf->Cell(25,5,$pdf->Image($imagex,38, 28, 4.6 ),0,0,'R');
+  // $pdf->lastPage();
+  $pdf->write2DBarcode($ItemCode.' '.$sendQty.' Piece', 'QRCODE,L', 1,25, 24, 24, $style, 'L');
 }
 $loop2 = $loop1*$sendQty;
+$totallast =$TotalQty - $loop2;
 if($loop2<$TotalQty){
   $pdf->AddPage();
-  $html = 'itemcode :'.$ItemCode.'';
-  $pdf->writeHTML($html, true, false, true, false, '');
-  $pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,L', 20, 5, 15, 20, $style, 'N');
-}
+  $pdf->SetY(6);
+  $pdf->SetX(5);
+  $pdf->SetFont('thsarabunnew', '', 16);
+  $pdf->Cell(50,  5, $ItemName, 0, 1, 'L', 0, '', 0);
+  $pdf->SetFont('thsarabunnew', '', 15);
+  $pdf->Cell(11, 5, $totallast. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
+  $pdf->Cell(34, 5, $ItemCode , 0, 1, 'R', 0, '', 1);
+  $pdf->SetFont('thsarabunnew', '', 16);
+  $pdf->Cell(20, 5, 'ผู้จัด '. $FName , 0, 0, 'L', 0, '', 1);
+  $pdf->Cell(25, 5, 'ผู้ตรวจ '. '. . .' , 0, 0, 'R', 0, '', 1);
+  $pdf->Cell(25,5,$pdf->Image($imagex,38, 28, 4.6 ),0,0,'R');
+  // $pdf->lastPage();
+    $pdf->write2DBarcode($ItemCode.' '.$sendQty.' ชิ้น', 'QRCODE,L', 1,25, 24, 24, $style, 'L');
+  }
 
+// ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_050.pdf', 'I');
+$pdf->Output('Sticker_Shelfcount.pdf', 'I');
 
 //============================================================+
 // END OF FILE
