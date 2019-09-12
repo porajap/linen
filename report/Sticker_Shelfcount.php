@@ -141,7 +141,7 @@ $pdf->SetX(29);
 $pdf->Cell(38, 1, '. . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
 
   // $pdf->lastPage();
-  $pdf->write2DBarcode($ItemCode.' '.$sendQty.' Piece', 'QRCODE,L', 1,23, 26, 26, $style, 'L');
+  $pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', 1,23, 26, 26, $style, 'L');
 
 }
 $loop2 = $loop1*$sendQty;
