@@ -174,7 +174,7 @@ if($loop2<$TotalQty){
   $pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
   
   
-  $pdf->SetY(25);
+  $pdf->SetY(26);
   $pdf->SetFont('thsarabunnew', '', 14);
   $pdf->SetX(27);
   $pdf->Cell(36, 1, 'ผู้จัด ' , 0, 1, 'L', 0, '', 1);
