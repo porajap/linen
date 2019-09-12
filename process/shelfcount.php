@@ -1553,17 +1553,21 @@ function find_item($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $chkUpdate = $Result['Cnt'];
     }
-    
+    $total = $ParQty-$qty;
     if ($chkUpdate == 0) {
       $Sql = "INSERT INTO shelfcount_detail
               (DocNo, ItemCode, UnitCode,ParQty, CcQty,TotalQty,IsCancel, OverPar)
               VALUES
-              ('$DocNo','$itemCode', 1, $ParQty,$qty,1,0,0 )";
+              ('$DocNo','$itemCode', 1, $ParQty,$qty,$total,0,0 )";
       mysqli_query($conn, $Sql);
       #----------------------------------------------------------------------------------------------------------
     } else {
-      $Sql = "UPDATE shelfcount_detail SET CcQty = (CcQty + $qty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
-      mysqli_query($conn, $Sql);
+      $Sqlxx = "UPDATE shelfcount_detail SET CcQty = (CcQty + $qty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
+      mysqli_query($conn, $Sqlxx);
+        
+      $Sqlx = "UPDATE shelfcount_detail SET TotalQty = ($ParQty-CcQty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
+      mysqli_query($conn, $Sqlx);
+      
       #----------------------------------------------------------------------------------------------------------
     }
   }
