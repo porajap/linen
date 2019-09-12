@@ -105,8 +105,8 @@ $pdf->SetFont('thsarabunnew', 'U', 16);
 $pdf->SetX(0);
 $pdf->Cell("",  0, "                                       ", 0, 1, 'L', 0, '', 0);
 
-$strlen=strlen($ItemName);//นับstr
-$str=$ItemName;
+// $strlen=strlen($ItemName);//นับstr
+// $str=$ItemName;
 
 // if($strlen>50){
 // $ItemName1=substr($str,0,50);//ตัดstr
@@ -119,8 +119,8 @@ $pdf->SetFont('thsarabunnew', '', 14);
 $pdf->Cell(50,  0, $ItemName, 0, 1, 'L', 0, '', 0);
 $pdf->SetY(19);
 $pdf->SetFont('thsarabunnew', '', 14);
-$pdf->Cell(11, 4, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
-$pdf->Cell(34, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
+// $pdf->Cell(11, 4, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
+$pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
 $pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
 
 
@@ -148,21 +148,50 @@ $loop2 = $loop1*$sendQty;
 $totallast =$TotalQty - $loop2;
 if($loop2<$TotalQty){
   $pdf->AddPage();
-  $pdf->SetY(1);
-  $pdf->SetX(1);
-  $pdf->Cell(25,8,$pdf->Image($imagex,30, 2, 18 ),0,1,'R');
-
-  $pdf->SetFont('thsarabunnew', '', 16);
-  $pdf->Cell(50,  5, $ItemName, 0, 1, 'L', 0, '', 0);
+  $pdf->SetY(0);
+  
+  $pdf->Cell(25,0,$pdf->Image($imagex,3, 5, 18 ),0,1,'L');
+  $pdf->SetFont('thsarabunnew', 'U', 16);
+  $pdf->SetX(0);
+  $pdf->Cell("",  0, "                                       ", 0, 1, 'L', 0, '', 0);
+  
+  // $strlen=strlen($ItemName);//นับstr
+  // $str=$ItemName;
+  
+  // if($strlen>50){
+  // $ItemName1=substr($str,0,50);//ตัดstr
+  // $item_name=$ItemName1.'...';
+  // }else if($strlen<50){
+  // $item_name=$ItemName;
+  // }
+  
+  $pdf->SetFont('thsarabunnew', '', 14);
+  $pdf->Cell(50,  0, $ItemName, 0, 1, 'L', 0, '', 0);
+  $pdf->SetY(19);
+  $pdf->SetFont('thsarabunnew', '', 14);
+  // $pdf->Cell(11, 4, $totallast. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
+  $pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
+  $pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
+  
+  
+  $pdf->SetY(25);
   $pdf->SetFont('thsarabunnew', '', 15);
-  $pdf->Cell(11, 5, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
-  $pdf->Cell(34, 5, $ItemCode , 0, 1, 'R', 0, '', 1);
-  $pdf->Cell(50,  5, "", 0, 1, 'L', 0, '', 0);
-  $pdf->SetFont('thsarabunnew', '', 16);
-  $pdf->Cell(44, 5, 'ผู้จัด '. $FName , 0, 1, 'R', 0, '', 1);
-  $pdf->Cell(45, 5, 'ผู้ตรวจ '. '. . .' , 0, 1, 'R', 0, '', 1);
-  // $pdf->lastPage();
-    $pdf->write2DBarcode($ItemCode.' '.$sendQty.' ชิ้น', 'QRCODE,L', 1,25, 24, 24, $style, 'L');
+  $pdf->SetX(29);
+  $pdf->Cell(36, 1, 'ผู้จัด ' , 0, 1, 'L', 0, '', 1);
+  $pdf->SetX(29);
+  $pdf->SetFont('thsarabunnew', '', 13);
+  $pdf->Cell(36, 1, $FName , 0, 1, 'L', 0, '', 1);
+  
+  $pdf->SetX(29);
+  $pdf->SetFont('thsarabunnew', '', 15);
+  $pdf->Cell(38, 1, 'ผู้ตรวจ' , 0, 1, 'L', 0, '', 1);
+  $pdf->SetY(42);
+  $pdf->SetFont('thsarabunnew', '', 13);
+  $pdf->SetX(29);
+  $pdf->Cell(38, 1, '. . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
+  
+    // $pdf->lastPage();
+    $pdf->write2DBarcode($ItemCode.' '.$sendQty.' Piece', 'QRCODE,L', 1,23, 26, 26, $style, 'L');
   }
 
 // ---------------------------------------------------------
