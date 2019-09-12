@@ -23,7 +23,7 @@ function getSection($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode']  = $Result['DepCode'];
     $return[$count]['DepName']  = $Result['DepName'];
-    $return[$count]['Hptpercent']  = $Result['percent_value'];
+    $return[$count]['Hptpercent']  = $Result['percent_value']==null?10:$Result['percent_value'];
     $DepCode[$count]  = $Result['DepCode'];
     $count++;
   }
@@ -101,8 +101,8 @@ function getSection($conn, $DATA)
   $Sql = "SELECT total_par1, total_par2 FROM tdas_total WHERE HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['total_par1']  = $Result['total_par1'];
-    $return['total_par2']  = $Result['total_par2'];
+    $return['total_par1']  = $Result['total_par1']==null?0:$Result['total_par1'];
+    $return['total_par2']  = $Result['total_par2']==null?0:$Result['total_par2'];
   }
 
   $return['status'] = "success";
