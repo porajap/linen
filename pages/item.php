@@ -467,8 +467,10 @@ $array2 = json_decode($json2, TRUE);
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
       var xItemnew = 0;
+      var tdas = 0;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#xItemnew').is(':checked')) xItemnew = 1;
+      if ($('#tdas').is(':checked')) tdas = 1;
       if ($('#masterItem').is(':checked')) {
         masterItem = 1;
       }else{
@@ -512,7 +514,8 @@ $array2 = json_decode($json2, TRUE);
                 'sUnit': sUnit,
                 'xCenter': xCenter,
                 'xItemnew': xItemnew,
-                'masterItem': masterItem
+                'masterItem': masterItem,
+                'tdas': tdas
               };
               // console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
@@ -564,8 +567,10 @@ $array2 = json_decode($json2, TRUE);
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
       var xItemnew = 0;
+      var tdas = 0;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#xItemnew').is(':checked')) xItemnew = 1;
+      if ($('#tdas').is(':checked')) tdas = 1;
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -605,7 +610,8 @@ $array2 = json_decode($json2, TRUE);
                   'qpu': qpu,
                   'sUnit': sUnit,
                   'xCenter': xCenter,
-                  'xItemnew': xItemnew
+                  'xItemnew': xItemnew,
+                  'tdas': tdas
                 };
                 senddata(JSON.stringify(data));
               } else if (result.dismiss == 'cancel') {
@@ -1530,6 +1536,12 @@ $array2 = json_decode($json2, TRUE);
                   $('#xItemnew').prop('checked', true);
                 }else{
                   $('#xItemnew').prop('checked', false);
+                }
+
+                if(temp[0]['tdas'] == 1){
+                  $('#tdas').prop('checked', true);
+                }else{
+                  $('#tdas').prop('checked', false);
                 }
 
                 if(temp[0]['isset'] == 1){
@@ -2463,13 +2475,13 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row offset-4'>
 
-                              <label class="radio " style="margin:0px !important;">
+                              <label class="radio " style="margin-top:2px !important; margin-left:-60px;">
                               <input type="checkbox"  id="xCenter">
                               <span class="checkmark"></span>
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['spacial'][$language]; ?></label>
-
                               <label class="radio" style="margin:0px !important;">
+                              
                               <input type="checkbox"  id="xItemnew">
                               <span class="checkmark"></span>
                               </label>
@@ -2481,6 +2493,11 @@ $array2 = json_decode($json2, TRUE);
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['itemmas'][$language]; ?></label>
 
+                              <label class="radio" style="margin:0px !important;">
+                              <input type="checkbox"  id="tdas" >
+                              <span class="checkmark"></span>
+                              </label>
+                              <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['tdas'][$language]; ?></label>
                             </div>
                           </div>
                           

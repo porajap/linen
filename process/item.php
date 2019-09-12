@@ -346,6 +346,7 @@ function getdetail($conn, $DATA)
           item.UnitCode2,
           IsDirtyBag,
           Itemnew,
+          Tdas,
           isset
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
@@ -381,6 +382,7 @@ function getdetail($conn, $DATA)
     $return[0]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['IsDirtyBag'];
     $return[0]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $return[0]['isset'] = $Result['isset']==null?0:$Result['isset'];
+    $return[0]['tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
   }
   $return['RowCount'] = $count;
@@ -485,6 +487,7 @@ function AddItem($conn, $DATA)
             UnitCode2 = '" . $DATA['sUnit'] . "',
             IsDirtyBag = '" . $DATA['xCenter'] . "',  
             Itemnew = '" . $DATA['xItemnew'] . "',
+            Tdas = '" . $DATA['tdas'] . "',
             isset = ". $DATA['masterItem']."
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
 
@@ -647,7 +650,8 @@ function NewItem($conn, $DATA)
             UnitCode2,
             IsDirtyBag,
             Itemnew,
-            itemDate
+            itemDate,
+            Tdas
            )
             VALUES
             (
@@ -664,7 +668,9 @@ function NewItem($conn, $DATA)
               '" . $DATA['sUnit'] . "',
               '" . $DATA['xCenter'] . "',
               '" . $DATA['xItemnew'] . "',
-              NOW()
+              NOW(),
+              '" . $DATA['tdas'] . "'
+
 
             )
     ";

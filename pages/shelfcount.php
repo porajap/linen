@@ -110,7 +110,19 @@ $array2 = json_decode($json2,TRUE);
 
     });
 
-
+    function find_item() {
+      var DocNo = $('#docno').val();
+      var itemCode = $('#barcode').val();
+      var DepCode = $('#department').val();
+      var data = {
+        'STATUS': 'find_item',
+        'DepCode': DepCode,
+        'itemCode': itemCode,
+        'DocNo': DocNo
+      };
+      senddata(JSON.stringify(data));
+      $('#barcode').val("");
+    }
     function ShowMenu(){
       var DocnoXXX = "<?php echo $DocnoXXX ?>";
       if( DocnoXXX != "" ){
@@ -1819,7 +1831,15 @@ $array2 = json_decode($json2,TRUE);
                                                 </select>
                                             </div>
                                         </div>
-
+                                        <div class="col-md-6">
+                                            <div class='form-group row'>
+                                                <label
+                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" id="barcode" style="font-size:22px;" class="form-control col-sm-8 "  name="searchitem"
+                                                    id="docdate"
+                                                    placeholder="<?php echo $array['barcode'][$language]; ?>">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2295,7 +2315,13 @@ $array2 = json_decode($json2,TRUE);
       <!-- Demo scripts for this page-->
       <script src="../template/js/demo/datatables-demo.js"></script>
     <!-- Bootstrap core JavaScript-->
-
+    <script>
+  $('#barcode').keydown(function (e){
+    if(e.keyCode == 13){
+      find_item();
+    }
+  })
+  </script>
 
 </body>
 

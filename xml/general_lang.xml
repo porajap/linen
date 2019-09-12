@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+<barcode><en>barcode</en><th>บาร์โค๊ด</th></barcode>
 <Cycle><en>Cycle</en><th>รอบส่ง</th></Cycle>
 <morning><en>Morning</en><th>รอบเช้า</th></morning>
 <afternoon><en>Afternoon</en><th>รอบบ่าย</th></afternoon>
@@ -173,6 +174,7 @@
 <facname><en>Laundry</en><th>ชื่อโรงซัก</th></facname>
 <discount><en>Discount</en><th>ส่วนลด</th></discount>
 <add><en>Add</en><th>เพิ่ม</th></add>
+<tdas><en>tdas</en><th>tdas</th></tdas>
 <address><en>Address</en><th>ที่อยู่</th></address>
 <price><en>Price</en><th>ราคา</th></price>
 <taxid><en>Tax ID</en><th>เลขที่ผู้เสียภาษี</th></taxid>
@@ -288,7 +290,7 @@
 <AllFac><en>All Factory</en><th>ทุกโรงซัก</th></AllFac>
 <noFac><en>no factory</en><th>ไม่มีโรงซักที่ยังไม่ได้เพิ่ม</th></noFac>
 <itemset><en>Item set</en><th>เซ็ทรายการ</th></itemset>
-<itemmas><en>Item master</en><th>Item master</th></itemmas>
+<itemmas><en>master</en><th>master</th></itemmas>
 <isset><en>This item in another set you want to Delete?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการลบออกหรือไม่</th></isset>
 <ismaster><en>This item in Master you want to Delete?</en><th>รายการนี้เป็นรายการมาสเตอร์ คุณต้องการลบข้อมูลทั้งหมดหรือไม่</th></ismaster>
 <issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
