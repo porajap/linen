@@ -1234,8 +1234,6 @@ echo '</script>';
               href="pages/report.php" id="act21" class="current_page"
               onclick="return loadIframe('ifrm', this.href)"><em></em><?php echo $array['menu']['report']['title'][$language]; ?></a></li>
           <?php } ?>
-        </ul>
-        <ul class="sub-menu">
           <?php if($re_s2==1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
           href="pages/tdas.php?lang=<?php echo $language; ?>" id="act22" class="current_page"

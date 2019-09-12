@@ -899,6 +899,10 @@ $array2 = json_decode($json2,TRUE);
         'DocNo':DocNo
       };
       senddata(JSON.stringify(data));
+
+
+
+      
     }
 
     function SaveQty_SC(){
