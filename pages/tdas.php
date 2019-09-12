@@ -351,7 +351,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < (temp['CountRow']); i++) {
                                     StrTRx += "<td  nowrap  class='text-center'>"+
-                                        "<select name='percent_"+i+"' id='percent_"+i+"' class='form-control'>";
+                                        "<select name='percent_"+i+"' id='percent_"+i+"' class='form-control' onchange='Calculate();'>";
                                         for (var j = 0; j < (temp['CountPercent']); j++) {
                                             if(temp[j]['percent_value']==temp[i]['Hptpercent']){
                                                 StrTRx += "<option value='"+temp[j]['percent_value']+"' selected>"+temp[j]['percent_value']+'%'+"</option>";
