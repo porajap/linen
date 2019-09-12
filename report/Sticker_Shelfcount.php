@@ -51,7 +51,7 @@ require_once('../tcpdf/tcpdf.php');
 
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(50,48), true, 'UTF-8', false);
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(50,50), true, 'UTF-8', false);
 
 $pdf->SetTitle('Sticker_Shelfcount');
 // set default monospaced font
@@ -97,35 +97,41 @@ $style = array(
 $loop1 = floor($TotalQty/$sendQty);
 for($i=1;$i<=$loop1;$i++){
 $pdf->AddPage();
-$pdf->SetY(6);
-$pdf->SetX(5);
+$pdf->SetY(1);
+$pdf->SetX(1);
+$pdf->Cell(25,8,$pdf->Image($imagex,30, 2, 18 ),0,1,'R');
+
 $pdf->SetFont('thsarabunnew', '', 16);
 $pdf->Cell(50,  5, $ItemName, 0, 1, 'L', 0, '', 0);
 $pdf->SetFont('thsarabunnew', '', 15);
 $pdf->Cell(11, 5, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
 $pdf->Cell(34, 5, $ItemCode , 0, 1, 'R', 0, '', 1);
+$pdf->Cell(50,  5, "", 0, 1, 'L', 0, '', 0);
 $pdf->SetFont('thsarabunnew', '', 16);
-$pdf->Cell(20, 5, 'ผู้จัด '. $FName , 0, 0, 'L', 0, '', 1);
-$pdf->Cell(25, 5, 'ผู้ตรวจ '. '. . .' , 0, 0, 'R', 0, '', 1);
-$pdf->Cell(25,5,$pdf->Image($imagex,38, 28, 4.6 ),0,0,'R');
+$pdf->Cell(44, 5, 'ผู้จัด '. $FName , 0, 1, 'R', 0, '', 1);
+$pdf->Cell(45, 5, 'ผู้ตรวจ '. '. . .' , 0, 1, 'R', 0, '', 1);
+
   // $pdf->lastPage();
   $pdf->write2DBarcode($ItemCode.' '.$sendQty.' Piece', 'QRCODE,L', 1,25, 24, 24, $style, 'L');
+
 }
 $loop2 = $loop1*$sendQty;
 $totallast =$TotalQty - $loop2;
 if($loop2<$TotalQty){
   $pdf->AddPage();
-  $pdf->SetY(6);
-  $pdf->SetX(5);
+  $pdf->SetY(1);
+  $pdf->SetX(1);
+  $pdf->Cell(25,8,$pdf->Image($imagex,30, 2, 18 ),0,1,'R');
+  
   $pdf->SetFont('thsarabunnew', '', 16);
   $pdf->Cell(50,  5, $ItemName, 0, 1, 'L', 0, '', 0);
   $pdf->SetFont('thsarabunnew', '', 15);
-  $pdf->Cell(11, 5, $totallast. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
+  $pdf->Cell(11, 5, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
   $pdf->Cell(34, 5, $ItemCode , 0, 1, 'R', 0, '', 1);
+  $pdf->Cell(50,  5, "", 0, 1, 'L', 0, '', 0);
   $pdf->SetFont('thsarabunnew', '', 16);
-  $pdf->Cell(20, 5, 'ผู้จัด '. $FName , 0, 0, 'L', 0, '', 1);
-  $pdf->Cell(25, 5, 'ผู้ตรวจ '. '. . .' , 0, 0, 'R', 0, '', 1);
-  $pdf->Cell(25,5,$pdf->Image($imagex,38, 28, 4.6 ),0,0,'R');
+  $pdf->Cell(44, 5, 'ผู้จัด '. $FName , 0, 1, 'R', 0, '', 1);
+  $pdf->Cell(45, 5, 'ผู้ตรวจ '. '. . .' , 0, 1, 'R', 0, '', 1);
   // $pdf->lastPage();
     $pdf->write2DBarcode($ItemCode.' '.$sendQty.' ชิ้น', 'QRCODE,L', 1,25, 24, 24, $style, 'L');
   }
