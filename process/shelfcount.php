@@ -1525,6 +1525,7 @@ function PrintstickerModal($conn, $DATA){
   mysqli_close($conn);
   die;
 }
+
 function find_item($conn, $DATA)
 {
   $boolean = false;
@@ -1532,7 +1533,6 @@ function find_item($conn, $DATA)
   $DepCode = $DATA["DepCode"];
   $itemCode = $DATA["itemCode"];
   $DocNo = $DATA["DocNo"];
-
   $Sqlx = "SELECT
             item_stock.ParQty
           FROM item_stock
@@ -1547,7 +1547,7 @@ function find_item($conn, $DATA)
             INNER JOIN item  ON shelfcount_detail.ItemCode = item.ItemCode
             INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
             WHERE shelfcount.DocNo = '$DocNo'
-            AND item.ItemCode = '$ItemCode'";
+            AND item.ItemCode = '$itemCode'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $chkUpdate = $Result['Cnt'];
