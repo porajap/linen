@@ -44,9 +44,9 @@ switch ($PmID) {
         $gen_s12=1;
         //account
         $ac_head=1;
-        $ac_s1=0;
-        $ac_s2=0;
-        $ac_s3=0;
+        $ac_s1=1;
+        $ac_s2=1;
+        $ac_s3=1;
         $ac_s4=1;
         $ac_s5=1;
         //factory
@@ -94,9 +94,9 @@ switch ($PmID) {
         $gen_s12=1;
         //account
         $ac_head=1;
-        $ac_s1=0;
-        $ac_s2=0;
-        $ac_s3=0;
+        $ac_s1=1;
+        $ac_s2=1;
+        $ac_s3=1;
         $ac_s4=1;
         $ac_s5=1;
         //factory
@@ -145,8 +145,8 @@ switch ($PmID) {
         $gen_s12=1;
         //account
         $ac_head=1;
-        $ac_s1=0;
-        $ac_s2=0;
+        $ac_s1=1;
+        $ac_s2=1;
         $ac_s3=1;
         $ac_s4=1;
         $ac_s5=1;
@@ -199,7 +199,7 @@ switch ($PmID) {
         $ac_s2=0;
         $ac_s3=0;
         $ac_s4=1;
-        $ac_s5=1;
+        $ac_s5=0;
         //factory
         $fac_head=0;
         $fac_s1=0;
@@ -294,10 +294,10 @@ switch ($PmID) {
         $gen_s11=1;
         $gen_s12=1;
         //account
-        $ac_head=0;
-        $ac_s1=0;
-        $ac_s2=0;
-        $ac_s3=0;
+        $ac_head=1;
+        $ac_s1=1;
+        $ac_s2=1;
+        $ac_s3=1;
         $ac_s4=1;
         $ac_s5=1;
         //factory
