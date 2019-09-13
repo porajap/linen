@@ -40,8 +40,7 @@ class PDF extends FPDF
     // $pdf->SetY(20);  
     if(is_array($data)){
        $pdf->SetY(10);   
-
-    foreach($data as $data=>$inner_array){
+      foreach($data as $data=>$inner_array){
       $pdf->SetFont('THSarabun','b',14);
       $pdf->Cell(50,7,iconv("UTF-8","TIS-620",$inner_array[$field[2]]),0,1,'L');
       $pdf->SetFont('THSarabun','b',12);

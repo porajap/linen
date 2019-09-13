@@ -99,7 +99,7 @@ for($i=1;$i<=$loop1;$i++){
 
 $pdf->AddPage();
 $pdf->SetY(0);
-
+$pdf->Cell(52, 4, '         '  , 0, 0, 'L', 0, '', 1);
 $pdf->Cell(25,0,$pdf->Image($imagex,3, 5, 18 ),0,1,'L');
 $pdf->SetFont('thsarabunnew', 'U', 16);
 $pdf->SetX(0);
@@ -138,7 +138,7 @@ $totallast =$TotalQty - $loop2;
 if($loop2<$TotalQty){
   $pdf->AddPage();
   $pdf->SetY(0);
-  
+  $pdf->Cell(52, 4, '         '  , 0, 0, 'L', 0, '', 1);
   $pdf->Cell(25,0,$pdf->Image($imagex,3, 5, 18 ),0,1,'L');
   $pdf->SetFont('thsarabunnew', 'U', 16);
   $pdf->SetX(0);
