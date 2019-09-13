@@ -869,6 +869,7 @@ function SaveBill($conn, $DATA)
 {
   $DocNo = $DATA["xdocno"];
   $DepCode = $DATA["deptCode"];
+  $cycle = $DATA["cycle"];
 
 
   $ItemCodeArray = $DATA['ItemCode'];
@@ -927,7 +928,7 @@ function SaveBill($conn, $DATA)
     $Sum = $Res['Summ'];
   }
   $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum WHERE shelfcount.DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum  , CycleTime=$cycle WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
   $isStatus = $DATA["isStatus"];

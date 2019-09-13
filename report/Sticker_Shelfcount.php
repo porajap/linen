@@ -104,17 +104,6 @@ $pdf->Cell(25,0,$pdf->Image($imagex,3, 5, 18 ),0,1,'L');
 $pdf->SetFont('thsarabunnew', 'U', 16);
 $pdf->SetX(0);
 $pdf->Cell("",  0, "                                       ", 0, 1, 'L', 0, '', 0);
-
-// $strlen=strlen($ItemName);//นับstr
-// $str=$ItemName;
-
-// if($strlen>50){
-// $ItemName1=substr($str,0,50);//ตัดstr
-// $item_name=$ItemName1.'...';
-// }else if($strlen<50){
-// $item_name=$ItemName;
-// }
-
 $pdf->SetFont('thsarabunnew', '', 14);
 $pdf->Cell(50,  0, $ItemName, 0, 1, 'L', 0, '', 0);
 $pdf->SetY(19);

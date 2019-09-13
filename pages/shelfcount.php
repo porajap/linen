@@ -681,6 +681,7 @@ $array2 = json_decode($json2,TRUE);
       var docno = $("#docno").val();
       var isStatus = $("#IsStatus").val();
       var dept = $('#department').val();
+      var cycle = $('#cycle').val();
       // alert( isStatus );
       var input_chk = $('#input_chk').val();
         if(isStatus==1){
@@ -735,8 +736,12 @@ $array2 = json_decode($json2,TRUE);
                     'isStatus'    : isStatus,
                     'deptCode'    : dept,
                     'ItemCode'    : ItemCode,
-                    'Qty'    : Qty
+                    'Qty'    : Qty,
+                    'cycle'    : cycle
                   };
+
+
+                  
                   senddata(JSON.stringify(data));
                   $('#profile-tab').tab('show');
                   $("#bImport").prop('disabled', true);

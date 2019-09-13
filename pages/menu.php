@@ -488,7 +488,7 @@ $array = json_decode($json,TRUE);
   <div id="wrapper">
     <div id="content-wrapper">
       <div style="margin-top:5px;margin-left:15px;width=100%"> <!-- start row tab -->
-        <div class="row"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3) echo 'hidden'; ?>>
+        <div class="row"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6) echo 'hidden'; ?>>
           <div class="col-md-12">
             <div class="row" id="CardView"> </div>
           </div>
