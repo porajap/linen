@@ -77,6 +77,7 @@ $array2 = json_decode($json2,TRUE);
     var xItemcode;
 
     $(document).ready(function(e){
+      $('#rem1').hide();
       $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
@@ -334,13 +335,16 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).addClass('border-danger');
+              $('#rem1').show().css("color","red");
             }else{
               $(this).removeClass('border-danger');
+              $('#rem1').hide();
             }
           });
         }
         function removeClassBorder1(){
           $('#department').removeClass('border-danger');
+          $('#rem1').hide();
         }
     function SelectDocument(){
 
@@ -1812,6 +1816,7 @@ $array2 = json_decode($json2,TRUE);
                                                 <label
                                                     class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
                                                 <select class="form-control col-sm-8 checkblank2 border" style="font-size:22px;" id="department"  onchange="removeClassBorder1();"></select>
+                                                <label id="rem1"  style="margin-left: 102%;margin-top: -5%;"> *** </label>
                                             </div>
                                         </div>
                                     </div>

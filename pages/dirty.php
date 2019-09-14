@@ -89,6 +89,8 @@ $array2 = json_decode($json2,TRUE);
   };
   
   $(document).ready(function(e){ 
+    $('#rem1').hide();
+    $('#rem2').hide();    
     $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
@@ -477,26 +479,43 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).addClass('border-danger');
+              $('#rem1').show().css("color","red");
             }else{
               $(this).removeClass('border-danger');
+              $('#rem1').hide();
+            }
+          });
+        }
+        function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem2').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem2').hide();
             }
           });
         }
         function removeClassBorder1(){
           $('#department').removeClass('border-danger');
+          $('#rem1').hide();
+
         }
         function removeClassBorder2(){
           $('#factory').removeClass('border-danger');
+          $('#rem2').hide();
         }
+
+
         function CreateDocument(){
           var userid = '<?php echo $Userid; ?>';
           var hotpCode = $('#hotpital option:selected').attr("value");
           var deptCode = $('#department option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
-          if(deptCode == ''){
+       if(deptCode == '' || FacCode == ''){
             checkblank();
-          }else if(FacCode == ''){
-            checkblank();
+            checkblank2();
           }else{
             $('#TableDetail tbody').empty();
             swal({
@@ -1439,6 +1458,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
                                           <select class="form-control col-sm-8 checkblank border"  style="font-size:22px;"  id="department" onchange="removeClassBorder1();"> </select>
+                                          <label id="rem1"  style="margin-left: 102%;margin-top: -5%;"> *** </label>
                                       </div>
                                     </div>
                                   </div>
@@ -1484,7 +1504,8 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label text-right"  style="font-size:24px;" ><?php echo $array['factory'][$language]; ?></label>
-                                          <select  class="form-control form-control col-sm-8 checkblank"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder2();"> </select>
+                                          <select  class="form-control form-control col-sm-8 checkblank2"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder2();"> </select>
+                                          <label id="rem2" style="margin-left: 102%;margin-top: -5%;"> *** </label>
                                         </div>
                                       </div>
                                       <div class="col-md-6" hidden>

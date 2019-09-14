@@ -76,6 +76,8 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
+            $('#rem1').hide();
+            $('#rem2').hide();
             Blankinput();
             //On create
             $('.TagImage').bind('click', {
@@ -351,6 +353,7 @@ $array2 = json_decode($json2,TRUE);
                 $('.checkblank').each(function() {
                     if ($(this).val() == "" || $(this).val() == undefined) {
                         $(this).css('border-color', 'red');
+
                     } else {
                         $(this).css('border-color', '');
                     }
@@ -436,6 +439,12 @@ $array2 = json_decode($json2,TRUE);
                 $('.checkblank').each(function() {
                     if ($(this).val() == "" || $(this).val() == undefined) {
                         $(this).css('border-color', 'red');
+                        if(HptCode ==""||HptCode==undefined){
+                        $('#rem1').show().css("color","red");
+                        }
+                        if(DepName ==""||DepName==undefined){
+                        $('#rem2').show().css("color","red");
+                        }
                     } else {
                         $(this).css('border-color', '');
                     }
@@ -474,6 +483,8 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function Blankinput() {
+            $('#rem1').hide();
+            $('#rem2').hide();
             $('.checkblank').each(function() {
                 $(this).val("");
             });
@@ -1235,14 +1246,16 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 checkblank" id="hptsel2" >
+                                      <select  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
+                                      <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
+                                      <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1251,7 +1264,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['codecode'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
+                                      <input type="text"  class="form-control col-sm-7 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
                                     </div>
                                   </div>
                                   <div class="col-md-6">

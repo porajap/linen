@@ -74,6 +74,15 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        $('#rem1').hide();
+        $('#rem2').hide();
+        $('#rem3').hide();
+        $('#rem4').hide();
+        $('#rem5').hide();
+        $('#rem6').hide();
+        $('#rem7').hide();
+        $('#rem8').hide();
+
         getFactory();
         $('#addhot').show();
        $('#adduser').hide();
@@ -365,6 +374,10 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
+                if(Price ==""||Price==undefined){
+                  $('#rem1').show().css("color","red");
+                }
+                
             }else{
               $(this).css('border-color', '');
             }
@@ -455,6 +468,21 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
+              if(Price ==""||Price==undefined){
+                  $('#rem1').show().css("color","red");
+                }
+                if(FacName ==""||FacName==undefined){
+                  $('#rem2').show().css("color","red");
+                }
+                if(Address ==""||Address==undefined){
+                  $('#rem3').show().css("color","red");
+                }
+                if(DiscountPercent ==""||DiscountPercent==undefined){
+                  $('#rem4').show().css("color","red");
+                }
+                if(Post ==""||Post==undefined){
+                  $('#rem5').show().css("color","red");
+                }
             }else{
               $(this).css('border-color', '');
             }
@@ -468,6 +496,7 @@ $array2 = json_decode($json2,TRUE);
         var Position = $('#Position').val();
         var phone = $('#phone').val();
         var host = $('#host').val();
+
 
         $(".checkblank3").each(function() {
           if($( this ).val()==""||$(this).val()==undefined){
@@ -523,6 +552,15 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank3').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
+              if(ContractName ==""||ContractName==undefined){
+                  $('#rem6').show().css("color","red");
+                }
+                if(Position ==""||Position==undefined){
+                  $('#rem7').show().css("color","red");
+                }
+                if(phone ==""||phone==undefined){
+                  $('#rem8').show().css("color","red");
+                }
             }else{
               $(this).css('border-color', '');
             }
@@ -563,6 +601,14 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+        $('#rem1').hide();
+        $('#rem2').hide();
+        $('#rem3').hide();
+        $('#rem4').hide();
+        $('#rem5').hide();
+        $('#rem6').hide();
+        $('#rem7').hide();
+        $('#rem8').hide();
         $('.checkblank').each(function() {
           $(this).val("");
         });
@@ -1098,7 +1144,9 @@ $array2 = json_decode($json2,TRUE);
           font-family: myFirstFont;
           font-size:22px;
         }
-
+label{
+  margin-bottom: 0rem !important;
+}
         .nfont{
           font-family: myFirstFont;
           font-size:22px;
@@ -1360,13 +1408,14 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['faccode'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
+                                      <input type="text"  class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['price'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
+                                        <input type="text" class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
+                                        <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div>          
@@ -1375,13 +1424,15 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank" id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7 checkblank" id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
+                                      <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['address'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
+                                        <input type="text" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
+                                        <label id="rem3" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div>               
@@ -1390,13 +1441,15 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['taxid'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank numonly" id="TaxID"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['taxid'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7 checkblank numonly" id="TaxID"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['taxid'][$language]; ?>">
+                                      <label id="rem4" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['postid'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
+                                        <input type="text" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
+                                        <label id="rem5" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1405,7 +1458,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['discount'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank numonly" id="DiscountPercent"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['discount'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7  numonly" id="DiscountPercent"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['discount'][$language]; ?>">
                                     </div>
                                   </div>
                                 </div>               
@@ -1427,13 +1480,15 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
+                                      <label id="rem6" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-8 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
+                                        <input type="text" class="form-control col-sm-7 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
+                                        <label id="rem7" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1441,18 +1496,19 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 numonly checkblank3" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7 numonly checkblank3" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
+                                      <label id="rem8" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6" hidden>
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 checkblank2 checkblank3" id="host"onchange="removeClassBorder1();"></select>
+                                      <select  class="form-control col-sm-7 checkblank2 checkblank3" id="host"onchange="removeClassBorder1();"></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6" hidden>
                                     <div class='form-group row'>
-                                        <input type="text" class="form-control col-sm-8 " id="idcontract">
+                                        <input type="text" class="form-control col-sm-7 " id="idcontract">
                                     </div>
                                   </div>
                                 </div>

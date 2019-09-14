@@ -1001,8 +1001,7 @@ echo '</script>';
 
 <body>
   <header id="pageHeader" class="navbar navbar-expand static-top">
-    <img src="img/7.png" style="width:12%;margin-top:55px;margin-bottom:20px;" alt="">
-
+  <a style="width:9%;" href="pages/menu.php?lang=<?php echo $language; ?>" onclick="return loadIframe('ifrm', this.href)"><img src="img/7.png" style="width:143%;margin-top:55px;margin-bottom:20px;" alt=""></a>
     <!-- Navbar username -->
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">
         <span style='font-weight:bold;'><?php echo $FName?> </span> <span style='font-weight:bold;'> [ </span>  <span style='font-weight:bold;'><?php echo $Permission?></span> <span style='font-weight:bold;'> ] </span>
