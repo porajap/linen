@@ -1026,8 +1026,8 @@ $(document).ready(function(e){
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 10%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                  "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='width: 25%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                  // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
+                  "<td style='width: 45%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
                   "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
@@ -1644,8 +1644,8 @@ $(document).ready(function(e){
             <thead style="font-size:24px;">
               <tr role="row">
                 <th style='width: 10%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
+                <th style='width: 45%;' nowrap><?php echo $array['item'][$language]; ?></th>
                 <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                 <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
                 <th style='width: 15%;' nowrap><?php echo $array['weight'][$language]; ?></th>

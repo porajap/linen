@@ -73,6 +73,8 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        $('#rem1').hide();
+        $('#rem2').hide();
         ShowItem();
 
         //On create
@@ -421,6 +423,12 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
+              if(CategoryCode ==""||CategoryCode==undefined){
+                  $('#rem1').show().css("color","red");
+                }
+                if(CategoryName ==""||CategoryName==undefined){
+                  $('#rem2').show().css("color","red");
+                }
             }else{
               $(this).css('border-color', '');
             }
@@ -458,6 +466,8 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+        $('#rem1').hide();
+        $('#rem2').hide();
         $('#bCancel').attr('disabled', true);
         $('#delete_icon').addClass('opacity');
         $('.checkblank').each(function() {
@@ -1203,7 +1213,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysubcode'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 " id="CategoryCode"    placeholder="<?php echo $array['categorysubcode'][$language]; ?>" readonly>
+                                      <input type="text"  class="form-control col-sm-7 " id="CategoryCode"    placeholder="<?php echo $array['categorysubcode'][$language]; ?>" readonly>
+                                      <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1212,7 +1223,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['category'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank" id="CategoryName"    placeholder="<?php echo $array['category'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7 checkblank" id="CategoryName"    placeholder="<?php echo $array['category'][$language]; ?>">
+                                      <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div> 
