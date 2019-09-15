@@ -294,6 +294,7 @@
 <isset><en>This item in another set you want to Delete?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการลบออกหรือไม่</th></isset>
 <ismaster><en>This item in Master you want to Delete?</en><th>รายการนี้เป็นรายการมาสเตอร์ คุณต้องการลบข้อมูลทั้งหมดหรือไม่</th></ismaster>
 <issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
+<updatestock><en>Update Stock</en><th>อัพเดทคลัง</th></updatestock>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>
