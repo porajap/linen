@@ -42,7 +42,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Bootstrap core CSS-->
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-    <link href="../bootstrap/css/myinput.css" rel="stylesheet">
+    <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
 
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -90,42 +90,7 @@ $array2 = json_decode($json2,TRUE);
         }).keyup(function(e) { parent.afk();
         });
 
-        dialog = jqui("#dialog").dialog({
-            autoOpen: false,
-            height: 650,
-            width: 1200,
-            modal: true,
-            buttons: {
-                "<?php echo $array['close'][$language]; ?>": function() {
-                    dialog.dialog("close");
-                }
-            },
-            close: function() {
-                console.log("close");
-            }
-        });
-
-        jqui("#dialogreq").button().on("click", function() {
-            dialog.dialog("open");
-        });
-
-        var isChecked1 = false;
-        var isChecked2 = false;
-
-        function ShowItem() {
-            var HptCode = $('#hptsel').val();
-            var keyword = $('#searchitem').val();
-            var data = {
-                'STATUS': 'ShowItem',
-                'HptCode': HptCode,
-                'Keyword': keyword
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-
-
+        // funtion --------------------------------------------
         function getdetail(DepCode, row) {
                 var number = parseInt(row)+1;
                 var previousValue = $('#checkitem_'+row).attr('previousValue');
@@ -150,7 +115,6 @@ $array2 = json_decode($json2,TRUE);
                 }
             }
         }
-
         function logoff() {
             swal({
                 title: '',
@@ -172,7 +136,6 @@ $array2 = json_decode($json2,TRUE);
                 }
             })
         }
-
         function TotalQty1(){
             Qty = 0;
             $(".qty1").each(function() {
@@ -259,6 +222,15 @@ $array2 = json_decode($json2,TRUE);
             };
             senddata(JSON.stringify(data));
         }
+        function CreateDocument(){
+            var Qty = $('#total_par2').val();
+            var data = {
+                'STATUS': 'SavePar',
+                'Qty': Qty
+            };
+            senddata(JSON.stringify(data));
+        }
+        // End Function -----------------------------------------
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -327,7 +299,7 @@ $array2 = json_decode($json2,TRUE);
                                     Qty1 = temp[i]['Qty1']==null?0:temp[i]['Qty1'];
                                     StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' value='"+Qty1+"' onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty1' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center width_custom' id='totalQty1' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -370,7 +342,7 @@ $array2 = json_decode($json2,TRUE);
                             StrTRx += "<tr style='height:50px;'>"+
                                 "<td style='width:5%;' nowrap  class='text-center'></td>"+
                                 "<td nowrap  class='text-center'  style='width:15%;'>"+
-                                    "<select name='type_"+i+"' id='type_"+i+"' class='form-control'>"+
+                                    "<select name='type_"+i+"' id='type_"+i+"' class='form-control width_custom'>"+
                                         "<option>เลือกทั้งหมด</option>"+
                                         "<option>PPU</option>"+
                                         "<option>NONPPU</option>"+
@@ -411,7 +383,7 @@ $array2 = json_decode($json2,TRUE);
                                         for (var i = 0; i < temp['CountRow']; i++) {
                                             StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' disabled></td>" ;
                                         }
-                                    StrTRx += "<td  class='text-center'>"+"<input type='text' class='form-control text-center' disabled></td>"+
+                                    StrTRx += "<td  class='text-center'></td>"+
                                         "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
                                         "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
                                     "</tr>";
@@ -504,6 +476,7 @@ $array2 = json_decode($json2,TRUE);
                 }
             });
         }
+
     </script>
     <style media="screen">
         @font-face {
@@ -585,13 +558,38 @@ $array2 = json_decode($json2,TRUE);
 <body id="page-top">
         <input type="hidden" id="DepCount">
         <input type="hidden" id="RowChg">
-        <!-- content-wrapper -->
-                <table style="margin-top:10px;" class="table" id="TableItem" cellspacing="0" role="grid" >
-                    <thead id="theadsum" style="font-size:11px;">
-                    </thead>
-                    <tbody id="body_table">
-                    </tbody>
-                </table>
+        <div class="row m-1 my-4 mt-2 d-flex justify-content-start" >
+            <div class="menu2">
+                <div class="d-flex justify-content-center">
+                    <div class="circle1 d-flex justify-content-center">
+                        <button class="btn" onclick="CreateDocument()" id="bCreate" >
+                            <i class="fas fa-file-medical"></i>
+                            <div>
+                                <?php echo $array['createdocno'][$language]; ?>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="menu2">
+                <div class="d-flex justify-content-center">
+                    <div class="circle2 d-flex justify-content-center">
+                        <button class="btn"  id="bImport"disabled="true">
+                            <i class="fas fa-file-import"></i>
+                            <div>
+                                <?php echo $array['updatestock'][$language]; ?>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table style="margin-top:10px;" class="table mt-2" id="TableItem" cellspacing="0" role="grid" >
+            <thead id="theadsum" style="font-size:11px;">
+            </thead>
+            <tbody id="body_table">
+            </tbody>
+        </table>
 
             <!-- Bootstrap core JavaScript-->
             <script src="../template/vendor/jquery/jquery.min.js"></script>

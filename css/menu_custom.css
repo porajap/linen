@@ -20,14 +20,34 @@
         width:140px;
         text-align:center;
       }
-      /* .menu img{
-        width:40px;
-        height:40px;
-      } */
       .menu button{
         width:140px;
         text-align:center;
       }
+      /* ---------------------- */
+      .menu2 button{
+        text-decoration: none;
+        font-size: 23px;
+        color: #2c3e50;
+        display: block;
+        background: none !important;
+        box-shadow:none !important;
+      }
+      .menu2 button:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        /* font-size:26px; */
+        transition: width 2s, height 4s;
+      }
+      .menu2{
+        width:140px;
+        text-align:center;
+      }
+      .menu2 button{
+        width:140px;
+        text-align:center;
+      }
+      /* ----------------------------- */
       .circle1 i{
         width: 40px;
         height: 40px;
