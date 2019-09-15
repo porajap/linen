@@ -1226,8 +1226,8 @@ label{
                           </div>
                           <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center" >
-                              <div class="circle3 d-flex justify-content-center">
-                                <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+                              <div class="circle3 d-flex justify-content-center" id="delete_icon">
+                                <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true" >
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
                                     <?php echo $array['cancel'][$language]; ?>

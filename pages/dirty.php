@@ -1634,7 +1634,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
                             <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                            <div class="search_custom col-md-3">
+                            <div class="search_custom col-md-2">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(1)" >
                                   <i class="fas fa-search mr-2"></i>
@@ -1642,10 +1642,7 @@ $array2 = json_decode($json2,TRUE);
                                 </button>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                          
-                        <div class="search_custom col-md-2" style="padding-left:65px;">
+                            <div class="search_custom col-md-2">
                           <div class="circle6 d-flex justify-content-start">
                             <button class="btn"  onclick="SelectDocument()" id="btn_show" >
                               <i class="fas fa-paste mr-2 pt-1"></i>
@@ -1654,6 +1651,8 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
 
                       <div class="row">
                         <div class="col-md-12"> <!-- tag column 1 -->

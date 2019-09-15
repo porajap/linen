@@ -70,6 +70,7 @@ $array2 = json_decode($json2, TRUE);
   <script type="text/javascript">
     var summary = [];
     $(document).ready(function(e) {
+      $('#delete_icon').addClass('opacity');
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -2165,13 +2166,13 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-4 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                    <label class="col-sm-5 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
                     <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-4 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                    <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
                     <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
                   </div>
                 </div>
@@ -2315,7 +2316,7 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                           <div class="menu" id="CancelBNT" <?php if($PmID != 6) echo 'hidden'; ?> >
                             <div class="d-flex justify-content-center" >
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
@@ -2369,7 +2370,7 @@ $array2 = json_decode($json2, TRUE);
                                       <span class="checkmark"></span>
                                     </label>
                                   </div>
-                                  <label class="col-sm-10 col-form-label text-left"><?php echo $array['custom'][$language]; ?></label>
+                                  <label class="col-sm-10 col-form-label text-left" style="margin-top: -7px;"><?php echo $array['custom'][$language]; ?></label>
                                 </div>
                               </div>
                               <div class="col-md-4">
@@ -2380,7 +2381,7 @@ $array2 = json_decode($json2, TRUE);
                                       <span class="checkmark"></span>
                                     </label>
                                   </div>
-                                  <label class="col-sm-10 col-form-label text-left"><?php echo $array['oldFormatItemCode'][$language]; ?></label>
+                                  <label class="col-sm-10 col-form-label text-left" style="margin-top: -7px;"><?php echo $array['oldFormatItemCode'][$language]; ?></label>
                                 </div>
                               </div>
                               <div class="col-md-4">
@@ -2391,7 +2392,7 @@ $array2 = json_decode($json2, TRUE);
                                       <span class="checkmark"></span>
                                     </label>
                                   </div>
-                                  <label class="col-sm-10 col-form-label text-left"><?php echo $array['newFormatItemCode'][$language]; ?></label>
+                                  <label class="col-sm-10 col-form-label text-left" style="margin-top: -7px;"><?php echo $array['newFormatItemCode'][$language]; ?></label>
                                 </div>
                               </div>
                             </div>
@@ -2517,7 +2518,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row offset-4'>
 
-                              <label class="radio " style="margin-top:2px !important; margin-left:-60px;">
+                              <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
                               <input type="checkbox"  id="xCenter">
                               <span class="checkmark"></span>
                               </label>

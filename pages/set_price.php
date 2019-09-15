@@ -83,6 +83,7 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
+            $('#delete_icon').addClass('opacity');
             $('.numonly').on('input', function() {
                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
             });
@@ -336,7 +337,7 @@ $array2 = json_decode($json2,TRUE);
             var CgMainID = $('#Category_Main').val();
             var CgSubID = $('#Category_Sub').val();
             $('#bSave').attr('disabled', true);
-            // $('#delete_icon').addClass('opacity');
+            $('#delete_icon').addClass('opacity');
      
 
             var data = {
@@ -811,6 +812,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#Category_Main2').val(temp['MainCategoryName']);
                                 $('#Category_Sub2').val(temp['CategoryName']);
                                 $('#Price').val(temp['Price']);
+                                $('#delete_icon').removeClass('opacity');
                             }
                             $('#bSave').attr('disabled', false);
                         } else if ((temp["form"] == 'SavePrice')) {
@@ -1216,7 +1218,7 @@ $array2 = json_decode($json2,TRUE);
  <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
                         <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn"  onclick="SavePrice()" id="bSave" disabled="true">
                                   <i class="fas fa-save"></i>
                                   <div>
@@ -1324,7 +1326,7 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                           </div>
 
-                                        <div class="search_custom col-md-2">
+                                        <div class="search_custom col-md-2" style="margin-left:-8%;">
                                             <div class="circle6 d-flex justify-content-start">
                                               <button class="btn"  onclick="OpenDialog(1)" id="show_btn" disabled='true'>
                                                 <i class="fas fa-paste mr-2 pt-1"></i>

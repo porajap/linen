@@ -73,6 +73,8 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        $('#delete_icon').addClass('opacity');
+
         $('#rem1').hide();
         $('#rem2').hide();
         ShowItem();
@@ -469,7 +471,6 @@ $array2 = json_decode($json2,TRUE);
         $('#rem1').hide();
         $('#rem2').hide();
         $('#bCancel').attr('disabled', true);
-        $('#delete_icon').addClass('opacity');
         $('.checkblank').each(function() {
           $(this).val("");
         });
@@ -484,6 +485,7 @@ $array2 = json_decode($json2,TRUE);
         $('#CategoryName').val("");
         //$('#Dept').val("1");
         ShowItem();
+        $('#delete_icon').addClass('opacity');
       }
       function getdetail(CategoryCode,row) {
         var number = parseInt(row)+1;
@@ -1120,8 +1122,8 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row">
                         <div class="col-md-4">
                               <div class="row" style="font-size:24px;margin-left:2px;">
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['catmain'][$language]; ?></label>
-                                  <select class="form-control col-md-8" style="font-size:24px;" id="maincatagory" onchange="ShowItem();"></select>
+                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['catmain'][$language]; ?></label>
+                                  <select class="form-control col-md-7" style="font-size:24px;" id="maincatagory" onchange="ShowItem();"></select>
                               </div>
                         </div>
                         <div class="col-md-8">
@@ -1186,7 +1188,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center" >
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
