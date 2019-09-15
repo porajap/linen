@@ -73,6 +73,8 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        $('#rem1').hide();
+        $('#rem2').hide();
         Blankinput();
         //On create
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
@@ -397,6 +399,9 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
+                if(UnitName ==""||UnitName==undefined){
+                  $('#rem2').show().css("color","red");
+                }
             }else{
               $(this).css('border-color', '');
             }
@@ -434,6 +439,7 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+        $('#rem2').hide();
         $('.checkblank').each(function() {
           $(this).val("");
         });
@@ -1161,7 +1167,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['Measurementcode'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 " id="UnitCode"    placeholder="<?php echo $array['Measurementcode'][$language]; ?>" disabled="true">
+                                      <input type="text"  class="form-control col-sm-7 " id="UnitCode"    placeholder="<?php echo $array['Measurementcode'][$language]; ?>" disabled="true">
                                     </div>
                                   </div>
                                 </div>
@@ -1170,7 +1176,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['unit'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-8 checkblank" id="UnitName"    placeholder="<?php echo $array['unit'][$language]; ?>">
+                                      <input type="text"  class="form-control col-sm-7 checkblank" id="UnitName"    placeholder="<?php echo $array['unit'][$language]; ?>">
+                                      <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div>

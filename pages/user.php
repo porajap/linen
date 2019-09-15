@@ -74,6 +74,13 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
+        $('#rem1').hide();
+        $('#rem2').hide();
+        $('#rem3').hide();
+        $('#rem4').hide();
+        $('#rem5').hide();
+        $('#rem6').hide();
+        $('#rem7').hide();
             getDepartment2();
             getDepartment();
             resetinput();            
@@ -304,6 +311,29 @@ $array2 = json_decode($json2,TRUE);
                 var facID = $('#factory').val();
                 var email = $('#email').val();
                 var xemail = 0;
+
+                if(host ==""||host==undefined){
+                  $('#rem1').show().css("color","red");
+                }
+                if(department ==""||department==undefined){
+                  $('#rem2').show().css("color","red");
+                }
+                if(UserName ==""||UserName==undefined){
+                  $('#rem3').show().css("color","red");
+                }
+                if(Password ==""||Password==undefined){
+                  $('#rem4').show().css("color","red");
+                }
+                if(FName ==""||FName==undefined){
+                  $('#rem5').show().css("color","red");
+                }
+                if(Permission ==""||Permission==undefined){
+                  $('#rem6').show().css("color","red");
+                }
+                if(email ==""||email==undefined){
+                  $('#rem7').show().css("color","red");
+                }
+
                 if ($('#xemail').is(':checked')) xemail = 1;
             if(count==0){
                 $('.checkblank').each(function() {
@@ -449,6 +479,13 @@ $array2 = json_decode($json2,TRUE);
             $(".dropify-clear").click(); 
         }
         function Blankinput() {
+            $('#rem1').hide();
+        $('#rem2').hide();
+        $('#rem3').hide();
+        $('#rem4').hide();
+        $('#rem5').hide();
+        $('#rem6').hide();
+        $('#rem7').hide();
             $('#username').val("");
             $('#Password').val("");
             $('#flname').val("");
@@ -977,6 +1014,9 @@ $array2 = json_decode($json2,TRUE);
         text-align: left;
         }
 
+label{
+    margin-bottom:0rem !important;
+}
         /* top-left border-radius */
         table tr:first-child th:first-child {
         border-top-left-radius: 15px;
@@ -1227,14 +1267,16 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-8 checkblank" id="host" onchange="getDepartment();"></select>
+                                      <select  class="form-control col-sm-7 checkblank" id="host" onchange="getDepartment();"></select>
+                                      <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                       <div class='form-group row'>
                                        <label class="col-sm-4 col-form-label text-right" style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select class="form-control col-sm-8 checkblank" style="font-size:22px;"  id="department" >
+                                        <select class="form-control col-sm-7 checkblank" style="font-size:22px;"  id="department" >
                                         </select>
+                                        <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
 
@@ -1244,13 +1286,15 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['username'][$language]; ?></label>
-                                    <input type="text"  class="form-control col-sm-8 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
+                                    <input type="text"  class="form-control col-sm-7 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
+                                    <label id="rem3" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['password'][$language]; ?></label>
-                                    <input type="text"  class="form-control col-sm-8 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
+                                    <input type="text"  class="form-control col-sm-7 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
+                                    <label id="rem4" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                 </div>   
@@ -1259,13 +1303,15 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['flname'][$language]; ?></label>
-                                        <input type="text"  class="form-control col-sm-8 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
+                                        <input type="text"  class="form-control col-sm-7 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
+                                        <label id="rem5" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['permission'][$language]; ?></label>
-                                    <select  class="form-control col-sm-8 checkblank " id="Permission"  onchange="factory_show(this.value);"></select>
+                                    <select  class="form-control col-sm-7 checkblank " id="Permission"  onchange="factory_show(this.value);"></select>
+                                    <label id="rem6" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>   
                                 </div>   
@@ -1274,7 +1320,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['email'][$language]; ?></label>
-                                        <input type="email"  class="form-control col-sm-8 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
+                                        <input type="email"  class="form-control col-sm-7 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
+                                        <label id="rem7" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1297,7 +1344,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-6">
                                     <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
-                                        <select  class="form-control col-sm-8 " id="factory" disabled="true"></select>
+                                        <select  class="form-control col-sm-7 " id="factory" disabled="true"></select>
                                     </div>
                                   </div>
                                 </div>
