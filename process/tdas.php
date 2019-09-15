@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../connect/connect.php';
+date_default_timezone_set("Asia/Bangkok");
 $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
@@ -163,7 +164,39 @@ function SavePar($conn, $DATA){
     mysqli_query($conn, $Sql);
   }
 }
-
+function CreateDocument($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $DepCode = $_SESSION['DepCode'];
+  $UserID = $_SESSION['Userid'];
+  #-------------------------------------
+  $QtyArray1 = $DATA['QtyArray1'];
+  $QtyArray2 = $DATA['QtyArray2'];
+  $QtyArray3 = $DATA['QtyArray3'];
+  $QtyArray4 = $DATA['QtyArray4'];
+  #-------------------------------------
+  $ItemCodeArray = $DATA['ItemCodeArray'];
+  $changeArray = $DATA['changeArray'];
+  $PercentArray = $DATA['PercentArray'];
+  $Total_par2 = $DATA['Total_par2'];
+  #-------------------------------------
+  $Sql = "SELECT CONCAT('TD',lpad('$HptCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
+  LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
+  CURRENT_TIME() AS RecNow
+  FROM tdas_document
+  INNER JOIN site on site.HptCode = tdas_document.HptCode
+  WHERE DocNo Like CONCAT('TD',lpad('$HptCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
+  AND site.HptCode = '$HptCode'
+  ORDER BY DocNo DESC LIMIT 1";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DocNo = $Result['DocNo'];
+    $RecNow = $Result['RecNow'];
+    $DocDate = $Result['DocDate'];
+  }
+  $TDDocument = "INSERT INTO tdas_document (DocNo, DocDate, HptCode, Modify_Code, Modify_Date, IsStatus, IsCancel)
+              VALUES('$DocNo', '$DocDate', '$HptCode', $UserID, '$RecNow', 0, 0)";
+              mysqli_query($conn, $TDDocument);
+}
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
@@ -177,6 +210,8 @@ if(isset($_POST['DATA']))
         SaveChange($conn, $DATA);
       }else if($DATA['STATUS'] == 'SavePar'){
         SavePar($conn, $DATA);
+      }else if($DATA['STATUS'] == 'CreateDocument'){
+        CreateDocument($conn, $DATA);
       }
 
 
