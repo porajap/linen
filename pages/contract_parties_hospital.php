@@ -651,14 +651,14 @@ body{
                                     <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 datepicker-here only"  id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                                                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                                                 </div>
                                               </div>
 
                                               <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                                  <input type="text"  autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 datepicker-here only"  id="datepicker2" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                                                  <input type="text"  autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker2" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                                                 </div>
                                               </div>
                                               
@@ -754,13 +754,13 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                      <select  style="font-size:22px;"  class="form-control col-sm-8 checkblank2 border" id="side" onchange="removeClassBorder1();" ></select>
+                                      <select  style="font-size:22px;"  class="form-control col-sm-7 checkblank2 border" id="side" onchange="removeClassBorder1();" ></select>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['detail'][$language]; ?></label></label><input type="hidden" id="xRowID" >
-                                        <input type="text" style="font-size:22px;" class="form-control col-sm-8 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
+                                        <input type="text" style="font-size:22px;" class="form-control col-sm-7 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>  
@@ -770,13 +770,13 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
-                                        <input type="text" style="font-size:22px;" class="form-control col-sm-8 datepicker-here only" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                        <input type="text" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
-                                      <input type="text" style="font-size:22px;" class="form-control col-sm-8 datepicker-here only" id="datepicker4" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                                      <input type="text" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only" id="datepicker4" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
  
                                     </div>
                                   </div>

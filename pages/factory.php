@@ -1364,7 +1364,7 @@ label{
                           </div>
                           <div class="menu">
                             <div class="d-flex justify-content-center">
-                              <div class="circle6 d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center ">
                                 <button class="btn" onclick="Blankinput()" id="bDelete">
                                   <i class="fas fa-redo-alt"></i>
                                   <div>
@@ -1376,7 +1376,7 @@ label{
                           </div>
                           <div class="menu"<?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center" >
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center " id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>

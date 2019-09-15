@@ -1614,7 +1614,7 @@ $array2 = json_decode($json2,TRUE);
             </div>
           </div>
           <div class="col">
-                <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:10px;margin-top:-15%">
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:14px;margin-top:-17%">
                   <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['itemnew'][$language]; ?></a>
                   </li>
