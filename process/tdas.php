@@ -15,16 +15,15 @@ function getSection($conn, $DATA)
   $Sql = "SELECT
           department.DepCode,
           department.DepName,
-          tdas_percentvalue.percent_value
+          tdas_percent.Percent_value
         FROM department
         LEFT JOIN tdas_percent ON tdas_percent.DepCode = department.DepCode
-        LEFT JOIN tdas_percentvalue ON tdas_percentvalue.ID = tdas_percent.Percent_ID
         WHERE department.IsStatus = 0 AND department.HptCode ='$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode']  = $Result['DepCode'];
     $return[$count]['DepName']  = $Result['DepName'];
-    $return[$count]['Hptpercent']  = $Result['percent_value']==null?10:$Result['percent_value'];
+    $return[$count]['Hptpercent']  = $Result['Percent_value']==null?0:$Result['Percent_value'];
     $DepCode[$count]  = $Result['DepCode'];
     $count++;
   }
@@ -90,15 +89,6 @@ function getSection($conn, $DATA)
     }
   }
 
-  $count = 0;
-  $Sql = "SELECT percent_value FROM tdas_percentValue";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['percent_value']  = $Result['percent_value'];
-    $count++;
-  }
-  $return['CountPercent'] = $count;
-
   $Sql = "SELECT total_par1, total_par2 FROM tdas_total WHERE HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -131,7 +121,6 @@ function SaveQty($conn, $DATA){
     mysqli_query($conn, $Sql);
   }
 }
-
 function SaveChange($conn, $DATA){
   $HptCode = $_SESSION['HptCode'];
   $ItemCode = $DATA['ItemCode'];
@@ -160,6 +149,22 @@ function SavePar($conn, $DATA){
       $Sql = "UPDATE tdas_total SET total_par2 = $Qty WHERE HptCode = '$HptCode'";
     }else{
       $Sql = "INSERT INTO tdas_total (HptCode, total_par2)VALUES('$HptCode', $Qty)";
+    }
+    mysqli_query($conn, $Sql);
+  }
+}
+function SavePercent($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $DepCode = $DATA['DepCode'];
+  $Percent = $DATA['Percent'];
+
+  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_percent WHERE HptCode = '$HptCode' AND DepCode = $DepCode";
+  $meQuery = mysqli_query($conn, $SqlFind);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($Result['cnt'] > 0){
+      $Sql = "UPDATE tdas_percent SET Percent_value = $Percent WHERE HptCode = '$HptCode' AND DepCode = $DepCode";
+    }else{
+      $Sql = "INSERT INTO tdas_percent (HptCode, DepCode, Percent_value)VALUES('$HptCode', $DepCode, $Percent)";
     }
     mysqli_query($conn, $Sql);
   }
@@ -253,9 +258,12 @@ function CreateDocument($conn, $DATA){
     }
     $Sql3 = "UPDATE tdas_detail SET SumResult = $SumRow[$i], CalSum = $SumRow[$i] * $Total_par2 WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCodeArray[$i]'";
     mysqli_query($conn, $Sql3);
-    $return['sql'] = $Sql3;
   }
-
+  $return['status'] = "success";
+  $return['form'] = "CreateDocument";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }
 
 if(isset($_POST['DATA']))
@@ -273,6 +281,8 @@ if(isset($_POST['DATA']))
         SavePar($conn, $DATA);
       }else if($DATA['STATUS'] == 'CreateDocument'){
         CreateDocument($conn, $DATA);
+      }else if($DATA['STATUS'] == 'SavePercent'){
+        SavePercent($conn, $DATA);
       }
 
 
