@@ -180,20 +180,20 @@ $array2 = json_decode($json2,TRUE);
             var RowChg = $('#RowChg').val();
             for(var j = 0; j<RowChg; j++){
                 for(var i = 0; i<DepCount; i++){
-                    Qty = 0;
-                    var percent = Number($('#percent_'+i).val())/100;
-                    var result = 0;
-                    var change = Number($('#change_'+j).val());
-                    $(".col_"+i).each(function() {
-                        Qty += Number($(this).val());
-                    });
-                    result = (Qty * percent * change) + Qty;
-                    TotalResult = result.toFixed(2);
-                    $('.result_'+j+i).val(TotalResult);
+                  Qty = 0;
+                  var percent = Number($('#percent_'+i).val())/100;
+                  var result = 0;
+                  var change = Number($('#change_'+j).val());
+                  $(".col_"+i).each(function() {
+                    Qty += Number($(this).val());
+                  });
+                  result = (Qty * percent * change) + Qty;
+                  TotalResult = result.toFixed(2);
+                  $('.result_'+j+i).val(TotalResult);
                 }
                 SumRow = 0;
                 $(".SumRow_"+j).each(function() {
-                    SumRow += Number($(this).val());
+                  SumRow += Number($(this).val());
                 });
                 TotalSum = SumRow.toFixed(2);
                 $('#SumRow_'+j).val(TotalSum);
@@ -223,10 +223,55 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function CreateDocument(){
-            var Qty = $('#total_par2').val();
+          var QtyRow1 = [];
+          var QtyRow2 = [];
+          var QtyRow3 = [];
+          var QtyRow4 = [];
+          $(".qty1").each(function() {
+            QtyRow1.push($(this).val());
+          });
+          $(".qty2").each(function() {
+            QtyRow2.push($(this).val());
+          });
+          $(".qty3").each(function() {
+            QtyRow3.push($(this).val());
+          });
+          $(".qty4").each(function() {
+            QtyRow4.push($(this).val());
+          });
+          var QtyArray1 = QtyRow1.join(',');
+          var QtyArray2 = QtyRow2.join(',');
+          var QtyArray3 = QtyRow3.join(',');
+          var QtyArray4 = QtyRow4.join(',');
+          // ----------------------------------------------
+          var ItemCode = [];
+          var change = [];
+          $(".ItemCode").each(function() {
+            ItemCode.push($(this).data('itemcode'));
+            change.push($('.changeSend').val());
+          });
+          var ItemCodeArray = ItemCode.join(',');
+          var changeArray = change.join(',');
+
+          // ----------------------------------------------
+          var Percent = [];
+          var Total_par2 = $('#total_par2').val();
+          $(".percentSend").each(function() {
+            Percent.push($(this).val());
+          });
+          var PercentArray = Percent.join(',');
+          // ----------------------------------------------
+
             var data = {
-                'STATUS': 'SavePar',
-                'Qty': Qty
+              'STATUS': 'CreateDocument',
+              'QtyArray1': QtyArray1,
+              'QtyArray2': QtyArray2,
+              'QtyArray2': QtyArray3,
+              'QtyArray4': QtyArray4,
+              'ItemCodeArray': ItemCodeArray,
+              'changeArray': changeArray,
+              'PercentArray': PercentArray,
+              'Total_par2': Total_par2
             };
             senddata(JSON.stringify(data));
         }
@@ -357,7 +402,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < (temp['CountRow']); i++) {
                                     StrTRx += "<td  nowrap  class='text-center'>"+
-                                        "<select name='percent_"+i+"' id='percent_"+i+"' class='form-control' onchange='Calculate();'>";
+                                        "<select name='percent_"+i+"' id='percent_"+i+"' class='form-control percentSend' onchange='Calculate();'>";
                                         for (var j = 0; j < (temp['CountPercent']); j++) {
                                             if(temp[j]['percent_value']==temp[i]['Hptpercent']){
                                                 StrTRx += "<option value='"+temp[j]['percent_value']+"' selected>"+temp[j]['percent_value']+'%'+"</option>";
@@ -378,8 +423,8 @@ $array2 = json_decode($json2,TRUE);
                                     StrTRx += "<tr style='height:50px;'>"+
                                         "<td style='width :5%;' class='text-center'>"+(j+1)+"</td>"+
                                         "<td  nowrap  class='text-left'>"+temp[j]['mainType']+"</td>"+
-                                        "<td  nowrap  class='text-left'>"+temp[j]['ItemName']+"</td>"+
-                                        "<td  nowrap  class='text-left'><input type='text' value='"+change_value+"' id='change_"+j+"' class='form-control text-center width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
+                                        "<td  nowrap  class='text-left ItemCode' data-itemcode='"+temp[j]['ItemCode']+"'>"+temp[j]['ItemName']+"</td>"+
+                                        "<td  nowrap  class='text-left'><input type='text' value='"+change_value+"' id='change_"+j+"' class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
                                         for (var i = 0; i < temp['CountRow']; i++) {
                                             StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' disabled></td>" ;
                                         }
@@ -392,7 +437,7 @@ $array2 = json_decode($json2,TRUE);
                             }
                             $('#body_table').html(StrTRx);
                             $('.numonly_dot').on('input', function() {
-                                this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+                              this.value = this.value.replace(/[^0-9]/g, '');
                             });
                             $('#DepCount').val(DepCount);
                             $('#RowChg').val(RowChg);
