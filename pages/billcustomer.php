@@ -143,8 +143,8 @@ $array2 = json_decode($json2,TRUE);
         $( "#TableItem tbody" ).empty();
         // dialogItemCode.dialog( "open" );
         $('#dialogItemCode').modal('show');
-
       }
+      ShowItem();
     }
 
 
@@ -391,11 +391,13 @@ $array2 = json_decode($json2,TRUE);
         var name = $('.checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
           $('#bDelete').attr('disabled', true);
+          $('#bDelete2').addClass('opacity');
           $('.checkitem_'+row).removeAttr('checked');
           $('.checkitem_'+row).attr('previousValue', false);
           $('.checkitem_'+row).prop('checked', false);
         } else {
           $('#bDelete').attr('disabled', false);
+          $('#bDelete2').removeClass('opacity');
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('.checkitem_'+row).attr('previousValue', 'checked');
         }
@@ -432,6 +434,17 @@ $array2 = json_decode($json2,TRUE);
         var deptCode = $('#department option:selected').attr("value");
         if(deptCode==''){
           checkblank2();
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
       }else{
         $('#TableDetail tbody').empty();
         swal({
@@ -601,7 +614,20 @@ $array2 = json_decode($json2,TRUE);
             isStatus=0;
             else
             isStatus=1;
-
+            swal({
+              title: "<?php echo $array['confirmsave'][$language]; ?>",
+              text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
             var data = {
               'STATUS'      : 'SaveBill',
               'xdocno'      : docno,
@@ -613,6 +639,9 @@ $array2 = json_decode($json2,TRUE);
             if(isStatus_chk==0){
               $('#profile-tab').tab('show');
             }
+                $("#bImport2").removeClass('opacity');
+                $("#bSave2").removeClass('opacity');
+                $("#bCancel2").removeClass('opacity');
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
@@ -627,6 +656,9 @@ $array2 = json_decode($json2,TRUE);
                   $("#timerec").prop('disabled', false);
                   $("#total").prop('disabled', false);
             ShowDocument();
+          } else if (result.dismiss === 'cancel') {
+          swal.close();}
+        })
           }
 
           function logoff() {
@@ -701,7 +733,9 @@ $array2 = json_decode($json2,TRUE);
                     });
                     $('.dis').attr('disabled', false);
                     $('#bDelete').attr('disabled', true);
-
+                    $('#bSave2').removeClass('opacity');
+                    $('#bImport2').removeClass('opacity');
+                    $('#bCancel2').removeClass('opacity');
                     $( "#TableItemDetail tbody" ).empty();
                     $("#total").val("0.00");
                     $("#docno").val(temp[0]['DocNo']);
@@ -823,6 +857,9 @@ $array2 = json_decode($json2,TRUE);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', false);
                       $("#bPrint").prop('disabled', false);
+                      $("#bImport2").removeClass('opacity');
+                      $("#bSave2").removeClass('opacity');
+                      $("#bCancel2").removeClass('opacity');
                     }else if(temp[0]['IsStatus']==1){
                       var word = '<?php echo $array['edit'][$language]; ?>';
                       var changeBtn = "<i class='fas fa-edit'></i>";
@@ -832,12 +869,17 @@ $array2 = json_decode($json2,TRUE);
                       $("#bDelete").prop('disabled', true);
                       $("#bSave").prop('disabled', false);
                       $("#bCancel").prop('disabled', true);
+                      $("#bSave2").removeClass('opacity');
                     }else{
                       $("#bImport").prop('disabled', true);
                       $("#bDelete").prop('disabled', true);
                       $("#bSave").prop('disabled', true);
                       $("#bCancel").prop('disabled', true);
-
+                      $("#bImport2").addClass('opacity');
+                      $("#bDelete2").addClass('opacity');
+                      $("#bSave2").addClass('opacity');
+                      $("#bCancel2").addClass('opacity');
+                      
                       $("#docno").prop('disabled', true);
                       $("#docdate").prop('disabled', true);
                       $("#recorder").prop('disabled', true);
@@ -1180,6 +1222,9 @@ $array2 = json_decode($json2,TRUE);
         color: #818181;
         display: block;
       }
+      .opacity{
+        opacity:0.5;
+      }
       .mhee button{
             /* padding: 6px 8px 6px 16px; */
             text-decoration: none;
@@ -1329,7 +1374,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex justify-content-center">
+                              <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn dis" onclick="OpenDialogItem()" id="bImport" disabled="true">
                                   <i class="fas fa-file-import"></i>
                                   <div>
@@ -1341,7 +1386,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn dis" onclick="DeleteItem()" id="bDelete" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
@@ -1353,7 +1398,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn dis" onclick="SaveBill()" id="bSave" disabled="true">
                                   <div id="icon_edit">
                                     <i class="fas fa-save"></i>
@@ -1368,7 +1413,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle5 d-flex justify-content-center">
+                              <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn dis" onclick="CancelBill()" id="bCancel" disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>
@@ -1381,7 +1426,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
-                                <button class="btn dis" onclick="PrintData()" id="bPrint"disabled="true" >
+                                <button class="btn dis" onclick="PrintData()" id="bPrint">
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>

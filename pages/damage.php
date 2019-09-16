@@ -149,12 +149,14 @@ $(document).ready(function(e){
         var name = $('.checkrow_'+row).attr('name');
         if (previousValue == 'checked') {
           $('#bDelete').attr('disabled', true);
+          $('#bDelete2').addClass('opacity');
           $('.checkrow_'+row).removeAttr('checked');
           $('.checkrow_'+row).attr('previousValue', false);
           $('.checkrow_'+row).prop('checked', false);
           // Blankinput();
         } else {
           $('#bDelete').attr('disabled', false);
+          $('#bDelete2').removeClass('opacity');
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('.checkrow_'+row).attr('previousValue', 'checked');
         }
@@ -668,6 +670,9 @@ $(document).ready(function(e){
         })
         }
         }else{
+          $("#bImport2").removeClass('opacity');
+          $("#bSave2").removeClass('opacity');
+          $("#bCancel2").removeClass('opacity');
           $("#bImport").prop('disabled', false);
           $("#bSave").prop('disabled', false);
           $("#bCancel").prop('disabled', false);
@@ -822,6 +827,9 @@ $(document).ready(function(e){
                 $('#bCancel').attr('disabled', false);
                 $('#bSave').attr('disabled', false);
                 $('#bImport').attr('disabled', false);
+                $('#bSave2').removeClass('opacity');
+                $('#bImport2').removeClass('opacity');
+                $('#bCancel2').removeClass('opacity');
               }else if(temp["form"]=='ShowDocument'){
 
                 setTimeout(function () {
@@ -882,6 +890,9 @@ $(document).ready(function(e){
                   $("#bImport").prop('disabled', false);
                   $("#bSave").prop('disabled', false);
                   $("#bCancel").prop('disabled', false);
+                  $("#bImport2").removeClass('opacity');
+                  $("#bSave2").removeClass('opacity');
+                  $("#bCancel2").removeClass('opacity');
                 }else if(temp[0]['IsStatus']==1){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
@@ -891,11 +902,16 @@ $(document).ready(function(e){
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
                   $("#bCancel").prop('disabled', true);
+                  $("#bSave2").removeClass('opacity');
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
                   $("#bCancel").prop('disabled', true);
+                  $("#bImport2").addClass('opacity');
+                  $("#bDelete2").addClass('opacity');
+                  $("#bSave2").addClass('opacity');
+                  $("#bCancel2").addClass('opacity');
 
                   $("#docno").prop('disabled', true);
                   $("#docdate").prop('disabled', true);
@@ -1014,8 +1030,8 @@ $(document).ready(function(e){
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 10%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='width: 45%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 26%;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 52%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='width: 17%;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
@@ -1276,7 +1292,10 @@ $(document).ready(function(e){
       .only1:disabled, .form-control[readonly] {
     background-color: transparent !important;
     opacity: 1;
-}
+    }      
+    .opacity{
+        opacity:0.5;
+      }
       @media (min-width: 992px) and (max-width: 1199.98px) { 
 
       .icon{
@@ -1402,8 +1421,8 @@ $(document).ready(function(e){
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex justify-content-center">
-                                <button class="btn" onclick="OpenDialogItem()" id="bImport"disabled="true">
+                              <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
+                                <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true"> 
                                   <i class="fas fa-file-import"></i>
                                   <div>
                                     <?php echo $array['import'][$language]; ?>
@@ -1414,7 +1433,7 @@ $(document).ready(function(e){
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
@@ -1426,7 +1445,7 @@ $(document).ready(function(e){
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
+                              <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
                                   <div id="icon_edit">
                                     <i class="fas fa-save"></i>
@@ -1440,7 +1459,7 @@ $(document).ready(function(e){
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle5 d-flex justify-content-center">
+                              <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>
@@ -1576,9 +1595,9 @@ $(document).ready(function(e){
               <tr role="row">
                 <th style='width: 10%;' nowrap><?php echo $array['no'][$language]; ?></th>
                 <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 30%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 44%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 16%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 49%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 23%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 18%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
               </tr>
             </thead>
             <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
