@@ -369,7 +369,6 @@ $array2 = json_decode($json2,TRUE);
         var Post = $('#Post').val();
         var DiscountPercent = $('#DiscountPercent').val();
         var TaxID = $('#TaxID').val();
-
         if(count==0){
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){

@@ -223,7 +223,7 @@ function CreateDocument($conn, $DATA){
   for($i = 0; $i<$loop1; $i++){
     for($j = 0; $j<$loop2; $j++){
       $Sql1 = "INSERT INTO tdas_detail (DocNo, DepCode, Type, Qty, TotalStock, TotalPar, Percent) 
-            VALUES ('$DocNo', $DepCode, $i+1, $Qty[0][0], $SumType[$i], $Total_par2, $PercentArray[$i])";
+            VALUES ('$DocNo', $DepCode, $i+1, $Qty[$i][$j], $SumType[$i], $Total_par2, $PercentArray[$i])";
       mysqli_query($conn, $Sql1);
       $return[$j] = $Sql1;
     }

@@ -1099,10 +1099,17 @@ label{
         .icon{
             padding-top: 6px;
             padding-left: 33px;
-    }
-    .opacity{
-    opacity:0.5;
-  }
+        }
+        .opacity{
+        opacity:0.5;
+        }
+
+        #Permission:focus{
+            background-color: #E7E6E6;
+        }
+
+            
+        
         @media (min-width: 992px) and (max-width: 1199.98px) { 
 
             .icon{
