@@ -88,6 +88,9 @@ $array2 = json_decode($json2,TRUE);
       }
 
     $(document).ready(function(e){
+      $('#rem1').hide();
+      $('#rem2').hide();
+      $('#rem3').hide();
       ShowDocument();
     $("#IsStatus").val('0');
 		OnLoadPage();
@@ -135,9 +138,24 @@ $array2 = json_decode($json2,TRUE);
 	  $('#IsStatus').val(0)
 	}
   function checkblank2(){
+    var side = $('#side').val();
+    var datepicker1 = $('#datepicker3').val();
+    var datepicker2 = $('#datepicker4').val();
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).addClass('border-danger');
+
+              if(side ==""||side==undefined){
+                  $('#rem1').show().css("color","red");
+                }
+                if(datepicker1 ==""||datepicker1==undefined){
+                  $('#rem2').show().css("color","red");
+                }
+                if(datepicker2 ==""||datepicker2==undefined){
+                  $('#rem3').show().css("color","red");
+                }
+
+
             }else{
               $(this).removeClass('border-danger');
             }
@@ -180,6 +198,16 @@ $array2 = json_decode($json2,TRUE);
     }
 
 	function ClearRow(){
+    $('#rem1').hide();
+    $('#rem2').hide();
+    $('#rem3').hide();
+    $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).removeClass('border-danger');
+            }else{
+              $(this).removeClass('border-color', '');
+            }
+          });
 		$("#IsStatus").val('0');
 		$("#datepicker3").val('');
 		$("#datepicker4").val('');
@@ -233,6 +261,8 @@ $array2 = json_decode($json2,TRUE);
 	    if( typeof hotid == 'undefined' ) hotid = "BHQ";
 		var depid = $('#department option:selected').attr("value");
 	    if( typeof depid == 'undefined' ) depid = "1";
+      var datepicker3 = $('#datepicker3').val();
+    var datepicker4 = $('#datepicker4').val();
 		var datepicker1 = $('#datepicker3').val();
     var datepicker2 = $('#datepicker4').val();
     var lang = '<?php echo $language; ?>';
@@ -244,8 +274,19 @@ $array2 = json_decode($json2,TRUE);
 	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
     }
 		var xDetail = $("#xDetail").val();
-    if(hotid==''){
+    if(hotid=='' || datepicker3=='' || datepicker4==''){
           checkblank2();
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
       }else{
 	  swal({
         title: "<?php echo $array['save'][$language]; ?>",
@@ -755,12 +796,13 @@ body{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                       <select  style="font-size:22px;"  class="form-control col-sm-7 checkblank2 border" id="side" onchange="removeClassBorder1();" ></select>
+                                      <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['detail'][$language]; ?></label></label><input type="hidden" id="xRowID" >
-                                        <input type="text" style="font-size:22px;" class="form-control col-sm-7 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
+                                        <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>  
@@ -770,14 +812,16 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
-                                        <input type="text" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                        <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only checkblank2" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                        <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
+
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
-                                      <input type="text" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only" id="datepicker4" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
- 
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only checkblank2" id="datepicker4" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                                      <label id="rem3" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 
