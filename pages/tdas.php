@@ -181,15 +181,23 @@ $array2 = json_decode($json2,TRUE);
             for(var j = 0; j<RowChg; j++){
                 for(var i = 0; i<DepCount; i++){
                   Qty = 0;
-                  var percent = Number($('#percent_'+i).val())/100;
-                  var result = 0;
-                  var change = Number($('#change_'+j).val());
-                  $(".col_"+i).each(function() {
-                    Qty += Number($(this).val());
-                  });
-                  result = (Qty * percent * change) + Qty;
-                  TotalResult = result.toFixed(2);
-                  $('.result_'+j+i).val(TotalResult);
+                    var percent = Number($('#percent_'+i).val());
+                    if(percent>100){
+                        $('#percent_'+i).val(100);
+                    }else if(percent<0){
+                        $('#percent_'+i).val(0);
+                    }else{
+                        var percent = Number($('#percent_'+i).val())/100;
+                        var result = 0;
+                        var change = Number($('#change_'+j).val());
+                        $(".col_"+i).each(function() {
+                            Qty += Number($(this).val());
+                        });
+                        result = (Qty * percent * change) + Qty;
+                        TotalResult = result.toFixed(2);
+                        $('.result_'+j+i).val(TotalResult);
+                    }
+                    
                 }
                 SumRow = 0;
                 $(".SumRow_"+j).each(function() {
@@ -219,6 +227,15 @@ $array2 = json_decode($json2,TRUE);
             var data = {
                 'STATUS': 'SavePar',
                 'Qty': Qty
+            };
+            senddata(JSON.stringify(data));
+        }
+        function SavePercent(DepCode, row){
+            var Percent = $('#percent_'+row).val();
+            var data = {
+                'STATUS': 'SavePercent',
+                'DepCode': DepCode,
+                'Percent': Percent
             };
             senddata(JSON.stringify(data));
         }
@@ -262,19 +279,37 @@ $array2 = json_decode($json2,TRUE);
           });
           var PercentArray = Percent.join(',');
           // ----------------------------------------------
-
-            var data = {
-              'STATUS': 'CreateDocument',
-              'QtyArray1': QtyArray1,
-              'QtyArray2': QtyArray2,
-              'QtyArray3': QtyArray3,
-              'QtyArray4': QtyArray4,
-              'ItemCodeArray': ItemCodeArray,
-              'changeArray': changeArray,
-              'PercentArray': PercentArray,
-              'Total_par2': Total_par2
-            };
-            senddata(JSON.stringify(data));
+          swal({
+            title: "<?php echo $array['confirmdoc'][$language]; ?>",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true}).then(result => {
+            if (result.value) {
+							var data = {
+								'STATUS': 'CreateDocument',
+								'QtyArray1': QtyArray1,
+								'QtyArray2': QtyArray2,
+								'QtyArray3': QtyArray3,
+								'QtyArray4': QtyArray4,
+								'ItemCodeArray': ItemCodeArray,
+								'changeArray': changeArray,
+								'PercentArray': PercentArray,
+								'Total_par2': Total_par2
+							};
+							senddata(JSON.stringify(data));
+            } else if (result.dismiss === 'cancel') {
+							swal.close();
+            } 
+        })
+            
         }
         // End Function -----------------------------------------
         function senddata(data) {
@@ -395,7 +430,7 @@ $array2 = json_decode($json2,TRUE);
                                     "</select>"+
                                 "</td>"+
                                 "<td  nowrap  class='text-center'>"+
-                                    "<select name='safty_"+i+"' id='safty_"+i+"' class='form-control'>"+
+                                    "<select name='safty_"+i+"' id='safty_"+i+"' class='form-control' style='width: 175px;'>"+
                                         "<option>Total Safty stock</option>"+
                                         "<option>เลือกทั้งหมด</option>"+
                                     "</select>"+
@@ -403,15 +438,10 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < (temp['CountRow']); i++) {
                                     StrTRx += "<td  nowrap  class='text-center'>"+
-                                        "<select name='percent_"+i+"' id='percent_"+i+"' class='form-control percentSend' onchange='Calculate();'>";
-                                        for (var j = 0; j < (temp['CountPercent']); j++) {
-                                            if(temp[j]['percent_value']==temp[i]['Hptpercent']){
-                                                StrTRx += "<option value='"+temp[j]['percent_value']+"' selected>"+temp[j]['percent_value']+'%'+"</option>";
-                                            }else{
-                                                StrTRx += "<option value='"+temp[j]['percent_value']+"'>"+temp[j]['percent_value']+'%'+"</option>";
-                                            }
-                                        }
-                                        StrTRx += "</select>"+
+                                        "<div class='input-group'>"+
+                                            "<input value='"+temp[i]['Hptpercent']+"' onkeyup='if(event.keyCode==13){SavePercent(\""+temp[i]['DepCode']+"\",\""+i+"\")}else{Calculate()}' class='form-control numonly percentSend text-center' id='percent_"+i+"'>"+
+                                            "<div class='labelPrecent'><label for='percent_"+i+"'>%</label></div>"+
+                                        "</div>"
                                     "</td>";
                                 }
                                 StrTRx +=   "<td  nowrap  class='text-center'> </td>"+
@@ -440,10 +470,22 @@ $array2 = json_decode($json2,TRUE);
                             $('.numonly_dot').on('input', function() {
                               this.value = this.value.replace(/[^0-9]/g, '');
                             });
+                            $('.numonly').on('input', function() {
+                              this.value = this.value.replace(/[^0-9.]/g, '');
+                            });
                             $('#DepCount').val(DepCount);
                             $('#RowChg').val(RowChg);
                             TotalQty();
                             Calculate();
+                        }else if(temp['form'] == 'CreateDocument'){
+													swal({
+														title: '',
+														text: '<?php echo $array['savesuccess'][$language]; ?>',
+														type: 'success',
+														showCancelButton: false,
+														showConfirmButton: false,
+														timer: 1500,
+													});
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -597,7 +639,11 @@ $array2 = json_decode($json2,TRUE);
             text-align-last: center;
             /* webkit*/
         }
-
+        .labelPrecent{
+            position: absolute;
+            right: 40px;
+            top: 5px;
+        }
     </style>
 </head>
 
