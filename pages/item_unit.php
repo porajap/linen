@@ -425,7 +425,7 @@ $array2 = json_decode($json2,TRUE);
           showCancelButton: true}).then(result => {
             if (result.value) {
 
-            var UnitCode = $('#UnitCode').val();
+            var UnitCode = $('#UnitCodeReal').val();
             var data = {
               'STATUS' : 'CancelItem',
               'UnitCode' : UnitCode
@@ -650,8 +650,7 @@ $array2 = json_decode($json2,TRUE);
                             }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
-                                // $('#UnitCode').val(temp['UnitCode']);
-                                // $('#UnitName').val(temp['UnitName']);
+                                $('#UnitCodeReal').val(temp['UnitCodeReal']);
                                 $('#UnitCode').val(temp['UnitCode']);
                                 $('#UnitName').val(temp['UnitName']);
                                 //$('#IsStatus').val(temp['IsStatus']);
@@ -1170,7 +1169,12 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text"  class="form-control col-sm-7 " id="UnitCode"    placeholder="<?php echo $array['Measurementcode'][$language]; ?>" disabled="true">
                                     </div>
                                   </div>
+                                  <div class="col-md-6" hidden>
+                                      <input type="text"  class="form-control col-sm-7 " id="UnitCodeReal"   >
+                                  </div>
                                 </div>
+
+                                
    <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">

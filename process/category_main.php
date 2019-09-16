@@ -63,6 +63,7 @@ function getdetail($conn, $DATA)
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['MainCategoryCode'] = $number;
+    $return['MainCategoryCodeReal'] = $Result['MainCategoryCode'];
     $return['MainCategoryName'] = $Result['MainCategoryName'];
     //$return['IsStatus'] = $Result['IsStatus'];
     $count++;

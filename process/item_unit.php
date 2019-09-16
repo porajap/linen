@@ -63,6 +63,7 @@ function getdetail($conn, $DATA)
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['UnitCode'] = $number;
+    $return['UnitCodeReal'] = $Result['UnitCode'];
     $return['UnitName'] = $Result['UnitName'];
     //$return['IsStatus'] = $Result['IsStatus'];
     $count++;

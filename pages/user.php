@@ -600,8 +600,8 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 22%;' nowrap>" + temp[i]['FName'] + "</td>" +
                                     "<td style='width: 10%;' nowrap>" + temp[i]['UserName'] + "</td>" +
                                     "<td style='width: 10%;' nowrap>" + temp[i]['Password'] + "</td>" +
-                                    "<td style='width: 16%;' nowrap>" + email + "</td>" +
-                                    "<td style='width: 8%;' nowrap class='text-center'>"+active_mail+"</td>" +
+                                    "<td style='width: 24%;' nowrap>" + email + "</td>" +
+                                    // "<td style='width: 8%;' nowrap class='text-center'>"+active_mail+"</td>" +
 									"<td style='width: 10%;' nowrap>" + temp[i]['Permission'] + "</td>" +
 									"<td style='width: 16%;' nowrap>" + temp[i]['HptName'] + "</td>" +
                                     "</tr>";
@@ -1191,8 +1191,7 @@ label{
                                         <th style='width: 22%;' nowrap> <?php echo $array['flname'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['username'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['password'][$language]; ?> </th>
-                                        <th style='width: 13%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
-                                        <th style='width: 10%;' nowrap> <?php echo $array['activemail'][$language]; ?> </th>
+                                        <th style='width: 23%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
                                         <th style='width: 17%;' nowrap> <?php echo $array['department'][$language]; ?>  </th>
                                     </tr>
