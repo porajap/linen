@@ -256,7 +256,6 @@ function CreateDocument($conn, $DATA){
     $return['sql'] = $Sql3;
   }
 
-  echo json_encode($return);
 }
 
 if(isset($_POST['DATA']))

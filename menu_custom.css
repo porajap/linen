@@ -20,39 +20,19 @@
         width:140px;
         text-align:center;
       }
+      /* .menu img{
+        width:40px;
+        height:40px;
+      } */
       .menu button{
         width:140px;
         text-align:center;
       }
-      /* ---------------------- */
-      .menu2 button{
-        text-decoration: none;
-        font-size: 23px;
-        color: #2c3e50;
-        display: block;
-        background: none !important;
-        box-shadow:none !important;
-      }
-      .menu2 button:hover {
-        color: #2c3e50;
-        font-weight:bold;
-        /* font-size:26px; */
-        transition: width 2s, height 4s;
-      }
-      .menu2{
-        width:140px;
-        text-align:center;
-      }
-      .menu2 button{
-        width:140px;
-        text-align:center;
-      }
-      /* ----------------------------- */
       .circle1 i{
         width: 40px;
         height: 40px;
         border-radius:50px;
-        background-color:#298fc2;
+        background-color:#3498db;
       }
       .circle1 i{
         padding: 7px;
@@ -62,7 +42,7 @@
         width: 40px;
         height: 40px;
         border-radius:50px;
-        background-color:rgb(134,134,134);		
+        background-color:#878687		
         ;
       }
       .circle2 i{
@@ -73,7 +53,7 @@
         width: 40px;
         height: 40px;
         border-radius:50px;
-        background-color:rgb(189,48,44);
+        background-color:#c0392b;
       }
       .circle3 i{
         padding: 7px;
@@ -83,7 +63,7 @@
         width: 40px;
         height: 40px;
         border-radius:50px;
-        background-color:rgb(78,165,100);
+        background-color:#27ae60;
       }
       .circle4 i{
         padding: 7px;
@@ -93,7 +73,7 @@
         width: 40px;
         height: 40px;
         border-radius:50px;
-        background-color:#ff585d;
+        background-color:#eb4d4b;
       }
       .circle5 i{
         padding: 7px;
@@ -104,29 +84,17 @@
         width: 40px;
         height: 40px;
         border-radius:50px;
-        background-color:rgba(246,141,46);
-      }
-
-      .circle9 i{
-        padding: 7px;
-        color:#ffffff;
-      }
-      .circle9{
-        width: 40px;
-        height: 40px;
-        border-radius:50px;
-        background-color:#C88242;
+        background-color:#f0932b;
       }
       .circle6 i{
         padding: 7px;
         color:#ffffff;
       }
-      
       .circle7{
         width: 40px;
         height: 40px;
         border-radius:50px;
-        background-color:rgb(112,88,224);
+        background-color:#7158e2;
       }
       .circle7 i{
         padding: 7px;
@@ -139,26 +107,6 @@
         background-color:#99CCCC;
       }
       .circle8 i{
-        padding: 7px;
-        color:#ffffff;
-      }
-      .circle10{
-        width: 40px;
-        height: 40px;
-        border-radius:50px;
-        background-color:#A4493D;
-      }
-      .circle10 i{
-        padding: 7px;
-        color:#ffffff;
-      }
-      .circle11{
-        width: 40px;
-        height: 40px;
-        border-radius:50px;
-        background-color:#E09517;
-      }
-      .circle11 i{
         padding: 7px;
         color:#ffffff;
       }
@@ -223,7 +171,7 @@
         width: 38px;
         height: 38px;
         border-radius:50px;
-        background-color: #307FE2;
+        background-color: #2d98da;
       }
       .search_1 i{
         color:#ffffff;

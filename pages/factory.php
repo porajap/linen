@@ -369,7 +369,6 @@ $array2 = json_decode($json2,TRUE);
         var Post = $('#Post').val();
         var DiscountPercent = $('#DiscountPercent').val();
         var TaxID = $('#TaxID').val();
-
         if(count==0){
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -1415,7 +1414,7 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['price'][$language]; ?></label>
                                         <input type="text" class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
-                                        <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                        <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div>          
@@ -1425,14 +1424,14 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank" id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
-                                      <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['address'][$language]; ?></label>
                                         <input type="text" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
-                                        <label id="rem3" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                        <label id="rem3" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div>               
@@ -1442,14 +1441,14 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['taxid'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank numonly" id="TaxID"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['taxid'][$language]; ?>">
-                                      <label id="rem4" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem4" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['postid'][$language]; ?></label>
                                         <input type="text" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
-                                        <label id="rem5" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                        <label id="rem5" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1481,14 +1480,14 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
-                                      <label id="rem6" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem6" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
                                         <input type="text" class="form-control col-sm-7 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
-                                        <label id="rem7" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                        <label id="rem7" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1497,7 +1496,7 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 numonly checkblank3" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
-                                      <label id="rem8" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem8" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6" hidden>

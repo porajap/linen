@@ -141,6 +141,7 @@ function getdetail($conn, $DATA)
 
 function AddItem($conn, $DATA)
   {
+    $discount = $DATA['DiscountPercent']==null?"0":$Result['DiscountPercent'];
     $count = 0;
     $Sql = "INSERT INTO factory(
             FacName,
@@ -154,7 +155,7 @@ function AddItem($conn, $DATA)
             VALUES
             (
               '".$DATA['FacName']."',
-              ".$DATA['DiscountPercent'].",
+              $discount,
               ".$DATA['Price'].",
               0,
               '".$DATA['Address']."',

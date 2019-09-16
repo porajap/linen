@@ -783,8 +783,8 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 5%;' nowrap>"+ RowID +"</td>" +
                                     "<td hidden>"+ chkPrice +"</td>" +
                                     "<td hidden>"+ chkCategoryCode +"</td>" +
-                                    "<td style='width: 25%;' nowrap>" + temp[i]['HptName'] + "</td>" +
-                                    "<td style='width: 26%;' nowrap>" + temp[i]['MainCategoryName'] + "</td>" +
+                                    "<td style='width: 26%;' nowrap>" + temp[i]['HptName'] + "</td>" +
+                                    "<td style='width: 25%;' nowrap>" + temp[i]['MainCategoryName'] + "</td>" +
                                     "<td style='width: 25%;' nowrap>" + temp[i]['CategoryName'] + "</td>" +
                                     "<td style='width: 19%;' nowrap>" + Price + " </td>" +
                                     "</tr>";
@@ -1230,7 +1230,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle10 d-flex justify-content-center">
                                 <button class="btn"  onclick="OpenDialog(2)" id="bDelete" >
                                 <i class="fas fa-money-check"></i>
                                   <div>
@@ -1405,7 +1405,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="search_custom col-md-2" id="btn_saveDoc"  hidden="true">
                                     <div class="circle4 d-flex justify-content-start">
                                         <button class="btn" onclick="saveDoc()" >
-                                            <i class="fas fa-save mr-2"></i>
+                                            <i class="fas fa-save" style="padding-left: 16%;"></i>
                                             <?php echo $array['savedoc'][$language]; ?>
                                         </button>
                                     </div>

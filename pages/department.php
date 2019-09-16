@@ -1248,14 +1248,14 @@ $array2 = json_decode($json2,TRUE);
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
-                                      <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
-                                      <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 

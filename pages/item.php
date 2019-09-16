@@ -2166,13 +2166,13 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-5 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                    <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
                     <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                    <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
                     <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
                   </div>
                 </div>
@@ -2277,7 +2277,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu" id="NewItem" <?php if($PmID != 6) echo 'hidden'; ?>>
+                <div class="menu" id="NewItem" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="NewItem()" id="bSave">
@@ -2290,7 +2290,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu" id="AddItemBNT" <?php if($PmID != 6) echo 'hidden'; ?>>
+                <div class="menu" id="AddItemBNT" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -2314,7 +2314,7 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" id="CancelBNT" <?php if($PmID != 6) echo 'hidden'; ?> >
+                          <div class="menu" id="CancelBNT" <?php if($PmID != 6  && $PmID != 1) echo 'hidden'; ?> >
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
@@ -2355,7 +2355,7 @@ $array2 = json_decode($json2, TRUE);
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['code'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
-                              <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                              <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                             </div>
                           </div>
                           <div class="col-md-1">
@@ -2441,7 +2441,7 @@ $array2 = json_decode($json2, TRUE);
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
                               <select class="form-control col-sm-7 checkblank" id="maincatagory2" onchange="getCatagory2()"></select>
-                              <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                              <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                             </div>
                           </div>
 
@@ -2449,7 +2449,7 @@ $array2 = json_decode($json2, TRUE);
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
                               <select class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()"></select>
-                              <label id="rem3" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                              <label id="rem3" style="margin-top: 1%;margin-left: 2%;"> * </label>
                             </div>
                           </div>
 
@@ -2479,14 +2479,14 @@ $array2 = json_decode($json2, TRUE);
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['item'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 checkblank" id="ItemName" placeholder="<?php echo $array['item'][$language]; ?>">
-                              <label id="rem4" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                              <label id="rem4" style="margin-top: 1%;margin-left: 2%;"> * </label>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right"><?php echo $array['weight'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 checkblank numonly" id="Weight" placeholder="<?php echo $array['weight'][$language]; ?>">
-                              <label id="rem5" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                              <label id="rem5" style="margin-top: 1%;margin-left: 2%;"> * </label>
                             </div>
                           </div>
                         </div>
@@ -2551,7 +2551,7 @@ $array2 = json_decode($json2, TRUE);
 
                               <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['Quality'][$language]; ?>">
                               <select class="form-control col-sm-4" id="sUnitName" onchange="getplaceholder();"></select>
-                              <label id="rem6" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                              <label id="rem6" style="margin-top: 1%;margin-left: 2%;"> * </label>
 
                             </div>
                           </div>

@@ -693,10 +693,10 @@ body{
 					</table>
               </div> <!-- tag column 1 -->
     </div>
-
+    <!-- <?php if($PmID == 1) echo 'hidden'; ?> -->
 </div>
 <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" >
-  <div class="menu"<?php if($PmID == 1) echo 'hidden'; ?>>
+  <div class="menu">
     <div class="d-flex justify-content-center">
       <div class="circle4 d-flex justify-content-center">
         <button class="btn"  onclick="SaveRow()" id="bSave">
@@ -720,7 +720,7 @@ body{
       </div>
     </div>
   </div>
-  <div class="menu"<?php if($PmID == 1) echo 'hidden'; ?>>
+  <div class="menu">
     <div class="d-flex justify-content-center">
       <div class="circle3 d-flex justify-content-center opacity" id="delete_icon">
         <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
