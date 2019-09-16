@@ -78,6 +78,7 @@ $array2 = json_decode($json2,TRUE);
 
       $(document).ready(function(e){
         $('#rem1').hide();
+        $('#rem2').hide();
         //On create
         $('#txtrow').hide();
         $('#txtdpk').hide();
@@ -128,9 +129,22 @@ $array2 = json_decode($json2,TRUE);
 
       function chkbox(ItemCode){
         var par = $('#parnum').val();
-        if(par==''){
+        var department = $('#department').val();
+        if(par=='' || department==''){
           checkblank2();
-          $('#parnum').focus();
+          $('#checkitem_'+ItemCode).prop('checked', false);
+          // $('#parnum').focus();
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
         }else{
           $('#bSave').attr('disabled', false);
           $('#delete_icon').removeClass('opacity');
@@ -149,11 +163,18 @@ $array2 = json_decode($json2,TRUE);
 
       }
       function checkblank2(){
+        var par = $('#parnum').val();
+        var department = $('#department').val();
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).addClass('border-danger');
-              $('#rem1').show().css("color","red");
-            }else{
+              if(department ==""||department==undefined){
+                  $('#rem1').show().css("color","red");
+                }
+                if(par ==""||par==undefined){
+                  $('#rem2').show().css("color","red");
+                }            
+                }else{
               $(this).removeClass('border-danger');
               
             }
@@ -1553,7 +1574,7 @@ $array2 = json_decode($json2,TRUE);
                       <div class='form-group form-inline'>
                         <label style='width:25%' class='text-right mr-sm-2 pl-4'><?php echo $array['department'][$language]; ?></label>
                         <select class="form-control checkblank2 border" style='width:55%' id="department" onchange="removeClassBorder1();"> </select>
-                        <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                        <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                       </div>
                     </div>
                   </div>
@@ -1562,7 +1583,8 @@ $array2 = json_decode($json2,TRUE);
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
                           <label style='width:25%' class='text-right mr-sm-2'><?php echo $array['parnum'][$language]; ?></label>
-                          <input type="text" class="form-control numonly" style='width:55%' id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
+                          <input type="text" class="form-control numonly checkblank2" style='width:55%' id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
+                          <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                       </div>
                     </div>
                   </div>

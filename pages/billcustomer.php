@@ -1308,7 +1308,7 @@ $array2 = json_decode($json2,TRUE);
                                       <label class="col-sm-4 col-form-label text-right" style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
                                         <select class="form-control col-sm-7 checkblank2 border" style="font-size:22px;"  id="department" onchange="removeClassBorder1();">
                                         </select>
-                                        <label id="rem2" style="margin-left: 93%;margin-top: -5%;"> *** </label>
+                                        <label id="rem2" style="margin-left: 93%;margin-top: -9%;"> * </label>
                                     </div>
                                   </div>
                                 </div>
@@ -1360,7 +1360,7 @@ $array2 = json_decode($json2,TRUE);
 
                         <!-- row btn -->
                         <div class="row m-1 mt-4 d-flex justify-content-end" >
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
@@ -1372,7 +1372,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn dis" onclick="OpenDialogItem()" id="bImport" disabled="true">
@@ -1384,7 +1384,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn dis" onclick="DeleteItem()" id="bDelete" disabled="true">
@@ -1396,7 +1396,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn dis" onclick="SaveBill()" id="bSave" disabled="true">
@@ -1411,7 +1411,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn dis" onclick="CancelBill()" id="bCancel" disabled="true">
@@ -1423,7 +1423,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle9 d-flex justify-content-center">
                                 <button class="btn dis" onclick="PrintData()" id="bPrint">

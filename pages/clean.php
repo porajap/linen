@@ -1458,7 +1458,7 @@ $(document).ready(function(e){
                         </div> <!-- tag column 1 -->
                                       <!-- row btn -->
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
@@ -1470,7 +1470,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true"> 
@@ -1482,7 +1482,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
@@ -1494,7 +1494,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
@@ -1508,7 +1508,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
@@ -1520,7 +1520,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
+                          <div class="menu"  >
                             <div class="d-flex justify-content-center">
                               <div class="circle9 d-flex justify-content-center">
                                 <button class="btn" onclick="PrintData()" id="bPrint">

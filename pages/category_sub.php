@@ -453,8 +453,7 @@ $array2 = json_decode($json2,TRUE);
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
             if (result.value) {
-
-            var CategoryCode = $('#CategoryCode').val();
+            var CategoryCode = $('#CategoryCodeReal').val();
             var data = {
               'STATUS' : 'CancelItem',
               'CategoryCode' : CategoryCode
@@ -684,6 +683,8 @@ $array2 = json_decode($json2,TRUE);
                             }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
+
+                                $('#CategoryCodeReal').val(temp['CategoryCodeReal']);
                                 $('#CategoryCode').val(temp['CategoryCode']);
                                 $('#CategoryName').val(temp['CategoryName']);
                                   $('#bCancel').attr('disabled', false);
@@ -1216,17 +1217,24 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysubcode'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 " id="CategoryCode"    placeholder="<?php echo $array['categorysubcode'][$language]; ?>" readonly>
-                                      <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> *** </label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6" hidden>
+                                    <div class='form-group row'>
+                                      <input type="text"  class="form-control col-sm-7 " id="CategoryCodeReal">
                                     </div>
                                   </div>
                                 </div> 
+
+                                
    <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['category'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank" id="CategoryName"    placeholder="<?php echo $array['category'][$language]; ?>">
-                                      <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 

@@ -1275,7 +1275,7 @@ label{
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 checkblank" id="host" onchange="getDepartment();"></select>
-                                      <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                      <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1283,7 +1283,7 @@ label{
                                        <label class="col-sm-4 col-form-label text-right" style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
                                         <select class="form-control col-sm-7 checkblank" style="font-size:22px;"  id="department" >
                                         </select>
-                                        <label id="rem2" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                        <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
 
@@ -1294,14 +1294,14 @@ label{
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['username'][$language]; ?></label>
                                     <input type="text"  class="form-control col-sm-7 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
-                                    <label id="rem3" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                    <label id="rem3" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['password'][$language]; ?></label>
                                     <input type="text"  class="form-control col-sm-7 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
-                                    <label id="rem4" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                    <label id="rem4" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div>   
@@ -1311,14 +1311,14 @@ label{
                                     <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['flname'][$language]; ?></label>
                                         <input type="text"  class="form-control col-sm-7 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
-                                        <label id="rem5" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                        <label id="rem5" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['permission'][$language]; ?></label>
                                     <select  class="form-control col-sm-7 checkblank " id="Permission"  onchange="factory_show(this.value);"></select>
-                                    <label id="rem6" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                    <label id="rem6" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>   
                                 </div>   
@@ -1328,7 +1328,7 @@ label{
                                     <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label text-right"><?php echo $array['email'][$language]; ?></label>
                                         <input type="email"  class="form-control col-sm-7 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
-                                        <label id="rem7" style="margin-top: 2%;margin-left: 2%;"> *** </label>
+                                        <label id="rem7" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
