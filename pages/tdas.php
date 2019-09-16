@@ -248,11 +248,12 @@ $array2 = json_decode($json2,TRUE);
           var change = [];
           $(".ItemCode").each(function() {
             ItemCode.push($(this).data('itemcode'));
-            change.push($('.changeSend').val());
+          });
+          $(".changeSend").each(function() {
+            change.push($(this).val());
           });
           var ItemCodeArray = ItemCode.join(',');
           var changeArray = change.join(',');
-
           // ----------------------------------------------
           var Percent = [];
           var Total_par2 = $('#total_par2').val();
@@ -266,7 +267,7 @@ $array2 = json_decode($json2,TRUE);
               'STATUS': 'CreateDocument',
               'QtyArray1': QtyArray1,
               'QtyArray2': QtyArray2,
-              'QtyArray2': QtyArray3,
+              'QtyArray3': QtyArray3,
               'QtyArray4': QtyArray4,
               'ItemCodeArray': ItemCodeArray,
               'changeArray': changeArray,
