@@ -2166,13 +2166,13 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-5 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                    <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
                     <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-5 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                    <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
                     <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
                   </div>
                 </div>

@@ -238,6 +238,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function removeClassBorder1(){
           $('#host').removeClass('border-danger');
+        
         }
 
       function CreateSentSterile() {

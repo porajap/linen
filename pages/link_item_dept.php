@@ -77,6 +77,7 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        $('#rem1').hide();
         //On create
         $('#txtrow').hide();
         $('#txtdpk').hide();
@@ -151,13 +152,16 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).addClass('border-danger');
+              $('#rem1').show().css("color","red");
             }else{
               $(this).removeClass('border-danger');
+              
             }
           });
         }
         function removeClassBorder1(){
           $('#department').removeClass('border-danger');
+          $('#rem1').hide();
         }
       function getDepartment(){
         var Hotp = $('#hotpital option:selected').attr("value");
@@ -1265,8 +1269,8 @@ $array2 = json_decode($json2,TRUE);
                                           "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                           "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
                                           "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
-                                            "<button class='btn btn-info p-1' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
-                                            "<button class='btn btn-warning p-1' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
+                                            "<button class='btn  p-1' style='background-color: #228FF1; color:#fff;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
+                                            "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
                                           "</td>"+
                                           "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                         "</tr>";
@@ -1549,6 +1553,7 @@ $array2 = json_decode($json2,TRUE);
                       <div class='form-group form-inline'>
                         <label style='width:25%' class='text-right mr-sm-2 pl-4'><?php echo $array['department'][$language]; ?></label>
                         <select class="form-control checkblank2 border" style='width:55%' id="department" onchange="removeClassBorder1();"> </select>
+                        <label id="rem1" style="margin-top: 2%;margin-left: 2%;"> *** </label>
                       </div>
                     </div>
                   </div>
@@ -1561,6 +1566,7 @@ $array2 = json_decode($json2,TRUE);
                       </div>
                     </div>
                   </div>
+
 
                   <div class="row">
                     <div class="col-12 mt-3">
@@ -1578,6 +1584,32 @@ $array2 = json_decode($json2,TRUE);
                       </div>
                     </div>
                   </div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:14px;margin-top:-17%;margin-right: -135%;margin-left: 136%;">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['itemnew'][$language]; ?></a>
+                  </li>
+                </ul>
+                <div class="row" style="padding-left: 137%;width: 300%;">
+                  <div class="col-6">
+                    <input type="text" class="form-control" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  </div>
+                  <div class="menuMini" hidden>
+                    <div class="search_1 d-flex justify-content-start">
+                      <button class="btn"  onclick="ShowItemStock()" >
+                        <i class="fas fa-search mr-2"></i>
+                        <?php echo $array['search'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="menuMini  ml-2">
+                    <div class="circle5 d-flex justify-content-start">
+                      <button class="btn"  onclick="DeleteItem()" >
+                        <i class="fas fa-trash-alt mr-2"></i>
+                        <?php echo $array['delete'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -1614,12 +1646,12 @@ $array2 = json_decode($json2,TRUE);
             </div>
           </div>
           <div class="col">
-                <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:14px;margin-top:-17%">
+                <!-- <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom:14px;margin-top:-17%">
                   <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['itemnew'][$language]; ?></a>
                   </li>
-                </ul>
-                <div class="row">
+                </ul> -->
+                <!-- <div class="row">
                   <div class="col-6">
                     <input type="text" class="form-control" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                   </div>
@@ -1639,7 +1671,7 @@ $array2 = json_decode($json2,TRUE);
                       </button>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemStock" cellspacing="0" role="grid">
                 <thead id="theadsum" style="font-size:11px;">
