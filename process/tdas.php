@@ -169,15 +169,25 @@ function CreateDocument($conn, $DATA){
   $DepCode = $_SESSION['DepCode'];
   $UserID = $_SESSION['Userid'];
   #-------------------------------------
-  $QtyArray1 = $DATA['QtyArray1'];
-  $QtyArray2 = $DATA['QtyArray2'];
-  $QtyArray3 = $DATA['QtyArray3'];
-  $QtyArray4 = $DATA['QtyArray4'];
+  $QtyArray1 = explode(',', $DATA['QtyArray1']);
+  $QtyArray2 = explode(',', $DATA['QtyArray2']);
+  $QtyArray3 = explode(',', $DATA['QtyArray3']);
+  $QtyArray4 = explode(',', $DATA['QtyArray4']);
+
+  $Qty[0] = explode(',', $DATA['QtyArray1']);
+  $Qty[1] = explode(',', $DATA['QtyArray2']);
+  $Qty[3] = explode(',', $DATA['QtyArray3']);
+  $Qty[4] = explode(',', $DATA['QtyArray4']);
   #-------------------------------------
-  $ItemCodeArray = $DATA['ItemCodeArray'];
-  $changeArray = $DATA['changeArray'];
-  $PercentArray = $DATA['PercentArray'];
+  $ItemCodeArray = explode(',', $DATA['ItemCodeArray']);
+  $changeArray = explode(',', $DATA['changeArray']);
+  $PercentArray = explode(',', $DATA['PercentArray']);
   $Total_par2 = $DATA['Total_par2'];
+  #-------------------------------------
+  $SumType[0] = array_sum($QtyArray1);
+  $SumType[1] = array_sum($QtyArray2);
+  $SumType[2] = array_sum($QtyArray3);
+  $SumType[3] = array_sum($QtyArray4);
   #-------------------------------------
   $Sql = "SELECT CONCAT('TD',lpad('$HptCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
@@ -195,7 +205,33 @@ function CreateDocument($conn, $DATA){
   }
   $TDDocument = "INSERT INTO tdas_document (DocNo, DocDate, HptCode, Modify_Code, Modify_Date, IsStatus, IsCancel)
               VALUES('$DocNo', '$DocDate', '$HptCode', $UserID, '$RecNow', 0, 0)";
-              mysqli_query($conn, $TDDocument);
+              // mysqli_query($conn, $TDDocument);
+  #---------------------------------------
+  $count = 0;
+  $Sql = "SELECT department.DepCode FROM department
+  WHERE department.IsStatus = 0 AND department.HptCode ='$HptCode'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepCode[$count]  = $Result['DepCode'];
+    $count++;
+  }
+  #----------------------------------------
+  $loop1 = 4;
+  $loop2 = $count;
+  $loop3 = sizeof($ItemCodeArray, 0);
+  #-------------------------------------
+  for($i = 0; $i<$loop1; $i++){
+    for($j = 0; $j<$loop2; $j++){
+      $Sql1 = "INSERT INTO tdas_detail (DocNo, DepCode, Type, Qty, TotalStock, TotalPar, Percent) 
+            VALUES ('$DocNo', $DepCode, $i+1, $Qty[0][0], $SumType[$i], $Total_par2, $PercentArray[$i])";
+      mysqli_query($conn, $Sql1);
+      $return[$j] = $Sql1;
+    }
+  }
+  echo '<pre>';
+  print_r($Qty[0]);
+  echo '</pre>';
+  // echo json_encode($return);
 }
 if(isset($_POST['DATA']))
 {
