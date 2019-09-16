@@ -257,12 +257,14 @@ $array2 = json_decode($json2,TRUE);
       var name = $('.checkrow_'+row).attr('name');
       if (previousValue == 'checked') {
         $('#bDelete').attr('disabled', true);
+        $('#bDelete2').addClass('opacity');
         $('.checkrow_'+row).removeAttr('checked');
         $('.checkrow_'+row).attr('previousValue', false);
         $('.checkrow_'+row).prop('checked', false);
         // Blankinput();
       } else {
         $('#bDelete').attr('disabled', false);
+        $('#bDelete2').removeClass('opacity');
         $("input[name="+name+"]:radio").attr('previousValue', false);
         $('.checkrow_'+row).attr('previousValue', 'checked');
       }
@@ -498,6 +500,17 @@ $array2 = json_decode($json2,TRUE);
       var cycle = $("#cycle").val();
       if(deptCode==''){
           checkblank2();
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
       }else{
       $('#TableDetail tbody').empty();
       swal({
@@ -762,6 +775,9 @@ $array2 = json_decode($json2,TRUE);
             //}
           }
         }else{
+          $("#bImport2").removeClass('opacity');
+          $("#bSave2").removeClass('opacity');
+          $("#bCancel2").removeClass('opacity');
           $("#bImport").prop('disabled', false);
           $("#bSave").prop('disabled', false);
           $("#bCancel").prop('disabled', false);
@@ -1034,6 +1050,9 @@ $array2 = json_decode($json2,TRUE);
               $('#bImport').attr('disabled', false);
               $('#bPrint').attr('disabled', false);
               $('#barcode').attr('disabled', false);
+              $('#bSave2').removeClass('opacity');
+              $('#bImport2').removeClass('opacity');
+              $('#bCancel2').removeClass('opacity');
               // ShowDocument_sub();
               swal({
                 title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1179,6 +1198,9 @@ $array2 = json_decode($json2,TRUE);
                 $("#bCancel").prop('disabled', false);
                 $("#bdetail").prop('disabled', true);
                 $("#barcode").prop('disabled', false);
+                $("#bImport2").removeClass('opacity');
+                $("#bSave2").removeClass('opacity');
+                $("#bCancel2").removeClass('opacity');
               }else if(temp[0]['IsStatus']==1){
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1190,11 +1212,19 @@ $array2 = json_decode($json2,TRUE);
                 $("#bCancel").prop('disabled', true);
                 $("#bdetail").prop('disabled', false);
                 $("#barcode").prop('disabled', false);
+                $("#bSave2").removeClass('opacity');
+                $("#bdetail2").removeClass('opacity');
               }else{
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', true);
                 $("#bCancel").prop('disabled', true);
+                $("#bdetail").prop('disabled', true);
+                $("#bImport2").addClass('opacity');
+                $("#bDelete2").addClass('opacity');
+                $("#bSave2").addClass('opacity');
+                $("#bCancel2").addClass('opacity');
+                $("#bdetail2").addClass('opacity');
 
                 $("#docno").prop('disabled', true);
                 $("#docdate").prop('disabled', true);
@@ -1752,6 +1782,9 @@ $array2 = json_decode($json2,TRUE);
         padding-top: 6px;
         padding-left: 44px;
       }
+      .opacity{
+        opacity:0.5;
+      }
       .only1:disabled, .form-control[readonly] {
     background-color: transparent !important;
     opacity: 1;
@@ -1907,7 +1940,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex justify-content-center">
+                              <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport"disabled="true">
                                   <i class="fas fa-file-import"></i>
                                   <div>
@@ -1919,7 +1952,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
@@ -1931,7 +1964,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
                                   <div id="icon_edit">
                                     <i class="fas fa-save"></i>
@@ -1946,7 +1979,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle5 d-flex justify-content-center">
+                              <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>
@@ -1959,7 +1992,7 @@ $array2 = json_decode($json2,TRUE);
 
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle7 d-flex justify-content-center">
+                              <div class="circle7 d-flex justify-content-center opacity" id="bdetail2">
                                 <button class="btn" onclick="draw()" id="bdetail"disabled="true">
                                 <i class="fas fa-shopping-cart"></i>                                  
                                 <div>
@@ -1972,7 +2005,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintData()" id="bPrint"disabled="true">
+                                <button class="btn" onclick="PrintData()" >
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>
@@ -2144,9 +2177,9 @@ $array2 = json_decode($json2,TRUE);
                       <th style='width: 10%;' nowrap><?php echo $array['no'][$language]; ?></th>
                       <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
                       <th style='width: 45%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                      <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                      <th style='width: 19%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                       <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
-                      <th style='width: 15%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                      <th style='width: 11%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                     </tr>
                   </thead>
                   <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">

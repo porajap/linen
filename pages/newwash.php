@@ -78,6 +78,8 @@ $array2 = json_decode($json2,TRUE);
   var RowCnt=0;
 
   $(document).ready(function(e){
+
+
     $('#rem1').hide();
     $('#rem2').hide();
 
@@ -165,12 +167,14 @@ $array2 = json_decode($json2,TRUE);
         var name = $('.checkrow_'+row).attr('name');
         if (previousValue == 'checked') {
           $('#bDelete').attr('disabled', true);
+          $('#bDelete2').addClass('opacity');
           $('.checkrow_'+row).removeAttr('checked');
           $('.checkrow_'+row).attr('previousValue', false);
           $('.checkrow_'+row).prop('checked', false);
           // Blankinput();
         } else {
           $('#bDelete').attr('disabled', false);
+          $('#bDelete2').removeClass('opacity');
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('.checkrow_'+row).attr('previousValue', 'checked');
         }
@@ -502,6 +506,17 @@ $array2 = json_decode($json2,TRUE);
           if(deptCode == '' || FacCode == ''){
             checkblank();
             checkblank2();
+            swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
           }else{
             $('#TableDetail tbody').empty();
             swal({
@@ -696,6 +711,9 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
+                $("#bImport2").removeClass('opacity');
+                $("#bSave2").removeClass('opacity');
+                $("#bCancel2").removeClass('opacity');
                 var word = '<?php echo $array['save'][$language]; ?>';
                 var changeBtn = "<i class='fa fa-save'></i>";
                 changeBtn += "<div>"+word+"</div>";
@@ -845,6 +863,10 @@ $array2 = json_decode($json2,TRUE);
                       $('#bSave').attr('disabled', false);
                       $('#bImport').attr('disabled', false);
                       $('#bCancel').attr('disabled', false);
+                      $('#bSave2').removeClass('opacity');
+                      $('#bImport2').removeClass('opacity');
+                      $('#bCancel2').removeClass('opacity');
+
                     }else if(temp["form"]=='ShowDocument'){
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
@@ -907,6 +929,9 @@ $array2 = json_decode($json2,TRUE);
                         $("#bImport").prop('disabled', false);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', false);
+                        $("#bImport2").removeClass('opacity');
+                        $("#bSave2").removeClass('opacity');
+                        $("#bCancel2").removeClass('opacity');
                       }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                         var word = '<?php echo $array['edit'][$language]; ?>';
                         var changeBtn = "<i class='fas fa-edit'></i>";
@@ -916,11 +941,17 @@ $array2 = json_decode($json2,TRUE);
                         $("#bDelete").prop('disabled', true);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', true);
+                        $("#bSave2").removeClass('opacity');
+
                       }else{
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
                         $("#bSave").prop('disabled', true);
                         $("#bCancel").prop('disabled', true);
+                        $("#bImport2").addClass('opacity');
+                        $("#bDelete2").addClass('opacity');
+                        $("#bSave2").addClass('opacity');
+                        $("#bCancel2").addClass('opacity');
 
                         $("#docno").prop('disabled', true);
                         $("#docdate").prop('disabled', true);
@@ -1489,7 +1520,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle1 d-flex justify-content-center">
+                              <div class="circle1 d-flex justify-content-center" id="bCreate2">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
                                   <i class="fas fa-file-medical"></i>
                                   <div>
@@ -1501,7 +1532,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex justify-content-center">
+                              <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true">
                                   <i class="fas fa-file-import"></i>
                                   <div>
@@ -1513,7 +1544,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex justify-content-center">
+                              <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete" disabled="true">
                                   <i class="fas fa-trash-alt"></i>
                                   <div>
@@ -1525,7 +1556,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div  class="circle4 d-flex justify-content-center">
+                              <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave" disabled="true">
                                   <div id="icon_edit">
                                     <i class="fas fa-save"></i>
@@ -1539,7 +1570,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="menu" <?php if($PmID == 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
-                              <div class="circle5 d-flex justify-content-center">
+                              <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel" disabled="true">
                                   <i class="fas fa-times"></i>
                                   <div>

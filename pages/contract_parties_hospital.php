@@ -185,7 +185,7 @@ $array2 = json_decode($json2,TRUE);
 		$("#datepicker4").val('');
 		$("#xDetail").val('');
 		$('#side option[value="1"]').prop("selected", true);
-
+    $('#delete_icon').addClass('opacity');
     $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
 
@@ -731,7 +731,7 @@ body{
                             </div>
                             <div class="menu"<?php if($PmID == 1) echo 'hidden'; ?>>
                               <div class="d-flex justify-content-center">
-                                <div class="circle3 d-flex justify-content-center">
+                                <div class="circle3 d-flex justify-content-center opacity" id="delete_icon">
                                   <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
                                     <i class="fas fa-trash-alt"></i>
                                     <div>
