@@ -1515,7 +1515,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                             <div class="search_custom col-md-2">
-                          <div class="circle6 d-flex justify-content-start">
+                          <div class="circle11 d-flex justify-content-start">
                             <button class="btn"  onclick="SelectDocument()" id="btn_show" >
                               <i class="fas fa-paste mr-2 pt-1"></i>
                               <?php echo $array['show'][$language]; ?>
