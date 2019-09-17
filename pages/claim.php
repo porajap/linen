@@ -616,6 +616,8 @@ $array2 = json_decode($json2,TRUE);
             isStatus=0;
             else
             isStatus=1;
+            if(isStatus==1){
+
           swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -641,9 +643,18 @@ $array2 = json_decode($json2,TRUE);
             if(isStatus_chk==0){
               $('#profile-tab').tab('show');
             }
+
+          } else if (result.dismiss === 'cancel') {
+          swal.close();}
+        })
+      }else{
+
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
+                $("#bImport2").removeClass('opacity');
+                $("#bSave2").removeClass('opacity');
+                $("#bCancel2").removeClass('opacity');
                 var word = '<?php echo $array['save'][$language]; ?>';
                 var changeBtn = "<i class='fa fa-save'></i>";
                 changeBtn += "<div>"+word+"</div>";
@@ -655,11 +666,8 @@ $array2 = json_decode($json2,TRUE);
                   $("#timerec").prop('disabled', false);
                   $("#total").prop('disabled', false);
             ShowDocument();
-          } else if (result.dismiss === 'cancel') {
-          swal.close();}
-        })
           }
-
+        }
           function logoff() {
             swal({
               title: '',

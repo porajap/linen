@@ -499,6 +499,7 @@ $array2 = json_decode($json2,TRUE);
             // $('#host tbody').empty();
             $('#host').val("");
             $('#department2').val("");
+            $('#department').val("");
             $('#Permission tbody').empty();
             $('#UsID').empty();
             $('#email').val("");
@@ -519,9 +520,9 @@ $array2 = json_decode($json2,TRUE);
             getPermission();
             ShowItem();
             uncheckAll2();
-            setTimeout(() => {
-                getDepartment();
-            }, 0);
+            // setTimeout(() => {
+            //     getDepartment();
+            // }, 0);
         }
 
         function getdetail(ID , row) {

@@ -1001,7 +1001,7 @@ echo '</script>';
 
 <body>
   <header id="pageHeader" class="navbar navbar-expand static-top">
-  <a style="width:9%;" href="pages/menu.php?lang=<?php echo $language; ?>" onclick="return loadIframe('ifrm', this.href)"><img src="img/7.png" style="width:143%;margin-top:55px;margin-bottom:20px;" alt=""></a>
+  <a style="width:9%;" class="current_page" href="pages/menu.php?lang=<?php echo $language; ?>" onclick="return loadIframe('ifrm', this.href)"><img src="img/7.png" style="width:143%;margin-top:55px;margin-bottom:20px;" alt=""></a>
     <!-- Navbar username -->
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">
         <span style='font-weight:bold;'><?php echo $FName?> </span> <span style='font-weight:bold;'> [ </span>  <span style='font-weight:bold;'><?php echo $Permission?></span> <span style='font-weight:bold;'> ] </span>
@@ -1386,7 +1386,7 @@ echo '</script>';
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12 upload-doc">
-                <input type="file" class="dropify"  accept="image/x-png,image/gif,image/jpeg" id="image" name="image" data-default-file='profile/img/<?php echo $Profile;?>'/>
+                <input type="file" class="dropify" accept="image/x-png,image/gif,image/jpeg" id="image" name="image" data-default-file='profile/img/<?php echo $Profile;?>'/>
             </div>
           </div>
         </div>
