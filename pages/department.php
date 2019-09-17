@@ -347,6 +347,8 @@ $array2 = json_decode($json2,TRUE);
             var DepName = $('#DepName').val();
             var HptCode = $('#hptsel2').val();
             var xCenter = 0;
+
+
             if ($('#xCenter').is(':checked')) xCenter = 1;
 
             if (count == 0) {
@@ -468,8 +470,8 @@ $array2 = json_decode($json2,TRUE);
                 showCancelButton: true
             }).then(result => {
                 if (result.value) {
-
-                var DepCode = $('#DepCode').val();
+                    
+                var DepCode = $('#DepCodeReal').val();
                 var data = {
                     'STATUS': 'CancelItem',
                     'DepCode': DepCode
@@ -701,9 +703,11 @@ $array2 = json_decode($json2,TRUE);
                         } else if ((temp["form"] == 'getdetail')) {
                             if ((Object.keys(temp).length - 2) > 0) {
                                 console.log(temp);
+                                $('#DepCodeReal').val(temp['DepCodeReal']);
                                 $('#DepCode').val(temp['DepCode']);
                                 $('#DepName').val(temp['DepName']);
                                 $('#hptsel2').val(temp['HptCode']);
+                                
 								
 								if (temp['IsDefault'] == 1) 
 									$('#xCenter').prop( "checked", true );
@@ -1265,6 +1269,8 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['codecode'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
+                                      <input type="text"  hidden class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
+                                      
                                     </div>
                                   </div>
                                   <div class="col-md-6">
