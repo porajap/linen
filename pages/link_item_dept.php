@@ -643,7 +643,7 @@ $array2 = json_decode($json2,TRUE);
         var dept = $('#department').val();
         if(dept==''){
           checkblank2();
-      }else{
+        }else{
         swal({
           title: "<?php echo $array['adddata'][$language]; ?>",
           text: "<?php echo $array['adddata1'][$language]; ?>",
@@ -699,8 +699,8 @@ $array2 = json_decode($json2,TRUE);
           }
             }
           })
+         }
       }
-    }
       function Chkblank(){
         if($('#parnum').val()!=""){
           var icheck = 0;
@@ -914,6 +914,33 @@ $array2 = json_decode($json2,TRUE);
         $('.tr_child_'+row).attr('hidden', true);
         $('#hideStock_'+row).attr('hidden', true);
         $('#showStock_'+row).attr('hidden', false);
+      }
+      function ChildChecked(row){
+        var select_all = document.getElementById("headChk_"+row); //select all checkbox
+        var checkboxes = document.getElementsByClassName("myChild_"+row); //checkbox items
+
+        //select all checkboxes
+        select_all.addEventListener("change", function(e){
+          for (i = 0; i < checkboxes.length; i++) { 
+            checkboxes[i].checked = select_all.checked;
+          }
+        });
+
+
+        for (var i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if(this.checked == false){
+              select_all.checked = false;
+            }
+            //check "select all" if all checkbox items are checked
+            if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+              select_all.checked = true;
+            }
+          });
+        }
+      }
+      function clearHead(row, rowid){
       }
       function senddata(data){
          var form_data = new FormData();
@@ -1284,9 +1311,10 @@ $array2 = json_decode($json2,TRUE);
                                   }else{
                                     var UsageCode = temp[i]['UsageCode'];
                                   }
+                                var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
                                 StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"'>"+
-                                          "<td style='width: 10%;padding-left:26px' nowrap></td>"+
+                                          "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                           "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                           "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
                                           "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
@@ -1297,7 +1325,7 @@ $array2 = json_decode($json2,TRUE);
                                         "</tr>";
 
                                 for(var j = 0; j < temp[i]['num']; j++){
-                                var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' >";
+                                  var chkItem = "<input type='checkbox' class='myChild_"+chk_row+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='clearHead(\""+chk_row+"\",\""+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"\");'>";
                                   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
                                   StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                               "<td style='width:10%'></td>"+
