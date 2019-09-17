@@ -298,6 +298,13 @@ $array2 = json_decode($json2,TRUE);
             var xDate = $('#datepicker').val();
             var HptCode = $("#hptselModal").val();
             var lang = '<?php echo $language; ?>';
+            $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+            }else{
+              $(this).removeClass('border-danger');
+            }
+          });
             if(xDate==""){
                 $('#rem').show(5).css("color","red");
             }else{
@@ -521,6 +528,7 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function Blankinput() {
+            
             $('.checkblank').each(function() {
                 $(this).val("");
             });
@@ -892,14 +900,15 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel1").empty();
                             $("#hptsel2").empty();
                             $("#hptselModal").empty();
+                            var hotValue1 = '-';
                             var hotValue0 = '  <?php echo $array['Allside'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
+                            var StrTr2 = "<option value=''>"+hotValue1+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                StrTr += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                                var StrTr2 = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                                $("#hptselModal").append(StrTr2);
-                           
+                                StrTr  += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+                                StrTr2 += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";                           
                             }
+                            $("#hptselModal").append(StrTr2);
                             $("#hptsel1").append(StrTr);
                             $("#hptsel2").append(StrTr);
                             $("#hptsel").append(StrTr);
@@ -1398,12 +1407,12 @@ $array2 = json_decode($json2,TRUE);
                     <div class="row">
                         <div class="col-md-12 mhee">
                             <div class="row mb-3">
-                                <select class="form-control ml-2" style=" font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
+                                <select class="form-control ml-2 checkblank" style=" font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
 
-                                <label id="rem" style="margin-left:20px;"> *** </label>
-                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly" style="margin-left:20px; font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
+                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly checkblank" style="margin-left:20px; font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
+                                <label id="rem" class="col-sm-1 " style="font-size: 180%;margin-top: -0.5%;"> * </label>
                                 <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px; font-size:22px;width:150px;" id="datepicker"> -->
-                                <input type="text" autocomplete="off"  disabled="true" class="form-control" style="margin-left:20px; font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                <input type="text" autocomplete="off"  disabled="true" class="form-control " style="margin-left:20px; font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
 
 
                                 <div class="search_custom col-md-2" id="create1">
