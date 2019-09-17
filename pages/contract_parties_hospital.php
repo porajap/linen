@@ -246,6 +246,7 @@ $array2 = json_decode($json2,TRUE);
           'RowID'	: id
           };
           senddata(JSON.stringify(data));
+          ClearRow();
         }else if (result.dismiss === 'cancel') {
           swal.close();
         }

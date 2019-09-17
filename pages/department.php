@@ -355,9 +355,6 @@ $array2 = json_decode($json2,TRUE);
                 $('.checkblank').each(function() {
                     if ($(this).val() == "" || $(this).val() == undefined) {
                         $(this).css('border-color', 'red');
-
-                    } else {
-                        $(this).css('border-color', '');
                     }
                 });
                 if (DepCode == "") {
@@ -447,8 +444,6 @@ $array2 = json_decode($json2,TRUE);
                         if(DepName ==""||DepName==undefined){
                         $('#rem2').show().css("color","red");
                         }
-                    } else {
-                        $(this).css('border-color', '');
                     }
                 });
             }
@@ -768,9 +763,8 @@ $array2 = json_decode($json2,TRUE);
                                 Blankinput();
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
-                                    $(this).val("");
+                                    $(this).css('border-color', '');
                                 });
-
                                 $('#DepCode').val("");
                                 $('#hptsel2').val("1");
                                 ShowItem();

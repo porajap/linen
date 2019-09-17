@@ -373,12 +373,6 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
-                if(Price ==""||Price==undefined){
-                  $('#rem1').show().css("color","red");
-                }
-                
-            }else{
-              $(this).css('border-color', '');
             }
           });
           if(FacCode==""){
@@ -482,8 +476,6 @@ $array2 = json_decode($json2,TRUE);
                 if(Post ==""||Post==undefined){
                   $('#rem5').show().css("color","red");
                 }
-            }else{
-              $(this).css('border-color', '');
             }
           });
         }
@@ -593,6 +585,7 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
             getFactory();
             ShowItem();
+            Blankinput();
           } else if (result.dismiss === 'cancel') {
             swal.close();
           }    
@@ -921,7 +914,7 @@ $array2 = json_decode($json2,TRUE);
                                 Blankinput();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
-                                  $(this).val("");
+                                  $(this).css('border-color', '');
                                 });
 
                                 $('#FacCode').val("");
@@ -1408,14 +1401,14 @@ label{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['faccode'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
+                                      <input type="text"  autocomplete="off" class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
                                       <input type="text" hidden class="form-control col-sm-7" id="FacCodeReal"  <?php echo $array['faccode'][$language]; ?> readonly>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
+                                        <input type="text" autocomplete="off" class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
                                         <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1425,14 +1418,14 @@ label{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['facname'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 checkblank" id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
+                                      <input type="text"  autocomplete="off" class="form-control col-sm-7 checkblank" id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
+                                        <input type="text"  autocomplete="off" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
                                         <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1442,14 +1435,14 @@ label{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['taxid'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 checkblank numonly" id="TaxID"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['taxid'][$language]; ?>">
+                                      <input type="text"  autocomplete="off" class="form-control col-sm-7 checkblank numonly" id="TaxID"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['taxid'][$language]; ?>">
                                       <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['postid'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
+                                        <input type="text"  autocomplete="off" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
                                         <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1458,8 +1451,8 @@ label{
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['discount'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7  numonly" id="DiscountPercent"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['discount'][$language]; ?>">
+                                    <label class="col-sm-3  col-form-label "  ><?php echo $array['discount'][$language]; ?></label>
+                                      <input type="text" autocomplete="off"  class="form-control col-sm-7  numonly" id="DiscountPercent"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['discount'][$language]; ?>">
                                     </div>
                                   </div>
                                 </div>               
