@@ -370,15 +370,33 @@ $array2 = json_decode($json2,TRUE);
         function SavePrice(Sel) {
             var RowID = $('#RowID').val();
             var Price = $('#Price').val();
-
+            swal({
+              title: "<?php echo $array['editdata'][$language] ?>",
+              text: "<?php echo $array['editdata1'][$language] ?>",
+              type: "question",
+              showCancelButton: true,
+              confirmButtonClass: "btn-warning",
+              confirmButtonText: "<?php echo $array['yes'][$language] ?>",
+              cancelButtonText: "<?php  echo $array['isno'][$language] ?>",
+              confirmButtonColor: '#6fc864',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
                 var data = {
                     'STATUS': 'SavePrice',
                     'RowID': RowID,
                     'Price': Price
                 };
-                // console.log(JSON.stringify(data));
+                console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
-        }
+              } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
+              })
+
+          }
 
         function SavePriceTime(Sel) {
             var RowID = $('#RowID_'+Sel).val();
@@ -816,15 +834,8 @@ $array2 = json_decode($json2,TRUE);
                             }
                             $('#bSave').attr('disabled', false);
                         } else if ((temp["form"] == 'SavePrice')) {
-                            $('#RowID').val("");
-                            $('#HotName').val("");
-                            $('#CategoryMain').val("");
-                            $('#CategorySub').val(temp['CategoryName']);
-                            $('#Price').val(temp['Price']);
-
                             var sv = "<?php echo $array['save'][$language]; ?>";
                             var svs = "<?php echo $array['savesuccess'][$language]; ?>";
-
                             swal({
                                 title: sv,
                                 text: svs,
@@ -833,11 +844,21 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
                                 showConfirmButton: false,
-                                timer: 1000,
+                                timer: 2000,
                                 confirmButtonText: 'Ok'
-                            })
-
+                            }).then(function() {
                             ShowItem1();
+                            });
+
+                            $('#RowID').val("");
+                            $('#HotName').val("");
+                            $('#CategoryMain').val("");
+                            $('#CategorySub').val(temp['CategoryName']);
+                            $('#Price').val(temp['Price']);
+
+             
+
+
                         } else if ((temp["form"] == 'SavePriceTime')) {
                             $('#RowID').val("");
                             $('#HotName').val("");
