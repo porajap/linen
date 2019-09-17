@@ -2353,12 +2353,12 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row mt-4">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['code'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['code'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
-                              <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                              <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>
-                          <div class="col-md-1">
+                          <div class="col-md-0">
                           </div>
                           <div class="col-md-5">
                             <div class="row ">
@@ -2402,13 +2402,13 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row" id="oldCodetype">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
                               <select class="form-control col-sm-7 checkblank" id="hospital" onchange="CreateItemCode()"></select>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="row">
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['type'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['type'][$language]; ?></label>
                               <div class="col-md-8">
                                 <div class='form-group row'>
                                   <select class="form-control col-sm-4 checkblank" id="typeLinen" onchange="CreateItemCode()">
@@ -2420,7 +2420,7 @@ $array2 = json_decode($json2, TRUE);
                                     <option value="O">Other</option>
                                   </select>
 
-                                  <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
+                                  <label class="col-sm-3 col-form-label " style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
                                   <select class="form-control col-sm-4 checkblank numonly" id="numPack" onchange="CreateItemCode()">
                                     <option value="01">1 PCS</option>
                                     <option value="05">5 Pc</option>
@@ -2439,17 +2439,17 @@ $array2 = json_decode($json2, TRUE);
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
                               <select class="form-control col-sm-7 checkblank" id="maincatagory2" onchange="getCatagory2()"></select>
-                              <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                              <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['categorysub'][$language]; ?></label>
                               <select class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()"></select>
-                              <label id="rem3" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                              <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>
 
@@ -2460,14 +2460,14 @@ $array2 = json_decode($json2, TRUE);
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['pricecus'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['pricecus'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 numonly" id="CusPrice" placeholder="<?php echo $array['pricecus'][$language]; ?>">
                             </div>
                           </div>
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['pricefac'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['pricefac'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 numonly" id="FacPrice" placeholder="<?php echo $array['pricefac'][$language]; ?>">
                             </div>
                           </div>
@@ -2477,16 +2477,16 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['item'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['item'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 checkblank" id="ItemName" placeholder="<?php echo $array['item'][$language]; ?>">
-                              <label id="rem4" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                              <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['weight'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['weight'][$language]; ?></label>
                               <input type="text" class="form-control col-sm-7 checkblank numonly" id="Weight" placeholder="<?php echo $array['weight'][$language]; ?>">
-                              <label id="rem5" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                              <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>
                         </div>
@@ -2494,13 +2494,13 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['unit'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['unit'][$language]; ?></label>
                               <select class="form-control col-sm-7" id="UnitName"></select>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['sizeunit'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['sizeunit'][$language]; ?></label>
                               <select class="form-control col-sm-7 checkblank numonly" id="SizeCode">
                                 <option value="1">SS</option>
                                 <option value="2">S</option>
@@ -2516,7 +2516,7 @@ $array2 = json_decode($json2, TRUE);
                         
                         <div class="row">
                           <div class="col-md-6">
-                            <div class='form-group row offset-4'>
+                            <div class='form-group row offset-3'>
 
                               <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
                               <input type="checkbox"  id="xCenter">
@@ -2547,11 +2547,11 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
 
-                              <label class="col-sm-4 col-form-label text-right"><?php echo $array['widthunit'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['widthunit'][$language]; ?></label>
 
                               <input type="text" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['Quality'][$language]; ?>">
                               <select class="form-control col-sm-4" id="sUnitName" onchange="getplaceholder();"></select>
-                              <label id="rem6" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                              <label id="rem6" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
 
                             </div>
                           </div>
