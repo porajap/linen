@@ -86,6 +86,9 @@ $array2 = json_decode($json2,TRUE);
       }
 
     $(document).ready(function(e){
+      $('#rem1').hide();
+      $('#rem2').hide();
+      $('#rem3').hide();
       ShowDocument();
       $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
@@ -135,9 +138,26 @@ $array2 = json_decode($json2,TRUE);
 	  $('#IsStatus').val(0)
 	}
   function checkblank2(){
+    var factory = $('#factory').val();
+    var datepicker1 = $('#datepicker3').val();
+    var datepicker2 = $('#datepicker4').val();
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).addClass('border-danger');
+
+              if(factory ==""||factory==undefined){
+                  $('#rem1').show().css("color","red");
+                }
+                if(datepicker1 ==""||datepicker1==undefined){
+                  $('#rem2').show().css("color","red");
+                }
+                if(datepicker2 ==""||datepicker2==undefined){
+                  $('#rem3').show().css("color","red");
+                }
+
+
+
+
             }else{
               $(this).removeClass('border-danger');
             }
@@ -180,11 +200,21 @@ $array2 = json_decode($json2,TRUE);
     }
 
 	function ClearRow(){
+    $('#rem1').hide();
+    $('#rem2').hide();
+    $('#rem3').hide();
 		$("#IsStatus").val('0');
 		$("#datepicker3").val('');
 		$("#datepicker4").val('');
 		$("#xDetail").val('');
-		$('#factory option[value="1"]').prop("selected", true);
+    $("#factory").val('');
+    $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).removeClass('border-danger');
+            }else{
+              $(this).removeClass('border-color', '');
+            }
+          });
     $('#delete_icon').addClass('opacity');
     $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
@@ -227,8 +257,8 @@ $array2 = json_decode($json2,TRUE);
 		var isStatus = $("#IsStatus").val();
 		var id = $("#xRowID").val();
 		var facid = $('#factory option:selected').attr("value");
-    if( typeof facid == 'undefined' ) facid = "1";
-
+		var datepicker3 = $('#datepicker3').val();
+    var datepicker4 = $('#datepicker4').val();
 		var datepicker1 = $('#datepicker3').val();
     var datepicker2 = $('#datepicker4').val();
     var lang = '<?php echo $language; ?>';
@@ -239,10 +269,20 @@ $array2 = json_decode($json2,TRUE);
     datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
 	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
     }
-
 		var xDetail = $("#xDetail").val();
-    if(facid==''){
+    if(facid=='' || datepicker3=='' || datepicker4==''){
           checkblank2();
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
       }else{
     swal({
         title: "<?php echo $array['save'][$language]; ?>",
@@ -746,35 +786,36 @@ body{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
                                       <select  style="font-size:22px;" class="form-control col-sm-7 checkblank2 border" id="factory" onchange="removeClassBorder1();" ></select>
+                                      <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['detail'][$language]; ?></label></label><input type="hidden" id="xRowID" >
-                                        <input type="text" style="font-size:22px;" class="form-control col-sm-7 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
+                                        <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 " id="xDetail" placeholder="<?php echo $array['detail'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>  
       <!-- =================================================================== -->
-
                               <div class="row ">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestartcontract'][$language]; ?></label>
-                                        <input type="text" class="form-control col-sm-7 datepicker-here only" style="font-size:22px;" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                        <input type="text" autocomplete="off" class="form-control col-sm-7 datepicker-here only checkblank2" style="font-size:22px;" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                        <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateendcontract'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 datepicker-here only" style="font-size:22px;" id="datepicker4" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                      <input type="text" autocomplete="off" class="form-control col-sm-7 datepicker-here only checkblank2" style="font-size:22px;" id="datepicker4" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                      <label id="rem3" style="margin-top: 1%;margin-left: 2%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 
-                  </div>
-</div> <!-- end row tab -->
-
-</div>
+                              </div>
+                            </div> <!-- end row tab -->
+                          </div>
 <!-- Dialog Modal
     <div id="dialog" title="คู่สัญญา"  style="z-index:999999 !important;font-family: 'THSarabunNew';font-size:24px;">
       <div class="container">
