@@ -126,9 +126,26 @@ $(document).ready(function(e){
 
       function OpenDialogItem(){
         var docno = $("#docno").val();
+        var RefDocNo = $("#RefDocNo").val();
+
         // if( docno != "" ) dialogItemCode.dialog( "open" );
+        if(RefDocNo==""){
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+          // $('#RefDocNo').focus();
+        }else{
         if(docno != ""){
           $('#dialogItemCode').modal('show');
+        }
         }
         ShowItem();
       }
@@ -194,7 +211,11 @@ $(document).ready(function(e){
         function dis(){
               $('.dis').attr('disabled', false);
             }
-
+            function disRef(){
+              $('#bsaveRef').attr('disabled', false);
+              $("#bsaveRef").removeClass('opacity');
+            }
+            
       function CancelDocument(){
         var docno = $("#docno").val();
 
@@ -394,6 +415,7 @@ $(document).ready(function(e){
 
       function getImport(Sel) {
         var docno = $("#docno").val();
+        var RefDocNo = $("#RefDocNo").val();
         /* declare an checkbox array */
         var iArray = [];
         var qtyArray = [];
@@ -453,7 +475,7 @@ $(document).ready(function(e){
 
         dialogUsageCode.dialog( "close" );
       }
-
+    
       var isChecked1 = false;
       var isChecked2 = false;
       function getCheckAll(sel){
@@ -1101,9 +1123,9 @@ $(document).ready(function(e){
                 $( "#TableRefDocNo tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableRefDocNo >tbody >tr').length;
-                  var chkDoc = "<input type='radio' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
+                  var chkDoc = "<input type='radio'  onclick='disRef()' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
                   $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                  "<td style='width: 15%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                  "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   "<td style='width: 85%;'>"+temp[i]['RefDocNo']+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
@@ -1707,8 +1729,8 @@ $(document).ready(function(e){
                 </div>
               </div>
               <div class="search_custom col-md-2">
-                <div class="import_1 d-flex justify-content-start">
-                  <button class="btn" onclick="UpdateRefDocNo()" id="bSave">
+                <div class="import_1 d-flex justify-content-start opaciy">
+                  <button class="btn" onclick="UpdateRefDocNo()" id="bsaveRef" disabled="true">
                   <i class="fas fa-file-import pt-1 mr-2"></i>
                     <?php echo $array['import'][$language]; ?>
                   </button>
