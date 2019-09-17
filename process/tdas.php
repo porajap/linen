@@ -259,6 +259,7 @@ function CreateDocument($conn, $DATA){
   // echo '<pre>';
   // print_r($SumRow);
   // echo '</pre>';
+  
   $return['status'] = "success";
   $return['form'] = "CreateDocument";
   echo json_encode($return);
