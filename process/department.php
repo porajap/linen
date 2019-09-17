@@ -72,6 +72,7 @@ function getdetail($conn, $DATA)
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['DepCode'] 		= $number;
+    $return['DepCodeReal'] 		= $Result['DepCode'];
     $return['HptCode'] 		= $Result['HptCode'];
     $return['DepName'] 		= $Result['DepName'];
     $return['IsStatus'] 	= $Result['IsStatus'];
@@ -126,6 +127,7 @@ function AddItem($conn, $DATA)
   $DepName = $DATA['DepName'];
   $xCenter = $DATA['xCenter'];
 
+  if($xCenter == 1){ 
   $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
   WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
   $meQuery = mysqli_query($conn, $Sql);
@@ -140,7 +142,8 @@ function AddItem($conn, $DATA)
    mysqli_close($conn);
    die;
  }
-  
+
+}
 
   $Sql = "INSERT INTO department(
           HptCode,

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+<ppu><en>PPU</en><th>PPU</th></ppu>
+<prin><en>Print</en><th>พิมพ์</th></prin>
 <barcode><en>QrCode</en><th>คิวอาร์โค๊ด</th></barcode>
 <Cycle><en>Cycle</en><th>รอบส่ง</th></Cycle>
 <morning><en>Morning</en><th>รอบเช้า</th></morning>

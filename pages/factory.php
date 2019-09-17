@@ -583,7 +583,7 @@ $array2 = json_decode($json2,TRUE);
           showCancelButton: true}).then(result => {
             if (result.value) {
             var idcontract = $('#idcontract').val();
-            var FacCode = $('#FacCode').val();
+            var FacCode = $('#FacCodeReal').val();
             var data = {
               'STATUS' : 'CancelItem',
               'FacCode' : FacCode,
@@ -842,6 +842,7 @@ $array2 = json_decode($json2,TRUE);
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
                                 $('#host').val(temp['FacCode']);
+                                $('#FacCodeReal').val(temp['FacCodeReal']);
                                 $('#FacCode').val(temp['FacCode']);
                                 $('#DepCode').val(temp['DepCode']);
                                 $('#FacName').val(temp['FacName']);
@@ -1408,6 +1409,7 @@ label{
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['faccode'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
+                                      <input type="text" hidden class="form-control col-sm-7" id="FacCodeReal"  <?php echo $array['faccode'][$language]; ?> readonly>
                                     </div>
                                   </div>
                                   <div class="col-md-6">

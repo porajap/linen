@@ -514,7 +514,7 @@ $array2 = json_decode($json2,TRUE);
             $(".dropify-clear").click(); 
             getHotpital();
             getHotpital_user();
-            getDepartment();
+            // getDepartment();
             getEmployee();
             getPermission();
             ShowItem();

@@ -414,8 +414,8 @@ $array2 = json_decode($json2,TRUE);
             // alert(RowId);
             // alert(Price);
             swal({
-                title: "<?php echo $array['confirm'][$language]; ?>",
-                text: "<?php echo $array['savedoc'][$language]; ?> : " +$('#hptsel1 option:selected').text(),
+                title: "<?php echo $array['confirmsave'][$language]; ?>",
+                text: "<?php echo $array['docno'][$language]; ?>: "+DocNo+"",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
@@ -983,16 +983,16 @@ $array2 = json_decode($json2,TRUE);
     </script>
     <style media="screen">
         @font-face {
-                font-family: myFirstFont;
+                font-family: myFirstFont !important;
                 src: url("../fonts/DB Helvethaica X.ttf");
                 }
             body{
-            font-family: myFirstFont;
+            font-family: myFirstFont !important;
             font-size:22px;
             }
 
             .nfont{
-            font-family: myFirstFont;
+            font-family: myFirstFont !important;
             font-size:22px;
             }
             input,select{
@@ -1316,7 +1316,7 @@ $array2 = json_decode($json2,TRUE);
                             <div class="row">
                                 <div class="col-md-11">
                                     <div class="row">
-                                        <select class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptsel2"></select>
+                                        <select class="form-control" style="margin-left:20px; font-size:22px;width:250px;" id="hptsel2"></select>
                                         <div class="search_custom col-md-2">
                                             <div class="search_1 d-flex justify-content-start">
                                               <button class="btn"  onclick="ShowDoc()" id="bSavex" >
@@ -1342,7 +1342,7 @@ $array2 = json_decode($json2,TRUE);
 
                             <div class="row">
                                 <div class="card-body" style="padding:0px;">
-                                    <table class="table table-fixed table-condensed table-striped" id="TableDoc" cellspacing="0" role="grid" style="font-size:24px;width:98%;font-family: 'THSarabunNew'">
+                                    <table class="table table-fixed table-condensed table-striped" id="TableDoc" cellspacing="0" role="grid" style="font-size:24px;width:98%;">
                                         <thead style="font-size:24px;">
                                             <tr role="row">
                                                 <th style='width: 5%;' nowrap>&nbsp;</th>
@@ -1377,12 +1377,12 @@ $array2 = json_decode($json2,TRUE);
                     <div class="row">
                         <div class="col-md-12 mhee">
                             <div class="row mb-3">
-                                <select class="form-control ml-2" style="font-family: 'THSarabunNew';font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
+                                <select class="form-control ml-2" style=" font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
 
                                 <label id="rem" style="margin-left:20px;"> *** </label>
-                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
-                                <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:150px;" id="datepicker"> -->
-                                <input type="text" autocomplete="off"  disabled="true" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly" style="margin-left:20px; font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
+                                <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px; font-size:22px;width:150px;" id="datepicker"> -->
+                                <input type="text" autocomplete="off"  disabled="true" class="form-control" style="margin-left:20px; font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
 
 
                                 <div class="search_custom col-md-2" id="create1">
@@ -1393,7 +1393,7 @@ $array2 = json_decode($json2,TRUE);
                                         </button>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" style="margin-left:20px;font-family: 'THSarabunNew';font-size:22px;width:210px;" name="search1"   id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >
+                                <input type="text" class="form-control" style="margin-left:20px; font-size:22px;width:210px;" name="search1"   id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >
                                 <div class="search_custom col-md-2" id="btn_save"  hidden="true">
                                     <div class="import_1 d-flex justify-content-start">
                                         <button class="btn" onclick="UpdatePrice()" >
@@ -1413,7 +1413,7 @@ $array2 = json_decode($json2,TRUE);
                             </div>
                         </div>
                     </div>
-                    <table class="table table-fixed table-condensed table-striped" id="TableItemPrice" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
+                    <table class="table table-fixed table-condensed table-striped" id="TableItemPrice" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
                         <thead style="font-size:24px;">
                             <tr role="row">
                             <th style='width: 5%;'>&nbsp;</th>

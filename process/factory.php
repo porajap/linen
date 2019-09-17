@@ -106,6 +106,7 @@ function getdetail($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return['FacCode'] = $number;
+      $return['FacCodeReal'] = $Result['FacCode'];
       $return['FacName'] = $Result['FacName'];
       $return['DiscountPercent'] = $Result['DiscountPercent'];
       $return['Price'] = $Result['Price'];
@@ -141,7 +142,7 @@ function getdetail($conn, $DATA)
 
 function AddItem($conn, $DATA)
   {
-    $discount = $DATA['DiscountPercent']==null?"0":$Result['DiscountPercent'];
+    $discount = $DATA['DiscountPercent']==null?"0":$DATA['DiscountPercent'];
     $count = 0;
     $Sql = "INSERT INTO factory(
             FacName,
