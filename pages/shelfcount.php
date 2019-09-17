@@ -1830,7 +1830,7 @@ $array2 = json_decode($json2,TRUE);
                 <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <!-- /.content-wrapper -->
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-11">
                             <!-- tag column 1 -->
                             <div class="container-fluid">
                                 <div class="card-body mt-3">
@@ -1838,18 +1838,16 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
                                                 <select class="form-control col-sm-8"  style="font-size:22px;" id="hotpital"
                                                     onchange="getDepartment();"></select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
                                                 <select class="form-control col-sm-8 checkblank2 border" style="font-size:22px;" id="department"  onchange="removeClassBorder1();"></select>
-                                                <label id="rem1"  style="margin-left: 102%;margin-top: -8%;"> * </label>
+                                                <label id="rem1"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                             </div>
                                         </div>
                                     </div>
@@ -1857,8 +1855,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
                                                 <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
                                                     id="docdate"
                                                     placeholder="<?php echo $array['docdate'][$language]; ?>">
@@ -1866,8 +1863,7 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['docno'][$language]; ?></label>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['docno'][$language]; ?></label>
                                                 <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
                                                     id="docno" placeholder="<?php echo $array['docno'][$language]; ?>">
                                             </div>
@@ -1877,8 +1873,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['employee'][$language]; ?></label>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['employee'][$language]; ?></label>
                                                 <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
                                                     id="recorder"
                                                     placeholder="<?php echo $array['employee'][$language]; ?>">
@@ -1886,8 +1881,7 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
                                                 <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
                                                     id="timerec" placeholder="<?php echo $array['time'][$language]; ?>">
                                             </div>
@@ -1896,8 +1890,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                         <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
+                                        <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
                                                 <select class="form-control col-sm-8"  style="font-size:22px;" id="cycle">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -1914,8 +1907,7 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                                <label
-                                                    class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
                                                 <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-8 "  name="searchitem"
                                                 placeholder="<?php echo $array['barcode'][$language]; ?>">
                                             </div>

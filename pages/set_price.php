@@ -1270,13 +1270,13 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="row mt-4">
                                             <div class="col-md-6">
                                                 <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                                <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-7 " id="HotName"    placeholder="<?php echo $array['side'][$language]; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
+                                                <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-7 " id="Category_Main2"    placeholder="<?php echo $array['categorymain'][$language]; ?>">
                                                 </div>
                                             </div>
@@ -1286,13 +1286,13 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
+                                                <label class="col-sm-3 col-form-label "><?php echo $array['categorysub'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-7 " id="Category_Sub2"    placeholder="<?php echo $array['categorysub'][$language]; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class='form-group row'>
-                                                <label class="col-sm-4 col-form-label text-right"><?php echo $array['price'][$language]; ?></label>
+                                                <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
                                                 <input type="text"  class="form-control col-sm-7 numonly" id="Price"    placeholder="<?php echo $array['price'][$language]; ?>">
                                                 </div>
                                             </div>

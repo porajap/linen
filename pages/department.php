@@ -1245,17 +1245,17 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
-                                      <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                                      <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['department'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
-                                      <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                                      <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1263,13 +1263,13 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['codecode'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['codecode'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['xcenter'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['xcenter'][$language]; ?></label>
                                       <input type="checkbox"  id="xCenter" style="margin-top: 1.5%;">
                                     </div>
                                   </div>

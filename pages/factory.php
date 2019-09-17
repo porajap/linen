@@ -1406,15 +1406,15 @@ label{
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['faccode'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['faccode'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['price'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
                                         <input type="text" class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
-                                        <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                                        <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div>          
@@ -1422,16 +1422,16 @@ label{
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['facname'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['facname'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank" id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
-                                      <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                                      <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['address'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?></label>
                                         <input type="text" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
-                                        <label id="rem3" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                                        <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div>               
@@ -1439,16 +1439,16 @@ label{
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['taxid'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['taxid'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 checkblank numonly" id="TaxID"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['taxid'][$language]; ?>">
-                                      <label id="rem4" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                                      <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['postid'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['postid'][$language]; ?></label>
                                         <input type="text" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
-                                        <label id="rem5" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                                        <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1456,7 +1456,7 @@ label{
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                      <label class="col-sm-4 col-form-label text-right"><?php echo $array['discount'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['discount'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7  numonly" id="DiscountPercent"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['discount'][$language]; ?>">
                                     </div>
                                   </div>
