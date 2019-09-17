@@ -241,24 +241,24 @@ function CreateDocument($conn, $DATA){
     }
   }
   #-------------------------------------
-  for($i=0;$i<$ItemLoop;$i++){
-    for($t = 0; $t<$TypeLoop; $t++){
-      for($d = 0; $d<$DepLoop; $d++){
-        $Sql1 = "INSERT INTO tdas_detail (DocNo, DepCode, Type, Qty, TotalStock, TotalPar, Percent, ItemCode, Change_value) 
-              VALUES ('$DocNo', $DepCodeX[$d], $t+1, '".$Qty[$t][$d]."', $SumType[$t], $Total_par2, $PercentArray[$d], '$ItemCodeArray[$i]', $changeArray[$i])";
-              mysqli_query($conn, $Sql1);
-      }
+  for($t = 0; $t<$TypeLoop; $t++){
+    for($d = 0; $d<$DepLoop; $d++){
+      $Sql1 = "INSERT INTO tdas_detail (DocNo, DepCode, Type, Qty, TotalStock, TotalPar, Percent) 
+            VALUES ('$DocNo', $DepCodeX[$d], $t+1, '".$Qty[$t][$d]."', $SumType[$t], $Total_par2, $PercentArray[$d])";
+            mysqli_query($conn, $Sql1);
     }
   }
+  #-------------------------------------
   for($i=0;$i<$ItemLoop;$i++){
     for($d = 0; $d<$DepLoop; $d++){
-      $Sql2 = "UPDATE tdas_detail SET Result = ((($SumCol[$d]*$PercentArray[$d])/100)*$changeArray[$i]) + $SumCol[$d]
-      WHERE DocNo = '$DocNo' AND DepCode = $DepCodeX[$d] AND ItemCode = '$ItemCodeArray[$i]'";
+      $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, ItemCode, Change_value, Result, SumResult, CalSum)VALUES
+      ('$DocNo', $DepCodeX[$d], $changeArray[$i], '$ItemCodeArray[$i]', (($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d], $SumRow[$i], $SumRow[$i]*$Total_par2)";
       mysqli_query($conn, $Sql2);
     }
-    $Sql3 = "UPDATE tdas_detail SET SumResult = $SumRow[$i], CalSum = $SumRow[$i] * $Total_par2 WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCodeArray[$i]'";
-    mysqli_query($conn, $Sql3);
   }
+  // echo '<pre>';
+  // print_r($SumRow);
+  // echo '</pre>';
   $return['status'] = "success";
   $return['form'] = "CreateDocument";
   echo json_encode($return);
