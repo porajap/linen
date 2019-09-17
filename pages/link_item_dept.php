@@ -940,8 +940,23 @@ $array2 = json_decode($json2,TRUE);
           });
         }
       }
-      function clearHead(row, rowid){
+      function swithChecked(row,i,checkName){
+        $("#headChk_"+row).change(function(){
+          var status = this.checked;
+          $('.unchk_'+row+i).each(function(){ 
+            this.checked = status;
+          });
+        });
+        $('.unchk_'+row+i).change(function(){ 
+          if(this.checked == false){ 
+            $("#headChk_"+row)[0].checked = false; 
+          }
+          if ($('.myChild_'+row+':checked').length == $('.myChild_'+row).length ){ 
+            $("#headChk_"+row)[0].checked = true; 
+          }
+        });
       }
+      
       function senddata(data){
          var form_data = new FormData();
          form_data.append("DATA",data);
@@ -1325,7 +1340,7 @@ $array2 = json_decode($json2,TRUE);
                                         "</tr>";
 
                                 for(var j = 0; j < temp[i]['num']; j++){
-                                  var chkItem = "<input type='checkbox' class='myChild_"+chk_row+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='clearHead(\""+chk_row+"\",\""+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"\");'>";
+                                  var chkItem = "<input type='checkbox' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
                                   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
                                   StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                               "<td style='width:10%'></td>"+
