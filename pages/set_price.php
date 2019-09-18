@@ -863,9 +863,11 @@ $array2 = json_decode($json2,TRUE);
                             $('#CategoryMain').val("");
                             $('#CategorySub').val(temp['CategoryName']);
                             $('#Price').val(temp['Price']);
+                            $('#Category_Sub2').val("");
+                            $('#Category_Main2').val("");
 
-             
-
+                            
+                            
 
                         } else if ((temp["form"] == 'SavePriceTime')) {
                             $('#RowID').val("");
