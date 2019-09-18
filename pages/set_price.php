@@ -94,6 +94,7 @@ $array2 = json_decode($json2,TRUE);
                 alert(evt.imgId);
             });
             $('#rem').hide();
+            $('#rem1').hide();
             getHotpital();
             getCategoryMain();
             getCategorySub(1);
@@ -305,10 +306,15 @@ $array2 = json_decode($json2,TRUE);
               $(this).removeClass('border-danger');
             }
           });
-            if(xDate==""){
+            if(xDate=="" || HptCode==""){
+                if(HptCode==""){
+                $('#rem1').show(5).css("color","red");
+                }else{
+                    $('#rem1').hide();
+                }
+
                 $('#rem').show(5).css("color","red");
             }else{
-                $('#rem').hide();
                 /* we join the array separated by the comma */
                 if(lang =='th'){
                 xDate = xDate.substr(6,4)-543+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
@@ -1410,7 +1416,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="col-md-12 mhee">
                             <div class="row mb-3">
                                 <select class="form-control ml-2 checkblank" style=" font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
-
+                                <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -0.5%;"> * </label>
                                 <input type="text" autocomplete="off" class="form-control datepicker-here numonly checkblank" style="margin-left:20px; font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
                                 <label id="rem" class="col-sm-1 " style="font-size: 180%;margin-top: -0.5%;"> * </label>
                                 <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px; font-size:22px;width:150px;" id="datepicker"> -->

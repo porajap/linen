@@ -229,7 +229,7 @@ $array2 = json_decode($json2,TRUE);
                     parent.OnLoadPage();
                   }, 1000);
 		swal({
-          title: "<?php echo $array['confirm'][$language]; ?>",
+          title: "<?php echo $array['canceldata'][$language]; ?>",
           text: "<?php echo $array['factory'][$language]; ?> : " +$('#factory option:selected').text(),
           type: "warning",
           showCancelButton: true,
@@ -241,13 +241,27 @@ $array2 = json_decode($json2,TRUE);
           closeOnConfirm: false,
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
+            
         if (result.value) {
+          swal({
+            title: '',
+            text: "<?php echo $array['cancelsuccessmsg'][$language]; ?>",
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+          setTimeout(() => {
           var data = {
           'STATUS'  : 'CancelRow',
           'RowID'	: id
           };
           senddata(JSON.stringify(data));
           ClearRow();
+        }, 2000);
         }else if (result.dismiss === 'cancel') {
           swal.close();
         } 
@@ -394,13 +408,13 @@ $array2 = json_decode($json2,TRUE);
 								console.log('Error#542-decode error');
 							}
                         	if(temp["status"]=='success'){
-										  if(temp["form"]=='OnLoadPage'){
+										if(temp["form"]=='OnLoadPage'){
                         var Str = "<option value='' selected>-</option>";
 											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
 												 Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
 											}
                       $("#factory").append(Str);
-										  }else if(temp["form"]=='getDepartment'){
+										}else if(temp["form"]=='getDepartment'){
 											$("#department").empty();
 											$("#Dep2").empty();
 											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
@@ -408,46 +422,100 @@ $array2 = json_decode($json2,TRUE);
 												$("#department").append(Str);
 												$("#Dep2").append(Str);
 											}
-										  }else if(temp["form"]=='ShowDocument'){
+										}else if(temp["form"]=='CancelRow'){
+                      switch (temp['msg']) {
+                                case "notchosen":
+                                  temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
+                                  break;
+                                case "cantcreate":
+                                  temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
+                                  break;
+                                case "noinput":
+                                  temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
+                                  break;
+                                case "notfound":
+                                  temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
+                                  break;
+                                case "addsuccess":
+                                  temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "addfailed":
+                                  temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                  break;
+                                case "editsuccess":
+                                  temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "editfailed":
+                                  temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                                  break;
+                                case "cancelsuccess":
+                                  temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
+                                  break;
+                                case "cancelfailed":
+                                  temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
+                                  break;
+                                case "nodetail":
+                                  temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
+                                  break;
+                              }
+                              swal({
+                                title: '',
+                                text: temp['msg'],
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                confirmButtonText: 'Ok'
+                              }).then(function() {
+                                ClearRow();
+                              }, function(dismiss) {
+                                $('.checkblank').each(function() {
+                                  $(this).val("");
+                                });
+										
+                      })
+                    }else if(temp["form"]=='ShowDocument'){
 				                              $( "#TableDocument tbody" ).empty();
                                       setTimeout(function () {
-                    parent.OnLoadPage();
-                  }, 1000);
-											  var Style  = "";
-                        for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                          var rowCount = $('#TableDocument >tbody >tr').length;
-                          var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
+                        parent.OnLoadPage();
+                      }, 1000);
+                            var Style  = "";
+                            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                              var rowCount = $('#TableDocument >tbody >tr').length;
+                              var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 
-                          var sDate = new Date();
-                          var eDate = new Date( temp[i]['EndDate'] );
-                          var diff  = new Date(eDate - sDate);
+                              var sDate = new Date();
+                              var eDate = new Date( temp[i]['EndDate'] );
+                              var diff  = new Date(eDate - sDate);
 
-                          var days = Math.round(diff/1000/60/60/24);
-                          var chkDetail = "<label class='radio'style='margin-top: 27%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "'  onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
+                              var days = Math.round(diff/1000/60/60/24);
+                              var chkDetail = "<label class='radio'style='margin-top: 27%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "'  onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
 
-                          if(days <= 30){
-													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
-												   }else{
-                            Style  = "style='font-weight: bold;color: #000000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
-												   }
-                           var daytext = days <= 0 ? "หมดสัญญา" : days ;
+                              if(days <= 30){
+                                Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
+                              }else{
+                                Style  = "style='font-weight: bold;color: #000000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
+                              }
+                              var daytext = days <= 0 ? "หมดสัญญา" : days ;
 
-												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' >"+
-															  "<td style='width: 3%;'>"+chkDetail+"</td>"+
-															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
-															  "<td style='width: 25%;'>"+temp[i]['FacName']+"</td>"+
-															  "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
-															  "<td style='width: 8%;'>"+temp[i]['EndDate2']+"</td>"+
-															  "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
-															  "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
-														  "</tr>";
+                              $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"' >"+
+                                    "<td style='width: 3%;'>"+chkDetail+"</td>"+
+                                    "<td style='width: 5%;'>"+(i+1)+"</td>"+
+                                    "<td style='width: 25%;'>"+temp[i]['FacName']+"</td>"+
+                                    "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
+                                    "<td style='width: 8%;'>"+temp[i]['EndDate2']+"</td>"+
+                                    "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
+                                    "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
+                                  "</tr>";
 
-					                               if(rowCount == 0){
-					                                 $("#TableDocument tbody").append( $StrTr );
-					                               }else{
-					                                 $('#TableDocument tbody:last-child').append(  $StrTr );
-					                               }
-												}
+                                            if(rowCount == 0){
+                                              $("#TableDocument tbody").append( $StrTr );
+                                            }else{
+                                              $('#TableDocument tbody:last-child').append(  $StrTr );
+                                            }
+                            }
 
 										  }else if(temp["form"]=='getRow'){
 											    $("#IsStatus").val('1');

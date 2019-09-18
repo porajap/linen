@@ -228,8 +228,8 @@ $array2 = json_decode($json2,TRUE);
       parent.OnLoadPage();
     }, 1000);
 		swal({
-      title: "<?php echo $array['confirm'][$language]; ?>",
-      text: "<?php echo $array['factory'][$language]; ?> : " +$('#side option:selected').text(),
+      title: "<?php echo $array['canceldata'][$language]; ?>",
+      text: "<?php echo $array['side'][$language]; ?> : " +$('#side option:selected').text(),
       type: "warning",
       showCancelButton: true,
       confirmButtonClass: "btn-danger",
@@ -241,12 +241,25 @@ $array2 = json_decode($json2,TRUE);
       closeOnCancel: false,
       showCancelButton: true}).then(result => {
         if (result.value) {
+          swal({
+            title: '',
+            text: "<?php echo $array['cancelsuccessmsg'][$language]; ?>",
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+          setTimeout(() => {
           var data = {
           'STATUS'  : 'CancelRow',
           'RowID'	: id
           };
           senddata(JSON.stringify(data));
           ClearRow();
+        }, 2000);
         }else if (result.dismiss === 'cancel') {
           swal.close();
         }
