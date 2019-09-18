@@ -405,11 +405,11 @@ $array2 = json_decode($json2,TRUE);
       var i=0;
 
       if(Sel==1){
-        $("#checkitem:checked").each(function() {
+        $(".checkitem:checked").each(function() {
           iArray.push($(this).val());
         });
       }else{
-        $("#checkitemSub:checked").each(function() {
+        $(".checkitemSub:checked").each(function() {
           iArray.push($(this).val());
         });
       }
@@ -433,11 +433,6 @@ $array2 = json_decode($json2,TRUE);
       var xunit = unitArray.join(',') ;
 
       var deptCode = $('#department option:selected').attr("value");
-
-      // alert("xrow : "+xrow);
-      //	  alert("xqty : "+xqty);
-      //	  alert("xweight : "+xweight);
-      //	  alert("xunit : "+xunit);
 
       $('#TableDetail tbody').empty();
       var data = {
@@ -584,27 +579,7 @@ $array2 = json_decode($json2,TRUE);
         $('#iqty'+cnt).val(sub);
       }
     }
-    // function keydownupdate(rowid,cnt){
-    //   var max = $('#max'+cnt).val();
-    //   var par = $('#qty1_'+cnt).val();
-    //   var sub = max - par;
-    //   var docno = $("#docno").val();
-    //   var isStatus = $("#IsStatus").val();
-    //   if((sub>=0) && (sub<=500)) {
-    //     if(isStatus==0){
-    //       console.log(sub);
-    //       $('#order'+cnt).val(sub);
-    //       var data = {
-    //         'STATUS'      : 'UpdateDetailQty_key',
-    //         'Rowid'       : rowid,
-    //         'DocNo'       : docno,
-    //         'CcQty'		    : par,
-    //         'TotalQty'		: sub
-    //       };
-    //       senddata(JSON.stringify(data));
-    //     }
-    //   }
-    // }
+
     function keydownupdate(rowid,cnt){
       var deptCode = $('#department option:selected').attr("value");
       var Dep = $("#Dep_").val();
@@ -983,22 +958,22 @@ $array2 = json_decode($json2,TRUE);
       }
     }
     function dis2(row){
-      if($('.checkrow_'+row).prop("checked") == true){
+      if($('#checkrow_'+row).prop("checked") == true){
           var countcheck2 = Number($("#countcheck").val())+1;
           $("#countcheck").val(countcheck2);
           $('#bSaveadd').attr('disabled', false);
           $('#bSaveadd2').removeClass('opacity');
-          $('.checkrow_'+row).attr('previousValue', 'checked');
-        }else if($('.checkrow_'+row).prop("checked") == false){
-          var countcheck3 = Number($("#countcheck").val())-1;
-          $("#countcheck").val(countcheck3);
-          if(countcheck3 == 0 ){
-          $('#bSaveadd').attr('disabled', true);
-          $('#bSaveadd2').addClass('opacity');
-          $('.checkrow_'+row).removeAttr('checked');
-          $("#countcheck").val(countcheck3);
-          }
+          // $('.checkrow_'+row).attr('previousValue', 'checked');
+      }else if($('#checkrow_'+row).prop("checked") == false){
+        var countcheck3 = Number($("#countcheck").val())-1;
+        $("#countcheck").val(countcheck3);
+        if(countcheck3 == 0 ){
+        $('#bSaveadd').attr('disabled', true);
+        $('#bSaveadd2').addClass('opacity');
+        // $('.checkrow_'+row).removeAttr('checked');
+        $("#countcheck").val(countcheck3);
         }
+      }
     }
     function StickerPrint(){
       var lang = '<?php echo $language; ?>';
@@ -1405,7 +1380,7 @@ $array2 = json_decode($json2,TRUE);
                 }
                 chkunit += "</select>";
 
-                var chkDoc = "<input type='checkbox' name='checkitem'  class='checkrow_"+i+"' id='checkitem' onclick='dis2(\""+i+"\")' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
+                var chkDoc = "<input type='checkbox' name='checkitem'  id='checkrow_"+i+"' class='checkitem' onclick='dis2(\""+i+"\")' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
                 var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' onkeyup='if(this.value>"+temp[i]['Qty']+"){this.value="+temp[i]['Qty']+"}else if(this.value<0){this.value=0}'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
                 var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
@@ -2187,7 +2162,7 @@ $array2 = json_decode($json2,TRUE);
                 <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
                   <thead style="font-size:24px;">
                     <tr role="row">
-                    <input type="text"  id="countcheck">
+                    <input type="hidden"  id="countcheck">
                       <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
                       <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
                       <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
