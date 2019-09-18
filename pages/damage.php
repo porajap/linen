@@ -281,7 +281,27 @@ $(document).ready(function(e){
       senddata(JSON.stringify(data));
       }
     }
-
+    function dis2(row){
+      if($('#checkrow_'+row).prop("checked") == true){
+          var countcheck2 = Number($("#countcheck").val())+1;
+          $("#countcheck").val(countcheck2);
+          $('#bSaveadd').attr('disabled', false);
+          $('#bSaveadd2').removeClass('opacity');
+          // $('#checkrow_'+row).prop('checked', true);
+          $('#checkrow_'+row).attr('previousValue', 'checked');
+        }else if($('#checkrow_'+row).prop("checked") == false){
+          var countcheck3 = Number($("#countcheck").val())-1;
+          $("#countcheck").val(countcheck3);
+          if(countcheck3 == 0 ){
+          $('#bSaveadd').attr('disabled', true);
+          $('#bSaveadd2').addClass('opacity');
+          $('.checkrow_'+row).removeAttr('checked');
+          // $('#checkrow_'+row).prop('checked', false);
+          $("#countcheck").val(countcheck3);
+          }
+        }
+ 
+    }
       function ShowDocument(selecta){
         var Hotp = $('#hotpital option:selected').attr("value");
         var searchdocument = $('#searchdocument').val();
@@ -1021,7 +1041,7 @@ $(document).ready(function(e){
                   }
                   chkunit += "</select>";
 
-                  var chkDoc = "<input type='checkbox' name='checkitem' onclick='dis()' id='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
+                  var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
                   var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly ' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
@@ -1581,8 +1601,8 @@ $(document).ready(function(e){
               </div>
 
               <div class="search_custom col-md-2">
-                <div class="import_1 d-flex justify-content-start">
-                  <button class="btn dis" onclick="getImport(1)" id="bSave"disabled="true">
+                <div class="import_1 d-flex justify-content-start opacity" id="bSaveadd2">
+                  <button class="btn dis" onclick="getImport(1)"id="bSaveadd" disabled="true">
                     <i class="fas fa-file-import mr-2 pt-1"></i>
                     <?php echo $array['import'][$language]; ?>
                   </button>
@@ -1593,11 +1613,12 @@ $(document).ready(function(e){
           <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
             <thead style="font-size:24px;">
               <tr role="row">
+                <input type="text" hidden id="countcheck">
                 <th style='width: 24%;' nowrap><?php echo $array['no'][$language]; ?></th>
                 <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 38%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 17%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 23%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 39%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 14%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
               </tr>
             </thead>
             <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
