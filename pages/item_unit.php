@@ -322,8 +322,6 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
-            }else{
-              $(this).css('border-color', '');
             }
           });
           if(UnitCode==""){
@@ -402,8 +400,6 @@ $array2 = json_decode($json2,TRUE);
                 if(UnitName ==""||UnitName==undefined){
                   $('#rem2').show().css("color","red");
                 }
-            }else{
-              $(this).css('border-color', '');
             }
           });
         }
@@ -708,7 +704,7 @@ $array2 = json_decode($json2,TRUE);
                                 Blankinput();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
-                                  $(this).val("");
+                                  $(this).css('border-color', '');
                                 });
 
                                 $('#UnitCode').val("");

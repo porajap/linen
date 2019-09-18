@@ -589,8 +589,6 @@ $array2 = json_decode($json2, TRUE);
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
             $(this).css('border-color', 'red');
-          } else {
-            $(this).css('border-color', '');
           }
         });
         if (ItemCode != "") {
@@ -680,8 +678,6 @@ $array2 = json_decode($json2, TRUE);
                 if(qpu ==""||qpu==undefined){
                   $('#rem6').show().css("color","red");
                 }
-          } else {
-            $(this).css('border-color', '');
           }
         });
       }
@@ -1676,21 +1672,25 @@ $array2 = json_decode($json2, TRUE);
                   temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
                   break;
               }
-              swal({
-                title: '',
-                text: temp['msg'],
-                type: 'success',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                showConfirmButton: false,
-                timer: 1500,
-                confirmButtonText: 'Ok'
-              });
-              setTimeout(function() {
-                Blankinput();
-                ShowItem();
-              }, 1500);
+                swal({
+                  title: '',
+                  text: temp['msg'],
+                  type: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  showConfirmButton: false,
+                  timer: 2000,
+                  confirmButtonText: 'Ok'
+              }).then(function() {
+                  ShowItem();
+                  Blankinput();
+              }, function(dismiss) {
+                  $('.checkblank').each(function() {
+                      $(this).css('border-color', '');
+                  });
+                  ShowItem();
+              })
 
             } else if ((temp["form"] == 'AddUnit')) {
               var itemcode = $('#ItemCode').val();
@@ -2155,7 +2155,7 @@ $array2 = json_decode($json2, TRUE);
       <i class="fas fa-angle-down"></i>
     </a>
     <!-- content-wrapper -->
-    <div id="content-wrapper">
+    <div id="content-wrapper" >
   <input type="hidden" id="ItemCodeM_chk">
 
       <div class="row">
@@ -2200,7 +2200,9 @@ $array2 = json_decode($json2, TRUE);
 									</div>
                 </div>
               </div>
-              <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
+
+              <div style="width:auto; overflow-x: scroll;">
+              <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">
                     <th style='width: 5%; font-size:13px;'>&nbsp;</th>
@@ -2227,7 +2229,7 @@ $array2 = json_decode($json2, TRUE);
                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
                 </tbody>
               </table>
-              
+              </div>
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemMaster" width="100%" cellspacing="0" role="grid" hidden>
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">
@@ -2420,7 +2422,7 @@ $array2 = json_decode($json2, TRUE);
                                     <option value="O">Other</option>
                                   </select>
 
-                                  <label class="col-sm-3 col-form-label " style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
+                                  <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
                                   <select class="form-control col-sm-4 checkblank numonly" id="numPack" onchange="CreateItemCode()">
                                     <option value="01">1 PCS</option>
                                     <option value="05">5 Pc</option>

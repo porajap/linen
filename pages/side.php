@@ -360,8 +360,6 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
-            }else{
-              $(this).css('border-color', '');
             }
           });
           if(HptCode!=""){
@@ -418,8 +416,6 @@ $array2 = json_decode($json2,TRUE);
                 if(HptName ==""||HptName==undefined){
                   $('#rem2').show().css("color","red");
                 }
-            }else{
-              $(this).css('border-color', '');
             }
           });
         }
@@ -866,7 +862,7 @@ $array2 = json_decode($json2,TRUE);
                                 getHotpital();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
-                                  $(this).val("");
+                                  $(this).css('border-color', '');
                                 });
 
                                 $('#HptCode').val("");
@@ -1350,7 +1346,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
+                                      <input type="text" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1360,7 +1356,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 checkblank" id="HptName"    placeholder="<?php echo $array['hosname'][$language]; ?>">
+                                      <input type="text" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptName"    placeholder="<?php echo $array['hosname'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

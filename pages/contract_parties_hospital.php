@@ -246,6 +246,7 @@ $array2 = json_decode($json2,TRUE);
           'RowID'	: id
           };
           senddata(JSON.stringify(data));
+          ClearRow();
         }else if (result.dismiss === 'cancel') {
           swal.close();
         }
@@ -325,6 +326,7 @@ $array2 = json_decode($json2,TRUE);
               'eDate'		: datepicker2,
               'Detail'	: xDetail
             };
+            ClearRow();
             senddata(JSON.stringify(data));
           }, 2000);
         } else if (result.dismiss === 'cancel') {
