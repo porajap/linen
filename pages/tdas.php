@@ -159,12 +159,16 @@ $array2 = json_decode($json2,TRUE);
             var Qty = 0;
             if(Type == 1){
                Qty = $('#QtyType1_'+row).val();
+               $('#QtyType1_'+row).addClass('border border-dark');
             }else if(Type == 2){
                 Qty = $('#QtyType2_'+row).val();
+               $('#QtyType2_'+row).addClass('border border-dark');
             }else if(Type == 3){
                 Qty = $('#QtyType3_'+row).val();
+               $('#QtyType3_'+row).addClass('border border-dark');
             }else if(Type == 4){
                 Qty = $('#QtyType4_'+row).val();
+               $('#QtyType4_'+row).addClass('border border-dark');
             }
 
             var data = {
@@ -305,11 +309,22 @@ $array2 = json_decode($json2,TRUE);
 								'Total_par2': Total_par2
 							};
 							senddata(JSON.stringify(data));
-            } else if (result.dismiss === 'cancel') {
-							swal.close();
-            } 
-        })
-            
+                } else if (result.dismiss === 'cancel') {
+                                swal.close();
+                } 
+            })
+        }
+        function CalRow(row){
+            ResultArray = 0;
+            $(".SumRow_"+row).each(function() {
+                ResultArray += Number($(this).val());
+            });
+            Total = ResultArray.toFixed(2)
+            $('#SumRow_'+row).val(Total);
+
+            var total_par2 = $('#total_par2').val();
+            var CalSum = Total*total_par2;
+            $('#CalRow_'+row).val(CalSum.toFixed(2));
         }
         // End Function ----------------------------------------
         function senddata(data) {
@@ -457,7 +472,7 @@ $array2 = json_decode($json2,TRUE);
                                         "<td  nowrap  class='text-left ItemCode' data-itemcode='"+temp[j]['ItemCode']+"'>"+temp[j]['ItemName']+"</td>"+
                                         "<td  nowrap  class='text-left'><input type='text' value='"+change_value+"' id='change_"+j+"' class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
                                         for (var i = 0; i < temp['CountRow']; i++) {
-                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' disabled></td>" ;
+                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
                                         }
                                     StrTRx += "<td  class='text-center'></td>"+
                                         "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
