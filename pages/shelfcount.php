@@ -894,15 +894,29 @@ $array2 = json_decode($json2,TRUE);
     }
     function draw(){
       var DocNo = $('#docno').val();
+      swal({
+        title: "<?php echo $array['confirmsave1'][$language]; ?>",
+        text: "<?php echo $array['adddata1'][$language]; ?>",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-success",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+        confirmButtonColor: '#6fc864',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true}).then(result => {
+          if (result.value) {
       var data = {
         'STATUS':'SaveDraw',
         'DocNo':DocNo
       };
       senddata(JSON.stringify(data));
-
-
-
-      
+    } else if (result.dismiss === 'cancel') {
+            swal.close();
+      }
+          })
     }
 
     function SaveQty_SC(){

@@ -72,7 +72,7 @@ switch ($PmID) {
         $sys_s10=1;
         $sys_s11=1;
         $sys_s12=1;
-        $sys_s13=0;
+        $sys_s13=1;
         $sys_s14=1;
         $sys_s15=0;
         break;
@@ -323,7 +323,7 @@ switch ($PmID) {
         $sys_s10=1;
         $sys_s11=1;
         $sys_s12=1;
-        $sys_s13=0;
+        $sys_s13=1;
         $sys_s14=1;
         $sys_s15=0;
         break;
@@ -1334,10 +1334,11 @@ echo '</script>';
 
           <?php if($sys_s13== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/change_lang.php?lang=<?php echo $language; ?>" id="act33" class="current_page"
+              href="pages/settime.php?lang=<?php echo $language; ?>" id="act33" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['system']['sub'][12][$language]; ?></a>
+              <em></em><?php echo $array['menu']['system']['sub'][16][$language]; ?></a>
           </li>
+          
           <?php } ?>
           <?php if($sys_s15== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"

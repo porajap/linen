@@ -1032,6 +1032,9 @@ $(document).ready(function(e){
                     $("#countcheck").val("0");
                     $("#TableItemDetail tbody").append( $StrTR );
                   }else{
+                    $('#bSaveadd').attr('disabled', true);
+                    $('#bSaveadd2').addClass('opacity');
+                    $("#countcheck").val("0");
                     $('#TableItemDetail tbody:last-child').append( $StrTR );
                   }
                   if(isStatus==0){

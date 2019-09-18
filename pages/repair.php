@@ -152,11 +152,31 @@ $(document).ready(function(e){
     });
   });
 
-      function OpenDialogItem(){
+  function OpenDialogItem(){
         var docno = $("#docno").val();
+        var RefDocNo = $("#RefDocNo").val();
+
         // if( docno != "" ) dialogItemCode.dialog( "open" );
+        if(RefDocNo==""){
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+          $('#rem1').attr('hidden', false);
+          $('#RefDocNo').addClass('border border-danger');
+        }else{
         if(docno != ""){
           $('#dialogItemCode').modal('show');
+          $('#rem1').attr('hidden', true);
+          $('#RefDocNo').removeClass('border border-danger');
+        }
         }
         ShowItem();
       }
@@ -1022,6 +1042,9 @@ $(document).ready(function(e){
                     $("#countcheck").val("0");
                     $("#TableItemDetail tbody").append( $StrTR );
                   }else{
+                    $('#bSaveadd').attr('disabled', true);
+                    $('#bSaveadd2').addClass('opacity');
+                    $("#countcheck").val("0");
                     $('#TableItemDetail tbody:last-child').append( $StrTR );
                   }
                   if(isStatus==0){
@@ -1427,6 +1450,7 @@ $(document).ready(function(e){
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
                                       <input class="form-control col-sm-8 only" style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
+                                      <label id="rem1" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">

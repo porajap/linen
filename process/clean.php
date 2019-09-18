@@ -702,6 +702,16 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE rewash SET IsRef = 1 WHERE rewash.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
     }
+    $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$DocNo2' ";
+    $meQuery = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $DocNonewlinentable = $Result['DocNo'];
+    }
+    if($DocNonewlinentable != "" ){
+      $Sql = "UPDATE newlinentable SET IsRef = 1 WHERE newlinentable.DocNo = '$DocNo2'";
+      mysqli_query($conn, $Sql);
+      }
+    
     // ================================================================================
 
     $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
@@ -728,38 +738,38 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
     
 
-    $n = 0;
-    $Sql = "SELECT
-    rewash_detail.ItemCode,
-    rewash_detail.UnitCode,
-    rewash_detail.Qty,
-    rewash_detail.Weight,
-    rewash_detail.IsCancel
-    FROM rewash_detail
-    WHERE rewash_detail.DocNo = '$RefDocNo'";
+    // $n = 0;
+    // $Sql = "SELECT
+    // rewash_detail.ItemCode,
+    // rewash_detail.UnitCode,
+    // rewash_detail.Qty,
+    // rewash_detail.Weight,
+    // rewash_detail.IsCancel
+    // FROM rewash_detail
+    // WHERE rewash_detail.DocNo = '$RefDocNo'";
 
-    $meQuery = mysqli_query($conn, $Sql);
-    echo json_encode($return);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $zItemCode[$n] = $Result['ItemCode'];
-      $zUnitCode[$n] = $Result['UnitCode1'];
-      $zQty[$n]      = $Result['Qty1'];
-      $zWeight[$n]   = $Result['Weight'];
-      $zIsCancel[$n] = $Result['IsCancel'];
-      $n++;
-    }
-    for ($i = 0; $i < $n; $i++) {
-      $ItemCode = $zItemCode[$i];
-      $UnitCode = $zUnitCode[$i];
-      $Qty      = $zQty[$i];
-      $Weight   = $zWeight[$i];
-      $IsCancel = $zIsCancel[$i];
-      $Sql = "INSERT INTO clean_detail
-      (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
-      VALUES
-      ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
-      mysqli_query($conn, $Sql);
-    }
+    // $meQuery = mysqli_query($conn, $Sql);
+    // echo json_encode($return);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   $zItemCode[$n] = $Result['ItemCode'];
+    //   $zUnitCode[$n] = $Result['UnitCode'];
+    //   $zQty[$n]      = $Result['Qty'];
+    //   $zWeight[$n]   = $Result['Weight'];
+    //   $zIsCancel[$n] = $Result['IsCancel'];
+    //   $n++;
+    // }
+    // for ($i = 0; $i < $n; $i++) {
+    //   $ItemCode = $zItemCode[$i];
+    //   $UnitCode = $zUnitCode[$i];
+    //   $Qty      = $zQty[$i];
+    //   $Weight   = $zWeight[$i];
+    //   $IsCancel = $zIsCancel[$i];
+    //   $Sql = "INSERT INTO clean_detail
+    //   (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
+    //   VALUES
+    //   ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
+    //   mysqli_query($conn, $Sql);
+    // }
     // $n = 0;
     // $Sql = "SELECT
     // dirty_detail.ItemCode,
