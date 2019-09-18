@@ -1619,8 +1619,8 @@ $array2 = json_decode($json2,TRUE);
                   <div class="row">
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
-                        <label  style='width:25%' class='text-right mr-sm-2'><?php echo $array['side'][$language]; ?></label>
-                        <select class="form-control " style='width:55%' id="hotpital" onchange="getDepartment();" <?php if($PmID != 1) echo 'disabled'; ?>> </select>
+                        <span   class='text-left mr-sm-2 col-3'><?php echo $array['side'][$language]; ?></span>
+                        <select class="form-control col-8"  id="hotpital" onchange="getDepartment();" <?php if($PmID != 1) echo 'disabled'; ?>> </select>
                       </div>
                     </div>
                   </div>
@@ -1628,8 +1628,10 @@ $array2 = json_decode($json2,TRUE);
                   <div class="row">
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
-                        <label style='width:25%' class='text-right mr-sm-2 pl-4'><?php echo $array['department'][$language]; ?></label>
-                        <select class="form-control checkblank2 border" style='width:55%' id="department" onchange="removeClassBorder1();"> </select>
+                        <div class='col-3 mr-sm-2 text-left'> 
+                          <span><?php echo $array['department'][$language]; ?></span>
+                        </div>
+                        <select class="form-control col-8 checkblank2 border" id="department" onchange="removeClassBorder1();"> </select>
                         <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
                       </div>
                     </div>
@@ -1638,8 +1640,10 @@ $array2 = json_decode($json2,TRUE);
                   <div class="row">
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
-                          <label style='width:25%' class='text-right mr-sm-2'><?php echo $array['parnum'][$language]; ?></label>
-                          <input type="text" class="form-control numonly checkblank2" style='width:55%' id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
+                        <div class='col-3 mr-sm-2 text-left'> 
+                          <span ><?php echo $array['parnum'][$language]; ?></span>
+                        </div>
+                          <input type="text" class="form-control numonly col-8 checkblank2"   id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
                           <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
                       </div>
                     </div>
@@ -1649,8 +1653,10 @@ $array2 = json_decode($json2,TRUE);
                   <div class="row">
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
-                        <label style='width:25% 'class='text-right mr-sm-2 pl-4'><?php echo $array['search'][$language]; ?></label>
-                        <input type="text" autocomplete="off" class="form-control" style='width:55%' name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                        <div class='col-3 mr-sm-2 text-left'> 
+                        <span ><?php echo $array['search'][$language]; ?></span>
+                        </div>
+                        <input type="text" autocomplete="off" class="form-control col-8"  name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                         <div class="menuMini  ml-2" hidden>
                           <div class="search_1 d-flex justify-content-start">
                             <button class="btn"  onclick="ShowItem()" >
