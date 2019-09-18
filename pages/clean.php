@@ -141,10 +141,13 @@ $(document).ready(function(e){
             timer: 2000,
             confirmButtonText: 'Ok'
           });
-          // $('#RefDocNo').focus();
+          $('#rem1').attr('hidden', false);
+          $('#RefDocNo').addClass('border border-danger');
         }else{
         if(docno != ""){
           $('#dialogItemCode').modal('show');
+          $('#rem1').attr('hidden', true);
+          $('#RefDocNo').removeClass('border border-danger');
         }
         }
         ShowItem();
@@ -1399,6 +1402,7 @@ $(document).ready(function(e){
         font-size: 21px;
 
       }
+     
 }
       /* ======================================== */
     </style>
@@ -1471,6 +1475,7 @@ $(document).ready(function(e){
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
                                       <input class="form-control col-sm-8 only" style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
+                                      <label id="rem1" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
