@@ -470,7 +470,7 @@ $array2 = json_decode($json2,TRUE);
                 if(Address ==""||Address==undefined){
                   $('#rem3').show().css("color","red");
                 }
-                if(DiscountPercent ==""||DiscountPercent==undefined){
+                if(TaxID ==""||TaxID==undefined){
                   $('#rem4').show().css("color","red");
                 }
                 if(Post ==""||Post==undefined){
@@ -1448,7 +1448,7 @@ label{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['faccode'][$language]; ?></label>
-                                      <input type="text"  autocomplete="off" onkeypress="resetinput()" class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
+                                      <input type="text"  autocomplete="off"  class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
                                       <input type="text" hidden class="form-control col-sm-7" id="FacCodeReal"  <?php echo $array['faccode'][$language]; ?> readonly>
                                     </div>
                                   </div>

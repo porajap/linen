@@ -321,7 +321,13 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
+      function resetinput(){
+      var CategoryName = $('#CategoryName').val();
+      if(CategoryName !="" && CategoryName!=undefined){
+        $('#rem2').hide();
+        $('#CategoryName').css('border-color', '');
+      }
+}
       function AddItem(){
         var count = 0;
         $(".checkblank").each(function() {
@@ -1170,7 +1176,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['category'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 checkblank" id="CategoryName"    placeholder="<?php echo $array['category'][$language]; ?>">
+                                      <input type="text"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="CategoryName"    placeholder="<?php echo $array['category'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

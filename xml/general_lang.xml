@@ -316,7 +316,7 @@
 <r11><en>Report Billing Customer</en><th>Report Billing Customer</th></r11>
 <r12><en>Report Billing Factory</en><th>Report Billing Factory</th></r12>
 <r13><en>Report Summary Dirty</en><th>รายงานรวมบันทึกการแปรรูปผ้าสกปรก</th></r13>
-<r14><en>Report Summary</en><th>สรุปราคาการส่งผ้า</th></r14>
+<r14><en>Report Summary</en><th>รายงานสรุปราคาการส่งผ้า</th></r14>
 <r15><en>Report Tracking status for laundry plant</en><th>รายงานการติดตามสถานะรายการผ้าจากโรงซัก</th></r15>
 <r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>
 <r17><en>Report Damage And Loss</en><th>รายงานสรุปยอดผ้าถูกซ่อมและผ้าสูญหาย</th></r17>

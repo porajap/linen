@@ -333,7 +333,23 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
+        
+        function resetinput(){
 
+            var HptCode = $('#hptsel2').val();
+            var DepName = $('#DepName').val();
+
+            if(HptCode !="" && HptCode!=undefined){
+            $('#rem1').hide();
+            $('#hptsel2').css('border-color', '');
+            }
+            if(DepName !="" && DepName!=undefined){
+            $('#rem2').hide();
+            $('#DepName').css('border-color', '');
+            }
+
+
+}
         function AddItem() {
             var count = 0;
             $(".checkblank").each(function() {
@@ -1244,7 +1260,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 checkblank" id="hptsel2" >
+                                      <select onchange="resetinput()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1252,7 +1268,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['department'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
+                                      <input type="text"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
