@@ -251,7 +251,7 @@ function CreateDocument($conn, $DATA){
   #-------------------------------------
   for($i=0;$i<$ItemLoop;$i++){
     for($d = 0; $d<$DepLoop; $d++){
-      $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, ItemCode, Change_value, Result, SumResult, CalSum)VALUES
+      $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, Change_value, ItemCode , Result, SumResult, CalSum)VALUES
       ('$DocNo', $DepCodeX[$d], $changeArray[$i], '$ItemCodeArray[$i]', (($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d], $SumRow[$i], $SumRow[$i]*$Total_par2)";
       mysqli_query($conn, $Sql2);
     }
@@ -260,6 +260,7 @@ function CreateDocument($conn, $DATA){
   // print_r($SumRow);
   // echo '</pre>';
   
+  $return['Sql2'] = $Sql2;
   $return['status'] = "success";
   $return['form'] = "CreateDocument";
   echo json_encode($return);
