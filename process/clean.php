@@ -723,18 +723,23 @@ function CreateDocument($conn, $DATA)
     // mysqli_query($conn,$Sqlx);
     $Sql = "UPDATE clean SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
+
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
+    
+
     $n = 0;
     $Sql = "SELECT
     rewash_detail.ItemCode,
-    rewash_detail.UnitCode1,
-    rewash_detail.Qty1,
+    rewash_detail.UnitCode,
+    rewash_detail.Qty,
     rewash_detail.Weight,
     rewash_detail.IsCancel
     FROM rewash_detail
     WHERE rewash_detail.DocNo = '$RefDocNo'";
+
     $meQuery = mysqli_query($conn, $Sql);
+    echo json_encode($return);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $zItemCode[$n] = $Result['ItemCode'];
       $zUnitCode[$n] = $Result['UnitCode1'];
