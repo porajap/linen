@@ -297,11 +297,14 @@
 <ismaster><en>This item in Master you want to Delete?</en><th>รายการนี้เป็นรายการมาสเตอร์ คุณต้องการลบข้อมูลทั้งหมดหรือไม่</th></ismaster>
 <issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
 <updatestock><en>Update Stock</en><th>อัพเดทคลัง</th></updatestock>
+<settime><en>Time sc</en><th>รอบส่งผ้า</th></settime>
 
 <!-- -->
+
+<r0><en>-</en><th>-</th></r0>
 <r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
-<r3><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r3>
-<r2><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r2>
+<r2><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r2>
+<r3><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r3>
 <r4><en>Daily issue Request</en><th>รายงานคำร้องขอการส่งผ้า</th></r4>
 <r5><en>Report Operations Time Spend</en><th>Report Operations Time Spend</th></r5>
 <r6><en>Report Rewash</en><th>รายงานบันทึกผ้าแก้ไข</th></r6>
@@ -318,8 +321,8 @@
 <r17><en>Report Damage And Loss</en><th>รายงานสรุปยอดผ้าถูกซ่อมและผ้าสูญหาย</th></r17>
 <r18><en>Report Tracking status for linen operation By Ward</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากแผนก</th></r18>
 <r19><en>Report Tracking status for linen operation By User</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้</th></r19>
-<r20><en>Report Summary billing</en><th>สรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
-<r21><en>Report TDAS</en><th>Report TDAS</th></r21>
+<r20><en>Report Summary billing</en><th>รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
+<r21><en>Report T-das</en><th>รายงาน T-das</th></r21>
 <!--  -->
 
 
