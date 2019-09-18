@@ -106,6 +106,7 @@
 <confirm><en>Confirm</en><th>ยืนยัน</th></confirm>
 <confirmdoc><en>Confirm create doc</en><th>ยืนยันการสร้างเอกสาร</th></confirmdoc>
 <confirmsave><en>Confirm save doc</en><th>ยืนยันการบันทึกเอกสาร</th></confirmsave>
+<confirmsave1><en>Confirm save </en><th>ยืนยันการบันทึกข้อมูล</th></confirmsave1>
 <confirmdelete><en>Confirm delete item</en><th>ยืนยันการลบรายการ</th></confirmdelete>
 <confirmcancel><en>Confirm cancel doc</en><th>ยืนยันการยกเลิกเอกสาร</th></confirmcancel>
 <sendlinen><en>Send Linen</en><th>จัดส่งผ้า</th></sendlinen>
