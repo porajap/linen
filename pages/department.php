@@ -359,7 +359,7 @@ $array2 = json_decode($json2,TRUE);
             });
             console.log(count);
 
-            var DepCode = $('#DepCode').val();
+            var DepCode = $('#DepCodeReal').val();
             var DepName = $('#DepName').val();
             var HptCode = $('#hptsel2').val();
             var xCenter = 0;
@@ -510,6 +510,7 @@ $array2 = json_decode($json2,TRUE);
           });
             $('#DepCode').val("");
             $('#hptsel2').val("BHQ");
+             $('#DepCodeReal').val("");
             ShowItem();
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');

@@ -247,7 +247,11 @@ function CancelRow($conn,$DATA){
 	 $Sql = "INSERT INTO log ( log ) VALUES ('RowID :: $RowID')";
      mysqli_query($conn,$Sql);
 
-	ShowDocument($conn,$DATA);
+  ShowDocument($conn,$DATA);
+  $return['status'] = "success";
+  $return['form'] = "CancelRow";
+  $return['msg'] = "addsuccess";
+  
 }
 
 //==========================================================
