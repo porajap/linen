@@ -1097,6 +1097,9 @@ $array2 = json_decode($json2,TRUE);
                         "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
                         "</tr>";
                         if(rowCount == 0){
+                          $('#bSaveadd').attr('disabled', true);
+                          $('#bSaveadd2').addClass('opacity');
+                          $("#countcheck").val("0");
                           $("#TableItemDetail tbody").append( $StrTR );
                         }else{
                           $('#TableItemDetail tbody:last-child').append( $StrTR );

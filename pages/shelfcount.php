@@ -988,7 +988,6 @@ $array2 = json_decode($json2,TRUE);
           $("#countcheck").val(countcheck2);
           $('#bSaveadd').attr('disabled', false);
           $('#bSaveadd2').removeClass('opacity');
-          // $('#checkrow_'+row).prop('checked', true);
           $('.checkrow_'+row).attr('previousValue', 'checked');
         }else if($('.checkrow_'+row).prop("checked") == false){
           var countcheck3 = Number($("#countcheck").val())-1;
@@ -997,11 +996,9 @@ $array2 = json_decode($json2,TRUE);
           $('#bSaveadd').attr('disabled', true);
           $('#bSaveadd2').addClass('opacity');
           $('.checkrow_'+row).removeAttr('checked');
-          // $('#checkrow_'+row).prop('checked', false);
           $("#countcheck").val(countcheck3);
           }
         }
- 
     }
     function StickerPrint(){
       var lang = '<?php echo $language; ?>';
@@ -1347,8 +1344,11 @@ $array2 = json_decode($json2,TRUE);
                 "<td hidden><input type='text' value='0' id='chk_userKey_"+i+"'></td>"+
                 "</tr>";
 
-
                 if(rowCount == 0){
+                  $('#bSaveadd').attr('disabled', true);
+                  $('#bSaveadd2').addClass('opacity');
+                  $("#countcheck").val("0");
+                  
                   $("#TableItemDetail tbody").append( $StrTR );
                 }else{
                   $('#TableItemDetail tbody:last-child').append( $StrTR );
@@ -2187,7 +2187,7 @@ $array2 = json_decode($json2,TRUE);
                 <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
                   <thead style="font-size:24px;">
                     <tr role="row">
-                    <input type="text" hidden id="countcheck">
+                    <input type="text"  id="countcheck">
                       <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
                       <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
                       <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
