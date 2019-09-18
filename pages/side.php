@@ -529,9 +529,9 @@ $array2 = json_decode($json2,TRUE);
               }
               console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
-              getHotpital();
-              ShowItem();
-              Blankinput();
+              // getHotpital();
+              // ShowItem();
+              // Blankinput();
             } else if (result.dismiss === 'cancel') {
               swal.close();
             }
@@ -976,6 +976,7 @@ $array2 = json_decode($json2,TRUE);
                               }).then(function() {
                                 ShowItem();
                                 Blankinput();
+                                getHotpital();
 
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
@@ -984,7 +985,6 @@ $array2 = json_decode($json2,TRUE);
 
                                 $('#HptCode').val("");
                                 //$('#Dept').val("1");
-                                ShowItem();
                               })
                             }else if( (temp["form"]=='getSection') ){
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {

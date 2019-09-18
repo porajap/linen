@@ -583,9 +583,6 @@ $array2 = json_decode($json2,TRUE);
             }
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
-            getFactory();
-            ShowItem();
-            Blankinput();
           } else if (result.dismiss === 'cancel') {
             swal.close();
           }    
@@ -1029,6 +1026,7 @@ $array2 = json_decode($json2,TRUE);
                               }).then(function() {
                                 ShowItem();
                                 Blankinput();
+                                getFactory();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                   $(this).val("");
