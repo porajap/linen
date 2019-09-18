@@ -1396,6 +1396,7 @@ $array2 = json_decode($json2, TRUE);
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var isset = temp[i]['isset'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                var Tdas = temp[i]['Tdas'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
   
                 var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
@@ -1411,6 +1412,7 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='width: 10%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
                   "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
                   "<td style='width: 8%;' align='center'nowrap>" + isset + "</td>" +
+                  "<td style='width: 5%;' align='center'nowrap>" + Tdas + "</td>" +
                   "</tr>";
 
                 if (rowCount == 0) {
@@ -2137,6 +2139,11 @@ $array2 = json_decode($json2, TRUE);
 
       }
     }
+    #table-scroll {
+      overflow:auto;  
+      height:355px;
+      margin-top:20px;
+    }
   </style>
 
 </head>
@@ -2201,35 +2208,36 @@ $array2 = json_decode($json2, TRUE);
                 </div>
               </div>
 
-              <div style="width:auto; overflow-x: scroll;">
-              <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
-                <thead id="theadsum">
-                  <tr role="row" id="tableSort">
-                    <th style='width: 5%; font-size:13px;'>&nbsp;</th>
-                    <th style='width: 8%;' nowrap><?php echo $array['sn'][$language]; ?>
-                    <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white"  onclick="ShowItem('itemDate','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                    <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('itemDate','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-                    </th>
-                    <th style='width: 16%;' nowrap><?php echo $array['code'][$language]; ?>
-                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-                    </th>
-                    <th style='width: 12%;' nowrap><?php echo $array['item'][$language]; ?>
-                    <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-                     </th>
-										<th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
-										<th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
-                    <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
-                    <th style='width: 11%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
-                    <th style='width: 10%;' nowrap><?php echo $array['newitem'][$language]; ?></th>
-                    <th style='width: 8%;' nowrap><?php echo $array['itemmas'][$language]; ?></th>
-                  </tr>
-                </thead>
-                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
-                </tbody>
-              </table>
-              </div>
+                <div id="table-scroll">
+                  <table style="margin-top:10px;" class="table table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
+                    <thead id="theadsum">
+                      <tr role="row" id="tableSort">
+                        <th style='width: 5%; font-size:13px;'>&nbsp;</th>
+                        <th style='width: 8%;' nowrap><?php echo $array['sn'][$language]; ?>
+                        <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white"  onclick="ShowItem('itemDate','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                        <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('itemDate','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                        </th>
+                        <th style='width: 16%;' nowrap><?php echo $array['code'][$language]; ?>
+                          <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                          <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                        </th>
+                        <th style='width: 12%;' nowrap><?php echo $array['item'][$language]; ?>
+                        <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
+                          <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                        </th>
+                        <th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+                        <th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                        <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                        <th style='width: 11%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
+                        <th style='width: 10%;' nowrap><?php echo $array['newitem'][$language]; ?></th>
+                        <th style='width: 8%;' nowrap><?php echo $array['itemmas'][$language]; ?></th>
+                        <th style='width: 5%;' nowrap><?php echo $array['tdas'][$language]; ?></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
+                    </tbody>
+                  </table>
+                </div>
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemMaster" width="100%" cellspacing="0" role="grid" hidden>
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">

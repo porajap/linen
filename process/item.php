@@ -33,7 +33,8 @@ function ShowItem($conn, $DATA)
             item.Picture,
             item.IsDirtyBag,
             item.Itemnew,
-            item.isset
+            item.isset,
+            item.Tdas
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
@@ -60,6 +61,7 @@ function ShowItem($conn, $DATA)
     $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['IsDirtyBag'];
     $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $return[$count]['isset'] = $Result['isset']==null?0:$Result['isset'];
+    $return[$count]['Tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
 
   }
