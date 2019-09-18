@@ -399,7 +399,7 @@ $(document).ready(function(e){
         var i=0;
         //  alert("Sel : "+Sel);
         if(Sel==1){
-          $("#checkitem:checked").each(function() {
+          $(".checkitem:checked").each(function() {
             iArray.push($(this).val());
           });
         }else{
@@ -1602,7 +1602,7 @@ $(document).ready(function(e){
 
               <div class="search_custom col-md-2">
                 <div class="import_1 d-flex justify-content-start opacity" id="bSaveadd2">
-                  <button class="btn dis" onclick="getImport(1)"id="bSaveadd" disabled="true">
+                  <button class="btn dis" onclick="getImport(1)"  id="bSaveadd" disabled="true">
                     <i class="fas fa-file-import mr-2 pt-1"></i>
                     <?php echo $array['import'][$language]; ?>
                   </button>

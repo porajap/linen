@@ -426,7 +426,7 @@ $(document).ready(function(e){
         var i=0;
         //  alert("Sel : "+Sel);
         if(Sel==1){
-          $("#checkitem:checked").each(function() {
+          $(".checkitem:checked").each(function() {
             iArray.push($(this).val());
           });
         }else{
