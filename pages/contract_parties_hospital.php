@@ -202,12 +202,12 @@ $array2 = json_decode($json2,TRUE);
     $('#rem2').hide();
     $('#rem3').hide();
     $('.checkblank2').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).removeClass('border-danger');
-            }else{
-              $(this).removeClass('border-color', '');
-            }
-          });
+      if($(this).val()==""||$(this).val()==undefined){
+        $(this).removeClass('border-danger');
+      }else{
+        $(this).removeClass('border-color', '');
+      }
+    });
 		$("#IsStatus").val('0');
 		$("#datepicker3").val('');
 		$("#datepicker4").val('');
@@ -216,7 +216,7 @@ $array2 = json_decode($json2,TRUE);
     $('#delete_icon').addClass('opacity');
     $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
-
+    $('#side').val("");
     $(".checkitem").each(function(){
         $(".checkitem").prop("checked", false);
     });
