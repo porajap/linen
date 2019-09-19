@@ -15,18 +15,39 @@ $year=$data['year'];
 $format=$data['Format'];
 $depcode=$data['DepCode'];
 $where='';
-
+$language = $_SESSION['lang'];
+if ($language == "en") {
+  $language = "en";
+} else {
+  $language = "th";
+}
+$xml = simplexml_load_file('../xml/general_lang.xml');
+$xml2 = simplexml_load_file('../xml/report_lang.xml');
+$json = json_encode($xml);
+$array = json_decode($json, TRUE);
+$json2 = json_encode($xml2);
+$array2 = json_decode($json2, TRUE);
 //print_r($data);
 if($chk == 'one'){
   if ($format == 1) {
     $where =   "WHERE DATE (item_stock.ExpireDate) = DATE('$date1')";
     list($year,$mouth,$day) = explode("-", $date1);
     $datetime = new DatetimeTH();
-    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
+    if ($language == 'th') {
+      $year = $year + 543;
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year;
+    } else {
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
+    }
   }
   elseif ($format = 3) {
       $where = "WHERE  year (item_stock.ExpireDate) LIKE '%$date1%'";
-      $date_header= "ประจำปี : $date1";
+      if ($language == "th") {
+        $date1 = $date1 + 543;
+        $date_header = $array['year'][$language] . " " . $date1;
+      } else {
+        $date_header = $array['year'][$language] . $date1;
+      }
     }
 }
 elseif($chk == 'between'){
@@ -34,27 +55,37 @@ elseif($chk == 'between'){
   list($year,$mouth,$day) = explode("-", $date1);
   list($year2,$mouth2,$day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
-  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
-                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
+  if ($language == 'th') {
+    $year2=$year2+543;
+    $year=$year+543;
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . $array['to'][$language] .
+      $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
+  } else {
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth)." " . $year ." " . $array['to'][$language] ." " .
+         $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
+  }
 
 }
 elseif($chk == 'month'){
     $where =   "WHERE month (item_stock.ExpireDate) = ".$date1;
     $datetime = new DatetimeTH();
-    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
+    if ($language == 'th') {
+      $date_header = $array['month'][$language]  ." " . $datetime->getTHmonthFromnum($date1);
+      }else{
+        $date_header = $array['month'][$language] ." " . $datetime->getmonthFromnum($date1);
+      }
 
 }
 elseif ($chk == 'monthbetween') {
   $where =   "WHERE MONTH(item_stock.ExpireDate) BETWEEN '$date1' AND '$date2'";
   $datetime = new DatetimeTH();
-  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
+  if ($language == 'th') {
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  ." " . $array['to'][$language] ." " . $datetime->getTHmonthFromnum($date2);
+  }else{
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) ." " . $array['to'][$language] ." " . $datetime->getmonthFromnum($date2);
+  }
 }
-$language = $_GET['lang'];
-if ($language == "en") {
-  $language = "en";
-} else {
-  $language = "th";
-}
+ 
 
 header('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/report_lang.xml');
@@ -65,23 +96,7 @@ class PDF extends FPDF
 {
   function Header()
   {
-    $datetime = new DatetimeTH();
-    $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
-
-    if ($this->page == 1) {
-      // Move to the right
-      $this->SetFont('THSarabun', '', 10);
-      $this->Cell(190, 10, iconv("UTF-8", "TIS-620", "วันที่พิมพ์รายงาน " . $printdate), 0, 0, 'R');
-      $this->Ln(5);
-      // Title
-      $this->SetFont('THSarabun', 'b', 20);
-      $this->Cell(190, 10, iconv("UTF-8", "TIS-620", "รายงานสต๊อกคงคลัง"), 0, 0, 'C');
-      $this->Ln(10);
-    } else {
-      // Line break
-      $this->Ln(7);
-    }
+    
   }
   function setTable($pdf, $header, $data, $width, $numfield, $field)
   {
@@ -153,24 +168,39 @@ $Sql = "SELECT
         FROM
         item_stock
         INNER JOIN department ON item_stock.Depcode=department.Depcode
-        $where
-        AND item_stock.Depcode = $depcode
+        WHERE item_stock.DepCode=$depcode
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $depname = $Result['DepName'];
 }
+$datetime = new DatetimeTH();
+if ($language == 'th') {
+  $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
+} else {
+  $printdate = date('d') . " " . date('F') . " " . date('Y');
+}
 
-$pdf->SetFont('THSarabun', 'b', 15);
-$pdf->Cell(100, 10, iconv("UTF-8", "TIS-620", "หน่วยงาน " . $depname), 0, 0, 'L');
-$pdf->Cell(90, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
-$pdf->Ln(10);
+      // Move to the right
+      $pdf->SetFont('THSarabun', '', 10);
+      $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+      $pdf->Ln(5);
+      // Title
+      $pdf->SetFont('THSarabun', 'b', 20);
+      $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['r9'][$language]), 0, 0, 'C');
+      $pdf->Ln(10);
+
 //head field
-$pdf->SetFont('THSarabun', 'b', 15);
-$pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "ลำดับ"), 1, 0, 'C');
-$pdf->Cell(100, 10, iconv("UTF-8", "TIS-620", "รายการ"), 1, 0, 'C');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "หน่วย"), 1, 0, 'C');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "จำนวน"), 1, 1, 'C');
+$pdf->SetFont('THSarabun', 'b', 14);
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620",$array2['department'][$language]." : ".$depname), 0, 1, 'L');
+$pdf->Ln(2);
+
+$pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $array2['no'][$language]), 1, 0, 'C');
+$pdf->Cell(50, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['unit'][$language]), 1, 0, 'C');
+$pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620",  $array2['par'][$language]), 1, 0, 'C');
+$pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $array2['order'][$language]), 1, 1, 'C');
+
 
 // BODY TABLE
 $i = 1;
@@ -178,44 +208,32 @@ $header = 0;
 
 $Sql = "SELECT
         item.itemName,
-        item_stock.ParQty,
-        item_stock.TotalQty
+        item_unit.unitname,
+        item_stock.TotalQty AS  TotalQty,
+        item_stock.ParQty
         FROM
         item_stock
         INNER JOIN department ON item_stock.Depcode=department.Depcode
         INNER JOIN item on item.ItemCode=item_stock.ItemCode
-        $where
-        AND item_stock.Depcode = $depcode  ";
+        INNER JOIN item_unit on item.unitcode=item_unit.unitcode
+        WHERE item_stock.DepCode=$depcode
+        GROUP BY item.itemName ";
 
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($i > 23) {
-    $header++;
-    if ($header % 24 == 1) {
-      $pdf->SetFont('THSarabun', 'b', 14);
-      $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "ลำดับ"), 1, 0, 'C');
-      $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620", "รายการ"), 1, 0, 'C');
-      $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "หน่วย"), 1, 0, 'C');
-      $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "จำนวน"), 1, 1, 'C');
-    }
-  }
+
   $pdf->SetFont('THSarabun', '', 14);
   $DocDate = date('d/m/Y', strtotime($Result['ExpireDate']));
-  $depcode = $Result['Depcode'];
-  $pdf->Cell(10, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'C');
-  $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'C');
-  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
-  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 1, 'C');
+  $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $i), 1, 0, 'C');
+  $pdf->Cell(50, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'C');
+  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['unitname']), 1, 0, 'C');
+  $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
+  $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 1, 'C');
   $i++;
 }
 
 // Footer Table
-$pdf->ln(15);
-$pdf->SetFont('THSarabun', 'b', 12);
-$pdf->Cell(20, 10, "", 0, 0, 'C');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Sign.......................................................ผู้ตรจสอบ"), 0, 0, 'C');
-$pdf->Cell(80, 10, "", 0, 0, 'C');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "Date.......................................................time"), 0, 0, 'C');
+
 
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Stock_Count_' . $ddate . '.pdf');

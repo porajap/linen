@@ -152,6 +152,49 @@ class DatetimeTH
     }
     return $TH ;
   }
+  public function getmonthFromnum($month)
+  {
+    $TH = '';
+    switch ($month) {
+      case '1':
+        $TH = 'January';
+        break;
+      case '2':
+        $TH = 'February';
+        break;
+      case '3':
+        $TH = 'March';
+        break;
+      case '4':
+        $TH = 'April';
+        break;
+      case '5':
+        $TH = 'May';
+        break;
+      case '6':
+        $TH = 'June';
+        break;
+      case '7':
+        $TH = 'July';
+        break;
+      case '8':
+        $TH = 'August';
+        break;
+      case '9':
+        $TH = 'September';
+        break;
+      case '10':
+        $TH = 'October';
+        break;
+      case '11':
+        $TH = 'November';
+        break;
+      case '12':
+        $TH = 'December';
+        break;
+    }
+    return $TH ;
+  }
 
   public function getTHmonthFromnum($month)
   {

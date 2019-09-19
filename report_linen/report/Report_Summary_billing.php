@@ -4,47 +4,269 @@ require('connect.php');
 require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
-// Date
-// $eDate = "2018-06-06";
-$eDate = $_GET['eDate'];
-$eDate = explode("/", $eDate);
-$eDate = $eDate[2] . '-' . $eDate[1] . '-' . $eDate[0];
+session_start();
+$data = $_SESSION['data_send'];
+$HptCode = $data['HptCode'];
+$FacCode = $data['FacCode'];
+$date1 = $data['date1'];
+$date2 = $data['date2'];
+$chk = $data['chk'];
+$year = $data['year'];
+$DepCode = $data['DepCode'];
+$format = $data['Format'];
+$where = '';
 
-$dept = $_GET['dept'];
-
-$language = $_GET['lang'];
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
-
-header('Content-type: text/html; charset=utf-8');
-$xml = simplexml_load_file('../xml/report_lang.xml');
+$xml = simplexml_load_file('../xml/general_lang.xml');
+$xml2 = simplexml_load_file('../xml/report_lang.xml');
 $json = json_encode($xml);
 $array = json_decode($json, TRUE);
+$json2 = json_encode($xml2);
+$array2 = json_decode($json2, TRUE);
+//print_r($data);
+if ($chk == 'one') {
+  if ($format == 1) {
+    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    list($year, $mouth, $day) = explode("-", $date1);
+    $datetime = new DatetimeTH();
+    if ($language == 'th') {
+      $year = $year + 543;
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year;
+    } else {
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
+    }
+  } elseif ($format = 3) {
+    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+    if ($language == "th") {
+      $date1 = $date1 + 543;
+      $date_header = $array['year'][$language] . " " . $date1;
+    } else {
+      $date_header = $array['year'][$language] . $date1;
+    }
+  }
+} elseif ($chk == 'between') {
+  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  list($year, $mouth, $day) = explode("-", $date1);
+  list($year2, $mouth2, $day2) = explode("-", $date2);
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $year2 = $year2 + 543;
+    $year = $year + 543;
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . $array['to'][$language] .
+      $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
+  } else {
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
+      $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
+  }
+} elseif ($chk == 'month') {
+  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
+  } else {
+    $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
+  }
+} elseif ($chk == 'monthbetween') {
+  $where =   "WHERE month(shelfcount.Docdate) BETWEEN $date1 AND $date2";
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+  } else {
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+  }
+}
 
+
+function m2t($number)
+{
+  $number = number_format($number, 2, '.', '');
+  $numberx = $number;
+  $txtnum1 = array('ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า', 'สิบ');
+  $txtnum2 = array('', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน');
+  $number = str_replace(",", "", $number);
+  $number = str_replace(" ", "", $number);
+  $number = str_replace("บาท", "", $number);
+  $number = explode(".", $number);
+  if (sizeof($number) > 2) {
+    return 'ทศนิยมหลายตัวนะจ๊ะ';
+    exit;
+  }
+  $strlen = strlen($number[0]);
+  $convert = '';
+  for ($i = 0; $i < $strlen; $i++) {
+    $n = substr($number[0], $i, 1);
+    if ($n != 0) {
+      if ($i == ($strlen - 1) and $n == 1) {
+        $convert .= 'เอ็ด';
+      } elseif ($i == ($strlen - 2) and $n == 2) {
+        $convert .= 'ยี่';
+      } elseif ($i == ($strlen - 2) and $n == 1) {
+        $convert .= '';
+      } else {
+        $convert .= $txtnum1[$n];
+      }
+      $convert .= $txtnum2[$strlen - $i - 1];
+    }
+  }
+
+  $convert .= 'บาท';
+  if (
+    $number[1] == '0' or $number[1] == '00' or
+    $number[1] == ''
+  ) {
+    $convert .= 'ถ้วน';
+  } else {
+    $strlen = strlen($number[1]);
+    for ($i = 0; $i < $strlen; $i++) {
+      $n = substr($number[1], $i, 1);
+      if ($n != 0) {
+        if ($i == ($strlen - 1) and $n == 1) {
+          $convert
+            .= 'เอ็ด';
+        } elseif (
+          $i == ($strlen - 2) and
+          $n == 2
+        ) {
+          $convert .= 'ยี่';
+        } elseif (
+          $i == ($strlen - 2) and
+          $n == 1
+        ) {
+          $convert .= '';
+        } else {
+          $convert .= $txtnum1[$n];
+        }
+        $convert .= $txtnum2[$strlen - $i - 1];
+      }
+    }
+    $convert .= 'สตางค์';
+  }
+  //แก้ต่ำกว่า 1 บาท ให้แสดงคำว่าศูนย์ แก้ ศูนย์บาท
+  if ($numberx < 1) {
+    $convert = "ศูนย์" .  $convert;
+  }
+
+  //แก้เอ็ดสตางค์
+  $len = strlen($numberx);
+  $lendot1 = $len - 2;
+  $lendot2 = $len - 1;
+  if (($numberx[$lendot1] == 0) && ($numberx[$lendot2] == 1)) {
+    $convert = substr($convert, 0, -10);
+    $convert = $convert . "หนึ่งสตางค์";
+  }
+
+  //แก้เอ็ดบาท สำหรับค่า 1-1.99
+  if ($numberx >= 1) {
+    if ($numberx < 2) {
+      $convert = substr($convert, 4);
+      $convert = "หนึ่ง" .  $convert;
+    }
+  }
+  return $convert;
+}
 class PDF extends FPDF
 {
   function Header()
   {
     $datetime = new DatetimeTH();
     $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
-
-    if ($this->page == 1) {
-      // Move to the right
-      $this->SetFont('THSarabun', '', 10);
-      $this->Cell(190, 10, iconv("UTF-8", "TIS-620", "วันที่พิมพ์รายงาน " . $printdate), 0, 0, 'R');
-      $this->Ln(5);
-      // Title
-
-    } else {
-      // Line break
-      $this->Ln(7);
-    }
   }
+  function setTable($pdf, $header, $data, $width, $numfield, $field)
+  {
+    $language = $_SESSION['lang'];
+    if ($language == "en") {
+      $language = "en";
+    } else {
+      $language = "th";
+    }
+    $xml = simplexml_load_file('../xml/general_lang.xml');
+    $xml2 = simplexml_load_file('../xml/report_lang.xml');
+    $json = json_encode($xml);
+    $array = json_decode($json, TRUE);
+    $json2 = json_encode($xml2);
+    $array2 = json_decode($json2, TRUE);
+    $field = explode(",", $field);
+    // Column widths
+    $w = $width;
+    // Header
+    $this->SetFont('THSarabun', 'b', 14);
+    for ($i = 0; $i < count($header); $i++)
+      $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+    $this->Ln();
 
+    // set Data Details
+    $count = 1;
+    $rows = 1;
+    $totalsum1 = 0;
+    $totalsum2 = 0;
+    $this->SetFont('THSarabun', '', 12);
+    if (is_array($data)) {
+      foreach ($data as $data => $inner_array) {
+        if ($rows > 22) {
+          $count++;
+          if ($count % 25 == 1) {
+            $this->SetFont('THSarabun', 'b', 14);
+            for ($i = 0; $i < count($header); $i++)
+              $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+            $this->Ln();
+          }
+        }
+        $pdf->SetFont('THSarabun', '', 12);
+        $total = $inner_array[$field[3]] * $inner_array[$field[4]];
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
+        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $total), 1, 0, 'C');
+        $this->Ln();
+        $total_all += $total;
+        $count++;
+      }
+    }
+    $total_all = $total_all * 100 / 100;
+    if ($language == 'th') {
+      $text = m2t($total_all);
+    } else {
+      $f = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+      $text = $f->format($total_all);
+      $text = $text . " bath";
+    }
+    $this->Cell($w[0] + $w[1], 10, iconv("UTF-8", "TIS-620",  $text), 1, 0, 'C');
+    $this->Cell($w[2] + $w[3] + $w[4], 10, iconv("UTF-8", "TIS-620", $array2['total_price'][$language]), 1, 0, 'C');
+    $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $total_all), 1, 0, 'C');
+    $this->Ln();
+    // Footer Table
+
+    $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 0, 'C');
+    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 1, 'C');
+    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 0, 'C');
+    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 1, 'C');
+    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 0, 'C');
+    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "   .............................................................................................."), 0, 1, 'C');
+    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $pdf->Cell(28, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 0, 'C');
+    $pdf->Cell(170, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 1, 'C');
+    $pdf->Cell(78, 5, iconv("UTF-8", "TIS-620", "หัวหน้างานแผนกห้องผ้า"), 0, 0, 'C');
+    $pdf->Cell(120, 5, iconv("UTF-8", "TIS-620", "หัวหน้างานแผนกห้องผ้า"), 0, 1, 'C');
+    $pdf->ln(10);
+    if ($count % 25 >= 22) {
+      $pdf->AddPage("P", "A4");
+    }
+    // Closing line
+    $pdf->Cell(array_sum($w), 0, '', 'T');
+  }
 
 
   // Page footer
@@ -65,110 +287,70 @@ $pdf = new PDF();
 $font = new Font($pdf);
 $data = new Data();
 $datetime = new DatetimeTH();
-$Sql = "SELECT
-        COUNT(billwash.date)as count,
-        billwash.docdate,
-        site.HptName
-        FROM
-        summary_billing
-        INNER JOIN site ON billwash.Hptcode=site.Hptcode
-        WHERE YEAR(billwash.docdate)='2019'  AND MONTH(billwash.docdate) = '7'";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $DocDate = date('d/m/Y', strtotime($Result['date']));
-  $DocDate = explode("/", $DocDate);
-  $DocDate = $DocDate[2] . '-' . $DocDate[1] . '-' . $DocDate[0];
-  $printdate = $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-  $DocDate = $datetime->getTHmonthFromnum($DocDate[1]) . " พ.ศ. " . $datetime->getTHyear($DocDate[2]);
-  $Name = $Result['HptName'];
-  $count = $Result['count'];
-}
-
-$footer_nextpage = (($count - 23) % 25);
-// Using Coding
 $pdf->AddPage("P", "A4");
-$pdf->SetFont('THSarabun', 'b', 20);
-$pdf->Cell(80);
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "สรุปค่าบริการ รับ-ส่งผ้า ประจำเดือน " . $printdate), 0, 0, 'C');
-$pdf->Ln(7);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $Name), 0, 0, 'C');
-$pdf->Ln(15);
-
-$pdf->SetFont('THSarabun', 'b', 12);
-$pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "ลำดับ"), 1, 0, 'C');
-$pdf->Cell(58, 10, iconv("UTF-8", "TIS-620", "รายการ"), 1, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "หน่วย"), 1, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "จำนวน"), 1, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "ราคาต่อหน่วย"), 1, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "จำนวนเงิน"), 1, 1, 'C');
 
 $Sql = "SELECT
-        summary_billing.item_bill,
-        summary_billing.unit,
-        summary_billing.number,
-        summary_billing.price_per_unit,
-        (summary_billing.price_per_unit* summary_billing.number)as total
-        FROM
-        summary_billing
-        WHERE YEAR(summary_billing.date)='2019'  AND MONTH(summary_billing.date) = '7'";
+site.HptName
+FROM
+site
+WHERE site.HptCode='$HptCode'
+ ";
 $meQuery = mysqli_query($conn, $Sql);
-$i = 1;
-$rows = 1;
-$header = 0;
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($rows > 22) {
-    $header++;
-    if ($header % 24 == 1) {
-      $pdf->SetFont('THSarabun', 'b', 11);
-      $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "ลำดับ"), 1, 0, 'C');
-      $pdf->Cell(58, 10, iconv("UTF-8", "TIS-620", "รายการ"), 1, 0, 'C');
-      $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "หน่วย"), 1, 0, 'C');
-      $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "จำนวน"), 1, 0, 'C');
-      $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "ราคาต่อหน่วย"), 1, 0, 'C');
-      $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "จำนวนเงิน"), 1, 0, 'C');
-      $pdf->ln();
-    }
-  }
-  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'C');
-  $pdf->Cell(58, 10, iconv("UTF-8", "TIS-620", $Result['item_bill']), 1, 0, 'C');
-  $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $Result['unit']), 1, 0, 'C');
-  $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $Result['number']), 1, 0, 'C');
-  $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $Result['price_per_unit']), 1, 0, 'C');
-  $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $Result['total']), 1, 1, 'C');
-  $total = $total + $Result['total'];
-  $i++;
-  $rows++;
-}/*
-if($footer_nextpage>=16){
-$pdf->AddPage("P","A4");
-}*/
+  $Hpt = $Result['HptName'];
+}
+if ($language == 'th') {
+  $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
+} else {
+  $printdate = date('d') . " " . date('F') . " " . date('Y');
+}
+$pdf->SetFont('THSarabun', '', 10);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Ln(10);
+$pdf->SetFont('THSarabun', 'b', 20);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620",  $array2['r20'][$language] . " " . $date_header), 0, 0, 'C');
+$pdf->ln(7);
+$pdf->SetFont('THSarabun', 'b', 14);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['site'][$language] ." : ".$Hpt), 0, 0, 'C');
+$pdf->ln(12);
 
-$total_all = $tax + $total;
-$pdf->Cell(78, 30, iconv("UTF-8", "TIS-620", "จำนวนเงิน"), 1, 0, 'C');
-$pdf->Cell(84, 10, iconv("UTF-8", "TIS-620", "ยอดเงินก่อนภาษีมูลค่าเพิ่ม"), 1, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", number_format($total, 2)), 1, 1, 'C');
-$pdf->Cell(78, 30, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(84, 10, iconv("UTF-8", "TIS-620", "ภาษีมูลค่าเพิ่ม 7%"), 1, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", number_format($tax, 2)), 1, 1, 'C');
-$pdf->Cell(78, 30, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(84, 10, iconv("UTF-8", "TIS-620", "รวมเงินสุทธิ (รวมภาษีมูลค่าเพิ่ม)"), 1, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", number_format($total_all, 2)), 1, 1, 'C');
-$pdf->ln(10);
 
-// Footer Table
+$query = "SELECT
+item.ItemName,
+item_unit.UnitName,
+SUM(shelfcount_detail.TotalQty) AS TotalQty,
+category_price.Price ,
+SUM(shelfcount_detail.TotalQty*category_price.Price) AS Total
+FROM
+shelfcount
+RIGHT JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
+INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+INNER JOIN item_unit ON item_unit.UnitCode = item.UnitCode
+INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+INNER JOIN department ON department.DepCode = shelfcount.DepCode
+INNER JOIN site ON site.HptCode = department.HptCode
+$where
+AND site.HptCode = '$HptCode'
+AND category_price.HptCode = '$HptCode'
+GROUP BY item.ItemName ASC
+";
+// var_dump($query); die;
+// Number of column
+$numfield = 6;
+// Field data (Must match with Query)
+$field = ",ItemName,UnitName,TotalQty,Price,Total";
+// Table header
+$header = array($array2['no'][$language], $array2['itemname'][$language], $array2['unit'][$language], $array2['amount'][$language], $array2['priceperunit'][$language], $array2['total_price'][$language]);
+// width of column table
+$width = array(28, 50, 28, 28, 28, 28);
+// Get Data and store in Result
+$result = $data->getdata($conn, $query, $numfield, $field);
+// Set Table
+$pdf->SetFont('THSarabun', 'b', 10);
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
+$pdf->Ln();
 
-$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 0, 'C');
-$pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 1, 'C');
-$pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 0, 'C');
-$pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 1, 'C');
-$pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(28, 15, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 0, 'C');
-$pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-$pdf->Cell(28, 15, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 1, 'C');
+
 
 
 

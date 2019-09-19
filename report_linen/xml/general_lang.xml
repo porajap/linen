@@ -32,12 +32,15 @@
 <emplname><en>Last Name</en><th>นามสกุล</th></emplname>
 <time><en>Time</en><th>เวลาที่บันทึก</th></time>
 <totalweight><en>Total Weight</en><th>น้ำหนักรวม</th></totalweight>
+<Sum><en>Total</en><th>รวม</th></Sum>
 <no><en>No.</en><th>ลำดับ</th></no>
 <code><en>Item Code</en><th>รหัส</th></code>
 <item><en>Item Name</en><th>รายการ</th></item>
 <rfid><en>RFID.</en><th>RFID.</th></rfid>
 <unit><en>Unit</en><th>หน่วยนับ</th></unit>
 <weight><en>Weight</en><th>น้ำหนัก</th></weight>
+<weightclean><en>Weight (clean)</en><th>น้ำหนัก (ผ้าสะอาด)</th></weightclean>
+<weightrepair><en>Weight (repair)</en><th>น้ำหนัก (ผ้าถูกซ่อม)</th></weightrepair>
 <numofpiece><en>No. of pieces</en><th>จำนวนชิ้น</th></numofpiece>
 <createdocno><en>Create Doc.</en><th>สร้างเอกสาร</th></createdocno>
 <import><en>Import</en><th>นำเข้า</th></import>
@@ -77,12 +80,14 @@
 <datestart><en>Date Start</en><th>วันที่เริ่ม</th></datestart>
 <dateend><en>Date End</en><th>วันที่สิ้นสุด</th></dateend>
 <percent><en>Percent</en><th>เปอร์เซ็นต์</th></percent>
-<date><en>Date</en><th>วันที่</th></date>
+<date><en>Date : </en><th>วันที่</th></date>
 <categorymain><en>Category Main</en><th>หมวดหมู่หลัก</th></categorymain>
 <categorysub><en>Category Sub</en><th>หมวดหมู่รอง</th></categorysub>
 <category><en>Category</en><th>หมวดหมู่</th></category>
 <deptnum><en>Department(Number)</en><th>แผนก(จำนวน)</th></deptnum>
 <factnum><en>Factory(Number)</en><th>โรงงานซัก(จำนวน)</th></factnum>
+<year><en>Year : </en><th>ประจำปี : </th></year>
+<month><en>Month : </en><th>ประจำเดือน : </th></month>
 <money><en>Amount (Bath)</en><th>เป็นเงิน</th></money>
 <printbill><en>Print Bill</en><th>พิมพ์บิล</th></printbill>
 <factory><en>Factory</en><th>โรงงานซัก</th></factory>
@@ -111,7 +116,7 @@
 <taxid><en>Tax ID</en><th>เลขที่ผู้เสียภาษี</th></taxid>
 <postid><en>Post ID</en><th>รหัสไปรษณีย์</th></postid>
 <hoscode><en>ID</en><th>รหัสโรงพยาบาล</th></hoscode>
-<hosname><en>Hospital Name</en><th>ชื่อโรงพยาบาล</th></hosname>
+<hosname><en>Hospital Name</en><th>โรงพยาบาล</th></hosname>
 <codecode><en>Dept. code</en><th>รหัส</th></codecode>
 <customer><en>Customer</en><th>ลูกค้า</th></customer>
 <addoredit><en>Add or Edit</en><th>เพิ่มหรือแก้ไขข้อมูล</th></addoredit>
@@ -154,6 +159,7 @@
 <factoryin><en>Factory In</en><th>ส่งผ้าเข้าโรงซัก</th></factoryin>
 <factoryout><en>Factory Out</en><th>ส่งผ้าเข้าเอ็นเฮลท์</th></factoryout>
 <permission><en>Permission</en><th>การเข้าถึง</th></permission>
+<to><en>To</en><th>ถึง</th></to>
 <username><en>Username</en><th>ผู้ใช้งาน</th></username>
 <password><en>Password</en><th>รหัสผ่าน</th></password>
 <flname><en>Name</en><th>ชื่อ-สกุล</th></flname>
@@ -161,5 +167,30 @@
 <datepicker><en>Select Date</en><th>เลือกวันที่</th></datepicker>
 <saveprice><en>Save Time</en><th>บันทึกราคา</th></saveprice>
 <back><en>Back</en><th>กลับ</th></back>
+<annual><en>Annual</en><th>Annual</th></annual>
+<printdate><en>Report print date : </en><th>วันที่พิมพ์รายงาน</th></printdate>
 <changetimeout><en>Change Timeout</en><th>แก้ไขเวลาพักหน้าจอ</th></changetimeout>
+<textr3><en>Report Claim</en><th>รายงานผ้าชำรุดเสียหาย</th></textr3>
+
+<r0><en>-</en><th>-</th></r0>
+<r1><en>Report Dirty linen Weight</en><th>Record Dirty linen weight</th></r1>
+<r2><en>Report Claim</en><th>Report Claim</th></r2>
+<r3><en>Report Cleaned Linen Weight</en><th>Report Cleaned Linen Weight</th></r3>
+<r4><en>Report Daily Issue Request</en><th>Report Daily Issue Request</th></r4>
+<r5><en>Report Operations Time Spend</en><th>Report Operations Time Spend</th></r5>
+<r6><en>Report Rewash</en><th>Report Rewash</th></r6>
+<r7><en>Report Shot and Over item</en><th>Report Shot and Over item</th></r7>
+<r8><en>Report Soiled Clean Ratio</en><th>Report Soiled Clean Ratio</th></r8>
+<r9><en>Report Stock Count</en><th>Report Stock Count</th></r9>
+<r10><en>Report Billing Claim</en><th>Report Billing Claim</th></r10>
+<r11><en>Report Billing Customer</en><th>Report Billing Customer</th></r11>
+<r12><en>Report Billing Factory</en><th>Report Billing Factory</th></r12>
+<r13><en>Report Summary Dirty</en><th>Report Summary Dirty</th></r13>
+<r14><en>Report Summary</en><th>Report Summary</th></r14>
+<r15><en>Report Tracking status for laundry plant</en><th>Report Tracking status for laundry plant</th></r15>
+<r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>
+<r17><en>Report Damage And Loss</en><th>Report Damage And Loss</th></r17>
+<r18><en>Report Tracking status for linen operation By Ward</en><th>Report Tracking status for linen operation By Ward</th></r18>
+<r19><en>Report Tracking status for linen operation By User</en><th>Report Tracking status for linen operation By User</th></r19>
+<r20><en>Report Summary billing</en><th>Report Summary billing</th></r20>
 </lang>

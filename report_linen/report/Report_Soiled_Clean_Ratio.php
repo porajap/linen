@@ -15,40 +15,87 @@ $year = $data['year'];
 $format = $data['Format'];
 $DepCode = $data['DepCode'];
 $where = '';
-//print_r($data);
-if ($chk == 'one') {
-  if ($format == 1) {
-    $where =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
-    list($year, $mouth, $day) = explode("-", $date1);
-    $datetime = new DatetimeTH();
-    $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
-  } elseif ($format = 3) {
-    $where = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
-    $date_header = "ประจำปี : $date1";
-  }
-} elseif ($chk == 'between') {
-  $where =   "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
-  list($year, $mouth, $day) = explode("-", $date1);
-  list($year2, $mouth2, $day2) = explode("-", $date2);
-  $datetime = new DatetimeTH();
-  $date_header = "วันที่ " . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year) . " ถึง " .
-    "วันที่ " . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
-} elseif ($chk == 'month') {
-  $where =   "WHERE month (clean.Docdate) = " . $date1;
-  $datetime = new DatetimeTH();
-  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1);
-} elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(clean.Docdate) BETWEEN $date1 AND $date2";
-  $datetime = new DatetimeTH();
-  $date_header = "ประจำเดือน : " . $datetime->getTHmonthFromnum($date1) . " ถึง " . $datetime->getTHmonthFromnum($date2);
-}
-
-$language = $_GET['lang'];
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
+$xml = simplexml_load_file('../xml/general_lang.xml');
+$xml2 = simplexml_load_file('../xml/report_lang.xml');
+$json = json_encode($xml);
+$array = json_decode($json, TRUE);
+$json2 = json_encode($xml2);
+$array2 = json_decode($json2, TRUE);
+//print_r($data);
+if ($chk == 'one') {
+  if ($format == 1) {
+    $where_clean =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
+    $where_dirty =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
+    $where_rewash =   "WHERE DATE (rewash.Docdate) = DATE('$date1')";
+    $where_newlinentable =   "WHERE DATE (newlinentable.Docdate) = DATE('$date1')";
+    list($year, $mouth, $day) = explode("-", $date1);
+    $datetime = new DatetimeTH();
+    if ($language == 'th') {
+      $year = $year + 543;
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year;
+    } else {
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
+    }
+  } elseif ($format = 3) {
+    $where_clean = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
+    $where_dirty = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
+    $where_rewash = "WHERE  year (rewash.DocDate) LIKE '%$date1%'";
+    $where_newlinentable = "WHERE  year (newlinentable.DocDate) LIKE '%$date1%'";
+    if ($language == "th") {
+      $date1 = $date1 + 543;
+      $date_header = $array['year'][$language] . " " . $date1;
+    } else {
+      $date_header = $array['year'][$language] . $date1;
+    }
+  }
+} elseif ($chk == 'between') {
+  $where_clean =   "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_dirty =   "WHERE dirty.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_rewash =   "WHERE rewash.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_newlinentable =   "WHERE newlinentable.Docdate BETWEEN '$date1' AND '$date2'";
+  list($year, $mouth, $day) = explode("-", $date1);
+  list($year2, $mouth2, $day2) = explode("-", $date2);
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $year2 = $year2 + 543;
+    $year = $year + 543;
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . $array['to'][$language] .
+      $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
+  } else {
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
+      $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
+  }
+} elseif ($chk == 'month') {
+  $where_clean =   "WHERE month (clean.Docdate) = " . $date1;
+  $where_dirty =   "WHERE month (dirty.Docdate) = " . $date1;
+  $where_rewash =   "WHERE month (rewash.Docdate) = " . $date1;
+  $where_newlinentable =   "WHERE month (newlinentable.Docdate) = " . $date1;
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
+  } else {
+    $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
+  }
+} elseif ($chk == 'monthbetween') {
+  $where_clean =   "WHERE MONTH(clean.DocDate) BETWEEN '$date1' AND '$date2'";
+  $where_dirty =   "WHERE MONTH(dirty.DocDate) BETWEEN '$date1' AND '$date2'";
+  $where_rewash =   "WHERE MONTH(rewash.DocDate) BETWEEN '$date1' AND '$date2'";
+  $where_newlinentable =   "WHERE MONTH(newlinentable.DocDate) BETWEEN '$date1' AND '$date2'";
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+  } else {
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+  }
+}
+
+
 
 header('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/report_lang.xml');
@@ -58,30 +105,7 @@ $array = json_decode($json, TRUE);
 class PDF extends FPDF
 {
   function Header()
-  {
-    $datetime = new DatetimeTH();
-    $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
-
-    if ($this->page == 1) {
-      // Move to the right
-      $this->SetFont('THSarabun', '', 10);
-      $this->Cell(190, 10, iconv("UTF-8", "TIS-620", "วันที่พิมพ์รายงาน " . $printdate), 0, 0, 'R');
-      $this->Ln(5);
-      // Title
-      $this->SetFont('THSarabun', 'b', 20);
-      $this->Cell(80);
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "Soiled Clean Ratio (SCR) "), 0, 0, 'C');
-      // Line break
-      $this->Ln(7);
-    } else {
-      // Line break
-      $this->Ln(7);
-    }
-  }
-
-
-
+  { }
   // Page footer
   function Footer()
   {
@@ -93,53 +117,99 @@ class PDF extends FPDF
     $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') . $this->PageNo() . '/{nb}', 0, 0, 'R');
   }
 
-  // function setTable($pdf, $header, $data, $width, $numfield, $field)
-  // {
-  //   $field = explode(",", $field);
-  //   // Column widths
-  //   $w = $width;
-  //   // Header
-  //   $this->SetFont('THSarabun', 'b', 10);
-  //   for ($i = 0; $i < count($header); $i++)
-  //     $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
-  //   $this->Ln();
 
-  //   // set Data Details
-  //   $count = 0;
-  //   $rows = 1;
-  //   if (is_array($data)) {
-  //     foreach ($data as $data => $inner_array) {
-  //       if ($rows > 23) {
-  //         $count++;
-  //         if ($count % 25 == 1) {
-  //           $this->SetFont('THSarabun', 'b', 10);
-  //           for ($i = 0; $i < count($header); $i++)
-  //             $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
-  //           $this->Ln();
-  //         }
-  //       }
-  //       if ($inner_array[$field[3]] == null) {
-  //         $inner_array[$field[3]] = 0;
-  //         $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
-  //       } elseif ($inner_array[$field[3]] == null) {
-  //         $inner_array[$field[3]]  = $inner_array[$field[2]] - $inner_array[$field[3]];
-  //       }
-  //       $this->SetFont('THSarabun', '', 12);
-  //       $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
-  //       $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
-  //       $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-  //       $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
-  //       $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", abs($inner_array[$field[4]]) . "%"), 1, 0, 'C');
+  function setTable($pdf, $header, $data, $width, $numfield, $field)
+  {
+    $language = $_SESSION['lang'];
+    if ($language == "en") {
+      $language = "en";
+    } else {
+      $language = "th";
+    }
+    $xml = simplexml_load_file('../xml/general_lang.xml');
+    $xml2 = simplexml_load_file('../xml/report_lang.xml');
+    $json = json_encode($xml);
+    $array = json_decode($json, TRUE);
+    $json2 = json_encode($xml2);
+    $array2 = json_decode($json2, TRUE);
+    $field = explode(",", $field);
+    // Column widths
+    $w = $width;
+    $this->Ln(1);
+    // Header
+    $this->SetFont('THSarabun', 'b', 14);
 
-  //       $this->Ln();
-  //       $rows++;
-  //     }
-  //   }
-  //   // Closing line
-  //   $pdf->Cell(array_sum($w), 0, '', 'T');
+    $this->Cell($w[1], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
+    $this->Cell(87.5, 10, iconv("UTF-8", "TIS-620", $array2['soild'][$language]), 1, 0, 'C');
+    $this->Cell(87.5, 10, iconv("UTF-8", "TIS-620",  $array2['clean1'][$language]), 1, 1, 'C');
+    $this->SetFont('THSarabun', 'b', 11.5);
+    $this->Cell(19.875, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+    $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $array2['dirty'][$language]), 1, 0, 'C');
+    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $array2['repair_dirty'][$language]), 1, 0, 'C');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $array2['newlinen'][$language]), 1, 0, 'C');
+    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $array2['Totaldirty'][$language]), 1, 0, 'C');
+    $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $array2['clean'][$language]), 1, 0, 'C');
+  //   if($language== 'th'){
+  //   $size = 9;
+  // }else {
+  //   $size = 12;
   // }
+    $this->SetFont('THSarabun', 'b', $size);
+    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $array2['receive_dirty'][$language]), 1, 0, 'C');
+    if($language== 'th'){
+      $size = 12;
+    }else {
+      $size = 10;
+    }
+    $this->SetFont('THSarabun', 'b', $size);
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $array2['receive_newlinen'][$language]), 1, 0, 'C');
+    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $array2['Totalclean'][$language]), 1, 1, 'C');
+    // set Data Details
+
+    $total1 = 0;
+    $total2 = 0;
+    $r = 0;
+
+    $this->SetFont('THSarabun', '', 14);
+    if (is_array($data)) {
+      foreach ($data as $data => $inner_array) {
+        $total1 = $inner_array[$field[1]] + $inner_array[$field[2]] + $inner_array[$field[3]];
+        $total2 = $inner_array[$field[4]] + $inner_array[$field[5]] + $inner_array[$field[6]];
+        $this->SetFont('THSarabun', '', 14);
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $total1), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[5]]), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[6]]), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $total2), 1, 0, 'C');
+        $totalsum1+=$inner_array[$field[1]];
+        $totalsum2+=$inner_array[$field[2]];
+        $totalsum3+=$inner_array[$field[3]];
+        $totalsum4+= $total1;
+        $totalsum5+=$inner_array[$field[4]];
+        $totalsum6+=$inner_array[$field[5]];
+        $totalsum7+=$inner_array[$field[6]];
+        $totalsum8+=$total2;
+        $this->Ln();
+      }
+      $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $array2['total'][$language]), 1, 0, 'C');
+      $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",  $totalsum1), 1, 0, 'C');
+      $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620",  $totalsum2), 1, 0, 'C');
+      $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620",  $totalsum3), 1, 0, 'C');
+      $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620",  $totalsum4), 1, 0, 'C');
+      $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",  $totalsum5), 1, 0, 'C');
+      $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620",  $totalsum6), 1, 0, 'C');
+      $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620",  $totalsum7), 1, 0, 'C');
+      $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620",  $totalsum8), 1, 0, 'C');
+    }
+  }
 }
-//39 42
+
+
+
 // *** Prepare Data Resource *** //
 // Instanciation of inherited class
 $pdf = new PDF();
@@ -147,127 +217,237 @@ $font = new Font($pdf);
 $data = new Data();
 $datetime = new DatetimeTH();
 
-
 // Using Coding
 $pdf->AddPage("P", "A4");
 
 $Sql = "SELECT
-        factory.FacName,
-        DATE(clean.DocDate) AS DocDate
+        factory.facname,
+        dirty.DocDate
         FROM
-        clean
-				INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
-        INNER JOIN factory ON dirty.FacCode = factory.FacCode
-        INNER JOIN department ON department.depcode = clean.depcode
-        $where
-        AND factory.FacCode= $FacCode
-        AND clean.depcode= $DepCode";
+        dirty
+        INNER JOIN factory ON factory.FacCode =dirty.FacCode
+        INNER JOIN department ON department.depcode =dirty.depcode
+        INNER JOIN site ON site.hptcode =department.hptcode
+       
+        ";
+
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-
-  $factory = $Result['FacName'];
+  $DocDate = $Result['DocDate'];
+  $facname = $Result['facname'];
 }
-$pdf->SetFont('THSarabun', 'b', 12);
-$pdf->Cell(1);
-$pdf->Cell(145, 10, iconv("UTF-8", "TIS-620", "โรงซัก : " . $factory), 0, 0, 'L');
-$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
-$pdf->Ln(10);
-$pdf->SetFont('THSarabun', 'b', 10);
-$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสกปรก"), 1, 0, 'C');
-$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารสะอาด"), 1, 0, 'C');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่งผ้าเปื้อน Weight (Kg)"), 1, 0, 'C');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "รับผ้าสะอาด Weight (Kg)"), 1, 0, 'C');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", "ส่วนต่าง (%)"), 1, 0, 'C');
-$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "หมายเลขเอกสารซักใหม่"), 1, 0, 'C');
-$pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", "จำนวนผ้าซักใหม่  (Kg)"), 1, 1, 'C');
-
-$query = "SELECT department.DepName,
-COALESCE(clean.DocNo,'-') AS clean_DocNo,
-COALESCE(dirty.DocNo,'-') AS dirty_DocNo,
-IFNULL(dirty.Total,0) AS Total1,
-IFNULL(clean.Total,0) AS Total2,
-item.weight,
-CASE
-WHEN clean.Total > dirty.Total THEN COALESCE(ROUND( (-1*((clean.Total - dirty.Total ) / clean.Total) * 100), 2),'-'  )
-WHEN dirty.Total > clean.Total  THEN COALESCE(ROUND( (-1*((dirty.Total - clean.Total ) / dirty.Total) * 100), 2),'-'  )
-WHEN dirty.Total = clean.Total THEN dirty.Total - clean.Total
-END AS Precent 
-FROM clean 
-INNER JOIN dirty ON clean.RefDocNo=dirty.DocNo
-INNER JOIN clean_detail ON clean.DocNo=clean_detail.DocNo
-INNER JOIN item ON item.ItemCode=clean_detail.ItemCode
-INNER JOIN department ON department.DepCode=dirty.DepCode
-INNER JOIN factory ON factory.FacCode= dirty.FacCode
-$where
-AND factory.FacCode=  $FacCode
-AND clean.depcode= $DepCode
-group by clean.DocNo,dirty.DocNo ";
-$Sql1 = "SELECT
-          COALESCE(rewash.DocNo,'-') AS rewash_DocNo,
-          COALESCE(sum(item.weight *rewash_detail.qty ),'-') AS TOTAL 
-          FROM rewash
-          INNER JOIN rewash_detail ON rewash.DocNo = rewash_detail.DocNo
-          INNER JOIN clean ON clean.RefDocNo = rewash.DocNo
-          INNER JOIN item ON rewash_detail.ItemCode = Item.ItemCode
-        $where
-        AND clean.depcode= $DepCode 
-        group by rewash.DocNo";
-$count = 0;
-$meQuery = mysqli_query($conn, $Sql1);
-
-for ($i = 0; $i < count($header); $i++) {
-  $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
-  $this->Ln();
+$datetime = new DatetimeTH();
+if ($language == 'th') {
+  $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
+} else {
+  $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 
-$meQuery1 = mysqli_query($conn, $query);
-while ($Result = mysqli_fetch_assoc($meQuery1)) {
 
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $Result['dirty_DocNo']), 1, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $Result['clean_DocNo']), 1, 0, 'C');
-  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $Result['Total1']), 1, 0, 'C');
-  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $Result['Total2']), 1, 0, 'C');
-  $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", ABS($Result['Precent']) . "%"), 1, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 1, 1, 'C');
-}
-$pdf->Ln(8);
-    $pdf->SetFont('THSarabun', 'b', 11);
-    $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่ห้องผ้า..................................................."), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่โรงซัก........................................"), 0, 0, 'L');
-    $pdf->Ln(7);
-    $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "วันที่......................................................................"), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "วันที่.........................................................."), 0, 0, 'L');
-    $pdf->Ln(7);
-$pdf->SetY(42);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
+// Move to the right
+$pdf->SetFont('THSarabun', '', 10);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Ln(5);
+// Title
+$pdf->SetFont('THSarabun', 'b', 20);
+$pdf->Cell(80);
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array2['r8'][$language]), 0, 0, 'C');
+// Line break
+$pdf->Ln(3);
+$pdf->SetFont('THSarabun', 'b', 14);
+$pdf->Ln(7);
+$pdf->SetFont('THSarabun', 'b', 14);
+$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] . " : " . $facname), 0, 0, 'L');
+$pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
+$pdf->Ln(12);
 
-  $rewash_DocNo = $Result['rewash_DocNo'];
-  $TOTAL = $Result['TOTAL'];
+$query = "SELECT 
+IFNULL(DIRTY, 0) AS DIRTY,
+IFNULL(REWASH, 0) AS REWASH,
+IFNULL(NEWLINEN, 0) AS NEWLINEN,
+IFNULL(CLEAN, 0) AS CLEAN,
+IFNULL(CLEAN_REWASH, 0) AS CLEAN_REWASH,
+IFNULL(CLEAN_NEWLINEN, 0) AS CLEAN_NEWLINEN,
+a.DocDate,
+b.DocDate,
+c.DocDate,
+d.DocDate,
+e.DocDate,
+f.DocDate
+FROM (
+SELECT
+COALESCE(sum(dirty.Total),0) AS DIRTY ,
+COALESCE(dirty.DocDate,0) AS DocDate
+FROM
+dirty
+$where_dirty AND dirty.faccode= $FacCode
+GROUP BY DATE(dirty.DocDate)
+)a,
+(SELECT  COALESCE(sum(rewash.Total),0) AS REWASH,
+COALESCE(rewash.DocDate,0) AS DocDate
+FROM  rewash
+LEFT JOIN clean ON rewash.DocNo=clean.RefDocNo
+$where_rewash 
+AND rewash.FacCode = $FacCode
+GROUP BY DATE(rewash.DocDate)LIMIT 1
+)b,
+(SELECT COALESCE(SUM(newlinentable.Total),'0') AS NEWLINEN ,
+COALESCE(newlinentable.DocDate,0) AS DocDate
+FROM newlinentable
+$where_newlinentable AND newlinentable.FacCode = $FacCode
+GROUP BY DATE(newlinentable.DocDate)LIMIT 1
+)c,
+(SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN , 
+COALESCE(clean.DocDate,0) AS DocDate
+FROM clean
+$where_clean AND clean.RefDocNo <> (
+  SELECT
+    clean.RefDocNo
+  FROM
+    clean
+  INNER JOIN rewash ON rewash.Docno = clean.RefDocNo
+)
+GROUP BY DATE(clean.DocDate)LIMIT 1
+)d,
+(SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_REWASH,
+COALESCE(rewash.DocDate,0) AS DocDate
+FROM clean
+LEFT JOIN rewash ON rewash.DocNo=clean.RefDocNo
+$where_clean
+AND rewash.FacCode = $FacCode
+GROUP BY DATE(rewash.DocDate)LIMIT 1
+)e,
+(SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
+COALESCE(newlinentable.DocDate,0) AS DocDate
+FROM clean
+LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+$where_clean 
+AND newlinentable.FacCode = $FacCode
+GROUP BY DATE(newlinentable.DocDate)LIMIT 1)
+f
 
-  $pdf->Cell(140, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $rewash_DocNo), 1, 0, 'C');
-  $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", $TOTAL), 1, 1, 'C');
-  $count++;
-}
+";
 // Number of column
-$numfield = 5;
+$numfield = 4;
 // Field data (Must match with Query)
-$field = "dirty_DocNo,clean_DocNo,Total1,Total2,Precent,rewash_DocNo,TOTAL";
-// Table header"
-$header = array('หมายเลขเอกสารสกปรก', 'หมายเลขเอกสารสะอาด', 'ส่งผ้าเปื้อน Weight (Kg)', 'รับผ้าสะอาด Weight (Kg)', 'ส่วนต่าง (%)', 'หมายเลขเอกสารซักใหม่', 'จำนวนผ้าซักใหม่  (Kg)');
+$field = "DocDate,DIRTY,REWASH,NEWLINEN,CLEAN,CLEAN_REWASH,CLEAN_NEWLINEN";
+// Table header
+$header = array($array2['docdate'][$language], 'ditry', 'rewash', 'new', 'total', 'clean', 'rewash', 'new', 'total');
 // width of column table
-$width = array(25, 25, 30, 30, 30, 25, 25);
+$width = array(15, 19.875, 24.875, 21.875, 20.875, 19.875, 24.875, 21.875,20.875);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
-$pdf->SetFont('THSarabun', 'b', 12);
-// $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
+$pdf->SetFont('THSarabun', 'b', 10);
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->Ln();
 // Get $totalsum
 
-    
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Soiled_Clean_Ratio_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Dirty_Linen_Weight' . $ddate . '.pdf');
+// SELECT 
+// IFNULL(DIRTY, 0) AS DIRTY,
+// IFNULL(REWASH, 0) AS REWASH,
+// IFNULL(NEWLINEN, 0) AS NEWLINEN,
+// IFNULL(CLEAN, 0) AS CLEAN,
+// IFNULL(CLEAN_REWASH, 0) AS CLEAN_REWASH,
+// IFNULL(CLEAN_NEWLINEN, 0) AS CLEAN_NEWLINEN,
+// a.DocDate,
+// b.DocDate,
+// c.DocDate,
+// d.DocDate,
+// e.DocDate,
+// f.DocDate
+// FROM (
+// SELECT
+// COALESCE(sum(dirty_detail.Qty),0) AS DIRTY ,
+// COALESCE(dirty.DocDate,0) AS DocDate
+// FROM
+// dirty_detail
+// LEFT JOIN dirty ON dirty_detail.DocNo = dirty.DocNo
+// GROUP BY DATE(dirty.DocDate)
+// UNION
+// SELECT
+// COALESCE(sum(dirty_detail.Qty),0) AS DIRTY ,
+// COALESCE(dirty.DocDate,0) AS DocDate
+// FROM
+// dirty_detail
+// RIGHT JOIN dirty ON dirty_detail.DocNo = dirty.DocNo
+// GROUP BY DATE(dirty.DocDate)
+// LIMIT 1 
+// )a,
+// (SELECT  COALESCE(sum(rewash_detail.Qty),0) AS REWASH,
+// COALESCE(rewash.DocDate,0) AS DocDate
+// FROM  rewash_detail
+// LEFT JOIN rewash ON rewash_detail.DocNo=rewash.DocNo
+// LEFT JOIN clean ON rewash.DocNo=clean.RefDocNo
+// LEFT JOIN dirty ON clean.DocNo=dirty.RefDocNo
+// GROUP BY DATE(rewash.DocDate)
+// UNION
+// SELECT  COALESCE(sum(rewash_detail.Qty),0) AS REWASH,
+// COALESCE(rewash.DocDate,0) AS DocDate
+// FROM  rewash_detail
+// RIGHT JOIN rewash ON rewash_detail.DocNo=rewash.DocNo
+// RIGHT JOIN clean ON rewash.DocNo=clean.RefDocNo
+// RIGHT JOIN dirty ON clean.DocNo=dirty.RefDocNo
+// GROUP BY DATE(rewash.DocDate)LIMIT 1 
+// )b,
+// (SELECT COALESCE(SUM(newlinentable_detail.Qty),'0') AS NEWLINEN ,
+// COALESCE(newlinentable.DocDate,0) AS DocDate
+// FROM newlinentable_detail
+// LEFT JOIN newlinentable ON newlinentable_detail.DocNo = newlinentable.DocNo
+// GROUP BY DATE(newlinentable.DocDate)
+// UNION
+// SELECT COALESCE(SUM(newlinentable_detail.Qty),'0') AS NEWLINEN ,
+// COALESCE(newlinentable.DocDate,0) AS DocDate
+// FROM newlinentable_detail
+// RIGHT JOIN newlinentable ON newlinentable_detail.DocNo = newlinentable.DocNo
+// GROUP BY DATE(newlinentable.DocDate)LIMIT 1 
+// )c,
+// (SELECT  COALESCE(SUM(clean_detail.Qty),'0') AS CLEAN , 
+// COALESCE(clean.DocDate,0) AS DocDate
+// FROM clean_detail
+// LEFT JOIN clean ON clean_detail.DocNo=clean.DocNo
+// GROUP BY DATE(clean.DocDate)
+// UNION
+// SELECT  COALESCE(SUM(clean_detail.Qty),'0') AS CLEAN , 
+// COALESCE(clean.DocDate,0) AS DocDate
+// FROM clean_detail
+// RIGHT JOIN clean ON clean_detail.DocNo=clean.DocNo
+// GROUP BY DATE(clean.DocDate)LIMIT 1 
+// )d,
+// (SELECT  COALESCE(SUM(rewash_detail.Qty),'0') AS CLEAN_REWASH,
+// COALESCE(rewash.DocDate,0) AS DocDate
+// FROM rewash_detail
+// LEFT JOIN rewash ON rewash_detail.DocNo=rewash.DocNo
+// LEFT JOIN clean ON rewash.RefDocNo=clean.DocNo
+// GROUP BY DATE(rewash.DocDate)
+// UNION
+// SELECT  COALESCE(SUM(rewash_detail.Qty),'0') AS CLEAN_REWASH,
+// COALESCE(rewash.DocDate,0) AS DocDate
+// FROM rewash_detail
+// RIGHT JOIN rewash ON rewash_detail.DocNo=rewash.DocNo
+// RIGHT JOIN clean ON rewash.RefDocNo=clean.DocNo
+// WHERE clean.RefDocNo <> (
+//   SELECT
+//     clean.RefDocNo
+//   FROM
+//     clean
+//   INNER JOIN rewash ON rewash.Docno = clean.RefDocNo
+// )
+// GROUP BY DATE(rewash.DocDate)LIMIT 1 
+// )e,
+// (SELECT  COALESCE(SUM(newlinentable_detail.Qty),'0') AS CLEAN_NEWLINEN,
+// COALESCE(newlinentable.DocDate,0) AS DocDate
+// FROM newlinentable_detail
+// LEFT JOIN newlinentable ON newlinentable_detail.DocNo=newlinentable.DocNo
+// LEFT JOIN clean ON clean.RefDocNo=newlinentable.DocNo
+// GROUP BY DATE(newlinentable.DocDate)
+// UNION
+// SELECT  COALESCE(SUM(newlinentable_detail.Qty),'0') AS CLEAN_NEWLINEN,
+// COALESCE(newlinentable.DocDate,0) AS DocDate
+// FROM newlinentable_detail
+// RIGHT JOIN newlinentable ON newlinentable_detail.DocNo=newlinentable.DocNo
+// RIGHT JOIN clean ON clean.RefDocNo=newlinentable.DocNo
+// GROUP BY DATE(newlinentable.DocDate)LIMIT 1 
+// )f 

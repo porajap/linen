@@ -1,18 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
-<hospital><en>Hospital</en><th>โรงพยาบาล</th></hospital>
+<site><en>Hospital</en><th>โรงพยาบาล</th></site>
 <department><en>Department</en><th>แผนก</th></department>
-<docno><en>Doc. No.</en><th>เลขที่เอกสาร</th></docno>
-<docdate><en>Doc. Date</en><th>วันที่เอกสาร</th></docdate>
+<department1><en>Department</en><th>แผนก</th></department1>
+<department1><en>Department</en><th>แผนก</th></department1>
+<parqty><en>Par Qty</en><th>จำนวนทั้งหมด</th></parqty>
+<par><en>Par</en><th>จำนวนทั้งหมด</th></par>
+<shelfcount1><en>Shelf Count</en><th>จำนวนที่นับได้</th></shelfcount1>
+<max><en>Max</en><th>คำสูงสุด</th></max>
+<issue><en>Issue</en><th>ค่าที่จ่ายไป</th></issue>
+<short><en>Short</en><th>รายการผ้ามีไม่พอจ่าย</th></short>
+<shot><en>Shot</en><th>ผ้าขาด</th></shot>
+<over><en>Over</en><th>ผ้าเกิน</th></over>
+<Cycle><en>Cycle</en><th>รอบที่</th></Cycle>
+<factory><en>Factory</en><th>โรงซัก</th></factory>
+<receive><en>Receive (Qty)</en><th>ผ้าที่รับ(จำนวน)</th></receive>
+<reject><en>Reject (Qty)</en><th>ผ้าซักใหม่(จำนวน)</th></reject>
+<repair><en>Repair (Qty)</en><th>ผ้าส่งซ่อม(จำนวน)</th></repair>
+<qty><en>Qty</en><th>จำนวน</th></qty>
+<receivepercent><en>Receive (%)</en><th>ผ้าที่รับ (%)</th></receivepercent>
+<rejectpercent><en>Reject (%)</en><th>ผ้าซักใหม่ (%)</th></rejectpercent>
+<repairpercent><en>Repair (%)</en><th>ผ้าส่งซ่อม (%)</th></repairpercent>
+<dirty><en>Dirty</en><th>ผ้าเปื้อน</th></dirty>
+<soild><en>Soild</en><th>รายการผ้าเปื้อน</th></soild>
+<clean1><en>Clean</en><th>รายการผ้าสะอาด</th></clean1>
+
+<repair_dirty><en>Repair (Dirty)</en><th>ผ้าเปื้อนส่งแก้ไข</th></repair_dirty>
+<newlinen><en>Newlinen</en><th>ผ้าซักใหม่</th></newlinen>
+<Totaldirty><en>Total dirty</en><th>รวมผ้าเปื้อน</th></Totaldirty>
+<clean><en>Clean</en><th>ผ้าสะอาด</th></clean>
+<receive_dirty><en>Receive Dirty</en><th>ผ้าเปื้อนแก้ไขรับกลับ</th></receive_dirty>
+<receive_newlinen><en>Receive Newlinen</en><th>ผ้าใหม่รับกลับ</th></receive_newlinen>
+<Totalclean><en>Total Clean</en><th>รวมผ้าสะอาด</th></Totalclean>
+<damaged><en>Damaged (Qty)</en><th>ผ้าสูญหาย (จำนวน)</th></damaged>
+<damage><en>Damage</en><th>ผ้าเสียหาย</th></damage>
+<loss><en>Loss</en><th>ผ้าถูกซ่อม (จำนวน)</th></loss>
+<docno><en>Doc No</en><th>เลขที่เอกสาร</th></docno>
+<docdate><en>Doc Date</en><th>วันที่เอกสาร</th></docdate>
 <user><en>Responsible</en><th>ผู้บันทึก</th></user>
 <time><en>Time</en><th>เวลาที่บันทึก</th></time>
-<no><en>No.</en><th>ลำดับที่</th></no>
+<no><en>No.</en><th>ลำดับ</th></no>
 <itemcode><en>Item Code</en><th>รหัสอุปกรณ์</th></itemcode>
-<itemname><en>Item Name</en><th>ชื่ออุปกรณ์</th></itemname>
+<itemname><en>Item Name</en><th>รายการ</th></itemname>
 <unit><en>Unit</en><th>หน่วยนับ</th></unit>
-<printdate><en>Print Date.</en><th>วันที่พิมพ์รายงาน</th></printdate>
+<printdate><en>Print Date </en><th>วันที่พิมพ์รายงาน </th></printdate>
 <page><en>page. </en><th>หน้า </th></page>
 <amount><en>Amount</en><th>จำนวน</th></amount>
+<amount1><en>Amount (Qty)</en><th>จำนวน (ชิ้น)</th></amount1>
+<total><en>Total</en><th>รวม</th></total>
+<total_price><en>Total Price</en><th>รวมเงิน</th></total_price>
 <weight><en>Weight</en><th>น้ำหนัก</th></weight>
+<weightclean><en>Weight (clean)</en><th>น้ำหนัก (ผ้าสะอาด)</th></weightclean>
+<weightrepair><en>Weight (repair)</en><th>น้ำหนัก (ผ้าถูกซ่อม)</th></weightrepair>
+<priceperkilo><en>Price per kilogram</en><th>ราคาต่อกิโลกรัม</th></priceperkilo>
+<priceperunit><en>Price per Unit</en><th>ราคาต่อหน่วย</th></priceperunit>
+<weight><en>Weight</en><th>น้ำหนัก</th></weight>
+<weight_kg><en>Weight Per Kilogram</en><th>น้ำหนัก(กิโลกรัม)
+</th></weight_kg>
 <price><en>Total</en><th>เป็นเงิน</th></price>
+<price1><en>Price</en><th>ราคา</th></price1>
+<officer><en>User </en><th>เจ้าหน้าที่</th></officer>
+<shelfcount><en>Shelfcount Time</en><th>เวลานับผ้า</th></shelfcount>
+<receive_time><en>Receive Time</en><th>เวลารับผ้า</th></receive_time>
+<washing_time><en>Washing Time</en><th>เวลาซักผ้า</th></washing_time>
+<packing_time><en>Packing Time</en><th>เวลาแพ็คผ้า</th></packing_time>
+<delivery_time><en>Delivery Time</en><th>เวลาจำหน่าย</th></delivery_time>
+<distribute_time><en>Distribute Time</en><th>จำหน่ายผ้า</th></distribute_time>
+<start><en>Start</en><th>เริ่ม</th></start>
+<finish><en>Finish</en><th>สิ้นสุด</th></finish>
+<order><en>Order</en><th>คงเหลือ</th></order>
+
+<r0><en>-</en><th>-</th></r0>
+<r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
+<r2><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r2>
+<r3><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r3>
+<r4><en>Daily issue Request</en><th>รายงานคำร้องขอการส่งผ้า</th></r4>
+<r5><en>Report Operations Time Spend</en><th>Report Operations Time Spend</th></r5>
+<r6><en>Report Rewash</en><th>รายงานบันทึกผ้าแก้ไข</th></r6>
+<r7><en>Report Shot and Over item</en><th>รายงานบันทึกผ้าขาด และผ้าเกินจากยอด</th></r7>
+<r8><en>Report Soiled Clean Ratio</en><th>รายงานส่งผ้าเปื้อน-รับผ้าสะอาด</th></r8>
+<r9><en>Report Stock Count</en><th>รายงานสต๊อกคงคลัง</th></r9>
+<r10><en>Report Billing Claim</en><th>Report Billing Claim</th></r10>
+<r11><en>Report Billing Customer</en><th>Report Billing Customer</th></r11>
+<r12><en>Report Billing Factory</en><th>Report Billing Factory</th></r12>
+<r13><en>Report Summary Dirty</en><th>รายงานรวมบันทึกการแปรรูปผ้าสกปรก</th></r13>
+<r14><en>Report Summary</en><th>สรุปราคาการส่งผ้า</th></r14>
+<r15><en>Report Tracking status for laundry plant</en><th>รายงานการติดตามสถานะรายการผ้าจากโรงซัก</th></r15>
+<r16><en>Report Tracking status for linen operation</en><th>Report Tracking status for linen operation</th></r16>
+<r17><en>Report Damage And Loss</en><th>รายงานสรุปยอดผ้าถูกซ่อมและผ้าสูญหาย</th></r17>
+<r18><en>Report Tracking status for linen operation By Ward</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากแผนก</th></r18>
+<r19><en>Report Tracking status for linen operation By User</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้</th></r19>
+<r20><en>Report Summary billing</en><th>รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
+<r21><en>Report T-das</en><th>รายงาน T-das</th></r21>
 </lang>

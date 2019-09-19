@@ -5,57 +5,83 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data=$_SESSION['data_send'];
-$HptCode=$data['HptCode'];
-$FacCode=$data['FacCode'];
-$date1=$data['date1'];
-$date2=$data['date2'];
-$chk=$data['chk'];
-$year=$data['year'];
-$format=$data['Format'];
-$DepCode=$data['DepCode'];
-$where='';
-//print_r($data);
-if($chk == 'one'){
-  if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
-    list($year,$mouth,$day) = explode("-", $date1);
-    $datetime = new DatetimeTH();
-    $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year);
-  }
-  elseif ($format = 3) {
-      $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
-      $date_header= "ประจำปี : $date1";
-    }
-}
-elseif($chk == 'between'){
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
-  list($year,$mouth,$day) = explode("-", $date1);
-  list($year2,$mouth2,$day2) = explode("-", $date2);
-  $datetime = new DatetimeTH();
-  $date_header ="วันที่ ".$day." ".$datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $datetime->getTHyear($year)." ถึง ".
-                "วันที่ ".$day2." ".$datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $datetime->getTHyear($year2);
-
-}
-elseif($chk == 'month'){
-    $where =   "WHERE month (shelfcount.Docdate) = ".$date1;
-    $datetime = new DatetimeTH();
-    $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1) ;
-
-}
-elseif ($chk == 'monthbetween') {
-  $where =   "WHERE MONTH(shelfcount.DocDate) BETWEEN '$date1' AND '$date2'";
-  $datetime = new DatetimeTH();
-  $date_header ="ประจำเดือน : ".$datetime->getTHmonthFromnum($date1)." ถึง ".$datetime->getTHmonthFromnum($date2) ;
-}
-
-
-$language = $_GET['lang'];
+$data = $_SESSION['data_send'];
+$HptCode = $data['HptCode'];
+$FacCode = $data['FacCode'];
+$date1 = $data['date1'];
+$date2 = $data['date2'];
+$chk = $data['chk'];
+$year = $data['year'];
+$format = $data['Format'];
+$DepCode = $data['DepCode'];
+$where = '';
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
+$xml = simplexml_load_file('../xml/general_lang.xml');
+$xml2 = simplexml_load_file('../xml/report_lang.xml');
+$json = json_encode($xml);
+$array = json_decode($json, TRUE);
+$json2 = json_encode($xml2);
+$array2 = json_decode($json2, TRUE);
+//print_r($data);
+if ($chk == 'one') {
+  if ($format == 1) {
+    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    list($year, $mouth, $day) = explode("-", $date1);
+    $datetime = new DatetimeTH();
+    if ($language == 'th') {
+      $year = $year + 543;
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year;
+    } else {
+      $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
+    }
+  } elseif ($format = 3) {
+    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+    if ($language == "th") {
+      $date1 = $date1 + 543;
+      $date_header = $array['year'][$language] . " " . $date1;
+    } else {
+      $date_header = $array['year'][$language] . $date1;
+    }
+  }
+} elseif ($chk == 'between') {
+  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  list($year, $mouth, $day) = explode("-", $date1);
+  list($year2, $mouth2, $day2) = explode("-", $date2);
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $year2 = $year2 + 543;
+    $year = $year + 543;
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . $array['to'][$language] .
+      $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
+  } else {
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
+      $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
+  }
+} elseif ($chk == 'month') {
+  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
+  } else {
+    $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
+  }
+} elseif ($chk == 'monthbetween') {
+  $where =   "WHERE MONTH(shelfcount.DocDate) BETWEEN '$date1' AND '$date2'";
+  $datetime = new DatetimeTH();
+  if ($language == 'th') {
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+  } else {
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+  }
+}
+
+
+
 
 header('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/report_lang.xml');
@@ -65,27 +91,7 @@ $array = json_decode($json, TRUE);
 class PDF extends FPDF
 {
   function Header()
-  {
-    $datetime = new DatetimeTH();
-    $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    $edate = $eDate[0] . " " . $datetime->getTHmonthFromnum($eDate[1]) . " พ.ศ. " . $datetime->getTHyear($eDate[2]);
-
-    if ($this->page == 1) {
-      // Move to the right
-      $this->SetFont('THSarabun', '', 10);
-      $this->Cell(190, 10, iconv("UTF-8", "TIS-620", "วันที่พิมพ์รายงาน " . $printdate), 0, 0, 'R');
-      $this->Ln(5);
-      // Title
-      $this->SetFont('THSarabun', 'b', 14);
-      $this->Cell(80);
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", "Shot and Over Items Report"), 0, 0, 'C');
-      // Line break
-      $this->Ln(7);
-    } else {
-      // Line break
-      $this->Ln(7);
-    }
-  }
+  { }
 
 
 
@@ -106,7 +112,8 @@ class PDF extends FPDF
     // Column widths
     $w = $width;
     // Header
-    $this->SetFont('THSarabun', 'b', 12);
+    $this->SetFont('THSarabun', 'b', 14);
+    $this->Cell(22.5, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
     for ($i = 0; $i < count($header); $i++)
       $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
     $this->Ln();
@@ -114,26 +121,21 @@ class PDF extends FPDF
     // set Data Details
     $count = 0;
     $loop = 0;
-    $this->SetFont('THSarabun', '', 12);
+    $this->SetFont('THSarabun', '', 14);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
-        $issue=$inner_array[$field[2]]-$inner_array[$field[3]];
+        $this->Cell(22.5, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count + 1), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
-        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'C');
-        $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[6]]), 1, 0, 'C');
-        $this->Cell($w[7], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[7]]), 1, 0, 'C');
-        $this->Cell($w[8], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[8]]), 1, 0, 'C');
         $this->Ln();
         $count++;
       }
     }
 
     // Closing line
-    $pdf->Cell(array_sum($w), 0, '', 'T');
+
   }
 }
 
@@ -160,36 +162,47 @@ $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $depname = $Result['depname'];
 }
-
-$pdf->SetFont('THSarabun', 'b', 11);
-$pdf->Cell(1);
-$pdf->Cell(145, 10, iconv("UTF-8", "TIS-620", "หน่วยงาน : " . $depname), 0, 0, 'L');
-$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'L');
-$pdf->Ln(10);
+$datetime = new DatetimeTH();
+if ($language == 'th') {
+  $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
+} else {
+  $printdate = date('d') . " " . date('F') . " " . date('Y');
+}
+// Move to the right
+$pdf->SetFont('THSarabun', '', 10);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language]  . $printdate), 0, 0, 'R');
+$pdf->Ln(5);
+$pdf->SetFont('THSarabun', 'b', 20);
+$pdf->Cell(80);
+$pdf->Cell(30, 20, iconv("UTF-8", "TIS-620", $array2['r7'][$language]), 0, 0, 'C');
+// Move to the right
+$pdf->Ln(15);
+$pdf->SetFont('THSarabun', 'b', 14);
+$pdf->Cell(22.5);
+$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", $array2['department'][$language] . " : " . $depname), 0, 0, 'L');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
+$pdf->Ln(12);
 
 $query = "SELECT
-IFNULL(shelfcount_detail.ParQty,0) AS ParQty,
 IFNULL(shelfcount_detail.OverPar,0) AS OverPar,
-IFNULL(shelfcount_detail.CcQty,0) AS CcQty,
-IFNULL(shelfcount_detail.TotalQty,0) AS TotalQty,
 IFNULL(shelfcount_detail.Short,0) AS Short ,
-item.ItemName
+item.itemName
 FROM
 shelfcount_detail
 INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
-INNER JOIN item ON Item.ItemCode = shelfcount_detail.ItemCode
+INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
 INNER JOIN department ON department.DepCode = shelfcount.DepCode
 $where
 AND shelfcount.depcode = '$DepCode'";
 // var_dump($query); die;
 // Number of column
-$numfield = 9;
+$numfield = 4;
 // Field data (Must match with Query)
-$field = ",ItemName,ParQty,CcQty,,,TotalQty,Short,OverPar";
+$field = ",itemName,Short,OverPar";
 // Table header
-$header = array('No', 'Item Name', 'ParOty', 'Shalf Count', 'Max', 'Issue', 'Order', 'Shot', 'Over');
+$header = array($array2['no'][$language], $array2['itemname'][$language], $array2['shot'][$language], $array2['over'][$language]);
 // width of column table
-$width = array(15, 35, 20, 20, 20, 20, 20, 20, 20);
+$width = array(30, 40, 40, 40);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
