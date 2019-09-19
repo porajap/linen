@@ -294,7 +294,19 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
+        function resetinput(){
+            var xDate = $('#datepicker').val();
+            var HptCode = $('#hptselModal').val();    
 
+            if(xDate !="" && xDate!=undefined){
+            $('#rem').hide();
+              $('#datepicker').removeClass('border-danger');
+        }
+        if(HptCode !="" && HptCode!=undefined){
+            $('#rem1').hide();
+            $('#hptselModal').removeClass('border-danger');
+        }
+}
         function onCreate() {
             var xDate = $('#datepicker').val();
             var HptCode = $("#hptselModal").val();
@@ -1415,9 +1427,9 @@ $array2 = json_decode($json2,TRUE);
                     <div class="row">
                         <div class="col-md-12 mhee">
                             <div class="row mb-3">
-                                <select class="form-control ml-2 checkblank" style=" font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
+                                <select class="form-control ml-2 checkblank" onchange="resetinput()" style=" font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
                                 <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -0.5%;"> * </label>
-                                <input type="text" autocomplete="off" class="form-control datepicker-here numonly checkblank" style="margin-left:20px; font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
+                                <input type="text" autocomplete="off" onkeyup="resetinput()" class="form-control datepicker-here numonly checkblank" style="margin-left:20px; font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
                                 <label id="rem" class="col-sm-1 " style="font-size: 180%;margin-top: -0.5%;"> * </label>
                                 <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px; font-size:22px;width:150px;" id="datepicker"> -->
                                 <input type="text" autocomplete="off"  disabled="true" class="form-control " style="margin-left:20px; font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
