@@ -72,7 +72,7 @@ switch ($PmID) {
         $sys_s10=1;
         $sys_s11=1;
         $sys_s12=1;
-        $sys_s13=1;
+        $sys_s13=0;
         $sys_s14=1;
         $sys_s15=0;
         break;
@@ -323,7 +323,7 @@ switch ($PmID) {
         $sys_s10=1;
         $sys_s11=1;
         $sys_s12=1;
-        $sys_s13=1;
+        $sys_s13=0;
         $sys_s14=1;
         $sys_s15=0;
         break;

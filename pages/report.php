@@ -455,7 +455,7 @@ $array2 = json_decode($json2, TRUE);
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
-						type: 'warning',
+						type: 'info',
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
@@ -470,7 +470,7 @@ $array2 = json_decode($json2, TRUE);
 				swal({
 					title: '',
 					text: '<?php echo $array['insert_form'][$language]; ?>',
-					type: 'warning',
+					type: 'info',
 					showCancelButton: false,
 					confirmButtonColor: '#3085d6',
 					cancelButtonColor: '#d33',
@@ -485,7 +485,7 @@ $array2 = json_decode($json2, TRUE);
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
-						type: 'warning',
+						type: 'info',
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
@@ -501,7 +501,7 @@ $array2 = json_decode($json2, TRUE);
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
-						type: 'warning',
+						type: 'info',
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
@@ -517,7 +517,7 @@ $array2 = json_decode($json2, TRUE);
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
-						type: 'warning',
+						type: 'info',
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
@@ -533,7 +533,7 @@ $array2 = json_decode($json2, TRUE);
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
-						type: 'warning',
+						type: 'info',
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
@@ -549,7 +549,7 @@ $array2 = json_decode($json2, TRUE);
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
-						type: 'warning',
+						type: 'info',
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
@@ -611,7 +611,7 @@ $array2 = json_decode($json2, TRUE);
 						swal({
 							title: '',
 							text: '<?php echo $array['insert_form'][$language]; ?>',
-							type: 'warning',
+							type: 'info',
 							showCancelButton: false,
 							confirmButtonColor: '#3085d6',
 							cancelButtonColor: '#d33',
@@ -670,7 +670,7 @@ $array2 = json_decode($json2, TRUE);
 					// 	swal({
 					// 		title: '',
 					// 		text: '<?php echo $array['insert_form'][$language]; ?>',
-					// 		type: 'warning',
+					// 		type: 'info',
 					// 		showCancelButton: false,
 					// 		confirmButtonColor: '#3085d6',
 					// 		cancelButtonColor: '#d33',
