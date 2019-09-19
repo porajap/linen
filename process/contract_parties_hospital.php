@@ -137,7 +137,7 @@ function ShowDocument($conn,$DATA){
     $return[$count]['Qty'] = "";
     $return[$count]['Elc'] = "";
     $return['status'] = "failed";
-    $return['form'] = "ShowDocument";
+    // $return['form'] = "ShowDocument";
 	$return['msg'] = "nodetail";
     echo json_encode($return);
     mysqli_close($conn);
