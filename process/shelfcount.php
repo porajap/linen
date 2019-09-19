@@ -250,7 +250,7 @@ function ShowDocument($conn, $DATA)
   }
   $Sql.= "AND site.HptCode = '$hosCode' ";
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
-  $return['sql'] = $Sql;
+  // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -285,9 +285,9 @@ function ShowDocument($conn, $DATA)
     $return[$count]['DocDate'] = "";
     $return[$count]['Qty'] = "";
     $return[$count]['Elc'] = "";
-    // $return['status'] = "failed";
-    $return['form'] = "ShowDocument";
-    // $return['msg'] = "notfound";
+    $return['status'] = "failed";
+    // $return['form'] = "ShowDocument";
+    $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);
     die;
