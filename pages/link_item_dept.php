@@ -1632,7 +1632,7 @@ $array2 = json_decode($json2,TRUE);
                           <span><?php echo $array['department'][$language]; ?></span>
                         </div>
                         <select class="form-control col-8 checkblank2 border" id="department" onchange="removeClassBorder1();"> </select>
-                        <label id="rem1" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                        <label id="rem1" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
                   </div>
@@ -1644,7 +1644,7 @@ $array2 = json_decode($json2,TRUE);
                           <span ><?php echo $array['parnum'][$language]; ?></span>
                         </div>
                           <input type="text" class="form-control numonly col-8 checkblank2"   id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
-                          <label id="rem2" style="margin-top: 1%;margin-left: 2%;"> * </label>
+                          <label id="rem2" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
                   </div>
