@@ -880,7 +880,7 @@ $array2 = json_decode($json2,TRUE);
                             }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
-                                $('#host').val(temp['FacCode']);
+                                $('#host').val(temp['FacCodeReal']);
                                 $('#FacCodeReal').val(temp['FacCodeReal']);
                                 $('#FacCode').val(temp['FacCode']);
                                 $('#DepCode').val(temp['DepCode']);
@@ -1541,7 +1541,7 @@ label{
                                       <label id="rem8" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                  <div class="col-md-6" hidden>
+                                  <div class="col-md-6" hidden >
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['factory'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 checkblank2 checkblank3" id="host"onchange="removeClassBorder1();"></select>
