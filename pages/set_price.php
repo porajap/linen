@@ -83,6 +83,7 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
+
             $('#delete_icon').addClass('opacity');
             $('.numonly').on('input', function() {
                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
