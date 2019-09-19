@@ -442,12 +442,13 @@ $array2 = json_decode($json2,TRUE);
 												$("#department").append(Str);
 											}
 										  }else if(temp["form"]=='ShowDocument'){
-				                              $( "#TableDocument tbody" ).empty();
-                                      setTimeout(function () {
-                                       parent.OnLoadPage();
-                                      }, 1000);
+                        $( "#TableDocument tbody" ).empty();
+                        setTimeout(function () {
+                          parent.OnLoadPage();
+                        }, 1000);
+                        if(temp['Count']>0){
 											  var Style  = "";
-				                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+				                              for (var i = 0; i < temp['Count']; i++) {
 												   var rowCount = $('#TableDocument >tbody >tr').length;
 												   var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 
@@ -478,7 +479,20 @@ $array2 = json_decode($json2,TRUE);
                               }else{
                                 $('#TableDocument tbody:last-child').append(  $StrTr );
                               }
-												}
+												  }
+												}else{
+                          swal({
+                            title: '',
+                            text: "<?php echo $array['ndc'][$language]; ?>",
+                            type: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            confirmButtonText: 'Ok'
+                          })
+                        }
 
 										  }else if(temp["form"]=='getRow'){
                           $("#IsStatus").val('1');

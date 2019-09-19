@@ -119,7 +119,7 @@ function ShowDocument($conn,$DATA){
     $boolean = true;
     $count++;
   }
-
+  $return['Count'] = $count;
   if($boolean){
     $return['status'] = "success";
     $return['form'] = "ShowDocument";
@@ -131,8 +131,8 @@ function ShowDocument($conn,$DATA){
     $return[$count]['DocDate'] = "";
     $return[$count]['Qty'] = "";
     $return[$count]['Elc'] = "";
-    $return['status'] = "failed";
-    // $return['form'] = "ShowDocument";
+    $return['status'] = "success";
+    $return['form'] = "ShowDocument";
 	  $return['msg'] = "nodetail";
     echo json_encode($return);
     mysqli_close($conn);

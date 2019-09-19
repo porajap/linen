@@ -209,12 +209,12 @@ $array2 = json_decode($json2,TRUE);
 		$("#xDetail").val('');
     $("#factory").val('');
     $('.checkblank2').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).removeClass('border-danger');
-            }else{
-              $(this).removeClass('border-color', '');
-            }
-          });
+      if($(this).val()==""||$(this).val()==undefined){
+        $(this).removeClass('border-danger');
+      }else{
+        $(this).removeClass('border-color', '');
+      }
+    });
     $('#delete_icon').addClass('opacity');
     $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
@@ -226,8 +226,8 @@ $array2 = json_decode($json2,TRUE);
 	function CancelRow(){
 		var id = $("#xRowID").val();
     setTimeout(function () {
-                    parent.OnLoadPage();
-                  }, 1000);
+      parent.OnLoadPage();
+    }, 1000);
 		swal({
           title: "<?php echo $array['canceldata'][$language]; ?>",
           text: "<?php echo $array['factory'][$language]; ?> : " +$('#factory option:selected').text(),
@@ -256,11 +256,12 @@ $array2 = json_decode($json2,TRUE);
           });
           setTimeout(() => {
           var data = {
-          'STATUS'  : 'CancelRow',
-          'RowID'	: id
+            'STATUS'  : 'CancelRow',
+            'RowID'	: id
           };
           senddata(JSON.stringify(data));
           ClearRow();
+          ShowDocument();
         }, 2000);
         }else if (result.dismiss === 'cancel') {
           swal.close();
@@ -496,12 +497,13 @@ $array2 = json_decode($json2,TRUE);
 										
                       })
                     }else if(temp["form"]=='ShowDocument'){
-				                              $( "#TableDocument tbody" ).empty();
-                                      setTimeout(function () {
+                      setTimeout(function () {
                         parent.OnLoadPage();
                       }, 1000);
+                          $("#tbody").empty();
+                          if(temp['Count']>0){
                             var Style  = "";
-                            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                            for (var i = 0; i < temp['Count']; i++) {
                               var rowCount = $('#TableDocument >tbody >tr').length;
                               var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 
@@ -529,12 +531,25 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
                                   "</tr>";
 
-                                            if(rowCount == 0){
-                                              $("#TableDocument tbody").append( $StrTr );
-                                            }else{
-                                              $('#TableDocument tbody:last-child').append(  $StrTr );
-                                            }
+                                if(rowCount == 0){
+                                  $("#TableDocument tbody").append( $StrTr );
+                                }else{
+                                  $('#TableDocument tbody:last-child').append(  $StrTr );
+                                }
                             }
+                          }else{
+                            swal({
+                              title: '',
+                              text: '<?php echo $array['ndc'][$language]; ?>',
+                              type: 'warning',
+                              showCancelButton: false,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: '#d33',
+                              showConfirmButton: false,
+                              timer: 2000,
+                              confirmButtonText: 'Ok'
+                            })
+                          }
 
 										  }else if(temp["form"]=='getRow'){
 											    $("#IsStatus").val('1');
@@ -590,15 +605,15 @@ $array2 = json_decode($json2,TRUE);
                                 break;
                             }
 								  swal({
-									title: '',
-									text: temp['msg'],
-									type: 'warning',
-									showCancelButton: false,
-									confirmButtonColor: '#3085d6',
-									cancelButtonColor: '#d33',
-									showConfirmButton: false,
-									timer: 2000,
-									confirmButtonText: 'Ok'
+                    title: '',
+                    text: temp['msg'],
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    confirmButtonText: 'Ok'
 								  })
 
 								  $( "#docnofield" ).val( temp[0]['DocNo'] );
