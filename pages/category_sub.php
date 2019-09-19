@@ -343,9 +343,10 @@ $array2 = json_decode($json2,TRUE);
             count++;
           }
         });
+        
         console.log(count);
         var CategoryMain = $('#maincatagory').val();
-        var CategoryCode = $('#CategoryCode').val();
+        var CategoryCode = $('#CategoryCodeReal').val();
         var CategoryName = $('#CategoryName').val();
         if(count==0){
           $('.checkblank').each(function() {
