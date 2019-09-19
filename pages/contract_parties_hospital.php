@@ -196,7 +196,7 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
         }
     }
-
+// 
 	function ClearRow(){
     $('#rem1').hide();
     $('#rem2').hide();
