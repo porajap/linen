@@ -1865,15 +1865,15 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                                                <select class="form-control col-sm-8"  style="font-size:22px;" id="hotpital"
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
+                                                <select class="form-control col-sm-7"  style="font-size:22px;" id="hotpital"
                                                     onchange="getDepartment();"></select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                                                <select class="form-control col-sm-8 checkblank2 border" style="font-size:22px;" id="department"  onchange="removeClassBorder1();"></select>
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+                                                <select class="form-control col-sm-7 checkblank2 border" style="font-size:22px;" id="department"  onchange="removeClassBorder1();"></select>
                                                 <label id="rem1"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                             </div>
                                         </div>
@@ -1882,16 +1882,16 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem"
                                                     id="docdate"
                                                     placeholder="<?php echo $array['docdate'][$language]; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['docno'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['docno'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem"
                                                     id="docno" placeholder="<?php echo $array['docno'][$language]; ?>">
                                             </div>
                                         </div>
@@ -1900,16 +1900,16 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['employee'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['employee'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem"
                                                     id="recorder"
                                                     placeholder="<?php echo $array['employee'][$language]; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-8 only only1" disabled="true" name="searchitem"
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem"
                                                     id="timerec" placeholder="<?php echo $array['time'][$language]; ?>">
                                             </div>
                                         </div>
@@ -1917,8 +1917,8 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                         <div class='form-group row'>
-                                        <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
-                                                <select class="form-control col-sm-8"  style="font-size:22px;" id="cycle">
+                                        <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
+                                                <select class="form-control col-sm-7"  style="font-size:22px;" id="cycle">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -1934,8 +1934,8 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['settime'][$language]; ?></label>
-                                                <select  id="settime"  style="font-size:22px;" class="form-control col-sm-8 "  name="searchitem"
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['settime'][$language]; ?></label>
+                                                <select  id="settime"  style="font-size:22px;" class="form-control col-sm-7 "  name="searchitem"
                                                 placeholder="<?php echo $array['settime'][$language]; ?>">  </select>
                                             </div>
                                         </div>
@@ -1944,8 +1944,8 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-8 "  name="searchitem"
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-7 "  name="searchitem"
                                                 placeholder="<?php echo $array['barcode'][$language]; ?>">
                                             </div>
                                         </div>
@@ -2177,7 +2177,7 @@ $array2 = json_decode($json2,TRUE);
                   <div class="col-md-8">
                     <div class='form-group row'>
                       <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                      <input type="text" class="form-control col-sm-8" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                      <input type="text" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                     </div>
                   </div>
             <!-- serach----------------------- -->

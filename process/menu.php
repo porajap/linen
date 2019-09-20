@@ -10,7 +10,7 @@ if($Userid==""){
 }
 function OnLoadPage($conn,$DATA){
   $hptcode = $DATA['hptcode'];
-
+  $lang = $_SESSION['lang'];
   $count = 0;
   $boolean = false;
   $Sql = "SELECT
@@ -29,12 +29,19 @@ function OnLoadPage($conn,$DATA){
   $return['sql'] =$Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($lang =='en'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+    }else if ($lang == 'th'){
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+    }
     $return[$count]['DocNo'] = $Result['DocNo'];
     $return[$count]['RefDocNo'] = $Result['RefDocNo'];
     $return[$count]['Detail'] = $Result['Detail'];
     $return[$count]['DepName'] = $Result['DepName'];
     $return[$count]['HptName'] = $Result['HptName'];
-    $return[$count]['DocDate'] = $Result['DocDate'];
+    $return[$count]['DocDate'] = $newdate;
     $return[$count]['IsStatus'] = $Result['IsStatus'];
     $count++;
     $boolean = true;
