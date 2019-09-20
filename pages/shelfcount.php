@@ -190,7 +190,12 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
-
+    $('.numonly').on('input', function() {
+      this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+    });
+    $('.numonly_dot').on('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+    });
     function DeleteItem(){
       var docno = $("#docno").val();
       var xrow = $("#checkrow:checked").val() ;
@@ -1395,7 +1400,7 @@ $array2 = json_decode($json2,TRUE);
                 chkunit += "</select>";
 
                 var chkDoc = "<input type='checkbox' name='checkitem'  id='checkrow_"+i+"' class='checkitem' onclick='dis2(\""+i+"\")' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['RowID']+"'>";
-                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' onkeyup='if(this.value>"+temp[i]['Qty']+"){this.value="+temp[i]['Qty']+"}else if(this.value<0){this.value=0}'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger ' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly_dot' "+st2+" id='iqty"+i+"' value='1' onkeyup='if(this.value>"+temp[i]['Qty']+"){this.value="+temp[i]['Qty']+"}else if(this.value<0){this.value=0}'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
                 var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
 
