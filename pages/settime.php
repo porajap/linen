@@ -53,7 +53,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Custom styles for this template-->
     <link href="../template/css/sb-admin.css" rel="stylesheet">
     <link href="../css/xfont.css" rel="stylesheet">
-
+    <link href="../css/jquery.timepicker.css" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="../jQuery-ui/jquery-1.12.4.js"></script>
     <script src="../jQuery-ui/jquery-ui.js"></script>
@@ -72,10 +72,25 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
     
     <link href="../css/menu_custom.css" rel="stylesheet">
+
+    <script src="../js/jquery.timepicker.js"></script>
+
     <script type="text/javascript">
         var summary = [];
 
+        $('.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '10',
+            maxTime: '6:00pm',
+            defaultTime: '11',
+            startTime: '10:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+        });
         $(document).ready(function(e) {
+            
             $('#rem1').hide();
             $('#rem2').hide();
             Blankinput();
@@ -1253,8 +1268,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['settime'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 " id="settime" placeholder="<?php echo $array['settime'][$language]; ?>" readonly>
-                                      <input type="text"  hidden class="form-control col-sm-7 " id="settimeReal" placeholder="<?php echo $array['settime'][$language]; ?>" readonly>
+                                      <input type="text"  class="form-control col-sm-7 timepicker" id="settime" placeholder="<?php echo $array['settime'][$language]; ?>" >
+                                      <input type="text"  hidden class="form-control col-sm-7 " id="settimeReal" placeholder="<?php echo $array['settime'][$language]; ?>" >
                                       
                                     </div>
                                   </div>
