@@ -180,7 +180,7 @@ $array = json_decode($json,TRUE);
       "<div class='card-header'>"+text1+"</div>"+
       "<div class='card-main'>"+
         "<label class='material-icons'>"+text2+"</label>"+
-        "<div class='material-icons'>"+text4+"</div>"+
+        "<div class='card-title'>"+text4+"</div>"+
         "<div class='main-description'>"+text3+"</div>"+
       "</div>"+
     "</div> </a>";
