@@ -756,7 +756,7 @@ $array2 = json_decode($json2, TRUE);
             'typeCode': typeCode,
             'packCode': packCode
           };
-          // console.log(JSON.stringify(data));
+          console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
         }
       }
