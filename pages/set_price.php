@@ -82,8 +82,7 @@ $array2 = json_decode($json2,TRUE);
     <script type="text/javascript">
         var summary = [];
 
-        $(document).ready(function(e) {
-
+        $(function() {
             $('#delete_icon').addClass('opacity');
             $('.numonly').on('input', function() {
                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
@@ -110,7 +109,6 @@ $array2 = json_decode($json2,TRUE);
 
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
-            // }
 
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
@@ -128,12 +126,20 @@ $array2 = json_decode($json2,TRUE);
             $('.charonly').on('input', function() {
                 this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
             });
-
         }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
-
-
+        // ---------------------------------------------------
+        (function ($) {
+            $(document).ready(function () {
+                $("#datepicker").datepicker({
+                    onSelect: function (date, el) {
+                        resetinput();
+                    }
+                });
+            });
+        })(jQuery);
+        // ---------------------------------------------------
       function getHotpital() {
               var data2 = {
                   'STATUS': 'getHotpital'
