@@ -232,6 +232,14 @@ $array2 = json_decode($json2,TRUE);
                     TotalResult = result.toFixed(2);
                     $('.result_'+j+i).val(TotalResult);
                 }
+                ResultArray = 0;
+                $(".SumRow_"+j).each(function() {
+                    ResultArray += Number($(this).val());
+                });
+                $('#SumRow_'+j).val(ResultArray.toFixed(2));
+
+                var total_par2 = ResultArray*$('#total_par2').val();
+                $('#CalRow_'+j).val(total_par2.toFixed(2));
             }
         }
         function SaveChange(ItemCode, row){
@@ -323,21 +331,21 @@ $array2 = json_decode($json2,TRUE);
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
             if (result.value) {
-							var data = {
-								'STATUS': 'CreateDocument',
-								'QtyArray1': QtyArray1,
-								'QtyArray2': QtyArray2,
-								'QtyArray3': QtyArray3,
-								'QtyArray4': QtyArray4,
-								'ItemCodeArray': ItemCodeArray,
-								'AllSum': AllSum,
-								'changeArray': changeArray,
-								'PercentArray': PercentArray,
-								'Total_par2': Total_par2
-							};
-							senddata(JSON.stringify(data));
+                var data = {
+                    'STATUS': 'CreateDocument',
+                    'QtyArray1': QtyArray1,
+                    'QtyArray2': QtyArray2,
+                    'QtyArray3': QtyArray3,
+                    'QtyArray4': QtyArray4,
+                    'ItemCodeArray': ItemCodeArray,
+                    'AllSum': AllSum,
+                    'changeArray': changeArray,
+                    'PercentArray': PercentArray,
+                    'Total_par2': Total_par2
+                };
+                senddata(JSON.stringify(data));
                 } else if (result.dismiss === 'cancel') {
-                                swal.close();
+                    swal.close();
                 } 
             })
         }
