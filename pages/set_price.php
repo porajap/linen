@@ -109,7 +109,6 @@ $array2 = json_decode($json2,TRUE);
 
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
-            // }
 
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
