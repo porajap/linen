@@ -756,7 +756,7 @@ $array2 = json_decode($json2, TRUE);
             'typeCode': typeCode,
             'packCode': packCode
           };
-          console.log(JSON.stringify(data));
+          // console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
         }
       }
@@ -1364,10 +1364,12 @@ $array2 = json_decode($json2, TRUE);
               $("#catagory2").append(Str);
               CreateItemCode();
             } else if ((temp["form"] == 'GetHospital')) {
+              var StrTr = "<option value=''>-</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var StrTr = "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
-                $("#hospital").append(StrTr);
+                 StrTr += "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
               }
+              $("#hospital").append(StrTr);
+
             } else if ((temp["form"] == 'GetmainCat')) {
               var Str = "<option value=''>-</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -1379,14 +1381,16 @@ $array2 = json_decode($json2, TRUE);
               }
               $("#maincatagory2").append(Str);
             } else if ((temp["form"] == 'getUnit')) {
+              var StrTr1 = "<option value=''>-</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                StrTr1 += "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
                 var StrTr = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
-                $("#UnitName").append(StrTr);
-                $("#sUnitName").append(StrTr);
 
                 $("#subUnit").append(StrTr);
                 $("#Unitshows").append(StrTr);
               }
+              $("#UnitName").append(StrTr1);
+              $("#sUnitName").append(StrTr1);
 
             } else if (temp["form"] == 'getDocDetail') {
               $("#TableDetail tbody").empty();
@@ -2460,6 +2464,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-md-8">
                                 <div class='form-group row'>
                                   <select  onchange="resetinput()" class="form-control col-sm-4 checkblank" id="typeLinen" onchange="CreateItemCode()">
+                                    <option value="">-</option>
                                     <option value="P">Patient Shirt</option>
                                     <option value="S">Staff Uniform</option>
                                     <option value="F">Flat Sheet</option>
@@ -2470,6 +2475,7 @@ $array2 = json_decode($json2, TRUE);
 
                                   <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
                                   <select onchange="resetinput()"  class="form-control col-sm-4 checkblank numonly" id="numPack" onchange="CreateItemCode()">
+                                    <option value="">-</option>
                                     <option value="01">1 PCS</option>
                                     <option value="05">5 Pc</option>
                                     <option value="10">10 Pc</option>
@@ -2550,6 +2556,7 @@ $array2 = json_decode($json2, TRUE);
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['sizeunit'][$language]; ?></label>
                               <select class="form-control col-sm-7 checkblank numonly" id="SizeCode">
+                                <option value="">-</option>
                                 <option value="1">SS</option>
                                 <option value="2">S</option>
                                 <option value="3">M</option>
