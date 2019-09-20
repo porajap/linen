@@ -42,7 +42,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Bootstrap core CSS-->
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-    <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
+    <link href="../bootstrap/css/myinput.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -182,39 +182,56 @@ $array2 = json_decode($json2,TRUE);
         function Calculate(){
             var DepCount =   $('#DepCount').val();
             var RowChg = $('#RowChg').val();
-            for(var j = 0; j<RowChg; j++){
-                for(var i = 0; i<DepCount; i++){
-                  Qty = 0;
-                    var percent = Number($('#percent_'+i).val());
-                    if(percent>100){
-                        $('#percent_'+i).val(100);
-                    }else if(percent<0){
-                        $('#percent_'+i).val(0);
-                    }else{
-                        var percent = Number($('#percent_'+i).val())/100;
-                        var result = 0;
-                        var change = Number($('#change_'+j).val());
-                        $(".col_"+i).each(function() {
-                            Qty += Number($(this).val());
-                        });
-                        result = (Qty * percent * change) + Qty;
-                        TotalResult = result.toFixed(2);
-                        $('.result_'+j+i).val(TotalResult);
-                    }
-                    
+            var ItemCode = [];
+            var chkItem = [];
+            $(".ItemCode").each(function() {
+                ItemCode.push($(this).data('itemcode'));
+            });
+            for (var i = 0; i < ItemCode.length; i++) {
+                if ($('#chkItem_'+ItemCode[i]).is(':checked')){
+                    chkItem.push(1);
+                }else{
+                    chkItem.push(0);
                 }
-                SumRow = 0;
-                $(".SumRow_"+j).each(function() {
-                  SumRow += Number($(this).val());
-                });
-                TotalSum = SumRow.toFixed(2);
-                $('#SumRow_'+j).val(TotalSum);
-
-                const ParValue = Number($('#total_par2').val())
-                var Par = Number($(".TotalSum_"+j).val());
-                resutlTotal = ParValue * Par;
-                TotalPar = resutlTotal.toFixed(2);
-                $('#CalRow_'+j).val(TotalPar);
+            }
+            for(var j = 0; j<ItemCode.length; j++){
+                for(var i = 0; i<DepCount; i++){
+                    Qty = 0;
+                    chk = [];
+                    var percent = Number($('#percent_'+i).val());
+                    var change = Number($('#change_'+j).val());
+                    var result = 0;
+                    if(chkItem[j] == 0){
+                        if(percent>100){
+                            $('#percent_'+i).val(100);
+                        }else if(percent<0){
+                            $('#percent_'+i).val(0);
+                        }else{
+                            $(".col_"+i).each(function() {
+                                var type = $(this).data('type');
+                                if(type == 2){
+                                    Qty += 0;
+                                }else{
+                                    Qty += Number($(this).val());
+                                }
+                            });
+                        }
+                    }else{
+                        if(percent>100){
+                            $('#percent_'+i).val(100);
+                        }else if(percent<0){
+                            $('#percent_'+i).val(0);
+                        }else{
+                            $(".col_"+i).each(function() {
+                                Qty += Number($(this).val());
+                            });
+                        }
+                    }
+                    var percent = Number($('#percent_'+i).val())/100;
+                    result = (Qty * percent * change) + Qty;
+                    TotalResult = result.toFixed(2);
+                    $('.result_'+j+i).val(TotalResult);
+                }
             }
         }
         function SaveChange(ItemCode, row){
@@ -359,6 +376,7 @@ $array2 = json_decode($json2,TRUE);
                             var HeadTB = "<tr style='height:50px;'>" + 
                                             "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
                                             "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
+                                            "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
                                             "<th style='width :15%;'  class='text-left'>Department</th>"+
                                             "<th style='width :13%;' class='text-center'>Change <br>(ความถึ่ในการเปลี่ยน)</th>";
                             for (var i = 0; i < temp['CountRow']; i++) {
@@ -388,6 +406,7 @@ $array2 = json_decode($json2,TRUE);
 
                             StrTRx = "<tr style='height:50px;'>"+
                                 "<td style='width :5%;'  class='text-left'  rowspan='4'></td>"+
+                                "<td style='width :5%;'  class='text-left'  rowspan='4'></td>"+
                                 "<td style='width:5%;' class='text-center'>1</td>"+
                                 "<td style='width:5%;' class='text-left'>จำนวนเตียงรวม <br>(Total Patient Room)</td>"+
                                 "<td></td>";
@@ -405,7 +424,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty2 = temp[i]['Qty2']==null?0:temp[i]['Qty2'];
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+"' id='QtyType2_"+i+"' value='"+Qty2+"' onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+" type2' data-type='2' id='QtyType2_"+i+"' value='"+Qty2+"' onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
                                 StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty2' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
@@ -437,15 +456,16 @@ $array2 = json_decode($json2,TRUE);
                             "</tr>";
                             StrTRx += "<tr style='height:50px;'>"+
                                 "<td style='width:5%;' nowrap  class='text-center'></td>"+
-                                "<td nowrap  class='text-center'  style='width:15%;'>"+
+                                "<td nowrap  class='text-center'  style='width:15%;' colspan='2'>"+
                                     "<select name='type_"+i+"' id='type_"+i+"' class='form-control width_custom'>"+
                                         "<option>เลือกทั้งหมด</option>"+
                                         "<option>PPU</option>"+
                                         "<option>NONPPU</option>"+
                                     "</select>"+
                                 "</td>"+
+                                // "<td style='width:5%;'></td>"+
                                 "<td  nowrap  class='text-center'>"+
-                                    "<select name='safty_"+i+"' id='safty_"+i+"' class='form-control' style='width: 175px;'>"+
+                                    "<select name='safty_"+i+"' id='safty_"+i+"' class='form-control' style='width: 260px;'>"+
                                         "<option>Total Safty stock</option>"+
                                         "<option>เลือกทั้งหมด</option>"+
                                     "</select>"+
@@ -465,10 +485,12 @@ $array2 = json_decode($json2,TRUE);
                                     "</tr>";
                             if(temp['RowCount']>0){
                                 for (var j = 0; j < (temp['RowCount']); j++) {
+                                    var chkItem = "<input type='checkbox' class='chkItem' name='checkitem' checked  id='chkItem_"+temp[j]['ItemCode']+"'  value='1' onclick='Calculate();'>";
                                     change_value = temp[j]['change_value']==null?0:temp[j]['change_value'];
                                     StrTRx += "<tr style='height:50px;'>"+
                                         "<td style='width :5%;' class='text-center'>"+(j+1)+"</td>"+
                                         "<td  nowrap  class='text-left'>"+temp[j]['mainType']+"</td>"+
+                                        "<td style='width :5%;' class='text-center'>"+chkItem+"</td>"+
                                         "<td  nowrap  class='text-left ItemCode' data-itemcode='"+temp[j]['ItemCode']+"'>"+temp[j]['ItemName']+"</td>"+
                                         "<td  nowrap  class='text-left'><input type='text' value='"+change_value+"' id='change_"+j+"' class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
                                         for (var i = 0; i < temp['CountRow']; i++) {
@@ -493,14 +515,14 @@ $array2 = json_decode($json2,TRUE);
                             TotalQty();
                             Calculate();
                         }else if(temp['form'] == 'CreateDocument'){
-													swal({
-														title: '',
-														text: '<?php echo $array['savesuccess'][$language]; ?>',
-														type: 'success',
-														showCancelButton: false,
-														showConfirmButton: false,
-														timer: 1500,
-													});
+                            swal({
+                                title: '',
+                                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                                type: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
