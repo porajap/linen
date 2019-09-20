@@ -320,8 +320,8 @@ $array2 = json_decode($json2,TRUE);
           }
         });
         console.log(count);
-
-        var UnitCode = $('#UnitCode').val();
+        
+        var UnitCode = $('#UnitCodeReal').val();
         var UnitName = $('#UnitName').val();
 
         if(count==0){
