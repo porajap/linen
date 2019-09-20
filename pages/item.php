@@ -634,6 +634,9 @@ $array2 = json_decode($json2, TRUE);
       var xCenter = 0;
       var xItemnew = 0;
       var tdas = 0;
+      var masterItem = 0;
+
+      if ($('#masterItem').is(':checked')) masterItem = 1;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
@@ -675,7 +678,9 @@ $array2 = json_decode($json2, TRUE);
                   'sUnit': sUnit,
                   'xCenter': xCenter,
                   'xItemnew': xItemnew,
-                  'tdas': tdas
+                  'tdas': tdas ,
+                  'masterItem': masterItem 
+                  
                 };
                 senddata(JSON.stringify(data));
               } else if (result.dismiss == 'cancel') {
