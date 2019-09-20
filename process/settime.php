@@ -5,96 +5,6 @@ $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
 }
-function ShowItem($conn, $DATA)
-{
-  $count = 0;
-  $xHptCode = $DATA['HptCode'];
-  if($xHptCode==""){
-    $xHptCode = 'BHQ';
-  }
-  $Keyword = $DATA['Keyword'];
-  $Sql = "SELECT site.HptCode,
-          CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,
-          department.DepCode,department.DepName,department.IsDefault,
-		  CASE department.IsDefault WHEN 0 THEN '0' WHEN 1 THEN '1' END AS DefaultName
-          FROM site
-          INNER JOIN department ON site.HptCode = department.HptCode
-          WHERE department.IsStatus = 0
-          AND site.HptCode = '$xHptCode'
-          AND ( department.DepCode LIKE '%$Keyword%' OR
-          department.DepName LIKE '%$Keyword%')
-          ORDER BY department.DepName ASC
-          ";
-          $return['sql'] = $Sql;
-  // var_dump($Sql); die;
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['HptCode'] = $Result['HptCode'];
-    $return[$count]['DepCode'] = $Result['DepCode'];
-    $return[$count]['DepName'] = $Result['DepName'];
-	$return[$count]['IsDefault'] = $Result['IsDefault'];
-    $return[$count]['DefaultName'] = $Result['DefaultName'];
-    $count++;
-  }
-
-  if($count>0){
-    $return['status'] = "success";
-    $return['form'] = "ShowItem";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "notfound";
-    $return['msg'] = "notfound";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-
-}
-
-function getdetail($conn, $DATA)
-{
-  $count = 0;
-  $DepCode = $DATA['DepCode'];
-  $number = $DATA['number'];
-  //---------------HERE------------------//
-  $Sql = "SELECT
-          department.DepCode,
-          department.HptCode,
-          department.DepName,
-          department.IsStatus,
-		  department.IsDefault
-          FROM department
-          WHERE department.IsStatus = 0
-          AND department.DepCode = $DepCode LIMIT 1";
-  // var_dump($Sql); die;
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['DepCode'] 		= $number;
-    $return['DepCodeReal'] 		= $Result['DepCode'];
-    $return['HptCode'] 		= $Result['HptCode'];
-    $return['DepName'] 		= $Result['DepName'];
-    $return['IsStatus'] 	= $Result['IsStatus'];
-	$return['IsDefault'] 	= $Result['IsDefault'];
-    $count++;
-  }
-
-  if($count>0){
-    $return['status'] = "success";
-    $return['form'] = "getdetail";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "notfound";
-    $return['msg'] = "notfound";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-
-}
 
 function getSection($conn, $DATA)
 {
@@ -102,8 +12,7 @@ function getSection($conn, $DATA)
   $Sql = "SELECT
           site.HptCode,
           site.HptName
-          FROM
-          site
+          FROM site
 					WHERE IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -119,191 +28,95 @@ function getSection($conn, $DATA)
   die;
 
 }
-
-function AddItem($conn, $DATA)
-{
-  $count = 0;
+function ShowItem($conn, $DATA){
   $HptCode = $DATA['HptCode'];
-  $DepName = $DATA['DepName'];
-  $xCenter = $DATA['xCenter'];
-
-  if($xCenter == 1){ 
-  $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-  WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $count = $Result['Cnt'];
-    $DepCode = $Result['DepCode'];
-  }
-  if($count > 0){
-    $return['status'] = "failed";
-    $return['msg'] = "editcenterfailedmsg";
-   echo json_encode($return);
-   mysqli_close($conn);
-   die;
- }
-
-}
-
-  $Sql = "INSERT INTO department(
-          HptCode,
-          DepName,
-          IsStatus,
-		  IsDefault
-		  )
-          VALUES
-          (
-            '$HptCode',
-            '$DepName',
-            0,
-            $xCenter
-          )
-  ";
-  // var_dump($Sql); die;
-  if(mysqli_query($conn, $Sql)){
-    $return['status'] = "success";
-    $return['form'] = "AddItem";
-    $return['msg'] = "addsuccess";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "failed";
-    $return['msg'] = "addfailed";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-
-}
-
-function EditItem($conn, $DATA)
-{
-  // var_dump($DATA); die;
+  $Keyword = $DATA['Keyword'];
   $count = 0;
-  $HptCode = $DATA['HptCode'];
-  $DepName = $DATA['DepName'];
-  $xCenter = $DATA['xCenter'];
-
-  $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-  WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $count = $Result[ 'Cnt'];
-    $xDepCode = $Result[ 'DepCode'];
+  if($HptCode==''){
+    $Sql = "SELECT HptCode FROM site WHERE IsStatus = 0 LIMIT 1";
+    $meQuery = mysqli_query($conn, $Sql);
+    $Result = mysqli_fetch_assoc($meQuery);
+    $HptCode = $Result['HptCode'];
   }
-  if($xCenter == 1 && $count > 0 && $DepCode != $xDepCode){
-    $return['status'] = "failed";
-    $return['msg'] = "editcenterfailedmsg";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-
-  $Sql = "UPDATE department SET
-          HptCode =  '$HptCode',
-          DepName = ' $DepName',
-          IsDefault =  $xCenter 
-          WHERE DepCode = ".$DATA['DepCode']."
-  ";
-  // var_dump($Sql); die;
-  if(mysqli_query($conn, $Sql)){
-    $return['status'] = "success";
-    $return['form'] = "EditItem";
-    $return['msg'] = "editsuccess";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "failed";
-    $return['msg'] = "editfailed :  $xCenter";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-
-  // if($DATA["DepCode"]!=""){
-  //   $Sql = "UPDATE department SET
-  //           HptCode =  '$HptCode',
-  //           DepName = ' $DepName',
-  //           IsDefault =  $xCenter 
-  //           WHERE DepCode = ".$DATA['DepCode']."
-  //   ";
-  //   // var_dump($Sql); die;
-  //   if(mysqli_query($conn, $Sql)){
-  //     $return['status'] = "success";
-  //     $return['form'] = "EditItem";
-  //     $return['msg'] = "editsuccess";
-  //     echo json_encode($return);
-  //     mysqli_close($conn);
-  //     die;
-  //   }else{
-  //     $return['status'] = "failed";
-  //     $return['msg'] = "editfailed :  $xCenter";
-  //     echo json_encode($return);
-  //     mysqli_close($conn);
-  //     die;
-  //   }
-  // }else{
-  //   $return['status'] = "failed";
-  //   $return['msg'] = "editfailed";
-  //   echo json_encode($return);
-  //   mysqli_close($conn);
-  //   die;
-  // }
-
-}
-
-function CancelItem($conn, $DATA)
-{
-  $count = 0;
-  if($DATA["DepCode"]!=""){
-    $Sql = "UPDATE department SET
-            IsStatus = 1
-            WHERE DepCode = ".$DATA['DepCode']."
-    ";
-    // var_dump($Sql); die;
-    if(mysqli_query($conn, $Sql)){
-      $return['status'] = "success";
-      $return['form'] = "CancelItem";
-      $return['msg'] = "cancelsuccess";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }else{
-      $return['status'] = "failed";
-      $return['msg'] = "cancelfailed";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
+  $Select = "SELECT te.ID, te.HptCode, te.time_value , site.HptName
+    FROM time_express te
+    INNER JOIN site ON site.HptCode = te.HptCode WHERE te.HptCode = '$HptCode'";
+    if($Keyword != ''){
+      $Select .= "  AND (te.time_value LIKE  '%$Keyword%')";
     }
-  }else{
-    $return['status'] = "failed";
-    $return['msg'] = "cancelfailed";
+    $meQuery = mysqli_query($conn, $Select);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['ID']  = $Result['ID'];
+      $return[$count]['HptName']  = $Result['HptName'];
+      $return[0]['HptCode']  = $Result['HptCode'];
+      $return[$count]['time_value']  = $Result['time_value'];
+      $count++;
+    }
+    $return['Count'] = $count;
+    $return['status'] = "success";
+    $return['form'] = 'ShowItem';
     echo json_encode($return);
     mysqli_close($conn);
     die;
-  }
-
+    
 }
+function AddItem($conn, $DATA){
+  $HptCode = $DATA['HptCode'];
+  $Time = $DATA['Time'];
+  $Sql = "INSERT INTO time_express (HptCode, time_value)VALUES('$HptCode', '$Time')";
+  mysqli_query($conn, $Sql);
+  ShowItem($conn, $DATA);
+}
+function getDetail($conn, $DATA){
+  $ID = $DATA['ID'];
+  $Sql = "SELECT te.ID, te.HptCode, te.time_value , site.HptName
+  FROM time_express te
+  INNER JOIN site ON site.HptCode = te.HptCode WHERE te.ID = '$ID'";
+  $meQuery = mysqli_query($conn, $Sql);
+  $Result = mysqli_fetch_assoc($meQuery);
+  $return['ID']  = $Result['ID'];
+  $return['HptCode']  = $Result['HptCode'];
+  $return['time_value']  = $Result['time_value'];
+  $return['status'] = "success";
+  $return['form'] = 'getDetail';
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+function EditItem($conn, $DATA){
+  $ID = $DATA['TimeID'];
+  $HptCode = $DATA['HptCode'];
+  $Time = $DATA['Time'];
+  $Sql = "UPDATE time_express SET time_value = '$Time' WHERE ID = $ID";
+  mysqli_query($conn, $Sql);
+  ShowItem($conn, $DATA);
+}
+function CancelItem($conn, $DATA){
+  $HptCode = $DATA['HptCode'];
+  $TimeID = $DATA['TimeID'];
+  $Sql = "DELETE FROM time_express WHERE ID = $TimeID";
+  mysqli_query($conn, $Sql);
+  ShowItem($conn, $DATA);
+}
+
 
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
   $DATA = json_decode(str_replace ('\"','"', $data), true);
 
-      if ($DATA['STATUS'] == 'ShowItem') {
-        ShowItem($conn, $DATA);
-      }else if ($DATA['STATUS'] == 'getSection') {
+      if ($DATA['STATUS'] == 'getSection') {
         getSection($conn, $DATA);
       }else if ($DATA['STATUS'] == 'AddItem') {
-        AddItem($conn,$DATA);
+        AddItem($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'ShowItem') {
+        ShowItem($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'getDetail') {
+        getDetail($conn, $DATA);
       }else if ($DATA['STATUS'] == 'EditItem') {
-        EditItem($conn,$DATA);
+        EditItem($conn, $DATA);
       }else if ($DATA['STATUS'] == 'CancelItem') {
-        CancelItem($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'getdetail') {
-        getdetail($conn,$DATA);
+        CancelItem($conn, $DATA);
       }
 
 }else{

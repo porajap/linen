@@ -72,311 +72,73 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
     
     <link href="../css/menu_custom.css" rel="stylesheet">
-
-    <script src="../js/jquery.timepicker.js"></script>
-
     <script type="text/javascript">
         var summary = [];
 
-        $('.timepicker').timepicker({
-            timeFormat: 'h:mm p',
-            interval: 60,
-            minTime: '10',
-            maxTime: '6:00pm',
-            defaultTime: '11',
-            startTime: '10:00',
-            dynamic: false,
-            dropdown: true,
-            scrollbar: true
-        });
         $(document).ready(function(e) {
             
             $('#rem1').hide();
             $('#rem2').hide();
-            Blankinput();
-            //On create
-            $('.TagImage').bind('click', {
-                imgId: $(this).attr('id')
-            }, function(evt) {
-                alert(evt.imgId);
-            });
-            //On create
-            // var userid = '<?php echo $Userid; ?>';
-            // if(userid!="" && userid!=null && userid!=undefined){
-
-            var HptCode = $('#hptsel').val();
-            var Keyword = $('#searchitem').val();
-            var data = {
-                'STATUS': 'ShowItem',
-                'HptCode': HptCode,
-                'Keyword': Keyword
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-            // }
-
-            var data2 = {
-                'STATUS': 'getSection',
-                'HptCode': HptCode
-            };
-            console.log(JSON.stringify(data2));
-            senddata(JSON.stringify(data2));
-
+            getSection();
+            ShowItem();
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
                     ShowItem();
                 }
             });
 
-            $('.editable').click(function() {
-                alert('hi');
+            $('#settime').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 60,
+                minTime: '0',
+                // maxTime: '6:00pm',
+                // defaultTime: '8',
+                startTime: '00:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: false
             });
-
-            $('.numonly').on('input', function() {
-                this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-            });
-            $('.charonly').on('input', function() {
-                this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
-            });
-
         }).click(function(e) { parent.afk();
-      }).keyup(function(e) { parent.afk();
-      });
-
-        dialog = jqui("#dialog").dialog({
-            autoOpen: false,
-            height: 650,
-            width: 1200,
-            modal: true,
-            buttons: {
-                "<?php echo $array['close'][$language]; ?>": function() {
-                    dialog.dialog("close");
-                }
-            },
-            close: function() {
-                console.log("close");
-            }
+        }).keyup(function(e) { parent.afk();
         });
 
-        jqui("#dialogreq").button().on("click", function() {
-            dialog.dialog("open");
-        });
-
-        function unCheckDocDetail() {
-            // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-            if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length) {
-                $('input[name="checkAllDetail').prop('checked', true);
-            } else {
-                $('input[name="checkAllDetail').prop('checked', false);
-            }
-        }
-
-        function getDocDetail() {
-            // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-            if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length) {
-                $('input[name="checkAllDoc').prop('checked', true);
-            } else {
-                $('input[name="checkAllDoc').prop('checked', false);
-            }
-
-            /* declare an checkbox array */
-            var chkArray = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkdocno:checked").each(function() {
-                chkArray.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var DocNo = chkArray.join(',');
-            // alert( DocNo );
-            $('#TableDetail tbody').empty();
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
+        function getSection() {
             var data = {
-                'STATUS': 'getDocDetail',
-                'HptCode': HptCode,
-                'DocNo': DepCode
+                'STATUS': 'getSection'
             };
-            console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
-        var isChecked1 = false;
-        var isChecked2 = false;
-
-        function getCheckAll(sel) {
-            if (sel == 0) {
-                isChecked1 = !isChecked1;
-                // $( "div #aa" )
-                //   .text( "For this isChecked " + isChecked1 + "." )
-                //   .css( "color", "red" );
-
-                $('input[name="checkdocno"]').each(function() {
-                    this.checked = isChecked1;
-                });
-                getDocDetail();
-            } else {
-                isChecked2 = !isChecked2;
-                $('input[name="checkdocdetail"]').each(function() {
-                    this.checked = isChecked2;
-                });
-            }
-        }
-
-        function getSearchDocNo() {
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
-
-            $('#TableDocumentSS tbody').empty();
-            var str = $('#searchtxt').val();
-            var datepicker = $('#datepicker').val();
-            datepicker = datepicker.substring(6, 10) + "-" + datepicker.substring(3, 5) + "-" + datepicker.substring(0, 2);
-
-            var data = {
-                'STATUS': 'getSearchDocNo',
-                'DEPT': dept,
-                'DocNo': str,
-                'Datepicker': datepicker
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-
-        function CreateSentSterile() {
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
-            /* declare an checkbox array */
-            var chkArray1 = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkdocno:checked").each(function() {
-                chkArray1.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var DocNo = chkArray1.join(',');
-
-            /* declare an checkbox array */
-            var chkArray2 = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkdocdetail:checked").each(function() {
-                chkArray2.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var UsageCode = chkArray2.join(',');
-            var data = {
-                'STATUS': 'CreateSentSterile',
-                'DEPT': dept,
-                'DocNo': DocNo,
-                'UsageCode': UsageCode,
-                'userid': userid
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-
-        function setTag() {
-            var DocNo = $("#docnofield").val();
-            /* declare an checkbox array */
-            var chkArray = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#IsTag:checked").each(function() {
-                chkArray.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var UsageCode = chkArray.join(',');
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
-            var data = {
-                'STATUS': 'SSDTag',
-                'DEPT': dept,
-                'userid': userid,
-                'DocNo': DocNo,
-                'UsageCode': UsageCode
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-
-        function CreatePayout() {
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
-            var data = {
-                'STATUS': 'CreatePayout',
-                'DEPT': dept,
-                'userid': userid
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-
-        function AddPayoutDetail() {
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
-            var data = {
-                'STATUS': 'CreatePayout',
-                'DEPT': dept,
-                'userid': userid
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-
-        function ShowItem() {
+        function ShowItem(){
             var HptCode = $('#hptsel').val();
-            var keyword = $('#searchitem').val();
+            var Keyword = $('#searchitem').val();
             var data = {
-                'STATUS': 'ShowItem',
-                'HptCode': HptCode,
-                'Keyword': keyword
+                'STATUS':'ShowItem',
+                'HptCode':HptCode,
+                'Keyword':Keyword,
             };
-
-            console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
-        function AddItem() {
-            var count = 0;
-            $(".checkblank").each(function() {
-                if ($(this).val() == "" || $(this).val() == undefined) {
-                    count++;
-                }
-            });
-            console.log(count);
-
-            var DepCode = $('#DepCode').val();
-            var DepName = $('#DepName').val();
+        function AddItem(){
             var HptCode = $('#hptsel2').val();
-            var xCenter = 0;
-
-
-            if ($('#xCenter').is(':checked')) xCenter = 1;
-
-            if (count == 0) {
-                $('.checkblank').each(function() {
-                    if ($(this).val() == "" || $(this).val() == undefined) {
-                        $(this).css('border-color', 'red');
-                    }
-                });
-                if (DepCode == "") {
+            var Time = $('#settime').val();
+            var TimeID = $('#idTime').val();
+            if(HptCode=='' && Time != ''){
+                $('#hptsel2').addClass('border border-danger');
+                $('#rem1').show();
+            }else if(HptCode == '' && Time == ''){
+                $('#rem1').show();
+                $('#rem2').show();
+                $('#hptsel2').addClass('border border-danger');
+                $('#settime').addClass('border border-danger');
+            }else if(HptCode != '' && Time == ''){
+                $('#rem2').show();
+                $('#settime').addClass('border border-danger');
+            }else{
+                if(TimeID!=''){
                     swal({
-                        title: "<?php echo $array['adddata'][$language]; ?>",
-                        text: "<?php echo $array['adddata1'][$language]; ?>",
-                        type: "question",
+                        title: "<?php echo $array['edit'][$language]; ?>",
+                        text: "<?php echo $array['editdata1'][$language]; ?>",
+                        type: "warning",
                         showCancelButton: true,
                         confirmButtonClass: "btn-success",
                         confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
@@ -388,31 +150,38 @@ $array2 = json_decode($json2,TRUE);
                         showCancelButton: true
                     }).then(result => {
                         if (result.value) {
-
-                        var data = {
-                            'STATUS': 'AddItem',
-                            'HptCode': HptCode,
-                            'DepName': DepName,
-                            'DepCode': DepCode,
-                            'xCenter': xCenter
-                        };
-
-                        console.log(JSON.stringify(data));
-                        senddata(JSON.stringify(data));
-                    } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }  
+                            swal({
+                                title: '',
+                                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                                type: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            setTimeout(() => {
+                                Blankinput();
+                                var data = {
+                                    'STATUS':'EditItem',
+                                    'HptCode':HptCode,
+                                    'TimeID':TimeID,
+                                    'Time':Time
+                                };
+                                senddata(JSON.stringify(data));
+                            }, 1500);
+                            
+                        } else if (result.dismiss === 'cancel') {
+                            swal.close();
+                        }
                     })
-
-                } else {
+                }else{
                     swal({
-                        title: "<?php echo $array['editdata'][$language]; ?>",
-                        text: "<?php echo $array['editdata1'][$language]; ?>",
-                        type: "question",
+                        title: "<?php echo $array['confirmsave1'][$language]; ?>",
+                        text: "<?php echo $array['adddata1'][$language]; ?>",
+                        type: "warning",
                         showCancelButton: true,
-                        confirmButtonClass: "btn-warning",
-                        confirmButtonText: "<?php echo $array['edit'][$language]; ?>",
-                        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
                         confirmButtonColor: '#6fc864',
                         cancelButtonColor: '#3085d6',
                         closeOnConfirm: false,
@@ -420,50 +189,40 @@ $array2 = json_decode($json2,TRUE);
                         showCancelButton: true
                     }).then(result => {
                         if (result.value) {
-
-                        var data = {
-                            'STATUS': 'EditItem',
-                            'DepCode': DepCode,
-                            'DepName': DepName,
-                            'HptCode': HptCode,
-                            'xCenter': xCenter
-                        };
-
-                        console.log(JSON.stringify(data));
-                        senddata(JSON.stringify(data));
-                    } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }  
-             
+                            swal({
+                                title: '',
+                                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                                type: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            setTimeout(() => {
+                                Blankinput();
+                                var data = {
+                                    'STATUS':'AddItem',
+                                    'HptCode':HptCode,
+                                    'Time':Time
+                                };
+                                senddata(JSON.stringify(data));
+                            }, 1500);
+                            
+                        } else if (result.dismiss === 'cancel') {
+                            swal.close();
+                        }
                     })
-
                 }
-            } else {
-                swal({
-                    title: '',
-                    text: "<?php echo $array['required'][$language]; ?>",
-                    type: 'info',
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    confirmButtonText: 'Ok'
-                })
-                $('.checkblank').each(function() {
-                    if ($(this).val() == "" || $(this).val() == undefined) {
-                        $(this).css('border-color', 'red');
-                        if(HptCode ==""||HptCode==undefined){
-                        $('#rem1').show().css("color","red");
-                        }
-                        if(DepName ==""||DepName==undefined){
-                        $('#rem2').show().css("color","red");
-                        }
-                    }
-                });
             }
         }
-
+        function getDetail(ID){
+            $('#bCancel').attr('disabled', false);
+            $('#delete_icon').removeClass('opacity');
+            var data = {
+                'STATUS':'getDetail',
+                'ID':ID
+            };
+            senddata(JSON.stringify(data));
+        }
         function CancelItem() {
             swal({
                 title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -480,163 +239,50 @@ $array2 = json_decode($json2,TRUE);
                 showCancelButton: true
             }).then(result => {
                 if (result.value) {
+                    var TimeID = $('#idTime').val();
+                    var HptCode = $('#hptsel').val();
+                    swal({
+                        title: '',
+                        text: '<?php echo $array['dte'][$language]; ?>',
+                        type: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    setTimeout(() => {
+                        var data = {
+                            'STATUS': 'CancelItem',
+                            'HptCode': HptCode,
+                            'TimeID': TimeID
+                        }
+                        senddata(JSON.stringify(data));
+                    }, 1500);
                     
-                var DepCode = $('#DepCodeReal').val();
-                var data = {
-                    'STATUS': 'CancelItem',
-                    'DepCode': DepCode
-                }
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-            } else if (result.dismiss === 'cancel') {
+                } else if (result.dismiss === 'cancel') {
             swal.close();
           }
             })
         }
-
         function Blankinput() {
             $('#rem1').hide();
             $('#rem2').hide();
-            $('.checkblank').each(function() {
-                $(this).val("");
-            });
-            $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', '');
-            }else{
-              $(this).css('border-color', '');
-            }
-          });
-            $('#DepCode').val("");
-            $('#hptsel2').val("BHQ");
-            ShowItem();
+            // $('.checkblank').each(function() {
+            //     $(this).val("");
+            // });
+            // $('.checkblank').each(function() {
+            //     if($(this).val()==""||$(this).val()==undefined){
+            //     $(this).css('border-color', '');
+            //     }else{
+            //     $(this).css('border-color', '');
+            //     }
+            // });
+            $('#hptsel2').val("");
+            $('#settime').val("");
+            $('#idTime').val("");
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
+            ShowItem();
         }
-
-        function getdetail(DepCode, row) {
-        var number = parseInt(row)+1;
-        var previousValue = $('#checkitem_'+row).attr('previousValue');
-        var name = $('#checkitem_'+row).attr('name');
-        if (previousValue == 'checked') {
-          $('#checkitem_'+row).removeAttr('checked');
-          $('#checkitem_'+row).attr('previousValue', false);
-          $('#checkitem_'+row).prop('checked', false);
-          Blankinput();
-        } else {
-          $("input[name="+name+"]:radio").attr('previousValue', false);
-          $('#checkitem_'+row).attr('previousValue', 'checked');
-            if (DepCode != "" && DepCode != undefined) {
-                var data = {
-                    'STATUS': 'getdetail',
-                    'DepCode': DepCode ,
-                    'number' : number 
-                };
-
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-            }
-        }
-        }
-
-        function SavePY() {
-            $('#TableDocumentSS tbody').empty();
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
-            var datepicker = $('#datepicker').val();
-            datepicker = datepicker.substring(6, 10) + "-" + datepicker.substring(3, 5) + "-" + datepicker.substring(0, 2);
-
-            var DocNo = $("#docno").val();
-            $("#searchtxt").val(DocNo);
-
-            if (DocNo.length > 0) {
-                swal({
-                    title: '<?php echo $array['
-                    savesuccess '][$language]; ?>',
-                    text: DocNo,
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    confirmButtonText: 'Ok'
-                })
-                var data = {
-                    'STATUS': 'SavePY',
-                    'DocNo': DocNo,
-                    'DEPT': dept,
-                    'Datepicker': datepicker
-                };
-
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-            }
-        }
-
-        function DelItem() {
-            var DocNo = $("#docno").val();
-            /* declare an checkbox array */
-            var chkArray = [];
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkitemdetail:checked").each(function() {
-                chkArray.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var UsageCode = chkArray.join(',');
-
-            // alert(DocNo + " : " + UsageCode);
-            var data = {
-                'STATUS': 'DelItem',
-                'DocNo': DocNo,
-                'UsageCode': UsageCode
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-
-        function canceldocno(docno) {
-            swal({
-                title: "<?php echo $array['canceldata'][$language]; ?>",
-                text: "<?php echo $array['canceldata2'][$language]; ?>" + docno + "<?php echo $array['canceldata3'][$language]; ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-                cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                closeOnConfirm: false,
-                closeOnCancel: false,
-                showCancelButton: true
-            }).then(result => {
-                var data = {
-                    'STATUS': 'CancelDocNo',
-                    'DocNo': docno
-                };
-
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-                getSearchDocNo();
-            })
-        }
-
-        function addnum(cnt) {
-            var add = parseInt($('#qty' + cnt).val()) + 1;
-            if ((add >= 0) && (add <= 500)) {
-                $('#qty' + cnt).val(add);
-            }
-        }
-
-        function subtractnum(cnt) {
-            var sub = parseInt($('#qty' + cnt).val()) - 1;
-            if ((sub >= 0) && (sub <= 500)) {
-                $('#qty' + cnt).val(sub);
-            }
-        }
-
         function logoff() {
             swal({
                 title: '',
@@ -658,7 +304,6 @@ $array2 = json_decode($json2,TRUE);
                 }
             })
         }
-
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -689,225 +334,46 @@ $array2 = json_decode($json2,TRUE);
                     }
                     swal.close();
                     if (temp["status"] == 'success') {
-                        if ((temp["form"] == 'ShowItem')) {
-                            $("#TableItem tbody").empty();
-                            console.log(temp);
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var rowCount = $('#TableItem >tbody >tr').length;
-                                var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                                var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                                // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
-                                    "<td style='width: 5%;'>" + chkDoc + "</td>" +
-                                    "<td style='width: 10%;'>" + (i + 1) + "</td>" +
-                                    "<td style='width: 19.5%;'>" + temp[i]['DepName'] + "</td>" +
-									                  "<td style='width: 65%;'>   </td>" +
-                                    "</tr>";
-
-                                if (rowCount == 0) {
-                                    $("#TableItem tbody").append(StrTR);
-                                } else {
-                                    $('#TableItem tbody:last-child').append(StrTR);
-                                }
-                            }
-                        } else if ((temp["form"] == 'getdetail')) {
-                            if ((Object.keys(temp).length - 2) > 0) {
-                                console.log(temp);
-                                $('#DepCodeReal').val(temp['DepCodeReal']);
-                                $('#DepCode').val(temp['DepCode']);
-                                $('#DepName').val(temp['DepName']);
-                                $('#hptsel2').val(temp['HptCode']);
-                                
-								
-								if (temp['IsDefault'] == 1) 
-									$('#xCenter').prop( "checked", true );
-								else
-									$('#xCenter').prop( "checked", false );
-                            }
-                                $('#bCancel').attr('disabled', false);
-                                $('#delete_icon').removeClass('opacity');
-                        } else if ((temp["form"] == 'AddItem')) {
-                            switch (temp['msg']) {
-                                case "notchosen":
-                                    temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
-                                    break;
-                                case "cantcreate":
-                                    temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
-                                    break;
-                                case "noinput":
-                                    temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
-                                    break;
-                                case "notfound":
-                                    temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
-                                    break;
-                                case "addsuccess":
-                                    temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "addfailed":
-                                    temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
-                                    break;
-                                case "editsuccess":
-                                    temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "editfailed":
-                                    temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
-                                    break;
-                                case "cancelsuccess":
-                                    temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "cancelfailed":
-                                    temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
-                                    break;
-                                case "nodetail":
-                                    temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
-                                    break;
-
-                            }
-                            swal({
-                                title: '',
-                                text: temp['msg'],
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                showConfirmButton: false,
-                                timer: 2000,
-                                confirmButtonText: 'Ok'
-                            }).then(function() {
-                                ShowItem();
-                                Blankinput();
-                            }, function(dismiss) {
-                                $('.checkblank').each(function() {
-                                    $(this).css('border-color', '');
-                                });
-                                $('#DepCode').val("");
-                                $('#hptsel2').val("1");
-                                ShowItem();
-                            })
-                        } else if ((temp["form"] == 'EditItem')) {
-                            switch (temp['msg']) {
-                                case "notchosen":
-                                    temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
-                                    break;
-                                case "cantcreate":
-                                    temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
-                                    break;
-                                case "noinput":
-                                    temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
-                                    break;
-                                case "notfound":
-                                    temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
-                                    break;
-                                case "addsuccess":
-                                    temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "addfailed":
-                                    temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
-                                    break;
-                                case "editsuccess":
-                                    temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "editfailed":
-                                    temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
-                                    break;
-                                case "cancelsuccess":
-                                    temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "cancelfailed":
-                                    temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
-                                    break;
-                                case "nodetail":
-                                    temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
-                                    break;
-                            }
-                            swal({
-                                title: '',
-                                text: temp['msg'],
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                showConfirmButton: false,
-                                timer: 2000,
-                                confirmButtonText: 'Ok'
-                            }).then(function() {
-                                ShowItem();
-                                Blankinput();
-                            }, function(dismiss) {
-                                $('.checkblank').each(function() {
-                                    $(this).val("");
-                                });
-
-                                $('#DepCode').val("");
-                                $('#hptsel2').val("BHQ");
-                                ShowItem();
-                            })
-                        } else if ((temp["form"] == 'CancelItem')) {
-                            switch (temp['msg']) {
-                                case "notchosen":
-                                    temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
-                                    break;
-                                case "cantcreate":
-                                    temp['msg'] = "<?php echo $array['cantcreatemsg'][$language]; ?>";
-                                    break;
-                                case "noinput":
-                                    temp['msg'] = "<?php echo $array['noinputmsg'][$language]; ?>";
-                                    break;
-                                case "notfound":
-                                    temp['msg'] = "<?php echo $array['notfoundmsg'][$language]; ?>";
-                                    break;
-                                case "addsuccess":
-                                    temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "addfailed":
-                                    temp['msg'] = "<?php echo $array['addfailedmsg'][$language]; ?>";
-                                    break;
-                                case "editsuccess":
-                                    temp['msg'] = "<?php echo $array['editsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "editfailed":
-                                    temp['msg'] = "<?php echo $array['editfailedmsg'][$language]; ?>";
-                                    break;
-                                case "cancelsuccess":
-                                    temp['msg'] = "<?php echo $array['cancelsuccessmsg'][$language]; ?>";
-                                    break;
-                                case "cancelfailed":
-                                    temp['msg'] = "<?php echo $array['cancelfailed'][$language]; ?>";
-                                    break;
-                                case "nodetail":
-                                    temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
-                                    break;
-                            }
-                            swal({
-                                title: '',
-                                text: temp['msg'],
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                showConfirmButton: false,
-                                timer: 2000,
-                                confirmButtonText: 'Ok'
-                            }).then(function() {
-                                ShowItem();
-                                Blankinput();
-                            }, function(dismiss) {
-                                $('.checkblank').each(function() {
-                                    $(this).val("");
-                                });
-
-                                $('#DepCode').val("");
-                                $('#hptsel2').val("BHQ");
-                                ShowItem();
-                            })
-                        } else if ((temp["form"] == 'getSection')) {
+                        if ((temp["form"] == 'getSection')) {
                             var StrTr = "<option value=''>-</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                 StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                var Str = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                $("#hptsel").append(Str);
+                                StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                                var StrTr1 = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                                $("#hptsel").append(StrTr1);
                             }
                             $("#hptsel2").append(StrTr);
+                        }else if ((temp["form"] == 'ShowItem')) {
+                            $('#TableItem tbody').empty();
+                            if(temp['Count']>0){
+                                $('#hptsel').val(temp[0]['HptCode']);
+                                for (var i = 0; i < temp['Count']; i++) {
+                                    var chkItem = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='getDetail("+temp[i]['ID']+");'><span class='checkmark'></span></label>";
+                                    var Str = "<tr><td style='width:5%' class='text-center'>"+chkItem+"</td>"+
+                                        "<td  style='width:10%'>"+(i+1)+"</td>"+
+                                        "<td  style='width:85%'>"+temp[i]['time_value']+"</td>"+
+                                    "</tr>";
+                                    $("#TableItem tbody").append(Str);
+                                }
+                            }else{
+                                $('#TableItem tbody').empty();
+                                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                                $("#TableItem tbody").append(Str);
+                                swal({
+                                    title: '',
+                                    text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                                    type: 'warning',
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                });
+                            }
+                        }else if((temp["form"] == 'getDetail')){
+                            $('#hptsel2').val("");
+                            $('#settime').val("");
+                            $('#idTime').val("");
+                            $('#hptsel2').val(temp['HptCode']);
+                            $('#settime').val(temp['time_value']);
+                            $('#idTime').val(temp['ID']);
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -961,17 +427,6 @@ $array2 = json_decode($json2,TRUE);
                         })
 
                     } else if (temp['status'] == "notfound") {
-                        // swal({
-                        //   title: '',
-                        //   text: temp['msg'],
-                        //   type: 'info',
-                        //   showCancelButton: false,
-                        //   confirmButtonColor: '#3085d6',
-                        //   cancelButtonColor: '#d33',
-                        //   showConfirmButton: false,
-                        //   timer: 2000,
-                        //   confirmButtonText: 'Ok'
-                        // })
                         $("#TableItem tbody").empty();
                     }
                 },
@@ -988,7 +443,7 @@ $array2 = json_decode($json2,TRUE);
         }
     </script>
      <style media="screen">
-    @font-face {
+        @font-face {
             font-family: myFirstFont;
             src: url("../fonts/DB Helvethaica X.ttf");
             }
@@ -1001,132 +456,57 @@ $array2 = json_decode($json2,TRUE);
           font-family: myFirstFont;
           font-size:22px;
         }
-    input,select{
-      font-size:24px!important;
-    }
-    th,td{
-      font-size:24px!important;
-    }
-    .table > thead > tr >th {
-      background-color: #1659a2;
-    }
+        input,select{
+        font-size:24px!important;
+        }
+        th,td{
+        font-size:24px!important;
+        }
+        .table > thead > tr >th {
+        background-color: #1659a2;
+        }
 
-    table tr th,
-    table tr td {
-      border-right: 0px solid #bbb;
-      border-bottom: 0px solid #bbb;
-      padding: 5px;
-    }
-    table tr th:first-child,
-    table tr td:first-child {
-      border-left: 0px solid #bbb;
-    }
-    table tr th {
-      background: #eee;
-      border-top: 0px solid #bbb;
-      text-align: left;
-    }
+        table tr th,
+        table tr td {
+        border-right: 0px solid #bbb;
+        border-bottom: 0px solid #bbb;
+        padding: 5px;
+        }
+        table tr th:first-child,
+        table tr td:first-child {
+        border-left: 0px solid #bbb;
+        }
+        table tr th {
+        background: #eee;
+        border-top: 0px solid #bbb;
+        text-align: left;
+        }
 
-    /* top-left border-radius */
-    table tr:first-child th:first-child {
-    border-top-left-radius: 15px;
-  }
-  table tr:first-child th:first-child {
-    border-bottom-left-radius: 15px;
-  }
+        /* top-left border-radius */
+        table tr:first-child th:first-child {
+        border-top-left-radius: 15px;
+        }
+        table tr:first-child th:first-child {
+            border-bottom-left-radius: 15px;
+        }
 
-  /* top-right border-radius */
-  table tr:first-child th:last-child {
-    border-top-right-radius: 15px;
-  }
-  table tr:first-child th:last-child {
-    border-bottom-right-radius: 15px;
-  }
+        /* top-right border-radius */
+        table tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+        table tr:first-child th:last-child {
+            border-bottom-right-radius: 15px;
+        }
 
-  /* bottom-left border-radius */
-  table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
+        /* bottom-left border-radius */
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 6px;
+        }
 
-  /* bottom-right border-radius */
-  table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  button{
-      font-size: 24px!important;
-    }
-  a.nav-link{
-    width:auto!important;
-  }
-  .datepicker{z-index:9999 !important}
-  .hidden{visibility: hidden;}
-  
-  .sidenav {
-  height: 100%;
-  overflow-x: hidden;
-  /* padding-top: 20px; */
-  border-left: 2px solid #bdc3c7;
-}
-
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.mhee button{
-  /* padding: 6px 8px 6px 16px; */
-  font-size: 25px;
-  color: #2c3e50;
-  background:none;
-  box-shadow:none!important;
-}
-
-.mhee button:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-  outline:none;
-}
-.sidenav a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.icon{
-    padding-top: 6px;
-    padding-left: 33px;
-  }
-  .opacity{
-    opacity:0.5;
-  }
-  @media (min-width: 992px) and (max-width: 1199.98px) { 
-
-    .icon{
-      padding-top: 6px;
-      padding-left: 23px;
-    }
-    .sidenav{
-      margin-left:30px;
-    }
-    .sidenav a {
-      font-size: 20px;
-
-    }
-  }
+        /* bottom-right border-radius */
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 6px;
+     }
     </style>
 </head>
 
@@ -1139,11 +519,6 @@ $array2 = json_decode($json2,TRUE);
     <div id="wrapper">
         <!-- content-wrapper -->
         <div id="content-wrapper">
-            <!--
-          <div class="mycheckbox">
-            <input type="checkbox" name='useful' id='useful' onclick='setTag()'/><label for='useful' style='color:#FFFFFF'> </label>
-          </div>
--->
 
             <div class="row">
                 <div class="col-md-12">
@@ -1259,7 +634,7 @@ $array2 = json_decode($json2,TRUE);
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
-                                      <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem1" class="col-sm-1 text-danger" style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1268,9 +643,9 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['settime'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 timepicker" id="settime" placeholder="<?php echo $array['settime'][$language]; ?>" >
-                                      <input type="text"  hidden class="form-control col-sm-7 " id="settimeReal" placeholder="<?php echo $array['settime'][$language]; ?>" >
-                                      
+                                      <input type="text" autocomplete='off' class="form-control col-sm-7 timepicker" id="settime" placeholder="<?php echo $array['settime'][$language]; ?>" >
+                                      <label id="rem2" class="col-sm-1 text-danger" style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <input type="hidden" id='idTime'>
                                     </div>
                                   </div>
                                 </div> 
@@ -1303,6 +678,7 @@ $array2 = json_decode($json2,TRUE);
 
             <!-- Demo scripts for this page-->
             <script src="../template/js/demo/datatables-demo.js"></script>
+            <script src="../js/jquery.timepicker.js"></script>
 
 </body>
 

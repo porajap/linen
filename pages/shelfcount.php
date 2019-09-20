@@ -913,15 +913,15 @@ $array2 = json_decode($json2,TRUE);
         closeOnCancel: false,
         showCancelButton: true}).then(result => {
           if (result.value) {
-      var data = {
-        'STATUS':'SaveDraw',
-        'DocNo':DocNo
-      };
-      senddata(JSON.stringify(data));
-    } else if (result.dismiss === 'cancel') {
-            swal.close();
-      }
-          })
+            var data = {
+              'STATUS':'SaveDraw',
+              'DocNo':DocNo
+            };
+            senddata(JSON.stringify(data));
+          } else if (result.dismiss === 'cancel') {
+                swal.close();
+          }
+        })
     }
 
     function SaveQty_SC(){
