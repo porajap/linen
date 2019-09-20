@@ -866,7 +866,7 @@ $array2 = json_decode($json2,TRUE);
                                  StrTR = "<tr id='tr"+temp[i]['FacCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
-                                                "<td style='width: 21%;'>"+temp[i]['FacName']+"</td>"+
+                                                "<td style=' text-overflow: ellipsis;overflow: hidden; width: 21%;' title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
                                                 "<td style='width: 13%;'>"+temp[i]['DiscountPercent']+"</td>"+
                                                 "<td style='width: 14%;'>"+temp[i]['contractName']+"</td>"+
                                                 "<td style='width: 15%;'>"+temp[i]['permission']+"</td>"+

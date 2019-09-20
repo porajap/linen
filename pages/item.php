@@ -634,12 +634,6 @@ $array2 = json_decode($json2, TRUE);
       var xCenter = 0;
       var xItemnew = 0;
       var tdas = 0;
-
-
-
-
-
-
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
