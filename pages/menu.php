@@ -174,12 +174,14 @@ $array = json_decode($json,TRUE);
     })
   }
 
-  function setCard(text1,text2,text3){
+  function setCard(text1,text2,text3,text4){
+ 
     return " <a href='shelfcount.php?DocNo="+text2+"'><div class='card'>"+
       "<div class='card-header'>"+text1+"</div>"+
       "<div class='card-main'>"+
         "<label class='material-icons'>"+text2+"</label>"+
         "<div class='main-description'>"+text3+"</div>"+
+        "<div class='main-description'>"+text4+"</div>"+
       "</div>"+
     "</div> </a>";
   }
@@ -208,9 +210,19 @@ $array = json_decode($json,TRUE);
           if(temp["form"]=='OnLoadPage'){
             $( "#CardView" ).empty();
             $( "#dd" ).empty();
-            // $( "#TableDocument tbody" ).empty();
+            var Status = "";
+
             for (var i = 0; i < temp["Row"]; i++) {
-              $StrTr=setCard(temp[i]['DepName'],temp[i]['DocNo'],temp[i]['DocDate']);
+              if(temp[i]['IsStatus']==1){
+                  Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                }else{
+                  Status = "<?php echo $array['draft'][$language]; ?>";
+                }
+                if(temp[i]['IsStatus']==3){
+                  Status = "<?php echo $array['Delivery'][$language]; ?>";
+                }
+
+              $StrTr=setCard(temp[i]['DepName'],temp[i]['DocNo'],temp[i]['DocDate'],Status);
               $("#CardView").append( $StrTr );
             }
           } else if(temp["form"]=='alert_SetPrice'){
