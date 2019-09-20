@@ -86,7 +86,22 @@ $array2 = json_decode($json2,TRUE);
           if(sNum.length==1) sNum = "0"+s;
           return sNum;
       }
-
+        // ---------------------------------------------------
+        (function ($) {
+            $(document).ready(function () {
+                $("#datepicker3").datepicker({
+                    onSelect: function (date, el) {
+                        resetinput();
+                    }
+                });
+                $("#datepicker4").datepicker({
+                    onSelect: function (date, el) {
+                        resetinput();
+                    }
+                });
+            });
+        })(jQuery);
+        // ---------------------------------------------------
     $(document).ready(function(e){
       $('#rem1').hide();
       $('#rem2').hide();
@@ -180,6 +195,9 @@ $array2 = json_decode($json2,TRUE);
 		 dialog.dialog( "open" );
     }
 
+
+
+
 	function getRow(id , row){
     var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
@@ -267,7 +285,26 @@ $array2 = json_decode($json2,TRUE);
         }
 		  })
     }
+  function resetinput(){
+    var hotid = $('#side option:selected').attr("value");
+    var datepicker3 = $('#datepicker3').val();
+    var datepicker4 = $('#datepicker4').val();
 
+                if(hotid !="" && hotid!=undefined){
+                  $('#rem1').hide();
+                  $('#side').removeClass('border border-danger');
+                }
+                if(datepicker3 !="" && datepicker3!=undefined){
+                  $('#rem2').hide();
+                  $('#datepicker3').removeClass('border border-danger');
+                }
+                if(datepicker4 !="" && datepicker4 !=undefined){
+                  $('#rem3').hide();
+                  $('#datepicker4').removeClass('border border-danger');
+                  }
+
+
+    }
 	function SaveRow(){
 		var isStatus = $("#IsStatus").val();
 		var id = $("#xRowID").val();
@@ -471,7 +508,7 @@ $array2 = json_decode($json2,TRUE);
 															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
 															  "<td style='width: 25%;'>"+temp[i]['HptName']+"</td>"+
 															  "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
-															  "<td style='width: 8%;'>"+temp[i]['EndDate2']+"</td>"+
+															  "<td style='width: 9%;'>"+temp[i]['EndDate2']+"</td>"+
 															  "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
 															  "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
 														  "</tr>";
@@ -779,9 +816,9 @@ body{
                                                         <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
                                                         <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
                                                         <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                                                        <th style='width: 10%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                                                        <th style='width: 11%;'><?php echo $array['dateendcontract'][$language]; ?></th>
                                                         <th style='width: 26%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                                                        <th style='width: 18%;'><?php echo $array['detail'][$language]; ?></th>
+                                                        <th style='width: 17%;'><?php echo $array['detail'][$language]; ?></th>
                                                       </tr>
                                                     </thead>
                                                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
@@ -843,7 +880,7 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  style="font-size:22px;"  class="form-control col-sm-7 checkblank2 border" id="side" onchange="removeClassBorder1();" ></select>
+                                      <select  style="font-size:22px;" onchange="resetinput()" class="form-control col-sm-7 checkblank2 border" id="side" onchange="removeClassBorder1();" ></select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

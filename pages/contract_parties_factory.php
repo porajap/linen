@@ -84,7 +84,22 @@ $array2 = json_decode($json2,TRUE);
           if(sNum.length==1) sNum = "0"+s;
           return sNum;
       }
-
+        // ---------------------------------------------------
+        (function ($) {
+            $(document).ready(function () {
+                $("#datepicker3").datepicker({
+                    onSelect: function (date, el) {
+                        resetinput();
+                    }
+                });
+                $("#datepicker4").datepicker({
+                    onSelect: function (date, el) {
+                        resetinput();
+                    }
+                });
+            });
+        })(jQuery);
+        // ---------------------------------------------------
     $(document).ready(function(e){
       $('#rem1').hide();
       $('#rem2').hide();
@@ -268,7 +283,26 @@ $array2 = json_decode($json2,TRUE);
         } 
 		})
     }
+    function resetinput(){
+    var facid = $('#factory option:selected').attr("value");
+    var datepicker3 = $('#datepicker3').val();
+    var datepicker4 = $('#datepicker4').val();
 
+                if(facid !="" && facid!=undefined){
+                  $('#rem1').hide();
+                  $('#factory').removeClass('border border-danger');
+                }
+                if(datepicker3 !="" && datepicker3!=undefined){
+                  $('#rem2').hide();
+                  $('#datepicker3').removeClass('border border-danger');
+                }
+                if(datepicker4 !="" && datepicker4 !=undefined){
+                  $('#rem3').hide();
+                  $('#datepicker4').removeClass('border border-danger');
+                  }
+
+
+    }
 	function SaveRow(){
 		var isStatus = $("#IsStatus").val();
 		var id = $("#xRowID").val();
@@ -889,7 +923,7 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['factory'][$language]; ?></label>
-                                      <select  style="font-size:22px;" class="form-control col-sm-7 checkblank2 border" id="factory" onchange="removeClassBorder1();" ></select>
+                                      <select  style="font-size:22px;" onchange="resetinput()" class="form-control col-sm-7 checkblank2 border" id="factory" onchange="removeClassBorder1();" ></select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
