@@ -195,6 +195,16 @@ function CreateDocument($conn, $DATA){
   $SumType[2] = array_sum($QtyArray3);
   $SumType[3] = array_sum($QtyArray4);
   #-------------------------------------
+  $TotalArray = explode(',', $DATA['TotalArray']);
+  $CalArray = explode(',', $DATA['CalArray']);
+  // echo '<pre>';
+  // print_r($TotalArray);
+  // echo '</pre>';
+  // echo '<pre>';
+  // print_r($Qty);
+  // echo '</pre>';
+  // exit();
+  #-------------------------------------
   $Sql = "SELECT CONCAT('TD',lpad('$HptCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
   CURRENT_TIME() AS RecNow
@@ -236,11 +246,11 @@ function CreateDocument($conn, $DATA){
       }
     }
   }
-  for($i=0;$i<$ItemLoop;$i++){
-    for($d = 0; $d<$DepLoop; $d++){
-      $SumRow[$i] += (($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d];
-    }
-  }
+  // for($i=0;$i<$ItemLoop;$i++){
+  //   for($d = 0; $d<$DepLoop; $d++){
+  //     $SumRow[$i] += (($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d];
+  //   }
+  // }
   #-------------------------------------
   for($t = 0; $t<$TypeLoop; $t++){
     for($d = 0; $d<$DepLoop; $d++){
@@ -252,8 +262,13 @@ function CreateDocument($conn, $DATA){
   #-------------------------------------
   for($i=0;$i<$ItemLoop;$i++){
     for($d = 0; $d<$DepLoop; $d++){
-      $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, Change_value, ItemCode , Result, SumResult, CalSum, AllSum)VALUES
-      ('$DocNo', $DepCodeX[$d], $changeArray[$i], '$ItemCodeArray[$i]', (($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d], $SumRow[$i], $SumRow[$i]*$Total_par2, $AllSum[$i])";
+      if($AllSum[$i]==0){
+        $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, Change_value, ItemCode , Result, SumResult, CalSum, AllSum)VALUES
+        ('$DocNo', $DepCodeX[$d], $changeArray[$i], '$ItemCodeArray[$i]', ((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d])-'".$Qty[1][$d]."', $TotalArray[$i], $CalArray[$i], $AllSum[$i])";
+      }else{
+        $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, Change_value, ItemCode , Result, SumResult, CalSum, AllSum)VALUES
+        ('$DocNo', $DepCodeX[$d], $changeArray[$i], '$ItemCodeArray[$i]', (($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d], $TotalArray[$i], $CalArray[$i], $AllSum[$i])";
+      }
       mysqli_query($conn, $Sql2);
     }
   }
@@ -261,7 +276,6 @@ function CreateDocument($conn, $DATA){
   // print_r($SumRow);
   // echo '</pre>';
   
-  $return['Sql2'] = $Sql2;
   $return['status'] = "success";
   $return['form'] = "CreateDocument";
   echo json_encode($return);
