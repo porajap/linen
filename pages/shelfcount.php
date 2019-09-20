@@ -1059,10 +1059,12 @@ $array2 = json_decode($json2,TRUE);
                         $("#Dep2").append(Str);
                         $("#department").append(StrTr2);
                       }
-                      var StrTrX = "<option value='0' selected>Extra</option>";
+                      var StrTrX = "<option value='' selected>-</option>";
+
                       for (var i = 0; i < temp[i]['ID'];  i++) {
                          StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
                       }
+                      StrTrX += "<option value='0' >Extra</option>";
                       $("#settime").append(StrTrX);
             }else if( (temp["form"]=='CreateDocument') ){
               $("#docno").val(temp[0]['DocNo']);

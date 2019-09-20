@@ -1124,6 +1124,7 @@ $array2 = json_decode($json2, TRUE);
       $('#myTab').removeClass('mt-5');
       $('#searchItem_1').attr('hidden', false);
       $('#searchItem_2').attr('hidden', true);
+      $('#scroll555').addClass('table-scroll');
     }
     function menu_tapHide(chk){
       if(chk != 2){
@@ -1133,7 +1134,9 @@ $array2 = json_decode($json2, TRUE);
         $('#myTab').addClass('mt-5');
         $('#searchItem_1').attr('hidden', false);
         $('#searchItem_2').attr('hidden', true);
+
       }else if(chk == 2){
+        $('#scroll555').removeClass('table-scroll');
         $('#TableItem').attr("hidden", true);
         $('#TableItemMaster').attr("hidden", false);
         $('#memu_tap1').attr('hidden', true);
@@ -2206,11 +2209,12 @@ $array2 = json_decode($json2, TRUE);
 
       }
     }
-    #table-scroll {
+    .table-scroll {
       overflow:auto;  
       height:355px;
       margin-top:20px;
     }
+
   </style>
 
 </head>
@@ -2275,7 +2279,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
               </div>
 
-                <div id="table-scroll">
+                <div class="table-scroll" id="scroll555">
                   <table style="margin-top:10px;" class="table table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
                     <thead id="theadsum">
                       <tr role="row" id="tableSort">

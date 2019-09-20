@@ -1408,7 +1408,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
-                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosname'][$language]; ?>">
+                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosnameEN'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1417,7 +1417,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label"></label>
-                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosname'][$language]; ?>">
+                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosnameTH'][$language]; ?>">
                                       <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

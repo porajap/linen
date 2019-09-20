@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+<insert_date><en>Please choose date of the form</en><th>กรุณาเลือกแบบฟอร์มวันที่</th></insert_date>
 <ppu><en>PPU</en><th>PPU</th></ppu>
 <prin><en>Print</en><th>พิมพ์</th></prin>
 <barcode><en>QrCode</en><th>คิวอาร์โค๊ด</th></barcode>
@@ -127,11 +128,11 @@
 <dirtydoc1><en>Please select Dirty clothes Document</en><th>กรุณาเลือกเอกสารรับผ้าสกปรก</th></dirtydoc1>
 <cleandoc><en>Clean linen document </en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
 <totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
-<parsc><en>Par</en><th>จำนวนทั้งหมด</th></parsc>
-<leftsc><en>Left</en><th>จำนวน</th></leftsc>
+<parsc><en>Par</en><th>Par</th></parsc>
+<leftsc><en>Left</en><th>Left</th></leftsc>
 <qty><en>QTY</en><th>จำนวน</th></qty>
 <total><en>Number</en><th>จำนวน</th></total>
-<order><en>Order</en><th>ออเดอร์</th></order>
+<order><en>Order</en><th>Order</th></order>
 <detail><en>Description</en><th>รายละเอียด</th></detail>
 <print><en>Print Report</en><th>พิมพ์รายงาน</th></print>
 <Sticker><en>Print Sticker</en><th>พิมพ์สติ๊กเกอร์</th></Sticker>
@@ -184,7 +185,8 @@
 <taxid><en>Tax ID</en><th>เลขที่ผู้เสียภาษี</th></taxid>
 <postid><en>Post ID</en><th>รหัสไปรษณีย์</th></postid>
 <hoscode><en>Hospital code</en><th>รหัสโรงพยาบาล</th></hoscode>
-<hosname><en>Hospital</en><th>ชื่อโรงพยาบาล</th></hosname>
+<hosnameEN><en>Hospital</en><th>ชื่อโรงพยาบาลอังกฤษ</th></hosnameEN>
+<hosnameTH><en>Hospital</en><th>ชื่อโรงพยาบาลไทย</th></hosnameTH>
 <codecode><en>Department code</en><th>รหัส</th></codecode>
 <categorycode><en>Category code </en><th>รหัสหมวดหมู่</th></categorycode>
 <categorysubcode><en>Code</en><th>รหัสหมวดหมู่รอง</th></categorysubcode>
@@ -251,7 +253,7 @@
 <overPercent><en>Over Percent</en><th>เปอร์เซ็นต์ที่เกิน</th></overPercent>
 <empItem><en>Item In Main Stock Empty</en><th>คลังหลักไม่มีรายการ</th></empItem>
 <par><en>Par</en><th>Par</th></par>
-<count> <en>Left</en><th>นับได้</th></count>
+<count> <en>Left</en><th>Left</th></count>
 <minute><en>Minute</en><th>นาที</th></minute>
 <datafail><en>Please fill in the information correctly.</en><th>กรูณากรอกข้อมูลให้ถูกต้อง</th></datafail>
 <savedoc><en>Save Doc</en><th>บันทึกเอกสาร</th></savedoc>
