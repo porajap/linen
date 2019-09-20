@@ -45,13 +45,15 @@ function OnLoadPage($conn, $DATA)
 function getDepartment($conn, $DATA)
 {
   $count = 0;
+  $count2 = 0;
   $boolean = false;
+  $boolean2 = false;
   $Hotp = $DATA["Hotp"];
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
   AND department.IsStatus = 0";
-  $return['sql'] = $Sql;
+  // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
@@ -60,7 +62,19 @@ function getDepartment($conn, $DATA)
     $boolean = true;
   }
 
-  if ($boolean) {
+  $Sql = "SELECT time_express.ID,time_express.time_value
+  FROM time_express
+  WHERE time_express.HptCode = '$Hotp' ";
+  // $return['sql'] = $Sql;
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count2]['ID'] = $Result['ID'];
+    $return[$count2]['time_value'] = $Result['time_value'];
+    $count2++;
+    $boolean2 = true;
+  } 
+
+  if ($boolean || $boolean2) {
     $return['status'] = "success";
     $return['form'] = "getDepartment";
     echo json_encode($return);
@@ -86,11 +100,9 @@ function CreateDocument($conn, $DATA)
   $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
   $cycle   = $DATA["cycle"];
-
-
+  $settime   = $DATA["settime"];
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
-
   $Sql = "SELECT CONCAT('SC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
   CURRENT_TIME() AS RecNow
@@ -99,10 +111,6 @@ function CreateDocument($conn, $DATA)
   WHERE DocNo Like CONCAT('SC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
   AND department.HptCode = '$hotpCode'
   ORDER BY DocNo DESC LIMIT 1";
-
-
-
-
 
 
   $meQuery = mysqli_query($conn, $Sql);
@@ -130,12 +138,12 @@ function CreateDocument($conn, $DATA)
     ( DocNo,DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
-      shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime)
+      shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime , DeliveryTime)
       VALUES
       ( '$DocNo',NOW(),$deptCode,'',
       0,DATE(NOW()),0,0,
       0,0,'',
-      $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() )";
+      $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() ,  $settime )";
       mysqli_query($conn, $Sql);
 
       $Sql = "INSERT INTO daily_request
@@ -180,7 +188,7 @@ function ShowMenu($conn, $DATA)
   $boolean = false;
   $count = 0;
   $DocnoXXX = $DATA["DocnoXXX"];
-  $Sql = "SELECT   site.HptName,department.DepName,shelfcount.DocNo,shelfcount.DepCode,shelfcount.DocDate,shelfcount.Total,users.FName,TIME(shelfcount.Modify_Date) AS xTime,shelfcount.IsStatus , shelfcount.CycleTime
+  $Sql = "SELECT   site.HptName,department.DepName,shelfcount.DocNo,shelfcount.DepCode,shelfcount.DocDate,shelfcount.Total,users.FName,TIME(shelfcount.Modify_Date) AS xTime,shelfcount.IsStatus , shelfcount.CycleTime ,shelfcount.DeliveryTime 
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -198,6 +206,7 @@ function ShowMenu($conn, $DATA)
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];
     $return[$count]['CycleTime'] = $Result['CycleTime'];
+    $return[$count]['DeliveryTime'] = $Result['DeliveryTime'];
     $boolean = true;
     $count++;
   }
@@ -316,7 +325,8 @@ function SelectDocument($conn, $DATA)
     shelfcount.Total,
     users.FName,TIME(shelfcount.Modify_Date) AS xTime,
     shelfcount.IsStatus ,
-    shelfcount.CycleTime
+    shelfcount.CycleTime ,
+    shelfcount.DeliveryTime 
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -347,6 +357,7 @@ function SelectDocument($conn, $DATA)
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];
     $return[$count]['CycleTime'] = $Result['CycleTime'];
+    $return[$count]['DeliveryTime'] = $Result['DeliveryTime'];
     $boolean = true;
     $count++;
   }
@@ -877,6 +888,7 @@ function SaveBill($conn, $DATA)
   $DocNo = $DATA["xdocno"];
   $DepCode = $DATA["deptCode"];
   $cycle = $DATA["cycle"];
+  $settime = $DATA["settime"];
 
 
   $ItemCodeArray = $DATA['ItemCode'];
@@ -935,7 +947,7 @@ function SaveBill($conn, $DATA)
     $Sum = $Res['Summ'];
   }
   $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum  , CycleTime=$cycle WHERE shelfcount.DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum  , CycleTime=$cycle , DeliveryTime=$settime WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
   $isStatus = $DATA["isStatus"];

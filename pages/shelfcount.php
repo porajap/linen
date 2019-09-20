@@ -288,6 +288,7 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
       }
     }
+    
     function ShowDocument(selecta){
       var searchdocument = $('#searchdocument').val();
       if( typeof searchdocument == 'undefined' ) searchdocument = "";
@@ -498,6 +499,7 @@ $array2 = json_decode($json2,TRUE);
       var userid = '<?php echo $Userid; ?>';
       var hotpCode = $('#hotpital option:selected').attr("value");
       var deptCode = $('#department option:selected').attr("value");
+      var settime = $('#settime option:selected').attr("value");
       var cycle = $("#cycle").val();
       if(deptCode==''){
           checkblank2();
@@ -533,7 +535,8 @@ $array2 = json_decode($json2,TRUE);
             'hotpCode'  : hotpCode,
             'deptCode'  : deptCode,
             'userid'	: userid,
-            'cycle'	: cycle
+            'cycle'	: cycle ,
+            'settime'	: settime ,
           };
           senddata(JSON.stringify(data));
         } else if (result.dismiss === 'cancel') {
@@ -680,6 +683,7 @@ $array2 = json_decode($json2,TRUE);
       var isStatus = $("#IsStatus").val();
       var dept = $('#department').val();
       var cycle = $('#cycle').val();
+      var settime = $('#settime').val();
       // alert( isStatus );
       var input_chk = $('#input_chk').val();
         if(isStatus==1){
@@ -735,7 +739,8 @@ $array2 = json_decode($json2,TRUE);
                     'deptCode'    : dept,
                     'ItemCode'    : ItemCode,
                     'Qty'    : Qty,
-                    'cycle'    : cycle
+                    'cycle'    : cycle ,
+                    'settime'    : settime
                   };
 
 
@@ -1043,6 +1048,7 @@ $array2 = json_decode($json2,TRUE);
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
+                      $("#settime").empty();
                       var StrTr = "<option value='' selected>-</option>";
                       var Str2 = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
                       $("#Dep2").append(Str2);
@@ -1053,6 +1059,11 @@ $array2 = json_decode($json2,TRUE);
                         $("#Dep2").append(Str);
                         $("#department").append(StrTr2);
                       }
+                      var StrTrX = "<option value='0' selected>Extra</option>";
+                      for (var i = 0; i < temp[i]['ID'];  i++) {
+                         StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
+                      }
+                      $("#settime").append(StrTrX);
             }else if( (temp["form"]=='CreateDocument') ){
               $("#docno").val(temp[0]['DocNo']);
               $("#docdate").val(temp[0]['DocDate']);
@@ -1200,7 +1211,7 @@ $array2 = json_decode($json2,TRUE);
               $("#IsStatus").val(temp[0]['IsStatus']);
               $("#department").val(temp[0]['DepCode']);
               $("#cycle").val(temp[0]['CycleTime']);
-
+              $("#settime").val(temp[0]['DeliveryTime']);
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
                 var changeBtn = "<i class='fa fa-save'></i>";
@@ -1921,6 +1932,16 @@ $array2 = json_decode($json2,TRUE);
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class='form-group row'>
+                                            <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['settime'][$language]; ?></label>
+                                                <select  id="settime"  style="font-size:22px;" class="form-control col-sm-8 "  name="searchitem"
+                                                placeholder="<?php echo $array['settime'][$language]; ?>">  </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                             <label class="col-sm-3 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
