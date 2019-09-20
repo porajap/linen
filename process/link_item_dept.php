@@ -379,7 +379,7 @@ function additemstock($conn, $DATA)
             WHERE item.ItemCode = '$Itemcode[$i]'";
       $meQueryx = mysqli_query($conn, $Sqlzz);
       $Resultx = mysqli_fetch_assoc($meQueryx);
-      $unitCode = $Resultx['UnitCode']== null ? 0 : $Result['UnitCode'];
+      $unitCode = $Resultx['UnitCode']==null?0:$Resultx['UnitCode'];
       
     // ====================================================================================
     $Sqlz = "SELECT category_price.Price
@@ -397,9 +397,8 @@ function additemstock($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sqlz);
     $Result = mysqli_fetch_assoc($meQuery);
     $CusPrice = $Result['Price'] == null ? 0 : $Result['Price'];
-    $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE ItemCode = '$Itemcode[$i]' AND  MpCode =$unitCode ";
+    $countM = "SELECT COUNT(*) as cnt FROM item_multiple_unit WHERE ItemCode = '$Itemcode[$i]' AND  MpCode = $unitCode ";
     $MQuery = mysqli_query($conn, $countM);
-    $return['sql'] = $countM;
     // echo json_encode($return);
     while ($MResult = mysqli_fetch_assoc($MQuery)) {
       if ($MResult['cnt'] == 0) {
