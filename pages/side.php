@@ -80,6 +80,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem4').hide();
         $('#rem5').hide();
         $('#rem6').hide();
+        $('#rem7').hide();
         getHotpital();
         $('#addhot').show();
       $('#adduser').hide();
@@ -115,9 +116,11 @@ $array2 = json_decode($json2,TRUE);
           this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
         });
         $('.charonly').on('input', function() {
-          this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
+          this.value = this.value.replace(/[^a-zA-Z. ]/g, ''); //<-- replace all other than given set of values
         });
-
+        $('.charonlyTH').on('input', function() {
+          this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
+        });
       }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
@@ -356,6 +359,7 @@ $array2 = json_decode($json2,TRUE);
         var phone = $('#phone').val();
         var HptCode = $('#HptCode').val();
         var HptName = $('#HptName').val();
+        var HptNameTH = $('#HptNameTH').val();
         if(count==0){
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -385,7 +389,8 @@ $array2 = json_decode($json2,TRUE);
                   'Position' : Position,
                   'phone' : phone,
                   'HptName' : HptName,
-                  'idcontract' : idcontract
+                  'idcontract' : idcontract,
+                  'HptNameTH' : HptNameTH
                 };
 
                 console.log(JSON.stringify(data));
@@ -416,6 +421,9 @@ $array2 = json_decode($json2,TRUE);
                 if(HptName ==""||HptName==undefined){
                   $('#rem2').show().css("color","red");
                 }
+                if(HptNameTH ==""||HptNameTH==undefined){
+                  $('#rem7').show().css("color","red");
+                }
             }
           });
         }
@@ -428,6 +436,7 @@ $array2 = json_decode($json2,TRUE);
         var phone = $('#phone').val();
         var HptCode = $('#HptCode').val();
         var HptName = $('#HptName').val();
+        var HptNameTH = $('#HptNameTH').val();
         var host = $('#host').val();
 
       if(HptCode !="" && HptCode!=undefined){
@@ -453,6 +462,10 @@ $array2 = json_decode($json2,TRUE);
         if(host !="" && host!=undefined){
           $('#rem6').hide();
           $('#host').css('border-color', '');
+        }
+        if(HptNameTH !="" && HptNameTH!=undefined){
+          $('#rem7').hide();
+          $('#HptNameTH').css('border-color', '');
         }
     
 }
@@ -535,6 +548,7 @@ $array2 = json_decode($json2,TRUE);
                 if(host ==""||host==undefined){
                   $('#rem6').show().css("color","red");
                 }
+                
             }else{
               $(this).css('border-color', '');
             }
@@ -1394,12 +1408,20 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
-                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank" id="HptName"    placeholder="<?php echo $array['hosname'][$language]; ?>">
+                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosname'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div>  
-
+                                <div class="row" >
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label"></label>
+                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosname'][$language]; ?>">
+                                      <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    </div>
+                                  </div>
+                                </div>  
                               </div>
 <!-- =============================================================================================== -->
                 </div>

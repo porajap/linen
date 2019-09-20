@@ -119,6 +119,7 @@ function AddItem($conn, $DATA)
   {
   $HptCode = $DATA['HptCode'];
   $HptName = $DATA['HptName'];
+  $HptNameTH = $DATA['HptNameTH'];
   $ContractName = $DATA['ContractName'];
   $Position = $DATA['Position'];
   $phone = $DATA['phone'];
@@ -139,7 +140,7 @@ function AddItem($conn, $DATA)
 
   if($boolcount==0){
     $count = 0;
-    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus) VALUE ('$HptCode','$HptName',0)";
+    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH) VALUE ('$HptCode','$HptName',0 ,'$HptNameTH')";
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
     $return['form'] = "AddItem";
@@ -155,7 +156,7 @@ function AddItem($conn, $DATA)
     die;
   }
   }else{
-      $Sql="UPDATE site SET  site.HptName = '$HptName' WHERE site.HptCode = '$HptCode'";
+      $Sql="UPDATE site SET  site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' WHERE site.HptCode = '$HptCode'";
       if(mysqli_query($conn, $Sql)){
         $return['status'] = "success";
         $return['form'] = "AddItem";
