@@ -301,6 +301,7 @@
 <issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
 <updatestock><en>Update Stock</en><th>อัพเดทคลัง</th></updatestock>
 <settime><en>Time sc</en><th>รอบส่งผ้า</th></settime>
+<dte><en>Deleted</en><th>ลบสำเร็จ</th></dte>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>
