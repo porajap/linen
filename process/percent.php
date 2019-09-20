@@ -9,9 +9,16 @@ if($Userid==""){
 }
 function OnLoadPage($conn,$DATA){
   $HptCode = $_SESSION['HptCode'];
+  $lang = $DATA["lang"];
   $count = 0;
   $boolean = false;
-  $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+  if($lang == 'en'){
+    $Sql = "SELECT site.HptCode,site.HptName
+    FROM site WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+  }else{
+    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+    FROM site WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+  }
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];

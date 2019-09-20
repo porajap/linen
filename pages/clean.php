@@ -254,14 +254,13 @@ $(document).ready(function(e){
       //======= On create =======
       //console.log(JSON.stringify(data));
       function OnLoadPage(){
+        var lang = '<?php echo $language; ?>';
         var docno = $("#docno").val();
-        // if(docno==""){
-        //   $("button").css("color", "red");
-
-        // }
         var data = {
-          'STATUS'  : 'OnLoadPage'
+          'STATUS'  : 'OnLoadPage' ,
+          'lang'	: lang 
         };
+
         senddata(JSON.stringify(data));
         $('#isStatus').val(0)
       }

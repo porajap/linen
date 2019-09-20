@@ -88,7 +88,7 @@ $array2 = json_decode($json2,TRUE);
             //On create
             // var userid = '<?php echo $Userid; ?>';
             // if(userid!="" && userid!=null && userid!=undefined){
-
+            var lang = '<?php echo $language; ?>';
             var HptCode = $('#hptsel').val();
             var Keyword = $('#searchitem').val();
             var data = {
@@ -103,7 +103,8 @@ $array2 = json_decode($json2,TRUE);
 
             var data2 = {
                 'STATUS': 'getSection',
-                'HptCode': HptCode
+                'HptCode': HptCode ,
+                'lang'	: lang
             };
             console.log(JSON.stringify(data2));
             senddata(JSON.stringify(data2));

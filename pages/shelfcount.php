@@ -247,12 +247,13 @@ $array2 = json_decode($json2,TRUE);
         }
       
     }
-
     //======= On create =======
     //console.log(JSON.stringify(data));
     function OnLoadPage(){
+      var lang = '<?php echo $language; ?>';
       var data = {
-        'STATUS'  : 'OnLoadPage'
+        'STATUS'  : 'OnLoadPage',
+        'lang'	: lang 
       };
       senddata(JSON.stringify(data));
       $('#isStatus').val(0)

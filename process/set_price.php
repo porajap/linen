@@ -275,13 +275,15 @@ function getdetail($conn, $DATA)
 
 function getHotpital($conn, $DATA)
 {
+  $lang = $DATA["lang"];
   $count = 0;
-  $Sql = "SELECT
-          site.HptCode,
-          site.HptName
-          FROM
-          site
-					WHERE IsStatus = 0";
+  if($lang == 'en'){
+    $Sql = "SELECT site.HptCode,site.HptName
+    FROM site WHERE site.IsStatus = 0";
+  }else{
+    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+    FROM site WHERE site.IsStatus = 0";
+  } 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];

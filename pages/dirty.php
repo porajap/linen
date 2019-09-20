@@ -258,10 +258,12 @@ $array2 = json_decode($json2,TRUE);
         //======= On create =======
         //console.log(JSON.stringify(data));
         function OnLoadPage(){
-          Hotp = "<?php echo $HptCode; ?>";
+          var lang = '<?php echo $language; ?>';
+          var Hotp = "<?php echo $HptCode; ?>";
           var data = {
             'STATUS'  : 'OnLoadPage',
-            'Hotp'	: Hotp
+            'Hotp'	: Hotp ,
+            'lang'	: lang 
           };
           senddata(JSON.stringify(data));
           $('#isStatus').val(0)
