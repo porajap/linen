@@ -284,14 +284,23 @@ $array2 = json_decode($json2,TRUE);
           // ----------------------------------------------
           var ItemCode = [];
           var change = [];
+          var chkItem = [];
           $(".ItemCode").each(function() {
             ItemCode.push($(this).data('itemcode'));
           });
           $(".changeSend").each(function() {
             change.push($(this).val());
           });
+          for(var i = 0; i<ItemCode.length; i++){
+            if ($('#chkItem_'+ItemCode[i]).is(':checked')){
+                chkItem.push(1);
+            }else{
+                chkItem.push(0);
+            }
+          }
           var ItemCodeArray = ItemCode.join(',');
           var changeArray = change.join(',');
+          var AllSum = chkItem.join(',');
           // ----------------------------------------------
           var Percent = [];
           var Total_par2 = $('#total_par2').val();
@@ -321,6 +330,7 @@ $array2 = json_decode($json2,TRUE);
 								'QtyArray3': QtyArray3,
 								'QtyArray4': QtyArray4,
 								'ItemCodeArray': ItemCodeArray,
+								'AllSum': AllSum,
 								'changeArray': changeArray,
 								'PercentArray': PercentArray,
 								'Total_par2': Total_par2
