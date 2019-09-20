@@ -24,7 +24,7 @@ function OnLoadPage($conn,$DATA){
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
-  WHERE  site.HptCode = '$hptcode' AND shelfcount.IsStatus = 0
+  WHERE  site.HptCode = '$hptcode' AND  shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1 OR shelfcount.IsStatus = 3
   ORDER BY shelfcount.DocNo DESC";
   $return['sql'] =$Sql;
   $meQuery = mysqli_query($conn,$Sql);

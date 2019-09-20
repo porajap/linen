@@ -361,7 +361,7 @@ $array2 = json_decode($json2,TRUE);
         });
         console.log(count);
 
-        var FacCode = $('#FacCode').val();
+        var FacCode = $('#FacCodeReal').val();
         var FacName = $('#FacName').val();
         var Price = $('#Price').val();
         var Address = $('#Address').val();
@@ -670,6 +670,8 @@ $array2 = json_decode($json2,TRUE);
         $('#phone').val("");
         $('#host').val("");
         $('#FacCode').val("");
+        $('#FacCodeReal').val("");
+        
         ShowItem();
         $('#bCancel').attr('disabled', true);
     $('#delete_icon').addClass('opacity');
