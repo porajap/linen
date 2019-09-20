@@ -353,8 +353,10 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function GetHospital() {
+      var lang = '<?php echo $language; ?>';
       var data = {
         'STATUS': 'GetHospital',
+        'lang'	: lang
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));

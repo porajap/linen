@@ -18,8 +18,9 @@ function OnLoadPage($conn, $DATA)
   }else{
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
     FROM site WHERE site.IsStatus = 0";
-  }  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  }  
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['HptName'] = $Result['HptName'];
     $count++;

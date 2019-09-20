@@ -143,16 +143,19 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function getHotpital(){
+          var lang = '<?php echo $language; ?>';
           var data2 = {
-              'STATUS': 'getHotpital'
+              'STATUS': 'getHotpital' ,
+              'lang'	: lang
           };
-          // console.log(JSON.stringify(data2));
           senddata(JSON.stringify(data2));
         }
 
         function getHotpital_user(){
+          var lang = '<?php echo $language; ?>';
           var data2 = {
-              'STATUS': 'getHotpital_user'
+              'STATUS': 'getHotpital_user',
+              'lang'	: lang
           };
           // console.log(JSON.stringify(data2));
           senddata(JSON.stringify(data2));

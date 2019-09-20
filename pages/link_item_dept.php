@@ -197,12 +197,14 @@ $array2 = json_decode($json2,TRUE);
     	}
 
       function getHospital(){
+        var lang = '<?php echo $language; ?>';
     	  var userid = "<?php echo $_SESSION['Userid']; ?>";
         var HptCode = "<?php echo $_SESSION['HptCode']; ?>";
         var data = {
           'STATUS'  : 'getHospital',
       		'Userid'	: userid,
-          'HptCode'	: HptCode
+          'HptCode'	: HptCode ,
+          'lang'	: lang
             };
         senddata(JSON.stringify(data));
     	}

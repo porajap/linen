@@ -8,22 +8,16 @@ if($Userid==""){
 function getHospital($conn, $DATA)
 {
   $count = 0;
+  $lang = $DATA["lang"];
   $userid = $DATA['Userid'];
   $HptCode = $DATA['HptCode'];
-  $Sql = "SELECT
-          site.HptCode,site.HptName
-          FROM site
-          WHERE site.IsStatus = 0  
-          -- AND site.HptCode 
-          -- = (SELECT
-					-- users.HptCode
-					-- FROM
-					-- users
-					-- INNER JOIN employee ON users.ID = employee.EmpCode
-					-- INNER JOIN department ON employee.DepCode = department.DepCode
-					-- INNER JOIN site ON department.HptCode = site.HptCode
-          -- WHERE users.ID = $userid) 
-          ";
+  if($lang == 'en'){
+    $Sql = "SELECT site.HptCode,site.HptName
+    FROM site WHERE site.IsStatus = 0";
+  }else{
+    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+    FROM site WHERE site.IsStatus = 0";
+  }  
   //var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
