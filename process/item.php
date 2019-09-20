@@ -657,7 +657,8 @@ function NewItem($conn, $DATA)
             IsDirtyBag,
             Itemnew,
             itemDate,
-            Tdas
+            Tdas,
+            isset
            )
             VALUES
             (
@@ -675,7 +676,8 @@ function NewItem($conn, $DATA)
               '" . $DATA['xCenter'] . "',
               '" . $DATA['xItemnew'] . "',
               NOW(),
-              '" . $DATA['tdas'] . "'
+              '" . $DATA['tdas'] . "',
+              '" . $DATA['masterItem'] . "'
 
 
             )
