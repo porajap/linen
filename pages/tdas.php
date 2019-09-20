@@ -293,6 +293,8 @@ $array2 = json_decode($json2,TRUE);
           var ItemCode = [];
           var change = [];
           var chkItem = [];
+          var TotalSum = [];
+          var CalSum = [];
           $(".ItemCode").each(function() {
             ItemCode.push($(this).data('itemcode'));
           });
@@ -306,9 +308,17 @@ $array2 = json_decode($json2,TRUE);
                 chkItem.push(0);
             }
           }
+          $(".TotalSum").each(function() {
+            TotalSum.push($(this).val());
+          });
+          $(".CalSum").each(function() {
+            CalSum.push($(this).val());
+          });
           var ItemCodeArray = ItemCode.join(',');
           var changeArray = change.join(',');
           var AllSum = chkItem.join(',');
+          var TotalArray = TotalSum.join(',');
+          var CalArray = CalSum.join(',');
           // ----------------------------------------------
           var Percent = [];
           var Total_par2 = $('#total_par2').val();
@@ -341,7 +351,9 @@ $array2 = json_decode($json2,TRUE);
                     'AllSum': AllSum,
                     'changeArray': changeArray,
                     'PercentArray': PercentArray,
-                    'Total_par2': Total_par2
+                    'Total_par2': Total_par2,
+                    'TotalArray': TotalArray,
+                    'CalArray': CalArray,
                 };
                 senddata(JSON.stringify(data));
                 } else if (result.dismiss === 'cancel') {
@@ -515,8 +527,8 @@ $array2 = json_decode($json2,TRUE);
                                             StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
                                         }
                                     StrTRx += "<td  class='text-center'></td>"+
-                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
-                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalSum CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
                                     "</tr>";
                                 }
                                 var RowChg = j;
