@@ -83,7 +83,7 @@ function ShowDocument($conn,$DATA){
 //	 $Sql = "INSERT INTO log ( log ) VALUES ('$sl1  :  $sl2')";
 //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT RowID,FacName,StartDate,EndDate,IFNULL(Detail,'') AS Detail,(EndDate-DATE(NOW())) AS LeftDay
+  $Sql = "SELECT RowID,FacName,FacNameTH,StartDate,EndDate,IFNULL(Detail,'') AS Detail,(EndDate-DATE(NOW())) AS LeftDay
   FROM contract_parties_factory
   INNER JOIN factory ON contract_parties_factory.FacCode = factory.FacCode
   WHERE contract_parties_factory.IsStatus = 0 ";
@@ -93,7 +93,7 @@ function ShowDocument($conn,$DATA){
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     if($lang =='en'){
-
+    $FacNamePage = $Result['FacName'];
     $date = explode("-", $Result['StartDate']);
     $newdate = $date[2].'-'.$date[1].'-'.$date[0];
 
@@ -101,7 +101,7 @@ function ShowDocument($conn,$DATA){
     $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
 
     }else if ($lang == 'th'){
-
+      $FacNamePage = $Result['FacNameTH'];
     $date = explode("-", $Result['StartDate']);
     $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
 
@@ -110,7 +110,7 @@ function ShowDocument($conn,$DATA){
 
     }
 	$return[$count]['RowID'] 		= $Result['RowID'];
-	$return[$count]['FacName'] 		= $Result['FacName'];
+	$return[$count]['FacName'] 		= $FacNamePage;
 	$return[$count]['StartDate'] 	= $newdate;
   $return[$count]['EndDate2'] 		= $newdate2;    
   $return[$count]['EndDate'] 		= $Result['EndDate'];
