@@ -844,7 +844,7 @@ $array2 = json_decode($json2,TRUE);
                 data: form_data,
                 type: 'post',
                 success: function(result) {
-                    window.open('exportExcel.php', '_blank')
+                    window.open('Excel.php', '_blank')
                 }
             });
         }
