@@ -22,15 +22,6 @@ $array = json_decode($json,TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2,TRUE);
 
-
-@$act=$_GET['act'];
-if($act=='excel'){
-    header("Content-Type: application/xls");
-    header("Content-Disposition: attachment; filename=export.xls");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -383,11 +374,109 @@ if($act=='excel'){
             var CalSum = Total*total_par2;
             $('#CalRow_'+row).val(CalSum.toFixed(2));
         }
-        function CreateExcel(){
-            var data = {
-                'STATUS': 'CreateExcel' 
-            };
-            senddata(JSON.stringify(data));
+        function updateStock(){
+            var QtyRow1 = [];
+          var QtyRow2 = [];
+          var QtyRow3 = [];
+          var QtyRow4 = [];
+          $(".qty1").each(function() {
+            QtyRow1.push($(this).val());
+          });
+          $(".qty2").each(function() {
+            QtyRow2.push($(this).val());
+          });
+          $(".qty3").each(function() {
+            QtyRow3.push($(this).val());
+          });
+          $(".qty4").each(function() {
+            QtyRow4.push($(this).val());
+          });
+          var QtyArray1 = QtyRow1.join(',');
+          var QtyArray2 = QtyRow2.join(',');
+          var QtyArray3 = QtyRow3.join(',');
+          var QtyArray4 = QtyRow4.join(',');
+          // ----------------------------------------------
+          var ItemCode = [];
+          var change = [];
+          var chkItem = [];
+          var TotalSum = [];
+          var CalSum = [];
+          $(".ItemCode").each(function() {
+            ItemCode.push($(this).data('itemcode'));
+          });
+          $(".changeSend").each(function() {
+            change.push($(this).val());
+          });
+          for(var i = 0; i<ItemCode.length; i++){
+            if ($('#chkItem_'+ItemCode[i]).is(':checked')){
+                chkItem.push(1);
+            }else{
+                chkItem.push(0);
+            }
+          }
+          $(".TotalSum").each(function() {
+            TotalSum.push($(this).val());
+          });
+          $(".CalSum").each(function() {
+            CalSum.push($(this).val());
+          });
+          var ItemCodeArray = ItemCode.join(',');
+          var changeArray = change.join(',');
+          var AllSum = chkItem.join(',');
+          var TotalArray = TotalSum.join(',');
+          var CalArray = CalSum.join(',');
+          // ----------------------------------------------
+          var Percent = [];
+          var Total_par2 = $('#total_par2').val();
+          $(".percentSend").each(function() {
+            Percent.push($(this).val());
+          });
+          var PercentArray = Percent.join(',');
+          // ----------------------------------------------
+          swal({
+            title: "<?php echo $array['updatestock'][$language]; ?>",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true}).then(result => {
+            if (result.value) {
+                swal({
+                  title: '',
+                  text: '<?php echo $array['updatesuccess'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setTimeout(() => {
+                    var data = {
+                        'STATUS': 'updateStock',
+                        'QtyArray1': QtyArray1,
+                        'QtyArray2': QtyArray2,
+                        'QtyArray3': QtyArray3,
+                        'QtyArray4': QtyArray4,
+                        'ItemCodeArray': ItemCodeArray,
+                        'AllSum': AllSum,
+                        'changeArray': changeArray,
+                        'PercentArray': PercentArray,
+                        'Total_par2': Total_par2,
+                        'TotalArray': TotalArray,
+                        'CalArray': CalArray,
+                    };
+                    senddata(JSON.stringify(data));
+                }, 1500);
+                
+            } else if (result.dismiss === 'cancel') {
+                swal.close();
+            } 
+            })
         }
         // End Function ----------------------------------------
         function senddata(data) {
@@ -419,7 +508,7 @@ if($act=='excel'){
                     swal.close();
                     if (temp["status"] == 'success') {
                         if ((temp["form"] == 'getSection')) {
-                            var HeadTB = "<tr style='height:50px;'>" + 
+                            var HeadTB = "<tr style='height:50px;' >" + 
                                             "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
                                             "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
                                             "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
@@ -732,7 +821,6 @@ if($act=='excel'){
 </head>
 
 <body id="page-top">
-<a href="?act=excel" class="btn btn-primary"> Export->Excel </a>
         <input type="hidden" id="DepCount">
         <input type="hidden" id="RowChg">
         <div class="row m-1 my-4 mt-2 d-flex justify-content-start" >
@@ -763,7 +851,7 @@ if($act=='excel'){
             <div class="menu2">
                 <div class="d-flex justify-content-center">
                     <div class="circle2 d-flex justify-content-center">
-                        <button class="btn"  id="bImport" disabled="true">
+                        <button class="btn"  id="bImport" onclick="updateStock();">
                             <i class="fas fa-file-import"></i>
                             <div>
                                 <?php echo $array['updatestock'][$language]; ?>
@@ -773,7 +861,7 @@ if($act=='excel'){
                 </div>
             </div>
         </div>
-        <table style="margin-top:10px;" class="table mt-2" id="TableItem" cellspacing="0" role="grid" >
+        <table style="margin-top:10px;" class="table mt-2 " id="TableItem" cellspacing="0" role="grid" >
             <thead id="theadsum" style="font-size:11px;">
             </thead>
             <tbody id="body_table">

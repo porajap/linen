@@ -305,6 +305,7 @@
 <settime><en>Time sc</en><th>รอบส่งผ้า</th></settime>
 <dte><en>Deleted</en><th>ลบสำเร็จ</th></dte>
 <excel><en>Create File Excel</en><th>สร้างไฟล์ Excel</th></excel>
+<updatesuccess><en>Update Success</en><th>อัพเดทคลังสำเร็จ</th></updatesuccess>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>
