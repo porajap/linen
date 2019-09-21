@@ -19,6 +19,8 @@ header("Content-Length: ".filesize("myexcel.xls"));
   $QtyArray2 = explode(',' , $_SESSION['Excel']['QtyArray2']);
   $QtyArray3 = explode(',' , $_SESSION['Excel']['QtyArray3']);
   $QtyArray4 = explode(',' , $_SESSION['Excel']['QtyArray4']);
+  $PercentArray = explode(',' , $_SESSION['Excel']['PercentArray']);
+  $Total_par2 = $_SESSION['Excel']['Total_par2'];
 
 
   $count = 0;
@@ -49,65 +51,120 @@ xmlns:x="urn:schemas-microsoft-com:office:excel">
   <tr>
   <td></td>
     <td>แผนก</td>
+    <td>ความถี่ในการเปลี่ยน</td>
     <?php foreach($DepName as $key => $value){?>
   	  <td><?php echo $value?></td>
     <?php }?>
-    <td>Total Ex.STOCK</td>
-    <td>Total PAR</td>
-    <td>Total PAR</td>
+    <td>Total </td>
+    <td>Total </td>
+    <td>Total </td>
   </tr>
+
+  <tr>
+  <td></td>
+    <td>COST CENTER</td>
+    <?php foreach($DepName as $key => $value){?>
+  	<td></td>
+    <?php }?>
+    <td></td>
+    <td>Ex.STOCK</td>
+    <td>Par</td>
+    <td>Par</td>
+  </tr>
+
+
+  <tr>
+  <td></td>
+    <td>NAME</td>
+    <?php foreach($DepName as $key => $value){?>
+  	<td></td>
+    <?php }?>
+    <td></td>
+    <td></td>
+    <td>1</td>
+    <td><?php echo $Total_par2 ?></td>
+  </tr>
+
+  
   <tr>
     <td>1.</td>
     <td>จำนวนเตียงรวม (Total Patient Room)</td>
+    <td></td>
     <?php foreach($QtyArray1 as $key => $Qty1){?>
-  	  <td>
+    <td>
         <?php 
-          echo $Qty1;
+          echo $Qty1==null?0:$Qty1;
           $sumQty1 += $Qty1;
         ?>
       </td>
     <?php }?>
-    <td><?php echo $$sumQty1?></td>
+    <td><?php echo $sumQty1?></td>
   </tr>
   <tr>
     <td>2.</td>
     <td>ห้องพักญาติ (Relative Room In VIP)</td>
+    <td></td>
     <?php foreach($QtyArray2 as $key => $Qty2){?>
   	  <td>
         <?php 
-          echo $Qty2;
+          echo $Qty2==null?0:$Qty2;
           $sumQty2 += $Qty2;
         ?>
       </td>
     <?php }?>
-    <td><?php echo $$sumQty2?></td>
+    <td><?php echo $sumQty2?></td>
   </tr>
   <tr>
     <td>3.</td>
     <td>จำนวนผู้ป่วย (AVG Patient Census)</td>
+    <td></td>
     <?php foreach($QtyArray3 as $key => $Qty3){?>
   	  <td>
         <?php 
-          echo $Qty3;
+          echo $Qty3==null?0:$Qty3;
           $sumQty3 += $Qty3;
         ?>
       </td>
     <?php }?>
-    <td><?php echo $$sumQty3?></td>
+    <td><?php echo $sumQty3?></td>
   </tr>
   <tr>
      <td>4.</td>
     <td>จำนวนผู้ป่วยกลับบ้าน (Dis charge plan)</td>
+    <td></td>
     <?php foreach($QtyArray4 as $key => $Qty4){?>
   	  <td>
         <?php 
-          echo $Qty4;
+          echo $Qty4==null?0:$Qty4;
           $sumQty4 += $Qty4;
         ?>
       </td>
     <?php }?>
-    <td><?php echo $$sumQty4?></td>
+    <td><?php echo $sumQty4?></td>
   </tr>
+
+  <tr>
+     <td></td>
+     <td></td>
+     <td></td>
+     <?php foreach($PercentArray as $key => $PercentArray1){?>
+  	  <td>
+        <?php 
+          echo $PercentArray1==null?'0%':$PercentArray1.'%' ;
+        ?>
+      </td>
+    <?php }?>
+  </tr>
+<tr>
+<?php foreach($ItemCode as $key => $ItemCode1){?>
+  	  <tr>
+        <?php 
+          echo $ItemCode1 ;
+        ?>
+
+      </tr>
+      <?php }?>
+<tr>
 </table>
 </body>
 </html>
