@@ -165,7 +165,7 @@ xmlns:x="urn:schemas-microsoft-com:office:excel">
             echo $ItemCode ;
           ?>
         </td>
-        <td><?php  echo $changeArray[$key] ;  ?></td>
+        <td><?php  echo $changeArray[$key]==null?0:$changeArray[$key] ;  ?></td>
       </tr>
   <?php }?>
 
