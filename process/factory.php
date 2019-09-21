@@ -12,6 +12,7 @@ function ShowItem($conn, $DATA)
     $Sql = "SELECT
             factory.FacCode,
             factory.FacName,
+            factory.FacNameTH,
             factory.DiscountPercent,
             factory.Price,
             CASE factory.IsCancel WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsCancel,
@@ -43,6 +44,7 @@ function ShowItem($conn, $DATA)
       $return[$count]['FacCode'] = $Result['FacCode'];
       //$return[$count]['DepCode'] = $Result['DepCode'];
       $return[$count]['FacName'] = $Result['FacName'];
+      $return[$count]['FacNameTH'] = $Result['FacNameTH'];
       $return[$count]['DiscountPercent'] = $Result['DiscountPercent'];
       $return[$count]['Price'] = $Result['Price'];
       $return[$count]['IsCancel'] = $Result['IsCancel'];
