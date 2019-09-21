@@ -355,7 +355,7 @@ function updateStock($conn, $DATA){
         }
       }else{
         if($ParQty < $result){
-          $Update = "UPDATE item_stock SET TotalQty = $result WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = '$DepCodeX[$d]'";
+          $Update = "UPDATE item_stock SET ParQty = $result WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = '$DepCodeX[$d]'";
           mysqli_query($conn, $Update);
         }
       }
