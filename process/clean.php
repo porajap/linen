@@ -237,7 +237,7 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) AS DocDate ,clean.Total,users.FName,TIME(clean.Modify_Date) AS xTime,clean.IsStatus,clean.RefDocNo
+    $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) AS DocDate ,clean.Total,users.FName,TIME(clean.Modify_Date) AS xTime,clean.IsStatus,clean.RefDocNo
     FROM clean
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -743,38 +743,37 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
     
 
-    // $n = 0;
-    // $Sql = "SELECT
-    // rewash_detail.ItemCode,
-    // rewash_detail.UnitCode,
-    // rewash_detail.Qty,
-    // rewash_detail.Weight,
-    // rewash_detail.IsCancel
-    // FROM rewash_detail
-    // WHERE rewash_detail.DocNo = '$RefDocNo'";
-
-    // $meQuery = mysqli_query($conn, $Sql);
-    // echo json_encode($return);
-    // while ($Result = mysqli_fetch_assoc($meQuery)) {
-    //   $zItemCode[$n] = $Result['ItemCode'];
-    //   $zUnitCode[$n] = $Result['UnitCode'];
-    //   $zQty[$n]      = $Result['Qty'];
-    //   $zWeight[$n]   = $Result['Weight'];
-    //   $zIsCancel[$n] = $Result['IsCancel'];
-    //   $n++;
-    // }
-    // for ($i = 0; $i < $n; $i++) {
-    //   $ItemCode = $zItemCode[$i];
-    //   $UnitCode = $zUnitCode[$i];
-    //   $Qty      = $zQty[$i];
-    //   $Weight   = $zWeight[$i];
-    //   $IsCancel = $zIsCancel[$i];
-    //   $Sql = "INSERT INTO clean_detail
-    //   (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
-    //   VALUES
-    //   ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
-    //   mysqli_query($conn, $Sql);
-    // }
+    $n = 0;
+    $Sql = "SELECT
+    rewash_detail.ItemCode,
+    rewash_detail.UnitCode,
+    rewash_detail.Qty,
+    rewash_detail.Weight,
+    rewash_detail.IsCancel
+    FROM rewash_detail
+    WHERE rewash_detail.DocNo = '$RefDocNo'";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $zItemCode[$n] = $Result['ItemCode'];
+      $zUnitCode[$n] = $Result['UnitCode'];
+      $zQty[$n]      = $Result['Qty'];
+      $zWeight[$n]   = $Result['Weight'];
+      $zIsCancel[$n] = $Result['IsCancel'];
+      $n++;
+    }
+    for ($i = 0; $i < $n; $i++) {
+      $ItemCode = $zItemCode[$i];
+      $UnitCode = $zUnitCode[$i];
+      $Qty      = $zQty[$i];
+      $Weight   = $zWeight[$i];
+      $IsCancel = $zIsCancel[$i];
+      $Sql = "INSERT INTO clean_detail
+      (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
+      VALUES
+      ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
+      mysqli_query($conn, $Sql);
+    }
+    SelectDocument($conn, $DATA);
     // $n = 0;
     // $Sql = "SELECT
     // dirty_detail.ItemCode,
@@ -805,29 +804,27 @@ function CreateDocument($conn, $DATA)
     //   ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
     //   mysqli_query($conn, $Sql);
     // }
+    // $n = 0;
+    // $Sql = "SELECT factory_out_detail_sub.UsageCode,factory_out_detail.ItemCode
+    // FROM factory_out_detail
+    // INNER JOIN factory_out_detail_sub ON factory_out_detail.DocNo = factory_out_detail_sub.DocNo
+    // WHERE  factory_out_detail_sub.DocNo = '$RefDocNo'";
+    // $meQuery = mysqli_query($conn, $Sql);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   $ItemCode = $Result['ItemCode'];
+    //   $UsageCode[$n] = $Result['UsageCode'];
+    //   $n++;
+    // }
+    // for ($i = 0; $i < $n; $i++) {
+    //   $xUsageCode = $UsageCode[$i];
+    //   $Sql = " INSERT INTO clean_detail_sub(DocNo, ItemCode, UsageCode)
+    //   VALUES('$DocNo', '$ItemCode', '$xUsageCode') ";
+    //   mysqli_query($conn, $Sql);
 
-    $n = 0;
-    $Sql = "SELECT factory_out_detail_sub.UsageCode,factory_out_detail.ItemCode
-    FROM factory_out_detail
-    INNER JOIN factory_out_detail_sub ON factory_out_detail.DocNo = factory_out_detail_sub.DocNo
-    WHERE  factory_out_detail_sub.DocNo = '$RefDocNo'";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $ItemCode = $Result['ItemCode'];
-      $UsageCode[$n] = $Result['UsageCode'];
-      $n++;
-    }
-    for ($i = 0; $i < $n; $i++) {
-      $xUsageCode = $UsageCode[$i];
-      $Sql = " INSERT INTO clean_detail_sub(DocNo, ItemCode, UsageCode)
-      VALUES('$DocNo', '$ItemCode', '$xUsageCode') ";
-      mysqli_query($conn, $Sql);
+    //   $Sql = "UPDATE item_stock SET IsStatus = 0 WHERE UsageCode = '$xUsageCode'";
+    //   mysqli_query($conn, $Sql);
+    // }
 
-      $Sql = "UPDATE item_stock SET IsStatus = 0 WHERE UsageCode = '$xUsageCode'";
-      mysqli_query($conn, $Sql);
-    }
-
-    SelectDocument($conn, $DATA);
   }
 
   function chk_percent($conn, $DATA){

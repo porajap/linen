@@ -92,7 +92,8 @@ function ShowDocument($conn,$DATA){
     contract_parties_hospital.EndDate, 
     IFNULL(Detail,'') AS Detail, 
     (EndDate-DATE(NOW())) AS LeftDay, 
-    site.HptName
+    site.HptName ,
+    site.HptNameTH
   FROM  contract_parties_hospital 
   INNER JOIN site ON contract_parties_hospital.HptCode = site.HptCode
   WHERE contract_parties_hospital.IsStatus = 0 ";
@@ -103,7 +104,7 @@ function ShowDocument($conn,$DATA){
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     
     if($lang =='en'){
-
+      $sitePage = $Result['HptName'];
       $date = explode("-", $Result['StartDate']);
       $newdate = $date[2].'-'.$date[1].'-'.$date[0];
   
@@ -111,7 +112,7 @@ function ShowDocument($conn,$DATA){
       $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
   
       }else if ($lang == 'th'){
-  
+      $sitePage = $Result['HptNameTH'];
       $date = explode("-", $Result['StartDate']);
       $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
   
@@ -121,7 +122,7 @@ function ShowDocument($conn,$DATA){
       }
 
 	$return[$count]['RowID'] 		= $Result['RowID'];
-	$return[$count]['HptName'] 		= $Result['HptName'];
+	$return[$count]['HptName'] 		= $sitePage;
 	$return[$count]['StartDate'] 	= $newdate;
   $return[$count]['EndDate2'] 		= $newdate2;
   $return[$count]['EndDate'] 		= $Result['EndDate'];

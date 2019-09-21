@@ -9,7 +9,7 @@ function ShowItem($conn, $DATA)
   {
     $count = 0;
     $Keyword = $DATA['Keyword'];
-    $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName 
+    $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName  , site.HptNameTH
     FROM site
     LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
     WHERE site.IsStatus = 0
@@ -19,6 +19,7 @@ function ShowItem($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['HptCode'] = $Result['HptCode'];
       $return[$count]['HptName'] = $Result['HptName'];
+      $return[$count]['HptNameTH'] = $Result['HptNameTH'];
       $return[$count]['id'] = $Result['id']==null?"":$Result['id'];
       $return[$count]['contractName'] = $Result['contractName']==null?"":$Result['contractName'];
       $return[$count]['permission'] = $Result['permission']==null?"":$Result['permission'];
@@ -50,7 +51,7 @@ function getdetail($conn, $DATA)
     $id = $DATA['id'];
     //---------------HERE------------------//
     $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName ,
-            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus
+            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH
             FROM
             site
             LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
@@ -69,6 +70,7 @@ function getdetail($conn, $DATA)
       $return['contractName'] = $Result['contractName'];
       $return['permission'] = $Result['permission'];
       $return['Number'] = $Result['Number'];
+      $return['HptNameTH'] = $Result['HptNameTH'];
 
       //$return['IsStatus'] = $Result['IsStatus'];
       $count++;
