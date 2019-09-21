@@ -376,88 +376,184 @@ $array2 = json_decode($json2,TRUE);
         }
         function updateStock(){
             var QtyRow1 = [];
-          var QtyRow2 = [];
-          var QtyRow3 = [];
-          var QtyRow4 = [];
-          $(".qty1").each(function() {
-            QtyRow1.push($(this).val());
-          });
-          $(".qty2").each(function() {
-            QtyRow2.push($(this).val());
-          });
-          $(".qty3").each(function() {
-            QtyRow3.push($(this).val());
-          });
-          $(".qty4").each(function() {
-            QtyRow4.push($(this).val());
-          });
-          var QtyArray1 = QtyRow1.join(',');
-          var QtyArray2 = QtyRow2.join(',');
-          var QtyArray3 = QtyRow3.join(',');
-          var QtyArray4 = QtyRow4.join(',');
-          // ----------------------------------------------
-          var ItemCode = [];
-          var change = [];
-          var chkItem = [];
-          var TotalSum = [];
-          var CalSum = [];
-          $(".ItemCode").each(function() {
-            ItemCode.push($(this).data('itemcode'));
-          });
-          $(".changeSend").each(function() {
-            change.push($(this).val());
-          });
-          for(var i = 0; i<ItemCode.length; i++){
-            if ($('#chkItem_'+ItemCode[i]).is(':checked')){
-                chkItem.push(1);
-            }else{
-                chkItem.push(0);
+            var QtyRow2 = [];
+            var QtyRow3 = [];
+            var QtyRow4 = [];
+            $(".qty1").each(function() {
+                QtyRow1.push($(this).val());
+            });
+            $(".qty2").each(function() {
+                QtyRow2.push($(this).val());
+            });
+            $(".qty3").each(function() {
+                QtyRow3.push($(this).val());
+            });
+            $(".qty4").each(function() {
+                QtyRow4.push($(this).val());
+            });
+            var QtyArray1 = QtyRow1.join(',');
+            var QtyArray2 = QtyRow2.join(',');
+            var QtyArray3 = QtyRow3.join(',');
+            var QtyArray4 = QtyRow4.join(',');
+            // ----------------------------------------------
+            var ItemCode = [];
+            var change = [];
+            var chkItem = [];
+            var TotalSum = [];
+            var CalSum = [];
+            $(".ItemCode").each(function() {
+                ItemCode.push($(this).data('itemcode'));
+            });
+            $(".changeSend").each(function() {
+                change.push($(this).val());
+            });
+            for(var i = 0; i<ItemCode.length; i++){
+                if ($('#chkItem_'+ItemCode[i]).is(':checked')){
+                    chkItem.push(1);
+                }else{
+                    chkItem.push(0);
+                }
             }
-          }
-          $(".TotalSum").each(function() {
-            TotalSum.push($(this).val());
-          });
-          $(".CalSum").each(function() {
-            CalSum.push($(this).val());
-          });
-          var ItemCodeArray = ItemCode.join(',');
-          var changeArray = change.join(',');
-          var AllSum = chkItem.join(',');
-          var TotalArray = TotalSum.join(',');
-          var CalArray = CalSum.join(',');
-          // ----------------------------------------------
-          var Percent = [];
-          var Total_par2 = $('#total_par2').val();
-          $(".percentSend").each(function() {
-            Percent.push($(this).val());
-          });
-          var PercentArray = Percent.join(',');
-          // ----------------------------------------------
-          swal({
-            title: "<?php echo $array['updatestock'][$language]; ?>",
-            text: "",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            closeOnConfirm: false,
-            closeOnCancel: false,
-            showCancelButton: true}).then(result => {
-            if (result.value) {
-                swal({
-                  title: '',
-                  text: '<?php echo $array['updatesuccess'][$language]; ?>',
-                  type: 'success',
-                  showCancelButton: false,
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                setTimeout(() => {
+            $(".TotalSum").each(function() {
+                TotalSum.push($(this).val());
+            });
+            $(".CalSum").each(function() {
+                CalSum.push($(this).val());
+            });
+            var ItemCodeArray = ItemCode.join(',');
+            var changeArray = change.join(',');
+            var AllSum = chkItem.join(',');
+            var TotalArray = TotalSum.join(',');
+            var CalArray = CalSum.join(',');
+            // ----------------------------------------------
+            var Percent = [];
+            var Total_par2 = $('#total_par2').val();
+            $(".percentSend").each(function() {
+                Percent.push($(this).val());
+            });
+            var PercentArray = Percent.join(',');
+            // ----------------------------------------------
+            swal({
+                title: "<?php echo $array['updatestock'][$language]; ?>",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+                if (result.value) {
+                    swal({
+                    title: '',
+                    text: '<?php echo $array['updatesuccess'][$language]; ?>',
+                    type: 'success',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    });
+                    setTimeout(() => {
+                        var data = {
+                            'STATUS': 'updateStock',
+                            'QtyArray1': QtyArray1,
+                            'QtyArray2': QtyArray2,
+                            'QtyArray3': QtyArray3,
+                            'QtyArray4': QtyArray4,
+                            'ItemCodeArray': ItemCodeArray,
+                            'AllSum': AllSum,
+                            'changeArray': changeArray,
+                            'PercentArray': PercentArray,
+                            'Total_par2': Total_par2,
+                            'TotalArray': TotalArray,
+                            'CalArray': CalArray,
+                        };
+                        senddata(JSON.stringify(data));
+                    }, 1500);
+                    
+                } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                } 
+            })
+        }
+        function CreateExcel(){
+            console.log('Excel');
+            var QtyRow1 = [];
+            var QtyRow2 = [];
+            var QtyRow3 = [];
+            var QtyRow4 = [];
+            $(".qty1").each(function() {
+                QtyRow1.push($(this).val());
+            });
+            $(".qty2").each(function() {
+                QtyRow2.push($(this).val());
+            });
+            $(".qty3").each(function() {
+                QtyRow3.push($(this).val());
+            });
+            $(".qty4").each(function() {
+                QtyRow4.push($(this).val());
+            });
+            var QtyArray1 = QtyRow1.join(',');
+            var QtyArray2 = QtyRow2.join(',');
+            var QtyArray3 = QtyRow3.join(',');
+            var QtyArray4 = QtyRow4.join(',');
+            // ----------------------------------------------
+            var ItemCode = [];
+            var change = [];
+            var chkItem = [];
+            var TotalSum = [];
+            var CalSum = [];
+            $(".ItemCode").each(function() {
+                ItemCode.push($(this).data('itemcode'));
+            });
+            $(".changeSend").each(function() {
+                change.push($(this).val());
+            });
+            for(var i = 0; i<ItemCode.length; i++){
+                if ($('#chkItem_'+ItemCode[i]).is(':checked')){
+                    chkItem.push(1);
+                }else{
+                    chkItem.push(0);
+                }
+            }
+            $(".TotalSum").each(function() {
+                TotalSum.push($(this).val());
+            });
+            $(".CalSum").each(function() {
+                CalSum.push($(this).val());
+            });
+            var ItemCodeArray = ItemCode.join(',');
+            var changeArray = change.join(',');
+            var AllSum = chkItem.join(',');
+            var TotalArray = TotalSum.join(',');
+            var CalArray = CalSum.join(',');
+            // ----------------------------------------------
+            var Percent = [];
+            var Total_par2 = $('#total_par2').val();
+            $(".percentSend").each(function() {
+                Percent.push($(this).val());
+            });
+            var PercentArray = Percent.join(',');
+            // ----------------------------------------------
+            swal({
+                title: "<?php echo $array['excel'][$language]; ?>",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+                if (result.value) {
                     var data = {
-                        'STATUS': 'updateStock',
+                        'STATUS': 'CreateExcel',
                         'QtyArray1': QtyArray1,
                         'QtyArray2': QtyArray2,
                         'QtyArray3': QtyArray3,
@@ -470,12 +566,10 @@ $array2 = json_decode($json2,TRUE);
                         'TotalArray': TotalArray,
                         'CalArray': CalArray,
                     };
-                    senddata(JSON.stringify(data));
-                }, 1500);
-                
-            } else if (result.dismiss === 'cancel') {
-                swal.close();
-            } 
+                    exportExcel(JSON.stringify(data));
+                } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                } 
             })
         }
         // End Function ----------------------------------------
@@ -737,7 +831,23 @@ $array2 = json_decode($json2,TRUE);
                 }
             });
         }
-
+        function exportExcel(data) {
+            var form_data = new FormData();
+            form_data.append("DATA", data);
+            var URL = 'exportExcel.php';
+            $.ajax({
+                url: URL,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function(result) {
+                    window.open('exportExcel.php', '_blank')
+                }
+            });
+        }
     </script>
     <style media="screen">
         @font-face {

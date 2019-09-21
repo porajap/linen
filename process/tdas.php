@@ -361,7 +361,22 @@ function updateStock($conn, $DATA){
       }
     }
   }
-  echo json_encode($result);
+
+}
+function CreateExcel($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $DepCode = $_SESSION['DepCode'];
+  $UserID = $_SESSION['Userid'];
+  $count = 0;
+  $Sql = "SELECT department.DepCode FROM department 
+  WHERE department.IsStatus = 0 AND department.HptCode = '$HptCode'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepCodeX[$count]  = $Result['DepCode'];
+    $return[$count]['Dep'] =  $Result['DepCode'];
+    $count++;
+  }
+  $_SESSION['DepCodeEX'] = $DepCodeX;
 
 }
 if(isset($_POST['DATA']))
@@ -383,6 +398,8 @@ if(isset($_POST['DATA']))
         SavePercent($conn, $DATA);
       }else if($DATA['STATUS'] == 'updateStock'){
         updateStock($conn, $DATA);
+      }else if($DATA['STATUS'] == 'CreateExcel'){
+        CreateExcel($conn, $DATA);
       }
 
 
