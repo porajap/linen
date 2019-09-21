@@ -82,6 +82,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem6').hide();
         $('#rem7').hide();
         $('#rem8').hide();
+        $('#rem9').hide();
 
         getFactory();
         $('#addhot').show();
@@ -363,6 +364,7 @@ $array2 = json_decode($json2,TRUE);
 
         var FacCode = $('#FacCodeReal').val();
         var FacName = $('#FacName').val();
+        var FacNameTH = $('#FacNameTH').val();
         var Price = $('#Price').val();
         var Address = $('#Address').val();
         var Dept = $('#Dept').val();
@@ -395,6 +397,7 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS' : 'AddItem',
                   'FacCode' : FacCode,
                   'FacName' : FacName,
+                  'FacNameTH' : FacNameTH,
                   'Price' : Price,
                   'Address' : Address,
                   //'DepCode' : Dept,
@@ -430,6 +433,7 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS' : 'EditItem',
                   'FacCode' : FacCode,
                   'FacName' : FacName,
+                  'FacNameTH' : FacNameTH,
                   'Price' : Price,
                   'Address' : Address,
                   //'DepCode' : Dept,
@@ -475,6 +479,9 @@ $array2 = json_decode($json2,TRUE);
                 }
                 if(Post ==""||Post==undefined){
                   $('#rem5').show().css("color","red");
+                }
+                if(FacNameTH ==""||FacNameTH==undefined){
+                  $('#rem9').show().css("color","red");
                 }
             }
           });
@@ -596,6 +603,7 @@ $array2 = json_decode($json2,TRUE);
         var phone = $('#phone').val();
         var FacCode = $('#FacCode').val();
         var FacName = $('#FacName').val();
+        var FacNameTH = $('#FacNameTH').val();
         var Price = $('#Price').val();
         var Address = $('#Address').val();
         var Dept = $('#Dept').val();
@@ -634,6 +642,10 @@ $array2 = json_decode($json2,TRUE);
                 if(phone !="" && phone!=undefined){
                   $('#rem8').hide();
                   $('#phone').css('border-color', '');
+                }
+                if(FacNameTH !="" && FacNameTH!=undefined){
+                  $('#rem9').hide();
+                  $('#FacNameTH').css('border-color', '');
                 }
             
       }
@@ -866,11 +878,12 @@ $array2 = json_decode($json2,TRUE);
                                  StrTR = "<tr id='tr"+temp[i]['FacCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
-                                                "<td style=' text-overflow: ellipsis;overflow: hidden; width: 21%;' title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
-                                                "<td style='width: 13%;'>"+temp[i]['DiscountPercent']+"</td>"+
+                                                "<td style=' text-overflow: ellipsis;overflow: hidden; width: 16%;' title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
+                                                "<td style=' text-overflow: ellipsis;overflow: hidden; width: 19%;' title='"+temp[i]['FacNameTH']+"'>"+temp[i]['FacNameTH']+"</td>"+
+                                                "<td style='width: 11%;'>"+temp[i]['DiscountPercent']+"</td>"+
                                                 "<td style='width: 14%;'>"+temp[i]['contractName']+"</td>"+
-                                                "<td style='width: 15%;'>"+temp[i]['permission']+"</td>"+
-                                                "<td style='width: 22%;'>"+temp[i]['Number']+"</td>"+
+                                                "<td style='width: 13%;'>"+temp[i]['permission']+"</td>"+
+                                                "<td style='width: 11%;'>"+temp[i]['Number']+"</td>"+
                                                 "<td style='width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
                                                 "</tr>";
 
@@ -888,6 +901,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#FacCode').val(temp['FacCode']);
                                 $('#DepCode').val(temp['DepCode']);
                                 $('#FacName').val(temp['FacName']);
+                                $('#FacNameTH').val(temp['FacNameTH']);
                                 $('#DiscountPercent').val(temp['DiscountPercent']);
                                 $('#Price').val(temp['Price']);
                                 $('#IsCancel').val(temp['IsCancel']);
@@ -1364,11 +1378,12 @@ label{
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
-                              <th style='width: 19%;'><?php echo $array['facname'][$language]; ?></th>
-                              <th style='width: 14%;'><?php echo $array['discount'][$language]; ?></th>
-                              <th style='width: 14%;'><?php echo $array['ContractName'][$language]; ?></th>
+                              <th style='width: 16%;'><?php echo $array['facname'][$language]; ?></th>
+                              <th style='width: 18%;'><?php echo $array['facname'][$language]; ?></th>
+                              <th style='width: 11%;'><?php echo $array['discount'][$language]; ?></th>
+                              <th style='width: 15%;'><?php echo $array['ContractName'][$language]; ?></th>
                               <th style='width: 13%;'><?php echo $array['Position'][$language]; ?></th>
-                              <th style='width: 25%;'><?php echo $array['phone'][$language]; ?></th>
+                              <th style='width: 12%;'><?php echo $array['phone'][$language]; ?></th>
 
                             </tr>
                           </thead>
@@ -1482,6 +1497,13 @@ label{
                                 </div>               
      <!-- =================================================================== -->
                                 <div class="row">
+                                 <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label "></label>
+                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
+                                      <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    </div>
+                                  </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['taxid'][$language]; ?></label>
@@ -1489,16 +1511,17 @@ label{
                                       <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+
+                                </div> 
+  <!-- =================================================================== -->
+                                <div class="row">
+                                <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['postid'][$language]; ?></label>
                                         <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
                                         <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                </div> 
-  <!-- =================================================================== -->
-                                <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3  col-form-label "><?php echo $array['discount'][$language]; ?></label>

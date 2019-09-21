@@ -12,6 +12,7 @@ function ShowItem($conn, $DATA)
     $Sql = "SELECT
             factory.FacCode,
             factory.FacName,
+            factory.FacNameTH,
             factory.DiscountPercent,
             factory.Price,
             CASE factory.IsCancel WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsCancel,
@@ -43,6 +44,7 @@ function ShowItem($conn, $DATA)
       $return[$count]['FacCode'] = $Result['FacCode'];
       //$return[$count]['DepCode'] = $Result['DepCode'];
       $return[$count]['FacName'] = $Result['FacName'];
+      $return[$count]['FacNameTH'] = $Result['FacNameTH'];
       $return[$count]['DiscountPercent'] = $Result['DiscountPercent'];
       $return[$count]['Price'] = $Result['Price'];
       $return[$count]['IsCancel'] = $Result['IsCancel'];
@@ -82,6 +84,7 @@ function getdetail($conn, $DATA)
     $Sql = "SELECT
             factory.FacCode,
             factory.FacName,
+            factory.FacNameTH,
             factory.DiscountPercent,
             factory.Price,
             CASE factory.IsCancel WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsCancel,
@@ -108,6 +111,7 @@ function getdetail($conn, $DATA)
       $return['FacCode'] = $number;
       $return['FacCodeReal'] = $Result['FacCode'];
       $return['FacName'] = $Result['FacName'];
+      $return['FacNameTH'] = $Result['FacNameTH'];
       $return['DiscountPercent'] = $Result['DiscountPercent'];
       $return['Price'] = $Result['Price'];
       $return['IsCancel'] = $Result['IsCancel'];
@@ -152,7 +156,8 @@ function AddItem($conn, $DATA)
             Address,
             Post,
             Tel,
-            TaxID)
+            TaxID,
+            FacNameTH)
             VALUES
             (
               '".$DATA['FacName']."',
@@ -162,7 +167,8 @@ function AddItem($conn, $DATA)
               '".$DATA['Address']."',
               '".$DATA['Post']."',
               '".$DATA['Tel']."',
-              '".$DATA['TaxID']."'
+              '".$DATA['TaxID']."',
+              '".$DATA['FacNameTH']."'
             )
     ";
     // var_dump($Sql); die;
@@ -189,6 +195,7 @@ function EditItem($conn, $DATA)
     if($DATA["FacCode"]!=""){
       $Sql = "UPDATE factory SET
               FacName = '".$DATA['FacName']."',
+              FacNameTH = '".$DATA['FacNameTH']."',
               DiscountPercent = ".$DATA['DiscountPercent'].",
               Price = ".$DATA['Price'].",
               Address = '".$DATA['Address']."',
