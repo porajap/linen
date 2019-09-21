@@ -742,6 +742,18 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                 </div>
             </div>
+            <div class="menu2">
+                <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex justify-content-center">
+                        <button class="btn"  id="bImport"disabled="true">
+                            <i class="fas fa-file-excel"></i>
+                            <div>
+                                <?php echo $array['updatestock'][$language]; ?>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
         <table style="margin-top:10px;" class="table mt-2" id="TableItem" cellspacing="0" role="grid" >
             <thead id="theadsum" style="font-size:11px;">
