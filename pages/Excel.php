@@ -20,6 +20,7 @@ header("Content-Length: ".filesize("myexcel.xls"));
   $QtyArray3 = explode(',' , $_SESSION['Excel']['QtyArray3']);
   $QtyArray4 = explode(',' , $_SESSION['Excel']['QtyArray4']);
   $PercentArray = explode(',' , $_SESSION['Excel']['PercentArray']);
+  $changeArray = explode(',' , $_SESSION['Excel']['changeArray']);
   $Total_par2 = $_SESSION['Excel']['Total_par2'];
 
 
@@ -155,16 +156,19 @@ xmlns:x="urn:schemas-microsoft-com:office:excel">
       </td>
     <?php }?>
   </tr>
-<tr>
-<?php foreach($ItemCode as $key => $ItemCode1){?>
-  	  <tr>
-        <?php 
-          echo $ItemCode1 ;
-        ?>
 
+<?php foreach($ItemCode as $key => $ItemCode){?>
+  	  <tr>
+        <td><?php echo $key+1 ?></td>
+        <td>
+          <?php 
+            echo $ItemCode ;
+          ?>
+        </td>
+        <td><?php  echo $changeArray[$key] ;  ?></td>
       </tr>
-      <?php }?>
-<tr>
+  <?php }?>
+
 </table>
 </body>
 </html>
