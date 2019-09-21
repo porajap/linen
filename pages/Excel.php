@@ -47,6 +47,7 @@ xmlns:x="urn:schemas-microsoft-com:office:excel">
 <body>
 <table>
   <tr>
+  <td></td>
     <td>แผนก</td>
     <?php foreach($DepName as $key => $value){?>
   	  <td><?php echo $value?></td>
