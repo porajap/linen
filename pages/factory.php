@@ -1379,7 +1379,7 @@ label{
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 16%;'><?php echo $array['facname'][$language]; ?></th>
-                              <th style='width: 18%;'><?php echo $array['facname'][$language]; ?></th>
+                              <th style='width: 18%;'><?php echo $array['facnameTH'][$language]; ?></th>
                               <th style='width: 11%;'><?php echo $array['discount'][$language]; ?></th>
                               <th style='width: 15%;'><?php echo $array['ContractName'][$language]; ?></th>
                               <th style='width: 13%;'><?php echo $array['Position'][$language]; ?></th>
