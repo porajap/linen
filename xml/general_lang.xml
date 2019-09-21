@@ -304,6 +304,7 @@
 <updatestock><en>Update Stock</en><th>อัพเดทคลัง</th></updatestock>
 <settime><en>Time sc</en><th>รอบส่งผ้า</th></settime>
 <dte><en>Deleted</en><th>ลบสำเร็จ</th></dte>
+<excel><en>Create File Excel</en><th>สร้างไฟล์ Excel</th></excel>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>
