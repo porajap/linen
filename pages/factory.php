@@ -1465,7 +1465,7 @@ label{
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['faccode'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
                                       <input type="text"  autocomplete="off"  class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
                                       <input type="text" hidden class="form-control col-sm-7" id="FacCodeReal"  <?php echo $array['faccode'][$language]; ?> readonly>
                                     </div>
