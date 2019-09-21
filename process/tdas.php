@@ -282,8 +282,87 @@ function CreateDocument($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-function CreateExcel($conn, $DATA){
-  
+function updateStock($conn, $DATA){
+  $HptCode = $_SESSION['HptCode'];
+  $DepCode = $_SESSION['DepCode'];
+  $UserID = $_SESSION['Userid'];
+  #-------------------------------------
+  $QtyArray1 = explode(',', $DATA['QtyArray1']);
+  $QtyArray2 = explode(',', $DATA['QtyArray2']);
+  $QtyArray3 = explode(',', $DATA['QtyArray3']);
+  $QtyArray4 = explode(',', $DATA['QtyArray4']);
+
+  $Qty[0] = explode(',', $DATA['QtyArray1']);
+  $Qty[1] = explode(',', $DATA['QtyArray2']);
+  $Qty[2] = explode(',', $DATA['QtyArray3']);
+  $Qty[3] = explode(',', $DATA['QtyArray4']);
+  #-------------------------------------
+  $ItemCodeArray = explode(',', $DATA['ItemCodeArray']);
+  $AllSum = explode(',', $DATA['AllSum']);
+  $changeArray = explode(',', $DATA['changeArray']);
+  $PercentArray = explode(',', $DATA['PercentArray']);
+  $Total_par2 = $DATA['Total_par2'];
+  #-------------------------------------
+  $SumType[0] = array_sum($QtyArray1);
+  $SumType[1] = array_sum($QtyArray2);
+  $SumType[2] = array_sum($QtyArray3);
+  $SumType[3] = array_sum($QtyArray4);
+  #-------------------------------------
+  $TotalArray = explode(',', $DATA['TotalArray']);
+  $CalArray = explode(',', $DATA['CalArray']);
+  #-------------------------------------
+  $count = 0;
+  $Sql = "SELECT department.DepCode FROM department
+  WHERE department.IsStatus = 0 AND department.HptCode ='$HptCode'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepCodeX[$count]  = $Result['DepCode'];
+    $return[$count]['Dep'] =  $Result['DepCode'];
+    $count++;
+  }
+  #-------------------------------------
+  $TypeLoop = 4;
+  $DepLoop = $count;
+  $ItemLoop = sizeof($ItemCodeArray, 0);
+  #-------------------------------------
+  for($d = 0; $d<$DepLoop; $d++){
+    for($t = 0; $t<$TypeLoop; $t++){
+      foreach($Qty[$d] AS $key => $value){
+        if($d==$t){
+          $SumCol[$d] += $Qty[$key][$t];
+        }
+      }
+    }
+  }
+
+  for($i=0;$i<$ItemLoop;$i++){
+    for($d = 0; $d<$DepLoop; $d++){
+      if($AllSum[$i]==0){
+        $result = round(((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d])-$Qty[1][$d]);
+      }else{
+        $result = round((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d]);
+      }
+      $Sql = "SELECT COUNT(*) AS cnt, ParQty FROM item_stock WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCodeX[$d] LIMIT 1";
+      $meQuery = mysqli_query($conn, $Sql);
+      $Result = mysqli_fetch_assoc($meQuery);
+      $cnt = $Result['cnt'];
+      $ParQty = $Result['ParQty'];
+      if($cnt==0){
+        for($m = 0; $m<$result; $m++){
+          $Insert = "INSERT INTO item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode)
+                      VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], $result, $result, 0)";
+          mysqli_query($conn, $Insert);
+        }
+      }else{
+        if($ParQty < $result){
+          $Update = "UPDATE item_stock SET TotalQty = $result WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = '$DepCodeX[$d]'";
+          mysqli_query($conn, $Update);
+        }
+      }
+    }
+  }
+  echo json_encode($result);
+
 }
 if(isset($_POST['DATA']))
 {
@@ -302,8 +381,8 @@ if(isset($_POST['DATA']))
         CreateDocument($conn, $DATA);
       }else if($DATA['STATUS'] == 'SavePercent'){
         SavePercent($conn, $DATA);
-      }else if($DATA['STATUS'] == 'CreateExcel'){
-        CreateExcel($conn, $DATA);
+      }else if($DATA['STATUS'] == 'updateStock'){
+        updateStock($conn, $DATA);
       }
 
 
