@@ -23,7 +23,7 @@ function getSection($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode']  = $Result['DepCode'];
     $return[$count]['DepName']  = $Result['DepName'];
-    $return[$count]['Hptpercent']  = $Result['Percent_value']==null?0:$Result['Percent_value'];
+    $return[$count]['Hptpercent']  = $Result['Percent_value'];
     $DepCode[$count]  = $Result['DepCode'];
     $count++;
   }
@@ -61,7 +61,7 @@ function getSection($conn, $DATA)
     $TypeQuery1 = mysqli_query($conn, $Type1);
     while ($Result = mysqli_fetch_assoc($TypeQuery1)) {
       $return[$i]['ID1']  = $Result['ID'];
-      $return[$i]['Qty1']  = $Result['Qty']==null?0:$Result['Qty'];
+      $return[$i]['Qty1']  = $Result['Qty'];
     }
   }
   for($i=0;$i<$limit;$i++){
@@ -69,7 +69,7 @@ function getSection($conn, $DATA)
     $TypeQuery2 = mysqli_query($conn, $Type2);
     while ($Result = mysqli_fetch_assoc($TypeQuery2)) {
       $return[$i]['ID2']  = $Result['ID'];
-      $return[$i]['Qty2']  = $Result['Qty']==null?0:$Result['Qty'];
+      $return[$i]['Qty2']  = $Result['Qty'];
     }
   }
   for($i=0;$i<$limit;$i++){
@@ -77,7 +77,7 @@ function getSection($conn, $DATA)
     $TypeQuery3 = mysqli_query($conn, $Type3);
     while ($Result = mysqli_fetch_assoc($TypeQuery3)) {
       $return[$i]['ID3']  = $Result['ID'];
-      $return[$i]['Qty3']  = $Result['Qty']==null?0:$Result['Qty'];
+      $return[$i]['Qty3']  = $Result['Qty'];
     }
   }
   for($i=0;$i<$limit;$i++){
@@ -85,15 +85,15 @@ function getSection($conn, $DATA)
     $TypeQuery4 = mysqli_query($conn, $Type4);
     while ($Result = mysqli_fetch_assoc($TypeQuery4)) {
       $return[$i]['ID2']  = $Result['ID'];
-      $return[$i]['Qty4']  = $Result['Qty']==null?0:$Result['Qty'];
+      $return[$i]['Qty4']  = $Result['Qty'];
     }
   }
 
   $Sql = "SELECT total_par1, total_par2 FROM tdas_total WHERE HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['total_par1']  = $Result['total_par1']==null?0:$Result['total_par1'];
-    $return['total_par2']  = $Result['total_par2']==null?0:$Result['total_par2'];
+    $return['total_par1']  = $Result['total_par1'];
+    $return['total_par2']  = $Result['total_par2'];
   }
 
   $return['status'] = "success";
@@ -282,7 +282,9 @@ function CreateDocument($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-
+function CreateExcel($conn, $DATA){
+  
+}
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];
@@ -300,6 +302,8 @@ if(isset($_POST['DATA']))
         CreateDocument($conn, $DATA);
       }else if($DATA['STATUS'] == 'SavePercent'){
         SavePercent($conn, $DATA);
+      }else if($DATA['STATUS'] == 'CreateExcel'){
+        CreateExcel($conn, $DATA);
       }
 
 
