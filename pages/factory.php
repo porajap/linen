@@ -82,6 +82,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem6').hide();
         $('#rem7').hide();
         $('#rem8').hide();
+        $('#rem9').hide();
 
         getFactory();
         $('#addhot').show();
@@ -363,6 +364,7 @@ $array2 = json_decode($json2,TRUE);
 
         var FacCode = $('#FacCodeReal').val();
         var FacName = $('#FacName').val();
+        var FacNameTH = $('#FacNameTH').val();
         var Price = $('#Price').val();
         var Address = $('#Address').val();
         var Dept = $('#Dept').val();
@@ -395,6 +397,7 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS' : 'AddItem',
                   'FacCode' : FacCode,
                   'FacName' : FacName,
+                  'FacNameTH' : FacNameTH,
                   'Price' : Price,
                   'Address' : Address,
                   //'DepCode' : Dept,
@@ -430,6 +433,7 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS' : 'EditItem',
                   'FacCode' : FacCode,
                   'FacName' : FacName,
+                  'FacNameTH' : FacNameTH,
                   'Price' : Price,
                   'Address' : Address,
                   //'DepCode' : Dept,
@@ -475,6 +479,9 @@ $array2 = json_decode($json2,TRUE);
                 }
                 if(Post ==""||Post==undefined){
                   $('#rem5').show().css("color","red");
+                }
+                if(FacNameTH ==""||FacNameTH==undefined){
+                  $('#rem9').show().css("color","red");
                 }
             }
           });
@@ -596,6 +603,7 @@ $array2 = json_decode($json2,TRUE);
         var phone = $('#phone').val();
         var FacCode = $('#FacCode').val();
         var FacName = $('#FacName').val();
+        var FacNameTH = $('#FacNameTH').val();
         var Price = $('#Price').val();
         var Address = $('#Address').val();
         var Dept = $('#Dept').val();
@@ -634,6 +642,10 @@ $array2 = json_decode($json2,TRUE);
                 if(phone !="" && phone!=undefined){
                   $('#rem8').hide();
                   $('#phone').css('border-color', '');
+                }
+                if(FacNameTH !="" && FacNameTH!=undefined){
+                  $('#rem9').hide();
+                  $('#FacNameTH').css('border-color', '');
                 }
             
       }
@@ -889,6 +901,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#FacCode').val(temp['FacCode']);
                                 $('#DepCode').val(temp['DepCode']);
                                 $('#FacName').val(temp['FacName']);
+                                $('#FacNameTH').val(temp['FacNameTH']);
                                 $('#DiscountPercent').val(temp['DiscountPercent']);
                                 $('#Price').val(temp['Price']);
                                 $('#IsCancel').val(temp['IsCancel']);
@@ -1484,6 +1497,13 @@ label{
                                 </div>               
      <!-- =================================================================== -->
                                 <div class="row">
+                                 <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label "></label>
+                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
+                                      <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    </div>
+                                  </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['taxid'][$language]; ?></label>
@@ -1491,16 +1511,17 @@ label{
                                       <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+
+                                </div> 
+  <!-- =================================================================== -->
+                                <div class="row">
+                                <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['postid'][$language]; ?></label>
                                         <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
                                         <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                </div> 
-  <!-- =================================================================== -->
-                                <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3  col-form-label "><?php echo $array['discount'][$language]; ?></label>

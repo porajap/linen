@@ -176,7 +176,8 @@
 <pleasewait><en>Please wait..</en><th>กรุณารอสักครู่</th></pleasewait>
 <processing><en>Processing</en><th>ระบบกำลังประมวลผล</th></processing>
 <faccode><en>ID</en><th>รหัสโรงซัก</th></faccode>
-<facname><en>Laundry</en><th>ชื่อโรงซัก</th></facname>
+<facname><en>LaundryEN</en><th>ชื่อโรงซักอังกฤษ</th></facname>
+<facnameTH><en>LaundryTH</en><th>ชื่อโรงซักไทย</th></facnameTH>
 <discount><en>Discount</en><th>ส่วนลด</th></discount>
 <add><en>Add</en><th>เพิ่ม</th></add>
 <tdas><en>Tdas</en><th>Tdas</th></tdas>
