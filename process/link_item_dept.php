@@ -443,12 +443,13 @@ function SelectItemStock($conn, $DATA)
 
   for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
     $count2 = 0;
-    $SqlItem = "SELECT
+    
+    $SqlItem = " SELECT
         item_stock.ItemCode,
         item.ItemName
       FROM item_stock
       INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-      WHERE item_stock.ItemCode = '$ItemCode[$i]' AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
+      WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
       GROUP BY item_stock.ItemCode
       ORDER BY item_stock.RowID DESC";
       $ItemQuery = mysqli_query($conn, $SqlItem);
@@ -457,17 +458,17 @@ function SelectItemStock($conn, $DATA)
         $return[$countx]['ItemNameX'] = $IResult['ItemName'];
         $xItemCode = $IResult['ItemCode'];
         $index = 'ItemCode_'.$xItemCode.'_'.$countx;
-        for ($j=0; $j < $Number[$i] ; $j++) {
+        // for ($j=0; $j < $Number[$i] ; $j++) {
           $Sql = "SELECT
             item_stock.RowID, 
             item_stock.ItemCode,
             item.ItemName,
             item_stock.ParQty,
             DATE(item_stock.ExpireDate) AS ExpireDate,
-            UsageCode
+            item_stock.UsageCode
           FROM item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.ItemCode = '$ItemCode[$i]' AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
+          WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
           -- GROUP BY item_stock.ItemCode
           ORDER BY item_stock.RowID DESC";
           $meQuery = mysqli_query($conn,$Sql);
@@ -477,16 +478,18 @@ function SelectItemStock($conn, $DATA)
             $return[$index][$count2]['ItemName'] = $Result['ItemName'];
             $return[$index][$count2]['DepCode'] = $Result['DepCode'];
             $return[$index][$count2]['ParQty'] = $Result['ParQty'];
-            if($Result['UsageCode']=="" || $Result['UsageCode']==null){
-              $return[$index][$count2]['UsageCode'] = '';
+            if($Result['UsageCode']==0 || $Result['UsageCode']==null){
+              $return[$index][$count2]['UsageCode'] = 0;
+            }else{
+              $return[$index][$count2]['UsageCode'] = $Result['UsageCode'];
             }
             $return[$index][$count2]['ExpireDate'] = $tempdate;
             $count2++;
-          }
+          // }
         }
         $countx++;
       }
-    $return[$i]['num'] = $Number[$i];
+    $return[$i]['num'] = $count2;
     $boolean = true;
   }
   $return['countx'] = $countx;
@@ -524,7 +527,7 @@ function ShowItemStock($conn, $DATA)
           FROM
           item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid AND item_stock.UsageCode = 0 AND item_stock.IsStatus = 9  AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+          WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid  AND item_stock.IsStatus = 9  AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
           ORDER BY item_stock.RowID DESC";
           // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);

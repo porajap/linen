@@ -1279,7 +1279,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['codecode'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
                                       <input type="text"  hidden class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
                                       

@@ -291,6 +291,42 @@ function getCatagory($conn, $DATA)
     die;
   }
 }
+function getCatagory2($conn, $DATA)
+{
+  $count = 0;
+  $maincatagory = $DATA['maincatagory'];
+  // var_dump($Maincat); die;
+  $Sql = "SELECT
+          item_category.CategoryCode,
+          item_category.CategoryName,
+          item_category.IsStatus
+          FROM
+          item_category
+          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
+          WHERE item_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0
+          ";
+  //var_dump($Sql); die;
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['CategoryCode'] = $Result['CategoryCode'];
+    $return[$count]['CategoryName'] = $Result['CategoryName'];
+    $count++;
+  }
+
+  if ($count > 0) {
+    $return['status'] = "success";
+    $return['form'] = "getCatagory2";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "notfound";
+    $return['msg'] = "notfound";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 
 function GetHospital($conn, $DATA)
 {
@@ -1227,6 +1263,8 @@ if (isset($_POST['DATA'])) {
     ShowItemMaster2($conn, $DATA);
   }else if ($DATA['STATUS'] == 'ShowItem2') {
     ShowItem2($conn, $DATA);
+  }else if ($DATA['STATUS'] == 'getcatagory2') {
+    getcatagory2($conn, $DATA);
   }
 } else {
   $return['status'] = "error";

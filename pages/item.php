@@ -364,10 +364,6 @@ $array2 = json_decode($json2, TRUE);
 
     function getCatagory2() {
       var maincatagory = $('#maincatagory2 option:selected').attr("value");
-      if(mainCatagory !="" && mainCatagory!=undefined){
-        $('#rem2').hide();
-        $('#maincatagory2').css('border-color', '');
-      }
       if (typeof maincatagory == 'undefined') maincatagory = "1";
       $('#maincatagory').val(maincatagory);
       var catagory1 = $("#catagory1").val();

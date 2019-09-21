@@ -1379,7 +1379,7 @@ label{
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 16%;'><?php echo $array['facname'][$language]; ?></th>
-                              <th style='width: 18%;'><?php echo $array['facname'][$language]; ?></th>
+                              <th style='width: 18%;'><?php echo $array['facnameTH'][$language]; ?></th>
                               <th style='width: 11%;'><?php echo $array['discount'][$language]; ?></th>
                               <th style='width: 15%;'><?php echo $array['ContractName'][$language]; ?></th>
                               <th style='width: 13%;'><?php echo $array['Position'][$language]; ?></th>
@@ -1465,7 +1465,7 @@ label{
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['faccode'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
                                       <input type="text"  autocomplete="off"  class="form-control col-sm-7" id="FacCode"  <?php echo $array['faccode'][$language]; ?> readonly>
                                       <input type="text" hidden class="form-control col-sm-7" id="FacCodeReal"  <?php echo $array['faccode'][$language]; ?> readonly>
                                     </div>

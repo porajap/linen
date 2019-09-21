@@ -1336,11 +1336,10 @@ $array2 = json_decode($json2,TRUE);
                             }else if(temp['form']=="SelectItemStock"){
                               var chk_row = $('#chk_row').val();
                               for (var i = 0; i < temp['countx']; i++) {
-                                  if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
-                                      var UsageCode = "";
-                                  }else{
-                                    var UsageCode = temp[i]['UsageCode'];
-                                  }
+                                  // if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
+                                  //     var UsageCode = "";
+                                  // }else{
+                                  
                                 var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
                                 StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
@@ -1355,6 +1354,7 @@ $array2 = json_decode($json2,TRUE);
                                         "</tr>";
 
                                 for(var j = 0; j < temp[i]['num']; j++){
+                                  var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
                                   var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
                                   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
                                   StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+

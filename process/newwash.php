@@ -14,7 +14,12 @@ function OnLoadPage($conn, $DATA)
   $count = 0;
   $countx = 0;
   $boolean = false;
+
+  if($lang == 'en'){
   $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0";
+  }else{
+  $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0";
+  }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 

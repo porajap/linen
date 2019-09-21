@@ -1167,7 +1167,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['Measurementcode'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
                                       <input type="text"  class="form-control col-sm-7 " id="UnitCode"    placeholder="<?php echo $array['Measurementcode'][$language]; ?>" disabled="true">
                                     </div>
                                   </div>
