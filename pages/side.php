@@ -597,6 +597,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem4').hide();
         $('#rem5').hide();
         $('#rem6').hide();
+        $('#rem7').hide();
         $('#hostdetail').attr('hidden', true);
        $('#hostdetail55').attr('hidden', false);
         $('.checkblank').each(function() {
@@ -819,9 +820,10 @@ $array2 = json_decode($json2,TRUE);
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
                                                 "<td style='width: 15%;'>"+temp[i]['HptCode']+"</td>"+
-                                                "<td style='width: 22%;'>"+temp[i]['HptName']+"</td>"+
-                                                "<td style='width: 17%;'>"+temp[i]['contractName']+"</td>"+
-                                                "<td style='width: 18%;'>"+temp[i]['permission']+"</td>"+
+                                                "<td style='width: 16%;'>"+temp[i]['HptName']+"</td>"+
+                                                "<td style='width: 18%;'>"+temp[i]['HptNameTH']+"</td>"+
+                                                "<td style='width: 11%;'>"+temp[i]['contractName']+"</td>"+
+                                                "<td style='width: 12%;'>"+temp[i]['permission']+"</td>"+
                                                 "<td style='width: 13%;'>"+temp[i]['Number']+"</td>"+
                                                 "<td style='width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
                                                 "</tr>";
@@ -846,6 +848,7 @@ $array2 = json_decode($json2,TRUE);
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
                                 $('#HptCode').val(temp['HptCode']);
+                                $('#HptNameTH').val(temp['HptNameTH']);
                                 $('#HptName').val(temp['HptName']);
                                 $('#ContractName').val(temp['contractName']);
                                 $('#Position').val(temp['permission']);
@@ -1308,10 +1311,11 @@ $array2 = json_decode($json2,TRUE);
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 15%;'><?php echo $array['hoscode'][$language]; ?></th>
-                              <th style='width: 22%;'><?php echo $array['side'][$language]; ?></th>
-                              <th style='width: 18%;'><?php echo $array['ContractName'][$language]; ?></th>
-                              <th style='width: 17%;'><?php echo $array['Position'][$language]; ?></th>
-                              <th style='width: 13%;'><?php echo $array['phone'][$language]; ?></th>
+                              <th style='width: 16%;'><?php echo $array['side'][$language]; ?></th>
+                              <th style='width: 16%;'><?php echo $array['side'][$language]; ?></th>
+                              <th style='width: 12%;'><?php echo $array['ContractName'][$language]; ?></th>
+                              <th style='width: 12%;'><?php echo $array['Position'][$language]; ?></th>
+                              <th style='width: 14%;'><?php echo $array['phone'][$language]; ?></th>
 
                             </tr>
                           </thead>
@@ -1407,7 +1411,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row" >
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosnameEN'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1440,14 +1444,14 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
-                                      <input type="text" onkeyup="resetinput()"  class="form-control col-sm-7 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
+                                      <input type="text" autocomplete="off"  onkeyup="resetinput()"  class="form-control col-sm-7 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
                                       <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
-                                        <input type="text" onkeyup="resetinput()" class="form-control col-sm-7 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
+                                        <input type="text" autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
                                         <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1456,13 +1460,13 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
-                                      <input type="text"  onkeyup="resetinput()"  class="form-control col-sm-7 numonly checkblank3" maxlength="10" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
+                                      <input type="text" autocomplete="off" onkeyup="resetinput()"  class="form-control col-sm-7 numonly checkblank3" maxlength="10" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
                                       <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6" id="hostdetail55">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
+                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                       <select onchange="resetinput()"  class="form-control col-sm-7   checkblank3" id="host" onchange="removeClassBorder1();"></select>
                                       <label id="rem6" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1470,7 +1474,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6"  hidden id="hostdetail">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 " disabled="true" id="hosdetail1" placeholder="<?php echo $array['hosname'][$language]; ?>">
+                                      <input type="text" autocomplete="off"  class="form-control col-sm-7 " disabled="true" id="hosdetail1" placeholder="<?php echo $array['hosname'][$language]; ?>">
                                     </div>
                                   </div>
 

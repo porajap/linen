@@ -925,17 +925,17 @@ function SaveBill($conn, $DATA)
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $MoreThan = $Result['TotalQty'] +  $Result['TotalQty2'];
-      if($MoreThan>$Result['ParQty']){
-        $OverPar = $MoreThan - $Result['ParQty'];
-        $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = $OverPar WHERE shelfcount_detail.DocNo = '$DocNo' 
-        AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
-        mysqli_query($conn, $update);
-      }else{
-        $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = 0 WHERE shelfcount_detail.DocNo = '$DocNo' 
-        AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
-        mysqli_query($conn, $update);
-      }
+      // $MoreThan = $Result['TotalQty'] +  $Result['TotalQty2'];
+      // if($MoreThan>$Result['ParQty']){
+      //   $OverPar = $MoreThan - $Result['ParQty'];
+      //   $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = $OverPar WHERE shelfcount_detail.DocNo = '$DocNo' 
+      //   AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
+      //   mysqli_query($conn, $update);
+      // }else{
+      //   $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = 0 WHERE shelfcount_detail.DocNo = '$DocNo' 
+      //   AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
+      //   mysqli_query($conn, $update);
+      // }
     }
     $updateStock = "UPDATE item_stock SET TotalQty = $QtyArray[$i] WHERE DepCode = $DepCode AND ItemCode = '$ItemCode[$i]'";
     mysqli_query($conn, $updateStock);
@@ -1417,7 +1417,6 @@ function SaveDraw($conn, $DATA){
   while ($Result2 = mysqli_fetch_assoc($meQuery2)) {
     $DepCode = $Result2['DepCode'];
   }
-
   $Sql3 = "SELECT
       shelfcount_detail.Id,
       item.ItemName,

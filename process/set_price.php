@@ -140,8 +140,9 @@ function ShowItem1($conn, $DATA)
   $xHptCode = $DATA['HptCode'];
   $CgMainID = $DATA['CgMainID'];
   $CgSubID = $DATA['CgSubID'];
+  $lang = $_SESSION['lang'];
 
-  $Sql = "SELECT category_price.RowID,site.HptName,item_main_category.MainCategoryName,item_category.CategoryName,category_price.Price
+  $Sql = "SELECT category_price.RowID,site.HptName,site.HptNameTH,item_main_category.MainCategoryName,item_category.CategoryName,category_price.Price
   FROM category_price
   INNER JOIN site ON category_price.HptCode = site.HptCode
   INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode
@@ -161,8 +162,13 @@ function ShowItem1($conn, $DATA)
   }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if($lang =='en'){
+      $sitePage = $Result['HptName'];
+    }else if ($lang == 'th'){
+      $sitePage = $Result['HptNameTH'];
+    }
     $return[$count]['RowID'] = $Result['RowID'];
-    $return[$count]['HptName'] = $Result['HptName'];
+    $return[$count]['HptName'] = $sitePage;
     $return[$count]['MainCategoryName'] = $Result['MainCategoryName'];
 	$return[$count]['CategoryName'] = $Result['CategoryName'];
     $return[$count]['Price'] = $Result['Price'];
