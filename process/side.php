@@ -119,6 +119,8 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
   {
+  // ==============================================
+  $HptCode1 = $DATA['HptCode1'];
   $HptCode = $DATA['HptCode'];
   $HptName = $DATA['HptName'];
   $HptNameTH = $DATA['HptNameTH'];
@@ -126,7 +128,6 @@ function AddItem($conn, $DATA)
   $Position = $DATA['Position'];
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
-
   // ==============================================
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
@@ -136,11 +137,9 @@ function AddItem($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $boolcount = $Result['Countn'];
   }
-
-
   // ==============================================
 
-  if($boolcount==0){
+  if($HptCode1== " "){
     $count = 0;
     $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH) VALUE ('$HptCode','$HptName',0 ,'$HptNameTH')";
   if(mysqli_query($conn, $Sql)){
@@ -158,7 +157,7 @@ function AddItem($conn, $DATA)
     die;
   }
   }else{
-      $Sql="UPDATE site SET  site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' WHERE site.HptCode = '$HptCode'";
+      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' WHERE site.HptCode = '$HptCode1'";
       if(mysqli_query($conn, $Sql)){
         $return['status'] = "success";
         $return['form'] = "AddItem";

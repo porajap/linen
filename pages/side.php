@@ -116,10 +116,10 @@ $array2 = json_decode($json2,TRUE);
           this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
         });
         $('.charonly').on('input', function() {
-          this.value = this.value.replace(/[^a-zA-Z. ]/g, ''); //<-- replace all other than given set of values
+          this.value = this.value.replace(/[^a-zA-Z0-9. ]/g, ''); //<-- replace all other than given set of values
         });
         $('.charonlyTH').on('input', function() {
-          this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
+          this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
         });
       }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
@@ -357,6 +357,7 @@ $array2 = json_decode($json2,TRUE);
         var ContractName = $('#ContractName').val();
         var Position = $('#Position').val();
         var phone = $('#phone').val();
+        var HptCode1 = $('#HptCode1').val();
         var HptCode = $('#HptCode').val();
         var HptName = $('#HptName').val();
         var HptNameTH = $('#HptNameTH').val();
@@ -385,6 +386,7 @@ $array2 = json_decode($json2,TRUE);
                 var data = {
                   'STATUS' : 'AddItem',
                   'HptCode' : HptCode,
+                  'HptCode1' : HptCode1,
                   'ContractName' : ContractName,
                   'Position' : Position,
                   'phone' : phone,
@@ -623,6 +625,7 @@ $array2 = json_decode($json2,TRUE);
         $('#phone').val("");
         $('#host').val("");
         $('#HptCode').val("");
+        $('#HptCode1').val("");
         ShowItem();
         $('#bCancel').attr('disabled', true);
         $('#delete_icon').addClass('opacity');
@@ -847,6 +850,7 @@ $array2 = json_decode($json2,TRUE);
                         }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
+                                $('#HptCode1').val(temp['HptCode']);
                                 $('#HptCode').val(temp['HptCode']);
                                 $('#HptNameTH').val(temp['HptNameTH']);
                                 $('#HptName').val(temp['HptName']);
@@ -1403,6 +1407,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
+                                      <input type="text"  autocomplete="off" class="form-control col-sm-7 " id="HptCode1"  hidden  placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

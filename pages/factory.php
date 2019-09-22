@@ -83,7 +83,15 @@ $array2 = json_decode($json2,TRUE);
         $('#rem7').hide();
         $('#rem8').hide();
         $('#rem9').hide();
-
+        $('.numonly').on('input', function() {
+          this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+        });
+        $('.charonly').on('input', function() {
+          this.value = this.value.replace(/[^a-zA-Z0-9. ]/g, ''); //<-- replace all other than given set of values
+        });
+        $('.charonlyTH').on('input', function() {
+          this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
+        });
         getFactory();
         $('#addhot').show();
        $('#adduser').hide();
@@ -123,14 +131,6 @@ $array2 = json_decode($json2,TRUE);
         $('.editable').click(function() {
           alert('hi');
         });
-
-        $('.numonly').on('input', function() {
-          this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-        });
-        $('.charonly').on('input', function() {
-          this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
-        });
-
       }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
@@ -1483,7 +1483,7 @@ label{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['facname'][$language]; ?></label>
-                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
+                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank charonly " id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1500,7 +1500,7 @@ label{
                                  <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "></label>
-                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
+                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank charonlyTH" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
                                       <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

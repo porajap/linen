@@ -52,7 +52,7 @@ function getDepartment($conn,$DATA){
     $Sql = "SELECT department.DepCode,department.DepName,department.IsDefault
     FROM department
     WHERE department.HptCode = '$HptCode' 
-    AND  department.IsDefault = 1
+    -- AND  department.IsDefault = 1
     AND department.IsStatus = 0
     ORDER BY department.DepCode DESC";
   }else{
