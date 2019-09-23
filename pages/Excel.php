@@ -31,7 +31,7 @@ header("Content-Length: ".filesize("'.$filename.'"));
   $Qty[2] = explode(',', $_SESSION['Excel']['QtyArray3']);
   $Qty[3] = explode(',', $_SESSION['Excel']['QtyArray4']);
 
-  unset($_SESSION['Excel']);
+  // unset($_SESSION['Excel']);
   #---------------------------------------------------------------------------
   $count = 0;
   $Sql = "SELECT
@@ -60,27 +60,45 @@ header("Content-Length: ".filesize("'.$filename.'"));
         $Item[$key]['ItemName'] = $Result['ItemName'];
       }
   }
+ 
+  // echo '<pre>';
+  // print_r($Qty);
+  // echo '</pre>';
+
   $DepLoop = $count;
   $ItemLoop = sizeof($ItemCode, 0);
   $TypeLoop = 4;
+  // for($d = 0; $d<$DepLoop; $d++){
+  //   for($t = 0; $t<$TypeLoop; $t++){
+  //     foreach($Qty[$t] AS $key => $value){
+  //       if($d==$t){
+  //         $SumCol[$d] += $Qty[$key][$d];
+  //       }
+  //     }
+  //   }
+  // }
 
-  for($d = 0; $d<$DepLoop; $d++){
-    for($t = 0; $t<$TypeLoop; $t++){
-      foreach($Qty[$d] AS $key => $value){
-        if($d==$t){
-          $SumCol[$d] += $Qty[$key][$t];
+  for($t = 0; $t<$TypeLoop; $t++){
+    for($d = 0; $d<$DepLoop; $d++){
+      foreach($Qty[$t] AS $key => $value){
+        if($key==$t){
+          $SumCol[$d] += $Qty[$key][$d];
         }
       }
     }
   }
-
+  // echo 'Dep: '.$DepLoop;
+  // echo '<br>Key: '.$key;
+  // echo '<pre>';
+  // print_r($SumCol);
+  // echo '</pre>';
 ?>
 
 <!-- <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"> -->
  
 <html>
 <head>
-<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
 <table x:str border=1 cellpadding=0 cellspacing=1 width=100% style="border-collapse:collapse">
