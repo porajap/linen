@@ -877,14 +877,14 @@ $array2 = json_decode($json2,TRUE);
                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                  StrTR = "<tr id='tr"+temp[i]['FacCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
-                                                "<td style='width: 10%;'>"+(i+1)+"</td>"+
-                                                "<td style=' text-overflow: ellipsis;overflow: hidden; width: 16%;' title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
-                                                "<td style=' text-overflow: ellipsis;overflow: hidden; width: 19%;' title='"+temp[i]['FacNameTH']+"'>"+temp[i]['FacNameTH']+"</td>"+
-                                                "<td style='width: 11%;'>"+temp[i]['DiscountPercent']+"</td>"+
-                                                "<td style='width: 14%;'>"+temp[i]['contractName']+"</td>"+
-                                                "<td style='width: 13%;'>"+temp[i]['permission']+"</td>"+
-                                                "<td style='width: 11%;'>"+temp[i]['Number']+"</td>"+
-                                                "<td style='width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
+                                                "<td nowrap style='width: 10%;'>"+(i+1)+"</td>"+
+                                                "<td nowrap style=' text-overflow: ellipsis;overflow: hidden; width: 16%;' title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
+                                                "<td nowrap style=' text-overflow: ellipsis;overflow: hidden; width: 19%;' title='"+temp[i]['FacNameTH']+"'>"+temp[i]['FacNameTH']+"</td>"+
+                                                "<td nowrap style=' text-overflow: ellipsis;overflow: hidden;width: 11%;'>"+temp[i]['DiscountPercent']+"</td>"+
+                                                "<td nowrap style=' text-overflow: ellipsis;overflow: hidden;width: 14%;'>"+temp[i]['contractName']+"</td>"+
+                                                "<td nowrap style=' text-overflow: ellipsis;overflow: hidden;width: 13%;'>"+temp[i]['permission']+"</td>"+
+                                                "<td nowrap style=' text-overflow: ellipsis;overflow: hidden;width: 11%;'>"+temp[i]['Number']+"</td>"+
+                                                "<td nowrap style='width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
                                                 "</tr>";
 
                                  if(rowCount == 0){
@@ -1499,7 +1499,7 @@ label{
                                 <div class="row">
                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['facnameTH'][$language]; ?></label>
                                       <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank charonlyTH" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
                                       <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1511,7 +1511,6 @@ label{
                                       <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-
                                 </div> 
   <!-- =================================================================== -->
                                 <div class="row">

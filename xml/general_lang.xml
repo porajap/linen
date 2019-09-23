@@ -176,8 +176,8 @@
 <pleasewait><en>Please wait..</en><th>กรุณารอสักครู่</th></pleasewait>
 <processing><en>Processing</en><th>ระบบกำลังประมวลผล</th></processing>
 <faccode><en>ID</en><th>รหัสโรงซัก</th></faccode>
-<facname><en>LaundryEN</en><th>ชื่อโรงซักอังกฤษ</th></facname>
-<facnameTH><en>LaundryTH</en><th>ชื่อโรงซักไทย</th></facnameTH>
+<facname><en>LaundryEN</en><th>ชื่อโรงซักภาษาอังกฤษ</th></facname>
+<facnameTH><en>LaundryTH</en><th>ชื่อโรงภาษาซักไทย</th></facnameTH>
 <discount><en>Discount</en><th>ส่วนลด</th></discount>
 <add><en>Add</en><th>เพิ่ม</th></add>
 <tdas><en>Tdas</en><th>Tdas</th></tdas>
@@ -186,8 +186,8 @@
 <taxid><en>Tax ID</en><th>เลขที่ผู้เสียภาษี</th></taxid>
 <postid><en>Post ID</en><th>รหัสไปรษณีย์</th></postid>
 <hoscode><en>Hospital code</en><th>รหัสโรงพยาบาล</th></hoscode>
-<hosnameEN><en>Hospital</en><th>ชื่อโรงพยาบาลอังกฤษ</th></hosnameEN>
-<hosnameTH><en>Hospital</en><th>ชื่อโรงพยาบาลไทย</th></hosnameTH>
+<hosnameEN><en>Hospital</en><th>ชื่อโรงพยาบาลภาษาอังกฤษ</th></hosnameEN>
+<hosnameTH><en>Hospital</en><th>ชื่อโรงพยาบาลภาษาไทย</th></hosnameTH>
 <codecode><en>Department code</en><th>รหัส</th></codecode>
 <categorycode><en>Category code </en><th>รหัสหมวดหมู่</th></categorycode>
 <categorysubcode><en>Code</en><th>รหัสหมวดหมู่รอง</th></categorysubcode>

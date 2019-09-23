@@ -1301,6 +1301,7 @@ $array2 = json_decode($json2,TRUE);
                                       var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
                                       var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
                                       var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
+                           
                                       StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                                   "<td style='width:10%'></td>"+
                                                   "<td style='width: 10%;' nowrap ><label class='mr-3'>" + (j+1) + "</label>" + chkItem + "</td>"+
@@ -1308,12 +1309,12 @@ $array2 = json_decode($json2,TRUE);
                                                   "<td style='width: 50%;' nowrap>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemName']+"</td>"+
                                                   "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
-                                              
                                       }
-
                               $('#TableItemStock tbody:last-child').append(StrTR);
+                              chk_row++;
                               }
-                             
+                              $('#chk_row').val(chk_row);
+
                             }else if(temp['form']=="setdateitemstock"){
                               dialog.dialog( "close" );
                             }else if(temp['form']=="Submititemstock"){

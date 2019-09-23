@@ -822,13 +822,13 @@ $array2 = json_decode($json2,TRUE);
                                  StrTR = "<tr id='tr"+temp[i]['HptCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
-                                                "<td style='width: 15%;'>"+temp[i]['HptCode']+"</td>"+
-                                                "<td style='width: 16%;'>"+temp[i]['HptName']+"</td>"+
-                                                "<td style='width: 18%;'>"+temp[i]['HptNameTH']+"</td>"+
-                                                "<td style='width: 11%;'>"+temp[i]['contractName']+"</td>"+
-                                                "<td style='width: 12%;'>"+temp[i]['permission']+"</td>"+
-                                                "<td style='width: 13%;'>"+temp[i]['Number']+"</td>"+
-                                                "<td style='width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
+                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 15%;' title='"+temp[i]['HptCode']+"'>"+temp[i]['HptCode']+"</td>"+
+                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 16%;' title='"+temp[i]['HptName']+"'>"+temp[i]['HptName']+"</td>"+
+                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 18%;' title='"+temp[i]['HptNameTH']+"'>"+temp[i]['HptNameTH']+"</td>"+
+                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden; width: 11%;' title='"+temp[i]['contractName']+"'>"+temp[i]['contractName']+"</td>"+
+                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden; width: 12%;' title='"+temp[i]['permission']+"'>"+temp[i]['permission']+"</td>"+
+                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 13%;' title='"+temp[i]['Number']+"'>"+temp[i]['Number']+"</td>"+
+                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
                                                 "</tr>";
 
                                  if(rowCount == 0){
@@ -1315,11 +1315,11 @@ $array2 = json_decode($json2,TRUE);
                               <th style='width: 5%;'>&nbsp;</th>
                               <th style='width: 10%;'><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 15%;'><?php echo $array['hoscode'][$language]; ?></th>
-                              <th style='width: 16%;'><?php echo $array['hosnameEN'][$language]; ?></th>
+                              <th style='width: 17%;'><?php echo $array['hosnameEN'][$language]; ?></th>
                               <th style='width: 16%;'><?php echo $array['hosnameTH'][$language]; ?></th>
                               <th style='width: 12%;'><?php echo $array['ContractName'][$language]; ?></th>
                               <th style='width: 12%;'><?php echo $array['Position'][$language]; ?></th>
-                              <th style='width: 14%;'><?php echo $array['phone'][$language]; ?></th>
+                              <th style='width: 13%;'><?php echo $array['phone'][$language]; ?></th>
 
                             </tr>
                           </thead>
@@ -1405,7 +1405,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
+                                    <label class="col-sm-5 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <input type="text"  autocomplete="off" class="form-control col-sm-7 " id="HptCode1"  hidden  placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
@@ -1416,7 +1416,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row" >
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                                    <label class="col-sm-5 col-form-label "><?php echo $array['hosnameEN'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosnameEN'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1425,7 +1425,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row" >
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label"></label>
+                                    <label class="col-sm-5 col-form-label"><?php echo $array['hosnameTH'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosnameTH'][$language]; ?>">
                                       <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
