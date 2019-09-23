@@ -1284,28 +1284,58 @@ $array2 = json_decode($json2,TRUE);
                             }else if(temp['form']=="ShowItemStock"){
                               var chk_row = $('#chk_row').val();
 
-                              $( "#TableItemStock tbody" ).empty();
-                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                                  if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
-                                      var UsageCode = "";
-                                  }else{
-                                    var UsageCode = temp[i]['UsageCode'];
-                                  }
-                                var rowCount = $('#TableItemStock >tbody >tr').length;
-                                var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+i+"' value='"+temp[i]['ItemCode']+"' >";
-                                var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" style=" margin-left: -34px;width: 168px;">';
-                                StrTR = "<tr id='tr"+i+"'>"+
-                                                "<td style='width: 5%;' nowrap>"+chkItem+"</td>"+
-                                                "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
-                                                "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                                                "<td style='width: 24%;' nowrap>"+txtno+"</td>"+
+                              for (var i = 0; i < temp['countx']; i++) {
+                                  var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
+                                  var rowCount = $('#TableItemStock >tbody >tr').length;
+                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
+                                            "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
+                                            "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
+                                            "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span hidden class='ml-3 mr-2' data-value='"+temp[i]['num']+"' id='num_"+chk_row+"_"+temp[i]['ItemCodeX']+"'>"+temp[i]['num']+" รายการ</span></td>"+
+                                            "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
+                                              "<button class='btn  p-1' style='background-color: #228FF1; color:#fff;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
+                                            "</td>"+
+                                            "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
+                                          "</tr>";
+                              alert(temp[i]['num']);
+                              for(var j = 0; j < temp[i]['num']; j++){
+                                      var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
+                                      var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
+                                      var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
+                                      StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
+                                                  "<td style='width:10%'></td>"+
+                                                  "<td style='width: 10%;' nowrap ><label class='mr-3'>" + (j+1) + "</label>" + chkItem + "</td>"+
+                                                  "<td style='width: 25%;' nowrap hidden>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"</td>"+
+                                                  "<td style='width: 50%;' nowrap>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemName']+"</td>"+
+                                                  "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
-                                 if(rowCount == 0){
-                                   $("#TableItemStock tbody").append( StrTR );
-                                 }else{
-                                   $('#TableItemStock tbody:last-child').append( StrTR );
-                                 }
+                                              
+                                      }
+
+                              $('#TableItemStock tbody:last-child').append(StrTR);
                               }
+                              // $( "#TableItemStock tbody" ).empty();
+                              // for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                              //     if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
+                              //         var UsageCode = "";
+                              //     }else{
+                              //       var UsageCode = temp[i]['UsageCode'];
+                              //     }
+                              //   var rowCount = $('#TableItemStock >tbody >tr').length;
+                              //   var chkItem = "<input type='checkbox' name='chkItem' id='chkItem' data-value='"+i+"' value='"+temp[i]['ItemCode']+"' >";
+                              //   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp[i]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp[i]['RowID']+')}" style=" margin-left: -34px;width: 168px;">';
+                              //   StrTR = "<tr id='tr"+i+"'>"+
+                              //                   "<td style='width: 5%;' nowrap>"+chkItem+"</td>"+
+                              //                   "<td style='width: 25%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
+                              //                   "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                              //                   "<td style='width: 24%;' nowrap>"+txtno+"</td>"+
+                              //                   "</tr>";
+                              //    if(rowCount == 0){
+                              //      $("#TableItemStock tbody").append( StrTR );
+                              //    }else{
+                              //      $('#TableItemStock tbody:last-child').append( StrTR );
+                              //    }
+                              // }
                             }else if(temp['form']=="setdateitemstock"){
                               dialog.dialog( "close" );
                             }else if(temp['form']=="Submititemstock"){
@@ -1366,6 +1396,7 @@ $array2 = json_decode($json2,TRUE);
                                                   "<td style='width: 50%;' nowrap>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemName']+"</td>"+
                                                   "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
+                                                
                                       }
                                   $('#TableItemStock tbody:last-child').append(StrTR);
                                   chk_row++;
