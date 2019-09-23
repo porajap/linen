@@ -340,9 +340,9 @@ $array2 = json_decode($json2, TRUE);
     function getCatagory() {
       var maincatagory = $('#maincatagory option:selected').attr("value");
       if (typeof maincatagory == 'undefined') maincatagory = "1";
-      $('#maincatagory2').val(maincatagory);
+      // $('#maincatagory2').val(maincatagory);
       console.log($('#maincatagory2 option:selected').attr("value"));
-      var catagory1 = $("#catagory1").val();
+      // var catagory1 = $("#catagory1").val();
       var data = {
         'STATUS': 'getCatagory',
         'maincatagory': maincatagory
@@ -1381,13 +1381,16 @@ $array2 = json_decode($json2, TRUE);
               $("#catagory1").empty();
               $("#catagoryModal").empty();
               $("#catagory2").empty();
+              var hotValue0 = '<?php echo $array['AllCatsub'][$language]; ?>';
+              var StrTr = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var StrTr = "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
+ 
+                 StrTr += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
                 var Str = "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
-                $("#catagory1").append(StrTr);
-                $("#catagoryModal").append(StrTr);
                 $("#catagory2").append(Str);
               }
+              $("#catagory1").append(StrTr);
+              $("#catagoryModal").append(StrTr);
               CreateItemCode();
             } else if ((temp["form"] == 'GetHospital')) {
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -1396,14 +1399,15 @@ $array2 = json_decode($json2, TRUE);
               }
 
             } else if ((temp["form"] == 'GetmainCat')) {
+              var hotValue0 = '<?php echo $array['AllCatmain'][$language]; ?>';
+              var StrTr1 = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var StrTr = "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
+                 StrTr1 += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
                  var  Str = "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
-                $("#maincatagory").append(StrTr);
-                $("#maincatagoryModal").append(StrTr);
                 $("#maincatagory2").append(Str);
-                // $("#catagory2").append(StrTr);
               }
+              $("#maincatagory").append(StrTr1);
+              $("#maincatagoryModal").append(StrTr1);
             } else if ((temp["form"] == 'getUnit')) {
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                var StrTr1 = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";

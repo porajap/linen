@@ -41,7 +41,12 @@ function ShowItem($conn, $DATA)
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
+      if($maincatagory != '' && $Catagory==''){
+        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory ";
+      }else if($maincatagory == '' && $Catagory !=''){
+        $Sql .= " WHERE item.CategoryCode = $Catagory ";
+      }
+      // $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
   } else {
     $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
@@ -258,7 +263,7 @@ function getUnit($conn, $DATA)
 function getCatagory($conn, $DATA)
 {
   $count = 0;
-  $maincatagory = $DATA['maincatagory'];
+  $maincatagory = $DATA['maincatagory']==null?0:$DATA['maincatagory'];
   // var_dump($Maincat); die;
   $Sql = "SELECT
           item_category.CategoryCode,
