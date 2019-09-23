@@ -96,7 +96,7 @@ $array2 = json_decode($json2,TRUE);
                 startTime: '00:00',
                 dynamic: false,
                 dropdown: true,
-                scrollbar: false
+                scrollbar: true
             });
         }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
