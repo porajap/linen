@@ -2139,9 +2139,9 @@ $array2 = json_decode($json2,TRUE);
                               <i class="fas fa-paste mr-2 pt-1"></i>
                               <?php echo $array['show'][$language]; ?>
                             </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
                     </div>
                    </div>
 
