@@ -548,7 +548,10 @@ function ShowItemStock($conn, $DATA)
   $DepCode = $DATA['Deptid'];
   $Keyword = $DATA['Keyword'];
   
-  $Sql="SELECT item_stock.ItemCode FROM item_stock WHERE DepCode=$DepCode GROUP BY ItemCode";
+  $Sql="SELECT item_stock.ItemCode 
+  FROM item_stock 
+  INNER JOIN item ON item_stock.ItemCode = item.ItemCode
+  WHERE DepCode = $DepCode AND (item.ItemName LIKE '%$Keyword%') GROUP BY ItemCode";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
    $ItemCode[$count5] = $Result['ItemCode'];
