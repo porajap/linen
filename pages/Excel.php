@@ -31,7 +31,7 @@ header("Content-Length: ".filesize("'.$filename.'"));
   $Qty[2] = explode(',', $_SESSION['Excel']['QtyArray3']);
   $Qty[3] = explode(',', $_SESSION['Excel']['QtyArray4']);
 
-  // unset($_SESSION['Excel']);
+  unset($_SESSION['Excel']);
   #---------------------------------------------------------------------------
   $count = 0;
   $Sql = "SELECT
