@@ -818,7 +818,7 @@ $array2 = json_decode($json2,TRUE);
                                             "<td style='width: 25%;'>" + temp[i]['DocNo'] + "</td>" +
                                             "<td style='width: 26%;'>" + temp[i]['DocDate'] + "</td>" +
                                             "<td style='width: 25%;'>" + temp[i]['FName'] + "</td>" +
-                                            "<td style='width: 19%;'><button class='btn btn_cancel' style='background: none;' onclick='CancelDocNo(\"" + temp[i]["DocNo"] + "\");' id='cancel_btn"+i+"' disabled='true'><i class='fas fa-trash'></i></button></td>" +
+                                            "<td style='width: 19%;'><button class='btn btn_cancel' style='background: none;' onclick='CancelDocNo(\"" + temp[i]["DocNo"] + "\");' id='cancel_btn"+i+"' disabled='true'><i class='fas fa-trash' style='font-size:24px'></i></button></td>" +
                                         "</tr>";
                                     $("#TableDocument tbody").append(StrTR);
                                 }
