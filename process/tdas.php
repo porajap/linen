@@ -237,20 +237,29 @@ function CreateDocument($conn, $DATA){
   $DepLoop = $count;
   $ItemLoop = sizeof($ItemCodeArray, 0);
   #-------------------------------------
-  for($d = 0; $d<$DepLoop; $d++){
-    for($t = 0; $t<$TypeLoop; $t++){
-      foreach($Qty[$d] AS $key => $value){
-        if($d==$t){
-          $SumCol[$d] += $Qty[$key][$t];
-        }
-      }
-    }
-  }
+  // for($d = 0; $d<$DepLoop; $d++){
+  //   for($t = 0; $t<$TypeLoop; $t++){
+  //     foreach($Qty[$d] AS $key => $value){
+  //       if($d==$t){
+  //         $SumCol[$d] += $Qty[$key][$t];
+  //       }
+  //     }
+  //   }
+  // }
   // for($i=0;$i<$ItemLoop;$i++){
   //   for($d = 0; $d<$DepLoop; $d++){
   //     $SumRow[$i] += (($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d];
   //   }
   // }
+  for($t = 0; $t<$TypeLoop; $t++){
+    for($d = 0; $d<$DepLoop; $d++){
+      foreach($Qty[$t] AS $key => $value){
+        if($key==$t){
+          $SumCol[$d] += $Qty[$key][$d];
+        }
+      }
+    }
+  }
   #-------------------------------------
   for($t = 0; $t<$TypeLoop; $t++){
     for($d = 0; $d<$DepLoop; $d++){
@@ -325,11 +334,20 @@ function updateStock($conn, $DATA){
   $DepLoop = $count;
   $ItemLoop = sizeof($ItemCodeArray, 0);
   #-------------------------------------
-  for($d = 0; $d<$DepLoop; $d++){
-    for($t = 0; $t<$TypeLoop; $t++){
-      foreach($Qty[$d] AS $key => $value){
-        if($d==$t){
-          $SumCol[$d] += $Qty[$key][$t];
+  // for($d = 0; $d<$DepLoop; $d++){
+  //   for($t = 0; $t<$TypeLoop; $t++){
+  //     foreach($Qty[$d] AS $key => $value){
+  //       if($d==$t){
+  //         $SumCol[$d] += $Qty[$key][$t];
+  //       }
+  //     }
+  //   }
+  // }
+  for($t = 0; $t<$TypeLoop; $t++){
+    for($d = 0; $d<$DepLoop; $d++){
+      foreach($Qty[$t] AS $key => $value){
+        if($key==$t){
+          $SumCol[$d] += $Qty[$key][$d];
         }
       }
     }
