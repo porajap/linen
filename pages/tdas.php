@@ -84,7 +84,7 @@ $array2 = json_decode($json2,TRUE);
                 'STATUS': 'getSection',
                 'HptCode': HptCode
             };
-            console.log(JSON.stringify(data));
+            // console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
 
         }).click(function(e) { parent.afk();
