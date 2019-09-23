@@ -1394,9 +1394,9 @@ function userKeyValue($conn, $DATA){
   $chk = $DATA['chk'];
   $Order = $DATA['Order'];
   if($chk == 'short'){
-    $Sql = "UPDATE shelfcount_detail SET Short = $Order WHERE Id = $Row";
+    $Sql = "UPDATE shelfcount_detail SET Short = $Order ,TotalQty = $Order WHERE Id = $Row";
   }else if($chk == 'over'){
-    $Sql = "UPDATE shelfcount_detail SET Over = $Order WHERE Id = $Row";
+    $Sql = "UPDATE shelfcount_detail SET Over = $Order ,TotalQty = $Order WHERE Id = $Row";
   }
   mysqli_query($conn, $Sql);
 }
