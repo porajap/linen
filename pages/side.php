@@ -1143,7 +1143,7 @@ $array2 = json_decode($json2,TRUE);
         body{
           font-family: myFirstFont;
           font-size:22px;
-          overflow :  hidden;
+          /* overflow :  hidden; */
           /* overflow-y: hidden; */
 
         }

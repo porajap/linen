@@ -337,7 +337,7 @@ $array2 = json_decode($json2,TRUE);
         });
         console.log(count);
 
-        var CategoryCode = $('#CategoryCode').val();
+        var CategoryCode = $('#MainCategoryCodeReal').val();
         var CategoryName = $('#CategoryName').val();
 
         if(count==0){
