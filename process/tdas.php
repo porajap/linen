@@ -381,21 +381,34 @@ function updateStock($conn, $DATA){
   }
 
 }
-function CreateExcel($conn, $DATA){
+function ShowDocument($conn, $DATA){
   $HptCode = $_SESSION['HptCode'];
   $DepCode = $_SESSION['DepCode'];
-  $UserID = $_SESSION['Userid'];
+  $Keyword = $DATA['Keyword'];
   $count = 0;
-  $Sql = "SELECT department.DepCode FROM department 
-  WHERE department.IsStatus = 0 AND department.HptCode = '$HptCode'";
+  $Sql = "SELECT td.DocNo, td.DocDate, users.FName
+  FROM tdas_document td INNER JOIN users ON users.ID = td.Modify_Code
+  WHERE td.HptCode = '$HptCode' AND td.IsCancel = 0 AND (td.DocNo LIKE '%$Keyword%') ORDER BY td.DocDate, td.DocNo";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $DepCodeX[$count]  = $Result['DepCode'];
-    $return[$count]['Dep'] =  $Result['DepCode'];
-    $count++;
+    $return[$count]['DocNo']  = $Result['DocNo'];
+    $return[$count]['DocDate']  = $Result['DocDate'];
+    $return[$count]['FName']  = $Result['FName'];
+    $count ++;
   }
-  $_SESSION['DepCodeEX'] = $DepCodeX;
-
+    $return['CountRow'] = $count;
+    $return['status'] = "success";
+    $return['form'] = "ShowDocument";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+}
+function CancelDocNo($conn, $DATA){
+  $DocNo = $DATA['DocNo'];
+  $Sql = "UPDATE tdas_document SET IsCancel = 1 WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+  mysqli_close($conn);
+  die;
 }
 if(isset($_POST['DATA']))
 {
@@ -416,8 +429,10 @@ if(isset($_POST['DATA']))
         SavePercent($conn, $DATA);
       }else if($DATA['STATUS'] == 'updateStock'){
         updateStock($conn, $DATA);
-      }else if($DATA['STATUS'] == 'CreateExcel'){
-        CreateExcel($conn, $DATA);
+      }else if($DATA['STATUS'] == 'ShowDocument'){
+        ShowDocument($conn, $DATA);
+      }else if($DATA['STATUS'] == 'CancelDocNo'){
+        CancelDocNo($conn, $DATA);
       }
 
 

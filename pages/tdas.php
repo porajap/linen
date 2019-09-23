@@ -569,6 +569,63 @@ $array2 = json_decode($json2,TRUE);
                 } 
             })
         }
+        function ShowDocument(){
+            var Keyword = $('#searchdocument').val();
+            var data = {
+                'STATUS': 'ShowDocument',
+                'Keyword': Keyword
+            };
+            senddata(JSON.stringify(data));
+        }
+        function cancelDoc(DocNo,row){
+            $('.btn_cancel').each(function() {
+                $(".btn_cancel").attr("disabled", true);
+            });
+            var DocNo = DocNo;
+            var row = row;
+            $('#cancel').val(DocNo);
+            $('#show_btn').attr('disabled', false);
+            $('#cancel_btn'+row+'').attr('disabled', false);
+            $('#btn_show').attr('disabled', false);
+        }
+        function CancelDocNo(docno) {
+            swal({
+                title: "<?php echo $array['canceldata'][$language]; ?>",
+                text: "<?php echo $array['canceldata2'][$language]; ?>" + docno + "<?php echo $array['canceldata3'][$language]; ?>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true
+            }).then(result => {
+                if (result.value) {
+                    swal({
+                        title: "<?php echo $array['canceldata'][$language]; ?>",
+                        text: " <?php echo $array['success'][$language]; ?>",
+                        type: "success",
+                        showCancelButton: false,
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        var data = {
+                            'STATUS': 'CancelDocNo',
+                            'DocNo': docno
+                        };
+                        senddata(JSON.stringify(data));
+                        $('#searchdocument').val('');
+                        ShowDocument();
+                    }, 1000);
+                } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                } 
+            })
+        }
         // End Function ----------------------------------------
         function senddata(data) {
             var form_data = new FormData();
@@ -750,6 +807,34 @@ $array2 = json_decode($json2,TRUE);
                                 showConfirmButton: false,
                                 timer: 1500,
                             });
+                        }else if(temp['form'] == 'ShowDocument'){
+                            $('#btn_show').attr('disabled', true);
+                            if(temp['CountRow']>0){
+                                $('#TableDocument tbody').empty();
+                                for(var i=0; i<temp['CountRow']; i++){
+                                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' class='checkblank' data-value='"+i+"' name='checkdocno' id='checkdocno' onclick='cancelDoc(\"" + temp[i]["DocNo"] + "\","+i+")'><span class='checkmark'></span></label>";
+                                    StrTR = "<tr id='tr"+temp[i]['DocNo']+"'>" +
+                                            "<td style='width: 5%;'>" + chkDoc + "</td>" +
+                                            "<td style='width: 25%;'>" + temp[i]['DocNo'] + "</td>" +
+                                            "<td style='width: 26%;'>" + temp[i]['DocDate'] + "</td>" +
+                                            "<td style='width: 25%;'>" + temp[i]['FName'] + "</td>" +
+                                            "<td style='width: 19%;'><button class='btn btn_cancel' style='background: none;' onclick='CancelDocNo(\"" + temp[i]["DocNo"] + "\");' id='cancel_btn"+i+"' disabled='true'><i class='fas fa-trash'></i></button></td>" +
+                                        "</tr>";
+                                    $("#TableDocument tbody").append(StrTR);
+                                }
+                            }else{
+                                $('#TableDocument tbody').empty();
+                                var Str = "<tr ><td  style='width:100%' colspan='5' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                                $("#TableDocument tbody").append(Str);
+                                swal({
+                                    title: '',
+                                    text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                                    type: 'warning',
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                });
+                            }
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -930,50 +1015,98 @@ $array2 = json_decode($json2,TRUE);
 <body id="page-top">
         <input type="hidden" id="DepCount">
         <input type="hidden" id="RowChg">
-        <div class="row m-1 my-4 mt-2 d-flex justify-content-start" >
-            <div class="menu2">
-                <div class="d-flex justify-content-center">
-                    <div class="circle1 d-flex justify-content-center">
-                        <button class="btn" onclick="CreateDocument()" id="bCreate" >
-                            <i class="fas fa-file-medical"></i>
-                            <div>
-                                <?php echo $array['createdocno'][$language]; ?>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['tdas'][$language]; ?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row m-1 my-4 mt-2 d-flex justify-content-start" >
+                    <div class="menu2">
+                        <div class="d-flex justify-content-center">
+                            <div class="circle1 d-flex justify-content-center">
+                                <button class="btn" onclick="CreateDocument()" id="bCreate" >
+                                    <i class="fas fa-file-medical"></i>
+                                    <div>
+                                        <?php echo $array['createdocno'][$language]; ?>
+                                    </div>
+                                </button>
                             </div>
-                        </button>
+                        </div>
+                    </div>
+                    <div class="menu2">
+                        <div class="d-flex justify-content-center">
+                            <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  id="exportExcel" onclick="CreateExcel();">
+                                    <i class="fas fa-file-excel"></i>
+                                    <div>
+                                        <?php echo $array['excel'][$language]; ?>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu2">
+                        <div class="d-flex justify-content-center">
+                            <div class="circle2 d-flex justify-content-center">
+                                <button class="btn"  id="bImport" onclick="updateStock();">
+                                    <i class="fas fa-file-import"></i>
+                                    <div>
+                                        <?php echo $array['updatestock'][$language]; ?>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <table style="margin-top:10px;" class="table mt-2 " id="TableItem" cellspacing="0" role="grid" >
+                    <thead id="theadsum" style="font-size:11px;">
+                    </thead>
+                    <tbody id="body_table">
+                    </tbody>
+                </table>
             </div>
-            <div class="menu2">
-                <div class="d-flex justify-content-center">
-                    <div class="circle4 d-flex justify-content-center">
-                        <button class="btn"  id="exportExcel" onclick="CreateExcel();">
-                            <i class="fas fa-file-excel"></i>
-                            <div>
-                                <?php echo $array['excel'][$language]; ?>
-                            </div>
+
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row mt-4 mb-2" style="margin-left:2px;">
+                    <input type="text" class="form-control" style="font-size:24px;width:29%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                    <div class="search_custom ml-3">
+                        <div class="search_1 d-flex justify-content-start">
+                        <button class="btn"  onclick="ShowDocument()" >
+                            <i class="fas fa-search mr-2"></i>
+                            <?php echo $array['search'][$language]; ?>
                         </button>
+                        </div>
+                    </div>
+                    <div class="search_custom ml-2">
+                    <div class="circle11 d-flex justify-content-start">
+                    <button class="btn"  onclick="SelectDocument()" id="btn_show" disabled='true'>
+                        <i class="fas fa-paste mr-2 pt-1"></i>
+                        <?php echo $array['show'][$language]; ?>
+                    </button>
+                    </div>
                     </div>
                 </div>
-            </div>
-            <div class="menu2">
-                <div class="d-flex justify-content-center">
-                    <div class="circle2 d-flex justify-content-center">
-                        <button class="btn"  id="bImport" onclick="updateStock();">
-                            <i class="fas fa-file-import"></i>
-                            <div>
-                                <?php echo $array['updatestock'][$language]; ?>
-                            </div>
-                        </button>
-                    </div>
-                </div>
+                <table style="margin-top:10px;" class="table mt-2 " id="TableDocument" cellspacing="0" role="grid" >
+                    <thead id="theadsum" style="font-size:11px;">
+                        <tr role="row">
+                            <th style='width: 5%;' nowrap>&nbsp;</th>
+                            <th style='width: 25%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                            <th style='width: 20%;' nowrap><?php echo $array['date'][$language]; ?></th>
+                            <th style='width: 40%;' nowrap><?php echo $array['employee'][$language]; ?></th>
+                            <th style='width: 10%;' nowrap></th>
+                        </tr>
+                    </thead>
+                    <tbody id="body"> </tbody>
+                </table>
             </div>
         </div>
-        <table style="margin-top:10px;" class="table mt-2 " id="TableItem" cellspacing="0" role="grid" >
-            <thead id="theadsum" style="font-size:11px;">
-            </thead>
-            <tbody id="body_table">
-            </tbody>
-        </table>
+        
 
             <!-- Bootstrap core JavaScript-->
             <script src="../template/vendor/jquery/jquery.min.js"></script>
