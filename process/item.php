@@ -7,7 +7,6 @@ if($Userid==""){
 }
 function ShowItem($conn, $DATA)
 {
-  
   $count = 0;
   $maincatagory = $DATA['maincatagory'];
   $Keyword = $DATA['Keyword'];
@@ -45,8 +44,9 @@ function ShowItem($conn, $DATA)
         $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory ";
       }else if($maincatagory == '' && $Catagory !=''){
         $Sql .= " WHERE item.CategoryCode = $Catagory ";
+      }else if($maincatagory != '' && $Catagory !=''){
+      $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
       }
-      // $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
   } else {
     $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
