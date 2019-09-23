@@ -544,9 +544,19 @@ function ShowItemStock($conn, $DATA)
   $boolean = false;
   $count = 0;
   $countx = 0;
+  $count5 = 0;
   $DepCode = $DATA['Deptid'];
   $Keyword = $DATA['Keyword'];
   $count2 = 0;
+  
+  $Sql="SELECT item_stock.ItemCode FROM item_stock WHERE DepCode=$DepCode GROUP BY ItemCode";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count5]['ItemCode'] = $Result['ItemCode'];
+    $count5++;
+  }
+  for ($i=0; $i < $count5 ; $i++) {
+  
     $SqlItem = " SELECT
         item_stock.ItemCode,
         item.ItemName
@@ -594,20 +604,22 @@ function ShowItemStock($conn, $DATA)
       }
     $return[$i]['num'] = $count2;
     $boolean = true;
-    $return['countx'] = $countx;
-  if($boolean==true){
-    $return['status'] = "success";
-    $return['form'] = "ShowItemStock";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "failed";
-    $return['msg'] = "refresh";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
   }
+  $return['countx'] = $count5;
+
+        if($boolean==true){
+          $return['status'] = "success";
+          $return['form'] = "ShowItemStock";
+          echo json_encode($return);
+          mysqli_close($conn);
+          die;
+        }else{
+          $return['status'] = "failed";
+          $return['msg'] = "refresh";
+          echo json_encode($return);
+          mysqli_close($conn);
+          die;
+        }
 
 
 
