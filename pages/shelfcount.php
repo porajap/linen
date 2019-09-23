@@ -78,6 +78,7 @@ $array2 = json_decode($json2,TRUE);
 
     $(document).ready(function(e){
       $('#rem1').hide();
+      $('#rem2').hide();
       $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
@@ -339,7 +340,17 @@ $array2 = json_decode($json2,TRUE);
     function dis(){
               $('.dis').attr('disabled', false);
             }
-
+  function checkblank3(){
+          $('.checkblank3').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem2').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem2').hide();
+            }
+          });
+        }
     function checkblank2(){
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -354,6 +365,10 @@ $array2 = json_decode($json2,TRUE);
         function removeClassBorder1(){
           $('#department').removeClass('border-danger');
           $('#rem1').hide();
+        }
+        function removeClassBorder2(){
+          $('#settime').removeClass('border-danger');
+          $('#rem2').hide();
         }
     function SelectDocument(){
 
@@ -501,8 +516,9 @@ $array2 = json_decode($json2,TRUE);
       var deptCode = $('#department option:selected').attr("value");
       var settime = $('#settime option:selected').attr("value");
       var cycle = $("#cycle").val();
-      if(deptCode==''){
+      if(deptCode=='' || settime=='' ){
           checkblank2();
+          checkblank3();
           swal({
             title: '',
             text: "<?php echo $array['required'][$language]; ?>",
@@ -1880,7 +1896,6 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>
@@ -1937,12 +1952,12 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['settime'][$language]; ?></label>
-                                                <select  id="settime"  style="font-size:22px;" class="form-control col-sm-7 "  name="searchitem"
+                                                <select  id="settime"  style="font-size:22px;" class="form-control col-sm-7 checkblank3 border "  onchange="removeClassBorder2();" name="searchitem"
                                                 placeholder="<?php echo $array['settime'][$language]; ?>">  </select>
+                                                <label id="rem2"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>

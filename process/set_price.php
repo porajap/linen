@@ -195,6 +195,7 @@ function ShowItem2($conn, $DATA)
     $count = 0;
     $xHptCode = $DATA['HptCode'];
     $DocNo = $DATA['DocNo'];
+    $lang = $_SESSION['lang'];
     if($xHptCode=="")  $xHptCode = 1;
     $Keyword = $DATA['Keyword'];
     if($Keyword=="")  $Keyword = "%";
@@ -202,10 +203,12 @@ function ShowItem2($conn, $DATA)
     $Sql = "SELECT
         category_price_time.RowID,
         site.HptName,
+        site.HptNameTH,
         item_main_category.MainCategoryName,
         item_category.CategoryName,
         category_price_time.Price,
-        category_price_time.CategoryCode
+        category_price_time.CategoryCode,
+        category_price_time.xDate
         FROM category_price_time
         INNER JOIN item_category ON category_price_time.CategoryCode = item_category.CategoryCode
         INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
@@ -215,15 +218,27 @@ function ShowItem2($conn, $DATA)
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($lang =='en'){
+        $date = explode("-", $Result['xDate']);
+        $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+        }else if ($lang == 'th'){
+        $date = explode("-", $Result['xDate']);
+        $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+        }
+      if($lang =='en'){
+        $sitePage = $Result['HptName'];
+      }else if ($lang == 'th'){
+        $sitePage = $Result['HptNameTH'];
+      }
         $return[$count]['RowID'] = $Result['RowID'];
-        $return[$count]['HptName'] = $Result['HptName'];
+        $return[$count]['HptName'] = $sitePage;
         $return[$count]['CategoryCode'] = $Result['CategoryCode'];
         $return[$count]['MainCategoryName'] = $Result['MainCategoryName'];
         $return[$count]['CategoryName'] = $Result['CategoryName'];
         $return[$count]['Price'] = $Result['Price'];
+        $return[$count]['date'] = $newdate;
         $count++;
     }
-
     if($count>0){
         $return['status'] = "success";
         $return['form'] = "ShowItem2";

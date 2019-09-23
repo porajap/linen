@@ -127,6 +127,12 @@ $array2 = json_decode($json2,TRUE);
         }).keyup(function(e) { parent.afk();
         });
 
+
+        function searchitemX(){
+          var department = $('#department').val();
+
+        }
+
       function chkbox(ItemCode){
         var par = $('#parnum').val();
         var department = $('#department').val();
@@ -1692,6 +1698,14 @@ $array2 = json_decode($json2,TRUE);
                       <button class="btn"  onclick="DeleteItem()" >
                         <i class="fas fa-trash-alt mr-2"></i>
                         <?php echo $array['delete'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="menuMini  ml-2">
+                    <div class="search_1 d-flex justify-content-start">
+                      <button class="btn"  onclick="ShowItemStock()" >
+                      <i class="fas fa-search mr-2"></i>
+                        <?php echo $array['search'][$language]; ?>
                       </button>
                     </div>
                   </div>

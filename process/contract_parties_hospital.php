@@ -118,7 +118,6 @@ function ShowDocument($conn,$DATA){
   
       $date2 = explode("-", $Result['EndDate']);
       $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
-  
       }
 
 	$return[$count]['RowID'] 		= $Result['RowID'];
