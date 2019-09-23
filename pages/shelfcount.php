@@ -903,15 +903,14 @@ $array2 = json_decode($json2,TRUE);
     }
     function userKeyValue(row, i, max , total , cc){
       var Order = Number($('#order'+i).val());
-      var Order = Number($('#order'+i).val());
       $('#chk_userKey_'+i).val(1);
       $('#chk_Key').val(1);
-      if(Number(max) >= (Order+ Number(cc))){
+      if(Number(max) > (Order+ Number(cc))){
         var chk = 'short';
-        var Qty =  (Order+cc) - max;
+        var Qty = Number(max) - (Order+Number(cc));
       }else{
         var chk = 'over';
-        var Qty =(Order+cc) - max ;
+        var Qty = (Order+Number(cc)) - Number(max) ;
       }
       var data = {
         'STATUS' : 'userKeyValue',
