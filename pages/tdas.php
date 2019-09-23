@@ -237,8 +237,8 @@ $array2 = json_decode($json2,TRUE);
                 });
                 $('#SumRow_'+j).val(Math.round(ResultArray));
 
-                var total_par2 = ResultArray*$('#total_par2').val();
-                $('#CalRow_'+j).val(Math.round(total_par2));
+                var total = ResultArray*$('#total_par2').val();
+                $('#CalRow_'+j).val(total.toFixed(2));
             }
         }
         function SaveChange(ItemCode, row){
@@ -367,9 +367,9 @@ $array2 = json_decode($json2,TRUE);
             });
             $('#SumRow_'+row).val(Math.round(ResultArray));
 
-            var total_par2 = $('#total_par2').val();
-            var CalSum = Total*total_par2;
-            $('#CalRow_'+row).val(Math.round(CalSum));
+            var total = ResultArray*$('#total_par2').val();
+            // var CalSum = Total*total_par2;
+            $('#CalRow_'+row).val(total.toFixed(2));
         }
         function updateStock(){
             var QtyRow1 = [];
