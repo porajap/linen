@@ -1390,13 +1390,16 @@ function chk_par($conn, $DATA)
 }
 
 function userKeyValue($conn, $DATA){
+  $Qty = $DATA['Qty'];
   $Row = $DATA['Row'];
   $chk = $DATA['chk'];
   $Order = $DATA['Order'];
   if($chk == 'short'){
-    $Sql = "UPDATE shelfcount_detail SET Short = $Order ,TotalQty = $Order WHERE Id = $Row";
+    $Sql = "UPDATE shelfcount_detail SET Short = $Qty ,TotalQty = $Order , Over = 0 WHERE Id = $Row";
   }else if($chk == 'over'){
-    $Sql = "UPDATE shelfcount_detail SET Over = $Order ,TotalQty = $Order WHERE Id = $Row";
+    $Sql = "UPDATE shelfcount_detail SET Over = $Qty ,TotalQty = $Order , Short = 0 WHERE Id = $Row";
+  }else{
+    $Sql = "UPDATE shelfcount_detail SET TotalQty = $Order WHERE Id = $Row";
   }
   mysqli_query($conn, $Sql);
 }

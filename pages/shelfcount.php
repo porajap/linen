@@ -902,20 +902,23 @@ $array2 = json_decode($json2,TRUE);
       }
     }
     function userKeyValue(row, i, max , total){
-      var Order = $('#order'+i).val();
+      var Order = Number($('#order'+i).val());
       $('#chk_userKey_'+i).val(1);
       $('#chk_Key').val(1);
-      if(max >= Order){
+      if(Number(max) >= Order){
         var chk = 'short';
+        var Qty = max - Order;
       }else{
         var chk = 'over';
+        var Qty =Order - max ;
       }
       var data = {
         'STATUS' : 'userKeyValue',
         'Row' : row,
         'Max' : max,
         'chk' : chk,
-        'Order' : Order
+        'Order' : Order,
+        'Qty' : Qty
       };
       senddata(JSON.stringify(data));
     }
