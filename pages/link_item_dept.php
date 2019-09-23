@@ -1282,6 +1282,8 @@ $array2 = json_decode($json2,TRUE);
                               ShowItem();
 
                             }else if(temp['form']=="ShowItemStock"){
+                              var chk_row = $('#chk_row').val();
+
                               $( "#TableItemStock tbody" ).empty();
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                   if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
@@ -1298,7 +1300,6 @@ $array2 = json_decode($json2,TRUE);
                                                 "<td style='width: 46%;' nowrap>"+temp[i]['ItemName']+"</td>"+
                                                 "<td style='width: 24%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
-
                                  if(rowCount == 0){
                                    $("#TableItemStock tbody").append( StrTR );
                                  }else{
@@ -1339,13 +1340,9 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 1000,
                                 // confirmButtonText: 'Ok'
                               })
-                            }else if(temp['form']=="SelectItemStock"){
+                          }else if(temp['form']=="SelectItemStock"){
                               var chk_row = $('#chk_row').val();
-                              for (var i = 0; i < temp['countx']; i++) {
-                                  // if(temp[i]['UsageCode'] == undefined || temp[i]['UsageCode'] == ''){
-                                  //     var UsageCode = "";
-                                  // }else{
-                                  
+                             for (var i = 0; i < temp['countx']; i++) {
                                 var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                 var rowCount = $('#TableItemStock >tbody >tr').length;
                                 StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
@@ -1358,8 +1355,7 @@ $array2 = json_decode($json2,TRUE);
                                           "</td>"+
                                           "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                         "</tr>";
-
-                                for(var j = 0; j < temp[i]['num']; j++){
+                              for(var j = 0; j < temp[i]['num']; j++){
                                   var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
                                   var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
                                   var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
@@ -1370,10 +1366,11 @@ $array2 = json_decode($json2,TRUE);
                                               "<td style='width: 50%;' nowrap>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemName']+"</td>"+
                                               "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                             "</tr>";
-                                }
+                                  }
                                 $('#TableItemStock tbody:last-child').append(StrTR);
                                 chk_row++;
                               }
+                        
                               $('#chk_row').val(chk_row);
                             }
                           }else if (temp['status']=="failed") {

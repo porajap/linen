@@ -2213,7 +2213,7 @@ $array2 = json_decode($json2, TRUE);
     .table-scroll {
       overflow:auto;  
       height:355px;
-      margin-top:20px;
+      margin-top:5px;
     }
 
   </style>

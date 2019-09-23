@@ -1224,18 +1224,18 @@ $array2 = json_decode($json2,TRUE);
                                           </div>
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                              <label class="col-sm-5 col-form-label text-right"style="margin-left: -100px;"><?php echo $array['categorymain'][$language]; ?></label>
-                                                  <select class="form-control col-md-7" id="Category_Main" onchange="getCategorySub(1);"></select>
+                                              <label class="col-sm-5 col-form-label text-right"style="margin-left: -111px;"><?php echo $array['categorymain'][$language]; ?></label>
+                                                  <select class="form-control col-md-10" id="Category_Main" onchange="getCategorySub(1);"></select>
                                               </div>
                                           </div>
                                           <div class="col-md-3">
-                                              <div class="row" style="margin-left:-29px;">
-                                              <label class="col-sm-6 col-form-label text-right"style="margin-left: -70px;"><?php echo $array['categorysub'][$language]; ?></label>
-                                                  <select class="form-control col-md-7" id="Category_Sub"></select>
+                                              <div class="row" style="margin-left: 0px;width: 175%;">
+                                              <label class="col-sm-3 col-form-label text-right"style="margin-left: -65px;"><?php echo $array['categorysub'][$language]; ?></label>
+                                                  <select class="form-control col-md-6" id="Category_Sub"></select>
                                               </div>
                                           </div>
                                           <div class="col-md-1 text-right">
-                                            <div class="row" style="margin-left:5px;">
+                                            <div class="row" style="margin-left:100px;">
                                             <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem1()">
