@@ -177,7 +177,7 @@
 <processing><en>Processing</en><th>ระบบกำลังประมวลผล</th></processing>
 <faccode><en>ID</en><th>รหัสโรงซัก</th></faccode>
 <facname><en>LaundryEN</en><th>ชื่อโรงซักภาษาอังกฤษ</th></facname>
-<facnameTH><en>LaundryTH</en><th>ชื่อโรงภาษาซักไทย</th></facnameTH>
+<facnameTH><en>LaundryTH</en><th>ชื่อโรงซักภาษาไทย</th></facnameTH>
 <discount><en>Discount</en><th>ส่วนลด</th></discount>
 <add><en>Add</en><th>เพิ่ม</th></add>
 <tdas><en>Tdas</en><th>Tdas</th></tdas>

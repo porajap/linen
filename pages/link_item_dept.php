@@ -1283,7 +1283,7 @@ $array2 = json_decode($json2,TRUE);
 
                             }else if(temp['form']=="ShowItemStock"){
                               var chk_row = $('#chk_row').val();
-
+                              $( "#TableItemStock tbody" ).empty();
                               for (var i = 0; i < temp['countx']; i++) {
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
