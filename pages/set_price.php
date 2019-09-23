@@ -826,6 +826,7 @@ $array2 = json_decode($json2,TRUE);
                         }else if ((temp["form"] == 'ShowItem2')) {
                             $("#TableItemPrice tbody").empty();
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                $("#datepicker").val(temp[i]['date']);
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var RowID = "<input type='hidden' name='RowID_"+i+"' id='RowID_"+i+"' value='" + temp[i]['RowID'] +"'>";
                                 var Price = "<div class='row' style='margin-left:2px;'><input class='form-control price_array numonly' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' onKeyPress='if(event.keyCode==13){SavePriceTime("+i+")}'></div>";
@@ -850,7 +851,7 @@ $array2 = json_decode($json2,TRUE);
                                 var rowCount = i;
                             }
                             $('#rowCount').val(rowCount+1);
-                            $("#hptselModal").empty();
+                            $("#datepicker").val(date);
                             for (var i = 0; i < 1; i++) {
                                 var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 $("#hptselModal").append(StrTr);
