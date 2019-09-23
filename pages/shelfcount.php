@@ -901,16 +901,17 @@ $array2 = json_decode($json2,TRUE);
           $(btn_show).attr('disabled',false);
       }
     }
-    function userKeyValue(row, i, max , total){
+    function userKeyValue(row, i, max , total , cc){
+      var Order = Number($('#order'+i).val());
       var Order = Number($('#order'+i).val());
       $('#chk_userKey_'+i).val(1);
       $('#chk_Key').val(1);
-      if(Number(max) >= Order){
+      if(Number(max) >= (Order+ Number(cc))){
         var chk = 'short';
-        var Qty = max - Order;
+        var Qty =  (Order+cc) - max;
       }else{
         var chk = 'over';
-        var Qty =Order - max ;
+        var Qty =(Order+cc) - max ;
       }
       var data = {
         'STATUS' : 'userKeyValue',
@@ -1351,7 +1352,7 @@ $array2 = json_decode($json2,TRUE);
 
                 var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee ' style='height:40px;width:32px;' onclick='subtractnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>-</button><input class='form-control numonly QtyItem' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='if(this.value > "+temp[i]['ParQty']+"){this.value="+temp[i]['ParQty']+"}else if(this.value<0){this.value=0}' onblur='keydownupdate(\""+temp[i]['RowID']+"\",\""+i+"\")' ><button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addnum1(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['UnitCode2']+"\")'>+</button></div>";
 
-                var Order = "<input class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;' value='"+(temp[i]['TotalQty'])+"' onkeyup='userKeyValue(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\",\""+temp[i]['TotalX']+"\")      ;'>";
+                var Order = "<input class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;' value='"+(temp[i]['TotalQty'])+"' onkeyup='userKeyValue(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\",\""+temp[i]['TotalX']+"\",\""+temp[i]['CcQty']+"\")      ;'>";
 
                 var Max = "<input class='form-control' id='max"+i+"' type='text' style='text-align:center;' value='"+(temp[i]['ParQty'])+"' disabled>";
 
