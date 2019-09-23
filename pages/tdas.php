@@ -150,8 +150,7 @@ $array2 = json_decode($json2,TRUE);
                 $(".qty"+i).each(function() {
                     Qty += Number($(this).val());
                 });
-                Total = Qty.toFixed(2);
-                $('#totalQty'+i).val(Total);
+                $('#totalQty'+i).val(Math.round(Qty));
             }
             Calculate();
 
@@ -230,17 +229,16 @@ $array2 = json_decode($json2,TRUE);
                     }
                     var percent = Number($('#percent_'+i).val())/100;
                     result = (Qty * percent * change) + Qty;
-                    TotalResult = result.toFixed(2);
-                    $('.result_'+j+i).val(TotalResult);
+                    $('.result_'+j+i).val(Math.round(result));
                 }
                 ResultArray = 0;
                 $(".SumRow_"+j).each(function() {
                     ResultArray += Number($(this).val());
                 });
-                $('#SumRow_'+j).val(ResultArray.toFixed(2));
+                $('#SumRow_'+j).val(Math.round(ResultArray));
 
                 var total_par2 = ResultArray*$('#total_par2').val();
-                $('#CalRow_'+j).val(total_par2.toFixed(2));
+                $('#CalRow_'+j).val(Math.round(total_par2));
             }
         }
         function SaveChange(ItemCode, row){
@@ -367,12 +365,11 @@ $array2 = json_decode($json2,TRUE);
             $(".SumRow_"+row).each(function() {
                 ResultArray += Number($(this).val());
             });
-            Total = ResultArray.toFixed(2)
-            $('#SumRow_'+row).val(Total);
+            $('#SumRow_'+row).val(Math.round(ResultArray));
 
             var total_par2 = $('#total_par2').val();
             var CalSum = Total*total_par2;
-            $('#CalRow_'+row).val(CalSum.toFixed(2));
+            $('#CalRow_'+row).val(Math.round(CalSum));
         }
         function updateStock(){
             var QtyRow1 = [];
