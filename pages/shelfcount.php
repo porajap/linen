@@ -1887,7 +1887,7 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                                                <select class="form-control col-sm-7"  style="font-size:22px;" id="hotpital"
+                                                <select class="form-control col-sm-7 icon_select"  style="font-size:22px;" id="hotpital"
                                                     onchange="getDepartment();"></select>
                                             </div>
                                         </div>
@@ -2115,7 +2115,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="row" style="margin-top:10px;">
                         <div class="col-md-2">
 
-                            <select class="form-control" style='font-size:24px;' id="side" onchange="getDepartment();">
+                            <select class="form-control " style='font-size:24px;' id="side" onchange="getDepartment();">
                             </select>
 
                         </div>

@@ -517,7 +517,7 @@ $(document).ready(function(e){
 
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
-        var hotpCode = $('#hotpital').data("value");
+        var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
         $('#TableDetail tbody').empty();
         swal({
@@ -831,18 +831,19 @@ $(document).ready(function(e){
             } catch (e) {
               console.log('Error#542-decode error');
             }
+
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
                 // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                $('#hotpital').val(temp[0]['HptName']);
-                $('#hotpital').attr("data-value",temp[0]['HptCode']);
-
+                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                  var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
+                  $("#hotpital").append(Str);
+                }
                 if(PmID != 1){
-                $('#hotpital').val(temp[0]['HptName']);
-                $('#hotpital').attr("data-value",temp[0]['HptCode']);
-                                }
+                  $("#hotpital").val(HptCode);
+                }
               }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
                 $("#Dep2").empty();
@@ -1445,13 +1446,14 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <input  class="form-control col-sm-7"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
+                                      <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
+                                      </select>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select class="form-control col-sm-7" style="font-size:22px;" id="department" disabled="true">
+                                        <select class="form-control col-sm-7 icon_select" style="font-size:22px;" id="department" disabled="true">
                                         </select>
                                     </div>
                                   </div>

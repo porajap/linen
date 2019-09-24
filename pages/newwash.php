@@ -521,8 +521,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function CreateDocument(){
           var userid = '<?php echo $Userid; ?>';
-          
-          var hotpCode = $('#hotpital').data("value");
+          var hotpCode = $('#hotpital option:selected').attr("value");
           var deptCode = $('#department option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
           if(deptCode == '' || FacCode == ''){
@@ -838,12 +837,10 @@ $array2 = json_decode($json2,TRUE);
                       var PmID = <?php echo $PmID;?>;
                       var HptCode = '<?php echo $HptCode;?>';
                       $('#getHot').val(temp[0]['HptCode']);
-                      $('#hotpital').val(temp[0]['HptName']);
-                      $('#hotpital').attr("data-value",temp[0]['HptCode']);
-                      // for (var i = 0; i < temp["Row"]; i++) {
-                      //   var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
-                      //   $("#hotpital").append(Str);
-                      // }
+                      for (var i = 0; i < temp["Row"]; i++) {
+                        var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
+                        $("#hotpital").append(Str);
+                      }
 
                       $("#factory").empty();
                       var Str = "<option value='' selected>-</option>";
@@ -1377,6 +1374,7 @@ $array2 = json_decode($json2,TRUE);
         /* padding-top: 20px; */
         border-left: 2px solid #bdc3c7;
       }
+
       .mhee a{
           /* padding: 6px 8px 6px 16px; */
           text-decoration: none;
@@ -1474,7 +1472,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="col-md-6">
                                       <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['side'][$language]; ?></label>
-                                        <input  class="form-control form-control col-sm-7"  style="font-size:22px;"  id="hotpital"  disabled="true">
+                                        <select  class="form-control form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true"> </select>
                                       </div>
                                     </div>
                                     <div class="col-md-6">
