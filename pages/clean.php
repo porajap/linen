@@ -883,6 +883,9 @@ $(document).ready(function(e){
                 $('#bCancel').attr('disabled', false);
                 $('#bSave').attr('disabled', false);
                 $('#bImport').attr('disabled', false);
+                $('#hover2').addClass('mhee');
+                $('#hover4').addClass('mhee');
+                $('#hover5').addClass('mhee');
                 $('#bSave2').removeClass('opacity');
                 $('#bImport2').removeClass('opacity');
                 $('#bCancel2').removeClass('opacity');
@@ -945,6 +948,9 @@ $(document).ready(function(e){
                   $("#bImport").prop('disabled', false);
                   $("#bSave").prop('disabled', false);
                   $("#bCancel").prop('disabled', false);
+                  $('#hover2').addClass('mhee');
+                  $('#hover4').addClass('mhee');
+                  $('#hover5').addClass('mhee');
                   $("#bImport2").removeClass('opacity');
                   $("#bSave2").removeClass('opacity');
                   $("#bCancel2").removeClass('opacity');
@@ -957,6 +963,7 @@ $(document).ready(function(e){
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
                   $("#bCancel").prop('disabled', true);
+                  $('#hover4').addClass('mhee');
                   $("#bSave2").removeClass('opacity');
                 }else{
                   $("#bImport").prop('disabled', true);
@@ -967,7 +974,10 @@ $(document).ready(function(e){
                   $("#bDelete2").addClass('opacity');
                   $("#bSave2").addClass('opacity');
                   $("#bCancel2").addClass('opacity');
-
+                  $('#hover2').removeClass('mhee');
+                  $('#hover4').removeClass('mhee');
+                  $('#hover5').removeClass('mhee');
+                  $('#hover3').removeClass('mhee');
                   $("#docno").prop('disabled', true);
                   $("#docdate").prop('disabled', true);
                   $("#recorder").prop('disabled', true);
@@ -1509,7 +1519,7 @@ $(document).ready(function(e){
                         </div> <!-- tag column 1 -->
                                       <!-- row btn -->
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
-                          <div class="menu"  >
+                          <div class="menu mhee"  id="hover1">
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
@@ -1521,7 +1531,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"   id="hover2">
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true"> 
@@ -1533,7 +1543,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover3">
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
@@ -1545,7 +1555,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover4">
                             <div class="d-flex justify-content-center">
                               <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
@@ -1559,7 +1569,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover5">
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
@@ -1571,7 +1581,7 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu mhee"  id="hover6">
                             <div class="d-flex justify-content-center">
                               <div class="circle9 d-flex justify-content-center">
                                 <button class="btn" onclick="PrintData()" id="bPrint">

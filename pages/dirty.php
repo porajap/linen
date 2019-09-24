@@ -979,6 +979,7 @@ $array2 = json_decode($json2,TRUE);
                         $("#bDelete").prop('disabled', true);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', true);
+                        $('#hover4').addClass('mhee');
                         $("#bSave2").removeClass('opacity');
 
                       }else{
@@ -990,7 +991,10 @@ $array2 = json_decode($json2,TRUE);
                         $("#bDelete2").addClass('opacity');
                         $("#bSave2").addClass('opacity');
                         $("#bCancel2").addClass('opacity');
-
+                        $('#hover2').removeClass('mhee');
+                        $('#hover4').removeClass('mhee');
+                        $('#hover5').removeClass('mhee');
+                        $('#hover3').removeClass('mhee');
                         $("#docno").prop('disabled', true);
                         $("#docdate").prop('disabled', true);
                         $("#recorder").prop('disabled', true);

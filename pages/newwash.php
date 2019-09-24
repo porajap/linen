@@ -972,6 +972,7 @@ $array2 = json_decode($json2,TRUE);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', true);
                         $("#bSave2").removeClass('opacity');
+                        $('#hover4').addClass('mhee');
 
                       }else{
                         $("#bImport").prop('disabled', true);
@@ -982,7 +983,10 @@ $array2 = json_decode($json2,TRUE);
                         $("#bDelete2").addClass('opacity');
                         $("#bSave2").addClass('opacity');
                         $("#bCancel2").addClass('opacity');
-
+                        $('#hover2').removeClass('mhee');
+                        $('#hover4').removeClass('mhee');
+                        $('#hover5').removeClass('mhee');
+                        $('#hover3').removeClass('mhee');
                         $("#docno").prop('disabled', true);
                         $("#docdate").prop('disabled', true);
                         $("#recorder").prop('disabled', true);
