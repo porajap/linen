@@ -1873,7 +1873,6 @@ $array2 = json_decode($json2,TRUE);
                   <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
                 </li>
               </ul>
-
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <!-- /.content-wrapper -->
@@ -1882,7 +1881,6 @@ $array2 = json_decode($json2,TRUE);
                             <!-- tag column 1 -->
                             <div class="container-fluid">
                                 <div class="card-body mt-3">
-
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class='form-group row'>

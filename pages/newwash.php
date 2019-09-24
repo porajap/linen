@@ -165,12 +165,14 @@ $array2 = json_decode($json2,TRUE);
         if (previousValue == 'checked') {
           $('#bDelete').attr('disabled', true);
           $('#bDelete2').addClass('opacity');
+          $('#hover3').removeClass('mhee');
           $('.checkrow_'+row).removeAttr('checked');
           $('.checkrow_'+row).attr('previousValue', false);
           $('.checkrow_'+row).prop('checked', false);
           // Blankinput();
         } else {
           $('#bDelete').attr('disabled', false);
+          $('#hover3').addClass('mhee');
           $('#bDelete2').removeClass('opacity');
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('.checkrow_'+row).attr('previousValue', 'checked');
@@ -887,7 +889,9 @@ $array2 = json_decode($json2,TRUE);
                       $('#bSave2').removeClass('opacity');
                       $('#bImport2').removeClass('opacity');
                       $('#bCancel2').removeClass('opacity');
-
+                      $('#hover2').addClass('mhee');
+                      $('#hover4').addClass('mhee');
+                      $('#hover5').addClass('mhee');
                     }else if(temp["form"]=='ShowDocument'){
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
@@ -950,6 +954,11 @@ $array2 = json_decode($json2,TRUE);
                         $("#bImport").prop('disabled', false);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', false);
+
+                        $("#hover2").addClass('mhee');
+                        $("#hover4").addClass('mhee');
+                        $("#hover5").addClass('mhee');
+
                         $("#bImport2").removeClass('opacity');
                         $("#bSave2").removeClass('opacity');
                         $("#bCancel2").removeClass('opacity');
@@ -1102,7 +1111,6 @@ $array2 = json_decode($json2,TRUE);
                           $('#weight_'+i).prop('disabled', false);
                           $('#price_'+i).prop('disabled', false);
                           $('#price_'+i).prop('disabled', false);
-
                           $('#unit'+i).prop('disabled', false);
                         }else{
                           $("#docno").prop('disabled', true);
@@ -1110,11 +1118,9 @@ $array2 = json_decode($json2,TRUE);
                           $("#recorder").prop('disabled', true);
                           $("#timerec").prop('disabled', true);
                           $("#total").prop('disabled', true);
-
                           $('#qty1_'+i).prop('disabled', true);
                           $('#weight_'+i).prop('disabled', true);
                           $('#price_'+i).prop('disabled', true);
-
                           $('#unit'+i).prop('disabled', true);
                         }
                       }
@@ -1543,7 +1549,7 @@ $array2 = json_decode($json2,TRUE);
                           </div> <!-- tag column 1 -->
                            <!-- row btn -->
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
-                          <div class="menu"  >
+                          <div class="menu mhee" id="hover1">
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center" id="bCreate2">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
@@ -1555,7 +1561,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu " id="hover2" >
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true">
@@ -1567,7 +1573,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu " id="hover3" >
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete" disabled="true">
@@ -1579,7 +1585,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu "  id="hover4">
                             <div class="d-flex justify-content-center">
                               <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave" disabled="true">
@@ -1593,7 +1599,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu " id="hover5" >
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel" disabled="true">

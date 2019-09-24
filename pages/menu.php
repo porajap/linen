@@ -174,17 +174,17 @@ $array = json_decode($json,TRUE);
     })
   }
 
-  function setCard(text1,text2,text3,text4){
+  // function setCard(text1,text2,text3,text4){
  
-    return " <a href='shelfcount.php?DocNo="+text2+"'><div class='card'>"+
-      "<div class='card-header'>"+text1+"</div>"+
-      "<div class='card-main'>"+
-        "<label class='material-icons'>"+text2+"</label>"+
-        "<div class='card-title'>"+text4+"</div>"+
-        "<div class='main-description'>"+text3+"</div>"+
-      "</div>"+
-    "</div> </a>";
-  }
+  //   return " <a href='shelfcount.php?DocNo="+text2+"'><div class='card'>"+
+  //     "<div class='card-header'>"+text1+"</div>"+
+  //     "<div class='card-main'>"+
+  //       "<label class='material-icons'>"+text2+"</label>"+
+  //       "<div class='card-title'>"+text4+"</div>"+
+  //       "<div class='main-description'>"+text3+"</div>"+
+  //     "</div>"+
+  //   "</div> </a>";
+  // }
 
 
   function senddata(data){

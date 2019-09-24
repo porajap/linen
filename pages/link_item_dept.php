@@ -1292,8 +1292,8 @@ $array2 = json_decode($json2,TRUE);
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span hidden class='ml-3 mr-2' data-value='"+temp[i]['num']+"' id='num_"+chk_row+"_"+temp[i]['ItemCodeX']+"'>"+temp[i]['num']+" รายการ</span></td>"+
                                             "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
-                                              "<button class='btn  p-1' style='background-color: #228FF1; color:#fff;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
-                                              "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
                                             "</td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                           "</tr>";
@@ -1359,8 +1359,8 @@ $array2 = json_decode($json2,TRUE);
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span hidden class='ml-3 mr-2' data-value='"+temp[i]['num']+"' id='num_"+chk_row+"_"+temp[i]['ItemCodeX']+"'>"+temp[i]['num']+" รายการ</span></td>"+
                                             "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
-                                              "<button class='btn  p-1' style='background-color: #228FF1; color:#fff;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
-                                              "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #228FF1; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
                                             "</td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                           "</tr>";
@@ -1729,8 +1729,8 @@ $array2 = json_decode($json2,TRUE);
                 <tr role="row">
                   <th style='width: 10%;' nowrap>&nbsp;</th>
                   <th style='width: 28%;' nowrap hidden><?php echo $array['nono'][$language]; ?></th>
-                  <th style='width: 60%;' nowrap><center><?php echo $array['item'][$language]; ?></center></th>
-                  <th style='width: 30%;' nowrap><?php echo $array['total'][$language]; ?></th>
+                  <th style='width: 64%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                  <th style='width: 26%;' nowrap><?php echo $array['total'][$language]; ?></th>
                 </tr>
               </thead>
               <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:420px;">

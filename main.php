@@ -936,7 +936,7 @@ echo '</script>';
     }
 
     .bluebg {
-      background: rgb(0, 51, 141) !important;
+      background: #1659a2 !important;
       color: white !important;
     }
 

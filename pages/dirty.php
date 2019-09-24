@@ -176,11 +176,13 @@ $array2 = json_decode($json2,TRUE);
         if (previousValue == 'checked') {
           $('#bDelete').attr('disabled', true);
           $('#bDelete2').addClass('opacity');
+          $('#hover3').removeClass('mhee');
           $('.checkrow_'+row).removeAttr('checked');
           $('.checkrow_'+row).attr('previousValue', false);
           $('.checkrow_'+row).prop('checked', false);
           // Blankinput();
         } else {
+          $('#hover3').addClass('mhee');
           $('#bDelete').attr('disabled', false);
           $('#bDelete2').removeClass('opacity');
           $("input[name="+name+"]:radio").attr('previousValue', false);
@@ -899,6 +901,9 @@ $array2 = json_decode($json2,TRUE);
                       $('#bSave2').removeClass('opacity');
                       $('#bImport2').removeClass('opacity');
                       $('#bCancel2').removeClass('opacity');
+                      $('#hover2').addClass('mhee');
+                      $('#hover4').addClass('mhee');
+                      $('#hover5').addClass('mhee');
                     }else if(temp["form"]=='ShowDocument'){
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
@@ -962,6 +967,9 @@ $array2 = json_decode($json2,TRUE);
                         $("#bImport2").removeClass('opacity');
                         $("#bSave2").removeClass('opacity');
                         $("#bCancel2").removeClass('opacity');
+                        $("#hover2").addClass('mhee');
+                        $("#hover4").addClass('mhee');
+                        $("#hover5").addClass('mhee');
                       }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                         var word = '<?php echo $array['edit'][$language]; ?>';
                         var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1575,7 +1583,7 @@ $array2 = json_decode($json2,TRUE);
                           </div> <!-- tag column 1 -->
                            <!-- row btn -->
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
-                          <div class="menu"  >
+                          <div class="menu mhee"  id="hover1">
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
@@ -1587,7 +1595,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover2">
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true"> 
@@ -1599,7 +1607,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover3">
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
@@ -1611,7 +1619,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover4">
                             <div class="d-flex justify-content-center">
                               <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
@@ -1625,7 +1633,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover5">
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
@@ -1637,7 +1645,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu mhee"  id="hover6">
                             <div class="d-flex justify-content-center">
                               <div class="circle9 d-flex justify-content-center">
                                 <button class="btn" onclick="PrintData()" id="bPrint">
