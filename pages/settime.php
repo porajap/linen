@@ -89,7 +89,7 @@ $array2 = json_decode($json2,TRUE);
 
             $('#settime').timepicker({
                 timeFormat: 'HH:mm',
-                interval: 60,
+                interval: 30,
                 minTime: '0',
                 // maxTime: '6:00pm',
                 // defaultTime: '8',
