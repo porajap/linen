@@ -169,11 +169,13 @@ $(document).ready(function(e){
           if (previousValue == 'checked') {
             $('#bDelete').attr('disabled', true);
             $('#bDelete2').addClass('opacity');
+            $('#hover3').removeClass('mhee');
             $('.checkrow_'+row).removeAttr('checked');
             $('.checkrow_'+row).attr('previousValue', false);
             $('.checkrow_'+row).prop('checked', false);
             // Blankinput();
           } else {
+            $('#hover3').addClass('mhee');
             $('#bDelete').attr('disabled', false);
             $('#bDelete2').removeClass('opacity');
             $("input[name="+name+"]:radio").attr('previousValue', false);
