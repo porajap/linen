@@ -222,14 +222,19 @@ $array2 = json_decode($json2,TRUE);
 
             for (var i = 0; i < temp["Row"]; i++) {
               var rowCount = $('#TableDocument >tbody >tr').length;
-
+              var Par = temp[i]['ParQty'];
+              var Qty = temp[i]['Qty'];
+              var textColor = '';
+              if(Par>Qty){
+                textColor = 'text-danger';
+              }
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
               "<td style='width: 15%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
               "<td style='width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
               "<td style='width: 15%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
-              "<td style='width: 15%;'nowrap><center>"+temp[i]['ParQty']+"</center></td>"+
-              "<td style='width: 15%;'nowrap><center>"+temp[i]['Qty']+"</center></td>"+
+              "<td style='width: 15%;'nowrap><center>"+Par+"</center></td>"+
+              "<td style='width: 15%;'nowrap class='"+textColor+"'><center>"+Qty+"</center></td>"+
               "<td style='width: 14%;'nowrap><center>"+temp[i]['DepName']+"</center></td>"+
               "</tr>";
 
