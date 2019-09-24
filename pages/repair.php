@@ -538,7 +538,7 @@ $(document).ready(function(e){
 
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
-        var hotpCode = $('#hotpital option:selected').attr("value");
+        var hotpCode = $('#hotpital').data("value");
         var deptCode = $('#department option:selected').attr("value");
         $('#TableDetail tbody').empty();
         swal({
@@ -855,12 +855,11 @@ $(document).ready(function(e){
               if(temp["form"]=='OnLoadPage'){
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                  var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                  $("#hotpital").append(Str);
-                }
+                $('#hotpital').val(temp[0]['HptName']);
+                $('#hotpital').attr("data-value",temp[0]['HptCode']);
                 if(PmID != 1){
-                  $("#hotpital").val(HptCode);
+                  $('#hotpital').val(temp[0]['HptName']);
+                  $('#hotpital').attr("data-value",temp[0]['HptCode']);
                 }
               }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
@@ -1419,8 +1418,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
-                                      </select>
+                                      <input  class="form-control col-sm-7"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
