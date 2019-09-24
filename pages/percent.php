@@ -257,6 +257,7 @@ $array2 = json_decode($json2,TRUE);
 												   var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 												   var Status = "";
 												   var Style  = "";
+												   var textColor  = "";
 												   if(temp[i]['IsStatus']==1){
 												   		Status = "<?php echo $array['savesuccess'][$language]; ?>";
 														Style  = "style='width: 10%;color: #20B80E;'";
@@ -265,8 +266,12 @@ $array2 = json_decode($json2,TRUE);
 														Style  = "style='width: 10%;color: #3399ff;'";
 												   }if(temp[i]['IsStatus']==2){
 												   		Status = "<?php echo $array['cancelbill'][$language]; ?>";
-														Style  = "style='width: 10%;color: #ff0000;'";
+														  Style  = "style='width: 10%;color: #ff0000;'";
 												   }
+
+                            if(temp[i]['Precent']>8){
+                              textColor = "'text-color:#ff0000;'";
+                            }
 
 												   $StrTr="<tr id='tr"+temp[i]['DocNo']+"'>"+
 															  "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
@@ -276,7 +281,7 @@ $array2 = json_decode($json2,TRUE);
 															  "<td style='width: 15%;'nowrap>"+temp[i]['DocNo2']+"</td>"+
 															  "<td style='width: 18%;'nowrap>"+temp[i]['DocDate2']+"</td>"+
 															  "<td style='width: 10%;'nowrap>"+temp[i]['Total2']+"</td>"+
-															  "<td style='width: 11%;text-align: center'nowrap>"+temp[i]['Precent']+ " %" +"</td>"+
+															  "<td style='width: 11%;text-align:center;"+textColor+"' nowrap>"+temp[i]['Precent']+ " %" +"</td>"+
 														  "</tr>";
 
 					                               if(rowCount == 0){
