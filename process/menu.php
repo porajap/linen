@@ -259,7 +259,7 @@ function alert_SetPrice($conn,$DATA)
         $return[$count3]['contract_hos']['dateDiff'] = $Result['dateDiff'];
         $return[$count3]['contract_hos']['RowID'] = $Result['RowID'];
         $DateDiff = $Result['dateDiff'];
-      
+        $RowID = $Result['RowID'];
         if($DateDiff == 30){
           $count_active = "SELECT COUNT(*) AS cnt FROM contract_parties_hospital WHERE RowID = '$RowID' AND day_30 = 1";
         }else if($DateDiff == 7){
