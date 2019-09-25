@@ -69,6 +69,8 @@
 <side><en>Hospital</en><th>โรงพยาบาล</th></side>
 <sidex><en>Hospital</en><th>โรงพยาบาล</th></sidex>
 <invalid><en>Invalid date</en><th>เลือกวันที่ไม่ถูกต้อง</th></invalid>
+<confac><en>Factory Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงซัก</th></confac>
+<conhos><en>Hospital Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงโรงพยาบาล</th></conhos>
 
 <department><en>Department</en><th>แผนก</th></department>
 <docdate><en>Document date</en><th>วันที่เอกสาร</th></docdate>

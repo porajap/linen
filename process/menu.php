@@ -152,18 +152,17 @@ function alert_SetPrice($conn,$DATA)
         cat_P.DocNo
       ORDER BY dateDiff ASC";
   }
-  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
 
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
-      $return[$count]['HptCode'] = $Result['HptCode'];
-      $return[$count]['HptName'] = $Result['HptName'];
-      $return[$count]['StartDate'] = $Result['StartDate'];
-      $return[$count]['EndDate'] = $Result['EndDate'];
-      $return[$count]['DocNo'] = $Result['DocNo'];
-      $return[$count]['xDate'] = $Result['xDate'];
-      $return[$count]['dateDiff'] = $Result['dateDiff'];
+      $return[$count]['set_price']['HptCode'] = $Result['HptCode'];
+      $return[$count]['set_price']['HptName'] = $Result['HptName'];
+      $return[$count]['set_price']['StartDate'] = $Result['StartDate'];
+      $return[$count]['set_price']['EndDate'] = $Result['EndDate'];
+      $return[$count]['set_price']['DocNo'] = $Result['DocNo'];
+      $return[$count]['set_price']['xDate'] = $Result['xDate'];
+      $return[$count]['set_price']['dateDiff'] = $Result['dateDiff'];
       $DateDiff = $Result['dateDiff'];
 
       #send email to user---------------------------------------------------
@@ -177,12 +176,12 @@ function alert_SetPrice($conn,$DATA)
       }
       $countQuery = mysqli_query($conn,$count_active);
       while ($CResult = mysqli_fetch_assoc($countQuery)) {
-        $return[$count]['cntAcive'] = $CResult['cnt'];
+        $return[$count]['set_price']['cntAcive'] = $CResult['cnt'];
         if($CResult['cntAcive'] == 0){
           $SelectMail = "SELECT users.email FROM users WHERE users.HptCode = '$HptCode' AND users.Active_mail = 1";
           $SQuery = mysqli_query($conn,$SelectMail);
           while ($SResult = mysqli_fetch_assoc($SQuery)) {
-            $return[$count]['email'] = $SResult['email'];
+            $return[$count]['set_price']['email'] = $SResult['email'];
           }
         }
       }
@@ -191,22 +190,58 @@ function alert_SetPrice($conn,$DATA)
       $boolean = true; 
     }
   }
-
-  $return['countRow'] = $count;
-
-  if($boolean){
-    $return['status'] = "success";
-    $return['form'] = "alert_SetPrice";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "failed";
-    $return['form'] = "alert_SetPrice";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
+  $return['countSetprice'] = $count;
+  #-------------------------------------------------------------------------------------
+  $count2 = 0;
+  if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
+    $Sql = "SELECT factory.FacName,cf.StartDate, cf.EndDate, 
+        DATEDIFF(cf.EndDate, cf.StartDate) AS dateDiff   
+        FROM contract_parties_factory cf 
+        INNER JOIN factory ON factory.FacCode = cf.FacCode
+        ORDER BY dateDiff ASC";
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
+        $return[$count2]['contract_fac']['FacName'] = $Result['FacName'];
+        $return[$count2]['contract_fac']['StartDate'] = $Result['StartDate'];
+        $return[$count2]['contract_fac']['EndDate'] = $Result['EndDate'];
+        $return[$count2]['contract_fac']['dateDiff'] = $Result['dateDiff'];
+        $DateDiff = $Result['dateDiff'];
+      }
+      $count2++;
+    }
   }
+  $return['countFac'] = $count2;
+  #-------------------------------------------------------------------------------------
+  $count3 = 0;
+  if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
+    $Sql = "SELECT site.HptName,ch.StartDate, ch.EndDate, 
+        DATEDIFF(ch.EndDate, ch.StartDate) AS dateDiff   
+        FROM contract_parties_hospital ch 
+        INNER JOIN site ON site.HptCode = ch.HptCode
+        ORDER BY dateDiff ASC";
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
+        $return[$count3]['contract_hos']['HptName'] = $Result['HptName'];
+        $return[$count3]['contract_hos']['StartDate'] = $Result['StartDate'];
+        $return[$count3]['contract_hos']['EndDate'] = $Result['EndDate'];
+        $return[$count3]['contract_hos']['dateDiff'] = $Result['dateDiff'];
+        $DateDiff = $Result['dateDiff'];
+      }
+      $count3++;
+    }
+  }
+  $return['countHos'] = $count3;
+  #-------------------------------------------------------------------------------------
+
+
+  $return['status'] = "success";
+  $return['form'] = "alert_SetPrice";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+
 
 }
 
