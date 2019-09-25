@@ -346,6 +346,39 @@ $array = json_decode($json,TRUE);
                             '<td style="width:18%;border-top:none!important;"></td>' + 
                             '<td nowrap style="width:40%;border-top:none!important;" class="text-left"><?php echo $array['Timeleft'][$language]; ?> ' + temp[i]['contract_hos']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr></table><hr>' ;
+
+                if(temp[i]['countMailHos']>0){
+                  for(var j = 0; j < temp[i]['countMailHos']; j++){
+                    var HptName = temp[0]['contract_hos']['HptName'];
+                    var StartDate = temp[j]['contract_hos']['StartDate'];
+                    var EndDate = temp[j]['contract_hos']['EndDate'];
+                    var email = temp[j]['contract_hos']['email'];
+                    var dateDiff = temp[j]['contract_hos']['dateDiff'];
+                    var RowID = temp[i]['contract_hos']['RowID'];
+                    if(temp[i]['contract_hos']['cntAcive'] == 0){
+                      var URL = '../process/sendMail_conHos.php';
+                      $.ajax({
+                        url: URL,
+                        method:"POST",
+                        data: 
+                        {
+                          HptName:HptName,
+                          StartDate:StartDate,
+                          EndDate:EndDate,
+                          email:email,
+                          dateDiff:dateDiff,
+                          RowID:RowID
+                        },
+                        success:function(data)
+                        {
+                          console.log['success'];
+                        }
+                      });
+                    }
+                  }
+                }
+              
+              
               }
               $("#conhos").html(result3);
               $("#alert").modal('show');

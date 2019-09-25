@@ -245,7 +245,7 @@ function alert_SetPrice($conn,$DATA)
   #-------------------------------------------------------------------------------------
   $count3 = 0;
   if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
-    $Sql = "SELECT site.HptName,ch.StartDate, ch.EndDate, 
+    $Sql = "SELECT site.HptName, ch.RowID, ch.StartDate, ch.EndDate, 
         DATEDIFF(ch.EndDate, ch.StartDate) AS dateDiff   
         FROM contract_parties_hospital ch 
         INNER JOIN site ON site.HptCode = ch.HptCode
@@ -257,9 +257,34 @@ function alert_SetPrice($conn,$DATA)
         $return[$count3]['contract_hos']['StartDate'] = $Result['StartDate'];
         $return[$count3]['contract_hos']['EndDate'] = $Result['EndDate'];
         $return[$count3]['contract_hos']['dateDiff'] = $Result['dateDiff'];
+        $return[$count3]['contract_hos']['RowID'] = $Result['RowID'];
         $DateDiff = $Result['dateDiff'];
       
-      
+        if($DateDiff == 30){
+          $count_active = "SELECT COUNT(*) AS cnt FROM contract_parties_hospital WHERE RowID = '$RowID' AND day_30 = 1";
+        }else if($DateDiff == 7){
+          $count_active = "SELECT COUNT(*) AS cnt FROM contract_parties_hospital WHERE RowID = '$RowID' AND day_7 = 1";
+        }
+        $countQuery = mysqli_query($conn,$count_active);
+        while ($CResult = mysqli_fetch_assoc($countQuery)) {
+          $return[$count3]['contract_hos']['cntAcive'] = $CResult['cnt'];
+          if($CResult['cntAcive'] == 0){
+            $i = 0;
+            $SelectMail = "SELECT users.email, 	site.HptName
+            FROM users
+            INNER JOIN site ON site.HptCode = users.HptCode
+            WHERE users.HptCode = '$HptCode'
+            AND users.PmID IN (1,3,6)
+            AND email IS NOT NULL AND NOT email = ''";
+            $SQuery = mysqli_query($conn,$SelectMail);
+            while ($SResult = mysqli_fetch_assoc($SQuery)) {
+              $return[$i]['contract_hos']['email'] = $SResult['email'];
+              $return[0]['contract_hos']['HptName'] = $SResult['HptName'];
+              $i++;
+            }
+          }
+        }
+        $return[$count3]['countMailHos'] = $i;
         $count3++;
       }
       
