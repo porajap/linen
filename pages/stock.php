@@ -219,7 +219,6 @@ $array2 = json_decode($json2,TRUE);
             $("#Dep2").append(Str);
           }else if(temp["form"]=='ShowDocument'){
             $( "#TableDocument tbody" ).empty();
-
             for (var i = 0; i < temp["Row"]; i++) {
               var rowCount = $('#TableDocument >tbody >tr').length;
               var Par = Number(temp[i]['ParQty']);
