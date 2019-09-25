@@ -1950,7 +1950,7 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" hidden>
                                         <div class="col-md-6">
                                         <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
