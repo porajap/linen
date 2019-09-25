@@ -222,10 +222,10 @@ $array2 = json_decode($json2,TRUE);
 
             for (var i = 0; i < temp["Row"]; i++) {
               var rowCount = $('#TableDocument >tbody >tr').length;
-              var Par = temp[i]['ParQty'];
-              var Qty = temp[i]['Qty'];
+              var Par = Number(temp[i]['ParQty']);
+              var Qty = Number(temp[i]['Qty']);
               var textColor = '';
-              if(Par>Qty){
+              if(Qty<Par){
                 textColor = 'text-danger';
               }
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
