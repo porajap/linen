@@ -235,7 +235,7 @@ function reset_pass($conn,$DATA)
 function SetActive($conn,$DATA){
   $boolean = false;
   $Username = $DATA['Username'];
-  $Password = $DATA['Password'];
+  $Password = md5($DATA['Password']);
   $count = "SELECT COUNT(*) AS cnt, HptCode FROM users WHERE UserName = '$Username' AND Password = '$Password' LIMIT 1";
   $meQuery = mysqli_query($conn, $count);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

@@ -271,7 +271,7 @@ $array2 = json_decode($json2,TRUE);
 												   }
 
                             if(Number(temp[i]['Precent'])>8){
-                              textColor = "'text-color:#ff0000;'";
+                              textColor = "text-danger";
                             }
 
 												   $StrTr="<tr id='tr"+temp[i]['DocNo']+"'>"+
@@ -282,7 +282,7 @@ $array2 = json_decode($json2,TRUE);
 															  "<td style='width: 15%;'nowrap>"+temp[i]['DocNo2']+"</td>"+
 															  "<td style='width: 18%;'nowrap>"+temp[i]['DocDate2']+"</td>"+
 															  "<td style='width: 10%;'nowrap>"+temp[i]['Total2']+"</td>"+
-															  "<td style='width: 11%;text-align:center;"+textColor+"' nowrap>"+temp[i]['Precent']+ " %" +"</td>"+
+															  "<td style='width: 11%;text-align:center;' nowrap class='"+textColor+"'>"+temp[i]['Precent']+ " %" +"</td>"+
 														  "</tr>";
 
 					                               if(rowCount == 0){
