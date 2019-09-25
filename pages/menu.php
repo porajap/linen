@@ -245,9 +245,7 @@ $array = json_decode($json,TRUE);
                             '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['set_price']['DocNo']+ '</td>'+
                             '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['set_price']['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' + temp[i]['set_price']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr></table><hr>' ;
-              
-                $("#price").html(result);
-                $("#alert").modal('show');
+            
                 var HptName = temp[i]['set_price']['HptName'];
                 var DocNo = temp[i]['set_price']['DocNo'];
                 var StartDate = temp[i]['set_price']['StartDate'];
@@ -278,6 +276,8 @@ $array = json_decode($json,TRUE);
                   });
                 }
               }
+              $("#price").html(result);
+              $("#alert").modal('show');
             }
             if(temp['countFac']>0){
               var result2 = ' <h1 class="modal-title" style="font-size:30px;color: rgb(0, 51, 141) "><?php echo $array["confac"][$language]; ?></h1>';
@@ -295,6 +295,37 @@ $array = json_decode($json,TRUE);
                             '<td style="width:18%;border-top:none!important;"></td>' + 
                             '<td nowrap style="width:40%;border-top:none!important;" class="text-left"><?php echo $array['Timeleft'][$language]; ?> ' + temp[i]['contract_fac']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr></table><hr>' ;
+
+                if(temp[i]['countMailFac']>0){
+                  for(var j = 0; j < temp[i]['countMailFac']; j++){
+                    var HptName = temp[0]['contract_fac']['HptName'];
+                    var StartDate = temp[j]['contract_fac']['StartDate'];
+                    var EndDate = temp[j]['contract_fac']['EndDate'];
+                    var email = temp[j]['contract_fac']['email'];
+                    var dateDiff = temp[j]['contract_fac']['dateDiff'];
+                    var RowID = temp[i]['contract_fac']['RowID'];
+                    if(temp[i]['contract_fac']['cntAcive'] == 0){
+                      var URL = '../process/sendMail_conFac.php';
+                      $.ajax({
+                        url: URL,
+                        method:"POST",
+                        data: 
+                        {
+                          HptName:HptName,
+                          StartDate:StartDate,
+                          EndDate:EndDate,
+                          email:email,
+                          dateDiff:dateDiff,
+                          RowID:RowID
+                        },
+                        success:function(data)
+                        {
+                          console.log['success'];
+                        }
+                      });
+                    }
+                  }
+                }
               }
               $("#confac").html(result2);
               $("#alert").modal('show');

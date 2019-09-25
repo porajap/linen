@@ -187,17 +187,17 @@ function alert_SetPrice($conn,$DATA)
       }
       #end send mail------------------------------------------------------------
       $count++;
-      $boolean = true; 
     }
   }
   $return['countSetprice'] = $count;
   #-------------------------------------------------------------------------------------
   $count2 = 0;
   if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
-    $Sql = "SELECT factory.FacName,cf.StartDate, cf.EndDate, 
+    $Sql = "SELECT cf.RowID, factory.FacCode, factory.FacName, cf.StartDate, cf.EndDate,
         DATEDIFF(cf.EndDate, cf.StartDate) AS dateDiff   
         FROM contract_parties_factory cf 
         INNER JOIN factory ON factory.FacCode = cf.FacCode
+        WHERE cf.IsStatus = 0
         ORDER BY dateDiff ASC";
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -206,9 +206,39 @@ function alert_SetPrice($conn,$DATA)
         $return[$count2]['contract_fac']['StartDate'] = $Result['StartDate'];
         $return[$count2]['contract_fac']['EndDate'] = $Result['EndDate'];
         $return[$count2]['contract_fac']['dateDiff'] = $Result['dateDiff'];
+        $return[$count2]['contract_fac']['RowID'] = $Result['RowID'];
         $DateDiff = $Result['dateDiff'];
+        $RowID = $Result['RowID'];
+        $FacCode = $Result['FacCode'];
+      
+        if($DateDiff == 30){
+          $count_active = "SELECT COUNT(*) AS cnt FROM contract_parties_factory WHERE RowID = '$RowID' AND day_30 = 1";
+        }else if($DateDiff == 7){
+          $count_active = "SELECT COUNT(*) AS cnt FROM contract_parties_factory WHERE RowID = '$RowID' AND day_7 = 1";
+        }
+        $countQuery = mysqli_query($conn,$count_active);
+        while ($CResult = mysqli_fetch_assoc($countQuery)) {
+          $return[$count2]['contract_fac']['cntAcive'] = $CResult['cnt'];
+          if($CResult['cntAcive'] == 0){
+            $i = 0;
+            $SelectMail = "SELECT users.email, 	site.HptName
+            FROM users
+            INNER JOIN site ON site.HptCode = users.HptCode
+            WHERE users.HptCode = '$HptCode'
+            AND users.FacCode = 1 AND users.PmID IN (1,3,6)
+            AND email IS NOT NULL AND NOT email = ''";
+            $SQuery = mysqli_query($conn,$SelectMail);
+            while ($SResult = mysqli_fetch_assoc($SQuery)) {
+              $return[$i]['contract_fac']['email'] = $SResult['email'];
+              $return[0]['contract_fac']['HptName'] = $SResult['HptName'];
+              $i++;
+            }
+          }
+        }
+        $return[$count2]['countMailFac'] = $i;
+        $count2++;
       }
-      $count2++;
+      
     }
   }
   $return['countFac'] = $count2;
@@ -228,8 +258,11 @@ function alert_SetPrice($conn,$DATA)
         $return[$count3]['contract_hos']['EndDate'] = $Result['EndDate'];
         $return[$count3]['contract_hos']['dateDiff'] = $Result['dateDiff'];
         $DateDiff = $Result['dateDiff'];
+      
+      
+        $count3++;
       }
-      $count3++;
+      
     }
   }
   $return['countHos'] = $count3;
