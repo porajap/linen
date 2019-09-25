@@ -269,7 +269,7 @@ $array2 = json_decode($json2,TRUE);
 														  Style  = "style='width: 10%;color: #ff0000;'";
 												   }
 
-                            if(Numbrt(temp[i]['Precent'])>8){
+                            if(Number(temp[i]['Precent'])>8){
                               textColor = "'text-color:#ff0000;'";
                             }
 
