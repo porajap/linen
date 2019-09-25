@@ -823,13 +823,13 @@ $array2 = json_decode($json2,TRUE);
                                  StrTR = "<tr id='tr"+temp[i]['HptCode']+"'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
-                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 15%;' title='"+temp[i]['HptCode']+"'>"+temp[i]['HptCode']+"</td>"+
-                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 17%;' title='"+temp[i]['HptName']+"'>"+temp[i]['HptName']+"</td>"+
-                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 16.5%;' title='"+temp[i]['HptNameTH']+"'>"+temp[i]['HptNameTH']+"</td>"+
-                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden; width: 12.5%;' title='"+temp[i]['contractName']+"'>"+temp[i]['contractName']+"</td>"+
-                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden; width: 10%;' title='"+temp[i]['permission']+"'>"+temp[i]['permission']+"</td>"+
-                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 11%;' title='"+temp[i]['Number']+"'>"+temp[i]['Number']+"</td>"+
-                                                "<td nowrap style='text-overflow: ellipsis;overflow: hidden;width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
+                                                "<td nowrap style='overflow-x:auto; text-overflow: ellipsis;overflow: hidden;width: 15%;' title='"+temp[i]['HptCode']+"'>"+temp[i]['HptCode']+"</td>"+
+                                                "<td nowrap style='overflow-x:auto;text-overflow: ellipsis;overflow: hidden;width: 17%;' title='"+temp[i]['HptName']+"'>"+temp[i]['HptName']+"</td>"+
+                                                "<td nowrap style='overflow-x:auto;text-overflow: ellipsis;overflow: hidden;width: 16.5%;' title='"+temp[i]['HptNameTH']+"'>"+temp[i]['HptNameTH']+"</td>"+
+                                                "<td nowrap style='overflow-x:auto;text-overflow: ellipsis;overflow: hidden; width: 12.5%;' title='"+temp[i]['contractName']+"'>"+temp[i]['contractName']+"</td>"+
+                                                "<td nowrap style='overflow-x:auto;text-overflow: ellipsis;overflow: hidden; width: 10%;' title='"+temp[i]['permission']+"'>"+temp[i]['permission']+"</td>"+
+                                                "<td nowrap style='overflow-x:auto;text-overflow: ellipsis;overflow: hidden;width: 11%;' title='"+temp[i]['Number']+"'>"+temp[i]['Number']+"</td>"+
+                                                "<td nowrap style='overflow-x:auto;text-overflow: ellipsis;overflow: hidden;width: 13%;' hidden id='id_"+i+"' data-value='"+temp[i]['id']+"'></td>"+
                                                 "</tr>";
 
                                  if(rowCount == 0){
@@ -1154,6 +1154,11 @@ $array2 = json_decode($json2,TRUE);
           font-family: myFirstFont;
           font-size:22px;
         }
+        .table-scroll {
+      overflow:auto;  
+      height:355px;
+      margin-top:5px;
+    }
     input,select{
       font-size:24px!important;
     }
@@ -1310,24 +1315,25 @@ $array2 = json_decode($json2,TRUE);
                                       </div>
                                     </div>
                         </div>
-                        <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
+                        <div class="table-scroll" id="scroll555"> 
+                        <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
                           <thead id="theadsum" style="font-size:11px;">
                             <tr role="row">
-                              <th nowrap style='width: 5%;text-overflow: ellipsis;overflow: hidden;'>&nbsp;</th>
-                              <th nowrap style='width: 10%;text-overflow: ellipsis;overflow: hidden;'     title="<?php echo $array['no'][$language]; ?>"><?php echo $array['no'][$language]; ?></th>
-                              <th nowrap style='width: 15%;text-overflow: ellipsis;overflow: hidden;'     title="<?php echo $array['hoscode'][$language]; ?>"><?php echo $array['hoscode'][$language]; ?></th>
-                              <th nowrap style='width: 17%;text-overflow: ellipsis;overflow: hidden;'     title="<?php echo $array['hosnameEN'][$language]; ?>"><?php echo $array['hosnameEN'][$language]; ?></th>
-                              <th nowrap style='width: 16%;text-overflow: ellipsis;overflow: hidden;'     title="<?php echo $array['hosnameTH'][$language]; ?>"><?php echo $array['hosnameTH'][$language]; ?></th>
-                              <th nowrap style='width: 12.5%;text-overflow: ellipsis;overflow: hidden;'   title="<?php echo $array['ContractName'][$language]; ?>"><?php echo $array['ContractName'][$language]; ?></th>
-                              <th nowrap style='width: 10%;text-overflow: ellipsis;overflow: hidden;'     title="<?php echo $array['Position'][$language]; ?>"><?php echo $array['Position'][$language]; ?></th>
-                              <th nowrap style='width: 14%;text-overflow: ellipsis;overflow: hidden;'     title="<?php echo $array['phone'][$language]; ?>"><?php echo $array['phone'][$language]; ?></th>
+                              <th nowrap style='width: 5%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'>&nbsp;</th>
+                              <th nowrap style='width: 10%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'     title="<?php echo $array['no'][$language]; ?>"><?php echo $array['no'][$language]; ?></th>
+                              <th nowrap style='width: 15%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'     title="<?php echo $array['hoscode'][$language]; ?>"><?php echo $array['hoscode'][$language]; ?></th>
+                              <th nowrap style='width: 17%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'     title="<?php echo $array['hosnameEN'][$language]; ?>"><?php echo $array['hosnameEN'][$language]; ?></th>
+                              <th nowrap style='width: 16%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'     title="<?php echo $array['hosnameTH'][$language]; ?>"><?php echo $array['hosnameTH'][$language]; ?></th>
+                              <th nowrap style='width: 12.5%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'   title="<?php echo $array['ContractName'][$language]; ?>"><?php echo $array['ContractName'][$language]; ?></th>
+                              <th nowrap style='width: 10%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'     title="<?php echo $array['Position'][$language]; ?>"><?php echo $array['Position'][$language]; ?></th>
+                              <th nowrap style='width: 14%;text-overflow: ellipsis;overflow: hidden;overflow-x:auto;'     title="<?php echo $array['phone'][$language]; ?>"><?php echo $array['phone'][$language]; ?></th>
 
                             </tr>
                           </thead>
-                          <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:250px;">
+                          <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
                           </tbody>
                         </table>
-
+                    </div>
                     </div>
                   </div>
               </div> <!-- tag column 1 -->

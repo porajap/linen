@@ -1220,15 +1220,15 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="row col-md-12">
                                           <div class="col-md-4">
                                               <div class="row" style="margin-left:-30px;">
-                                              <label class="col-sm-5 col-form-label text-right"style="margin-left: -90px;"><?php echo $array['side'][$language]; ?></label>
-                                                  <select class="form-control col-md-7" id="hptsel">
+                                              <label class="col-sm-7 col-form-label text-right"style="margin-left: -90px;"><?php echo $array['side'][$language]; ?></label>
+                                                  <select class="form-control col-md-6" id="hptsel">
                                                   </select>
                                               </div>
                                           </div>
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                              <label class="col-sm-5 col-form-label text-right"style="margin-left: -111px;"><?php echo $array['categorymain'][$language]; ?></label>
-                                                  <select class="form-control col-md-10" id="Category_Main" onchange="getCategorySub(1);"></select>
+                                              <label class="col-sm-6 col-form-label text-right"style="margin-left: -111px;"><?php echo $array['categorymain'][$language]; ?></label>
+                                                  <select class="form-control col-md-9" id="Category_Main" onchange="getCategorySub(1);"></select>
                                               </div>
                                           </div>
                                           <div class="col-md-3">

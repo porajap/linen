@@ -1950,8 +1950,8 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" hidden>
-                                        <div class="col-md-6">
+                                    <div class="row" >
+                                        <div class="col-md-6" hidden>
                                         <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['Cycle'][$language]; ?></label>
                                                 <select class="form-control col-sm-7"  style="font-size:22px;" id="cycle">
@@ -1970,6 +1970,13 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-7 "  name="searchitem"
+                                                placeholder="<?php echo $array['barcode'][$language]; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['settime'][$language]; ?></label>
                                                 <select  id="settime"  style="font-size:22px;" class="form-control col-sm-7 checkblank3 border "  onchange="removeClassBorder2();" name="searchitem"
                                                 placeholder="<?php echo $array['settime'][$language]; ?>">  </select>
@@ -1978,13 +1985,8 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class='form-group row'>
-                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-7 "  name="searchitem"
-                                                placeholder="<?php echo $array['barcode'][$language]; ?>">
-                                            </div>
-                                        </div>
+     
+
                                     </div>
                                 </div>
                             </div>
