@@ -388,8 +388,8 @@
     }
     
     .swal2-icon {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
         border: 4px solid transparent;
         border-radius: 50%;
         margin: 20px auto 30px;
@@ -439,8 +439,8 @@
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: #f8bb86;
         border-color: #facea8;
-        font-size: 60px;
-        line-height: 80px;
+        font-size: 40px;
+        line-height: 75px;
         text-align: center;
     }
     
@@ -448,8 +448,8 @@
         font-family: 'Open Sans', sans-serif;
         color: #3fc3ee;
         border-color: #9de0f6;
-        font-size: 60px;
-        line-height: 80px;
+        font-size: 40px;
+        line-height: 75px;
         text-align: center;
     }
     

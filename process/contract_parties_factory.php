@@ -235,7 +235,9 @@ function SaveRow($conn,$DATA){
 	  $Sql = "UPDATE contract_parties_factory
 			SET StartDate = '$sDate',
 			EndDate = '$eDate',
-			Detail = '$Detail'
+			Detail = '$Detail',
+      day_30 = 0,
+      day_7 = 0
 			WHERE RowID = $RowID";
       mysqli_query($conn,$Sql);
   }

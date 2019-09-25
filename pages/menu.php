@@ -226,83 +226,40 @@ $array = json_decode($json,TRUE);
               $("#CardView").append( $StrTr );
             }
           } else if(temp["form"]=='alert_SetPrice'){
-            $('#countRow').val(temp['countRow']);
-            var result = '<table class="table table-fixed ">';
+            $('#countRow').val(temp['countSetprice']);
             var PmID = <?php echo $PmID; ?>;
-            if(temp['countRow']==1){
+            var result = '<h1 class="modal-title" style="font-size:30px;color: rgb(0, 51, 141) "><?php echo $array["set"][$language]; ?></h1>';
+            if(temp['countSetprice']>0){
+              for (var i = 0; i < temp['countSetprice']; i++) {
+                result += '<table class="table table-fixed " cellspacing="0" role="grid">';
                 result += '<tr style="background-color:#2980b9;color:#ffffff">'+
-                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[0]['HptName']+'</td>'+
+                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[i]['set_price']['HptName']+'</td>'+
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[0]['StartDate']+ '</td>'+
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[0]['EndDate']+ '</td>' +
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[i]['set_price']['StartDate']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['set_price']['EndDate']+ '</td>' +
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[0]['DocNo']+ '</td>'+
-                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[0]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[0]['dateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
-                          '</tr>' ;
-              
-              $("#result_alert1").append(result);
-              $("#alert_SetPrice1").modal('show');
-              var HptName = temp[0]['HptName'];
-              var DocNo = temp[0]['DocNo'];
-              var StartDate = temp[0]['StartDate'];
-              var EndDate = temp[0]['EndDate'];
-              var xDate = temp[0]['xDate'];
-              var email = temp[0]['email'];
-              var dateDiff = temp[0]['dateDiff'];
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['set_price']['DocNo']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['set_price']['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' + temp[i]['set_price']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
+                          '</tr></table><hr>' ;
+            
+                var HptName = temp[i]['set_price']['HptName'];
+                var DocNo = temp[i]['set_price']['DocNo'];
+                var StartDate = temp[i]['set_price']['StartDate'];
+                var EndDate = temp[i]['set_price']['EndDate'];
+                var xDate = temp[i]['set_price']['xDate'];
+                var email = temp[i]['set_price']['email'];
+                var dateDiff = temp[i]['set_price']['dateDiff'];
 
-              if(temp[0]['cntAcive'] == 0){
-                var URL = '../process/sendMail_alertPrice.php';
-                $.ajax({
-                  url: URL,
-                  method:"POST",
-                  data: 
-                  {
-                    HptName:HptName,
-                    DocNo:DocNo,
-                    StartDate:StartDate,
-                    EndDate:EndDate,
-                    xDate:xDate,
-                    email:email,
-                    dateDiff:dateDiff
-                  },
-                  success:function(data)
-                  {
-                    console.log['success'];
-                  }
-                });
-              }
-            }else if(temp['countRow']>1){
-              for (var i = 0; i < temp['countRow']; i++) {
-                  result += '<tr style="background-color:#2980b9;color:#ffffff">'+
-                              '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;">'+(i+1)+'.'+' <?php echo $array['side'][$language]; ?> '+temp[i]['HptName']+'</td>'+
-                            '</tr>' +
-                            '<tr>'+
-                              '<td style="width:18%"></td>' + 
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[i]['StartDate']+ '</td>'+
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['EndDate']+ '</td>' +
-                            '</tr>' +
-                            '<tr>'+
-                              '<td style="width:18%"></td>' + 
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['docno'][$language]; ?>: ' +temp[i]['DocNo']+ '</td>'+
-                              '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' +temp[i]['dateDiff']+  ' <?php echo $array['day'][$language]; ?></td>'+
-                            '</tr>' ;
-                var HptName = temp[i]['HptName'];
-                var DocNo = temp[i]['DocNo'];
-                var StartDate = temp[i]['StartDate'];
-                var EndDate = temp[i]['EndDate'];
-                var xDate = temp[i]['xDate'];
-                var email = temp[i]['email'];
-                var dateDiff = temp[i]['dateDiff'];
-                if(temp[i]['cntAcive'] == 0){
+                if(temp[i]['set_price']['cntAcive'] == 0){
                   var URL = '../process/sendMail_alertPrice.php';
                   $.ajax({
                     url: URL,
                     method:"POST",
-                    data:
+                    data: 
                     {
                       HptName:HptName,
                       DocNo:DocNo,
@@ -314,15 +271,118 @@ $array = json_decode($json,TRUE);
                     },
                     success:function(data)
                     {
-                        console.log['success'];
+                      console.log['success'];
                     }
                   });
                 }
               }
-              $("#result_alert tbody").append(result);
-              $("#alert_SetPrice").modal('show');
+              $("#price").html(result);
+              $("#alert").modal('show');
             }
+            if(temp['countFac']>0){
+              var result2 = ' <h1 class="modal-title" style="font-size:30px;color: rgb(0, 51, 141) "><?php echo $array["confac"][$language]; ?></h1>';
+              for (var i = 0; i < temp['countFac']; i++) {
+                result2 += '<table class="table table-fixed" cellspacing="0" role="grid">';
+                result2 += '<tr style="background-color:#2980b9;color:#ffffff">'+
+                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['factory'][$language]; ?> '+temp[i]['contract_fac']['FacName']+'</td>'+
+                          '</tr>' +
+                          '<tr>'+
+                            '<td style="width:18%"></td>' + 
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[i]['contract_fac']['StartDate']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['contract_fac']['EndDate']+ '</td>' +
+                          '</tr>' +
+                          '<tr >'+
+                            '<td style="width:18%;border-top:none!important;"></td>' + 
+                            '<td nowrap style="width:40%;border-top:none!important;" class="text-left"><?php echo $array['Timeleft'][$language]; ?> ' + temp[i]['contract_fac']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
+                          '</tr></table><hr>' ;
 
+                if(temp[i]['countMailFac']>0){
+                  for(var j = 0; j < temp[i]['countMailFac']; j++){
+                    var HptName = temp[0]['contract_fac']['HptName'];
+                    var StartDate = temp[j]['contract_fac']['StartDate'];
+                    var EndDate = temp[j]['contract_fac']['EndDate'];
+                    var email = temp[j]['contract_fac']['email'];
+                    var dateDiff = temp[j]['contract_fac']['dateDiff'];
+                    var RowID = temp[i]['contract_fac']['RowID'];
+                    if(temp[i]['contract_fac']['cntAcive'] == 0){
+                      var URL = '../process/sendMail_conFac.php';
+                      $.ajax({
+                        url: URL,
+                        method:"POST",
+                        data: 
+                        {
+                          HptName:HptName,
+                          StartDate:StartDate,
+                          EndDate:EndDate,
+                          email:email,
+                          dateDiff:dateDiff,
+                          RowID:RowID
+                        },
+                        success:function(data)
+                        {
+                          console.log['success'];
+                        }
+                      });
+                    }
+                  }
+                }
+              }
+              $("#confac").html(result2);
+              $("#alert").modal('show');
+            }
+            if(temp['countHos']>0){
+              var result3 = ' <h1 class="modal-title" style="font-size:30px;color: rgb(0, 51, 141) "><?php echo $array["conhos"][$language]; ?></h1>';
+              for (var i = 0; i < temp['countHos']; i++) {
+                result3 += '<table class="table table-fixed" cellspacing="0" role="grid">';
+                result3 += '<tr style="background-color:#2980b9;color:#ffffff">'+
+                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[i]['contract_hos']['HptName']+'</td>'+
+                          '</tr>' +
+                          '<tr>'+
+                            '<td style="width:18%"></td>' + 
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['datestartcontract'][$language]; ?>: ' +temp[i]['contract_hos']['StartDate']+ '</td>'+
+                            '<td nowrap style="width:40%" class="text-left"><?php echo $array['dateendcontract'][$language]; ?>: ' + temp[i]['contract_hos']['EndDate']+ '</td>' +
+                          '</tr>' +
+                          '<tr >'+
+                            '<td style="width:18%;border-top:none!important;"></td>' + 
+                            '<td nowrap style="width:40%;border-top:none!important;" class="text-left"><?php echo $array['Timeleft'][$language]; ?> ' + temp[i]['contract_hos']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
+                          '</tr></table><hr>' ;
+
+                if(temp[i]['countMailHos']>0){
+                  for(var j = 0; j < temp[i]['countMailHos']; j++){
+                    var HptName = temp[0]['contract_hos']['HptName'];
+                    var StartDate = temp[j]['contract_hos']['StartDate'];
+                    var EndDate = temp[j]['contract_hos']['EndDate'];
+                    var email = temp[j]['contract_hos']['email'];
+                    var dateDiff = temp[j]['contract_hos']['dateDiff'];
+                    var RowID = temp[i]['contract_hos']['RowID'];
+                    if(temp[i]['contract_hos']['cntAcive'] == 0){
+                      var URL = '../process/sendMail_conHos.php';
+                      $.ajax({
+                        url: URL,
+                        method:"POST",
+                        data: 
+                        {
+                          HptName:HptName,
+                          StartDate:StartDate,
+                          EndDate:EndDate,
+                          email:email,
+                          dateDiff:dateDiff,
+                          RowID:RowID
+                        },
+                        success:function(data)
+                        {
+                          console.log['success'];
+                        }
+                      });
+                    }
+                  }
+                }
+              
+              
+              }
+              $("#conhos").html(result3);
+              $("#alert").modal('show');
+            }
           }
         }else{
           console.log(temp['msg']);
@@ -349,7 +409,10 @@ $array = json_decode($json,TRUE);
       font-family: 'THSarabunNew';
       font-size:22px;
     }
-
+    .modal-body{
+        height: 650px;
+        overflow-y: auto;
+    }
     .nfont{
       font-family: 'THSarabunNew';
       font-size:22px;
@@ -361,7 +424,9 @@ $array = json_decode($json,TRUE);
     .table > thead > tr >th {
       background-color: #1659a2;
     }
-
+    td, th{
+      border-top:none!important;
+    }
     table tr th,
     table tr td {
       border-right: 0px solid #bbb;
@@ -496,63 +561,33 @@ $array = json_decode($json,TRUE);
 </head>
 
 <body id="page-top">
-    <input type="hidden" id='countRow'>
-  <div id="wrapper">
-    <div id="content-wrapper">
-      <div style="margin-top:5px;margin-left:15px;width=100%"> <!-- start row tab -->
-        <div class="row"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6) echo 'hidden'; ?>>
-          <div class="col-md-12">
-            <div class="row" id="CardView"> </div>
-          </div>
+<input type="hidden" id='countRow'>
+<div id="wrapper">
+  <div id="content-wrapper">
+    <div style="margin-top:5px;margin-left:15px;width=100%"> <!-- start row tab -->
+      <div class="row"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6) echo 'hidden'; ?>>
+        <div class="col-md-12">
+          <div class="row" id="CardView"> </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div id="dd"> </div>
-          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="dd"> </div>
         </div>
+      </div>
 
-      </div> <!-- end row tab -->
-    </div>
-  </div>   
-
-  <!-- Modal -->
-<div class="modal fade" id="alert_SetPrice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content ">
-      <div class="modal-header">
-        <h1 class="modal-title" style='font-size:30px;color: rgb(0, 51, 141) '><?php echo $array['set'][$language]; ?></h1>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-      <table style="margin-top:10px;" class="table-borderless" id="result_alert" width="100%" cellspacing="0" role="grid" style="">
-        <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:auto">
-        </tbody>
-      </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
-    </div>
+    </div> <!-- end row tab -->
   </div>
-</div>
+</div>   
 
 <!-- Modal -->
-<div class="modal fade" id="alert_SetPrice1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content ">
-      <div class="modal-header">
-        <h1 class="modal-title" style='font-size:30px;color: rgb(0, 51, 141) '><?php echo $array['set'][$language]; ?></h1>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-      <table style="margin-top:10px;" class="table-borderless" id="result_alert1" width="100%" cellspacing="0" role="grid" style="">
-        <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:auto">
-        </tbody>
-      </table>
+      <div class="modal-body">
+        <div id='price'></div>
+        <div id='confac'></div>
+        <div id='conhos'></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
