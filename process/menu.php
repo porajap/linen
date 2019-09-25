@@ -249,6 +249,7 @@ function alert_SetPrice($conn,$DATA)
         DATEDIFF(ch.EndDate, ch.StartDate) AS dateDiff   
         FROM contract_parties_hospital ch 
         INNER JOIN site ON site.HptCode = ch.HptCode
+        WHERE ch.IsStatus = 0
         ORDER BY dateDiff ASC";
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

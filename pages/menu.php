@@ -410,7 +410,8 @@ $array = json_decode($json,TRUE);
       font-size:22px;
     }
     .modal-body{
-        height: 650px;
+        /* height: 650px; */
+        max-height:600px;
         overflow-y: auto;
     }
     .nfont{
@@ -554,7 +555,7 @@ $array = json_decode($json,TRUE);
 
     #alert_SetPrice .modal-body{
         width: 100% !important;
-        height: 600px;
+        /* height: 600px; */
         overflow-y: auto;
     }
   </style>
