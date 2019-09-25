@@ -636,14 +636,14 @@ $array2 = json_decode($json2,TRUE);
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                 StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
                                     "<td style='width: 3%;' nowrap>" + chkDoc + "</td>" +
-                                    "<td style='width: 5%;' nowrap>" + (i + 1) + "</td>" +
-                                    "<td style='width: 22%;' nowrap>" + temp[i]['FName'] + "</td>" +
-                                    "<td style='width: 10%;' nowrap>" + temp[i]['UserName'] + "</td>" +
-                                    "<td style='width: 10%;' nowrap>" + temp[i]['Password'] + "</td>" +
-                                    "<td style='width: 24%;' nowrap>" + email + "</td>" +
+                                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 5%;' nowrap >" + (i + 1) + "</td>" +
+                                    "<td style=' text-overflow: ellipsis;overflow: hidden; width: 22%;' nowrap title='"+temp[i]['FName']+"'>" + temp[i]['FName'] + "</td>" +
+                                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 10%;' nowrap title='"+temp[i]['UserName']+"'>" + temp[i]['UserName'] + "</td>" +
+                                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 10%;' nowrap title='"+temp[i]['Password']+"'>" + temp[i]['Password'] + "</td>" +
+                                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 24%;' nowrap title='"+email+"'>" + email + "</td>" +
                                     // "<td style='width: 8%;' nowrap class='text-center'>"+active_mail+"</td>" +
-									"<td style='width: 10%;' nowrap>" + temp[i]['Permission'] + "</td>" +
-									"<td style='width: 16%;' nowrap>" + temp[i]['HptName'] + "</td>" +
+									"<td style='text-overflow: ellipsis;overflow: hidden; width: 10%;' nowrap title='"+temp[i]['Permission']+"'>" + temp[i]['Permission'] + "</td>" +
+									"<td style='text-overflow: ellipsis;overflow: hidden; width: 16%;' nowrap title='"+temp[i]['HptName']+"'>" + temp[i]['HptName'] + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
