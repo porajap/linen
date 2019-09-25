@@ -1095,6 +1095,11 @@ $array2 = json_decode($json2,TRUE);
               $('#bImport').attr('disabled', false);
               $('#bPrint').attr('disabled', false);
               $('#barcode').attr('disabled', false);
+
+              $('#hover2').addClass('mhee');
+              $('#hover4').addClass('mhee');
+              $('#hover5').addClass('mhee');
+
               $('#bSave2').removeClass('opacity');
               $('#bImport2').removeClass('opacity');
               $('#bCancel2').removeClass('opacity');
@@ -1243,6 +1248,11 @@ $array2 = json_decode($json2,TRUE);
                 $("#bCancel").prop('disabled', false);
                 $("#bdetail").prop('disabled', true);
                 $("#barcode").prop('disabled', false);
+
+                $("#hover2").addClass('mhee');
+                $("#hover4").addClass('mhee');
+                $("#hover5").addClass('mhee');
+
                 $("#bImport2").removeClass('opacity');
                 $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
@@ -1257,6 +1267,8 @@ $array2 = json_decode($json2,TRUE);
                 $("#bCancel").prop('disabled', true);
                 $("#bdetail").prop('disabled', false);
                 $("#barcode").prop('disabled', false);
+                $("#hover4").addClass('mhee');
+                $("#hover6").addClass('mhee');
                 $("#bSave2").removeClass('opacity');
                 $("#bdetail2").removeClass('opacity');
               }else{
@@ -1265,6 +1277,12 @@ $array2 = json_decode($json2,TRUE);
                 $("#bSave").prop('disabled', true);
                 $("#bCancel").prop('disabled', true);
                 $("#bdetail").prop('disabled', true);
+                $("#hover2").removeClass('mhee');
+                $("#hover3").removeClass('mhee');
+                $("#hover4").removeClass('mhee');
+                $("#hover5").removeClass('mhee');
+                $("#hover6").removeClass('mhee');
+
                 $("#bImport2").addClass('opacity');
                 $("#bDelete2").addClass('opacity');
                 $("#bSave2").addClass('opacity');
@@ -1973,7 +1991,7 @@ $array2 = json_decode($json2,TRUE);
                         </div> <!-- tag column 1 -->
                         <!-- row btn -->
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
-                          <div class="menu"  >
+                          <div class="menu mhee"  id="hover1">
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
@@ -1985,7 +2003,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover2">
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport"disabled="true">
@@ -1997,7 +2015,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover3">
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
                                 <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
@@ -2009,7 +2027,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover4">
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center opacity" id="bSave2">
                                 <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
@@ -2024,7 +2042,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu"  id="hover5">
                             <div class="d-flex justify-content-center">
                               <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
                                 <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
@@ -2037,7 +2055,7 @@ $array2 = json_decode($json2,TRUE);
                             </div>
                           </div>
 
-                          <div class="menu"  >
+                          <div class="menu"  id="hover6">
                             <div class="d-flex justify-content-center">
                               <div class="circle7 d-flex justify-content-center opacity" id="bdetail2">
                                 <button class="btn" onclick="draw()" id="bdetail"disabled="true">
@@ -2049,7 +2067,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu mhee"  id="hover7">
                             <div class="d-flex justify-content-center">
                               <div class="circle9 d-flex justify-content-center">
                                 <button class="btn" onclick="PrintData()" >
@@ -2061,7 +2079,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  >
+                          <div class="menu mhee"  id="hover8">
                             <div class="d-flex justify-content-center">
                               <div class="circle8 d-flex justify-content-center">
                                 <button class="btn" onclick="PrintstickerModal()" id="bPrintsticker" >
