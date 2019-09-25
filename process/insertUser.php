@@ -9,7 +9,7 @@ if($Userid==""){
     $count = 0;
     $UsID = $_POST['UsID'];
     $UserName = $_POST['UserName'];
-    $Password = $_POST['Password'];
+    $Password = md5($_POST['Password']);
     $host = $_POST['host'];
     $department = $_POST['department'];
     $FName = $_POST['FName'];
