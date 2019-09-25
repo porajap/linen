@@ -458,6 +458,7 @@ $array2 = json_decode($json2,TRUE);
         ShowItem();
         $('#bCancel').attr('disabled', true);
         $('#delete_icon').addClass('opacity');
+        $('#delete1').removeClass('mhee');
       }
 
       function getdetail(UnitCode , row) {
@@ -658,6 +659,7 @@ $array2 = json_decode($json2,TRUE);
                                 //$('#IsStatus').val(temp['IsStatus']);
                                 $('#bCancel').attr('disabled', false);
                                 $('#delete_icon').removeClass('opacity');
+                                $('#delete1').addClass('mhee');
                               }
                             }else if( (temp["form"]=='AddItem') ){
                               switch (temp['msg']) {
@@ -1115,7 +1117,7 @@ $array2 = json_decode($json2,TRUE);
    <!-- =================================================================== -->
 <!-- /.content-wrapper -->
 <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                          <div class="menu" <?php if($PmID == 3) echo 'hidden'; ?>>
+                          <div class="menu mhee" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -1127,7 +1129,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu">
+                          <div class="menu mhee">
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
                                 <button class="btn" onclick="Blankinput()" id="bDelete">
@@ -1139,7 +1141,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"<?php if($PmID == 3) echo 'hidden'; ?>>
+                          <div class="menu"id="delete1" <?php if($PmID == 3) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">

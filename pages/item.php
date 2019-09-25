@@ -71,6 +71,7 @@ $array2 = json_decode($json2, TRUE);
     var summary = [];
     $(document).ready(function(e) {
       $('#delete_icon').addClass('opacity');
+      $('#delete1').removeClass('mhee');
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -895,6 +896,7 @@ $array2 = json_decode($json2, TRUE);
       ShowItem();
       $('#bCancel').attr('disabled', true);
       $('#delete_icon').addClass('opacity');
+      $('#delete1').removeClass('mhee');
       $('#NewItem').show();
       $('#AddItemBNT').hide();
       CreateItemCode();
@@ -1632,6 +1634,7 @@ $array2 = json_decode($json2, TRUE);
                 $('#sUnitName').val(temp[0]['sUnitName']);
                 $('#bCancel').attr('disabled', false);
                 $('#delete_icon').removeClass('opacity');
+                $('#delete1').addClass('mhee');
 
                 if (temp[0]['IsDirtyBag'] == 1)  {
                   $('#xCenter').prop('checked', true);
@@ -2346,7 +2349,7 @@ $array2 = json_decode($json2, TRUE);
             <div id="memu_tap1">
 
               <div class="row m-1 mt-5 d-flex justify-content-end" >
-                <div class="menu" id="ActiveBNT" <?php if($PmID != 6) echo 'hidden'; ?>>
+                <div class="menu mhee" id="ActiveBNT" <?php if($PmID != 6) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="NewItem()" id="bSave">
@@ -2359,7 +2362,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu" id="NewItem" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
+                <div class="menu mhee" id="NewItem" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="NewItem()" id="bSave">
@@ -2372,7 +2375,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu" id="AddItemBNT" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
+                <div class="menu mhee" id="AddItemBNT" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -2384,7 +2387,7 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" id="BlankItemBNT">
+                          <div class="menu mhee" id="BlankItemBNT">
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
                                 <button class="btn" onclick="Blankinput()" id="bDelete">
@@ -2396,7 +2399,7 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" id="CancelBNT" <?php if($PmID != 6  && $PmID != 1) echo 'hidden'; ?> >
+                          <div class="menu mhee" id="delete1" id="CancelBNT" <?php if($PmID != 6  && $PmID != 1) echo 'hidden'; ?> >
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
