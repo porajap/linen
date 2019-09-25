@@ -133,7 +133,7 @@ function login_again($conn, $DATA)
 {
   $Userid = $DATA['Userid'];
   $Username = $DATA['Username'];
-  $Password = $DATA['Password'];
+  $Password = md5($DATA['Password']);
   $boolean = false;
 
   $Sql1 = "SELECT COUNT(ID) AS cnt FROM users WHERE ID = $Userid AND Username = '$Username' AND Password = '$Password' LIMIT 1";
