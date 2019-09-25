@@ -207,6 +207,7 @@ $array2 = json_decode($json2,TRUE);
       })
     }
 
+
     function senddata(data){
        var form_data = new FormData();
        form_data.append("DATA",data);
