@@ -287,7 +287,6 @@ function alert_SetPrice($conn,$DATA)
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
-
         if($lang == 'th'){
           if($lang == 'th'){
             $date = explode("-", $Result['StartDate']);
@@ -303,7 +302,6 @@ function alert_SetPrice($conn,$DATA)
           $date2 = explode("-", $Result['EndDate']);
           $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
         }
-
         $return[$count3]['contract_hos']['HptName'] = $Result['HptName'];
         $return[$count3]['contract_hos']['StartDate'] = $newdate;
         $return[$count3]['contract_hos']['EndDate'] = $newdate2;
