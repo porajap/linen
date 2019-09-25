@@ -113,6 +113,7 @@ function alert_SetPrice($conn,$DATA)
   $PmID = $DATA['PmID'];
   $HptCode = $DATA['HptCode'];
   $Userid = $DATA['Userid'];
+  $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
   if($PmID == 1){
@@ -156,10 +157,27 @@ function alert_SetPrice($conn,$DATA)
 
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
+
+      if($lang == 'th'){
+        if($lang == 'th'){
+          $date = explode("-", $Result['StartDate']);
+          $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+      
+          $date2 = explode("-", $Result['EndDate']);
+          $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
+        }
+      }else if($lang == 'en'){
+        $date = explode("-", $Result['StartDate']);
+        $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+    
+        $date2 = explode("-", $Result['EndDate']);
+        $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      }
+
       $return[$count]['set_price']['HptCode'] = $Result['HptCode'];
       $return[$count]['set_price']['HptName'] = $Result['HptName'];
-      $return[$count]['set_price']['StartDate'] = $Result['StartDate'];
-      $return[$count]['set_price']['EndDate'] = $Result['EndDate'];
+      $return[$count]['set_price']['StartDate'] = $newdate;
+      $return[$count]['set_price']['EndDate'] = $newdate2;
       $return[$count]['set_price']['DocNo'] = $Result['DocNo'];
       $return[$count]['set_price']['xDate'] = $Result['xDate'];
       $return[$count]['set_price']['dateDiff'] = $Result['dateDiff'];
@@ -202,9 +220,24 @@ function alert_SetPrice($conn,$DATA)
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
+        if($lang == 'th'){
+          if($lang == 'th'){
+            $date = explode("-", $Result['StartDate']);
+            $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+        
+            $date2 = explode("-", $Result['EndDate']);
+            $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
+          }
+        }else if($lang == 'en'){
+          $date = explode("-", $Result['StartDate']);
+          $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+      
+          $date2 = explode("-", $Result['EndDate']);
+          $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        }
         $return[$count2]['contract_fac']['FacName'] = $Result['FacName'];
-        $return[$count2]['contract_fac']['StartDate'] = $Result['StartDate'];
-        $return[$count2]['contract_fac']['EndDate'] = $Result['EndDate'];
+        $return[$count2]['contract_fac']['StartDate'] = $newdate;
+        $return[$count2]['contract_fac']['EndDate'] = $newdate2;
         $return[$count2]['contract_fac']['dateDiff'] = $Result['dateDiff'];
         $return[$count2]['contract_fac']['RowID'] = $Result['RowID'];
         $DateDiff = $Result['dateDiff'];
@@ -254,9 +287,26 @@ function alert_SetPrice($conn,$DATA)
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
+
+        if($lang == 'th'){
+          if($lang == 'th'){
+            $date = explode("-", $Result['StartDate']);
+            $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
+        
+            $date2 = explode("-", $Result['EndDate']);
+            $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
+          }
+        }else if($lang == 'en'){
+          $date = explode("-", $Result['StartDate']);
+          $newdate = $date[2].'-'.$date[1].'-'.$date[0];
+      
+          $date2 = explode("-", $Result['EndDate']);
+          $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        }
+
         $return[$count3]['contract_hos']['HptName'] = $Result['HptName'];
-        $return[$count3]['contract_hos']['StartDate'] = $Result['StartDate'];
-        $return[$count3]['contract_hos']['EndDate'] = $Result['EndDate'];
+        $return[$count3]['contract_hos']['StartDate'] = $newdate;
+        $return[$count3]['contract_hos']['EndDate'] = $newdate2;
         $return[$count3]['contract_hos']['dateDiff'] = $Result['dateDiff'];
         $return[$count3]['contract_hos']['RowID'] = $Result['RowID'];
         $DateDiff = $Result['dateDiff'];
