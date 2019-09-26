@@ -51,7 +51,7 @@ function getdetail($conn, $DATA)
     $id = $DATA['id'];
     //---------------HERE------------------//
     $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName ,
-            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH
+            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government
             FROM
             site
             LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
@@ -71,6 +71,8 @@ function getdetail($conn, $DATA)
       $return['permission'] = $Result['permission'];
       $return['Number'] = $Result['Number'];
       $return['HptNameTH'] = $Result['HptNameTH'];
+      $return['private'] = $Result['private'];
+      $return['government'] = $Result['government'];
 
       //$return['IsStatus'] = $Result['IsStatus'];
       $count++;
@@ -128,6 +130,9 @@ function AddItem($conn, $DATA)
   $Position = $DATA['Position'];
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
+  $xcenter1 = $DATA['xcenter1'];
+  $xcenter2 = $DATA['xcenter2'];
+
   // ==============================================
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
@@ -141,7 +146,7 @@ function AddItem($conn, $DATA)
 
   if($HptCode1== " "){
     $count = 0;
-    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH) VALUE ('$HptCode','$HptName',0 ,'$HptNameTH')";
+    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government) VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2)";
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
     $return['form'] = "AddItem";
@@ -157,7 +162,7 @@ function AddItem($conn, $DATA)
     die;
   }
   }else{
-      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' WHERE site.HptCode = '$HptCode1'";
+      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' , site.private = $xcenter1 , site.government= $xcenter2  WHERE site.HptCode = '$HptCode1'";
       if(mysqli_query($conn, $Sql)){
         $return['status'] = "success";
         $return['form'] = "AddItem";

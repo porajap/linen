@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+<private><en>Please choose date of the form</en><th>เอกชน</th></private>
+<government><en>Please choose date of the form</en><th>รัฐบาล</th></government>
+
 <insert_date><en>Please choose date of the form</en><th>กรุณาเลือกแบบฟอร์มวันที่</th></insert_date>
 <ppu><en>PPU</en><th>PPU</th></ppu>
 <prin><en>Print</en><th>พิมพ์</th></prin>

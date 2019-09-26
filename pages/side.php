@@ -361,6 +361,14 @@ $array2 = json_decode($json2,TRUE);
         var HptCode = $('#HptCode').val();
         var HptName = $('#HptName').val();
         var HptNameTH = $('#HptNameTH').val();
+        var xcenter1 = 0;
+        var xcenter2 = 0;
+        if ($('#xcenter1').is(':checked')) 
+        {
+          xcenter1 = 1
+        }else{
+          xcenter2 = 1
+        };
         if(count==0){
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -392,7 +400,9 @@ $array2 = json_decode($json2,TRUE);
                   'phone' : phone,
                   'HptName' : HptName,
                   'idcontract' : idcontract,
-                  'HptNameTH' : HptNameTH
+                  'HptNameTH' : HptNameTH,
+                  'xcenter1' : xcenter1,
+                  'xcenter2' : xcenter2
                 };
 
                 console.log(JSON.stringify(data));
@@ -600,6 +610,8 @@ $array2 = json_decode($json2,TRUE);
         $('#rem5').hide();
         $('#rem6').hide();
         $('#rem7').hide();
+        $('#xcenter1').prop('checked', false);
+        $('#xcenter2').prop('checked', false);
         $('#hostdetail').attr('hidden', true);
        $('#hostdetail55').attr('hidden', false);
         $('.checkblank').each(function() {
@@ -864,7 +876,16 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hostdetail').attr('hidden', false);
                                 $('#hostdetail55').attr('hidden', true);
                                 $('#host').removeClass('checkblank3');
-
+                                if (temp['private'] == 1)  {
+                                $('#xcenter1').prop('checked', true);
+                                $('#xcenter2').prop('checked', false);
+                              }else if(temp['government'] == 1){
+                                $('#xcenter1').prop('checked', false);
+                                $('#xcenter2').prop('checked', true);
+                              }else{
+                                $('#xcenter1').prop('checked', false);
+                                $('#xcenter2').prop('checked', false);
+                              }
 
                                 
                               }
@@ -1437,6 +1458,25 @@ $array2 = json_decode($json2,TRUE);
                                       <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
+                                </div>
+                                <div class="row" >
+                                <div class="col-md-6">
+                            <div class='form-group row offset-6' style="padding-left: 5%;">
+
+                              <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
+                              <input type="radio"  id="xcenter1" name="xcenter">
+                              <span class="checkmark"></span>
+                              </label>
+                              <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['private'][$language]; ?></label>
+                              <label class="radio" style="margin:0px !important;">
+                              <input type="radio"  id="xcenter2" name="xcenter">
+                              <span class="checkmark"></span>
+                              </label>
+                              <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['government'][$language]; ?></label>
+
+  
+                            </div>
+                          </div>
                                 </div>  
                               </div>
 <!-- =============================================================================================== -->
