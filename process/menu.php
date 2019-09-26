@@ -212,7 +212,7 @@ function alert_SetPrice($conn,$DATA)
   $count2 = 0;
   if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
     $Sql = "SELECT cf.RowID, factory.FacCode, factory.FacName, cf.StartDate, cf.EndDate,
-        DATEDIFF(cf.EndDate, cf.StartDate) AS dateDiff   
+        DATEDIFF(cf.EndDate, DATE(NOW())) AS dateDiff   
         FROM contract_parties_factory cf 
         INNER JOIN factory ON factory.FacCode = cf.FacCode
         WHERE cf.IsStatus = 0
@@ -279,7 +279,7 @@ function alert_SetPrice($conn,$DATA)
   $count3 = 0;
   if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
     $Sql = "SELECT site.HptName, ch.RowID, ch.StartDate, ch.EndDate, 
-        DATEDIFF(ch.EndDate, ch.StartDate) AS dateDiff   
+        DATEDIFF(ch.EndDate, DATE(NOW())) AS dateDiff   
         FROM contract_parties_hospital ch 
         INNER JOIN site ON site.HptCode = ch.HptCode
         WHERE ch.IsStatus = 0
