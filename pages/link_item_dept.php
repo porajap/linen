@@ -153,7 +153,8 @@ $array2 = json_decode($json2,TRUE);
           });
         }else{
           $('#bSave').attr('disabled', false);
-          $('#delete_icon').removeClass('opacity');
+          $('#hover1').removeClass('opacity');
+          $('#hover1').addClass('mhee1');
           console.log($('#checkitem_'+ItemCode));
           if($('#checkitem_'+ItemCode).is(":checked")){
             $('#checkitem_'+ItemCode).prop('checked', true);
@@ -1699,7 +1700,7 @@ $array2 = json_decode($json2,TRUE);
                       </button>
                     </div>
                   </div>
-                  <div class="menuMini  ml-2">
+                  <div class="menuMini  ml-2 mhee1">
                     <div class="circle5 d-flex justify-content-start">
                       <button class="btn"  onclick="DeleteItem()" >
                         <i class="fas fa-trash-alt mr-2"></i>
@@ -1707,7 +1708,7 @@ $array2 = json_decode($json2,TRUE);
                       </button>
                     </div>
                   </div>
-                  <div class="menuMini  ml-2">
+                  <div class="menuMini  ml-2 mhee1">
                     <div class="search_1 d-flex justify-content-start">
                       <button class="btn"  onclick="ShowItemStock()" >
                       <i class="fas fa-search mr-2"></i>
@@ -1738,7 +1739,7 @@ $array2 = json_decode($json2,TRUE);
             </table>
           </div>
           <div class="col-1 d-flex justify-content-center">
-            <div class="menuMini" <?php if($PmID == 3) echo 'hidden'; ?>>
+            <div class="menuMini opacity"  id="hover1" <?php if($PmID == 3) echo 'hidden'; ?>>
               <div class="d-flex justify-content-center">
                 <div class="circle4 d-flex justify-content-center">
                   <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true">

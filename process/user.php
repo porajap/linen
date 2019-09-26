@@ -11,11 +11,13 @@ function ShowItem($conn, $DATA)
   $department2 = $DATA['department2'];
   $xHptCode = $DATA['HptCode'];
   $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   if($xHptCode==""){
     $xHptCode = $HptCode1;
   }
 
   $Keyword = $DATA['Keyword'];
+  if($PmID != 3){
   $Sql="SELECT users.ID,users.FName,users.`Password`,users.UserName,users.email,users.Active_mail,
         permission.Permission, HptName , DepName
         FROM users
@@ -29,6 +31,21 @@ function ShowItem($conn, $DATA)
             $Sql .= "AND site.HptCode = '$xHptCode'";
           }
           $return['sql'] = $Sql;
+    }else{
+      $Sql="SELECT users.ID,users.FName,users.`Password`,users.UserName,users.email,users.Active_mail,
+      permission.Permission, HptName , DepName
+      FROM users
+      INNER JOIN permission ON users.PmID = permission.PmID
+      INNER JOIN site ON site.HptCode = users.HptCode
+      INNER JOIN department ON department.DepCode = users.DepCode
+      WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%') AND  (Permission ='user' || Permission ='manager')";
+        if ($department2 != "") {
+          $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
+        }else{
+          $Sql .= "AND site.HptCode = '$xHptCode'";
+        }
+        $return['sql'] = $Sql;
+    }
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

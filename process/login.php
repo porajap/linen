@@ -154,8 +154,8 @@ function sendmail($conn,$DATA)
     $email = $DATA['email'];
     $user = $DATA['user'];
     $newpassword = rand_string(5);
-
-    $Sql = "UPDATE users SET users.`Password` = '$newpassword', Count = 0, users.IsActive = 0 WHERE  users.Username = '$user'";
+    $newpassword2 = md5($newpassword);
+    $Sql = "UPDATE users SET users.`Password` = '$newpassword2', Count = 0, users.IsActive = 0 WHERE  users.Username = '$user'";
     $Chk = mysqli_query($conn,$Sql);
     if($Chk){
         $Sql = "SELECT users.UserName, users.Password, users.FName
@@ -164,7 +164,7 @@ function sendmail($conn,$DATA)
         $meQuery = mysqli_query($conn,$Sql);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $return['UserName'] = $Result['UserName'];
-          $return['Password'] = $Result['Password'];
+          $return['Password'] = $newpassword;
           $return['FName']    = $Result['FName'];
         }
         $return['status'] = "success";
