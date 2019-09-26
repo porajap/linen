@@ -383,6 +383,39 @@ $array = json_decode($json,TRUE);
               $("#conhos").html(result3);
               $("#alert").modal('show');
             }
+            if(temp['countpercent']>0){
+              for (var i = 0; i < temp['countpercent']; i++) {
+                if(temp[i]['countMailpercent']>0){
+                  for(var j = 0; j < temp[i]['countMailpercent']; j++){
+                    var HptName = temp[0]['percent']['HptName'];
+                    var Total1 = temp[j]['percent']['Total1'];
+                    var Total2 = temp[j]['percent']['Total2'];
+                    var Precent = temp[i]['percent']['Precent'];
+                    var email = temp[j]['percent']['email'];
+
+                      var URL = '../process/sendMail_percent.php';
+                      $.ajax({
+                        url: URL,
+                        method:"POST",
+                        data: 
+                        {
+                          HptName:HptName,
+                          Total1:Total1,
+                          Total2:Total2,
+                          Precent:Precent,
+                          email:email
+                        },
+                        success:function(data)
+                        {
+                          console.log['success'];
+                        }
+                      });
+                  }
+                }
+              
+              
+              }
+            }
           }
         }else{
           console.log(temp['msg']);

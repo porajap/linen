@@ -341,8 +341,56 @@ function alert_SetPrice($conn,$DATA)
   }
   $return['countHos'] = $count3;
   #-------------------------------------------------------------------------------------
-
-
+  $count4 = 0;
+  if($PmID == 1 ){
+    $Sql = "SELECT
+    site.HptName,
+    department.DepName,
+    dirty.DocNo AS DocNo1,
+    DATE(dirty.DocDate) AS DocDate1,
+    dirty.Total AS Total1,
+    clean.DocNo AS DocNo2,
+    DATE(clean.DocDate) AS DocDate2,
+    clean.Total AS Total2,
+    ROUND( (((clean.Total - dirty.Total )/dirty.Total)*100), 2)  AS Precent,
+		clean.sendmail
+    FROM clean
+    INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
+    INNER JOIN department ON clean.DepCode = department.DepCode
+    INNER JOIN site ON department.HptCode = site.HptCode
+    ORDER BY clean.DocNo DESC LIMIT 100";
+    $meQueryPercent = mysqli_query($conn,$Sql);
+    while ($ResultPercent = mysqli_fetch_assoc($meQueryPercent)) {
+      $percent 	= $ResultPercent['Precent'];
+      $DocNoClean 	= $ResultPercent['DocNo2'];
+      $sendmail 	= $ResultPercent['sendmail'];
+      if($percent > 8 && $sendmail ==0){
+        $return[$count4]['percent']['Total1'] 	= $ResultPercent['Total1'];
+        $return[$count4]['percent']['Total2'] 	= $ResultPercent['Total2'];
+        $return[$count4]['percent']['Precent'] 	= $ResultPercent['Precent'];
+        $SqlUp="UPDATE clean SET sendmail = 1 WHERE DocNo = '$DocNoClean'";
+        $meQuery = mysqli_query($conn,$SqlUp);
+        $i = 0;
+        if($meQuery = mysqli_query($conn,$SqlUp)){
+        $SelectMail1 = "SELECT users.email, 	site.HptName
+            FROM users
+            INNER JOIN site ON site.HptCode = users.HptCode
+            WHERE users.HptCode = '$HptCode'
+            AND users.PmID = 1
+            AND email IS NOT NULL AND NOT email = ''";
+            $SQuery1 = mysqli_query($conn,$SelectMail1);
+            while ($SResult1 = mysqli_fetch_assoc($SQuery1)) {
+              $return[$i]['percent']['email'] = $SResult1['email'];
+              $return[0]['percent']['HptName'] = $SResult1['HptName'];
+              $i++;
+            }
+            $return[$count4]['countMailpercent'] = $i;
+            $count4++;
+      }
+    }
+  }
+}
+  $return['countpercent'] = $count4;
   $return['status'] = "success";
   $return['form'] = "alert_SetPrice";
   echo json_encode($return);

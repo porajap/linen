@@ -97,9 +97,9 @@ function cPassword($conn,$DATA)
   if (isset($DATA)) {
     $Cnt1 = 0;
     $Cnt2 = 0;
-    $oldpassword = $DATA['oldpassword'];
-    $newpassword = $DATA['newpassword'];
-    $confirmpassword = $DATA['confirmpassword'];
+    $oldpassword = md5($DATA['oldpassword']);
+    $newpassword = md5($DATA['newpassword']);
+    $confirmpassword = md5($DATA['confirmpassword']);
     $Username = $DATA['Username'];
     $boolean = false;
     $Sql = "SELECT users.ID

@@ -22,7 +22,7 @@
     <div id="oldCh">
         <div class="form-group bmd-form-group">
             <label for="oldpassword" id="label_old" class="bmd-label-floating">Old Password</label>
-            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="oldpassword" value="<?php echo $password;?>" required> 
+            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="oldpassword"  required> 
         </div>
     </div>
     <div id="newCh">
