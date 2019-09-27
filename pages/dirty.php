@@ -1347,14 +1347,34 @@ $array2 = json_decode($json2,TRUE);
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
                   for (var i = 0; i < temp["CountDep"]; i++) {
+
+                    var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
+                    var nUnit = temp[i]['UnitName'];
+                    for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
+                      if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
+                        chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                      }else{
+                        chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                      }
+                    }
+                    chkunit += "</select>";
+
+                    var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
+
+                    var Qty = "<input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'>";
+
+                    var Weight = "<input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
+
+                    var Price = "<input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
+
                     var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem'><span class='checkmark'></span></label>";
-                    DataRow += "<tr><td style='width:3%;'>"+chkItem+"</td>";
-                    DataRow += "<td style='width:6%;'>"+(i+1)+"</td>";
-                    DataRow += "<td style='width:18%'>"+temp[i]['DepName']+"</td>";
-                    DataRow += "<td style='width:21%;'>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width:27%;'></td>"+
-                    "<td style='width:5%;'></td>"+
-                    "<td style='width:20%;'></td></<tr>";
+                    DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
+                    DataRow += "<td style='width:6%;' nowrap>"+(i+1)+"</td>";
+                    DataRow += "<td style='width:18%' nowrap>"+temp[i]['DepName']+"</td>";
+                    DataRow += "<td style='width:21%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width:22%;' nowrap><center>"+chkunit+"</center></td>"+
+                    "<td style='width:10%;' nowrap><center>"+Qty+"</center></td>"+
+                    "<td style='width:20%;' nowrap><center>"+Weight+"</center></td></<tr>";
                   }
                   $("#TableItemDetail tbody").html(DataRow);
                   $('.numonly').on('input', function() {
@@ -1812,8 +1832,8 @@ $array2 = json_decode($json2,TRUE);
                               <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['department'][$language]; ?></th>
                               <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 5%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
+                              <th style='width: 22%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 10%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                                   </thead>
                                   <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

@@ -925,13 +925,7 @@ function ShowDetailDoc($conn, $DATA)
   $boolean = false;
   $DocNo = $DATA["DocNo"];
   //==========================================================
-  $Sql = "SELECT  dirty_detail.DepCode,department.DepName 
-  FROM dirty_detail  
-  INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-  WHERE dirty_detail.DocNo = '$DocNo' GROUP BY dirty_detail.DepCode ORDER BY dirty_detail.DepCode ASC";
-  $sQuery = mysqli_query($conn, $Sql);
-  while ($sResult = mysqli_fetch_assoc($sQuery)) {
-    $count2 = 0;
+
     $SqlItem = "SELECT dirty_detail.Id, dirty_detail.ItemCode, item.ItemName, item.UnitCode AS UnitCode1,
       item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, dirty_detail.Weight, dirty_detail.Qty, item.UnitCode,
       department.DepCode, department.DepName
@@ -941,18 +935,19 @@ function ShowDetailDoc($conn, $DATA)
       INNER JOIN department ON department.DepCode = dirty_detail.DepCode
       INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
       WHERE dirty_detail.DocNo = '$DocNo'
-      ORDER BY dirty_detail.Id ASC";
-    $meQuery = mysqli_query($conn, $SqlItem);
+      ORDER BY dirty_detail.DepCode ASC";
+      $meQuery = mysqli_query($conn, $SqlItem);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count1]['RowID']      = $Result['Id'];
-      $return[$count1]['ItemCode']   = $Result['ItemCode'];
-      $return[$count1]['ItemName']   = $Result['ItemName'];
-      $return[$count1]['UnitCode']   = $Result['UnitCode2'];
-      $return[$count1]['UnitName']   = $Result['UnitName'];
+      $count2 = 0;
+      $return[$count1]['RowID']     = $Result['Id'];
+      $return[$count1]['ItemCode']  = $Result['ItemCode'];
+      $return[$count1]['ItemName']  = $Result['ItemName'];
+      $return[$count1]['UnitCode']  = $Result['UnitCode2'];
+      $return[$count1]['UnitName']  = $Result['UnitName'];
       $return[$count1]['DepCode']   = $Result['DepCode'];
       $return[$count1]['DepName']   = $Result['DepName'];
-      $return[$count1]['Weight']     = $Result['Weight'];
-      $return[$count1]['Qty']         = $Result['Qty'];
+      $return[$count1]['Weight']    = $Result['Weight'];
+      $return[$count1]['Qty']       = $Result['Qty'];
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
 
@@ -976,7 +971,7 @@ function ShowDetailDoc($conn, $DATA)
             $return[$m2][$count2] = $xResult['UnitCode'];
             $return[$m3][$count2] = $xResult['UnitName'];
             $return[$m4][$count2] = $xResult['Multiply'];
-            $count3++;
+            $count2++;
           }
         }else{
           $xSql = "SELECT 
@@ -997,22 +992,17 @@ function ShowDetailDoc($conn, $DATA)
             $return[$m2][$count2] = $xResult['UnitCode'];
             $return[$m3][$count2] = $xResult['UnitName'];
             $return[$m4][$count2] = 1;
-            $count3++;
+            $count2++;
           }
         }
       }
       $return[$m5][$count] = $count2;
       //================================================================
       $Total += $Result['Weight'];
-      $count2++;
+      $count1++;
     }
-    $return[$m5][$count] = $count2;
-    //================================================================
-    $Total += $Result['Weight'];
-    //================================================================
-    $count1++;
-    $boolean = true;
-  }
+    
+  
   $return['CountDep'] = $count1;
   $return['status'] = "success";
   $return['form'] = "ShowDetailDoc";
