@@ -772,7 +772,6 @@ function ShowDetail($conn, $DATA)
   INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
   WHERE dirty_detail.DocNo = '$DocNo'
   ORDER BY dirty_detail.Id DESC";
-  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['RowID']      = $Result['Id'];
@@ -791,7 +790,6 @@ function ShowDetail($conn, $DATA)
 
     
     while ($MResult = mysqli_fetch_assoc($MQuery)) {
-      $return['sql'] = $countM;
       if($MResult['cnt']!=0){
         $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
         FROM item_multiple_unit
@@ -962,10 +960,10 @@ function ShowDetailDoc($conn, $DATA)
         WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
         $xQuery = mysqli_query($conn, $xSql);
         while ($xResult = mysqli_fetch_assoc($xQuery)) {
-          $m1 = "MpCode_" . $ItemCode . "_" . $count;
-          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
-          $m3 = "UnitName_" . $ItemCode . "_" . $count;
-          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m1 = "MpCode_" . $ItemCode . "_" . $count1;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count1;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count1;
           $m5 = "Cnt_" . $ItemCode;
 
           $return[$m1][$count2] = $xResult['MpCode'];
@@ -983,10 +981,10 @@ function ShowDetailDoc($conn, $DATA)
         WHERE item.ItemCode = '$ItemCode'";
         $xQuery = mysqli_query($conn, $xSql);
         while ($xResult = mysqli_fetch_assoc($xQuery)) {
-          $m1 = "MpCode_" . $ItemCode . "_" . $count;
-          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
-          $m3 = "UnitName_" . $ItemCode . "_" . $count;
-          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m1 = "MpCode_" . $ItemCode . "_" . $count1;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count1;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count1;
           $m5 = "Cnt_" . $ItemCode;
 
           $return[$m1][$count2] = 1;
@@ -997,10 +995,10 @@ function ShowDetailDoc($conn, $DATA)
         }
       }
     }
-    $return[$m5][$count] = $count2;
-    $count++;
-    $boolean = true;
-  $return['Row'] = $count;
+      $return[$m5][$count1] = $count2;
+      $count++;
+      $boolean = true;
+      $return['Row'] = $count1;
       //================================================================
       $Total += $Result['Weight'];
       $count1++;
