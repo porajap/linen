@@ -859,7 +859,7 @@ $array2 = json_decode($json2,TRUE);
                       var PmID = <?php echo $PmID;?>;
                       var HptCode = '<?php echo $HptCode;?>';
                       $('#getHot').val(temp[0]['HptCode']);
-                      var Str1 = "<option value='' selected>-</option>";
+                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
                       for (var i = 0; i < temp["Row"]; i++) {
                         var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
                          Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
@@ -868,7 +868,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#Hos2").append(Str1);
 
                       $("#factory").empty();
-                      var Str = "<option value='' selected>-</option>";
+                      var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
                       for (var i = 0; i < temp["Rowx"]; i++) {
                         Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                       }
@@ -881,7 +881,7 @@ $array2 = json_decode($json2,TRUE);
                     }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
-                      var Str2 = "<option value='' selected>-</option>";
+                      var Str2 = "<option value='' selected><?php echo $array['selectdep'][$language]; ?></option>";
                       for (var i = 0; i < temp["Row"]; i++) {
                         // var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
@@ -1682,7 +1682,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                            <input type="text" autocomplete="off" style="font-size:22px;" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                            <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                             </div>
                           </div>
                           <div class="col-md-6 mhee">
