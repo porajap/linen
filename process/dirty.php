@@ -106,7 +106,6 @@ function CreateDocument($conn, $DATA)
   $boolean = false;
   $count = 0;
   $hotpCode = $DATA["hotpCode"];
-  $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
   $FacCode   = $DATA["FacCode"];
   $lang = $_SESSION['lang'];
@@ -114,15 +113,10 @@ function CreateDocument($conn, $DATA)
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT CONCAT('DT',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
-  LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
-  CURRENT_TIME() AS RecNow
-  FROM dirty
-  INNER JOIN department on dirty.DepCode = department.DepCode
-  WHERE DocNo Like CONCAT('DT',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
-  AND department.HptCode = '$hotpCode'
-  ORDER BY DocNo DESC LIMIT 1";
-
+  $Sql = "SELECT CONCAT( 'DT', lpad('BHQ', 3, 0), SUBSTRING(YEAR(DATE(NOW())), 3, 4), LPAD(MONTH(DATE(NOW())), 2, 0), '-' ,  LPAD(
+			( COALESCE ( 	MAX( CONVERT ( SUBSTRING(DocNo, 12, 5), UNSIGNED INTEGER ) ), 0 ) + 1 ), 5, 0 ) ) AS DocNo, DATE(NOW()) AS DocDate ,  CURRENT_TIME () AS RecNow  
+      FROM dirty   INNER JOIN site ON site.HptCode = dirty.HptCode WHERE DocNo LIKE CONCAT( 'DT', lpad('BHQ', 3, 0), 
+      SUBSTRING(YEAR(DATE(NOW())), 3, 4), LPAD(MONTH(DATE(NOW())), 2, 0), '%' ) AND site.HptCode = '$hotpCode'  ORDER BY DocNo DESC LIMIT 1";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -143,38 +137,31 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
   }
 
-  if ($count == 1) {
-    $Sql = "INSERT INTO dirty
-      ( DocNo,DocDate,DepCode,RefDocNo,
-		TaxNo,TaxDate,DiscountPercent,DiscountBath,
-		Total,IsCancel,Detail,
-		dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode )
-      VALUES
-      ( '$DocNo',NOW(),$deptCode,'',
-		0,NOW(),0,0,
-		0,0,'',
-		$userid,NOW(),$FacCode )";
-    mysqli_query($conn,$Sql);
+    if ($count == 1) {
+      $Sql = "INSERT INTO dirty
+        ( DocNo,DocDate,HptCode,RefDocNo, TaxNo,TaxDate,DiscountPercent,DiscountBath, Total,IsCancel,Detail, dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode )
+        VALUES ( '$DocNo',NOW(),'$hotpCode','', 0,NOW(),0,0, 0,0,'', $userid,NOW(), $FacCode )";
+      mysqli_query($conn,$Sql);
 
-      $Sql = "INSERT INTO daily_request
-  (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
-  VALUES
-  ('$DocNo',DATE(NOW()),$deptCode,'','Dirty',$userid,DATE(NOW()))";
-      mysqli_query($conn, $Sql);
+        $Sql = "INSERT INTO daily_request
+        (DocNo,DocDate,HptCode,RefDocNo,Detail,Modify_Code,Modify_Date)
+        VALUES
+        ('$DocNo',DATE(NOW()),'$hotpCode','','Dirty',$userid,DATE(NOW()))";
+        mysqli_query($conn, $Sql);
 
-      $Sql = "SELECT users.FName
-      FROM users
-      WHERE users.ID = $userid";
+        $Sql = "SELECT users.FName
+        FROM users
+        WHERE users.ID = $userid";
 
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $DocNo = $Result['DocNo'];
-        $return[0]['Record']   = $Result['FName'];
-      }
+        $meQuery = mysqli_query($conn, $Sql);
+        while ($Result = mysqli_fetch_assoc($meQuery)) {
+          $DocNo = $Result['DocNo'];
+          $return[0]['Record']   = $Result['FName'];
+        }
 
       $boolean = true;
     } else {
-      $boolean = false;
+        $boolean = false;
     }
 
   if ($boolean) {
@@ -621,10 +608,10 @@ function getImport($conn, $DATA)
               (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
               VALUES
               ('$DocNo','$ItemCode',$iunit2,$xQty,0,0)";
-      } else {
-        $Sql = "UPDATE dirty_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-      }
-      mysqli_query($conn, $Sql);
+        } else {
+          $Sql = "UPDATE dirty_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+        }
+        mysqli_query($conn, $Sql);
     }
   }
 
@@ -885,7 +872,7 @@ function CancelBill($conn, $DATA){
   // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
   // mysqli_query($conn,$Sql);
   $Sql = "UPDATE dirty SET IsStatus = 9  WHERE DocNo = '$DocNo'";
-  $meQuery = mysqli_query($conn, $Sql);
+   mysqli_query($conn, $Sql);
 }
 
 function updateQty($conn, $DATA){
@@ -893,6 +880,144 @@ function updateQty($conn, $DATA){
   $RowID = $DATA['RowID'];
   $Sql = "UPDATE dirty_detail SET Qty = $newQty WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
+}
+
+function showDep($conn, $DATA){
+  $count = 0;
+  $HptCode = $_SESSION['HptCode'];
+  $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 1 ORDER BY dep.DepCode ASC ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['DepCode'] = trim($Result['DepCode']);
+    $return[$count]['DepName'] = trim($Result['DepName']);
+    $count++;
+  }
+  $return['CountDep'] = $count;
+  $return['ItemCode'] = $DATA['ItemCode'];
+  $return['ItemName'] = $DATA['ItemName'];
+  $return['status'] = "success";
+  $return['form'] = "showDep";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function confirmDep($conn, $DATA){
+  $DocNo = $DATA['DocNo'];
+  $ItemCode = $DATA['ItemCode'];
+  $DepCode = explode(',', $DATA['DepCode']);
+  $limit = sizeof($DepCode, 0);
+  for($i=0; $i<$limit; $i++){
+    $count = "SELECT COUNT(*) as cnt FROM dirty_detail WHERE DocNo = '$DocNo' AND DepCode = $DepCode[$i] AND ItemCode = '$ItemCode'";
+    $meQuery = mysqli_query($conn, $count);
+    $Result = mysqli_fetch_assoc($meQuery);
+    if($Result['cnt']==0){
+      $Insert = "INSERT dirty_detail (DocNo, ItemCode, UnitCode, DepCode)VALUES('$DocNo', '$ItemCode', 1, $DepCode[$i])";
+      mysqli_query($conn, $Insert);
+    }
+  }
+  ShowDetailDoc($conn, $DATA);
+}
+function ShowDetailDoc($conn, $DATA)
+{
+  $count1 = 0;
+  $Total = 0;
+  $boolean = false;
+  $DocNo = $DATA["DocNo"];
+  //==========================================================
+  $Sql = "SELECT  dirty_detail.DepCode,department.DepName 
+  FROM dirty_detail  
+  INNER JOIN department ON department.DepCode = dirty_detail.DepCode
+  WHERE dirty_detail.DocNo = '$DocNo' GROUP BY dirty_detail.DepCode ORDER BY dirty_detail.DepCode ASC";
+  $sQuery = mysqli_query($conn, $Sql);
+  while ($sResult = mysqli_fetch_assoc($sQuery)) {
+    $count2 = 0;
+    $return[$count1]['DepCode'] =  $sResult['DepCode'];
+    $return[$count1]['DepName'] =  $sResult['DepName'];
+    $DepCode = $sResult['DepCode'];
+    $SqlItem = "SELECT dirty_detail.Id, dirty_detail.ItemCode, item.ItemName, item.UnitCode AS UnitCode1,
+    item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, dirty_detail.Weight, dirty_detail.Qty, item.UnitCode
+    FROM item
+    INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+    INNER JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
+    INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
+    WHERE dirty_detail.DocNo = '$DocNo' AND dirty_detail.DepCode = $DepCode
+    ORDER BY dirty_detail.Id DESC";
+    $meQuery = mysqli_query($conn, $SqlItem);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count1][$count2]['RowID']      = $Result['Id'];
+      $return[$count1][$count2]['ItemCode']   = $Result['ItemCode'];
+      $return[$count1][$count2]['ItemName']   = $Result['ItemName'];
+      $return[$count1][$count2]['UnitCode']   = $Result['UnitCode2'];
+      $return[$count1][$count2]['UnitName']   = $Result['UnitName'];
+      $return[$count1][$count2]['Weight']     = $Result['Weight'];
+      $return[$count1][$count2]['Qty']         = $Result['Qty'];
+      $UnitCode                     = $Result['UnitCode1'];
+      $ItemCode                     = $Result['ItemCode'];
+      $count3 = 0;
+
+      $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+      $MQuery = mysqli_query($conn, $countM);
+      while ($MResult = mysqli_fetch_assoc($MQuery)) {
+        if($MResult['cnt']!=0){
+          $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
+          FROM item_multiple_unit
+          INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
+          WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+          $xQuery = mysqli_query($conn, $xSql);
+          while ($xResult = mysqli_fetch_assoc($xQuery)) {
+            $m1 = "MpCode_" . $ItemCode . "_" . $count;
+            $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+            $m3 = "UnitName_" . $ItemCode . "_" . $count;
+            $m4 = "Multiply_" . $ItemCode . "_" . $count;
+            $m5 = "Cnt_" . $ItemCode;
+
+            $return[$count2][$m1][$count3] = $xResult['MpCode'];
+            $return[$count2][$m2][$count3] = $xResult['UnitCode'];
+            $return[$count2][$m3][$count3] = $xResult['UnitName'];
+            $return[$count2][$m4][$count3] = $xResult['Multiply'];
+            $count3++;
+          }
+        }else{
+          $xSql = "SELECT 
+            item.UnitCode,
+            item_unit.UnitName
+          FROM item
+          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+          WHERE item.ItemCode = '$ItemCode'";
+          $xQuery = mysqli_query($conn, $xSql);
+          while ($xResult = mysqli_fetch_assoc($xQuery)) {
+            $m1 = "MpCode_" . $ItemCode . "_" . $count;
+            $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+            $m3 = "UnitName_" . $ItemCode . "_" . $count;
+            $m4 = "Multiply_" . $ItemCode . "_" . $count;
+            $m5 = "Cnt_" . $ItemCode;
+
+            $return[$count2][$m1][$count3] = 1;
+            $return[$count2][$m2][$count3] = $xResult['UnitCode'];
+            $return[$count2][$m3][$count3] = $xResult['UnitName'];
+            $return[$count2][$m4][$count3] = 1;
+            $count3++;
+          }
+        }
+      }
+      $return[$m5][$count] = $count2;
+      //================================================================
+      $Total += $Result['Weight'];
+      $count2++;
+    }
+    $return[$count1]['CountItemDep'] = $count2;
+    $count1++;
+  }
+  $return['CountDep'] = $count1;
+  $return['status'] = "success";
+  $return['form'] = "ShowDetailDoc";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+ 
+
+ 
 }
 //==========================================================
 //
@@ -937,6 +1062,12 @@ if (isset($_POST['DATA'])) {
     UpdateRefDocNo($conn, $DATA);
   } elseif ($DATA['STATUS'] == 'updateQty') {
     updateQty($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'showDep') {
+    showDep($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'confirmDep') {
+    confirmDep($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'ShowDetailDoc') {
+    ShowDetailDoc($conn, $DATA);
   }
 } else {
   $return['status'] = "error";

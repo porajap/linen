@@ -77,6 +77,7 @@
 <invalid><en>Invalid date</en><th>เลือกวันที่ไม่ถูกต้อง</th></invalid>
 <confac><en>Factory Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงซัก</th></confac>
 <conhos><en>Hospital Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงโรงพยาบาล</th></conhos>
+<selectDep><en>Select Department</en><th>เลือกแผนก</th></selectDep>
 
 <department><en>Department</en><th>แผนก</th></department>
 <docdate><en>Document date</en><th>วันที่เอกสาร</th></docdate>
@@ -112,6 +113,7 @@
 <showshow><en>Show</en><th>แสดง</th></showshow>
 <hidehide><en>hide</en><th>ซ่อน</th></hidehide>
 <status><en>Status</en><th>สถานะ</th></status>
+<selectall><en>Select All</en><th>เลือกทั้งหมด</th></selectall>
 <close><en>Close</en><th>ปิด</th></close>
 <confirm><en>Confirm</en><th>ยืนยัน</th></confirm>
 <confirmdoc><en>Confirm create doc</en><th>ยืนยันการสร้างเอกสาร</th></confirmdoc>
