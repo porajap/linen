@@ -1348,13 +1348,17 @@ $array2 = json_decode($json2,TRUE);
                   var DataRow = '';
                   for (var i = 0; i < temp["CountDep"]; i++) {
 
-                    var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
-                    var nUnit = temp[i]['UnitName'];
+
+                    var chkunit ="<select "+st1+" class='form-control' id='iUnit_"+i+"'>";
+                    var nUnit = "";
+
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
                       if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
-                        chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
                       }else{
-                        chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
                       }
                     }
                     chkunit += "</select>";
@@ -1972,9 +1976,9 @@ $array2 = json_decode($json2,TRUE);
           </button>
         </div>
         <div class="modal-body">
-        <input type="text"  id="countcheck" value="0">
-        <input type="text" id="DocNoHide" >
-        <input type="text" id="ItemCodeHide" >
+        <input type="text"  id="countcheck" value="0" hidden>
+        <input type="text" id="DocNoHide" hidden>
+        <input type="text" id="ItemCodeHide" hidden>
           <div class="card-body" style="padding:0px;">
             <input type='checkbox'  id='selectAll' onclick='selectAll()'><span class="ml-5"><?php echo $array['selectall'][$language]; ?></span>
             <div id='Dep' class='row'></div>
