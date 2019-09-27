@@ -295,10 +295,9 @@ $array = json_decode($json,TRUE);
                             '<td style="width:18%;border-top:none!important;"></td>' + 
                             '<td nowrap style="width:40%;border-top:none!important;" class="text-left"><?php echo $array['Timeleft'][$language]; ?> ' + temp[i]['contract_fac']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr></table><hr>' ;
-
                 if(temp[i]['countMailFac']>0){
                   for(var j = 0; j < temp[i]['countMailFac']; j++){
-                    var HptName = temp[0]['contract_fac']['HptName'];
+                    var FacName = temp[i]['contract_fac']['FacName'];
                     var StartDate = temp[j]['contract_fac']['StartDate'];
                     var EndDate = temp[j]['contract_fac']['EndDate'];
                     var email = temp[j]['contract_fac']['email'];
@@ -311,7 +310,7 @@ $array = json_decode($json,TRUE);
                         method:"POST",
                         data: 
                         {
-                          HptName:HptName,
+                          FacName:FacName,
                           StartDate:StartDate,
                           EndDate:EndDate,
                           email:email,
@@ -349,7 +348,7 @@ $array = json_decode($json,TRUE);
 
                 if(temp[i]['countMailHos']>0){
                   for(var j = 0; j < temp[i]['countMailHos']; j++){
-                    var HptName = temp[0]['contract_hos']['HptName'];
+                    var HptName = temp[i]['contract_hos']['HptName'];
                     var StartDate = temp[j]['contract_hos']['StartDate'];
                     var EndDate = temp[j]['contract_hos']['EndDate'];
                     var email = temp[j]['contract_hos']['email'];

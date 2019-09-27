@@ -8,7 +8,7 @@ if($Userid==""){
   header("location:../index.html");
 }
 
-$HptName = $_POST['HptName'];
+$FacName = $_POST['FacName'];
 $StartDate = $_POST['StartDate'];
 $EndDate = $_POST['EndDate'];
 $email = $_POST['email'];
@@ -27,12 +27,12 @@ $body = '
 <body>
 <br>
 ___________________________________________________________________<br>
-<h3>'.$HptName.'</h3>
+<h3>'.$FacName.'</h3>
 <b>วันที่ทำสัญญา:</b> '.$StartDate.'<br>
 <b>วันที่สิ้นสุดสัญญา:</b> '.$EndDate.'<br>
 <b>หมดสัญญาวันที่:</b> '.$EndDate.' เหลือเวลาอีก '.$dateDiff.' วัน<br>
 ___________________________________________________________________<br>
-<h3>'.$HptName.'</h3>
+<h3>'.$FacName.'</h3>
 <b>DATE OF CNTRCT:</b> '.$StartDate.'<br>
 <b>CNTRCT TERM DATE:</b> '.$EndDate.'<br>
 ___________________________________________________________________<br>
@@ -53,7 +53,7 @@ $mail->Username = "poseinttelligence@gmail.com";
 $mail->Password = "pose6628";
 $mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
 $mail->addAddress($email);
-$mail->Subject = 'แจ้งเตือนเปลี่ยนราคา';
+$mail->Subject = 'แจ้งเตือนหมดสัญญาโรงซัก';
 $mail->msgHTML($body);
 $mail->AltBody = 'This is a plain-text message body';
 // $mail->send();
