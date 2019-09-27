@@ -9,15 +9,26 @@ if($Userid==""){
 }
 function OnLoadPage($conn,$DATA){
   $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $lang = $DATA["lang"];
   $count = 0;
   $boolean = false;
   if($lang == 'en'){
+    if($PmID !=1 && $PmID!=6){
     $Sql = "SELECT site.HptCode,site.HptName
     FROM site WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0 "; 
+    }
   }else{
+    if($PmID !=1 && $PmID!=6){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
     FROM site WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0 "; 
+    }
   }
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -98,7 +109,7 @@ function ShowDocument($conn,$DATA){
   clean.DocNo AS DocNo2,
   DATE(clean.DocDate) AS DocDate2,
   clean.Total AS Total2,
-  ROUND( (((clean.Total - dirty.Total )/dirty.Total)*100), 2)  AS Precent
+  ROUND( (((dirty.Total - clean.Total )/dirty.Total)*100), 2)  AS Precent
   FROM clean
   INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
   INNER JOIN department ON clean.DepCode = department.DepCode

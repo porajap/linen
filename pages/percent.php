@@ -87,6 +87,13 @@ $array2 = json_decode($json2,TRUE);
         }
 
     $(document).ready(function(e){
+      var PmID = '<?php echo $PmID; ?>';
+        if(PmID !=1 && PmID!=6){
+          $('#hotpital').addClass('icon_select');
+          $('#department').addClass('icon_select');
+        }
+
+
       $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
@@ -480,18 +487,17 @@ table tr:first-child th:first-child {
                         <div class="col-md-11"> <!-- tag column 1 -->
                           <div class="container-fluid">
                             <div class="card-body mt-3" >
-
                             <div class="row">
                               <div class="col-md-5">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                                  <select class="form-control col-sm-8" id="hotpital" style="font-size:22px;" onchange="getDepartment();"  <?php if($PmID != 2) {echo "disabled='true'" ;} ?> ></select>
+                                  <select class="form-control col-sm-8 " id="hotpital" style="font-size:22px;" onchange="getDepartment();"  <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> ></select>
                                 </div>
                               </div>
                               <div class="col-md-5">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                                    <select  class="form-control col-sm-7" style="font-size:22px;" id="department"  <?php if($PmID != 2) {echo "disabled='true'" ;} ?> ></select>
+                                    <select  class="form-control col-sm-7 " style="font-size:22px;" id="department"  <?php if($PmID != 1 && $PmID != 6 ) {echo "disabled='true'" ;} ?> ></select>
                                 </div>
                               </div>
                             </div>

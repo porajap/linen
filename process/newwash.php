@@ -33,18 +33,25 @@ $return['Rowx'] = $countx;
 
 if($lang == 'en'){
   $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
+  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
 }else{
   $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
+  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
 }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['HptName'] = $Result['HptName'];
-
+    // $count++;
+    $boolean = true;
+  }
+  $meQuery1 = mysqli_query($conn, $Sql1);
+  while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+    $return[$count]['HptCode1'] = $Result1['HptCode1'];
+    $return[$count]['HptName1'] = $Result1['HptName1'];
     $count++;
     $boolean = true;
   }
-
   $return['Row'] = $count;
   $boolean = true;
   if ($boolean) {
@@ -203,8 +210,9 @@ function ShowDocument($conn, $DATA)
   $DocNo = $DATA["docno"];
   $deptCode = $DATA["deptCode"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-  $Datepicker = $DATA["Datepicker"];
+  $datepicker = $DATA["datepicker1"];
   $selecta = $DATA["selecta"];
+
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
   // mysqli_query($conn,$Sql);
   $Sql = "SELECT site.HptName,
@@ -220,15 +228,25 @@ function ShowDocument($conn, $DATA)
   INNER JOIN users ON newlinentable.Modify_Code = users.ID ";
 
   if($DocNo!=null){
-    $Sql .= " WHERE newlinentable.DocNo = '$DocNo'";
+    $Sql .= " WHERE newlinentable.DocNo = '$DocNo' ";
   }else{
-    if ($deptCode != null) {
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DepCode = $deptCode";
+    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+      $Sql .= " WHERE site.HptCode = '$Hotp'  ";
       if($xDocNo!=null){
-        $Sql .= " OR newlinentable.DocNo LIKE '%$xDocNo%'";
+        $Sql .= " OR newlinentable.DocNo LIKE '%$xDocNo%' ";
       }
-    }else if($deptCode == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp'";
+    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+        $Sql .= " WHERE newlinentable.DepCode = $deptCode ";
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE newlinentable.DocDate = '$datepicker' ";
+    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DepCode = $deptCode ";
+    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocDate = '$datepicker' ";
+    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE newlinentable.DepCode = $deptCode AND newlinentable.DocDate = '$datepicker' ";
+    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE newlinentable.DepCode = $deptCode AND newlinentable.DocDate = '$datepicker' AND site.HptCode = '$Hotp'";
     }
   }
   // if($selecta == null){
