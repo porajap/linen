@@ -1346,21 +1346,15 @@ $array2 = json_decode($json2,TRUE);
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
-                  var num = 0;
                   for (var i = 0; i < temp["CountDep"]; i++) {
-                    var RowSpan = Number(temp[i]['CountItemDep']);
-                    for(var j = 0; j < temp[i]['CountItemDep']; j++){
-                      var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem'><span class='checkmark'></span></label>";
-                      DataRow += "<tr><td style='width:3%;'>"+chkItem+"</td>";
-                      DataRow += "<td style='width:6%;'>"+(num+1)+"</td>";
-                      DataRow += "<td style='width:18%'>"+temp[i]['DepName']+"</td>";
-                      DataRow += "<td style='width:21%;'>"+temp[i][j]['ItemName']+"</td>"+
-                      "<td style='width:27%;'></td>"+
-                      "<td style='width:5%;'></td>"+
-                      "<td style='width:20%;'></td></<tr>";
-                      num++ ;
-                    }
-
+                    var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem'><span class='checkmark'></span></label>";
+                    DataRow += "<tr><td style='width:3%;'>"+chkItem+"</td>";
+                    DataRow += "<td style='width:6%;'>"+(i+1)+"</td>";
+                    DataRow += "<td style='width:18%'>"+temp[i]['DepName']+"</td>";
+                    DataRow += "<td style='width:21%;'>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width:27%;'></td>"+
+                    "<td style='width:5%;'></td>"+
+                    "<td style='width:20%;'></td></<tr>";
                   }
                   $("#TableItemDetail tbody").html(DataRow);
                   $('.numonly').on('input', function() {

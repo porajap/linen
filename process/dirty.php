@@ -932,29 +932,29 @@ function ShowDetailDoc($conn, $DATA)
   $sQuery = mysqli_query($conn, $Sql);
   while ($sResult = mysqli_fetch_assoc($sQuery)) {
     $count2 = 0;
-    $return[$count1]['DepCode'] =  $sResult['DepCode'];
-    $return[$count1]['DepName'] =  $sResult['DepName'];
-    $DepCode = $sResult['DepCode'];
     $SqlItem = "SELECT dirty_detail.Id, dirty_detail.ItemCode, item.ItemName, item.UnitCode AS UnitCode1,
-    item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, dirty_detail.Weight, dirty_detail.Qty, item.UnitCode
-    FROM item
-    INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-    INNER JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
-    INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
-    WHERE dirty_detail.DocNo = '$DocNo' AND dirty_detail.DepCode = $DepCode
-    ORDER BY dirty_detail.Id DESC";
+      item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, dirty_detail.Weight, dirty_detail.Qty, item.UnitCode,
+      department.DepCode, department.DepName
+      FROM item
+      INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+      INNER JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
+      INNER JOIN department ON department.DepCode = dirty_detail.DepCode
+      INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
+      WHERE dirty_detail.DocNo = '$DocNo'
+      ORDER BY dirty_detail.Id ASC";
     $meQuery = mysqli_query($conn, $SqlItem);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count1][$count2]['RowID']      = $Result['Id'];
-      $return[$count1][$count2]['ItemCode']   = $Result['ItemCode'];
-      $return[$count1][$count2]['ItemName']   = $Result['ItemName'];
-      $return[$count1][$count2]['UnitCode']   = $Result['UnitCode2'];
-      $return[$count1][$count2]['UnitName']   = $Result['UnitName'];
-      $return[$count1][$count2]['Weight']     = $Result['Weight'];
-      $return[$count1][$count2]['Qty']         = $Result['Qty'];
+      $return[$count1]['RowID']      = $Result['Id'];
+      $return[$count1]['ItemCode']   = $Result['ItemCode'];
+      $return[$count1]['ItemName']   = $Result['ItemName'];
+      $return[$count1]['UnitCode']   = $Result['UnitCode2'];
+      $return[$count1]['UnitName']   = $Result['UnitName'];
+      $return[$count1]['DepCode']   = $Result['DepCode'];
+      $return[$count1]['DepName']   = $Result['DepName'];
+      $return[$count1]['Weight']     = $Result['Weight'];
+      $return[$count1]['Qty']         = $Result['Qty'];
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
-      $count3 = 0;
 
       $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
       $MQuery = mysqli_query($conn, $countM);
@@ -972,10 +972,10 @@ function ShowDetailDoc($conn, $DATA)
             $m4 = "Multiply_" . $ItemCode . "_" . $count;
             $m5 = "Cnt_" . $ItemCode;
 
-            $return[$count2][$m1][$count3] = $xResult['MpCode'];
-            $return[$count2][$m2][$count3] = $xResult['UnitCode'];
-            $return[$count2][$m3][$count3] = $xResult['UnitName'];
-            $return[$count2][$m4][$count3] = $xResult['Multiply'];
+            $return[$m1][$count2] = $xResult['MpCode'];
+            $return[$m2][$count2] = $xResult['UnitCode'];
+            $return[$m3][$count2] = $xResult['UnitName'];
+            $return[$m4][$count2] = $xResult['Multiply'];
             $count3++;
           }
         }else{
@@ -993,10 +993,10 @@ function ShowDetailDoc($conn, $DATA)
             $m4 = "Multiply_" . $ItemCode . "_" . $count;
             $m5 = "Cnt_" . $ItemCode;
 
-            $return[$count2][$m1][$count3] = 1;
-            $return[$count2][$m2][$count3] = $xResult['UnitCode'];
-            $return[$count2][$m3][$count3] = $xResult['UnitName'];
-            $return[$count2][$m4][$count3] = 1;
+            $return[$m1][$count2] = 1;
+            $return[$m2][$count2] = $xResult['UnitCode'];
+            $return[$m3][$count2] = $xResult['UnitName'];
+            $return[$m4][$count2] = 1;
             $count3++;
           }
         }
@@ -1006,8 +1006,12 @@ function ShowDetailDoc($conn, $DATA)
       $Total += $Result['Weight'];
       $count2++;
     }
-    $return[$count1]['CountItemDep'] = $count2;
+    $return[$m5][$count] = $count2;
+    //================================================================
+    $Total += $Result['Weight'];
+    //================================================================
     $count1++;
+    $boolean = true;
   }
   $return['CountDep'] = $count1;
   $return['status'] = "success";
