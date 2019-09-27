@@ -192,20 +192,17 @@ function ShowDocument($conn, $DATA)
   $Datepicker = $DATA["Datepicker"];
   $selecta = $DATA["selecta"];
   $Sql = "SELECT site.HptName,
-  dirty.DepCode,
-  department.DepName,
   dirty.DocNo,
   DATE(dirty.DocDate) AS DocDate,
   dirty.Total,
   users.FName,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
   FROM dirty
-  INNER JOIN department ON dirty.DepCode = department.DepCode
-  INNER JOIN site ON department.HptCode = site.HptCode
+  INNER JOIN site ON dirty.HptCode = site.HptCode
   INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
   
     if ($deptCode != null) {
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DepCode = $deptCode";
+      $Sql .= " WHERE site.HptCode = '$Hotp' ";
       if($xDocNo!=null){
         $Sql .= " OR dirty.DocNo LIKE '%$xDocNo%'";
       }
@@ -226,8 +223,6 @@ function ShowDocument($conn, $DATA)
     }
 
     $return[$count]['HptName']   = $Result['HptName'];
-    $return[$count]['DepCode']   = $Result['DepCode'];
-    $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'];
