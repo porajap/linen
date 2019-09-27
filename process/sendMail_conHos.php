@@ -53,7 +53,7 @@ $mail->Username = "poseinttelligence@gmail.com";
 $mail->Password = "pose6628";
 $mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
 $mail->addAddress($email);
-$mail->Subject = 'แจ้งเตือนเปลี่ยนราคา';
+$mail->Subject = 'แจ้งเตือนหมดสัญญาโรงพยาบาล';
 $mail->msgHTML($body);
 $mail->AltBody = 'This is a plain-text message body';
 // $mail->send();

@@ -11,20 +11,30 @@ function OnLoadPage($conn, $DATA)
 {
   $lang = $DATA["lang"];
   $HptCode = $_SESSION['HptCode'];
-  $count = 0;
+  $count = 0; 
   $boolean = false;
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+    $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
   }else{
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+    $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
   }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['HptName'] = $Result['HptName'];
+    // $count++;
+    $boolean = true;
+  }
+  $meQuery1 = mysqli_query($conn, $Sql1);
+  while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+    $return[$count]['HptCode1'] = $Result1['HptCode1'];
+    $return[$count]['HptName1'] = $Result1['HptName1'];
     $count++;
     $boolean = true;
   }
+  $return['Row'] = $count;
   $boolean = true;
   if ($boolean) {
     $return['status'] = "success";
@@ -177,18 +187,35 @@ function CreateDocument($conn, $DATA)
     $Hotp = $DATA["Hotp"];
     $deptCode = $DATA["deptCode"];
     $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $Datepicker = $DATA["Datepicker"];
+    $datepicker = $DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) AS DocDate,clean.RefDocNo,clean.Total,users.FName,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
     FROM clean
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON clean.Modify_Code = users.ID ";
-    if ($deptCode != null) {
-      $Sql .= "WHERE clean.DepCode = $deptCode AND clean.DocNo LIKE '%$DocNo%'";
-    }elseif($deptCode==null){
-      $Sql.="WHERE site.HptCode = '$Hotp'";
+  if($DocNo!=null){
+    $Sql .= " WHERE clean.DocNo = '$DocNo' ";
+  }else{
+    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+      $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+      if($xDocNo!=null){
+        $Sql .= " OR clean.DocNo LIKE '%$xDocNo%' ";
+      }
+    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+        $Sql .= " WHERE clean.DepCode = $deptCode ";
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' ";
+    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DepCode = $deptCode ";
+    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(clean.DocDate) = '$datepicker' ";
+    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE clean.DepCode = $deptCode AND DATE(clean.DocDate) = '$datepicker' ";
+    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE clean.DepCode = $deptCode AND DATE(clean.DocDate) = '$datepicker' AND site.HptCode = '$Hotp'";
     }
+  }
     $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

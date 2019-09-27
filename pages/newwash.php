@@ -67,10 +67,18 @@ $array2 = json_decode($json2,TRUE);
   <!-- custome style -->
   <link href="../css/responsive.css" rel="stylesheet">
   <link href="../css/menu_custom.css" rel="stylesheet">
-  <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-  <script src="../datepicker/dist/js/datepicker.min.js"></script>
-  <!-- Include English language -->
-  <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+<!-- =================================== -->
+<?php if ($language =='th'){ ?>
+      <script src="../datepicker/dist/js/datepicker.js"></script>
+    <?php }else if($language =='en'){ ?>
+        <script src="../datepicker/dist/js/datepicker-en.js"></script>
+    <?php } ?>
+<!-- =================================== -->
+
+    <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <!-- Include English language -->
+    <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script src="../datepicker/dist/js/datepicker.th.js"></script>
 
   <script type="text/javascript">
   var summary = [];
@@ -296,8 +304,19 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function ShowDocument(selecta){
-          var Hotp = $('#hotpital option:selected').attr("value");
+          var Hotp = $('#Hos2 option:selected').attr("value");
           var searchdocument = $('#searchdocument').val();
+          var datepicker1 = $('#datepicker1').val();
+          var lang = '<?php echo $language; ?>';
+          if(datepicker1 !=""){
+          if(lang =='th'){
+          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }else if(lang =='en'){
+          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }
+          }else{
+            datepicker1 = "";
+          }
           if( typeof searchdocument == 'undefined' ) searchdocument = "";
           var deptCode = $('#Dep2 option:selected').attr("value");
           if( typeof deptCode == 'undefined' ) deptCode = "1";
@@ -306,7 +325,8 @@ $array2 = json_decode($json2,TRUE);
             'xdocno'	: searchdocument,
             'selecta' : selecta,
             'deptCode'	: deptCode,
-            'Hotp'	: Hotp
+            'Hotp'	: Hotp,
+            'datepicker1' : datepicker1
           };
           senddata(JSON.stringify(data));
         }
@@ -839,13 +859,16 @@ $array2 = json_decode($json2,TRUE);
                       var PmID = <?php echo $PmID;?>;
                       var HptCode = '<?php echo $HptCode;?>';
                       $('#getHot').val(temp[0]['HptCode']);
+                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
                       for (var i = 0; i < temp["Row"]; i++) {
                         var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
+                         Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
                         $("#hotpital").append(Str);
                       }
+                      $("#Hos2").append(Str1);
 
                       $("#factory").empty();
-                      var Str = "<option value='' selected>-</option>";
+                      var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
                       for (var i = 0; i < temp["Rowx"]; i++) {
                         Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                       }
@@ -858,7 +881,7 @@ $array2 = json_decode($json2,TRUE);
                     }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#Dep2").empty();
-                      var Str2 = "<option value='' selected>-</option>";
+                      var Str2 = "<option value='' selected><?php echo $array['selectdep'][$language]; ?></option>";
                       for (var i = 0; i < temp["Row"]; i++) {
                         // var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
@@ -895,7 +918,7 @@ $array2 = json_decode($json2,TRUE);
                     }else if(temp["form"]=='ShowDocument'){
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
-                      $("#Dep2").val(temp[0]['DepCode']);
+                      // $("#Dep2").val(temp[0]['DepCode']);
                       $("#department").val(temp[0]['DepCode']);
                       // $("#docdate").val(temp[0]['DocDate']);
                       // $("#recorder").val(temp[0]['Record']);
@@ -1645,10 +1668,21 @@ $array2 = json_decode($json2,TRUE);
                            <!-- search document -->
                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row" style="margin-top:10px;">
-                          <div class="col-md-4">
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                              <select class="form-control" style='font-size:24px;' id="Hos2">
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
                               <select class="form-control" style='font-size:24px;' id="Dep2">
                               </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                            <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                             </div>
                           </div>
                           <div class="col-md-6 mhee">

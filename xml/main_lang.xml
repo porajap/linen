@@ -355,6 +355,14 @@
         รอบส่งผ้า
       </th>
     </sub>
+    <sub>
+      <en>
+        ItemHospital
+      </en>
+      <th>
+        รายการในโรงพยาบาล
+      </th>
+    </sub>
   </system>
     <logout>
       <en>
