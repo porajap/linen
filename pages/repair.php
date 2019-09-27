@@ -66,11 +66,18 @@ $array2 = json_decode($json2,TRUE);
 <script src="../dist/js/sweetalert2.min.js"></script>
 <script src="../dist/js/jquery-3.3.1.min.js"></script>
 
+<!-- =================================== -->
+<?php if ($language =='th'){ ?>
+      <script src="../datepicker/dist/js/datepicker.js"></script>
+    <?php }else if($language =='en'){ ?>
+        <script src="../datepicker/dist/js/datepicker-en.js"></script>
+    <?php } ?>
+<!-- =================================== -->
 
-<link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<script src="../datepicker/dist/js/datepicker.min.js"></script>
-<!-- Include English language -->
-<script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <!-- Include English language -->
+    <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script src="../datepicker/dist/js/datepicker.th.js"></script>
 
 <script type="text/javascript">
 var summary = [];
@@ -337,12 +344,24 @@ $(document).ready(function(e){
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
         var deptCode = $('#Dep2 option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
+        var datepicker1 = $('#datepicker1').val();
+          var lang = '<?php echo $language; ?>';
+          if(datepicker1 !=""){
+          if(lang =='th'){
+          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }else if(lang =='en'){
+          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }
+          }else{
+            datepicker1 = "";
+          }
         var data = {
           'STATUS'  	: 'ShowDocument',
           'xdocno'	: searchdocument,
           'selecta' : selecta,
           'deptCode'	: deptCode,
-          'Hotp'	: Hotp
+          'Hotp'	: Hotp,
+          'datepicker1' : datepicker1
         };
         senddata(JSON.stringify(data));
       }
@@ -855,10 +874,13 @@ $(document).ready(function(e){
               if(temp["form"]=='OnLoadPage'){
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                  var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                  $("#hotpital").append(Str);
-                }
+                var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                      for (var i = 0; i < temp["Row"]; i++) {
+                        var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
+                         Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
+                        $("#hotpital").append(Str);
+                      }
+                      $("#Hos2").append(Str1);
                 if(PmID != 1){
                   $("#hotpital").val(HptCode);
                 }
@@ -1582,10 +1604,21 @@ $(document).ready(function(e){
                   <!-- search document -->
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row mt-3">
-                          <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Dep2" disabled='true'>
+                              <select class="form-control" style='font-size:24px;' id="Hos2">
                               </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                              <select class="form-control" style='font-size:24px;' id="Dep2" disabled="true">
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                            <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                             </div>
                           </div>
                           <div class="col-md-6 mhee">
