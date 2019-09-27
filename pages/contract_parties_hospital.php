@@ -539,7 +539,7 @@ $array2 = json_decode($json2,TRUE);
                           $("#datepicker3").val(temp[0]['StartDate']);
                           $("#datepicker4").val(temp[0]['EndDate']);
                           $("#xDetail").val(temp[0]['Detail']);
-
+                          $("#side").val(temp[0]['HptCode']);
                           var hosCode = temp[0]['HptCode'];
                           var hos_length = $('#side > option').length;
 
