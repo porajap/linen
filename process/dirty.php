@@ -924,7 +924,7 @@ function ShowDetailDoc($conn, $DATA)
       INNER JOIN department ON department.DepCode = dirty_detail.DepCode
       INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
       WHERE dirty_detail.DocNo = '$DocNo'
-      ORDER BY dirty_detail.DepCode ASC";
+      ORDER BY dirty_detail.DepCode, dirty_detail.ItemCode ASC";
       $meQuery = mysqli_query($conn, $SqlItem);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $count2 = 0;
@@ -935,8 +935,8 @@ function ShowDetailDoc($conn, $DATA)
       $return[$count1]['UnitName']  = $Result['UnitName'];
       $return[$count1]['DepCode']   = $Result['DepCode'];
       $return[$count1]['DepName']   = $Result['DepName'];
-      $return[$count1]['Weight']    = $Result['Weight'];
-      $return[$count1]['Qty']       = $Result['Qty'];
+      $return[$count1]['Weight']    = $Result['Weight']==0?'':$Result['Weight'];
+      $return[$count1]['Qty']       = $Result['Qty']==0?'':$Result['Qty'];
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
 
@@ -995,7 +995,7 @@ function ShowDetailDoc($conn, $DATA)
       $count1++;
     }
     
-  
+  $return[0]['Total']    = round($Total, 2);
   $return['CountDep'] = $count1;
   $return['status'] = "success";
   $return['form'] = "ShowDetailDoc";
