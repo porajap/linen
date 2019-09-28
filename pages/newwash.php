@@ -291,7 +291,7 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function getDepartment(){
-          var Hotp = $('#hotpital option:selected').attr("value");
+          var Hotp = $('#Hos2 option:selected').attr("value");
           if(Hotp == '' || Hotp == undefined){
             Hotp = $('#getHot').val();
           };
@@ -1670,7 +1670,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row" style="margin-top:10px;">
                           <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Hos2">
+                              <select class="form-control" style='font-size:24px;' id="Hos2" onchange="getDepartment();" >
                               </select>
                             </div>
                           </div>

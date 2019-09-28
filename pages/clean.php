@@ -316,17 +316,18 @@ $(document).ready(function(e){
       }
 
       function getDepartment(){
-        var Hotp = $('#hotpital option:selected').attr("value");
+        var Hotp = $('#Hos2 option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) 
         {
           Hotp = '<?php echo $HptCode; ?>';
+        }
         var data = {
           'STATUS'  : 'getDepartment',
           'Hotp'	: Hotp
         };
 
         senddata(JSON.stringify(data));
-        }
+        
       }
 
       function ShowDocument(selecta){
@@ -875,12 +876,12 @@ $(document).ready(function(e){
                 for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                   var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                   Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                  $("#Dep2").append(Str);
                   $("#department").append(Str);
+                  $("#Dep2").append(Str);
                 }
-                if(PmID != 1){
-                  $("#Dep2").val(temp[0]['DepCode']);
-                }
+                // if(PmID != 1){
+                //   $("#Dep2").val(temp[0]['DepCode']);
+                // }
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1647,7 +1648,7 @@ $(document).ready(function(e){
                         <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Hos2">
+                              <select onchange="getDepartment();"  class="form-control" style='font-size:24px;' id="Hos2" >
                               </select>
                             </div>
                           </div>
