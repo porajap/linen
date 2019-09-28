@@ -10,6 +10,7 @@ function ShowItem($conn, $DATA)
   $count = 0;
   $maincatagory = $DATA['maincatagory'];
   $Keyword = $DATA['Keyword'];
+  $HptCode = $DATA['HptCode'];
   $Catagory = $DATA['Catagory'];
   $active = $DATA['active'];
   $column = $DATA['column']==null?'itemDate':$DATA['column'];
@@ -39,17 +40,20 @@ function ShowItem($conn, $DATA)
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
-  if ($Keyword == '') {
-      if($maincatagory != '' && $Catagory==''){
-        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory ";
-      }else if($maincatagory == '' && $Catagory !=''){
-        $Sql .= " WHERE item.CategoryCode = $Catagory ";
-      }else if($maincatagory != '' && $Catagory !=''){
-      $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
+  if ($Keyword == '' && $HptCode != '') {
+      if($HptCode != '' && $maincatagory != '' && $Catagory=='' ){
+        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode'";
+      }else if($HptCode != '' && $maincatagory == '' && $Catagory !=''){
+        $Sql .= " WHERE item.CategoryCode = $Catagory AND HptCode = '$HptCode'";
+      }else if($HptCode != '' && $maincatagory == '' && $Catagory=='' ){
+        $Sql .= " WHERE HptCode = '$HptCode'";
       }
+      // else if($maincatagory != '' && $Catagory !=''){
+      // $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
+      // }
   } else {
-    $Sql .= " WHERE item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%' ";
+    $Sql .= " WHERE item.HptCode = '$HptCode' AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
+    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
   }
   $Sql .= " ORDER BY item.$column $sort";
   $meQuery = mysqli_query($conn, $Sql);
@@ -699,7 +703,8 @@ function NewItem($conn, $DATA)
             Itemnew,
             itemDate,
             Tdas,
-            isset
+            isset,
+            HptCode
            )
             VALUES
             (
@@ -718,7 +723,8 @@ function NewItem($conn, $DATA)
               '" . $DATA['xItemnew'] . "',
               NOW(),
               '" . $DATA['tdas'] . "',
-              '" . $DATA['masterItem'] . "'
+              '" . $DATA['masterItem'] . "',
+              '" . $DATA['HptCode'] . "'
 
 
             )

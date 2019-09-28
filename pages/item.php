@@ -90,7 +90,7 @@ $array2 = json_decode($json2, TRUE);
                 ShowItem();
             }
         });
-      ShowItem();
+      // ShowItem();
       GetHospital();
       GetmainCat();
       getCatagory();
@@ -161,6 +161,15 @@ $array2 = json_decode($json2, TRUE);
     jqui("#dialogreq").button().on("click", function() {
       dialog.dialog("open");
     });
+
+    function changeHptCode(){
+
+      var Hos2 = $('#Hos2').val();
+        if(Hos2 !=''){
+         $('#hospital').val(Hos2);
+         CreateItemCode();
+        }
+    }
 
     function unCheckDocDetail() {
       // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
@@ -383,6 +392,7 @@ $array2 = json_decode($json2, TRUE);
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
+      var Hos2 = $("#Hos2").val();
       var active = '0';
       var data = {
         'STATUS': 'ShowItem',
@@ -391,7 +401,8 @@ $array2 = json_decode($json2, TRUE);
         'active': active,
         'column': column,
         'sort': sort,
-        'maincatagory': maincatagory
+        'maincatagory': maincatagory,
+        'HptCode': Hos2
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -619,6 +630,7 @@ $array2 = json_decode($json2, TRUE);
       });
       console.log(count);
       var mainCatagory = $('#maincatagory2').val();
+      var Hos2 = $('#Hos2').val();
       var Catagory = $('#catagory2').val();
       var ItemCode = $('#ItemCode').val();
       var ItemName = $('#ItemName').val();
@@ -677,7 +689,8 @@ $array2 = json_decode($json2, TRUE);
                   'xCenter': xCenter,
                   'xItemnew': xItemnew,
                   'tdas': tdas ,
-                  'masterItem': masterItem 
+                  'masterItem': masterItem,
+                  'HptCode': Hos2  
                   
                 };
                 senddata(JSON.stringify(data));
@@ -893,7 +906,7 @@ $array2 = json_decode($json2, TRUE);
       $('#typeLinen').val("P");
       $('#numPack').val("01");
       $('#sUnitName').val("");
-      ShowItem();
+      // ShowItem();
       $('#bCancel').attr('disabled', true);
       $('#delete_icon').addClass('opacity');
       $('#delete1').removeClass('mhee');
@@ -1384,7 +1397,7 @@ $array2 = json_decode($json2, TRUE);
               $("#catagory1").empty();
               $("#catagoryModal").empty();
               $("#catagory2").empty();
-              var hotValue0 = '<?php echo $array['AllCatsub'][$language]; ?>';
+              var hotValue0 = 'กรุณาเลือกหมวดหมู่รอง';
               var StrTr = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
  
@@ -1396,13 +1409,16 @@ $array2 = json_decode($json2, TRUE);
               $("#catagoryModal").append(StrTr);
               CreateItemCode();
             } else if ((temp["form"] == 'GetHospital')) {
+              var hotValue0 = 'กรุณาเลือกโรงพยาบาล';
+              var StrTr1 = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                 StrTr1 += "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
                 var StrTr = "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
                 $("#hospital").append(StrTr);
               }
-
+              $("#Hos2").append(StrTr1);
             } else if ((temp["form"] == 'GetmainCat')) {
-              var hotValue0 = '<?php echo $array['AllCatmain'][$language]; ?>';
+              var hotValue0 = 'กรุณาเลือกหมวดหมู่หลัก';
               var StrTr1 = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                  StrTr1 += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
@@ -2246,19 +2262,22 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div class="card-body" style="padding:0px; margin-top:-12px;">
               <div class="row">
-                <div class="col-md-3">
+              <div class="col-md-2">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorymain'][$language]; ?></label>
-                    <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
+                    <select class="form-control" style="font-size:24px;" id="Hos2" onchange="changeHptCode()"></select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <label class="col-sm-5 col-form-label text-right"><?php echo $array['categorysub'][$language]; ?></label>
-                    <select class="col-sm-7 form-control" style="font-size:24px;" id="catagory1"></select>
+                    <select class="form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                  <div class="row" style="font-size:24px;margin-left:2px;">
+                    <select class="form-control" style="font-size:24px;" id="catagory1"> </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
                   <div class="row " style="margin-left:2px;">
                     <input type="text" autocomplete="off" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                   </div>
@@ -2488,7 +2507,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
-                              <select onchange="resetinput()"  class="form-control col-sm-7 checkblank" id="hospital" onchange="CreateItemCode()"></select>
+                              <select   class="form-control col-sm-7 checkblank" id="hospital" onchange="CreateItemCode()"></select>
                             </div>
                           </div>
                           <div class="col-md-6">
