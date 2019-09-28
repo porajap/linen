@@ -325,17 +325,18 @@ $(document).ready(function(e){
       }
 
       function getDepartment(){
-      var Hotp = $('#hotpital option:selected').attr("value");
+      var Hotp = $('#Hos2 option:selected').attr("value");
       if( typeof Hotp == 'undefined' ) 
       {
         Hotp = '<?php echo $HptCode; ?>';
+      }
       var data = {
         'STATUS'  : 'getDepartment',
         'Hotp'	: Hotp
       };
 
       senddata(JSON.stringify(data));
-      }
+      
     }
 
       function ShowDocument(selecta){
@@ -1606,7 +1607,7 @@ $(document).ready(function(e){
                         <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Hos2">
+                              <select class="form-control" style='font-size:24px;' id="Hos2" onchange="getDepartment();">
                               </select>
                             </div>
                           </div>
