@@ -257,12 +257,11 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,dirty.DocNo,DATE(dirty.DocDate) AS DocDate ,dirty.Total,users.FName,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
-  FROM dirty
-  INNER JOIN department ON dirty.DepCode = department.DepCode
-  INNER JOIN site ON department.HptCode = site.HptCode
-  INNER JOIN users ON dirty.Modify_Code = users.ID
-  WHERE dirty.DocNo = '$DocNo'";
+    $Sql = "SELECT   site.HptName,dirty.DocNo,DATE(dirty.DocDate) AS DocDate ,dirty.Total,users.FName,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
+    FROM dirty
+    INNER JOIN site ON dirty.HptCode = site.HptCode
+    INNER JOIN users ON dirty.Modify_Code = users.ID
+    WHERE dirty.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -277,7 +276,6 @@ if($lang =='en'){
 
   
       $return[$count]['HptName']   = $Result['HptName'];
-      $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
     $return[$count]['Record']   = $Result['FName'];
