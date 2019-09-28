@@ -366,7 +366,7 @@ $array2 = json_decode($json2,TRUE);
         function ShowDetail() {
           var docno = $("#docno").val();
           var data = {
-            'STATUS'  : 'ShowDetail',
+            'STATUS'  : 'ShowDetailDoc',
             'DocNo'   : docno
           };
           senddata(JSON.stringify(data));
@@ -908,7 +908,7 @@ $array2 = json_decode($json2,TRUE);
             type: "success",
             showCancelButton: false,
             showConfirmButton: false,
-            timer: 2000,
+            timer: 500,
             closeOnConfirm: false
           });
           setTimeout(() => {
@@ -920,7 +920,7 @@ $array2 = json_decode($json2,TRUE);
             }
             senddata(JSON.stringify(data));
             $('#ModalDepartment').modal('toggle');
-          }, 2000);
+          }, 500);
         }
 
         function senddata(data){
@@ -1251,6 +1251,7 @@ $array2 = json_decode($json2,TRUE);
                   var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                   $( "#TableItem tbody" ).empty();
+                  $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableItem >tbody >tr').length;
 
@@ -1347,6 +1348,7 @@ $array2 = json_decode($json2,TRUE);
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
+                  $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["CountDep"]; i++) {
 
 
@@ -1366,9 +1368,9 @@ $array2 = json_decode($json2,TRUE);
 
                     var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
-                    var Qty = "<input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'>";
+                    var Qty = "<input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
+                    var Weight = "<input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
 
