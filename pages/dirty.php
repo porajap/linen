@@ -191,7 +191,6 @@ $array2 = json_decode($json2,TRUE);
         function DeleteItem(){
           var docno = $("#docno").val();
           var xrow = $("#checkrow:checked").val() ;
-
           xrow = xrow.split(",");
           swal({
             title: "<?php echo $array['confirmdelete'][$language]; ?>",
@@ -1370,7 +1369,7 @@ $array2 = json_decode($json2,TRUE);
 
                     var Price = "<input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
 
-                    var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem'><span class='checkmark'></span></label>";
+                    var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
                     DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
                     DataRow += "<td style='width:6%;' nowrap>"+(i+1)+"</td>";
                     DataRow += "<td style='width:18%' nowrap>"+temp[i]['DepName']+"</td>";
