@@ -218,13 +218,13 @@ $array2 = json_decode($json2,TRUE);
             })
         }
         function Blankinput() {
-                $('#docno').val("");
-                $('#docdate').val("");
-                $('#recorder').val("");
-                $('#timerec').val("");
-                $('#wTotal').val("");
-                getDepartment();
-                OnLoadPage();
+            $('#docno').val("");
+            $('#docdate').val("");
+            $('#recorder').val("");
+            $('#timerec').val("");
+            $('#wTotal').val("");
+            getDepartment();
+            OnLoadPage();
         }
         function CancelDocument(){
           var docno = $("#docno").val();
@@ -1276,7 +1276,7 @@ $array2 = json_decode($json2,TRUE);
                     $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 12%;'><label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                     "<td style='width: 38%;cursor: pointer;' title='"+temp[i]['ItemCode']+"'>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width: 50%;text-align:center;font-size:24px;color:#fff;'><i class='btn btn-info fas fa-play' style='width: 29px;height:28px;padding-top:4px;' id='icon_"+temp[i]['ItemCode']+"' onclick='showDep(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\")'></i></td>"+
+                    "<td style='width: 50%;text-align:center;color:#307FE2;'><i class='btn fas fa-plus-circle' style='width: 29px;height:28px;padding-top:4px;font-size:28px;' id='icon_"+temp[i]['ItemCode']+"' onclick='showDep(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\")'></i></td>"+
                     "</tr>";
                     if(rowCount == 0){
                       $("#TableItem tbody").append( $StrTR );
@@ -1327,6 +1327,9 @@ $array2 = json_decode($json2,TRUE);
                   if(temp['CountDep']>0){
                     var myDATA = "";
                     $('#Dep').empty();
+                    $("input:checked").each(function() {
+                      $(this).prop('checked', false);
+                    });
                     for(var i = 0; i<temp['CountDep']; i++){
                       var DepName = "<span class='ml-5' style='font-size:30px;'>"+temp[i]['DepName']+"</span>";
                       var chkDep = "<input type='checkbox' id='checkDep_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep' class='checkbox myDepName checkDep_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
@@ -1644,6 +1647,7 @@ $array2 = json_decode($json2,TRUE);
           overflow-y:auto;
           max-height:328px;
        }
+
     </style>
 </head>
 

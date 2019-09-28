@@ -319,9 +319,7 @@ function ShowItem($conn, $DATA)
   $deptCode = $DATA["deptCode"];
 
   $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
-
-  FROM item , item_unit WHERE item.UnitCode = item_unit.UnitCode AND IsDirtyBag = 1";
-    $return['sql'] = $Sql;
+  FROM item , item_unit WHERE item.UnitCode = item_unit.UnitCode AND IsDirtyBag = 1 AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%')";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] = $Result['ItemCode'];
