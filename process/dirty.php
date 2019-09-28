@@ -658,16 +658,16 @@ function UpdateDetailWeight($conn, $DATA)
 	WHERE dirty_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
 
-  //	$wTotal = 0;
-  //	$Sql = "SELECT SUM(Weight) AS wTotal
-  //	FROM dirty_detail
-  //	WHERE DocNo = '$DocNo'";
-  //	$meQuery = mysqli_query($conn,$Sql);
-  //	while ($Result = mysqli_fetch_assoc($meQuery)) {
-  //		$wTotal  	= $Result['wTotal'];
-  //	}
-  //    $Sql = "UPDATE dirty SET Total = $wTotal WHERE DocNo = '$DocNo'";
-  //  	mysqli_query($conn,$Sql);
+  	$wTotal = 0;
+  	$Sql = "SELECT SUM(Weight) AS wTotal
+  	FROM dirty_detail
+  	WHERE DocNo = '$DocNo'";
+  	$meQuery = mysqli_query($conn,$Sql);
+  	while ($Result = mysqli_fetch_assoc($meQuery)) {
+  		$wTotal  	= $Result['wTotal'];
+  	}
+     $Sql = "UPDATE dirty SET Total = $wTotal WHERE DocNo = '$DocNo'";
+   	mysqli_query($conn,$Sql);
 
   ShowDetailDoc($conn, $DATA);
 }

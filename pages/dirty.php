@@ -550,7 +550,7 @@ $array2 = json_decode($json2,TRUE);
             $('#TableDetail tbody').empty();
             swal({
               title: "<?php echo $array['confirmdoc'][$language]; ?>",
-              text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
+              text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text(),
               type: "warning",
               showCancelButton: true,
               confirmButtonClass: "btn-danger",
@@ -1007,11 +1007,6 @@ $array2 = json_decode($json2,TRUE);
                 }else if(temp["form"]=='ShowDocument'){
                   $( "#TableDocument tbody" ).empty();
                   $( "#TableItemDetail tbody" ).empty();
-
-                  // $("#Dep2").val(temp['xdeptCode']);
-                  // $("#department").val(temp['xdeptCode']);
-
-
                   for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                     var rowCount = $('#TableDocument >tbody >tr').length;
                     var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
@@ -1649,6 +1644,10 @@ $array2 = json_decode($json2,TRUE);
           overflow-y:auto;
           max-height:328px;
        }
+       .mhee555{
+        overflow-y:auto;
+          max-height:600px;
+       }
 
     </style>
 </head>
@@ -1844,7 +1843,7 @@ $array2 = json_decode($json2,TRUE);
                               <th style='width: 10%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                                   </thead>
-                                  <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                                  <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;">
                                   </tbody>
                               </table>
                           </div> <!-- tag column 1 -->
