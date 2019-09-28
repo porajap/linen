@@ -1251,7 +1251,7 @@ $array2 = json_decode($json2,TRUE);
                   var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
                   $( "#TableItem tbody" ).empty();
-                  $('#wTotal').val(temp[0]['Total'].toFixed(2));
+                  // $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableItem >tbody >tr').length;
 
