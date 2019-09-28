@@ -671,7 +671,7 @@ function UpdateDetailWeight($conn, $DATA)
   //    $Sql = "UPDATE dirty SET Total = $wTotal WHERE DocNo = '$DocNo'";
   //  	mysqli_query($conn,$Sql);
 
-  ShowDetail($conn, $DATA);
+  ShowDetailDoc($conn, $DATA);
 }
 
 function updataDetail($conn, $DATA)
