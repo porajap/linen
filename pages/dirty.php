@@ -1243,8 +1243,8 @@ $array2 = json_decode($json2,TRUE);
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                     });
                 }else if( (temp["form"]=='ShowItem') ){
-                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
-                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
+                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
+                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
                   $( "#TableItem tbody" ).empty();
                   // $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["Row"]; i++) {
@@ -1284,8 +1284,8 @@ $array2 = json_decode($json2,TRUE);
                       this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
                 }else if( (temp["form"]=='ShowUsageCode') ){
-                  var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
-                  var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
+                  var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                  var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                   $( "#TableUsageCode tbody" ).empty();
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableUsageCode >tbody >tr').length;
@@ -1327,8 +1327,8 @@ $array2 = json_decode($json2,TRUE);
                       $(this).prop('checked', false);
                     });
                     for(var i = 0; i<temp['CountDep']; i++){
-                      var DepName = "<span class='ml-5' style='font-size:30px;'>"+temp[i]['DepName']+"</span>";
-                      var chkDep = "<input type='checkbox' id='checkDep_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep' class='checkbox myDepName checkDep_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
+                      var DepName = "<span class='ml-4' style=''>"+temp[i]['DepName']+"</span>";
+                      var chkDep = "<input type='checkbox' id='checkDep_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep' style='top:-10%;' class='checkbox myDepName checkDep_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
                       myDATA += "<div class='col-6'>"+chkDep+DepName+"</div>";
                     }
                     $('#Dep').html(myDATA);
@@ -1339,8 +1339,8 @@ $array2 = json_decode($json2,TRUE);
                     $('#DocNoHide').val(DocNoHide);
                   }
                 }else if( (temp["form"]=='ShowDetailDoc') ){
-                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
-                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
+                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
+                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
                   $('#wTotal').val(temp[0]['Total'].toFixed(2));
@@ -1951,7 +1951,7 @@ $array2 = json_decode($json2,TRUE);
               </div>
               <!-- end serach----------------------- -->
             </div>
-            <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
+            <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
               <thead style="font-size:24px;">
                 <tr role="row">
                 <th style='width: 12%;' nowrap><?php echo $array['no'][$language]; ?></th>
@@ -1982,7 +1982,7 @@ $array2 = json_decode($json2,TRUE);
         <input type="text" id="DocNoHide" hidden>
         <input type="text" id="ItemCodeHide" hidden>
           <div class="card-body" style="padding:0px;">
-            <input type='checkbox'  id='selectAll' onclick='selectAll()'><span class="ml-5"><?php echo $array['selectall'][$language]; ?></span>
+            <input type='checkbox'  id='selectAll' onclick='selectAll()' style="top:-4px;"><span style="font-size:30px; " class="ml-4"><?php echo $array['selectall'][$language]; ?></span>
             <div id='Dep' class='row'></div>
           </div>
         </div>

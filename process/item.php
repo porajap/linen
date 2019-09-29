@@ -398,7 +398,8 @@ function getdetail($conn, $DATA)
           IsDirtyBag,
           Itemnew,
           Tdas,
-          isset
+          isset,
+          HptCode
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
@@ -424,6 +425,7 @@ function getdetail($conn, $DATA)
     $return[$count]['Weight'] = $Result['Weight'];
     $return[$count]['Picture'] = $Result['Picture'];
     $return[$count]['RowID'] = $Result['RowID'];
+    $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['MpCode'] = $Result['MpCode'];
     $return[$count]['UnitName2'] = $Result['UnitName2'];
     $return[$count]['Multiply'] = $Result['Multiply'];
@@ -539,9 +541,10 @@ function AddItem($conn, $DATA)
             IsDirtyBag = '" . $DATA['xCenter'] . "',  
             Itemnew = '" . $DATA['xItemnew'] . "',
             Tdas = '" . $DATA['tdas'] . "',
-            isset = ". $DATA['masterItem']."
+            isset = ". $DATA['masterItem'].",
+            HptCode = '". $DATA['hospital']."'
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
-
+            $return['1'] = $Sql;
             $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
             $meQueryMp = mysqli_query($conn, $Select);
             while($ResultMp = mysqli_fetch_assoc($meQueryMp)) {
