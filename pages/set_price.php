@@ -934,7 +934,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel2").empty();
                             $("#hptselModal").empty();
                             var hotValue1 = '-';
-                            var hotValue0 = '  <?php echo $array['Allside'][$language]; ?>';
+                            var hotValue0 = 'กรุณาเลือกโรงพยาบาล';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             var StrTr2 = "<option value=''>"+hotValue1+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -949,7 +949,7 @@ $array2 = json_decode($json2,TRUE);
                         } else if ((temp["form"] == 'getCategoryMain')) {
                           $("#Category_Main").empty();
                           $("#Category_Main1").empty();
-                            var hotValue0 = '<?php echo $array['AllCatmain'][$language]; ?>';
+                            var hotValue0 = 'กรุณาเลือกหมวดหมู่หลัก';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['MainCategoryCode']+">"+temp[i]['MainCategoryName']+"</option>";
@@ -960,7 +960,7 @@ $array2 = json_decode($json2,TRUE);
                         } else if ((temp["form"] == 'getCategorySub')) {
                           $("#Category_Sub").empty();
                           $("#Category_Sub1").empty();
-                            var hotValue0 = '<?php echo $array['AllCatsub'][$language]; ?>';
+                            var hotValue0 = 'กรุณาเลือกหมวดหมู่รอง';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['CategoryCode']+">"+temp[i]['CategoryName']+"</option>";
@@ -1218,27 +1218,27 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="container-fluid">
                                     <div class="card-body" style="padding:0px; margin-top:12px;">
                                         <div class="row col-md-12">
-                                          <div class="col-md-4">
-                                              <div class="row" style="margin-left:-30px;">
-                                              <label class="col-sm-7 col-form-label text-right"style="margin-left: -90px;"><?php echo $array['side'][$language]; ?></label>
-                                                  <select class="form-control col-md-6" id="hptsel">
+                                          <div class="col-md-3">
+                                              <div class="row" style="margin-left:5px;">
+                                              <!-- <label class="col-sm-7 col-form-label text-right"style="margin-left: -90px;"><?php echo $array['side'][$language]; ?></label> -->
+                                                  <select class="form-control col-md-12" id="hptsel">
                                                   </select>
                                               </div>
                                           </div>
                                           <div class="col-md-3">
-                                              <div class="row" style="margin-left:5px;">
-                                              <label class="col-sm-6 col-form-label text-right"style="margin-left: -111px;"><?php echo $array['categorymain'][$language]; ?></label>
-                                                  <select class="form-control col-md-9" id="Category_Main" onchange="getCategorySub(1);"></select>
+                                              <div class="row" style="margin-left:-6px;">
+                                              <!-- <label class="col-sm-6 col-form-label text-right"style="margin-left: -111px;"><?php echo $array['categorymain'][$language]; ?></label> -->
+                                                  <select class="form-control col-md-12" id="Category_Main" onchange="getCategorySub(1);"></select>
                                               </div>
                                           </div>
                                           <div class="col-md-3">
-                                              <div class="row" style="margin-left: 0px;width: 175%;">
-                                              <label class="col-sm-3 col-form-label text-right"style="margin-left: -65px;"><?php echo $array['categorysub'][$language]; ?></label>
-                                                  <select class="form-control col-md-6" id="Category_Sub"></select>
+                                              <div class="row" style="margin-left: -6px;">
+                                              <!-- <label class="col-sm-3 col-form-label text-right"style="margin-left: -65px;"><?php echo $array['categorysub'][$language]; ?></label> -->
+                                                  <select class="form-control col-md-12" id="Category_Sub"></select>
                                               </div>
                                           </div>
                                           <div class="col-md-1 text-right">
-                                            <div class="row" style="margin-left:100px;">
+                                            <div class="row" style="margin-left:-6px;">
                                             <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem1()">

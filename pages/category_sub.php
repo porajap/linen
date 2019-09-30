@@ -79,21 +79,21 @@ $array2 = json_decode($json2,TRUE);
 
         $('#rem1').hide();
         $('#rem2').hide();
-        ShowItem();
+        // ShowItem();
 
         //On create
         GetmainCat();
         
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
         //On create
-          var keyword = $('#searchitem').val();
-          var data = {
-            'STATUS'  : 'ShowItem',
-            'Keyword' : keyword
-          };
+          // var keyword = $('#searchitem').val();
+          // var data = {
+          //   'STATUS'  : 'ShowItem',
+          //   'Keyword' : keyword
+          // };
 
-          console.log(JSON.stringify(data));
-          senddata(JSON.stringify(data));
+          // console.log(JSON.stringify(data));
+          // senddata(JSON.stringify(data));
 
         $('#searchitem').keyup(function(e){
             if(e.keyCode == 13)
@@ -698,10 +698,11 @@ $array2 = json_decode($json2,TRUE);
                                   $('#delete1').addClass('mhee');
                               }
                             }else if( (temp["form"]=='GetmainCat') ){
+                              var StrTr = "<option value=''>กรุณาเลือกแผนกหลัก</option>";
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                              var StrTr = "<option value = '"+temp[i]['MainCategoryCode']+"'> " + temp[i]['MainCategoryName'] + " </option>";
-                              $("#maincatagory").append(StrTr);
+                               StrTr += "<option value = '"+temp[i]['MainCategoryCode']+"'> " + temp[i]['MainCategoryName'] + " </option>";
                               }
+                              $("#maincatagory").append(StrTr);
                             }else if( (temp["form"]=='AddItem') ){
                               switch (temp['msg']) {
                                 case "notchosen":
@@ -871,11 +872,12 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                               })
                             }else if( (temp["form"]=='getSection') ){
+                              var Strtr = "<option value=''>-</option>";
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                                var StrTr = "<option value = '"+temp[i]['DepCode']+"'> " + temp[i]['DepName'] + " </option>";
-                                $("#Dept").append(StrTr);
-                                $("#Deptsel").append(StrTr);
+                                 StrTr += "<option value = '"+temp[i]['DepCode']+"'> " + temp[i]['DepName'] + " </option>";
                               }
+                              $("#Dept").append(StrTr);
+                                $("#Deptsel").append(StrTr);
 
                             }
                           }else if (temp['status']=="failed") {
@@ -1129,13 +1131,12 @@ $array2 = json_decode($json2,TRUE);
                     <div class="card-body" style="padding:0px; margin-top:-12px;">
                         <div class="row">
                         <div class="col-md-4">
-                              <div class="row" style="font-size:24px;margin-left:2px;">
-                              <label class="col-sm-5 col-form-label text-right"><?php echo $array['catmain'][$language]; ?></label>
-                                  <select class="form-control col-md-7" style="font-size:24px;" id="maincatagory" onchange="ShowItem();"></select>
+                              <div class="row" style="font-size:24px;margin-left:5px;">
+                                  <select class="form-control col-md-9" style="font-size:24px;" id="maincatagory" ></select>
                               </div>
                         </div>
                         <div class="col-md-8">
-                                        <div class="row" style="margin-left:5px;">
+                                        <div class="row" style="margin-left:-120px;">
                                           <input type="text"  autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">

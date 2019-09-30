@@ -41,12 +41,12 @@ function ShowItem($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $Keyword = $DATA['Keyword'];
   $count = 0;
-  if($HptCode==''){
-    $Sql = "SELECT HptCode FROM site WHERE IsStatus = 0 LIMIT 1";
-    $meQuery = mysqli_query($conn, $Sql);
-    $Result = mysqli_fetch_assoc($meQuery);
-    $HptCode = $Result['HptCode'];
-  }
+  // if($HptCode==''){
+  //   $Sql = "SELECT HptCode FROM site WHERE IsStatus = 0 LIMIT 1";
+  //   $meQuery = mysqli_query($conn, $Sql);
+  //   $Result = mysqli_fetch_assoc($meQuery);
+  //   $HptCode = $Result['HptCode'];
+  // }
   $Select = "SELECT te.ID, te.HptCode, te.time_value , site.HptName
     FROM time_express te
     INNER JOIN site ON site.HptCode = te.HptCode WHERE te.HptCode = '$HptCode'";

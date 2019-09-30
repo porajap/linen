@@ -1509,12 +1509,19 @@ $array2 = json_decode($json2,TRUE);
                                       </div>
                                     </div>
                                     <div class="col-md-6">
+                                        <div class='form-group row'>
+                                          <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['factory'][$language]; ?></label>
+                                          <select  class="form-control form-control col-sm-7 checkblank2"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder2();"> </select>
+                                          <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                        </div>
+                                      </div>
+                                    <!-- <div class="col-md-6">
                                       <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
                                           <select class="form-control col-sm-7 checkblank border"  style="font-size:22px;"  id="department" onchange="removeClassBorder1();"> </select>
                                           <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                       </div>
-                                    </div>
+                                    </div> -->
                                   </div>
 
                                     <div class="row">
@@ -1553,13 +1560,6 @@ $array2 = json_decode($json2,TRUE);
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['totalweight'][$language]; ?></label>
                                           <input class='form-control col-sm-7 only only1' disabled="true" autocomplete="off"  style="font-size:22px; "  id='wTotal' placeholder="0.00">
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <div class='form-group row'>
-                                          <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['factory'][$language]; ?></label>
-                                          <select  class="form-control form-control col-sm-7 checkblank2"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder2();"> </select>
-                                          <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                         </div>
                                       </div>
                                       <div class="col-md-6" hidden>

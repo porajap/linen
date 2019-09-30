@@ -11,9 +11,9 @@ function ShowItem($conn, $DATA)
   $check =        $DATA['check'];
   $Keyword =      $DATA['Keyword'];
   $maincatagory = $DATA['maincatagory'];
-  if($maincatagory==""){
-    $maincatagory = 1;
-  }
+  // if($maincatagory==""){
+  //   $maincatagory = 1;
+  // }
   $Sql = "SELECT
           item_category.CategoryCode,
           item_category.CategoryName,
@@ -21,7 +21,7 @@ function ShowItem($conn, $DATA)
           FROM
           item_category
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
-          WHERE item_main_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%'";
+          WHERE item_main_category.MainCategoryCode = '$maincatagory' AND item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%'";
 
           $return['sql']= $Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -39,7 +39,7 @@ function ShowItem($conn, $DATA)
     mysqli_close($conn);
     die;
   }else{
-    $return['status'] = "notfound";
+    $return['status'] = "failed";
     $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);

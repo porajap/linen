@@ -113,9 +113,9 @@ function CreateDocument($conn, $DATA)
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT CONCAT( 'DT', lpad('BHQ', 3, 0), SUBSTRING(YEAR(DATE(NOW())), 3, 4), LPAD(MONTH(DATE(NOW())), 2, 0), '-' ,  LPAD(
+  $Sql = "SELECT CONCAT( 'DT', lpad('$hotpCode', 3, 0), SUBSTRING(YEAR(DATE(NOW())), 3, 4), LPAD(MONTH(DATE(NOW())), 2, 0), '-' ,  LPAD(
 			( COALESCE ( 	MAX( CONVERT ( SUBSTRING(DocNo, 12, 5), UNSIGNED INTEGER ) ), 0 ) + 1 ), 5, 0 ) ) AS DocNo, DATE(NOW()) AS DocDate ,  CURRENT_TIME () AS RecNow  
-      FROM dirty   INNER JOIN site ON site.HptCode = dirty.HptCode WHERE DocNo LIKE CONCAT( 'DT', lpad('BHQ', 3, 0), 
+      FROM dirty   INNER JOIN site ON site.HptCode = dirty.HptCode WHERE DocNo LIKE CONCAT( 'DT', lpad('$hotpCode', 3, 0), 
       SUBSTRING(YEAR(DATE(NOW())), 3, 4), LPAD(MONTH(DATE(NOW())), 2, 0), '%' ) AND site.HptCode = '$hotpCode'  ORDER BY DocNo DESC LIMIT 1";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

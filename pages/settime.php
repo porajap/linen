@@ -80,7 +80,6 @@ $array2 = json_decode($json2,TRUE);
             $('#rem1').hide();
             $('#rem2').hide();
             getSection();
-            ShowItem();
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
                     ShowItem();
@@ -283,7 +282,6 @@ $array2 = json_decode($json2,TRUE);
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $('#delete1').removeClass('mhee');
-            ShowItem();
         }
         function logoff() {
             swal({
@@ -337,12 +335,13 @@ $array2 = json_decode($json2,TRUE);
                     swal.close();
                     if (temp["status"] == 'success') {
                         if ((temp["form"] == 'getSection')) {
-                            var StrTr = "<option value=''>-</option>";
+                            var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
+                            var StrTr1 = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                var StrTr1 = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                $("#hptsel").append(StrTr1);
+                                 StrTr1 += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                             }
+                            $("#hptsel").append(StrTr1);
                             $("#hptsel2").append(StrTr);
                         }else if ((temp["form"] == 'ShowItem')) {
                             $('#TableItem tbody').empty();
@@ -532,14 +531,13 @@ $array2 = json_decode($json2,TRUE);
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="row" style="margin-left:5px;">
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                         <select class="form-control col-md-8" id="hptsel">
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="col-md-8">
-                                    <div class="row" style="margin-left:5px;">
+                                    <div class="row" style="margin-left:-155px;">
                                         <input type="text" autocomplete="off"  class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
