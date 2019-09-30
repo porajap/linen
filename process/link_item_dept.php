@@ -116,13 +116,14 @@ function ShowItem($conn, $DATA)
 {
   $count = 0;
   $Keyword = $DATA['Keyword'];
+  $HptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
   $userid = $DATA['Userid'];
   $Sql = "SELECT
           item.ItemCode,
           item.ItemName
           FROM
           item
-          WHERE   IsActive=1  AND IsDirtyBag = 0 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
+          WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND IsDirtyBag = 0 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
           ORDER BY item.ItemCode
           ";
   // var_dump($Sql); die;
@@ -437,7 +438,11 @@ function SelectItemStock($conn, $DATA)
   $count = 0;
   $countx = 0;
   $DepCode = $DATA['DepCode'];
-  $ItemCode = explode(",", $DATA['ItemCode']);
+  if($DATA['ItemArray']!=''){
+    $ItemCode = explode(",", $DATA['ItemArray']);
+  }else{
+    $ItemCode = explode(",", $DATA['ItemCode']);
+  }
   $Number = explode(",",$DATA['Number']);
   $return['num'] = $Number;
 
@@ -492,6 +497,7 @@ function SelectItemStock($conn, $DATA)
     $boolean = true;
   }
   $return['countx'] = $countx;
+
 
   if($boolean==true){
     $return['status'] = "success";
@@ -771,12 +777,13 @@ function DeleteItem($conn, $DATA)
     $count ++;
   }
 
-  if($boolean == true){
-    $return['sql'] = $Sql;
-    $return['Update'] = $Update;
-    $return['count'] = $count;
-    echo json_encode($return);
-  }
+  SelectItemStock($conn, $DATA);
+  // if($boolean == true){
+  //   $return['sql'] = $Sql;
+  //   $return['Update'] = $Update;
+  //   $return['count'] = $count;
+  //   echo json_encode($return);
+  // }
 
 }
 

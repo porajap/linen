@@ -405,9 +405,11 @@ $array2 = json_decode($json2,TRUE);
       function ShowItem(){
         var userid = "<?php echo $_SESSION["Userid"]; ?>"
         var keyword = $('#searchitem').val();
+        var HptCode = $('#hotpital').val();
         var data = {
           'STATUS'  : 'ShowItem',
           'Keyword' : keyword,
+          'HptCode' : HptCode,
           'Userid' : userid
         };
 
@@ -821,17 +823,7 @@ $array2 = json_decode($json2,TRUE);
                 for (i = 0; i < RowArray.length; ++i) {
                   $('#tr_child_'+RowArray[i]).remove();
                 }
-                // // --------------------------------------------------
-                // var num = [];
-                // var i = 0;
-                // console.log(chkRow);
-                // $.each(chkRow, function(index, value) {
-                //   if(value==chkRow[index]){
-                //     num[i++] = value;
-                //   }
-                // });
-                // console.log('num : '+num);
-                // // --------------------------------------------------
+
                 for (i = 0; i < chkArray.length; ++i) {
                   count_rowArray.push($('#count_row_'+chkArray[i]).val());
                   var sub = parseInt($('#count_child_'+chkArray[i]).val()) - 1;
@@ -842,12 +834,13 @@ $array2 = json_decode($json2,TRUE);
                 }
                 var ItemCode = chkArray.join(',');
                 var RowID = RowArray.join(',');
-
+                var ItemArray = $('#itemArray').val();
                 var data = {
                   'STATUS' : 'DeleteItem',
                   'DepCode' : DepCode,
                   'RowID' : RowID,
-                  'ItemCode' : ItemCode
+                  'ItemCode' : ItemCode,
+                  'ItemArray' : ItemArray
                 };
                 senddata(JSON.stringify(data));
             } else if (result.dismiss === 'cancel') {
@@ -1278,7 +1271,7 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonText: 'Ok'
                               })
 
-
+                              $('#itemArray').val(temp['ItemCode']);
                               SelectItemStock(temp['ItemCode'], temp['Number']);
                               ShowItem();
 
@@ -1352,6 +1345,7 @@ $array2 = json_decode($json2,TRUE);
                               })
                             }else if(temp['form']=="SelectItemStock"){
                                 var chk_row = $('#chk_row').val();
+                                $('#TableItemStock tbody').empty();
                                 for (var i = 0; i < temp['countx']; i++) {
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
@@ -1378,7 +1372,7 @@ $array2 = json_decode($json2,TRUE);
                                                 "</tr>";
                                                 
                                       }
-                                  $('#TableItemStock tbody:last-child').append(StrTR);
+                                  $('#TableItemStock tbody').append(StrTR);
                                   chk_row++;
                                 }
                                 $('#chk_row').val(chk_row);
@@ -1615,6 +1609,7 @@ $array2 = json_decode($json2,TRUE);
   <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][7][$language]; ?></li>
 </ol>
 <input type="text" value='0' id='chk_row' hidden>
+<input type="hidden"  id='itemArray' >
     <div id="wrapper">
       <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
         <i class="fas fa-angle-down"></i>
