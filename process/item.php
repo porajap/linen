@@ -542,7 +542,8 @@ function AddItem($conn, $DATA)
             Itemnew = '" . $DATA['xItemnew'] . "',
             Tdas = '" . $DATA['tdas'] . "',
             isset = ". $DATA['masterItem'].",
-            HptCode = '". $DATA['hospital']."'
+            HptCode = '". $DATA['hospital']."',
+            Modify_Date = NOW()
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
             $return['1'] = $Sql;
             $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
@@ -707,7 +708,8 @@ function NewItem($conn, $DATA)
             itemDate,
             Tdas,
             isset,
-            HptCode
+            HptCode,
+            Modify_Date
            )
             VALUES
             (
@@ -727,7 +729,8 @@ function NewItem($conn, $DATA)
               NOW(),
               '" . $DATA['tdas'] . "',
               '" . $DATA['masterItem'] . "',
-              '" . $DATA['HptCode'] . "'
+              '" . $DATA['HptCode'] . "',
+              NOW()
 
 
             )

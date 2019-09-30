@@ -168,6 +168,7 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function getDepartment2(){
+            $('#hptsel').css('border-color', '');
             var Hotp = $('#hptsel option:selected').attr("value");
             if(Hotp == '' || Hotp == undefined){
             Hotp = 'BHQ';
@@ -284,6 +285,13 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function ShowItem() {
+            $('.checkblank66').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', 'red');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
             var department2 = $('#department2').val();
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
@@ -892,7 +900,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#host").empty();
                             $("#hptsel").empty();
                             getDepartment2();    
-                            var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
+                            var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                             }
@@ -900,7 +908,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel").append(StrTr);
                         }else if(temp["form"]=='getDepartment'){
                             $("#department").empty();
-                            var Str = "<option value=''>กรุณาเลือกแผนก</option>";
+                            var Str = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                             for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                              Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                             }
@@ -908,7 +916,7 @@ $array2 = json_decode($json2,TRUE);
                         }else if(temp["form"]=='getDepartment2'){
                                     $("#department").empty();
                                     $("#department2").empty();
-                                    var Str2 = "<option value=''>กรุณาเลือกแผนก</option>";
+                                    var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
@@ -918,7 +926,7 @@ $array2 = json_decode($json2,TRUE);
 
                         }else if ((temp["form"] == 'getHotpital_user')) {
                                     $("#host").empty();
-                                    var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
+                                    var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                          StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                     }
@@ -1195,7 +1203,7 @@ label{
                             <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-10" id="hptsel" onchange="getDepartment2();">
+                                        <select class="form-control col-md-10 checkblank66" id="hptsel" onchange="getDepartment2();">
                                         </select>
                                     </div>
                                 </div>

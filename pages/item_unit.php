@@ -1084,7 +1084,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row">
                         <div class="col-md-9">
                                         <div class="row" style="margin-left:5px;">
-                                          <input type="text" class="form-control" autocomplete="off" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                                          <input type="text" class="form-control" autocomplete="off" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchmeasurement'][$language]; ?>" >
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">

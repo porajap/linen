@@ -1669,9 +1669,9 @@ $array2 = json_decode($json2,TRUE);
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
                         <div class='col-3 mr-sm-2 text-left'> 
-                        <span ><?php echo $array['search'][$language]; ?></span>
+                        <span ><?php echo $array['Searchitem'][$language]; ?></span>
                         </div>
-                        <input type="text" autocomplete="off" class="form-control col-8"  name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                        <input type="text" autocomplete="off" class="form-control col-8"  name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem'][$language]; ?>" >
                         <div class="menuMini  ml-2" hidden>
                           <div class="search_1 d-flex justify-content-start">
                             <button class="btn"  onclick="ShowItem()" >
@@ -1689,8 +1689,8 @@ $array2 = json_decode($json2,TRUE);
                   </li>
                 </ul>
                 <div class="row" style="padding-left: 137%;width: 300%;">
-                  <div class="col-6">
-                    <input type="text" class="form-control" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <div class="col-5">
+                    <input type="text" class="form-control" autocomplete="off" name="searchitemstock" id="searchitemstock" placeholder="<?php echo $array['Searchitem'][$language]; ?>" >
                   </div>
                   <div class="menuMini" hidden>
                     <div class="search_1 d-flex justify-content-start">
@@ -1709,7 +1709,7 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                   </div>
                   <div class="menuMini  ml-2 mhee1">
-                    <div class="search_1 d-flex justify-content-start">
+                    <div class="search_1 d-flex justify-content-start" style="margin-left: 15%;">
                       <button class="btn"  onclick="ShowItemStock()" >
                       <i class="fas fa-search mr-2"></i>
                         <?php echo $array['search'][$language]; ?>

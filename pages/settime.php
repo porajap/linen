@@ -107,7 +107,18 @@ $array2 = json_decode($json2,TRUE);
             };
             senddata(JSON.stringify(data));
         }
+        function removeborder(){
+            $('#hptsel').css('border-color', '');
+
+        }
         function ShowItem(){
+            $('.checkblank66').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', 'red');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
             var HptCode = $('#hptsel').val();
             var Keyword = $('#searchitem').val();
             var data = {
@@ -335,8 +346,8 @@ $array2 = json_decode($json2,TRUE);
                     swal.close();
                     if (temp["status"] == 'success') {
                         if ((temp["form"] == 'getSection')) {
-                            var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
-                            var StrTr1 = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
+                            var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                            var StrTr1 = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                  StrTr1 += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
@@ -531,14 +542,14 @@ $array2 = json_decode($json2,TRUE);
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="row" style="margin-left:5px;">
-                                        <select class="form-control col-md-8" id="hptsel">
+                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="removeborder();">
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="col-md-8">
                                     <div class="row" style="margin-left:-155px;">
-                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchHospital'][$language]; ?>">
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
                                           <?php echo $array['search'][$language]; ?></a>       -->

@@ -934,7 +934,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel2").empty();
                             $("#hptselModal").empty();
                             var hotValue1 = '-';
-                            var hotValue0 = 'กรุณาเลือกโรงพยาบาล';
+                            var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             var StrTr2 = "<option value=''>"+hotValue1+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -949,7 +949,7 @@ $array2 = json_decode($json2,TRUE);
                         } else if ((temp["form"] == 'getCategoryMain')) {
                           $("#Category_Main").empty();
                           $("#Category_Main1").empty();
-                            var hotValue0 = 'กรุณาเลือกหมวดหมู่หลัก';
+                            var hotValue0 = '<?php echo $array['Pleasechoosemaincategory'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['MainCategoryCode']+">"+temp[i]['MainCategoryName']+"</option>";
@@ -960,7 +960,7 @@ $array2 = json_decode($json2,TRUE);
                         } else if ((temp["form"] == 'getCategorySub')) {
                           $("#Category_Sub").empty();
                           $("#Category_Sub1").empty();
-                            var hotValue0 = 'กรุณาเลือกหมวดหมู่รอง';
+                            var hotValue0 = '<?php echo $array['Pleaseselectasubcategory'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value="+temp[i]['CategoryCode']+">"+temp[i]['CategoryName']+"</option>";

@@ -238,7 +238,40 @@ $array2 = json_decode($json2,TRUE);
           }
         })
     }
+    function selectAll(){
+          var select_all = document.getElementById('selectAll'); //select all checkbox
+          var checkboxes = document.getElementsByClassName("myDepName"); //checkbox items
 
+          //select all checkboxes
+          select_all.addEventListener("change", function(e){
+            for (i = 0; i < checkboxes.length; i++) { 
+              checkboxes[i].checked = select_all.checked;
+              $('#btn_confirm').attr('disabled', false);
+            }
+          });
+
+
+          for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+              //uncheck "select all", if one of the listed checkbox item is unchecked
+              if(this.checked == false){
+                select_all.checked = false;
+              }
+              //check "select all" if all checkbox items are checked
+              if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+                select_all.checked = true;
+              }
+            });
+          }
+          var numRow = $("#countcheck").val();
+          if(numRow == i){
+            $("#countcheck").val(0);
+            $('#btn_confirm').attr('disabled', true);
+          }else{
+            $("#countcheck").val(i);
+            $('#btn_confirm').attr('disabled', false);
+          }
+        }
     function Blankinput() {
             $('#docno').val("");
             $('#docdate').val("");
@@ -302,7 +335,34 @@ $array2 = json_decode($json2,TRUE);
 
             senddata(JSON.stringify(data));
         }
-
+        function confirmDep(){
+          var DocNo = $('#DocNoHide').val();
+          var ItemCode = $('#ItemCodeHide').val();
+          var DepCodeArray = [];
+          $(".myDepName:checked").each(function() {
+            DepCodeArray.push($(this).data('depcode'));
+          });
+          var DepCode = DepCodeArray.join(',') ;
+          swal({
+            title: " ",
+            text:  " <?php echo $array['save'][$language]; ?>",
+            type: "success",
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 500,
+            closeOnConfirm: false
+          });
+          setTimeout(() => {
+            var data = {
+              'STATUS' : 'confirmDep',
+              'DocNo' : DocNo,
+              'DepCode' : DepCode,
+              'ItemCode' : ItemCode
+            }
+            senddata(JSON.stringify(data));
+            $('#ModalDepartment').modal('toggle');
+          }, 500);
+        }
         function ShowDocument(selecta){
           var Hotp = $('#Hos2 option:selected').attr("value");
           var searchdocument = $('#searchdocument').val();
@@ -318,13 +378,10 @@ $array2 = json_decode($json2,TRUE);
             datepicker1 = "";
           }
           if( typeof searchdocument == 'undefined' ) searchdocument = "";
-          var deptCode = $('#Dep2 option:selected').attr("value");
-          if( typeof deptCode == 'undefined' ) deptCode = "1";
           var data = {
             'STATUS'  	: 'ShowDocument',
             'xdocno'	: searchdocument,
             'selecta' : selecta,
-            'deptCode'	: deptCode,
             'Hotp'	: Hotp,
             'datepicker1' : datepicker1
           };
@@ -385,7 +442,7 @@ $array2 = json_decode($json2,TRUE);
         function ShowDetail() {
           var docno = $("#docno").val();
           var data = {
-            'STATUS'  : 'ShowDetail',
+            'STATUS'  : 'ShowDetailDoc',
             'DocNo'   : docno
           };
           senddata(JSON.stringify(data));
@@ -404,7 +461,14 @@ $array2 = json_decode($json2,TRUE);
         }
 
 
-
+        function showDep(ItemCode, ItemName){
+          var data = {
+            'STATUS' : 'showDep',
+            'ItemCode' : ItemCode,
+            'ItemName' : ItemName
+          }
+          senddata(JSON.stringify(data));
+        }
         function getImport(Sel) {
           //alert(Sel);
           var docno = $("#docno").val();
@@ -544,9 +608,8 @@ $array2 = json_decode($json2,TRUE);
         function CreateDocument(){
           var userid = '<?php echo $Userid; ?>';
           var hotpCode = $('#hotpital option:selected').attr("value");
-          var deptCode = $('#department option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
-          if(deptCode == '' || FacCode == ''){
+          if(FacCode == ''){
             checkblank();
             checkblank2();
             swal({
@@ -564,7 +627,7 @@ $array2 = json_decode($json2,TRUE);
             $('#TableDetail tbody').empty();
             swal({
               title: "<?php echo $array['confirmdoc'][$language]; ?>",
-              text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
+              text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text(),
               type: "warning",
               showCancelButton: true,
               confirmButtonClass: "btn-danger",
@@ -579,7 +642,6 @@ $array2 = json_decode($json2,TRUE);
                 var data = {
                   'STATUS'    : 'CreateDocument',
                   'hotpCode'  : hotpCode,
-                  'deptCode'  : deptCode,
                   'userid'	: userid,
                   'FacCode'	: FacCode
                 };
@@ -899,6 +961,9 @@ $array2 = json_decode($json2,TRUE);
                         confirmButtonText: 'Ok',
                         closeOnConfirm: false
                       });
+                      setTimeout(() => {
+                      OpenDialogItem();
+                      }, 2000);
                       $("#docno").val(temp[0]['DocNo']);
                       $("#docdate").val(temp[0]['DocDate']);
                       $("#recorder").val(temp[0]['Record']);
@@ -944,8 +1009,7 @@ $array2 = json_decode($json2,TRUE);
                         $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                         "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                         "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                        "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                        "<td style='width: 15%;' nowrap>"+temp[i]['DepName']+"</td>"+
+                        "<td style='width: 30%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                         "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
                         "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
                         "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
@@ -1071,8 +1135,7 @@ $array2 = json_decode($json2,TRUE);
                         $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                         "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                         "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                        "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                        "<td style='width: 15%;' nowrap>"+temp[i]['DepName']+"</td>"+
+                        "<td style='width: 30%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                         "<td style='width: 15%;' nowrap>"+temp[i]['Record']+"</td>"+
                         "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
                         "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
@@ -1154,50 +1217,111 @@ $array2 = json_decode($json2,TRUE);
                         $('.numonly').on('input', function() {
                         this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                         });
-                    }else if( (temp["form"]=='ShowItem') ){
-                      var st1 = "style='font-size:24px;margin-left: -10px; width:150px;font-family:THSarabunNew'";
-                      var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
-                      $( "#TableItem tbody" ).empty();
-                      for (var i = 0; i < temp["Row"]; i++) {
-                        var rowCount = $('#TableItem >tbody >tr').length;
+                }else if( (temp["form"]=='ShowItem') ){
+                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
+                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
+                  $( "#TableItem tbody" ).empty();
+                  // $('#wTotal').val(temp[0]['Total'].toFixed(2));
+                  for (var i = 0; i < temp["Row"]; i++) {
+                    var rowCount = $('#TableItem >tbody >tr').length;
 
-                        var chkunit ="<select "+st1+" class='form-control' id='iUnit_"+i+"'>";
-                        var nUnit = "";
+                    var chkunit ="<select "+st1+" class='form-control' id='iUnit_"+i+"'>";
+                    var nUnit = "";
 
-                        for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                          if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
-                            chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                            nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
-                          }else{
-                            chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                            nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
-                          }
-                        }
-                        chkunit += "</select>";
-
-                        var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
-                        var Qty = "<div  class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-
-                        var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly'  style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
-
-                        $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                        "<td style='width: 25%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                        // "<td style='width: 20%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                        "<td style='width: 30%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                        "<td style='width: 15%;'>"+chkunit+"</td>"+
-                        "<td style='width: 15%;' >"+Qty+"</td>"+
-                        "<td style='width: 15%;'>"+Weight+"</td>"+
-                        "</tr>";
-                        if(rowCount == 0){
-                          $("#TableItem tbody").append( $StrTR );
-                        }else{
-                          $('#TableItem tbody:last-child').append( $StrTR );
-                        }
+                    for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
+                      if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
+                        chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
+                      }else{
+                        chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
                       }
-                                                    $('.numonly').on('input', function() {
-                                              this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-                                          });
-                    }else if( (temp["form"]=='ShowUsageCode') ){
+                    }
+                    chkunit += "</select>";
+
+                    var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
+                    var Qty = "<div  class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+
+                    var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly'  style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0' ></div>";
+
+                    $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
+                    "<td style='width: 12%;'><label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                    "<td style='width: 38%;cursor: pointer;' title='"+temp[i]['ItemCode']+"'>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width: 50%;text-align:center;color:#307FE2;'><i class='btn fas fa-plus-circle' style='width: 29px;height:28px;padding-top:4px;font-size:28px;' id='icon_"+temp[i]['ItemCode']+"' onclick='showDep(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\")'></i></td>"+
+                    "</tr>";
+                    if(rowCount == 0){
+                      $("#TableItem tbody").append( $StrTR );
+                    }else{
+                      $('#TableItem tbody:last-child').append( $StrTR );
+                    }
+                  }
+                      $('.numonly').on('input', function() {
+                      this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                  });
+                }else if( (temp["form"]=='showDep') ){
+                  if(temp['CountDep']>0){
+                    var myDATA = "";
+                    $('#Dep').empty();
+                    $("input:checked").each(function() {
+                      $(this).prop('checked', false);
+                    });
+                    for(var i = 0; i<temp['CountDep']; i++){
+                      var DepName = "<span class='ml-4' style=''>"+temp[i]['DepName']+"</span>";
+                      var chkDep = "<input type='checkbox' id='checkDep_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep' style='top:-10%;' class='checkbox myDepName checkDep_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
+                      myDATA += "<div class='col-6'>"+chkDep+DepName+"</div>";
+                    }
+                    $('#Dep').html(myDATA);
+                    $('#HItemName').html(temp['ItemName']);
+                    $('#ModalDepartment').modal('toggle');
+                    var DocNoHide = $('#docno').val();
+                    $('#ItemCodeHide').val(temp['ItemCode']);
+                    $('#DocNoHide').val(DocNoHide);
+                  }
+                }else if( (temp["form"]=='ShowDetailDoc') ){
+                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
+                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
+                  $( "#TableItemDetail tbody" ).empty();
+                  var DataRow = '';
+                  $('#wTotal').val(temp[0]['Total'].toFixed(2));
+                  for (var i = 0; i < temp["CountDep"]; i++) {
+
+
+                    var chkunit ="<select "+st1+" class='form-control' id='iUnit_"+i+"'>";
+                    var nUnit = "";
+
+                    for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
+                      if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
+                        chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
+                      }else{
+                        chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
+                      }
+                    }
+                    chkunit += "</select>";
+
+                    var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
+
+                    var Qty = "<input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
+
+                    var Weight = "<input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+
+                    var Price = "<input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
+
+                    var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
+                    DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
+                    DataRow += "<td style='width:6%;' nowrap>"+(i+1)+"</td>";
+                    DataRow += "<td style='width:18%' nowrap>"+temp[i]['DepName']+"</td>";
+                    DataRow += "<td style='width:21%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width:22%;' nowrap><center>"+chkunit+"</center></td>"+
+                    "<td style='width:10%;' nowrap><center>"+Qty+"</center></td>"+
+                    "<td style='width:20%;' nowrap><center>"+Weight+"</center></td></<tr>";
+                  }
+                  $("#TableItemDetail tbody").html(DataRow);
+                  $('.numonly').on('input', function() {
+                    this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                  });
+                }else if( (temp["form"]=='ShowUsageCode') ){
                       var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                       var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
                       $( "#TableUsageCode tbody" ).empty();
@@ -1468,6 +1592,19 @@ $array2 = json_decode($json2,TRUE);
         }
        }
 
+       #ModalDepartment .modal-content{
+          width: 84% !important;
+          right: 0% !important;
+          top: 136px;
+       }
+       #ModalDepartment .card-body{
+          overflow-y:auto;
+          max-height:328px;
+       }
+       .mhee555{
+        overflow-y:auto;
+          max-height:600px;
+       }
     </style>
 </head>
 
@@ -1653,9 +1790,9 @@ $array2 = json_decode($json2,TRUE);
                             <th style="width: 3%;">&nbsp;</th>
                               <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                              <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 5%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
+                              <th style='width: 16%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 30%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 7%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                                   </thead>
                                   <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -1674,12 +1811,12 @@ $array2 = json_decode($json2,TRUE);
                               </select>
                             </div>
                           </div>
-                          <div class="col-md-2">
+                          <!-- <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
                               <select class="form-control" style='font-size:24px;' id="Dep2">
                               </select>
                             </div>
-                          </div>
+                          </div> -->
                           <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
                             <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
@@ -1715,8 +1852,7 @@ $array2 = json_decode($json2,TRUE);
                               <tr role="row">
                                 <th style='width: 10%;' nowrap>&nbsp;</th>
                                 <th style='width: 15%;' nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                <th style='width: 15%;' nowrap><?php echo $array['docno'][$language]; ?></th>
-                                <th style='width: 15%;' nowrap><?php echo $array['department'][$language]; ?></th>
+                                <th style='width: 30%;' nowrap><?php echo $array['docno'][$language]; ?></th>
                                 <th style='width: 15%;' nowrap><?php echo $array['employee'][$language]; ?></th>
                                 <th style='width: 10%;' nowrap><?php echo $array['time'][$language]; ?></th>
                                 <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
@@ -1736,7 +1872,6 @@ $array2 = json_decode($json2,TRUE);
             </div>
           </div>
         </div>
-
   <!-- -----------------------------Custom1------------------------------------ -->
   <div class="modal" id="dialogItemCode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -1766,7 +1901,7 @@ $array2 = json_decode($json2,TRUE);
                 </div>
               </div>
 
-              <div class="search_custom col-md-2">
+              <div class="search_custom col-md-2" hidden>
                 <div class="import_1 d-flex justify-content-start opacity" id="bSaveadd2">
                   <button class="btn dis" onclick="getImport(1)" id="bSaveadd" disabled="true">
                     <i class="fas fa-file-import mr-2 pt-1"></i>
@@ -1776,22 +1911,44 @@ $array2 = json_decode($json2,TRUE);
               </div>
               <!-- end serach----------------------- -->
             </div>
-            <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
+            <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
               <thead style="font-size:24px;">
                 <tr role="row">
-                <input type="text" hidden id="countcheck">
-                <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 23%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
-                <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                <th style='width: 12%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                <th style='width: 38%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 50%;' nowrap><center><?php echo $array['selectDep'][$language]; ?></center></th>
                 </tr>
               </thead>
               <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <div class="modal fade" id="ModalDepartment" tabindex="-1" style='background-color: #00000061!important;' role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header" id="modalHead">
+          <h4 id="HItemName"></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <input type="text"  id="countcheck" value="0" hidden>
+        <input type="text" id="DocNoHide" hidden>
+        <input type="text" id="ItemCodeHide" hidden>
+          <div class="card-body" style="padding:0px;">
+            <input type='checkbox'  id='selectAll' onclick='selectAll()' style="top:-4px;"><span style="font-size:30px; " class="ml-4"><?php echo $array['selectall'][$language]; ?></span>
+            <div id='Dep' class='row'></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="btn_confirm" style="width:10%;" disabled class="btn btn-success px-2" onclick="confirmDep()"><?php echo $array['confirm'][$language]; ?></button>
+          <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
         </div>
       </div>
     </div>

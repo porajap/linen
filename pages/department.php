@@ -306,8 +306,19 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
+        function removeborder(){
+            var hptsel = $('#hptsel').val();
+            $('#hptsel').css('border-color', '');
+            $('#hptsel2').val(hptsel);
+        }
         function ShowItem() {
+            $('.checkblank66').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', 'red');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
             var data = {
@@ -315,7 +326,7 @@ $array2 = json_decode($json2,TRUE);
                 'HptCode': HptCode,
                 'Keyword': keyword
             };
-
+            // Blankinput();
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
@@ -495,7 +506,7 @@ $array2 = json_decode($json2,TRUE);
             }
           });
             $('#DepCode').val("");
-            $('#hptsel2').val("BHQ");
+            $('#hptsel2').val("");
              $('#DepCodeReal').val("");
             // ShowItem();
             $('#bCancel').attr('disabled', true);
@@ -695,8 +706,10 @@ $array2 = json_decode($json2,TRUE);
                                     "</tr>";
 
                                 if (rowCount == 0) {
+                                    Blankinput();
                                     $("#TableItem tbody").append(StrTR);
                                 } else {
+                                    Blankinput();
                                     $('#TableItem tbody:last-child').append(StrTR);
                                 }
                             }
@@ -906,7 +919,7 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                             })
                         } else if ((temp["form"] == 'getSection')) {
-                            var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
+                            var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 var Str = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
@@ -1159,14 +1172,14 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-4">
                                     <div class="row" style="margin-left:5px;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-8" id="hptsel">
+                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="removeborder();">
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="col-md-8">
                                     <div class="row" style="margin-left:5px;">
-                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;margin-left: -18%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;margin-left: -18%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchDepartment'][$language]; ?>">
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
                                           <?php echo $array['search'][$language]; ?></a>       -->

@@ -603,6 +603,8 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+        $('#profile-tab').attr('hidden',true);
+        $('#home-tab').click();
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -645,10 +647,13 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function getdetail(HptCode , row) {
+        $('#profile-tab').attr('hidden',false);
         var id = $('#id_'+row).data('value');
         var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
+          $('#profile-tab').attr('hidden',true);
+          $('#home-tab').click();
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
@@ -942,6 +947,8 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                                 Blankinput();
                                 getHotpital();
+                                $('#profile-tab').attr('hidden',true);
+                                $('#home-tab').click();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                   $(this).css('border-color', '');
@@ -1324,7 +1331,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row">
                         <div class="col-md-9 mt-3">
                                         <div class="row" style="margin-left:5px;">
-                                          <input type="text" autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                                          <input type="text" autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchHospital'][$language]; ?>" >
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSavesave">
@@ -1417,7 +1424,7 @@ $array2 = json_decode($json2,TRUE);
                         <a class="nav-link active" id="home-tab" onclick="menu_tapShow();"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="profile-tab"  onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
+                        <a class="nav-link" id="profile-tab" hidden onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
                       </li>
                   </ul>
 <!-- =============================================================================================================================== -->
@@ -1433,7 +1440,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-5 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
+                                    <label class="col-sm-4 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <input type="text"  autocomplete="off" class="form-control col-sm-7 " id="HptCode1"  hidden  placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
@@ -1444,7 +1451,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row" >
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-5 col-form-label "><?php echo $array['hosnameEN'][$language]; ?></label>
+                                    <label class="col-sm-4 col-form-label "><?php echo $array['hosnameEN'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosnameEN'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1453,7 +1460,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row" >
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-5 col-form-label"><?php echo $array['hosnameTH'][$language]; ?></label>
+                                    <label class="col-sm-4 col-form-label"><?php echo $array['hosnameTH'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosnameTH'][$language]; ?>">
                                       <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>

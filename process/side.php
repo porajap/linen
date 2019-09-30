@@ -130,8 +130,8 @@ function AddItem($conn, $DATA)
   $Position = $DATA['Position'];
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
-  $xcenter1 = $DATA['xcenter1'];
-  $xcenter2 = $DATA['xcenter2'];
+  $xcenter1 = $DATA['xcenter1']==null?0:$DATA['xcenter1'];
+  $xcenter2 = $DATA['xcenter2']==null?0:$DATA['xcenter2'];
 
   // ==============================================
   $Sql = "SELECT COUNT(*) AS Countn
@@ -144,9 +144,10 @@ function AddItem($conn, $DATA)
   }
   // ==============================================
 
-  if($HptCode1== " "){
+  if($HptCode1== ""){
     $count = 0;
     $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government) VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2)";
+    $return['sss'] = $Sql;
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
     $return['form'] = "AddItem";

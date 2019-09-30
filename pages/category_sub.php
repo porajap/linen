@@ -314,9 +314,18 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
+      function removeborder(){
+            $('#maincatagory').css('border-color', '');
 
+        }
       function ShowItem(check){
-
+        $('.checkblank66').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', 'red');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
         var maincatagory = $('#maincatagory option:selected').attr("value");
         if( typeof maincatagory == 'undefined' ) maincatagory = "1";
         //var dept = $('#Deptsel').val();
@@ -698,7 +707,7 @@ $array2 = json_decode($json2,TRUE);
                                   $('#delete1').addClass('mhee');
                               }
                             }else if( (temp["form"]=='GetmainCat') ){
-                              var StrTr = "<option value=''>กรุณาเลือกแผนกหลัก</option>";
+                              var StrTr = "<option value=''> <?php echo $array['Pleasechoosemaincategory'][$language]; ?></option>";
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                StrTr += "<option value = '"+temp[i]['MainCategoryCode']+"'> " + temp[i]['MainCategoryName'] + " </option>";
                               }
@@ -1132,12 +1141,12 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row">
                         <div class="col-md-4">
                               <div class="row" style="font-size:24px;margin-left:5px;">
-                                  <select class="form-control col-md-9" style="font-size:24px;" id="maincatagory" ></select>
+                                  <select class="form-control col-md-9 checkblank66" style="font-size:24px;" id="maincatagory" onchange="removeborder();"></select>
                               </div>
                         </div>
                         <div class="col-md-8">
                                         <div class="row" style="margin-left:-120px;">
-                                          <input type="text"  autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                                          <input type="text"  autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchsubcategory'][$language]; ?>" >
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">

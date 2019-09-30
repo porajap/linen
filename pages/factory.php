@@ -651,6 +651,8 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+        $('#profile-tab').attr('hidden',true);
+        $('#home-tab').click();
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -691,12 +693,15 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function getdetail(FacCode , row) {
-       
+        
+        $('#profile-tab').attr('hidden',false);
         var number = parseInt(row)+1;
         var id = $('#id_'+row).data('value');
         var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
+          $('#profile-tab').attr('hidden',true);
+          $('#home-tab').click();
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
@@ -977,6 +982,8 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                                 getFactory();
                                 Blankinput();
+                                $('#profile-tab').attr('hidden',true);
+                                $('#home-tab').click();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                   $(this).css('border-color', '');
@@ -1363,7 +1370,7 @@ label{
                         <div class="row">            
                             <div class="col-md-9">
                               <div class="row" style="margin-left:5px;">
-                                <input type="text" autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                                <input type="text" autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchLaundry'][$language]; ?>" >
                                 <div class="search_custom col-md-2">
                                 <div class="search_1 d-flex justify-content-start">
                                   <button class="btn" onclick="ShowItem()" id="bSave">
@@ -1453,7 +1460,7 @@ label{
                         <a class="nav-link active" id="home-tab" onclick="menu_tapShow();" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" onclick="menu_tapHide();"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
+                        <a class="nav-link" id="profile-tab" onclick="menu_tapHide();" hidden data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
                       </li>
                   </ul>
 <!-- =============================================================================================================================== -->

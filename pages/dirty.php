@@ -1838,9 +1838,9 @@ $array2 = json_decode($json2,TRUE);
                             <th style="width: 3%;">&nbsp;</th>
                               <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['department'][$language]; ?></th>
-                              <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 22%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 10%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
+                              <th style='width: 16%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 30%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 7%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                                   </thead>
                                   <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;">

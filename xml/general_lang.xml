@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
-<private><en>Please choose date of the form</en><th>เอกชน</th></private>
-<government><en>Please choose date of the form</en><th>รัฐบาล</th></government>
-<selecthospital><en>Please choose a hospital</en><th>กรุณาเลือกโรงพยาบาล</th></selecthospital>
-<selectdep><en>Please choose a department</en><th>กรุณาเลือกแผนก</th></selectdep>
+     
+<Searchmeasurement><en>Search measurement</en><th>ค้นหา หน่วยนับ</th></Searchmeasurement>
+<Searchsubcategory><en>Search sub category</en><th>ค้นหา รายการรอง</th></Searchsubcategory>
+<Searchmaincategory><en>Search main category</en><th>ค้นหา รายการหลัก</th></Searchmaincategory>
+<Searchitem><en>Search item</en><th>ค้นหา รายการ</th></Searchitem>
+ <SearchDepartment><en>Search Department</en><th>ค้นหา แผนก</th></SearchDepartment>
+<SearchHospital><en>Search Hospital</en><th>ค้นหา โรงพยาบาล</th></SearchHospital>
+<SearchLaundry><en>Search Laundry</en><th>ค้นหา โรงงานซัก</th></SearchLaundry>
+<private><en>Private hospital</en><th>เอกชน</th></private>
+<government><en>Public hospital</en><th>รัฐบาล</th></government>
+<!--============================================================================== -->
+<selecthospital><en>Please Choose Hospital</en><th>กรุณาเลือกโรงพยาบาล</th></selecthospital>
+<selectdep><en>Please choose department</en><th>กรุณาเลือกแผนก</th></selectdep>
 <selectfactory><en>Please choose a factory</en><th>กรุณาเลือกโรงซัก</th></selectfactory>
+<Pleasechoosemaincategory><en>Please choose main category</en><th>กรุณาเลือกหมวดหมู่หลัก</th></Pleasechoosemaincategory>
+<Pleaseselectasubcategory><en>Please select a subcategory</en><th>กรุณาเลือกหมวดหมู่รอง</th></Pleaseselectasubcategory>
+ 
+<!--============================================================================== -->
+
 <selectdate><en>Please choose a date</en><th>กรุณาเลือกวันที่</th></selectdate>
 <insert_date><en>Please choose date of the form</en><th>กรุณาเลือกแบบฟอร์มวันที่</th></insert_date>
 <ppu><en>PPU</en><th>PPU</th></ppu>
@@ -196,8 +210,8 @@
 <taxid><en>Tax ID</en><th>เลขที่ผู้เสียภาษี</th></taxid>
 <postid><en>Post ID</en><th>รหัสไปรษณีย์</th></postid>
 <hoscode><en>Hospital code</en><th>รหัสโรงพยาบาล</th></hoscode>
-<hosnameEN><en>Hospital</en><th>ชื่อโรงพยาบาลภาษาอังกฤษ</th></hosnameEN>
-<hosnameTH><en>Hospital</en><th>ชื่อโรงพยาบาลภาษาไทย</th></hosnameTH>
+<hosnameEN><en>HospitalEN</en><th>ชื่อโรงพยาบาลภาษาอังกฤษ</th></hosnameEN>
+<hosnameTH><en>HospitalTH</en><th>ชื่อโรงพยาบาลภาษาไทย</th></hosnameTH>
 <codecode><en>Department code</en><th>รหัส</th></codecode>
 <categorycode><en>Category code </en><th>รหัสหมวดหมู่</th></categorycode>
 <categorysubcode><en>Code</en><th>รหัสหมวดหมู่รอง</th></categorysubcode>

@@ -163,7 +163,7 @@ $array2 = json_decode($json2, TRUE);
     });
 
     function changeHptCode(){
-
+      $('#Hos2').css('border-color', '');
       var Hos2 = $('#Hos2').val();
         if(Hos2 !=''){
          $('#hospital').val(Hos2);
@@ -389,6 +389,21 @@ $array2 = json_decode($json2, TRUE);
 
 
     function ShowItem(column, sort) {
+      var count = 0;
+      $(".checkblank66").each(function() {
+        if ($(this).val() == "" || $(this).val() == undefined) {
+          count++;
+        }
+      });
+      if (count != 0) {
+        $('.checkblank66').each(function() {
+          if ($(this).val() == "" || $(this).val() == undefined) {
+            $(this).css('border-color', 'red');
+          } else {
+            $(this).css('border-color', '');
+          }
+        });
+      }else{
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
@@ -406,6 +421,7 @@ $array2 = json_decode($json2, TRUE);
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
+      }
     }
     function ShowItem2(mItemCode) {
       var maincatagory = $("#maincatagory").val();
@@ -1142,6 +1158,7 @@ $array2 = json_decode($json2, TRUE);
     }
     function menu_tapHide(chk){
       if(chk != 2){
+        $('#scroll555').addClass('table-scroll');
         $('#TableItem').attr("hidden", false);
         $('#TableItemMaster').attr("hidden", true);
         $('#memu_tap1').attr('hidden', true);
@@ -1399,7 +1416,7 @@ $array2 = json_decode($json2, TRUE);
               $("#catagory1").empty();
               $("#catagoryModal").empty();
               $("#catagory2").empty();
-              var hotValue0 = 'กรุณาเลือกหมวดหมู่รอง';
+              var hotValue0 = '<?php echo $array['Pleaseselectasubcategory'][$language]; ?>';
               var StrTr = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
  
@@ -1411,7 +1428,7 @@ $array2 = json_decode($json2, TRUE);
               $("#catagoryModal").append(StrTr);
               CreateItemCode();
             } else if ((temp["form"] == 'GetHospital')) {
-              var hotValue0 = 'กรุณาเลือกโรงพยาบาล';
+              var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
               var StrTr1 = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                  StrTr1 += "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
@@ -1420,7 +1437,7 @@ $array2 = json_decode($json2, TRUE);
               }
               $("#Hos2").append(StrTr1);
             } else if ((temp["form"] == 'GetmainCat')) {
-              var hotValue0 = 'กรุณาเลือกหมวดหมู่หลัก';
+              var hotValue0 = '<?php echo $array['Pleasechoosemaincategory'][$language]; ?>';
               var StrTr1 = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                  StrTr1 += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
@@ -2265,27 +2282,27 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div class="card-body" style="padding:0px; margin-top:-12px;">
               <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;" id="Hos2" onchange="changeHptCode()"></select>
+                    <select class="form-control checkblank66" style="font-size:24px;width: 80%;" id="Hos2" onchange="changeHptCode()"></select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row" style="font-size:24px;margin-left:2px;">
+                    <select class="form-control" style="font-size:24px;margin-left: -23%;width: 80%;" id="maincatagory" onchange="getCatagory();"></select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row" style="font-size:24px;margin-left:2px;">
+                    <select class="form-control" style="font-size:24px;width: 80%;margin-left: -46%;" id="catagory1"> </select>
                   </div>
                 </div>
                 <div class="col-md-2">
-                  <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;" id="maincatagory" onchange="getCatagory();"></select>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;" id="catagory1"> </select>
-                  </div>
-                </div>
-                <div class="col-md-4">
                   <div class="row " style="margin-left:2px;">
-                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;margin-left: -106%;width: 155%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1" style="margin-left: -9%;">
                   <div class="search_custom col-md-2" id="searchItem_1">
 										<div class="search_1 d-flex justify-content-start">
 											<button class="btn" onclick="ShowItem()">
