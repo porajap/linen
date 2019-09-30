@@ -34,7 +34,7 @@ function getSection($conn, $DATA)
     INNER JOIN item_category ON item_category.CategoryCode = item.CategoryCode
     INNER JOIN item_main_category ON item_main_category.MainCategoryCode = item_category.MainCategoryCode
     LEFT JOIN tdas_change ON tdas_change.ItemCode = item.ItemCode
-    WHERE Tdas = 1 ";
+    WHERE item.Tdas = 1 AND item.HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['mainType']  = $Result['MainCategoryName'];

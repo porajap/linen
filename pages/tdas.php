@@ -786,6 +786,10 @@ $array2 = json_decode($json2,TRUE);
                                     "</tr>";
                                 }
                                 var RowChg = j;
+                            }else{
+                                    StrTRx += "<tr style='height:50px;'>"+
+                                        "<td  class='text-center' colspan='13'><?php echo $array['notfoundmsg'][$language]; ?></td>"+
+                                    "</tr>";
                             }
                             $('#body_table').html(StrTRx);
                             $('.numonly_dot').on('input', function() {
