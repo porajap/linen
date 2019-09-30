@@ -78,43 +78,19 @@ $array2 = json_decode($json2,TRUE);
         $(document).ready(function(e) {
             $('#rem1').hide();
             $('#rem2').hide();
-            Blankinput();
+            // Blankinput();
+            getSection();
             //On create
             $('.TagImage').bind('click', {
                 imgId: $(this).attr('id')
             }, function(evt) {
                 alert(evt.imgId);
             });
-            //On create
-            // var userid = '<?php echo $Userid; ?>';
-            // if(userid!="" && userid!=null && userid!=undefined){
-            var lang = '<?php echo $language; ?>';
-            var HptCode = $('#hptsel').val();
-            var Keyword = $('#searchitem').val();
-            var data = {
-                'STATUS': 'ShowItem',
-                'HptCode': HptCode,
-                'Keyword': Keyword
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-            // }
-
-            var data2 = {
-                'STATUS': 'getSection',
-                'HptCode': HptCode ,
-                'lang'	: lang
-            };
-            console.log(JSON.stringify(data2));
-            senddata(JSON.stringify(data2));
-
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
                     ShowItem();
                 }
             });
-
             $('.editable').click(function() {
                 alert('hi');
             });
@@ -130,6 +106,15 @@ $array2 = json_decode($json2,TRUE);
       }).keyup(function(e) { parent.afk();
       });
 
+        function getSection(){
+            var lang = '<?php echo $language; ?>';
+            var data2 = {
+                'STATUS': 'getSection',
+                'lang'	: lang
+            };
+            console.log(JSON.stringify(data2));
+            senddata(JSON.stringify(data2));
+        }
         dialog = jqui("#dialog").dialog({
             autoOpen: false,
             height: 650,
@@ -512,7 +497,7 @@ $array2 = json_decode($json2,TRUE);
             $('#DepCode').val("");
             $('#hptsel2').val("BHQ");
              $('#DepCodeReal').val("");
-            ShowItem();
+            // ShowItem();
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $('#delete1').removeClass('mhee');
@@ -921,12 +906,12 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                             })
                         } else if ((temp["form"] == 'getSection')) {
-                            var StrTr = "<option value=''>-</option>";
+                            var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 var Str = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                $("#hptsel").append(Str);
                             }
+                            $("#hptsel").append(StrTr);
                             $("#hptsel2").append(StrTr);
                         }
                     } else if (temp['status'] == "failed") {
@@ -1173,7 +1158,7 @@ $array2 = json_decode($json2,TRUE);
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="row" style="margin-left:5px;">
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
+                                    <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
                                         <select class="form-control col-md-8" id="hptsel">
                                         </select>
                                     </div>
@@ -1181,7 +1166,7 @@ $array2 = json_decode($json2,TRUE);
 
                                 <div class="col-md-8">
                                     <div class="row" style="margin-left:5px;">
-                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;margin-left: -18%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
                                           <?php echo $array['search'][$language]; ?></a>       -->

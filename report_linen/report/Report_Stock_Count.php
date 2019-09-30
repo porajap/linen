@@ -183,8 +183,11 @@ if ($language == 'th') {
 
       // Move to the right
       $pdf->SetFont('THSarabun', '', 10);
+      $image="../images/Nhealth_linen 4.0.png";
+      $pdf-> Image($image,10,10,43,15);
+      $pdf->SetFont('THSarabun', '', 10);
       $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
-      $pdf->Ln(5);
+      $pdf->Ln(18);
       // Title
       $pdf->SetFont('THSarabun', 'b', 20);
       $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['r9'][$language]), 0, 0, 'C');
@@ -225,7 +228,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $pdf->SetFont('THSarabun', '', 14);
   $DocDate = date('d/m/Y', strtotime($Result['ExpireDate']));
   $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $i), 1, 0, 'C');
-  $pdf->Cell(50, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'C');
+  $pdf->Cell(50, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'L');
   $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['unitname']), 1, 0, 'C');
   $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
   $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 1, 'C');

@@ -15,6 +15,8 @@ $year=$data['year'];
 $depcode=$data['DepCode'];
 $format=$data['Format'];
 $cycle=$data['cycle'];
+$betweendate1 = $data['betweendate1'];
+$betweendate2 = $data['betweendate2'];
 $where='';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -28,7 +30,7 @@ $json = json_encode($xml);
 $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
-//print_r($data);
+// print_r($data);
 if($chk == 'one'){
   if ($format == 1) {
     $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
@@ -78,12 +80,17 @@ elseif($chk == 'month'){
 
 }
 elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(shelfcount.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE date(shelfcount.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $datetime = new DatetimeTH();
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  ." " . $array['to'][$language] ." " . $datetime->getTHmonthFromnum($date2);
-  }else{
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) ." " . $array['to'][$language] ." " . $datetime->getmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
+  } else {
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
  
@@ -120,20 +127,22 @@ $datetime = new DatetimeTH();
 
 // Using Coding
 $pdf->AddPage("P", "A4");
-// SUB Header
+
 $Sql = "SELECT
         shelfcount.DocNo,
         DATE(shelfcount.DocDate) AS DocDate,
         TIME(shelfcount.DocDate) AS DocTime,
         department.DepName,
         shelfcount.CycleTime,
+        site.HptName,
 				TIME(shelfcount.DvStartTime) as  DvStartTime
         FROM
         shelfcount
         INNER JOIN department ON shelfcount.DepCode = department.DepCode
+        INNER JOIN site ON site.HptCode = department.HptCode
         $where
         AND department.DepCode = $depcode
-        AND shelfcount.CycleTime = $cycle
+        AND shelfcount.CycleTime = '$cycle'
         ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -143,6 +152,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DocNo = $Result['DocNo'];
   $Delivery = $Result['DvStartTime'];
   $CycleTime = $Result['CycleTime'];
+  $HptName = $Result['HptName'];
 }
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
@@ -150,42 +160,42 @@ if ($language == 'th') {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 
+  // $image="../images/Nhealth_linen 4.0.png";
+  // $pdf-> Image($image,10,10,43,15);
 $pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
-$pdf->Ln(7);
+$pdf->Ln(18);
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);
 $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['r4'][$language]), 0, 1, 'C');
-// Line break
 $pdf->SetFont('THSarabun', 'b', 14  );
-$pdf->Cell(20, 5, iconv("UTF-8", "TIS-620", $array['department'][$language] ." : ". $DeptName."     ".$array['Cycle'][$language] ." : ". $CycleTime), 0, 0, 'L');
-$pdf->Cell(170, 5, iconv("UTF-8", "TIS-620", $date_header ), 0, 1, 'R');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['hospital'][$language]." : ".$HptName), 0, 1, 'L');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['ward'][$language]." : ". $DeptName), 0, 1, 'L');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['date'][$language]." : ". $date_header), 0, 1, 'L');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['shelfcounttime'][$language]), 0, 1, 'L');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['deliverytime'][$language]), 0, 1, 'L');
 $pdf->Ln(5);
 
-// $pdf->Cell(5);
-// $pdf->Cell(110, 10, iconv("UTF-8", "TIS-620", "Delivery : ".$Delivery), 0, 0, 'L');
-// $pdf->Cell(75, 10, iconv("UTF-8", "TIS-620", "Time : " . $DocTime), 0, 0, 'R');
 
 
 $pdf->SetFont('THSarabun', '', 14);
-//Header
-$pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $array2['no'][$language]), 1, 0, 'C');
-$pdf->Cell(38, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
-$pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $array2['parqty'][$language]), 1, 0, 'C');
-$pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $array2['shelfcount1'][$language]), 1, 0, 'C');
-$pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $array2['max'][$language]), 1, 0, 'C');
-$pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $array2['issue'][$language]), 1, 0, 'C');
-$pdf->Cell(29, 10, iconv("UTF-8", "TIS-620", $array2['short'][$language]), 1, 1, 'C');
 
-
-//Table
+$pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $array2['no'][$language]), 1, 0, 'C');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
+$pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $array2['parqty'][$language]), 1, 0, 'C');
+$pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $array2['shelfcount1'][$language]), 1, 0, 'C');
+$pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $array2['max'][$language]), 1, 0, 'C');
+$pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $array2['issue'][$language]), 1, 0, 'C');
+$pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $array2['short'][$language]), 1, 0, 'C');
+$pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $array2['over'][$language]), 1, 1, 'C');
 
 $query = "SELECT
           item.ItemName,
+          item.weight,
           IFNULL(shelfcount_detail.ParQty,0) AS ParQty,
           IFNULL(shelfcount_detail.CcQty,0) AS CcQty,
           IFNULL(shelfcount_detail.TotalQty,0) AS TotalQty,
-          IFNULL(shelfcount_detail.OverPar,0) AS OverPar,
+          IFNULL(shelfcount_detail.Over,0) AS OverPar,
           IFNULL(shelfcount_detail.Short,0) AS Short,
           IFNULL(item.Weight,0) AS Weight
           FROM
@@ -194,7 +204,8 @@ $query = "SELECT
           INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
           INNER JOIN department ON shelfcount.DepCode = department.DepCode
           $where
-          AND department.DepCode = $depcode ";
+          AND department.DepCode = $depcode
+          AND shelfcount.CycleTime = '$cycle'";
 $meQuery = mysqli_query($conn, $query);
 $i = 1;
 $header = 0;
@@ -202,13 +213,14 @@ $pdf->SetFont('THSarabun', '', 14);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
 
 $issue=$Result['ParQty']-$Result['CcQty'];
-  $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'C');
-  $pdf->Cell(38, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'C');
-  $pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
-  $pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'C');
-  $pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'C');
-  $pdf->Cell(27, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'C');
-  $pdf->Cell(29, 10, iconv("UTF-8", "TIS-620", $Result['Short']), 1, 1, 'C');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", "$i"), 1, 0, 'C');
+  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 0, 'L');
+  $pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
+  $pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'C');
+  $pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'C');
+  $pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'C');
+  $pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $Result['Short']), 1, 0, 'C');
+  $pdf->Cell(21.5, 10, iconv("UTF-8", "TIS-620", $Result['OverPar']), 1, 1, 'C');
   $i++;
 }
 

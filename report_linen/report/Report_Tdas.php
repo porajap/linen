@@ -216,7 +216,7 @@ $header = array('ลำดับ', '', 'DEPARTMENT', 'Change', 'N-health', 'BHQ1
 $header1 = array('', '', 'Cost Center', '', '', '', '', ' ', 'Ex.STOCK', 'Par', 'Par');
 $header2 = array('', '', 'Name', '', '', '', '', ' ', '', '1', '3.5');
 // width of column Total
-$width = array(8, 7, 45, 20, 15, 15, 15, 15, 15, 15, 15);
+$width = array(8, 15, 45, 15, 15, 15, 15, 15, 15, 15, 15);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
@@ -357,7 +357,7 @@ $query2 = "SELECT
  GROUP BY ItemCode,DepCode
  ORDER BY ItemCode ASC
 ";
-$x = 90;
+$x = 93;
 $y = 114;
 $count = 1;
 $meQueryyy = mysqli_query($conn, $query2);
@@ -369,7 +369,8 @@ while ($Result = mysqli_fetch_assoc($meQueryyy)) {
   $x = $x + 15;
   if ($count == 4) {
     $y =$y + 10;
-    $x = 90;
+    $x = 93;
+    $count=0; 
   }
   $count++;
 }
@@ -385,7 +386,7 @@ WHERE DocNo = '$DocNo'
 ORDER BY ItemCode
 
 ";
-$x = 165;
+$x = 168;
 $y = 114;
 $count = 1;
 $pdf->SetXY($x, $y);

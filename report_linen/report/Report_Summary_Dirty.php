@@ -10,6 +10,8 @@ $HptCode = $data['HptCode'];
 $FacCode = $data['FacCode'];
 $date1 = $data['date1'];
 $date2 = $data['date2'];
+$betweendate1 = $data['betweendate1'];
+$betweendate2 = $data['betweendate2'];
 $chk = $data['chk'];
 $year = $data['year'];
 $format = $data['Format'];
@@ -71,12 +73,16 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE MONTH(clean.DocDate) BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE date(clean.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
   } else {
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 
@@ -143,7 +149,7 @@ class PDF extends FPDF
         $tax = (($inner_array[$field[1]] + $inner_array[$field[2]]) * $inner_array[$field[3]]) * 0.07;
         $total = $sum;
         $pdf->SetFont('THSarabun', '', 12);
-        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'L');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
@@ -189,12 +195,12 @@ class PDF extends FPDF
     $pdf->Ln(8);
     $pdf->SetFont('THSarabun', 'b', 11);
     $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่ห้องผ้า..................................................."), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่โรงซัก........................................"), 0, 0, 'L');
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language]."..................................................."), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language]."........................................"), 0, 0, 'L');
     $pdf->Ln(7);
     $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "วันที่......................................................................"), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "วันที่.........................................................."), 0, 0, 'L');
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language]."......................................................................"), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language].".........................................................."), 0, 0, 'L');
     $pdf->Ln(7);
   }
 }
@@ -208,11 +214,17 @@ $datetime = new DatetimeTH();
 
 // Using Coding
 $pdf->AddPage("P", "A4");
-
+if ($language == 'th') {
+  $HptName = HptNameTH;
+  $FacName = FacNameTH;
+} else {
+  $HptName = HptName;
+  $FacName = FacName;
+}
 $Sql = "SELECT
-factory.FacName,
+factory.$FacName,
 DATE(clean.DocDate) AS DocDate,
-site.Hptname,
+site.$HptName,
 item_main_category.maincategoryname
 FROM
 clean
@@ -230,8 +242,8 @@ INNER JOIN item_main_category ON item_category.maincategorycode = item_main_cate
       ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $factory = $Result['FacName'];
-  $Hptname = $Result['Hptname'];
+  $factory = $Result[$FacName];
+  $Hptname = $Result[$HptName];
   $catname = $Result['maincategoryname'];
 }
 $datetime = new DatetimeTH();
@@ -242,8 +254,11 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
+$image="../images/Nhealth_linen 4.0.png";
+$pdf-> Image($image,10,10,43,15);
+$pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
-$pdf->Ln(5);
+$pdf->Ln(18);
 // Title
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);

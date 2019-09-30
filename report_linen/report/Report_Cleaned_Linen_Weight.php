@@ -4,9 +4,8 @@ require('connect.php');
 require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
-header('Content-type: text/html; charset=utf-8');
-
 session_start();
+// ?รับค่าจาก process
 $data = $_SESSION['data_send'];
 $HptCode = $data['HptCode'];
 $FacCode = $data['FacCode'];
@@ -16,6 +15,8 @@ $chk = $data['chk'];
 $year = $data['year'];
 $depcode = $data['DepCode'];
 $format = $data['Format'];
+$betweendate1 = $data['betweendate1'];
+$betweendate2 = $data['betweendate2'];
 $where = '';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -78,13 +79,17 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(clean.Docdate) BETWEEN $date1 AND $date2";
-  $where_new =  "WHERE month(newlinentable.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE date(clean.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where_new =  "WHERE date(newlinentable.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
   } else {
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 
@@ -152,10 +157,16 @@ $datetime = new DatetimeTH();
 
 // Using Coding
 $pdf->AddPage("P", "A4");
-
+if ($language == 'th') {
+  $HptName = HptNameTH;
+  $FacName = FacNameTH;
+} else {
+  $HptName = HptName;
+  $FacName = FacName;
+}
 $Sql = "SELECT
-			factory.FacName,
-			site.HptName,
+			factory.$FacName,
+			site.$HptName,
 			department.DepName
 FROM clean
 INNER JOIN dirty ON dirty.DocNo =clean.RefDocNo
@@ -165,11 +176,12 @@ INNER JOIN clean_detail ON clean.DocNo=clean_detail.DocNo
 INNER JOIN site ON department.HptCode=site.HptCode
 $where
 AND dirty.FacCode = $FacCode
-AND department.HptCode = '$HptCode'";
+AND department.HptCode = '$HptCode'
+ ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $side = $Result['HptName'];
-  $facname = $Result['FacName'];
+  $side = $Result[$HptName];
+  $facname = $Result[$FacName];
 }
 $datetime = new DatetimeTH();
 if ($language == 'th') {
@@ -179,13 +191,16 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language]  . $printdate), 0, 0, 'R');
-$pdf->Ln(5);
+$image="../images/Nhealth_linen 4.0.png";
+$pdf-> Image($image,10,10,43,15);
+$pdf->SetFont('THSarabun', '', 10);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Ln(18);
 // Title
 // Line break
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['r3'][$language]), 0, 1, 'C');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array2['r3'][$language]), 0, 1, 'C');
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(80);
 $pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['hosname'][$language] . " : " . $side), 0, 0, 'C');
@@ -217,13 +232,7 @@ INNER JOIN item_unit ON clean_detail.UnitCode = item_unit.UnitCode
 INNER JOIN item_multiple_unit ON item_multiple_unit.MpCode = clean_detail.UnitCode
 AND item_multiple_unit.ItemCode = clean_detail.ItemCode
 $where
-AND clean.RefDocNo <> (
-  SELECT
-    clean.RefDocNo
-  FROM
-    clean
-  INNER JOIN rewash ON rewash.Docno = clean.RefDocNo
-)
+AND clean.RefDocNo NOT LIKE '%RW%' 
 AND category_price.HptCode = '$HptCode'
 AND department.HptCode = '$HptCode'
 AND (
@@ -289,7 +298,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $inner_array[$field[4]] = $inner_array[$field[2]] * $inner_array[$field[3]];
   $pdf->SetFont('THSarabun', '', 14);
   $pdf->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count), 1, 0, 'C');
-  $pdf->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+  $pdf->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'L');
   $pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
   $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
   $pdf->Cell($w[4], 10, iconv("UTF-8", "TIS-620",number_format($inner_array[$field[4]], 2)), 1, 0, 'C');
@@ -332,12 +341,12 @@ $pdf->Cell(35, 7, iconv("UTF-8", "TIS-620", number_format($totalsum, 2)), 1, 1, 
 $pdf->Ln(8);
 $pdf->SetFont('THSarabun', 'b', 11);
 $pdf->Cell(5);
-$pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่ห้องผ้า..................................................."), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่โรงซัก........................................"), 0, 0, 'L');
+$pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language]."..................................................."), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language]."........................................"), 0, 0, 'L');
 $pdf->Ln(7);
 $pdf->Cell(5);
-$pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "วันที่......................................................................"), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "วันที่.........................................................."), 0, 0, 'L');
+$pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language]."......................................................................"), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language].".........................................................."), 0, 0, 'L');
 $pdf->Ln(7);
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Cleaned_Linen_Weight_' . $ddate . '.pdf');

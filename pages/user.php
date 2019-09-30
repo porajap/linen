@@ -81,10 +81,8 @@ $array2 = json_decode($json2,TRUE);
         $('#rem5').hide();
         $('#rem6').hide();
         $('#rem7').hide();
-            getDepartment2();
             getDepartment();
-            resetinput();            
-            ShowItem();
+            resetinput();        
             //On create
             $('.TagImage').bind('click', {
                 imgId: $(this).attr('id')
@@ -171,7 +169,9 @@ $array2 = json_decode($json2,TRUE);
         }
         function getDepartment2(){
             var Hotp = $('#hptsel option:selected').attr("value");
-            if( typeof Hotp == 'undefined' ) Hotp = "BHQ";
+            if(Hotp == '' || Hotp == undefined){
+            Hotp = 'BHQ';
+            }
             var data = {
             'STATUS'  : 'getDepartment2',
             'Hotp'	: Hotp
@@ -891,14 +891,16 @@ $array2 = json_decode($json2,TRUE);
                         }else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
                             $("#hptsel").empty();
+                            getDepartment2();    
+                            var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                var StrTr = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                $("#host").append(StrTr);
-                                $("#hptsel").append(StrTr);
+                                 StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                             }
+                            $("#host").append(StrTr);
+                            $("#hptsel").append(StrTr);
                         }else if(temp["form"]=='getDepartment'){
                             $("#department").empty();
-                            var Str = "<option value=''>-</option>";
+                            var Str = "<option value=''>กรุณาเลือกแผนก</option>";
                             for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                              Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                             }
@@ -906,7 +908,7 @@ $array2 = json_decode($json2,TRUE);
                         }else if(temp["form"]=='getDepartment2'){
                                     $("#department").empty();
                                     $("#department2").empty();
-                                    var Str2 = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
+                                    var Str2 = "<option value=''>กรุณาเลือกแผนก</option>";
                                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
@@ -916,7 +918,7 @@ $array2 = json_decode($json2,TRUE);
 
                         }else if ((temp["form"] == 'getHotpital_user')) {
                                     $("#host").empty();
-                                    var StrTr = "<option value=''>-</option>";
+                                    var StrTr = "<option value=''>กรุณาเลือกโรงพยาบาล</option>";
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                          StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                     }
@@ -1192,20 +1194,20 @@ label{
 
                             <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
-                                        <select class="form-control col-md-8" id="hptsel" onchange="getDepartment2();">
+                                    <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
+                                        <select class="form-control col-md-10" id="hptsel" onchange="getDepartment2();">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="row" style="margin-left:-35px;">
-                                    <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label>
-                                        <select class="form-control col-md-8" id="department2">
+                                    <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label> -->
+                                        <select class="form-control col-md-10" id="department2" style="margin-left:-7%;">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
-                                    <div class="row" style="margin-left:5px;">
+                                    <div class="row" style="margin-left:5px;margin-left: -96px;">
                                         <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchuser'][$language]; ?>">
                                         <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">

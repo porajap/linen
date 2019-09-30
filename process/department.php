@@ -9,9 +9,9 @@ function ShowItem($conn, $DATA)
 {
   $count = 0;
   $xHptCode = $DATA['HptCode'];
-  if($xHptCode==""){
-    $xHptCode = 'BHQ';
-  }
+  // if($xHptCode==""){
+  //   $xHptCode = 'BHQ';
+  // }
   $Keyword = $DATA['Keyword'];
   $Sql = "SELECT site.HptCode,
           CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,

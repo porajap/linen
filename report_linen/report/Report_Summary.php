@@ -14,6 +14,8 @@ $chk = $data['chk'];
 $year = $data['year'];
 $format = $data['Format'];
 $DepCode = $data['DepCode'];
+$betweendate1 = $data['betweendate1'];
+$betweendate2 = $data['betweendate2'];
 $where = '';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -71,12 +73,16 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE MONTH(shelfcount.DocDate) BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE date(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
   } else {
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 
@@ -150,7 +156,7 @@ class PDF extends FPDF
           $sum_check[] = $check;
         }
 
-        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",  $inner_array[$field[1]]), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",  $inner_array[$field[1]]), 1, 0, 'L');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[4]], 2)), 1, 0, 'C');
@@ -181,11 +187,17 @@ $datetime = new DatetimeTH();
 
 // Using Coding
 $pdf->AddPage("P", "A4");
-
+if ($language == 'th') {
+  $HptName = HptNameTH;
+  $FacName = FacNameTH;
+} else {
+  $HptName = HptName;
+  $FacName = FacName;
+}
 $Sql = "SELECT
         shelfcount.DocNo,
         department.DepName,
-        site.HptName
+        site.$HptName
         FROM
         shelfcount
         INNER JOIN department ON shelfcount.DepCode = department.DepCode
@@ -196,7 +208,7 @@ $Sql = "SELECT
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DeptName = $Result['DepName'];
-  $HptName = $Result['HptName'];
+  $HptName = $Result[$HptName];
 }
 $datetime = new DatetimeTH();
 if ($language == 'th') {
@@ -206,8 +218,11 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
+$image="../images/Nhealth_linen 4.0.png";
+$pdf-> Image($image,10,10,43,15);
+$pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
-$pdf->Ln(5);
+$pdf->Ln(18);
 // Title
 
 

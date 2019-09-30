@@ -20,22 +20,29 @@ function OnLoadPage($conn, $DATA)
   $HptCode = $_SESSION['HptCode'];
   $FacCode = $_SESSION['FacCode'];
   $DepCode = $_SESSION['FacCode'];
-
-  $Sqlx = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0";
+  $lang = $_SESSION['lang'];
+  if ($lang == 'th') {
+    $HptName = HptNameTH;
+    $FacName = FacNameTH;
+  } else {
+    $HptName = HptName;
+    $FacName = FacName;
+  }
+  $Sqlx = "SELECT factory.FacCode,factory.$FacName FROM factory WHERE factory.IsCancel = 0";
   $meQueryx = mysqli_query($conn, $Sqlx);
   while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
     $return[$countx]['FacCode'] = trim($Resultx['FacCode']);
-    $return[$countx]['FacName'] = trim($Resultx['FacName']);
+    $return[$countx]['FacName'] = trim($Resultx[$FacName]);
     $countx++;
   }
   $return['Rowx'] = $countx;
 
 
-  $Sql = "SELECT site.HptCode,site.HptName FROM site WHERE site.IsStatus = 0";
+  $Sql = "SELECT site.HptCode,site.$HptName FROM site WHERE site.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = trim($Result['HptCode']);
-    $return[$count]['HptName'] = trim($Result['HptName']);
+    $return[$count]['HptName'] = trim($Result[$HptName]);
     $count++;
     $boolean = true;
   }
@@ -60,7 +67,7 @@ function OnLoadPage($conn, $DATA)
   }
   $return['Rowcycle'] = $count_cycle;
   $boolean = true;
-  
+
   $Sql = "SELECT item_main_category.MainCategoryName , item_main_category.MainCategoryCode FROM item_main_category WHERE item_main_category.IsStatus = 0  Group by item_main_category.MainCategoryName    ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -152,7 +159,6 @@ function find_report($conn, $DATA)
         $return = r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'monthbetween');
       }
     }
-    $return['user'] = $_SESSION['Userid'];
   } else if ($typeReport == 2) {
     if ($Format == 1 || $Format == 3) {
       if ($FormatDay == 1 || $Format == 3) {
@@ -294,26 +300,25 @@ function find_report($conn, $DATA)
       }
     }
   } else if ($typeReport == 9) {
-        $return = r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'one');
-      }
-  else if ($typeReport == 13) {
+    $return = r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, 'one');
+  } else if ($typeReport == 13) {
     if ($Format == 1 || $Format == 3) {
       if ($FormatDay == 1 || $Format == 3) {
         $date1 = $date;
-        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 'one');
+        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $ppu, 'one');
       } else {
         $date1 = newDate1($date);
         $date2 = newDate2($date);
-        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 'between');
+        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $ppu, 'between');
       }
     } else if ($Format == 2) {
       if ($FormatMonth == 1) {
         $date1 = newMonth($date);
-        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 'month');
+        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $ppu, 'month');
       } else {
         $date1 = newMonth1($date);
         $date2 = newMonth2($date);
-        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 'monthbetween');
+        $return = r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $ppu, 'monthbetween');
       }
     }
   } else if ($typeReport == 10) {
@@ -496,8 +501,7 @@ function find_report($conn, $DATA)
         $return = r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Userid, 'monthbetween');
       }
     }
-  }
-  else if ($typeReport == 20) {
+  } else if ($typeReport == 20) {
     if ($Format == 1 || $Format == 3) {
       if ($FormatDay == 1 || $Format == 3) {
         $date1 = $date;
@@ -517,8 +521,7 @@ function find_report($conn, $DATA)
         $return = r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Userid, 'monthbetween');
       }
     }
-  }
-  else if ($typeReport == 21) {
+  } else if ($typeReport == 21) {
     if ($Format == 1 || $Format == 3) {
       if ($FormatDay == 1 || $Format == 3) {
         $date1 = $date;
@@ -602,42 +605,72 @@ function newMonth2($date)
 function subMonth($date1, $date2)
 {
   $month1 = explode('-', $date1);
-  $year = trim($month1[0]);
+  $year1 = trim($month1[0]);
   $date1 = trim($month1[1]);
   $month2 = explode('-', $date2);
+  $year2 = trim($month2[0]);
   $date2 = trim($month2[1]);
-  $date['year'] = $year;
+  $date['year1'] = $year1;
+  $date['year2'] = $year2;
   $date['date1'] = $date1;
   $date['date2'] = $date2;
+
   return $date;
 }
 function typeReport($typeReport)
 {
   $type = trim($typeReport);
-  $typeArray =
-    [
-      'Record dirty linen weight' => 1,
-      'Report Claim' => 2,
-      'Report Cleaned Linen Weight' => 3,
-      'Report Daily Issue Request' => 4,
-      'Report Operations Time Spend' => 5,
-      'Report Rewash' => 6,
-      'Report Shot and Over item' => 7,
-      'Report Soiled Clean Ratio' => 8,
-      'Report stock count' => 9,
-      'Report Billing Claim' => 10,
-      'Report Billing Customer' => 11,
-      'Report Billing Factory' => 12,
-      'Report Summary Dirty' => 13,
-      'Report Summary' => 14,
-      'Report Tracking status for laundry plant' => 15,
-      'Report Tracking status for linen operation' => 16,
-      'Report Damaged ' => 17,
-      'Report Tracking status for linen operation by Ward' => 18,
-      'Report Tracking status for linen operation by User' => 19,
-      'Report Summary billing' => 20,
-      'Report Tdas' => 21
-    ];
+  if ($language == 'en') {
+    $typeArray =
+      [
+        'Record dirty linen weight' => 1,
+        'Report Claim' => 2,
+        'Report Cleaned Linen Weight' => 3,
+        'Report Daily Issue Request' => 4,
+        'Report Operations Time Spend' => 5,
+        'Report Rewash' => 6,
+        'Report Shot and Over item' => 7,
+        'Report Soiled Clean Ratio' => 8,
+        'Report stock count' => 9,
+        'Report Billing Claim' => 10,
+        'Report Billing Customer' => 11,
+        'Report Billing Factory' => 12,
+        'Report Summary Dirty' => 13,
+        'Report Summary' => 14,
+        'Report Tracking status for laundry plant' => 15,
+        'Report Tracking status for linen operation' => 16,
+        'Report Damaged ' => 17,
+        'Report Tracking status for linen operation by Ward' => 18,
+        'Report Tracking status for linen operation by User' => 19,
+        'Report Summary billing' => 20,
+        'Report Tdas' => 21
+      ];
+  } else {
+    $typeArray =
+      [
+        'รายงานบันทึกการส่งผ้าเปื้อน' => 1,
+        'รายงานบันทึกผ้าส่งเคลม' => 2,
+        'รายงานบันทึกการรับผ้าสะอาด' => 3,
+        'รายงานคำร้องขอการส่งผ้า' => 4,
+        'Report Operations Time Spend' => 5,
+        'รายงานบันทึกผ้าแก้ไข' => 6,
+        'รายงานบันทึกผ้าขาด และผ้าเกินจากยอด' => 7,
+        'รายงานส่งผ้าเปื้อน-รับผ้าสะอาด' => 8,
+        'รายงานสต๊อกคงคลัง' => 9,
+        'Report Billing Claim' => 10,
+        'Report Billing Customer' => 11,
+        'Report Billing Factory' => 12,
+        'รายงานรวมบันทึกการแปรรูปผ้าสกปรก' => 13,
+        'รายงานสรุปราคาการส่งผ้า' => 14,
+        'รายงานการติดตามสถานะรายการผ้าจากโรงซัก' => 15,
+        'Report Tracking status for linen operation' => 16,
+        'รายงานสรุปยอดผ้าถูกซ่อมและผ้าสูญหาย' => 17,
+        'รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากแผนก' => 18,
+        'รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้' => 19,
+        'รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน' => 20,
+        'รายงาน T-das' => 21
+      ];
+  }
   $myReport = array_search($type, $typeArray);
   return $myReport;
 }
@@ -679,7 +712,8 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -697,6 +731,9 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
                  GROUP BY MONTH(dirty.DocDate)
                  ORDER BY dirty.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT  
       MONTH(dirty.DocDate) AS DocDate1,
       site.hptname,
@@ -706,14 +743,13 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN factory ON factory.FacCode = dirty.FacCode
       INNER JOIN department ON dirty.DepCode = department.DepCode
       INNER JOIN site ON site.hptcode = department.hptcode
-              WHERE YEAR(dirty.DocDate) = $year AND MONTH(dirty.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(dirty.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
               AND dirty.FacCode = $FacCode
               GROUP BY YEAR(dirty.DocDate)
-              ORDER BY  dirty.DocNo ASC ";
+              ORDER BY  dirty.DocNo ASC LIMIT 1 ";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT  
-    YEAR(dirty.DocDate) AS DocDate1,
     site.hptname,
     factory.facname
     FROM dirty
@@ -727,7 +763,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
                ORDER BY dirty.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
   $return['555'] = $Sql;
@@ -758,6 +794,11 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 }
 function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 {
+  if ($DepCode == "all") {
+    $DepCode = " ";
+  } else {
+    $DepCode = "AND department.DepCode = $DepCode";
+  }
   $count = 0;
   $boolean = false;
   if ($Format == 1) {
@@ -774,7 +815,7 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             INNER JOIN site ON site.HptCode = department.HptCode
             WHERE claim.DocDate LIKE '%$date1%'
             AND claim.HptCode = '$HptCode'
-            AND department.DepCode = $DepCode
+             $DepCode
             AND factory.FacCode = $FacCode
             GROUP BY claim.DocDate
             ORDER BY claim.DocDate ASC";
@@ -791,15 +832,17 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             INNER JOIN site ON site.HptCode = department.HptCode
               WHERE claim.Docdate BETWEEN '$date1' AND '$date2'
               AND claim.HptCode = '$HptCode'
-              AND claim.DepCode = $DepCode
+               $DepCode
               AND factory.FacCode = $FacCode
               GROUP BY MONTH (claim.DocDate) ORDER BY claim.DocDate ASC";
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
+
     if ($chk == 'month') {
       $Sql = "SELECT department.DepName, 
       claim.DocDate,
@@ -813,11 +856,14 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     INNER JOIN site ON site.HptCode = department.HptCode
       WHERE claim.DocDate LIKE '%$date1%'
       AND claim.HptCode = '$HptCode'
-      AND claim.DepCode = $DepCode
+       $DepCode
       AND factory.FacCode = $FacCode
       GROUP BY MONTH (claim.DocDate)
       ORDER BY claim.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT department.DepName, 
       claim.DocDate,
       factory.facname,
@@ -828,12 +874,12 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     INNER JOIN factory ON factory.faccode = dirty.FacCode
     INNER JOIN department ON claim.DepCode = department.DepCode
     INNER JOIN site ON site.HptCode = department.HptCode
-      WHERE YEAR(claim.DocDate) = $year AND MONTH(claim.DocDate) BETWEEN $date1 AND $date2
+    WHERE DATE(claim.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND claim.HptCode = '$HptCode'
-      AND claim.DepCode = $DepCode
+       $DepCode
       AND factory.FacCode = $FacCode
       GROUP BY YEAR (claim.DocDate)
-      ORDER BY claim.DocDate ASC";
+      ORDER BY claim.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT department.DepName, 
@@ -848,11 +894,11 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   INNER JOIN site ON site.HptCode = department.HptCode
               WHERE  YEAR(claim.DocDate) =  $date1
               AND claim.HptCode = '$HptCode'
-              AND claim.DepCode = $DepCode
+               $DepCode
               AND factory.FacCode = $FacCode
               GROUP BY YEAR (claim.DocDate) ORDER BY claim.DocDate ASC";
   }
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Claim.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -913,9 +959,11 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
+
     if ($chk == 'month') {
       $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
               FROM clean
@@ -929,17 +977,20 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               GROUP BY MONTH (clean.Docdate)
               ORDER BY clean.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
               FROM clean
               INNER JOIN dirty ON dirty.DocNo = clean.refdocno
               INNER JOIN factory ON factory.FacCode = dirty.FacCode
               INNER JOIN department ON clean.DepCode = department.DepCode
               INNER JOIN site ON site.HptCode = department.HptCode
-            WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
+              WHERE DATE(clean.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
            AND site.HptCode = '$HptCode'
            AND dirty.FacCode = $FacCode
            GROUP BY YEAR (clean.Docdate)
-           ORDER BY clean.DocDate ASC";
+           ORDER BY clean.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
@@ -955,7 +1006,7 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
              ORDER BY clean.DocDate ASC";
   }
   $return['sql'] = $Sql;
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Cleaned_Linen_Weight.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -984,6 +1035,11 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 }
 function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle, $chk)
 {
+  if ($DepCode == "all") {
+    $DepCode = " ";
+  } else {
+    $DepCode = " AND department.DepCode = $DepCode";
+  }
   $count = 0;
   $boolean = false;
   if ($Format == 1) {
@@ -995,8 +1051,8 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       WHERE shelfcount.DocDate LIKE '%$date1%' 
-      AND department.DepCode = $DepCode
-      AND shelfcount.CycleTime = $cycle
+      $DepCode
+      AND shelfcount.CycleTime = '$cycle'
       GROUP BY shelfcount.Docdate ORDER BY shelfcount.DocNo ASC";
     } else {
       $Sql = "SELECT shelfcount.DocNo,
@@ -1006,15 +1062,17 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       WHERE shelfcount.DocDate BETWEEN '$date1' AND '$date2'
-      AND department.DepCode = $DepCode
-      AND shelfcount.CycleTime = $cycle
+      $DepCode
+      AND shelfcount.CycleTime = '$cycle'
       GROUP BY MONTH(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
+
     if ($chk == 'month') {
       $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate,
       TIME(shelfcount.DocDate) AS DocTime,
@@ -1022,28 +1080,31 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       WHERE shelfcount.DocDate LIKE '%$date1%'
-      AND department.DepCode = $DepCode
-      AND shelfcount.CycleTime = $cycle
+      $DepCode
+      AND shelfcount.CycleTime = '$cycle'
       GROUP BY MONTH(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate, TIME(shelfcount.DocDate) AS DocTime, department.DepName
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
-      AND department.DepCode = $DepCode
-      AND shelfcount.CycleTime = $cycle
-      GROUP BY YEAR(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
+      $DepCode
+      AND shelfcount.CycleTime = '$cycle'
+      GROUP BY YEAR(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate, TIME(shelfcount.DocDate) AS DocTime, department.DepName
               FROM shelfcount
               INNER JOIN department ON shelfcount.DepCode = department.DepCode
               WHERE shelfcount.DocDate LIKE '%$date1%'
-              AND department.DepCode = $DepCode
-              AND shelfcount.CycleTime = $cycle
+              $DepCode
+              AND shelfcount.CycleTime = '$cycle'
               GROUP BY YEAR(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
   }
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'cycle' => $cycle, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'cycle' => $cycle, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Daily_Issue_Request.php';
@@ -1099,9 +1160,11 @@ function r5($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
+
     if ($chk == 'month') {
       $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate,
       TIME(shelfcount.DocDate) AS DocTime,
@@ -1112,12 +1175,15 @@ function r5($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       AND department.DepCode = $DepCode
       GROUP BY MONTH(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate, TIME(shelfcount.DocDate) AS DocTime, department.DepName
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND department.DepCode = $DepCode
-      GROUP BY YEAR(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
+      GROUP BY YEAR(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate, TIME(shelfcount.DocDate) AS DocTime, department.DepName
@@ -1126,7 +1192,7 @@ function r5($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               WHERE shelfcount.DocDate LIKE '%$date1%'
               GROUP BY YEAR(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
   }
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Daily_Issue_Request.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1191,7 +1257,8 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -1209,6 +1276,9 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       GROUP BY MONTH (rewash.DocDate)
       ORDER BY rewash.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT  factory.FacName, year(rewash.DocDate) AS DocDate,
       site.hptname,
       department.DepName
@@ -1217,11 +1287,11 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN factory ON rewash.FacCode = factory.FacCode
       INNER JOIN department ON rewash.DepCode =  department.DepCode
       INNER JOIN site ON department.hptcode = site.hptcode
-      WHERE YEAR(rewash.DocDate) = $year AND MONTH(rewash.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(rewash.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND rewash.FacCode = $FacCode
       AND site.hptcode = '$HptCode'
       GROUP BY YEAR (rewash.DocDate)
-      ORDER BY rewash.DocDate ASC";
+      ORDER BY rewash.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT  factory.FacName, year(rewash.DocDate) AS DocDate,
@@ -1239,7 +1309,7 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             ORDER BY rewash.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Rewash.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1267,7 +1337,11 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   }
 }
 function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
-{
+{  if ($DepCode == "all") {
+  $DepCode = " ";
+} else {
+  $DepCode = "shelfcount.DepCode = $DepCode";
+}
   $count = 0;
   $boolean = false;
   if ($Format == 1) {
@@ -1279,7 +1353,7 @@ function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
       INNER JOIN department ON department.depcode = shelfcount.DepCode
             WHERE shelfcount.DocDate LIKE '%$date1%'  
-            AND shelfcount.DepCode = $DepCode
+            AND $DepCode
             GROUP BY DATE(shelfcount.DocDate)";
     } else {
       $Sql = "SELECT
@@ -1289,14 +1363,16 @@ function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
       INNER JOIN department ON department.depcode = shelfcount.DepCode
             WHERE shelfcount.DocDate BETWEEN '$date1' AND '$date2'
-            AND shelfcount.DepCode = $DepCode
+            AND $DepCode
             GROUP BY MONTH(shelfcount.DocDate)";
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
+
     if ($chk == 'month') {
       $Sql = "SELECT
       department.depname
@@ -1305,18 +1381,21 @@ function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
       INNER JOIN department ON department.depcode = shelfcount.DepCode
       WHERE shelfcount.DocDate LIKE '%$date1%'  
-      AND shelfcount.DepCode = $DepCode
+      AND $DepCode
             GROUP BY MONTH(shelfcount.DocDate)";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       department.depname
       FROM
       shelfcount
       INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
       INNER JOIN department ON department.depcode = shelfcount.DepCode
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
-      AND shelfcount.DepCode = $DepCode
-            GROUP BY YEAR(shelfcount.DocDate)";
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
+      AND  $DepCode
+            GROUP BY YEAR(shelfcount.DocDate) LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -1326,11 +1405,11 @@ function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
     INNER JOIN department ON department.depcode = shelfcount.DepCode
             WHERE shelfcount.DocDate LIKE '%$date1%'
-            AND shelfcount.DepCode = $DepCode
+            AND $DepCode
             GROUP BY YEAR(shelfcount.DocDate)";
   }
   $return['ql'] = $Sql;
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Shot_and_Over_item.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1390,7 +1469,8 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -1407,6 +1487,9 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       AND department.HptCode = '$HptCode'
       GROUP BY MONTH(clean.DocDate)";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT factory.FacName, 
       DATE(clean.DocDate) AS DocDate,
        site.HptName,
@@ -1416,10 +1499,10 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     INNER JOIN site ON site.HptCode = department.HptCode
     INNER JOIN dirty ON clean.refdocno = dirty.docno
     INNER JOIN factory ON dirty.FacCode = factory.FacCode
-      WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
+    WHERE DATE(clean.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND department.HptCode = '$HptCode'
       AND dirty.FacCode = $FacCode
-      GROUP BY YEAR(clean.DocDate)";
+      GROUP BY YEAR(clean.DocDate) LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT factory.FacName, 
@@ -1437,7 +1520,7 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             GROUP BY YEAR(clean.DocDate)";
   }
   $return['ql'] = $Sql;
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'year1' => $year1, 'year2' => $year2, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Soiled_Clean_Ratio.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1466,9 +1549,10 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   }
 }
 function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
-{$count=0;
+{
+  $count = 0;
   $boolean = false;
-      $Sql = "SELECT
+  $Sql = "SELECT
               DATE(item_stock.ExpireDate) AS ExpireDateX,
               department.DepName,
 							site.HptName
@@ -1481,7 +1565,7 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               GROUP BY DATE(item_stock.DepCode)
               ORDER BY item_stock.ExpireDate ASC";
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,  'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Stock_Count.php';
@@ -1540,9 +1624,11 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
+
     if ($chk == 'month') {
       $Sql = "SELECT
               site.HptName , DATE(claim.DocDate) AS DocDate
@@ -1555,16 +1641,19 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               GROUP BY MONTH (claim.DocDate)
               ORDER BY claim.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       site.HptName , DATE(claim.DocDate) AS DocDate
       FROM claim_detail
       INNER JOIN claim on claim.docno = claim_detail.DocNo
       INNER JOIN site on site.HptCode = claim.HptCode
-      WHERE YEAR(claim.DocDate) = $year AND MONTH(claim.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(claim.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND claim.HptCode = '$HptCode'
       AND claim.DepCode = '$DepCode'
       GROUP BY year (claim.DocDate)
-      ORDER BY claim.DocDate ASC";
+      ORDER BY claim.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -1579,7 +1668,7 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
        ORDER BY claim.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Billing_Claim.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1640,7 +1729,8 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -1657,6 +1747,9 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               GROUP BY month (billcustomer.DocDate)
               ORDER BY billcustomer.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       site.HptName ,
       DATE(billcustomer.DocDate) AS DocDate
@@ -1664,11 +1757,11 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       billcustomer_detail
       INNER JOIN billcustomer on billcustomer.docno = billcustomer_detail.DocNo
       INNER JOIN site on site.HptCode = billcustomer.HptCode
-      WHERE YEAR(billcustomer.DocDate) = $year AND MONTH(billcustomer.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(billcustomer.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND billcustomer.HptCode = '$HptCode'
       AND billcustomer.DepCode = '$DepCode'
       GROUP BY year (billcustomer.DocDate)
-      ORDER BY billcustomer.DocDate ASC";
+      ORDER BY billcustomer.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -1685,7 +1778,7 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
        ORDER BY billcustomer.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Billing_Customer.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1746,7 +1839,8 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -1763,6 +1857,9 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               GROUP BY month (billwash.DocDate)
               ORDER BY billwash.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       site.HptName ,
       DATE(billwash.DocDate) AS DocDate
@@ -1770,11 +1867,11 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       billwash_detail
       INNER JOIN billwash on billwash.docno = billwash_detail.DocNo
       INNER JOIN site on site.HptCode = billwash.HptCode
-      WHERE YEAR(billwash.DocDate) = $year AND MONTH(billwash.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(billwash_detail.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND billwash.HptCode = '$HptCode'
       AND billwash.DepCode = '$DepCode'
       GROUP BY year (billwash.DocDate)
-      ORDER BY billwash.DocDate ASC";
+      ORDER BY billwash.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -1791,7 +1888,7 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
        ORDER BY billwash.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Billing_Factory.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1845,7 +1942,8 @@ function r14($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -1858,15 +1956,18 @@ function r14($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       GROUP BY MONTH (shelfcount.DocDate)
       ORDER BY shelfcount.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT 	department.DepName,DocDate,site.HptName
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       INNER JOIN site ON department.HptCode = site.HptCode
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND site.HptCode ='$HptCode'
       AND shelfcount.DepCode = $DepCode
       GROUP BY YEAR (shelfcount.DocDate)
-      ORDER BY shelfcount.DocDate ASC";
+      ORDER BY shelfcount.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT 	department.DepName,DocDate,site.HptName
@@ -1879,7 +1980,7 @@ function r14($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     ORDER BY shelfcount.DocDate  ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Summary.php';
@@ -1907,11 +2008,11 @@ function r14($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   }
 }
-function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, $chk)
+function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $ppu, $chk)
 {
   $count = 0;
   $boolean = false;
-  if ($Format == 1 ) {
+  if ($Format == 1) {
     if ($chk == 'one') {
       $Sql = "SELECT 	factory.FacName,
       site.HptName ,
@@ -1953,7 +2054,8 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -1975,6 +2077,9 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 
               GROUP BY MONTH (clean.DocDate)
               ORDER BY clean.DocDate ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT 	factory.FacName,
       site.HptName ,
       DATE(clean.DocDate) AS DocDate,
@@ -1988,12 +2093,12 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 
       INNER JOIN item ON clean_detail.ItemCode=item.ItemCode
       INNER JOIN item_category ON item.CategoryCode=item_category.CategoryCode
       INNER JOIN item_main_category ON item_main_category.MainCategoryCode=item_category.MainCategoryCode
-              WHERE YEAR(clean.DocDate) = $year AND MONTH(clean.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(clean.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
               AND item_main_category.MainCategoryCode = '$ppu'
               AND factory.FacCode = $FacCode
               AND site.HptCode ='$HptCode'
               GROUP BY YEAR (clean.DocDate)
-              ORDER BY clean.DocDate ASC";
+              ORDER BY clean.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT 	factory.FacName,
@@ -2015,7 +2120,7 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$ppu, 
               ORDER BY clean.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'ppu' => $ppu];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'ppu' => $ppu];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Summary_Dirty.php';
   $return['Sql'] = $Sql;
@@ -2068,7 +2173,8 @@ function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -2080,13 +2186,16 @@ function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       GROUP BY MONTH (dirty.DocDate)
       ORDER BY dirty.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT process.DocNo, factory.FacName, dirty.DocDate
       FROM dirty
       INNER JOIN process ON dirty.DocNo = process.DocNo
       INNER JOIN factory ON dirty.FacCode = factory.FacCode
-      WHERE YEAR(dirty.DocDate) = $year AND MONTH(dirty.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(dirty.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       GROUP BY YEAR (dirty.DocDate)
-      ORDER BY dirty.DocNo ASC";
+      ORDER BY dirty.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT process.DocNo, factory.FacName, dirty.DocDate
@@ -2098,7 +2207,7 @@ function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       ORDER BY dirty.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_laundry_plant.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -2156,7 +2265,8 @@ function r16($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -2171,6 +2281,9 @@ function r16($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       GROUP BY MONTH(shelfcount.DocDate)
             ORDER BY shelfcount.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       department.DepName,
       shelfcount.DocDate,
@@ -2178,9 +2291,9 @@ function r16($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       FROM
       shelfcount
       INNER JOIN department on department.DepCode = shelfcount.DepCode
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       GROUP BY shelfcount.DocDate
-            ORDER BY shelfcount.DocNo ASC";
+            ORDER BY shelfcount.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -2195,7 +2308,7 @@ function r16($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_linen_operation.php';
@@ -2254,7 +2367,8 @@ function r17($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -2270,6 +2384,9 @@ function r17($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       ORDER BY damage.DocNo ASC
 ";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       site.HptName,
       department.DepName
@@ -2277,9 +2394,9 @@ function r17($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       INNER JOIN damage_detail ON damage.DocNo =damage_detail.DocNo
       INNER JOIN department ON damage.DepCode=department.DepCode
       INNER JOIN site ON department.HptCode=site.HptCode
-      WHERE YEAR(damage.DocDate) = $year AND MONTH(damage.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(damage.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       GROUP BY YEAR(damage.DocDate)
-      ORDER BY damage.DocNo ASC
+      ORDER BY damage.DocNo ASC LIMIT 1
 ";
     }
   } else if ($Format == 3) {
@@ -2296,7 +2413,7 @@ function r17($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 ";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Damaged_And_Loss.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -2359,7 +2476,8 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -2377,6 +2495,9 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       GROUP BY MONTH(shelfcount.DocDate)
             ORDER BY shelfcount.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       department.DepName,
       shelfcount.DocDate,
@@ -2386,10 +2507,10 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       shelfcount
       INNER JOIN department on department.DepCode = shelfcount.DepCode
       INNER JOIN site ON site.HptCode=department.HptCode
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND department.DepCode = $DepCode
       GROUP BY shelfcount.DocDate
-            ORDER BY shelfcount.DocNo ASC";
+            ORDER BY shelfcount.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -2407,7 +2528,7 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_linen_operation_by_ward.php';
@@ -2434,7 +2555,7 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   }
 }
-function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Userid, $chk)
+function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Userid, $chk)
 {
   $count = 0;
   $boolean = false;
@@ -2468,7 +2589,8 @@ function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -2485,6 +2607,9 @@ function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
       GROUP BY MONTH(shelfcount.DocDate)
             ORDER BY shelfcount.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       department.DepName,
       shelfcount.DocDate,
@@ -2493,10 +2618,10 @@ function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
       shelfcount
       INNER JOIN department on department.DepCode = shelfcount.DepCode
       INNER JOIN users ON users.id = shelfcount.modify_Code
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND shelfcount.Modify_code = $Userid
       GROUP BY shelfcount.DocDate
-            ORDER BY shelfcount.DocNo ASC";
+            ORDER BY shelfcount.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -2513,7 +2638,7 @@ function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_linen_operation_by_user.php';
@@ -2540,7 +2665,7 @@ function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
     return $return;
   }
 }
-function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Userid, $chk)
+function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Userid, $chk)
 {
   $count = 0;
   $boolean = false;
@@ -2574,7 +2699,8 @@ function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -2591,6 +2717,9 @@ function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
       GROUP BY MONTH(shelfcount.DocDate)
             ORDER BY shelfcount.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       department.DepName,
       shelfcount.DocDate,
@@ -2599,10 +2728,10 @@ function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
       shelfcount
       INNER JOIN department on department.DepCode = shelfcount.DepCode
       INNER JOIN site ON site.HptCode = department.HptCode
-      WHERE YEAR(shelfcount.DocDate) = $year AND MONTH(shelfcount.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND site.HptCode  = '$HptCode'
       GROUP BY shelfcount.DocDate
-            ORDER BY shelfcount.DocNo ASC";
+            ORDER BY shelfcount.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -2619,7 +2748,7 @@ function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk,'year' =>$year];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year' => $year];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Summary_billing.php';
@@ -2647,7 +2776,7 @@ function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
     return $return;
   }
 }
-function r21($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Userid, $chk)
+function r21($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Userid, $chk)
 {
   $count = 0;
   $boolean = false;
@@ -2678,7 +2807,8 @@ function r21($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
-    $year = $date['year'];
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
     if ($chk == 'month') {
@@ -2693,16 +2823,19 @@ function r21($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
 			GROUP BY tdas_document.DocNo
 			ORDER BY tdas_document.DocNo ASC";
     } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
       $Sql = "SELECT
       tdas_document.DocNo,
       tdas_document.DocDate,
       tdas_document.HptCode
       FROM
       tdas_document
-      WHERE YEAR(tdas_document.DocDate) = $year AND MONTH(tdas_document.DocDate) BETWEEN $date1 AND $date2
+      WHERE DATE(tdas_document.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND tdas_document.HptCode = '$HptCode'
 			GROUP BY tdas_document.DocNo
-			ORDER BY tdas_document.DocNo ASC";
+			ORDER BY tdas_document.DocNo ASC LIMIT 1";
     }
   } else if ($Format == 3) {
     $Sql = "SELECT
@@ -2717,7 +2850,7 @@ function r21($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,$Useri
 			ORDER BY tdas_document.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk,'year' =>$year];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year' => $year];
   $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tdas.php';

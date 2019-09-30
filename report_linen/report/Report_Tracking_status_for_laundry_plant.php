@@ -15,6 +15,8 @@ $year = $data['year'];
 $format = $data['Format'];
 $DepCode = $data['DepCode'];
 $language = $_SESSION['lang'];
+$betweendate1 = $data['betweendate1'];
+$betweendate2 = $data['betweendate2'];
 if ($language == "en") {
   $language = "en";
 } else {
@@ -71,12 +73,17 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(dirty.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE date(dirty.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $datetime = new DatetimeTH();
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
   } else {
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 
@@ -175,12 +182,12 @@ class PDF extends FPDF
     $pdf->Ln(8);
     $pdf->SetFont('THSarabun', 'b', 11);
     $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่ห้องผ้า..................................................."), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "เจ้าหน้าที่โรงซัก........................................"), 0, 0, 'L');
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language]."..................................................."), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language]."........................................"), 0, 0, 'L');
     $pdf->Ln(7);
     $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "วันที่......................................................................"), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", "วันที่.........................................................."), 0, 0, 'L');
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language]."......................................................................"), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language].".........................................................."), 0, 0, 'L');
     $pdf->Ln(7);
     $footer_nextpage = $loop % 24;
     if ($footer_nextpage >= 23) {
@@ -209,8 +216,15 @@ $datetime = new DatetimeTH();
 
 // Using Coding
 $pdf->AddPage("P", "A4");
+if ($language == 'th') {
+  $HptName = HptNameTH;
+  $FacName = FacNameTH;
+} else {
+  $HptName = HptName;
+  $FacName = FacName;
+}
 $Sql = "SELECT
-factory.Facname
+factory.$FacName
 FROM
 process
 INNER JOIN dirty ON process.DocNo = dirty.DocNo
@@ -220,7 +234,7 @@ AND dirty.FacCode = $FacCode
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $Facname = $Result['Facname'];
+  $Facname = $Result[$FacName];
 }
 
 $datetime = new DatetimeTH();
@@ -231,8 +245,11 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
+$image="../images/Nhealth_linen 4.0.png";
+$pdf-> Image($image,10,10,43,15);
+$pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
-$pdf->Ln(5);
+$pdf->Ln(18);
 // Title
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);
@@ -262,10 +279,8 @@ process
 LEFT JOIN dirty ON process.DocNo = dirty.DocNo
 LEFT JOIN rewash ON process.DocNo = rewash.DocNo
 LEFT JOIN newlinentable ON process.DocNo = newlinentable.DocNo
-$where
-OR dirty.FacCode = $FacCode
-OR rewash.FacCode = $FacCode
-OR  newlinentable.FacCode = $FacCode
+$where 
+AND $FacCode in (dirty.FacCode,rewash.FacCode,newlinentable.FacCode)
 ";
 // var_dump($query); die;
 // Number of column

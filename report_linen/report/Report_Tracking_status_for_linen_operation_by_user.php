@@ -15,6 +15,8 @@ $year = $data['year'];
 $depcode = $data['DepCode'];
 $format = $data['Format'];
 $Userid = $_SESSION['Userid'];
+$betweendate1 = $data['betweendate1'];
+$betweendate2 = $data['betweendate2'];
 $where = '';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -72,12 +74,17 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(shelfcount.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE date(shelfcount.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $datetime = new DatetimeTH();
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
   } else {
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 
@@ -288,8 +295,11 @@ if ($language == 'th') {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 $pdf->SetFont('THSarabun', '', 10);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language]  . $printdate), 0, 0, 'R');
-$pdf->Ln(5);
+$image="../images/Nhealth_linen 4.0.png";
+$pdf-> Image($image,10,10,43,15);
+$pdf->SetFont('THSarabun', '', 10);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Ln(18);
 // Title
 $pdf->SetFont('THSarabun', 'b', 18);
 $pdf->Cell(80);

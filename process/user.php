@@ -12,9 +12,9 @@ function ShowItem($conn, $DATA)
   $xHptCode = $DATA['HptCode'];
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
-  if($xHptCode==""){
-    $xHptCode = $HptCode1;
-  }
+  // if($xHptCode==""){
+  //   $xHptCode = $HptCode1;
+  // }
 
   $Keyword = $DATA['Keyword'];
   if($PmID != 3){

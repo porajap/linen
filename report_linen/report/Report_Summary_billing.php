@@ -72,12 +72,16 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE month(shelfcount.Docdate) BETWEEN $date1 AND $date2";
+  $where =   "WHERE date(shelfcount.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
   } else {
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 
@@ -219,7 +223,7 @@ class PDF extends FPDF
         $pdf->SetFont('THSarabun', '', 12);
         $total = $inner_array[$field[3]] * $inner_array[$field[4]];
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count), 1, 0, 'C');
-        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'L');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
@@ -244,13 +248,13 @@ class PDF extends FPDF
     // Footer Table
 
     $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 0, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 0, 'C');
     $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด"), 0, 1, 'C');
+    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 1, 'C');
     $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 0, 'C');
+    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 0, 'C');
     $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", "ผู้ตรวจสอบ"), 0, 1, 'C');
+    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 1, 'C');
     $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
     $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 0, 'C');
     $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
@@ -258,8 +262,8 @@ class PDF extends FPDF
     $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
     $pdf->Cell(28, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 0, 'C');
     $pdf->Cell(170, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 1, 'C');
-    $pdf->Cell(78, 5, iconv("UTF-8", "TIS-620", "หัวหน้างานแผนกห้องผ้า"), 0, 0, 'C');
-    $pdf->Cell(120, 5, iconv("UTF-8", "TIS-620", "หัวหน้างานแผนกห้องผ้า"), 0, 1, 'C');
+    $pdf->Cell(78, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 0, 'C');
+    $pdf->Cell(120, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 1, 'C');
     $pdf->ln(10);
     if ($count % 25 >= 22) {
       $pdf->AddPage("P", "A4");
@@ -288,16 +292,22 @@ $font = new Font($pdf);
 $data = new Data();
 $datetime = new DatetimeTH();
 $pdf->AddPage("P", "A4");
-
+if ($language == 'th') {
+  $HptName = HptNameTH;
+  $FacName = FacNameTH;
+} else {
+  $HptName = HptName;
+  $FacName = FacName;
+}
 $Sql = "SELECT
-site.HptName
+site. $HptName
 FROM
 site
 WHERE site.HptCode='$HptCode'
  ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $Hpt = $Result['HptName'];
+  $Hpt = $Result[$HptName];
 }
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
@@ -305,8 +315,11 @@ if ($language == 'th') {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 $pdf->SetFont('THSarabun', '', 10);
+$image="../images/Nhealth_linen 4.0.png";
+$pdf-> Image($image,10,10,43,15);
+$pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
-$pdf->Ln(10);
+$pdf->Ln(18);
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620",  $array2['r20'][$language] . " " . $date_header), 0, 0, 'C');
 $pdf->ln(7);

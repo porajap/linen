@@ -80,7 +80,7 @@
 <datestart><en>Date Start</en><th>วันที่เริ่ม</th></datestart>
 <dateend><en>Date End</en><th>วันที่สิ้นสุด</th></dateend>
 <percent><en>Percent</en><th>เปอร์เซ็นต์</th></percent>
-<date><en>Date : </en><th>วันที่</th></date>
+<date><en>Date : </en><th>วันที่ </th></date>
 <categorymain><en>Category Main</en><th>หมวดหมู่หลัก</th></categorymain>
 <categorysub><en>Category Sub</en><th>หมวดหมู่รอง</th></categorysub>
 <category><en>Category</en><th>หมวดหมู่</th></category>

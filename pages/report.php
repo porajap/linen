@@ -257,7 +257,7 @@ $array2 = json_decode($json2, TRUE);
 				var year = parseInt(year) + 543;
 			}
 			// $('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
-			$('#somemonth').attr('value', nowMonth + '-' + year);
+			$('#somemonth').attr('value', nextMonth + '-' + year);
 		}
 
 		function showdate() {
@@ -295,7 +295,6 @@ $array2 = json_decode($json2, TRUE);
 					year = Date[0];
 				}
 				$('#year').attr('value', year);
-
 				$('#showday').hide();
 				$('#myDay').hide();
 				$('#showmonth').hide();
@@ -322,6 +321,7 @@ $array2 = json_decode($json2, TRUE);
 				} else if (language == 'en') {
 					dateone[0] = parseInt(dateone[0]);
 				}
+				dateone[2] = parseInt(dateone[2]) +1;
 				dateone = dateone[2] + "-" + dateone[1] + "-" + dateone[0];
 				var today = new Date();
 				var tomorrow = new Date(today);
@@ -339,7 +339,6 @@ $array2 = json_decode($json2, TRUE);
 				// var myDate = dateone + ' - ' + day + '/' + month + '/' + year;
 				var myDate = dateone;
 				$('#someday').attr('value', myDate);
-
 			}
 		}
 
@@ -454,7 +453,7 @@ $array2 = json_decode($json2, TRUE);
 				if (Format == '' || Format == undefined) {
 					swal({
 						title: '',
-						text: '<?php echo $array['insert_form'][$language]; ?>',
+						text: '<?php echo $array['insert_date'][$language]; ?>',
 						type: 'info',
 						showCancelButton: false,
 						confirmButtonColor: '#3085d6',
@@ -801,6 +800,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#department").empty();
 							var depValue0 = '-';
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
+							 dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -2378,8 +2378,12 @@ $array2 = json_decode($json2, TRUE);
 				$('#showmonth').hide();
 				$('#showyear').hide();
 				$('#myMonth').show();
+				$('#onemonth').show();
+				$('#somemonth').hide();
+				$('#textto2').hide();
 				$('#chk').hide();
 				$('#chkmonth').prop('checked', true);
+				$('#chkonemonth').prop('checked', true);
 				$('#chkday').prop('checked', false)
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
@@ -2746,7 +2750,7 @@ $array2 = json_decode($json2, TRUE);
 										<div class="col-md-6">
 											<div class='form-group row' id="chk">
 												<label class="col-sm-3 col-form-label text-left " style="font-size:24px;"><?php echo $array['format'][$language]; ?></label>
-												<div>
+												<div style="margin-top : 9px;">
 													<div class="custom-control custom-radio custom-control-inline">
 														<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat ">
 														<label class="custom-control-label lableformat " for="chkday"> <?php echo $array['day'][$language]; ?></label>
@@ -2768,7 +2772,7 @@ $array2 = json_decode($json2, TRUE);
 										<div class="col-md-6">
 											<div class='form-group row ' id="showday">
 												<label class="col-sm-3	 col-form-label text-left" style=""><?php echo $array['formatdate'][$language]; ?></label>
-												<div>
+												<div style= "margin-top : 9px;">
 													<div class="custom-control custom-radio custom-control-inline">
 														<input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
 														<label class="custom-control-label" for="chkoneday"><?php echo $array['oneday'][$language]; ?></label>
@@ -2781,7 +2785,7 @@ $array2 = json_decode($json2, TRUE);
 											</div>
 											<div class='form-group row' id="showmonth">
 												<label class="col-sm-3 col-form-label text-left "><?php echo $array['formatmonth'][$language]; ?></label>
-												<div>
+												<div style= "margin-top : 9px;">
 													<div class="custom-control custom-radio custom-control-inline">
 														<input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
 														<label class="custom-control-label" for="chkonemonth"><?php echo $array['onemonth'][$language]; ?></label>

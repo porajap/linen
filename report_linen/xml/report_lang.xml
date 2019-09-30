@@ -3,13 +3,12 @@
 <site><en>Hospital</en><th>โรงพยาบาล</th></site>
 <department><en>Department</en><th>แผนก</th></department>
 <department1><en>Department</en><th>แผนก</th></department1>
-<department1><en>Department</en><th>แผนก</th></department1>
 <parqty><en>Par Qty</en><th>จำนวนทั้งหมด</th></parqty>
 <par><en>Par</en><th>จำนวนทั้งหมด</th></par>
 <shelfcount1><en>Shelf Count</en><th>จำนวนที่นับได้</th></shelfcount1>
 <max><en>Max</en><th>คำสูงสุด</th></max>
 <issue><en>Issue</en><th>ค่าที่จ่ายไป</th></issue>
-<short><en>Short</en><th>รายการผ้ามีไม่พอจ่าย</th></short>
+<short><en>Short</en><th>ผ้ามีไม่พอจ่าย</th></short>
 <shot><en>Shot</en><th>ผ้าขาด</th></shot>
 <over><en>Over</en><th>ผ้าเกิน</th></over>
 <Cycle><en>Cycle</en><th>รอบที่</th></Cycle>
@@ -24,7 +23,9 @@
 <dirty><en>Dirty</en><th>ผ้าเปื้อน</th></dirty>
 <soild><en>Soild</en><th>รายการผ้าเปื้อน</th></soild>
 <clean1><en>Clean</en><th>รายการผ้าสะอาด</th></clean1>
-
+<hospital><en>Hospital</en><th>โรงพยาบาล</th></hospital>
+<shelfcounttime><en>Shelf Count Time</en><th>เวลานับผ้า</th></shelfcounttime>
+<deliverytime><en>Delivery Time</en><th>เวลาส่งผ้า</th></deliverytime>
 <repair_dirty><en>Repair (Dirty)</en><th>ผ้าเปื้อนส่งแก้ไข</th></repair_dirty>
 <newlinen><en>Newlinen</en><th>ผ้าซักใหม่</th></newlinen>
 <Totaldirty><en>Total dirty</en><th>รวมผ้าเปื้อน</th></Totaldirty>
@@ -54,12 +55,11 @@
 <weightrepair><en>Weight (repair)</en><th>น้ำหนัก (ผ้าถูกซ่อม)</th></weightrepair>
 <priceperkilo><en>Price per kilogram</en><th>ราคาต่อกิโลกรัม</th></priceperkilo>
 <priceperunit><en>Price per Unit</en><th>ราคาต่อหน่วย</th></priceperunit>
-<weight><en>Weight</en><th>น้ำหนัก</th></weight>
 <weight_kg><en>Weight Per Kilogram</en><th>น้ำหนัก(กิโลกรัม)
 </th></weight_kg>
 <price><en>Total</en><th>เป็นเงิน</th></price>
 <price1><en>Price</en><th>ราคา</th></price1>
-<officer><en>User </en><th>เจ้าหน้าที่</th></officer>
+<officer><en>User</en><th>เจ้าหน้าที่</th></officer>
 <shelfcount><en>Shelfcount Time</en><th>เวลานับผ้า</th></shelfcount>
 <receive_time><en>Receive Time</en><th>เวลารับผ้า</th></receive_time>
 <washing_time><en>Washing Time</en><th>เวลาซักผ้า</th></washing_time>
@@ -69,11 +69,17 @@
 <start><en>Start</en><th>เริ่ม</th></start>
 <finish><en>Finish</en><th>สิ้นสุด</th></finish>
 <order><en>Order</en><th>คงเหลือ</th></order>
-
+<comlinen><en>Competent N Health</en><th>เจ้าหน้า N Health</th></comlinen>
+<comlaundry><en>Competent laundry</en><th>เจ้าหน้าที่โรงซัก</th></comlaundry>
+<date><en>Date</en><th>วันที่</th></date>
+<nhealth><en>N health Company</en><th>สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด</th></nhealth>
+<foremanlinen><en>Fore Manlinen</en><th>หัวหน้างานแผนกห้องผ้า</th></foremanlinen>
+<examiner><en>Examiner</en><th>ผู้ตรวจสอบ</th></examiner>
+<ward><en>Ward</en><th>แผนก</th></ward>
 <r0><en>-</en><th>-</th></r0>
 <r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
-<r2><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r2>
-<r3><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r3>
+<r3><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r3>
+<r2><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r2>
 <r4><en>Daily issue Request</en><th>รายงานคำร้องขอการส่งผ้า</th></r4>
 <r5><en>Report Operations Time Spend</en><th>Report Operations Time Spend</th></r5>
 <r6><en>Report Rewash</en><th>รายงานบันทึกผ้าแก้ไข</th></r6>

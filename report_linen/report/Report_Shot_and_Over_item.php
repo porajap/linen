@@ -11,6 +11,8 @@ $FacCode = $data['FacCode'];
 $date1 = $data['date1'];
 $date2 = $data['date2'];
 $chk = $data['chk'];
+$betweendate1 = $data['betweendate1'];
+$betweendate2 = $data['betweendate2'];
 $year = $data['year'];
 $format = $data['Format'];
 $DepCode = $data['DepCode'];
@@ -71,12 +73,16 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE MONTH(shelfcount.DocDate) BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE date(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  list($year, $mouth, $day) = explode("-", $betweendate1);
+  list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
-    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1)  . " " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2);
+    $year = $year + 543;
+    $year2 = $year2 + 543;
+    $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
   } else {
-    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2);
+    $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 
@@ -145,23 +151,26 @@ $pdf = new PDF();
 $font = new Font($pdf);
 $data = new Data();
 $datetime = new DatetimeTH();
-
-
-// Using Coding
 $pdf->AddPage("P", "A4");
-
-$Sql = "SELECT
-department.depname
-FROM
-shelfcount
-INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
-INNER JOIN department ON department.depcode = shelfcount.DepCode
-$where
-AND shelfcount.depcode = '$DepCode'";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $depname = $Result['depname'];
+if ($DepCode == " ") {
+  $depname =  "ทั้งหมด";
+  $DepCode == " ";
+} else{
+  $DepCode = "WHERE $DepCode";
+  $Sql = "SELECT
+  department.depname
+  FROM
+  shelfcount
+  INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
+  INNER JOIN department ON department.depcode = shelfcount.DepCode
+  ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $depname = $Result['depname'];
+  }
 }
+
+
 $datetime = new DatetimeTH();
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
@@ -170,8 +179,11 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language]  . $printdate), 0, 0, 'R');
-$pdf->Ln(5);
+// $image="../images/Nhealth_linen 4.0.png";
+// $pdf-> Image($image,10,10,43,15);
+$pdf->SetFont('THSarabun', '', 10);
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Ln(18);
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);
 $pdf->Cell(30, 20, iconv("UTF-8", "TIS-620", $array2['r7'][$language]), 0, 0, 'C');
@@ -179,12 +191,12 @@ $pdf->Cell(30, 20, iconv("UTF-8", "TIS-620", $array2['r7'][$language]), 0, 0, 'C
 $pdf->Ln(15);
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(22.5);
-$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", $array2['department'][$language] . " : " . $depname), 0, 0, 'L');
+$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620", $array2['department'][$language] . " : " .  $DepName.$depname), 0, 0, 'L');
 $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12);
 
 $query = "SELECT
-IFNULL(shelfcount_detail.OverPar,0) AS OverPar,
+IFNULL(shelfcount_detail.Over,0) AS OverPar,
 IFNULL(shelfcount_detail.Short,0) AS Short ,
 item.itemName
 FROM
@@ -192,8 +204,8 @@ shelfcount_detail
 INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
 INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
 INNER JOIN department ON department.DepCode = shelfcount.DepCode
-$where
-AND shelfcount.depcode = '$DepCode'";
+$DepCode
+";
 // var_dump($query); die;
 // Number of column
 $numfield = 4;
@@ -210,6 +222,43 @@ $pdf->SetFont('THSarabun', 'b', 10);
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->Ln();
 // Get $totalsum
-
+//*************** Send Email ***************//
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Shot_and_Over_item_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Daily_Issue_Request_' . $ddate . '.pdf');
+
+// require '../../PHPMailer/PHPMailerAutoload.php';
+//     // build message body
+// $body = '
+// ';
+
+// $mail = new PHPMailer;
+// $mail->CharSet = "UTF-8";
+// $mail->isSMTP();
+// $mail->SMTPDebug = 2;
+// $mail->Debugoutput = 'html';
+// $mail->Host = 'smtp.gmail.com';
+// $mail->Port = 587;
+// $mail->SMTPSecure = 'tls';
+// $mail->SMTPAuth = true;
+// $mail->Username = "poseinttelligence@gmail.com";
+// $mail->Password = "pose6628";
+// $mail->AddAttachment("Report_Shot_and_Over_item.pdf");
+// $mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
+// $mail->addAddress('poseinttelligence@gmail.com');
+// $mail->Subject = 'แจ้งเตือนเปลี่ยนราคา';
+// $mail->msgHTML($body);
+// $mail->AltBody = 'This is a plain-text message body';
+// // $mail->send();
+// if (!$mail->send()) {
+// $return['msg'] = "Mailer Error: " . $mail->ErrorInfo;
+// echo json_encode($return);
+// die;
+// } else {
+// $return['msg'] = "Message sent!";
+// echo json_encode($return);
+// die;
+// }
+
+
+
+?>
