@@ -1057,22 +1057,19 @@ function CreateDocument($conn, $DATA)
     $boolean = false;
     $count = 0;
     $Sql = "SELECT DocNo FROM dirty     
-    INNER JOIN department ON dirty.DepCode = department.DepCode 
-    INNER JOIN site ON department.HptCode = site.HptCode
+    INNER JOIN site ON dirty.HptCode = site.HptCode
     WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode' 
     
     UNION ALL 
     
     SELECT DocNo FROM rewash
-    INNER JOIN department ON rewash.DepCode = department.DepCode 
-    INNER JOIN site ON department.HptCode = site.HptCode
+    INNER JOIN site ON rewash.HptCode = site.HptCode
     WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 3 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' 
 
     UNION ALL  
     
     SELECT DocNo FROM newlinentable
-    INNER JOIN department ON newlinentable.DepCode = department.DepCode 
-    INNER JOIN site ON department.HptCode = site.HptCode
+    INNER JOIN site ON newlinentable.HptCode = site.HptCode
     WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode'   ";
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
