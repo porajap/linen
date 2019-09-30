@@ -820,9 +820,10 @@ $array2 = json_decode($json2,TRUE);
                   RowArray.push($(this).val());
                   chkRow.push($(this).data('chknum'));
                 });
-                for (i = 0; i < RowArray.length; ++i) {
-                  $('#tr_child_'+RowArray[i]).remove();
-                }
+
+                // for (i = 0; i < RowArray.length; ++i) {
+                //   $('#tr_child_'+RowArray[i]).remove();
+                // }
 
                 for (i = 0; i < chkArray.length; ++i) {
                   count_rowArray.push($('#count_row_'+chkArray[i]).val());
@@ -1270,7 +1271,6 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                               })
-
                               $('#itemArray').val(temp['ItemCode']);
                               SelectItemStock(temp['ItemCode'], temp['Number']);
                               ShowItem();
@@ -1345,7 +1345,7 @@ $array2 = json_decode($json2,TRUE);
                               })
                             }else if(temp['form']=="SelectItemStock"){
                                 var chk_row = $('#chk_row').val();
-                                $('#TableItemStock tbody').empty();
+                                  $('#TableItemStock tbody').empty();
                                 for (var i = 0; i < temp['countx']; i++) {
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
@@ -1372,7 +1372,9 @@ $array2 = json_decode($json2,TRUE);
                                                 "</tr>";
                                                 
                                       }
-                                  $('#TableItemStock tbody').append(StrTR);
+                               
+                                        $('#TableItemStock tbody').append(StrTR);
+                                 
                                   chk_row++;
                                 }
                                 $('#chk_row').val(chk_row);
