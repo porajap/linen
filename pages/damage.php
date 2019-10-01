@@ -1172,8 +1172,8 @@ $(document).ready(function(e){
                   for (var i = 0; i < temp["Row"]; i++) {
                     DataTr += "<tr><td class='text-center' style='width:10%'>"+(i+1)+"</td>"+
                     "<td class='text-left' style='width:60%'>"+temp[i]['FileName']+"</td>"+
-                    "<td class='text-center' style='width:15%'><i class='fas fa-download'></i></td>"+
-                    "<td class='text-center' style='width:15%'><i class='fas fa-trash'></i></i></td>"+
+                    "<td class='text-center' style='width:15%'><i class='btn fas fa-download' onclick='downloadExcel(\""+temp[i]['FileName']+"\")'></i></td>"+
+                    "<td class='text-center' style='width:15%'><i class='btn fas fa-trash'></i></i></td>"+
                     "</tr>";
                   }
                 }else{
@@ -1372,22 +1372,22 @@ $(document).ready(function(e){
         padding-left: 44px;
       }
       .only1:disabled, .form-control[readonly] {
-    background-color: transparent !important;
-    opacity: 1;
-    }      
-    .opacity{
-        opacity:0.5;
-      }
-      @media (min-width: 992px) and (max-width: 1199.98px) { 
+      background-color: transparent !important;
+      opacity: 1;
+      }      
+      .opacity{
+          opacity:0.5;
+        }
+        @media (min-width: 992px) and (max-width: 1199.98px) { 
 
-      .icon{
-        padding-top: 6px;
-        padding-left: 23px;
-      }
-      .sidenav a {
-        font-size: 21px;
+        .icon{
+          padding-top: 6px;
+          padding-left: 23px;
+        }
+        .sidenav a {
+          font-size: 21px;
 
-      }
+        }
 }
       /* ======================================== */
     </style>
@@ -1872,7 +1872,11 @@ $(document).ready(function(e){
           $('#comfirm_submit').removeAttr('disabled');
       }
     }
-
+    function downloadExcel(filename){
+      var file = '../excelFiles/' + filename;
+      var url = "../process/downloadExcel.php?filename=" +file;
+      window.open(url, '_blank');
+    }
     function uploadExcel(){
             var file_data = $('#fileExcel').prop('files')[0];   
             if(file_data!=''){
