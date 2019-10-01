@@ -423,7 +423,7 @@ $array2 = json_decode($json2,TRUE);
             var resultStock = [[],[]];
             for(var i = 0; i<loop1; i++){
                 for(var j = 0; j<loop2; j++){
-                    resultStock[i][j] = $('.result_'+i+j).val();;
+                    resultStock[i][j] = $('.result_'+i+j).val();
                 }
             }
             var ItemCodeArray = ItemCode.join(',');
