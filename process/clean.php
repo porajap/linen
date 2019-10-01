@@ -1060,11 +1060,11 @@ function CreateDocument($conn, $DATA)
     INNER JOIN site ON dirty.HptCode = site.HptCode
     WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode' 
     
-    UNION ALL 
+    -- UNION ALL 
     
-    SELECT DocNo FROM rewash
-    INNER JOIN site ON rewash.HptCode = site.HptCode
-    WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 3 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' 
+    -- SELECT DocNo FROM rewash
+    -- INNER JOIN site ON rewash.HptCode = site.HptCode
+    -- WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 3 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' 
 
     UNION ALL  
     
