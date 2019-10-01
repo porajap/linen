@@ -448,7 +448,7 @@ function SelectItemStock($conn, $DATA)
 
   for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
     $count2 = 0;
-    $SqlItem = " SELECT
+    $SqlItem = " SELECT 
         item_stock.ItemCode,
         item.ItemName
       FROM item_stock

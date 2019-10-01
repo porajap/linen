@@ -820,9 +820,10 @@ $array2 = json_decode($json2,TRUE);
                   RowArray.push($(this).val());
                   chkRow.push($(this).data('chknum'));
                 });
-                for (i = 0; i < RowArray.length; ++i) {
-                  $('#tr_child_'+RowArray[i]).remove();
-                }
+
+                // for (i = 0; i < RowArray.length; ++i) {
+                //   $('#tr_child_'+RowArray[i]).remove();
+                // }
 
                 for (i = 0; i < chkArray.length; ++i) {
                   count_rowArray.push($('#count_row_'+chkArray[i]).val());
@@ -1270,7 +1271,6 @@ $array2 = json_decode($json2,TRUE);
                                 timer: 2000,
                                 confirmButtonText: 'Ok'
                               })
-
                               $('#itemArray').val(temp['ItemCode']);
                               SelectItemStock(temp['ItemCode'], temp['Number']);
                               ShowItem();
@@ -1345,14 +1345,14 @@ $array2 = json_decode($json2,TRUE);
                               })
                             }else if(temp['form']=="SelectItemStock"){
                                 var chk_row = $('#chk_row').val();
-                                $('#TableItemStock tbody').empty();
+                                  $('#TableItemStock tbody').empty();
                                 for (var i = 0; i < temp['countx']; i++) {
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
-                                            "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span hidden class='ml-3 mr-2' data-value='"+temp[i]['num']+"' id='num_"+chk_row+"_"+temp[i]['ItemCodeX']+"'>"+temp[i]['num']+" รายการ</span></td>"+
+                                            "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['num']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
                                               "<button class='btn  p-1' style='background-color: #228FF1; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
                                               "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
@@ -1372,7 +1372,9 @@ $array2 = json_decode($json2,TRUE);
                                                 "</tr>";
                                                 
                                       }
-                                  $('#TableItemStock tbody').append(StrTR);
+                               
+                                        $('#TableItemStock tbody').append(StrTR);
+                                 
                                   chk_row++;
                                 }
                                 $('#chk_row').val(chk_row);
