@@ -335,7 +335,7 @@ $array2 = json_decode($json2,TRUE);
                 }
             }
           // ----------------------------------------------
-
+ 
           swal({
             title: "<?php echo $array['confirmdoc'][$language]; ?>",
             text: "",
