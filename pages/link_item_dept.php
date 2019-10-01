@@ -1352,7 +1352,7 @@ $array2 = json_decode($json2,TRUE);
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
-                                            "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2' data-value='"+temp[i]['num']+"' id='num_"+chk_row+"_"+temp[i]['ItemCodeX']+"'>"+temp[i]['num']+" รายการ</span></td>"+
+                                            "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['num']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
                                               "<button class='btn  p-1' style='background-color: #228FF1; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
                                               "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
