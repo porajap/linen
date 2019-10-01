@@ -471,6 +471,7 @@ $array2 = json_decode($json2,TRUE);
               $(this).css('border-color', '');
             }
           });
+        $('#MainCategoryCodeReal').val("");
         $('#CategoryCode').val("");
         $('#CategoryName').val("");
         //$('#Dept').val("1");

@@ -11,6 +11,8 @@ function OnLoadPage($conn, $DATA)
 {
   $lang = $DATA["lang"];
   $Hotp = $DATA["Hotp"];
+  $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $count = 0;
   $countx = 0;
 
@@ -19,7 +21,8 @@ function OnLoadPage($conn, $DATA)
     $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0";
     }else{
     $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0";
-    }  $meQuery = mysqli_query($conn, $Sql);
+    }  
+  $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
   $return[$countx]['FacCode'] = $Result['FacCode'];
@@ -33,18 +36,32 @@ $return['Rowx'] = $countx;
 
 if($lang == 'en'){
   $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
+  if($PmID ==2 || $PmID ==3){
+  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+  }else{
+    $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+  }
 }else{
   $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
-}  
+  if($PmID ==2 || $PmID ==3){
+  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+  }else{
+    $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+  }
+}
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['HptName'] = $Result['HptName'];
-
+    $boolean = true;
+  }
+  $meQuery1 = mysqli_query($conn, $Sql1);
+  while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+    $return[$count]['HptCode1'] = $Result1['HptCode1'];
+    $return[$count]['HptName1'] = $Result1['HptName1'];
     $count++;
     $boolean = true;
   }
-
   $return['Row'] = $count;
   $boolean = true;
   if ($boolean) {
@@ -187,9 +204,8 @@ function ShowDocument($conn, $DATA)
   $count = 0;
   $Hotp = $DATA["Hotp"];
   $DocNo = $DATA["docno"];
-  $deptCode = $DATA["deptCode"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-  $Datepicker = $DATA["Datepicker"];
+  $datepicker = $DATA["datepicker1"];
   $selecta = $DATA["selecta"];
   $Sql = "SELECT site.HptName,
   dirty.DocNo,
@@ -201,14 +217,23 @@ function ShowDocument($conn, $DATA)
   INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
   
-    if ($deptCode != null) {
-      $Sql .= " WHERE site.HptCode = '$Hotp' ";
-      if($xDocNo!=null){
-        $Sql .= " OR dirty.DocNo LIKE '%$xDocNo%'";
-      }
-    }else if($deptCode == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp'";
+if($DocNo!=null){
+  $Sql .= " WHERE dirty.DocNo = '$DocNo' ";
+}else{
+  if ($Hotp != null  && $datepicker == null) {
+    $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+    if($xDocNo!=null){
+      $Sql .= " OR dirty.DocNo LIKE '%$xDocNo%' ";
     }
+  }else if ($Hotp == null  && $datepicker != null){
+    $Sql .= " WHERE DATE(dirty.DocDate) = '$datepicker' ";
+  }else if($Hotp != null  && $datepicker != null){
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(dirty.DocDate) = '$datepicker' ";
+  }else if($Hotp != null  && $datepicker != null){
+    $Sql .= " WHERE  DATE(dirty.DocDate) = '$datepicker' AND site.HptCode = '$Hotp'";
+  }
+}
+
   $Sql .= " ORDER BY dirty.DocNo DESC LIMIT 500";
 
   $meQuery = mysqli_query($conn, $Sql);

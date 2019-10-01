@@ -454,7 +454,40 @@ $array2 = json_decode($json2,TRUE);
           $('#profile-tab').tab('show');
           ShowDocument(3);
         }
+        
+        function swithChecked(i){
+          $('#btn_confirm').attr('disabled', false);
+          $("#selectAll").change(function(){
+            var status = this.checked;
+            $('.myDepName').each(function(){ 
+              this.checked = status;
+            });
+          });
+          $('.unchk').change(function(){ 
+            if(this.checked == false){ 
+              $("#selectAll")[0].checked = false; 
+            }
+            if ($('.myDepName:checked').length == $('.myDepName').length ){ 
+              $("#selectAll")[0].checked = true; 
+              $('#btn_confirm').attr('disabled', false);
+            }
+          });
 
+          if($('#checkDep_'+i).prop("checked") == true){
+            var countcheck2 = Number($("#countcheck").val())+1;
+            $("#countcheck").val(countcheck2);
+            $('#btn_confirm').attr('disabled', false);
+            $('#checkDep_'+i).attr('previousValue', 'checked');
+          }else if($('#checkDep_'+i).prop("checked") == false){
+            var countcheck3 = Number($("#countcheck").val())-1;
+            $("#countcheck").val(countcheck3);
+            if(countcheck3 == 0 ){
+              $('#btn_confirm').attr('disabled', true);
+              $('.checkDep_'+i).removeAttr('checked');
+              $("#countcheck").val(countcheck3);
+            }
+          }
+        }
 
         function showDep(ItemCode, ItemName){
           var data = {
