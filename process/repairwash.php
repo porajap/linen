@@ -31,6 +31,7 @@ function OnLoadPage($conn, $DATA)
   while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
     $return[$count]['HptCode1'] = $Result1['HptCode1'];
     $return[$count]['HptName1'] = $Result1['HptName1'];
+    $return[0]['PmID'] = $PmID;
     $count++;
     $boolean = true;
   }

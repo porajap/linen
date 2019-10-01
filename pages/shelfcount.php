@@ -2133,7 +2133,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="row" style="margin-top:10px;">
                         <div class="col-md-2">
 
-                            <select class="form-control " style='font-size:24px;' id="side" onchange="getDepartment();">
+                            <select class="form-control icon_select" style='font-size:24px;' id="side" onchange="getDepartment();">
                             </select>
 
                         </div>
