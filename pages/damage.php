@@ -73,6 +73,8 @@ $array2 = json_decode($json2,TRUE);
 <?php } ?>
 <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <script src="../datepicker/dist/js/datepicker.th.js"></script>
+<script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+
 
 <script type="text/javascript">
 var summary = [];
