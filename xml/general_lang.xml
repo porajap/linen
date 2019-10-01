@@ -311,6 +311,7 @@
 <Position><en>Position</en><th>ตำแหน่ง</th></Position>
 <phone><en>Phone number</en><th>เบอร์โทรศัพท์</th></phone>
 <adduser><en>Add user</en><th>เพิ่มผู้ติดต่อ</th></adduser>
+<adduser2><en>Add user2</en><th>เพิ่มผู้ติดต่อ2</th></adduser2>
 <Measurementcode><en>Measurement code</en><th>รหัสหน่วยนับ</th></Measurementcode>
 <oneday><en>One Day</en><th>หนึ่งวัน</th></oneday>
 <manyday><en>Several Day</en><th>หลายวัน</th></manyday>
