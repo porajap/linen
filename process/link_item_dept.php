@@ -482,8 +482,8 @@ function SelectItemStock($conn, $DATA)
             $return[$index][$count2]['ItemName'] = $Result['ItemName'];
             $return[$index][$count2]['DepCode'] = $Result['DepCode'];
             $return[$index][$count2]['ParQty'] = $Result['ParQty'];
-            if($Result['UsageCode']==0 || $Result['UsageCode']==null){
-              $return[$index][$count2]['UsageCode'] = 0;
+            if($Result['UsageCode']== 0 || $Result['UsageCode']==null){
+              $return[$index][$count2]['UsageCode'] = '';
             }else{
               $return[$index][$count2]['UsageCode'] = $Result['UsageCode'];
             }
@@ -599,8 +599,8 @@ function ShowItemStock($conn, $DATA)
             $return[$index][$count2]['ItemName'] = $Result['ItemName'];
             $return[$index][$count2]['DepCode'] = $Result['DepCode'];
             $return[$index][$count2]['ParQty'] = $Result['ParQty'];
-            if($Result['UsageCode']==0 || $Result['UsageCode']==null){
-              $return[$index][$count2]['UsageCode'] = 0;
+            if($Result['UsageCode']==0||$Result['UsageCode']==''){
+              $return[$index][$count2]['UsageCode'] = '';
             }else{
               $return[$index][$count2]['UsageCode'] = $Result['UsageCode'];
             }
