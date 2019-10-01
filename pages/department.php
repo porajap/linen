@@ -510,7 +510,7 @@ $array2 = json_decode($json2,TRUE);
             $('#DepCode').val("");
             $('#hptsel2').val("");
              $('#DepCodeReal').val("");
-            // ShowItem();
+            ShowItem();
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $('#delete1').removeClass('mhee');
@@ -708,10 +708,10 @@ $array2 = json_decode($json2,TRUE);
                                     "</tr>";
 
                                 if (rowCount == 0) {
-                                    Blankinput();
+                                    // Blankinput();
                                     $("#TableItem tbody").append(StrTR);
                                 } else {
-                                    Blankinput();
+                                    // Blankinput();
                                     $('#TableItem tbody:last-child').append(StrTR);
                                 }
                             }

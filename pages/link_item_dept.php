@@ -188,8 +188,19 @@ $array2 = json_decode($json2,TRUE);
           });
         }
         function removeClassBorder1(){
-          $('#department').removeClass('border-danger');
-          $('#rem1').hide();
+          var par = $('#parnum').val();
+          var department = $('#department').val();
+          if(par !="" && par != undefined){
+                  $('#rem2').hide();
+                  $('#parnum').removeClass('border-danger');
+                }
+          if(department !="" && department != undefined){
+             $('#department').removeClass('border-danger');
+             $('#rem1').hide();
+          }
+
+
+
         }
       function getDepartment(){
         var Hotp = $('#hotpital option:selected').attr("value");
@@ -1038,7 +1049,7 @@ $array2 = json_decode($json2,TRUE);
                               getDepartment();
                             }else if( (temp["form"]=='getDepartment') ){
                               $("#department").empty();
-                              var Str = "<option value=''>-</option>";
+                              var Str = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
         												 Str  += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
         											}
@@ -1655,7 +1666,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class='col-3 mr-sm-2 text-left'> 
                           <span ><?php echo $array['parnum'][$language]; ?></span>
                         </div>
-                          <input type="text" class="form-control numonly col-8 checkblank2"   id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
+                          <input type="text" class="form-control numonly col-8 checkblank2" onkeyup="removeClassBorder1();"  id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
                           <label id="rem2" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>

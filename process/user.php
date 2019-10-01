@@ -9,7 +9,7 @@ function ShowItem($conn, $DATA)
 {
   $count = 0;
   $department2 = $DATA['department2'];
-  $xHptCode = $DATA['HptCode'];
+  $xHptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
   // if($xHptCode==""){
@@ -38,7 +38,7 @@ function ShowItem($conn, $DATA)
       INNER JOIN permission ON users.PmID = permission.PmID
       INNER JOIN site ON site.HptCode = users.HptCode
       INNER JOIN department ON department.DepCode = users.DepCode
-      WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%') AND  (Permission ='user' || Permission ='manager')";
+      WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%') AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
         if ($department2 != "") {
           $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
         }else{
@@ -59,7 +59,7 @@ function ShowItem($conn, $DATA)
 	  $return[$count]['Active_mail'] = $Result['Active_mail'];
     $count++;
   }
-
+  $return['Count'] = $count;
   if($count>0){
     $return['status'] = "success";
     $return['form'] = "ShowItem";
@@ -67,8 +67,8 @@ function ShowItem($conn, $DATA)
     mysqli_close($conn);
     die;
   }else{
-    $return['status'] = "notfound";
-    $return['msg'] = "notfound";
+    $return['status'] = "success";
+    $return['form'] = "ShowItem";
     echo json_encode($return);
     mysqli_close($conn);
     die;
@@ -392,7 +392,8 @@ function getDepartment2($conn, $DATA)
 {
   $count = 0;
   $boolean = false;
-  $Hotp = $DATA["Hotp"];
+  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
+  $HptCode1 = $_SESSION['HptCode'];
   $Sql = "SELECT department.DepCode,department.DepName
 		  FROM department
 		  WHERE department.HptCode = '$Hotp'
@@ -406,7 +407,7 @@ function getDepartment2($conn, $DATA)
     $boolean = true;
   }
 
-  if ($boolean) {
+  if ($meQuery = mysqli_query($conn, $Sql)) {
     $return['status'] = "success";
     $return['form'] = "getDepartment2";
     echo json_encode($return);
@@ -415,6 +416,8 @@ function getDepartment2($conn, $DATA)
   } else {
     $return['status'] = "failed";
     $return['form'] = "getDepartment2";
+    $return['msg'] = "notfound";
+    
     echo json_encode($return);
     mysqli_close($conn);
     die;

@@ -938,6 +938,7 @@ $array2 = json_decode($json2, TRUE);
       $('#AddItemBNT').hide();
       CreateItemCode();
       uncheckAll2();
+      ShowItem();
       $('#btn_importMaster').attr('disabled', true);
       $('#btn_del').attr('disabled', true);
 
@@ -1520,6 +1521,7 @@ $array2 = json_decode($json2, TRUE);
                 var down     = "hidden";
               }
 // ======================================================================
+              $("#TableItem tbody").empty();
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
@@ -1821,7 +1823,6 @@ $array2 = json_decode($json2, TRUE);
                   $('.checkblank').each(function() {
                       $(this).css('border-color', '');
                   });
-                  ShowItem();
               })
 
             } else if ((temp["form"] == 'AddUnit')) {

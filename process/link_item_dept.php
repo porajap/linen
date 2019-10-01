@@ -53,13 +53,13 @@ function getDepartment($conn, $DATA)
   AND department.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['DepCode'] = $Result['DepCode'];
-    $return[$count]['DepName'] = $Result['DepName'];
+    $return[$count]['DepCode'] = $Result['DepCode']==null?0:$Result['DepCode'];
+    $return[$count]['DepName'] = $Result['DepName']==null?0:$Result['DepName'];
     $count++;
     $boolean = true;
   }
 
-  if ($boolean) {
+  if ($meQuery = mysqli_query($conn, $Sql)) {
     $return['status'] = "success";
     $return['form'] = "getDepartment";
     echo json_encode($return);
