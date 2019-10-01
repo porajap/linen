@@ -468,25 +468,25 @@ $array2 = json_decode($json2,TRUE);
             }
               })
           
-        }else{
-          swal({
-            title: '',
-            text: "<?php echo $array['required'][$language]; ?>",
-            type: 'info',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            showConfirmButton: false,
-            timer: 2000,
-            confirmButtonText: 'Ok'
-          })
-          $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', 'red');
+            }else{
+            swal({
+                title: '',
+                text: "<?php echo $array['required'][$language]; ?>",
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
+            })
+            $('.checkblank').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                $(this).css('border-color', 'red');
+                }
+            });
             }
-          });
         }
-      }
 
 
         function CancelItem() {

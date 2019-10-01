@@ -42,6 +42,7 @@ $array2 = json_decode($json2,TRUE);
   <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../bootstrap/css/tbody.css" rel="stylesheet">
   <link href="../bootstrap/css/myinput.css" rel="stylesheet">
+  <link rel="stylesheet" href="../dropify/dist/css/dropify.min.css">
 
   <!-- Custom fonts for this template-->
   <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -1164,6 +1165,21 @@ $(document).ready(function(e){
                     $('#TableRefDocNo tbody:last-child').append( $StrTR );
                   }
                 }
+              }else if( (temp["form"]=='showExcel') ){
+                $( "#TableExcel tbody" ).empty();
+                var DataTr = '';
+                if(temp["Row"]>0){
+                  for (var i = 0; i < temp["Row"]; i++) {
+                    DataTr += "<tr><td class='text-center' style='width:10%'>"+(i+1)+"</td>"+
+                    "<td class='text-left' style='width:60%'>"+temp[i]['FileName']+"</td>"+
+                    "<td class='text-center' style='width:15%'><i class='fas fa-download'></i></td>"+
+                    "<td class='text-center' style='width:15%'><i class='fas fa-trash'></i></i></td>"+
+                    "</tr>";
+                  }
+                }else{
+                   var DataTr = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>"
+                }
+                $("#TableExcel tbody").html(DataTr);
               }
 
             }else if (temp['status']=="failed") {
@@ -1397,6 +1413,9 @@ $(document).ready(function(e){
                   <li class="nav-item">
                     <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="excel-tab"  data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="false">Excel</a>
+                  </li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -1563,57 +1582,104 @@ $(document).ready(function(e){
 
                   <!-- search document -->
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="row mt-3">
-                          <div class="col-md-4">
-                            <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Dep2" disabled='true'>
-                              </select>
+                        <div class="row mt-3">
+                              <div class="col-md-4">
+                                <div class="row" style="font-size:24px;margin-left:2px;">
+                                  <select class="form-control" style='font-size:24px;' id="Dep2" disabled='true'>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-6 mhee">
+                              <div class="row" style="margin-left:2px;">
+                                <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                                <div class="search_custom col-md-2">
+                                  <div class="search_1 d-flex justify-content-start">
+                                    <button class="btn"  onclick="ShowDocument(1)" >
+                                      <i class="fas fa-search mr-2"></i>
+                                      <?php echo $array['search'][$language]; ?>
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="search_custom col-md-2">
+                              <div class="circle11 d-flex justify-content-start">
+                                <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                                  <i class="fas fa-paste mr-2 pt-1"></i>
+                                  <?php echo $array['show'][$language]; ?>
+                                </button>
+                              </div>
                             </div>
                           </div>
-                          <div class="col-md-6 mhee">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12"> <!-- tag column 1 -->
+                          <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
+                            <thead id="theadsum" style="font-size:24px;">
+                              <tr role="row">
+                                <th style='width: 10%;' nowrap>&nbsp;</th>
+                                <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
+                                <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                                <th style='width: 18%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                                <th style='width: 16%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
+                            </tbody>
+                          </table>
+                        </div> <!-- tag column 1 -->
+                      </div>
+                    </div> 
+                  <!-- end row tab -->
+
+                    <div class="tab-pane fade" id="excel" role="tabpanel" aria-labelledby="profile-tab">
+                      <div class="row mt-3">
+                        <div class="col-md-3">
+                          <div class="row" style="font-size:24px;margin-left:2px;">
+                          <input type="text" class="form-control" style="font-size:24px;width:100%;" name="searchdate" id="searchdate" placeholder="<?php echo $array['searchexcel'][$language]; ?>" >
+                          </div>
+                        </div>
+                        <div class="col-md-8 mhee">
                           <div class="row" style="margin-left:2px;">
-                            <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                            <div class="search_custom col-md-2">
+                            <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchexcel" id="searchexcel" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                            <div class="search_custom mx-2">
                               <div class="search_1 d-flex justify-content-start">
-                                <button class="btn"  onclick="ShowDocument(1)" >
+                                <button class="btn">
                                   <i class="fas fa-search mr-2"></i>
                                   <?php echo $array['search'][$language]; ?>
                                 </button>
                               </div>
                             </div>
-                            <div class="search_custom col-md-2">
-                          <div class="circle11 d-flex justify-content-start">
-                            <button class="btn"  onclick="SelectDocument()" id="btn_show" >
-                              <i class="fas fa-paste mr-2 pt-1"></i>
-                              <?php echo $array['show'][$language]; ?>
-                            </button>
+                            <div class="search_custom">
+                              <div class="circle4 d-flex justify-content-start">
+                                <button class="btn"  data-toggle="modal" data-target="#modalUpload">
+                                  <i class="fas fa-upload mr-2"></i>
+                                  <?php echo $array['upload'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                        <div class="row">
-                          <div class="col-md-12"> <!-- tag column 1 -->
-                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
-                              <thead id="theadsum" style="font-size:24px;">
-                                <tr role="row">
-                                  <th style='width: 10%;' nowrap>&nbsp;</th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 18%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 16%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>
-                                </tr>
-                              </thead>
-                              <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
-                              </tbody>
-                            </table>
-                          </div> <!-- tag column 1 -->
-                        </div>
-                      </div> 
-                  <!-- end row tab -->
+                      <div class="row">
+                        <div class="col-md-12"> <!-- tag column 1 -->
+                          <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableExcel" width="100%" cellspacing="0" role="grid">
+                            <thead id="theadsum" style="font-size:24px;">
+                              <tr role="row">
+                                <th style='width: 10%;' nowrap>&nbsp;</th>
+                                <th style='width: 60%;text-align:left;'  nowrap><?php echo $array['filename'][$language]; ?></th>
+                                <th style='width: 15%;text-align:center;'  nowrap><?php echo $array['download'][$language]; ?></th>
+                                <th style='width: 15%;text-align:center;'  nowrap><?php echo $array['deletefile'][$language]; ?></th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
+                            </tbody>
+                          </table>
+                        </div> 
+                      </div>
+                    </div> 
                 </div>
               </div>
 
@@ -1729,7 +1795,25 @@ $(document).ready(function(e){
   </div>
 </div>
 
-
+<div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['upload'][$language]; ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body upload-doc">
+        <input type="file" class="dropify"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="fileExcel" name="fileExcel" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary px-2" data-dismiss="modal"><?php echo $array['isno'][$language]; ?></button>
+        <button type="button" class="btn btn-primary  px-2" id='comfirm_submit' disabled onclick='uploadExcel()'><?php echo $array['yes'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Bootstrap core JavaScript-->
 <script src="../template/vendor/jquery/jquery.min.js"></script>
 <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1746,7 +1830,127 @@ $(document).ready(function(e){
 
 <!-- Demo scripts for this page-->
 <script src="../template/js/demo/datatables-demo.js"></script>
+<script src="../dropify/dist/js/dropify.min.js"></script>
 
+<script>
+    $(document).ready(function(e) {
+      $('.dropify').dropify();
+
+      // Used events
+      var drEvent = $('#input-file-events').dropify();
+
+      drEvent.on('dropify.beforeClear', function(event, element) {
+          return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+      });
+
+      drEvent.on('dropify.afterClear', function(event, element) {
+          alert('File deleted');
+      });
+
+      drEvent.on('dropify.errors', function(event, element) {
+          console.log('Has Errors');
+      });
+      checkFileLength();
+      $('.upload-doc input[type="file"]').on('change', function () {
+          checkFileLength();
+      });
+
+      showExcel();
+    });
+    function checkFileLength() {
+      let $upload_file_elem = $('.upload-doc input[type="file"]');
+      let file_length = $upload_file_elem.length;
+      let validation = 0;
+
+      for (i = 0; i < file_length; i++) {
+          if ($($upload_file_elem[i]).val() != '') {
+              validation++;
+          }
+      }
+
+      if (validation >= 1) {
+          $('#comfirm_submit').removeAttr('disabled');
+      }
+    }
+
+    function uploadExcel(){
+            var file_data = $('#fileExcel').prop('files')[0];   
+            if(file_data!=''){
+                swal({
+                title: "",
+                text: "<?php echo $array['upload'][$language]; ?>",
+                type: "question",
+                showCancelButton: true,
+                confirmButtonClass: "btn-success",
+                confirmButtonText:  "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#6fc864',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+                  if (result.value) {
+                        var file_data = $('#fileExcel').prop('files')[0];   
+                        var form_data = new FormData();                  
+                        form_data.append('file', file_data);
+                        var URL = '../process/uploadExcel.php';
+                        $.ajax({
+                            url: URL, 
+                            dataType: 'text',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data:  form_data,
+                            type: 'post',
+                            success: function(result){
+                              swal({
+                                title: '',
+                                text: '<?php echo $array['uploadsuc'][$language]; ?>',
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                showConfirmButton: false,
+                                timer: 1000,
+                              });
+                              setTimeout(() => {
+                                showExcel();
+                                $('#modalUpload').modal('toggle');
+                              }, 1000); 
+                            }
+                        });
+                  } else if (result.dismiss === 'cancel') {
+                      swal.close();
+                  }
+                })
+            }else{
+              swal({
+                  title: '',
+                  text: "<?php echo $array['required'][$language]; ?>",
+                  type: 'info',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  showConfirmButton: false,
+                  timer: 2000,
+                  confirmButtonText: 'Ok'
+              })
+            $('.checkblank').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                $(this).css('border-color', 'red');
+                }
+            });
+            }
+    }
+
+    function showExcel(){
+      var data = {
+        'STATUS':'showExcel'
+      }
+      senddata(JSON.stringify(data));
+
+    }
+</script>
 </body>
 
 </html>

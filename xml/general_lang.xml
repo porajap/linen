@@ -59,6 +59,7 @@
 <isno><en>No</en><th>ไม่ใช่</th></isno>
 <Timeleft><en>TIME LT</en><th>เหลือเวลา</th></Timeleft>
 <changprice><en>DATE OF CHG PC.</en><th>เปลี่ยนราคาวันที่</th></changprice>
+<filename><en>File Name</en><th>ชื่อไฟล์</th></filename>
 <pack><en>Pack</en><th>แพ็ค</th></pack>
 <type><en>type</en><th>ประเภท</th></type>
 <search><en>Search</en><th>ค้นหา</th></search>
@@ -335,6 +336,11 @@
 <dte><en>Deleted</en><th>ลบสำเร็จ</th></dte>
 <excel><en>Create File Excel</en><th>สร้างไฟล์ Excel</th></excel>
 <updatesuccess><en>Update Success</en><th>อัพเดทคลังสำเร็จ</th></updatesuccess>
+<searchexcel><en>Search For Date</en><th>ค้นหาตามวันที่</th></searchexcel>
+<upload><en>Upload File</en><th>อัพโหลดไฟล์</th></upload>
+<download><en>Download File</en><th>ดาวน์โหลดไฟล์</th></download>
+<deletefile><en>Delete File</en><th>ลบไฟล์</th></deletefile>
+<uploadsuc><en>Upload File Success</en><th>อัพโหลดไฟล์สำเร็จ</th></uploadsuc>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>
