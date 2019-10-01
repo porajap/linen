@@ -78,13 +78,24 @@ function ShowItem($conn, $DATA)
 
 function getSection($conn, $DATA)
 {
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $count = 0;
+  if($PmID == 3 ){
   $Sql = "SELECT
           site.HptCode,
           site.HptName
           FROM
           site
-					WHERE IsStatus = 0";
+          WHERE IsStatus = 0 AND HptCode = '$HptCode1'";
+  }else{
+          $Sql = "SELECT
+          site.HptCode,
+          site.HptName
+          FROM
+          site
+          WHERE IsStatus = 0 ";
+  }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];
@@ -206,17 +217,31 @@ function getEmployee($conn, $DATA)
 function getHotpital($conn, $DATA)
 {
   $lang = $DATA["lang"];
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $count = 0;
   if($lang == 'en'){
+    if($PmID == 3 ){
     $Sql = "SELECT site.HptCode,site.HptName
-    FROM site WHERE site.IsStatus = 0";
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
   }else{
+    if($PmID == 3 ){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
-    FROM site WHERE site.IsStatus = 0";
-  }    $meQuery = mysqli_query($conn, $Sql);
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }    
+  $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];
     $return[$count]['HptName']  = $Result['HptName'];
+    $return[0]['PmID']  = $PmID;
     $count++;
   }
 
@@ -232,18 +257,31 @@ function getHotpital($conn, $DATA)
 function getHotpital_user($conn, $DATA)
 {
   $lang = $DATA["lang"];
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $count = 0;
   if($lang == 'en'){
+    if($PmID == 3 ){
     $Sql = "SELECT site.HptCode,site.HptName
-    FROM site WHERE site.IsStatus = 0";
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
   }else{
+    if($PmID == 3 ){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
-    FROM site WHERE site.IsStatus = 0";
-  }  
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }      
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];
     $return[$count]['HptName']  = $Result['HptName'];
+    $return[0]['PmID']  = $PmID;
     $count++;
   }
 
@@ -258,8 +296,13 @@ function getHotpital_user($conn, $DATA)
 
 function getPermission($conn, $DATA)
 {
+  $PmID = $_SESSION['PmID'];
   $count = 0;
+  if($PmID !=3){
   $Sql = "SELECT permission.PmID,permission.Permission FROM permission";
+  }else{
+  $Sql = "SELECT permission.PmID,permission.Permission FROM permission WHERE PmID = 2 || PmID = 3 || PmID = 4  ";
+  }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['PmID']  = $Result['PmID'];

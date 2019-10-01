@@ -11,7 +11,6 @@ if(empty($_SESSION['lang'])){
     $language ='th';
 }else{
     $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');
@@ -904,8 +903,14 @@ $array2 = json_decode($json2,TRUE);
                         }else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
                             $("#hptsel").empty();
-                            getDepartment2();    
+                            getDepartment2();
+                            if(temp[0]['PmID'] != 3){
                             var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                            }else{
+                                var StrTr = "";
+                                $('#hptsel').attr('disabled' , true);
+                                $('#hptsel').addClass('icon_select');
+                            }
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                             }
@@ -931,8 +936,13 @@ $array2 = json_decode($json2,TRUE);
 
                         }else if ((temp["form"] == 'getHotpital_user')) {
                                     $("#host").empty();
-                                    var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
-                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                    if(temp[0]['PmID'] != 3){
+                                        var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                                        }else{
+                                            var StrTr = "";
+                                            $('#host').attr('disabled' , true);
+                                            $('#host').addClass('icon_select');
+                                        }                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                          StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                     }
                                     $("#host").append(StrTr);
@@ -945,14 +955,14 @@ $array2 = json_decode($json2,TRUE);
                                     }
                                 } else if ((temp["form"] == 'getPermission')) {
                                     $("#Permission").empty();
-                                    var StrTr = "<option value=''>-</option>";
+                                    var StrTr = "<option value=''><?php echo $array['selectpermission'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                          StrTr += "<option value = '" + temp[i]['PmID'] + "'> " + temp[i]['Permission'] + " </option>";
                                     }
                                     $("#Permission").append(StrTr);
                                 } else if ((temp["form"] == 'getFactory')) {
                                     $("#factory").empty();
-                                    var StrTr = "<option value = '0'>-</option>";
+                                    var StrTr = "<option value = '0'><?php echo $array['selectfactory'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                         StrTr += "<option value = '" + temp[i]['FacCode'] + "'> " + temp[i]['FacName'] + " </option>";
                                     }
@@ -1266,7 +1276,7 @@ label{
    <!-- =================================================================== -->
 <!-- /.content-wrapper -->
 <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                          <div class="menu mhee" <?php if($PmID == 3) echo 'hidden'; ?>>
+                          <div class="menu mhee" >
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -1290,7 +1300,7 @@ label{
                               </div>
                             </div>
                           </div>
-                          <div class="menu" id="delete1" <?php if($PmID == 3) echo 'hidden'; ?>>
+                          <div class="menu" id="delete1" >
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true" >
@@ -1409,7 +1419,7 @@ label{
                                     </div>
                                 <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['facname'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['Laundry2'][$language]; ?></label>
                                         <select  class="form-control col-sm-7 " id="factory" disabled="true"></select>
                                     </div>
                                   </div>

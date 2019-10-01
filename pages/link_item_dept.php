@@ -1736,7 +1736,7 @@ $array2 = json_decode($json2,TRUE);
             </table>
           </div>
           <div class="col-1 d-flex justify-content-center">
-            <div class="menuMini opacity"  id="hover1" <?php if($PmID == 3) echo 'hidden'; ?>>
+            <div class="menuMini opacity"  id="hover1" >
               <div class="d-flex justify-content-center">
                 <div class="circle4 d-flex justify-content-center">
                   <button class="btn" onclick="Addtodoc()" id="bSave" disabled="true">
