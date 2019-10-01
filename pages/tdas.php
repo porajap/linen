@@ -417,6 +417,15 @@ $array2 = json_decode($json2,TRUE);
             $(".CalSum").each(function() {
                 CalSum.push($(this).val());
             });
+
+            var loop1 = ItemCode.length;
+            var loop2 =  $(".numDep").length;
+            var resultStock = [[],[]];
+            for(var i = 0; i<loop1; i++){
+                for(var j = 0; j<loop2; j++){
+                    resultStock[i][j] = $('.result_'+i+j).val();;
+                }
+            }
             var ItemCodeArray = ItemCode.join(',');
             var changeArray = change.join(',');
             var AllSum = chkItem.join(',');
@@ -466,6 +475,7 @@ $array2 = json_decode($json2,TRUE);
                             'Total_par2': Total_par2,
                             'TotalArray': TotalArray,
                             'CalArray': CalArray,
+                            'resultStock': resultStock
                         };
                         senddata(JSON.stringify(data));
                     }, 1500);
@@ -663,7 +673,7 @@ $array2 = json_decode($json2,TRUE);
                                             "<th style='width :15%;'  class='text-left'>Department</th>"+
                                             "<th style='width :13%;' class='text-center'>Change <br>(ความถึ่ในการเปลี่ยน)</th>";
                             for (var i = 0; i < temp['CountRow']; i++) {
-                                HeadTB += "<th  class='text-center' style='width :12%;'>" + temp[i]['DepName'] + "</th>" ;
+                                HeadTB += "<th  class='text-center numDep' style='width :12%;'>" + temp[i]['DepName'] + "</th>" ;
                             }
                             var DepCount = i;
                             var total_par1 = temp['total_par1']==undefined?"placeholder='0'":"value='"+temp['total_par1']+"'";
@@ -778,7 +788,7 @@ $array2 = json_decode($json2,TRUE);
                                         "<td  nowrap  class='text-left ItemCode' data-itemcode='"+temp[j]['ItemCode']+"'>"+temp[j]['ItemName']+"</td>"+
                                         "<td  nowrap  class='text-left'><input type='text'  "+change_value+" id='change_"+j+"' class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
                                         for (var i = 0; i < temp['CountRow']; i++) {
-                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+" SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
+                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+"  SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
                                         }
                                     StrTRx += "<td  class='text-center'></td>"+
                                         "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
