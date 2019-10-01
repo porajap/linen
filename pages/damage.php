@@ -13,7 +13,6 @@ if(empty($_SESSION['lang'])){
   $language ='th';
 }else{
   $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');
@@ -73,9 +72,7 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker-en.js"></script>
 <?php } ?>
 <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<script src="../datepicker/dist/js/datepicker.min.js"></script>
-<!-- Include English language -->
-<script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+<script src="../datepicker/dist/js/datepicker.th.js"></script>
 
 <script type="text/javascript">
 var summary = [];
@@ -1642,7 +1639,7 @@ $(document).ready(function(e){
                       <div class="row mt-3">
                         <div class="col-md-3">
                           <div class="row" style="font-size:24px;margin-left:2px;">
-                          <input type="text" class="form-control datepicker-here" style="font-size:24px;width:100%;" name="searchdate" id="searchdate"  data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                          <input type="text" class="form-control datepicker-here" autocomplete="off" style="font-size:24px;width:100%;" name="searchdate" id="searchdate"  data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                           </div>
                         </div>
                         <div class="col-md-8 mhee">
