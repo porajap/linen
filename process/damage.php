@@ -1042,13 +1042,20 @@ function CreateDocument($conn, $DATA)
   }
   function showExcel($conn, $DATA){
     $HptCode = $_SESSION['HptCode'];
+    $ID = $DATA['ID'];
+    $Keyword = $DATA['Keyword'];
+    $KeyDate = $DATA['KeyDate'];
+
     $count = 0;
-    $Sql = "SELECT df.FileName, df.Date, users.FName  
+    $Sql = "SELECT df.ID, df.FileName, df.Date, users.FName  
     FROM damage_file df
     INNER JOIN users ON users.ID = df.UserID
-    WHERE df.HptCode = '$HptCode' ORDER BY df.Date ASC";
+    WHERE df.HptCode = '$HptCode' 
+    AND (df.Date LIKE '%$KeyDate%') AND (df.FileName LIKE '%$Keyword%') AND df.Status = 0 ORDER BY df.Date ASC";
+    $return['sql'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
      while ($Result = mysqli_fetch_assoc($meQuery)) {
+       $return[$count]['ID'] = $Result['ID'];
        $return[$count]['FileName'] = $Result['FileName'];
        $return[$count]['Date'] = $Result['Date'];
        $return[$count]['FName'] = $Result['FName'];
@@ -1062,6 +1069,13 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
 
+  }
+      
+  function deleteExcel($conn, $DATA){
+    $ID = $DATA['ID'];
+    $Sql = "UPDATE damage_file SET Status = 1 WHERE ID = $ID";
+    mysqli_query($conn, $Sql);
+    showExcel($conn, $DATA);
   }
   //==========================================================
   //
@@ -1110,6 +1124,8 @@ function CreateDocument($conn, $DATA)
       UpdateQty($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'showExcel') {
       showExcel($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'deleteExcel') {
+      deleteExcel($conn, $DATA);
     }
     
   } else {
