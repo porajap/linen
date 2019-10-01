@@ -13,7 +13,6 @@ if(empty($_SESSION['lang'])){
   $language ='th';
 }else{
   $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');
@@ -67,11 +66,15 @@ $array2 = json_decode($json2,TRUE);
 <script src="../dist/js/sweetalert2.min.js"></script>
 <script src="../dist/js/jquery-3.3.1.min.js"></script>
 
-
+<?php if ($language =='th'){ ?>
+  <script src="../datepicker/dist/js/datepicker.js"></script>
+<?php }else if($language =='en'){ ?>
+    <script src="../datepicker/dist/js/datepicker-en.js"></script>
+<?php } ?>
 <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<script src="../datepicker/dist/js/datepicker.min.js"></script>
-<!-- Include English language -->
+<script src="../datepicker/dist/js/datepicker.th.js"></script>
 <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+
 
 <script type="text/javascript">
 var summary = [];
@@ -1173,7 +1176,7 @@ $(document).ready(function(e){
                     DataTr += "<tr><td class='text-center' style='width:10%'>"+(i+1)+"</td>"+
                     "<td class='text-left' style='width:60%'>"+temp[i]['FileName']+"</td>"+
                     "<td class='text-center' style='width:15%'><i class='btn fas fa-download' onclick='downloadExcel(\""+temp[i]['FileName']+"\")'></i></td>"+
-                    "<td class='text-center' style='width:15%'><i class='btn fas fa-trash'></i></i></td>"+
+                    "<td class='text-center' style='width:15%'><i class='btn fas fa-trash' onclick='deleteExcel(\""+temp[i]['ID']+"\")'></i></i></td>"+
                     "</tr>";
                   }
                 }else{
@@ -1638,7 +1641,7 @@ $(document).ready(function(e){
                       <div class="row mt-3">
                         <div class="col-md-3">
                           <div class="row" style="font-size:24px;margin-left:2px;">
-                          <input type="text" class="form-control" style="font-size:24px;width:100%;" name="searchdate" id="searchdate" placeholder="<?php echo $array['searchexcel'][$language]; ?>" >
+                          <input type="text" class="form-control datepicker-here" autocomplete="off" style="font-size:24px;width:100%;" name="searchdate" id="searchdate"  data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                           </div>
                         </div>
                         <div class="col-md-8 mhee">
@@ -1646,7 +1649,7 @@ $(document).ready(function(e){
                             <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchexcel" id="searchexcel" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                             <div class="search_custom mx-2">
                               <div class="search_1 d-flex justify-content-start">
-                                <button class="btn">
+                                <button class="btn" onclick="showExcel()">
                                   <i class="fas fa-search mr-2"></i>
                                   <?php echo $array['search'][$language]; ?>
                                 </button>
@@ -1872,10 +1875,78 @@ $(document).ready(function(e){
           $('#comfirm_submit').removeAttr('disabled');
       }
     }
+    function showExcel(){
+      var lang = '<?php echo $language; ?>';
+      var KeyDate = $('#searchdate').val();
+      if(KeyDate!='' && KeyDate!=null){
+        if(lang =='th'){
+          KeyDate = KeyDate.substring(6, 10)-543+"-"+KeyDate.substring(3, 5)+"-"+KeyDate.substring(0, 2);
+        }else if(lang =='en'){
+          KeyDate = KeyDate.substring(6, 10)+"-"+KeyDate.substring(3, 5)+"-"+KeyDate.substring(0, 2);
+        }
+      }
+    
+      var Keyword = $('#searchexcel').val();
+      var data = {
+        'STATUS':'showExcel',
+        'Keyword':Keyword,
+        'KeyDate':KeyDate
+      }
+      senddata(JSON.stringify(data));
+    }
     function downloadExcel(filename){
       var file = '../excelFiles/' + filename;
       var url = "../process/downloadExcel.php?filename=" +file;
       window.open(url, '_blank');
+    }
+    $('#searchexcel').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+          showExcel();
+        }
+    });
+    $('#searchdate').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+          showExcel();
+        }
+    });
+    function deleteExcel(ID){
+      swal({
+        title: " ",
+        text: "<?php echo $array['confirmcancel'][$language];?>?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['yes' ][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+      }).then(result => {
+          if (result.value) {
+            swal({
+              title: '',
+              text: '<?php echo $array['dte'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            setTimeout(() => {
+              var data = {
+              'STATUS':'deleteExcel',
+              'ID':ID
+              }
+              senddata(JSON.stringify(data));
+            }, 1000);
+            
+          } else if (result.dismiss === 'cancel') {
+            swal.close();
+          }
+      })
     }
     function uploadExcel(){
             var file_data = $('#fileExcel').prop('files')[0];   
@@ -1947,13 +2018,7 @@ $(document).ready(function(e){
             }
     }
 
-    function showExcel(){
-      var data = {
-        'STATUS':'showExcel'
-      }
-      senddata(JSON.stringify(data));
-
-    }
+    
 </script>
 </body>
 

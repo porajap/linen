@@ -244,7 +244,7 @@ $array2 = json_decode($json2,TRUE);
             CancelBill();
             } else if (result.dismiss === 'cancel') {
             swal.close();}
-        })
+          })
         }
       
     }
