@@ -74,8 +74,8 @@ $array2 = json_decode($json2,TRUE);
     <link href="../css/menu_custom.css" rel="stylesheet">
     <script type="text/javascript">
         var summary = [];
-
         $(document).ready(function(e) {
+
             Blankinput();
             $('#rem1').hide();
             $('#rem2').hide();
@@ -96,6 +96,9 @@ $array2 = json_decode($json2,TRUE);
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true
+            });
+            $('#settime').on('changeTime', function() {
+                alert(55);
             });
         }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
@@ -315,6 +318,20 @@ $array2 = json_decode($json2,TRUE);
                 }
             })
         }
+        function resetinput(){
+            var hptsel2 = $('#hptsel2').val();
+            var settime = $('#settime').val();
+
+
+            if(hptsel2 !="" && hptsel2!=undefined){
+            $('#rem1').hide();
+            $('#hptsel2').removeClass('border border-danger');
+            }
+            if(settime !="" && settime!=undefined){
+            $('#rem2').hide();
+            $('#settime').removeClass('border border-danger');
+            }
+}
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -645,7 +662,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 checkblank" id="hptsel2" >
+                                      <select  class="form-control col-sm-7 checkblank" id="hptsel2" onchange="resetinput()">
                                       </select>
                                       <label id="rem1" class="col-sm-1 text-danger" style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -656,7 +673,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['settime'][$language]; ?></label>
-                                      <input type="text" autocomplete='off' class="form-control col-sm-7 timepicker" id="settime" placeholder="<?php echo $array['settime'][$language]; ?>" >
+                                      <input type="text" autocomplete='off'  class="form-control col-sm-7 timepicker" id="settime" placeholder="<?php echo $array['settime'][$language]; ?>" >
                                       <label id="rem2" class="col-sm-1 text-danger" style="font-size: 180%;margin-top: -1%;"> * </label>
                                       <input type="hidden" id='idTime'>
                                     </div>
