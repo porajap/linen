@@ -70,6 +70,7 @@
 <titledirty><en>Dirty linen receive records</en><th>รับผ้าสกปรก</th></titledirty>
 <titlestockin><en>Receive into stock</en><th>รับเข้าสต๊อก</th></titlestockin>
 <titleclean><en>Receive clean linen</en><th>รับผ้าสะอาด</th></titleclean>
+<titlerewash><en>Receive Rewash linen</en><th>รับผ้าแก้ไข</th></titlerewash>
 <titlerepair><en>Receive repair linen</en><th>รับผ้าที่ถูกซ่อม</th></titlerepair>
 <titledamage><en>Receive damage linen</en><th>รับผ้าชำรุด</th></titledamage>
 <titleshelf><en>Shelf Count</en><th>Shelf Count</th></titleshelf>

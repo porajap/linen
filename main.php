@@ -1085,6 +1085,13 @@ echo '</script>';
               <em></em><?php echo $array['menu']['general']['sub'][11][$language]; ?></a>
           </li>
           <?php } ?>
+          <?php if($gen_s10== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/repairwash.php?lang=<?php echo $language; ?>" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][9][$language]; ?></a>
+          </li>
+          <?php } ?>
           <?php if($gen_s4== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/shelfcount.php?lang=<?php echo $language; ?>" id="act7" class="current_page"
@@ -1132,13 +1139,7 @@ echo '</script>';
               <em></em><?php echo $array['menu']['general']['sub'][8][$language]; ?></a>
           </li>
           <?php } ?>
-          <!-- <?php if($gen_s10== 1){ ?>
-          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/datechangeprice.php?lang=<?php echo $language; ?>" class="current_page"
-              onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['general']['sub'][9][$language]; ?></a>
-          </li>
-          <?php } ?> -->
+ 
         </ul>
 
       </li>
