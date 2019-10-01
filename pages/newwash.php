@@ -298,17 +298,12 @@ $array2 = json_decode($json2,TRUE);
         closeOnCancel: false,
         showCancelButton: true}).then(result => {
           if (result.value) {
-
           CancelBill();
-
         } else if (result.dismiss === 'cancel') {
           swal.close();}
-
         })
       }
     }
-
-
         //======= On create =======
         //console.log(JSON.stringify(data));
         function OnLoadPage(){

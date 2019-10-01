@@ -11,6 +11,8 @@ function OnLoadPage($conn, $DATA)
 {
   $lang = $DATA["lang"];
   $Hotp = $DATA["Hotp"];
+  $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $count = 0;
   $countx = 0;
   $boolean = false;
@@ -33,10 +35,18 @@ $return['Rowx'] = $countx;
 
 if($lang == 'en'){
   $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
-  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+  if($PmID ==2 || $PmID ==3){
+  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+  }else{
+    $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+  }
 }else{
   $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
-  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+  if($PmID ==2 || $PmID ==3){
+  $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+  }else{
+    $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+  }
 }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

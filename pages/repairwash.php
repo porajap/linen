@@ -812,7 +812,6 @@ $(document).ready(function(e){
         };
         senddata(JSON.stringify(data));
         // dialogRefDocNo.dialog( "close" );
-         OpenDialogItem();
         $('#dialogRefDocNo').modal('toggle')
       }
 

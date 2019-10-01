@@ -469,7 +469,7 @@ $array2 = json_decode($json2,TRUE);
 							}
                         	if(temp["status"]=='success'){
 										  if(temp["form"]=='OnLoadPage'){
-                        var Str = "<option value='' selected>-</option>";
+                        var Str = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
 											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
 												 Str += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
 											}
@@ -777,14 +777,14 @@ body{
                                     <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                                                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                                                 </div>
                                               </div>
 
                                               <div class="col-md-4">
                                                 <div class='form-group row'>
                                                   <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                                  <input type="text"  autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker2" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                                                  <input type="text"  autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker2" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                                                 </div>
                                               </div>
                                               
@@ -897,7 +897,7 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['datestartcontract'][$language]; ?></label>
-                                        <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only checkblank2" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' >
+                                        <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only checkblank2" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['selectstartdate'][$language]; ?>">
                                         <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
 
                                     </div>
@@ -905,7 +905,7 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['dateendcontract'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only checkblank2" id="datepicker4" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only checkblank2" id="datepicker4" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['selectenddate'][$language]; ?>">
                                       <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

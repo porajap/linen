@@ -954,7 +954,7 @@ $array2 = json_decode($json2,TRUE);
                   }
 
                   $("#factory").empty();
-                  var Str = "<option value='' selected>-</option>";
+                  var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
                   for (var i = 0; i < temp["Rowx"]; i++) {
                     Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                   }
@@ -967,7 +967,7 @@ $array2 = json_decode($json2,TRUE);
                 }else if(temp["form"]=='getDepartment'){
                   $("#department").empty();
                   $("#Dep2").empty();
-                  var Str2 = "<option value='' selected>-</option>";
+                  var Str2 = "<option value='' selected><?php echo $array['selectdep'][$language]; ?></option>";
                   for (var i = 0; i < temp["Row"]; i++) {
                     // var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                     Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";

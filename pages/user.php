@@ -315,6 +315,11 @@ $array2 = json_decode($json2,TRUE);
         var facID = $('#factory').val();
         var email = $('#email').val();
 
+            if(Permission ==4){
+                $('#factory').attr('disabled' , false);
+            }else{
+                $('#factory').attr('disabled' , true);
+            }
             if(host !="" && host!=undefined){
             $('#rem1').hide();
             $('#host').css('border-color', '');
