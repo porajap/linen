@@ -1040,6 +1040,29 @@ function CreateDocument($conn, $DATA)
       die;
     }
   }
+  function showExcel($conn, $DATA){
+    $HptCode = $_SESSION['HptCode'];
+    $count = 0;
+    $Sql = "SELECT df.FileName, df.Date, users.FName  
+    FROM damage_file df
+    INNER JOIN users ON users.ID = df.UserID
+    WHERE df.HptCode = '$HptCode' ORDER BY df.Date ASC";
+    $meQuery = mysqli_query($conn, $Sql);
+     while ($Result = mysqli_fetch_assoc($meQuery)) {
+       $return[$count]['FileName'] = $Result['FileName'];
+       $return[$count]['Date'] = $Result['Date'];
+       $return[$count]['FName'] = $Result['FName'];
+       $boolean = true;
+       $count++;
+     }
+      $return['Row'] = $count;
+      $return['status'] = "success";
+      $return['form'] = "showExcel";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+
+  }
   //==========================================================
   //
   //==========================================================
@@ -1085,6 +1108,8 @@ function CreateDocument($conn, $DATA)
       get_claim_doc($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'UpdateQty') {
       UpdateQty($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'showExcel') {
+      showExcel($conn, $DATA);
     }
     
   } else {
