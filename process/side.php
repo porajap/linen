@@ -194,7 +194,6 @@ function Adduser($conn, $DATA)
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
   $hosdetail = $DATA['hosdetail'];
-
 //=======================================
   $Sqlx = "SELECT COUNT(*) AS Countc
   FROM
@@ -265,8 +264,6 @@ $boolcountc = $Resultx['Countc'];
   }
 
 }
-
-
 function getHotpital($conn, $DATA)
 {
   $lang = $_SESSION['lang'];

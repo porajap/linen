@@ -307,6 +307,8 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function removeborder(){
+            Blankinput();
+            ShowItem();
             var hptsel = $('#hptsel').val();
             $('#hptsel').css('border-color', '');
             $('#hptsel2').val(hptsel);

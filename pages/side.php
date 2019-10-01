@@ -603,6 +603,7 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+        $('#profile-tab').attr('hidden',true);
         $('#home-tab').click();
         $('#rem1').hide();
         $('#rem2').hide();
@@ -614,7 +615,7 @@ $array2 = json_decode($json2,TRUE);
         $('#xcenter1').prop('checked', false);
         $('#xcenter2').prop('checked', false);
         $('#hostdetail').attr('hidden', true);
-      //  $('#hostdetail55').attr('hidden', false);
+       $('#hostdetail55').attr('hidden', false);
         $('.checkblank').each(function() {
           $(this).val("");
         });
@@ -646,10 +647,12 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function getdetail(HptCode , row) {
+        $('#profile-tab').attr('hidden',false);
         var id = $('#id_'+row).data('value');
         var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
+          $('#profile-tab').attr('hidden',true);
           $('#home-tab').click();
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
@@ -876,7 +879,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#host').val(temp['HptCode']);
                                 $('#hosdetail1').val(temp['HptName']);
                                 $('#hostdetail').attr('hidden', false);
-                                // $('#hostdetail55').attr('hidden', true);
+                                $('#hostdetail55').attr('hidden', true);
                                 $('#host').removeClass('checkblank3');
                                 if (temp['private'] == 1)  {
                                 $('#xcenter1').prop('checked', true);
@@ -944,6 +947,7 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                                 Blankinput();
                                 getHotpital();
+                                $('#profile-tab').attr('hidden',true);
                                 $('#home-tab').click();
                               }, function(dismiss) {
                                 $('.checkblank').each(function() {
@@ -1420,7 +1424,7 @@ $array2 = json_decode($json2,TRUE);
                         <a class="nav-link active" id="home-tab" onclick="menu_tapShow();"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="profile-tab"  onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
+                        <a class="nav-link" id="profile-tab" hidden onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['adduser'][$language]; ?></a>
                       </li>
                   </ul>
 <!-- =============================================================================================================================== -->
@@ -1526,12 +1530,12 @@ $array2 = json_decode($json2,TRUE);
                                       <label id="rem6" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                  <!-- <div class="col-md-6"  hidden id="hostdetail">
+                                  <div class="col-md-6"  hidden id="hostdetail">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['hosname'][$language]; ?></label>
                                       <input type="text" autocomplete="off"  class="form-control col-sm-7 " disabled="true" id="hosdetail1" placeholder="<?php echo $array['hosname'][$language]; ?>">
                                     </div>
-                                  </div> -->
+                                  </div>
 
                                   <div class="col-md-6" hidden>
                                     <div class='form-group row'>

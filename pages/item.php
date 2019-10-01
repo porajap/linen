@@ -163,6 +163,8 @@ $array2 = json_decode($json2, TRUE);
     });
 
     function changeHptCode(){
+      Blankinput();
+      ShowItem();
       $('#Hos2').css('border-color', '');
       var Hos2 = $('#Hos2').val();
         if(Hos2 !=''){
@@ -888,12 +890,16 @@ $array2 = json_decode($json2, TRUE);
       $("input[name=formatitem][value=1]").prop('checked', true);
     }
     function uncheckAll2() {
-      $('input[type=checkbox]').each(function() 
+      $('input[type=radio]').each(function() 
           { 
                   this.checked = false; 
           });
     }
     function Blankinput() {
+      $('#hospital').attr('disabled', false);
+      $('#maincatagory2').attr('disabled', false);
+      $('#typeLinen').attr('disabled', false);
+      $('#numPack').attr('disabled', false);
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -954,11 +960,20 @@ $array2 = json_decode($json2, TRUE);
       var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
+          $('#hospital').attr('disabled', false);
+          $('#maincatagory2').attr('disabled', false);
+          $('#typeLinen').attr('disabled', false);
+          $('#numPack').attr('disabled', false);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
           Blankinput();
         } else {
+          $('#hospital').attr('disabled', true);
+          $('#maincatagory2').attr('disabled', true);
+          $('#typeLinen').attr('disabled', true);
+          $('#numPack').attr('disabled', true);
+
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
       if (ItemCode != "" && ItemCode != undefined) {
@@ -998,7 +1013,12 @@ $array2 = json_decode($json2, TRUE);
         senddata(JSON.stringify(data));
       }
     }
-
+    function uncheckAll2() {
+                $('input[type=checkbox]').each(function() 
+                    { 
+                            this.checked = false; 
+                    });
+                }
     function DeleteUnit() {
       var RowID = $("#checkitem2:checked").val();
       swal({
@@ -2527,7 +2547,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
-                              <select   class="form-control col-sm-7 checkblank" id="hospital" onchange="CreateItemCode()"></select>
+                              <select   class="form-control col-sm-7 checkblank" id="hospital" onchange="CreateItemCode()" ></select>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -2535,7 +2555,7 @@ $array2 = json_decode($json2, TRUE);
                             <label class="col-sm-3 col-form-label "><?php echo $array['type'][$language]; ?></label>
                               <div class="col-md-8">
                                 <div class='form-group row'>
-                                  <select  onchange="resetinput()" class="form-control col-sm-4 " id="typeLinen" onchange="CreateItemCode()">
+                                  <select  onchange="resetinput()" class="form-control col-sm-4 " id="typeLinen" onchange="CreateItemCode()" >
                                     <option value="P">Patient Shirt</option>
                                     <option value="S">Staff Uniform</option>
                                     <option value="F">Flat Sheet</option>
@@ -2545,7 +2565,7 @@ $array2 = json_decode($json2, TRUE);
                                   </select>
 
                                   <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
-                                  <select onchange="resetinput()"  class="form-control col-sm-4  numonly" id="numPack" onchange="CreateItemCode()">
+                                  <select onchange="resetinput()"  class="form-control col-sm-4  numonly" id="numPack" onchange="CreateItemCode()" >
                                     <option value="01">1 PCS</option>
                                     <option value="05">5 Pc</option>
                                     <option value="10">10 Pc</option>
@@ -2561,10 +2581,10 @@ $array2 = json_decode($json2, TRUE);
                         <!-- =================================================================== -->
                         <div class="row">
 
-                          <div class="col-md-6">
+                          <div class="col-md-6" >
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
-                              <select   class="form-control col-sm-7 checkblank" id="maincatagory2" onchange="getCatagory2()"></select>
+                              <select   class="form-control col-sm-7 checkblank" id="maincatagory2" onchange="getCatagory2()" ></select>
                               <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>
@@ -2572,7 +2592,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['categorysub'][$language]; ?></label>
-                              <select  onchange="resetinput()"  class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()"></select>
+                              <select  onchange="resetinput()"  class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()" ></select>
                               <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>

@@ -315,6 +315,8 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
       function removeborder(){
+            Blankinput();
+            ShowItem();
             $('#maincatagory').css('border-color', '');
 
         }
