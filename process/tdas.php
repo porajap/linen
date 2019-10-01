@@ -367,8 +367,8 @@ function updateStock($conn, $DATA){
       $ParQty = $Result['ParQty'];
       if($cnt==0){
         for($m = 0; $m<$result; $m++){
-          $Insert = "INSERT INTO item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode)
-                      VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], $result, $result, 0)";
+          $Insert = "INSERT INTO item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode, IsStatus)
+                      VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], $result, $result, 0, 9)";
           mysqli_query($conn, $Insert);
         }
       }else{
