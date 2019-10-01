@@ -85,6 +85,8 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+
+  $('#Dep2').addClass('icon_select');
   $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
