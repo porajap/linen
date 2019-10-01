@@ -319,6 +319,11 @@ function updateStock($conn, $DATA){
   #-------------------------------------
   $TotalArray = explode(',', $DATA['TotalArray']);
   $CalArray = explode(',', $DATA['CalArray']);
+  $resultStock = $DATA['resultStock'];
+  // echo '<pre>';
+  // print_r($resultStock);
+  // echo '</pre>';
+  // exit();
   #-------------------------------------
   $count = 0;
   $Sql = "SELECT department.DepCode FROM department
@@ -355,22 +360,25 @@ function updateStock($conn, $DATA){
 
   for($i=0;$i<$ItemLoop;$i++){
     for($d = 0; $d<$DepLoop; $d++){
-      if($AllSum[$i]==0){
-        $result = round(((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d])-$Qty[1][$d]);
-      }else{
-        $result = round((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d]);
-      }
+      // if($AllSum[$i]==0){
+      //   $result = round(((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d])-$Qty[1][$d]);
+      // }else{
+      //   $result = round((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d]);
+      // }
       $Sql = "SELECT COUNT(*) AS cnt, ParQty FROM item_stock WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCodeX[$d] LIMIT 1";
       $meQuery = mysqli_query($conn, $Sql);
       $Result = mysqli_fetch_assoc($meQuery);
       $cnt = $Result['cnt'];
       $ParQty = $Result['ParQty'];
       if($cnt==0){
-        for($m = 0; $m<$result; $m++){
-          $Insert = "INSERT INTO item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode, IsStatus)
-                      VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], $result, $result, 0, 9)";
-          mysqli_query($conn, $Insert);
+        if($resultStock[$i][$d]!=0||$resultStock[$i][$d]!=''){
+          for($m = 0; $m<$resultStock[$i][$d]; $m++){
+            $Insert = "INSERT INTO item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode, IsStatus)
+                        VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], '".$resultStock[$i][$d]."', 0, 0, 9)";
+            mysqli_query($conn, $Insert);
+          }
         }
+        
       }else{
         if($ParQty < $result){
           $Update = "UPDATE item_stock SET ParQty = $result WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = '$DepCodeX[$d]'";
