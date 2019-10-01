@@ -722,18 +722,10 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
 
     // ================================================================================
-    $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$DocNo2' ";
-    $meQuery = mysqli_query($conn, $Sqlx);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $DocNoDirty = $Result['DocNo'];
-    }
-    if($DocNoDirty != "" ){
-    $Sql = "UPDATE dirty SET IsRef = 1 WHERE dirty.DocNo = '$DocNo2'";
-    mysqli_query($conn, $Sql);
-    }else{
+ 
     $Sql = "UPDATE rewash SET IsRef = 1 WHERE rewash.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
-    }
+    
     $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$DocNo2' ";
     $meQuery = mysqli_query($conn, $Sqlx);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

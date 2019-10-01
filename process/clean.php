@@ -731,7 +731,7 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE dirty SET IsRef = 1 WHERE dirty.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
     }else{
-    $Sql = "UPDATE rewash SET IsRef = 1 WHERE rewash.DocNo = '$DocNo2'";
+    $Sql = "UPDATE repair_wash SET IsRef = 1 WHERE repair_wash.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
     }
     $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$DocNo2' ";
@@ -1060,11 +1060,12 @@ function CreateDocument($conn, $DATA)
     INNER JOIN site ON dirty.HptCode = site.HptCode
     WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode' 
     
-    -- UNION ALL 
+    UNION ALL 
     
-    -- SELECT DocNo FROM rewash
-    -- INNER JOIN site ON rewash.HptCode = site.HptCode
-    -- WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 3 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' 
+    SELECT DocNo FROM repair_wash
+    INNER JOIN department ON repair_wash.DepCode = department.DepCode
+    INNER JOIN site ON department.HptCode = site.HptCode
+    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 1 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode' 
 
     UNION ALL  
     
