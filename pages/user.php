@@ -11,7 +11,6 @@ if(empty($_SESSION['lang'])){
     $language ='th';
 }else{
     $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');
@@ -1409,7 +1408,7 @@ label{
                                     </div>
                                 <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['facname'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['Laundry2'][$language]; ?></label>
                                         <select  class="form-control col-sm-7 " id="factory" disabled="true"></select>
                                     </div>
                                   </div>

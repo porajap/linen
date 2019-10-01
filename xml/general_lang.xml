@@ -21,6 +21,7 @@
 <Pleaseselectasubcategory><en>Please select a subcategory</en><th>กรุณาเลือกหมวดหมู่รอง</th></Pleaseselectasubcategory>
  
 <!--============================================================================== -->
+<Laundry2><en>Laundry</en><th>โรงงานซัก</th></Laundry2>
 <ddmmyyyy><en>dd-mm-yyyy</en><th>วว-ดด-ปปปป</th></ddmmyyyy>
 <selectdate><en>Please choose a date</en><th>กรุณาเลือกวันที่</th></selectdate>
 <insert_date><en>Please choose date of the form</en><th>กรุณาเลือกแบบฟอร์มวันที่</th></insert_date>
