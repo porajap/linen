@@ -352,7 +352,7 @@ function alert_SetPrice($conn,$DATA)
     clean.DocNo AS DocNo2,
     DATE(clean.DocDate) AS DocDate2,
     clean.Total AS Total2,
-    ROUND( (((clean.Total - dirty.Total )/dirty.Total)*100), 2)  AS Precent,
+    ROUND( (((dirty.Total - clean.Total )/dirty.Total)*100), 2)  AS Precent,
 		clean.sendmail
     FROM clean
     INNER JOIN dirty ON clean.RefDocNo = dirty.DocNo
@@ -365,6 +365,8 @@ function alert_SetPrice($conn,$DATA)
       $DocNoClean 	= $ResultPercent['DocNo2'];
       $sendmail 	= $ResultPercent['sendmail'];
       if($percent > 8 && $sendmail ==0){
+        $return[$count4]['percent']['DocNoD'] 	= $ResultPercent['DocNo1'];
+        $return[$count4]['percent']['DocNoC'] 	= $ResultPercent['DocNo2'];
         $return[$count4]['percent']['Total1'] 	= $ResultPercent['Total1'];
         $return[$count4]['percent']['Total2'] 	= $ResultPercent['Total2'];
         $return[$count4]['percent']['Precent'] 	= $ResultPercent['Precent'];
@@ -372,7 +374,7 @@ function alert_SetPrice($conn,$DATA)
         $meQuery = mysqli_query($conn,$SqlUp);
         $i = 0;
         if($meQuery = mysqli_query($conn,$SqlUp)){
-        $SelectMail1 = "SELECT users.email, 	site.HptName
+        $SelectMail1 = "SELECT users.email, 	site.HptName , site.HptNameTH
             FROM users
             INNER JOIN site ON site.HptCode = users.HptCode
             WHERE users.HptCode = '$HptCode'
@@ -382,6 +384,7 @@ function alert_SetPrice($conn,$DATA)
             while ($SResult1 = mysqli_fetch_assoc($SQuery1)) {
               $return[$i]['percent']['email'] = $SResult1['email'];
               $return[0]['percent']['HptName'] = $SResult1['HptName'];
+              $return[0]['percent']['HptNameTH'] = $SResult1['HptNameTH'];
               $i++;
             }
             $return[$count4]['countMailpercent'] = $i;

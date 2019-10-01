@@ -387,10 +387,13 @@ $array = json_decode($json,TRUE);
                 if(temp[i]['countMailpercent']>0){
                   for(var j = 0; j < temp[i]['countMailpercent']; j++){
                     var HptName = temp[0]['percent']['HptName'];
-                    var Total1 = temp[j]['percent']['Total1'];
-                    var Total2 = temp[j]['percent']['Total2'];
+                    var HptNameTH = temp[0]['percent']['HptNameTH'];
+                    var Total1 =  temp[j]['percent']['Total1'];
+                    var Total2 =  temp[j]['percent']['Total2'];
+                    var DocNoC =  temp[j]['percent']['DocNoC'];
+                    var DocNoD =  temp[j]['percent']['DocNoD'];
                     var Precent = temp[i]['percent']['Precent'];
-                    var email = temp[j]['percent']['email'];
+                    var email =   temp[j]['percent']['email'];
 
                       var URL = '../process/sendMail_percent.php';
                       $.ajax({
@@ -402,7 +405,10 @@ $array = json_decode($json,TRUE);
                           Total1:Total1,
                           Total2:Total2,
                           Precent:Precent,
-                          email:email
+                          email:email,
+                          DocNoC:DocNoC,
+                          DocNoD:DocNoD,
+                          HptNameTH:HptNameTH
                         },
                         success:function(data)
                         {

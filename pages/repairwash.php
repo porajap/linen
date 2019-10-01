@@ -860,7 +860,14 @@ $(document).ready(function(e){
                 // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3){
+                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                      }else{
+                        var Str1 = "";
+                        $('#Hos2').attr('disabled' , true);
+                        $('#Hos2').addClass('icon_select');
+                        $('#Dep2').addClass('icon_select');
+                      }
                       for (var i = 0; i < temp["Row"]; i++) {
                         var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
                          Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
