@@ -1308,7 +1308,7 @@ $array2 = json_decode($json2,TRUE);
                               chk_row++;
                               }
                               $('#chk_row').val(chk_row);
-
+ 
                             }else if(temp['form']=="setdateitemstock"){
                               dialog.dialog( "close" );
                             }else if(temp['form']=="Submititemstock"){
