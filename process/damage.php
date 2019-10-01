@@ -1045,7 +1045,7 @@ function CreateDocument($conn, $DATA)
     $ID = $DATA['ID'];
     $Keyword = $DATA['Keyword'];
     $KeyDate = $DATA['KeyDate'];
-
+ 
     $count = 0;
     $Sql = "SELECT df.ID, df.FileName, df.Date, users.FName  
     FROM damage_file df
