@@ -326,6 +326,16 @@ $array2 = json_decode($json2,TRUE);
           });
           var PercentArray = Percent.join(',');
           // ----------------------------------------------
+            var loop1 = ItemCode.length;
+            var loop2 =  $(".numDep").length;
+            var resultStock = [[],[]];
+            for(var i = 0; i<loop1; i++){
+                for(var j = 0; j<loop2; j++){
+                    resultStock[i][j] = $('.result_'+i+j).val();
+                }
+            }
+          // ----------------------------------------------
+
           swal({
             title: "<?php echo $array['confirmdoc'][$language]; ?>",
             text: "",
@@ -353,6 +363,7 @@ $array2 = json_decode($json2,TRUE);
                     'Total_par2': Total_par2,
                     'TotalArray': TotalArray,
                     'CalArray': CalArray,
+                    'resultStock': resultStock
                 };
                 senddata(JSON.stringify(data));
                 } else if (result.dismiss === 'cancel') {
