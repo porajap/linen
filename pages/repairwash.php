@@ -865,7 +865,10 @@ $(document).ready(function(e){
                       }else{
                         var Str1 = "";
                         $('#Hos2').attr('disabled' , true);
-                      }                      for (var i = 0; i < temp["Row"]; i++) {
+                        $('#Hos2').addClass('icon_select');
+                        $('#Dep2').addClass('icon_select');
+                      }
+                      for (var i = 0; i < temp["Row"]; i++) {
                         var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
                          Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
                         $("#hotpital").append(Str);

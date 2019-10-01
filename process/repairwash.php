@@ -11,6 +11,7 @@ function OnLoadPage($conn, $DATA)
 {
   $lang = $DATA["lang"];
   $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $count = 0; 
   $boolean = false;
   if($lang == 'en'){
