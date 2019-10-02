@@ -1073,8 +1073,9 @@ function CreateDocument($conn, $DATA)
     $boolean = false;
     $count = 0;
     $Sql =  "SELECT DocNo FROM rewash
-    INNER JOIN site ON rewash.HptCode = site.HptCode
-    WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 3 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' ";
+    INNER JOIN department ON rewash.DepCode = department.DepCode
+    INNER JOIN site ON department.HptCode = site.HptCode
+    WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 1 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode'  ";
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['RefDocNo'] = $Result['DocNo'];
