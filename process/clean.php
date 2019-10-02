@@ -1065,6 +1065,7 @@ function CreateDocument($conn, $DATA)
     $hptcode = $DATA["hptcode"];
     $boolean = false;
     $count = 0;
+    $count2 = 0;
     $Sql = "SELECT DocNo FROM dirty     
     INNER JOIN site ON dirty.HptCode = site.HptCode
     WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode' 
@@ -1086,8 +1087,10 @@ $meQuery = mysqli_query($conn, $Sql);
       $return[$count]['RefDocNo'] = $Result['DocNo'];
       $boolean = true;
       $count++;
+      $count2++;
     }
     $return['Row'] = $count;
+    $return['count2'] = $count2;
     // $return['form'] = "get_dirty_doc";
     // echo json_encode($return);
     // mysqli_close($conn);
@@ -1099,8 +1102,8 @@ $meQuery = mysqli_query($conn, $Sql);
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
-      $return['msg'] = "notfound";
+      $return['status'] = "success";
+      $return['form'] = "get_dirty_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;
