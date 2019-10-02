@@ -799,8 +799,8 @@ $array2 = json_decode($json2,TRUE);
               
               if(isStatus==1){
                 if(docno!=""){
-
                 swal({
+<<<<<<< HEAD
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
               type: "warning",
@@ -814,6 +814,21 @@ $array2 = json_decode($json2,TRUE);
               closeOnCancel: false,
               showCancelButton: true}).then(result => {
                 if (result.value) {
+=======
+                title: "<?php echo $array['confirmsave'][$language]; ?>",
+                text: "<?php echo $array['docno'][$language]; ?>"+docno+"",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+                  if (result.value) {
+>>>>>>> 0570ac219920f516ce508314964ae5149d6e4785
                 var data = {
                   'STATUS'      : 'SaveBill',
                   'docno'      : docno,
@@ -840,7 +855,6 @@ $array2 = json_decode($json2,TRUE);
 
                   // ShowDocument();
               }else{
-                
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
@@ -857,15 +871,7 @@ $array2 = json_decode($json2,TRUE);
                   $("#recorder").prop('disabled', false);
                   $("#timerec").prop('disabled', false);
                   $("#total").prop('disabled', false);
-                  var rowCount = $('#TableItemDetail >tbody >tr').length;
-                  for (var i = 0; i < rowCount; i++) {
-
-                      $('#qty1_'+i).prop('disabled', false);
-                      $('#weight_'+i).prop('disabled', false);
-                      $('#price_'+i).prop('disabled', false);
-
-                      $('#unit'+i).prop('disabled', false);
-                  }
+                  $('.chk_edit').attr('disabled', false);
               }
             }
 
@@ -1084,7 +1090,19 @@ $array2 = json_decode($json2,TRUE);
                         $("#bImport2").removeClass('opacity');
                         $("#bSave2").removeClass('opacity');
                         $("#bCancel2").removeClass('opacity');
-                      }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
+                      }else if(temp[0]['IsStatus']==1){
+                        $('.chk_edit').attr('disabled', true);
+                        var word = '<?php echo $array['edit'][$language]; ?>';
+                        var changeBtn = "<i class='fas fa-edit'></i>";
+                        changeBtn += "<div>"+word+"</div>";
+                        $('#icon_edit').html(changeBtn);
+                        $("#bImport").prop('disabled', true);
+                        $("#bDelete").prop('disabled', true);
+                        $("#bSave").prop('disabled', false);
+                        $("#bCancel").prop('disabled', true);
+                        $("#bSave2").removeClass('opacity');
+                        $('#hover4').addClass('mhee');
+                      }else if(temp[0]['IsStatus']==3){
                         var word = '<?php echo $array['edit'][$language]; ?>';
                         var changeBtn = "<i class='fas fa-edit'></i>";
                         changeBtn += "<div>"+word+"</div>";
@@ -1096,7 +1114,7 @@ $array2 = json_decode($json2,TRUE);
                         $("#bSave2").removeClass('opacity');
                         $('#hover4').addClass('mhee');
 
-                      }else{
+                      } else{
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
                         $("#bSave").prop('disabled', true);
@@ -1121,6 +1139,7 @@ $array2 = json_decode($json2,TRUE);
 
                         $('#unit'+i).prop('disabled', true);
                       }
+                      $("#IsStatus").val(temp[0]['IsStatus']);
                       ShowDetail();
                     }else if(temp["form"]=='ShowDocument_sub'){
                       $( "#TableDocument tbody" ).empty();
@@ -1313,15 +1332,14 @@ $array2 = json_decode($json2,TRUE);
                     $('#DocNoHide').val(DocNoHide);
                   }
                 }else if( (temp["form"]=='ShowDetailDoc') ){
-                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
-                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
+                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;'";
+                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
+                  var isStatus = $("#IsStatus").val();
                   $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["CountDep"]; i++) {
-
-
-                    var chkunit ="<select "+st1+" class='form-control' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" class='form-control chk_edit' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1337,13 +1355,13 @@ $array2 = json_decode($json2,TRUE);
 
                     var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
-                    var Qty = "<input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
+                    var Qty = "<input class='form-control numonly chk_edit'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+                    var Weight = "<input class='form-control numonly chk_edit' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
-                    var Price = "<input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
+                    var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
 
-                    var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
+                    var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+" chk_edit' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
                     DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
                     DataRow += "<td style='width:6%;' nowrap>"+(i+1)+"</td>";
                     DataRow += "<td style='width:18%' nowrap>"+temp[i]['DepName']+"</td>";
@@ -1356,6 +1374,9 @@ $array2 = json_decode($json2,TRUE);
                   $('.numonly').on('input', function() {
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+                  if(isStatus==1){
+                    $('.chk_edit').attr('disabled', true);
+                  }
                 }else if( (temp["form"]=='ShowUsageCode') ){
                       var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                       var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
