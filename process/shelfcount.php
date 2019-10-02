@@ -1520,7 +1520,7 @@ function SaveDraw($conn, $DATA){
         mysqli_query($conn, $updateQtyCenter);
         // $delete = "DELETE item_stock WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode LIMIT $Oder";
         // mysqli_query($conn, $delete);
-        $UpdateStatus = "UPDATE shelfcount SET IsStatus = 3 WHERE DocNo = '$DocNo'";
+        $UpdateStatus = "UPDATE shelfcount SET IsStatus = 3 ,  jaipar = 1 WHERE DocNo = '$DocNo'";
         mysqli_query($conn, $UpdateStatus);
       }else if($QtyCenter < $Oder || $QtyCenter == 0){
         $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
@@ -1575,7 +1575,7 @@ function SaveQty_SC($conn, $DATA){
     mysqli_query($conn, $updateSC_detail);
   }
 
-  $updateSC = "UPDATE shelfcount SET IsStatus = 3 WHERE DocNo = '$DocNo'";
+  $updateSC = "UPDATE shelfcount SET IsStatus = 3 , jaipar = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $updateSC);
 
   $return['status'] = "success";
