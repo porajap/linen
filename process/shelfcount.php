@@ -389,7 +389,8 @@ function SelectDocument($conn, $DATA)
     users.FName,TIME(shelfcount.Modify_Date) AS xTime,
     shelfcount.IsStatus ,
     shelfcount.CycleTime ,
-    shelfcount.DeliveryTime 
+    shelfcount.DeliveryTime ,
+    shelfcount.jaipar
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -411,6 +412,7 @@ function SelectDocument($conn, $DATA)
 
 
     $return[$count]['HptName']   = $Result['HptName'];
+    $return[$count]['jaipar']   = $Result['jaipar'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DocNo']   = $Result['DocNo'];
@@ -1514,8 +1516,15 @@ function SaveDraw($conn, $DATA){
       if($QtyCenter > $Oder){
         // $updateQty = "UPDATE item_stock SET TotalQty = TotalQty + $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $SCDepCode";
         // mysqli_query($conn, $updateQty);
+        //===========================================================================================
         $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
         mysqli_query($conn, $Sql);
+        $jaipar = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
+        $mheequery = mysqli_query($conn, $jaipar);
+        $mheeresult   = mysqli_fetch_assoc($mheequery);
+        $return['jaipar'] = $mheeresult['jaipar'];
+        //===========================================================================================
+
         $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode";
         mysqli_query($conn, $updateQtyCenter);
         // $delete = "DELETE item_stock WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode LIMIT $Oder";
@@ -1577,7 +1586,12 @@ function SaveQty_SC($conn, $DATA){
 
   $updateSC = "UPDATE shelfcount SET IsStatus = 3 , jaipar = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $updateSC);
-
+  
+  $jaipar = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
+  $mheequery = mysqli_query($conn, $jaipar);
+  $mheeresult   = mysqli_fetch_assoc($mheequery);
+  $return['jaipar'] = $mheeresult['jaipar'];
+  //===========================================================================================
   $return['status'] = "success";
   $return['form'] = "SaveQty_SC";
   echo json_encode($return);

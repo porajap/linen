@@ -716,12 +716,12 @@ $array2 = json_decode($json2,TRUE);
       var settime = $('#settime').val();
       // alert( isStatus );
       var input_chk = $('#input_chk').val();
-        if(isStatus==1){
+        if(isStatus==1 || isStatus==3){
           isStatus=0;
         }else{
           isStatus=1;
         }
-        if(isStatus==1){
+        if(isStatus==1 ){
           if(docno!=""){
             // if(chk == '' || chk == undefined){
             //   chk_par();
@@ -1247,6 +1247,16 @@ $array2 = json_decode($json2,TRUE);
               }
 
             }else if(temp["form"]=='SelectDocument'){
+              if(temp[0]['jaipar'] == 1){
+                $('#bdetail').attr('disabled' , true);
+                $("#bdetail2").addClass('opacity');
+                $("#hover6").removeClass('mhee');
+
+              }else if(temp[0]['jaipar'] == 0){
+                $('#bdetail').attr('disabled' , false);
+                $("#bdetail2").removeClass('opacity');
+                $("#hover6").addClass('mhee');
+              }
               $('#home-tab').tab('show');
               $( "#TableItemDetail tbody" ).empty();
               $("#docno").val(temp[0]['DocNo']);
@@ -1265,7 +1275,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
-                $("#bdetail").prop('disabled', true);
+                // $("#bdetail").prop('disabled', true);
                 $("#barcode").prop('disabled', false);
 
                 $("#hover2").addClass('mhee');
@@ -1275,7 +1285,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport2").removeClass('opacity');
                 $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
-              }else if(temp[0]['IsStatus']==1){
+              }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
                 changeBtn += "<div>"+word+"</div>";
@@ -1284,29 +1294,29 @@ $array2 = json_decode($json2,TRUE);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', true);
-                $("#bdetail").prop('disabled', false);
+                // $("#bdetail").prop('disabled', false);
                 $("#barcode").prop('disabled', false);
                 $("#hover4").addClass('mhee');
-                $("#hover6").addClass('mhee');
+                // $("#hover6").addClass('mhee');
                 $("#bSave2").removeClass('opacity');
-                $("#bdetail2").removeClass('opacity');
+                // $("#bdetail2").removeClass('opacity');
               }else{
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', true);
                 $("#bCancel").prop('disabled', true);
-                $("#bdetail").prop('disabled', true);
+                // $("#bdetail").prop('disabled', true);
                 $("#hover2").removeClass('mhee');
                 $("#hover3").removeClass('mhee');
                 $("#hover4").removeClass('mhee');
                 $("#hover5").removeClass('mhee');
-                $("#hover6").removeClass('mhee');
+                // $("#hover6").removeClass('mhee');
 
                 $("#bImport2").addClass('opacity');
                 $("#bDelete2").addClass('opacity');
                 $("#bSave2").addClass('opacity');
                 $("#bCancel2").addClass('opacity');
-                $("#bdetail2").addClass('opacity');
+                // $("#bdetail2").addClass('opacity');
 
                 $("#docno").prop('disabled', true);
                 $("#docdate").prop('disabled', true);
@@ -1576,6 +1586,16 @@ $array2 = json_decode($json2,TRUE);
               }
             }else if( (temp["form"]=='SaveDraw') ){
               if(temp['chk'] == "OK"){
+                if(temp['jaipar'] == 1){
+                $('#bdetail').attr('disabled' , true);
+                $("#bdetail2").addClass('opacity');
+                $("#hover6").removeClass('mhee');
+
+              }else if(temp['jaipar'] == 0){
+                $('#bdetail').attr('disabled' , false);
+                $("#bdetail2").removeClass('opacity');
+                $("#hover6").addClass('mhee');
+              }
                 swal({
                   title: '',
                   text: '<?php echo $array['savesuccess'][$language]; ?>',
@@ -1616,6 +1636,16 @@ $array2 = json_decode($json2,TRUE);
                 showConfirmButton: false,
                 timer: 1500,
               });
+              if(temp['jaipar'] == 1){
+                $('#bdetail').attr('disabled' , true);
+                $("#bdetail2").addClass('opacity');
+                $("#hover6").removeClass('mhee');
+
+              }else if(temp['jaipar'] == 0){
+                $('#bdetail').attr('disabled' , false);
+                $("#bdetail2").removeClass('opacity');
+                $("#hover6").addClass('mhee');
+              }
               $('#SaveDrawModal').modal('toggle');
               $('#profile-tab').tab('show');
               ShowDocument();
