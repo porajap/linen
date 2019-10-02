@@ -1074,7 +1074,9 @@ $array2 = json_decode($json2,TRUE);
                   $("#wTotal").val(temp[0]['Total']);
                   $("#IsStatus").val(temp[0]['IsStatus']);
                   $("#factory").val(temp[0]['FacCode']);
+
                   if(temp[0]['IsStatus']==0){
+                    $('.chk_edit').prop('disabled', false);
                     var word = '<?php echo $array['save'][$language]; ?>';
                     var changeBtn = "<i class='fa fa-save'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1089,6 +1091,7 @@ $array2 = json_decode($json2,TRUE);
                     $("#hover4").addClass('mhee');
                     $("#hover5").addClass('mhee');
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
+                    $('.chk_edit').attr('disabled', true);
                     var word = '<?php echo $array['edit'][$language]; ?>';
                     var changeBtn = "<i class='fas fa-edit'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1363,15 +1366,15 @@ $array2 = json_decode($json2,TRUE);
                     $('#DocNoHide').val(DocNoHide);
                   }
                 }else if( (temp["form"]=='ShowDetailDoc') ){
-                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
-                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
+                  var st1 = "style='font-size:24px;margin-left: -10px; width:150px;'";
+                  var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
                   $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["CountDep"]; i++) {
 
 
-                    var chkunit ="<select "+st1+" class='form-control' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" class='form-control chk_edit' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1385,13 +1388,13 @@ $array2 = json_decode($json2,TRUE);
                     }
                     chkunit += "</select>";
 
-                    var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
+                    var chkDoc = "<div class='form-inline'><label class='radio'  style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
-                    var Qty = "<input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
+                    var Qty = "<input class='form-control numonly chk_edit' disabled='false'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+                    var Weight = "<input class='form-control numonly chk_edit' disabled='false' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
-                    var Price = "<input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
+                    var Price = "<input class='form-control chk_edit' disabled='false' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
 
                     var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
                     DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
