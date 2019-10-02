@@ -665,7 +665,7 @@ function UpdateDetailQty($conn, $DATA)
 	SET Qty1 = $OleQty,Qty2 = $Qty,UnitCode2 = $UnitCode
 	WHERE dirty_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
-  ShowDetail($conn, $DATA);
+  // ShowDetail($conn, $DATA);
 }
 
 function UpdateDetailWeight($conn, $DATA)
@@ -695,7 +695,7 @@ function UpdateDetailWeight($conn, $DATA)
      $Sql = "UPDATE dirty SET Total = $wTotal WHERE DocNo = '$DocNo'";
    	mysqli_query($conn,$Sql);
 
-  ShowDetailDoc($conn, $DATA);
+  // ShowDetailDoc($conn, $DATA);
 }
 
 function updataDetail($conn, $DATA)
