@@ -802,6 +802,12 @@ $array2 = json_decode($json2,TRUE);
       $('#addhot').hide();
         $('#adduser').show();  
     }
+    function clearInput(){
+      $('#ContractName').val("");
+      $('#Position').val("");
+      $('#phone').val("");
+      $('#idcontract').val("");
+    }
       function senddata(data){
          var form_data = new FormData();
          form_data.append("DATA",data);
@@ -882,16 +888,20 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hostdetail55').attr('hidden', true);
                                 $('#host').removeClass('checkblank3');
                                 if (temp['private'] == 1)  {
-                                $('#xcenter1').prop('checked', true);
-                                $('#xcenter2').prop('checked', false);
-                              }else if(temp['government'] == 1){
-                                $('#xcenter1').prop('checked', false);
-                                $('#xcenter2').prop('checked', true);
-                              }else{
-                                $('#xcenter1').prop('checked', false);
-                                $('#xcenter2').prop('checked', false);
-                              }
-
+                                  $('#xcenter1').prop('checked', true);
+                                  $('#xcenter2').prop('checked', false);
+                                }else if(temp['government'] == 1){
+                                  $('#xcenter1').prop('checked', false);
+                                  $('#xcenter2').prop('checked', true);
+                                }else{
+                                  $('#xcenter1').prop('checked', false);
+                                  $('#xcenter2').prop('checked', false);
+                                }
+                                if(temp['cnt']>1){
+                                  $('#btn_clear').attr('hidden', true);
+                                }else{
+                                  $('#btn_clear').attr('hidden', false);
+                                }
                                 
                               }
                               $('#bCancel').attr('disabled', false);
@@ -1166,153 +1176,153 @@ $array2 = json_decode($json2,TRUE);
       }
     </script>
     <style media="screen">
-    @font-face {
+      @font-face {
+              font-family: myFirstFont;
+              src: url("../fonts/DB Helvethaica X.ttf");
+              }
+          body{
             font-family: myFirstFont;
-            src: url("../fonts/DB Helvethaica X.ttf");
-            }
-        body{
-          font-family: myFirstFont;
-          font-size:22px;
-          /* overflow :  hidden; */
-          /* overflow-y: hidden; */
+            font-size:22px;
+            /* overflow :  hidden; */
+            overflow-x: hidden;
 
-        }
+          }
 
-        .nfont{
+          .nfont{
           font-family: myFirstFont;
           font-size:22px;
         }
         .table-scroll {
-      overflow:auto;  
-      height:355px;
-      margin-top:5px;
-    }
-    input,select{
-      font-size:24px!important;
-    }
-    th,td{
-      font-size:24px!important;
-    }
-    .table > thead > tr >th {
-      background-color: #1659a2;
-    }
+          overflow:auto;  
+          height:355px;
+          margin-top:5px;
+        }
+        input,select{
+          font-size:24px!important;
+        }
+        th,td{
+          font-size:24px!important;
+        }
+        .table > thead > tr >th {
+          background-color: #1659a2;
+        }
 
-    table tr th,
-    table tr td {
-      border-right: 0px solid #bbb;
-      border-bottom: 0px solid #bbb;
-      padding: 5px;
-    }
-    table tr th:first-child,
-    table tr td:first-child {
-      border-left: 0px solid #bbb;
-    }
-    table tr th {
-      background: #eee;
-      border-top: 0px solid #bbb;
-      text-align: left;
-    }
+        table tr th,
+        table tr td {
+          border-right: 0px solid #bbb;
+          border-bottom: 0px solid #bbb;
+          padding: 5px;
+        }
+        table tr th:first-child,
+        table tr td:first-child {
+          border-left: 0px solid #bbb;
+        }
+          table tr th {
+            background: #eee;
+            border-top: 0px solid #bbb;
+            text-align: left;
+          }
 
-    /* top-left border-radius */
-    table tr:first-child th:first-child {
-    border-top-left-radius: 15px;
-  }
-  table tr:first-child th:first-child {
-    border-bottom-left-radius: 15px;
-  }
+          /* top-left border-radius */
+          table tr:first-child th:first-child {
+          border-top-left-radius: 15px;
+        }
+        table tr:first-child th:first-child {
+          border-bottom-left-radius: 15px;
+        }
 
-  /* top-right border-radius */
-  table tr:first-child th:last-child {
-    border-top-right-radius: 15px;
-  }
-  table tr:first-child th:last-child {
-    border-bottom-right-radius: 15px;
-  }
+        /* top-right border-radius */
+        table tr:first-child th:last-child {
+          border-top-right-radius: 15px;
+        }
+        table tr:first-child th:last-child {
+          border-bottom-right-radius: 15px;
+        }
 
-  /* bottom-left border-radius */
-  table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
+        /* bottom-left border-radius */
+        table tr:last-child td:first-child {
+          border-bottom-left-radius: 6px;
+        }
 
-  /* bottom-right border-radius */
-  table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  button{
-      font-size: 24px!important;
-    }
-  a.nav-link{
-    width:auto!important;
-  }
-  .datepicker{z-index:9999 !important}
-  .hidden{visibility: hidden;}
-  
-  .sidenav {
-  height: 100%;
-  overflow-x: hidden;
-  /* padding-top: 20px; */
-  border-left: 2px solid #bdc3c7;
-}
-.mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.mhee button{
-  /* padding: 6px 8px 6px 16px; */
-  font-size: 25px;
-  color: #2c3e50;
-  background:none;
-  box-shadow:none!important;
-}
+        /* bottom-right border-radius */
+        table tr:last-child td:last-child {
+          border-bottom-right-radius: 6px;
+        }
+        button{
+            font-size: 24px!important;
+          }
+        a.nav-link{
+          width:auto!important;
+        }
+        .datepicker{z-index:9999 !important}
+        .hidden{visibility: hidden;}
+        
+        .sidenav {
+        height: 100%;
+        overflow-x: hidden;
+        /* padding-top: 20px; */
+        border-left: 2px solid #bdc3c7;
+      }
+      .mhee a{
+        /* padding: 6px 8px 6px 16px; */
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+      }
+      .mhee a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+      }
+      .mhee button{
+        /* padding: 6px 8px 6px 16px; */
+        font-size: 25px;
+        color: #2c3e50;
+        background:none;
+        box-shadow:none!important;
+      }
 
-.mhee button:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-  outline:none;
-}
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
+      .mhee button:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+        outline:none;
+      }
+      .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+      }
 
-.sidenav a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.icon{
-    padding-top: 6px;
-    padding-left: 33px;
-  }
-  .opacity{
-    opacity:0.5;
-  }
-  @media (min-width: 992px) and (max-width: 1199.98px) { 
+      .sidenav a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+      }
+      .icon{
+          padding-top: 6px;
+          padding-left: 33px;
+        }
+        .opacity{
+          opacity:0.5;
+        }
+        @media (min-width: 992px) and (max-width: 1199.98px) { 
 
-    .icon{
-      padding-top: 6px;
-      padding-left: 23px;
-    }
-    .sidenav{
-      margin-left:30px;
-    }
-    .sidenav a {
-      font-size: 20px;
+          .icon{
+            padding-top: 6px;
+            padding-left: 23px;
+          }
+          .sidenav{
+            margin-left:30px;
+          }
+          .sidenav a {
+            font-size: 20px;
 
-    }
-  }
+          }
+        }
     </style>
   </head>
 
@@ -1498,7 +1508,7 @@ $array2 = json_decode($json2,TRUE);
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px;">
-
+        <div class="row mt-2" id="btn_clear"><button class="btn btn-info px-2" onclick="clearInput()"><?php echo $array['adduser'][$language]; ?></button></div>
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>

@@ -51,16 +51,14 @@ function getdetail($conn, $DATA)
     $id = $DATA['id'];
     //---------------HERE------------------//
     $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName ,
-            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government
-            FROM
-            site
+            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government , 
+            (SELECT COUNT(*) FROM contractsite WHERE HptCode = '$HptCode')  AS cnt 
+            FROM site
             LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
             WHERE site.IsStatus = 0
             AND site.HptCode = '$HptCode' ";
-              if ($id != '') {
-                $Sql .= " AND contractsite.id = $id";
-              }
-              $Sql .= " LIMIT 1";
+            if ($id != '') {  $Sql .= " AND contractsite.id = $id"; }
+            $Sql .= " LIMIT 1";
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -73,6 +71,7 @@ function getdetail($conn, $DATA)
       $return['HptNameTH'] = $Result['HptNameTH'];
       $return['private'] = $Result['private'];
       $return['government'] = $Result['government'];
+      $return['cnt'] = $Result['cnt'];
 
       //$return['IsStatus'] = $Result['IsStatus'];
       $count++;
