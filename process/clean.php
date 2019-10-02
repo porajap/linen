@@ -213,7 +213,7 @@ function CreateDocument($conn, $DATA)
         $Sql .= " OR clean.DocNo LIKE '%$xDocNo%' ";
       }
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
-        $Sql .= " WHERE clean.DepCode = $deptCode ";
+        $Sql .= "";
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' ";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
@@ -227,6 +227,8 @@ function CreateDocument($conn, $DATA)
     }
   }
     $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
+
+    $return['qqq'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       
