@@ -1411,6 +1411,11 @@ $array2 = json_decode($json2,TRUE);
                   $('.numonly').on('input', function() {
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+                }else if( (temp["form"]=='UpdateDetailWeight') ){
+                  if(temp[0]['wTotal'] > 0)
+                  $("#wTotal").val(temp[0]['wTotal']);
+                  else
+                  $("#wTotal").val(0);
                 }
               }else if (temp['status']=="failed") {
                 switch (temp['msg']) {
