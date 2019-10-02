@@ -1474,7 +1474,7 @@ $array2 = json_decode($json2,TRUE);
                         this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                         });
             }else if( (temp["form"]=='ShowItem') ){
-              var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew'";
+              var st1 = "style='font-size:24px;margin-right:0px!important; width:150px;font-family:THSarabunNew'";
               var st2 = "style='height:40px;width:60px; font-size:20px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
               $( "#TableItem tbody" ).empty();
 
@@ -1503,10 +1503,10 @@ $array2 = json_decode($json2,TRUE);
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 25%;'nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                 // "<td style='width: 20%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''nowrap>"+temp[i]['ItemCode']+"</td>"+
-                "<td style='width: 30%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''nowrap>"+temp[i]['ItemName']+"</td>"+
-                "<td style='width: 15%;'nowrap>"+chkunit+"</td>"+
+                "<td style='width: 36%;cursor: pointer;' onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''nowrap>"+temp[i]['ItemName']+"</td>"+
+                "<td style='width: 23%;' nowrap><center>"+chkunit+"</center></td>"+
                 "<td style='width: 15%;' id='qty_"+i+"' data-value='"+temp[i]['Qty']+"'nowrap>"+Qty+"</td>"+
-                "<td style='width: 15%;'nowrap>"+Weight+"</td>"+
+                // "<td style='width: 15%;'nowrap>"+Weight+"</td>"+
                 "</tr>";
                 if(rowCount == 0){
                   $("#TableItem tbody").append( $StrTR );
@@ -2314,10 +2314,10 @@ $array2 = json_decode($json2,TRUE);
                     <input type="hidden"  id="countcheck">
                       <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
                       <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                      <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                      <th style='width: 36%;' nowrap><?php echo $array['item'][$language]; ?></th>
                       <th style='width: 23%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                       <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
-                      <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                      <!-- <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th> -->
                     </tr>
                   </thead>
                   <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
