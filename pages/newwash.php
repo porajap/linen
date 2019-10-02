@@ -991,13 +991,14 @@ $array2 = json_decode($json2,TRUE);
                         text: temp[0]['DocNo'] + " <?php echo $array['success'][$language]; ?>",
                         type: "success",
                         showCancelButton: false,
-                        timer: 5000,
+                        showConfirmButton: false,
+                        timer: 1000,
                         confirmButtonText: 'Ok',
                         closeOnConfirm: false
                       });
                       setTimeout(() => {
                       OpenDialogItem();
-                      }, 2000);
+                      }, 1200);
                       $("#docno").val(temp[0]['DocNo']);
                       $("#docdate").val(temp[0]['DocDate']);
                       $("#recorder").val(temp[0]['Record']);

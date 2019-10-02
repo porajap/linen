@@ -1006,12 +1006,12 @@ $array2 = json_decode($json2,TRUE);
                       type: "success",
                       showCancelButton: false,
                       showConfirmButton: false,
-                      timer: 2000,
+                      timer: 1000,
                       closeOnConfirm: false
                     });
                     setTimeout(() => {
                       OpenDialogItem();
-                    }, 2000);
+                    }, 1200);
                   $("#docno").val(temp[0]['DocNo']);
                   $("#docdate").val(temp[0]['DocDate']);
                   $("#recorder").val(temp[0]['Record']);

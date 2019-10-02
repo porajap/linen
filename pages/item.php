@@ -965,11 +965,21 @@ $array2 = json_decode($json2, TRUE);
           $('#maincatagory2').attr('disabled', false);
           $('#typeLinen').attr('disabled', false);
           $('#numPack').attr('disabled', false);
+
+          $('#hospital').removeClass('icon_select');
+          $('#maincatagory2').removeClass('icon_select');
+          $('#typeLinen').removeClass('icon_select');
+          $('#numPack').removeClass('icon_select');
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
           Blankinput();
         } else {
+          $('#hospital').addClass('icon_select');
+          $('#maincatagory2').addClass('icon_select');
+          $('#typeLinen').addClass('icon_select');
+          $('#numPack').addClass('icon_select');
+
           $('#hospital').attr('disabled', true);
           $('#maincatagory2').attr('disabled', true);
           $('#typeLinen').attr('disabled', true);

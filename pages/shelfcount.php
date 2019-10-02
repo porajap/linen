@@ -85,6 +85,7 @@ $array2 = json_decode($json2,TRUE);
       $("#bSend").hide();
       OnLoadPage();
       getDepartment();
+      getDepartment2();
       ShowMenu();
 
     }).click(function(e) { parent.afk();
@@ -276,8 +277,21 @@ $array2 = json_decode($json2,TRUE);
         $('.checkrow_'+row).attr('previousValue', 'checked');
       }
     }
+    function getDepartment2(){
+            $('#side').css('border-color', '');
+            var Hotp = $('#side option:selected').attr("value");
+            if(Hotp == '' || Hotp == undefined){
+            Hotp = '';
+            }
+            var data = {
+            'STATUS'  : 'getDepartment2',
+            'Hotp'	: Hotp
+            };
+            senddata(JSON.stringify(data));
+        }
+
     function getDepartment(){
-      var Hotp = $('#hotpital option:selected').attr("value");
+      var Hotp = $('#side option:selected').attr("value");
       if( typeof Hotp == 'undefined' ) 
       {
         Hotp = '<?php echo $HptCode; ?>';
@@ -1049,33 +1063,29 @@ $array2 = json_decode($json2,TRUE);
 
           if(temp["status"]=='success'){
             if(temp["form"]=='OnLoadPage'){
-              var PmID = <?php echo $PmID;?>;
-              var HptCode = '<?php echo $HptCode;?>';
-              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                if(PmID != 1 && HptCode == temp[i]['HptCode']){
-                  var Str = "<option value="+temp[i]['HptCode']+" selected>"+temp[i]['HptName']+"</option>";
-                  $("#side").append(Str);
-                  $("#side").attr('disabled', true);
-                  $("#hotpital").append(Str);
-                  $("#hotpital").attr('disabled', true);
-                }else{
-                  var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                  $("#side").append(Str);
-                  $("#hotpital").append(Str);
-                }
-              }
+                            // $("button").css("color", "red");
+                            var PmID = <?php echo $PmID;?>;
+                var HptCode = '<?php echo $HptCode;?>';
+                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3){
+                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                      }else{
+                        var Str1 = "";
+                        $('#side').attr('disabled' , true);
+                        $('#side').addClass('icon_select');
+                      }                      for (var i = 0; i < temp["Row"]; i++) {
+                        var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
+                         Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
+                        $("#hotpital").append(Str);
+                      }
+                      $("#side").append(Str1);
+
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
-                      $("#Dep2").empty();
                       $("#settime").empty();
                       var StrTr = "<option value='' selected>-</option>";
-                      var Str2 = "<option value=''><?php echo $array['Alldep'][$language]; ?></option>";
-                      $("#Dep2").append(Str2);
                       $("#department").append(StrTr);
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                        var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                         var StrTr2 = "<option value = '" + temp[i]['DepCode'] + "'> " + temp[i]['DepName'] + " </option>";
-                        $("#Dep2").append(Str);
                         $("#department").append(StrTr2);
                       }
                       var StrTrX = "<option value='' selected>-</option>";
@@ -1085,7 +1095,16 @@ $array2 = json_decode($json2,TRUE);
                       }
                       StrTrX += "<option value='0' >Extra</option>";
                       $("#settime").append(StrTrX);
-            }else if( (temp["form"]=='CreateDocument') ){
+            }
+            else if(temp["form"]=='getDepartment2'){
+                                    $("#Dep2").empty();
+                                    var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
+                                    for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                                        Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                                    }
+                                    $("#Dep2").append(Str2);
+
+                        }else if( (temp["form"]=='CreateDocument') ){
               $("#docno").val(temp[0]['DocNo']);
               $("#docdate").val(temp[0]['DocDate']);
               $("#recorder").val(temp[0]['Record']);
@@ -2133,7 +2152,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="row" style="margin-top:10px;">
                         <div class="col-md-2">
 
-                            <select class="form-control icon_select" style='font-size:24px;' id="side" onchange="getDepartment();">
+                            <select class="form-control " style='font-size:24px;' id="side" onchange="getDepartment2();">
                             </select>
 
                         </div>

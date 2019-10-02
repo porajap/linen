@@ -13,20 +13,38 @@ function OnLoadPage($conn, $DATA)
   $boolean = false;
   $lang = $DATA["lang"];
   $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   if($lang == 'en'){
-    $Sql = "SELECT site.HptCode,site.HptName
-    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode' ";
-  }else{
-    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
-    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode'";
-  }  
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+    if($PmID ==2 || $PmID ==3){
+      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+      }else{
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      }  
+    }else{
+        $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+        if($PmID ==2 || $PmID ==3){
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+        }else{
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      }  
+    }
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['HptName'] = $Result['HptName'];
+    // $count++;
+    $boolean = true;
+  }
+  $meQuery1 = mysqli_query($conn, $Sql1);
+  while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+    $return[$count]['HptCode1'] = $Result1['HptCode1'];
+    $return[$count]['HptName1'] = $Result1['HptName1'];
+    $return[0]['PmID'] = $PmID;
     $count++;
     $boolean = true;
   }
+  $return['Row'] = $count;
   $boolean = true;
   if ($boolean) {
     $return['status'] = "success";
@@ -37,6 +55,47 @@ function OnLoadPage($conn, $DATA)
   } else {
     $return['status'] = "failed";
     $return['form'] = "OnLoadPage";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
+function getDepartment2($conn, $DATA)
+{
+  $count = 0;
+  $boolean = false;
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+  if($PmID ==3){
+  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
+  }else{
+    $Hotp = $DATA["Hotp"];
+  }
+  $Sql = "SELECT department.DepCode,department.DepName
+		  FROM department
+		  WHERE department.HptCode = '$Hotp'
+		  AND department.IsStatus = 0
+      ORDER BY department.DepCode DESC";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['DepCode'] = $Result['DepCode'];
+    $return[$count]['DepName'] = $Result['DepName'];
+    $count++;
+    $boolean = true;
+  }
+
+  if ($meQuery = mysqli_query($conn, $Sql)) {
+    $return['status'] = "success";
+    $return['form'] = "getDepartment2";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "failed";
+    $return['form'] = "getDepartment2";
+    $return['msg'] = "notfound";
+    
     echo json_encode($return);
     mysqli_close($conn);
     die;
@@ -63,14 +122,15 @@ function getDepartment($conn, $DATA)
     $boolean = true;
   }
 
-  $Sql = "SELECT time_express.ID,time_express.time_value
+  $Sql = "SELECT time_express.ID,time_sc.TimeName
   FROM time_express
+  INNER JOIN time_sc ON time_express.Time_ID = time_sc.ID
   WHERE time_express.HptCode = '$Hotp' ";
   // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count2]['ID'] = $Result['ID'];
-    $return[$count2]['time_value'] = $Result['time_value'];
+    $return[$count2]['time_value'] = $Result['TimeName'];
     $count2++;
     $boolean2 = true;
   } 
@@ -89,6 +149,8 @@ function getDepartment($conn, $DATA)
     die;
   }
 }
+
+
 // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
 // mysqli_query($conn,$Sqlx);
 
@@ -1658,7 +1720,11 @@ function find_item($conn, $DATA)
       PrintstickerModal($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'find_item') {
       find_item($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'getDepartment2') {
+      getDepartment2($conn, $DATA);
     }
+
+    
   } else {
     $return['status'] = "error";
     $return['msg'] = 'noinput';
