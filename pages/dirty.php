@@ -1388,7 +1388,7 @@ $array2 = json_decode($json2,TRUE);
                         nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
                       }
                     }
-                    chkunit += "</select>";
+                    chkunit += "</select>"; 
 
                     var chkDoc = "<div class='form-inline'><label class='radio'  style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
