@@ -28,7 +28,11 @@ class PDF extends FPDF
 {
   function Header()
   {
+    $xml = simplexml_load_file('../xml/report_lang.xml');
+    $json = json_encode($xml);
+    $array = json_decode($json,TRUE);
     $datetime = new DatetimeTH();
+    $language = $_GET['lang'];
     $eDate = $_GET['eDate'];
     $eDate = explode("/",$eDate);
     // $eDate = $eDate[2].'-'.$eDate[1].'-'.$eDate[0];
@@ -43,7 +47,7 @@ class PDF extends FPDF
       // Title
       $this->SetFont('THSarabun','b',21);
       $this->Cell(80);
-      $this->Cell(30,10,iconv("UTF-8","TIS-620","Clean Report"),0,0,'C');
+      $this->Cell(30,10,iconv("UTF-8","TIS-620",$array['r3'][$language]),0,0,'C');
       // Line break
       $this->Ln(10);
     }else{
@@ -115,9 +119,15 @@ $DocNo = $_GET['DocNo'];
 
 // Using Coding
 $pdf->AddPage();
+if ($language == 'th') {
+  $HptName = HptNameTH;
+  $FacName = FacNameTH;
+} else {
+  $HptName = HptName;
+  $FacName = FacName;
+}
 
-
-$Sql = "SELECT   site.HptName,
+$Sql = "SELECT   site.$HptName,
         department.DepName,
         clean.DocNo,
         DATE_FORMAT(clean.DocDate,'%d-%m-%Y')AS DocDate,
@@ -132,7 +142,7 @@ $Sql = "SELECT   site.HptName,
         WHERE clean.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn,$Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $HptName = $Result['HptName'];
+  $HptName = $Result[$HptName];
   $DepName = $Result['DepName'];
   $DocNo = $Result['DocNo'];
   $DocDate = $Result['DocDate'];
@@ -175,7 +185,7 @@ $query = "SELECT
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
           INNER JOIN clean_detail ON clean_detail.ItemCode = item.ItemCode
           WHERE clean_detail.DocNo = '$DocNo'
-		  GROUP BY item.ItemCode
+		       GROUP BY item.ItemCode
           ORDER BY item.ItemName ASC
           ";
 // var_dump($query); die;
@@ -184,7 +194,7 @@ $numfield = 7;
 // Field data (Must match with Query)
 $field = "no,ItemCode,ItemName,Qty,Weight,UnitName";
 // Table header
-$header = array($array['no'][$language],$array['itemcode'][$language],$array['itemname'][$language],$array['qty'][$language],$array['Weightitem'][$language],$array['unit'][$language]);
+$header = array($array['no'][$language],$array['itemcode'][$language],$array['itemname'][$language],$array['qty'][$language],$array['weight'][$language],$array['unit'][$language]);
 // width of column table
 $width = array(15,35,60,20,25,25);
 // Get Data and store in Result
