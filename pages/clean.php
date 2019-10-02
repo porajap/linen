@@ -333,6 +333,7 @@ $(document).ready(function(e){
       }
 
       function ShowDocument(selecta){
+        var DocNo = $('#docno').val();
         var Hotp = $('#Hos2 option:selected').attr("value");
         var searchdocument = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
@@ -354,7 +355,8 @@ $(document).ready(function(e){
           'selecta' : selecta,
           'deptCode'	: deptCode,
           'Hotp'	: Hotp,
-          'datepicker1' : datepicker1
+          'datepicker1' : datepicker1,
+          'DocNo' : DocNo
         };
         senddata(JSON.stringify(data));
       }
