@@ -800,6 +800,21 @@ $array2 = json_decode($json2,TRUE);
               if(isStatus==1){
                 if(docno!=""){
                 swal({
+<<<<<<< HEAD
+              title: "<?php echo $array['confirmsave'][$language]; ?>",
+              text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
+=======
                 title: "<?php echo $array['confirmsave'][$language]; ?>",
                 text: "<?php echo $array['docno'][$language]; ?>"+docno+"",
                 type: "warning",
@@ -813,6 +828,7 @@ $array2 = json_decode($json2,TRUE);
                 closeOnCancel: false,
                 showCancelButton: true}).then(result => {
                   if (result.value) {
+>>>>>>> 0570ac219920f516ce508314964ae5149d6e4785
                 var data = {
                   'STATUS'      : 'SaveBill',
                   'docno'      : docno,

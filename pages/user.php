@@ -158,8 +158,11 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data2));
         }
         function getDepartment(){
-            var Hotp = $('#host option:selected').attr("value");
-            if( typeof Hotp == 'undefined' ) Hotp = "BHQ";
+            ShowItem();
+            var Hotp = $('#hptsel option:selected').attr("value");
+            if( typeof Hotp == 'undefined' ) Hotp ='';
+            $('#host').val(Hotp);
+            getDepartment2();
             var data = {
             'STATUS'  : 'getDepartment',
             'Hotp'	: Hotp
@@ -167,9 +170,8 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function getDepartment2(){
-            ShowItem();
             $('#hptsel').css('border-color', '');
-            var Hotp = $('#hptsel option:selected').attr("value");
+            var Hotp = $('#host option:selected').attr("value");
             if(Hotp == '' || Hotp == undefined){
             Hotp = '';
             }
@@ -321,8 +323,11 @@ $array2 = json_decode($json2,TRUE);
                 $('#factory').attr('disabled' , true);
             }
             if(host !="" && host!=undefined){
+            getDepartment2();
             $('#rem1').hide();
             $('#host').css('border-color', '');
+            }else{
+            getDepartment2();
             }
             if(department !="" && department!=undefined){
             $('#rem2').hide();
@@ -550,6 +555,7 @@ $array2 = json_decode($json2,TRUE);
             }
           });
             // $('#host tbody').empty();
+            $('#hptsel').val("");
             $('#host').val("");
             $('#department2').val("");
             $('#department').val("");
@@ -567,13 +573,13 @@ $array2 = json_decode($json2,TRUE);
             //     $('.xemail').attr("checked", false);
             // });
             $(".dropify-clear").click(); 
-            getHotpital();
-            getHotpital_user();
-            // getDepartment();
-            getEmployee();
-            getPermission();
-            ShowItem();
-            uncheckAll2();
+            // getHotpital();
+            // getHotpital_user();
+            getDepartment();
+            // getEmployee();
+            // getPermission();
+            // ShowItem();
+            // uncheckAll2();
             // setTimeout(() => {
             //     getDepartment();
             // }, 0);
@@ -683,7 +689,6 @@ $array2 = json_decode($json2,TRUE);
                         }
                         } else if ((temp["form"] == 'getdetail')) {
                             // uncheckAll2();
-                   
                             $('#factory').val(0);
                             // ------------------------------------
                             $(".dropify-clear").click(); 
@@ -932,22 +937,20 @@ $array2 = json_decode($json2,TRUE);
                             $("#host").append(StrTr);
                             $("#hptsel").append(StrTr);
                         }else if(temp["form"]=='getDepartment'){
-                            $("#department").empty();
+                            $("#department2").empty();
                             var Str = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                             for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                              Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                             }
-                            $("#department").append(Str);
+                            $("#department2").append(Str);
                         }else if(temp["form"]=='getDepartment2'){
                                     $("#department").empty();
-                                    $("#department2").empty();
                                     var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                                    $("#department").append(Str);
                                     }
-                                    $("#department2").append(Str2);
+                                    $("#department").append(Str2);
 
                         }else if ((temp["form"] == 'getHotpital_user')) {
                                     $("#host").empty();
@@ -1233,7 +1236,7 @@ label{
                             <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-10 checkblank66" id="hptsel" onchange="getDepartment2();">
+                                        <select class="form-control col-md-10 checkblank66" id="hptsel" onchange="getDepartment();">
                                         </select>
                                     </div>
                                 </div>
