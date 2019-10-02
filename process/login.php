@@ -42,7 +42,6 @@ function checklogin($conn,$DATA)
       $_SESSION['HptName']  = $Result['HptName'];
       $_SESSION['TimeOut']  = $Result['TimeOut'];
       $_SESSION['DepCode']  = $Result['DepCode'];
-      $_SESSION['chk_logoff']  = $Result['chk_logoff'];
       $_SESSION['pic']  = $Result['pic']==null?'default_img.png':$Result['pic'];
       $_SESSION['lang']     = $Result['lang']==null?'th':$Result['lang'];
       $IsActive  = $Result['IsActive'];
@@ -63,9 +62,9 @@ function checklogin($conn,$DATA)
           $return['status'] = "success";
           $return['form'] = "chk_login";
           $return['msg'] = "Login Success";
-          $Sql = "UPDATE users SET users.IsActive = 1 WHERE users.ID = $ID";
+          $Sql = "UPDATE users SET users.IsActive = 1 users.chk_logoff = 0 WHERE users.ID = $ID";
           mysqli_query($conn,$Sql);
-          
+          $_SESSION['chk_logoff']  = 0;
         }else if($IsActive == 1){
           $return['status'] = "failed";
           $return['msg'] = "Username Password is Active";
