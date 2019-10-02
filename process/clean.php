@@ -370,7 +370,6 @@ function CreateDocument($conn, $DATA)
       $ItemCode = $Result['ItemCode'];
       $UnitCode = $Result['UnitCode'];
       $count2 = 0;
-
       $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
       $MQuery = mysqli_query($conn, $countM);
       while ($MResult = mysqli_fetch_assoc($MQuery)) {

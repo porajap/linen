@@ -303,9 +303,10 @@ function ShowDocument($conn, $DATA)
   $boolean = false;
   $count = 0;
   $deptCode = $DATA["deptCode"];
-  $hosCode = $DATA["hosCode"];
+  $Hotp = $DATA["Hotp"];
   $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $selecta = $DATA["selecta"];
+  $datepicker = $DATA["datepicker1"];
   //$Datepicker = $DATA["Datepicker"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('$deptCode : $DocNo')";
@@ -324,10 +325,28 @@ function ShowDocument($conn, $DATA)
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON shelfcount.Modify_Code = users.ID ";
-  if ($deptCode != null) {
-    $Sql.= "WHERE shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$DocNo%' ";
+if($DocNo!=null){
+  $Sql .= " WHERE shelfcount.DocNo = '$DocNo' ";
+}else{
+  if ($Hotp != null && $deptCode == null && $datepicker == null) {
+    $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+    if($xDocNo!=null){
+      $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
+    }
+  }else if($Hotp == null && $deptCode != null && $datepicker == null){
+      $Sql .= " WHERE shelfcount.DepCode = $deptCode ";
+  }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' ";
+  }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode ";
+  }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' ";
+  }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' ";
+  }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp'";
   }
-  $Sql.= "AND site.HptCode = '$hosCode' ";
+}
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
   // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -1519,10 +1538,7 @@ function SaveDraw($conn, $DATA){
         //===========================================================================================
         $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
         mysqli_query($conn, $Sql);
-        $jaipar = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
-        $mheequery = mysqli_query($conn, $jaipar);
-        $mheeresult   = mysqli_fetch_assoc($mheequery);
-        $return['jaipar'] = $mheeresult['jaipar'];
+
         //===========================================================================================
 
         $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode";
@@ -1545,6 +1561,13 @@ function SaveDraw($conn, $DATA){
       }
     }
   }
+  $Sql5 = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
+  $meQuery5 = mysqli_query($conn, $Sql5);
+  while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
+    $jaipar = $Result5['jaipar'];
+  }
+
+  $return['jaipar'] = $jaipar;
   $return['CountRow'] = $count;
   if ($chk == 0) {
     $return['status'] = "success";
@@ -1587,10 +1610,12 @@ function SaveQty_SC($conn, $DATA){
   $updateSC = "UPDATE shelfcount SET IsStatus = 3 , jaipar = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $updateSC);
   
-  $jaipar = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
-  $mheequery = mysqli_query($conn, $jaipar);
-  $mheeresult   = mysqli_fetch_assoc($mheequery);
-  $return['jaipar'] = $mheeresult['jaipar'];
+  $Sql5 = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
+  $meQuery5 = mysqli_query($conn, $Sql5);
+  while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
+    $jaipar = $Result5['jaipar'];
+  }
+  $return['jaipar'] = $jaipar;
   //===========================================================================================
   $return['status'] = "success";
   $return['form'] = "SaveQty_SC";

@@ -66,10 +66,18 @@ $array2 = json_decode($json2,TRUE);
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
   <link href="../css/responsive.css" rel="stylesheet">
 
-  <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-  <script src="../datepicker/dist/js/datepicker.min.js"></script>
-  <!-- Include English language -->
-  <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+<!-- =================================== -->
+<?php if ($language =='th'){ ?>
+      <script src="../datepicker/dist/js/datepicker.js"></script>
+    <?php }else if($language =='en'){ ?>
+        <script src="../datepicker/dist/js/datepicker-en.js"></script>
+    <?php } ?>
+<!-- =================================== -->
+
+    <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <!-- Include English language -->
+    <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script src="../datepicker/dist/js/datepicker.th.js"></script>
   <script src="../fontawesome/js/fontawesome.min.js"></script>
 
   <script type="text/javascript">
@@ -305,21 +313,29 @@ $array2 = json_decode($json2,TRUE);
     }
     
     function ShowDocument(selecta){
-      var searchdocument = $('#searchdocument').val();
-      if( typeof searchdocument == 'undefined' ) searchdocument = "";
-      var hosCode = $('#side option:selected').attr("value");
-      if( typeof hosCode == 'undefined' ) hosCode = "1";
-      var deptCode = $('#Dep2 option:selected').attr("value");
-      if( typeof deptCode == 'undefined' ) deptCode = "1";
-
-      var data = {
-        'STATUS'  	: 'ShowDocument',
-        'xdocno'	: searchdocument,
-        'selecta' : selecta,
-        'deptCode'	: deptCode,
-        'hosCode' :   hosCode
-
-      };
+      var Hotp = $('#side option:selected').attr("value");
+        var searchdocument = $('#searchdocument').val();
+        if( typeof searchdocument == 'undefined' ) searchdocument = "";
+        var deptCode = $('#Dep2 option:selected').attr("value");
+        var datepicker1 = $('#datepicker1').val();
+          var lang = '<?php echo $language; ?>';
+          if(datepicker1 !=""){
+          if(lang =='th'){
+          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }else if(lang =='en'){
+          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }
+          }else{
+            datepicker1 = "";
+          }
+          var data = {
+          'STATUS'  	: 'ShowDocument',
+          'xdocno'	: searchdocument,
+          'selecta' : selecta,
+          'deptCode'	: deptCode,
+          'Hotp'	: Hotp,
+          'datepicker1' : datepicker1
+        };
       console.log(data);
       senddata(JSON.stringify(data));
     }
@@ -2179,20 +2195,25 @@ $array2 = json_decode($json2,TRUE);
 
                 <!-- search document -->
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="row" style="margin-top:10px;">
+                <div class="row mt-3">
                         <div class="col-md-2">
-
-                            <select class="form-control " style='font-size:24px;' id="side" onchange="getDepartment2();">
-                            </select>
-
-                        </div>
-                        <div class="col-md-2">
-
-                            <select class="form-control " style='font-size:24px;' id="Dep2" >
-                            </select>
-
-                        </div>
-                        <div class="col-md-6 mhee">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                              <select onchange="getDepartment2();"  class="form-control" style='font-size:24px;' id="side" >
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                              <select class="form-control" style='font-size:24px;' id="Dep2" >
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                            <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                            </div>
+                          </div>
+                          <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
                             <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                             <div class="search_custom col-md-2">
@@ -2209,11 +2230,11 @@ $array2 = json_decode($json2,TRUE);
                               <i class="fas fa-paste mr-2 pt-1"></i>
                               <?php echo $array['show'][$language]; ?>
                             </button>
-                            </div>
                           </div>
                         </div>
+                      </div>
                     </div>
-                   </div>
+                  </div>
 
                     <div class="row">
                         <div class="col-md-12">
