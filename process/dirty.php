@@ -753,7 +753,7 @@ function DeleteItem($conn, $DATA)
 	WHERE dirty_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
 
-  ShowDetail($conn, $DATA);
+  ShowDetailDoc($conn, $DATA);
 }
 
 function SaveBill($conn, $DATA)
