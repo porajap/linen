@@ -170,6 +170,7 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function getDepartment2(){
+            $('#rem1').hide();
             $('#hptsel').css('border-color', '');
             var Hotp = $('#host option:selected').attr("value");
             if(Hotp == '' || Hotp == undefined){
@@ -323,11 +324,8 @@ $array2 = json_decode($json2,TRUE);
                 $('#factory').attr('disabled' , true);
             }
             if(host !="" && host!=undefined){
-            getDepartment2();
             $('#rem1').hide();
             $('#host').css('border-color', '');
-            }else{
-            getDepartment2();
             }
             if(department !="" && department!=undefined){
             $('#rem2').hide();
@@ -1361,7 +1359,7 @@ label{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  onchange="resetinput2()" class="form-control col-sm-7 checkblank" id="host" onchange="getDepartment();"></select>
+                                      <select  onchange="getDepartment2()" class="form-control col-sm-7 checkblank" id="host" onchange="getDepartment();"></select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
