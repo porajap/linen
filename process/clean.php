@@ -1075,7 +1075,7 @@ function CreateDocument($conn, $DATA)
     SELECT DocNo FROM repair_wash
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 1 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode' 
+    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode' 
 
     UNION ALL  
     
