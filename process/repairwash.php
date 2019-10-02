@@ -13,7 +13,28 @@ function OnLoadPage($conn, $DATA)
   $HptCode = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
   $count = 0; 
+  $countx = 0;
   $boolean = false;
+  if($lang == 'en'){
+    $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0";
+    }else{
+    $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0";
+    }  
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  $return[$countx]['FacCode'] = $Result['FacCode'];
+  $return[$countx]['FacName'] = $Result['FacName'];
+
+  $countx  ++;
+
+}
+$return['Rowx'] = $countx;
+
+
+
+
+  
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
     $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
@@ -95,6 +116,7 @@ function CreateDocument($conn, $DATA)
   $count = 0;
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
+  $factory = $DATA["factory"];
   $userid   = $DATA["userid"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
@@ -131,12 +153,12 @@ function CreateDocument($conn, $DATA)
 
   if ($count == 1) {
     $Sql = "INSERT INTO repair_wash
-    ( DocNo,DocDate,DepCode,RefDocNo,
+    ( DocNo,HptCode,FacCode , DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
       repair_wash.Modify_Code,repair_wash.Modify_Date )
       VALUES
-      ( '$DocNo',NOW(),$deptCode,'$RefDocNo',
+      ( '$DocNo','$hotpCode',$factory,NOW(),$deptCode,'$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";

@@ -85,6 +85,7 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+  $('#rem2').hide();    
   $('#Dep2').addClass('icon_select');
   $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
@@ -538,11 +539,36 @@ $(document).ready(function(e){
         };
         senddata(JSON.stringify(data));
       }
-
+      function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem2').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem2').hide();
+            }
+          });
+        }
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
+        var factory = $('#factory option:selected').attr("value");
+        if(factory == ''){
+            checkblank2();
+            swal({
+              title: '',
+              text: "<?php echo $array['required'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+          }else{
         $('#TableDetail tbody').empty();
         swal({
           title: "<?php echo $array['confirmdoc'][$language]; ?>",
@@ -562,7 +588,8 @@ $(document).ready(function(e){
               'STATUS'    : 'CreateDocument',
               'hotpCode'  : hotpCode,
               'deptCode'  : deptCode,
-              'userid'	: userid
+              'userid'	: userid,
+              'factory'	: factory
             };
             senddata(JSON.stringify(data));
             $('#RefDocNo').attr('disabled', false);
@@ -571,6 +598,7 @@ $(document).ready(function(e){
             swal.close();
           } 
           })
+        }
       }
 
       function canceldocno(docno) {
@@ -783,6 +811,10 @@ $(document).ready(function(e){
                   $(btn_show).attr('disabled',false);
               }
       }
+      function removeClassBorder(){
+          $('#factory').removeClass('border-danger');
+          $('#rem2').hide();
+        }
       function updateQty(RowID, i){
         var newQty = $('#qty1_'+i).val();
         var data = {
@@ -875,6 +907,12 @@ $(document).ready(function(e){
                         $("#hotpital").append(Str);
                       }
                       $("#Hos2").append(Str1);
+                      $("#factory").empty();
+                  var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                  }
+                  $("#factory").append(Str);
                 if(PmID != 1){
                   $("#hotpital").val(HptCode);
                 }
@@ -1533,19 +1571,16 @@ $(document).ready(function(e){
                                     </div>
                                   </div>
                                 </div>
+                               
                                 <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "><?php echo $array['time'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
-                                      <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
-                                    </div>
+                                    <label class="col-sm-4 col-form-label "><?php echo $array['factory'][$language]; ?></label>
+                                    <select  class="form-control col-sm-7 checkblank2"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder();">
+                                      </select>
+                                      <label id="rem2"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>                                   
+                                      </div>
                                   </div>
                                 </div>
                               </div>
@@ -1719,8 +1754,6 @@ $(document).ready(function(e){
                   <!-- end row tab -->
                 </div>
               </div>
-
-              
               <!-- </div> -->
             </div>
           </div>

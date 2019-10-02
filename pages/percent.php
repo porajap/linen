@@ -497,7 +497,7 @@ table tr:first-child th:first-child {
                               <div class="col-md-5">
                                 <div class='form-group row'>
                                   <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                                    <select  class="form-control col-sm-7 " style="font-size:22px;" id="department"  <?php if($PmID != 1 && $PmID != 6 ) {echo "disabled='true'" ;} ?> ></select>
+                                    <select  class="form-control col-sm-7 icon_select" style="font-size:22px;" id="department"  <?php if($PmID != 1 && $PmID != 6 ) {echo "disabled='true'" ;} ?> disabled="true"></select>
                                 </div>
                               </div>
                             </div>

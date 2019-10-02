@@ -536,11 +536,7 @@ $array2 = json_decode($json2,TRUE);
           });
         }
 
-        function removeClassBorder1(){
-          $('#department').removeClass('border-danger');
-          $('#rem1').hide();
 
-        }
 
         function removeClassBorder2(){
           $('#factory').removeClass('border-danger');
