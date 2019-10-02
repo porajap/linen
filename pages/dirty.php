@@ -768,15 +768,8 @@ $array2 = json_decode($json2,TRUE);
               $("#recorder").prop('disabled', false);
               $("#timerec").prop('disabled', false);
               $("#total").prop('disabled', false);
-              var rowCount = $('#TableItemDetail >tbody >tr').length;
-              for (var i = 0; i < rowCount; i++) {
 
-                  $('#qty1_'+i).prop('disabled', false);
-                  $('#weight_'+i).prop('disabled', false);
-                  $('#price_'+i).prop('disabled', false);
-
-                  $('#unit'+i).prop('disabled', false);
-              }
+              $('.chk_edit').attr('disabled', false);              
           }
         }
 
@@ -1077,7 +1070,7 @@ $array2 = json_decode($json2,TRUE);
 
                   if(temp[0]['IsStatus']==0){
                     // $('.chk_edit').prop('disabled', false);
-                    // $('.chk_edit2').prop('disabled', false);
+                    // $('.').prop('disabled', false);
                     var word = '<?php echo $array['save'][$language]; ?>';
                     var changeBtn = "<i class='fa fa-save'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1093,7 +1086,7 @@ $array2 = json_decode($json2,TRUE);
                     $("#hover5").addClass('mhee');
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                     // $('.chk_edit').attr('disabled', true);
-                    // $('#chk_edit2').attr('disabled', true);
+                    // $('#').attr('disabled', true);
                     var word = '<?php echo $array['edit'][$language]; ?>';
                     var changeBtn = "<i class='fas fa-edit'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1130,6 +1123,7 @@ $array2 = json_decode($json2,TRUE);
 
                     $('#unit'+i).prop('disabled', true);
                   }
+                   $("#IsStatus").val(temp[0]['IsStatus']);
                   ShowDetail();
                 }else if(temp["form"]=='ShowDocument_sub'){
                   $( "#TableDocument tbody" ).empty();
@@ -1279,7 +1273,7 @@ $array2 = json_decode($json2,TRUE);
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableItem >tbody >tr').length;
 
-                    var chkunit ="<select "+st1+" class='form-control chk_edit2' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" class='form-control ' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1319,7 +1313,7 @@ $array2 = json_decode($json2,TRUE);
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableUsageCode >tbody >tr').length;
 
-                    var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control chk_edit2' style='font-size:32px;' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control ' style='font-size:32px;' id='iUnit_"+i+"'>";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
                       if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode'])
@@ -1368,6 +1362,7 @@ $array2 = json_decode($json2,TRUE);
                     $('#DocNoHide').val(DocNoHide);
                   }
                 }else if( (temp["form"]=='ShowDetailDoc') ){
+                  var isStatus = $("#IsStatus").val();
                   var st1 = "style='font-size:24px;margin-left: -10px; width:150px;'";
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                   $( "#TableItemDetail tbody" ).empty();
@@ -1376,7 +1371,7 @@ $array2 = json_decode($json2,TRUE);
                   for (var i = 0; i < temp["CountDep"]; i++) {
 
 
-                    var chkunit ="<select "+st1+" class='form-control chk_edit2' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" class='form-control chk_edit' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1411,6 +1406,9 @@ $array2 = json_decode($json2,TRUE);
                   $('.numonly').on('input', function() {
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+                  if(isStatus==1){
+                    $('.chk_edit').attr('disabled', true);
+                  }
                 }else if( (temp["form"]=='UpdateDetailWeight') ){
                   if(temp[0]['wTotal'] > 0)
                   $("#wTotal").val(temp[0]['wTotal']);
