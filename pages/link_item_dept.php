@@ -189,6 +189,8 @@ $array2 = json_decode($json2,TRUE);
         }
         function removeClassBorder1(){
           $('#TableItemStock tbody').empty();
+          $('#parnum').val("");
+          $('#searchitem').val("");
           var par = $('#parnum').val();
           var department = $('#department').val();
           if(par !="" && par != undefined){
@@ -205,6 +207,8 @@ $array2 = json_decode($json2,TRUE);
         }
       function getDepartment(){
         $('#TableItemStock tbody').empty();
+        $('#parnum').val("");
+        $('#searchitem').val("");
         var Hotp = $('#hotpital option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
     	  var userid = "<?php echo $_SESSION['Userid']; ?>";
