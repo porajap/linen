@@ -158,14 +158,18 @@ function sendmail($conn,$DATA)
     $Sql = "UPDATE users SET users.`Password` = '$newpassword2', Count = 0, users.IsActive = 0 WHERE  users.Username = '$user'";
     $Chk = mysqli_query($conn,$Sql);
     if($Chk){
-        $Sql = "SELECT users.UserName, users.Password, users.FName
+        $Sql = "SELECT users.UserName, users.Password, users.FName, site.HptName, department.DepName
               FROM users
+              INNER JOIN site ON site.HptCode = users.HptCode
+              INNER JOIN department ON department.DepCode = users.DepCode
               WHERE users.UserName = '$user' LIMIT 1";
         $meQuery = mysqli_query($conn,$Sql);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $return['UserName'] = $Result['UserName'];
           $return['Password'] = $newpassword;
           $return['FName']    = $Result['FName'];
+          $return['HptName']    = $Result['HptName'];
+          $return['DepName']    = $Result['DepName'];
         }
         $return['status'] = "success";
         $return['form']   = "sendmail";

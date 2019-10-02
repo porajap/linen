@@ -16,6 +16,8 @@ if(isset($_POST['DATA']))
     $pass = $DATA['Password'];
     $FName = $DATA['FName'];
     $Subject = $DATA['Subject'];
+    $HptName = $DATA['HptName'];
+    $DepName = $DATA['DepName'];
 }else{
 
 }
@@ -25,6 +27,8 @@ $body = '
 <html>
 <body>
 <br>
+Hospital: '.$HptName.'<br>
+Department: '.$DepName.'<br>
 ___________________________________________________________________<br>
 Name: '.$FName.'<br>
 UserName: '.$user.'<br>
