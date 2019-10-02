@@ -273,8 +273,8 @@ $array2 = json_decode($json2,TRUE);
                         }
                         senddata(JSON.stringify(data));
                     }, 1500);
-                    
-                } else if (result.dismiss === 'cancel') {
+                    Blankinput();
+;                } else if (result.dismiss === 'cancel') {
             swal.close();
           }
             })

@@ -167,10 +167,11 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function getDepartment2(){
+            ShowItem();
             $('#hptsel').css('border-color', '');
             var Hotp = $('#hptsel option:selected').attr("value");
             if(Hotp == '' || Hotp == undefined){
-            Hotp = 'BHQ';
+            Hotp = '';
             }
             var data = {
             'STATUS'  : 'getDepartment2',
@@ -642,6 +643,7 @@ $array2 = json_decode($json2,TRUE);
                             $('#xemail').attr("checked", false);
                             $("#TableItem tbody").empty();
                             console.log(temp);
+                            if(temp['Count']>0){
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 var email = temp[i]['email'] == null ?'-':temp[i]['email'];
                                 var active_mail = temp[i]['Active_mail'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
@@ -666,6 +668,19 @@ $array2 = json_decode($json2,TRUE);
                                     $('#TableItem tbody:last-child').append(StrTR);
                                 }
                             }
+                        }else{
+                            $('#TableItem tbody').empty();
+                                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                                $('#TableItem tbody:last-child').append(Str);
+                                // swal({
+                                //     title: '',
+                                //     text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                                //     type: 'warning',
+                                //     showCancelButton: false,
+                                //     showConfirmButton: false,
+                                //     timer: 2000,
+                                // });
+                        }
                         } else if ((temp["form"] == 'getdetail')) {
                             // uncheckAll2();
                    
