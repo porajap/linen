@@ -1904,7 +1904,7 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
                                                 <select class="form-control col-sm-7 icon_select"  style="font-size:22px;" id="hotpital"
-                                                    onchange="getDepartment();"></select>
+                                                    onchange="getDepartment();" disabled="true"></select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
