@@ -280,7 +280,7 @@ $(document).ready(function(e){
       function open_dirty_doc(){
         // dialogRefDocNo.dialog( "open" );
         $('#dialogRefDocNo').modal('show');
-        // get_dirty_doc();
+        get_dirty_doc();
       }
 
       function get_dirty_doc(){
@@ -1226,6 +1226,7 @@ $(document).ready(function(e){
                 }
 
               }else if(temp['form']=="get_dirty_doc"){
+                if(temp["Row"] > 0){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
@@ -1243,6 +1244,11 @@ $(document).ready(function(e){
                     $('#TableRefDocNo tbody:last-child').append( $StrTR );
                   }
                 }
+              }else{
+                    $( "#TableRefDocNo tbody" ).empty();
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                    $('#TableRefDocNo tbody:last-child').append(Str);
+                        }
               }else if(temp['form']=="chk_percent"){
                 result = '';
               if(temp["Row"]>0){

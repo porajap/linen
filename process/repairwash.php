@@ -1094,8 +1094,8 @@ $meQuery = mysqli_query($conn, $Sql);
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
-      $return['msg'] = "notfound";
+      $return['status'] = "success";
+      $return['form'] = "get_dirty_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;
