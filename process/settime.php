@@ -37,28 +37,63 @@ function getSection($conn, $DATA)
   die;
 
 }
+function getTime($conn, $DATA){
+  $HptCode = $DATA['HptCode'];
+  $count = 0;
+  $Sql = "SELECT ID, TimeName FROM time_sc  ORDER BY ID ASC";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['ID']  = $Result['ID'];
+    $return[$count]['TimeName']  = $Result['TimeName'];
+    $count++;
+  }
+  $return['Count'] = $count;
+  $return['Sql'] = $Sql;
+  $return['HptCode'] = $HptCode;
+  $return['status'] = "success";
+  $return['form'] = "getTime";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+function getTime2($conn, $DATA){
+  $HptCode = $DATA['HptCode'];
+  $count = 0;
+  $Sql = "SELECT ts.ID, ts.TimeName FROM time_sc ts
+  LEFT JOIN time_express te ON te.Time_ID = ts.ID
+  WHERE ts.ID NOT IN(SELECT time_express.Time_ID  FROM time_express WHERE time_express.HptCode = '$HptCode')
+  ORDER BY ts.ID ASC";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['ID']  = $Result['ID'];
+    $return[$count]['TimeName']  = $Result['TimeName'];
+    $count++;
+  }
+  $return['Count'] = $count;
+  $return['status'] = "success";
+  $return['form'] = "getTime2";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
 function ShowItem($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $Keyword = $DATA['Keyword'];
   $count = 0;
-  // if($HptCode==''){
-  //   $Sql = "SELECT HptCode FROM site WHERE IsStatus = 0 LIMIT 1";
-  //   $meQuery = mysqli_query($conn, $Sql);
-  //   $Result = mysqli_fetch_assoc($meQuery);
-  //   $HptCode = $Result['HptCode'];
-  // }
-  $Select = "SELECT te.ID, te.HptCode, te.time_value , site.HptName
+  $Select = "SELECT te.ID, te.HptCode, time_sc.TimeName , site.HptName
     FROM time_express te
-    INNER JOIN site ON site.HptCode = te.HptCode WHERE te.HptCode = '$HptCode'";
+    INNER JOIN site ON site.HptCode = te.HptCode 
+    INNER JOIN time_sc ON time_sc.ID = te.Time_ID  
+    WHERE te.HptCode = '$HptCode'";
     if($Keyword != ''){
-      $Select .= "  AND (te.time_value LIKE  '%$Keyword%')";
+      $Select .= "  AND (time_sc.TimeName LIKE  '%$Keyword%')";
     }
     $meQuery = mysqli_query($conn, $Select);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['ID']  = $Result['ID'];
       $return[$count]['HptName']  = $Result['HptName'];
       $return[0]['HptCode']  = $Result['HptCode'];
-      $return[$count]['time_value']  = $Result['time_value'];
+      $return[$count]['TimeName']  = $Result['TimeName'];
       $count++;
     }
     $return['Count'] = $count;
@@ -72,20 +107,19 @@ function ShowItem($conn, $DATA){
 function AddItem($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $Time = $DATA['Time'];
-  $Sql = "INSERT INTO time_express (HptCode, time_value)VALUES('$HptCode', '$Time')";
+  $Sql = "INSERT INTO time_express (Time_ID, HptCode)VALUES($Time, '$HptCode')";
   mysqli_query($conn, $Sql);
   ShowItem($conn, $DATA);
 }
 function getDetail($conn, $DATA){
   $ID = $DATA['ID'];
-  $Sql = "SELECT te.ID, te.HptCode, te.time_value , site.HptName
+  $Sql = "SELECT te.ID, te.HptCode , site.HptName
   FROM time_express te
   INNER JOIN site ON site.HptCode = te.HptCode WHERE te.ID = '$ID'";
   $meQuery = mysqli_query($conn, $Sql);
   $Result = mysqli_fetch_assoc($meQuery);
   $return['ID']  = $Result['ID'];
   $return['HptCode']  = $Result['HptCode'];
-  $return['time_value']  = $Result['time_value'];
   $return['status'] = "success";
   $return['form'] = 'getDetail';
   echo json_encode($return);
@@ -126,6 +160,10 @@ if(isset($_POST['DATA']))
         EditItem($conn, $DATA);
       }else if ($DATA['STATUS'] == 'CancelItem') {
         CancelItem($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'getTime') {
+        getTime($conn, $DATA);
+      }else if ($DATA['STATUS'] == 'getTime2') {
+        getTime2($conn, $DATA);
       }
 
 }else{

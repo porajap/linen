@@ -79,6 +79,7 @@ $array2 = json_decode($json2,TRUE);
             $('#rem1').hide();
             $('#rem2').hide();
             getSection();
+            getTime();
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
                     ShowItem();
@@ -134,8 +135,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function AddItem(){
             var HptCode = $('#hptsel2').val();
-            var Time = $('#settime').val();
-            var TimeID = $('#idTime').val();
+            var Time = $('#selectTime').val();
             if(HptCode=='' && Time != ''){
                 $('#hptsel2').addClass('border border-danger');
                 $('#rem1').show();
@@ -148,84 +148,44 @@ $array2 = json_decode($json2,TRUE);
                 $('#rem2').show();
                 $('#settime').addClass('border border-danger');
             }else{
-                if(TimeID!=''){
-                    swal({
-                        title: "<?php echo $array['edit'][$language]; ?>",
-                        text: "<?php echo $array['editdata1'][$language]; ?>",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonClass: "btn-success",
-                        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-                        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-                        confirmButtonColor: '#6fc864',
-                        cancelButtonColor: '#3085d6',
-                        closeOnConfirm: false,
-                        closeOnCancel: false,
-                        showCancelButton: true
-                    }).then(result => {
-                        if (result.value) {
-                            swal({
-                                title: '',
-                                text: '<?php echo $array['savesuccess'][$language]; ?>',
-                                type: 'success',
-                                showCancelButton: false,
-                                showConfirmButton: false,
-                                timer: 1500,
-                            });
-                            setTimeout(() => {
-                                Blankinput();
-                                var data = {
-                                    'STATUS':'EditItem',
-                                    'HptCode':HptCode,
-                                    'TimeID':TimeID,
-                                    'Time':Time
-                                };
-                                senddata(JSON.stringify(data));
-                            }, 1500);
-                            
-                        } else if (result.dismiss === 'cancel') {
-                            swal.close();
-                        }
-                    })
-                }else{
-                    swal({
-                        title: "<?php echo $array['confirmsave1'][$language]; ?>",
-                        text: "<?php echo $array['adddata1'][$language]; ?>",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonClass: "btn-success",
-                        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-                        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-                        confirmButtonColor: '#6fc864',
-                        cancelButtonColor: '#3085d6',
-                        closeOnConfirm: false,
-                        closeOnCancel: false,
-                        showCancelButton: true
-                    }).then(result => {
-                        if (result.value) {
-                            swal({
-                                title: '',
-                                text: '<?php echo $array['savesuccess'][$language]; ?>',
-                                type: 'success',
-                                showCancelButton: false,
-                                showConfirmButton: false,
-                                timer: 1500,
-                            });
-                            setTimeout(() => {
-                                Blankinput();
-                                var data = {
-                                    'STATUS':'AddItem',
-                                    'HptCode':HptCode,
-                                    'Time':Time
-                                };
-                                senddata(JSON.stringify(data));
-                            }, 1500);
-                            
-                        } else if (result.dismiss === 'cancel') {
-                            swal.close();
-                        }
-                    })
-                }
+                swal({
+                    title: "<?php echo $array['confirmsave1'][$language]; ?>",
+                    text: "<?php echo $array['adddata1'][$language]; ?>",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                    cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                    confirmButtonColor: '#6fc864',
+                    cancelButtonColor: '#3085d6',
+                    closeOnConfirm: false,
+                    closeOnCancel: false,
+                    showCancelButton: true
+                }).then(result => {
+                    if (result.value) {
+                        swal({
+                            title: '',
+                            text: '<?php echo $array['savesuccess'][$language]; ?>',
+                            type: 'success',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        setTimeout(() => {
+                            Blankinput();
+                            var data = {
+                                'STATUS':'AddItem',
+                                'HptCode':HptCode,
+                                'Time':Time
+                            };
+                            senddata(JSON.stringify(data));
+                        }, 1500);
+                        
+                    } else if (result.dismiss === 'cancel') {
+                        swal.close();
+                    }
+                })
+                
             }
         }
         function getDetail(ID){
@@ -235,6 +195,22 @@ $array2 = json_decode($json2,TRUE);
             var data = {
                 'STATUS':'getDetail',
                 'ID':ID
+            };
+            senddata(JSON.stringify(data));
+        }
+        function getTime(){
+            var HptCode = $('#hptsel').val();
+            var data = {
+                'STATUS':'getTime',
+                'HptCode':HptCode,
+            };
+            senddata(JSON.stringify(data));
+        }
+        function getTime2(){
+            var HptCode = $('#hptsel').val();
+            var data = {
+                'STATUS':'getTime2',
+                'HptCode':HptCode,
             };
             senddata(JSON.stringify(data));
         }
@@ -272,18 +248,18 @@ $array2 = json_decode($json2,TRUE);
                         }
                         senddata(JSON.stringify(data));
                     }, 1500);
-                    Blankinput();
-;                } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }
+                    Blankinput();               
+                } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                }
             })
         }
         function Blankinput() {
             $('#rem1').hide();
             $('#rem2').hide();
-            // $('.checkblank').each(function() {
-            //     $(this).val("");
-            // });
+            $('input:checked').each(function() {
+                $(this).prop("checked", false);
+            });
             // $('.checkblank').each(function() {
             //     if($(this).val()==""||$(this).val()==undefined){
             //     $(this).css('border-color', '');
@@ -332,7 +308,7 @@ $array2 = json_decode($json2,TRUE);
             $('#rem2').hide();
             $('#settime').removeClass('border border-danger');
             }
-}
+        }
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -372,15 +348,30 @@ $array2 = json_decode($json2,TRUE);
                             }
                             $("#hptsel").append(StrTr1);
                             $("#hptsel2").append(StrTr);
-                        }else if ((temp["form"] == 'ShowItem')) {
+                        }else if ((temp["form"] == 'getTime')) {
+                            $("#selectTime").empty()
+                            var StrTr = "<option value=''><?php echo $array['TimeSC'][$language]; ?></option>";
+                            for (var i = 0; i < temp['Count']; i++) {
+                                StrTr += "<option value = '" + temp[i]['ID'] + "'> " + temp[i]['TimeName'] + " </option>";
+                            }
+                            $("#selectTime").html(StrTr);
+                        }else if ((temp["form"] == 'getTime2')) {
+                            $("#selectTime").empty()
+                            var StrTr = "<option value=''><?php echo $array['TimeSC'][$language]; ?></option>";
+                            for (var i = 0; i < temp['Count']; i++) {
+                                StrTr += "<option value = '" + temp[i]['ID'] + "'> " + temp[i]['TimeName'] + " </option>";
+                            }
+                            $("#selectTime").html(StrTr);
+                        } else if ((temp["form"] == 'ShowItem')) {
                             $('#TableItem tbody').empty();
                             if(temp['Count']>0){
                                 $('#hptsel').val(temp[0]['HptCode']);
+                                $('#hptsel2').val(temp[0]['HptCode']);
                                 for (var i = 0; i < temp['Count']; i++) {
                                     var chkItem = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='getDetail("+temp[i]['ID']+");'><span class='checkmark'></span></label>";
                                     var Str = "<tr><td style='width:5%' class='text-center'>"+chkItem+"</td>"+
                                         "<td  style='width:10%'>"+(i+1)+"</td>"+
-                                        "<td  style='width:85%'>"+temp[i]['time_value']+"</td>"+
+                                        "<td  style='width:85%'>"+temp[i]['TimeName']+"</td>"+
                                     "</tr>";
                                     $("#TableItem tbody").append(Str);
                                 }
@@ -388,15 +379,8 @@ $array2 = json_decode($json2,TRUE);
                                 $('#TableItem tbody').empty();
                                 var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $("#TableItem tbody").append(Str);
-                                // swal({
-                                //     title: '',
-                                //     text: '<?php echo $array['notfoundmsg'][$language]; ?>',
-                                //     type: 'warning',
-                                //     showCancelButton: false,
-                                //     showConfirmButton: false,
-                                //     timer: 2000,
-                                // });
                             }
+                            getTime2();
                         }else if((temp["form"] == 'getDetail')){
                             $('#hptsel2').val("");
                             $('#settime').val("");
@@ -674,9 +658,10 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['settime'][$language]; ?></label>
-                                      <input type="text" autocomplete='off'  class="form-control col-sm-7 timepicker" id="settime" placeholder="<?php echo $array['settime'][$language]; ?>" >
-                                      <label id="rem2" class="col-sm-1 text-danger" style="font-size: 180%;margin-top: -1%;"> * </label>
-                                      <input type="hidden" id='idTime'>
+                                        <select  class="form-control col-sm-7 checkblank" id="selectTime" onchange="resetinput()">
+                                        </select>
+                                        <label id="rem2" class="col-sm-1 text-danger" style="font-size: 180%;margin-top: -1%;"> * </label>
+                                        <input type="hidden" id='idTime'>
                                     </div>
                                   </div>
                                 </div> 

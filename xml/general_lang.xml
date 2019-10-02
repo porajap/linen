@@ -326,6 +326,7 @@
 <spacial><en>Spacial Item</en><th>รายการพิเศษ</th></spacial>
 <newitem><en>New item</en><th>รายการใหม่</th></newitem>
 <editTime_deli><en>Edit shipping time</en><th>แก้ไขระยะเวลาขนส่ง</th></editTime_deli>
+<TimeSC><en>Shipping time</en><th>เวลาขนส่ง</th></TimeSC>
 <addTime_deli><en>Add shipping time</en><th>เพิ่มระยะเวลาขนส่ง</th></addTime_deli>
 <AllFac><en>All Factory</en><th>ทุกโรงซัก</th></AllFac>
 <noFac><en>no factory</en><th>ไม่มีโรงซักที่ยังไม่ได้เพิ่ม</th></noFac>
