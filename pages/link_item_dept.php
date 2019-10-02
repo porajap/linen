@@ -188,6 +188,7 @@ $array2 = json_decode($json2,TRUE);
           });
         }
         function removeClassBorder1(){
+          $('#TableItemStock tbody').empty();
           var par = $('#parnum').val();
           var department = $('#department').val();
           if(par !="" && par != undefined){
@@ -203,6 +204,7 @@ $array2 = json_decode($json2,TRUE);
 
         }
       function getDepartment(){
+        $('#TableItemStock tbody').empty();
         var Hotp = $('#hotpital option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
     	  var userid = "<?php echo $_SESSION['Userid']; ?>";
@@ -212,6 +214,7 @@ $array2 = json_decode($json2,TRUE);
           'Hotp'	: Hotp
             };
         senddata(JSON.stringify(data));
+
     	}
 
       function getHospital(){
