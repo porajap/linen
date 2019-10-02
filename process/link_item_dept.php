@@ -346,7 +346,7 @@ function additemstock($conn, $DATA)
     for ($j=0; $j < $Number[$i] ; $j++) {
       if($countPar == 0){
         $Sql2 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)
-        VALUES( '".$Itemcode[$i]."', '$Deptid', $ParQty, 9, $Number[$i],0,NOW())";
+        VALUES( '".$Itemcode[$i]."', '$Deptid', $ParQty, 0, $Number[$i],0,NOW())";
         if(mysqli_query($conn,$Sql2)){
           $boolean++;
         }
@@ -356,7 +356,7 @@ function additemstock($conn, $DATA)
         mysqli_query($conn,$update);
 
         $Sql3 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus, TotalQty, UsageCode)
-        VALUES( '".$Itemcode[$i]."', '$Deptid', $setPar, 9, $setTotalQty,0)";
+        VALUES( '".$Itemcode[$i]."', '$Deptid', $setPar, 0, $setTotalQty,0)";
         $return['Sql3'] = $Sql3;
         if(mysqli_query($conn,$Sql3)){
           $boolean++;
@@ -453,7 +453,7 @@ function SelectItemStock($conn, $DATA)
         item.ItemName
       FROM item_stock
       INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-      WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
+      WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode 
       GROUP BY item_stock.ItemCode
       ORDER BY item_stock.RowID DESC";
       $ItemQuery = mysqli_query($conn, $SqlItem);
@@ -472,7 +472,7 @@ function SelectItemStock($conn, $DATA)
             item_stock.UsageCode
           FROM item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode 
+          WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode 
           -- GROUP BY item_stock.ItemCode
           ORDER BY item_stock.RowID DESC";
           $meQuery = mysqli_query($conn,$Sql);
@@ -570,7 +570,7 @@ function ShowItemStock($conn, $DATA)
         item.ItemName
       FROM item_stock
       INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-      WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+      WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
       GROUP BY item_stock.ItemCode
       ORDER BY item_stock.RowID DESC";
       $ItemQuery = mysqli_query($conn, $SqlItem);
@@ -589,7 +589,7 @@ function ShowItemStock($conn, $DATA)
             item_stock.UsageCode
           FROM item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 9 AND item_stock.DepCode = $DepCode AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+          WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
           -- GROUP BY item_stock.ItemCode
           ORDER BY item_stock.RowID DESC";
           $meQuery = mysqli_query($conn,$Sql);
@@ -708,7 +708,7 @@ function Submititemstock($conn, $DATA)
                 FROM
                 item_stock
                 INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-                WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid AND item_stock.ExpireDate IS NOT NULL
+                WHERE item_stock.IsStatus = 0 AND item_stock.DepCode = $Deptid AND item_stock.ExpireDate IS NOT NULL
                 GROUP BY item_stock.ItemCode
                 ORDER BY item_stock.RowID DESC";
   $meQuery2 = mysqli_query($conn,$Sqlsearch);
