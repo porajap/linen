@@ -89,7 +89,7 @@ function ShowItem($conn, $DATA)
 
   } else {
     $return['form'] = "ShowItem";
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);

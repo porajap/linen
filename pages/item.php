@@ -1522,6 +1522,7 @@ $array2 = json_decode($json2, TRUE);
               }
 // ======================================================================
               $("#TableItem tbody").empty();
+              if(temp['countx']>0){
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
@@ -1535,14 +1536,13 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='width: 8%;padding-right: 5%;' "+top+"   align='center'nowrap><label> " + (i+1) + "</label></td>" +
                   "<td style='width: 8%;padding-right: 5%;' "+down+"  align='center'nowrap><label> " + j-- + "</label></td>" +
                   "<td style='width: 16%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 12%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
-                  "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
-                  "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
-                  "<td style='width: 10%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
-                  "<td style='width: 10%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
-                  "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
-                  "<td style='width: 8%;' align='center'nowrap>" + isset + "</td>" +
-                  "<td style='width: 5%;' align='center'nowrap>" + Tdas + "</td>" +
+                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 16%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 9%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                  "<td style='width: 11%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                  "<td style='width: 13%;'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 8%;' nowrap>" + IsDirtyBag + "</td>" +
+                  "<td style='width: 6%;' nowrap>" + isset + "</td>" +
+                  "<td style='width: 6%;' align='center'nowrap>" + Tdas + "</td>" +
                   "</tr>";
 
                 if (rowCount == 0) {
@@ -1551,6 +1551,11 @@ $array2 = json_decode($json2, TRUE);
                   $('#TableItem tbody:last-child').append($StrTR);
                 }
               }
+            }else{
+              $('#TableItem tbody').empty();
+              var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+              $('#TableItem tbody:last-child').append(Str);
+            }
               $('.checkblank').each(function() {
                 $(this).val("");
               });
@@ -2343,8 +2348,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
               </div>
 
-                <div class="table-scroll" id="scroll555">
-                  <table style="margin-top:10px;" class="table table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
+                  <table style="margin-top:10px;" class="table table-condensed table-striped table-fixed" id="TableItem"  cellspacing="0" role="grid">
                     <thead id="theadsum">
                       <tr role="row" id="tableSort">
                         <th style='width: 5%; font-size:13px;'>&nbsp;</th>
@@ -2360,19 +2364,17 @@ $array2 = json_decode($json2, TRUE);
                         <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
                           <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                         </th>
-                        <th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
-                        <th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                        <th style='padding-left: 4%;width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+                        <th style='padding-left: 2%;width: 11.5%;' nowrap><?php echo $array['size'][$language]; ?></th>
                         <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
-                        <th style='width: 11%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
-                        <th style='width: 10%;' nowrap><?php echo $array['newitem'][$language]; ?></th>
-                        <th style='width: 8%;' nowrap><?php echo $array['itemmas'][$language]; ?></th>
-                        <th style='width: 5%;' nowrap><?php echo $array['tdas'][$language]; ?></th>
+                        <th style='width: 9%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
+                        <th style='width: 9%;' nowrap><?php echo $array['itemmas'][$language]; ?></th>
+                        <th style='width: 8%;' nowrap><?php echo $array['tdas'][$language]; ?></th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
                     </tbody>
                   </table>
-                </div>
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemMaster" width="100%" cellspacing="0" role="grid" hidden>
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">

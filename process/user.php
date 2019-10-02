@@ -9,9 +9,14 @@ function ShowItem($conn, $DATA)
 {
   $count = 0;
   $department2 = $DATA['department2'];
-  $xHptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
+  if($PmID ==3){
+  $xHptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
+  }else{
+    $xHptCode = $DATA['HptCode'];
+  }
+
   // if($xHptCode==""){
   //   $xHptCode = $HptCode1;
   // }
@@ -392,8 +397,13 @@ function getDepartment2($conn, $DATA)
 {
   $count = 0;
   $boolean = false;
-  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
   $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+  if($PmID ==3){
+  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
+  }else{
+    $Hotp = $DATA["Hotp"];
+  }
   $Sql = "SELECT department.DepCode,department.DepName
 		  FROM department
 		  WHERE department.HptCode = '$Hotp'

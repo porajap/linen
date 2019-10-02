@@ -75,7 +75,6 @@ $array2 = json_decode($json2,TRUE);
     <script type="text/javascript">
         var summary = [];
         $(document).ready(function(e) {
-
             Blankinput();
             $('#rem1').hide();
             $('#rem2').hide();
@@ -389,14 +388,14 @@ $array2 = json_decode($json2,TRUE);
                                 $('#TableItem tbody').empty();
                                 var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $("#TableItem tbody").append(Str);
-                                swal({
-                                    title: '',
-                                    text: '<?php echo $array['notfoundmsg'][$language]; ?>',
-                                    type: 'warning',
-                                    showCancelButton: false,
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                });
+                                // swal({
+                                //     title: '',
+                                //     text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                                //     type: 'warning',
+                                //     showCancelButton: false,
+                                //     showConfirmButton: false,
+                                //     timer: 2000,
+                                // });
                             }
                         }else if((temp["form"] == 'getDetail')){
                             $('#hptsel2').val("");
