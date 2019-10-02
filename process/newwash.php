@@ -893,8 +893,7 @@ function DeleteItem($conn, $DATA)
   $Sql = "DELETE FROM newlinentable_detail
 	WHERE newlinentable_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
-
-  ShowDetail($conn, $DATA);
+  ShowDetailDoc($conn, $DATA);
 }
 
 function SaveBill($conn, $DATA)

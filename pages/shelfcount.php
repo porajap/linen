@@ -546,6 +546,7 @@ $array2 = json_decode($json2,TRUE);
       var deptCode = $('#department option:selected').attr("value");
       var settime = $('#settime option:selected').attr("value");
       var cycle = $("#cycle").val();
+      alert(settime);
       if(deptCode=='' || settime=='' ){
           checkblank2();
           checkblank3();
