@@ -1895,7 +1895,7 @@ $(document).ready(function(e){
       senddata(JSON.stringify(data));
     }
     function downloadExcel(filename){
-      var file = '../excelFiles/' + filename;
+      var file = 'excelFiles/' + filename;
       var url = "../process/downloadExcel.php?filename=" +file;
       window.open(url, '_blank');
     }
