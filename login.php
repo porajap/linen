@@ -386,6 +386,8 @@ $array = json_decode($json,TRUE);
                             var Password = temp["Password"];
                             var Subject  = 'Reset password...';
                             var FName    = temp["FName"];
+                            var HptName    = temp["HptName"];
+                            var DepName    = temp["DepName"];
                             // window.location.href = 'sendmail.php?UserName='+UserName+'&Password='+Password;
                             var data = {
                                     'email'     : eamil,
@@ -393,6 +395,8 @@ $array = json_decode($json,TRUE);
                                     'Password'  : Password,
                                     'Subject'   : Subject,
                                     'FName'     : FName,
+                                    'HptName'     : HptName,
+                                    'DepName'     : DepName
                                 };
                                 sendtomail(JSON.stringify(data),)
 
