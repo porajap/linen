@@ -1077,6 +1077,7 @@ $array2 = json_decode($json2,TRUE);
 
                   if(temp[0]['IsStatus']==0){
                     $('.chk_edit').prop('disabled', false);
+                    $('.chk_edit2').prop('disabled', false);
                     var word = '<?php echo $array['save'][$language]; ?>';
                     var changeBtn = "<i class='fa fa-save'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1092,6 +1093,7 @@ $array2 = json_decode($json2,TRUE);
                     $("#hover5").addClass('mhee');
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                     $('.chk_edit').attr('disabled', true);
+                    $('#chk_edit2').attr('disabled', true);
                     var word = '<?php echo $array['edit'][$language]; ?>';
                     var changeBtn = "<i class='fas fa-edit'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1277,7 +1279,7 @@ $array2 = json_decode($json2,TRUE);
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableItem >tbody >tr').length;
 
-                    var chkunit ="<select "+st1+" class='form-control' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" class='form-control chk_edit2' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1317,7 +1319,7 @@ $array2 = json_decode($json2,TRUE);
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableUsageCode >tbody >tr').length;
 
-                    var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:32px;' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control chk_edit2' style='font-size:32px;' id='iUnit_"+i+"'>";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
                       if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode'])
@@ -1374,7 +1376,7 @@ $array2 = json_decode($json2,TRUE);
                   for (var i = 0; i < temp["CountDep"]; i++) {
 
 
-                    var chkunit ="<select "+st1+" class='form-control chk_edit' id='iUnit_"+i+"'>";
+                    var chkunit ="<select "+st1+" class='form-control chk_edit2' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
                     for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
