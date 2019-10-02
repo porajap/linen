@@ -781,13 +781,13 @@ function CreateDocument($conn, $DATA)
 
     $n = 0;
     $Sql = "SELECT
-    rewash_detail.ItemCode,
-    rewash_detail.UnitCode,
-    rewash_detail.Qty,
-    rewash_detail.Weight,
-    rewash_detail.IsCancel
-    FROM rewash_detail
-    WHERE rewash_detail.DocNo = '$RefDocNo'";
+    repair_wash_detail.ItemCode,
+    repair_wash_detail.UnitCode,
+    repair_wash_detail.Qty,
+    repair_wash_detail.Weight,
+    repair_wash_detail.IsCancel
+    FROM repair_wash_detail
+    WHERE repair_wash_detail.DocNo = '$RefDocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $zItemCode[$n] = $Result['ItemCode'];

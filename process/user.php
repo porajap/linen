@@ -365,7 +365,13 @@ function getDepartment($conn, $DATA)
 {
   $count = 0;
   $boolean = false;
-  $Hotp = $DATA["Hotp"];
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+  if($PmID ==3){
+  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
+  }else{
+    $Hotp = $DATA["Hotp"];
+  }
   $Sql = "SELECT department.DepCode,department.DepName
 		  FROM department
 		  WHERE department.HptCode = '$Hotp'
@@ -379,7 +385,7 @@ function getDepartment($conn, $DATA)
     $boolean = true;
   }
 
-  if ($boolean) {
+  if ($meQuery = mysqli_query($conn, $Sql)) {
     $return['status'] = "success";
     $return['form'] = "getDepartment";
     echo json_encode($return);
@@ -388,6 +394,8 @@ function getDepartment($conn, $DATA)
   } else {
     $return['status'] = "failed";
     $return['form'] = "getDepartment";
+    $return['msg'] = "notfound";
+    
     echo json_encode($return);
     mysqli_close($conn);
     die;

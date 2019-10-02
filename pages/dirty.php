@@ -714,7 +714,7 @@ $array2 = json_decode($json2,TRUE);
 
             swal({
           title: "<?php echo $array['confirmsave'][$language]; ?>",
-          text: "<?php echo $array['docno'][$language]; ?>"+docno+"",
+          text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
