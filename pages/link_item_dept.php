@@ -212,6 +212,7 @@ $array2 = json_decode($json2,TRUE);
         var Hotp = $('#hotpital option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
     	  var userid = "<?php echo $_SESSION['Userid']; ?>";
+        ShowItem();
         var data = {
           'STATUS'  : 'getDepartment',
       		'Userid'	: userid,
