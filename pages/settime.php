@@ -311,6 +311,13 @@ $array2 = json_decode($json2,TRUE);
             $('#settime').removeClass('border border-danger');
             }
         }
+        function resetinput2(){
+            var hptsel2 = $('#hptsel2').val();
+            $('#rem1').hide();
+            $('#hptsel2').removeClass('border border-danger');
+            $('#hptsel').val(hptsel2);
+            ShowItem();
+        }
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -546,7 +553,7 @@ $array2 = json_decode($json2,TRUE);
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="row" style="margin-left:5px;">
-                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="removeborder();">
+                                        <select class="form-control col-md-8 " id="hptsel" onchange="removeborder();">
                                         </select>
                                     </div>
                                 </div>
@@ -649,7 +656,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 checkblank" id="hptsel2" onchange="resetinput()">
+                                      <select  class="form-control col-sm-7 checkblank" id="hptsel2" onchange="resetinput2()">
                                       </select>
                                       <label id="rem1" class="col-sm-1 text-danger" style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
