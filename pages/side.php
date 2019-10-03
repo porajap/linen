@@ -796,17 +796,19 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function menu_tapShow(){
+        $('#chk_tap').val(1);
         $('#addhot').show();
-        $('#adduser').hide();    
+        $('#adduser').hide(); 
+        $('#btn_clear').attr('hidden', true);  
     }
     function menu_tapHide(){
-      
+      $('#chk_tap').val(2);
       var chk = $('#chk_user').val();
       $('#addhot').hide();
       $('#adduser').show();
-      if(chk<2){
+      if(chk==1){
         $('#btn_clear').attr('hidden', false);  
-      }else{
+      }else if(chk>1){
         $('#btn_clear').attr('hidden', true);  
       }
     }
@@ -910,11 +912,15 @@ $array2 = json_decode($json2,TRUE);
                                 
                               }
                               var chk = $('#chk_user').val();
-                              if(chk<2){
+                              var chk_tab = $('#chk_tap').val();
+                              if(chk_tab==2){
+                                if(chk==1){
                                   $('#btn_clear').attr('hidden', false);  
-                                }else{
+                                }else if(chk>1){
                                   $('#btn_clear').attr('hidden', true);  
                                 }
+                              }
+                              
                               $('#bCancel').attr('disabled', false);
                               $('#delete_icon').removeClass('opacity');
                               $('#delete1').addClass('mhee');
@@ -1390,6 +1396,7 @@ $array2 = json_decode($json2,TRUE);
 <!-- =============================================================================================================================== -->
  <!-- /.content-wrapper -->
  <input type="hidden" id="chk_user">
+ <input type="hidden" id="chk_tap">
  <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" >
                           <div class="menu mhee" id="btn_clear" hidden>
                             <div class="d-flex justify-content-center">
