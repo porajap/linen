@@ -808,7 +808,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO clean_detail
       (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
       VALUES
-      ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
+      ('$DocNo','$ItemCode',$UnitCode,$Qty,0,$IsCancel)";
       mysqli_query($conn, $Sql);
     }
     SelectDocument($conn, $DATA);
