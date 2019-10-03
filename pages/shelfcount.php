@@ -955,8 +955,8 @@ $array2 = json_decode($json2,TRUE);
     function draw(){
       var DocNo = $('#docno').val();
       swal({
-        title: "<?php echo $array['confirmsave1'][$language]; ?>",
-        text: "<?php echo $array['adddata1'][$language]; ?>",
+        title: "<?php echo $array['confirmjaipar'][$language]; ?>",
+        text: "<?php echo $array['adddata8'][$language]; ?>",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-success",
