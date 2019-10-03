@@ -2814,6 +2814,12 @@ $array2 = json_decode($json2, TRUE);
 		.datepicker-here {
 			font-size: 24px !important;
 		}
+		.custom-control-label::after {
+				top: 7px!important;
+		}
+		.custom-control-label::before {
+    	top: 7px!important;
+		}
 	</style>
 </head>
 
