@@ -343,17 +343,26 @@ function ShowItem($conn, $DATA)
   $boolean = false;
   $searchitem = str_replace(' ', '%', $DATA["xitem"]);
   $hotpital = $DATA["hotpital"];
-  $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
-  FROM item , item_unit 
-  WHERE item.UnitCode = item_unit.UnitCode 
-  AND item.ItemCode IN ('00001', '00002', '00003')
-  UNION
-  SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
-  FROM item , item_unit 
-  WHERE item.UnitCode = item_unit.UnitCode 
-  AND IsDirtyBag = 1 
-  AND item.HptCode = '$hotpital'
-  AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%')";
+  if($searchitem!=''){
+    $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
+    FROM item , item_unit 
+    WHERE item.UnitCode = item_unit.UnitCode 
+    AND IsDirtyBag = 1 
+    AND item.HptCode = '$hotpital'
+    AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%')";
+  }else{
+    $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
+    FROM item , item_unit 
+    WHERE item.UnitCode = item_unit.UnitCode 
+    AND item.ItemCode IN ('00001', '00002', '00003')
+    UNION
+    SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
+    FROM item , item_unit 
+    WHERE item.UnitCode = item_unit.UnitCode 
+    AND IsDirtyBag = 1 
+    AND item.HptCode = '$hotpital'
+    AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%')";
+  }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] = $Result['ItemCode'];
@@ -367,7 +376,6 @@ function ShowItem($conn, $DATA)
     $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
     $MQuery = mysqli_query($conn, $countM);
     while ($MResult = mysqli_fetch_assoc($MQuery)) {
-      $return['sql'] = $countM;
       if($MResult['cnt']!=0){
         $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
         FROM item_multiple_unit
