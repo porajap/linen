@@ -42,11 +42,11 @@ function ShowItem($conn, $DATA)
 
   if ($Keyword == '' && $HptCode != '') {
       if($HptCode != '' && $maincatagory != '' && $Catagory=='' ){
-        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode'";
+        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
       }else if($HptCode != '' && $maincatagory == '' && $Catagory !=''){
-        $Sql .= " WHERE item.CategoryCode = $Catagory AND HptCode = '$HptCode'";
+        $Sql .= " WHERE item.CategoryCode = $Catagory AND HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
       }else if($HptCode != '' && $maincatagory == '' && $Catagory=='' ){
-        $Sql .= " WHERE HptCode = '$HptCode'";
+        $Sql .= " WHERE HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
       }
       // else if($maincatagory != '' && $Catagory !=''){
       // $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
