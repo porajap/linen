@@ -128,7 +128,7 @@ function AddItem($conn, $DATA)
 {
   $count = 0;
   $HptCode = $DATA['HptCode'];
-  $DepName = $DATA['DepName'];
+  $DepName = trim($DATA['DepName']);
   $xCenter = $DATA['xCenter'];
 
   if($xCenter == 1){ 
