@@ -176,6 +176,7 @@ $array2 = json_decode($json2,TRUE);
             if(Hotp == '' || Hotp == undefined){
             Hotp = '';
             }
+            $('#hptsel').val(Hotp);
             var data = {
             'STATUS'  : 'getDepartment2',
             'Hotp'	: Hotp
@@ -943,12 +944,14 @@ $array2 = json_decode($json2,TRUE);
                             $("#department2").append(Str);
                         }else if(temp["form"]=='getDepartment2'){
                                     $("#department").empty();
+                                    $("#department2").empty();
                                     var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     }
                                     $("#department").append(Str2);
+                                    $("#department2s").append(Str2);
 
                         }else if ((temp["form"] == 'getHotpital_user')) {
                                     $("#host").empty();
