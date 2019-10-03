@@ -237,7 +237,7 @@ function confirmDep($conn, $DATA){
     $meQuery = mysqli_query($conn, $count);
     $Result = mysqli_fetch_assoc($meQuery);
     if($Result['cnt']==0){
-      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode)VALUES('$DocNo', '$ItemCode', 1, $DepCode[$i])";
+      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty)VALUES('$DocNo', '$ItemCode', 1, $DepCode[$i], 1)";
       mysqli_query($conn, $Insert);
     }
   }
@@ -830,18 +830,15 @@ function UpdateDetailWeight($conn, $DATA)
   $isStatus = $DATA["isStatus"];
   $DocNo = $DATA["DocNo"];
 
-  //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
-  //	mysqli_query($conn,$Sqlx);
-
   $Sql = "UPDATE newlinentable_detail
 	SET Weight = $Weight
 	WHERE newlinentable_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
 
+  echo $Sql;
+  exit();
   	$wTotal = 0;
-  	$Sql = "SELECT SUM(Weight) AS wTotal
-  	FROM newlinentable_detail
-  	WHERE DocNo = '$DocNo'";
+  	$Sql = "SELECT SUM(Weight) AS wTotal FROM newlinentable_detail WHERE DocNo = '$DocNo'";
   	$meQuery = mysqli_query($conn,$Sql);
   	while ($Result = mysqli_fetch_assoc($meQuery)) {
   		$wTotal  	= $Result['wTotal'];
@@ -849,7 +846,7 @@ function UpdateDetailWeight($conn, $DATA)
      $Sql = "UPDATE newlinentable SET Total = $wTotal WHERE DocNo = '$DocNo'";
    	mysqli_query($conn,$Sql);
 
-  ShowDetailDoc($conn, $DATA);
+  // ShowDetailDoc($conn, $DATA);
 }
 
 function updataDetail($conn, $DATA)
