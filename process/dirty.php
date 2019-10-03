@@ -940,7 +940,7 @@ function confirmDep($conn, $DATA){
     $meQuery = mysqli_query($conn, $count);
     $Result = mysqli_fetch_assoc($meQuery);
     if($Result['cnt']==0){
-      $Insert = "INSERT dirty_detail (DocNo, ItemCode, UnitCode, DepCode)VALUES('$DocNo', '$ItemCode', 1, $DepCode[$i])";
+      $Insert = "INSERT dirty_detail (DocNo, ItemCode, UnitCode, DepCode, Qty)VALUES('$DocNo', '$ItemCode', 1, $DepCode[$i], 1)";
       mysqli_query($conn, $Insert);
     }
   }
