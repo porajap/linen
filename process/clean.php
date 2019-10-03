@@ -819,7 +819,6 @@ function CreateDocument($conn, $DATA)
       $DocNox    = $Result1['DocNo'];
       $count == 1;
     }
-    SelectDocument($conn, $DATA);
     if($count == 1){
       $return['DocNox'] =  $DocNox;
       $return['DocNoxx'] =  $RefDocNo;
@@ -837,6 +836,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     }
+    // SelectDocument($conn, $DATA);
     // $n = 0;
     // $Sql = "SELECT
     // dirty_detail.ItemCode,

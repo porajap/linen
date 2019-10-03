@@ -1220,8 +1220,7 @@ $(document).ready(function(e){
                   if(temp['DocNox'] == null){
                       OpenDialogItem();
                   }
-// 
-
+                        ShowDetail();
               }else if(temp['form']=="chk_percent"){
                 result = '';
               if(temp["Row"]>0){
