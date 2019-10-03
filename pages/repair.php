@@ -288,7 +288,7 @@ $(document).ready(function(e){
       function open_claim_doc(){
         // dialogRefDocNo.dialog( "open" );
         $('#dialogRefDocNo').modal('show');
-        // get_claim_doc();
+        get_claim_doc();
       }
 
       function get_claim_doc(){
@@ -917,6 +917,7 @@ $(document).ready(function(e){
                   showConfirmButton: false
                   });
                 setTimeout(function () {
+                  open_claim_doc();           
                   parent.OnLoadPage();
                 }, 1000);
                 $( "#TableItemDetail tbody" ).empty();
@@ -1197,6 +1198,7 @@ $(document).ready(function(e){
                 }
 
               }else if(temp['form']=="get_claim_doc"){
+                if(temp["Row"] > 0){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
@@ -1215,7 +1217,11 @@ $(document).ready(function(e){
                   }
                 }
               }
-
+            }else{
+                    $( "#TableRefDocNo tbody" ).empty();
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                    $('#TableRefDocNo tbody:last-child').append(Str);
+                        }
             }else if (temp['status']=="failed") {
               switch (temp['msg']) {
                 case "notchosen":

@@ -1052,8 +1052,8 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
-      $return['msg'] = "notfound";
+      $return['status'] = "success";
+      $return['msg'] = "get_claim_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;
