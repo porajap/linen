@@ -835,19 +835,29 @@ function UpdateDetailWeight($conn, $DATA)
 	WHERE newlinentable_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
 
-  echo $Sql;
-  exit();
   	$wTotal = 0;
   	$Sql = "SELECT SUM(Weight) AS wTotal FROM newlinentable_detail WHERE DocNo = '$DocNo'";
   	$meQuery = mysqli_query($conn,$Sql);
   	while ($Result = mysqli_fetch_assoc($meQuery)) {
-  		$wTotal  	= $Result['wTotal'];
+      $wTotal  	= $Result['wTotal'];
+      $return[0]['wTotal'] = $Result['wTotal'];
   	}
      $Sql = "UPDATE newlinentable SET Total = $wTotal WHERE DocNo = '$DocNo'";
    	mysqli_query($conn,$Sql);
 
-  // ShowDetailDoc($conn, $DATA);
-}
+     if (mysqli_query($conn,$Sql)) {
+      $return['status'] = "success";
+      $return['form'] = "UpdateDetailWeight";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['form'] = "UpdateDetailWeight";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }}
 
 function updataDetail($conn, $DATA)
 {

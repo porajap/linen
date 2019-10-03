@@ -1331,6 +1331,11 @@ $array2 = json_decode($json2,TRUE);
                     $('#ItemCodeHide').val(temp['ItemCode']);
                     $('#DocNoHide').val(DocNoHide);
                   }
+                }else if( (temp["form"]=='UpdateDetailWeight') ){
+                  if(temp[0]['wTotal'] > 0)
+                  $("#wTotal").val(temp[0]['wTotal']);
+                  else
+                  $("#wTotal").val(0);
                 }else if( (temp["form"]=='ShowDetailDoc') ){
                   var st1 = "style='font-size:24px;margin-left: -10px; width:150px;'";
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
