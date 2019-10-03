@@ -554,12 +554,14 @@ $array2 = json_decode($json2,TRUE);
             }
           });
             // $('#host tbody').empty();
+            $('#factory').attr('disabled' , true);
             $('#hptsel').val("");
             $('#host').val("");
             $('#department2').val("");
             $('#department').val("");
-            $('#Permission tbody').empty();
-            $('#UsID').empty();
+            $('#Permission').val("");
+            $('#factory').val("0");
+            $('#UsID').val("");
             $('#email').val("");
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
@@ -704,6 +706,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#delete_icon').removeClass('opacity');
                                 $('#delete1').addClass('mhee');
                                 $('#host').val(temp['HptCode']);
+                                $('#Permission').val(temp['PmID']);
 
                                 if (temp['xemail'] == 1)  {
                                         $('input[type=checkbox]').each(function() 
@@ -716,18 +719,18 @@ $array2 = json_decode($json2,TRUE);
                                 this.checked = false; 
                                         });                               
                                     }
-                                var StrTr="";
+                                // var StrTr="";
 
-                                StrTr="";
-                                $("#Permission").empty();
-                                for (var i = 0; i < temp['PmCnt']; i++) {
-                                    if(temp['Pm'+i]['xPmID']==temp['PmID']){
-                                        StrTr = "<option selected value = '" + temp['Pm'+i]['xPmID'] + "'> " + temp['Pm'+i]['xPermission'] + " </option>";
-                                    }else{
-                                        StrTr = "<option value = '" + temp['Pm'+i]['xPmID'] + "'> " + temp['Pm'+i]['xPermission'] + " </option>";
-                                    }
-                                    $("#Permission").append(StrTr);
-                                }
+                                // StrTr="";
+                                // $("#Permission").empty();
+                                // for (var i = 0; i < temp['PmCnt']; i++) {
+                                //     if(temp['Pm'+i]['xPmID']==temp['PmID']){
+                                //         StrTr = "<option selected value = '" + temp['Pm'+i]['xPmID'] + "'> " + temp['Pm'+i]['xPermission'] + " </option>";
+                                //     }else{
+                                //         StrTr = "<option value = '" + temp['Pm'+i]['xPmID'] + "'> " + temp['Pm'+i]['xPermission'] + " </option>";
+                                //     }
+                                //     $("#Permission").append(StrTr);
+                                // }
                                 if(temp['PmID']==4){
                                     $('#factory').attr('disabled',false);
                                     $('#factory').val(temp['FacCode']);
