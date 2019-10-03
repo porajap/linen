@@ -133,20 +133,13 @@ function ShowItem($conn, $DATA)
     $return[$count]['ItemName'] = $Result['ItemName'];
     $count++;
   }
-
-  if($count>0){
-    $return['status'] = "success";
-    $return['form'] = "ShowItem";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "notfound";
-    $return['msg'] = "notfound";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
+  $return['count'] = $count;
+  $return['status'] = "success";
+  $return['form'] = "ShowItem";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+ 
 
 }
 

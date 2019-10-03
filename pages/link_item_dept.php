@@ -1022,26 +1022,32 @@ $array2 = json_decode($json2,TRUE);
                           if(temp["status"]=='success'){
                             if( (temp["form"]=='ShowItem') ){
                               $( "#TableItem tbody" ).empty();
-                              console.log(temp);
-                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                                 var rowCount = $('#TableItem >tbody >tr').length;
-                                 var chkDoc = "<input type='checkbox' class='mainchk' name='checkitem' id='checkitem_"+temp[i]['ItemCode']+"'  value='"+temp[i]['ItemCode']+"' onclick='chkbox(\""+temp[i]['ItemCode']+"\");'>";
-                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                 var btn = "<center><button class='btn btn-primary' onclick=''>สร้างรายการ</button></center>";
-                                 var txtno = "<input type='text' style='text-align:center;' class='form-control numonly' onkeyup='chkpar(\""+temp[i]['ItemCode']+"\")' name='txtno' id='txtno_"+temp[i]['ItemCode']+"' placeholder='0' maxlength='3' min='0'>";
-                                 StrTR = "<tr id='tr"+temp[i]['ItemCode']+"'>"+
-                                                "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                                                "<td style='width: 28%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
-                                                "<td style='width: 60%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                                                "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
-                                                "</tr>";
+                              if(temp['count']>0){
+                                for (var i = 0; i < temp['count']; i++) {
+                                  var rowCount = $('#TableItem >tbody >tr').length;
+                                  var chkDoc = "<input type='checkbox' class='mainchk' name='checkitem' id='checkitem_"+temp[i]['ItemCode']+"'  value='"+temp[i]['ItemCode']+"' onclick='chkbox(\""+temp[i]['ItemCode']+"\");'>";
+                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                                  var btn = "<center><button class='btn btn-primary' onclick=''>สร้างรายการ</button></center>";
+                                  var txtno = "<input type='text' style='text-align:center;' class='form-control numonly' onkeyup='chkpar(\""+temp[i]['ItemCode']+"\")' name='txtno' id='txtno_"+temp[i]['ItemCode']+"' placeholder='0' maxlength='3' min='0'>";
+                                  StrTR = "<tr id='tr"+temp[i]['ItemCode']+"'>"+
+                                                  "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
+                                                  "<td style='width: 28%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
+                                                  "<td style='width: 60%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                                                  "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
+                                                  "</tr>";
 
 
-                                 if(rowCount == 0){
-                                   $("#TableItem tbody").append( StrTR );
-                                 }else{
-                                   $('#TableItem tbody:last-child').append( StrTR );
-                                 }
+                                  if(rowCount == 0){
+                                    $("#TableItem tbody").append( StrTR );
+                                  }else{
+                                    $('#TableItem tbody:last-child').append( StrTR );
+                                  }
+                                }
+                              }else{
+                                StrTR = "<tr>"+
+                                        "<td style='width: 100%;' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td>"+
+                                        "</tr>";
+                                $("#TableItem tbody").append(StrTR);
                               }
                             }else if( (temp["form"]=='getHospital') ){
                               var PmID = <?php echo $PmID;?>;
