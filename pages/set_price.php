@@ -827,6 +827,7 @@ $array2 = json_decode($json2,TRUE);
                             });
                         }else if ((temp["form"] == 'ShowItem2')) {
                             $("#TableItemPrice tbody").empty();
+              
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 $("#datepicker").val(temp[i]['date']);
                                 var rowCount = $('#TableItem >tbody >tr').length;
@@ -852,6 +853,9 @@ $array2 = json_decode($json2,TRUE);
                                 }
                                 var rowCount = i;
                             }
+                            $('.numonly').on('input', function() {
+                                this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                            });
                             $('#rowCount').val(rowCount+1);
                             $("#datepicker").val(date);
                             for (var i = 0; i < 1; i++) {

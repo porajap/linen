@@ -113,6 +113,8 @@ $array2 = json_decode($json2,TRUE);
         function removeborder(){
             Blankinput();
             ShowItem();
+            var HptCode = $('#hptsel').val();
+            $('#hptsel2').val(HptCode);
             $('#hptsel').css('border-color', '');
 
         }
