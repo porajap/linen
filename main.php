@@ -800,7 +800,7 @@ echo '</script>';
           }
       }
 
-      if (validation >= 1) {
+      if (validation == 1) {
           $('#comfirm_submit').removeAttr('disabled');
       }
     }
