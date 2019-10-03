@@ -35,6 +35,7 @@ ___________________________________________________________________<br>
 <h3>'.$HptName.'</h3>
 <b>DATE OF CNTRCT:</b> '.$StartDate.'<br>
 <b>CNTRCT TERM DATE:</b> '.$EndDate.'<br>
+<b>Expire:</b> '.$EndDate.' Time left '.$dateDiff.' Day<br>
 ___________________________________________________________________<br>
 </body>
 </html>
