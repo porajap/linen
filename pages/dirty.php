@@ -329,13 +329,13 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function ShowItem(){
-          var deptCode = $('#department option:selected').attr("value");
-          if( typeof deptCode == 'undefined' ) deptCode = "1";
+          var hotpital = $('#hotpital option:selected').attr("value");
+          if( typeof deptCode == 'undefined' ) deptCode = "";
           var searchitem = $('#searchitem').val();
           var data = {
             'STATUS'  : 'ShowItem',
             'xitem'	: searchitem,
-            'deptCode'	: deptCode
+            'hotpital'	: hotpital
           };
           senddata(JSON.stringify(data));
         }
