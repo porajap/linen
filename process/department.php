@@ -15,7 +15,7 @@ function ShowItem($conn, $DATA)
   $Keyword = $DATA['Keyword'];
   $Sql = "SELECT site.HptCode,
           CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,
-          department.DepCode,department.DepName,department.IsDefault,
+          department.DepCode,TRIM(department.DepName) AS DepName,department.IsDefault,
 		  CASE department.IsDefault WHEN 0 THEN '0' WHEN 1 THEN '1' END AS DefaultName
           FROM site
           INNER JOIN department ON site.HptCode = department.HptCode
@@ -64,7 +64,7 @@ function getdetail($conn, $DATA)
   $Sql = "SELECT
           department.DepCode,
           department.HptCode,
-          department.DepName,
+          TRIM(department.DepName) AS DepName,
           department.IsStatus,
 		  department.IsDefault
           FROM department
@@ -186,7 +186,7 @@ function EditItem($conn, $DATA)
   // var_dump($DATA); die;
   $count = 0;
   $HptCode = $DATA['HptCode'];
-  $DepName = $DATA['DepName'];
+  $DepName = trim($DATA['DepName']);
   $xCenter = $DATA['xCenter'];
 
   $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
@@ -206,7 +206,7 @@ function EditItem($conn, $DATA)
 
   $Sql = "UPDATE department SET
           HptCode =  '$HptCode',
-          DepName = ' $DepName',
+          DepName = '$DepName',
           IsDefault =  $xCenter 
           WHERE DepCode = ".$DATA['DepCode']."
   ";
