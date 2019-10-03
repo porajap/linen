@@ -123,7 +123,7 @@ function ShowItem($conn, $DATA)
           item.ItemName
           FROM
           item
-          WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND IsDirtyBag = 0 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
+          WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
           ORDER BY item.ItemCode
           ";
   // var_dump($Sql); die;
