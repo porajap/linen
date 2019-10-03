@@ -258,8 +258,8 @@ function alert_SetPrice($conn,$DATA)
             FROM users
             INNER JOIN site ON site.HptCode = users.HptCode
             WHERE users.HptCode = '$HptCode'
-            AND users.FacCode = 1 AND users.PmID IN (1,3,6)
-            AND email IS NOT NULL AND NOT email = ''";
+            AND users.PmID IN (1,3,6)
+            AND email IS NOT NULL AND NOT email = '' AND NOT email = '-'";
             $SQuery = mysqli_query($conn,$SelectMail);
             while ($SResult = mysqli_fetch_assoc($SQuery)) {
               $return[$i]['contract_fac']['email'] = $SResult['email'];
@@ -324,7 +324,7 @@ function alert_SetPrice($conn,$DATA)
             INNER JOIN site ON site.HptCode = users.HptCode
             WHERE users.HptCode = '$HptCode'
             AND users.PmID IN (1,3,6)
-            AND email IS NOT NULL AND NOT email = ''";
+            AND email IS NOT NULL AND NOT email = '' AND NOT email = '-'";
             $SQuery = mysqli_query($conn,$SelectMail);
             while ($SResult = mysqli_fetch_assoc($SQuery)) {
               $return[$i]['contract_hos']['email'] = $SResult['email'];
