@@ -951,7 +951,7 @@ $array2 = json_decode($json2,TRUE);
                                     var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     }
                                     $("#department").append(Str2);
-                                    $("#department2s").append(Str2);
+                                    $("#department2").append(Str2);
 
                         }else if ((temp["form"] == 'getHotpital_user')) {
                                     $("#host").empty();
