@@ -644,6 +644,7 @@ $array2 = json_decode($json2,TRUE);
         $('#bCancel').attr('disabled', true);
         $('#delete_icon').addClass('opacity');
         $('#delete1').removeClass('mhee');
+        $('#btn_clear').attr('hidden', true);
       }
 
       function getdetail(HptCode , row) {
@@ -799,8 +800,15 @@ $array2 = json_decode($json2,TRUE);
         $('#adduser').hide();    
     }
     function menu_tapHide(){
+      
+      var chk = $('#chk_user').val();
       $('#addhot').hide();
-        $('#adduser').show();  
+      $('#adduser').show();
+      if(chk<2){
+        $('#btn_clear').attr('hidden', false);  
+      }else{
+        $('#btn_clear').attr('hidden', true);  
+      }
     }
     function clearInput(){
       $('#ContractName').val("");
@@ -897,13 +905,16 @@ $array2 = json_decode($json2,TRUE);
                                   $('#xcenter1').prop('checked', false);
                                   $('#xcenter2').prop('checked', false);
                                 }
-                                if(temp['cnt']>1){
-                                  $('#btn_clear').attr('hidden', true);
-                                }else{
-                                  $('#btn_clear').attr('hidden', false);
-                                }
+                            
+                                $('#chk_user').val(temp['cnt']);
                                 
                               }
+                              var chk = $('#chk_user').val();
+                              if(chk<2){
+                                  $('#btn_clear').attr('hidden', false);  
+                                }else{
+                                  $('#btn_clear').attr('hidden', true);  
+                                }
                               $('#bCancel').attr('disabled', false);
                               $('#delete_icon').removeClass('opacity');
                               $('#delete1').addClass('mhee');
@@ -1378,7 +1389,20 @@ $array2 = json_decode($json2,TRUE);
     </div>
 <!-- =============================================================================================================================== -->
  <!-- /.content-wrapper -->
+ <input type="hidden" id="chk_user">
  <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" >
+                          <div class="menu mhee" id="btn_clear" hidden>
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn"  onclick="clearInput()">
+                                  <i class="fas fa-user-plus"></i>
+                                  <div>
+                                    <?php echo $array['adduser'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                           <div class="menu mhee" <?php if($PmID == 3) echo 'hidden'; ?> id="addhot">
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
@@ -1508,7 +1532,6 @@ $array2 = json_decode($json2,TRUE);
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px;">
-        <div class="row mt-2" id="btn_clear"><button class="btn btn-info px-2" onclick="clearInput()"><?php echo $array['adduser'][$language]; ?></button></div>
                                 <div class="row mt-4">
                                   <div class="col-md-6">
                                     <div class='form-group row'>
