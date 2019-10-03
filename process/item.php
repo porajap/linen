@@ -618,6 +618,7 @@ function CreateItemCode($conn, $DATA)
       $boolcount = 0;
     }
   } else if ($DATA['modeCode'] == '1') {
+    if($DATA['hospitalCode'] !=""){
     $preCode = $DATA['hospitalCode'] . "LP" . $MainCategoryName . $DATA['typeCode'] . $DATA['packCode'];
     $Sql = "  SELECT 		CONCAT(LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(ItemCode,12,4),UNSIGNED INTEGER)),0)+1) ,4,0))
               AS        ItemCode
@@ -627,6 +628,9 @@ function CreateItemCode($conn, $DATA)
               ORDER BY  ItemCode DESC LIMIT 1";
 
     $meQuery = mysqli_query($conn, $Sql);
+    }else{
+      $preCode = "";
+    }
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $postCode = $Result['ItemCode'];
     }
@@ -650,8 +654,8 @@ function CreateItemCode($conn, $DATA)
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
-    $return['msg'] = "editfailed";
+    // $return['status'] = "failed";
+    // $return['msg'] = "editfailed";
     echo json_encode($return);
     mysqli_close($conn);
     die;

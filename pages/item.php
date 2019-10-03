@@ -90,7 +90,7 @@ $array2 = json_decode($json2, TRUE);
                 ShowItem();
             }
         });
-      // ShowItem();
+      ShowItem();
       GetHospital();
       GetmainCat();
       getCatagory();
@@ -163,14 +163,13 @@ $array2 = json_decode($json2, TRUE);
     });
 
     function changeHptCode(){
-      Blankinput();
+      // Blankinput();
       ShowItem();
       $('#Hos2').css('border-color', '');
       var Hos2 = $('#Hos2').val();
-        if(Hos2 !=''){
-         $('#hospital').val(Hos2);
+      $('#hospital').val(Hos2);
          CreateItemCode();
-        }
+
     }
 
     function unCheckDocDetail() {
@@ -391,21 +390,21 @@ $array2 = json_decode($json2, TRUE);
 
 
     function ShowItem(column, sort) {
-      var count = 0;
-      $(".checkblank66").each(function() {
-        if ($(this).val() == "" || $(this).val() == undefined) {
-          count++;
-        }
-      });
-      if (count != 0) {
-        $('.checkblank66').each(function() {
-          if ($(this).val() == "" || $(this).val() == undefined) {
-            $(this).css('border-color', 'red');
-          } else {
-            $(this).css('border-color', '');
-          }
-        });
-      }else{
+      // var count = 0;
+      // $(".checkblank66").each(function() {
+      //   if ($(this).val() == "" || $(this).val() == undefined) {
+      //     count++;
+      //   }
+      // });
+      // if (count != 0) {
+      //   $('.checkblank66').each(function() {
+      //     if ($(this).val() == "" || $(this).val() == undefined) {
+      //       $(this).css('border-color', 'red');
+      //     } else {
+      //       $(this).css('border-color', '');
+      //     }
+      //   });
+      // }else{
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
@@ -423,7 +422,7 @@ $array2 = json_decode($json2, TRUE);
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
-      }
+      // }
     }
     function ShowItem2(mItemCode) {
       var maincatagory = $("#maincatagory").val();
@@ -717,7 +716,9 @@ $array2 = json_decode($json2, TRUE);
               } else if (result.dismiss == 'cancel') {
                 swal.close();
               }
-
+              setTimeout(() => {
+                CreateItemCode();
+              }, 700);
             })
           } else {
             swal({
@@ -794,6 +795,11 @@ $array2 = json_decode($json2, TRUE);
             var hospitalCode = $('#hospital').val();
             var typeCode = $('#typeLinen').val();
             var packCode = $('#numPack').val();
+            $('#Hos2').val(hospitalCode);
+            ShowItem();
+            if(hospitalCode == ""){
+            $('#ItemCode').val("");
+            }
             $('#typeLinen').addClass('checkblank');
             $('#numPack').addClass('checkblank');
           } else {
@@ -926,17 +932,21 @@ $array2 = json_decode($json2, TRUE);
       $('#catagory2').val("1");
       $('#UnitName').val("");
       $('#SizeCode').val("1");
-      $('#hospital').val("BHQ");
+      $('#hospital').val("");
+      $('#Hos2').val("");
+      $('#maincatagory').val("");
+      $('#catagory1').val("");
+  
       $('#typeLinen').val("P");
       $('#numPack').val("01");
-      $('#sUnitName').val("");
+      $('#sUnitName').val("1");
       // ShowItem();
       $('#bCancel').attr('disabled', true);
       $('#delete_icon').addClass('opacity');
       $('#delete1').removeClass('mhee');
       $('#NewItem').show();
       $('#AddItemBNT').hide();
-      CreateItemCode();
+      // CreateItemCode();
       uncheckAll2();
       ShowItem();
       $('#btn_importMaster').attr('disabled', true);
@@ -1464,8 +1474,8 @@ $array2 = json_decode($json2, TRUE);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                  StrTr1 += "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
                 var StrTr = "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
-                $("#hospital").append(StrTr);
               }
+              $("#hospital").append(StrTr1);
               $("#Hos2").append(StrTr1);
             } else if ((temp["form"] == 'GetmainCat')) {
               var hotValue0 = '<?php echo $array['Pleasechoosemaincategory'][$language]; ?>';
@@ -1566,12 +1576,12 @@ $array2 = json_decode($json2, TRUE);
               var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
               $('#TableItem tbody:last-child').append(Str);
             }
-              $('.checkblank').each(function() {
-                $(this).val("");
-              });
+              // $('.checkblank').each(function() {
+              //   $(this).val("");
+              // });
               $('#UnitName').val("1");
               $('#SizeCode').val("1");
-              $('#hospital').val("BHQ");
+              // $('#hospital').val("BHQ");
               $('#typeLinen').val("P");
               $('#numPack').val("01");
 
@@ -1832,7 +1842,7 @@ $array2 = json_decode($json2, TRUE);
                   timer: 2000,
                   confirmButtonText: 'Ok'
               }).then(function() {
-                  ShowItem();
+                  // ShowItem();
                   Blankinput();
               }, function(dismiss) {
                   $('.checkblank').each(function() {
@@ -2568,7 +2578,7 @@ $array2 = json_decode($json2, TRUE);
                             <label class="col-sm-3 col-form-label "><?php echo $array['type'][$language]; ?></label>
                               <div class="col-md-8">
                                 <div class='form-group row'>
-                                  <select  onchange="resetinput()" class="form-control col-sm-4 " id="typeLinen" onchange="CreateItemCode()" >
+                                  <select  onchange="CreateItemCode()" class="form-control col-sm-4 " id="typeLinen" onchange="CreateItemCode()" >
                                     <option value="P">Patient Shirt</option>
                                     <option value="S">Staff Uniform</option>
                                     <option value="F">Flat Sheet</option>
@@ -2578,7 +2588,7 @@ $array2 = json_decode($json2, TRUE);
                                   </select>
 
                                   <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
-                                  <select onchange="resetinput()"  class="form-control col-sm-4  numonly" id="numPack" onchange="CreateItemCode()" >
+                                  <select onchange="CreateItemCode()"  class="form-control col-sm-4  numonly" id="numPack" onchange="CreateItemCode()" >
                                     <option value="01">1 PCS</option>
                                     <option value="05">5 Pc</option>
                                     <option value="10">10 Pc</option>
