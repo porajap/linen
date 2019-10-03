@@ -343,7 +343,6 @@ function ShowItem($conn, $DATA)
   $boolean = false;
   $searchitem = str_replace(' ', '%', $DATA["xitem"]);
   $deptCode = $DATA["deptCode"];
-
   $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
   FROM item , item_unit WHERE item.UnitCode = item_unit.UnitCode AND IsDirtyBag = 1 AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%')";
   $meQuery = mysqli_query($conn, $Sql);
