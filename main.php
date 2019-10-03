@@ -384,7 +384,7 @@ echo '</script>';
     // // ===================================================================
     var last_move, cur_date, target;
     var redirectInSecond = <?php echo $TimeOut ?>; // กำหนดเวลา redirect เป็นวินาที
-    var chk_logoff = <?php echo $logoff ?>; 
+    var chk_logoff = '<?php echo $logoff ?>;'; 
     var redirect_url = 'http://poseintelligence.dyndns.biz:8181/linen-test/login.php'; // กำหนด url ที่ต้องการเมื่อครบเวลาที่กำหนด
 
 
