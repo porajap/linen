@@ -1657,7 +1657,7 @@ $array2 = json_decode($json2,TRUE);
                     <div class="col-12 mt-3">
                       <div class='form-group form-inline'>
                         <span   class='text-left mr-sm-2 col-3'><?php echo $array['side'][$language]; ?></span>
-                        <select class="form-control col-8"  id="hotpital" onchange="getDepartment();" <?php if($PmID != 1) echo 'disabled'; ?>> </select>
+                        <select class="form-control col-8"  id="hotpital" onchange="getDepartment();" <?php if($PmID != 1 && $PmID != 6) echo 'disabled'; ?>> </select>
                       </div>
                     </div>
                   </div>
