@@ -78,11 +78,9 @@ $array2 = json_decode($json2, TRUE);
 	<!-- Include English language -->
 	<script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
 	<script src="../datepicker/dist/js/datepicker.th.js"></script>
-
 	<link href="../css/report.css" rel="stylesheet">
-
-
 	<script src="../fontawesome/js/fontawesome.min.js"></script>
+
 	<script type="text/javascript">
 		var summary = [];
 		var xItemcode;
@@ -106,12 +104,18 @@ $array2 = json_decode($json2, TRUE);
 			$('#textto').hide();
 			$('#textto2').hide();
 			$('#chk').show();
-			$('#rem1').hide();
+				$('#rem1').hide();
 			$('#rem2').hide();
 			$('#rem3').hide();
 			$('#rem4').hide();
 			$('#rem5').hide();
 			$('#rem6').hide();
+			$('#rem7').hide();
+			$('#rem8').hide();
+			$('#rem9').hide();
+			$('#rem10').hide();
+			$('#rem11').hide();
+		
 			OnLoadPage();
 			$('#hotpital').attr('disabled', true);
 			$('#department').attr('disabled', true);
@@ -214,7 +218,7 @@ $array2 = json_decode($json2, TRUE);
 				var year = parseInt(year) + 543;
 			}
 			var onemonth = n + '-' + year;
-			$('#onemonth').attr('value', onemonth);
+			// $('#onemonth').attr('value', onemonth);
 
 			m = n;
 		}
@@ -257,7 +261,7 @@ $array2 = json_decode($json2, TRUE);
 				var year = parseInt(year) + 543;
 			}
 			// $('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
-			$('#somemonth').attr('value', nextMonth + '-' + year);
+			// $('#somemonth').attr('value', nextMonth + '-' + year);
 		}
 
 		function showdate() {
@@ -267,12 +271,12 @@ $array2 = json_decode($json2, TRUE);
 			var chkyear = $('#chkyear:checked').val();
 			var typeReport = $('#typereport').val();
 			if (chkday == 1) {
-				if (language == 'th') {
-					var Date = currentDate.split('-');
-					var year = parseInt(Date[0]) + 543;
-					Date = Date[2] + "-" + Date[1] + "-" + year;
-				}
-				$('#oneday').attr('value', Date);
+				// if (language == 'th') {
+				// 	var Date = currentDate.split('-');
+				// 	var year = parseInt(Date[0]) + 543;
+				// 	Date = Date[2] + "-" + Date[1] + "-" + year;
+				// }
+				// $('#oneday').attr('value', Date);
 				$('#showday').show();
 				$('#myDay').show();
 				$('#showmonth').hide();
@@ -287,14 +291,14 @@ $array2 = json_decode($json2, TRUE);
 				$('#myMonth').show();
 				$('#showyear').hide();
 			} else if (chkyear == 3) {
-				var Date = currentDate.split('-');
-				if (language == 'th') {
-					var Date = currentDate.split('-');
-					var year = parseInt(Date[0]) + 543;
-				} else {
-					year = Date[0];
-				}
-				$('#year').attr('value', year);
+				// var Date = currentDate.split('-');
+				// if (language == 'th') {
+				// 	var Date = currentDate.split('-');
+				// 	var year = parseInt(Date[0]) + 543;
+				// } else {
+				// 	year = Date[0];
+				// }
+				// $('#year').attr('value', year);
 				$('#showday').hide();
 				$('#myDay').hide();
 				$('#showmonth').hide();
@@ -314,31 +318,30 @@ $array2 = json_decode($json2, TRUE);
 				$('#oneday').show();
 				$('#someday').show();
 				$('#textto').show();
-				var currentDay = currentDate2;
-				var dateone = currentDate.split('-');
-				if (language == 'th') {
-					dateone[0] = parseInt(dateone[0]) + 543;
-				} else if (language == 'en') {
-					dateone[0] = parseInt(dateone[0]);
-				}
-				dateone[2] = parseInt(dateone[2]) +1;
-				dateone = dateone[2] + "-" + dateone[1] + "-" + dateone[0];
-				var today = new Date();
-				var tomorrow = new Date(today);
-				tomorrow.setDate(today.getDate() + 1);
-				// tomorrow.toLocaleDateString();
-				if (language == 'th') {
-					var year = tomorrow.getFullYear() + 543;
-				} else if (language == 'en') {
-					var year = tomorrow.getFullYear();
-				}
-				var month = tomorrow.getMonth() + 1;
-				var day = tomorrow.getDate();
-				if (month < 10) month = '0' + month;
-				if (day < 10) day = '0' + day;
-				// var myDate = dateone + ' - ' + day + '/' + month + '/' + year;
-				var myDate = dateone;
-				$('#someday').attr('value', myDate);
+				// var currentDay = currentDate2;
+				// var dateone = currentDate.split('-');
+				// if (language == 'th') {
+				// 	dateone[0] = parseInt(dateone[0]) + 543;
+				// } else if (language == 'en') {
+				// 	dateone[0] = parseInt(dateone[0]);
+				// }
+				// dateone[2] = parseInt(dateone[2]) + 1;
+				// dateone = dateone[2] + "-" + dateone[1] + "-" + dateone[0];
+				// var today = new Date();
+				// var tomorrow = new Date(today);
+				// tomorrow.setDate(today.getDate() + 1);
+				// // tomorrow.toLocaleDateString();
+				// if (language == 'th') {
+				// 	var year = tomorrow.getFullYear() + 543;
+				// } else if (language == 'en') {
+				// 	var year = tomorrow.getFullYear();
+				// }
+				// var month = tomorrow.getMonth() + 1;
+				// var day = tomorrow.getDate();
+				// if (month < 10) month = '0' + month;
+				// if (day < 10) day = '0' + day;
+				// var myDate = day + '-' + month + '-' + year;
+				// $('#someday').val(myDate);
 			}
 		}
 
@@ -368,6 +371,61 @@ $array2 = json_decode($json2, TRUE);
 			var cycle = $('#cycle').val();
 			var ppu = $('#PPU').val();
 			var Format = $("input[name='radioFormat']:checked").val();
+			var oneday = $('#oneday').val();
+			var someday = $('#someday').val();
+			var onemonth = $('#onemonth').val();
+			var somemonth = $('#somemonth').val();
+			var year = $('#year').val();
+			var FormatDay = $("input[name='formatDay']:checked").val();
+			var FormatMonth = $("input[name='formatMonth']:checked").val();
+			var chkday = $('#chkday:checked').val();
+			// if (Format == 1) {
+			// 	if (FormatDay == 1) {
+			// 		if (oneday == null || oneday == '' || oneday == undefined) {
+			// 			$('#oneday').addClass('border-danger');
+			// 		$('#rem7').show();
+			// 		$('#rem7').css('color', 'red');
+
+			// 		}
+			// 	} else if (FormatDay == 2) {
+			// 		if (oneday == null || oneday == '' || oneday == undefined || someday == '' || someday == undefined || someday == undefined) {
+			// 			$('#oneday').addClass('border-danger');
+			// 			$('#someday').addClass('border-danger');
+			// 		$('#rem7').show();
+			// 		$('#rem7').css('color', 'red');
+			// 		$('#rem8').show();
+			// 		$('#rem8').css('color', 'red');
+
+			// 		}
+			// 	}
+			// }
+			// if (Format == 2) {
+			// 	if (FormatMonth == 1) {
+			// 		if (onemonth == null || onemonth == '' || onemonth == undefined) {
+			// 			$('#cycle').addClass('border-danger');
+			// 		$('#rem9').show();
+			// 		$('#rem9').css('color', 'red');
+
+			// 		}
+			// 	} else if (FormatMonth == 2) {
+			// 		if (onemonth == null || onemonth == '' || onemonth == undefined || somemonth == '' || someday == undefined || someday == undefined) {
+			// 			$('#cycle').addClass('border-danger');
+			// 		$('#rem9').show();
+			// 		$('#rem9').css('color', 'red');
+			// 		$('#rem10').show();
+			// 		$('#rem10').css('color', 'red');
+
+			// 		}
+			// 	}
+			// }
+			// if (Format == 3) {
+			// 	if (year == null || year == '' || year == undefined) {
+			// 		$('#cycle').addClass('border-danger');
+			// 		$('#rem11').show();
+			// 		$('#rem11').css('color', 'red');
+
+			// 	}
+			// }
 			if (typeReport == 4) {
 				if (cycle == '0') {
 					$('#cycle').addClass('border-danger');
@@ -414,31 +472,45 @@ $array2 = json_decode($json2, TRUE);
 			$('#factory').removeClass('border-danger');
 			$('#rem2').hide();
 		}
-
 		function blank_dep() {
-
 			$('#department').removeClass('border-danger');
 			$('#rem4').hide();
 		}
-
-		function blank_cycle() {
-			$('#cycle').removeClass('border-danger');
-			$('#rem5').hide();
-		}
-
+		// function blank_cycle() {
+		// 	$('#cycle').removeClass('border-danger');
+		// 	$('#rem5').hide();
+		// }
 		function blank_report() {
 			$('#typereport').removeClass('border-danger');
 			$('#rem1').hide();
 		}
-
 		function blank_hot() {
 			$('#hotpital').removeClass('border-danger');
 			$('#rem3').hide();
 		}
-
 		function blank_PPU() {
 			$('#PPU').removeClass('border-danger');
 			$('#rem6').hide();
+		}
+		function oneday() {
+			$('#oneday').removeClass('border-danger');
+			$('#rem7').hide();
+		}
+		function someday() {
+			$('#someday').removeClass('border-danger');
+			$('#rem8').hide();
+		}
+		function onemonth() {
+			$('#onemonth').removeClass('border-danger');
+			$('#rem9').hide();
+		}
+		function somemonth() {
+			$('#somemonth').removeClass('border-danger');
+			$('#rem10').hide();
+		}
+		function year() {
+			$('#year').removeClass('border-danger');
+			$('#rem11').hide();
 		}
 
 		function search_fillter() {
@@ -448,7 +520,97 @@ $array2 = json_decode($json2, TRUE);
 			var DepCode = $('#department').val();
 			var cycle = $('#cycle').val();
 			var ppu = $('#PPU').val();
+			var oneday = $('#oneday').val();
+			var someday = $('#someday').val();
+			var onemonth = $('#onemonth').val();
+			var somemonth = $('#somemonth').val();
+			var year = $('#year').val();
 			var Format = $("input[name='radioFormat']:checked").val();
+			var FormatDay = $("input[name='formatDay']:checked").val();
+			var FormatMonth = $("input[name='formatMonth']:checked").val();
+			var chkday = $('#chkday:checked').val();
+		if (Format == 1) {
+				if (FormatDay == 1) {
+					if (oneday == null || oneday == '' || oneday == undefined) {
+						swal({
+						title: '',
+						text: '<?php echo $array['insert_date'][$language]; ?>',
+						type: 'info',
+						showCancelButton: false,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						showConfirmButton: false,
+						timer: 1000,
+						confirmButtonText: 'Ok'
+					});
+
+					}
+				} else if (FormatDay == 2) {
+					if (oneday == null || oneday == '' || oneday == undefined || someday == '' || someday == undefined || someday == undefined) {
+						swal({
+						title: '',
+						text: '<?php echo $array['insert_date'][$language]; ?>',
+						type: 'info',
+						showCancelButton: false,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						showConfirmButton: false,
+						timer: 1000,
+						confirmButtonText: 'Ok'
+					});
+
+					}
+				}
+			}
+			if (Format == 2) {
+				if (FormatMonth == 1) {
+					if (onemonth == null || onemonth == '' || onemonth == undefined) {
+						swal({
+						title: '',
+						text: '<?php echo $array['insert_date'][$language]; ?>',
+						type: 'info',
+						showCancelButton: false,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						showConfirmButton: false,
+						timer: 1000,
+						confirmButtonText: 'Ok'
+					});
+
+					}
+				} else if (FormatMonth == 2) {
+					if (onemonth == null || onemonth == '' || onemonth == undefined || somemonth == '' || someday == undefined || someday == undefined) {
+						swal({
+						title: '',
+						text: '<?php echo $array['insert_date'][$language]; ?>',
+						type: 'info',
+						showCancelButton: false,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						showConfirmButton: false,
+						timer: 1000,
+						confirmButtonText: 'Ok'
+					});
+
+					}
+				}
+			}
+			if (Format == 3) {
+				if (year == null || year == '' || year == undefined) {
+					swal({
+						title: '',
+						text: '<?php echo $array['insert_date'][$language]; ?>',
+						type: 'info',
+						showCancelButton: false,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						showConfirmButton: false,
+						timer: 1000,
+						confirmButtonText: 'Ok'
+					});
+
+				}
+			}
 			if (typeReport != 9 && typeReport != 20) {
 				if (Format == '' || Format == undefined) {
 					swal({
@@ -495,22 +657,22 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 4) {
-				if (cycle == '' || cycle == undefined || cycle == 0) {
-					swal({
-						title: '',
-						text: '<?php echo $array['insert_form'][$language]; ?>',
-						type: 'info',
-						showCancelButton: false,
-						confirmButtonColor: '#3085d6',
-						cancelButtonColor: '#d33',
-						showConfirmButton: false,
-						timer: 1000,
-						confirmButtonText: 'Ok'
-					});
-					Blankinput()
-				}
-			}
+			// if (typeReport == 4) {
+			// 	if (cycle == '' || cycle == undefined || cycle == 0) {
+			// 		swal({
+			// 			title: '',
+			// 			text: '<?php echo $array['insert_form'][$language]; ?>',
+			// 			type: 'info',
+			// 			showCancelButton: false,
+			// 			confirmButtonColor: '#3085d6',
+			// 			cancelButtonColor: '#d33',
+			// 			showConfirmButton: false,
+			// 			timer: 1000,
+			// 			confirmButtonText: 'Ok'
+			// 		});
+			// 		Blankinput()
+			// 	}
+			// }
 			if (typeReport == 13) {
 				if (ppu == '' || ppu == undefined || ppu == 0) {
 					swal({
@@ -800,7 +962,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#department").empty();
 							var depValue0 = '-';
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
-							 dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
+							dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -881,7 +1043,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:25%'>" + temp[i]['hptname'] + "</td>" +
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['facname'] + "</td>" +
 									"<td class='text-center' style='width:22%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:13%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:13%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R1 tbody").append(dataRow);
 							}
@@ -935,7 +1097,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + temp[i]['Hptname'] + "</td>" +
 									"<td class='text-center' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R2 tbody").append(dataRow);
 							}
@@ -988,7 +1150,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:35%'>" + temp[i]['HptName'] + "</td>" +
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:15%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R3 tbody").append(dataRow);
 							}
@@ -1045,7 +1207,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:25%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:25%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R4 tbody").append(dataRow);
 							}
@@ -1098,7 +1260,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:36%'>" + temp[i]['DocNo'] + "</td>" +
 									"<td class='text-center' style='width:36%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center' style='width:12%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:11%'><button onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:11%'><button onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R5 tbody").append(dataRow);
 							}
@@ -1151,7 +1313,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:30%'>" + temp[i]['hptname'] + "</td>" +
 									"<td class='text-center pl-4' style='width:39%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:16%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R6 tbody").append(dataRow);
 							}
@@ -1206,7 +1368,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:30%'>" + dep + "</td>" +
 									"<td class='text-center pl-4' style='width:30%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R7 tbody").append(dataRow);
 							}
@@ -1262,7 +1424,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + temp[i]['HptName'] + "</td>" +
 									"<td class='text-center' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R8 tbody").append(dataRow);
 							}
@@ -1314,7 +1476,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center pl-4' style='width:45%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center pl-4' style='width:40%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R9 tbody").append(dataRow);
 							}
@@ -1366,7 +1528,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center pl-4' style='width:70%'>" + temp[i]['HptName'] + "</td>" +
 									"<td class='text-center' style='width:12%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:12%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:12%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R10 tbody").append(dataRow);
 							}
@@ -1420,7 +1582,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:25%'>" + temp[i]['HptName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + temp[i]['MainCategoryName'] + "</td>" +
 									"<td class='text-center' style='width:30%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 
 								$("#table_R13 tbody").append(dataRow);
@@ -1474,7 +1636,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:30%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center pl-4' style='width:30%'>" + temp[i]['HptName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 
 								$("#table_R14 tbody").append(dataRow);
@@ -1525,9 +1687,10 @@ $array2 = json_decode($json2, TRUE);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:45%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:40%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:25%'>" + temp[i]['FacName'] + "</td>" +
+									"<td class='text-center' style='width:30%'>" + show_date + "</td>" +
+									"<td class='text-center' style='width:30%'>" +temp[i]['DocNo'] + "</td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R15 tbody").append(dataRow);
 							}
@@ -1579,7 +1742,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center' style='width:40%'>" + temp[i]['HptName'] + "</td>" +
 									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R17 tbody").append(dataRow);
 							}
@@ -1631,7 +1794,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center' style='width:40%'>" + temp[i]['HptName'] + "</td>" +
 									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R18 tbody").append(dataRow);
 							}
@@ -1684,7 +1847,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R19 tbody").append(dataRow);
 							}
@@ -1737,7 +1900,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R20 tbody").append(dataRow);
 							}
@@ -1791,7 +1954,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:40%'>" + temp[i]['DocNo'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");' class='btn btn-info btn-sm' style='font-size:18px!important;'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R21 tbody").append(dataRow);
 							}
@@ -2387,7 +2550,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkday').prop('checked', false)
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
-				$('#oneMonth').attr('value', onemonth);
+				// $('#oneMonth').attr('value', onemonth);
 			}
 			$('#typereport').removeClass('border-danger');
 			$('#factory').removeClass('border-danger');
@@ -2400,6 +2563,11 @@ $array2 = json_decode($json2, TRUE);
 			$('#rem4').hide();
 			$('#rem5').hide();
 			$('#rem6').hide();
+			$('#rem7').hide();
+			$('#rem8').hide();
+			$('#rem9').hide();
+			$('#rem10').hide();
+			$('#rem11').hide();
 		}
 	</script>
 	<style media="screen">
@@ -2692,15 +2860,15 @@ $array2 = json_decode($json2, TRUE);
 															<!-- <option value=10><?php echo "10. " . $array['r' . 10][$language]; ?></option>
 															<option value=11><?php echo "11. " . $array['r' . 11][$language]; ?></option>
 															<option value=12><?php echo "12. " . $array['r' . 12][$language]; ?></option> -->
-															<option value=13><?php echo "9.  &nbsp; " . $array['r' . 13][$language]; ?></option>
-															<option value=14><?php echo "10. " . $array['r' . 14][$language]; ?></option>
+															<!-- <option value=13><?php echo "9.  &nbsp; " . $array['r' . 13][$language]; ?></option> -->
+															<!-- <option value=14><?php echo "10. " . $array['r' . 14][$language]; ?></option> -->
 															<option value=15><?php echo "11. " . $array['r' . 15][$language]; ?></option>
 															<!-- <option value=16><?php echo "16. " . $array['r' . 16][$language]; ?></option> -->
-															<option value=17><?php echo "12. " . $array['r' . 17][$language]; ?></option>
+															<!-- <option value=17><?php echo "12. " . $array['r' . 17][$language]; ?></option> -->
 															<option value=18><?php echo "13. " . $array['r' . 18][$language]; ?></option>
 															<option value=19><?php echo "14. " . $array['r' . 19][$language]; ?></option>
 															<option value=20><?php echo "15. " . $array['r' . 20][$language]; ?></option>
-															<option value=21><?php echo "16. " . $array['r' . 21][$language]; ?></option>
+															<!-- <option value=21><?php echo "16. " . $array['r' . 21][$language]; ?></option> -->
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -2731,13 +2899,13 @@ $array2 = json_decode($json2, TRUE);
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-md-6">
+												<!-- <div class="col-md-6">
 													<div class='form-group row checkblank'>
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;">Cycle</label>
 														<select class="form-control col-sm-8" id="cycle" onchange="blank_cycle();" style=" font-size:22px;">
 														</select><label id="rem5" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
-												</div>
+												</div> -->
 												<div class="col-md-6">
 													<div class='form-group row checkblank'>
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;">PPU</label>
@@ -2747,87 +2915,105 @@ $array2 = json_decode($json2, TRUE);
 												</div>
 											</div>
 											<div class="row">
-										<div class="col-md-6">
-											<div class='form-group row' id="chk">
-												<label class="col-sm-3 col-form-label text-left " style="font-size:24px;"><?php echo $array['format'][$language]; ?></label>
-												<div style="margin-top : 9px;">
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat ">
-														<label class="custom-control-label lableformat " for="chkday"> <?php echo $array['day'][$language]; ?></label>
+												<div class="col-md-6">
+													<div class='form-group row' id="chk">
+														<label class="col-sm-3 col-form-label text-left " style="font-size:24px;"><?php echo $array['format'][$language]; ?></label>
+														<div style="margin-top : 9px;">
+															<div class="custom-control custom-radio custom-control-inline">
+																<input type="radio" id="chkday" name="radioFormat" value='1' onclick="showdate()" class="custom-control-input radioFormat ">
+																<label class="custom-control-label lableformat " style="margin-bottom:10px" for="chkday"> <?php echo $array['day'][$language]; ?></label>
+															</div>
+															<div class="custom-control custom-radio custom-control-inline">
+																<input type="radio" id="chkmonth" name="radioFormat" value='2' onclick="showdate()" class="custom-control-input radioFormat">
+																<label class="custom-control-label lableformat" for="chkmonth"> <?php echo $array['month'][$language]; ?></label>
+															</div>
+															<div class="custom-control custom-radio custom-control-inline">
+																<input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
+																<label class="custom-control-label lableformat" for="chkyear"> <?php echo $array['year'][$language]; ?></label>
+															</div>
+															<div class="custom-control custom-radio custom-control-inline">
+																<p id="text1" onchange="blank_format();"></p>
+															</div>
+														</div>
 													</div>
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" id="chkmonth" name="radioFormat" value='2' onclick="showdate()" class="custom-control-input radioFormat">
-														<label class="custom-control-label lableformat" for="chkmonth"> <?php echo $array['month'][$language]; ?></label>
+												</div>
+												<div class="col-md-6">
+													
+													<div class='form-group row ' id="showday">
+														<label class="col-sm-3	 col-form-label text-left" style=""><?php echo $array['formatdate'][$language]; ?></label>
+														<div style="margin-top : 9px;">
+															<div class="custom-control custom-radio custom-control-inline">
+																<input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
+																<label class="custom-control-label" for="chkoneday"><?php echo $array['oneday'][$language]; ?></label>
+															</div>
+															<div class="custom-control custom-radio custom-control-inline">
+																<input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
+																<label class="custom-control-label" for="chksomeday"><?php echo $array['manyday'][$language]; ?></label>
+															</div>
+														</div>
 													</div>
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" id="chkyear" name="radioFormat" value='3' onclick="showdate()" class="custom-control-input radioFormat">
-														<label class="custom-control-label lableformat" for="chkyear"> <?php echo $array['year'][$language]; ?></label>
+													<div class='form-group row' id="showmonth">
+														<label class="col-sm-3 col-form-label text-left "><?php echo $array['formatmonth'][$language]; ?></label>
+														<div style="margin-top : 9px;">
+															<div class="custom-control custom-radio custom-control-inline">
+																<input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
+																<label class="custom-control-label" for="chkonemonth"><?php echo $array['onemonth'][$language]; ?></label>
+															</div>
+															<div class="custom-control custom-radio custom-control-inline">
+																<input type="radio" id="chksomemonth" name="formatMonth" value='2' onclick="formatmonth(2)" class="custom-control-input formatDay">
+																<label class="custom-control-label" for="chksomemonth"><?php echo $array['manymonth'][$language]; ?></label>
+															</div>
+														</div>
 													</div>
-													<div class="custom-control custom-radio custom-control-inline">
-														<p id="text1" onchange="blank_format();"></p>
+													<div class='form-group row' id="showyear">
+														<div class="col-sm-3 col-form-label text-left">
+															<?php echo $array['year'][$language]; ?>
+														</div>
+														<div class="col-sm-8 p-0">
+															<input type="text" class="form-control datepicker-here only "id="year" data-min-view="years" data-view="years" data-date-format="yyyy" autocomplete="off" value="" data-language='<?php echo $language ?>' placeholder="<?php echo $array['pleaseyear'][$language]; ?>">
+														</div>
+														<label id="rem11" style="margin-top: -7.5%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-md-6">
-											<div class='form-group row ' id="showday">
-												<label class="col-sm-3	 col-form-label text-left" style=""><?php echo $array['formatdate'][$language]; ?></label>
-												<div style= "margin-top : 9px;">
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" id="chkoneday" name="formatDay" value='1' onclick="formatdate(1)" class="custom-control-input formatDay" checked>
-														<label class="custom-control-label" for="chkoneday"><?php echo $array['oneday'][$language]; ?></label>
-													</div>
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" id="chksomeday" name="formatDay" value='2' onclick="formatdate(2)" class="custom-control-input formatDay">
-														<label class="custom-control-label" for="chksomeday"><?php echo $array['manyday'][$language]; ?></label>
+											<div class="row">
+												<div class="col-md-6" id="myDay">
+													<div class='form-group row'>
+														<label class="col-sm-3 col-form-label text-left"><?php echo $array['choosedate'][$language]; ?></label>
+														<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>'  required id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="" placeholder="<?php echo $array['pleaseday'][$language]; ?>">
+														<label id="rem7" style="margin-top: -7.5%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
+														<label class="col-sm-3 col-form-label text-left" id="textto"><?php echo $array['to'][$language]; ?></label>
+														<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>'  id="someday" data-date-format="dd-mm-yyyy" autocomplete="off" value="" placeholder="<?php echo $array['pleaseday'][$language]; ?>">
+														<label id="rem8" style="margin-top: -7.5%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
-											</div>
-											<div class='form-group row' id="showmonth">
-												<label class="col-sm-3 col-form-label text-left "><?php echo $array['formatmonth'][$language]; ?></label>
-												<div style= "margin-top : 9px;">
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
-														<label class="custom-control-label" for="chkonemonth"><?php echo $array['onemonth'][$language]; ?></label>
+												<div class="col-md-6" id="myMonth">
+													<div class='form-group row'>
+														<label class="col-sm-3 col-form-label text-left"><?php echo $array['month'][$language]; ?></label>
+														<input type="text" class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" value="" autocomplete="off" data-language='<?php echo $language ?>' placeholder="<?php echo $array['pleasemonth'][$language]; ?>">
+														<label id="rem9" style="margin-top: -7.5%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
+														<label class="col-sm-3 col-form-label text-left" id="textto2"><?php echo $array['to'][$language]; ?></label>
+														<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" value="" autocomplete="off" data-language='<?php echo $language ?>' placeholder="<?php echo $array['pleasemonth'][$language]; ?>">
+														<label id="rem10" style="margin-top: -7.5%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
+														<!-- <input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - "> -->
+
 													</div>
-													<div class="custom-control custom-radio custom-control-inline">
-														<input type="radio" id="chksomemonth" name="formatMonth" value='2' onclick="formatmonth(2)" class="custom-control-input formatDay">
-														<label class="custom-control-label" for="chksomemonth"><?php echo $array['manymonth'][$language]; ?></label>
-													</div>
 												</div>
-											</div>
-											<div class='form-group row' id="showyear" >
-												<div class="col-sm-3 col-form-label text-left">
-													<?php echo $array['year'][$language]; ?>
-												</div>
-												<div class="col-sm-8 p-0">
-													<input type="text" class="form-control datepicker-here only "  id="year" data-min-view="years" data-view="years" data-date-format="yyyy" data-language='<?php echo $language ?>'>
-												</div>
+
+												<script>
+													var someday = $('#someday').datepicker({}).data('datepicker');
+													$('#oneday').datepicker({
+														onSelect: function(fd, date) {
+															someday.update('minDate', date)
+														}
+													})
+												</script>
+
+												</script>
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-6" id="myDay">
-											<div class='form-group row'>
-												<label class="col-sm-3 col-form-label text-left"><?php echo $array['choosedate'][$language]; ?></label>
-												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="oneday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
-												<label class="col-sm-3 col-form-label text-left" id="textto"><?php echo $array['to'][$language]; ?></label>
-												<input type="text" class="form-control col-sm-8 datepicker-here only" data-language='<?php echo $language ?>' id="someday" data-date-format="dd-mm-yyyy" autocomplete="off" value="<?php echo  date('d-m-Y'); ?>">
-											</div>
-										</div>
-										<div class="col-md-6" id="myMonth">
-											<div class='form-group row'>
-												<label class="col-sm-3 col-form-label text-left" ><?php echo $array['month'][$language]; ?></label>
-												<input type="text" class="form-control col-sm-8 datepicker-here only" id="onemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" autocomplete="off" data-language='<?php echo $language ?>'>
-												<label class="col-sm-3 col-form-label text-left" id="textto2"><?php echo $array['to'][$language]; ?></label>
-												<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" autocomplete="off" data-language='<?php echo $language ?>'>
-												<!-- <input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - "> -->
-											</div>
-										</div>
-									</div>
-										</div>
-									</div>
-								
+
 								</div>
 							</div>
 						</div>
@@ -3028,14 +3214,16 @@ $array2 = json_decode($json2, TRUE);
 								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 								</tbody>
 							</table>
+					
 							<!-- ---------------------------------Report 15--------------------------------------- -->
 
 							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R15" width="100%" cellspacing="0" role="grid" hidden>
 								<thead id="theadsum" style="font-size:24px;">
 									<tr role="row" id='tr_1'>
 										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 45%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
 										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
 								</thead>
