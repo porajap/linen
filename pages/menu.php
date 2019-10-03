@@ -298,10 +298,10 @@ $array = json_decode($json,TRUE);
                 if(temp[i]['countMailFac']>0){
                   for(var j = 0; j < temp[i]['countMailFac']; j++){
                     var FacName = temp[i]['contract_fac']['FacName'];
-                    var StartDate = temp[j]['contract_fac']['StartDate'];
-                    var EndDate = temp[j]['contract_fac']['EndDate'];
-                    var email = temp[j]['contract_fac']['email'];
-                    var dateDiff = temp[j]['contract_fac']['dateDiff'];
+                    var StartDate = temp[i]['contract_fac']['StartDate'];
+                    var EndDate = temp[i]['contract_fac']['EndDate'];
+                    var email = temp[i]['contract_fac']['email'];
+                    var dateDiff = temp[i]['contract_fac']['dateDiff'];
                     var RowID = temp[i]['contract_fac']['RowID'];
                     if(temp[i]['contract_fac']['cntAcive'] == 0){
                       var URL = '../process/sendMail_conFac.php';
@@ -349,10 +349,10 @@ $array = json_decode($json,TRUE);
                 if(temp[i]['countMailHos']>0){
                   for(var j = 0; j < temp[i]['countMailHos']; j++){
                     var HptName = temp[i]['contract_hos']['HptName'];
-                    var StartDate = temp[j]['contract_hos']['StartDate'];
-                    var EndDate = temp[j]['contract_hos']['EndDate'];
-                    var email = temp[j]['contract_hos']['email'];
-                    var dateDiff = temp[j]['contract_hos']['dateDiff'];
+                    var StartDate = temp[i]['contract_hos']['StartDate'];
+                    var EndDate = temp[i]['contract_hos']['EndDate'];
+                    var email = temp[i]['contract_hos']['email'];
+                    var dateDiff = temp[i]['contract_hos']['dateDiff'];
                     var RowID = temp[i]['contract_hos']['RowID'];
                     if(temp[i]['contract_hos']['cntAcive'] == 0){
                       var URL = '../process/sendMail_conHos.php';
@@ -388,12 +388,12 @@ $array = json_decode($json,TRUE);
                   for(var j = 0; j < temp[i]['countMailpercent']; j++){
                     var HptName = temp[0]['percent']['HptName'];
                     var HptNameTH = temp[0]['percent']['HptNameTH'];
-                    var Total1 =  temp[j]['percent']['Total1'];
-                    var Total2 =  temp[j]['percent']['Total2'];
-                    var DocNoC =  temp[j]['percent']['DocNoC'];
-                    var DocNoD =  temp[j]['percent']['DocNoD'];
+                    var Total1 =  temp[i]['percent']['Total1'];
+                    var Total2 =  temp[i]['percent']['Total2'];
+                    var DocNoC =  temp[i]['percent']['DocNoC'];
+                    var DocNoD =  temp[i]['percent']['DocNoD'];
                     var Precent = temp[i]['percent']['Precent'];
-                    var email =   temp[j]['percent']['email'];
+                    var email =   temp[i]['percent']['email'];
 
                       var URL = '../process/sendMail_percent.php';
                       $.ajax({
