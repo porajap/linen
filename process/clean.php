@@ -819,7 +819,7 @@ function CreateDocument($conn, $DATA)
       $DocNox    = $Result1['DocNo'];
       $count == 1;
     }
-
+// 
     if($count == 1){
       $return['DocNox'] =  $DocNox;
       $return['DocNoxx'] =  $RefDocNo;
