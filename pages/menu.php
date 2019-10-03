@@ -300,7 +300,7 @@ $array = json_decode($json,TRUE);
                     var FacName = temp[i]['contract_fac']['FacName'];
                     var StartDate = temp[i]['contract_fac']['StartDate'];
                     var EndDate = temp[i]['contract_fac']['EndDate'];
-                    var email = temp[i]['contract_fac']['email'];
+                    var email = temp[j]['contract_fac']['email'];
                     var dateDiff = temp[i]['contract_fac']['dateDiff'];
                     var RowID = temp[i]['contract_fac']['RowID'];
                     if(temp[i]['contract_fac']['cntAcive'] == 0){
@@ -351,7 +351,7 @@ $array = json_decode($json,TRUE);
                     var HptName = temp[i]['contract_hos']['HptName'];
                     var StartDate = temp[i]['contract_hos']['StartDate'];
                     var EndDate = temp[i]['contract_hos']['EndDate'];
-                    var email = temp[i]['contract_hos']['email'];
+                    var email = temp[j]['contract_hos']['email'];
                     var dateDiff = temp[i]['contract_hos']['dateDiff'];
                     var RowID = temp[i]['contract_hos']['RowID'];
                     if(temp[i]['contract_hos']['cntAcive'] == 0){
@@ -393,7 +393,7 @@ $array = json_decode($json,TRUE);
                     var DocNoC =  temp[i]['percent']['DocNoC'];
                     var DocNoD =  temp[i]['percent']['DocNoD'];
                     var Precent = temp[i]['percent']['Precent'];
-                    var email =   temp[i]['percent']['email'];
+                    var email =   temp[j]['percent']['email'];
 
                       var URL = '../process/sendMail_percent.php';
                       $.ajax({
