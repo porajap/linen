@@ -728,6 +728,7 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["xdocno"];
     $DocNo2 = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
+    $count = 0 ;
 
     $Sql = "UPDATE clean SET IsStatus = $isStatus WHERE clean.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
@@ -810,6 +811,31 @@ function CreateDocument($conn, $DATA)
       VALUES
       ('$DocNo','$ItemCode',$UnitCode,$Qty,0,$IsCancel)";
       mysqli_query($conn, $Sql);
+    }
+
+    $Sql1="SELECT DocNo FROM repair_wash WHERE DocNo = '$RefDocNo'";
+    $meQuery1 = mysqli_query($conn, $Sql1);
+    while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+      $DocNox    = $Result1['DocNo'];
+      $count == 1;
+    }
+
+    if($count == 1){
+      $return['DocNox'] =  $DocNox;
+      $return['DocNoxx'] =  $RefDocNo;
+      $return['status'] = "success";
+      $return['form'] = "UpdateRefDocNo";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }else{
+      $return['DocNox'] =  $DocNox;
+      $return['DocNoxx'] =  $RefDocNo;
+      $return['status'] = "success";
+      $return['form'] = "UpdateRefDocNo";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
     }
     SelectDocument($conn, $DATA);
     // $n = 0;

@@ -813,10 +813,10 @@ $(document).ready(function(e){
           'hptcode'   : hptcode
 
         };
+        $('#dialogRefDocNo').modal('toggle')
         senddata(JSON.stringify(data));
         // dialogRefDocNo.dialog( "close" );
-         OpenDialogItem();
-        $('#dialogRefDocNo').modal('toggle')
+
       }
 
       function logoff() {
@@ -1209,11 +1209,19 @@ $(document).ready(function(e){
                     $('#TableRefDocNo tbody:last-child').append( $StrTR );
                   }
                 }
-              }else{
+                }else{
                     $( "#TableRefDocNo tbody" ).empty();
                     var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                     $('#TableRefDocNo tbody:last-child').append(Str);
                         }
+              }else if(temp['form']=="UpdateRefDocNo"){
+
+                  $('#RefDocNo').val(temp['DocNoxx']);
+                  if(temp['DocNox'] == null){
+                      OpenDialogItem();
+                  }
+
+
               }else if(temp['form']=="chk_percent"){
                 result = '';
               if(temp["Row"]>0){
