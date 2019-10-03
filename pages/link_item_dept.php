@@ -187,8 +187,10 @@ $array2 = json_decode($json2,TRUE);
             }
           });
         }
-        function removeClassBorder1(){
-
+        function removeClassBorder1(chk){
+          if(chk==1){
+            $('#TableItemStock tbody').empty();
+          }
           var par = $('#parnum').val();
           var department = $('#department').val();
           if(par !="" && par != undefined){
@@ -1659,7 +1661,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class='col-3 mr-sm-2 text-left'> 
                           <span><?php echo $array['department'][$language]; ?></span>
                         </div>
-                        <select class="form-control col-8 checkblank2 border" id="department" onchange="removeClassBorder1();"> </select>
+                        <select class="form-control col-8 checkblank2 border" id="department" onchange="removeClassBorder1(1);"> </select>
                         <label id="rem1" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
