@@ -333,7 +333,7 @@ function CancelItem($conn, $DATA)
   $idcontract = $DATA["idcontract"];
   $count = 0;
 
- 
+  
 
   if($HptCode!="" && $idcontract !=""){
     $Sql ="DELETE FROM contractsite WHERE id=$idcontract " ;
@@ -355,6 +355,9 @@ function CancelItem($conn, $DATA)
     $Sql = "UPDATE site SET
     IsStatus = 1
     WHERE HptCode = '$HptCode'";
+
+    $Sql1 ="UPDATE department SET IsStatus = 1 WHERE HptCode = '$HptCode' ";
+    mysqli_query($conn, $Sql);
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";

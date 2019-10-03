@@ -1103,7 +1103,7 @@ function SaveBill($conn, $DATA)
   $Sql = "DELETE FROM shelfcount_detail_sub  WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
-  $Sql = "UPDATE shelfcount SET IsRequest = 1 WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET IsRequest = 1 , IsStatus = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 }
 
