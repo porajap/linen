@@ -766,10 +766,10 @@ $array2 = json_decode($json2,TRUE);
 
             function updateWeight(row,rowid) {
               var docno = $("#docno").val();
-              var weight = $("#weight_"+row).val();
-              var price = 0; //$("#price_"+row).val();
+              var weight = $("#myweight_"+row).val();
+              var price = 0; 
               var isStatus = $("#IsStatus").val();
-              //alert(rowid+" :: "+docno+" :: "+weight);
+              $('#myweight_'+row).removeClass('border border-danger');
               if(isStatus==0){
                 var data = {
                   'STATUS'      : 'UpdateDetailWeight',
@@ -783,8 +783,8 @@ $array2 = json_decode($json2,TRUE);
             }
 
             function SaveBill(){
-        
-              
+              var count = 0;
+              var chk_weight = document.getElementsByClassName("chk_weight"); //checkbox items
               var docno = $("#docno").val();
               var isStatus = $("#IsStatus").val();
               var dept = $("#Dep2").val();
@@ -799,45 +799,60 @@ $array2 = json_decode($json2,TRUE);
               
               if(isStatus==1){
                 if(docno!=""){
-                swal({
-              title: "<?php echo $array['confirmsave'][$language]; ?>",
-              text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonClass: "btn-danger",
-              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-              confirmButtonColor: '#d33',
-              cancelButtonColor: '#3085d6',
-              closeOnConfirm: false,
-              closeOnCancel: false,
-              showCancelButton: true}).then(result => {
-                if (result.value) {
-                var data = {
-                  'STATUS'      : 'SaveBill',
-                  'docno'      : docno,
-                  'isStatus'    : isStatus,
-                  'deptCode'    : dept,
-                  'FacCode'    : FacCode
+                  for(i=0;i<chk_weight.length; i++){
+                    var chk = $('#myweight_'+i).val();
+                    if(chk == ""){
+                      $('#myweight_'+i).addClass('border border-danger');
+                      count++;
+                    }
+                  }
+                  if(count==0){
+                    swal({
+                      title: "<?php echo $array['confirmsave'][$language]; ?>",
+                      text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
+                      type: "warning",
+                      showCancelButton: true,
+                      confirmButtonClass: "btn-danger",
+                      confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                      cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                      confirmButtonColor: '#d33',
+                      cancelButtonColor: '#3085d6',
+                      closeOnConfirm: false,
+                      closeOnCancel: false,
+                      showCancelButton: true
+                    }).then(result => {
+                      if (result.value) {
+                          var data = {
+                            'STATUS'      : 'SaveBill',
+                            'docno'      : docno,
+                            'isStatus'    : isStatus,
+                            'deptCode'    : dept,
+                            'FacCode'    : FacCode
 
-                };
-                senddata(JSON.stringify(data));
-                $('#profile-tab').tab('show');
-                $("#bImport").prop('disabled', true);
-                $("#bDelete").prop('disabled', true);
-                $("#bSave").prop('disabled', true);
-                $("#bCancel").prop('disabled', true);
-                Blankinput();
-              } else if (result.dismiss === 'cancel') {
-                swal.close();}
-              })
-
-              }
-
-
-
-
-                  // ShowDocument();
+                          };
+                          senddata(JSON.stringify(data));
+                          $('#profile-tab').tab('show');
+                          $("#bImport").prop('disabled', true);
+                          $("#bDelete").prop('disabled', true);
+                          $("#bSave").prop('disabled', true);
+                          $("#bCancel").prop('disabled', true);
+                          Blankinput();
+                      } else if (result.dismiss === 'cancel') {
+                        swal.close();
+                      }
+                    })
+                  }else{
+                    swal({
+                      title: " ",
+                      text:  " <?php echo $array['insert_form'][$language]; ?>",
+                      type: "warning",
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 1000,
+                      closeOnConfirm: true
+                    });
+                  }
+                }
               }else{
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
@@ -1213,7 +1228,7 @@ $array2 = json_decode($json2,TRUE);
 
                         var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
-                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'></div>";
+                        var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' OnBlur='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'></div>";
 
                         var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1342,7 +1357,7 @@ $array2 = json_decode($json2,TRUE);
 
                     var Qty = "<input class='form-control numonly chk_edit'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input class='form-control numonly chk_edit' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+                    var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='myweight_"+i+"' value='"+temp[i]['Weight']+"' onkeyup='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
 
