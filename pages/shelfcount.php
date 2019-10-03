@@ -1098,13 +1098,14 @@ $array2 = json_decode($json2,TRUE);
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                       $("#settime").empty();
-                      var StrTr = "<option value='' selected>-</option>";
+                      var StrTr = "<option value='' selected><?php echo $array['selectdep'][$language]; ?></option>";
                       $("#department").append(StrTr);
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var StrTr2 = "<option value = '" + temp[i]['DepCode'] + "'> " + temp[i]['DepName'] + " </option>";
                         $("#department").append(StrTr2);
                       }
-                      var StrTrX = "<option value='' selected>-</option>";
+                      
+                      var StrTrX = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
 
                       for (var i = 0; i < temp[i]['ID'];  i++) {
                          StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
@@ -1261,7 +1262,6 @@ $array2 = json_decode($json2,TRUE);
                   $('#TableDocument tbody:last-child').append(  $StrTr );
                 }
               }
-
             }else if(temp["form"]=='SelectDocument'){
               if(temp[0]['jaipar'] == 1){
                 $('#bdetail').attr('disabled' , true);
