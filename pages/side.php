@@ -1400,7 +1400,7 @@ $array2 = json_decode($json2,TRUE);
  <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" >
                           <div class="menu mhee" id="btn_clear" hidden>
                             <div class="d-flex justify-content-center">
-                              <div class="circle6 d-flex justify-content-center">
+                              <div class="circle12 d-flex justify-content-center">
                                 <button class="btn"  onclick="clearInput()">
                                   <i class="fas fa-user-plus"></i>
                                   <div>

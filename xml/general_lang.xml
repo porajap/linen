@@ -162,7 +162,7 @@
 <cleandoc><en>Clean linen document </en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
 <totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
 <parsc><en>Par</en><th>Par</th></parsc>
-<leftsc><en>Left</en><th>Left</th></leftsc>
+<leftsc><en>Variable</en><th>Variable</th></leftsc>
 <qty><en>QTY</en><th>จำนวน</th></qty>
 <total><en>Number</en><th>จำนวน</th></total>
 <order><en>Order</en><th>Order</th></order>
