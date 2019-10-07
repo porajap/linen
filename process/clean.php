@@ -1093,25 +1093,27 @@ function CreateDocument($conn, $DATA)
     $boolean = false;
     $count = 0;
     $count2 = 0;
-    $Sql = "SELECT DocNo FROM dirty     
+    $Sql = "SELECT DocNo , RefDocNo FROM dirty     
     INNER JOIN site ON dirty.HptCode = site.HptCode
     WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode' 
     
     UNION ALL 
     
-    SELECT DocNo FROM repair_wash
+    SELECT DocNo , RefDocNo FROM repair_wash
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode' 
+    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode' AND NOT repair_wash.RefDocNo = '' 
 
     UNION ALL  
     
-    SELECT DocNo FROM newlinentable
+    SELECT DocNo , RefDocNo FROM newlinentable
     INNER JOIN site ON newlinentable.HptCode = site.HptCode
     WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode'   ";
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      
       $return[$count]['RefDocNo'] = $Result['DocNo'];
+        
       $boolean = true;
       $count++;
       $count2++;
