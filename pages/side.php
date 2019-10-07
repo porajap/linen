@@ -378,7 +378,7 @@ $array2 = json_decode($json2,TRUE);
           if(HptCode!=""){
             swal({
               title: "<?php echo $array['addoredit'][$language]; ?>",
-              text: "<?php echo $array['addoredit'][$language]; ?>",
+              // text: "<?php echo $array['addoredit'][$language]; ?>",
               type: "question",
               showCancelButton: true,
               confirmButtonClass: "btn-success",
