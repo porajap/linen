@@ -31,17 +31,17 @@ $body = '
 ___________________________________________________________________<br>
 <h3>'.$HptNameTH.'</h3>
 <b>เลขที่เอกสารผ้าสกปรก:</b> '.$DocNoD.'<br> 
-<b>นํ้าหนักผ้าสกปรก:</b> '.$Total1.'<br>
+<b>นํ้าหนักผ้าสกปรก:</b> '.$Total1.' <b>กิโลกรัม</b><br>
 <b>เลขที่เอกสารผ้าสะอาด:</b> '.$DocNoC.'<br>
-<b>นํ้าหนักผ้าสะอาด:</b> '.$Total2.' <br>
-<b>เปอร์เซ็นที่ได้:</b> '.$Precent.'  <br>
+<b>นํ้าหนักผ้าสะอาด:</b> '.$Total2.' <b>กิโลกรัม</b><br>
+<b>เปอร์เซ็นที่ได้:</b> '.$Precent.'  <b>%</b><br>
 ___________________________________________________________________<br>
 <h3>'.$HptName.'</h3>
 <b>DOCNO DIRTY:</b> '.$DocNoD.'<br> 
-<b>WEIGHT DIRTY:</b> '.$Total1.'<br>
+<b>WEIGHT DIRTY:</b> '.$Total1.' <b>kilogram</b><br>
 <b>DOCNO CLEAN:</b> '.$DocNoC.'<br>
-<b>WEIGHT CIEAN:</b> '.$Total2.'<br>
-<b>PERCENT:</b> '.$Precent.' <br>
+<b>WEIGHT CLEAN:</b> '.$Total2.' <b>kilogram</b><br>
+<b>PERCENT:</b> '.$Precent.'  <b>%</b><br>
 ___________________________________________________________________<br>
 </body>
 </html>

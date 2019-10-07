@@ -177,9 +177,13 @@ $array2 = json_decode($json2,TRUE);
               $(this).addClass('border-danger');
               if(department ==""||department==undefined){
                   $('#rem1').show().css("color","red");
+                  $('#form1').removeClass('mt-3');
+                  $('#form2').removeClass('form-group');
                 }
                 if(par ==""||par==undefined){
                   $('#rem2').show().css("color","red");
+                  $('#form3').removeClass('mt-3');
+                  $('#form4').removeClass('form-group');
                 }            
                 }else{
               $(this).removeClass('border-danger');
@@ -196,10 +200,14 @@ $array2 = json_decode($json2,TRUE);
           if(par !="" && par != undefined){
                   $('#rem2').hide();
                   $('#parnum').removeClass('border-danger');
+                  $('#form3').addClass('mt-3');
+                  $('#form4').addClass('form-group');
                 }
           if(department !="" && department != undefined){
              $('#department').removeClass('border-danger');
              $('#rem1').hide();
+             $('#form1').addClass('mt-3');
+             $('#form2').addClass('form-group');
           }
 
 
@@ -1663,8 +1671,8 @@ $array2 = json_decode($json2,TRUE);
                   </div>
 
                   <div class="row">
-                    <div class="col-12 mt-3">
-                      <div class='form-group form-inline'>
+                    <div class="col-12 mt-3" id="form1">
+                      <div class='form-group form-inline' id="form2">
                         <div class='col-3 mr-sm-2 text-left'> 
                           <span><?php echo $array['department'][$language]; ?></span>
                         </div>
@@ -1675,12 +1683,12 @@ $array2 = json_decode($json2,TRUE);
                   </div>
 
                   <div class="row">
-                    <div class="col-12 mt-3">
-                      <div class='form-group form-inline'>
+                    <div class="col-12 mt-3" id="form3">
+                      <div class='form-group form-inline' id="form4">
                         <div class='col-3 mr-sm-2 text-left'> 
                           <span ><?php echo $array['parnum'][$language]; ?></span>
                         </div>
-                          <input type="text" class="form-control numonly col-8 checkblank2" onkeyup="removeClassBorder1();"  id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
+                          <input type="text" class="form-control numonly col-8 checkblank2" autocomplete="off" onkeyup="removeClassBorder1();"  id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
                           <label id="rem2" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
