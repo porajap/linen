@@ -80,7 +80,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem5').hide();
         $('#rem6').hide();
         $('#rem7').hide();
-            getDepartment();
+            // getDepartment();
             resetinput();        
             //On create
             $('.TagImage').bind('click', {

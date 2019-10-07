@@ -90,7 +90,7 @@ $array2 = json_decode($json2, TRUE);
                 ShowItem();
             }
         });
-      ShowItem();
+      // ShowItem();
       GetHospital();
       GetmainCat();
       getCatagory();

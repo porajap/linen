@@ -719,14 +719,14 @@ $array2 = json_decode($json2,TRUE);
                                 $('#TableItem tbody').empty();
                                 var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $('#TableItem tbody:last-child').append(Str);
-                                swal({
-                                    title: '',
-                                    text: '<?php echo $array['notfoundmsg'][$language]; ?>',
-                                    type: 'warning',
-                                    showCancelButton: false,
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                });
+                                // swal({
+                                //     title: '',
+                                //     text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                                //     type: 'warning',
+                                //     showCancelButton: false,
+                                //     showConfirmButton: false,
+                                //     timer: 2000,
+                                // });
                             }
                         } else if ((temp["form"] == 'getdetail')) {
                             if ((Object.keys(temp).length - 2) > 0) {

@@ -174,7 +174,7 @@ function ShowItem1($conn, $DATA)
     $return[$count]['Price'] = $Result['Price'];
     $count++;
   }
-
+  $return['Count'] = $count;
   if($count>0){
     $return['status'] = "success";
     $return['form'] = "ShowItem1";
@@ -182,8 +182,8 @@ function ShowItem1($conn, $DATA)
     mysqli_close($conn);
     die;
   }else{
-    $return['status'] = "failed";
-    $return['msg'] = 'notfound';
+    $return['status'] = "success";
+    $return['form'] = 'ShowItem1';
     echo json_encode($return);
     mysqli_close($conn);
     die;

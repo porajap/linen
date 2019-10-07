@@ -429,12 +429,15 @@ $array2 = json_decode($json2,TRUE);
               $(this).css('border-color', 'red');
               if(HptCode ==""||HptCode==undefined){
                   $('#rem1').show().css("color","red");
+                  $('#form1').removeClass('form-group');
                 }
                 if(HptName ==""||HptName==undefined){
                   $('#rem2').show().css("color","red");
+                  $('#form2').removeClass('form-group');
                 }
                 if(HptNameTH ==""||HptNameTH==undefined){
                   $('#rem7').show().css("color","red");
+                  $('#form3').removeClass('form-group');
                 }
             }
           });
@@ -454,10 +457,12 @@ $array2 = json_decode($json2,TRUE);
       if(HptCode !="" && HptCode!=undefined){
           $('#rem1').hide();
           $('#HptCode').css('border-color', '');
+          $('#form1').addClass('form-group');
         }
         if(HptName !="" && HptName!=undefined){
           $('#rem2').hide();
           $('#HptName').css('border-color', '');
+          $('#form2').addClass('form-group');
         }
         if(ContractName !="" && ContractName !=undefined){
           $('#rem3').hide();
@@ -478,6 +483,7 @@ $array2 = json_decode($json2,TRUE);
         if(HptNameTH !="" && HptNameTH!=undefined){
           $('#rem7').hide();
           $('#HptNameTH').css('border-color', '');
+          $('#form3').addClass('form-group');
         }
     
 }
@@ -612,6 +618,9 @@ $array2 = json_decode($json2,TRUE);
         $('#rem5').hide();
         $('#rem6').hide();
         $('#rem7').hide();
+        $('#form1').addClass('form-group');
+        $('#form2').addClass('form-group');
+        $('#form3').addClass('form-group');
         $('#xcenter1').prop('checked', false);
         $('#xcenter2').prop('checked', false);
         $('#hostdetail').attr('hidden', true);
@@ -1480,7 +1489,7 @@ $array2 = json_decode($json2,TRUE);
    <!-- =================================================================== -->
                                 <div class="row mt-4">
                                   <div class="col-md-6">
-                                    <div class='form-group row'>
+                                    <div class='form-group row' id="form1">
                                     <label class="col-sm-4 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <input type="text"  autocomplete="off" class="form-control col-sm-7 " id="HptCode1"  hidden  placeholder="<?php echo $array['hoscode'][$language]; ?>">
@@ -1491,7 +1500,7 @@ $array2 = json_decode($json2,TRUE);
    <!-- =================================================================== -->
                                 <div class="row" >
                                   <div class="col-md-6">
-                                    <div class='form-group row'>
+                                    <div class='form-group row' id="form2">
                                     <label class="col-sm-4 col-form-label "><?php echo $array['hosnameEN'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosnameEN'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
@@ -1500,7 +1509,7 @@ $array2 = json_decode($json2,TRUE);
                                 </div>  
                                 <div class="row" >
                                   <div class="col-md-6">
-                                    <div class='form-group row'>
+                                    <div class='form-group row' id="form3">
                                     <label class="col-sm-4 col-form-label"><?php echo $array['hosnameTH'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosnameTH'][$language]; ?>">
                                       <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
