@@ -664,6 +664,7 @@ function SaveUsageCode($conn, $DATA)
   $count = 0;
   $UsageCode = $DATA['UsageCode'];
   $RowID = $DATA['RowID'];
+  $Sel = $DATA['Sel'];
   $Sql = "UPDATE item_stock SET UsageCode = '$UsageCode' WHERE RowID = $RowID";
   // var_dump($Sql); die;
   if(mysqli_query($conn,$Sql)){
@@ -672,6 +673,7 @@ function SaveUsageCode($conn, $DATA)
   if($count>0){
     $return['status'] = "success";
     $return['form'] = "SaveUsageCode";
+    $return['Sel'] = $Sel;
     echo json_encode($return);
     mysqli_close($conn);
     die;

@@ -14,9 +14,7 @@ if(empty($_SESSION['lang'])){
   $language ='th';
 }else{
   $language =$_SESSION['lang'];
-
 }
-
 header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/general_lang.xml');
 $xml2 = simplexml_load_file('../xml/main_lang.xml');
@@ -925,13 +923,13 @@ $array2 = json_decode($json2,TRUE);
           $('#txtno_'+itemCode).val(qty);
         }
       }
-      function SaveUsageCode(row) {
+      function SaveUsageCode(row , Sel) {
         var UsageCode = $('#exp_'+row).val();
-
         var data = {
           'STATUS' : 'SaveUsageCode',
           'UsageCode' : UsageCode,
-          'RowID' : row
+          'RowID' : row,
+          'Sel' : Sel,
         }
         senddata(JSON.stringify(data));
       }
@@ -1319,7 +1317,7 @@ $array2 = json_decode($json2,TRUE);
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['num']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
-                                              "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock(\""+chk_row+"\" , \""+temp[i]['num']+"\");><?php echo $array['showshow'][$language]; ?></button>"+
                                               "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
                                             "</td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
@@ -1327,8 +1325,11 @@ $array2 = json_decode($json2,TRUE);
                               for(var j = 0; j < temp[i]['num']; j++){
                                       var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
                                       var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
-                                      var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
-                           
+                                      if(UsageCode != 0){
+                                      var txtno = '<input tyle="text" style="border-color:green;" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      }else{
+                                      var txtno = '<input tyle="text"  class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      }
                                       StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                                   "<td style='width:10%'></td>"+
                                                   "<td style='width: 10%;' nowrap ><label class='mr-3'>" + (j+1) + "</label>" + chkItem + "</td>"+
@@ -1388,7 +1389,7 @@ $array2 = json_decode($json2,TRUE);
                                             "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['num']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
                                               "<button class='btn  p-1' style='background-color: #228FF1; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock("+chk_row+");><?php echo $array['showshow'][$language]; ?></button>"+
-                                              "<button class='btn  p-1' style='background-color: #A6A6A6; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #228FF1; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
                                             "</td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
                                           "</tr>";
@@ -1811,6 +1812,7 @@ $array2 = json_decode($json2,TRUE);
                 </div> -->
                 
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemStock" cellspacing="0" role="grid">
+              <input type="text" id="rowCount">
                 <thead id="theadsum" style="font-size:11px;">
                   <tr role="row">
                     <th style='width: 10%;' nowrap>&nbsp;</th>
