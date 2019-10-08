@@ -14,8 +14,8 @@
       .mhee button:hover {
         color: #2c3e50;
         font-weight:bold;
-        font-size:26px;
-        transition: width 2s, height 4s;
+        /* font-size:26px; */
+        /* transition: width 2s, height 4s; */
       }
       .menu{
         width:140px;
