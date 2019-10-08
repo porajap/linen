@@ -147,7 +147,7 @@ $array2 = json_decode($json2,TRUE);
                 $('#rem1').show();
                 $('#rem2').show();
                 $('#hptsel2').addClass('border border-danger');
-                $('#settime').addClass('border border-danger');
+                $('#selectTime').addClass('border border-danger');
                 $('#form1').removeClass('form-group');
             }else if(HptCode != '' && Time == ''){
                 $('#rem2').show();
@@ -296,7 +296,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function resetinput(){
             var hptsel2 = $('#hptsel2').val();
-            var settime = $('#settime').val();
+            var settime = $('#selectTime').val();
 
 
             if(hptsel2 !="" && hptsel2!=undefined){
@@ -305,7 +305,7 @@ $array2 = json_decode($json2,TRUE);
             }
             if(settime !="" && settime!=undefined){
             $('#rem2').hide();
-            $('#settime').removeClass('border border-danger');
+            $('#selectTime').removeClass('border border-danger');
             }
         }
         function resetinput2(){
