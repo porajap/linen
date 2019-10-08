@@ -925,7 +925,11 @@ $array2 = json_decode($json2,TRUE);
       }
       function SaveUsageCode(row , Sel) {
         var UsageCode = $('#exp_'+row).val();
+        if(UsageCode != "" ){
         $('#exp_'+row).css("border-color","green");
+        }else{
+          $('#exp_'+row).css("border-color","");
+        }
         var data = {
           'STATUS' : 'SaveUsageCode',
           'UsageCode' : UsageCode,
@@ -1370,9 +1374,9 @@ $array2 = json_decode($json2,TRUE);
                             }else if(temp['form']=="SaveUsageCode"){
                               var Sel = temp["Sel"];
                               var rowCount = $('#rowCount').val();
-                              if((Sel+1)==rowCount)
-                                $('.txtno_0').focus().select();
-                            else
+                            //   if((Sel+1)==rowCount)
+                            //     $('.txtno_0').focus().select();
+                            // else
                                 $('.txtno_'+(Sel+1)).focus().select();
 
                               swal({
