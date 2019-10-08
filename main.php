@@ -337,10 +337,10 @@ if(empty($_SESSION['href'])){
 $src=$_SESSION['href']; 
 $active_li=$_SESSION['active_li']; 
 $id_h=$_SESSION['id_h']; 
-echo '<script type="text/javascript">';
-echo "var act = '$active_li';";
-echo "var id_h = '$id_h';"; 
-echo '</script>';
+  echo '<script type="text/javascript">';
+  echo "var act = '$active_li';";
+  echo "var id_h = '$id_h';"; 
+  echo '</script>';
 }
 
 ?>

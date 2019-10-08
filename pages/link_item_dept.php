@@ -946,7 +946,9 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-      function showStock(row){
+      function showStock(row,num){
+        alert('row: '+row);
+        alert('num: '+num);
         $('.tr_child_'+row).attr('hidden', false);
         $('#hideStock_'+row).attr('hidden', false);
         $('#showStock_'+row).attr('hidden', true);
@@ -1317,7 +1319,7 @@ $array2 = json_decode($json2,TRUE);
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['num']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td style='width: 25%;' nowrap id='btn_change_"+i+"'>"+
-                                              "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock(\""+chk_row+"\" , \""+temp[i]['num']+"\");><?php echo $array['showshow'][$language]; ?></button>"+
+                                              "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='showStock_"+chk_row+"' onclick=showStock(\""+chk_row+"\",\""+temp[i]['num']+"\");><?php echo $array['showshow'][$language]; ?></button>"+
                                               "<button class='btn  p-1' style='background-color: #307FE2; color:#fff; width: 50%;' id='hideStock_"+chk_row+"' onclick=hideStock("+chk_row+"); hidden><?php echo $array['hidehide'][$language]; ?></button>"+
                                             "</td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['num']+"'></td>"+
