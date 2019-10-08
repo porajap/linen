@@ -428,11 +428,12 @@ $array2 = json_decode($json2,TRUE);
             $(".CalSum").each(function() {
                 CalSum.push($(this).val());
             });
-
+                
             var loop1 = ItemCode.length;
             var loop2 =  $(".numDep").length;
-            var resultStock = [[],[]];
+            var resultStock = new Array(loop2);
             for(var i = 0; i<loop1; i++){
+                resultStock[i] = [];
                 for(var j = 0; j<loop2; j++){
                     resultStock[i][j] = $('.result_'+i+j).val();
                 }
