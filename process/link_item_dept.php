@@ -674,6 +674,7 @@ function SaveUsageCode($conn, $DATA)
     $return['status'] = "success";
     $return['form'] = "SaveUsageCode";
     $return['Sel'] = $Sel;
+    $return['RowID'] = $RowID;
     echo json_encode($return);
     mysqli_close($conn);
     die;

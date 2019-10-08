@@ -1355,7 +1355,7 @@ $(document).ready(function(e){
       var docno = $('#docno').val();
       var lang = '<?php echo $language; ?>';
       if(docno!=""&&docno!=undefined){
-        var url  = "../report/Report_Clean.php?DocNo="+docno+"&lang="+lang;
+        var url  = "../report/Report_Rewash.php?DocNo="+docno+"&lang="+lang;
         window.open(url);
       }else{
         swal({
