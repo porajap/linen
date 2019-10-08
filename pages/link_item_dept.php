@@ -925,6 +925,7 @@ $array2 = json_decode($json2,TRUE);
       }
       function SaveUsageCode(row , Sel) {
         var UsageCode = $('#exp_'+row).val();
+        $('#exp_'+row).css("border-color","green");
         var data = {
           'STATUS' : 'SaveUsageCode',
           'UsageCode' : UsageCode,
@@ -947,11 +948,10 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
       function showStock(row,num){
-        alert('row: '+row);
-        alert('num: '+num);
         $('.tr_child_'+row).attr('hidden', false);
         $('#hideStock_'+row).attr('hidden', false);
         $('#showStock_'+row).attr('hidden', true);
+        $('#rowCount').val(num);
       }
       function hideStock(row){
         $('.tr_child_'+row).attr('hidden', true);
@@ -1328,9 +1328,9 @@ $array2 = json_decode($json2,TRUE);
                                       var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
                                       var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
                                       if(UsageCode != 0){
-                                      var txtno = '<input tyle="text" style="border-color:green;" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      var txtno = '<input tyle="text" style="border-color:green;" class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
                                       }else{
-                                      var txtno = '<input tyle="text"  class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      var txtno = '<input tyle="text"  class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
                                       }
                                       StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                                   "<td style='width:10%'></td>"+
@@ -1368,6 +1368,13 @@ $array2 = json_decode($json2,TRUE);
 
                               // ShowItemStock();
                             }else if(temp['form']=="SaveUsageCode"){
+                              var Sel = temp["Sel"];
+                              var rowCount = $('#rowCount').val();
+                              if((Sel+1)==rowCount)
+                                $('.txtno_0').focus().select();
+                            else
+                                $('.txtno_'+(Sel+1)).focus().select();
+
                               swal({
                                 title: '',
                                 text: '<?php echo $array['success'][$language]; ?>',
@@ -1814,7 +1821,7 @@ $array2 = json_decode($json2,TRUE);
                 </div> -->
                 
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemStock" cellspacing="0" role="grid">
-              <input type="text" id="rowCount">
+              <input type="hidden" id="rowCount">
                 <thead id="theadsum" style="font-size:11px;">
                   <tr role="row">
                     <th style='width: 10%;' nowrap>&nbsp;</th>
