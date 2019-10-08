@@ -116,7 +116,7 @@ function ShowItem($conn, $DATA)
 {
   $count = 0;
   $Keyword = $DATA['Keyword'];
-  $HptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
+  $HptCode = $DATA['HptCode'];
   $userid = $DATA['Userid'];
   $Sql = "SELECT
           item.ItemCode,

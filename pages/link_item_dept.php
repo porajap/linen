@@ -1064,13 +1064,15 @@ $array2 = json_decode($json2,TRUE);
                             }else if( (temp["form"]=='getHospital') ){
                               var PmID = <?php echo $PmID;?>;
                               var HptCode = '<?php echo $HptCode;?>';
+                              var Str = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-        												var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-        												$("#hotpital").append(Str);
+        												 Str += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
                                 $("#hotpital").prop('checked',true);
         											}
-                              if(PmID != 1){
+                              $("#hotpital").append(Str);
+                              if(PmID != 1 && PmID != 6){
                                 $("#hotpital").val(HptCode);
+                                $("#hotpital").attr('disabled' , true );
                               }
                               getDepartment();
                             }else if( (temp["form"]=='getDepartment') ){
