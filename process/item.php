@@ -267,17 +267,27 @@ function getUnit($conn, $DATA)
 function getCatagory($conn, $DATA)
 {
   $count = 0;
-  $maincatagory = $DATA['maincatagory']==null?0:$DATA['maincatagory'];
+  $maincatagory = $DATA['maincatagory'];
   // var_dump($Maincat); die;
-  $Sql = "SELECT
-          item_category.CategoryCode,
-          item_category.CategoryName,
-          item_category.IsStatus
-          FROM
-          item_category
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
-          WHERE item_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0
-          ";
+  if($maincatagory != null){
+    $Sql = "SELECT
+            item_category.CategoryCode,
+            item_category.CategoryName,
+            item_category.IsStatus
+            FROM
+            item_category
+            INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
+            WHERE item_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0 ";
+    }else{
+            $Sql = "SELECT
+            item_category.CategoryCode,
+            item_category.CategoryName,
+            item_category.IsStatus
+            FROM
+            item_category
+            INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
+            WHERE item_category.IsStatus = 0 ";
+    }
   //var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -286,7 +296,7 @@ function getCatagory($conn, $DATA)
     $count++;
   }
 
-  if ($count > 0) {
+  if ($meQuery = mysqli_query($conn, $Sql)) {
     $return['status'] = "success";
     $return['form'] = "getCatagory";
     echo json_encode($return);
@@ -305,6 +315,7 @@ function getCatagory2($conn, $DATA)
   $count = 0;
   $maincatagory = $DATA['maincatagory'];
   // var_dump($Maincat); die;
+  if($maincatagory != null){
   $Sql = "SELECT
           item_category.CategoryCode,
           item_category.CategoryName,
@@ -312,8 +323,17 @@ function getCatagory2($conn, $DATA)
           FROM
           item_category
           INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
-          WHERE item_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0
-          ";
+          WHERE item_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0 ";
+  }else{
+          $Sql = "SELECT
+          item_category.CategoryCode,
+          item_category.CategoryName,
+          item_category.IsStatus
+          FROM
+          item_category
+          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
+          WHERE item_category.IsStatus = 0 ";
+  }
   //var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -322,7 +342,7 @@ function getCatagory2($conn, $DATA)
     $count++;
   }
 
-  if ($count > 0) {
+  if ($meQuery = mysqli_query($conn, $Sql)) {
     $return['status'] = "success";
     $return['form'] = "getCatagory2";
     echo json_encode($return);
@@ -383,6 +403,7 @@ function getdetail($conn, $DATA)
           item.ItemCode,
           item.ItemName,
           item.CategoryCode,
+          item_category.Categoryname,
           item_main_category.MainCategoryCode,
           item.UnitCode,
           item_unit.UnitName,
@@ -419,6 +440,7 @@ function getdetail($conn, $DATA)
     $return[$count]['ItemCode'] = $Result['ItemCode'];
     $return[$count]['ItemName'] = $Result['ItemName'];
     $return[$count]['CategoryCode'] = $Result['CategoryCode'];
+    $return[$count]['Categoryname'] = $Result['Categoryname'];
     $return[$count]['MainCategoryCode'] = $Result['MainCategoryCode'];
     $return[$count]['UnitCode'] = $Result['UnitCode'];
     $return[$count]['SizeCode'] = $Result['SizeCode'];
@@ -456,7 +478,6 @@ function getdetail($conn, $DATA)
     die;
   }
 }
-
 function GetmainCat($conn, $DATA)
 {
   $count = 0;

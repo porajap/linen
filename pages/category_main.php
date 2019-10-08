@@ -652,7 +652,6 @@ $array2 = json_decode($json2,TRUE);
                           swal.close();
                           if(temp["status"]=='success'){
                             if( (temp["form"]=='ShowItem') ){
-              
                               $( "#TableItem tbody" ).empty();
                               console.log(temp);
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {

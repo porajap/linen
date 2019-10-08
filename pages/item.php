@@ -350,9 +350,11 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function getCatagory() {
-      var maincatagory = $('#maincatagory option:selected').attr("value");
-      if (typeof maincatagory == 'undefined') maincatagory = "1";
-      // $('#maincatagory2').val(maincatagory);
+      var maincatagory = $('#maincatagory').val();
+      if ( maincatagory == ""){
+        $('#maincatagory2').val('1');
+      }
+      $('#maincatagory2').val(maincatagory);
       console.log($('#maincatagory2 option:selected').attr("value"));
       // var catagory1 = $("#catagory1").val();
       var data = {
@@ -375,6 +377,8 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function getCatagory2() {
+      $('#rem2').hide();
+      $('#maincatagory2').css('border-color', '');
       var maincatagory = $('#maincatagory2 option:selected').attr("value");
       if (typeof maincatagory == 'undefined') maincatagory = "1";
       $('#maincatagory').val(maincatagory);
@@ -602,43 +606,52 @@ $array2 = json_decode($json2, TRUE);
       var sUnit = $('#sUnitName').val();
       var numPack = $('#numPack').val();
       var typeLinen = $('#typeLinen').val();
-      
-      
-  if(ItemCode !="" && ItemCode!=undefined){
-    $('#rem1').hide();
-    $('#ItemCode').css('border-color', '');
-  }  if(mainCatagory !="" && mainCatagory!=undefined){
-    $('#rem2').hide();
-    $('#maincatagory2').css('border-color', '');
-  }
-  if(Catagory !="" && Catagory!=undefined){
-    $('#rem3').hide();
-    $('#catagory2').css('border-color', '');
-  }
-  if(ItemName !="" && ItemName!=undefined){
-    $('#rem4').hide();
-    $('#ItemName').css('border-color', '');
-  }
-  if(Weight !="" && Weight!=undefined){
-    $('#rem5').hide();
-    $('#Weight').css('border-color', '');
-  }
-  if(qpu !="" && qpu!=undefined){
-    $('#rem6').hide();
-    $('#QtyPerUnit').css('border-color', '');
-  }
-  if(SizeCode !="" && SizeCode!=undefined){
-    // $('#rem6').hide();
-    $('#SizeCode').css('border-color', '');
-  }
-  if(numPack !="" && numPack!=undefined){
-    // $('#rem6').hide();
-    $('#numPack').css('border-color', '');
-  }
-  if(typeLinen !="" && typeLinen!=undefined){
-    // $('#rem6').hide();
-    $('#typeLinen').css('border-color', '');
-  }
+  
+      if(ItemCode !="" && ItemCode!=undefined){
+        $('#rem1').hide();
+        $('#ItemCode').css('border-color', '');
+      }  if(mainCatagory !="" && mainCatagory!=undefined){
+        $('#rem2').hide();
+        $('#maincatagory2').css('border-color', '');
+      }
+      if(Catagory !="" && Catagory!=undefined){
+        $('#rem3').hide();
+        $('#catagory2').css('border-color', '');
+        CreateItemCode();
+      }
+      if(ItemName !="" && ItemName!=undefined){
+        $('#rem4').hide();
+        $('#ItemName').css('border-color', '');
+      }
+      if(Weight !="" && Weight!=undefined){
+        $('#rem5').hide();
+        $('#Weight').css('border-color', '');
+      }
+      if(qpu !="" && qpu!=undefined){
+        $('#rem6').hide();
+        $('#QtyPerUnit').css('border-color', '');
+      }
+      if(SizeCode !="" && SizeCode!=undefined){
+        // $('#rem6').hide();
+        $('#SizeCode').css('border-color', '');
+      }
+      if(numPack !="" && numPack!=undefined){
+        // $('#rem6').hide();
+        $('#numPack').css('border-color', '');
+      }
+      if(typeLinen !="" && typeLinen!=undefined){
+        // $('#rem6').hide();
+        $('#typeLinen').css('border-color', '');
+      }
+}
+function resetinput5(){
+var Catagory = $('#catagory2').val();
+if(Catagory !="" && Catagory!=undefined){
+  $('#rem3').hide();
+  $('#catagory2').css('border-color', '');
+  CreateItemCode();
+}
+
 }
     function NewItem() {
       var count = 0;
@@ -773,6 +786,11 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function CreateItemCode() {
+        // $('#rem3').hide();
+        var hospital2 = $('#hospital').val();
+        if(hospital2 !=""||hospital2!=undefined){
+        $('#hospital').css('border-color', '');
+        }
       var Catagory = $('#catagory2').val();
       var modeCode = $('#formatitem:checked').val();
       var modeCheck = $('#checkitem:checked').val();
@@ -928,19 +946,19 @@ $array2 = json_decode($json2, TRUE);
       $('#bSave_chk').attr('disabled', false);
       $('#ItemCode').attr('disabled', false);
       $('#ItemCode').val("");
-      $('#maincatagory2').val("1");
-      $('#catagory2').val("1");
+      $('#maincatagory2').val("");
+      $('#catagory2').val("");
       $('#UnitName').val("");
       $('#SizeCode').val("1");
       $('#hospital').val("");
       $('#Hos2').val("");
       $('#maincatagory').val("");
       $('#catagory1').val("");
-  
       $('#typeLinen').val("P");
       $('#numPack').val("01");
       $('#sUnitName').val("1");
-      // ShowItem();
+      getCatagory();
+      ShowItem();
       $('#bCancel').attr('disabled', true);
       $('#delete_icon').addClass('opacity');
       $('#delete1').removeClass('mhee');
@@ -953,7 +971,65 @@ $array2 = json_decode($json2, TRUE);
       $('#btn_del').attr('disabled', true);
 
     }
+    function Blankinput2() {
+        cat2 = $('#catagory2').val();
+        cat3 = $('#maincatagory2').val();
+        main1 = $('#maincatagory').val();
+        main2 = $('#catagory1').val();
+      $('#hospital').attr('disabled', false);
+      $('#maincatagory2').attr('disabled', false);
+      $('#typeLinen').attr('disabled', false);
+      $('#numPack').attr('disabled', false);
+        $('#rem1').hide();
+        $('#rem2').hide();
+        $('#rem3').hide();
+        $('#rem4').hide();
+        $('#rem5').hide();
+        $('#rem6').hide();
+      $(".radio-c :input").attr("disabled", false);
+      $("input[name=formatitem][value=3]").prop('checked', true);
+      $('#oldCodetype').hide();
+      $('.checkblank').each(function() {
+        $(this).val("");
+      });
+      $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).css('border-color', '');
+            }else{
+              $(this).css('border-color', '');
+            }
+          });
+      $('#maincatagory2').val(cat3);
+      if(cat3 != ""){
+        getCatagory2();
+      }
+      if(main1 != ""){
+         $('#maincatagory').val(main1);
+         $('#catagory1').val(main2);
+      }else{
+         $('#maincatagory').val("");
+         $('#catagory1').val("");
+      }
+      $('#bSave_chk').attr('disabled', false);
+      $('#ItemCode').attr('disabled', false);
+      $('#ItemCode').val("");
+      $('#UnitName').val("");
+      $('#SizeCode').val("1");
+      $('#typeLinen').val("P");
+      $('#numPack').val("01");
+      $('#sUnitName').val("1");
+      $('#bCancel').attr('disabled', true);
+      $('#delete_icon').addClass('opacity');
+      $('#delete1').removeClass('mhee');
+      $('#NewItem').show();
+      $('#AddItemBNT').hide();
+      // CreateItemCode();
+      uncheckAll2();
+      ShowItem();
+      $('#btn_importMaster').attr('disabled', true);
+      $('#btn_del').attr('disabled', true);
 
+    }
     function getdetail(ItemCode,row) {
       $('#bSave_chk').attr('disabled', false);
       $('#btn_importMaster').attr('disabled', false);
@@ -975,7 +1051,6 @@ $array2 = json_decode($json2, TRUE);
           $('#maincatagory2').attr('disabled', false);
           $('#typeLinen').attr('disabled', false);
           $('#numPack').attr('disabled', false);
-
           $('#hospital').removeClass('icon_select');
           $('#maincatagory2').removeClass('icon_select');
           $('#typeLinen').removeClass('icon_select');
@@ -983,7 +1058,7 @@ $array2 = json_decode($json2, TRUE);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
-          Blankinput();
+          Blankinput2();
         } else {
           $('#hospital').addClass('icon_select');
           $('#maincatagory2').addClass('icon_select');
@@ -1459,12 +1534,13 @@ $array2 = json_decode($json2, TRUE);
               $("#catagory2").empty();
               var hotValue0 = '<?php echo $array['Pleaseselectasubcategory'][$language]; ?>';
               var StrTr = "<option value=''>"+hotValue0+"</option>";
+              var Str = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
  
                  StrTr += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
-                var Str = "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
-                $("#catagory2").append(Str);
+                 Str += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
               }
+              $("#catagory2").append(Str);
               $("#catagory1").append(StrTr);
               $("#catagoryModal").append(StrTr);
               CreateItemCode();
@@ -1480,11 +1556,12 @@ $array2 = json_decode($json2, TRUE);
             } else if ((temp["form"] == 'GetmainCat')) {
               var hotValue0 = '<?php echo $array['Pleasechoosemaincategory'][$language]; ?>';
               var StrTr1 = "<option value=''>"+hotValue0+"</option>";
+              var Str = "<option value=''>"+hotValue0+"</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                  StrTr1 += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
-                 var  Str = "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
-                $("#maincatagory2").append(Str);
+                   Str += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
               }
+              $("#maincatagory2").append(Str);
               $("#maincatagory").append(StrTr1);
               $("#maincatagoryModal").append(StrTr1);
             } else if ((temp["form"] == 'getUnit')) {
@@ -1842,7 +1919,7 @@ $array2 = json_decode($json2, TRUE);
                   timer: 2000,
                   confirmButtonText: 'Ok'
               }).then(function() {
-                  // ShowItem();
+                  ShowItem();
                   Blankinput();
               }, function(dismiss) {
                   $('.checkblank').each(function() {
@@ -2616,7 +2693,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['categorysub'][$language]; ?></label>
-                              <select  onchange="resetinput()"  class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()" ></select>
+                              <select  onchange="resetinput5()"  class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()" ></select>
                               <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>
