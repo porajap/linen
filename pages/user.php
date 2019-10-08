@@ -80,7 +80,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem5').hide();
         $('#rem6').hide();
         $('#rem7').hide();
-            getDepartment();
+            // getDepartment();
             resetinput();        
             //On create
             $('.TagImage').bind('click', {
@@ -661,8 +661,7 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 3%;' nowrap>" + chkDoc + "</td>" +
                                     "<td style='text-overflow: ellipsis;overflow: hidden; width: 5%;' nowrap >" + (i + 1) + "</td>" +
                                     "<td style=' text-overflow: ellipsis;overflow: hidden; width: 22%;' nowrap title='"+temp[i]['FName']+"'>" + temp[i]['FName'] + "</td>" +
-                                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 10%;' nowrap title='"+temp[i]['UserName']+"'>" + temp[i]['UserName'] + "</td>" +
-                                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 10%;' nowrap title='"+temp[i]['Password']+"'>" + temp[i]['Password'] + "</td>" +
+                                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 20%;' nowrap title='"+temp[i]['UserName']+"'>" + temp[i]['UserName'] + "</td>" +
                                     "<td style='text-overflow: ellipsis;overflow: hidden; width: 24%;' nowrap title='"+email+"'>" + email + "</td>" +
                                     // "<td style='width: 8%;' nowrap class='text-center'>"+active_mail+"</td>" +
 									"<td style='text-overflow: ellipsis;overflow: hidden; width: 10%;' nowrap title='"+temp[i]['Permission']+"'>" + temp[i]['Permission'] + "</td>" +
@@ -698,7 +697,7 @@ $array2 = json_decode($json2,TRUE);
                             if ((Object.keys(temp).length - 2) > 0) {
                                 $('#UsID').val(temp['ID']);
                                 $('#username').val(temp['UserName']);
-                                $('#Password').val(temp['Password']);
+                                // $('#Password').val(temp['Password']);
                                 $('#flname').val(temp['FName']);
                                 $('#department').val(temp['DepCode']);
                                 $('#email').val(temp['email']);
@@ -1281,8 +1280,7 @@ label{
                                         <th style='width: 3%;' nowrap>&nbsp;</th>
                                         <th style='width: 5%;' nowrap> <?php echo $array['no'][$language]; ?> </th>
                                         <th style='width: 22%;' nowrap> <?php echo $array['flname'][$language]; ?> </th>
-                                        <th style='width: 10%;' nowrap> <?php echo $array['username'][$language]; ?> </th>
-                                        <th style='width: 10%;' nowrap> <?php echo $array['password'][$language]; ?> </th>
+                                        <th style='width: 20%;' nowrap> <?php echo $array['username'][$language]; ?> </th>
                                         <th style='width: 23%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
                                         <th style='width: 17%;' nowrap> <?php echo $array['department'][$language]; ?>  </th>

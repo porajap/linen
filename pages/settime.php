@@ -113,6 +113,7 @@ $array2 = json_decode($json2,TRUE);
         function removeborder(){
             Blankinput();
             ShowItem();
+            $('#form1').addClass('form-group');
             var HptCode = $('#hptsel').val();
             $('#hptsel2').val(HptCode);
             $('#hptsel').css('border-color', '');
@@ -141,11 +142,13 @@ $array2 = json_decode($json2,TRUE);
             if(HptCode=='' && Time != ''){
                 $('#hptsel2').addClass('border border-danger');
                 $('#rem1').show();
+                $('#form1').removeClass('form-group');
             }else if(HptCode == '' && Time == ''){
                 $('#rem1').show();
                 $('#rem2').show();
                 $('#hptsel2').addClass('border border-danger');
-                $('#settime').addClass('border border-danger');
+                $('#selectTime').addClass('border border-danger');
+                $('#form1').removeClass('form-group');
             }else if(HptCode != '' && Time == ''){
                 $('#rem2').show();
                 $('#settime').addClass('border border-danger');
@@ -257,18 +260,12 @@ $array2 = json_decode($json2,TRUE);
             })
         }
         function Blankinput() {
+            $('#form1').addClass('form-group');
             $('#rem1').hide();
             $('#rem2').hide();
             $('input:checked').each(function() {
                 $(this).prop("checked", false);
             });
-            // $('.checkblank').each(function() {
-            //     if($(this).val()==""||$(this).val()==undefined){
-            //     $(this).css('border-color', '');
-            //     }else{
-            //     $(this).css('border-color', '');
-            //     }
-            // });
             $('#hptsel2').val("");
             $('#settime').val("");
             $('#idTime').val("");
@@ -299,7 +296,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function resetinput(){
             var hptsel2 = $('#hptsel2').val();
-            var settime = $('#settime').val();
+            var settime = $('#selectTime').val();
 
 
             if(hptsel2 !="" && hptsel2!=undefined){
@@ -308,7 +305,7 @@ $array2 = json_decode($json2,TRUE);
             }
             if(settime !="" && settime!=undefined){
             $('#rem2').hide();
-            $('#settime').removeClass('border border-danger');
+            $('#selectTime').removeClass('border border-danger');
             }
         }
         function resetinput2(){
@@ -654,7 +651,7 @@ $array2 = json_decode($json2,TRUE);
    <!-- =================================================================== -->
                                 <div class="row mt-4">
                                   <div class="col-md-6">
-                                    <div class='form-group row'>
+                                    <div class='form-group row' id="form1">
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 checkblank" id="hptsel2" onchange="resetinput2()">
                                       </select>

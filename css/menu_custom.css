@@ -14,8 +14,8 @@
       .mhee button:hover {
         color: #2c3e50;
         font-weight:bold;
-        font-size:26px;
-        transition: width 2s, height 4s;
+        /* font-size:26px; */
+        /* transition: width 2s, height 4s; */
       }
       .menu{
         width:140px;
@@ -160,6 +160,17 @@
         background-color:#E09517;
       }
       .circle11 i{
+        padding: 7px;
+        color:#ffffff;
+      }
+
+      .circle12 i{
+        width: 40px;
+        height: 40px;
+        border-radius:50px;
+        background-color:#0000CC;
+      }
+      .circle12 i{
         padding: 7px;
         color:#ffffff;
       }

@@ -129,7 +129,7 @@
 <import><en>Add</en><th>เพิ่ม</th></import>
 <delitem><en>Delete items</en><th>ลบรายการ</th></delitem>
 <save><en>Save</en><th>บันทึก</th></save>
-<cancel><en>Delete</en><th>ลบ</th></cancel>
+<cancel><en>Cancel</en><th>ลบ</th></cancel>
 <searchplace><en>Search document</en><th>ค้นหารายการ</th></searchplace>
 <show><en>Show items</en><th>แสดงรายการ</th></show>
 <showshow><en>Show</en><th>แสดง</th></showshow>
@@ -162,7 +162,7 @@
 <cleandoc><en>Clean linen document </en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
 <totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
 <parsc><en>Par</en><th>Par</th></parsc>
-<leftsc><en>Left</en><th>Left</th></leftsc>
+<leftsc><en>Variable</en><th>Variable</th></leftsc>
 <qty><en>QTY</en><th>จำนวน</th></qty>
 <total><en>Number</en><th>จำนวน</th></total>
 <order><en>Order</en><th>Order</th></order>
@@ -288,7 +288,7 @@
 <overPercent><en>Over Percent</en><th>เปอร์เซ็นต์ที่เกิน</th></overPercent>
 <empItem><en>Item In Main Stock Empty</en><th>คลังหลักไม่มีรายการ</th></empItem>
 <par><en>Par</en><th>Par</th></par>
-<count> <en>Left</en><th>Left</th></count>
+<count> <en>Variable</en><th>Variable</th></count>
 <minute><en>Minute</en><th>นาที</th></minute>
 <datafail><en>Please fill in the information correctly.</en><th>กรูณากรอกข้อมูลให้ถูกต้อง</th></datafail>
 <savedoc><en>Save Doc</en><th>บันทึกเอกสาร</th></savedoc>
@@ -329,7 +329,7 @@
 <spacial><en>Spacial Item</en><th>รายการพิเศษ</th></spacial>
 <newitem><en>New item</en><th>รายการใหม่</th></newitem>
 <editTime_deli><en>Edit shipping time</en><th>แก้ไขระยะเวลาขนส่ง</th></editTime_deli>
-<TimeSC><en>Shipping time</en><th>เวลาขนส่ง</th></TimeSC>
+<TimeSC><en>Cycle time</en><th>เวลาขนส่ง</th></TimeSC>
 <addTime_deli><en>Add shipping time</en><th>เพิ่มระยะเวลาขนส่ง</th></addTime_deli>
 <AllFac><en>All Factory</en><th>ทุกโรงซัก</th></AllFac>
 <noFac><en>no factory</en><th>ไม่มีโรงซักที่ยังไม่ได้เพิ่ม</th></noFac>
@@ -339,7 +339,7 @@
 <ismaster><en>This item in Master you want to Delete?</en><th>รายการนี้เป็นรายการมาสเตอร์ คุณต้องการลบข้อมูลทั้งหมดหรือไม่</th></ismaster>
 <issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
 <updatestock><en>Update Stock</en><th>อัพเดทคลัง</th></updatestock>
-<settime><en>Time sc</en><th>รอบส่งผ้า</th></settime>
+<settime><en>Cycle time</en><th>รอบส่งผ้า</th></settime>
 <dte><en>Deleted</en><th>ลบสำเร็จ</th></dte>
 <excel><en>Create File Excel</en><th>สร้างไฟล์ Excel</th></excel>
 <updatesuccess><en>Update Success</en><th>อัพเดทคลังสำเร็จ</th></updatesuccess>

@@ -90,7 +90,7 @@ $array2 = json_decode($json2, TRUE);
                 ShowItem();
             }
         });
-      ShowItem();
+      // ShowItem();
       GetHospital();
       GetmainCat();
       getCatagory();
@@ -2566,10 +2566,11 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                         </div>
                         <!-- =================================================================== -->
-                        <div class="row" id="oldCodetype">
+                        <!-- id="oldCodetype" -->
+                        <div class="row" >
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['hosname'][$language]; ?></label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                               <select   class="form-control col-sm-7 checkblank" id="hospital" onchange="CreateItemCode()" ></select>
                             </div>
                           </div>
