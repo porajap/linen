@@ -825,15 +825,15 @@ $id_h=$_SESSION['id_h'];
                 var msg = "";
                 switch (result) {
                     case "editsuccess":
-                        msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
+                        msg = "<?php echo $array2['editsuccessmsg'][$language]; ?>";
                         break;
                     case "editfailed":
-                        msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
+                        msg = "<?php echo $array2['editfailedmsg'][$language]; ?>";
                         break;
                 }
                 swal({
                     title: '',
-                    text: msg,
+                    text: '<?php echo $array2['editsuccessmsg'][$language]; ?>',
                     type: 'success',
                     showCancelButton: false,
                     confirmButtonColor: '#3085d6',
