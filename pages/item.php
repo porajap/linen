@@ -680,7 +680,7 @@ if(Catagory !="" && Catagory!=undefined){
 
       if ($('#masterItem').is(':checked')) masterItem = 1;
       if ($('#xCenter').is(':checked')) xCenter = 1;
-      if ($('#xItemnew').is(':checked')) xItemnew = 1;
+      // if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
       if (count == 0) {
         $('.checkblank').each(function() {
@@ -999,7 +999,7 @@ if(Catagory !="" && Catagory!=undefined){
               $(this).css('border-color', '');
             }
           });
-      $('#maincatagory2').val(cat3);
+      $('#maincatagory2').val("");
       if(cat3 != ""){
         getCatagory2();
       }
@@ -2598,7 +2598,7 @@ if(Catagory !="" && Catagory!=undefined){
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['code'][$language]; ?></label>
-                              <input type="text" onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
+                              <input type="text"autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
                               <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
                           </div>

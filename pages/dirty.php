@@ -220,6 +220,9 @@ $array2 = json_decode($json2,TRUE);
                 'DocNo'   : docno
               };
               senddata(JSON.stringify(data));
+              $('#bDelete').attr('disabled', true);
+              $('#bDelete2').addClass('opacity');
+              $('#hover3').removeClass('mhee');
             } else if (result.dismiss === 'cancel') {
               swal.close();
               }

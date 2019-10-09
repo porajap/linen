@@ -1,5 +1,10 @@
       /* css for menu */
-
+      .swal2-popup{
+        width: 450px !important;
+        padding: 20px !important;
+        background: rgb(255, 255, 255) !important;
+        display: flex !important;
+      }
       .btn{
             padding: 0px;
       }

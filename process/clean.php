@@ -781,7 +781,10 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     
-
+$Sql2 = "SELECT DocNo FROM repair_wash WHERE DocNo = '$RefDocNo'";
+$meQuery5 = mysqli_query($conn, $Sql2);
+while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
+  if($Result5['DocNo'] != ""){
     $n = 0;
     $Sql = "SELECT
     repair_wash_detail.ItemCode,
@@ -812,6 +815,42 @@ function CreateDocument($conn, $DATA)
       ('$DocNo','$ItemCode',$UnitCode,$Qty,0,$IsCancel)";
       mysqli_query($conn, $Sql);
     }
+  }
+}
+
+
+$Sql3 = "SELECT DocNo FROM dirty WHERE DocNo = '$RefDocNo'";
+$meQuery6 = mysqli_query($conn, $Sql3);
+while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
+  if($Result6['DocNo'] != ""){
+    $n = 0;
+    $Sql12 = "SELECT
+    item.ItemCode,
+    dirty_detail.UnitCode,
+    dirty_detail.Qty,
+    dirty_detail.Weight,
+    dirty_detail.IsCancel
+    FROM dirty_detail
+		INNER JOIN item ON item.ItemCode = dirty_detail.ItemCode
+    WHERE dirty_detail.DocNo = '$RefDocNo' AND item.IsDirtyBag = 1 AND NOT item.ItemCode IN ('00001', '00002', '00003')
+    GROUP BY item.ItemCode";
+    $meQuery12 = mysqli_query($conn, $Sql12);
+    while ($Result12 = mysqli_fetch_assoc($meQuery12)) {
+      $ItemCode = $Result12['ItemCode'];
+      $UnitCode = $Result12['UnitCode'];
+      $Qty      = $Result12['Qty'];
+      $Weight   = $Result12['Weight'];
+      $IsCancel = $Result12['IsCancel'];
+
+      $Sql9 = "INSERT INTO clean_detail
+      (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
+      VALUES
+      ('$DocNo','$ItemCode',$UnitCode,$Qty,0,$IsCancel)";
+      mysqli_query($conn, $Sql9);
+    }
+  }
+}
+
 
     $Sql1="SELECT DocNo FROM repair_wash WHERE DocNo = '$RefDocNo'";
     $meQuery1 = mysqli_query($conn, $Sql1);

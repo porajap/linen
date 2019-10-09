@@ -111,7 +111,6 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function removeborder(){
-            Blankinput();
             ShowItem();
             $('#form1').addClass('form-group');
             var HptCode = $('#hptsel').val();
@@ -266,12 +265,14 @@ $array2 = json_decode($json2,TRUE);
             $('input:checked').each(function() {
                 $(this).prop("checked", false);
             });
+            $('#hptsel').val("");
             $('#hptsel2').val("");
             $('#settime').val("");
             $('#idTime').val("");
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
             $('#delete1').removeClass('mhee');
+            ShowItem();
         }
         function logoff() {
             swal({

@@ -44,6 +44,7 @@ function checklogin($conn,$DATA)
       $_SESSION['DepCode']  = $Result['DepCode'];
       $_SESSION['pic']  = $Result['pic']==null?'default_img.png':$Result['pic'];
       $_SESSION['lang']     = $Result['lang']==null?'th':$Result['lang'];
+      $lang1     = $Result['lang']==null?'th':$Result['lang'];
       $IsActive  = $Result['IsActive'];
 
       $Count = $Result['Count'];
@@ -61,7 +62,11 @@ function checklogin($conn,$DATA)
         if($IsActive == 0){
           $return['status'] = "success";
           $return['form'] = "chk_login";
+          if($lang1 == 'en'){
           $return['msg'] = "Login Success";
+          }else{
+            $return['msg'] = "เข้าสู่ระบบสำเร็จ";  
+          }
           $Sql = "UPDATE users SET users.IsActive = 1 users.chk_logoff = 0 WHERE users.ID = $ID";
           mysqli_query($conn,$Sql);
           $_SESSION['chk_logoff']  = 0;

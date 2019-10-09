@@ -170,6 +170,7 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function getDepartment2(){
+            ShowItem();
             $('#rem1').hide();
             $('#hptsel').css('border-color', '');
             var Hotp = $('#host option:selected').attr("value");

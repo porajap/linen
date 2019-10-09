@@ -25,6 +25,7 @@ $array2 = json_decode($json2,TRUE);
     <link href="../fontawesome/css/fontawesome.min.css" rel="stylesheet"> <!--load all styles -->
     <script src="../dist/js/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../dist/css/sweetalert2.css">
+    <link href="../css/menu_custom.css" rel="stylesheet">
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
     <script src="../fontawesome/js/all.js"></script>
 

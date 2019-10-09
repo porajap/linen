@@ -216,6 +216,9 @@ $(document).ready(function(e){
               'DocNo'   : docno
             };
             senddata(JSON.stringify(data));
+              $('#bDelete').attr('disabled', true);
+              $('#bDelete2').addClass('opacity');
+              $('#hover3').removeClass('mhee');
           } else if (result.dismiss === 'cancel') {
           swal.close();
           }
@@ -1063,8 +1066,11 @@ $(document).ready(function(e){
 
                   $('#unit'+i).prop('disabled', true);
                 }
-                $('#RefDocNo').attr('disabled', false);
-                ShowDetail();
+                if(temp[0]['RefDocNo'] != ''){
+                  $("#RefDocNo").attr('disabled' , true);
+                }else{
+                  $("#RefDocNo").attr('disabled' , false);
+                }                   ShowDetail();
               }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
                 $( "#TableItemDetail tbody" ).empty();
                 if(temp["Row"] > 0)
@@ -1686,7 +1692,7 @@ $(document).ready(function(e){
                               <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                             </tr>
                           </thead>
-                          <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                          <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;">
                           </tbody>
                         </table>
                       </div> <!-- tag column 1 -->

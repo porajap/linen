@@ -1,13 +1,16 @@
 <?php
 session_start();
 date_default_timezone_set("Asia/Bangkok");
-$language = "en";
+// $language = "en";
 header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('xml/main_lang.xml');
 $json = json_encode($xml);
 $array = json_decode($json,TRUE);
+$xml2 = simplexml_load_file('xml/general_lang.xml');
+$json2 = json_encode($xml2);
+$array2 = json_decode($json2,TRUE);
 session_destroy();
-
+$language = $_SESSION['lang'];
 ?>
 
 <!DOCTYPE html>
@@ -334,7 +337,7 @@ session_destroy();
                     if(temp["form"] == 'chk_login'){
                         swal({
                             title: '',
-                            text: temp["msg"],
+                            text:  temp["msg"],
                             type: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',

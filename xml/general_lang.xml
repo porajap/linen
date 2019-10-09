@@ -94,6 +94,7 @@
 <oldFormatItemCode><en>Old format code</en><th>รูปแบบรหัสเก่า</th></oldFormatItemCode>
 <newFormatItemCode><en>New format code</en><th>รูปแบบรหัสใหม่</th></newFormatItemCode>
 <logout><en>Logout success</en><th>ออกจากระบบสำเร็จ</th></logout>
+<login><en>Login success</en><th>เข้าสู่ระบบสำเร็จ</th></login>
 <side><en>Hospital</en><th>โรงพยาบาล</th></side>
 <sidex><en>Hospital</en><th>โรงพยาบาล</th></sidex>
 <invalid><en>Invalid date</en><th>เลือกวันที่ไม่ถูกต้อง</th></invalid>

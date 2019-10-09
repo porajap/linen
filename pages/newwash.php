@@ -211,7 +211,6 @@ $array2 = json_decode($json2,TRUE);
     function DeleteItem(){
       var docno = $("#docno").val();
       var xrow = $("#checkrow:checked").val() ;
-
       xrow = xrow.split(",");
       swal({
         title: "<?php echo $array['confirmdelete'][$language]; ?>",
@@ -233,6 +232,9 @@ $array2 = json_decode($json2,TRUE);
             'DocNo'   : docno
           };
           senddata(JSON.stringify(data));
+          $('#bDelete').attr('disabled', true);
+          $('#bDelete2').addClass('opacity');
+          $('#hover3').removeClass('mhee');
         } else if (result.dismiss === 'cancel') {
           swal.close();
           }
@@ -1886,7 +1888,7 @@ $array2 = json_decode($json2,TRUE);
                               <th style='width: 7%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
                               <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                                   </thead>
-                                  <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                                  <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;">
                                   </tbody>
                               </table>
                           </div> <!-- tag column 1 -->

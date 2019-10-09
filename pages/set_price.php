@@ -1419,7 +1419,7 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
                             </div>
 
-                            <div class="dropdown-divider" style="margin-top:20px; margin-bottom:20px;"></div>
+                            <div  style="margin-top:20px; margin-bottom:20px;"></div>
 
                             <div class="row">
                                 <div class="card-body" style="padding:0px;">
