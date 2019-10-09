@@ -617,7 +617,6 @@ $array2 = json_decode($json2, TRUE);
       if(Catagory !="" && Catagory!=undefined){
         $('#rem3').hide();
         $('#catagory2').css('border-color', '');
-        CreateItemCode();
       }
       if(ItemName !="" && ItemName!=undefined){
         $('#rem4').hide();
@@ -798,14 +797,17 @@ if(Catagory !="" && Catagory!=undefined){
       if (typeof modeCheck == 'undefined') {
         if (modeCode == 3) {
           $('#oldCodetype').hide();
-          var hospitalCode = "";
+          // var hospitalCode = "";
           var typeCode = "";
           var packCode = "";
+          var hospitalCode = $('#hospital').val();
           $('#ItemCode').attr("disabled", false);
           $('#typeLinen').addClass('checkblank');
           $('#numPack').addClass('checkblank');
           $('#typeLinen').removeClass('checkblank');
           $('#numPack').removeClass('checkblank');
+          $('#Hos2').val(hospitalCode);
+          ShowItem();
         } else {
           if (modeCode == 1) {
             $('#ItemCode').attr("disabled", true);
@@ -823,12 +825,15 @@ if(Catagory !="" && Catagory!=undefined){
           } else {
             $('#ItemCode').attr("disabled", true);
             $('#oldCodetype').hide();
-            var hospitalCode = "";
+            // var hospitalCode = "";
             var typeCode = "1";
             var packCode = "1";
             $('#ItemCode').val("");
+            var hospitalCode = $('#hospital').val();
             $('#typeLinen').removeClass('checkblank');
             $('#numPack').removeClass('checkblank');
+            $('#Hos2').val(hospitalCode);
+            ShowItem();
           }
           var data = {
             'STATUS': 'CreateItemCode',
