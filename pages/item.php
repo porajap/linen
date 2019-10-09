@@ -977,60 +977,24 @@ if(Catagory !="" && Catagory!=undefined){
 
     }
     function Blankinput2() {
-        cat2 = $('#catagory2').val();
-        cat3 = $('#maincatagory2').val();
-        main1 = $('#maincatagory').val();
-        main2 = $('#catagory1').val();
-      $('#hospital').attr('disabled', false);
-      $('#maincatagory2').attr('disabled', false);
-      $('#typeLinen').attr('disabled', false);
-      $('#numPack').attr('disabled', false);
-        $('#rem1').hide();
-        $('#rem2').hide();
-        $('#rem3').hide();
-        $('#rem4').hide();
-        $('#rem5').hide();
-        $('#rem6').hide();
       $(".radio-c :input").attr("disabled", false);
-      $("input[name=formatitem][value=3]").prop('checked', true);
-      $('#oldCodetype').hide();
-      $('.checkblank').each(function() {
-        $(this).val("");
-      });
-      $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', '');
-            }else{
-              $(this).css('border-color', '');
-            }
-          });
-      $('#maincatagory2').val("");
-      if(cat3 != ""){
-        getCatagory2();
-      }
-      if(main1 != ""){
-         $('#maincatagory').val(main1);
-         $('#catagory1').val(main2);
-      }else{
-         $('#maincatagory').val("");
-         $('#catagory1').val("");
-      }
       $('#bSave_chk').attr('disabled', false);
       $('#ItemCode').attr('disabled', false);
+      $('#ItemName').val("");
       $('#ItemCode').val("");
-      $('#UnitName').val("");
+      $('#UnitName').val("1");
+      $('#Weight').val("");
       $('#SizeCode').val("1");
       $('#typeLinen').val("P");
       $('#numPack').val("01");
       $('#sUnitName').val("1");
+      $('#QtyPerUnit').val("");
       $('#bCancel').attr('disabled', true);
       $('#delete_icon').addClass('opacity');
       $('#delete1').removeClass('mhee');
       $('#NewItem').show();
       $('#AddItemBNT').hide();
-      // CreateItemCode();
       uncheckAll2();
-      ShowItem();
       $('#btn_importMaster').attr('disabled', true);
       $('#btn_del').attr('disabled', true);
 

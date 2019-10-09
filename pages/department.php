@@ -332,22 +332,21 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-        
+        function resetinputuser(){
+            ShowItem();
+            var hptsel = $('#hptsel2').val();
+            $('#hptsel2').css('border-color', '');
+            $('#hptsel').val(hptsel);
+            $('#hptsel').css('border-color', '');
+        }
+
         function resetinput(){
 
-            var HptCode = $('#hptsel2').val();
             var DepName = $('#DepName').val();
-
-            if(HptCode !="" && HptCode!=undefined){
-            $('#rem1').hide();
-            $('#hptsel2').css('border-color', '');
-            }
             if(DepName !="" && DepName!=undefined){
             $('#rem2').hide();
             $('#DepName').css('border-color', '');
             }
-
-
 }
         function AddItem() {
             var count = 0;
@@ -1279,7 +1278,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select onchange="resetinput()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
+                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>

@@ -396,8 +396,8 @@ function getdetail($conn, $DATA)
   $count = 0;
   $ItemCode = $DATA['ItemCode'];
   // ====================================================================================
-  $Sql = "INSERT INTO item_multiple_unit (MpCode , UnitCode , Multiply , ItemCode , PriceUnit) VALUES ( 1 , 1 , 1 , '$ItemCode' , 1)";
-  $meQuery = mysqli_query($conn, $Sql);
+  // $Sql = "INSERT INTO item_multiple_unit (MpCode , UnitCode , Multiply , ItemCode , PriceUnit) VALUES ( 1 , 1 , 1 , '$ItemCode' , 1)";
+  // $meQuery = mysqli_query($conn, $Sql);
 
   $Sql = "SELECT
           item.ItemCode,
