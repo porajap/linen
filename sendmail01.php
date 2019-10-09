@@ -66,5 +66,4 @@ if (!$mail->send()) {
     echo json_encode($return);
     die;
 }
-
 ?>

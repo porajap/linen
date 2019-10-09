@@ -389,6 +389,10 @@ $id_h=$_SESSION['id_h'];
 
 
     $(document).ready(function (e) {
+      checkFileLength();
+      $('.upload-doc input[type="file"]').on('change', function () {
+          checkFileLength();
+      });
       checksession();
       if(chk_logoff == 1 ){
         setActive();
@@ -421,10 +425,7 @@ $id_h=$_SESSION['id_h'];
         $("#"+id_h).attr("class", "active_li"); 
        }
 
-      checkFileLength();
-      $('.upload-doc input[type="file"]').on('change', function () {
-          checkFileLength();
-      });
+
 
     }).keyup(function (e) {
       last_move = afk();
@@ -799,7 +800,7 @@ $id_h=$_SESSION['id_h'];
               validation++;
           }
       }
-
+      
       if (validation == 1) {
           $('#comfirm_submit').removeAttr('disabled');
       }
