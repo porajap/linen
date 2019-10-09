@@ -124,7 +124,7 @@ function ShowItem($conn, $DATA)
           FROM
           item
           WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
-          ORDER BY item.ItemName ASC
+          ORDER BY item.Modify_Date ASC
           ";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);

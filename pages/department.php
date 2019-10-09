@@ -509,6 +509,7 @@ $array2 = json_decode($json2,TRUE);
             $('#DepCode').val("");
             $('#hptsel2').val("");
              $('#DepCodeReal').val("");
+             $("#xCenter").prop('checked', false);
             ShowItem();
             $('#bCancel').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
@@ -523,6 +524,7 @@ $array2 = json_decode($json2,TRUE);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
+          $("#xCenter").prop('checked', false);
           Blankinput();
         } else {
           $("input[name="+name+"]:radio").attr('previousValue', false);

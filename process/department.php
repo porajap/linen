@@ -188,6 +188,7 @@ function EditItem($conn, $DATA)
   $HptCode = $DATA['HptCode'];
   $DepName = trim($DATA['DepName']);
   $xCenter = $DATA['xCenter'];
+  $DepCode = $DATA['DepCode'];
 
   $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
   WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
