@@ -744,6 +744,14 @@ $(document).ready(function(e){
             closeOnConfirm: false,
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
+              swal({
+                      title: '',
+                      text: '<?php echo $array['savesuccess'][$language]; ?>',
+                      type: 'success',
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 1500,
+                      });
               if (result.value) {
           var data = {
             'STATUS'      : 'SaveBill',

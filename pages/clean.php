@@ -731,14 +731,22 @@ $(document).ready(function(e){
               closeOnConfirm: false,
               closeOnCancel: false,
               showCancelButton: true}).then(result => {
+                swal({
+                      title: '',
+                      text: '<?php echo $array['savesuccess'][$language]; ?>',
+                      type: 'success',
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 1500,
+                      });
                 if (result.value) {
-          var data = {
-            'STATUS'      : 'SaveBill',
-            'xdocno'      : docno,
-            'xdocno2'      : docno2,
-            'isStatus'    : isStatus,
-            'deptCode'    : dept
-          };
+                var data = {
+                  'STATUS'      : 'SaveBill',
+                  'xdocno'      : docno,
+                  'xdocno2'      : docno2,
+                  'isStatus'    : isStatus,
+                  'deptCode'    : dept
+                };
 
           senddata(JSON.stringify(data));
           $('#profile-tab').tab('show');
