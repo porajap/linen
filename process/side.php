@@ -13,7 +13,7 @@ function ShowItem($conn, $DATA)
     FROM site
     LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
     WHERE site.IsStatus = 0
-    AND (site.HptCode LIKE '%$Keyword%' OR site.HptName LIKE '%$Keyword%') ORDER BY site.HptCode     ";
+    AND (site.HptCode LIKE '%$Keyword%' OR site.HptName LIKE '%$Keyword%' OR site.HptNameTH LIKE '%$Keyword%') ORDER BY site.HptCode     ";
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

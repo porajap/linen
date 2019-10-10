@@ -1288,7 +1288,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['department'][$language]; ?></label>
-                                      <input type="text"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
+                                      <input type="text"  autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
@@ -1298,8 +1298,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
-                                      <input type="text"  hidden class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
+                                      <input type="text" autocomplete="off"   class="form-control col-sm-7 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
+                                      <input type="text" autocomplete="off"   hidden class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
                                       
                                     </div>
                                   </div>

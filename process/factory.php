@@ -30,6 +30,7 @@ function ShowItem($conn, $DATA)
             WHERE factory.IsCancel = 0
             AND (factory.FacCode LIKE '%$Keyword%' OR
             factory.FacName LIKE '%$Keyword%' OR
+            factory.FacNameTH LIKE '%$Keyword%' OR
             factory.DiscountPercent LIKE '%$Keyword%' OR
             factory.Price LIKE '%$Keyword%' OR
             factory.Address LIKE '%$Keyword%' OR

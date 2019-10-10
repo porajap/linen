@@ -340,6 +340,12 @@ $array2 = json_decode($json2, TRUE);
       senddata(JSON.stringify(data));
     }
 
+    function shownow(){
+      var catagory1 = $("#catagory1").val();
+      $("#catagory2").val(catagory1);
+      ShowItem();
+    }
+
     function GetmainCat() {
       var maincatagory = $("#maincatagory").val();
       var data = {
@@ -645,6 +651,8 @@ $array2 = json_decode($json2, TRUE);
 }
 function resetinput5(){
 var Catagory = $('#catagory2').val();
+$('#catagory1').val(Catagory);
+ShowItem();
 if(Catagory !="" && Catagory!=undefined){
   $('#rem3').hide();
   $('#catagory2').css('border-color', '');
@@ -1513,6 +1521,7 @@ if(Catagory !="" && Catagory!=undefined){
               $("#catagory1").append(StrTr);
               $("#catagoryModal").append(StrTr);
               CreateItemCode();
+              // ShowItem();
             } else if ((temp["form"] == 'GetHospital')) {
               var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
               var StrTr1 = "<option value=''>"+hotValue0+"</option>";
@@ -2386,7 +2395,7 @@ if(Catagory !="" && Catagory!=undefined){
                 </div>
                 <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;width: 80%;margin-left: -46%;" id="catagory1"> </select>
+                    <select class="form-control" style="font-size:24px;width: 80%;margin-left: -46%;" id="catagory1" onchange="shownow()"> </select>
                   </div>
                 </div>
                 <div class="col-md-2">

@@ -47,10 +47,9 @@ function ShowItem($conn, $DATA)
         $Sql .= " WHERE item.CategoryCode = $Catagory AND HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
       }else if($HptCode != '' && $maincatagory == '' && $Catagory=='' ){
         $Sql .= " WHERE HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
+      }else if($maincatagory != '' && $Catagory !=''){
+      $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
       }
-      // else if($maincatagory != '' && $Catagory !=''){
-      // $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
-      // }
   } else {
     $Sql .= " WHERE item.HptCode = '$HptCode' AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
