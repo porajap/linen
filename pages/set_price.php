@@ -756,6 +756,13 @@ $array2 = json_decode($json2,TRUE);
                     if (temp["status"] == 'success') {
 
                         if ((temp["form"] == 'CreateDoc')) {
+                            if(temp["checkdis"] == 1){
+                                $("#updateprice").attr('disabled', true);    
+                                $("#delete_icon2").addClass('opacity');    
+                            }else{
+                                $("#updateprice").attr('disabled', false);              
+                                $("#delete_icon2").removeClass('opacity');                  
+                            }
                             $("#docno").val( temp["DocNo"] );
                             $("#create1").hide(300);
                             setTimeout(function () {
@@ -1479,8 +1486,8 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
                                 <input type="text" class="form-control" style="margin-left:20px; font-size:22px;width:210px;" name="search1"   id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >
                                 <div class="search_custom col-md-2" id="btn_save"  hidden="true">
-                                    <div class="import_1 d-flex justify-content-start">
-                                        <button class="btn" onclick="UpdatePrice()" >
+                                    <div class="import_1 d-flex justify-content-start" id="delete_icon2">
+                                        <button class="btn" onclick="UpdatePrice()" id="updateprice">
                                             <i class="fas fa-file-import mr-2 pt-1"></i>
                                             <?php echo $array['updateprice'][$language]; ?>
                                         </button>

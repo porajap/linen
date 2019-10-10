@@ -31,12 +31,12 @@ function CreateDoc($conn, $DATA)
     }
 
     if($Cnt == 0){
-        $Sql = "SELECT item_category.CategoryCode,item_category.Price
+        $Sql = "SELECT item_category.CategoryCode,item_category.Price , DATE(NOW()) as DateNowx
         FROM item_main_category
         INNER JOIN item_category ON item_main_category.MainCategoryCode = item_category.MainCategoryCode
         WHERE item_category.IsStatus = 0";
     }else{
-        $Sql = "SELECT item_category.CategoryCode,category_price.Price
+        $Sql = "SELECT item_category.CategoryCode,category_price.Price , DATE(NOW()) as DateNowx
         FROM category_price
         INNER JOIN site ON category_price.HptCode = site.HptCode
         INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode
@@ -48,6 +48,7 @@ function CreateDoc($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $CategoryCode[$count] = $Result['CategoryCode'];
         $Price[$count] = $Result['Price'];
+        $DateNowx      = $Result['DateNowx'];
         $count++;
     }
 
@@ -60,6 +61,18 @@ function CreateDoc($conn, $DATA)
     $insert_alert = "INSERT INTO alert_mail_price (DocNo, HptCode, day_30, day_7) VALUES ('$DocNo', '$HptCode', 0, 0) ";
     mysqli_query($conn, $insert_alert);
     // -------------------------------
+
+    $xdate = "SELECT xDate FROM category_price_time WHERE DocNo = '$DocNo'";
+    $meQuerydate = mysqli_query($conn, $xdate);
+    while ($Resultdate = mysqli_fetch_assoc($meQuerydate)) {
+      $xDate = $Resultdate['xDate'];
+      if($DateNowx == $xDate){
+        $return['checkdis'] = 1;
+      }else{
+        $return['checkdis'] = 0;
+
+      }
+    }
 
     if($count>0){
         $return['status'] = "success";
@@ -235,7 +248,7 @@ function ShowItem2($conn, $DATA)
         $return[$count]['CategoryCode'] = $Result['CategoryCode'];
         $return[$count]['MainCategoryName'] = $Result['MainCategoryName'];
         $return[$count]['CategoryName'] = $Result['CategoryName'];
-        $return[$count]['Price'] = $Result['Price'];
+        $return[$count]['Price'] = $Result['Price']==0?'':$Result['Price'];
         $return[$count]['date'] = $newdate;
         $count++;
     }
