@@ -926,9 +926,9 @@ $array2 = json_decode($json2,TRUE);
       function SaveUsageCode(row , Sel) {
         var UsageCode = $('#exp_'+row).val();
         if(UsageCode != "" ){
-        $('#exp_'+row).css("border-color","green");
+        $('#exp_'+row).css("border","3px solid green");
         }else{
-          $('#exp_'+row).css("border-color","");
+          $('#exp_'+row).css("border","");
         }
         var data = {
           'STATUS' : 'SaveUsageCode',

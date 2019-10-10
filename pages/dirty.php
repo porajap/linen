@@ -1069,10 +1069,10 @@ $array2 = json_decode($json2,TRUE);
                     $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 30%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                    "<td style='width: 23%;padding-left: 5%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                     "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 14%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                    "<td style='width: 13%;' nowrap>"+temp[i]['Total']+"</td>"+
                     "<td "+Style+" nowrap>"+Status+"</td>"+
                     "</tr>";
 
@@ -1958,10 +1958,10 @@ $array2 = json_decode($json2,TRUE);
                               <tr role="row">
                                 <th style='width: 10%;' nowrap>&nbsp;</th>
                                 <th style='width: 15%;' nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                <th style='width: 30%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <th style='width: 23%;padding-left: 5%;' nowrap><?php echo $array['docno'][$language]; ?></th>
                                 <th style='width: 15%;' nowrap><?php echo $array['employee'][$language]; ?></th>
-                                <th style='width: 10%;' nowrap><?php echo $array['time'][$language]; ?></th>
-                                <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                                <th style='width: 14%;' nowrap><?php echo $array['time'][$language]; ?></th>
+                                <th style='width: 13%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                                 <th style='width: 10%;' nowrap><?php echo $array['status'][$language]; ?></th>
                               </tr>
                             </thead>

@@ -609,6 +609,9 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Blankinput() {
+      $('#clear').attr('disabled', false);  
+      $('#btn_clear').removeClass('opacity');  
+      $('#btn_clear').addClass('mhee');  
         $('#profile-tab').attr('hidden',true);
         $('#home-tab').click();
         $('#rem1').hide();
@@ -667,11 +670,14 @@ $array2 = json_decode($json2,TRUE);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
-          
-
-
+          $('#clear').attr('disabled', false);  
+          $('#btn_clear').removeClass('opacity');  
+          $('#btn_clear').addClass('mhee');  
           Blankinput();
         } else {
+          $('#clear').attr('disabled', false);  
+          $('#btn_clear').removeClass('opacity');  
+          $('#btn_clear').addClass('mhee');  
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
           
@@ -826,6 +832,9 @@ $array2 = json_decode($json2,TRUE);
       $('#Position').val("");
       $('#phone').val("");
       $('#idcontract').val("");
+      $('#clear').attr('disabled', true);  
+      $('#btn_clear').addClass('opacity');  
+      $('#btn_clear').removeClass('mhee');  
     }
       function senddata(data){
          var form_data = new FormData();
@@ -1410,7 +1419,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu mhee" id="btn_clear" hidden>
                             <div class="d-flex justify-content-center">
                               <div class="circle12 d-flex justify-content-center">
-                                <button class="btn"  onclick="clearInput()">
+                                <button class="btn"  onclick="clearInput()" id="clear">
                                   <i class="fas fa-user-plus"></i>
                                   <div>
                                     <?php echo $array['adduser'][$language]; ?>

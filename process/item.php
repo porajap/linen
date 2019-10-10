@@ -56,6 +56,7 @@ function ShowItem($conn, $DATA)
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
   }
   $Sql .= " ORDER BY item.$column $sort";
+  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] = $Result['ItemCode'];
