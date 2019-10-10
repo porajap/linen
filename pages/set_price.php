@@ -685,7 +685,10 @@ $array2 = json_decode($json2,TRUE);
             // dialog.dialog( "open" );
             $('#dialog').modal('show');
         }
-
+        
+        function shownow(){
+                ShowItem1();
+        }
         function CancelDocNo(docno) {
             swal({
                 title: "<?php echo $array['cancel'][$language]; ?>",
@@ -1239,7 +1242,7 @@ $array2 = json_decode($json2,TRUE);
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
                                               <!-- <label class="col-sm-7 col-form-label text-right"style="margin-left: -90px;"><?php echo $array['side'][$language]; ?></label> -->
-                                                  <select class="form-control col-md-12" id="hptsel">
+                                                  <select class="form-control col-md-12" id="hptsel" onchange="shownow()">
                                                   </select>
                                               </div>
                                           </div>

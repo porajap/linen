@@ -494,6 +494,7 @@ $language = $_SESSION['lang'];
                         }
                     }
                 } else if (temp["status"] == 'change_pass') {
+                    $('#chk').val(3);
                     $('#login_form').attr('hidden', true);
                     $('#reset_form').attr('hidden', true);
                     $('#change_form').attr('hidden', false);

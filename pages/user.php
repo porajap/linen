@@ -170,14 +170,14 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function getDepartment2(){
+            var Hotp = $('#host option:selected').attr("value");
+            $('#hptsel').val(Hotp);
             ShowItem();
             $('#rem1').hide();
             $('#hptsel').css('border-color', '');
-            var Hotp = $('#host option:selected').attr("value");
             if(Hotp == '' || Hotp == undefined){
             Hotp = '';
             }
-            $('#hptsel').val(Hotp);
             var data = {
             'STATUS'  : 'getDepartment2',
             'Hotp'	: Hotp

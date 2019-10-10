@@ -333,10 +333,10 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function resetinputuser(){
-            ShowItem();
             var hptsel = $('#hptsel2').val();
-            $('#hptsel2').css('border-color', '');
             $('#hptsel').val(hptsel);
+            ShowItem();
+            $('#hptsel2').css('border-color', '');
             $('#hptsel').css('border-color', '');
         }
 
