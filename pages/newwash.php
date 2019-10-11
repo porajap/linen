@@ -1042,12 +1042,13 @@ $array2 = json_decode($json2,TRUE);
                       $( "#TableDocument tbody" ).empty();
                       $( "#TableItemDetail tbody" ).empty();
                       // $("#Dep2").val(temp[0]['DepCode']);
-                      $("#department").val(temp[0]['DepCode']);
+                      
                       // $("#docdate").val(temp[0]['DocDate']);
                       // $("#recorder").val(temp[0]['Record']);
                       // $("#timerec").val(temp[0]['RecNow']);
                       // $("#total").val(temp[0]['Total']);
                       if(temp['Count']>0){
+                        $("#department").val(temp[0]['DepCode']);
                         alert(temp['Count']);
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var rowCount = $('#TableDocument >tbody >tr').length;
@@ -1082,7 +1083,6 @@ $array2 = json_decode($json2,TRUE);
                         }
                       }
                     }else{
-                    $("#TableDocument tbody").empty();
                     var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                         swal({
                           title: '',
@@ -1092,8 +1092,7 @@ $array2 = json_decode($json2,TRUE);
                           showConfirmButton: false,
                           timer: 700,
                       });
-                    $("#TableDocument tbody").append(Str);
-
+                      $("#TableDocument tbody").html(Str);
                     }
                     }else if(temp["form"]=='SelectDocument'){
                       $('#home-tab').tab('show')
