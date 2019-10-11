@@ -170,6 +170,7 @@ $array2 = json_decode($json2,TRUE);
     }
 
 	function ShowDocument(){
+    var Hotp = $('#hotpital option:selected').attr("value");
 	  var datepicker1 = $('#datepicker1').val();
 	  var datepicker2 = $('#datepicker2').val();
     var lang = '<?php echo $language; ?>';
@@ -188,7 +189,8 @@ $array2 = json_decode($json2,TRUE);
         'STATUS'  	: 'ShowDocument',
 		'deptCode'	: deptCode,
 		'sDate'	: datepicker1,
-		'eDate'	: datepicker2
+		'eDate'	: datepicker2,
+    'Hotp'	: Hotp
       };
       senddata(JSON.stringify(data));
 	}
@@ -253,14 +255,14 @@ $array2 = json_decode($json2,TRUE);
                     $("#Dep2").append(Str);
                   }
 										  }else if(temp["form"]=='ShowDocument'){
-				                              $( "#TableDocument tbody" ).empty();
-				                              $("#docno").val(temp[0]['DocNo']);
-											  $("#docdate").val(temp[0]['DocDate']);
-											  $("#recorder").val(temp[0]['Record']);
-											  $("#timerec").val(temp[0]['RecNow']);
-											  $("#wTotal").val(temp[0]['Total']);
-
-				                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                          $( "#TableDocument tbody" ).empty();
+                          if(temp['Count']>0){
+                          $("#docno").val(temp[0]['DocNo']);
+                          $("#docdate").val(temp[0]['DocDate']);
+                          $("#recorder").val(temp[0]['Record']);
+                          $("#timerec").val(temp[0]['RecNow']);
+                          $("#wTotal").val(temp[0]['Total']);
+				                  for (var i = 0; i < (Object.keys(temp).length-2); i++) {
 												   var rowCount = $('#TableDocument >tbody >tr').length;
 												   var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 												   var Status = "";
@@ -280,7 +282,6 @@ $array2 = json_decode($json2,TRUE);
                             if(Number(temp[i]['Precent'])>8){
                               textColor = "text-danger";
                             }
-
 												   $StrTr="<tr id='tr"+temp[i]['DocNo']+"'>"+
 															  "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
 															  "<td style='width: 15%;'nowrap>"+temp[i]['DocNo1']+"</td>"+
@@ -291,16 +292,26 @@ $array2 = json_decode($json2,TRUE);
 															  "<td style='width: 10%;'nowrap>"+temp[i]['Total2']+"</td>"+
 															  "<td style='width: 11%;text-align:center;' nowrap class='"+textColor+"'>"+temp[i]['Precent']+ " %" +"</td>"+
 														  "</tr>";
-
-					                               if(rowCount == 0){
-					                                 $("#TableDocument tbody").append( $StrTr );
-					                               }else{
-					                                 $('#TableDocument tbody:last-child').append(  $StrTr );
-					                               }
-												}
-
-											}
-
+                              if(rowCount == 0){
+                                $("#TableDocument tbody").append( $StrTr );
+                              }else{
+                                $('#TableDocument tbody:last-child').append(  $StrTr );
+                              }
+                          }
+                        }else{
+                          $("#TableDocument tbody").empty();
+                          var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                              swal({
+                                title: '',
+                                text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                                type: 'warning',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timer: 700,
+                            });
+                          $("#TableDocument tbody").append(Str);
+                    }
+                        }
                         	}else if (temp['status']=="failed") {
                             switch (temp['msg']) {
                               case "notchosen":

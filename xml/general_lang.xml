@@ -141,7 +141,7 @@
 <confirm><en>Confirm</en><th>ยืนยัน</th></confirm>
 <confirmdoc><en>Confirm create doc</en><th>ยืนยันการสร้างเอกสาร</th></confirmdoc>
 <confirmsave><en>Confirm save doc</en><th>ยืนยันการบันทึกเอกสาร</th></confirmsave>
-<confirmjaipar><en>Confirm save jaipar</en><th>ยืนยันการจ่ายผ้า</th></confirmjaipar>
+<confirmjaipar><en>Confirm save Payout</en><th>ยืนยันการจ่ายผ้า</th></confirmjaipar>
 <confirmsave1><en>Confirm save </en><th>ยืนยันการบันทึกข้อมูล</th></confirmsave1>
 <confirmdelete><en>Confirm delete item</en><th>ยืนยันการลบรายการ</th></confirmdelete>
 <confirmcancel><en>Confirm cancel doc</en><th>ยืนยันการยกเลิกเอกสาร</th></confirmcancel>

@@ -75,9 +75,9 @@ $array2 = json_decode($json2,TRUE);
 
   $(document).ready(function(e){
     var PmID = <?php echo $PmID;?>;
-    if(PmID ==2){
+    if(PmID ==2 || PmID ==3){
     $('#hotpital').addClass('icon_select');
-    $('#department').addClass('icon_select');
+    // $('#department').addClass('icon_select');
     }
     $('#searchtxt').keyup(function(e){
 
@@ -444,7 +444,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="col-md-4">
                             <div class='form-group row'>
                               <label class="col-sm-5 col-form-label text-right" style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                              <select class="form-control col-sm-6 " style="font-size:22px;" <?php if($PmID != 1  && $PmID != 3  && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
+                              <select class="form-control col-sm-6 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
                             </div>
                           </div>
   

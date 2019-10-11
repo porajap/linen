@@ -1130,6 +1130,9 @@ $array2 = json_decode($json2,TRUE);
                     $("#hover2").addClass('mhee');
                     $("#hover4").addClass('mhee');
                     $("#hover5").addClass('mhee');
+                    $('#bPrint').attr('disabled', true);
+                    $('#bPrint2').addClass('opacity');
+                    $('#hover6').removeClass('mhee');
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                     // $('.chk_edit').attr('disabled', true);
                     // $('#').attr('disabled', true);
@@ -1143,7 +1146,9 @@ $array2 = json_decode($json2,TRUE);
                     $("#bCancel").prop('disabled', true);
                     $('#hover4').addClass('mhee');
                     $("#bSave2").removeClass('opacity');
-
+                    $('#bPrint').attr('disabled', false);
+                    $('#bPrint2').removeClass('opacity');
+                    $('#hover6').addClass('mhee');
                   }else{
                     $("#bImport").prop('disabled', true);
                     $("#bDelete").prop('disabled', true);
@@ -1890,10 +1895,10 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee"  id="hover6">
+                          <div class="menu "  id="hover6">
                             <div class="d-flex justify-content-center">
-                              <div class="circle9 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintData()" id="bPrint">
+                              <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
+                                <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>

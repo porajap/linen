@@ -1644,13 +1644,13 @@ $(document).ready(function(e){
                     <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Hos2" >
+                              <select class="form-control " style='font-size:24px;' id="Hos2" >
                               </select>
                             </div>
                           </div>
                           <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Dep2" disabled="true">
+                              <select class="form-control icon_select" style='font-size:24px;' id="Dep2" disabled="true">
                               </select>
                             </div>
                           </div>

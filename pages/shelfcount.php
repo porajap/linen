@@ -297,7 +297,7 @@ $array2 = json_decode($json2,TRUE);
             $('#side').css('border-color', '');
             var Hotp = $('#side option:selected').attr("value");
             if(Hotp == '' || Hotp == undefined){
-            Hotp = '';
+              Hotp = '<?php echo $HptCode; ?>';
             }
             var data = {
             'STATUS'  : 'getDepartment2',
@@ -1323,6 +1323,9 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport2").removeClass('opacity');
                 $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
+                $('#bPrint').attr('disabled', true);
+                $('#bPrint2').addClass('opacity');
+                $('#hover7').removeClass('mhee');
               }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1338,6 +1341,9 @@ $array2 = json_decode($json2,TRUE);
                 // $("#hover6").addClass('mhee');
                 $("#bSave2").removeClass('opacity');
                 // $("#bdetail2").removeClass('opacity');
+                $('#bPrint').attr('disabled', false);
+                $('#bPrint2').removeClass('opacity');
+                $('#hover7').addClass('mhee');
               }else{
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
@@ -2156,10 +2162,10 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee"  id="hover7">
+                          <div class="menu "  id="hover7">
                             <div class="d-flex justify-content-center">
-                              <div class="circle9 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintData()" >
+                              <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
+                                <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>

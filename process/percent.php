@@ -96,6 +96,7 @@ function ShowDocument($conn,$DATA){
   $Datepicker = $DATA["Datepicker"];
   $sDate = $DATA["sDate"];
   $eDate = $DATA["eDate"];
+  $Hotp = $DATA["Hotp"];
 
 //	 $Sql = "INSERT INTO log ( log ) VALUES ('$deptCode :: $sDate : $eDate')";
 //     mysqli_query($conn,$Sql);
@@ -116,6 +117,7 @@ function ShowDocument($conn,$DATA){
   INNER JOIN site ON department.HptCode = site.HptCode
   WHERE DATE(dirty.DocDate) BETWEEN '$sDate' AND '$eDate'
   AND department.DepCode = $deptCode
+  AND site.HptCode = '$Hotp'
   ORDER BY clean.DocNo DESC LIMIT 100";
   // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
@@ -149,7 +151,7 @@ if($lang =='en'){
     $boolean = true;
     $count++;
   }
-
+	$return['Count'] 	= $count;
   if($boolean){
     $return['status'] = "success";
     $return['form'] = "ShowDocument";
@@ -157,13 +159,9 @@ if($lang =='en'){
     mysqli_close($conn);
     die;
   }else{
-    $return[$count]['DocNo'] = "";
-    $return[$count]['DocDate'] = "";
-    $return[$count]['Qty'] = "";
-    $return[$count]['Elc'] = "";
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['form'] = "ShowDocument";
-	  $return['msg'] = "nodetail";
+	  // $return['msg'] = "nodetail";
     echo json_encode($return);
     mysqli_close($conn);
     die;

@@ -1020,6 +1020,9 @@ $(document).ready(function(e){
                   $("#bImport2").removeClass('opacity');
                   $("#bSave2").removeClass('opacity');
                   $("#bCancel2").removeClass('opacity');
+                  $('#bPrint').attr('disabled', true);
+                  $('#bPrint2').addClass('opacity');
+                  $('#hover6').removeClass('mhee');
                 }else if(temp[0]['IsStatus']==1){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1031,6 +1034,9 @@ $(document).ready(function(e){
                   $("#bCancel").prop('disabled', true);
                   $('#hover4').addClass('mhee');
                   $("#bSave2").removeClass('opacity');
+                  $('#bPrint').attr('disabled', false);
+                  $('#bPrint2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
@@ -1664,10 +1670,10 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee"  id="hover6">
+                          <div class="menu "  id="hover6">
                             <div class="d-flex justify-content-center">
-                              <div class="circle9 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintData()" id="bPrint">
+                              <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
+                                <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>
