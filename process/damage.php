@@ -11,20 +11,40 @@ function OnLoadPage($conn, $DATA)
 {
   $lang = $DATA["lang"];
   $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $count = 0;
   $boolean = false;
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-  }else{
-    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-  }  
+    if($PmID ==2 || $PmID ==3){
+      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+      }else{
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      }  
+    }else{
+        $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+        if($PmID ==2 || $PmID ==3){
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+        }else{
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      }  
+    }
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['HptName'] = $Result['HptName'];
+    // $count++;
+    $boolean = true;
+  }
+  $meQuery1 = mysqli_query($conn, $Sql1);
+  while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+    $return[$count]['HptCode1'] = $Result1['HptCode1'];
+    $return[$count]['HptName1'] = $Result1['HptName1'];
+    $return[0]['PmID'] = $PmID;
     $count++;
     $boolean = true;
   }
+  $return['Row'] = $count;
   $boolean = true;
   if ($boolean) {
     $return['status'] = "success";
@@ -176,8 +196,9 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $Hotp = $DATA["Hotp"];
     $deptCode = $DATA["deptCode"];
-    $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $Datepicker = $DATA["Datepicker"];
+    $DocNo = $DATA["docno"];
+    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
+    $datepicker = $DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
@@ -186,11 +207,28 @@ function CreateDocument($conn, $DATA)
     INNER JOIN department ON damage.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON damage.Modify_Code = users.ID ";
-    if ($deptCode != null) {
-      $Sql .= "WHERE damage.DepCode = $deptCode AND damage.DocNo LIKE '%$DocNo%'";
-    }elseif($deptCode==null){
-      $Sql.="WHERE site.HptCode = '$Hotp'";
+  if($DocNo!=null){
+    $Sql .= " WHERE damage.DocNo = '$DocNo' AND damage.DocNo LIKE '%$xDocNo%'";
+  }else{
+    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+      $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+      if($xDocNo!=null){
+        $Sql .= " OR damage.DocNo LIKE '%$xDocNo%' ";
+      }
+    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+        $Sql .= " WHERE damage.DocNo LIKE '%$xDocNo%' ";
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND damage.DepCode = $deptCode AND damage.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE damage.DepCode = $deptCode AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE damage.DepCode = $deptCode AND DATE(damage.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damage.DocNo LIKE '%$xDocNo%'";
     }
+  }
     $Sql .= "ORDER BY damage.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -215,7 +253,7 @@ function CreateDocument($conn, $DATA)
       $boolean = true;
       $count++;
     }
-
+    $return['Count'] = $count;
     if ($boolean) {
       $return['status'] = "success";
       $return['form'] = "ShowDocument";
@@ -223,7 +261,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
+      $return['status'] = "success";
       $return['form'] = "ShowDocument";
       $return['msg'] = "notfound";
       echo json_encode($return);

@@ -85,6 +85,11 @@ $array2 = json_decode($json2,TRUE);
     var xItemcode;
 
     $(document).ready(function(e){
+      $('#searchdocument').keyup(function(e) {
+            if (e.keyCode == 13) {
+              ShowDocument(1);
+            }
+        });
       $('#rem1').hide();
       $('#rem2').hide();
       $('.only').on('input', function() {
@@ -316,6 +321,7 @@ $array2 = json_decode($json2,TRUE);
     }
     
     function ShowDocument(selecta){
+      var DocNo = $('#docno').val();
       var Hotp = $('#side option:selected').attr("value");
         var searchdocument = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
@@ -337,7 +343,8 @@ $array2 = json_decode($json2,TRUE);
           'selecta' : selecta,
           'deptCode'	: deptCode,
           'Hotp'	: Hotp,
-          'datepicker1' : datepicker1
+          'datepicker1' : datepicker1,
+          'docno' : DocNo
         };
       console.log(data);
       senddata(JSON.stringify(data));
@@ -1166,6 +1173,7 @@ $array2 = json_decode($json2,TRUE);
               // $("#docdate").val(temp[0]['DocDate']);
               // $("#recorder").val(temp[0]['Record']);
               // $("#timerec").val(temp[0]['RecNow']);
+              if(temp['Count']>0){
               $("#docno").val("");
               $("#docdate").val("");
               $("#recorder").val("");
@@ -1214,7 +1222,19 @@ $array2 = json_decode($json2,TRUE);
                   $('#TableDocument tbody:last-child').append(  $StrTr );
                 }
               }
-
+            }else{
+                    $("#TableDocument tbody").empty();
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                        swal({
+                          title: '',
+                          text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                          type: 'warning',
+                          showCancelButton: false,
+                          showConfirmButton: false,
+                          timer: 700,
+                      });
+                    $("#TableDocument tbody").append(Str);
+                    }
             }else if(temp["form"]=='ShowDocument_sub'){
               $( "#TableDocument tbody" ).empty();
               $( "#TableItemDetail tbody" ).empty();
@@ -2217,7 +2237,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
-                            <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                            <input type="text" class="form-control" autocomplete="off"  style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                             <div class="search_custom col-md-2">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(1)" >

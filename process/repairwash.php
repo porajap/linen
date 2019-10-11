@@ -213,7 +213,8 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $Hotp = $DATA["Hotp"];
     $deptCode = $DATA["deptCode"];
-    $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
+    $DocNo = $DATA["docno"];
+    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
     $datepicker = $DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     $Sql = "SELECT site.HptName,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) AS DocDate,repair_wash.RefDocNo,repair_wash.Total,users.FName,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus
@@ -225,22 +226,22 @@ function CreateDocument($conn, $DATA)
     $Sql .= " WHERE repair_wash.DocNo = '$DocNo' ";
   }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
-      $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%' ";
       if($xDocNo!=null){
         $Sql .= " OR repair_wash.DocNo LIKE '%$xDocNo%' ";
       }
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
-        $Sql .= " WHERE repair_wash.DepCode = $deptCode ";
+        $Sql .= " WHERE repair_wash.DocNo LIKE '%$xDocNo%' ";
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE DATE(repair_wash.DocDate) = '$datepicker' ";
+      $Sql .= " WHERE DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DepCode = $deptCode ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DepCode = $deptCode AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair_wash.DocDate) = '$datepicker' ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair_wash.DepCode = $deptCode AND DATE(repair_wash.DocDate) = '$datepicker' ";
+      $Sql .= " WHERE repair_wash.DepCode = $deptCode AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair_wash.DepCode = $deptCode AND DATE(repair_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp'";
+      $Sql .= " WHERE repair_wash.DepCode = $deptCode AND DATE(repair_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }
   }
     $Sql .= "ORDER BY repair_wash.DocNo DESC LIMIT 500";
@@ -267,7 +268,7 @@ function CreateDocument($conn, $DATA)
       $boolean = true;
       $count++;
     }
-
+    $return['Count'] = $count;
     if ($boolean) {
       $return['status'] = "success";
       $return['form'] = "ShowDocument";
@@ -275,7 +276,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
+      $return['status'] = "success";
       $return['form'] = "ShowDocument";
       $return['msg'] = "notfound";
       echo json_encode($return);

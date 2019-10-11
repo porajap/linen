@@ -85,6 +85,11 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+  $('#searchdocument').keyup(function(e) {
+            if (e.keyCode == 13) {
+              ShowDocument(1);
+            }
+        });
   $('#Dep2').addClass('icon_select');
   $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
@@ -359,7 +364,7 @@ $(document).ready(function(e){
           'deptCode'	: deptCode,
           'Hotp'	: Hotp,
           'datepicker1' : datepicker1,
-          'DocNo' : DocNo
+          'docno' : DocNo
         };
         senddata(JSON.stringify(data));
       }
@@ -944,6 +949,7 @@ $(document).ready(function(e){
                 }, 500);
                 $( "#TableDocument tbody" ).empty();
                 $( "#TableItemDetail tbody" ).empty();
+                if(temp['Count']>0){
                 for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                   var rowCount = $('#TableDocument >tbody >tr').length;
                   var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
@@ -977,7 +983,18 @@ $(document).ready(function(e){
                     $('#TableDocument tbody:last-child').append(  $StrTr );
                   }
                 }
-
+              }else{
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                        swal({
+                          title: '',
+                          text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                          type: 'warning',
+                          showCancelButton: false,
+                          showConfirmButton: false,
+                          timer: 700,
+                      });
+                      $("#TableDocument tbody").html(Str);
+                    }
               }else if(temp["form"]=='SelectDocument'){
                 $('#home-tab').tab('show')
                 $( "#TableItemDetail tbody" ).empty();
@@ -1689,7 +1706,7 @@ $(document).ready(function(e){
                         <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select onchange="getDepartment();"  class="form-control" style='font-size:24px;' id="Hos2" >
+                              <select   class="form-control" style='font-size:24px;' id="Hos2" >
                               </select>
                             </div>
                           </div>

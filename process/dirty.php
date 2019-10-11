@@ -234,8 +234,10 @@ if($DocNo!=null){
     $Sql .= " WHERE  DATE(dirty.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%'";
   }
 }
-
-  $Sql .= " ORDER BY dirty.DocNo DESC LIMIT 500";
+if($Hotp == null  && $datepicker == null){
+  $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
+}
+  $Sql .= "ORDER BY dirty.DocNo DESC LIMIT 500";
 // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

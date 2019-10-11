@@ -198,7 +198,8 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $Hotp = $DATA["Hotp"];
     $deptCode = $DATA["deptCode"];
-    $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
+    $DocNo = $DATA["docno"];
+    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
     $datepicker = $DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
@@ -209,7 +210,7 @@ function CreateDocument($conn, $DATA)
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON repair.Modify_Code = users.ID ";
   if($DocNo!=null){
-    $Sql .= " WHERE repair.DocNo = '$DocNo' ";
+    $Sql .= " WHERE repair.DocNo = '$DocNo' AND repair.DocNo LIKE '%$xDocNo%'";
   }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp'  ";
@@ -217,17 +218,17 @@ function CreateDocument($conn, $DATA)
         $Sql .= " OR repair.DocNo LIKE '%$xDocNo%' ";
       }
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
-        $Sql .= " WHERE repair.DepCode = $deptCode ";
+        $Sql .= " WHERE repair.DocNo LIKE '%$xDocNo%' ";
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE DATE(repair.DocDate) = '$datepicker' ";
+      $Sql .= " WHERE DATE(repair.DocDate) = '$datepicker' AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair.DepCode = $deptCode ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair.DepCode = $deptCode AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair.DocDate) = '$datepicker' ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair.DocDate) = '$datepicker' AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair.DepCode = $deptCode AND DATE(repair.DocDate) = '$datepicker' ";
+      $Sql .= " WHERE repair.DepCode = $deptCode AND DATE(repair.DocDate) = '$datepicker' AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair.DepCode = $deptCode AND DATE(repair.DocDate) = '$datepicker' AND site.HptCode = '$Hotp'";
+      $Sql .= " WHERE repair.DepCode = $deptCode AND DATE(repair.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair.DocNo LIKE '%$xDocNo%'";
     }
   }
     $Sql .= "ORDER BY repair.DocNo DESC LIMIT 500";
@@ -254,7 +255,7 @@ function CreateDocument($conn, $DATA)
       $boolean = true;
       $count++;
     }
-
+    $return['Count'] = $count;
     if ($boolean) {
       $return['status'] = "success";
       $return['form'] = "ShowDocument";
@@ -262,7 +263,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
+      $return['status'] = "success";
       $return['form'] = "ShowDocument";
       $return['msg'] = "notfound";
       echo json_encode($return);

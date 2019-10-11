@@ -387,6 +387,9 @@ function ShowDocument($conn, $DATA)
   // }else if($selecta == 2){
   //   $Sql .= " WHERE site.HptCode = '$Hotp'";
   // }
+  if($Hotp == null  && $datepicker == null){
+    $Sql .= "WHERE newlinentable.DocNo LIKE '%$xDocNo%'";
+  }
   $Sql .= " ORDER BY newlinentable.DocNo DESC LIMIT 500";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

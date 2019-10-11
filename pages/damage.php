@@ -82,6 +82,11 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+  $('#searchdocument').keyup(function(e) {
+            if (e.keyCode == 13) {
+              ShowDocument(1);
+            }
+        });
   $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
@@ -300,7 +305,7 @@ $(document).ready(function(e){
       }
 
       function getDepartment(){
-      var Hotp = $('#hotpital option:selected').attr("value");
+      var Hotp = $('#Hos2 option:selected').attr("value");
       if( typeof Hotp == 'undefined' ) 
       {
         Hotp = '<?php echo $HptCode; ?>';
@@ -334,17 +339,32 @@ $(document).ready(function(e){
  
     }
       function ShowDocument(selecta){
+        var DocNo = $('#docno').val();
         var Hotp = $('#hotpital option:selected').attr("value");
         var searchdocument = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
         var deptCode = $('#Dep2 option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
+        var datepicker1 = $('#datepicker1').val();
+          var lang = '<?php echo $language; ?>';
+          if(datepicker1 !=""){
+          if(lang =='th'){
+          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }else if(lang =='en'){
+          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          }
+          }else{
+            datepicker1 = "";
+          }
         var data = {
           'STATUS'  	: 'ShowDocument',
           'xdocno'	: searchdocument,
           'selecta' : selecta,
           'deptCode'	: deptCode,
-          'Hotp'	: Hotp
+          'Hotp'	: Hotp,
+          'datepicker1' : datepicker1,
+          'docno' : DocNo
+
         };
         senddata(JSON.stringify(data));
       }
@@ -842,10 +862,20 @@ $(document).ready(function(e){
               if(temp["form"]=='OnLoadPage'){
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                  var Str = "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
-                  $("#hotpital").append(Str);
-                }
+                $("#Hos2").empty();
+                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3){
+                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                      }else{
+                        var Str1 = "";
+                        $('#Hos2').attr('disabled' , true);
+                        $('#Hos2').addClass('icon_select');
+                        $('#Dep2').addClass('icon_select');
+                      }                      for (var i = 0; i < temp["Row"]; i++) {
+                        var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
+                         Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
+                        $("#hotpital").append(Str);
+                      }
+                      $("#Hos2").append(Str1);
                 if(PmID != 1){
                   $("#hotpital").val(HptCode);
                 }
@@ -902,6 +932,7 @@ $(document).ready(function(e){
 
                 $( "#TableDocument tbody" ).empty();
                 $( "#TableItemDetail tbody" ).empty();
+                if(temp['Count']>0){
                 for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                   var rowCount = $('#TableDocument >tbody >tr').length;
                   var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
@@ -934,7 +965,18 @@ $(document).ready(function(e){
                     $('#TableDocument tbody:last-child').append(  $StrTr );
                   }
                 }
-
+              }else{
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                        swal({
+                          title: '',
+                          text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                          type: 'warning',
+                          showCancelButton: false,
+                          showConfirmButton: false,
+                          timer: 700,
+                      });
+                      $("#TableDocument tbody").html(Str);
+                    }
               }else if(temp["form"]=='SelectDocument'){
                 $('#home-tab').tab('show')
                 $( "#TableItemDetail tbody" ).empty();
@@ -1599,35 +1641,46 @@ $(document).ready(function(e){
 
                   <!-- search document -->
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row mt-3">
-                              <div class="col-md-4">
-                                <div class="row" style="font-size:24px;margin-left:2px;">
-                                  <select class="form-control" style='font-size:24px;' id="Dep2" disabled='true'>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="col-md-6 mhee">
-                              <div class="row" style="margin-left:2px;">
-                                <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                                <div class="search_custom col-md-2">
-                                  <div class="search_1 d-flex justify-content-start">
-                                    <button class="btn"  onclick="ShowDocument(1)" >
-                                      <i class="fas fa-search mr-2"></i>
-                                      <?php echo $array['search'][$language]; ?>
-                                    </button>
-                                  </div>
-                                </div>
-                                <div class="search_custom col-md-2">
-                              <div class="circle11 d-flex justify-content-start">
-                                <button class="btn"  onclick="SelectDocument()" id="btn_show" >
-                                  <i class="fas fa-paste mr-2 pt-1"></i>
-                                  <?php echo $array['show'][$language]; ?>
+                    <div class="row mt-3">
+                        <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                              <select class="form-control" style='font-size:24px;' id="Hos2" >
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                              <select class="form-control" style='font-size:24px;' id="Dep2" disabled="true">
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="row" style="font-size:24px;margin-left:2px;">
+                            <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                            </div>
+                          </div>
+                          <div class="col-md-6 mhee">
+                          <div class="row" style="margin-left:2px;">
+                            <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                            <div class="search_custom col-md-2">
+                              <div class="search_1 d-flex justify-content-start">
+                                <button class="btn"  onclick="ShowDocument(1)" >
+                                  <i class="fas fa-search mr-2"></i>
+                                  <?php echo $array['search'][$language]; ?>
                                 </button>
                               </div>
                             </div>
+                            <div class="search_custom col-md-2">
+                          <div class="circle11 d-flex justify-content-start">
+                            <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                              <i class="fas fa-paste mr-2 pt-1"></i>
+                              <?php echo $array['show'][$language]; ?>
+                            </button>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
 
                       <div class="row">
                         <div class="col-md-12"> <!-- tag column 1 -->

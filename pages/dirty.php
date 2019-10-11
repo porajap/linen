@@ -296,6 +296,7 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function ShowDocument(selecta){
+          var DocNo = $('#docno').val();
           var Hotp = $('#Hos2 option:selected').attr("value");
           var searchdocument = $('#searchdocument').val();
           var datepicker1 = $('#datepicker1').val();
@@ -318,7 +319,8 @@ $array2 = json_decode($json2,TRUE);
             'selecta' : selecta,
             'deptCode'	: deptCode,
             'Hotp'	: Hotp,
-            'datepicker1' : datepicker1
+            'datepicker1' : datepicker1,
+            'docno' : DocNo
           };
           senddata(JSON.stringify(data));
         }

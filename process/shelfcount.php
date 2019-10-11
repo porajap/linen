@@ -304,7 +304,8 @@ function ShowDocument($conn, $DATA)
   $count = 0;
   $deptCode = $DATA["deptCode"];
   $Hotp = $DATA["Hotp"];
-  $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
+  $DocNo = $DATA["docno"];
+  $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $selecta = $DATA["selecta"];
   $datepicker = $DATA["datepicker1"];
   //$Datepicker = $DATA["Datepicker"];
@@ -326,25 +327,25 @@ function ShowDocument($conn, $DATA)
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON shelfcount.Modify_Code = users.ID ";
 if($DocNo!=null){
-  $Sql .= " WHERE shelfcount.DocNo = '$DocNo' ";
+  $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
 }else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
-    $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
     if($xDocNo!=null){
       $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
     }
   }else if($Hotp == null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE shelfcount.DepCode = $deptCode ";
+      $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' ";
   }else if ($Hotp == null && $deptCode == null && $datepicker != null){
-    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' ";
+    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode != null && $datepicker == null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode ";
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode == null && $datepicker != null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' ";
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp == null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' ";
+    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp'";
+    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }
 }
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
@@ -371,7 +372,7 @@ if($DocNo!=null){
     $boolean = true;
     $count++;
   }
-
+  $return['Count'] = $count;
   if ($boolean) {
     $return['status'] = "success";
     $return['form'] = "ShowDocument";
@@ -383,9 +384,9 @@ if($DocNo!=null){
     $return[$count]['DocDate'] = "";
     $return[$count]['Qty'] = "";
     $return[$count]['Elc'] = "";
-    $return['status'] = "failed";
-    // $return['form'] = "ShowDocument";
-    $return['msg'] = "notfound";
+    $return['status'] = "success";
+    $return['form'] = "ShowDocument";
+    // $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);
     die;
