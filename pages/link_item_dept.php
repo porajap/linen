@@ -192,6 +192,8 @@ $array2 = json_decode($json2,TRUE);
         function removeClassBorder1(chk){
           if(chk==1){
             $('#TableItemStock tbody').empty();
+          }else{
+            ShowItem();
           }
           var par = $('#parnum').val();
           var department = $('#department').val();
@@ -1334,9 +1336,9 @@ $array2 = json_decode($json2,TRUE);
                                       var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
                                       var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
                                       if(UsageCode != 0){
-                                      var txtno = '<input tyle="text" style="border-color:green;" class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      var txtno = '<input tyle="text" style="border-color:green;" class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onchange="SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
                                       }else{
-                                      var txtno = '<input tyle="text"  class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      var txtno = '<input tyle="text"  class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onchange="SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )"  onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
                                       }
                                       StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                                   "<td style='width:10%'></td>"+
@@ -1411,8 +1413,11 @@ $array2 = json_decode($json2,TRUE);
                                   for(var j = 0; j < temp[i]['num']; j++){
                                       var UsageCode =  temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['UsageCode'];
                                       var chkItem = "<input type='checkbox' data-chknum='"+chk_row+"' class='myChild_"+chk_row+" unchk_"+chk_row+i+"' name='chkItem' id='chkItem_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' data-value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"' value='"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"' onclick='swithChecked(\""+chk_row+"\",\""+i+"\")'>";
-                                      var txtno = '<input tyle="text" class="form-control" id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+')}" >';
-                                      StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
+                                      if(UsageCode != 0){
+                                      var txtno = '<input tyle="text" style="border-color:green;" class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onchange="SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )" onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      }else{
+                                      var txtno = '<input tyle="text"  class="form-control txtno_'+j+' " id="exp_'+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+'" value="'+UsageCode+'" placeholder="0" onchange="SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )"  onKeyPress="if(event.keyCode==13){SaveUsageCode('+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+' , '+j+' )}" >';
+                                      }                                      StrTR += "<tr class='tr_child_"+chk_row+"' hidden id='tr_child_"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['RowID']+"'>"+
                                                   "<td style='width:10%'></td>"+
                                                   "<td style='width: 10%;' nowrap ><label class='mr-3'>" + (j+1) + "</label>" + chkItem + "</td>"+
                                                   "<td style='width: 25%;' nowrap hidden>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemCode']+"</td>"+
@@ -1704,7 +1709,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class='col-3 mr-sm-2 text-left'> 
                           <span ><?php echo $array['parnum'][$language]; ?></span>
                         </div>
-                          <input type="text" class="form-control numonly col-8 checkblank2" autocomplete="off" onkeyup="removeClassBorder1();"  id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
+                          <input type="text" class="form-control numonly col-8 checkblank2" autocomplete="off" onchange="removeClassBorder1();"  id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
                           <label id="rem2" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
