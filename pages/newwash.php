@@ -1049,7 +1049,6 @@ $array2 = json_decode($json2,TRUE);
                       // $("#total").val(temp[0]['Total']);
                       if(temp['Count']>0){
                         $("#department").val(temp[0]['DepCode']);
-                        alert(temp['Count']);
                       for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                         var rowCount = $('#TableDocument >tbody >tr').length;
                         var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
