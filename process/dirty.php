@@ -222,21 +222,21 @@ if($DocNo!=null){
   $Sql .= " WHERE dirty.DocNo = '$DocNo' ";
 }else{
   if ($Hotp != null  && $datepicker == null) {
-    $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%'";
     if($xDocNo!=null){
       $Sql .= " OR dirty.DocNo LIKE '%$xDocNo%' ";
     }
   }else if ($Hotp == null  && $datepicker != null){
-    $Sql .= " WHERE DATE(dirty.DocDate) = '$datepicker' ";
+    $Sql .= " WHERE DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null  && $datepicker != null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(dirty.DocDate) = '$datepicker' ";
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null  && $datepicker != null){
-    $Sql .= " WHERE  DATE(dirty.DocDate) = '$datepicker' AND site.HptCode = '$Hotp'";
+    $Sql .= " WHERE  DATE(dirty.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%'";
   }
 }
 
   $Sql .= " ORDER BY dirty.DocNo DESC LIMIT 500";
-
+// $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -258,6 +258,7 @@ if($DocNo!=null){
     $boolean = true;
     $count++;
   }
+  $return['Count'] = $count;
   $return['xdeptCode'] = $deptCode==null?'':$deptCode;
 
   if ($boolean) {
@@ -267,9 +268,9 @@ if($DocNo!=null){
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['form'] = "ShowDocument";
-    $return['msg'] = "notfound";
+    // $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);
     die;

@@ -58,8 +58,8 @@
 <activeItem><en>Active</en><th>Active</th></activeItem>
 <email><en>Email</en><th>Email</th></email>
 <no><en>S/N</en><th>ลำดับ</th></no>
-<yes><en>Yes</en><th>ใช่</th></yes>
-<isno><en>No</en><th>ไม่ใช่</th></isno>
+<yes><en>Confirm</en><th>ยืนยัน</th></yes>
+<isno><en>Cancel</en><th>ยกเลิก</th></isno>
 <Timeleft><en>TIME LT</en><th>เหลือเวลา</th></Timeleft>
 <changprice><en>DATE OF CHG PC.</en><th>เปลี่ยนราคาวันที่</th></changprice>
 <filename><en>File Name</en><th>ชื่อไฟล์</th></filename>

@@ -97,6 +97,11 @@ $array2 = json_decode($json2,TRUE);
   };
   
   $(document).ready(function(e){ 
+    $('#searchdocument').keyup(function(e) {
+                if (e.keyCode == 13) {
+                  ShowDocument(1);
+                }
+            });
     $('#rem1').hide();
     $('#rem2').hide();    
     $('.only').on('input', function() {
@@ -1050,6 +1055,7 @@ $array2 = json_decode($json2,TRUE);
                 }else if(temp["form"]=='ShowDocument'){
                   $( "#TableDocument tbody" ).empty();
                   $( "#TableItemDetail tbody" ).empty();
+                  if(temp['Count']>0){
                   for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                     var rowCount = $('#TableDocument >tbody >tr').length;
                     var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
@@ -1077,12 +1083,24 @@ $array2 = json_decode($json2,TRUE);
                     "</tr>";
 
                     if(rowCount == 0){
-                      $("#TableDocument tbody").append( $StrTr );
+                      $( "#TableDocument tbody" ).append( $StrTr );
                     }else{
                       $('#TableDocument tbody:last-child').append(  $StrTr );
                     }
                   }
-
+                  }else{
+                    $("#TableDocument tbody").empty();
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                        swal({
+                          title: '',
+                          text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                          type: 'warning',
+                          showCancelButton: false,
+                          showConfirmButton: false,
+                          timer: 700,
+                      });
+                    $("#TableDocument tbody").append(Str);
+                    }
                 }else if(temp["form"]=='SelectDocument'){
                   $('#home-tab').tab('show')
                   $( "#TableItemDetail tbody" ).empty();

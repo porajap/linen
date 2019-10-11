@@ -366,15 +366,13 @@ $array2 = json_decode($json2,TRUE);
         if ($('#xcenter1').is(':checked')) 
         {
           xcenter1 = 1
-        }else{
+        }
+        if ($('#xcenter2').is(':checked')) 
+        {          
           xcenter2 = 1
         };
-        if(count==0){
-          $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', 'red');
-            }
-          });
+        if(count==0 ){
+            if(xcenter1 !=0 || xcenter2 !=0){
           if(HptCode!=""){
             swal({
               title: "<?php echo $array['addoredit'][$language]; ?>",
@@ -411,7 +409,20 @@ $array2 = json_decode($json2,TRUE);
             swal.close();
           }
               })
-          }          
+          }
+            }else{
+              swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+            }          
         }else{
           swal({
             title: '',
@@ -1530,12 +1541,12 @@ $array2 = json_decode($json2,TRUE);
                             <div class='form-group row offset-6' style="padding-left: 5%;">
 
                               <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
-                              <input type="radio"  id="xcenter1" name="xcenter">
-                              <span class="checkmark"></span>
+                              <input type="radio"  id="xcenter1" name="xcenter"  >
+                              <span class="checkmark " ></span>
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['private'][$language]; ?></label>
                               <label class="radio" style="margin:0px !important;">
-                              <input type="radio"  id="xcenter2" name="xcenter">
+                              <input type="radio"  id="xcenter2" name="xcenter" >
                               <span class="checkmark"></span>
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['government'][$language]; ?></label>

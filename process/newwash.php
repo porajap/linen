@@ -365,19 +365,19 @@ function ShowDocument($conn, $DATA)
   INNER JOIN users ON newlinentable.Modify_Code = users.ID ";
 
   if($DocNo!=null){
-    $Sql .= " WHERE newlinentable.DocNo = '$DocNo' ";
+    $Sql .= " WHERE newlinentable.DocNo = '$DocNo' AND newlinentable.DocNo LIKE '%$xDocNo%'";
   }else{
     if ($Hotp != null  && $datepicker == null) {
-      $Sql .= " WHERE site.HptCode = '$Hotp'  ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%' ";
       if($xDocNo!=null){
         $Sql .= " OR newlinentable.DocNo LIKE '%$xDocNo%' ";
       }
     }else if ($Hotp == null  && $datepicker != null){
-      $Sql .= " WHERE newlinentable.DocDate = '$datepicker' ";
+      $Sql .= " WHERE newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null  && $datepicker != null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocDate = '$datepicker' ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null  && $datepicker != null){
-      $Sql .= " WHERE  newlinentable.DocDate = '$datepicker' AND site.HptCode = '$Hotp'";
+      $Sql .= " WHERE  newlinentable.DocDate = '$datepicker' AND site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%'";
     }
   }
   // if($selecta == null){
@@ -388,9 +388,6 @@ function ShowDocument($conn, $DATA)
   //   $Sql .= " WHERE site.HptCode = '$Hotp'";
   // }
   $Sql .= " ORDER BY newlinentable.DocNo DESC LIMIT 500";
-
-  $return['sql'] = $Sql;
-
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($lang =='en'){
@@ -411,7 +408,7 @@ function ShowDocument($conn, $DATA)
     $boolean = true;
     $count++;
   }
-
+  $return['Count'] = $count;
   if ($boolean) {
     $return['status'] = "success";
     $return['form'] = "ShowDocument";
@@ -419,9 +416,9 @@ function ShowDocument($conn, $DATA)
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['form'] = "ShowDocument";
-    $return['msg'] = "notfound";
+    // $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);
     die;

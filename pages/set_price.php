@@ -161,11 +161,13 @@ $array2 = json_decode($json2,TRUE);
 
       function getCategorySub(Sel) {
         var CgrID;
-        if(Sel==1)
+        if(Sel==1){
           CgrID = $('#Category_Main').val();
-        else
+          ShowItem1();
+        }
+        else{
           CgrID = $('#Category_Main1').val();
-
+        }
         if( CgrID == null ) CgrID = 1;
               var data2 = {
                   'STATUS': 'getCategorySub',
@@ -267,6 +269,9 @@ $array2 = json_decode($json2,TRUE);
         var isChecked1 = false;
         var isChecked2 = false;
 
+        function shownow(){
+            ShowItem1();
+        }
         function getCheckAll(sel) {
             if (sel == 0) {
                 isChecked1 = !isChecked1;
@@ -1262,7 +1267,7 @@ $array2 = json_decode($json2,TRUE);
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left: -6px;">
                                               <!-- <label class="col-sm-3 col-form-label text-right"style="margin-left: -65px;"><?php echo $array['categorysub'][$language]; ?></label> -->
-                                                  <select class="form-control col-md-12" id="Category_Sub"></select>
+                                                  <select class="form-control col-md-12" id="Category_Sub" onchange="shownow();"></select>
                                               </div>
                                           </div>
                                           <div class="col-md-1 text-right">
