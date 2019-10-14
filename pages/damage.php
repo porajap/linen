@@ -1661,7 +1661,7 @@ $(document).ready(function(e){
                           </div>
                           <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
-                            <input type="text" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                            <input type="text" autocomplete="off" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                             <div class="search_custom col-md-2">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(1)" >
