@@ -648,6 +648,8 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function OpenDialog(Sel){
+            $("#datepicker").attr('disabled' , false);
+            $("#hptselModal").attr('disabled' , false);
             var selectdocument = "";
             var lang = '<?php echo $language; ?>';
 
@@ -768,6 +770,9 @@ $array2 = json_decode($json2,TRUE);
                                 $("#updateprice").attr('disabled', false);              
                                 $("#delete_icon2").removeClass('opacity');                  
                             }
+                            $("#datepicker").attr('disabled' , true);
+                            $("#hptselModal").attr('disabled' , true);
+                            
                             $("#docno").val( temp["DocNo"] );
                             $("#create1").hide(300);
                             setTimeout(function () {

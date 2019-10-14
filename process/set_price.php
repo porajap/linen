@@ -66,7 +66,7 @@ function CreateDoc($conn, $DATA)
     $meQuerydate = mysqli_query($conn, $xdate);
     while ($Resultdate = mysqli_fetch_assoc($meQuerydate)) {
       $xDate = $Resultdate['xDate'];
-      if($DateNowx == $xDate){
+      if($DateNowx != $xDate){
         $return['checkdis'] = 1;
       }else{
         $return['checkdis'] = 0;
