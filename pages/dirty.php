@@ -2025,8 +2025,8 @@ $array2 = json_decode($json2,TRUE);
             <div class="row">
               <div class="col-md-8">
                 <div class='form-group row'>
-                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                  <input type="text" autocomplete="off"  class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
+                  <input type="text" autocomplete="off"  class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
                 </div>
               </div>
  

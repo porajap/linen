@@ -210,9 +210,6 @@ function CreateDocument($conn, $DATA)
   }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%' ";
-      if($xDocNo!=null){
-        $Sql .= " OR clean.DocNo LIKE '%$xDocNo%' ";
-      }
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
       $Sql .= "  WHERE clean.DocNo LIKE '%$xDocNo%'";
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){

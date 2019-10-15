@@ -568,7 +568,7 @@ $array2 = json_decode($json2,TRUE);
             $('#delete_icon').addClass('opacity');
             $('#delete1').removeClass('mhee');
             $(".dropify-clear").click(); 
-
+            $("#xemail").prop('checked', false);
             // $('#xemail').attr("checked", false);
             // $('.xemail').each(function() {
             //     $(this).val("");

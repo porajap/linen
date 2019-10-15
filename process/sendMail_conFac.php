@@ -54,7 +54,7 @@ $mail->Username = "poseinttelligence@gmail.com";
 $mail->Password = "pose6628";
 $mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
 $mail->addAddress($email);
-$mail->Subject = 'แจ้งเตือนหมดสัญญาโรงซัก';
+$mail->Subject = 'Notification of laundry contract expiration';
 $mail->msgHTML($body);
 $mail->AltBody = 'This is a plain-text message body';
 // $mail->send();

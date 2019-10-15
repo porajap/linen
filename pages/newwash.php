@@ -806,11 +806,11 @@ $array2 = json_decode($json2,TRUE);
               var FacCode = $("#factory").val();
 
               // alert( isStatus );
-              if(isStatus==1 || isStatus==3)
-              isStatus=0;
-              else
+              if(isStatus==1 || isStatus==3){
+              isStatus=0;}
+              else{
               isStatus=1;
-              
+              }
               if(isStatus==1){
                 if(docno!=""){
                   for(i=0;i<chk_weight.length; i++){
@@ -846,7 +846,7 @@ $array2 = json_decode($json2,TRUE);
                       if (result.value) {
                           var data = {
                             'STATUS'      : 'SaveBill',
-                            'docno'      : docno,
+                            'DocNo'      : docno,
                             'isStatus'    : isStatus,
                             'deptCode'    : dept,
                             'FacCode'    : FacCode
@@ -2019,8 +2019,8 @@ $array2 = json_decode($json2,TRUE);
             <div class="row">
               <div class="col-md-8">
                 <div class='form-group row'>
-                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                  <input type="text" autocomplete="off"  class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
+                  <input type="text" autocomplete="off"  class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
                 </div>
               </div>
  

@@ -211,7 +211,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 function showDep($conn, $DATA){
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
-  $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 ORDER BY dep.DepCode ASC ";
+  $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 ORDER BY dep.DepName ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = trim($Result['DepCode']);
@@ -348,7 +348,7 @@ function ShowDocument($conn, $DATA)
   $boolean = false;
   $count = 0;
   $Hotp = $DATA["Hotp"];
-  $DocNo = $DATA["docno"];
+  $DocNo = $DATA["DocNo"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $datepicker = $DATA["datepicker1"];
   $selecta = $DATA["selecta"];
@@ -369,15 +369,14 @@ function ShowDocument($conn, $DATA)
   }else{
     if ($Hotp != null  && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%' ";
-      if($xDocNo!=null){
-        $Sql .= " OR newlinentable.DocNo LIKE '%$xDocNo%' ";
-      }
     }else if ($Hotp == null  && $datepicker != null){
       $Sql .= " WHERE newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null  && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null  && $datepicker != null){
       $Sql .= " WHERE  newlinentable.DocDate = '$datepicker' AND site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp == null  && $datepicker == null){
+      $Sql .= "WHERE newlinentable.DocNo LIKE '%$xDocNo%'";
     }
   }
   // if($selecta == null){
@@ -387,10 +386,8 @@ function ShowDocument($conn, $DATA)
   // }else if($selecta == 2){
   //   $Sql .= " WHERE site.HptCode = '$Hotp'";
   // }
-  if($Hotp == null  && $datepicker == null){
-    $Sql .= "WHERE newlinentable.DocNo LIKE '%$xDocNo%'";
-  }
   $Sql .= " ORDER BY newlinentable.DocNo DESC LIMIT 500";
+  $return['sql']= $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($lang =='en'){
@@ -905,7 +902,7 @@ function DeleteItem($conn, $DATA)
 
 function SaveBill($conn, $DATA)
 {
-  $DocNo = $DATA["docno"];
+  $DocNo = $DATA["DocNo"];
   $isStatus = $DATA["isStatus"];
 
   $Sql = "UPDATE newlinentable SET IsStatus = $isStatus WHERE newlinentable.DocNo = '$DocNo'";

@@ -192,8 +192,6 @@ $array2 = json_decode($json2,TRUE);
         function removeClassBorder1(chk){
           if(chk==1){
             $('#TableItemStock tbody').empty();
-          }else{
-            ShowItem();
           }
           var par = $('#parnum').val();
           var department = $('#department').val();
@@ -202,6 +200,7 @@ $array2 = json_decode($json2,TRUE);
                   $('#parnum').removeClass('border-danger');
                   $('#form3').addClass('mt-3');
                   $('#form4').addClass('form-group');
+                  ShowItem();
                 }
           if(department !="" && department != undefined){
              $('#department').removeClass('border-danger');

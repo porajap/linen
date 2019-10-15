@@ -565,7 +565,7 @@ $id_h=$_SESSION['id_h'];
         .then(function (result) {
           if (result.value) {
             swal({
-              text: '<?php echo $array2['logoutfinish'][$language]; ?>',
+              text: '<?php echo $array2['logout'][$language]; ?>',
               type: 'success',
               showCancelButton: false,
               confirmButtonColor: '#3085d6',

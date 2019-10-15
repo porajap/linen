@@ -208,6 +208,14 @@ $(document).ready(function(e){
           ShowUsageCode();
         }
       }
+      function Blankinput() {
+            $('#docno').val("");
+            $('#docdate').val("");
+            $('#recorder').val("");
+            $('#timerec').val("");
+            $('#wTotal').val("");
+            OnLoadPage();
+      }
       function resetradio(row){
 
       var previousValue = $('.checkrow_'+row).attr('previousValue');
@@ -355,7 +363,7 @@ $(document).ready(function(e){
 
       function ShowDocument(selecta){
         var DocNo = $('#docno').val();
-        var Hotp = $('#hotpital option:selected').attr("value");
+        var Hotp = $('#Hos2 option:selected').attr("value");
         var searchdocument = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
         var deptCode = $('#Dep2 option:selected').attr("value");
@@ -711,8 +719,6 @@ $(document).ready(function(e){
       }
 
       function SaveBill(){
-      
-
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -781,6 +787,7 @@ $(document).ready(function(e){
           $("#bSave").prop('disabled', true);
           $("#bCancel").prop('disabled', true);
           ShowDocument();
+          Blankinput();
         } else if (result.dismiss === 'cancel') {
           swal.close();}
         })
@@ -897,6 +904,7 @@ $(document).ready(function(e){
 
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
+                $("#Hos2").empty();
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
                 $("#Hos2").empty();
@@ -1739,8 +1747,8 @@ $(document).ready(function(e){
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['searchplace'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
               </div>
             </div>
 

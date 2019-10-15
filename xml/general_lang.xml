@@ -5,6 +5,7 @@
 <Searchsubcategory><en>Search sub category</en><th>ค้นหา รายการรอง</th></Searchsubcategory>
 <Searchmaincategory><en>Search main category</en><th>ค้นหา รายการหลัก</th></Searchmaincategory>
 <Searchitem><en>Search item</en><th>ค้นหา รายการ</th></Searchitem>
+<Searchitem2><en>Search item</en><th>ค้นหารายการ</th></Searchitem2>
 <items><en>Item</en><th>รายการ</th></items>
  <SearchDepartment><en>Search Department</en><th>ค้นหา แผนก</th></SearchDepartment>
 <SearchHospital><en>Search Hospital</en><th>ค้นหา โรงพยาบาล</th></SearchHospital>
