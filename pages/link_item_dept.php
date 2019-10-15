@@ -197,7 +197,7 @@ $array2 = json_decode($json2,TRUE);
           }else{
             $('input[name="checkitem').prop('checked',false);
             $('input[name="txtno').val('');
-          }
+          } 
           var par = $('#parnum').val();
           var department = $('#department').val();
           if(par !="" && par != undefined){
