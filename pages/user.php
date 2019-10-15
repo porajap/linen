@@ -537,54 +537,104 @@ $array2 = json_decode($json2,TRUE);
             $(".dropify-clear").click(); 
         }
         function Blankinput() {
-            $('#rem1').hide();
-        $('#rem2').hide();
-        $('#rem3').hide();
-        $('#rem4').hide();
-        $('#rem5').hide();
-        $('#rem6').hide();
-        $('#rem7').hide();
-            $('#username').val("");
-            $('#Password').val("");
-            $('#flname').val("");
-            $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', '');
-            }else{
-              $(this).css('border-color', '');
-            }
-          });
-            // $('#host tbody').empty();
-            $('#factory').attr('disabled' , true);
-            $('#hptsel').val("");
-            $('#host').val("");
-            $('#department2').val("");
-            $('#department').val("");
-            $('#Permission').val("");
-            $('#factory').val("0");
-            $('#UsID').val("");
-            $('#email').val("");
-            $('#bCancel').attr('disabled', true);
-            $('#delete_icon').addClass('opacity');
-            $('#delete1').removeClass('mhee');
-            $(".dropify-clear").click(); 
-            $("#xemail").prop('checked', false);
-            // $('#xemail').attr("checked", false);
-            // $('.xemail').each(function() {
-            //     $(this).val("");
-            //     $('.xemail').attr("checked", false);
-            // });
-            $(".dropify-clear").click(); 
-            // getHotpital();
-            // getHotpital_user();
-            getDepartment();
-            // getEmployee();
-            // getPermission();
-            // ShowItem();
-            // uncheckAll2();
-            // setTimeout(() => {
-            //     getDepartment();
-            // }, 0);
+                $('#rem1').hide();
+            $('#rem2').hide();
+            $('#rem3').hide();
+            $('#rem4').hide();
+            $('#rem5').hide();
+            $('#rem6').hide();
+            $('#rem7').hide();
+                $('#username').val("");
+                $('#Password').val("");
+                $('#flname').val("");
+                $('.checkblank').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                $(this).css('border-color', '');
+                }else{
+                $(this).css('border-color', '');
+                }
+            });
+                // $('#host tbody').empty();
+                $('#factory').attr('disabled' , true);
+                $('#hptsel').val("");
+                $('#host').val("");
+                $('#department2').val("");
+                $('#department').val("");
+                $('#Permission').val("");
+                $('#factory').val("0");
+                $('#UsID').val("");
+                $('#email').val("");
+                $('#bCancel').attr('disabled', true);
+                $('#delete_icon').addClass('opacity');
+                $('#delete1').removeClass('mhee');
+                $(".dropify-clear").click(); 
+                $("#xemail").prop('checked', false);
+                // $('#xemail').attr("checked", false);
+                // $('.xemail').each(function() {
+                //     $(this).val("");
+                //     $('.xemail').attr("checked", false);
+                // });
+                $(".dropify-clear").click(); 
+                // getHotpital();
+                // getHotpital_user();
+                getDepartment();
+                // getEmployee();
+                // getPermission();
+                // ShowItem();
+                // uncheckAll2();
+                // setTimeout(() => {
+                //     getDepartment();
+                // }, 0);
+        }
+        function Blankinput2() {
+                $('#rem1').hide();
+            $('#rem2').hide();
+            $('#rem3').hide();
+            $('#rem4').hide();
+            $('#rem5').hide();
+            $('#rem6').hide();
+            $('#rem7').hide();
+                $('#username').val("");
+                $('#Password').val("");
+                $('#flname').val("");
+                $('.checkblank').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                $(this).css('border-color', '');
+                }else{
+                $(this).css('border-color', '');
+                }
+            });
+                // $('#host tbody').empty();
+                $('#factory').attr('disabled' , true);
+                $('#hptsel').val("");
+                $('#host').val("");
+                $('#department2').val("");
+                $('#department').val("");
+                $('#Permission').val("");
+                $('#factory').val("0");
+                $('#UsID').val("");
+                $('#email').val("");
+                $('#bCancel').attr('disabled', true);
+                $('#delete_icon').addClass('opacity');
+                $('#delete1').removeClass('mhee');
+                $(".dropify-clear").click(); 
+                $("#xemail").prop('checked', false);
+                // $('#xemail').attr("checked", false);
+                // $('.xemail').each(function() {
+                //     $(this).val("");
+                //     $('.xemail').attr("checked", false);
+                // });
+                $(".dropify-clear").click(); 
+                // getHotpital();
+                // getHotpital_user();
+                // getDepartment();
+                // getEmployee();
+                // getPermission();
+                // ShowItem();
+                // uncheckAll2();
+                // setTimeout(() => {
+                //     getDepartment();
+                // }, 0);
         }
 
         function getdetail(ID , row) {
@@ -594,7 +644,7 @@ $array2 = json_decode($json2,TRUE);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
-          Blankinput();
+          Blankinput2();
         } else {
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');

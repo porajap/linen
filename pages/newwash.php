@@ -1155,7 +1155,9 @@ $array2 = json_decode($json2,TRUE);
                         $("#bCancel").prop('disabled', true);
                         $("#bSave2").removeClass('opacity');
                         $('#hover4').addClass('mhee');
-
+                        $('#bPrint').attr('disabled', false);
+                        $('#bPrint2').removeClass('opacity');
+                        $('#hover6').addClass('mhee');
                       } else{
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);

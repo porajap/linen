@@ -429,7 +429,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
+      $return['status'] = "success";
       $return['form'] = "ShowItem";
       $return['msg'] = "notfound";
       $return[$count]['RowID'] = "";

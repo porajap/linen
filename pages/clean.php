@@ -733,7 +733,7 @@ $(document).ready(function(e){
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
         // alert( isStatus );
-        if(isStatus==1)
+        if(isStatus==1  || isStatus==3 || isStatus==4)
         isStatus=0;
         else
         isStatus=1;
@@ -1045,7 +1045,7 @@ $(document).ready(function(e){
                   $('#bPrint').attr('disabled', true);
                   $('#bPrint2').addClass('opacity');
                   $('#hover6').removeClass('mhee');
-                }else if(temp[0]['IsStatus']==1){
+                }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
@@ -1174,9 +1174,10 @@ $(document).ready(function(e){
                         });
               }else if( (temp["form"]=='ShowItem') ){
 
-                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
+                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                 $( "#TableItem tbody" ).empty();
+                if(temp["Row"]>0){
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
 
@@ -1194,7 +1195,7 @@ $(document).ready(function(e){
 
                   var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;' id='iweight"+i+"' placeholder='0'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0'></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 25%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1213,9 +1214,14 @@ $(document).ready(function(e){
                 $('.numonly').on('input', function() {
                   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+              }else{
+                $('#TableItem tbody').empty();
+                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                $('#TableItem tbody:last-child').append(Str);
+              }
               }else if( (temp["form"]=='ShowUsageCode') ){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
+                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 $( "#TableUsageCode tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableUsageCode >tbody >tr').length;
@@ -1252,8 +1258,8 @@ $(document).ready(function(e){
 
               }else if(temp['form']=="get_dirty_doc"){
                 if(temp["count2"] > 0){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
+                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
                 $( "#TableRefDocNo tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
@@ -1842,7 +1848,7 @@ $(document).ready(function(e){
               </div>
               <!-- end serach----------------------- -->
           </div>
-          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
+          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
             <thead style="font-size:24px;">
               <tr role="row">
               <input type="text" hidden id="countcheck">

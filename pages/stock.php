@@ -289,8 +289,8 @@ $array2 = json_decode($json2,TRUE);
           }
           
           swal({
-            title: '<?php echo $array['notfoundmsg'][$language]; ?>',
-            text: temp['msg'],
+            title: '',
+            text: '<?php echo $array['notfoundmsg'][$language]; ?>',
             type: 'warning',
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
