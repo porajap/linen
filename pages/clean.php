@@ -95,6 +95,11 @@ $(document).ready(function(e){
       ShowItem();
     }
       });
+      $('#searchitem1').keyup(function(e) {
+    if (e.keyCode == 13) {
+      get_dirty_doc();
+    }
+      });
   $('#Dep2').addClass('icon_select');
   $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
@@ -306,10 +311,12 @@ $(document).ready(function(e){
       function get_dirty_doc(){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
+        var searchitem1 = $('#searchitem1').val();
         var data = {
           'STATUS' : 'get_dirty_doc',
           'DocNo'  : docno,
-          'hptcode'  : hptcode
+          'hptcode'  : hptcode,
+          'searchitem1'  : searchitem1
         };
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));

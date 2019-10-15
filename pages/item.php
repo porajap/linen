@@ -862,10 +862,7 @@ if(Catagory !="" && Catagory!=undefined){
       var mul = $('#mulinput').val();
       var u1 = $('#Unitshows').val();
       var u2 = $('#subUnit').val();
-
-
       var itemcode = $('#ItemCode').val();
-
       if (mul != "" && priceunit != "") {
         var data = {
           'STATUS': 'AddUnit',
@@ -1798,7 +1795,7 @@ if(Catagory !="" && Catagory!=undefined){
                   $('#masterItem').prop('checked', false);
                 }
 
-                if (temp['RowCount']!=0) {
+                if (temp['RowCountMP']!=0) {
                   for (var i = 0; i < temp['RowCount']; i++) {
                     // var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
                     var rowCount = $('#TableUnit >tbody >tr').length;
@@ -1819,6 +1816,10 @@ if(Catagory !="" && Catagory!=undefined){
                       $('#TableUnit tbody:last-child').append(StrTR);
                     }
                   }
+                }else{
+                  $('#TableUnit tbody').empty();
+                  var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                  $('#TableUnit tbody:last-child').append(Str);
                 }
               }
             } else if ((temp["form"] == 'getdetailMaster')) {
@@ -2813,11 +2814,11 @@ if(Catagory !="" && Catagory!=undefined){
                         <div style="margin-left:20px;width:100px;">
                           <label><?php echo $array['multiply_unit'][$language]; ?></label>
                         </div>
-                        <input type="text" class="form-control numonly" style="font-size:24px;width:59px;" name="mulinput" id="mulinput" placeholder="0.00">
+                        <input type="text" autocomplete="off" class="form-control numonly" style="font-size:24px;width:59px;" name="mulinput" id="mulinput" placeholder="0.00">
                         <div style="margin-left:20px;width:100px;">
                           <label><?php echo $array['multiply_price'][$language]; ?></label>
                         </div>
-                        <input type="text" class="form-control numonly" style="font-size:24px;width:59px;" name="priceunit" id="priceunit" placeholder="0.00">
+                        <input type="text" autocomplete="off" class="form-control numonly" style="font-size:24px;width:59px;" name="priceunit" id="priceunit" placeholder="0.00">
                        
                         <div class="search_custom  col-md-1" <?php if($PmID == 3) echo 'hidden'; ?>>
                               <div class="circle4 d-flex justify-content-start">

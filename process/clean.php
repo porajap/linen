@@ -1126,25 +1126,26 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
   function get_dirty_doc($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
+    $searchitem1 = $DATA["searchitem1"];
     $boolean = false;
     $count = 0;
     $count2 = 0;
     $Sql = "SELECT DocNo , RefDocNo FROM dirty     
     INNER JOIN site ON dirty.HptCode = site.HptCode
-    WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode' 
+    WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode'  AND  dirty.DocNo LIKE '%$searchitem1%'
     
     UNION ALL 
     
     SELECT DocNo , RefDocNo FROM repair_wash
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode' AND NOT repair_wash.RefDocNo = '' 
+    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode'  AND NOT repair_wash.RefDocNo = '' AND  repair_wash.DocNo LIKE '%$searchitem1%'
 
     UNION ALL  
     
     SELECT DocNo , RefDocNo FROM newlinentable
     INNER JOIN site ON newlinentable.HptCode = site.HptCode
-    WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode'   ";
+    WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode' AND  newlinentable.DocNo LIKE '%$searchitem1%'  ";
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       

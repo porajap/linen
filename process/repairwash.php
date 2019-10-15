@@ -1074,12 +1074,13 @@ function CreateDocument($conn, $DATA)
   function get_dirty_doc($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
+    $searchitem1 = $DATA["searchitem1"];
     $boolean = false;
     $count = 0;
     $Sql =  "SELECT DocNo FROM rewash
     INNER JOIN department ON rewash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 1 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode'  ";
+    WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 1 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' AND  rewash.DocNo LIKE '%$searchitem1%'";
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['RefDocNo'] = $Result['DocNo'];

@@ -394,6 +394,7 @@ function getdetail($conn, $DATA)
 {
   $HptCode = $_SESSION['HptCode'];
   $count = 0;
+  $countMP = 0;
   $ItemCode = $DATA['ItemCode'];
   // ====================================================================================
   // $Sql = "INSERT INTO item_multiple_unit (MpCode , UnitCode , Multiply , ItemCode , PriceUnit) VALUES ( 1 , 1 , 1 , '$ItemCode' , 1)";
@@ -461,9 +462,12 @@ function getdetail($conn, $DATA)
     $return[0]['isset'] = $Result['isset']==null?0:$Result['isset'];
     $return[0]['tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
+    if($Result['UnitName2'] != null){
+      $countMP = 1 ;
+    }
   }
   $return['RowCount'] = $count;
-
+  $return['RowCountMP'] = $countMP;
   if ($count > 0) {
     $return['status'] = "success";
     $return['form'] = "getdetail";
@@ -840,7 +844,7 @@ function AddUnit($conn, $DATA)
       mysqli_query($conn, $Sql2);
     } else {
       if($UnitCode == $MpCode){
-        $Sql1 = "UPDATE item_multiple_unit SET  MpCode = $MpCode , UnitCode = $UnitCode , Multiply = $Multiply , ItemCode = '$ItemCode' , PriceUnit = 1
+        $Sql1 = "UPDATE item_multiple_unit SET  MpCode = $MpCode , UnitCode = $UnitCode , Multiply = $Multiply , ItemCode = '$ItemCode' , PriceUnit = $priceunit
                 WHERE ItemCode = '$ItemCode' AND MpCode = $MpCode AND UnitCode  = $UnitCode  ";
       }else{
         $Sql1 = "UPDATE item_multiple_unit SET  MpCode = $MpCode , UnitCode = $UnitCode , Multiply = $Multiply , ItemCode = '$ItemCode' , PriceUnit = $priceunit

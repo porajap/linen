@@ -1022,6 +1022,7 @@ function CreateDocument($conn, $DATA)
   function get_claim_doc($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
+    $searchitem1 = $DATA["searchitem1"];
     $boolean = false;
     $count = 0;
     $Sql = "SELECT claim.DocNo
@@ -1031,7 +1032,8 @@ function CreateDocument($conn, $DATA)
     WHERE claim.IsCancel = 0 
     AND claim.IsStatus = 1
     AND claim.IsRef = 0
-    AND site.HptCode = '$hptcode' 
+    AND site.HptCode = '$hptcode'
+    AND  claim.DocNo LIKE '%$searchitem1%'
     ORDER BY claim.Modify_Date DESC
     LIMIT 100";
     // var_dump($Sql); die;
