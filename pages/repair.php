@@ -90,6 +90,11 @@ $(document).ready(function(e){
               ShowDocument(1);
             }
         });
+  $('#searchitem').keyup(function(e) {
+    if (e.keyCode == 13) {
+      ShowItem();
+    }
+      });
   $('#Dep2').addClass('icon_select');
   $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values

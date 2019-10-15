@@ -86,10 +86,15 @@ var RowCnt=0;
 
 $(document).ready(function(e){
   $('#searchdocument').keyup(function(e) {
-            if (e.keyCode == 13) {
-              ShowDocument(1);
-            }
+        if (e.keyCode == 13) {
+          ShowDocument(1);
+        }
         });
+  $('#searchitem').keyup(function(e) {
+        if (e.keyCode == 13) {
+          ShowItem();
+        }
+          });
   $('#rem2').hide();    
   $('#Dep2').addClass('icon_select');
   $('.only').on('input', function() {

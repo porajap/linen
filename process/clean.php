@@ -832,7 +832,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     dirty_detail.IsCancel
     FROM dirty_detail
 		INNER JOIN item ON item.ItemCode = dirty_detail.ItemCode
-    WHERE dirty_detail.DocNo = '$RefDocNo' AND item.IsDirtyBag = 1 AND NOT item.ItemCode IN ('00001', '00002', '00003')
+    WHERE dirty_detail.DocNo = '$RefDocNo' AND item.IsDirtyBag = 1 AND NOT item.IsDirtyBag = 2
     GROUP BY item.ItemCode";
     $meQuery12 = mysqli_query($conn, $Sql12);
     while ($Result12 = mysqli_fetch_assoc($meQuery12)) {

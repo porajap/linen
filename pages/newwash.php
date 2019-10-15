@@ -91,6 +91,11 @@ $array2 = json_decode($json2,TRUE);
               ShowDocument(1);
             }
         });
+    $('#searchitem').keyup(function(e) {
+    if (e.keyCode == 13) {
+      ShowItem();
+    }
+      });
     $('#rem1').hide();
     $('#rem2').hide();
     $('.only').on('input', function() {
