@@ -88,7 +88,10 @@ $array2 = json_decode($json2,TRUE);
           //var dept = $('#Deptsel').val();
         // }
         var keyword = $('#searchitem').val();
-
+        
+        $('.borderred').on('input', function() {
+          this.value = this.value.replace(  $('#parnum').removeClass('border-danger'),$('#rem2').hide() ,$('#form3').addClass('mt-3') ,$('#form4').addClass('form-group')  ); //<-- replace all other than given set of values
+        });
         $('.numonly').on('input', function() {
           this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
         });
@@ -185,13 +188,15 @@ $array2 = json_decode($json2,TRUE);
                 }            
                 }else{
               $(this).removeClass('border-danger');
-              
             }
           });
         }
         function removeClassBorder1(chk){
           if(chk==1){
             $('#TableItemStock tbody').empty();
+          }else{
+            $('input[name="checkitem').prop('checked',false);
+            $('input[name="txtno').val('');
           }
           var par = $('#parnum').val();
           var department = $('#department').val();
@@ -200,7 +205,6 @@ $array2 = json_decode($json2,TRUE);
                   $('#parnum').removeClass('border-danger');
                   $('#form3').addClass('mt-3');
                   $('#form4').addClass('form-group');
-                  ShowItem();
                 }
           if(department !="" && department != undefined){
              $('#department').removeClass('border-danger');
@@ -1708,7 +1712,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class='col-3 mr-sm-2 text-left'> 
                           <span ><?php echo $array['parnum'][$language]; ?></span>
                         </div>
-                          <input type="text" class="form-control numonly col-8 checkblank2" autocomplete="off" onchange="removeClassBorder1();"  id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
+                          <input type="text" class="form-control numonly col-8 checkblank2 borderred" autocomplete="off" onkeyup="removeClassBorder1()"  id="parnum" name="parnum" value="" placeholder="<?php echo $array['parnum'][$language]; ?>">
                           <label id="rem2" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
