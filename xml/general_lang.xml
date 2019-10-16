@@ -143,6 +143,7 @@
 <confirmdoc><en>Confirm create doc</en><th>ยืนยันการสร้างเอกสาร</th></confirmdoc>
 <confirmsave><en>Confirm save doc</en><th>ยืนยันการบันทึกเอกสาร</th></confirmsave>
 <confirmjaipar><en>Confirm save Payout</en><th>ยืนยันการจ่ายผ้า</th></confirmjaipar>
+<confirmpacking><en>Confirm save Packing</en><th>ยืนยันการจัดเตรียมผ้า</th></confirmpacking>
 <confirmsave1><en>Confirm save </en><th>ยืนยันการบันทึกข้อมูล</th></confirmsave1>
 <confirmdelete><en>Confirm delete item</en><th>ยืนยันการลบรายการ</th></confirmdelete>
 <confirmcancel><en>Confirm cancel doc</en><th>ยืนยันการยกเลิกเอกสาร</th></confirmcancel>
@@ -167,6 +168,7 @@
 <leftsc><en>Variable</en><th>Variable</th></leftsc>
 <qty><en>QTY</en><th>จำนวน</th></qty>
 <total><en>Number</en><th>จำนวน</th></total>
+<Packing><en>Packing</en><th>เรึ่มจัดเตรียมผ้า</th></Packing>
 <order><en>Order</en><th>Order</th></order>
 <detail><en>Description</en><th>รายละเอียด</th></detail>
 <print><en>Print Report</en><th>พิมพ์รายงาน</th></print>
@@ -200,7 +202,8 @@
 <over><en>Over</en><th>เกิน Par</th></over>
 <adddata><en>Add new data</en><th>เพิ่มข้อมูล</th></adddata>
 <adddata1><en>Do you want to add new data ?</en><th>คุณต้องการเพิ่มข้อมูลใหม่ใช่หรือไม่ ?</th></adddata1>
-<adddata8><en>Do you want to jaipar ?</en><th>คุณต้องการยืนยันการจ่ายผ้าใช่หรือไม่ ?</th></adddata8>
+<adddata8><en>Do you want to payout ?</en><th>คุณต้องการยืนยันการจ่ายผ้าใช่หรือไม่ ?</th></adddata8>
+<adddata9><en>Do you want to packing ?</en><th>คุณต้องการยืนยันการจัดเตรียมผ้าใช่หรือไม่ ?</th></adddata9>
 <editdata><en>Edit data</en><th>แก้ไขข้อมูล</th></editdata>
 <editdata1><en>Do you want to edit data ?</en><th>คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ?</th></editdata1>
 <required><en>Please complete all required field.</en><th>กรุณากรอกข้อมูลให้ครบถ้วน</th></required>

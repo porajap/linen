@@ -407,7 +407,8 @@ function SelectDocument($conn, $DATA)
     shelfcount.IsStatus ,
     shelfcount.CycleTime ,
     shelfcount.DeliveryTime ,
-    shelfcount.jaipar
+    shelfcount.jaipar ,
+    shelfcount.PkStartTime
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -440,11 +441,10 @@ function SelectDocument($conn, $DATA)
     $return[$count]['IsStatus'] = $Result['IsStatus'];
     $return[$count]['CycleTime'] = $Result['CycleTime'];
     $return[$count]['DeliveryTime'] = $Result['DeliveryTime'];
+    $return[$count]['PkStartTime'] = $Result['PkStartTime']==null?0:$Result['PkStartTime'];
     $boolean = true;
     $count++;
   }
-  $Sql = "UPDATE shelfcount SET PkStartTime = NOW() WHERE DocNo = '$DocNo'";
-  mysqli_query($conn, $Sql);
   if ($boolean) {
     $return['status'] = "success";
     $return['form'] = "SelectDocument";
@@ -467,7 +467,19 @@ function SelectDocument($conn, $DATA)
     die;
   }
 }
+function setpacking($conn, $DATA){
+  $boolean = false;
+  $DocNo = $DATA["DocNo"];
+  $Sql = "UPDATE shelfcount SET PkStartTime = NOW() WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
 
+  // $Sql="SELECT PkStartTime FROM shelfcount WHERE DocNo ='$DocNo'  ";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[0]['PkStartTime'] = $Result['PkStartTime'];
+  // }
+
+}
 function ShowItem($conn, $DATA)
 {
   $count = 0;
@@ -1759,6 +1771,8 @@ function find_item($conn, $DATA)
       find_item($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'getDepartment2') {
       getDepartment2($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'setpacking') {
+      setpacking($conn, $DATA);
     }
 
     

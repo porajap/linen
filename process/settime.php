@@ -84,7 +84,7 @@ function ShowItem($conn, $DATA){
     FROM time_express te
     INNER JOIN site ON site.HptCode = te.HptCode 
     INNER JOIN time_sc ON time_sc.ID = te.Time_ID  
-    WHERE te.HptCode = '$HptCode'";
+    WHERE te.HptCode = '$HptCode' ORDER BY time_sc.ID";
     if($Keyword != ''){
       $Select .= "  AND (time_sc.TimeName LIKE  '%$Keyword%')";
     }

@@ -966,6 +966,39 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
+    function setpacking(){
+      var DocNo = $('#docno').val();
+      swal({
+        title: "<?php echo $array['confirmpacking'][$language]; ?>",
+        text: "<?php echo $array['adddata9'][$language]; ?>",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-success",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+        confirmButtonColor: '#6fc864',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true}).then(result => {
+          if (result.value) {
+            var data = {
+              'STATUS':'setpacking',
+              'DocNo':DocNo
+            };
+            $('#bpacking').attr('disabled', true);
+            $('#bpacking2').addClass('opacity');
+            $('#hover9').removeClass('mhee');
+
+            $('#bdetail').attr('disabled' , false);
+            $("#bdetail2").removeClass('opacity');
+            $("#hover6").addClass('mhee');
+            senddata(JSON.stringify(data));
+          } else if (result.dismiss === 'cancel') {
+                swal.close();
+          }
+        })
+    }
     function draw(){
       var DocNo = $('#docno').val();
       swal({
@@ -1290,6 +1323,7 @@ $array2 = json_decode($json2,TRUE);
                 }
               }
             }else if(temp["form"]=='SelectDocument'){
+              if(temp[0]['PkStartTime'] != 0){
               if(temp[0]['jaipar'] == 1){
                 $('#bdetail').attr('disabled' , true);
                 $("#bdetail2").addClass('opacity');
@@ -1300,6 +1334,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#bdetail2").removeClass('opacity');
                 $("#hover6").addClass('mhee');
               }
+            }
               $('#home-tab').tab('show');
               $( "#TableItemDetail tbody" ).empty();
               $("#docno").val(temp[0]['DocNo']);
@@ -1328,9 +1363,9 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport2").removeClass('opacity');
                 $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
-                $('#bPrint').attr('disabled', true);
-                $('#bPrint2').addClass('opacity');
-                $('#hover7').removeClass('mhee');
+                // $('#bPrint').attr('disabled', true);
+                // $('#bPrint2').addClass('opacity');
+                // $('#hover7').removeClass('mhee');
               }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1349,6 +1384,15 @@ $array2 = json_decode($json2,TRUE);
                 $('#bPrint').attr('disabled', false);
                 $('#bPrint2').removeClass('opacity');
                 $('#hover7').addClass('mhee');
+                if(temp[0]['PkStartTime'] != 0){
+                  $('#bpacking').attr('disabled', true);
+                  $('#bpacking2').addClass('opacity');
+                  $('#hover9').removeClass('mhee');
+                }else{
+                  $('#bpacking').attr('disabled', false);
+                  $('#bpacking2').removeClass('opacity');
+                  $('#hover9').addClass('mhee');
+                }
               }else{
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
@@ -2159,7 +2203,18 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-
+                          <div class="menu"  id="hover9">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle13  d-flex justify-content-center opacity" id="bpacking2">
+                                <button class="btn" onclick="setpacking()" id="bpacking"disabled="true">
+                                <i class="fas fa-people-carry"></i>                                
+                                <div>
+                                    <?php echo $array['Packing'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                           <div class="menu"  id="hover6">
                             <div class="d-flex justify-content-center">
                               <div class="circle7 d-flex justify-content-center opacity" id="bdetail2">
