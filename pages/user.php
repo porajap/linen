@@ -382,9 +382,9 @@ $array2 = json_decode($json2,TRUE);
                 if(UserName ==""||UserName==undefined){
                   $('#rem3').show().css("color","red");
                 }
-                if(Password ==""||Password==undefined){
-                  $('#rem4').show().css("color","red");
-                }
+                // if(Password ==""||Password==undefined){
+                //   $('#rem4').show().css("color","red");
+                // }
                 if(FName ==""||FName==undefined){
                   $('#rem5').show().css("color","red");
                 }
@@ -644,10 +644,14 @@ $array2 = json_decode($json2,TRUE);
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
+          $('#Password').attr('disabled' , false);
+          $('#Password').addClass('checkblank');
           Blankinput2();
         } else {
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
+          $('#Password').attr('disabled' , true);
+          $('#Password').removeClass('checkblank');
             if (ID != "" && ID != undefined) {
                 var data = {
                     'STATUS': 'getdetail',

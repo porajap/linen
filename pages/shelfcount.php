@@ -782,6 +782,8 @@ $array2 = json_decode($json2,TRUE);
                 cancelButtonColor: '#3085d6',
                 closeOnConfirm: false,
                 closeOnCancel: false,
+                allowOutsideClick: false,
+                allowEscapeKey : false ,
               showCancelButton: true}).then(result => {
                 swal({
                   title: '',
