@@ -123,6 +123,7 @@ function alert_SetPrice($conn,$DATA)
     cat_P.DocNo , 
     site.HptCode , 
     site.HptName ,    
+    site.HptNameTH ,       
     cat_P.xDate ,  
     DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
   FROM category_price_time cat_P
@@ -140,7 +141,8 @@ function alert_SetPrice($conn,$DATA)
         con.EndDate,
         cat_P.DocNo ,
         site.HptCode , 
-        site.HptName ,    
+        site.HptName ,
+        site.HptNameTH ,       
         cat_P.xDate ,  
         DATEDIFF(cat_P.xDate, CURDATE()) AS dateDiff  
       FROM category_price_time cat_P
@@ -176,6 +178,7 @@ function alert_SetPrice($conn,$DATA)
 
       $return[$count]['set_price']['HptCode'] = $Result['HptCode'];
       $return[$count]['set_price']['HptName'] = $Result['HptName'];
+      $return[$count]['set_price']['HptNameTH'] = $Result['HptNameTH'];
       $return[$count]['set_price']['StartDate'] = $newdate;
       $return[$count]['set_price']['EndDate'] = $newdate2;
       $return[$count]['set_price']['DocNo'] = $Result['DocNo'];
@@ -212,7 +215,7 @@ function alert_SetPrice($conn,$DATA)
   $count2 = 0;
   if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
     $Sql = "SELECT cf.RowID, factory.FacCode, factory.FacName, cf.StartDate, cf.EndDate,
-        DATEDIFF(cf.EndDate, DATE(NOW()))  AS dateDiff   
+        DATEDIFF(cf.EndDate, DATE(NOW()))  AS dateDiff , factory.FacNameTH  
         FROM contract_parties_factory cf 
         INNER JOIN factory ON factory.FacCode = cf.FacCode
         WHERE cf.IsStatus = 0
@@ -236,6 +239,7 @@ function alert_SetPrice($conn,$DATA)
           $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
         }
         $return[$count2]['contract_fac']['FacName'] = $Result['FacName'];
+        $return[$count2]['contract_fac']['FacNameTH'] = $Result['FacNameTH'];
         $return[$count2]['contract_fac']['StartDate'] = $newdate;
         $return[$count2]['contract_fac']['EndDate'] = $newdate2;
         $return[$count2]['contract_fac']['dateDiff'] = $Result['dateDiff'];
@@ -279,7 +283,7 @@ function alert_SetPrice($conn,$DATA)
   $count3 = 0;
   if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
     $Sql = "SELECT site.HptName, ch.RowID, ch.StartDate, ch.EndDate, 
-        DATEDIFF(ch.EndDate, DATE(NOW())) AS dateDiff   
+        DATEDIFF(ch.EndDate, DATE(NOW())) AS dateDiff ,  site.HptNameTH 
         FROM contract_parties_hospital ch 
         INNER JOIN site ON site.HptCode = ch.HptCode
         WHERE ch.IsStatus = 0
@@ -303,6 +307,7 @@ function alert_SetPrice($conn,$DATA)
           $newdate2 = $date2[2].'-'.$date2[1].'-'.$date2[0];
         }
         $return[$count3]['contract_hos']['HptName'] = $Result['HptName'];
+        $return[$count3]['contract_hos']['HptNameTH'] = $Result['HptNameTH'];
         $return[$count3]['contract_hos']['StartDate'] = $newdate;
         $return[$count3]['contract_hos']['EndDate'] = $newdate2;
         $return[$count3]['contract_hos']['dateDiff'] = $Result['dateDiff'];

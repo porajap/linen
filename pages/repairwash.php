@@ -761,7 +761,7 @@ $(document).ready(function(e){
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
         // alert( isStatus );
-        if(isStatus==1)
+        if(isStatus==1 || isStatus==3 || isStatus==4)
         isStatus=0;
         else
         isStatus=1;
@@ -1080,7 +1080,7 @@ $(document).ready(function(e){
                   $('#bPrint').attr('disabled', true);
                   $('#bPrint2').addClass('opacity');
                   $('#hover6').removeClass('mhee');
-                }else if(temp[0]['IsStatus']==1){
+                }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";

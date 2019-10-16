@@ -7,8 +7,8 @@ $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
 }
-
 $FacName = $_POST['FacName'];
+$FacNameTH = $_POST['FacNameTH'];
 $StartDate = $_POST['StartDate'];
 $EndDate = $_POST['EndDate'];
 $email = $_POST['email'];
@@ -27,7 +27,7 @@ $body = '
 <body>
 <br>
 ___________________________________________________________________<br>
-<h3>'.$FacName.'</h3>
+<h3>'.$FacNameTH.'</h3>
 <b>วันที่ทำสัญญา:</b> '.$StartDate.'<br>
 <b>วันที่สิ้นสุดสัญญา:</b> '.$EndDate.'<br>
 <b>หมดสัญญาวันที่:</b> '.$EndDate.' เหลือเวลาอีก '.$dateDiff.' วัน<br>

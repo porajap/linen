@@ -247,6 +247,7 @@ $array = json_decode($json,TRUE);
                           '</tr></table><hr>' ;
             
                 var HptName = temp[i]['set_price']['HptName'];
+                var HptNameTH = temp[i]['set_price']['HptNameTH'];
                 var DocNo = temp[i]['set_price']['DocNo'];
                 var StartDate = temp[i]['set_price']['StartDate'];
                 var EndDate = temp[i]['set_price']['EndDate'];
@@ -267,7 +268,8 @@ $array = json_decode($json,TRUE);
                       EndDate:EndDate,
                       xDate:xDate,
                       email:email,
-                      dateDiff:dateDiff
+                      dateDiff:dateDiff,
+                      HptNameTH:HptNameTH
                     },
                     success:function(data)
                     {
@@ -298,6 +300,7 @@ $array = json_decode($json,TRUE);
                 if(temp[i]['countMailFac']>0){
                   for(var j = 0; j < temp[i]['countMailFac']; j++){
                     var FacName = temp[i]['contract_fac']['FacName'];
+                    var FacNameTH = temp[i]['contract_fac']['FacNameTH'];
                     var StartDate = temp[i]['contract_fac']['StartDate'];
                     var EndDate = temp[i]['contract_fac']['EndDate'];
                     var email = temp[j]['contract_fac']['email'];
@@ -315,7 +318,8 @@ $array = json_decode($json,TRUE);
                           EndDate:EndDate,
                           email:email,
                           dateDiff:dateDiff,
-                          RowID:RowID
+                          RowID:RowID,
+                          FacNameTH:FacNameTH
                         },
                         success:function(data)
                         {
@@ -349,6 +353,7 @@ $array = json_decode($json,TRUE);
                 if(temp[i]['countMailHos']>0){
                   for(var j = 0; j < temp[i]['countMailHos']; j++){
                     var HptName = temp[i]['contract_hos']['HptName'];
+                    var HptNameTH = temp[i]['contract_hos']['HptNameTH'];
                     var StartDate = temp[i]['contract_hos']['StartDate'];
                     var EndDate = temp[i]['contract_hos']['EndDate'];
                     var email = temp[j]['contract_hos']['email'];
@@ -366,7 +371,8 @@ $array = json_decode($json,TRUE);
                           EndDate:EndDate,
                           email:email,
                           dateDiff:dateDiff,
-                          RowID:RowID
+                          RowID:RowID , 
+                          HptNameTH:HptNameTH
                         },
                         success:function(data)
                         {
