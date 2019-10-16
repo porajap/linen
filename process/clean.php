@@ -722,6 +722,7 @@ function CreateDocument($conn, $DATA)
 
   function SaveBill($conn, $DATA)
   {
+    $PmID = $_SESSION['PmID'];
     $DocNo = $DATA["xdocno"];
     $DocNo2 = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];

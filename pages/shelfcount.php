@@ -746,7 +746,7 @@ $array2 = json_decode($json2,TRUE);
       var cycle = $('#cycle').val();
       var settime = $('#settime').val();
       var input_chk = $('#input_chk').val();
-        if(isStatus==1 || isStatus==3){
+        if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
         }else{
           isStatus=1;
@@ -1331,7 +1331,7 @@ $array2 = json_decode($json2,TRUE);
                 $('#bPrint').attr('disabled', true);
                 $('#bPrint2').addClass('opacity');
                 $('#hover7').removeClass('mhee');
-              }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3){
+              }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
                 changeBtn += "<div>"+word+"</div>";
@@ -1510,7 +1510,7 @@ $array2 = json_decode($json2,TRUE);
               var st1 = "style='font-size:24px;margin-right:0px!important; width:150px;'";
               var st2 = "style='height:40px;width:60px; font-size:20px; margin-left:3px; margin-right:3px; text-align:center;'"
               $( "#TableItem tbody" ).empty();
-
+              if(temp["Row"]>0){
               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                 var rowCount = $('#TableItem >tbody >tr').length;
 
@@ -1553,6 +1553,11 @@ $array2 = json_decode($json2,TRUE);
               $('.numonly_dot').on('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
               });
+            }else{
+                $('#TableItem tbody').empty();
+                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                $('#TableItem tbody:last-child').append(Str);
+              }
             }else if( (temp["form"]=='ShowUsageCode') ){
               var st1 = "style='font-size:18px;margin-left:3px; width:150px;font-size:24px;'";
               var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"

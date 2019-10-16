@@ -122,14 +122,14 @@ function getDepartment($conn, $DATA)
     $boolean = true;
   }
 
-  $Sql = "SELECT time_express.ID,time_sc.TimeName
+  $Sql = "SELECT time_express.Time_ID,time_sc.TimeName
   FROM time_express
   INNER JOIN time_sc ON time_express.Time_ID = time_sc.ID
   WHERE time_express.HptCode = '$Hotp' ";
   // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count2]['ID'] = $Result['ID'];
+    $return[$count2]['ID'] = $Result['Time_ID'];
     $return[$count2]['time_value'] = $Result['TimeName'];
     $count2++;
     $boolean2 = true;
@@ -149,11 +149,8 @@ function getDepartment($conn, $DATA)
     die;
   }
 }
-
-
 // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
 // mysqli_query($conn,$Sqlx);
-
 function CreateDocument($conn, $DATA)
 {
   $lang = $_SESSION['lang'];
@@ -579,7 +576,7 @@ function ShowItem($conn, $DATA)
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['form'] = "ShowItem";
     $return[$count]['RowID'] = "";
     $return[$count]['UsageCode'] = "";
@@ -1533,7 +1530,7 @@ function SaveDraw($conn, $DATA){
     $meQuery4 = mysqli_query($conn, $Sql4);
     while ($Result4 = mysqli_fetch_assoc($meQuery4)) {
       $QtyCenter = $Result4['TotalQty']==null?0:$Result4['TotalQty'];
-      if($QtyCenter > $Oder){
+      if($QtyCenter >= $Oder){
         // $updateQty = "UPDATE item_stock SET TotalQty = TotalQty + $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $SCDepCode";
         // mysqli_query($conn, $updateQty);
         //===========================================================================================
