@@ -1290,6 +1290,44 @@ $(document).ready(function(e){
                       OpenDialogItem();
                   }
                         ShowDetail();
+              }else if(temp['form']=="SaveBill"){
+                if(temp['countpercent']>0){
+                  for (var i = 0; i < temp['countpercent']; i++) {
+                if(temp[i]['countMailpercent']>0){
+                  for(var j = 0; j < temp[i]['countMailpercent']; j++){
+                    var HptName =   temp[0]['HptName'];
+                    var HptNameTH = temp[0]['HptNameTH'];
+                    var Total1 =    temp[0]['Total1'];
+                    var Total2 =    temp[0]['Total2'];
+                    var DocNoC =    temp[0]['DocNo1'];
+                    var DocNoD =    temp[0]['DocNo2'];
+                    var Percent =   temp[0]['Percent'];
+                    var email =     temp[j]['email'];
+
+                    var URL = '../process/sendMail_percent.php';
+                      $.ajax({
+                        url: URL,
+                        method:"POST",
+                        data: 
+                        {
+                          HptName:HptName,
+                          Total1:Total1,
+                          Total2:Total2,
+                          Precent:Percent,
+                          email:email,
+                          DocNoC:DocNoC,
+                          DocNoD:DocNoD,
+                          HptNameTH:HptNameTH
+                        },
+                        success:function(data)
+                        {
+                          console.log['success'];
+                        }
+                      });
+              }
+          }
+        }
+      }
               }else if(temp['form']=="chk_percent"){
                 result = '';
               if(temp["Row"]>0){

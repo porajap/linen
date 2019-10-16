@@ -723,11 +723,12 @@ function CreateDocument($conn, $DATA)
   function SaveBill($conn, $DATA)
   {
     $PmID = $_SESSION['PmID'];
+    $HptCode = $_SESSION['HptCode'];
     $DocNo = $DATA["xdocno"];
     $DocNo2 = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
     $count = 0 ;
-
+    $count4 = 0;
     $Sql = "UPDATE clean SET IsStatus = $isStatus WHERE clean.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
@@ -740,6 +741,52 @@ function CreateDocument($conn, $DATA)
     if($DocNoDirty != "" ){
     $Sql = "UPDATE dirty SET IsRef = 1 WHERE dirty.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
+    $Sql = "SELECT clean.Total , clean.sendmail
+    FROM clean WHERE clean.DocNo = '$DocNo'";
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $cTotal	= $Result['Total']==null?0:$Result['Total'];
+      $sendmail	= $Result['sendmail'];
+    }
+
+    $Sql = "SELECT dirty.Total
+    FROM dirty WHERE dirty.DocNo = '$DocNo2'";
+    $return['sql'] = $Sql;
+    $meQuery = mysqli_query($conn,$Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $dTotal	= $Result['Total']==null?0:$Result['Total'];
+    }
+      $percent =  ROUND( ((($dTotal - $cTotal )/$dTotal)*100) , 2)  ;
+      if($percent > 8 && $sendmail ==0){
+        $return[0]['Percent'] = $percent;
+        $return[0]['DocNo1'] 	= $DocNo;
+        $return[0]['DocNo2'] 	= $DocNo2;
+        $return[0]['Total1'] 	= $cTotal;
+        $return[0]['Total2'] 	= $dTotal;
+        $SqlUp="UPDATE clean SET sendmail = 1 WHERE DocNo = '$DocNo'";
+        $meQuery = mysqli_query($conn,$SqlUp);
+        $i = 0;
+        if($meQuery = mysqli_query($conn,$SqlUp)){
+          $SelectMail1 = "SELECT users.email, 	site.HptName , site.HptNameTH
+              FROM users
+              INNER JOIN site ON site.HptCode = users.HptCode
+              WHERE users.HptCode = '$HptCode'
+              AND users.PmID = 1
+              AND email IS NOT NULL AND NOT email = ''";
+              $SQuery1 = mysqli_query($conn,$SelectMail1);
+              while ($SResult1 = mysqli_fetch_assoc($SQuery1)) {
+                $return[$i]['email'] = $SResult1['email'];
+                $return[0]['HptName'] = $SResult1['HptName'];
+                $return[0]['HptNameTH'] = $SResult1['HptNameTH'];
+                $i++;
+              }
+              $return[$count4]['countMailpercent'] = $i;
+              $count4++;
+        }
+        $return['countpercent'] = $count4;
+      }
+
+
     }else{
     $Sql = "UPDATE repair_wash SET IsRef = 1 WHERE repair_wash.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
@@ -762,6 +809,16 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE factory_out SET IsRequest = 1 WHERE DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
 
+// ==============================================================================
+
+
+    if($percent > 8){
+      $return['status'] = "success";
+      $return['form'] = "SaveBill";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
     ShowDocument($conn, $DATA);
   }
 
