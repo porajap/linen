@@ -545,7 +545,8 @@ $array2 = json_decode($json2,TRUE);
                               var eDate = new Date( temp[i]['EndDate'] );
                               var diff  = new Date(eDate - sDate);
 
-                              var days = Math.round(diff/1000/60/60/24);
+                              // var days = Math.round(diff/1000/60/60/24);
+                              var days = temp[i]['LeftDay'];
                               var chkDetail = "<label class='radio'style='margin-top: 27%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "'  onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
 
                               if(days <= 30){
@@ -591,14 +592,14 @@ $array2 = json_decode($json2,TRUE);
 												$("#datepicker3").val(temp[0]['StartDate']);
 												$("#datepicker4").val(temp[0]['EndDate']);
 												$("#xDetail").val(temp[0]['Detail']);
+												$("#factory").val(temp[0]['FacCode']);
+												// var fac_code = temp[0]['FacCode'];
+												// var fac_length = $('#factory > option').length;
 
-												var fac_code = temp[0]['FacCode'];
-												var fac_length = $('#factory > option').length;
 
-
-												for(var i=0;i<fac_length;i++){
-													if(fac_code == i) $('#factory option[value="'+i+'"]').prop("selected", true);
-												}
+												// for(var i=0;i<fac_length;i++){
+												// 	if(fac_code == i) $('#factory option[value="'+i+'"]').prop("selected", true);
+												// }
                         $('#bCancel').attr('disabled', false);
                         $('#delete_icon').removeClass('opacity');
 										  }

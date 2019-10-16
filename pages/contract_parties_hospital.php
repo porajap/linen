@@ -495,8 +495,8 @@ $array2 = json_decode($json2,TRUE);
                           var eDate = new Date( temp[i]['EndDate'] );
                           var diff  = new Date(eDate - sDate);
                           var chkDetail = "<label class='radio'style='margin-top: 27%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
-                          var days = Math.round(diff/1000/60/60/24);
-
+                          // var days = Math.round(diff/1000/60/60/24);
+                          var days = temp[i]['LeftDay'];
 												  if(days <= 30){
 													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
 												   }else{

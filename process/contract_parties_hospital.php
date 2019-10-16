@@ -92,6 +92,7 @@ function ShowDocument($conn,$DATA){
     contract_parties_hospital.EndDate, 
     IFNULL(Detail,'') AS Detail, 
     (EndDate-DATE(NOW())) AS LeftDay, 
+    DATEDIFF(EndDate, DATE(NOW())) AS dateDiff ,
     site.HptName ,
     site.HptNameTH
   FROM  contract_parties_hospital 
@@ -126,7 +127,7 @@ function ShowDocument($conn,$DATA){
   $return[$count]['EndDate2'] 		= $newdate2;
   $return[$count]['EndDate'] 		= $Result['EndDate'];
   $return[$count]['Detail'] 		= $Result['Detail'];
-  $return[$count]['LeftDay'] 		= $Result['LeftDay'];
+  $return[$count]['LeftDay'] 		= $Result['dateDiff'];
     $boolean = true;
     $count++;
   }

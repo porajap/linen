@@ -91,7 +91,9 @@ function ShowDocument($conn,$DATA){
 //	 $Sql = "INSERT INTO log ( log ) VALUES ('$sl1  :  $sl2')";
 //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT RowID,FacName,FacNameTH,StartDate,EndDate,IFNULL(Detail,'') AS Detail,(EndDate-DATE(NOW())) AS LeftDay
+  $Sql = "SELECT RowID,FacName,FacNameTH,StartDate,EndDate,IFNULL(Detail,'') AS Detail,(EndDate-DATE(NOW())) AS LeftDay ,
+   DATEDIFF(EndDate, DATE(NOW())) AS dateDiff 
+
   FROM contract_parties_factory
   INNER JOIN factory ON contract_parties_factory.FacCode = factory.FacCode
   WHERE contract_parties_factory.IsStatus = 0 ";
@@ -123,7 +125,7 @@ function ShowDocument($conn,$DATA){
   $return[$count]['EndDate2'] 		= $newdate2;    
   $return[$count]['EndDate'] 		= $Result['EndDate'];
     $return[$count]['Detail'] 		= $Result['Detail'];
-	$return[$count]['LeftDay'] 		= $Result['LeftDay'];
+	$return[$count]['LeftDay'] 		= $Result['dateDiff'];
     $boolean = true;
     $count++;
   }

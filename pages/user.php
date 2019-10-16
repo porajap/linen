@@ -289,7 +289,21 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
 
-        function ShowItem() {
+        function ShowItem(chk) {
+            var HptCode = $('#hptsel').val();
+            var keyword = $('#searchitem').val();
+            var department = $('#department').val();
+            if(chk ==1){
+                $('#department').val(department2);
+                var department2 = $('#department2').val();
+            }else if(chk ==2){
+                $('#department2').val(department);
+                var department2 = $('#department').val();
+                if(department !="" && department!=undefined){
+                    $('#rem2').hide();
+                    $('#department').css('border-color', '');
+                }
+            }
             $('.checkblank66').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
@@ -297,9 +311,6 @@ $array2 = json_decode($json2,TRUE);
               $(this).css('border-color', '');
             }
           });
-            var department2 = $('#department2').val();
-            var HptCode = $('#hptsel').val();
-            var keyword = $('#searchitem').val();
             var data = {
                 'STATUS': 'ShowItem',
                 'HptCode': HptCode,
@@ -315,7 +326,6 @@ $array2 = json_decode($json2,TRUE);
         var Password = $('#Password').val();
         var FName = $('#flname').val();
         var host = $('#host').val();
-        var department = $('#department').val();
         var Permission = $('#Permission').val();
         var facID = $('#factory').val();
         var email = $('#email').val();
@@ -328,10 +338,6 @@ $array2 = json_decode($json2,TRUE);
             if(host !="" && host!=undefined){
             $('#rem1').hide();
             $('#host').css('border-color', '');
-            }
-            if(department !="" && department!=undefined){
-            $('#rem2').hide();
-            $('#department').css('border-color', '');
             }
             if(UserName !="" && UserName !=undefined){
             $('#rem3').hide();
@@ -1301,7 +1307,7 @@ label{
                                 <div class="col-md-3">
                                     <div class="row" style="margin-left:-35px;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label> -->
-                                        <select class="form-control col-md-10" id="department2" style="margin-left:-7%;">
+                                        <select class="form-control col-md-10" id="department2" onchange="ShowItem(1)" style="margin-left:-7%;">
                                         </select>
                                     </div>
                                 </div>
@@ -1425,7 +1431,7 @@ label{
                                   <div class="col-md-6">
                                       <div class='form-group row'>
                                       <label class="col-sm-3 col-form-label " style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select onchange="resetinput2()" class="form-control col-sm-7 checkblank" style="font-size:22px;"  id="department" >
+                                        <select onchange="ShowItem(2)" class="form-control col-sm-7 checkblank" style="font-size:22px;"  id="department" >
                                         </select>
                                         <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
