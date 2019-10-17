@@ -116,7 +116,7 @@ function alert_SetPrice($conn,$DATA)
   $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
-  if($PmID == 1){
+  if($PmID == 1 || $PmID == 6){
     $Sql = "SELECT
     con.StartDate,
     con.EndDate,
