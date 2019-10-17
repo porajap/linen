@@ -147,7 +147,6 @@ $array2 = json_decode($json2,TRUE);
           };
           senddata(JSON.stringify(data2));
         }
-
         function getHotpital_user(){
           var lang = '<?php echo $language; ?>';
           var data2 = {
@@ -173,6 +172,7 @@ $array2 = json_decode($json2,TRUE);
             var Hotp = $('#host option:selected').attr("value");
             $('#hptsel').val(Hotp);
             ShowItem();
+            Blankinput3();
             $('#rem1').hide();
             $('#hptsel').css('border-color', '');
             if(Hotp == '' || Hotp == undefined){
@@ -183,9 +183,9 @@ $array2 = json_decode($json2,TRUE);
             'Hotp'	: Hotp
             };
             senddata(JSON.stringify(data));
-        }
-        
-        function uncheckAll2() {
+        } 
+        function uncheckAll2() 
+        {
                 $('input[type=checkbox]').each(function() 
                     { 
                             this.checked = false; 
@@ -200,14 +200,12 @@ $array2 = json_decode($json2,TRUE);
           // console.log(JSON.stringify(data2));
           senddata(JSON.stringify(data2));
         }
-
         function getFactory(){
           var data = {
               'STATUS': 'getFactory'
           };
           senddata(JSON.stringify(data));
         }
-
         function unCheckDocDetail() {
             // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
             if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length) {
@@ -216,7 +214,6 @@ $array2 = json_decode($json2,TRUE);
                 $('input[name="checkAllDetail').prop('checked', false);
             }
         }
-
         function getDocDetail() {
             // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
             if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length) {
@@ -246,10 +243,8 @@ $array2 = json_decode($json2,TRUE);
             // console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         var isChecked1 = false;
         var isChecked2 = false;
-
         function getCheckAll(sel) {
             if (sel == 0) {
                 isChecked1 = !isChecked1;
@@ -268,7 +263,6 @@ $array2 = json_decode($json2,TRUE);
                 });
             }
         }
-
         function getSearchDocNo() {
             var dept = '<?php echo $_SESSION['
             Deptid ']; ?>';
@@ -288,7 +282,6 @@ $array2 = json_decode($json2,TRUE);
             // console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         function ShowItem(chk) {
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
@@ -320,15 +313,14 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function resetinput2(){
-
-        var UsID = $('#UsID').val();
-        var UserName = $('#username').val();
-        var Password = $('#Password').val();
-        var FName = $('#flname').val();
-        var host = $('#host').val();
-        var Permission = $('#Permission').val();
-        var facID = $('#factory').val();
-        var email = $('#email').val();
+            var UsID = $('#UsID').val();
+            var UserName = $('#username').val();
+            var Password = $('#Password').val();
+            var FName = $('#flname').val();
+            var host = $('#host').val();
+            var Permission = $('#Permission').val();
+            var facID = $('#factory').val();
+            var email = $('#email').val();
 
             if(Permission ==4){
                 $('#factory').attr('disabled' , false);
@@ -359,7 +351,7 @@ $array2 = json_decode($json2,TRUE);
             $('#rem7').hide();
             $('#email').css('border-color', '');
             }
-}
+        }
         function AddItem(){
             var count = 0;
             $(".checkblank").each(function() {
@@ -498,8 +490,6 @@ $array2 = json_decode($json2,TRUE);
             });
             }
         }
-
-
         function CancelItem() {
             var UsID = $('#UsID').val();
 
@@ -543,7 +533,7 @@ $array2 = json_decode($json2,TRUE);
             $(".dropify-clear").click(); 
         }
         function Blankinput() {
-                $('#rem1').hide();
+            $('#rem1').hide();
             $('#rem2').hide();
             $('#rem3').hide();
             $('#rem4').hide();
@@ -593,7 +583,7 @@ $array2 = json_decode($json2,TRUE);
                 // }, 0);
         }
         function Blankinput2() {
-                $('#rem1').hide();
+            $('#rem1').hide();
             $('#rem2').hide();
             $('#rem3').hide();
             $('#rem4').hide();
@@ -642,33 +632,64 @@ $array2 = json_decode($json2,TRUE);
                 //     getDepartment();
                 // }, 0);
         }
-
+        function Blankinput3() {
+            $('#rem1').hide();
+            $('#rem2').hide();
+            $('#rem3').hide();
+            $('#rem4').hide();
+            $('#rem5').hide();
+            $('#rem6').hide();
+            $('#rem7').hide();
+                $('#username').val("");
+                $('#Password').val("");
+                $('#flname').val("");
+                $('.checkblank').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                $(this).css('border-color', '');
+                }else{
+                $(this).css('border-color', '');
+                }
+            });
+                // $('#host tbody').empty();
+                $('#factory').attr('disabled' , true);
+                $('#department2').val("");
+                $('#department').val("");
+                $('#Permission').val("");
+                $('#factory').val("0");
+                $('#UsID').val("");
+                $('#email').val("");
+                $('#bCancel').attr('disabled', true);
+                $('#delete_icon').addClass('opacity');
+                $('#delete1').removeClass('mhee');
+                $(".dropify-clear").click(); 
+                $("#xemail").prop('checked', false);
+                $(".dropify-clear").click(); 
+        }
         function getdetail(ID , row) {
-        var previousValue = $('#checkitem_'+row).attr('previousValue');
-        var name = $('#checkitem_'+row).attr('name');
-        if (previousValue == 'checked') {
-          $('#checkitem_'+row).removeAttr('checked');
-          $('#checkitem_'+row).attr('previousValue', false);
-          $('#checkitem_'+row).prop('checked', false);
-          $('#Password').attr('disabled' , false);
-          $('#Password').addClass('checkblank');
-          Blankinput2();
-        } else {
-          $("input[name="+name+"]:radio").attr('previousValue', false);
-          $('#checkitem_'+row).attr('previousValue', 'checked');
-          $('#Password').attr('disabled' , true);
-          $('#Password').removeClass('checkblank');
-            if (ID != "" && ID != undefined) {
-                var data = {
-                    'STATUS': 'getdetail',
-                    'ID': ID
-                };
-                // console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
+            var previousValue = $('#checkitem_'+row).attr('previousValue');
+            var name = $('#checkitem_'+row).attr('name');
+            if (previousValue == 'checked') {
+            $('#checkitem_'+row).removeAttr('checked');
+            $('#checkitem_'+row).attr('previousValue', false);
+            $('#checkitem_'+row).prop('checked', false);
+            $('#Password').attr('disabled' , false);
+            $('#Password').addClass('checkblank');
+            Blankinput2();
+            } else {
+            $("input[name="+name+"]:radio").attr('previousValue', false);
+            $('#checkitem_'+row).attr('previousValue', 'checked');
+            $('#Password').attr('disabled' , true);
+            $('#Password').removeClass('checkblank');
+                if (ID != "" && ID != undefined) {
+                    var data = {
+                        'STATUS': 'getdetail',
+                        'ID': ID
+                    };
+                    // console.log(JSON.stringify(data));
+                    senddata(JSON.stringify(data));
+                }
             }
         }
-    }
-
         function factory_show(facID){
             if(facID == 4){
                 $('#factory').attr('disabled', false);
@@ -676,7 +697,6 @@ $array2 = json_decode($json2,TRUE);
                 $('#factory').attr('disabled', true);
             }
         }
-
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -1129,17 +1149,16 @@ $array2 = json_decode($json2,TRUE);
         @font-face {
                 font-family: myFirstFont;
                 src: url("../fonts/DB Helvethaica X.ttf");
-                }
-            body{
-            font-family: myFirstFont;
-            font-size:22px;
-            width:100%;
-            }
-
+        }
+        body{
+        font-family: myFirstFont;
+        font-size:22px;
+        width:100%;
+        }
         .nfont{
           font-family: myFirstFont;
           font-size:22px;
-            }
+        }
         input,select{
         font-size:24px!important;
         }
@@ -1166,41 +1185,41 @@ $array2 = json_decode($json2,TRUE);
         text-align: left;
         }
 
-label{
-    margin-bottom:0rem !important;
-}
-        /* top-left border-radius */
-        table tr:first-child th:first-child {
-        border-top-left-radius: 15px;
-    }
-    table tr:first-child th:first-child {
-        border-bottom-left-radius: 15px;
-    }
-
-    /* top-right border-radius */
-    table tr:first-child th:last-child {
-        border-top-right-radius: 15px;
-    }
-    table tr:first-child th:last-child {
-        border-bottom-right-radius: 15px;
-    }
-
-    /* bottom-left border-radius */
-    table tr:last-child td:first-child {
-        border-bottom-left-radius: 6px;
-    }
-
-    /* bottom-right border-radius */
-    table tr:last-child td:last-child {
-        border-bottom-right-radius: 6px;
-    }
-    button{
-        font-size: 24px!important;
+        label{
+            margin-bottom:0rem !important;
         }
-    a.nav-link{
-        width:auto!important;
-    }
-    .datepicker{z-index:9999 !important}
+            /* top-left border-radius */
+            table tr:first-child th:first-child {
+            border-top-left-radius: 15px;
+        }
+        table tr:first-child th:first-child {
+            border-bottom-left-radius: 15px;
+        }
+
+        /* top-right border-radius */
+        table tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+        table tr:first-child th:last-child {
+            border-bottom-right-radius: 15px;
+        }
+
+        /* bottom-left border-radius */
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 6px;
+        }
+
+        /* bottom-right border-radius */
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 6px;
+        }
+        button{
+            font-size: 24px!important;
+            }
+        a.nav-link{
+            width:auto!important;
+        }
+        .datepicker{z-index:9999 !important}
         .hidden{visibility: hidden;}
     
         .sidenav {
@@ -1259,9 +1278,6 @@ label{
         #Permission:focus{
             background-color: #E7E6E6;
         }
-
-            
-        
         @media (min-width: 992px) and (max-width: 1199.98px) { 
 
             .icon{
@@ -1276,7 +1292,6 @@ label{
 
             }
         }
-
     </style>
 </head>
 
