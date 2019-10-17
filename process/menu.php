@@ -162,6 +162,7 @@ function alert_SetPrice($conn,$DATA)
 
       if($lang == 'th'){
         if($lang == 'th'){
+          $hptlang = $Result['HptNameTH'];
           $date = explode("-", $Result['StartDate']);
           $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
       
@@ -169,6 +170,7 @@ function alert_SetPrice($conn,$DATA)
           $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
         }
       }else if($lang == 'en'){
+        $hptlang = $Result['HptName'];
         $date = explode("-", $Result['StartDate']);
         $newdate = $date[2].'-'.$date[1].'-'.$date[0];
     
@@ -177,6 +179,7 @@ function alert_SetPrice($conn,$DATA)
       }
 
       $return[$count]['set_price']['HptCode'] = $Result['HptCode'];
+      $return[$count]['set_price']['hptlang'] = $hptlang;
       $return[$count]['set_price']['HptName'] = $Result['HptName'];
       $return[$count]['set_price']['HptNameTH'] = $Result['HptNameTH'];
       $return[$count]['set_price']['StartDate'] = $newdate;
@@ -225,6 +228,7 @@ function alert_SetPrice($conn,$DATA)
       if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
         if($lang == 'th'){
           if($lang == 'th'){
+            $hptlang = $Result['FacNameTH'];
             $date = explode("-", $Result['StartDate']);
             $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
         
@@ -232,6 +236,7 @@ function alert_SetPrice($conn,$DATA)
             $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
           }
         }else if($lang == 'en'){
+          $hptlang = $Result['FacName'];
           $date = explode("-", $Result['StartDate']);
           $newdate = $date[2].'-'.$date[1].'-'.$date[0];
       
@@ -241,6 +246,7 @@ function alert_SetPrice($conn,$DATA)
         $return[$count2]['contract_fac']['FacName'] = $Result['FacName'];
         $return[$count2]['contract_fac']['FacNameTH'] = $Result['FacNameTH'];
         $return[$count2]['contract_fac']['StartDate'] = $newdate;
+        $return[$count2]['contract_fac']['hptlang'] = $hptlang;
         $return[$count2]['contract_fac']['EndDate'] = $newdate2;
         $return[$count2]['contract_fac']['dateDiff'] = $Result['dateDiff'];
         $return[$count2]['contract_fac']['RowID'] = $Result['RowID'];
@@ -293,6 +299,7 @@ function alert_SetPrice($conn,$DATA)
       if($Result['dateDiff'] == 30 || $Result['dateDiff'] == 7){
         if($lang == 'th'){
           if($lang == 'th'){
+            $hptlang = $Result['HptNameTH'];
             $date = explode("-", $Result['StartDate']);
             $newdate = $date[2].'-'.$date[1].'-'.($date[0] +543);
         
@@ -300,6 +307,7 @@ function alert_SetPrice($conn,$DATA)
             $newdate2 = $date2[2].'-'.$date2[1].'-'.($date2[0] +543);
           }
         }else if($lang == 'en'){
+          $hptlang = $Result['HptName'];
           $date = explode("-", $Result['StartDate']);
           $newdate = $date[2].'-'.$date[1].'-'.$date[0];
       
@@ -309,6 +317,7 @@ function alert_SetPrice($conn,$DATA)
         $return[$count3]['contract_hos']['HptName'] = $Result['HptName'];
         $return[$count3]['contract_hos']['HptNameTH'] = $Result['HptNameTH'];
         $return[$count3]['contract_hos']['StartDate'] = $newdate;
+        $return[$count3]['contract_hos']['hptlang'] = $hptlang;
         $return[$count3]['contract_hos']['EndDate'] = $newdate2;
         $return[$count3]['contract_hos']['dateDiff'] = $Result['dateDiff'];
         $return[$count3]['contract_hos']['RowID'] = $Result['RowID'];

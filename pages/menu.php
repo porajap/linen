@@ -233,7 +233,7 @@ $array = json_decode($json,TRUE);
               for (var i = 0; i < temp['countSetprice']; i++) {
                 result += '<table class="table table-fixed " cellspacing="0" role="grid">';
                 result += '<tr style="background-color:#2980b9;color:#ffffff">'+
-                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[i]['set_price']['HptName']+'</td>'+
+                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[i]['set_price']['hptlang']+'</td>'+
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
@@ -286,7 +286,7 @@ $array = json_decode($json,TRUE);
               for (var i = 0; i < temp['countFac']; i++) {
                 result2 += '<table class="table table-fixed" cellspacing="0" role="grid">';
                 result2 += '<tr style="background-color:#2980b9;color:#ffffff">'+
-                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['factory'][$language]; ?> '+temp[i]['contract_fac']['FacName']+'</td>'+
+                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['factory'][$language]; ?> '+temp[i]['contract_fac']['hptlang']+'</td>'+
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
@@ -338,7 +338,7 @@ $array = json_decode($json,TRUE);
               for (var i = 0; i < temp['countHos']; i++) {
                 result3 += '<table class="table table-fixed" cellspacing="0" role="grid">';
                 result3 += '<tr style="background-color:#2980b9;color:#ffffff">'+
-                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[i]['contract_hos']['HptName']+'</td>'+
+                            '<td nowrap style="width: 30%;font-size:24px;font-weight:bold;padding-left:30px;"> <?php echo $array['side'][$language]; ?> '+temp[i]['contract_hos']['hptlang']+'</td>'+
                           '</tr>' +
                           '<tr>'+
                             '<td style="width:18%"></td>' + 
