@@ -417,6 +417,7 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
           $('#profile-tab').tab('show');
           ShowDocument(3);
+          Blankinput();
         }
 
         function dis(){
@@ -996,6 +997,7 @@ $array2 = json_decode($json2,TRUE);
                 if(temp["form"]=='OnLoadPage'){
                   var PmID = <?php echo $PmID;?>;
                   var HptCode = '<?php echo $HptCode;?>';
+                  $("#Hos2").empty();
                   $('#getHot').val(temp[0]['HptCode']);
                   if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3){
                       var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";

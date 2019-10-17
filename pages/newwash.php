@@ -467,6 +467,7 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
           $('#profile-tab').tab('show');
           ShowDocument(3);
+          Blankinput();
         }
         
         function swithChecked(i){

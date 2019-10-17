@@ -274,6 +274,7 @@ $(document).ready(function(e){
                     senddata(JSON.stringify(data));
                     $('#profile-tab').tab('show');
                     ShowDocument();
+                    Blankinput();
             } else if (result.dismiss === 'cancel') {
             swal.close();}
 
@@ -931,6 +932,7 @@ $(document).ready(function(e){
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
                 // $("button").css("color", "red");
+                $("#Hos2").empty();
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
                 if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3){

@@ -447,6 +447,7 @@ if (e.keyCode == 13) {
         senddata(JSON.stringify(data));
         $('#profile-tab').tab('show');
         ShowDocument();
+        Blankinput();
       }
 
       function getImport(Sel) {

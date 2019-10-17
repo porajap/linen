@@ -217,21 +217,19 @@ function ShowDocument($conn, $DATA)
   INNER JOIN site ON dirty.HptCode = site.HptCode
   INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
-  
 if($DocNo!=null){
-  $Sql .= " WHERE dirty.DocNo = '$DocNo' ";
+  $Sql .= " WHERE dirty.DocNo = '$DocNo' AND dirty.DocNo LIKE '%$xDocNo%'";
 }else{
   if ($Hotp != null  && $datepicker == null) {
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%'";
-    if($xDocNo!=null){
-      $Sql .= " OR dirty.DocNo LIKE '%$xDocNo%' ";
-    }
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%' ";
   }else if ($Hotp == null  && $datepicker != null){
     $Sql .= " WHERE DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null  && $datepicker != null){
     $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null  && $datepicker != null){
     $Sql .= " WHERE  DATE(dirty.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%'";
+  }else if($Hotp == null  && $datepicker == null){
+    $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
   }
 }
 if($Hotp == null  && $datepicker == null){

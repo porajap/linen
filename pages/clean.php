@@ -281,6 +281,7 @@ $(document).ready(function(e){
                     senddata(JSON.stringify(data));
                     $('#profile-tab').tab('show');
                     ShowDocument();
+                    Blankinput();
             } else if (result.dismiss === 'cancel') {
             swal.close();}
 

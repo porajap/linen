@@ -484,6 +484,7 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
         $('#profile-tab').tab('show');
         ShowDocument();
+        Blankinput();
       }
 
       function getImport(Sel) {
