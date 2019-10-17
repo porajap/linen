@@ -786,7 +786,7 @@ function CreateDocument($conn, $DATA)
 
 
     }else{
-    $Sql = "UPDATE repair_wash SET IsRef = 1 WHERE repair_wash.DocNo = '$DocNo2'";
+    $Sql = "UPDATE repair_wash SET IsRef = 1 , IsStatus = 4 WHERE repair_wash.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
     }
     $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$DocNo2' ";
@@ -795,7 +795,7 @@ function CreateDocument($conn, $DATA)
       $DocNonewlinentable = $Result['DocNo'];
     }
     if($DocNonewlinentable != "" ){
-      $Sql = "UPDATE newlinentable SET IsRef = 1 WHERE newlinentable.DocNo = '$DocNo2'";
+      $Sql = "UPDATE newlinentable SET IsRef = 1 , IsStatus = 4 WHERE newlinentable.DocNo = '$DocNo2'";
       mysqli_query($conn, $Sql);
       }
     // ================================================================================
