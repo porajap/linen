@@ -807,7 +807,7 @@ $array2 = json_decode($json2,TRUE);
               var FacCode = $("#factory").val();
 
               // alert( isStatus );
-              if(isStatus==1 || isStatus==3){
+              if(isStatus==1 || isStatus==3 || isStatus==4){
               isStatus=0;}
               else{
               isStatus=1;
@@ -1065,7 +1065,7 @@ $array2 = json_decode($json2,TRUE);
                         var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                         var Status = "";
                         var Style  = "";
-                        if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3){
+                        if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
                           Status = "<?php echo $array['savesuccess'][$language]; ?>";
                           Style  = "style='width: 10%;color: #20B80E;'";
                         }else{
@@ -1149,7 +1149,7 @@ $array2 = json_decode($json2,TRUE);
                         $('#bPrint').attr('disabled', false);
                         $('#bPrint2').removeClass('opacity');
                         $('#hover6').addClass('mhee');
-                      }else if(temp[0]['IsStatus']==3){
+                      }else if(temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                         var word = '<?php echo $array['edit'][$language]; ?>';
                         var changeBtn = "<i class='fas fa-edit'></i>";
                         changeBtn += "<div>"+word+"</div>";

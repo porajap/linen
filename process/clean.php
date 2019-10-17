@@ -840,7 +840,7 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
     $Sql = "SELECT
     repair_wash_detail.ItemCode,
     repair_wash_detail.UnitCode,
-    repair_wash_detail.Qty,
+    SUM(repair_wash_detail.Qty) AS Qty,
     repair_wash_detail.Weight,
     repair_wash_detail.IsCancel
     FROM repair_wash_detail
@@ -878,7 +878,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     $Sql12 = "SELECT
     item.ItemCode,
     dirty_detail.UnitCode,
-    dirty_detail.Qty,
+    SUM(dirty_detail.Qty) AS Qty,
     dirty_detail.Weight,
     dirty_detail.IsCancel
     FROM dirty_detail

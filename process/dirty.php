@@ -232,9 +232,9 @@ if($DocNo!=null){
     $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
   }
 }
-if($Hotp == null  && $datepicker == null){
-  $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
-}
+// if($Hotp == null  && $datepicker == null){
+//   $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
+// }
   $Sql .= "ORDER BY dirty.DocNo DESC LIMIT 500";
 // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
