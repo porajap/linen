@@ -739,7 +739,7 @@ function CreateDocument($conn, $DATA)
       $DocNoDirty = $Result['DocNo'];
     }
     if($DocNoDirty != "" ){
-    $Sql = "UPDATE dirty SET IsRef = 1 WHERE dirty.DocNo = '$DocNo2'";
+    $Sql = "UPDATE dirty SET IsRef = 1 , IsStatus = 4 WHERE dirty.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
     $Sql = "SELECT clean.Total , clean.sendmail
     FROM clean WHERE clean.DocNo = '$DocNo'";
