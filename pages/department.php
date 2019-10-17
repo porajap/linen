@@ -103,9 +103,8 @@ $array2 = json_decode($json2,TRUE);
             });
 
         }).click(function(e) { parent.afk();
-      }).keyup(function(e) { parent.afk();
+        }).keyup(function(e) { parent.afk();
       });
-
         function getSection(){
             var lang = '<?php echo $language; ?>';
             var data2 = {
@@ -129,11 +128,9 @@ $array2 = json_decode($json2,TRUE);
                 console.log("close");
             }
         });
-
         jqui("#dialogreq").button().on("click", function() {
             dialog.dialog("open");
         });
-
         function unCheckDocDetail() {
             // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
             if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length) {
@@ -142,7 +139,6 @@ $array2 = json_decode($json2,TRUE);
                 $('input[name="checkAllDetail').prop('checked', false);
             }
         }
-
         function getDocDetail() {
             // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
             if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length) {
@@ -172,10 +168,8 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         var isChecked1 = false;
         var isChecked2 = false;
-
         function getCheckAll(sel) {
             if (sel == 0) {
                 isChecked1 = !isChecked1;
@@ -194,7 +188,6 @@ $array2 = json_decode($json2,TRUE);
                 });
             }
         }
-
         function getSearchDocNo() {
             var dept = '<?php echo $_SESSION['
             Deptid ']; ?>';
@@ -214,7 +207,6 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         function CreateSentSterile() {
             var userid = '<?php echo $Userid; ?>';
             var dept = '<?php echo $_SESSION['
@@ -251,7 +243,6 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         function setTag() {
             var DocNo = $("#docnofield").val();
             /* declare an checkbox array */
@@ -278,7 +269,6 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         function CreatePayout() {
             var userid = '<?php echo $Userid; ?>';
             var dept = '<?php echo $_SESSION['
@@ -292,7 +282,6 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         function AddPayoutDetail() {
             var userid = '<?php echo $Userid; ?>';
             var dept = '<?php echo $_SESSION['
@@ -336,10 +325,12 @@ $array2 = json_decode($json2,TRUE);
             var hptsel = $('#hptsel2').val();
             $('#hptsel').val(hptsel);
             ShowItem();
+            $('#DepName').val('');
+            $('#DepCode').val('');
+            $("#xCenter").prop('checked', false);
             $('#hptsel2').css('border-color', '');
             $('#hptsel').css('border-color', '');
         }
-
         function resetinput(){
 
             var DepName = $('#DepName').val();
@@ -347,7 +338,7 @@ $array2 = json_decode($json2,TRUE);
             $('#rem2').hide();
             $('#DepName').css('border-color', '');
             }
-}
+        }
         function AddItem() {
             var count = 0;
             $(".checkblank").each(function() {
@@ -462,7 +453,6 @@ $array2 = json_decode($json2,TRUE);
                 });
             }
         }
-
         function CancelItem() {
             swal({
                 title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -492,7 +482,6 @@ $array2 = json_decode($json2,TRUE);
           }
             })
         }
-
         function Blankinput() {
             $('#rem1').hide();
             $('#rem2').hide();
@@ -515,33 +504,31 @@ $array2 = json_decode($json2,TRUE);
             $('#delete_icon').addClass('opacity');
             $('#delete1').removeClass('mhee');
         }
-
         function getdetail(DepCode, row) {
-        var number = parseInt(row)+1;
-        var previousValue = $('#checkitem_'+row).attr('previousValue');
-        var name = $('#checkitem_'+row).attr('name');
-        if (previousValue == 'checked') {
-          $('#checkitem_'+row).removeAttr('checked');
-          $('#checkitem_'+row).attr('previousValue', false);
-          $('#checkitem_'+row).prop('checked', false);
-          $("#xCenter").prop('checked', false);
-          Blankinput();
-        } else {
-          $("input[name="+name+"]:radio").attr('previousValue', false);
-          $('#checkitem_'+row).attr('previousValue', 'checked');
-            if (DepCode != "" && DepCode != undefined) {
-                var data = {
-                    'STATUS': 'getdetail',
-                    'DepCode': DepCode ,
-                    'number' : number 
-                };
+            var number = parseInt(row)+1;
+            var previousValue = $('#checkitem_'+row).attr('previousValue');
+            var name = $('#checkitem_'+row).attr('name');
+            if (previousValue == 'checked') {
+            $('#checkitem_'+row).removeAttr('checked');
+            $('#checkitem_'+row).attr('previousValue', false);
+            $('#checkitem_'+row).prop('checked', false);
+            $("#xCenter").prop('checked', false);
+            Blankinput();
+            } else {
+            $("input[name="+name+"]:radio").attr('previousValue', false);
+            $('#checkitem_'+row).attr('previousValue', 'checked');
+                if (DepCode != "" && DepCode != undefined) {
+                    var data = {
+                        'STATUS': 'getdetail',
+                        'DepCode': DepCode ,
+                        'number' : number 
+                    };
 
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
+                    console.log(JSON.stringify(data));
+                    senddata(JSON.stringify(data));
+                }
             }
         }
-        }
-
         function SavePY() {
             $('#TableDocumentSS tbody').empty();
             var dept = '<?php echo $_SESSION['
@@ -576,7 +563,6 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
             }
         }
-
         function DelItem() {
             var DocNo = $("#docno").val();
             /* declare an checkbox array */
@@ -599,7 +585,6 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-
         function canceldocno(docno) {
             swal({
                 title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -625,21 +610,18 @@ $array2 = json_decode($json2,TRUE);
                 getSearchDocNo();
             })
         }
-
         function addnum(cnt) {
             var add = parseInt($('#qty' + cnt).val()) + 1;
             if ((add >= 0) && (add <= 500)) {
                 $('#qty' + cnt).val(add);
             }
         }
-
         function subtractnum(cnt) {
             var sub = parseInt($('#qty' + cnt).val()) - 1;
             if ((sub >= 0) && (sub <= 500)) {
                 $('#qty' + cnt).val(sub);
             }
         }
-
         function logoff() {
             swal({
                 title: '',
@@ -661,7 +643,6 @@ $array2 = json_decode($json2,TRUE);
                 }
             })
         }
-
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
@@ -1008,8 +989,8 @@ $array2 = json_decode($json2,TRUE);
             });
         }
     </script>
-     <style media="screen">
-    @font-face {
+    <style media="screen">
+        @font-face {
             font-family: myFirstFont;
             src: url("../fonts/DB Helvethaica X.ttf");
             }
@@ -1022,132 +1003,132 @@ $array2 = json_decode($json2,TRUE);
           font-family: myFirstFont;
           font-size:22px;
         }
-    input,select{
-      font-size:24px!important;
-    }
-    th,td{
-      font-size:24px!important;
-    }
-    .table > thead > tr >th {
-      background-color: #1659a2;
-    }
+            input,select{
+            font-size:24px!important;
+            }
+            th,td{
+            font-size:24px!important;
+            }
+            .table > thead > tr >th {
+            background-color: #1659a2;
+            }
 
-    table tr th,
-    table tr td {
-      border-right: 0px solid #bbb;
-      border-bottom: 0px solid #bbb;
-      padding: 5px;
-    }
-    table tr th:first-child,
-    table tr td:first-child {
-      border-left: 0px solid #bbb;
-    }
-    table tr th {
-      background: #eee;
-      border-top: 0px solid #bbb;
-      text-align: left;
-    }
+            table tr th,
+            table tr td {
+            border-right: 0px solid #bbb;
+            border-bottom: 0px solid #bbb;
+            padding: 5px;
+            }
+            table tr th:first-child,
+            table tr td:first-child {
+            border-left: 0px solid #bbb;
+            }
+            table tr th {
+            background: #eee;
+            border-top: 0px solid #bbb;
+            text-align: left;
+            }
 
-    /* top-left border-radius */
-    table tr:first-child th:first-child {
-    border-top-left-radius: 15px;
-  }
-  table tr:first-child th:first-child {
-    border-bottom-left-radius: 15px;
-  }
+            /* top-left border-radius */
+            table tr:first-child th:first-child {
+            border-top-left-radius: 15px;
+        }
+        table tr:first-child th:first-child {
+            border-bottom-left-radius: 15px;
+        }
 
-  /* top-right border-radius */
-  table tr:first-child th:last-child {
-    border-top-right-radius: 15px;
-  }
-  table tr:first-child th:last-child {
-    border-bottom-right-radius: 15px;
-  }
+        /* top-right border-radius */
+        table tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+        table tr:first-child th:last-child {
+            border-bottom-right-radius: 15px;
+        }
 
-  /* bottom-left border-radius */
-  table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
+        /* bottom-left border-radius */
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 6px;
+        }
 
-  /* bottom-right border-radius */
-  table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  button{
-      font-size: 24px!important;
-    }
-  a.nav-link{
-    width:auto!important;
-  }
-  .datepicker{z-index:9999 !important}
-  .hidden{visibility: hidden;}
-  
-  .sidenav {
-  height: 100%;
-  overflow-x: hidden;
-  /* padding-top: 20px; */
-  border-left: 2px solid #bdc3c7;
-}
+        /* bottom-right border-radius */
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 6px;
+        }
+        button{
+            font-size: 24px!important;
+            }
+        a.nav-link{
+            width:auto!important;
+        }
+        .datepicker{z-index:9999 !important}
+        .hidden{visibility: hidden;}
+        
+        .sidenav {
+        height: 100%;
+        overflow-x: hidden;
+        /* padding-top: 20px; */
+        border-left: 2px solid #bdc3c7;
+        }
 
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a{
-  /* padding: 6px 8px 6px 16px; */
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-.mhee a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.mhee button{
-  /* padding: 6px 8px 6px 16px; */
-  font-size: 25px;
-  color: #2c3e50;
-  background:none;
-  box-shadow:none!important;
-}
+        .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        }
+        .mhee a{
+        /* padding: 6px 8px 6px 16px; */
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        }
+        .mhee a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+        }
+        .mhee button{
+        /* padding: 6px 8px 6px 16px; */
+        font-size: 25px;
+        color: #2c3e50;
+        background:none;
+        box-shadow:none!important;
+        }
 
-.mhee button:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-  outline:none;
-}
-.sidenav a:hover {
-  color: #2c3e50;
-  font-weight:bold;
-  font-size:26px;
-}
-.icon{
-    padding-top: 6px;
-    padding-left: 33px;
-  }
-  .opacity{
-    opacity:0.5;
-  }
-  @media (min-width: 992px) and (max-width: 1199.98px) { 
+        .mhee button:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+        outline:none;
+        }
+        .sidenav a:hover {
+        color: #2c3e50;
+        font-weight:bold;
+        font-size:26px;
+        }
+        .icon{
+            padding-top: 6px;
+            padding-left: 33px;
+        }
+        .opacity{
+            opacity:0.5;
+        }
+        @media (min-width: 992px) and (max-width: 1199.98px) { 
 
-    .icon{
-      padding-top: 6px;
-      padding-left: 23px;
-    }
-    .sidenav{
-      margin-left:30px;
-    }
-    .sidenav a {
-      font-size: 20px;
+            .icon{
+            padding-top: 6px;
+            padding-left: 23px;
+            }
+            .sidenav{
+            margin-left:30px;
+            }
+            .sidenav a {
+            font-size: 20px;
 
-    }
-  }
+            }
+        }
     </style>
 </head>
 
