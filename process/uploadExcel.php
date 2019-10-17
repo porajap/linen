@@ -12,7 +12,7 @@ if($Userid==""){
     // $newname = date('Y-m-d-H:i:s');
     // $lastname = explode('.',$_FILES['file']['name']);
     $filename = $_FILES['file']['name'];
-    copy($_FILES['file']['tmp_name'], '../excelFiles/' . $_FILES['file']['name']);
+    copy($_FILES['file']['tmp_name'], 'excelFiles/' . $_FILES['file']['name']);
     $Sql = "INSERT damage_file (FileName, Date, Status, UserID, HptCode)VALUES('$filename', NOW(), 0, $UserID, '$HptCode')";
     mysqli_query($conn,$Sql);
 echo json_encode('success');
