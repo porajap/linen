@@ -101,14 +101,14 @@ function ShowDoc($conn, $DATA)
     $HptCode = $DATA['HptCode'];
     $lang = $_SESSION['lang'];
     if($HptCode != null){
-      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName
+      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName , site.HptNameTH
         FROM category_price_time
         INNER JOIN site ON category_price_time.HptCode = site.HptCode
         WHERE site.HptCode = '$HptCode' AND category_price_time.`Status` = 0 
         GROUP BY site.HptCode,category_price_time.xDate,category_price_time.DocNo
         ORDER BY category_price_time.xDate ASC";
     }else{
-      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName
+      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName , , site.HptNameTH
         FROM category_price_time
         INNER JOIN site ON category_price_time.HptCode = site.HptCode
         WHERE category_price_time.`Status` = 0 
@@ -119,15 +119,17 @@ function ShowDoc($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       if($lang =='en'){
+        $hptlang = $Result['HptName'];
         $date2 = explode("-", $Result['xDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
       }else if ($lang == 'th'){
+        $hptlang = $Result['HptNameTH'];
         $date2 = explode("-", $Result['xDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
       }
         $return[$count]['DocNo'] = $Result['DocNo'];
         $return[$count]['xDate'] = $newdate;
-        $return[$count]['HptName'] = $Result['HptName'];
+        $return[$count]['HptName'] = $hptlang;
         $return[$count]['HptCode'] = $Result['HptCode'];
         $count++;
     }
