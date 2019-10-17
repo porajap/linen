@@ -731,7 +731,6 @@ function CreateDocument($conn, $DATA)
     $count4 = 0;
     $Sql = "UPDATE clean SET IsStatus = $isStatus WHERE clean.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
-
     // ================================================================================
     $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$DocNo2' ";
     $meQuery = mysqli_query($conn, $Sqlx);
@@ -748,7 +747,6 @@ function CreateDocument($conn, $DATA)
       $cTotal	= $Result['Total']==null?0:$Result['Total'];
       $sendmail	= $Result['sendmail'];
     }
-
     $Sql = "SELECT dirty.Total
     FROM dirty WHERE dirty.DocNo = '$DocNo2'";
     $return['sql'] = $Sql;
@@ -800,9 +798,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "UPDATE newlinentable SET IsRef = 1 WHERE newlinentable.DocNo = '$DocNo2'";
       mysqli_query($conn, $Sql);
       }
-    
     // ================================================================================
-
     $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
