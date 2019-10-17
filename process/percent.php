@@ -26,7 +26,7 @@ function OnLoadPage($conn,$DATA){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
     FROM site WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
     }else{
-      $Sql = "SELECT site.HptCode,site.HptName
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
       FROM site WHERE site.IsStatus = 0 "; 
     }
   }
