@@ -1463,11 +1463,11 @@ $array2 = json_decode($json2,TRUE);
                     var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
-
+                   
                     var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
                     DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
                     DataRow += "<td style='width:6%;' nowrap>"+(i+1)+"</td>";
-                    DataRow += "<td style='width:18%' nowrap>"+temp[i]['DepName']+"</td>";
+                    DataRow += "<td style='width:18%;text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
                     DataRow += "<td style='width:21%;' nowrap>"+temp[i]['ItemName']+"</td>"+
                     "<td style='width:22%;' nowrap><center>"+chkunit+"</center></td>"+
                     "<td style='width:10%;' nowrap><center>"+Qty+"</center></td>"+
