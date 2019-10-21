@@ -108,7 +108,7 @@ switch ($PmID) {
         //report
         $re_head=1;
         $re_s1=1;
-        $re_s2=1;
+        $re_s2=0;
 
         //system
         $sys_head=1;

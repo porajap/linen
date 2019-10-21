@@ -983,7 +983,7 @@ $array2 = json_decode($json2,TRUE);
                       var PmID = <?php echo $PmID;?>;
                       var HptCode = '<?php echo $HptCode;?>';
                       $('#getHot').val(temp[0]['HptCode']);
-                      if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3){
+                      if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7){
                       var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
                       }else{
                         var Str1 = "";

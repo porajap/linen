@@ -2820,7 +2820,7 @@ if(Catagory !="" && Catagory!=undefined){
                         </div>
                         <input type="text" autocomplete="off" class="form-control numonly" style="font-size:24px;width:59px;" name="priceunit" id="priceunit" placeholder="0.00">
                        
-                        <div class="search_custom  col-md-1" <?php if($PmID == 3) echo 'hidden'; ?>>
+                        <div class="search_custom  col-md-1" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
                               <div class="circle4 d-flex justify-content-start">
                                 <button class="btn"  onclick="AddUnit()" id="bSave_chk" disabled>
                                 <i class="fas fa-save mr-3"></i><?php echo $array['save'][$language]; ?>
@@ -2828,7 +2828,7 @@ if(Catagory !="" && Catagory!=undefined){
                               </div>
                         </div>
 
-                        <div class="search_custom  col-md-2" <?php if($PmID == 3) echo 'hidden'; ?>>
+                        <div class="search_custom  col-md-2" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
                           <div class="circle3 d-flex justify-content-start">
                             <button class="btn"  onclick="DeleteUnit()" disabled id="btn_del">
                                 <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>

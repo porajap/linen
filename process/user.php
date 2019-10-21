@@ -11,7 +11,7 @@ function ShowItem($conn, $DATA)
   $department2 = $DATA['department2'];
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
-  if($PmID ==3){
+  if($PmID ==3 && $PmID ==7){
   $xHptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
   }else{
     $xHptCode = $DATA['HptCode'];
@@ -22,7 +22,7 @@ function ShowItem($conn, $DATA)
   // }
 
   $Keyword = $DATA['Keyword'];
-  if($PmID != 3){
+  if($PmID != 3 && $PmID != 7){
   $Sql="SELECT users.ID,users.FName,users.`Password`,users.UserName,users.email,users.Active_mail,
         permission.Permission, HptName , DepName
         FROM users
@@ -86,7 +86,7 @@ function getSection($conn, $DATA)
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
   $count = 0;
-  if($PmID == 3 ){
+  if($PmID == 3 && $PmID == 7){
   $Sql = "SELECT
           site.HptCode,
           site.HptName
@@ -226,7 +226,7 @@ function getHotpital($conn, $DATA)
   $PmID = $_SESSION['PmID'];
   $count = 0;
   if($lang == 'en'){
-    if($PmID == 3 ){
+    if($PmID == 3 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptName
     FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
     }else{
@@ -234,7 +234,7 @@ function getHotpital($conn, $DATA)
       FROM site WHERE site.IsStatus = 0";
     }
   }else{
-    if($PmID == 3 ){
+    if($PmID == 3 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
     FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
     }else{
@@ -266,7 +266,7 @@ function getHotpital_user($conn, $DATA)
   $PmID = $_SESSION['PmID'];
   $count = 0;
   if($lang == 'en'){
-    if($PmID == 3 ){
+    if($PmID == 3 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptName
     FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
     }else{
@@ -274,7 +274,7 @@ function getHotpital_user($conn, $DATA)
       FROM site WHERE site.IsStatus = 0";
     }
   }else{
-    if($PmID == 3 ){
+    if($PmID == 3 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
     FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
     }else{
@@ -303,10 +303,10 @@ function getPermission($conn, $DATA)
 {
   $PmID = $_SESSION['PmID'];
   $count = 0;
-  if($PmID !=3){
+  if($PmID !=3 && $PmID != 7){
   $Sql = "SELECT permission.PmID,permission.Permission FROM permission";
   }else{
-  $Sql = "SELECT permission.PmID,permission.Permission FROM permission WHERE PmID = 2 || PmID = 3 || PmID = 4  ";
+  $Sql = "SELECT permission.PmID,permission.Permission FROM permission WHERE PmID = 2 || PmID = 3 || PmID = 4  || PmID = 7";
   }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -367,7 +367,7 @@ function getDepartment($conn, $DATA)
   $boolean = false;
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
-  if($PmID ==3){
+  if($PmID ==3 || $PmID ==7 ){
   $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
   }else{
     $Hotp = $DATA["Hotp"];
@@ -407,7 +407,7 @@ function getDepartment2($conn, $DATA)
   $boolean = false;
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
-  if($PmID ==3){
+  if($PmID ==3 || $PmID ==7){
   $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
   }else{
     $Hotp = $DATA["Hotp"];

@@ -1006,7 +1006,7 @@ $array2 = json_decode($json2,TRUE);
                             $("#host").empty();
                             $("#hptsel").empty();
                             getDepartment2();
-                            if(temp[0]['PmID'] != 3){
+                            if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7){
                             var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             }else{
                                 var StrTr = "";
@@ -1038,7 +1038,7 @@ $array2 = json_decode($json2,TRUE);
 
                         }else if ((temp["form"] == 'getHotpital_user')) {
                                     $("#host").empty();
-                                    if(temp[0]['PmID'] != 3){
+                                    if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7){
                                         var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                                         }else{
                                             var StrTr = "";
