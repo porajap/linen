@@ -211,7 +211,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 function showDep($conn, $DATA){
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
-  $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 ORDER BY dep.DepName ASC ";
+  $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 ORDER BY dep.DepCode ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = trim($Result['DepCode']);
@@ -364,9 +364,9 @@ function ShowDocument($conn, $DATA)
   INNER JOIN site ON newlinentable.HptCode = site.HptCode
   INNER JOIN users ON newlinentable.Modify_Code = users.ID ";
 
-  if($DocNo!=null){
-    $Sql .= " WHERE newlinentable.DocNo = '$DocNo' AND newlinentable.DocNo LIKE '%$xDocNo%'";
-  }else{
+  // if($DocNo!=null){
+  //   $Sql .= " WHERE newlinentable.DocNo = '$DocNo' AND newlinentable.DocNo LIKE '%$xDocNo%'";
+  // }else{
     if ($Hotp != null  && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%' ";
     }else if ($Hotp == null  && $datepicker != null){
@@ -378,7 +378,7 @@ function ShowDocument($conn, $DATA)
     }else if($Hotp == null  && $datepicker == null){
       $Sql .= "WHERE newlinentable.DocNo LIKE '%$xDocNo%'";
     }
-  }
+  // }
   // if($selecta == null){
   //   $Sql .= " WHERE newlinentable.DocNo = '$DocNo'";
   // }else if ($selecta == 1) {
@@ -1047,6 +1047,7 @@ function CancelBill($conn, $DATA){
   // mysqli_query($conn,$Sql);
   $Sql = "UPDATE newlinentable SET IsStatus = 9  WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
+  ShowDocument($conn, $DATA);
 }
 
 function updateQty($conn, $DATA){

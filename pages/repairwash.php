@@ -251,11 +251,11 @@ $(document).ready(function(e){
             
       function CancelDocument(){
         var docno = $("#docno").val();
-
+        var RefDocNo = $('#RefDocNo').val();
         if(docno!= ""){
         swal({
           title: "<?php echo $array['confirmcancel'][$language]; ?>",
-          text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
+          text: " "+docno+" ",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -269,10 +269,12 @@ $(document).ready(function(e){
             if (result.value) {
                 var data = {
                       'STATUS'  : 'CancelBill',
-                      'DocNo'   : docno
+                      'DocNo'   : docno , 
+                      'RefDocNo'   : RefDocNo
                     };
                     senddata(JSON.stringify(data));
                     $('#profile-tab').tab('show');
+                    $('#factory').attr('disabled', false);
                     ShowDocument();
                     Blankinput();
             } else if (result.dismiss === 'cancel') {
@@ -811,6 +813,7 @@ $(document).ready(function(e){
           $("#bCancel").prop('disabled', true);
           ShowDocument();
           Blankinput();
+          $('#factory').attr('disabled', false);
           if(input_chk == 1){
                   $('#alert_percent').modal('toggle');
                 }
@@ -998,6 +1001,7 @@ $(document).ready(function(e){
                 $('#bCancel').attr('disabled', false);
                 $('#bSave').attr('disabled', false);
                 $('#bImport').attr('disabled', false);
+                $('#factory').attr('disabled', true);
                 $('#hover2').addClass('mhee');
                 $('#hover4').addClass('mhee');
                 $('#hover5').addClass('mhee');
@@ -1067,6 +1071,7 @@ $(document).ready(function(e){
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
+                $('#factory').attr('disabled', true);
                 if(temp[0]['IsStatus']==0){
                   var word = '<?php echo $array['save'][$language]; ?>';
                   var changeBtn = "<i class='fa fa-save'></i>";
@@ -1843,12 +1848,12 @@ $(document).ready(function(e){
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+              <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
               </div>
             </div>
               <!-- serach----------------------- -->
-              <div class="search_custom col-md-2">
+              <div class="search_custom col-md-2" style="margin-left: -14%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
@@ -1903,11 +1908,11 @@ $(document).ready(function(e){
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['serchref'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+              <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
               </div>
             </div>
-            <div class="search_custom col-md-2">
+            <div class="search_custom col-md-2" style="margin-left: -11%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="get_dirty_doc()" id="bSave">
                     <i class="fas fa-search mr-2"></i>

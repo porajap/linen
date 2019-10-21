@@ -251,7 +251,7 @@ $array2 = json_decode($json2,TRUE);
         if(docno!= ""){
         swal({
             title: "<?php echo $array['confirmcancel'][$language]; ?>",
-            text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
+            text: " "+docno+" ",
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-danger",
@@ -458,7 +458,15 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
       $('#profile-tab').tab('show');
         ShowDocument();
-        Blankinput();
+        $('#docno').val("");
+        $('#docdate').val("");
+        $('#recorder').val("");
+        $('#timerec').val("");
+        $('#wTotal').val("");        
+        $('#department').attr('disabled', false);
+        $('#settime').attr('disabled', false);
+        $('#department').val('');
+        $('#settime').val('');
     }
 
     function getImport(Sel) {
@@ -721,7 +729,15 @@ $array2 = json_decode($json2,TRUE);
         }
       }
     }
-
+    function Blankinput() {
+            $('#docno').val("");
+            $('#docdate').val("");
+            $('#recorder').val("");
+            $('#timerec').val("");
+            $('#wTotal').val("");
+            getDepartment();
+            OnLoadPage();
+        }
     function updateWeight(row,rowid) {
       var docno = $("#docno").val();
       var weight = $("#weight_"+row).val();
@@ -814,6 +830,10 @@ $array2 = json_decode($json2,TRUE);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', true);
                   $("#bCancel").prop('disabled', true);
+                  $('#department').attr('disabled', false);
+                  $('#settime').attr('disabled', false);
+                  $('#department').val('');
+                  $('#settime').val('');
                   ShowDocument();
                   if(input_chk == 1){
                             $('#alert_par').modal('toggle');
@@ -1181,6 +1201,8 @@ $array2 = json_decode($json2,TRUE);
               $('#bImport').attr('disabled', false);
               $('#bPrint').attr('disabled', false);
               $('#barcode').attr('disabled', false);
+              $('#department').attr('disabled', true);
+              $('#settime').attr('disabled', true);
 
               $('#hover2').addClass('mhee');
               $('#hover4').addClass('mhee');
@@ -1348,6 +1370,8 @@ $array2 = json_decode($json2,TRUE);
               $("#department").val(temp[0]['DepCode']);
               $("#cycle").val(temp[0]['CycleTime']);
               $("#settime").val(temp[0]['DeliveryTime']);
+              $('#department').attr('disabled', true);
+              $('#settime').attr('disabled', true);
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
                 var changeBtn = "<i class='fa fa-save'></i>";
@@ -2380,16 +2404,17 @@ $array2 = json_decode($json2,TRUE);
                 <div class="row">
                   <div class="col-md-8">
                     <div class='form-group row'>
-                      <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
-                      <input type="text" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
-                    </div>
-                  </div>
-            <!-- serach----------------------- -->
-            <div class="search_custom col-md-2">
-                <div class="search_1 d-flex justify-content-start ">
+                    <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                  <input type="text" autocomplete="off" style="margin-left: -3%;" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+                </div>
+              </div>
+ 
+              <!-- serach----------------------- -->
+              <div class="search_custom col-md-2" style="margin-left: -14%;">
+                <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
-                      <i class="fas fa-search mr-2"></i>
-                      <?php echo $array['search'][$language]; ?>
+                    <i class="fas fa-search mr-2"></i>
+                    <?php echo $array['search'][$language]; ?>
                   </button>
                 </div>
               </div>

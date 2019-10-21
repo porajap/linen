@@ -241,7 +241,7 @@ if (e.keyCode == 13) {
         if(docno!= ""){
         swal({
           title: "<?php echo $array['confirmcancel'][$language]; ?>",
-          text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
+          text: " "+docno+" ",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -1791,13 +1791,12 @@ if (e.keyCode == 13) {
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+              <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
               </div>
             </div>
-
               <!-- serach----------------------- -->
-              <div class="search_custom col-md-2">
+              <div class="search_custom col-md-2" style="margin-left: -14%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
@@ -1851,13 +1850,13 @@ if (e.keyCode == 13) {
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['serchref'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+              <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
               </div>
             </div>
-            <div class="search_custom col-md-2">
+            <div class="search_custom col-md-2" style="margin-left: -11%;">
                 <div class="search_1 d-flex justify-content-start">
-                  <button class="btn" onclick="get_claim_doc()" id="bSave">
+                  <button class="btn" onclick="get_dirty_doc()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
                     <?php echo $array['search'][$language]; ?>
                   </button>

@@ -241,7 +241,7 @@ header("Content-Length: ".filesize("'.$filename.'"));
     <tr>
       <td align="center"><?php echo ($key+1).'.'; ?></td>
       <td><?php echo $Item[$key]['MainCategoryName']; ?></td>
-      <td align="center"><?php echo $AllSum[$key]==''?0:$AllSum[$key]; ?></td>
+      <td align="center"><?php echo $AllSum[$key]==''?'ไม่รวม':'รวม'; ?></td>
       <td><?php echo $Item[$key]['ItemName']; ?> </td>
       <td align="center"><?php  echo $changeArray[$key]==null?0:$changeArray[$key] ;  ?></td>
       <?php 

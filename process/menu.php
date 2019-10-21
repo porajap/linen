@@ -202,7 +202,12 @@ function alert_SetPrice($conn,$DATA)
       while ($CResult = mysqli_fetch_assoc($countQuery)) {
         $return[$count]['set_price']['cntAcive'] = $CResult['cnt'];
         if($CResult['cntAcive'] == 0){
-          $SelectMail = "SELECT users.email FROM users WHERE users.HptCode = '$HptCode' AND users.Active_mail = 1";
+          $SelectMail = "SELECT users.email, 	site.HptName
+          FROM users
+          INNER JOIN site ON site.HptCode = users.HptCode
+          WHERE users.HptCode = '$HptCode'
+          AND users.PmID IN (1,6)
+          AND email IS NOT NULL AND NOT email = '' AND NOT email = '-'";
           $SQuery = mysqli_query($conn,$SelectMail);
           while ($SResult = mysqli_fetch_assoc($SQuery)) {
             $return[$count]['set_price']['email'] = $SResult['email'];
@@ -268,7 +273,7 @@ function alert_SetPrice($conn,$DATA)
             FROM users
             INNER JOIN site ON site.HptCode = users.HptCode
             WHERE users.HptCode = '$HptCode'
-            AND users.PmID IN (1,3,6)
+            AND users.PmID IN (1,6)
             AND email IS NOT NULL AND NOT email = '' AND NOT email = '-'";
             $SQuery = mysqli_query($conn,$SelectMail);
             while ($SResult = mysqli_fetch_assoc($SQuery)) {
@@ -337,7 +342,7 @@ function alert_SetPrice($conn,$DATA)
             FROM users
             INNER JOIN site ON site.HptCode = users.HptCode
             WHERE users.HptCode = '$HptCode'
-            AND users.PmID IN (1,3,6)
+            AND users.PmID IN (1,6)
             AND email IS NOT NULL AND NOT email = '' AND NOT email = '-'";
             $SQuery = mysqli_query($conn,$SelectMail);
             while ($SResult = mysqli_fetch_assoc($SQuery)) {

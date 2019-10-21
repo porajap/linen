@@ -60,7 +60,7 @@ $mail->Username = "poseinttelligence@gmail.com";
 $mail->Password = "pose6628";
 $mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
 $mail->addAddress($email);
-$mail->Subject = 'Noitfication Over Percent';
+$mail->Subject = 'Notification Over Percent';
 $mail->msgHTML($body);
 $mail->AltBody = 'This is a plain-text message body';
 // $mail->send();

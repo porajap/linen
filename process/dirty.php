@@ -217,9 +217,7 @@ function ShowDocument($conn, $DATA)
   INNER JOIN site ON dirty.HptCode = site.HptCode
   INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
-if($DocNo!=null){
-  $Sql .= " WHERE dirty.DocNo = '$DocNo' AND dirty.DocNo LIKE '%$xDocNo%'";
-}else{
+
   if ($Hotp != null  && $datepicker == null) {
     $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%' ";
   }else if ($Hotp == null  && $datepicker != null){
@@ -231,7 +229,7 @@ if($DocNo!=null){
   }else if($Hotp == null  && $datepicker == null){
     $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
   }
-}
+
 // if($Hotp == null  && $datepicker == null){
 //   $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
 // }
@@ -913,6 +911,7 @@ function CancelBill($conn, $DATA){
   // mysqli_query($conn,$Sql);
   $Sql = "UPDATE dirty SET IsStatus = 9  WHERE DocNo = '$DocNo'";
    mysqli_query($conn, $Sql);
+   ShowDocument($conn, $DATA);
 }
 
 function updateQty($conn, $DATA){

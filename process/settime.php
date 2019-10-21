@@ -40,7 +40,7 @@ function getSection($conn, $DATA)
 function getTime($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $count = 0;
-  $Sql = "SELECT ID, TimeName FROM time_sc  ORDER BY ID ASC";
+  $Sql = "SELECT ID, TimeName FROM time_sc WHERE ID  BETWEEN 1 AND 48  ORDER BY ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ID']  = $Result['ID'];
@@ -61,7 +61,7 @@ function getTime2($conn, $DATA){
   $count = 0;
   $Sql = "SELECT ts.ID, ts.TimeName FROM time_sc ts
   LEFT JOIN time_express te ON te.Time_ID = ts.ID
-  WHERE ts.ID NOT IN(SELECT time_express.Time_ID  FROM time_express WHERE time_express.HptCode = '$HptCode')
+  WHERE ts.ID NOT IN(SELECT time_express.Time_ID  FROM time_express WHERE time_express.HptCode = '$HptCode') AND Ts.ID  BETWEEN 1 AND 48
   ORDER BY ts.ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

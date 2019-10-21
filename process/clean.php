@@ -205,9 +205,9 @@ function CreateDocument($conn, $DATA)
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON clean.Modify_Code = users.ID ";
-  if($DocNo!=null){
-    $Sql .= " WHERE clean.DocNo = '$DocNo' AND clean.DocNo LIKE '%$xDocNo%'";
-  }else{
+  // if($DocNo!=null){
+  //   $Sql .= " WHERE clean.DocNo = '$DocNo' AND clean.DocNo LIKE '%$xDocNo%'";
+  // }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%' ";
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
@@ -223,7 +223,7 @@ function CreateDocument($conn, $DATA)
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
       $Sql .= " WHERE clean.DepCode = $deptCode AND DATE(clean.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%'";
     }
-  }
+  // }
     $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
     $return['qqq'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
@@ -783,8 +783,6 @@ function CreateDocument($conn, $DATA)
         }
         $return['countpercent'] = $count4;
       }
-
-
     }else{
     $Sql = "UPDATE repair_wash SET IsRef = 1 , IsStatus = 4 WHERE repair_wash.DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
@@ -831,7 +829,29 @@ function CreateDocument($conn, $DATA)
 
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
-    
+
+    $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $DocNoDirty = $Result['DocNo'];
+    }
+    if($DocNoDirty != "" ){
+    $Sql = "UPDATE dirty SET IsRef = 1 , IsStatus = 4 WHERE dirty.DocNo = '$RefDocNo'";
+    mysqli_query($conn, $Sql);
+    }else{
+    $Sql = "UPDATE repair_wash SET IsRef = 1 , IsStatus = 4 WHERE repair_wash.DocNo = '$RefDocNo'";
+    mysqli_query($conn, $Sql);
+    }
+    $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $DocNonewlinentable = $Result['DocNo'];
+    }
+    if($DocNonewlinentable != "" ){
+      $Sql = "UPDATE newlinentable SET IsRef = 1 , IsStatus = 4 WHERE newlinentable.DocNo = '$RefDocNo'";
+      mysqli_query($conn, $Sql);
+      }
+
 $Sql2 = "SELECT DocNo FROM repair_wash WHERE DocNo = '$RefDocNo'";
 $meQuery5 = mysqli_query($conn, $Sql2);
 while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
@@ -840,7 +860,7 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
     $Sql = "SELECT
     repair_wash_detail.ItemCode,
     repair_wash_detail.UnitCode,
-    SUM(repair_wash_detail.Qty) AS Qty,
+    repair_wash_detail.Qty,
     repair_wash_detail.Weight,
     repair_wash_detail.IsCancel
     FROM repair_wash_detail
@@ -986,14 +1006,18 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     $boolean = false;
     $RefDocNo = $DATA['RefDocNo'];
     $DocNo = $DATA['DocNo'];
-
     $Sql = "SELECT clean.Total
     FROM clean WHERE clean.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $cTotal	= $Result['Total']==null?0:$Result['Total'];
     }
-
+    $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $DocNoDirty = $Result['DocNo'];
+    }
+      if($DocNoDirty != ''){
     $Sql = "SELECT dirty.Total
     FROM dirty WHERE dirty.DocNo = '$RefDocNo'";
     $return['sql'] = $Sql;
@@ -1003,6 +1027,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
       $boolean = true;
       $count++;
     }
+  }
     if($dTotal !=0){
       $Total =  ROUND( ((($dTotal - $cTotal )/$dTotal)*100) , 2)  ;
       }else{
@@ -1164,10 +1189,34 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
   function CancelBill($conn, $DATA)
   {
     $DocNo = $DATA["DocNo"];
+    $RefDocNo = $DATA["RefDocNo"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
     // mysqli_query($conn,$Sql);
     $Sql = "UPDATE clean SET IsStatus = 9  WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
+
+    $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $DocNoDirty = $Result['DocNo'];
+    }
+    if($DocNoDirty != "" ){
+    $Sql = "UPDATE dirty SET IsRef = 0 , IsStatus = 3 WHERE dirty.DocNo = '$RefDocNo'";
+    mysqli_query($conn, $Sql);
+    }else{
+    $Sql = "UPDATE repair_wash SET IsRef = 0 , IsStatus = 3 WHERE repair_wash.DocNo = '$RefDocNo'";
+    mysqli_query($conn, $Sql);
+    }
+    $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
+    $meQuery = mysqli_query($conn, $Sqlx);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $DocNonewlinentable = $Result['DocNo'];
+    }
+    if($DocNonewlinentable != "" ){
+      $Sql = "UPDATE newlinentable SET IsRef = 0 , IsStatus = 3 WHERE newlinentable.DocNo = '$RefDocNo'";
+      mysqli_query($conn, $Sql);
+      }
+      ShowDocument($conn, $DATA);
   }
 
   function updateQty($conn, $DATA){

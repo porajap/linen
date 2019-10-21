@@ -298,7 +298,7 @@ $array2 = json_decode($json2,TRUE);
       if(docno!= ""){
       swal({
         title: "<?php echo $array['confirmcancel'][$language]; ?>",
-        text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
+        text: " "+docno+" ",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -468,6 +468,7 @@ $array2 = json_decode($json2,TRUE);
           $('#profile-tab').tab('show');
           ShowDocument(3);
           Blankinput();
+          $('#factory').attr('disabled', false);
         }
         
         function swithChecked(i){
@@ -862,7 +863,7 @@ $array2 = json_decode($json2,TRUE);
                           $("#bSave").prop('disabled', true);
                           $("#bCancel").prop('disabled', true);
                           Blankinput();
-   
+                          $('#factory').attr('disabled', false);
                       } else if (result.dismiss === 'cancel') {
                         swal.close();
                       }
@@ -1114,6 +1115,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#wTotal").val(temp[0]['Total']);
                       $("#IsStatus").val(temp[0]['IsStatus']);
                       $("#factory").val(temp[0]['FacCode']);
+                      $('#factory').attr('disabled', true);
                       if(temp[0]['IsStatus']==0){
                         var word = '<?php echo $array['save'][$language]; ?>';
                         var changeBtn = "<i class='fa fa-save'></i>";
@@ -1141,7 +1143,6 @@ $array2 = json_decode($json2,TRUE);
                         $('#icon_edit').html(changeBtn);
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
-                        $("#factory").prop('disabled', true);
                         $("#bSave").prop('disabled', false);
                         $("#bCancel").prop('disabled', true);
                         $("#bSave2").removeClass('opacity');
@@ -2027,13 +2028,12 @@ $array2 = json_decode($json2,TRUE);
             <div class="row">
               <div class="col-md-8">
                 <div class='form-group row'>
-                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
-                  <input type="text" autocomplete="off"  class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+                  <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                  <input type="text" autocomplete="off" style="margin-left: -3%;" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
                 </div>
               </div>
- 
               <!-- serach----------------------- -->
-              <div class="search_custom col-md-2">
+              <div class="search_custom col-md-2" style="margin-left: -14%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
                     <i class="fas fa-search mr-2"></i>

@@ -207,9 +207,9 @@ function CreateDocument($conn, $DATA)
     INNER JOIN department ON damage.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON damage.Modify_Code = users.ID ";
-  if($DocNo!=null){
-    $Sql .= " WHERE damage.DocNo = '$DocNo' AND damage.DocNo LIKE '%$xDocNo%'";
-  }else{
+  // if($DocNo!=null){
+  //   $Sql .= " WHERE damage.DocNo = '$DocNo' AND damage.DocNo LIKE '%$xDocNo%'";
+  // }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp'  ";
       if($xDocNo!=null){
@@ -228,7 +228,7 @@ function CreateDocument($conn, $DATA)
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
       $Sql .= " WHERE damage.DepCode = $deptCode AND DATE(damage.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damage.DocNo LIKE '%$xDocNo%'";
     }
-  }
+  // }
     $Sql .= "ORDER BY damage.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1035,6 +1035,7 @@ function CreateDocument($conn, $DATA)
     // mysqli_query($conn,$Sql);
     $Sql = "UPDATE damage SET IsStatus = 9  WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
+    ShowDocument($conn, $DATA);
   }
 
   function get_claim_doc($conn, $DATA)

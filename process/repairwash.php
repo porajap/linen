@@ -222,9 +222,9 @@ function CreateDocument($conn, $DATA)
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON repair_wash.Modify_Code = users.ID ";
-  if($DocNo!=null){
-    $Sql .= " WHERE repair_wash.DocNo = '$DocNo' ";
-  }else{
+  // if($DocNo!=null){
+  //   $Sql .= " WHERE repair_wash.DocNo = '$DocNo' ";
+  // }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%' ";
       if($xDocNo!=null){
@@ -243,7 +243,7 @@ function CreateDocument($conn, $DATA)
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
       $Sql .= " WHERE repair_wash.DepCode = $deptCode AND DATE(repair_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }
-  }
+  // }
     $Sql .= "ORDER BY repair_wash.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -780,6 +780,7 @@ function CreateDocument($conn, $DATA)
     $hptcode = $DATA["hptcode"];
     $DocNo = $DATA["xdocno"];
     $RefDocNo = $DATA["RefDocNo"];
+
     // $checkitem = $DATA["checkitem"];
     // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo / $RefDocNo')";
     // mysqli_query($conn,$Sqlx);
@@ -788,7 +789,9 @@ function CreateDocument($conn, $DATA)
 
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
-    
+
+    $Sql = "UPDATE rewash SET IsRef = 1 WHERE rewash.DocNo = '$RefDocNo'";
+    mysqli_query($conn, $Sql);
 
     $n = 0;
     $Sql = "SELECT
@@ -1058,10 +1061,15 @@ function CreateDocument($conn, $DATA)
   function CancelBill($conn, $DATA)
   {
     $DocNo = $DATA["DocNo"];
+    $RefDocNo = $DATA["RefDocNo"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
     // mysqli_query($conn,$Sql);
     $Sql = "UPDATE repair_wash SET IsStatus = 9  WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
+
+    $Sql = "UPDATE rewash SET IsRef = 0 WHERE rewash.DocNo = '$RefDocNo'";
+    mysqli_query($conn, $Sql);
+    ShowDocument($conn, $DATA);
   }
 
   function updateQty($conn, $DATA){

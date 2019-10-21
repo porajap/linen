@@ -192,7 +192,9 @@ $(document).ready(function(e){
             $('#recorder').val("");
             $('#timerec').val("");
             $('#wTotal').val("");
-            OnLoadPage();
+            $('#RefDocNo').val("");
+            $('#RefDocNo').attr('disabled' , true);
+            // OnLoadPage();
     }
       function resetradio(row){
 
@@ -258,11 +260,11 @@ $(document).ready(function(e){
             
       function CancelDocument(){
         var docno = $("#docno").val();
-
+        var RefDocNo = $('#RefDocNo').val();
         if(docno!= ""){
         swal({
           title: "<?php echo $array['confirmcancel'][$language]; ?>",
-          text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
+          text: " "+docno+" ",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -276,7 +278,8 @@ $(document).ready(function(e){
             if (result.value) {
                 var data = {
                       'STATUS'  : 'CancelBill',
-                      'DocNo'   : docno
+                      'DocNo'   : docno,
+                      'RefDocNo'   : RefDocNo
                     };
                     senddata(JSON.stringify(data));
                     $('#profile-tab').tab('show');
@@ -597,7 +600,7 @@ $(document).ready(function(e){
             };
             senddata(JSON.stringify(data));
             $('#RefDocNo').attr('disabled', false);
-
+            $('#input_chk').val(0);
           } else if (result.dismiss === 'cancel') {
             swal.close();
           } 
@@ -692,7 +695,7 @@ $(document).ready(function(e){
         var weight = $("#weight_"+row).val();
         var price = 0; //$("#price_"+row).val();
         var isStatus = $("#IsStatus").val();
-        
+        $('#input_chk').val(0);
         //alert(rowid+" :: "+docno+" :: "+weight);
         if(isStatus==0){
           var data = {
@@ -724,10 +727,8 @@ $(document).ready(function(e){
           $("#countcheck").val(countcheck3);
           }
         }
- 
     }
-      function SaveBill(chk){
-      
+      function SaveBill(chk){        
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -743,7 +744,8 @@ $(document).ready(function(e){
           
           if(docno!=""){
             if(chk == '' || chk == undefined){
-            chk_percent();}else{
+            chk_percent();
+            }else{
           swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -780,8 +782,21 @@ $(document).ready(function(e){
           $('#profile-tab').tab('show');
           $("#bImport").prop('disabled', true);
           $("#bDelete").prop('disabled', true);
-          $("#bSave").prop('disabled', true);
+          $("#bSave").prop('disabled', false);
           $("#bCancel").prop('disabled', true);
+          $("#bImport2").addClass('opacity');
+          $("#bDelete2").addClass('opacity');
+          $("#bSave2").addClass('opacity');
+          $("#bCancel2").addClass('opacity');
+          $('#hover2').removeClass('mhee');
+          $('#hover4').removeClass('mhee');
+          $('#hover5').removeClass('mhee');
+          $('#hover3').removeClass('mhee');
+          $("#docno").prop('disabled', true);
+          $("#docdate").prop('disabled', true);
+          $("#recorder").prop('disabled', true);
+          $("#timerec").prop('disabled', true);
+          $("#total").prop('disabled', true);
           ShowDocument();
           Blankinput();
           if(input_chk == 1){
@@ -832,6 +847,7 @@ $(document).ready(function(e){
           'RowID' : RowID,
           'newQty' : newQty
         }
+        $('#input_chk').val(0);
         senddata(JSON.stringify(data));
       }
       function UpdateRefDocNo(){
@@ -1048,6 +1064,10 @@ $(document).ready(function(e){
                   $('#bPrint').attr('disabled', true);
                   $('#bPrint2').addClass('opacity');
                   $('#hover6').removeClass('mhee');
+
+                  $('#bPrintnew').attr('disabled', true);
+                  $('#bPrintnew2').addClass('opacity');
+                  $('#hover7').removeClass('mhee');
                 }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
@@ -1062,6 +1082,10 @@ $(document).ready(function(e){
                   $('#bPrint').attr('disabled', false);
                   $('#bPrint2').removeClass('opacity');
                   $('#hover6').addClass('mhee');
+
+                  $('#bPrintnew').attr('disabled', false);
+                  $('#bPrintnew2').removeClass('opacity');
+                  $('#hover7').addClass('mhee');
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
@@ -1451,6 +1475,26 @@ $(document).ready(function(e){
         })
       }
     }
+    function PrintData2(){
+      var docno = $('#docno').val();
+      var lang = '<?php echo $language; ?>';
+      if(docno!=""&&docno!=undefined){
+        var url  = "../report/Report_Clean2.php?DocNo="+docno+"&lang="+lang;
+        window.open(url);
+      }else{
+        swal({
+          title: '',
+          text: '<?php echo $array['docfirst'][$language]; ?>',
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showConfirmButton: false,
+          timer: 2000,
+          confirmButtonText: 'Ok'
+        })
+      }
+    }
     </script>
     <style media="screen">
      /* ======================================== */
@@ -1751,6 +1795,18 @@ $(document).ready(function(e){
                               </div>
                             </div>
                           </div>
+                          <div class="menu "  id="hover7">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle9 d-flex justify-content-center opacity" id="bPrintnew2">
+                                <button class="btn" onclick="PrintData2()" id="bPrintnew" disabled="true">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print2'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <!-- end row btn -->
                     </div>
@@ -1865,12 +1921,12 @@ $(document).ready(function(e){
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+                <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
               </div>
             </div>
               <!-- serach----------------------- -->
-              <div class="search_custom col-md-2">
+              <div class="search_custom col-md-2" style="margin-left: -14%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
@@ -1925,11 +1981,11 @@ $(document).ready(function(e){
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['serchref'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+                <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
               </div>
             </div>
-            <div class="search_custom col-md-2">
+            <div class="search_custom col-md-2" style="margin-left: -11%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="get_dirty_doc()" id="bSave">
                     <i class="fas fa-search mr-2"></i>

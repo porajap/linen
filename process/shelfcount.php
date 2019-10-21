@@ -323,9 +323,9 @@ function ShowDocument($conn, $DATA)
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON shelfcount.Modify_Code = users.ID ";
-if($DocNo!=null){
-  $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
-}else{
+// if($DocNo!=null){
+//   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+// }else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
     $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
     if($xDocNo!=null){
@@ -344,7 +344,7 @@ if($DocNo!=null){
   }else if($Hotp != null && $deptCode != null && $datepicker != null){
     $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }
-}
+// }
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
   // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -1115,8 +1115,9 @@ function SaveBill($conn, $DATA)
 
   $Sql = "UPDATE shelfcount SET IsRequest = 1 , IsStatus = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
-}
 
+  ShowDocument($conn, $DATA);
+}
 function SendData($conn, $DATA)
 {
   $DocNo = $DATA["xdocno"];
@@ -1350,6 +1351,7 @@ function CancelBill($conn, $DATA)
   // mysqli_query($conn,$Sql);
   $Sql = "UPDATE shelfcount SET IsStatus = 9 ,IsRequest = 1, Total = 0 WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
+  ShowDocument($conn, $DATA);
 }
 
 function ShowDocument_sub($conn, $DATA)

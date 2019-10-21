@@ -704,7 +704,7 @@ $array2 = json_decode($json2,TRUE);
                                 HeadTB += "<tr style='height:50px;'>"+
                                 "<th style='width:12%;' nowrap  class='text-left'>Name</th>"+
                                 "<th colspan='"+(i+2)+"'></th>"+
-                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' "+total_par1+" id='total_par1'></th>"+
+                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' "+total_par1+" id='total_par1' disabled='true'></th>"+
                                 "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' "+total_par2+" id='total_par2' onkeyup='if(event.keyCode==13){SavePar()}else{Calculate()}'></th>"+
                             "</tr>";
                             $('#theadsum').html(HeadTB);

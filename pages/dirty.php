@@ -252,7 +252,7 @@ $array2 = json_decode($json2,TRUE);
           if(docno!= ""){
           swal({
             title: "<?php echo $array['confirmcancel'][$language]; ?>",
-            text: "<?php echo $array['canceldata4'][$language];?> "+docno+" ?",
+            text: " "+docno+" ",
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-danger",
@@ -418,6 +418,7 @@ $array2 = json_decode($json2,TRUE);
           $('#profile-tab').tab('show');
           ShowDocument(3);
           Blankinput();
+          $('#factory').attr('disabled', false);
         }
 
         function dis(){
@@ -776,6 +777,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#bDelete").prop('disabled', true);
                       $("#bSave").prop('disabled', true);
                       $("#bCancel").prop('disabled', true);
+                      $('#factory').attr('disabled', false);
                       Blankinput();
                     } else if (result.dismiss === 'cancel') {
                       swal.close();}
@@ -1057,6 +1059,7 @@ $array2 = json_decode($json2,TRUE);
                   $('#bCancel').attr('disabled', false);
                   $('#bSave').attr('disabled', false);
                   $('#bImport').attr('disabled', false);
+                  $('#factory').attr('disabled', true);
                   $('#bSave2').removeClass('opacity');
                   $('#bImport2').removeClass('opacity');
                   $('#bCancel2').removeClass('opacity');
@@ -1122,7 +1125,7 @@ $array2 = json_decode($json2,TRUE);
                   $("#wTotal").val(temp[0]['Total']);
                   $("#IsStatus").val(temp[0]['IsStatus']);
                   $("#factory").val(temp[0]['FacCode']);
-
+                  $('#factory').attr('disabled', true);
                   if(temp[0]['IsStatus']==0){
                     // $('.chk_edit').prop('disabled', false);
                     // $('.').prop('disabled', false);
@@ -1142,6 +1145,10 @@ $array2 = json_decode($json2,TRUE);
                     $('#bPrint').attr('disabled', true);
                     $('#bPrint2').addClass('opacity');
                     $('#hover6').removeClass('mhee');
+
+                    $('#bPrintnew').attr('disabled', true);
+                    $('#bPrintnew2').addClass('opacity');
+                    $('#hover7').removeClass('mhee');
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                     // $('.chk_edit').attr('disabled', true);
                     // $('#').attr('disabled', true);
@@ -1158,6 +1165,10 @@ $array2 = json_decode($json2,TRUE);
                     $('#bPrint').attr('disabled', false);
                     $('#bPrint2').removeClass('opacity');
                     $('#hover6').addClass('mhee');
+
+                    $('#bPrintnew').attr('disabled', false);
+                    $('#bPrintnew2').removeClass('opacity');
+                    $('#hover7').addClass('mhee');
                   }else{
                     $("#bImport").prop('disabled', true);
                     $("#bDelete").prop('disabled', true);
@@ -1579,6 +1590,26 @@ $array2 = json_decode($json2,TRUE);
             })
           }
         }
+        function PrintData2(){
+          var docno = $('#docno').val();
+          var lang = '<?php echo $language; ?>';
+          if(docno!=""&&docno!=undefined){
+            var url  = "../report/Report_Dirty2.php?DocNo="+docno+"&lang="+lang;
+            window.open(url);
+          }else{
+            swal({
+              title: '',
+              text: '<?php echo $array['docfirst'][$language]; ?>',
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            })
+          }
+        }
       </script>
     <style media="screen">
       @font-face {
@@ -1916,6 +1947,18 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
+                          <div class="menu "  id="hover7">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle9 d-flex justify-content-center opacity" id="bPrintnew2">
+                                <button class="btn" onclick="PrintData2()" id="bPrintnew" disabled="true">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print2'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <!-- end row btn -->
                       </div>
@@ -2029,13 +2072,13 @@ $array2 = json_decode($json2,TRUE);
             <div class="row">
               <div class="col-md-8">
                 <div class='form-group row'>
-                  <label class="col-sm-4 col-form-label text-right pr-5"><?php echo $array['Searchitem2'][$language]; ?></label>
-                  <input type="text" autocomplete="off"  class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+                  <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                  <input type="text" autocomplete="off" style="margin-left: -3%;" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
                 </div>
               </div>
  
               <!-- serach----------------------- -->
-              <div class="search_custom col-md-2">
+              <div class="search_custom col-md-2" style="margin-left: -14%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
