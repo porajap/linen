@@ -347,8 +347,17 @@ $array2 = json_decode($json2,TRUE);
                     swal.close();
                     if (temp["status"] == 'success') {
                         if ((temp["form"] == 'getSection')) {
-                            var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
-                            var StrTr1 = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                            if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7){
+                                var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                                var StrTr1 = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";                            
+                            }else{
+                                var StrTr = "";
+                                $('#hptsel').attr('disabled' , true);
+                                $('#hptsel').addClass('icon_select');
+                                var StrTr1 = "";
+                                $('#hptsel2').attr('disabled' , true);
+                                $('#hptsel2').addClass('icon_select');
+                            }
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                  StrTr1 += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
@@ -600,7 +609,7 @@ $array2 = json_decode($json2,TRUE);
             </div>
             <!-- /.content-wrapper -->
             <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu mhee" >
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -624,7 +633,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" id="delete1" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu" id="delete1" >
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">

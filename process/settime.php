@@ -8,25 +8,32 @@ if($Userid==""){
 
 function getSection($conn, $DATA)
 {
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $lang = $_SESSION['lang'];
   $count = 0;
-  if($lang=='en'){
-  $Sql = "SELECT
-          site.HptCode,
-          site.HptName
-          FROM site
-          WHERE IsStatus = 0";
+  if($lang == 'en'){
+    if($PmID == 3 || $PmID == 7){
+    $Sql = "SELECT site.HptCode,site.HptName
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
   }else{
-    $Sql = "SELECT
-    site.HptCode,
-    site.HptNameTH AS HptName
-    FROM site
-    WHERE IsStatus = 0";
-  }
+    if($PmID == 3 || $PmID == 7){
+    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }     
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];
     $return[$count]['HptName']  = $Result['HptName'];
+    $return[0]['PmID']  = $PmID;
     $count++;
   }
 
