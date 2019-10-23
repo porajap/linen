@@ -344,7 +344,10 @@ function additemstock($conn, $DATA)
   $Itemcode = explode(",",$DATA['ItemCode']);
   $Number = explode(",",$DATA['Number']);
 
-
+  $Sql1="SELECT  COUNT(department.DepCode) AS cnt  FROM department WHERE DepCode = $Deptid AND IsDefault = 1";
+  $query = mysqli_query($conn,$Sql1);
+  $Resultquery = mysqli_fetch_assoc($query);
+  $cnt = $Resultquery['cnt']==null?0:$Resultquery['cnt'];
   // var_dump($Number[0]); die;
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
     $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty)";

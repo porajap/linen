@@ -454,6 +454,7 @@ $array2 = json_decode($json2,TRUE);
           $('#department').attr('disabled' , true);
           $('#department').addClass('icon_select');
           $('#department').val('');
+          $('#xCenter').attr('disabled' , true);
           $('#xCenter2').attr('disabled' , false);
           ShowItem();
         }else{
@@ -1768,7 +1769,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class='col-3 mr-sm-2 text-left'style="margin-left: -1%;"> 
                           <span><?php echo $array['department'][$language]; ?></span>
                         </div>
-                        <select class="form-control col-8 checkblank2 border" id="department" onchange="removeClassBorder1(1);"> </select>
+                        <select disabled="true" class="form-control col-8 checkblank2 border icon_select" id="department" onchange="removeClassBorder1(1);"> </select>
                         <label id="rem1" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
