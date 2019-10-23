@@ -363,7 +363,6 @@ function additemstock($conn, $DATA)
     }else{
       $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , DepCode = $Deptid , ParQty = $ParQty3 ";
       mysqli_query($conn,$Sqlpar);  
-      // echo json_encode($Sqlpar);
     }
     // =====================================================================
 
