@@ -350,8 +350,22 @@ function additemstock($conn, $DATA)
   $cnt = $Resultquery['cnt']==null?0:$Resultquery['cnt'];
   // var_dump($Number[0]); die;
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
+    // =====================================================================
+    $SqlCount3 = "SELECT COUNT(ItemCode) AS ParCount , ParQty FROM par_item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
+    $meQuery3 = mysqli_query($conn,$SqlCount3);
+    while ($Result3 = mysqli_fetch_assoc($meQuery3)) {
+      $ParCount = $Result3['ParCount'];
+      $ParQty3 =  $Result3['ParQty'] + $ParQty;
+    }
+    if($ParCount == 0){
     $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty)";
     mysqli_query($conn,$Sqlpar);
+    }else{
+      $Sqlpar = "UPDATE par_item_stock SET (ItemCode = '$Itemcode[$i]' , DepCode = $Deptid , ParQty = $ParQty3) ";
+      mysqli_query($conn,$Sqlpar);  
+    }
+    // =====================================================================
+
     $SqlCount = "SELECT COUNT(ItemCode) AS countPar, TotalQty, ParQty FROM item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
     $meQuery = mysqli_query($conn,$SqlCount);
 
@@ -384,8 +398,11 @@ function additemstock($conn, $DATA)
         }
       }
     }
+  }else{
+    $boolean++;
   }
 }
+
   // ====================================================================================
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
 
@@ -459,6 +476,7 @@ function SelectItemStock($conn, $DATA)
   $count = 0;
   $countx = 0;
   $DepCode = $DATA['DepCode'];
+  $xCenter2 = $DATA['xCenter2'];
   if($DATA['ItemArray']!=''){
     $ItemCode = explode(",", $DATA['ItemArray']);
   }else{

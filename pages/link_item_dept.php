@@ -991,10 +991,11 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
-
       function SelectItemStock(ItemCode, Number){
         var xCenter = 0;
+        var xCenter2 = 0;
         if ($('#xCenter').is(':checked')) xCenter = 1;
+        if ($('#xCenter2').is(':checked')) xCenter2 = 1;
         if(xCenter == 1 ){
           var DepCode = $('#HosCenter').val();
         }else{
@@ -1004,6 +1005,7 @@ $array2 = json_decode($json2,TRUE);
           'STATUS'      : 'SelectItemStock',
           'DepCode'       : DepCode,
           'ItemCode'   : ItemCode,
+          'xCenter2'   : xCenter2,
           'Number'   : Number
         };
 
