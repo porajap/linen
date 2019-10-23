@@ -361,7 +361,8 @@ function additemstock($conn, $DATA)
     $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty)";
     mysqli_query($conn,$Sqlpar);
     }else{
-      $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , DepCode = $Deptid , ParQty = $ParQty3 ";
+      $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 
+      WHERE DepCode = $Deptid AND ItemCode = '$Itemcode[$i]'";
       mysqli_query($conn,$Sqlpar);  
     }
     // =====================================================================
