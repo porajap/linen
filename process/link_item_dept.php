@@ -486,6 +486,7 @@ function SelectItemStock($conn, $DATA)
   $Number = explode(",",$DATA['Number']);
   $return['num'] = $Number;
 
+  if($xCenter2 == 0 ){
   for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
     $count2 = 0;
     $SqlItem = " SELECT 
@@ -536,6 +537,35 @@ function SelectItemStock($conn, $DATA)
     $return[$i]['num'] = $count2;
     $boolean = true;
   }
+}else{
+  for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
+    $count2 = 0;
+    $SqlItem = " SELECT 
+    par_item_stock.ItemCode,
+    item.ItemName
+  FROM par_item_stock
+  INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+  WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
+  AND par_item_stock.DepCode = $DepCode ";
+      $ItemQuery = mysqli_query($conn, $SqlItem);
+      while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
+        $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
+        $return[$countx]['ItemNameX'] = $IResult['ItemName'];
+        $countx++;
+      }
+    $boolean = true;
+  }
+
+
+
+
+
+
+
+
+
+
+}
   $return['countx'] = $countx;
 
 

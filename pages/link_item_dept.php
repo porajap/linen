@@ -1487,11 +1487,8 @@ $array2 = json_decode($json2,TRUE);
                                                   "<td style='width: 50%;' nowrap>"+temp['ItemCode_' + temp[i]['ItemCodeX'] + '_' + i][j]['ItemName']+"</td>"+
                                                   "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                                 "</tr>";
-                                                
                                       }
-                               
                                         $('#TableItemStock tbody').append(StrTR);
-                                 
                                   chk_row++;
                                 }
                                 $('#chk_row').val(chk_row);
