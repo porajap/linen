@@ -112,15 +112,22 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
+  $Userid = $_SESSION['Userid'];
   $count = 0;
   $Sql = "INSERT INTO item_unit(
           UnitName,
-          IsStatus
+          IsStatus,
+          DocDate ,
+          Modify_Code ,
+          Modify_Date
          )
           VALUES
           (
             '".$DATA['UnitName']."',
-            0
+            0,
+            NOW(),
+            $Userid,
+            NOW()
           )
   ";
   // var_dump($Sql); die;
@@ -143,11 +150,14 @@ function AddItem($conn, $DATA)
 
 function EditItem($conn, $DATA)
 {
+  $Userid = $_SESSION['Userid'];
   $count = 0;
   if($DATA["UnitCode"]!=""){
     $Sql = "UPDATE item_unit SET
             UnitCode = '".$DATA['UnitCode']."',
-            UnitName = '".$DATA['UnitName']."'
+            UnitName = '".$DATA['UnitName']."',
+            Modify_Date = NOW() ,
+            Modify_Code =  $Userid   
             WHERE UnitCode = ".$DATA['UnitCode']."
     ";
     // var_dump($Sql); die;

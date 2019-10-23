@@ -442,12 +442,25 @@ $array2 = json_decode($json2,TRUE);
                                         if(result ==1){
                                             msg = "<?php echo $array['addsuccessmsg'][$language]; ?>";
                                         }else if(result ==2){
-                                            msg = "<?php echo $array['addfailedmsg'][$language]; ?>";
+                                            msg = "<?php echo $array['adduserfailedmsg'][$language]; ?>";
                                         }else if(result ==3){
                                             msg = "<?php echo $array['editsuccessmsg'][$language]; ?>";
                                         }else if(result ==4){
                                             msg = "<?php echo $array['editfailedmsg'][$language]; ?>";
                                         }
+                                if(result ==2){
+                                    swal({
+                                    title: '',
+                                    text: msg,
+                                    type: 'warning',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    confirmButtonText: 'Ok'
+                                });
+                                }else{
                                 swal({
                                     title: '',
                                     text: msg,
@@ -459,6 +472,7 @@ $array2 = json_decode($json2,TRUE);
                                     timer: 2000,
                                     confirmButtonText: 'Ok'
                                 });
+                                }
                                 setTimeout(function(){ 
                                     $('xemail').prop( "checked", false );
                                     Blankinput();

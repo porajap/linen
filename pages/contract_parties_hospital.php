@@ -327,6 +327,7 @@ $array2 = json_decode($json2,TRUE);
     }
     var chk1 = new Date(datepicker1);
     var chk2 = new Date(datepicker2);
+
     if(chk1>chk2){
       swal({
         title: "",

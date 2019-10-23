@@ -1089,7 +1089,7 @@ $(document).ready(function(e){
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
-                  $("#bSave").prop('disabled', false);
+                  $("#bSave").prop('disabled', true);
                   $("#bCancel").prop('disabled', true);
                   $("#bImport2").addClass('opacity');
                   $("#bDelete2").addClass('opacity');

@@ -220,6 +220,19 @@ $array2 = json_decode($json2,TRUE);
             for (var i = 0; i <  temp["Row"]; i++) {
               Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
             }
+            if(temp["Row"] == 0){
+              swal({
+            title: '',
+            text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+            }
             $("#department").append(Str);
             $("#Dep2").append(Str);
           }else if(temp["form"]=='ShowDocument'){

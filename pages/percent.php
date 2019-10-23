@@ -559,8 +559,8 @@ table tr:first-child th:first-child {
                               <th style='width: 10%;'nowrap><?php echo $array['weight'][$language]; ?></th>
                               <th style='width: 15%;'nowrap><?php echo $array['cleandoc'][$language]; ?></th>
                               <th style='width: 17%;'nowrap><?php echo $array['date'][$language]; ?></th>
-                              <th style='width: 15%;'nowrap><?php echo $array['weight'][$language]; ?></th>
-                              <th style='width: 13%;'><?php echo $array['percent'][$language]; ?></th>
+                              <th style='width: 13%;'nowrap><?php echo $array['weight'][$language]; ?></th>
+                              <th style='width: 15%;'><?php echo $array['percent'][$language]; ?></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">

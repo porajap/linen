@@ -17,7 +17,8 @@ function getHospital($conn, $DATA)
   }else{
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
     FROM site WHERE site.IsStatus = 0";
-  }  
+  }
+  
   //var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -50,7 +51,9 @@ function getDepartment($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
-  AND department.IsStatus = 0";
+  AND department.IsStatus = 0 AND NOT department.IsDefault = 1 ORDER BY department.DepName ASC";
+
+
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode']==null?0:$Result['DepCode'];
@@ -58,6 +61,16 @@ function getDepartment($conn, $DATA)
     $count++;
     $boolean = true;
   }
+  $return['row'] = $count;
+  $Sql2 = "SELECT department.DepCode,department.DepName
+  FROM department
+  WHERE department.HptCode = '$Hotp'
+  AND department.IsDefault = 1";
+  $meQuery1 = mysqli_query($conn, $Sql2);
+  $Result1 = mysqli_fetch_assoc($meQuery1);
+  $return[0]['DepCodeCenter'] = $Result1['DepCode']==null?'':$Result1['DepCode'];
+  $return[0]['DepNameCenter'] = $Result1['DepName']==null?'':$Result1['DepName'];
+
 
   if ($meQuery = mysqli_query($conn, $Sql)) {
     $return['status'] = "success";
@@ -115,9 +128,12 @@ function getDepartment($conn, $DATA)
 function ShowItem($conn, $DATA)
 {
   $count = 0;
+  $xCenter2 = $DATA['xCenter2'];
+  $HosCenter = $DATA['HosCenter'];
   $Keyword = $DATA['Keyword'];
   $HptCode = $DATA['HptCode'];
   $userid = $DATA['Userid'];
+  if($xCenter2 != 1){
   $Sql = "SELECT
           item.ItemCode,
           item.ItemName
@@ -126,6 +142,14 @@ function ShowItem($conn, $DATA)
           WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
           ORDER BY item.Modify_Date ASC
           ";
+  }else{
+  $Sql ="SELECT item.ItemCode , item.ItemName FROM item 
+          INNER JOIN item_stock ON item_stock.ItemCode = item.ItemCode
+          INNER JOIN site ON site.HptCode = item.HptCode
+          INNER JOIN department ON department.DepCode = item_stock.DepCode
+          WHERE site.HptCode = '$HptCode' AND department.IsDefault =1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
+          GROUP BY ItemCode ";    
+  }
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -323,7 +347,8 @@ function additemstock($conn, $DATA)
 
   // var_dump($Number[0]); die;
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
-
+    $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty)";
+    mysqli_query($conn,$Sqlpar);
     $SqlCount = "SELECT COUNT(ItemCode) AS countPar, TotalQty, ParQty FROM item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
     $meQuery = mysqli_query($conn,$SqlCount);
 

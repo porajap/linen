@@ -348,6 +348,18 @@ $array2 = json_decode($json2,TRUE);
             }else if(lang =='en'){
                 xDate = xDate.substr(6,4)+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
             }
+            var chk1 = new Date();
+            var chk2 = new Date(xDate);
+            if(chk1>chk2){
+                swal({
+                    title: "",
+                    text: "<?php echo $array['invalid'][$language]; ?>",
+                    type: "warning",
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    timer:2000
+                });
+            }else{
                 var data = {
                     'STATUS' : 'CreateDoc',
                     'Price' : Price,
@@ -356,6 +368,7 @@ $array2 = json_decode($json2,TRUE);
                 };
                 // console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
+        }
             }
         }
 
@@ -1254,7 +1267,7 @@ $array2 = json_decode($json2,TRUE);
                             <div class="col-md-12">
                                 <!-- tag column 1 -->
                                 <div class="container-fluid">
-                                    <div class="card-body" style="padding:0px; margin-top:12px;">
+                                    <div class="card-body" style="padding:0px; margin-top:12px;margin-left: -2%;">
                                         <div class="row col-md-12">
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
@@ -1413,7 +1426,7 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                     <!-- search document -->
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="card-body" style="padding:0px; margin-top:12px;margin-left:30px;">
+                        <div class="card-body" style="padding:0px; margin-top:12px;margin-left:2px;">
                             <div class="row">
                                 <div class="col-md-11">
                                     <div class="row">

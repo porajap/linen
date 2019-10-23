@@ -1260,82 +1260,82 @@ $array2 = json_decode($json2,TRUE);
                   }
 
                 }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
-                  $( "#TableItemDetail tbody" ).empty();
-                  if(temp["Row"] > 0)
-                  $("#wTotal").val(temp[0]['Total']);
-                  else
-                  $("#wTotal").val(0);
+                  // $( "#TableItemDetail tbody" ).empty();
+                  // if(temp["Row"] > 0)
+                  // $("#wTotal").val(temp[0]['Total']);
+                  // else
+                  // $("#wTotal").val(0);
 
-                  var isStatus = $("#IsStatus").val();
-                  var st1 = "style='font-size:24px;margin-left:20px;width:153px;'";
-                  for (var i = 0; i < temp["Row"]; i++) {
-                    var rowCount = $('#TableItemDetail >tbody >tr').length;
+                  // var isStatus = $("#IsStatus").val();
+                  // var st1 = "style='font-size:24px;margin-left:20px;width:153px;'";
+                  // for (var i = 0; i < temp["Row"]; i++) {
+                  //   var rowCount = $('#TableItemDetail >tbody >tr').length;
 
-                    var chkunit ="<select "+st1+" disabled='true' onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
-                    var nUnit = temp[i]['UnitName'];
-                    for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                      if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
-                        chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                      }else{
-                        chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                      }
-                    }
-                    chkunit += "</select>";
+                  //   var chkunit ="<select "+st1+" disabled='true' onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
+                  //   var nUnit = temp[i]['UnitName'];
+                  //   for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
+                  //     if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
+                  //       chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                  //     }else{
+                  //       chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                  //     }
+                  //   }
+                  //   chkunit += "</select>";
 
-                    var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
+                  //   var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
-                    var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'></div>";
+                  //   var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"'></div>";
 
-                    var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  //   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
-                    var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  //   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
-                    $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                    "<td style='width: 9%;' nowrap>"+chkDoc+"</td>"+
-                    "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                    "<td style='text-overflow: ellipsis;overflow: hidden;width: 29%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width: 18%;' nowrap>"+chkunit+"</td>"+
-                    "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
-                    "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
-                    "</tr>";
-                    if(rowCount == 0){
-                      $('#bSaveadd').attr('disabled', true);
-                      $('#bSaveadd2').addClass('opacity');
-                      $("#countcheck").val("0");
-                      $("#TableItemDetail tbody").append( $StrTR );
-                    }else{
-                      $('#TableItemDetail tbody:last-child').append( $StrTR );
-                    }
-                    if(isStatus==0){
-                      // $("#docno").prop('disabled', false);
-                      // $("#docdate").prop('disabled', false);
-                      // $("#recorder").prop('disabled', false);
-                      // $("#timerec").prop('disabled', false);
-                      // $("#total").prop('disabled', false);
+                  //   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
+                  //   "<td style='width: 9%;' nowrap>"+chkDoc+"</td>"+
+                  //   "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
+                  //   "<td style='text-overflow: ellipsis;overflow: hidden;width: 29%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                  //   "<td style='width: 18%;' nowrap>"+chkunit+"</td>"+
+                  //   "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
+                  //   "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
+                  //   "</tr>";
+                  //   if(rowCount == 0){
+                  //     $('#bSaveadd').attr('disabled', true);
+                  //     $('#bSaveadd2').addClass('opacity');
+                  //     $("#countcheck").val("0");
+                  //     $("#TableItemDetail tbody").append( $StrTR );
+                  //   }else{
+                  //     $('#TableItemDetail tbody:last-child').append( $StrTR );
+                  //   }
+                  //   if(isStatus==0){
+                  //     // $("#docno").prop('disabled', false);
+                  //     // $("#docdate").prop('disabled', false);
+                  //     // $("#recorder").prop('disabled', false);
+                  //     // $("#timerec").prop('disabled', false);
+                  //     // $("#total").prop('disabled', false);
 
-                      $('#qty1_'+i).prop('disabled', false);
-                      $('#weight_'+i).prop('disabled', false);
-                      $('#price_'+i).prop('disabled', false);
-                      $('#price_'+i).prop('disabled', false);
+                  //     $('#qty1_'+i).prop('disabled', false);
+                  //     $('#weight_'+i).prop('disabled', false);
+                  //     $('#price_'+i).prop('disabled', false);
+                  //     $('#price_'+i).prop('disabled', false);
 
-                      $('#unit'+i).prop('disabled', false);
-                    }else{
-                      $("#docno").prop('disabled', true);
-                      $("#docdate").prop('disabled', true);
-                      $("#recorder").prop('disabled', true);
-                      $("#timerec").prop('disabled', true);
-                      $("#total").prop('disabled', true);
+                  //     $('#unit'+i).prop('disabled', false);
+                  //   }else{
+                  //     $("#docno").prop('disabled', true);
+                  //     $("#docdate").prop('disabled', true);
+                  //     $("#recorder").prop('disabled', true);
+                  //     $("#timerec").prop('disabled', true);
+                  //     $("#total").prop('disabled', true);
 
-                      $('#qty1_'+i).prop('disabled', true);
-                      $('#weight_'+i).prop('disabled', true);
-                      $('#price_'+i).prop('disabled', true);
+                  //     $('#qty1_'+i).prop('disabled', true);
+                  //     $('#weight_'+i).prop('disabled', true);
+                  //     $('#price_'+i).prop('disabled', true);
 
-                      $('#unit'+i).prop('disabled', true);
-                    }
-                  }
-                    $('.numonly').on('input', function() {
-                    this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-                    });
+                  //     $('#unit'+i).prop('disabled', true);
+                  //   }
+                  // }
+                  //   $('.numonly').on('input', function() {
+                  //   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                  //   });
                 }else if( (temp["form"]=='ShowItem') ){
                   var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
@@ -1421,9 +1421,9 @@ $array2 = json_decode($json2,TRUE);
                       $(this).prop('checked', false);
                     });
                     for(var i = 0; i<temp['CountDep']; i++){
-                      var DepName = "<span class='ml-4' style=''>"+temp[i]['DepName']+"</span>";
+                      var DepName = "<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['DepName']+"</span>";
                       var chkDep = "<input type='checkbox' id='checkDep_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep' style='top:-10%;' class='checkbox myDepName checkDep_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
-                      myDATA += "<div class='col-6'>"+chkDep+DepName+"</div>";
+                      myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+chkDep+DepName+"</div>";
                     }
                     $('#Dep').html(myDATA);
                     $('#HItemName').html(temp['ItemName']);
@@ -1440,8 +1440,6 @@ $array2 = json_decode($json2,TRUE);
                   var DataRow = '';
                   $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["CountDep"]; i++) {
-
-
                     var chkunit ="<select "+st1+" class='form-control chk_edit' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
@@ -1460,23 +1458,47 @@ $array2 = json_decode($json2,TRUE);
 
                     var Qty = "<input class='form-control numonly chk_edit'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+                    var Weight = "<input  class='form-control numonly chk_edit chk_weight weight_"+i+"' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
                    
                     var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
-                    DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
-                    DataRow += "<td style='width:6%;' nowrap>"+(i+1)+"</td>";
+                    DataRow += "<tr><td style='width:3%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+chkItem+"</td>";
+                    DataRow += "<td style='width:6%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+(i+1)+"</td>";
                     DataRow += "<td style='width:18%;text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
-                    DataRow += "<td style='width:21%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width:22%;' nowrap><center>"+chkunit+"</center></td>"+
-                    "<td style='width:10%;' nowrap><center>"+Qty+"</center></td>"+
-                    "<td style='width:20%;' nowrap><center>"+Weight+"</center></td></<tr>";
+                    DataRow += "<td style='width:21%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
+                    "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+
+                    "<td style='width:20%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>";
+
+                    if(isStatus==0){
+                      $('#qty1_'+i).prop('disabled', false);
+                      $('#weight_'+i).prop('disabled', false);
+                      $('#price_'+i).prop('disabled', false);
+                      $('#price_'+i).prop('disabled', false);
+                      $('#unit'+i).prop('disabled', false);
+                    }else{
+                      $("#docno").prop('disabled', true);
+                      $("#docdate").prop('disabled', true);
+                      $("#recorder").prop('disabled', true);
+                      $("#timerec").prop('disabled', true);
+                      $("#total").prop('disabled', true);
+                      $('#qty1_'+i).prop('disabled', true);
+                      $('#weight_'+i).prop('disabled', true);
+                      $('#price_'+i).prop('disabled', true);
+                      $('#unit'+i).prop('disabled', true);
+                    }
                   }
                   $("#TableItemDetail tbody").html(DataRow);
                   $('.numonly').on('input', function() {
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+        
+
+
+
+
+
                   if(isStatus==1){
                     $('.chk_edit').attr('disabled', true);
                   }
@@ -1759,7 +1781,7 @@ $array2 = json_decode($json2,TRUE);
        }
 
        #ModalDepartment .modal-content{
-          width: 84% !important;
+          width: 70% !important;
           right: 0% !important;
           top: 136px;
        }

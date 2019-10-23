@@ -68,7 +68,7 @@ function getTime2($conn, $DATA){
   $count = 0;
   $Sql = "SELECT ts.ID, ts.TimeName FROM time_sc ts
   LEFT JOIN time_express te ON te.Time_ID = ts.ID
-  WHERE ts.ID NOT IN(SELECT time_express.Time_ID  FROM time_express WHERE time_express.HptCode = '$HptCode') AND Ts.ID  BETWEEN 1 AND 48
+  WHERE ts.ID NOT IN(SELECT time_express.Time_ID  FROM time_express WHERE time_express.HptCode = '$HptCode') AND ts.ID  BETWEEN 1 AND 48
   ORDER BY ts.ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -112,9 +112,10 @@ function ShowItem($conn, $DATA){
     
 }
 function AddItem($conn, $DATA){
+  $Userid = $_SESSION['Userid'];
   $HptCode = $DATA['HptCode'];
   $Time = $DATA['Time'];
-  $Sql = "INSERT INTO time_express (Time_ID, HptCode)VALUES($Time, '$HptCode')";
+  $Sql = "INSERT INTO time_express (Time_ID, HptCode ,DocDate ,Modify_Code ,Modify_Date)VALUES($Time, '$HptCode',NOW(),$Userid,NOW() )";
   mysqli_query($conn, $Sql);
   ShowItem($conn, $DATA);
 }
@@ -134,10 +135,11 @@ function getDetail($conn, $DATA){
   die;
 }
 function EditItem($conn, $DATA){
+  $Userid = $_SESSION['Userid'];
   $ID = $DATA['TimeID'];
   $HptCode = $DATA['HptCode'];
   $Time = $DATA['Time'];
-  $Sql = "UPDATE time_express SET time_value = '$Time' WHERE ID = $ID";
+  $Sql = "UPDATE time_express SET time_value = '$Time' , Modify_Date = NOW() , Modify_Code =  $Userid    WHERE ID = $ID";
   mysqli_query($conn, $Sql);
   ShowItem($conn, $DATA);
 }

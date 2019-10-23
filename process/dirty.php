@@ -109,7 +109,7 @@ function getDepartment($conn, $DATA)
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['form'] = "getDepartment";
     echo json_encode($return);
     mysqli_close($conn);
@@ -203,7 +203,7 @@ function ShowDocument($conn, $DATA)
   $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
-  $Hotp = $DATA["Hotp"];
+  $Hotp = $DATA["Hotp"]==null? $_SESSION['HptCode']:$DATA["Hotp"];
   $DocNo = $DATA["docno"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $datepicker = $DATA["datepicker1"];

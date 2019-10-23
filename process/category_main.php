@@ -112,16 +112,23 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
+  $Userid = $_SESSION['Userid'];
   $count = 0;
   $Sql = "INSERT INTO item_main_category(
           MainCategoryName,
-          IsStatus
+          IsStatus,
+          DocDate,
+          Modify_Code,
+          Modify_Date
          )
           VALUES
           (
             '".$DATA['CategoryName']."',
-            0
-          )
+            0,
+              NOW(),
+              $Userid,
+              NOW()
+              )
   ";
   // var_dump($Sql); die;
   if(mysqli_query($conn, $Sql)){
@@ -143,11 +150,14 @@ function AddItem($conn, $DATA)
 
 function EditItem($conn, $DATA)
 {
+  $Userid = $_SESSION['Userid'];
   $count = 0;
   if($DATA["CategoryCode"]!=""){
     $Sql = "UPDATE item_main_category SET
             MainCategoryCode = '".$DATA['CategoryCode']."',
-            MainCategoryName = '".$DATA['CategoryName']."'
+            MainCategoryName = '".$DATA['CategoryName']."',
+            Modify_Date = NOW() ,
+            Modify_Code =  $Userid   
             WHERE MainCategoryCode = ".$DATA['CategoryCode']."
     ";
     // var_dump($Sql); die;

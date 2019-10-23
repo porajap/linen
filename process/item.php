@@ -541,6 +541,7 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
+  $Userid = $_SESSION['Userid'];
   if($DATA['masterItem'] == 0){
     $Del = "DELETE FROM item_set WHERE mItemCode = '" . $DATA['ItemCode'] . "'";
     mysqli_query($conn, $Del);
@@ -570,7 +571,8 @@ function AddItem($conn, $DATA)
             Tdas = '" . $DATA['tdas'] . "',
             isset = ". $DATA['masterItem'].",
             HptCode = '". $DATA['hospital']."',
-            Modify_Date = NOW()
+            Modify_Date = NOW(),
+            Modify_Code =  $Userid   
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
             $return['1'] = $Sql;
             $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
@@ -693,6 +695,7 @@ function NewItem($conn, $DATA)
 {
   // var_dump($DATA); die;
   $count = 0;
+  $Userid = $_SESSION['Userid'];
   $HptCode = $_SESSION['HptCode'];
   $return['$HptCode'] = $HptCode;
   $Sql = "SELECT COUNT(*) AS Countn
@@ -740,7 +743,8 @@ function NewItem($conn, $DATA)
             Tdas,
             isset,
             HptCode,
-            Modify_Date
+            Modify_Date,
+            Modify_Code
            )
             VALUES
             (
@@ -761,7 +765,8 @@ function NewItem($conn, $DATA)
               '" . $DATA['tdas'] . "',
               '" . $DATA['masterItem'] . "',
               '" . $DATA['HptCode'] . "',
-              NOW()
+              NOW(),
+              $Userid 
 
 
             )

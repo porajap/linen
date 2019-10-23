@@ -305,6 +305,7 @@
 <activemail><en>Main Email</en><th>Main Email</th></activemail>
 <img><en>Profile Image</en><th>ภาพโปรไฟล์</th></img>
 <addfailedmsg><en>addfailed</en><th>ไม่สามารถเพิ่มข้อมูลได้</th></addfailedmsg>
+<adduserfailedmsg><en>addfailed</en><th>มีชื่อผู้ใช้งานนี้อยู่ในระบบแล้ว</th></adduserfailedmsg>
 <adduserfailed><en>Cannot add more than 2 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 2 คน</th></adduserfailed>
 <adduserfacfailed><en>Cannot add more than 1 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 1 คน</th></adduserfacfailed>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>

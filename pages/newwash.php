@@ -1373,7 +1373,7 @@ $array2 = json_decode($json2,TRUE);
                     for(var i = 0; i<temp['CountDep']; i++){
                       var DepName = "<span class='ml-4' style=''>"+temp[i]['DepName']+"</span>";
                       var chkDep = "<input type='checkbox' id='checkDep_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep' style='top:-10%;' class='checkbox myDepName checkDep_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
-                      myDATA += "<div class='col-6'>"+chkDep+DepName+"</div>";
+                      myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+chkDep+DepName+"</div>";
                     }
                     $('#Dep').html(myDATA);
                     $('#HItemName').html(temp['ItemName']);
@@ -1416,15 +1416,15 @@ $array2 = json_decode($json2,TRUE);
                     var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='myweight_"+i+"' value='"+temp[i]['Weight']+"' onkeyup='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
-
+              
                     var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+" chk_edit' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
                     DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
-                    DataRow += "<td style='width:6%;' nowrap>"+(i+1)+"</td>";
-                    DataRow += "<td style='width:18%' nowrap text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
-                    DataRow += "<td style='width:21%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width:22%;' nowrap><center>"+chkunit+"</center></td>"+
-                    "<td style='width:10%;' nowrap><center>"+Qty+"</center></td>"+
-                    "<td style='width:20%;' nowrap><center>"+Weight+"</center></td></<tr>";
+                    DataRow += "<td style='width:6%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+(i+1)+"</td>";
+                    DataRow += "<td style='width:18%;text-overflow: ellipsis;overflow: hidden;' nowrap  nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
+                    DataRow += "<td style='width:21%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
+                    "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+
+                    "<td style='width:20%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>";
                   }
                   $("#TableItemDetail tbody").html(DataRow);
                   $('.numonly').on('input', function() {
@@ -1724,7 +1724,7 @@ $array2 = json_decode($json2,TRUE);
        }
 
        #ModalDepartment .modal-content{
-          width: 84% !important;
+          width: 70% !important;
           right: 0% !important;
           top: 136px;
        }

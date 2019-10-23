@@ -54,13 +54,13 @@ function getDepartment($conn,$DATA){
     WHERE department.HptCode = '$HptCode' 
     -- AND  department.IsDefault = 1
     AND department.IsStatus = 0
-    ORDER BY department.DepCode DESC";
+    ORDER BY department.DepName ASC";
   }else{
     $Sql = "SELECT department.DepCode,department.DepName,department.IsDefault
     FROM department
     WHERE department.HptCode = '$HptCode' 
     AND department.IsStatus = 0
-    ORDER BY department.DepCode DESC";
+    ORDER BY department.DepName ASC";
   }
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -80,7 +80,7 @@ function getDepartment($conn,$DATA){
     mysqli_close($conn);
     die;
   }else{
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['form'] = "getDepartment";
     echo json_encode($return);
     mysqli_close($conn);

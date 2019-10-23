@@ -75,6 +75,7 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        $("#xCenter").prop('checked', true);
         $('#rem1').hide();
         $('#rem2').hide();
         //On create
@@ -136,7 +137,13 @@ $array2 = json_decode($json2,TRUE);
 
       function chkbox(ItemCode){
         var par = $('#parnum').val();
-        var department = $('#department').val();
+        var xCenter = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        if(xCenter == 1 ){
+          var department = $('#HosCenter').val();
+        }else{
+          var department = $('#department').val();
+        }
         if(par=='' || department==''){
           checkblank2();
           $('#checkitem_'+ItemCode).prop('checked', false);
@@ -172,8 +179,16 @@ $array2 = json_decode($json2,TRUE);
       }
       function checkblank2(){
         var par = $('#parnum').val();
-        var department = $('#department').val();
-          $('.checkblank2').each(function() {
+        var xCenter = 0;
+            if ($('#xCenter').is(':checked')) xCenter = 1;
+            if(xCenter == 1 ){
+              var department = $('#HosCenter').val();
+              $('#department').removeClass('checkblank2');
+            }else{
+              var department = $('#department').val();
+              $('#department').addClass('checkblank2');
+            }          
+            $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).addClass('border-danger');
               if(department ==""||department==undefined){
@@ -431,16 +446,42 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
-      function ShowItem(){
+      function center(){
+        var xCenter = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        $("#xCenter2").prop('checked', false);
+        if(xCenter ==1){
+          $('#department').attr('disabled' , true);
+          $('#department').addClass('icon_select');
+          $('#department').val('');
+          $('#xCenter2').attr('disabled' , false);
+          ShowItem();
+        }else{
+          $('#department').removeClass('icon_select');
+          $('#department').attr('disabled' , false);
+        }
+      }
+      function ShowItem(chk){
+        if(chk ==2){
+          $("#xCenter").prop('checked', false);
+          $('#department').removeClass('icon_select');
+          $('#department').attr('disabled' , false);
+          $('#xCenter').attr('disabled' , false);
+          $('#xCenter2').attr('disabled' , true);
+        }
+        var xCenter2 = 0;
+        if ($('#xCenter2').is(':checked')) xCenter2 = 1;
         var userid = "<?php echo $_SESSION["Userid"]; ?>"
         var keyword = $('#searchitem').val();
+        var HosCenter = $('#HosCenter').val();
         var HptCode = $('#hotpital').val();
         var data = {
           'STATUS'  : 'ShowItem',
           'Keyword' : keyword,
           'HptCode' : HptCode,
-          'Userid' : userid
+          'Userid' : userid,
+          'HosCenter' : HosCenter,
+          'xCenter2' : xCenter2
         };
 
         console.log(JSON.stringify(data));
@@ -681,7 +722,13 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function Addtodoc(){
-        var dept = $('#department').val();
+        var xCenter = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        if(xCenter == 1 ){
+          var dept = $('#HosCenter').val();
+        }else{
+          var dept = $('#department').val();
+        }
         if(dept==''){
           checkblank2();
         }else{
@@ -723,7 +770,6 @@ $array2 = json_decode($json2,TRUE);
 
               var strchkarray1 = chkArray1.join(',') ;
               var strchkarray2 = chkArray2.join(',') ;
-
               var data = {
                 'STATUS' : 'additemstock',
                 'DeptID' : dept,
@@ -944,8 +990,15 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
+
       function SelectItemStock(ItemCode, Number){
-        var DepCode = $('#department').val();
+        var xCenter = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        if(xCenter == 1 ){
+          var DepCode = $('#HosCenter').val();
+        }else{
+          var DepCode = $('#department').val();
+        }
         var data = {
           'STATUS'      : 'SelectItemStock',
           'DepCode'       : DepCode,
@@ -1082,11 +1135,15 @@ $array2 = json_decode($json2,TRUE);
                               getDepartment();
                             }else if( (temp["form"]=='getDepartment') ){
                               $("#department").empty();
+                              $("#HosCenter").empty();
                               var Str = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
-                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                              for (var i = 0; i < temp['row']; i++) {
         												 Str  += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
         											}
                               $("#department").append(Str);
+                              
+                              var StrX = "<option value="+temp[0]['DepCodeCenter']+">"+temp[0]['DepNameCenter']+"</option>";
+                              $("#HosCenter").append(StrX);
                             }else if( (temp["form"]=='AddItem') ){
                               switch (temp['msg']) {
                                 case "notchosen":
@@ -1695,9 +1752,20 @@ $array2 = json_decode($json2,TRUE);
                   </div>
 
                   <div class="row">
+                    <div class="col-12 mt-3">
+                      <div class='form-group form-inline'>
+                      <input onclick="center();" type="checkbox" disabled="true"  id="xCenter" style="margin-top: -1.5%;margin-left: -1%;left: -1%;">
+                        <span   class='text-left mr-sm-2 col-3' style="margin-left: -1%;"><?php echo $array['xcenter'][$language]; ?></span>
+                        <select class="form-control col-8 icon_select"  id="HosCenter"  disabled="true"> </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
                     <div class="col-12 mt-3" id="form1">
                       <div class='form-group form-inline' id="form2">
-                        <div class='col-3 mr-sm-2 text-left'> 
+                      <input type="checkbox" onclick="ShowItem(2)"  id="xCenter2" style="margin-top: -1.5%;margin-left: -1%;left: -1%;">
+                        <div class='col-3 mr-sm-2 text-left'style="margin-left: -1%;"> 
                           <span><?php echo $array['department'][$language]; ?></span>
                         </div>
                         <select class="form-control col-8 checkblank2 border" id="department" onchange="removeClassBorder1(1);"> </select>

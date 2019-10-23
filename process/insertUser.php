@@ -17,7 +17,8 @@ if($Userid==""){
     $facID = $_POST['facID'];
     $email = $_POST['email'];
     $xemail = $_POST['xemail'];
-
+    $Userid = $_SESSION['Userid'];
+    $boolean = false ;
     // $Username = $_POST['username'];
     $UserID = $_POST['UsID'];
 
@@ -34,6 +35,13 @@ if($Userid==""){
             mysqli_query($conn, $Update);
         }
     }
+
+    $Sqlz = " SELECT users.UserName FROM users WHERE users.UserName = '$UserName'";
+    $meQueryz = mysqli_query($conn, $Sqlz);
+    $Result =   mysqli_fetch_assoc($meQueryz);
+    $User = $Result['UserName'];
+    
+
     if($UsID != ""){
         if($_FILES['file']!=""){
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
@@ -47,7 +55,8 @@ if($Userid==""){
                 users.email='$email',
                 users.pic='$filename',
                 users.Active_mail='$xemail',
-                users.Modify_Date=NOW() 
+                users.Modify_Date=NOW(),
+                Modify_Code =  $Userid   
                 WHERE users.ID = $UsID";
         }else{
             $Sql = "UPDATE users SET 
@@ -59,7 +68,8 @@ if($Userid==""){
                 users.FacCode=$facID,
                 users.email='$email',
                 users.Active_mail='$xemail',
-                users.Modify_Date=NOW() 
+                users.Modify_Date=NOW() ,
+                Modify_Code =  $Userid   
                 WHERE users.ID = $UsID";
         }
         if(mysqli_query($conn, $Sql)){
@@ -68,6 +78,7 @@ if($Userid==""){
             $result = 4;
         }
     }else{
+        if($User == ""){
         if($_FILES['file']!=""){
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
             $Sql = "INSERT INTO users(
@@ -85,8 +96,9 @@ if($Userid==""){
                 users.TimeOut,
                 users.email,
                 users.pic,
-                users.Active_mail
-        
+                users.Active_mail,
+                users.DocDate,
+                users.Modify_Code 
                 )
                 VALUES
                 (
@@ -104,8 +116,11 @@ if($Userid==""){
                     30,
                     '$email',
                     '$filename',
-                    $xemail
+                    $xemail ,
+                    NOW(),
+                    $Userid
                 )";
+              $boolean = true ;
         }else{
             $Sql = "INSERT INTO users(
                 users.HptCode,
@@ -121,7 +136,9 @@ if($Userid==""){
                 users.Modify_Date,
                 users.TimeOut,
                 users.email,
-                users.Active_mail
+                users.Active_mail,
+                users.DocDate,
+                users.Modify_Code 
         
                 )
                 VALUES
@@ -139,10 +156,15 @@ if($Userid==""){
                     NOW(),
                     30,
                     '$email',
-                    $xemail
+                    $xemail,
+                    NOW(),
+                    $Userid
                 )";
+                $boolean = true ;
         }
-        if(mysqli_query($conn, $Sql)){
+        mysqli_query($conn, $Sql);
+    }
+        if($boolean){
             $result = 1;
         }else{
             $result = 2;

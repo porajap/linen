@@ -685,8 +685,8 @@ $array2 = json_decode($json2,TRUE);
                                 StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
                                     "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
-                                    "<td style='width: 19.5%;'>" + temp[i]['DepName'] + "</td>" +
-									"<td style='width: 65%;'>" +  DefaultName  + "</td>" +
+                                    "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
+									"<td style='width: 65%;'>" +  temp[i]['DepName']  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -718,7 +718,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#DepName').val(temp['DepName']);
                                 $('#hptsel2').val(temp['HptCode']);
                                 
-								
+			
 								if (temp['IsDefault'] == 1) 
 									$('#xCenter').prop( "checked", true );
 								else
@@ -1190,10 +1190,10 @@ $array2 = json_decode($json2,TRUE);
                                             <?php echo $array['no'][$language]; ?>
                                         </th>
                                         <th style='width: 17%;'>
-                                            <?php echo $array['department'][$language]; ?>
+                                            <?php echo $array['xcenter'][$language]; ?>
                                         </th>
                                         <th style='width: 68%; '>
-                                            <?php echo $array['xcenter'][$language]; ?>
+                                            <?php echo $array['department'][$language]; ?>
                                         </th>
                                     </tr>
                                 </thead>

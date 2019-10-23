@@ -131,7 +131,7 @@ function AddItem($conn, $DATA)
   $idcontract = $DATA['idcontract'];
   $xcenter1 = $DATA['xcenter1']==null?0:$DATA['xcenter1'];
   $xcenter2 = $DATA['xcenter2']==null?0:$DATA['xcenter2'];
-
+  $Userid = $_SESSION['Userid'];
   // ==============================================
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
@@ -145,7 +145,8 @@ function AddItem($conn, $DATA)
 
   if($HptCode1== ""){
     $count = 0;
-    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government) VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2)";
+    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government , site.DocDate ,site.Modify_Code ,site.Modify_Date) 
+                            VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2 ,NOW() ,$Userid , NOW() )";
     $return['sss'] = $Sql;
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
@@ -162,7 +163,7 @@ function AddItem($conn, $DATA)
     die;
   }
   }else{
-      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' , site.private = $xcenter1 , site.government= $xcenter2  WHERE site.HptCode = '$HptCode1'";
+      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' , site.private = $xcenter1 , site.government= $xcenter2 ,site.Modify_Date = NOW() , Modify_Code = $Userid   WHERE site.HptCode = '$HptCode1'";
       if(mysqli_query($conn, $Sql)){
         $return['status'] = "success";
         $return['form'] = "AddItem";

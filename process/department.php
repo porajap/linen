@@ -130,7 +130,7 @@ function AddItem($conn, $DATA)
   $HptCode = $DATA['HptCode'];
   $DepName = trim($DATA['DepName']);
   $xCenter = $DATA['xCenter'];
-
+  $Userid = $_SESSION['Userid'];
   if($xCenter == 1){ 
   $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
   WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
@@ -153,14 +153,19 @@ function AddItem($conn, $DATA)
           HptCode,
           DepName,
           IsStatus,
-		  IsDefault
-		  )
+		      IsDefault, 
+          DocDate ,
+          Modify_Code ,
+          Modify_Date)
           VALUES
           (
             '$HptCode',
             '$DepName',
             0,
-            $xCenter
+            $xCenter,
+          NOW(),
+          $Userid,
+          NOW()
           )
   ";
   // var_dump($Sql); die;
@@ -189,7 +194,7 @@ function EditItem($conn, $DATA)
   $DepName = trim($DATA['DepName']);
   $xCenter = $DATA['xCenter'];
   $DepCode = $DATA['DepCode'];
-
+  $Userid = $_SESSION['Userid'];
   $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
   WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
   $meQuery = mysqli_query($conn, $Sql);
@@ -208,7 +213,9 @@ function EditItem($conn, $DATA)
   $Sql = "UPDATE department SET
           HptCode =  '$HptCode',
           DepName = '$DepName',
-          IsDefault =  $xCenter 
+          IsDefault =  $xCenter ,
+          Modify_Date = NOW() ,
+          Modify_Code =  $Userid   
           WHERE DepCode = ".$DATA['DepCode']."
   ";
   // var_dump($Sql); die;

@@ -147,6 +147,7 @@ function getdetail($conn, $DATA)
 
 function AddItem($conn, $DATA)
   {
+    $Userid = $_SESSION['Userid'];
     $discount = $DATA['DiscountPercent']==null?"0":$DATA['DiscountPercent'];
     $count = 0;
     $Sql = "INSERT INTO factory(
@@ -158,7 +159,10 @@ function AddItem($conn, $DATA)
             Post,
             Tel,
             TaxID,
-            FacNameTH)
+            FacNameTH ,
+            DocDate ,
+            Modify_Code ,
+            Modify_Date)
             VALUES
             (
               '".$DATA['FacName']."',
@@ -169,10 +173,13 @@ function AddItem($conn, $DATA)
               '".$DATA['Post']."',
               '".$DATA['Tel']."',
               '".$DATA['TaxID']."',
-              '".$DATA['FacNameTH']."'
+              '".$DATA['FacNameTH']."',
+              NOW(),
+              $Userid,
+              NOW()
             )
     ";
-    // var_dump($Sql); die;
+    $return['qq'] = $Sql;
     if(mysqli_query($conn, $Sql)){
       $return['status'] = "success";
       $return['form'] = "AddItem";
@@ -192,6 +199,7 @@ function AddItem($conn, $DATA)
 
 function EditItem($conn, $DATA)
   {
+    $Userid = $_SESSION['Userid'];
     $count = 0;
     if($DATA["FacCode"]!=""){
       $Sql = "UPDATE factory SET
@@ -202,7 +210,9 @@ function EditItem($conn, $DATA)
               Address = '".$DATA['Address']."',
               Post = '".$DATA['Post']."',
               Tel = '".$DATA['Tel']."',
-              TaxID = '".$DATA['TaxID']."'
+              TaxID = '".$DATA['TaxID']."' ,
+              Modify_Date = NOW() ,
+              Modify_Code =  $Userid   
               WHERE FacCode = ".$DATA['FacCode']."
       ";
       // var_dump($Sql); die;
