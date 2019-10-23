@@ -363,7 +363,7 @@ function additemstock($conn, $DATA)
     }
     $return['TotalQty'] = $TotalQty;
     $return['setTotalQty'] = $setTotalQty;
-
+    if($cnt == 1){
     for ($j=0; $j < $Number[$i] ; $j++) {
       if($countPar == 0){
         $Sql2 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)
@@ -384,8 +384,8 @@ function additemstock($conn, $DATA)
         }
       }
     }
-
   }
+}
   // ====================================================================================
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
 
