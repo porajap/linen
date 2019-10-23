@@ -1194,6 +1194,10 @@ $array2 = json_decode($json2,TRUE);
 
                     $('#unit'+i).prop('disabled', true);
                   }
+
+                  if(temp[0]['IsStatus']==9){
+                      $('.chk_edit').attr('disabled', true);
+                  }
                   $("#IsStatus").val(temp[0]['IsStatus']);
                   ShowDetail();
                 }else if(temp["form"]=='ShowDocument_sub'){
@@ -1499,7 +1503,7 @@ $array2 = json_decode($json2,TRUE);
 
 
 
-                  if(isStatus==1){
+                  if(isStatus==1 || isStatus==9){
                     $('.chk_edit').attr('disabled', true);
                   }
                 }else if( (temp["form"]=='UpdateDetailWeight') ){
