@@ -18,9 +18,9 @@ function OnLoadPage($conn, $DATA)
   $boolean = false;
 
   if($lang == 'en'){
-  $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0";
+  $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode ='$HptCode'";
   }else{
-  $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0";
+  $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode ='$HptCode'";
   }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

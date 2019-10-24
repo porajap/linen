@@ -9,6 +9,7 @@ function ShowItem($conn, $DATA)
   {
     $count = 0;
     $Keyword = $DATA['Keyword'];
+    $hptsel = $DATA['hptsel'];
     $Sql = "SELECT
             factory.FacCode,
             factory.FacName,
@@ -37,7 +38,7 @@ function ShowItem($conn, $DATA)
             factory.Post LIKE '%$Keyword%' OR
             factory.Tel LIKE '%$Keyword%' OR
             factory.TaxID LIKE '%$Keyword%'
-            ) ORDER BY factory.FacCode
+            ) AND factory.HptCode = '$hptsel' ORDER BY factory.FacCode
           ";
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
@@ -59,7 +60,7 @@ function ShowItem($conn, $DATA)
       $return[$count]['Number'] = $Result['Number']==null?"":$Result['Number'];    
       $count++;
     }
-
+    $return['Count'] = $count;
     if($count>0){
       $return['status'] = "success";
       $return['form'] = "ShowItem";
@@ -67,8 +68,8 @@ function ShowItem($conn, $DATA)
       mysqli_close($conn);
       die;
     }else{
-      $return['status'] = "notfound";
-      $return['msg'] = "notfound";
+      $return['status'] = "success";
+      $return['form'] = "ShowItem";
       echo json_encode($return);
       mysqli_close($conn);
       die;
@@ -162,7 +163,8 @@ function AddItem($conn, $DATA)
             FacNameTH ,
             DocDate ,
             Modify_Code ,
-            Modify_Date)
+            Modify_Date , 
+            HptCode)
             VALUES
             (
               '".$DATA['FacName']."',
@@ -176,7 +178,8 @@ function AddItem($conn, $DATA)
               '".$DATA['FacNameTH']."',
               NOW(),
               $Userid,
-              NOW()
+              NOW() , 
+              '".$DATA['HptCode']."'
             )
     ";
     $return['qq'] = $Sql;
@@ -212,7 +215,9 @@ function EditItem($conn, $DATA)
               Tel = '".$DATA['Tel']."',
               TaxID = '".$DATA['TaxID']."' ,
               Modify_Date = NOW() ,
-              Modify_Code =  $Userid   
+              Modify_Code =  $Userid ,
+              HptCode = '".$DATA['HptCode']."'
+
               WHERE FacCode = ".$DATA['FacCode']."
       ";
       // var_dump($Sql); die;
@@ -321,6 +326,46 @@ function getFactory($conn, $DATA)
 
 
 {
+  function getSection($conn, $DATA)
+  {
+    $HptCode1 = $_SESSION['HptCode'];
+    $lang = $DATA["lang"];
+    $PmID = $_SESSION['PmID'];
+    $count = 0;
+    if($lang == 'en'){
+      if($PmID == 3 || $PmID == 7 || $PmID == 5){
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+      }else{
+        $Sql = "SELECT site.HptCode,site.HptName
+        FROM site WHERE site.IsStatus = 0";
+      }
+    }else{
+      if($PmID == 3 || $PmID == 7 || $PmID == 5){
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+      }else{
+        $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+        FROM site WHERE site.IsStatus = 0";
+      }
+    }    
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['HptCode']  = $Result['HptCode'];
+      $return[$count]['HptName']  = $Result['HptName'];
+      $return[0]['PmID']  = $PmID;
+      $count++;
+    }
+  
+    $return['status'] = "success";
+    $return['form'] = "getSection";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  
+  }
+
+
 function Adduser($conn, $DATA)
   {
   $host = $DATA['host'];
