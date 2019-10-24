@@ -332,9 +332,9 @@ function ShowDocument($conn, $DATA)
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON shelfcount.Modify_Code = users.ID ";
-// if($DocNo!=null){
-//   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
-// }else{
+  // if($DocNo!=null){
+  //   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+  // }else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
     $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
     if($xDocNo!=null){
@@ -353,7 +353,7 @@ function ShowDocument($conn, $DATA)
   }else if($Hotp != null && $deptCode != null && $datepicker != null){
     $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }
-// }
+  // }
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
   // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -513,14 +513,14 @@ function ShowItem($conn, $DATA)
   par_item_stock.ParQty,
   par_item_stock.TotalQty
     FROM site
-INNER JOIN department ON site.HptCode = department.HptCode
-INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
-INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
-INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
-INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
-GROUP BY item.ItemCode
-ORDER BY item.ItemName ASC LImit 100";
+  INNER JOIN department ON site.HptCode = department.HptCode
+  INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
+  INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+  INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
+  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
+  GROUP BY item.ItemCode
+  ORDER BY item.ItemName ASC LImit 100";
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -722,17 +722,15 @@ function getImport($conn, $DATA)
     $iunit2 = $nunit[$i];
 
     $Sql = "SELECT 
-      item_stock.ItemCode,
-      -- item_stock.UsageCode,
+      par_item_stock.ItemCode,
       item.UnitCode,
-      item_stock.ParQty,
-      item_stock.CcQty,
-      item_stock.TotalQty
+      par_item_stock.ParQty,
+      par_item_stock.TotalQty
       -- item_stock_detail.Qty
-    FROM item_stock
-    INNER JOIN item ON item_stock.ItemCode = item.ItemCode
+    FROM par_item_stock
+    INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
     -- LEFT JOIN item_stock_detail ON item_stock_detail.ItemCode = item.ItemCode
-    WHERE item_stock.RowID = $iItemStockId";
+    WHERE par_item_stock.RowID = $iItemStockId";
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -741,7 +739,6 @@ function getImport($conn, $DATA)
       $iunit1     = $Result['UnitCode'];
       $ParQty     = $Result['ParQty'];
       $Qty     = $Result['TotalQty']==null?0:$Result['TotalQty'];
-      $CcQty      = $Result['CcQty'];
       $TotalQty   = $Result['TotalQty'];
     }
 
@@ -1209,7 +1206,7 @@ function ShowDetail($conn, $DATA)
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
   WHERE shelfcount_detail.DocNo = '$DocNo'
   ORDER BY shelfcount_detail.Id DESC";
-
+  $return['sq'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -1218,7 +1215,7 @@ function ShowDetail($conn, $DATA)
     $return[$count]['ItemName']   = $Result['ItemName'];
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['ParQty']     = $Result['ParQty'];
-    $return[$count]['CcQty']       = $Result['CcQty'];
+    // $return[$count]['CcQty']       = $Result['CcQty'];
     $return[$count]['TotalQty']   = $Result['TotalQty']==null?0:$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $UnitCode                     = $Result['UnitCode'];
