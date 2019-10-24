@@ -74,7 +74,6 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
-        getSection();
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -84,7 +83,6 @@ $array2 = json_decode($json2,TRUE);
         $('#rem7').hide();
         $('#rem8').hide();
         $('#rem9').hide();
-        $('#rem10').hide();
         $('.numonly').on('input', function() {
           this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
         });
@@ -98,28 +96,37 @@ $array2 = json_decode($json2,TRUE);
         $('#addhot').show();
        $('#adduser').hide();
         //On create
-        // Blankinput();
+        Blankinput();
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
         //On create
         // var userid = '<?php echo $Userid; ?>';
         // if(userid!="" && userid!=null && userid!=undefined){
 
-          // var dept = $('#Deptsel').val();
-          // var keyword = $('#searchitem').val();
-          // var data = {
-          //   'STATUS'  : 'ShowItem',
-          //   'Dept'    : dept,
-          //   'Keyword' : keyword
-          // };
+          var dept = $('#Deptsel').val();
+          var keyword = $('#searchitem').val();
+          var data = {
+            'STATUS'  : 'ShowItem',
+            'Dept'    : dept,
+            'Keyword' : keyword
+          };
 
-          // console.log(JSON.stringify(data));
-          // senddata(JSON.stringify(data));
+          console.log(JSON.stringify(data));
+          senddata(JSON.stringify(data));
         // }
-        $('#searchitem').keyup(function(e) {
-                if (e.keyCode == 13) {
-                    ShowItem();
-                }
-            });
+
+        // var data2 = {
+        //   'STATUS'  : 'getSection',
+        //   'DEPT'    : dept
+        // };
+        // console.log(JSON.stringify(data2));
+        // senddata(JSON.stringify(data2));
+
+        $('#searchitem').keyup(function(e){
+            if(e.keyCode == 13)
+            {
+                ShowItem();
+            }
+        });
 
         $('.editable').click(function() {
           alert('hi');
@@ -167,23 +174,13 @@ $array2 = json_decode($json2,TRUE);
               $('input[name="checkAllDetail').prop('checked',false);
           }
       }
-      function getSection(){
-            var lang = '<?php echo $language; ?>';
-            var data2 = {
-                'STATUS': 'getSection',
-                'lang'	: lang
-            };
-            console.log(JSON.stringify(data2));
-            senddata(JSON.stringify(data2));
-        }
-
-      function getFactory(){
-        var data2 = {
-                    'STATUS': 'getFactory'
-                };
-                // console.log(JSON.stringify(data2));
-                senddata(JSON.stringify(data2));
-      }
+ function getFactory(){
+  var data2 = {
+              'STATUS': 'getFactory'
+          };
+          // console.log(JSON.stringify(data2));
+          senddata(JSON.stringify(data2));
+ }
 
       function getDocDetail() {
           // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
@@ -329,20 +326,7 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-      function removeborder(){
-            Blankinput();
-            ShowItem();
-            var hptsel = $('#hptsel').val();
-            $('#hptsel').css('border-color', '');
-            $('#hptsel2').val(hptsel);
-        }
-        function resetinputuser(){
-            var hptsel = $('#hptsel2').val();
-            $('#hptsel').val(hptsel);
-            ShowItem();
-            $('#hptsel2').css('border-color', '');
-            $('#hptsel').css('border-color', '');
-        }
+
       function AddPayoutDetail(){
         var userid = '<?php echo $Userid; ?>';
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
@@ -357,12 +341,12 @@ $array2 = json_decode($json2,TRUE);
       }
 
       function ShowItem(){
-        var hptsel = $('#hptsel').val();
+        var dept = $('#Deptsel').val();
         var keyword = $('#searchitem').val();
         var data = {
           'STATUS'  : 'ShowItem',
-          'hptsel'    : hptsel,
-          'Keyword' : keyword , 
+          'Dept'    : dept,
+          'Keyword' : keyword
         };
 
         console.log(JSON.stringify(data));
@@ -385,7 +369,6 @@ $array2 = json_decode($json2,TRUE);
         var Address = $('#Address').val();
         var Dept = $('#Dept').val();
         var Post = $('#Post').val();
-        var hptsel2 = $('#hptsel2').val();
         var DiscountPercent = $('#DiscountPercent').val();
         var TaxID = $('#TaxID').val();
         if(count==0){
@@ -417,7 +400,7 @@ $array2 = json_decode($json2,TRUE);
                   'FacNameTH' : FacNameTH,
                   'Price' : Price,
                   'Address' : Address,
-                  'HptCode' : hptsel2,
+                  //'DepCode' : Dept,
                   'Post' : Post,
                   'DiscountPercent' : DiscountPercent,
                   'TaxID' : TaxID
@@ -453,7 +436,7 @@ $array2 = json_decode($json2,TRUE);
                   'FacNameTH' : FacNameTH,
                   'Price' : Price,
                   'Address' : Address,
-                  'HptCode' : hptsel2,
+                  //'DepCode' : Dept,
                   'Post' : Post,
                   'DiscountPercent' : DiscountPercent,
                   'TaxID' : TaxID
@@ -500,10 +483,6 @@ $array2 = json_decode($json2,TRUE);
                 if(FacNameTH ==""||FacNameTH==undefined){
                   $('#rem9').show().css("color","red");
                 }
-                if(hptsel2 ==""||hptsel2==undefined){
-                  $('#rem10').show().css("color","red");
-                }
-                
             }
           });
         }
@@ -682,8 +661,6 @@ $array2 = json_decode($json2,TRUE);
         $('#rem6').hide();
         $('#rem7').hide();
         $('#rem8').hide();
-        $('#rem9').hide();
-        $('#rem10').hide();
         $('.checkblank').each(function() {
           $(this).val("");
         });
@@ -708,7 +685,6 @@ $array2 = json_decode($json2,TRUE);
         $('#host').val("");
         $('#FacCode').val("");
         $('#FacCodeReal').val("");
-        $('#hptsel2').val("");
         
         ShowItem();
         $('#bCancel').attr('disabled', true);
@@ -901,7 +877,6 @@ $array2 = json_decode($json2,TRUE);
                             if( (temp["form"]=='ShowItem') ){
                               $( "#TableItem tbody" ).empty();
                               console.log(temp);
-                              if(temp['Count']>0){
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                  var rowCount = $('#TableItem >tbody >tr').length;
                                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='"+temp[i]['FacCode']+"' onclick='getdetail(\""+temp[i]["FacCode"]+"\" , \""+i+"\")'><span class='checkmark'></span></label>";
@@ -924,19 +899,6 @@ $array2 = json_decode($json2,TRUE);
                                    $('#TableItem tbody:last-child').append( StrTR );
                                  }
                               }
-                            }else{
-                                $('#TableItem tbody').empty();
-                                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
-                                $('#TableItem tbody:last-child').append(Str);
-                                // swal({
-                                //     title: '',
-                                //     text: '<?php echo $array['notfoundmsg'][$language]; ?>',
-                                //     type: 'warning',
-                                //     showCancelButton: false,
-                                //     showConfirmButton: false,
-                                //     timer: 2000,
-                                // });
-                            }
                             }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
@@ -1149,23 +1111,14 @@ $array2 = json_decode($json2,TRUE);
                                 //$('#Dept').val("1");
                                 ShowItem();
                               })
-                            } else if ((temp["form"] == 'getSection')) {
-                            $("#hptsel").empty();
-                            $("#hptsel2").empty();
-                                    if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7 && temp[0]['PmID'] != 5){
-                                        var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
-                                        }else{
-                                            var StrTr = "";
-                                            $('#hptsel').attr('disabled' , true);
-                                            $('#hptsel').addClass('icon_select');
-                                            $('#hptsel2').attr('disabled' , true);
-                                            $('#hptsel2').addClass('icon_select');
-                                        }                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                         StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                    }
-                                    $("#hptsel").append(StrTr);
-                                    $("#hptsel2").append(StrTr);
-                        }
+                            }else if( (temp["form"]=='getSection') ){
+                              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                                var StrTr = "<option value = '"+temp[i]['DepCode']+"'> " + temp[i]['DepName'] + " </option>";
+                                $("#Dept").append(StrTr);
+                                $("#Deptsel").append(StrTr);
+                              }
+
+                            }
                           }else if (temp['status']=="failed") {
                             switch (temp['msg']) {
                               case "notchosen":
@@ -1415,31 +1368,19 @@ label{
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px; margin-top:-12px;">
                         <div class="row">            
-                          <div class="col-md-4">
-                                    <div class="row" style="margin-left:5px;">
-                                    <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="removeborder();">
-                                        </select>
-                                    </div>
+                            <div class="col-md-9">
+                              <div class="row" style="margin-left:5px;">
+                                <input type="text" autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchLaundry'][$language]; ?>" >
+                                <div class="search_custom col-md-2">
+                                <div class="search_1 d-flex justify-content-start">
+                                  <button class="btn" onclick="ShowItem()" id="bSave">
+                                    <i class="fas fa-search mr-2"></i>
+                                    <?php echo $array['search'][$language]; ?>
+                                  </button>
                                 </div>
-
-                                <div class="col-md-8">
-                                    <div class="row" style="margin-left:5px;">
-                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;margin-left: -18%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchLaundry'][$language]; ?>">
-                                        <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>       -->
-                                          <div class="search_custom col-md-2">
-                                          <div class="search_1 d-flex justify-content-start">
-                                            <button class="btn" onclick="ShowItem()" id="bSave">
-                                              <i class="fas fa-search mr-2"></i>
-                                              <?php echo $array['search'][$language]; ?>
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-
+                              </div>  
+                            </div>
+                          </div>
                         </div>
                         <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
                           <thead id="theadsum" style="font-size:11px;">
@@ -1540,30 +1481,12 @@ label{
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
-                                      </select>
-                                      <label id="rem10" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
-                                    </div>
-                                  </div>
-                                </div>
-                                     <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
                                         <input type="text" autocomplete="off" onkeyup="resetinput()"  class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
                                         <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?></label>
-                                        <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
-                                        <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
-                                    </div>
-                                  </div>
-                                </div>  
+                                </div>          
      <!-- =================================================================== -->
                                 <div class="row">
                                   <div class="col-md-6">
@@ -1575,15 +1498,21 @@ label{
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['facnameTH'][$language]; ?></label>
-                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank charonlyTH" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
-                                      <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?></label>
+                                        <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
+                                        <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div>               
      <!-- =================================================================== -->
                                 <div class="row">
-
+                                 <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['facnameTH'][$language]; ?></label>
+                                      <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank charonlyTH" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
+                                      <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    </div>
+                                  </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['taxid'][$language]; ?></label>
@@ -1591,17 +1520,16 @@ label{
                                       <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                </div> 
+  <!-- =================================================================== -->
+                                <div class="row">
+                                <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['postid'][$language]; ?></label>
                                         <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
                                         <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                </div> 
-  <!-- =================================================================== -->
-                                <div class="row">
-
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3  col-form-label "><?php echo $array['discount'][$language]; ?></label>
