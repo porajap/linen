@@ -590,7 +590,10 @@ $array2 = json_decode($json2,TRUE);
                 $(".dropify-clear").click(); 
                 $("#xemail").prop('checked', false);
                 $(".dropify-clear").click();
-
+                $('#Enfname').val("");
+                $('#Enlname').val("");
+                $('#Thfname').val("");
+                $('#Thlname').val("");
                 $('#EnPerfix').val("Mr.");
                 $('#ThPerfix').val("นาย");
 

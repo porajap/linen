@@ -167,7 +167,7 @@ function CreateDocument($conn, $DATA)
         ('$DocNo',DATE(NOW()),'$hotpCode','','Dirty',$userid,DATE(NOW()))";
         mysqli_query($conn, $Sql);
 
-        $Sql = "SELECT users.FName
+        $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
         FROM users
         WHERE users.ID = $userid";
 
@@ -175,6 +175,11 @@ function CreateDocument($conn, $DATA)
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $DocNo = $Result['DocNo'];
           $return[0]['Record']   = $Result['FName'];
+          if($lang == "en"){
+            $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+          }else if($lang == "th"){
+            $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+          }
         }
 
       $boolean = true;
