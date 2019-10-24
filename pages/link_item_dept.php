@@ -874,10 +874,10 @@ $array2 = json_decode($json2,TRUE);
         if ($('#xCenter').is(':checked')) xCenter = 1;
         if ($('#xCenter2').is(':checked')) xCenter2 = 1;
         if(xCenter == 1 ){
-          var DepCode = $('#HosCenter').val();
+          var DepCode = $('#HosCenter option:selected').val();
         }else{
-          var DepCode = $('#department').val();
-        }        // var count = $('#count_child_').val();
+          var DepCode = $('#department option:selected').val();
+        } 
         if(length>0){
           swal({
             title: "",
@@ -1027,9 +1027,9 @@ $array2 = json_decode($json2,TRUE);
         if ($('#xCenter').is(':checked')) xCenter = 1;
         if ($('#xCenter2').is(':checked')) xCenter2 = 1;
         if(xCenter == 1 ){
-          var DepCode = $('#HosCenter').val();
+          var DepCode = $('#HosCenter option:selected').val();
         }else{
-          var DepCode = $('#department').val();
+          var DepCode = $('#department option:selected').val();
         }
         var data = {
           'STATUS'      : 'SelectItemStock',
@@ -1445,7 +1445,7 @@ $array2 = json_decode($json2,TRUE);
                               $('#TableItemStock tbody:last-child').append(StrTR);
                               chk_row++;
                               }
-                            }else{
+                              }else{
                               for (var i = 0; i < temp['countx']; i++) {
                                   var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
@@ -1461,7 +1461,7 @@ $array2 = json_decode($json2,TRUE);
                                         $('#TableItemStock tbody').append(StrTR);
                                   chk_row++;
                                 }
-                            }
+                              }
                               $('#chk_row').val(chk_row);
  
                             }else if(temp['form']=="setdateitemstock"){
@@ -1489,9 +1489,9 @@ $array2 = json_decode($json2,TRUE);
                             }else if(temp['form']=="SaveUsageCode"){
                               var Sel = temp["Sel"];
                               var rowCount = $('#rowCount').val();
-                            //   if((Sel+1)==rowCount)
-                            //     $('.txtno_0').focus().select();
-                            // else
+                              //   if((Sel+1)==rowCount)
+                              //     $('.txtno_0').focus().select();
+                              // else
                                 $('.txtno_'+(Sel+1)).focus().select();
 
                               swal({
@@ -1518,9 +1518,9 @@ $array2 = json_decode($json2,TRUE);
                                 // confirmButtonText: 'Ok'
                               })
                             }else if(temp['form']=="SelectItemStock"){
-                                var chk_row = $('#chk_row').val();
-                                  $('#TableItemStock tbody').empty();
-                                  if(temp['countpar'] == 0){
+                              var chk_row = $('#chk_row').val();
+                              $('#TableItemStock tbody').empty();
+                              if(temp['countpar'] == 0){
                                 for (var i = 0; i < temp['countx']; i++) {
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
@@ -1568,18 +1568,6 @@ $array2 = json_decode($json2,TRUE);
                                         $('#TableItemStock tbody').append(StrTR);
                                   chk_row++;
                                 }
-
-
-
-
-
-
-
-
-
-
-
-
                               }
                                 $('#chk_row').val(chk_row);
                             }
