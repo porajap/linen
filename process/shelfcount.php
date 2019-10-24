@@ -1541,11 +1541,11 @@ function SaveDraw($conn, $DATA){
     $ItemCode = $Result3['ItemCode'];
     $Oder = $Result3['TotalQty'];
 
-    $Sql4 = "SELECT item_stock.TotalQty  
-    FROM item_stock 
-    INNER JOIN department ON department.DepCode = item_stock.DepCode
+    $Sql4 = "SELECT par_item_stock.TotalQty  
+    FROM par_item_stock 
+    INNER JOIN department ON department.DepCode = par_item_stock.DepCode
     INNER JOIN site ON site.HptCode = department.HptCode
-    WHERE item_stock.ItemCode = '$ItemCode'
+    WHERE par_item_stock.ItemCode = '$ItemCode'
     AND site.HptCode = '$HptCode' AND department.IsDefault = 1 LIMIT 1";
     $meQuery4 = mysqli_query($conn, $Sql4);
     $rowcount=mysqli_num_rows($meQuery4);
@@ -1561,7 +1561,7 @@ function SaveDraw($conn, $DATA){
 
           //===========================================================================================
 
-          $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode";
+          $updateQtyCenter = "UPDATE par_item_stock SET TotalQty = TotalQty - $Oder WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode";
           mysqli_query($conn, $updateQtyCenter);
           // $delete = "DELETE item_stock WHERE ItemCode = '$ItemCode' AND DepCode = $DepCode LIMIT $Oder";
           // mysqli_query($conn, $delete);
