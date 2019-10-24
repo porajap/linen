@@ -1215,7 +1215,7 @@ function ShowDetail($conn, $DATA)
     $return[$count]['ItemName']   = $Result['ItemName'];
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['ParQty']     = $Result['ParQty'];
-    // $return[$count]['CcQty']       = $Result['CcQty'];
+    $return[$count]['CcQty']       = $Result['CcQty'];
     $return[$count]['TotalQty']   = $Result['TotalQty']==null?0:$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $UnitCode                     = $Result['UnitCode'];
