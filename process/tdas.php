@@ -371,23 +371,26 @@ function updateStock($conn, $DATA){
       // }else{
       //   $result = round((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d]);
       // }
-      $Sql = "SELECT COUNT(*) AS cnt, ParQty FROM item_stock WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCodeX[$d] LIMIT 1";
+      $Sql = "SELECT COUNT(*) AS cnt, ParQty FROM par_item_stock WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCodeX[$d] LIMIT 1";
       $meQuery = mysqli_query($conn, $Sql);
       $Result = mysqli_fetch_assoc($meQuery);
       $cnt = $Result['cnt'];
       $ParQty = $Result['ParQty'];
       if($cnt==0){
         if($resultStock[$i][$d]!=0||$resultStock[$i][$d]!=''){
-          for($m = 0; $m<$resultStock[$i][$d]; $m++){
-            $Insert = "INSERT INTO item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode, IsStatus)
+          // for($m = 0; $m<$resultStock[$i][$d]; $m++){
+          //   $Insert = "INSERT INTO item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode, IsStatus)
+          //               VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], '".$resultStock[$i][$d]."', 0, 0, 9)";
+          //   mysqli_query($conn, $Insert);
+          // }
+          $Insert = "INSERT INTO par_item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode, IsStatus)
                         VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], '".$resultStock[$i][$d]."', 0, 0, 9)";
             mysqli_query($conn, $Insert);
-          }
         }
         
       }else{
         if($ParQty < $result){
-          $Update = "UPDATE item_stock SET ParQty = $result WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = '$DepCodeX[$d]'";
+          $Update = "UPDATE par_item_stock SET ParQty = $result WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = '$DepCodeX[$d]'";
           mysqli_query($conn, $Update);
         }
       }
