@@ -188,6 +188,20 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   //       $return[0]['Record']   = $Result['FName'];
   //     }
 
+  $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
+  FROM users
+  WHERE users.ID = $userid";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DocNo = $Result['DocNo'];
+    $return[0]['Record']   = $Result['FName'];
+    if($lang == "en"){
+      $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+    }else if($lang == "th"){
+      $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+    }
+  }
       $boolean = true;
     } else {
       $boolean = false;
@@ -359,7 +373,7 @@ function ShowDocument($conn, $DATA)
   newlinentable.DocNo,
   DATE(newlinentable.DocDate) AS DocDate,
   newlinentable.Total,
-  users.FName,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
+  users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix , TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
   FROM newlinentable
   INNER JOIN site ON newlinentable.HptCode = site.HptCode
   INNER JOIN users ON newlinentable.Modify_Code = users.ID ";
@@ -393,15 +407,16 @@ function ShowDocument($conn, $DATA)
     if($lang =='en'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
     }else if ($lang == 'th'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
 
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
-    $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];
@@ -433,7 +448,8 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,newlinentable.DocNo,DATE(newlinentable.DocDate) AS DocDate,newlinentable.Total,users.FName,newlinentable.FacCode,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
+    $Sql = "SELECT   site.HptName,newlinentable.DocNo,DATE(newlinentable.DocDate) 
+    AS DocDate,newlinentable.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,newlinentable.FacCode,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
   FROM newlinentable
   INNER JOIN site ON newlinentable.HptCode = site.HptCode
   INNER JOIN users ON newlinentable.Modify_Code = users.ID
@@ -442,17 +458,19 @@ function SelectDocument($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
        
-    if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-    }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-    } 
+      if($lang =='en'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+      }else if ($lang == 'th'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+      }
+
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
-    $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];

@@ -158,7 +158,8 @@ function CreateDocument($conn, $DATA)
 
       mysqli_query($conn, $Sql);
 
-      $Sql = "SELECT users.FName
+
+      $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
       FROM users
       WHERE users.ID = $userid";
 
@@ -166,6 +167,11 @@ function CreateDocument($conn, $DATA)
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $DocNo = $Result['DocNo'];
         $return[0]['Record']   = $Result['FName'];
+        if($lang == "en"){
+          $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+        }else if($lang == "th"){
+          $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+        }
       }
 
       $boolean = true;
@@ -202,7 +208,8 @@ function CreateDocument($conn, $DATA)
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
-    $Sql = "SELECT site.HptName,department.DepName,damage.DocNo,DATE(damage.DocDate) AS DocDate,damage.RefDocNo,damage.Total,users.FName,TIME(damage.Modify_Date) AS xTime,damage.IsStatus
+    $Sql = "SELECT site.HptName,department.DepName,damage.DocNo,DATE(damage.DocDate) 
+    AS DocDate,damage.RefDocNo,damage.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damage.Modify_Date) AS xTime,damage.IsStatus
     FROM damage
     INNER JOIN department ON damage.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -236,9 +243,11 @@ function CreateDocument($conn, $DATA)
       if($lang =='en'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
       }else if ($lang == 'th'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
 
       $return[$count]['HptName']   = $Result['HptName'];
@@ -246,7 +255,6 @@ function CreateDocument($conn, $DATA)
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;
       $return[$count]['RefDocNo']   = $Result['RefDocNo'];
-      $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];
@@ -277,7 +285,8 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,damage.DocNo,DATE(damage.DocDate) AS DocDate ,damage.Total,users.FName,TIME(damage.Modify_Date) AS xTime,damage.IsStatus,damage.RefDocNo
+    $Sql = "SELECT   site.HptName,department.DepName,damage.DocNo,DATE(damage.DocDate) 
+    AS DocDate ,damage.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damage.Modify_Date) AS xTime,damage.IsStatus,damage.RefDocNo
     FROM damage
     INNER JOIN department ON damage.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -289,16 +298,17 @@ function CreateDocument($conn, $DATA)
       if($lang =='en'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
       }else if ($lang == 'th'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
 
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;
-      $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];

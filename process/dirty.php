@@ -217,7 +217,8 @@ function ShowDocument($conn, $DATA)
   dirty.DocNo,
   DATE(dirty.DocDate) AS DocDate,
   dirty.Total,
-  users.FName,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
+  users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
+  TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
   FROM dirty
   INNER JOIN site ON dirty.HptCode = site.HptCode
   INNER JOIN users ON dirty.Modify_Code = users.ID ";
@@ -246,15 +247,16 @@ function ShowDocument($conn, $DATA)
     if($lang =='en'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
     }else if ($lang == 'th'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
 
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
-    $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];
@@ -287,7 +289,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,dirty.DocNo,DATE(dirty.DocDate) AS DocDate ,dirty.Total,users.FName,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
+    $Sql = "SELECT   site.HptName,dirty.DocNo,DATE(dirty.DocDate) AS DocDate ,dirty.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
     FROM dirty
     INNER JOIN site ON dirty.HptCode = site.HptCode
     INNER JOIN users ON dirty.Modify_Code = users.ID
@@ -296,19 +298,20 @@ function SelectDocument($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
  
-if($lang =='en'){
-  $date2 = explode("-", $Result['DocDate']);
-  $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-}else if ($lang == 'th'){
-  $date2 = explode("-", $Result['DocDate']);
-  $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-}
+      if($lang =='en'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+      }else if ($lang == 'th'){
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+      }
 
   
       $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
-    $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];

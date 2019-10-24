@@ -175,7 +175,8 @@ function CreateDocument($conn, $DATA)
 
       mysqli_query($conn, $Sql);
 
-      $Sql = "SELECT users.FName
+
+      $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
       FROM users
       WHERE users.ID = $userid";
 
@@ -183,6 +184,11 @@ function CreateDocument($conn, $DATA)
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $DocNo = $Result['DocNo'];
         $return[0]['Record']   = $Result['FName'];
+        if($lang == "en"){
+          $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+        }else if($lang == "th"){
+          $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+        }
       }
 
       $boolean = true;
@@ -217,7 +223,8 @@ function CreateDocument($conn, $DATA)
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
     $datepicker = $DATA["datepicker1"];
     $selecta = $DATA["selecta"];
-    $Sql = "SELECT site.HptName,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) AS DocDate,repair_wash.RefDocNo,repair_wash.Total,users.FName,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus
+    $Sql = "SELECT site.HptName,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) 
+    AS DocDate,repair_wash.RefDocNo,repair_wash.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus
     FROM repair_wash
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -251,9 +258,11 @@ function CreateDocument($conn, $DATA)
       if($lang =='en'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
       }else if ($lang == 'th'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
 
       $return[$count]['HptName']   = $Result['HptName'];
@@ -261,7 +270,6 @@ function CreateDocument($conn, $DATA)
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;
       $return[$count]['RefDocNo']   = $Result['RefDocNo'];
-      $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];
@@ -292,7 +300,8 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT site.HptName,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) AS DocDate ,repair_wash.Total,users.FName,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus,repair_wash.RefDocNo
+    $Sql = "SELECT site.HptName,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) 
+    AS DocDate ,repair_wash.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus,repair_wash.RefDocNo
     FROM repair_wash
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -304,16 +313,17 @@ function CreateDocument($conn, $DATA)
       if($lang =='en'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
       }else if ($lang == 'th'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
 
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;
-      $return[$count]['Record']   = $Result['FName'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];

@@ -212,13 +212,20 @@ function CreateDocument($conn, $DATA)
       ('$DocNo',DATE(NOW()),$deptCode,'','Shelf Count',$userid,DATE(NOW()))";
       mysqli_query($conn, $Sql);
 
-      $Sql = "SELECT users.FName
+
+      $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
       FROM users
       WHERE users.ID = $userid";
+
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $DocNo = $Result['DocNo'];
-        $return[0]['Record']   = $Result['FName'] ;
+        $return[0]['Record']   = $Result['FName'];
+        if($lang == "en"){
+          $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+        }else if($lang == "th"){
+          $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+        }
       }
 
       $boolean = true;
@@ -315,9 +322,10 @@ function ShowDocument($conn, $DATA)
   shelfcount.DocNo,
   DATE (shelfcount.DocDate) AS DocDate,
   shelfcount.Total,
-  users.FName,
+  users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
   TIME(shelfcount.Modify_Date)
-  AS xTime,shelfcount.IsStatus,
+  AS xTime,
+  shelfcount.IsStatus,
   site.HptCode
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
@@ -353,16 +361,17 @@ function ShowDocument($conn, $DATA)
     if($lang =='en'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
     }else if ($lang == 'th'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
 
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
-    $return[$count]['Record']   = $Result['FName'];
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];
@@ -403,7 +412,8 @@ function SelectDocument($conn, $DATA)
     shelfcount.DepCode,
     DATE(shelfcount.DocDate) AS DocDate,
     shelfcount.Total,
-    users.FName,TIME(shelfcount.Modify_Date) AS xTime,
+    users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
+    TIME(shelfcount.Modify_Date) AS xTime,
     shelfcount.IsStatus ,
     shelfcount.CycleTime ,
     shelfcount.DeliveryTime ,
@@ -423,9 +433,11 @@ function SelectDocument($conn, $DATA)
     if($lang =='en'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
     }else if ($lang == 'th'){
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
 
 
@@ -435,7 +447,6 @@ function SelectDocument($conn, $DATA)
     $return[$count]['DepCode']   = $Result['DepCode'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
-    $return[$count]['Record']   = $Result['FName'] ;
     $return[$count]['RecNow']   = $Result['xTime'];
     $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];
