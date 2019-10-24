@@ -727,8 +727,12 @@ $array2 = json_decode($json2,TRUE);
         if ($('#xCenter').is(':checked')) xCenter = 1;
         if(xCenter == 1 ){
           var dept = $('#HosCenter').val();
+          $('#showcenter1').attr('hidden' , false);
+          $('#showcenter2').attr('hidden' , true);
         }else{
           var dept = $('#department').val();
+          $('#showcenter1').attr('hidden' , true);
+          $('#showcenter2').attr('hidden' , false);
         }
         if(dept==''){
           checkblank2();
@@ -1460,6 +1464,7 @@ $array2 = json_decode($json2,TRUE);
                             }else if(temp['form']=="SelectItemStock"){
                                 var chk_row = $('#chk_row').val();
                                   $('#TableItemStock tbody').empty();
+                                  if(temp['countpar'] == 0){
                                 for (var i = 0; i < temp['countx']; i++) {
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
@@ -1491,6 +1496,34 @@ $array2 = json_decode($json2,TRUE);
                                         $('#TableItemStock tbody').append(StrTR);
                                   chk_row++;
                                 }
+                              }else{
+                                for (var i = 0; i < temp['countx']; i++) {
+                                  var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
+                                  var rowCount = $('#TableItemStock >tbody >tr').length;
+                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
+                                            "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
+                                            "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
+                                            "<td style='width: 40%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
+                                            "<td style='width: 44%;padding-left: 20%;' nowrap>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></td>"+
+                                            // "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></span></td>"+
+                                            "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
+                                          "</tr>";
+                                        $('#TableItemStock tbody').append(StrTR);
+                                  chk_row++;
+                                }
+
+
+
+
+
+
+
+
+
+
+
+
+                              }
                                 $('#chk_row').val(chk_row);
                             }
                           }else if (temp['status']=="failed") {
@@ -1910,12 +1943,14 @@ $array2 = json_decode($json2,TRUE);
                     <th style='width: 24%;' nowrap hidden><?php echo $array['nono'][$language]; ?></th>
                     <th style='width:60%;' nowrap><?php echo $array['item'][$language]; ?></th>
                     <!-- <th style='width: 11%;' nowrap>Par</th> -->
-                    <th style='width: 30%;' nowrap><?php echo $array['rfid'][$language]; ?></th>
+                    <th style='width: 30%;' id="showcenter1"  nowrap><?php echo $array['rfid'][$language]; ?></th>
+                    <th style='width: 30%;' id="showcenter2" hidden nowrap><?php echo $array['par'][$language]; ?></th>
                   </tr>
                 </thead>
                 <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:420px;">
                 </tbody>
               </table>
+
           </div>
         </div>
       </div>

@@ -476,6 +476,7 @@ function SelectItemStock($conn, $DATA)
   $boolean = false;
   $count = 0;
   $countx = 0;
+  $countpar = 0;
   $DepCode = $DATA['DepCode'];
   $xCenter2 = $DATA['xCenter2'];
   if($DATA['ItemArray']!=''){
@@ -542,7 +543,8 @@ function SelectItemStock($conn, $DATA)
     $count2 = 0;
     $SqlItem = " SELECT 
     par_item_stock.ItemCode,
-    item.ItemName
+    item.ItemName ,
+    par_item_stock.ParQty
   FROM par_item_stock
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
   WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
@@ -551,7 +553,9 @@ function SelectItemStock($conn, $DATA)
       while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
         $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
         $return[$countx]['ItemNameX'] = $IResult['ItemName'];
+        $return[$countx]['ParQty'] = $IResult['ParQty'];
         $countx++;
+        $countpar++;
       }
     $boolean = true;
   }
@@ -566,6 +570,7 @@ function SelectItemStock($conn, $DATA)
 
 
 }
+  $return['countpar'] = $countpar;
   $return['countx'] = $countx;
 
 
