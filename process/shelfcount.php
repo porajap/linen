@@ -886,7 +886,7 @@ function UpdateDetailQty($conn, $DATA)
   $CcQty  =  $DATA["CcQty"];
   $UnitCode =  $DATA["unitcode"];
   $Sql = "UPDATE shelfcount_detail
-          INNER JOIN item_stock ON item_stock.ItemCode = shelfcount_detail.ItemCode
+          INNER JOIN par_item_stock ON par_item_stock.ItemCode = shelfcount_detail.ItemCode
           SET  shelfcount_detail.CcQty = $CcQty, shelfcount_detail.TotalQty = ($max - shelfcount_detail.CcQty)
           WHERE shelfcount_detail.Id = $RowID ";
   // $return['sql'] =$Sql;
@@ -1433,15 +1433,15 @@ function chk_par($conn, $DATA)
       shelfcount_detail.TotalQty,
       shelfcount_detail.CcQty,
 
-      (SELECT item_stock.TotalQty
-      FROM item_stock 
-      WHERE item_stock.ItemCode = '$ItemCode[$i]' 
-      AND item_stock.DepCode = $DepCode GROUP BY item_stock.ItemCode, item_stock.DepCode) AS TotalQty2,
+      (SELECT par_item_stock.TotalQty
+      FROM par_item_stock 
+      WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
+      AND par_item_stock.DepCode = $DepCode GROUP BY par_item_stock.ItemCode, par_item_stock.DepCode) AS TotalQty2,
 
-      (SELECT item_stock.ParQty
-      FROM item_stock 
-      WHERE item_stock.ItemCode = '$ItemCode[$i]' 
-      AND item_stock.DepCode = $DepCode GROUP BY item_stock.ItemCode, item_stock.DepCode) AS ParQty,
+      (SELECT par_item_stock.ParQty
+      FROM par_item_stock 
+      WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
+      AND par_item_stock.DepCode = $DepCode GROUP BY par_item_stock.ItemCode, par_item_stock.DepCode) AS ParQty,
 
       (SELECT item.ItemName
 			FROM item
@@ -1633,7 +1633,7 @@ function SaveQty_SC($conn, $DATA){
   }
   $limit = sizeof($ItemCodeArray, 0);
   for($i=0; $i<$limit; $i++){
-    $updateQtyCenter = "UPDATE item_stock SET TotalQty = TotalQty - $QtyArray[$i] WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCode";
+    $updateQtyCenter = "UPDATE par_item_stock SET TotalQty = TotalQty - $QtyArray[$i] WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCode";
     mysqli_query($conn, $updateQtyCenter);
 
     $updateSC_detail = "UPDATE shelfcount_detail SET TotalQty = $QtyArray[$i] WHERE ItemCode = '$ItemCodeArray[$i]' AND DocNo = '$DocNo'";
@@ -1692,9 +1692,9 @@ function find_item($conn, $DATA)
   $DocNo = $DATA["DocNo"];
   $qty = $DATA["qty"];
   $Sqlx = "SELECT
-            item_stock.ParQty
-          FROM item_stock
-          WHERE  item_stock.DepCode = $DepCode  AND item_stock.ItemCode ='$itemCode' LIMIT 1";
+            par_item_stock.ParQty
+          FROM par_item_stock
+          WHERE  par_item_stock.DepCode = $DepCode  AND par_item_stock.ItemCode ='$itemCode' LIMIT 1";
           $meQueryx = mysqli_query($conn, $Sqlx);
           while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
             $ParQty = $Resultx['ParQty'];
