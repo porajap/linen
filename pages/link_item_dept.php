@@ -893,42 +893,55 @@ $array2 = json_decode($json2,TRUE);
             closeOnCancel: false,
             showCancelButton: true}).then(result => {
               if (result.value) {
-                var count_rowArray = [];
-                var chkArray = [];
-                var RowArray = [];
-                var chkRow = [];
-                
-                $('input[name="chkItem"]:checked').each(function() {
-                  chkArray.push($(this).data('value'));
-                });
-                $('input[name="chkItem"]:checked').each(function() {
-                  RowArray.push($(this).val());
-                  chkRow.push($(this).data('chknum'));
-                });
-
-                // for (i = 0; i < RowArray.length; ++i) {
-                //   $('#tr_child_'+RowArray[i]).remove();
-                // }
-
-                for (i = 0; i < chkArray.length; ++i) {
-                  count_rowArray.push($('#count_row_'+chkArray[i]).val());
-                  var sub = parseInt($('#count_child_'+chkArray[i]).val()) - 1;
-                  $('#count_child_'+chkArray[i]).val(sub);
-                  if(sub <= 0){
-                    $('#tr_mom_'+chkArray[i]).remove();
+                if(xCenter==1){
+                  var count_rowArray = [];
+                  var chkArray = [];
+                  var RowArray = [];
+                  var chkRow = [];
+                  
+                  $('input[name="chkItem"]:checked').each(function() {
+                    chkArray.push($(this).data('value'));
+                  });
+                  $('input[name="chkItem"]:checked').each(function() {
+                    RowArray.push($(this).val());
+                    chkRow.push($(this).data('chknum'));
+                  });
+                  for (i = 0; i < chkArray.length; ++i) {
+                    count_rowArray.push($('#count_row_'+chkArray[i]).val());
+                    var sub = parseInt($('#count_child_'+chkArray[i]).val()) - 1;
+                    $('#count_child_'+chkArray[i]).val(sub);
+                    if(sub <= 0){
+                      $('#tr_mom_'+chkArray[i]).remove();
+                    }
                   }
+                  var ItemCode = chkArray.join(',');
+                  var RowID = RowArray.join(',');
+                  var ItemArray = $('#itemArray').val();
+                  var data = {
+                    'STATUS' : 'DeleteItem',
+                    'DepCode' : DepCode,
+                    'RowID' : RowID,
+                    'ItemCode' : ItemCode,
+                    'ItemArray' : ItemArray,
+                    'xCenter':xCenter
+                  };
+                  senddata(JSON.stringify(data));
+                }else{
+                  var chkArray = [];
+                  $('input[name="myItem"]:checked').each(function() {
+                    chkArray.push($(this).data('value'));
+                  });
+                  var ItemCode = chkArray.join(',');
+                  var data = {
+                    'STATUS' : 'DeleteItem',
+                    'DepCode' : DepCode,
+                    'RowID' : RowID,
+                    'ItemCode' : ItemCode,
+                    'xCenter':xCenter,
+                    'xCenter2':xCenter2,
+                  };
+                  senddata(JSON.stringify(data));
                 }
-                var ItemCode = chkArray.join(',');
-                var RowID = RowArray.join(',');
-                var ItemArray = $('#itemArray').val();
-                var data = {
-                  'STATUS' : 'DeleteItem',
-                  'DepCode' : DepCode,
-                  'RowID' : RowID,
-                  'ItemCode' : ItemCode,
-                  'ItemArray' : ItemArray
-                };
-                senddata(JSON.stringify(data));
             } else if (result.dismiss === 'cancel') {
             swal.close();
           }
@@ -1448,7 +1461,7 @@ $array2 = json_decode($json2,TRUE);
                               }else{
                               for (var i = 0; i < temp['countx']; i++) {
                                   var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
-                                  var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
+                                  var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
@@ -1555,14 +1568,13 @@ $array2 = json_decode($json2,TRUE);
                               }else{
                                 for (var i = 0; i < temp['countx']; i++) {
                                   var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
-                                  var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
+                                  var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
                                             "<td style='width: 44%;padding-left: 30%;' nowrap>"+parnum+" </td>"+
-                                            // "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
                                           "</tr>";
                                         $('#TableItemStock tbody').append(StrTR);

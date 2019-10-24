@@ -490,7 +490,7 @@ function SelectItemStock($conn, $DATA)
   if($xCenter2 == 0 ){
     for ($j=0; $j < sizeof($ItemCode,0) ; $j++){
       $Find = " SELECT 
-            COUNT(item_stock.ItemCode) AS FindItem
+          COUNT(item_stock.ItemCode) AS FindItem
           FROM item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
           WHERE item_stock.ItemCode = '$ItemCode[$j]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode";
@@ -550,29 +550,29 @@ function SelectItemStock($conn, $DATA)
          
     }
   }else{
-    for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
-      $count2 = 0;
-      $SqlItem = " SELECT 
-      par_item_stock.ItemCode,
-      item.ItemName ,
-      par_item_stock.ParQty,
-      par_item_stock.RowID
-    FROM par_item_stock
-    INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
-    WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
-    AND par_item_stock.DepCode = $DepCode ";
-        $ItemQuery = mysqli_query($conn, $SqlItem);
-        while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
-          $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
-          $return[$countx]['ItemNameX'] = $IResult['ItemName'];
-          $return[$countx]['ParQty'] = $IResult['ParQty'];
-          $return[$countx]['RowID'] = $IResult['RowID'];
-          $countx++;
-          $countpar++;
-        }
-      $boolean = true;
-    }
+          // for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
+            $count2 = 0;
+            $SqlItem = " SELECT 
+            par_item_stock.ItemCode,
+            item.ItemName ,
+            par_item_stock.ParQty,
+            par_item_stock.RowID
+            FROM par_item_stock
+            INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+            -- WHERE par_item_stock.ItemCode = '$ItemCode[$j]' 
+            WHERE par_item_stock.DepCode = $DepCode ";
 
+            $ItemQuery = mysqli_query($conn, $SqlItem);
+            while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
+              $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
+              $return[$countx]['ItemNameX'] = $IResult['ItemName'];
+              $return[$countx]['ParQty'] = $IResult['ParQty'];
+              $return[$countx]['RowID'] = $IResult['RowID'];
+              $countx++;
+              $countpar++;
+            }
+            $boolean = true;
+          // }
   }
   $return['countpar'] = $countpar;
   $return['countx'] = $countx;
@@ -594,6 +594,7 @@ function SelectItemStock($conn, $DATA)
 
 
 }
+
 
 function ShowItemStock($conn, $DATA)
 {
@@ -877,29 +878,38 @@ function DeleteItem($conn, $DATA)
   $boolean = false;
   $count = 0;
   $DepCode = $DATA['DepCode'];
+  $xCenter = $DATA['xCenter'];
   $RowID = explode(',' , $DATA['RowID']);
   $ItemCode = explode(',' , $DATA['ItemCode']);
   $limit = sizeof($ItemCode, 0);
-  for ($i = 0; $i < $limit; $i++) {
-    $Sql = "DELETE FROM item_stock WHERE RowID = '$RowID[$i]' AND DepCode = $DepCode LIMIT 1";
-    mysqli_query($conn,$Sql);
+  if($xCenter==1){
+    for ($i = 0; $i < $limit; $i++) {
+      $Sql = "DELETE FROM item_stock WHERE RowID = '$RowID[$i]' AND DepCode = $DepCode LIMIT 1";
+      mysqli_query($conn,$Sql);
 
-    $Update = "UPDATE item_stock SET TotalQty = (TotalQty - 1) WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
-    mysqli_query($conn,$Update);
+      $Update = "UPDATE item_stock SET TotalQty = (TotalQty - 1) WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
+      mysqli_query($conn,$Update);
 
 
-    $Up = "UPDATE par_item_stock SET ParQty = (ParQty - 1) WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
-    mysqli_query($conn, $Up);
-    
-    $Count = "SELECT SUM(ParQty) AS ParQty FROM par_item_stock WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
-    $meQuery = mysqli_query($conn,$Count);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      if($Result['ParQty']<=0){
-        $Del = "DELETE FROM par_item_stock WHERE ItemCode = '$ItemCode[$i]' AND DepCode = $DepCode";
-        mysqli_query($conn,$Del);
+      $Up = "UPDATE par_item_stock SET ParQty = (ParQty - 1) WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
+      mysqli_query($conn, $Up);
+      
+      $Count = "SELECT SUM(ParQty) AS ParQty FROM par_item_stock WHERE ItemCode =  '$ItemCode[$i]' AND DepCode = $DepCode";
+      $meQuery = mysqli_query($conn,$Count);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        if($Result['ParQty']<=0){
+          $Del = "DELETE FROM par_item_stock WHERE ItemCode = '$ItemCode[$i]' AND DepCode = $DepCode";
+          mysqli_query($conn,$Del);
+        }
       }
     }
+  }else{
+    for ($i = 0; $i < $limit; $i++) {
+      $Sql = "DELETE FROM par_item_stock WHERE ItemCode = '$ItemCode[$i]' AND DepCode = $DepCode";
+      mysqli_query($conn,$Sql);
+    }
   }
+  
 
   SelectItemStock($conn, $DATA);
 
