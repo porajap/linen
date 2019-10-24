@@ -359,6 +359,16 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
+      function SavePar(row , rowid){
+        var mypar = $(".mypar_"+row).val();
+        var data = {
+          'STATUS' : 'SavePar',
+          'mypar' : mypar,
+          'RowID' : rowid
+        }
+        senddata(JSON.stringify(data));
+      }
+
       function CreateSentSterile() {
         var userid = '<?php echo $Userid; ?>';
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
@@ -489,20 +499,7 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
-      function ShowItemStock(){
-        var userid = "<?php echo $_SESSION["Userid"]; ?>"
-        var deptid = $('#department').val();
-        var keyword = $('#searchitemstock').val();
-        var data = {
-          'STATUS'  : 'ShowItemStock',
-          'Keyword' : keyword,
-          'Userid' : userid,
-          'Deptid' : deptid
-        };
 
-        // console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
-      }
 
       function AddItem(){
         var count = 0;
@@ -994,7 +991,29 @@ $array2 = json_decode($json2,TRUE);
         }
         senddata(JSON.stringify(data));
       }
+      function ShowItemStock(){
+        var xCenter = 0;
+        var xCenter2 = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        if ($('#xCenter2').is(':checked')) xCenter2 = 1;
+        var userid = "<?php echo $_SESSION["Userid"]; ?>"
+        if(xCenter == 1 ){
+          var DepCode = $('#HosCenter').val();
+        }else{
+          var DepCode = $('#department').val();
+        }        
+        var keyword = $('#searchitemstock').val();
+        var data = {
+          'STATUS'  : 'ShowItemStock',
+          'Keyword' : keyword,
+          'Userid' : userid,
+          'Deptid' : DepCode,
+          'xCenter2' : xCenter2
+        };
 
+        // console.log(JSON.stringify(data));
+        senddata(JSON.stringify(data));
+      }
       function SelectItemStock(ItemCode, Number){
         var xCenter = 0;
         var xCenter2 = 0;
@@ -1386,6 +1405,7 @@ $array2 = json_decode($json2,TRUE);
                             }else if(temp['form']=="ShowItemStock"){
                               var chk_row = $('#chk_row').val();
                               $( "#TableItemStock tbody" ).empty();
+                              if(temp['countpar'] == 0){
                               for (var i = 0; i < temp['countx']; i++) {
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
@@ -1418,6 +1438,23 @@ $array2 = json_decode($json2,TRUE);
                               $('#TableItemStock tbody:last-child').append(StrTR);
                               chk_row++;
                               }
+                            }else{
+                              for (var i = 0; i < temp['countx']; i++) {
+                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
+                                  var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
+                                  var rowCount = $('#TableItemStock >tbody >tr').length;
+                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
+                                            "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
+                                            "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
+                                            "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
+                                            "<td style='width: 44%;padding-left: 30%;' nowrap>"+parnum+" </td>"+
+                                            // "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></span></td>"+
+                                            "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
+                                          "</tr>";
+                                        $('#TableItemStock tbody').append(StrTR);
+                                  chk_row++;
+                                }
+                            }
                               $('#chk_row').val(chk_row);
  
                             }else if(temp['form']=="setdateitemstock"){
@@ -1450,6 +1487,18 @@ $array2 = json_decode($json2,TRUE);
                             // else
                                 $('.txtno_'+(Sel+1)).focus().select();
 
+                              swal({
+                                title: '',
+                                text: '<?php echo $array['success'][$language]; ?>',
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                showConfirmButton: false,
+                                timer: 1000,
+                                // confirmButtonText: 'Ok'
+                              })
+                            }else if(temp['form']=="SavePar"){
                               swal({
                                 title: '',
                                 text: '<?php echo $array['success'][$language]; ?>',
@@ -1498,13 +1547,14 @@ $array2 = json_decode($json2,TRUE);
                                 }
                               }else{
                                 for (var i = 0; i < temp['countx']; i++) {
+                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='headItem' id='headChk_"+chk_row+"' onclick='ChildChecked("+chk_row+");'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
-                                            "<td style='width: 40%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
-                                            "<td style='width: 44%;padding-left: 20%;' nowrap>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></td>"+
+                                            "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
+                                            "<td style='width: 44%;padding-left: 30%;' nowrap>"+parnum+" </td>"+
                                             // "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
                                           "</tr>";

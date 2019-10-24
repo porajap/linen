@@ -544,7 +544,8 @@ function SelectItemStock($conn, $DATA)
     $SqlItem = " SELECT 
     par_item_stock.ItemCode,
     item.ItemName ,
-    par_item_stock.ParQty
+    par_item_stock.ParQty,
+    par_item_stock.RowID
   FROM par_item_stock
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
   WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
@@ -554,20 +555,12 @@ function SelectItemStock($conn, $DATA)
         $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
         $return[$countx]['ItemNameX'] = $IResult['ItemName'];
         $return[$countx]['ParQty'] = $IResult['ParQty'];
+        $return[$countx]['RowID'] = $IResult['RowID'];
         $countx++;
         $countpar++;
       }
     $boolean = true;
   }
-
-
-
-
-
-
-
-
-
 
 }
   $return['countpar'] = $countpar;
@@ -626,9 +619,11 @@ function ShowItemStock($conn, $DATA)
   $count = 0;
   $countx = 0;
   $count5 = 0;
+  $countpar = 0;
   $DepCode = $DATA['Deptid'];
   $Keyword = $DATA['Keyword'];
-  
+  $xCenter2 = $DATA['xCenter2'];
+if($xCenter2 == 0){
   $Sql="SELECT item_stock.ItemCode 
   FROM item_stock 
   INNER JOIN item ON item_stock.ItemCode = item.ItemCode
@@ -688,8 +683,42 @@ function ShowItemStock($conn, $DATA)
     $return[$i]['num'] = $count2;
     $boolean = true;
   }
-  $return['countx'] = $count5;
-
+}else{
+  $Sql="SELECT par_item_stock.ItemCode 
+  FROM par_item_stock 
+  INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+  WHERE par_item_stock.DepCode = $DepCode AND (item.ItemName LIKE '%$Keyword%') ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+   $ItemCode[$count5] = $Result['ItemCode'];
+    $count5++;
+  }
+  for ($i=0; $i < $count5 ; $i++) {
+    $count2 = 0;
+    $SqlItem = " SELECT 
+    par_item_stock.ItemCode,
+    item.ItemName ,
+    par_item_stock.ParQty,
+    par_item_stock.RowID
+  FROM par_item_stock
+  INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+  WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
+  AND par_item_stock.DepCode = $DepCode ";
+      $ItemQuery = mysqli_query($conn, $SqlItem);
+      while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
+        $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
+        $return[$countx]['ItemNameX'] = $IResult['ItemName'];
+        $return[$countx]['ParQty'] = $IResult['ParQty'];
+        $return[$countx]['RowID'] = $IResult['RowID'];
+        $countpar++;
+        $countx++;
+      }
+    $return[$i]['num'] = $count2;
+    $boolean = true;
+  }
+}
+      $return['countpar'] = $countpar;
+      $return['countx'] = $count5;
         if($boolean==true){
           $return['status'] = "success";
           $return['form'] = "ShowItemStock";
@@ -703,11 +732,6 @@ function ShowItemStock($conn, $DATA)
           mysqli_close($conn);
           die;
         }
-
-
-
-
-
 }
 
 function setdateitemstock($conn, $DATA)
@@ -864,6 +888,39 @@ function DeleteItem($conn, $DATA)
   // }
 
 }
+function SavePar($conn, $DATA){
+  $boolean = 0;
+  $count = 0;
+  $mypar = $DATA['mypar'];
+  $RowID = $DATA['RowID'];
+  $Sql2 = "SELECT ParQty FROM par_item_stock WHERE RowID = $RowID";
+  $meQuery = mysqli_query($conn,$Sql2);
+  $Result =  mysqli_fetch_assoc($meQuery);
+  $ParQty  	= $Result['ParQty'] + $mypar;
+
+
+  $Sql = "UPDATE par_item_stock SET ParQty = '$ParQty' WHERE RowID = $RowID";
+  // var_dump($Sql); die;
+  if(mysqli_query($conn,$Sql)){
+    $count++;
+  }
+  if($count>0){
+    $return['status'] = "success";
+    $return['form'] = "SavePar";
+    $return['RowID'] = $RowID;
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }else{
+    $return['status'] = "failed";
+    $return['msg'] = "addfailed";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
+
 
 if(isset($_POST['DATA']))
 {
@@ -900,6 +957,8 @@ if(isset($_POST['DATA']))
         SelectItemStock($conn,$DATA);
       }else if ($DATA['STATUS'] == 'DeleteItem') {
         DeleteItem($conn,$DATA);
+      }else if ($DATA['STATUS'] == 'SavePar') {
+        SavePar($conn,$DATA);
       }
 
 }else{
