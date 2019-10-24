@@ -937,7 +937,7 @@ function SavePar($conn, $DATA){
   $ParQty  	= $Result['ParQty'] + $mypar;
 
 
-  $Sql = "UPDATE par_item_stock SET ParQty = '$ParQty' WHERE RowID = $RowID";
+  $Sql = "UPDATE par_item_stock SET ParQty = '$mypar' WHERE RowID = $RowID";
   // var_dump($Sql); die;
   if(mysqli_query($conn,$Sql)){
     $count++;
