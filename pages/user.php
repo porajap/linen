@@ -73,13 +73,14 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
-        $('#rem1').hide();
-        $('#rem2').hide();
-        $('#rem3').hide();
-        $('#rem4').hide();
-        $('#rem5').hide();
-        $('#rem6').hide();
-        $('#rem7').hide();
+            $('#rem1').hide();
+            $('#rem2').hide();
+            $('#rem3').hide();
+            $('#rem4').hide();
+            $('#rem5').hide();
+            $('#rem6').hide();
+            $('#rem7').hide();
+            $('#rem8').hide();
             // getDepartment();
             resetinput();        
             //On create
@@ -163,8 +164,8 @@ $array2 = json_decode($json2,TRUE);
             $('#host').val(Hotp);
             getDepartment2();
             var data = {
-            'STATUS'  : 'getDepartment',
-            'Hotp'	: Hotp
+                'STATUS'  : 'getDepartment',
+                'Hotp'	: Hotp
             };
             senddata(JSON.stringify(data));
         }
@@ -355,21 +356,27 @@ $array2 = json_decode($json2,TRUE);
         function AddItem(){
             var count = 0;
             $(".checkblank").each(function() {
-            if($( this ).val()==""||$(this).val()==undefined){
-                count++;
-            }
+                if($( this ).val()==""||$(this).val()==undefined){
+                    count++;
+                }
             });
-            console.log(count);
                 var UsID = $('#UsID').val();
                 var UserName = $('#username').val();
                 var Password = $('#Password').val();
-                var FName = $('#flname').val();
                 var host = $('#host').val();
                 var department = $('#department').val();
                 var Permission = $('#Permission').val();
                 var facID = $('#factory').val();
                 var email = $('#email').val();
                 var xemail = 0;
+
+                var EngPerfix = $('#EnPerfix').val();
+                var ThPerfix = $('#ThPerfix').val();
+                var EngName = $('#Enfname').val();
+                var EngLName = $('#Enlname').val();
+                var ThName = $('#Thfname').val();
+                var ThLName = $('#Thlname').val();
+                var remask = $('#remask').val();
 
                 if(host ==""||host==undefined){
                   $('#rem1').show().css("color","red");
@@ -380,19 +387,18 @@ $array2 = json_decode($json2,TRUE);
                 if(UserName ==""||UserName==undefined){
                   $('#rem3').show().css("color","red");
                 }
-                // if(Password ==""||Password==undefined){
-                //   $('#rem4').show().css("color","red");
-                // }
-                if(FName ==""||FName==undefined){
-                  $('#rem5').show().css("color","red");
-                }
                 if(Permission ==""||Permission==undefined){
-                  $('#rem6').show().css("color","red");
-                }
-                if(email ==""||email==undefined){
                   $('#rem7').show().css("color","red");
                 }
-
+                if(email ==""||email==undefined){
+                  $('#rem8').show().css("color","red");
+                }
+                if(EngName=="" || EngLName==""){
+                    $('#rem5').show().css("color","red");
+                }
+                if(ThName=="" || ThName==""){
+                    $('#rem6').show().css("color","red");
+                }
                 if ($('#xemail').is(':checked')) xemail = 1;
             if(count==0){
                 $('.checkblank').each(function() {
@@ -420,13 +426,19 @@ $array2 = json_decode($json2,TRUE);
                         form_data.append('UsID', UsID);
                         form_data.append('UserName', UserName);
                         form_data.append('Password', Password);
-                        form_data.append('FName', FName);
                         form_data.append('host', host);
                         form_data.append('department', department);
                         form_data.append('Permission', Permission);
                         form_data.append('facID', facID);
                         form_data.append('email', email);
                         form_data.append('xemail', xemail);
+                        form_data.append('EngPerfix', EngPerfix);
+                        form_data.append('ThPerfix', ThPerfix);
+                        form_data.append('EngName', EngName);
+                        form_data.append('EngLName', EngLName);
+                        form_data.append('ThName', ThName);
+                        form_data.append('ThLName', ThLName);
+                        form_data.append('remask', remask);
                         var URL = '../process/insertUser.php';
                         $.ajax({
                             url: URL, 
@@ -558,13 +570,11 @@ $array2 = json_decode($json2,TRUE);
                 $('#Password').val("");
                 $('#flname').val("");
                 $('.checkblank').each(function() {
-                if($(this).val()==""||$(this).val()==undefined){
-                $(this).css('border-color', '');
-                }else{
-                $(this).css('border-color', '');
-                }
-            });
-                // $('#host tbody').empty();
+                    if($(this).val()==""||$(this).val()==undefined){
+                        $(this).css('border-color', '');
+                        $(this).val("");
+                    }
+                });
                 $('#factory').attr('disabled' , true);
                 $('#hptsel').val("");
                 $('#host').val("");
@@ -579,22 +589,12 @@ $array2 = json_decode($json2,TRUE);
                 $('#delete1').removeClass('mhee');
                 $(".dropify-clear").click(); 
                 $("#xemail").prop('checked', false);
-                // $('#xemail').attr("checked", false);
-                // $('.xemail').each(function() {
-                //     $(this).val("");
-                //     $('.xemail').attr("checked", false);
-                // });
-                $(".dropify-clear").click(); 
-                // getHotpital();
-                // getHotpital_user();
+                $(".dropify-clear").click();
+
+                $('#EnPerfix').val("Mr.");
+                $('#ThPerfix').val("นาย");
+
                 getDepartment();
-                // getEmployee();
-                // getPermission();
-                // ShowItem();
-                // uncheckAll2();
-                // setTimeout(() => {
-                //     getDepartment();
-                // }, 0);
         }
         function Blankinput2() {
             $('#rem1').hide();
@@ -755,7 +755,7 @@ $array2 = json_decode($json2,TRUE);
                                 StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
                                     "<td style='width: 3%;' nowrap>" + chkDoc + "</td>" +
                                     "<td style='text-overflow: ellipsis;overflow: hidden; width: 5%;' nowrap >" + (i + 1) + "</td>" +
-                                    "<td style=' text-overflow: ellipsis;overflow: hidden; width: 22%;' nowrap title='"+temp[i]['FName']+"'>" + temp[i]['FName'] + "</td>" +
+                                    "<td style=' text-overflow: ellipsis;overflow: hidden; width: 22%;' nowrap title='"+temp[i]['Name']+"'>" + temp[i]['Name'] + "</td>" +
                                     "<td style='text-overflow: ellipsis;overflow: hidden; width: 20%;' nowrap title='"+temp[i]['UserName']+"'>" + temp[i]['UserName'] + "</td>" +
                                     "<td style='text-overflow: ellipsis;overflow: hidden; width: 24%;' nowrap title='"+email+"'>" + email + "</td>" +
                                     // "<td style='width: 8%;' nowrap class='text-center'>"+active_mail+"</td>" +
@@ -792,8 +792,6 @@ $array2 = json_decode($json2,TRUE);
                             if ((Object.keys(temp).length - 2) > 0) {
                                 $('#UsID').val(temp['ID']);
                                 $('#username').val(temp['UserName']);
-                                // $('#Password').val(temp['Password']);
-                                $('#flname').val(temp['FName']);
                                 $('#department').val(temp['DepCode']);
                                 $('#email').val(temp['email']);
                                 $('#bCancel').attr('disabled', false);
@@ -802,29 +800,23 @@ $array2 = json_decode($json2,TRUE);
                                 $('#host').val(temp['HptCode']);
                                 $('#Permission').val(temp['PmID']);
 
-                                if (temp['xemail'] == 1)  {
-                                        $('input[type=checkbox]').each(function() 
-                                {   
-                                this.checked = true; 
-                                        });                                
-                                }else{
-                                $('input[type=checkbox]').each(function() 
-                                {   
-                                this.checked = false; 
-                                        });                               
-                                    }
-                                // var StrTr="";
+                                $('#EnPerfix').val(temp['EngPerfix']);
+                                $('#ThPerfix').val(temp['ThPerfix']);
+                                $('#Enfname').val(temp['EngName']);
+                                $('#Enlname').val(temp['EngLName']);
+                                $('#Thfname').val(temp['ThName']);
+                                $('#Thlname').val(temp['ThLName']);
+                                $('#remask').val(temp['remask']);
 
-                                // StrTr="";
-                                // $("#Permission").empty();
-                                // for (var i = 0; i < temp['PmCnt']; i++) {
-                                //     if(temp['Pm'+i]['xPmID']==temp['PmID']){
-                                //         StrTr = "<option selected value = '" + temp['Pm'+i]['xPmID'] + "'> " + temp['Pm'+i]['xPermission'] + " </option>";
-                                //     }else{
-                                //         StrTr = "<option value = '" + temp['Pm'+i]['xPmID'] + "'> " + temp['Pm'+i]['xPermission'] + " </option>";
-                                //     }
-                                //     $("#Permission").append(StrTr);
-                                // }
+                                if (temp['xemail'] == 1)  {
+                                    $('input[type=checkbox]').each(function(){   
+                                        this.checked = true; 
+                                    });                                
+                                }else{
+                                    $('input[type=checkbox]').each(function(){   
+                                        this.checked = false; 
+                                    });                               
+                                    }
                                 if(temp['PmID']==4){
                                     $('#factory').attr('disabled',false);
                                     $('#factory').val(temp['FacCode']);
@@ -832,8 +824,6 @@ $array2 = json_decode($json2,TRUE);
                                     $('#factory').attr('disabled',true);
                                 }
                                 var imageName = "../profile/img/"+temp['pic'];
-                                // $('#image').attr("data-default-file", imageName);
-                                // $('#image').dropify();
 
                                 var drEvent = $('.dropify').dropify(
                                 {
@@ -1371,9 +1361,9 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 5%;' nowrap> <?php echo $array['no'][$language]; ?> </th>
                                         <th style='width: 22%;' nowrap> <?php echo $array['flname'][$language]; ?> </th>
                                         <th style='width: 20%;' nowrap> <?php echo $array['username'][$language]; ?> </th>
-                                        <th style='width: 23%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
+                                        <th style='width: 24%;' nowrap> <?php echo $array['email'][$language]; ?> </th>
                                         <th style='width: 10%;' nowrap> <?php echo $array['permission'][$language]; ?> </th>
-                                        <th style='width: 17%;' nowrap> <?php echo $array['department'][$language]; ?>  </th>
+                                        <th style='width: 16%;' nowrap> <?php echo $array['department'][$language]; ?>  </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:380px;">
@@ -1453,14 +1443,14 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  onchange="getDepartment2()" class="form-control col-sm-7 checkblank" id="host" onchange="getDepartment();"></select>
+                                      <select  onchange="getDepartment2()" class="form-control col-sm-8 checkblank" id="host" onchange="getDepartment();"></select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                       <div class='form-group row'>
                                       <label class="col-sm-3 col-form-label " style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select onchange="ShowItem(2)" class="form-control col-sm-7 checkblank" style="font-size:22px;"  id="department" >
+                                        <select onchange="ShowItem(2)" class="form-control col-sm-8 checkblank" style="font-size:22px;"  id="department" >
                                         </select>
                                         <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1472,53 +1462,100 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['username'][$language]; ?></label>
-                                    <input type="text" autocomplete="off" class="form-control col-sm-7 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
-                                    <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    <input type="text" autocomplete="off" class="form-control col-sm-8 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
+                                    <label id="rem3" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['password'][$language]; ?></label>
-                                    <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-7 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
-                                    <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-8 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
+                                    <label id="rem4" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
+                                    </div>
+                                  </div>
+                                </div>   
+
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['engperfix'][$language]; ?></label>
+                                        <select class="form-control col-sm-8" id="EnPerfix">
+                                            <option value="Mr.">Mr.</option>
+                                            <option value="Ms.">Ms.</option>
+                                            <option value="Mrs.">Mrs.</option>
+                                            <option value="Miss">Miss</option>
+                                        </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['thperfix'][$language]; ?></label>
+                                        <select class="form-control col-sm-8" id="ThPerfix">
+                                            <option value="นาย">นาย</option>
+                                            <option value="นาง">นาง</option>
+                                            <option value="นางสาว">นางสาว</option>
+                                        </select>
                                     </div>
                                   </div>
                                 </div>   
    <!-- =================================================================== -->
                                 <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['flname'][$language]; ?></label>
-                                        <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-7 checkblank" id="flname"    placeholder="<?php echo $array['flname'][$language]; ?>">
-                                        <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['nameeng'][$language]; ?></label>
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 mr-1 checkblank" id="Enfname"    placeholder="First name">
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 checkblank" id="Enlname"    placeholder="Lastname">
+                                            <label id="rem5" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['permission'][$language]; ?></label>
-                                    <select  onchange="resetinput2()"  class="form-control col-sm-7 checkblank " id="Permission"  onchange="factory_show(this.value);"></select>
-                                    <label id="rem6"class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
-                                    </div>
-                                  </div>   
+                                    <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['nameth'][$language]; ?></label>
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 mr-1 checkblank" id="Thfname"    placeholder="ชื่อ">
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 checkblank" id="Thlname"    placeholder="นามสกุล">
+                                            <label id="rem6" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
+                                        </div>
+                                    </div> 
                                 </div>   
 <!-- =================================================================== -->  
                                 <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['email'][$language]; ?></label>
-                                        <input type="email" onkeyup="resetinput2()" autocomplete="off"  class="form-control col-sm-7 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
-                                        <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['permission'][$language]; ?></label>
+                                        <select  onchange="resetinput2()"  class="form-control col-sm-8 checkblank " id="Permission"  onchange="factory_show(this.value);"></select>
+                                        <label id="rem7" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
+                                        </div>
+                                    </div>  
+                                    <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['email'][$language]; ?></label>
+                                            <input type="email" onkeyup="resetinput2()" autocomplete="off"  class="form-control col-sm-8 checkblank" id="email"    placeholder="<?php echo $array['email'][$language]; ?>">
+                                            <label id="rem8" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['activemail'][$language]; ?></label>
-                                        <input type="checkbox"  id="xemail" class="xemail"style="margin-top: 1.5%;">
-                                    </div>
-                                  </div>
                                 </div>      
 <!-- =================================================================== -->  
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['Laundry2'][$language]; ?></label>
+                                            <select  class="form-control col-sm-8" id="factory" disabled="true"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['activemail'][$language]; ?></label>
+                                            <input type="checkbox"  id="xemail" class="xemail"style="margin-top: 1.5%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                 <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['remask'][$language]; ?></label>
+                                            <input type="text" class="form-control col-sm-8"  id="remask" >
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class='form-group row'>
                                         <label class="col-sm-3 col-form-label "><?php echo $array['img'][$language]; ?></label>
@@ -1527,12 +1564,6 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                         </div>
                                     </div>
-                                <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['Laundry2'][$language]; ?></label>
-                                        <select  class="form-control col-sm-7 " id="factory" disabled="true"></select>
-                                    </div>
-                                  </div>
                                 </div>
                 <!-- ะำหะ -->
                         </div>

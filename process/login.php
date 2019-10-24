@@ -15,7 +15,7 @@ function checklogin($conn,$DATA)
             users.UserName,
             users.`Password`,
             users.lang,
-            users.FName,
+            users.EngName,
             permission.PmID,
             permission.Permission,
             site.HptCode,
@@ -35,7 +35,7 @@ function checklogin($conn,$DATA)
       $ID                   = $Result['ID'];
       $_SESSION['Userid']   = $Result['ID'];
       $_SESSION['Username'] = $Result['UserName'];
-      $_SESSION['FName']    = $Result['FName'];
+      $_SESSION['FName']    = $Result['EngName'];
       $_SESSION['PmID']     = $Result['PmID'];
       $_SESSION['HptCode']  = $Result['HptCode'];
       $_SESSION['Permission']  = $Result['Permission'];

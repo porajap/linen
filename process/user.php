@@ -7,6 +7,7 @@ if($Userid==""){
 }
 function ShowItem($conn, $DATA)
 {
+  $lang = $_SESSION['lang'];
   $count = 0;
   $department2 = $DATA['department2'];
   $HptCode1 = $_SESSION['HptCode'];
@@ -17,45 +18,44 @@ function ShowItem($conn, $DATA)
     $xHptCode = $DATA['HptCode'];
   }
 
-  // if($xHptCode==""){
-  //   $xHptCode = $HptCode1;
-  // }
-
   $Keyword = $DATA['Keyword'];
   if($PmID != 3 && $PmID != 7){
-  $Sql="SELECT users.ID,users.FName,users.`Password`,users.UserName,users.email,users.Active_mail,
+  $Sql="SELECT users.ID, users.EngPerfix, users.EngName, users.EngLName, users.ThPerfix, users.ThName,users.ThLName,
+        users.`Password`,users.UserName,users.email,users.Active_mail,
         permission.Permission, HptName , DepName
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON site.HptCode = users.HptCode
         INNER JOIN department ON department.DepCode = users.DepCode
-        WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%')";
+        WHERE users.IsCancel = 0 AND ( users.EngName LIKE '%$Keyword%')";
           if ($department2 != "") {
             $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
           }else{
             $Sql .= "AND site.HptCode = '$xHptCode'";
           }
-          $return['sql'] = $Sql;
     }else{
-      $Sql="SELECT users.ID,users.FName,users.`Password`,users.UserName,users.email,users.Active_mail,
+      $Sql="SELECT users.ID, users.EngPerfix, users.EngName, users.EngLName, users.ThPerfix, users.ThName,users.ThLName
+      ,users.Password,users.UserName,users.email,users.Active_mail,
       permission.Permission, HptName , DepName
       FROM users
       INNER JOIN permission ON users.PmID = permission.PmID
       INNER JOIN site ON site.HptCode = users.HptCode
       INNER JOIN department ON department.DepCode = users.DepCode
-      WHERE users.IsCancel = 0 AND ( users.FName LIKE '%$Keyword%') AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
+      WHERE users.IsCancel = 0 AND ( users.EngName LIKE '%$Keyword%') AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
         if ($department2 != "") {
           $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
         }else{
           $Sql .= "AND site.HptCode = '$xHptCode'";
         }
-        $return['sql'] = $Sql;
     }
-  // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ID'] = $Result['ID'];
-    $return[$count]['FName'] = $Result['FName'];
+    if($lang == "en"){
+      $return[$count]['Name'] = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+    }else if($lang == "th"){
+      $return[$count]['Name'] = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+    }
     $return[$count]['Password'] = $Result['Password'];
     $return[$count]['UserName'] = $Result['UserName'];
     $return[$count]['email'] = $Result['email'];
@@ -125,22 +125,24 @@ function getdetail($conn, $DATA)
   //    $Sqlx = "INSERT INTO log ( log ) VALUES ('ID : $ID')";
   //    mysqli_query($conn,$Sqlx);
 
-  $Sql = "SELECT users.ID,users.UserName,users.`Password`,users.FName,site.HptName,site.HptCode,permission.Permission,
-      permission.PmID, factory.FacCode , users.email , users.Active_mail, users.pic , users.DepCode , department.DepName
+  $Sql = "SELECT users.ID,users.UserName,users.`Password`,
+      site.HptName, site.HptCode, permission.Permission,
+      permission.PmID, factory.FacCode , users.email , 
+      users.Active_mail, users.pic , users.DepCode , department.DepName,
+      users.EngPerfix, users.EngName, users.EngLName,
+      users.ThPerfix, users.ThName, users.ThLName,users.remask
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON users.HptCode = site.HptCode
         INNER JOIN department ON department.DepCode = department.DepCode
         LEFT JOIN factory ON factory.FacCode = users.FacCode  
         WHERE users.ID = $ID AND users.IsCancel = 0";
-        $return['sql'] = $Sql;
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return['ID'] = $Result['ID'];
       $return['UserName'] = $Result['UserName'];
       $return['Password'] = $Result['Password'];
-      $return['FName'] = $Result['FName'];
       $return['Permission'] = $Result['Permission'];
       $return['PmID'] = $Result['PmID'];
       $return['HptName'] = $Result['HptName'];
@@ -151,6 +153,15 @@ function getdetail($conn, $DATA)
       $return['email'] = $Result['email'];
       $return['xemail'] = $Result['Active_mail'];
       $return['pic'] = $Result['pic']==null?'default_img.png':$Result['pic'];
+
+      $return['EngPerfix'] = $Result['EngPerfix'];
+      $return['EngName'] = $Result['EngName'];
+      $return['EngLName'] = $Result['EngLName'];
+      $return['ThPerfix'] = $Result['ThPerfix'];
+      $return['ThName'] = $Result['ThName'];
+      $return['ThLName'] = $Result['ThLName'];
+      $return['remask'] = $Result['remask'];
+
 
   }
 
