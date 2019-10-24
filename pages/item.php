@@ -2732,6 +2732,10 @@ if(Catagory !="" && Catagory!=undefined){
                                 <option value="4">L</option>
                                 <option value="5">XL</option>
                                 <option value="6">XXL</option>
+                                <option value="7">3XL</option>
+                                <option value="8">6XL</option>
+                                <option value="9">NO SIZE</option>
+
                               </select>
                               
                             </div>
