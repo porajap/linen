@@ -1324,6 +1324,14 @@ $id_h=$_SESSION['id_h'];
               <em></em><?php echo $array['menu']['system']['sub'][2][$language]; ?></a>
           </li>
           <?php } ?>
+
+          <?php if($sys_s16== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/department.php?lang=<?php echo $language; ?>" id="act24" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['system']['sub'][2][$language]; ?></a>
+          </li>
+          <?php } ?>
           <?php if($sys_s4== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/item.php?lang=<?php echo $language; ?>" id="act25" class="current_page"
