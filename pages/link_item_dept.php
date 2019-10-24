@@ -869,8 +869,15 @@ $array2 = json_decode($json2,TRUE);
 
       function DeleteItem(){
         var length =  $('#TableItemStock >tbody >tr').length;
-        var DepCode = $('#department').val();
-        // var count = $('#count_child_').val();
+        var xCenter = 0;
+        var xCenter2 = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        if ($('#xCenter2').is(':checked')) xCenter2 = 1;
+        if(xCenter == 1 ){
+          var DepCode = $('#HosCenter').val();
+        }else{
+          var DepCode = $('#department').val();
+        }        // var count = $('#count_child_').val();
         if(length>0){
           swal({
             title: "",
