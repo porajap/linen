@@ -339,6 +339,7 @@ function additemstock($conn, $DATA)
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
   // $hotpital = $DATA['hotpital'];
+  $xCenter2 = $DATA['xCenter2'];
   $Deptid = $DATA['DeptID'];
   $ParQty = $DATA['Par'];
   $Itemcode = explode(",",$DATA['ItemCode']);
@@ -351,25 +352,35 @@ function additemstock($conn, $DATA)
   // var_dump($Number[0]); die;
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
     // =====================================================================
-    $SqlCount3 = "SELECT COUNT(ItemCode) AS ParCount , ParQty FROM par_item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
+    $SqlCount3 = "SELECT COUNT(ItemCode) AS ParCount , ParQty , TotalQty FROM par_item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
     $meQuery3 = mysqli_query($conn,$SqlCount3);
     while ($Result3 = mysqli_fetch_assoc($meQuery3)) {
       $ParCount = $Result3['ParCount'];
       $ParQty3 =  $Result3['ParQty'] + $ParQty;
+      $TotalQty8 = $Number[$i] + $Result3['TotalQty'] ;
     }
+    if($xCenter2 != 1){
     if($ParCount == 0){
-    $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty)";
+    $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty , $Number[$i])";
     mysqli_query($conn,$Sqlpar);
     }else{
-      $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 
+      $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 ,TotalQty = $TotalQty8
       WHERE DepCode = $Deptid AND ItemCode = '$Itemcode[$i]'";
       mysqli_query($conn,$Sqlpar);  
     }
+  }else{
+    if($ParCount == 0){
+      $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty , 0)";
+      mysqli_query($conn,$Sqlpar);
+      }else{
+        $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 ,TotalQty = 0
+        WHERE DepCode = $Deptid AND ItemCode = '$Itemcode[$i]'";
+        mysqli_query($conn,$Sqlpar);  
+      }
+  }
     // =====================================================================
-
     $SqlCount = "SELECT COUNT(ItemCode) AS countPar, TotalQty, ParQty FROM item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
     $meQuery = mysqli_query($conn,$SqlCount);
-
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $countPar = $Result['countPar'];
       $setPar = $Result['ParQty'] + $ParQty;

@@ -712,16 +712,15 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS'      : 'CancelDocNo',
                   'DocNo'       : docno
                 };
-
                 console.log(JSON.stringify(data));
                 senddata(JSON.stringify(data));
                 getSearchDocNo();
                   })
       }
-
       function Addtodoc(){
         var xCenter = 0;
         if ($('#xCenter').is(':checked')) xCenter = 1;
+        if ($('#xCenter2').is(':checked')) xCenter2 = 1;
         if(xCenter == 1 ){
           var dept = $('#HosCenter').val();
           $('#showcenter1').attr('hidden' , false);
@@ -748,28 +747,22 @@ $array2 = json_decode($json2,TRUE);
           closeOnCancel: false,
           showCancelButton: true}).then(result => {
             if (result.value) {
-
             var boolean = Chkblank();
             if(boolean){
               var chkArray1 = [];
               var chkArray2 = [];
-              
               $('input[name="checkitem"]:checked').each(function() {
                 chkArray1.push($(this).val());
                 // console.log($(this).val());
               });
-
               $('input[name="txtno"]').each(function() {
                 if($(this).val()!=""){
                   chkArray2.push($(this).val());
                   // console.log($(this).val());
                 }
               });
-
-
               var par = $('#parnum').val();
               var hotpital = $('#hotpital').val();
-
               var strchkarray1 = chkArray1.join(',') ;
               var strchkarray2 = chkArray2.join(',') ;
               var data = {
@@ -778,9 +771,9 @@ $array2 = json_decode($json2,TRUE);
                 'Par' : par,
                 'hotpital' : hotpital,
                 'ItemCode' : strchkarray1,
-                'Number' : strchkarray2
+                'Number' : strchkarray2,
+                'xCenter2' : xCenter2
               }
-
               console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
             } else if (result.dismiss === 'cancel') {
