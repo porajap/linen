@@ -12,15 +12,21 @@ if($Userid==""){
     $Password = md5($_POST['Password']);
     $host = $_POST['host'];
     $department = $_POST['department'];
-    $FName = $_POST['FName'];
     $Permission = $_POST['Permission'];
     $facID = $_POST['facID'];
     $email = $_POST['email'];
     $xemail = $_POST['xemail'];
     $Userid = $_SESSION['Userid'];
     $boolean = false ;
-    // $Username = $_POST['username'];
     $UserID = $_POST['UsID'];
+
+    $EngPerfix = $_POST['EngPerfix'];
+    $ThPerfix = $_POST['ThPerfix'];
+    $EngName = $_POST['EngName'];
+    $EngLName = $_POST['EngLName'];
+    $ThName = $_POST['ThName'];
+    $ThLName = $_POST['ThLName'];
+    $remask = $_POST['remask'];
 
     $newname = $UserName;
     $lastname = explode('.',$_FILES['file']['name']);
@@ -49,11 +55,17 @@ if($Userid==""){
                 users.HptCode='$host',
                 users.DepCode=$department,
                 users.UserName='$UserName',
-                users.FName='$FName',
+                users.EngPerfix='$EngPerfix',
+                users.ThPerfix='$ThPerfix',
+                users.EngName='$EngName',
+                users.EngLName='$EngLName',
+                users.ThName='$ThName',
+                users.ThLName='$ThLName',
                 users.PmID=$Permission,
                 users.FacCode=$facID,
                 users.email='$email',
                 users.pic='$filename',
+                users.remask='$remask',
                 users.Active_mail='$xemail',
                 users.Modify_Date=NOW(),
                 Modify_Code =  $Userid   
@@ -63,9 +75,15 @@ if($Userid==""){
                 users.HptCode='$host',
                 users.DepCode=$department,
                 users.UserName='$UserName',
-                users.FName='$FName',
+                users.EngPerfix='$EngPerfix',
+                users.ThPerfix='$ThPerfix',
+                users.EngName='$EngName',
+                users.EngLName='$EngLName',
+                users.ThName='$ThName',
+                users.ThLName='$ThLName',
                 users.PmID=$Permission,
                 users.FacCode=$facID,
+                users.remask='$remask',
                 users.email='$email',
                 users.Active_mail='$xemail',
                 users.Modify_Date=NOW() ,
@@ -86,7 +104,12 @@ if($Userid==""){
                 users.DepCode,
                 users.UserName,
                 users.Password,
-                users.FName,
+                users.EngPerfix,
+                users.ThPerfix,
+                users.EngName,
+                users.EngLName,
+                users.ThName,
+                users.ThLName,
                 users.IsCancel,
                 users.PmID,
                 users.lang,
@@ -95,6 +118,7 @@ if($Userid==""){
                 users.Modify_Date,
                 users.TimeOut,
                 users.email,
+                users.remask,
                 users.pic,
                 users.Active_mail,
                 users.DocDate,
@@ -106,7 +130,12 @@ if($Userid==""){
                     $department,
                     '$UserName',
                     '$Password',
-                    '$FName',
+                    '$EngPerfix',
+                    '$ThPerfix',
+                    '$EngName',
+                    '$EngLName',
+                    '$ThName',
+                    '$ThLName',
                     0,
                     $Permission,
                     'en',
@@ -115,6 +144,7 @@ if($Userid==""){
                     NOW(),
                     30,
                     '$email',
+                    $remask',
                     '$filename',
                     $xemail ,
                     NOW(),
@@ -127,7 +157,12 @@ if($Userid==""){
                 users.DepCode,
                 users.UserName,
                 users.Password,
-                users.FName,
+                users.EngPerfix,
+                users.ThPerfix,
+                users.EngName,
+                users.EngLName,
+                users.ThName,
+                users.ThLName,
                 users.IsCancel,
                 users.PmID,
                 users.lang,
@@ -136,6 +171,7 @@ if($Userid==""){
                 users.Modify_Date,
                 users.TimeOut,
                 users.email,
+                users.remask,
                 users.Active_mail,
                 users.DocDate,
                 users.Modify_Code 
@@ -147,7 +183,12 @@ if($Userid==""){
                     $department,
                     '$UserName',
                     '$Password',
-                    '$FName',
+                    '$EngPerfix',
+                    '$ThPerfix',
+                    '$EngName',
+                    '$EngLName',
+                    '$ThName',
+                    '$ThLName',
                     0,
                     $Permission,
                     'en',
@@ -156,6 +197,7 @@ if($Userid==""){
                     NOW(),
                     30,
                     '$email',
+                    '$remask',
                     $xemail,
                     NOW(),
                     $Userid

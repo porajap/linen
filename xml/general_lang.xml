@@ -355,6 +355,11 @@
 <download><en>Download File</en><th>ดาวน์โหลดไฟล์</th></download>
 <deletefile><en>Delete File</en><th>ลบไฟล์</th></deletefile>
 <uploadsuc><en>Upload File Success</en><th>อัพโหลดไฟล์สำเร็จ</th></uploadsuc>
+<thperfix><en>Th Perfix</en><th>คำนำหน้าไทย</th></thperfix>
+<engperfix><en>Eng Perfix</en><th>คำนำหน้าอังกฤษ</th></engperfix>
+<nameeng><en>Eng Name-Lastname</en><th>ชื่อ-สกุล อังกฤษ</th></nameeng>
+<nameth><en>TH Name-Lastname</en><th>ชื่อ-สกุล ไทย</th></nameth>
+<remask><en>Remask</en><th>หมายเหตุ</th></remask>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>
