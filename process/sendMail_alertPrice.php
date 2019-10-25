@@ -30,26 +30,27 @@ mysqli_query($conn,$update_alert);
     // build message body
 $body = '
 
-
-___________________________________________________________________
-'.$HptNameTH.'
-วันที่ทำสัญญา: '.$StartDate.'
-วันที่สิ้นสุดสัญญา: '.$EndDate.'
-เลขที่เอกสาร: '.$DocNo.'
-เปลี่ยนราคาวันที่: '.$xDate.' เหลือเวลาอีก '.$dateDiff.' วัน
-___________________________________________________________________
-'.$HptName.'
-DATE OF CNTRCT: '.$StartDate.'
- CNTRCT TERM DATE: '.$EndDate.'
- Doc No: '.$DocNo.'  
- DATE OF CHG PC.:   '.$xDate.' TIME LT '.$dateDiff.' วัน  
-___________________________________________________________________  
+<br>
+___________________________________________________________________<br>
+<h3>'.$HptNameTH.'</h3>
+<b>วันที่ทำสัญญา:</b> '.$StartDate.'<br>
+<b>วันที่สิ้นสุดสัญญา:</b> '.$EndDate.'<br>
+<b>เลขที่เอกสาร:</b> '.$DocNo.'<br>
+<b>เปลี่ยนราคาวันที่:</b> '.$xDate.' เหลือเวลาอีก '.$dateDiff.' วัน<br>
+___________________________________________________________________<br>
+<h3>'.$HptName.'</h3>
+<b>DATE OF CNTRCT:</b> '.$StartDate.'<br>
+<b>CNTRCT TERM DATE:</b> '.$EndDate.'<br>
+<b>Doc No:</b> '.$DocNo.'<br>
+<b>DATE OF CHG PC.:</b> '.$xDate.' TIME LT '.$dateDiff.' วัน<br>
+___________________________________________________________________<br>
 
 ';
 
 $strTo = $email;
 $strSubject = "Notification change price";
 $strHeader = "From: poseinttelligence@gmail.com";
+$strHeader .= "Content-type: text/html; charset=utf-8\r\n"; 
 $strMessage = $body;
 $flgSend = @mail($strTo,$strSubject,$strMessage,$strHeader);  // @ = No Show Error //
 ?>
