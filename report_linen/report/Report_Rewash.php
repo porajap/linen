@@ -32,7 +32,7 @@ $array2 = json_decode($json2, TRUE);
 //print_r($data);
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (rewash.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (repair_wash.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -42,7 +42,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (rewash.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (repair_wash.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -51,7 +51,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE rewash.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE repair_wash.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -65,7 +65,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (rewash.Docdate) = " . $date1;
+  $where =   "WHERE month (repair_wash.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -73,7 +73,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE date(rewash.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE date(repair_wash.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -103,6 +103,22 @@ class PDF extends FPDF
   // Page footer
   function Footer()
   {
+    if ($this->isFinished) {
+      $this->SetFont('THSarabun', '', 10);
+      $this->SetY(-27);
+      $xml = simplexml_load_file('../xml/general_lang.xml');
+      $xml2 = simplexml_load_file('../xml/report_lang.xml');
+      $json = json_encode($xml);
+      $array = json_decode($json, TRUE);
+      $json2 = json_encode($xml2);
+      $array2 = json_decode($json2, TRUE);
+      $language = $_SESSION['lang'];
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . ".................................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "..................................................."), 0, 0, 'L');
+      $this->Ln(7);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "........................................................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+    }
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
@@ -204,15 +220,16 @@ if ($language == 'th') {
 }
 $Sql = "SELECT
         factory.$FacName,
-        DATE(rewash.DocDate) AS DocDate,
-        TIME(rewash.DocDate) AS DocTime
+        DATE(repair_wash.DocDate) AS DocDate,
+        TIME(repair_wash.DocDate) AS DocTime
         FROM
-        rewash
-        INNER JOIN factory ON rewash.FacCode = factory.FacCode
-        INNER JOIN department ON department.depcode = rewash.depcode
+        repair_wash
+        INNER JOIN factory ON repair_wash.FacCode = factory.FacCode
+        INNER JOIN department ON department.depcode = repair_wash.depcode
         $where
-        AND rewash.FacCode = $FacCode
-        AND department.HptCode = '$HptCode'";
+        AND repair_wash.FacCode = $FacCode
+        AND department.HptCode = '$HptCode'
+        AND repair_wash.isStatus= 4";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $factory = $Result[$FacName];
@@ -224,8 +241,8 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
-$image="../images/Nhealth_linen 4.0.png";
-$pdf-> Image($image,10,10,43,15);
+$image = "../images/Nhealth_linen 4.0.png";
+$pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
@@ -242,16 +259,20 @@ $pdf->Ln(12);
 
 $query = "SELECT
           item.ItemName,
-          rewash.DocNo,
-          rewash_detail.Qty
+          repair_wash.DocNo,
+          repair_wash_detail.Qty
           FROM
-          rewash_detail
-          INNER JOIN item ON rewash_detail.ItemCode = item.ItemCode
-          INNER JOIN rewash ON rewash_detail.DocNo = rewash.DocNo
-          INNER JOIN department ON department.depcode = rewash.depcode
+          repair_wash_detail
+          INNER JOIN item ON repair_wash_detail.ItemCode = item.ItemCode
+          INNER JOIN repair_wash ON repair_wash_detail.DocNo = repair_wash.DocNo
+          INNER JOIN department ON department.depcode = repair_wash.depcode
           $where
-          AND rewash.FacCode = $FacCode
-          AND department.HptCode = '$HptCode'";
+          AND repair_wash.FacCode = $FacCode
+          AND department.HptCode = '$HptCode'
+          AND repair_wash.isStatus= 4
+          ORDER BY repair_wash.DocNo ASC ";
+// echo $query."<br>"
+// .$Sql;
 // var_dump($query); die;
 // Number of column
 $numfield = 5;
@@ -265,20 +286,9 @@ $width = array(60, 80, 50);
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
-
-
 $pdf->SetFont('THSarabun', 'b', 11);
-$pdf->Cell(5);
-$pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language]."..................................................."), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language]."........................................"), 0, 0, 'L');
-$pdf->Ln(7);
-$pdf->Cell(5);
-$pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language]."......................................................................"), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language].".........................................................."), 0, 0, 'L');
-$pdf->Ln(12);
-$pdf->Cell(190, 0, '', 'T');
-$pdf->Ln(10);
 
+$pdf->isFinished = true;
 
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Rewash_' . $ddate . '.pdf');

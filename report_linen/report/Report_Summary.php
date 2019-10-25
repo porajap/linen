@@ -110,7 +110,7 @@ class PDF extends FPDF
     $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') . $this->PageNo() . '/{nb}', 0, 0, 'R');
   }
 
-  function setTable($pdf, $header, $data, $width, $numfield, $field)
+  function setTable($pdf, $header, $data, $width, $numfield, $field,$private)
   {
     $language = $_SESSION['lang'];
     if ($language == "en") {
@@ -159,18 +159,21 @@ class PDF extends FPDF
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",  $inner_array[$field[1]]), 1, 0, 'L');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        if($private == 1){
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[4]], 2)), 1, 0, 'C');
         $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($total, 2)), 1, 0, 'C');
+        }
         $this->Ln();
         $count++;
         $totalsum += $total;
       }
     }
+    if($private == 1){
     $footer = array('', '', '', '', $array2['total'][$language], number_format($totalsum, 2));
     $pdf->SetFont('THSarabun', 'b', 14);
       $pdf->Cell(160, 10, iconv("UTF-8", "TIS-620", $footer[4] ), 1, 0, 'C');
       $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $footer[5] ), 1, 0, 'C');
-    
+    }
 
 
     // Closing line
@@ -237,9 +240,6 @@ $pdf->Cell(95, 7, iconv("UTF-8", "TIS-620", $array2['site'][$language]." : ". $H
 $pdf->Cell(95, 7, iconv("UTF-8", "TIS-620", $date_header), 0, 1, 'R');
 $pdf->Ln(3);
 
-
-
-
 $query = "SELECT
 item.ItemName,
   item.ItemCode,
@@ -259,9 +259,21 @@ INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
         AND shelfcount.DepCode =$DepCode
         AND category_price.HptCode = '$HptCode'
         ORDER BY shelfcount_detail.DocNo ASC  ";
-// var_dump($query); die;
-// Number of column
-$numfield = 5;
+
+$queryy = "SELECT
+site.private,
+site.government
+FROM
+site
+WHERE site.HptCode = '$HptCode' ";
+$meQuery = mysqli_query($conn, $queryy);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $private = $Result['private'];
+  $government = $Result['government'];
+}
+
+if($private == 1){
+  $numfield = 5;
 // Field data (Must match with Query)
 $field = "DocNo,ItemName,ParQty,TotalQty,Price,";
 // Table header
@@ -272,9 +284,28 @@ $width = array(35, 35, 30, 30, 30, 30);
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
 $pdf->SetFont('THSarabun', 'b', 10);
-$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field,$private);
 $pdf->Ln();
+}
+if($government == 1){
+  $numfield = 5;
+// Field data (Must match with Query)
+$field = "DocNo,ItemName,ParQty,TotalQty";
+// Table header
+$header = array($array2['docno'][$language], $array2['itemname'][$language], $array2['parqty'][$language], $array2['qty'][$language]);
+// width of column table
+$width = array(50, 50, 45, 45);
+// Get Data and store in Result
+$result = $data->getdata($conn, $query, $numfield, $field);
+// Set Table
+$pdf->SetFont('THSarabun', 'b', 10);
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field,$private);
+$pdf->Ln();
+}
 // Get $totalsum
+// var_dump($query); die;
+// Number of column
+
 
 
 

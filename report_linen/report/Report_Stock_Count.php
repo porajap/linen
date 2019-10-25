@@ -166,9 +166,9 @@ $pdf->AddPage("P", "A4");
 $Sql = "SELECT
         department.DepName
         FROM
-        item_stock
-        INNER JOIN department ON item_stock.Depcode=department.Depcode
-        WHERE item_stock.DepCode=$depcode
+        par_item_stock
+        INNER JOIN department ON par_item_stock.Depcode=department.Depcode
+        WHERE par_item_stock.DepCode=$depcode
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -199,8 +199,8 @@ $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620",$array2['department'][$language]." :
 $pdf->Ln(2);
 
 $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $array2['no'][$language]), 1, 0, 'C');
-$pdf->Cell(50, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['unit'][$language]), 1, 0, 'C');
+$pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
+$pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $array2['unit'][$language]), 1, 0, 'C');
 $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620",  $array2['par'][$language]), 1, 0, 'C');
 $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $array2['order'][$language]), 1, 1, 'C');
 
@@ -208,28 +208,53 @@ $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $array2['order'][$language]), 1, 
 // BODY TABLE
 $i = 1;
 $header = 0;
-
+$status = 0;
+$next_page=1;
 $Sql = "SELECT
         item.itemName,
         item_unit.unitname,
-        item_stock.TotalQty AS  TotalQty,
-        item_stock.ParQty
+        par_item_stock.TotalQty,
+        par_item_stock.ParQty
         FROM
-        item_stock
-        INNER JOIN department ON item_stock.Depcode=department.Depcode
-        INNER JOIN item on item.ItemCode=item_stock.ItemCode
+        par_item_stock
+        INNER JOIN department ON par_item_stock.Depcode=department.Depcode
+        INNER JOIN item on item.ItemCode=par_item_stock.ItemCode
         INNER JOIN item_unit on item.unitcode=item_unit.unitcode
-        WHERE item_stock.DepCode=$depcode
-        GROUP BY item.itemName ";
+        WHERE par_item_stock.DepCode=$depcode
+        ORDER BY item.itemName ";
 
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-
+  if ($i > 21) {
+    $next_page++;
+    if ($status == 0) {
+      $pdf->SetFont('THSarabun', 'b', 14);
+      $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $array2['no'][$language]), 1, 0, 'C');
+      $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
+      $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $array2['unit'][$language]), 1, 0, 'C');
+      $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620",  $array2['par'][$language]), 1, 0, 'C');
+      $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $array2['order'][$language]), 1, 1, 'C');
+     
+      $y = 25;
+      $status = 1;
+    }
+    if ($next_page % 25 == 1) {
+      $pdf->SetFont('THSarabun', 'b', 14);
+      $pdf->Ln();
+      $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $array2['no'][$language]), 1, 0, 'C');
+      $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
+      $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $array2['unit'][$language]), 1, 0, 'C');
+      $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620",  $array2['par'][$language]), 1, 0, 'C');
+      $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $array2['order'][$language]), 1, 1, 'C');
+      
+      $y = 25;
+      $next_page = 1 ;
+    }
+  }
   $pdf->SetFont('THSarabun', '', 14);
-  $DocDate = date('d/m/Y', strtotime($Result['ExpireDate']));
   $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $i), 1, 0, 'C');
-  $pdf->Cell(50, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'L');
-  $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $Result['unitname']), 1, 0, 'C');
+  $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", $Result['itemName']), 1, 0, 'L');
+  $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $Result['unitname']), 1, 0, 'C');
   $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
   $pdf->Cell(42.5, 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 1, 'C');
   $i++;

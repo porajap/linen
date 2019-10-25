@@ -6,15 +6,15 @@
 <parqty><en>Par Qty</en><th>จำนวนทั้งหมด</th></parqty>
 <par><en>Par</en><th>จำนวนทั้งหมด</th></par>
 <shelfcount1><en>Shelf Count</en><th>จำนวนที่นับได้</th></shelfcount1>
-<max><en>Max</en><th>คำสูงสุด</th></max>
+<max><en>Max</en><th>ค่าสูงสุด</th></max>
 <issue><en>Issue</en><th>ค่าที่จ่ายไป</th></issue>
 <short><en>Short</en><th>ผ้ามีไม่พอจ่าย</th></short>
 <shot><en>Shot</en><th>ผ้าขาด</th></shot>
 <over><en>Over</en><th>ผ้าเกิน</th></over>
-<Cycle><en>Cycle</en><th>รอบที่</th></Cycle>
+<Cycle><en>Cycle</en><th>รอบส่ง</th></Cycle>
 <factory><en>Factory</en><th>โรงซัก</th></factory>
 <receive><en>Receive (Qty)</en><th>ผ้าที่รับ(จำนวน)</th></receive>
-<reject><en>Reject (Qty)</en><th>ผ้าซักใหม่(จำนวน)</th></reject>
+<reject><en>Reject (Qty)</en><th>ผ้าใหม่ส่งซัก(จำนวน)</th></reject>
 <repair><en>Repair (Qty)</en><th>ผ้าส่งซ่อม(จำนวน)</th></repair>
 <qty><en>Qty</en><th>จำนวน</th></qty>
 <receivepercent><en>Receive (%)</en><th>ผ้าที่รับ (%)</th></receivepercent>
@@ -25,16 +25,18 @@
 <clean1><en>Clean</en><th>รายการผ้าสะอาด</th></clean1>
 <hospital><en>Hospital</en><th>โรงพยาบาล</th></hospital>
 <shelfcounttime><en>Shelf Count Time</en><th>เวลานับผ้า</th></shelfcounttime>
-<deliverytime><en>Delivery Time</en><th>เวลาส่งผ้า</th></deliverytime>
-<repair_dirty><en>Repair (Dirty)</en><th>ผ้าเปื้อนส่งแก้ไข</th></repair_dirty>
+<deliverytime><en>Delivery Time</en><th>รอบส่งผ้า</th></deliverytime>
+<repair_dirty><en>Repair (Dirty)</en><th>ผ้าส่งแก้ไข</th></repair_dirty>
 <newlinen><en>Newlinen</en><th>ผ้าซักใหม่</th></newlinen>
 <Totaldirty><en>Total dirty</en><th>รวมผ้าเปื้อน</th></Totaldirty>
 <clean><en>Clean</en><th>ผ้าสะอาด</th></clean>
-<receive_dirty><en>Receive Dirty</en><th>ผ้าเปื้อนแก้ไขรับกลับ</th></receive_dirty>
+<receive_dirty><en>Receive Dirty</en><th>ผ้าแก้ไขรับกลับ</th></receive_dirty>
 <receive_newlinen><en>Receive Newlinen</en><th>ผ้าใหม่รับกลับ</th></receive_newlinen>
 <Totalclean><en>Total Clean</en><th>รวมผ้าสะอาด</th></Totalclean>
 <damaged><en>Damaged (Qty)</en><th>ผ้าสูญหาย (จำนวน)</th></damaged>
 <damage><en>Damage</en><th>ผ้าเสียหาย</th></damage>
+<rewash><en>Rewash (Qty) </en><th>ผ้าซักใหม่ (จำนวน)</th></rewash>
+<rewashpercent><en>Rewash (%) </en><th>ผ้าซักใหม่ (%)</th></rewashpercent>
 <loss><en>Loss</en><th>ผ้าถูกซ่อม (จำนวน)</th></loss>
 <docno><en>Doc No</en><th>เลขที่เอกสาร</th></docno>
 <docdate><en>Doc Date</en><th>วันที่เอกสาร</th></docdate>
@@ -50,22 +52,24 @@
 <amount1><en>Amount (Qty)</en><th>จำนวน (ชิ้น)</th></amount1>
 <total><en>Total</en><th>รวม</th></total>
 <total_price><en>Total Price</en><th>รวมเงิน</th></total_price>
+<total_weight><en>Total Weight</en><th>รวมน้ำหนัก</th></total_weight>
 <weight><en>Weight</en><th>น้ำหนัก</th></weight>
 <weightclean><en>Weight (clean)</en><th>น้ำหนัก (ผ้าสะอาด)</th></weightclean>
 <weightrepair><en>Weight (repair)</en><th>น้ำหนัก (ผ้าถูกซ่อม)</th></weightrepair>
 <priceperkilo><en>Price per kilogram</en><th>ราคาต่อกิโลกรัม</th></priceperkilo>
 <priceperunit><en>Price per Unit</en><th>ราคาต่อหน่วย</th></priceperunit>
-<weight_kg><en>Weight Per Kilogram</en><th>น้ำหนัก(กิโลกรัม)
-</th></weight_kg>
+<weight_kg><en>Weight Per Kilogram</en><th>น้ำหนัก(กิโลกรัม)</th></weight_kg>
 <price><en>Total</en><th>เป็นเงิน</th></price>
+<kg><en>Kg.</en><th>กิโลกรัม</th></kg>
+<bath><en>Bath</en><th>บาท</th></bath>
 <price1><en>Price</en><th>ราคา</th></price1>
 <officer><en>User</en><th>เจ้าหน้าที่</th></officer>
 <shelfcount><en>Shelfcount Time</en><th>เวลานับผ้า</th></shelfcount>
 <receive_time><en>Receive Time</en><th>เวลารับผ้า</th></receive_time>
 <washing_time><en>Washing Time</en><th>เวลาซักผ้า</th></washing_time>
-<packing_time><en>Packing Time</en><th>เวลาแพ็คผ้า</th></packing_time>
+<packing_time><en>Packing Time</en><th>เวลาบรรจุผ้า</th></packing_time>
 <delivery_time><en>Delivery Time</en><th>เวลาจำหน่าย</th></delivery_time>
-<distribute_time><en>Distribute Time</en><th>จำหน่ายผ้า</th></distribute_time>
+<distribute_time><en>Distribute Time</en><th>เวลาจัดส่ง</th></distribute_time>
 <start><en>Start</en><th>เริ่ม</th></start>
 <finish><en>Finish</en><th>สิ้นสุด</th></finish>
 <order><en>Order</en><th>คงเหลือ</th></order>
@@ -76,6 +80,9 @@
 <foremanlinen><en>Fore Manlinen</en><th>หัวหน้างานแผนกห้องผ้า</th></foremanlinen>
 <examiner><en>Examiner</en><th>ผู้ตรวจสอบ</th></examiner>
 <ward><en>Ward</en><th>แผนก</th></ward>
+<pleaseday><en>-----Please Choose Date------</en><th>-----กรุณาเลือกวันที่-----</th></pleaseday>
+<pleasemonth><en>-----Please Choose Month------</en><th>-----กรุณาเลือกเดือน-----</th></pleasemonth>
+<pleaseyear><en>-----Please Choose Year------</en><th>-----กรุณาเลือกปี-----</th></pleaseyear>
 <r0><en>-</en><th>-</th></r0>
 <r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
 <r3><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r3>
@@ -98,4 +105,11 @@
 <r19><en>Report Tracking status for linen operation By User</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้</th></r19>
 <r20><en>Report Summary billing</en><th>รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
 <r21><en>Report T-das</en><th>รายงาน T-das</th></r21>
+<sign><en>Sign</en><th>ลงชื่อ</th></sign>
+<packing><en>Packing</en><th>เจ้าหน้าที่แพ็คของ</th></packing>
+<passenger><en>Passenger</en><th>เจ้าหน้าที่ส่งของ</th></passenger>
+<receiver><en>Receiver</en><th>เจ้าหน้าที่รับของ</th></receiver>
+<TAX7><en>TAX 7%</en><th>ภาษีมูลค่าเพิ่ม 7%  </th></TAX7>
+<totalnetaftertax><en>Total net amount (including Value Added Tax)</en><th>รวมเงินสุทธิ (รวมภาษีมุลค่าเพิ่ม)</th></totalnetaftertax>
+<beforetax><en>Balance Before VAT</en><th>ยอดเงินก่อนภาษีมูลค่าเพิ่ม</th></beforetax>
 </lang>

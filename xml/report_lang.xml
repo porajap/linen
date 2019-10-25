@@ -6,12 +6,12 @@
 <parqty><en>Par Qty</en><th>จำนวนทั้งหมด</th></parqty>
 <par><en>Par</en><th>จำนวนทั้งหมด</th></par>
 <shelfcount1><en>Shelf Count</en><th>จำนวนที่นับได้</th></shelfcount1>
-<max><en>Max</en><th>คำสูงสุด</th></max>
+<max><en>Max</en><th>ค่าสูงสุด</th></max>
 <issue><en>Issue</en><th>ค่าที่จ่ายไป</th></issue>
 <short><en>Short</en><th>ผ้ามีไม่พอจ่าย</th></short>
 <shot><en>Shot</en><th>ผ้าขาด</th></shot>
 <over><en>Over</en><th>ผ้าเกิน</th></over>
-<Cycle><en>Cycle</en><th>รอบที่</th></Cycle>
+<Cycle><en>Cycle</en><th>รอบส่งผ้า</th></Cycle>
 <factory><en>Factory</en><th>โรงซัก</th></factory>
 <receive><en>Receive (Qty)</en><th>ผ้าที่รับ(จำนวน)</th></receive>
 <reject><en>Reject (Qty)</en><th>ผ้าซักใหม่(จำนวน)</th></reject>
@@ -20,6 +20,7 @@
 <receivepercent><en>Receive (%)</en><th>ผ้าที่รับ (%)</th></receivepercent>
 <rejectpercent><en>Reject (%)</en><th>ผ้าซักใหม่ (%)</th></rejectpercent>
 <repairpercent><en>Repair (%)</en><th>ผ้าส่งซ่อม (%)</th></repairpercent>
+<refdocno><en>RefDocNo.</en><th>เอกสารอ้างอิง</th></refdocno>
 <dirty><en>Dirty</en><th>ผ้าเปื้อน</th></dirty>
 <soild><en>Soild</en><th>รายการผ้าเปื้อน</th></soild>
 <clean1><en>Clean</en><th>รายการผ้าสะอาด</th></clean1>
@@ -30,6 +31,7 @@
 <newlinen><en>Newlinen</en><th>ผ้าซักใหม่</th></newlinen>
 <Totaldirty><en>Total dirty</en><th>รวมผ้าเปื้อน</th></Totaldirty>
 <clean><en>Clean</en><th>ผ้าสะอาด</th></clean>
+<keymerge><en></en><th>ผ้าสะอาด</th></keymerge>
 <receive_dirty><en>Receive Dirty</en><th>ผ้าเปื้อนแก้ไขรับกลับ</th></receive_dirty>
 <receive_newlinen><en>Receive Newlinen</en><th>ผ้าใหม่รับกลับ</th></receive_newlinen>
 <Totalclean><en>Total Clean</en><th>รวมผ้าสะอาด</th></Totalclean>
@@ -37,6 +39,7 @@
 <damage><en>Damage</en><th>ผ้าเสียหาย</th></damage>
 <loss><en>Loss</en><th>ผ้าถูกซ่อม (จำนวน)</th></loss>
 <docno><en>Doc No</en><th>เลขที่เอกสาร</th></docno>
+<total_weight><en>Total Weight</en><th>รวมน้ำหนัก</th></total_weight>
 <docdate><en>Doc Date</en><th>วันที่เอกสาร</th></docdate>
 <user><en>Responsible</en><th>ผู้บันทึก</th></user>
 <time><en>Time</en><th>เวลาที่บันทึก</th></time>
@@ -52,6 +55,8 @@
 <total_price><en>Total Price</en><th>รวมเงิน</th></total_price>
 <weight><en>Weight</en><th>น้ำหนัก</th></weight>
 <weightclean><en>Weight (clean)</en><th>น้ำหนัก (ผ้าสะอาด)</th></weightclean>
+<kg><en>Kg.</en><th>กิโลกรัม</th></kg>
+<bath><en>Bath</en><th>บาท</th></bath>
 <weightrepair><en>Weight (repair)</en><th>น้ำหนัก (ผ้าถูกซ่อม)</th></weightrepair>
 <priceperkilo><en>Price per kilogram</en><th>ราคาต่อกิโลกรัม</th></priceperkilo>
 <priceperunit><en>Price per Unit</en><th>ราคาต่อหน่วย</th></priceperunit>
@@ -60,6 +65,7 @@
 <price><en>Total</en><th>เป็นเงิน</th></price>
 <price1><en>Price</en><th>ราคา</th></price1>
 <officer><en>User</en><th>เจ้าหน้าที่</th></officer>
+
 <shelfcount><en>Shelfcount Time</en><th>เวลานับผ้า</th></shelfcount>
 <receive_time><en>Receive Time</en><th>เวลารับผ้า</th></receive_time>
 <washing_time><en>Washing Time</en><th>เวลาซักผ้า</th></washing_time>
@@ -77,7 +83,7 @@
 <examiner><en>Examiner</en><th>ผู้ตรวจสอบ</th></examiner>
 <ward><en>Ward</en><th>แผนก</th></ward>
 <r0><en>-</en><th>-</th></r0>
-<r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
+<r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งซักผ้าเปื้อน</th></r1>
 <r3><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r3>
 <r2><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r2>
 <r4><en>Daily issue Request</en><th>รายงานคำร้องขอการส่งผ้า</th></r4>
@@ -98,4 +104,12 @@
 <r19><en>Report Tracking status for linen operation By User</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้</th></r19>
 <r20><en>Report Summary billing</en><th>รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
 <r21><en>Report T-das</en><th>รายงาน T-das</th></r21>
+<reportnewlinen><en>Report New Linen</en><th>รายงานบันทึกการส่งซักผ้าใหม่</th></reportnewlinen>
+<sign><en>Sign</en><th>ลงชื่อ</th></sign>
+<packing><en>Packing</en><th>เจ้าหน้าที่แพ็คของ</th></packing>
+<passenger><en>Passenger</en><th>เจ้าหน้าที่ส่งของ</th></passenger>
+<receiver><en>Receiver</en><th>เจ้าหน้าที่รับของ</th></receiver>
+<rfid_dirty><en>Report RFID Dirty</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าเปื้อน</th></rfid_dirty>
+<rfid_clean><en>Report RFID Clean</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าสะอาด</th></rfid_clean>
+<rfid_amount><en>Report RFID Clean</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าสะอาด</th></rfid_amount>
 </lang>

@@ -171,6 +171,9 @@
 <printdate><en>Report print date : </en><th>วันที่พิมพ์รายงาน</th></printdate>
 <changetimeout><en>Change Timeout</en><th>แก้ไขเวลาพักหน้าจอ</th></changetimeout>
 <textr3><en>Report Claim</en><th>รายงานผ้าชำรุดเสียหาย</th></textr3>
+<pleaseday><en>-----Please Choose Date------</en><th>-----กรุณาเลือกวันที่-----</th></pleaseday>
+<pleasemonth><en>-----Please Choose Date------</en><th>-----กรุณาเลือกเดือน-----</th></pleasemonth>
+<pleaseyear><en>-----Please Choose Date------</en><th>-----กรุณาเลือกปี-----</th></pleaseyear>
 
 <r0><en>-</en><th>-</th></r0>
 <r1><en>Report Dirty linen Weight</en><th>Record Dirty linen weight</th></r1>

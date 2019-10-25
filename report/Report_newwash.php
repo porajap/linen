@@ -9,15 +9,9 @@ date_default_timezone_set("Asia/Bangkok");
 $eDate = $_GET['eDate'];
 $eDate = explode("/", $eDate);
 $eDate = $eDate[2] . '-' . $eDate[1] . '-' . $eDate[0];
-$DocNo = $_GET['DocNo'];
-$hos = $_GET['hos'];
-$date = $_GET['date'];
-$recorder = $_GET['recorder'];
-$timerec = $_GET['timerec'];
-$fac = $_GET['fac'];
-
 
 $dept = $_GET['dept'];
+
 $language = $_GET['lang'];
 if ($language == "en") {
   $language = "en";
@@ -32,17 +26,17 @@ $array = json_decode($json, TRUE);
 
 class PDF extends FPDF
 {
-
-
   function Header()
   {
     $xml = simplexml_load_file('../xml/report_lang.xml');
     $json = json_encode($xml);
     $array = json_decode($json, TRUE);
-    $datetime = new DatetimeTH();
     $language = $_GET['lang'];
+    $datetime = new DatetimeTH();
+
     $eDate = $_GET['eDate'];
     $eDate = explode("/", $eDate);
+    // $eDate = $eDate[2].'-'.$eDate[1].'-'.$eDate[0];
     $printdate = date('d-m-Y');
     list($day, $mouth, $year) = explode("-", $printdate);
     if ($language == 'th') {
@@ -58,12 +52,12 @@ class PDF extends FPDF
       $this->Cell(190, 10, iconv("UTF-8", "TIS-620", $array['printdate'][$language] . ' ' . $date_header), 0, 0, 'R');
       $this->Ln(10);
       // Title
-      $image="../report_linen/images/Nhealth_linen 4.0.png";
-      $this-> Image($image,10,10,43,15);
+      $image = "../report_linen/images/Nhealth_linen 4.0.png";
+      $this->Image($image, 10, 10, 43, 15);
       $this->Ln(10);
       $this->SetFont('THSarabun', 'b', 21);
       $this->Cell(80);
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620",  $array['r1'][$language]), 0, 0, 'C');
+      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['reportnewlinen'][$language]), 0, 0, 'C');
       // Line break
       $this->Ln(10);
     } else {
@@ -91,7 +85,6 @@ class PDF extends FPDF
       $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . ".........................................................."), 0, 0, 'L');
       $this->Ln(7);
     }
-    $datetime = new DatetimeTH();
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
@@ -121,8 +114,8 @@ class PDF extends FPDF
    
     $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
     $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
-    $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
-    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
+    $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
+    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
     $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
     $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 1, 'C');
 
@@ -195,11 +188,10 @@ class PDF extends FPDF
         $r++;
       }
     }
-    $this->SetFont('THSarabun', 'b', 14);
-    $this->Cell($w[0]+$w[1]+$w[2]+$w[3]+$w[5], 10, iconv("UTF-8", "TIS-620", $array['total'][$language]), 1, 0, 'C');
-    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($total,2 ). " "), 1, 0, 'C');
+
+    $this->Cell($w[0] + $w[1] + $w[2] + $w[3] + $w[5], 10, iconv("UTF-8", "TIS-620", $array['total'][$language]), 1, 0, 'C');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($total, 2) . " "), 1, 0, 'C');
     $this->Ln();
-    // Closing line
   }
 }
 function getMBStrSplit($string, $split_length = 1)
@@ -241,6 +233,7 @@ $font = new Font($pdf);
 $data = new Data();
 $datetime = new DatetimeTH();
 
+$DocNo = $_GET['DocNo'];
 
 // Using Coding
 $pdf->AddPage();
@@ -258,72 +251,87 @@ if ($language == 'th') {
   $Name = EngName;
   $LName = EngLName;
 }
+
 $Sql = "SELECT site.$HptName,
-        factory.$FacName,
-        DATE_FORMAT(dirty.DocDate,'%d-%m-%Y')AS DocDate,
-        TIME(dirty.Modify_Date) AS xTime,
-        CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName
-        FROM dirty
-        INNER JOIN site ON dirty.HptCode = site.HptCode
-        INNER JOIN factory ON dirty.FacCode = factory.FacCode
-        INNER JOIN users ON dirty.Modify_Code = users.ID
-        WHERE dirty.DocNo = '$DocNo'";
-// echo $Sql;
+        department.DepName,
+        newlinentable.DocNo,
+        DATE_FORMAT(newlinentable.DocDate,'%d-%m-%Y')AS DocDate,
+        newlinentable.Total,
+        CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
+        TIME(newlinentable.Modify_Date) AS xTime,
+        newlinentable.RefDocNo
+        FROM newlinentable
+INNER JOIN newlinentable_detail ON newlinentable.DocNo = newlinentable_detail.DocNo
+INNER JOIN department ON newlinentable_detail.DepCode = department.DepCode
+INNER JOIN site ON department.HptCode = site.HptCode
+INNER JOIN users ON newlinentable.Modify_Code = users.ID
+        WHERE newlinentable.DocNo = '$DocNo' limit 1 ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptName = $Result[$HptName];
-  $FacName = $Result[$FacName];
-  $xTime = $Result['xTime'];
-  $FName = $Result['FName'];
+  $DepName = $Result['DepName'];
+  $DocNo = $Result['DocNo'];
   $DocDate = $Result['DocDate'];
+  $Total = $Result['Total'];
+  $FirstName = $Result['FName'];
+  $xTime = $Result['xTime'];
+  $RefDocNo = $Result['RefDocNo'];
 }
-  list($d,$m,$y)=explode('-',$DocDate);
-  if($language == 'th'){
-    $y = $y+543;
-  }else{
-    $y =$y;
-  }
-  $DocDate = $d."-".$m."-".$y;
-$hos . $date . $recorder . $timerec . $fac;
+list($d,$m,$y)=explode('-',$DocDate);
+if($language == 'th'){
+  $y = $y+543;
+}else{
+  $y =$y;
+}
+$DocDate = $d."-".$m."-".$y;
 $pdf->SetFont('THSarabun', 'b', 16);
+
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['hospital'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $HptName), 0, 0, 'L');
-$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['factory'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $FacName), 0, 0, 'L');
+$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $HptName), 0, 0, 'L');
+// $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['department'][$language]),0,0,'L');
+// $pdf->Cell(40,10,iconv("UTF-8","TIS-620"," : ".$DepName),0,0,'L');
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docdate'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $DocDate), 0, 0, 'L');
 $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docno'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $DocNo), 0, 0, 'L');
-$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docdate'][$language]), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", ": " . $DocDate), 0, 0, 'L');
+$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $DocNo), 0, 0, 'L');
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['time'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $xTime), 0, 0, 'L');
+
 $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['user'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $FName), 0, 0, 'L');
-$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['time'][$language]), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", ": " . $xTime), 0, 0, 'L');
+$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $FirstName), 0, 0, 'L');
+
 $pdf->Ln();
 $pdf->Cell(15);
+
+
 
 $pdf->SetMargins(15, 0, 0);
 $pdf->Ln();
 $pdf->Ln(5);
 $query = "SELECT
-          dirty_detail.ItemCode,
-          item.ItemName,
-          item_unit.UnitName,
-          department.DepName,
-          sum(dirty_detail.Qty) as Qty,
-          sum(dirty_detail.Weight) as Weight
-          FROM item
-          INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-          INNER JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
-          INNER JOIN department ON dirty_detail.DepCode = department.DepCode
-          WHERE dirty_detail.DocNo = '$DocNo'
-		      GROUP BY item.ItemCode,department.depname
-          ORDER BY
+	newlinentable_detail.ItemCode,
+	item.ItemName,
+	item_unit.UnitName,
+department.DepName,
+	sum(newlinentable_detail.Qty) AS Qty,
+	sum(
+		newlinentable_detail.Weight
+	) AS Weight
+FROM
+	item
+INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+INNER JOIN newlinentable_detail ON newlinentable_detail.ItemCode = item.ItemCode
+INNER JOIN department ON newlinentable_detail.DepCode = department.DepCode
+WHERE
+             newlinentable_detail.DocNo = '$DocNo'
+		       GROUP BY item.ItemCode,department.DepName
+           ORDER BY
 	department.Depcode,item.ItemCode ASC
           ";
 // var_dump($query); die;
@@ -332,7 +340,7 @@ $numfield = 7;
 // Field data (Must match with Query)
 $field = "no,ItemName,Qty,Weight,UnitName,DepName";
 // Table header
-$header = array($array['no'][$language],  $array['itemname'][$language],$array['department'][$language], $array['qty'][$language], $array['unit'][$language], $array['weight'][$language]);
+$header = array($array['no'][$language], $array['itemname'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language], $array['department'][$language]);
 // width of column table
 $width = array(15, 55, 20, 20, 20, 50);
 // Get Data and store in Result
@@ -340,8 +348,7 @@ $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
 $pdf->SetFont('THSarabun', 'b', 12);
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
-
-
 $pdf->isFinished = true;
+
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Dirty_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_NewWash_' . $ddate . '.pdf');

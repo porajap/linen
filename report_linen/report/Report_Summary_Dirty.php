@@ -105,7 +105,7 @@ class PDF extends FPDF
     $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') . $this->PageNo() . '/{nb}', 0, 0, 'R');
   }
 
-  function setTable($pdf, $header, $data, $width, $numfield, $field)
+  function setTable($pdf, $header, $data, $width, $numfield, $field, $private)
   {
     $language = $_SESSION['lang'];
     if ($language == "en") {
@@ -153,7 +153,9 @@ class PDF extends FPDF
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        if ($private == 1) {
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($total, 2)), 1, 0, 'C');
+        }
         $this->Ln();
         $rows++;
         $totalsum1 += $inner_array[$field[1]];
@@ -163,44 +165,46 @@ class PDF extends FPDF
         $tax = $totalsum3 * 7 / 100;
       }
     }
-    $this->SetFont('THSarabun', 'b', 12);
-    $footer = array('VAT 7%', '', '', '', number_format($tax, 2));
-    for ($i = 0; $i < count($footer); $i++)
-    $pdf->Cell($width[$i], 10, iconv("UTF-8", "TIS-620", $footer[$i] . " "), 1, 0, 'C');
-    $pdf->Ln();
+    if ($private == 1) {
+      $this->SetFont('THSarabun', 'b', 12);
+      $footer = array('VAT 7%', '', '', '', number_format($tax, 2));
+      for ($i = 0; $i < count($footer); $i++)
+        $pdf->Cell($width[$i], 10, iconv("UTF-8", "TIS-620", $footer[$i] . " "), 1, 0, 'C');
+      $pdf->Ln();
 
-    $footer = array($array2['total'][$language], number_format($totalsum1, 2), number_format($totalsum2, 2), '', number_format($totalsum4, 2));
-    $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $footer[0]), 1, 0, 'C');
-    $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $footer[1]), 1, 0, 'C');
-    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $footer[2]), 1, 0, 'C');
-    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $footer[3]), 1, 0, 'C');
-    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $footer[4]), 1, 1, 'C');
+      $footer = array($array2['total'][$language], number_format($totalsum1, 2), number_format($totalsum2, 2), '', number_format($totalsum4, 2));
+      $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $footer[0]), 1, 0, 'C');
+      $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $footer[1]), 1, 0, 'C');
+      $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $footer[2]), 1, 0, 'C');
+      $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $footer[3]), 1, 0, 'C');
+      $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $footer[4]), 1, 1, 'C');
 
 
-    if ($count % 25 >= 22) {
-      $pdf->AddPage("P", "A4");
+      if ($count % 25 >= 22) {
+        $pdf->AddPage("P", "A4");
+      }
+      $pdf->SetFont('THSarabun', 'b', 12);
+      $pdf->Cell(5);
+      $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "จำนวนกิโลกรัม = Clean Linen (After inspection) + Repair Convert by item to weight and sum"), 0, 0, 'L');
+      $pdf->Ln(7);
+      $pdf->Cell(5);
+      $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "ราคาต่อกิโลกรัม = Price per kg. Depend on outsource Laundry"), 0, 0, 'L');
+      $pdf->Ln(7);
+      $pdf->Cell(5);
+      $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "รวมเป็นเงิน = Total amount exclude vat 7%"), 0, 0, 'L');
+      $pdf->Ln(10);
     }
-    $pdf->SetFont('THSarabun', 'b', 12);
-    $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "จำนวนกิโลกรัม = Clean Linen (After inspection) + Repair Convert by item to weight and sum"), 0, 0, 'L');
-    $pdf->Ln(7);
-    $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "ราคาต่อกิโลกรัม = Price per kg. Depend on outsource Laundry"), 0, 0, 'L');
-    $pdf->Ln(7);
-    $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", "รวมเป็นเงิน = Total amount exclude vat 7%"), 0, 0, 'L');
-    $pdf->Ln(10);
     // Closing line
     $pdf->Cell(array_sum($w), 0, '', 'T');
     $pdf->Ln(8);
     $pdf->SetFont('THSarabun', 'b', 11);
     $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language]."..................................................."), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language]."........................................"), 0, 0, 'L');
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . "..................................................."), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "........................................"), 0, 0, 'L');
     $pdf->Ln(7);
     $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language]."......................................................................"), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language].".........................................................."), 0, 0, 'L');
+    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . ".........................................................."), 0, 0, 'L');
     $pdf->Ln(7);
   }
 }
@@ -229,7 +233,8 @@ item_main_category.maincategoryname
 FROM
 clean
 INNER JOIN dirty ON dirty.DocNo = clean.RefDocNo
-INNER JOIN department ON dirty.Depcode=department.Depcode
+INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
+INNER JOIN department ON dirty_detail.Depcode=department.Depcode
 INNER JOIN site ON site.Hptcode=department.Hptcode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
 INNER JOIN clean_detail ON clean.DocNo = clean_detail.DocNo
@@ -254,8 +259,8 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
-$image="../images/Nhealth_linen 4.0.png";
-$pdf-> Image($image,10,10,43,15);
+$image = "../images/Nhealth_linen 4.0.png";
+$pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
@@ -293,9 +298,11 @@ INNER JOIN item ON clean_detail.ItemCode=item.ItemCode
 INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
 INNER JOIN item_category ON item.CategoryCode=item_category.CategoryCode
 INNER JOIN item_main_category ON item_main_category.MainCategoryCode=item_category.MainCategoryCode
+INNER JOIN department ON clean.DepCode = department.DepCode
 $where
 AND dirty.FacCode= $FacCode
 AND item_main_category.MainCategoryCode = '$ppu'
+AND department.HptCode = '$HptCode'
 GROUP BY item.ItemCode  )a,
 (
 SELECT 
@@ -310,26 +317,56 @@ INNER JOIN factory ON factory.FacCode = dirty.FacCode
 INNER JOIN item ON repair_detail.ItemCode=item.ItemCode
 INNER JOIN item_category ON item.CategoryCode=item_category.CategoryCode
 INNER JOIN item_main_category ON item_main_category.MainCategoryCode=item_category.MainCategoryCode
+INNER JOIN department ON repair.DepCode = department.DepCode
 $where
 AND dirty.FacCode=$FacCode
-AND item_main_category.MainCategoryCode = '$ppu')b
-
+AND item_main_category.MainCategoryCode = '$ppu'
+AND department.HptCode = '$HptCode')b
             ";
-// var_dump($query); die;
-// Number of column
-$numfield = 5;
-// Field data (Must match with Query)
-$field = "ItemName,clean_weight,repair_Weight,Price,TOTAL";
-// Table header
-$header = array($array2['itemname'][$language], $array2['weightclean'][$language], $array2['weightrepair'][$language], $array2['priceperkilo'][$language], $array2['total'][$language]);
-// width of column table
-$width = array(60, 32.5, 32.5, 32.5, 32.5);
-// Get Data and store in Result
-$result = $data->getdata($conn, $query, $numfield, $field);
-// Set Table
-$pdf->SetFont('THSarabun', 'b', 10);
-$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
-$pdf->Ln();
+
+$queryy = "SELECT
+site.private,
+site.government
+FROM
+site
+WHERE site.HptCode = '$HptCode' ";
+$meQuery = mysqli_query($conn, $queryy);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $private = $Result['private'];
+  $government = $Result['government'];
+}
+$private = 0;
+$government  = 1 ;
+if ($private == 1) {
+  $numfield = 5;
+  // Field data (Must match with Query)
+  $field = "ItemName,clean_weight,repair_Weight,Price,TOTAL";
+  // Table header
+  $header = array($array2['itemname'][$language], $array2['weightclean'][$language], $array2['weightrepair'][$language], $array2['priceperkilo'][$language], $array2['total'][$language]);
+  // width of column table
+  $width = array(60, 32.5, 32.5, 32.5, 32.5);
+  // Get Data and store in Result
+  $result = $data->getdata($conn, $query, $numfield, $field);
+  // Set Table
+  $pdf->SetFont('THSarabun', 'b', 10);
+  $pdf->setTable($pdf, $header, $result, $width, $numfield, $field, $private);
+  $pdf->Ln();
+}
+if ($government == 1) {
+  $numfield = 5;
+  // Field data (Must match with Query)
+  $field = "ItemName,clean_weight,repair_Weight";
+  // Table header
+  $header = array($array2['itemname'][$language], $array2['weightclean'][$language], $array2['weightrepair'][$language]);
+  // width of column table
+  $width = array(60, 65, 65);
+  // Get Data and store in Result
+  $result = $data->getdata($conn, $query, $numfield, $field);
+  // Set Table
+  $pdf->SetFont('THSarabun', 'b', 10);
+  $pdf->setTable($pdf, $header, $result, $width, $numfield, $field, $private);
+  $pdf->Ln();
+}
 // Get $totalsum
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Summary_Dirty_' . $ddate . '.pdf');
