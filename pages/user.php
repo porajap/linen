@@ -104,7 +104,10 @@ $array2 = json_decode($json2,TRUE);
                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
             });
             $('.charonly').on('input', function() {
-                this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
+          this.value = this.value.replace(/[^a-zA-Z0-9. ]/g, ''); //<-- replace all other than given set of values
+            });
+            $('.charonlyTH').on('input', function() {
+            this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
             });
 
             $('.dropify').dropify();
@@ -1506,16 +1509,16 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="col-md-6">
                                         <div class='form-group row'>
                                         <label class="col-sm-3 col-form-label "><?php echo $array['nameeng'][$language]; ?></label>
-                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 mr-1 checkblank" id="Enfname"    placeholder="First name">
-                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 checkblank" id="Enlname"    placeholder="Lastname">
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control charonly col-sm-4 mr-1 checkblank" id="Enfname"    placeholder="First name">
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control charonly col-sm-4 checkblank" id="Enlname"    placeholder="Lastname">
                                             <label id="rem5" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class='form-group row'>
                                         <label class="col-sm-3 col-form-label "><?php echo $array['nameth'][$language]; ?></label>
-                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 mr-1 checkblank" id="Thfname"    placeholder="ชื่อ">
-                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-4 checkblank" id="Thlname"    placeholder="นามสกุล">
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control charonlyTH col-sm-4 mr-1 checkblank" id="Thfname"    placeholder="ชื่อ">
+                                            <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control charonlyTH col-sm-4 checkblank" id="Thlname"    placeholder="นามสกุล">
                                             <label id="rem6" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
                                         </div>
                                     </div> 
