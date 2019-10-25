@@ -381,8 +381,8 @@ $array2 = json_decode($json2,TRUE);
                         } else if ((temp["form"] == 'ShowItem')) {
                             $('#TableItem tbody').empty();
                             if(temp['Count']>0){
-                                $('#hptsel').val(temp[0]['HptCode']);
-                                $('#hptsel2').val(temp[0]['HptCode']);
+                                // $('#hptsel').val(temp[0]['HptCode']);
+                                // $('#hptsel2').val(temp[0]['HptCode']);
                                 for (var i = 0; i < temp['Count']; i++) {
                                     var chkItem = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='getDetail("+temp[i]['ID']+");'><span class='checkmark'></span></label>";
                                     var Str = "<tr><td style='width:5%' class='text-center'>"+chkItem+"</td>"+
