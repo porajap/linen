@@ -29,18 +29,18 @@ mysqli_query($conn,$update_alert);
     // build message body
 $body = '
 
-<br>
-___________________________________________________________________<br>
-<h3>'.$HptNameTH.'</h3>
-<b>วันที่ทำสัญญา:</b> '.$StartDate.'<br>
-<b>วันที่สิ้นสุดสัญญา:</b> '.$EndDate.'<br>
-<b>หมดสัญญาวันที่:</b> '.$EndDate.' เหลือเวลาอีก '.$dateDiff.' วัน<br>
-___________________________________________________________________<br>
-<h3>'.$HptName.'</h3>
-<b>DATE OF CNTRCT:</b> '.$StartDate.'<br>
-<b>CONTRCT TERM DATE:</b> '.$EndDate.'<br>
-<b>Expire:</b> '.$EndDate.' Time left '.$dateDiff.' Day<br>
-___________________________________________________________________<br>
+   
+___________________________________________________________________   
+'.$HptNameTH.'
+วันที่ทำสัญญา: '.$StartDate.'   
+วันที่สิ้นสุดสัญญา: '.$EndDate.'   
+หมดสัญญาวันที่: '.$EndDate.' เหลือเวลาอีก '.$dateDiff.' วัน   
+___________________________________________________________________   
+'.$HptName.'
+DATE OF CNTRCT: '.$StartDate.'   
+CONTRCT TERM DATE: '.$EndDate.'   
+Expire: '.$EndDate.' Time left '.$dateDiff.' Day   
+___________________________________________________________________   
 
 ';
 
