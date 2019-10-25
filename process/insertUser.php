@@ -144,7 +144,7 @@ if($Userid==""){
                     NOW(),
                     30,
                     '$email',
-                    $remask',
+                    '$remask',
                     '$filename',
                     $xemail ,
                     NOW(),
