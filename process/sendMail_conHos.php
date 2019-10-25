@@ -54,3 +54,4 @@ $flgSend = @mail($strTo,$strSubject,$strMessage,$strHeader);  // @ = No Show Err
 
 ?>
 </body>
+</html>
