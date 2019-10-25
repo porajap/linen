@@ -117,7 +117,7 @@ function AddItem($conn, $DATA){
   $Time = $DATA['Time'];
   $Sql = "INSERT INTO time_express (Time_ID, HptCode ,DocDate ,Modify_Code ,Modify_Date)VALUES($Time, '$HptCode',NOW(),$Userid,NOW() )";
   mysqli_query($conn, $Sql);
-  ShowItem($conn, $DATA);
+  // ShowItem($conn, $DATA);
 }
 function getDetail($conn, $DATA){
   $ID = $DATA['ID'];

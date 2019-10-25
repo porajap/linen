@@ -290,8 +290,9 @@ $array2 = json_decode($json2,TRUE);
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
             var department = $('#department').val();
+            var department22 = $('#department2').val();
             if(chk ==1){
-                $('#department').val(department2);
+                $('#department').val(department22);
                 var department2 = $('#department2').val();
             }else if(chk ==2){
                 $('#department2').val(department);
@@ -320,7 +321,11 @@ $array2 = json_decode($json2,TRUE);
             var UsID = $('#UsID').val();
             var UserName = $('#username').val();
             var Password = $('#Password').val();
-            var FName = $('#flname').val();
+            var Enfname = $('#Enfname').val();
+            var Enlname = $('#Enlname').val();
+            var Thfname = $('#Thfname').val();
+            var Thlname = $('#Thlname').val();
+
             var host = $('#host').val();
             var Permission = $('#Permission').val();
             var facID = $('#factory').val();
@@ -343,16 +348,28 @@ $array2 = json_decode($json2,TRUE);
             $('#rem4').hide();
             $('#Password').css('border-color', '');
             }
-            if(FName !="" && FName!=undefined){
+            if(Enfname !="" && Enfname!=undefined){
             $('#rem5').hide();
-            $('#flname').css('border-color', '');
+            $('#Enfname').css('border-color', '');
+            }
+            if(Enlname !="" && Enlname!=undefined){
+            $('#rem5').hide();
+            $('#Enlname').css('border-color', '');
+            }           
+            if(Thfname !="" && Thfname!=undefined){
+            $('#rem6').hide();
+            $('#Thfname').css('border-color', '');
+            }           
+            if(Thlname !="" && Thlname!=undefined){
+            $('#rem6').hide();
+            $('#Thlname').css('border-color', '');
             }
             if(Permission !="" && Permission!=undefined){
-            $('#rem6').hide();
+            $('#rem7').hide();
             $('#Permission').css('border-color', '');
             }
             if(email !="" && email!=undefined){
-            $('#rem7').hide();
+            $('#rem8').hide();
             $('#email').css('border-color', '');
             }
         }
