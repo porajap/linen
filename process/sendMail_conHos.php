@@ -1,7 +1,6 @@
 <html>
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
 <?php 
@@ -20,7 +19,6 @@ $EndDate = $_POST['EndDate'];
 $email = $_POST['email'];
 $dateDiff = $_POST['dateDiff'];
 $RowID = $_POST['RowID'];
-
 if($dateDiff == 30){
     $update_alert = "UPDATE contract_parties_hospital SET day_30 = 1 WHERE RowID = '$RowID'";
 }else{
@@ -29,29 +27,23 @@ if($dateDiff == 30){
 mysqli_query($conn,$update_alert);
     // build message body
 $body = '
-
-<br>
-___________________________________________________________________<br>
-<h3>'.$HptNameTH.'</h3>
-<b>วันที่ทำสัญญา:</b> '.$StartDate.'<br>
-<b>วันที่สิ้นสุดสัญญา:</b> '.$EndDate.'<br>
-<b>หมดสัญญาวันที่:</b> '.$EndDate.' เหลือเวลาอีก '.$dateDiff.' วัน<br>
-___________________________________________________________________<br>
-<h3>'.$HptName.'</h3>
-<b>DATE OF CNTRCT:</b> '.$StartDate.'<br>
-<b>CONTRCT TERM DATE:</b> '.$EndDate.'<br>
-<b>Expire:</b> '.$EndDate.' Time left '.$dateDiff.' Day<br>
-___________________________________________________________________<br>
-
+   
+___________________________________________________________________   
+'.$HptNameTH.'
+วันที่ทำสัญญา: '.$StartDate.'   
+วันที่สิ้นสุดสัญญา: '.$EndDate.'   
+หมดสัญญาวันที่: '.$EndDate.' เหลือเวลาอีก '.$dateDiff.' วัน   
+___________________________________________________________________   
+'.$HptName.'
+DATE OF CNTRCT: '.$StartDate.'   
+CONTRCT TERM DATE: '.$EndDate.'   
+Expire: '.$EndDate.' Time left '.$dateDiff.' Day   
+___________________________________________________________________   
 ';
-
 $strTo = $email;
 $strSubject = "Notification of hospital contract expiration";
-$strHeader .= "Content-type: text/html; charset=utf-8\r\n"; 
 $strHeader = "From: poseinttelligence@gmail.com";
 $strMessage = $body;
 $flgSend = @mail($strTo,$strSubject,$strMessage,$strHeader);  // @ = No Show Error //
-
 ?>
 </body>
-</html>
