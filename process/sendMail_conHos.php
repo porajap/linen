@@ -28,8 +28,7 @@ if($dateDiff == 30){
 mysqli_query($conn,$update_alert);
     // build message body
 $body = '
-<html>
-<body>
+
 <br>
 ___________________________________________________________________<br>
 <h3>'.$HptNameTH.'</h3>
@@ -42,8 +41,7 @@ ___________________________________________________________________<br>
 <b>CONTRCT TERM DATE:</b> '.$EndDate.'<br>
 <b>Expire:</b> '.$EndDate.' Time left '.$dateDiff.' Day<br>
 ___________________________________________________________________<br>
-</body>
-</html>
+
 ';
 
 $strTo = $email;

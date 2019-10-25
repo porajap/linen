@@ -29,8 +29,7 @@ if($dateDiff == 30){
 mysqli_query($conn,$update_alert);
     // build message body
 $body = '
-<html>
-<body>
+
 <br>
 ___________________________________________________________________<br>
 <h3>'.$HptNameTH.'</h3>
@@ -45,8 +44,7 @@ ___________________________________________________________________<br>
 <b>Doc No:</b> '.$DocNo.'<br>
 <b>DATE OF CHG PC.:</b> '.$xDate.' TIME LT '.$dateDiff.' วัน<br>
 ___________________________________________________________________<br>
-</body>
-</html>
+
 ';
 
 $strTo = $email;

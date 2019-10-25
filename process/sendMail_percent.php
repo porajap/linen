@@ -30,8 +30,7 @@ $HptNameTH = $_POST['HptNameTH'];
 // mysqli_query($conn,$update_alert);
     // build message body
 $body = '
-<html>
-<body>
+
 <br>
 ___________________________________________________________________<br>
 <h3>'.$HptNameTH.'</h3>
@@ -48,8 +47,7 @@ ___________________________________________________________________<br>
 <b>WEIGHT CLEAN:</b> '.$Total2.' <b>kilogram</b><br>
 <b>PERCENT:</b> '.$Precent.'  <b>%</b><br>
 ___________________________________________________________________<br>
-</body>
-</html>
+
 ';
 
 
