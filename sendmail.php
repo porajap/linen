@@ -31,7 +31,7 @@ Thanks...
 
 ';
 	$strTo = $email;
-	$strSubject = "Test Send Email";
+	$strSubject = "Reset password...";
 	$strHeader = "From: poseinttelligence@gmail.com";
 	$strMessage = $body;
 	$flgSend = @mail($strTo,$strSubject,$strMessage,$strHeader);  // @ = No Show Error //
