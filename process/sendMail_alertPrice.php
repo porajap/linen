@@ -52,7 +52,24 @@ $strTo = $email;
 $strSubject = "Notification change price";
 $strHeader = "From: poseinttelligence@gmail.com";
 $strHeader .= "Content-type: text/html; charset=utf-8\r\n"; 
-$strMessage = $body;
+$strMessage = '
+
+<br>
+___________________________________________________________________<br>
+<h3>'.$HptNameTH.'</h3>
+<b>วันที่ทำสัญญา:</b> '.$StartDate.'<br>
+<b>วันที่สิ้นสุดสัญญา:</b> '.$EndDate.'<br>
+<b>เลขที่เอกสาร:</b> '.$DocNo.'<br>
+<b>เปลี่ยนราคาวันที่:</b> '.$xDate.' เหลือเวลาอีก '.$dateDiff.' วัน<br>
+___________________________________________________________________<br>
+<h3>'.$HptName.'</h3>
+<b>DATE OF CNTRCT:</b> '.$StartDate.'<br>
+<b>CNTRCT TERM DATE:</b> '.$EndDate.'<br>
+<b>Doc No:</b> '.$DocNo.'<br>
+<b>DATE OF CHG PC.:</b> '.$xDate.' TIME LT '.$dateDiff.' วัน<br>
+___________________________________________________________________<br>
+
+';
 $flgSend = @mail($strTo,$strSubject,$strMessage,$strHeader);  // @ = No Show Error //
 ?>
 </body>
