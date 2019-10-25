@@ -146,7 +146,6 @@ function cPassword($conn,$DATA)
     }
   }
 }
-
 function rand_string( $length ) {
   $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz@#$&*";
   $size = strlen( $chars );
@@ -167,7 +166,7 @@ function sendmail($conn,$DATA)
     $Sql = "UPDATE users SET users.`Password` = '$newpassword2', Count = 0, users.IsActive = 0 WHERE  users.Username = '$user'";
     $Chk = mysqli_query($conn,$Sql);
     if($Chk){
-        $Sql = "SELECT users.UserName, users.Password, users.FName, site.HptName, department.DepName
+        $Sql = "SELECT users.UserName, users.Password, users.EngName, site.HptName, department.DepName
               FROM users
               INNER JOIN site ON site.HptCode = users.HptCode
               INNER JOIN department ON department.DepCode = users.DepCode
@@ -176,7 +175,7 @@ function sendmail($conn,$DATA)
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $return['UserName'] = $Result['UserName'];
           $return['Password'] = $newpassword;
-          $return['FName']    = $Result['FName'];
+          $return['FName']    = $Result['EngName'];
           $return['HptName']    = $Result['HptName'];
           $return['DepName']    = $Result['DepName'];
         }
