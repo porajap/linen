@@ -387,7 +387,7 @@ function getDepartment($conn, $DATA)
 		  FROM department
 		  WHERE department.HptCode = '$Hotp'
 		  AND department.IsStatus = 0
-      ORDER BY department.DepCode DESC";
+      ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
