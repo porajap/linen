@@ -1,3 +1,8 @@
+<html>
+<head>
+<title></title>
+</head>
+<body>
 <?php 
 session_start();
 require '../connect/connect.php';
@@ -44,33 +49,11 @@ ___________________________________________________________________<br>
 </html>
 ';
 
-$mail = new PHPMailer;
-$mail->CharSet = "UTF-8";
-$mail->isSMTP();
-$mail->SMTPDebug = 2;
-$mail->Debugoutput = 'html';
-$mail->Host = 'smtp.gmail.com';
-$mail->Port = 587;
-$mail->SMTPSecure = 'tls';
-$mail->SMTPAuth = true;
-$mail->Username = "poseinttelligence@gmail.com";
-$mail->Password = "pose6628";
-$mail->setFrom('poseinttelligence@gmail.com', 'Pose Intelligence');
-$mail->addAddress($email);
-$mail->Subject = 'Notification change price';
-$mail->msgHTML($body);
-$mail->AltBody = 'This is a plain-text message body';
-// $mail->send();
-if (!$mail->send()) {
-$return['msg'] = "Mailer Error: " . $mail->ErrorInfo;
-echo json_encode($return);
-die;
-} else {
-$return['msg'] = "Message sent!";
-echo json_encode($return);
-die;
-}
-
-
-
+$strTo = $email;
+$strSubject = "Notification change price";
+$strHeader = "From: poseinttelligence@gmail.com";
+$strMessage = $body;
+$flgSend = @mail($strTo,$strSubject,$strMessage,$strHeader);  // @ = No Show Error //
 ?>
+</body>
+</html>
