@@ -180,7 +180,7 @@ class PDF extends FPDF
     $datetime = new DatetimeTH();
     $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
   }
-  function setTable($pdf, $header, $data, $width, $numfield, $field)
+  function setTable($pdf, $header, $data, $width, $numfield, $field, $private)
   {
     $language = $_SESSION['lang'];
     if ($language == "en") {
@@ -227,55 +227,91 @@ class PDF extends FPDF
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
-        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $total), 1, 0, 'C');
+        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($total, 2)), 1, 0, 'C');
         $this->Ln();
         $total_all += $total;
         $count++;
       }
     }
-    $total_all = $total_all * 100 / 100;
-    if ($language == 'th') {
-      $text = m2t($total_all);
-    } else {
-      $f = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-      $text = $f->format($total_all);
-      $text = $text . " bath";
+    if ($private == 1) {
+      $total_all = $total_all * 100 / 100;
+      if ($language == 'th') {
+        $text = m2t($total_all);
+      } else {
+        $f = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+        $text = $f->format($total_all);
+        $text = $text . " bath";
+      }
+      $vat=$total_all*7/100;
+      $total = $total_all + $vat ;
+      $this->Cell($w[0] + $w[1]+ $w[2], 30, iconv("UTF-8", "TIS-620", $text), 1, 0, 'C');
+      $this->Cell($w[3]+$w[4], 10, iconv("UTF-8", "TIS-620",  $array2['beforetax'][$language]), 1, 0, 'C');
+      $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($total_all,2)), 1, 1, 'C');
+      $this->Cell($w[0] + $w[1]+ $w[2], 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell($w[3]+$w[4], 10, iconv("UTF-8", "TIS-620",  $array2['TAX7'][$language]), 1, 0, 'C');
+      $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620",number_format($vat,2)), 1, 1, 'C');
+      $this->Cell($w[0] + $w[1]+ $w[2], 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell($w[3]+$w[4], 10, iconv("UTF-8", "TIS-620", $array2['totalnetaftertax'][$language]), 1, 0, 'C');
+      $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620",  number_format($total,2)), 1, 1, 'C');
+      
+      
+      $this->Ln();
+      // Footer Table
     }
-    $this->Cell($w[0] + $w[1], 10, iconv("UTF-8", "TIS-620",  $text), 1, 0, 'C');
-    $this->Cell($w[2] + $w[3] + $w[4], 10, iconv("UTF-8", "TIS-620", $array2['total_price'][$language]), 1, 0, 'C');
-    $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $total_all), 1, 0, 'C');
-    $this->Ln();
-    // Footer Table
 
-    $pdf->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 0, 'C');
-    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 1, 'C');
-    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 0, 'C');
-    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 1, 'C');
-    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 0, 'C');
-    $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 10, iconv("UTF-8", "TIS-620", "   .............................................................................................."), 0, 1, 'C');
-    $pdf->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    $pdf->Cell(28, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 0, 'C');
-    $pdf->Cell(170, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 1, 'C');
-    $pdf->Cell(78, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 0, 'C');
-    $pdf->Cell(120, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 1, 'C');
-    $pdf->ln(10);
-    if ($count % 25 >= 22) {
-      $pdf->AddPage("P", "A4");
-    }
     // Closing line
-    $pdf->Cell(array_sum($w), 0, '', 'T');
   }
 
 
   // Page footer
   function Footer()
   {
+
+    if ($this->isFinished) {
+      $this->SetFont('THSarabun', '', 10);
+      $this->SetY(-75 );
+      $xml = simplexml_load_file('../xml/general_lang.xml');
+      $xml2 = simplexml_load_file('../xml/report_lang.xml');
+      $json = json_encode($xml);
+      $array = json_decode($json, TRUE);
+      $json2 = json_encode($xml2);
+      $array2 = json_decode($json2, TRUE);
+      $language = $_SESSION['lang'];
+      $this->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 0, 'C');
+      $this->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 1, 'C');
+      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 0, 'C');
+      $this->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 1, 'C');
+      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 0, 'C');
+      $this->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", "   .............................................................................................."), 0, 1, 'C');
+      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 0, 'C');
+      $this->Cell(170, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 1, 'C');
+      $this->Cell(78, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 0, 'C');
+      $this->Cell(120, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 1, 'C');
+      $this->Cell(25, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 0, 'C');
+      $this->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", $array2['nhealth'][$language]), 0, 1, 'C');
+      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 0, 'C');
+      $this->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 0, iconv("UTF-8", "TIS-620", $array2['examiner'][$language]), 0, 1, 'C');
+      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", ".............................................................................................."), 0, 0, 'C');
+      $this->Cell(70, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 10, iconv("UTF-8", "TIS-620", "   .............................................................................................."), 0, 1, 'C');
+      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(28, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 0, 'C');
+      $this->Cell(170, 5, iconv("UTF-8", "TIS-620", "(                                                                       )"), 0, 1, 'C');
+      $this->Cell(78, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 0, 'C');
+      $this->Cell(120, 5, iconv("UTF-8", "TIS-620", $array2['foremanlinen'][$language]), 0, 1, 'C');
+    }
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
@@ -315,8 +351,8 @@ if ($language == 'th') {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 $pdf->SetFont('THSarabun', '', 10);
-$image="../images/Nhealth_linen 4.0.png";
-$pdf-> Image($image,10,10,43,15);
+$image = "../images/Nhealth_linen 4.0.png";
+$pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
@@ -324,7 +360,7 @@ $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620",  $array2['r20'][$language] . " " . $date_header), 0, 0, 'C');
 $pdf->ln(7);
 $pdf->SetFont('THSarabun', 'b', 14);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['site'][$language] ." : ".$Hpt), 0, 0, 'C');
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['site'][$language] . " : " . $Hpt), 0, 0, 'C');
 $pdf->ln(12);
 
 
@@ -344,29 +380,53 @@ INNER JOIN department ON department.DepCode = shelfcount.DepCode
 INNER JOIN site ON site.HptCode = department.HptCode
 $where
 AND site.HptCode = '$HptCode'
-AND category_price.HptCode = '$HptCode'
+AND shelfcount.isStatus= 4
 GROUP BY item.ItemName ASC
 ";
-// var_dump($query); die;
-// Number of column
-$numfield = 6;
-// Field data (Must match with Query)
-$field = ",ItemName,UnitName,TotalQty,Price,Total";
-// Table header
-$header = array($array2['no'][$language], $array2['itemname'][$language], $array2['unit'][$language], $array2['amount'][$language], $array2['priceperunit'][$language], $array2['total_price'][$language]);
-// width of column table
-$width = array(28, 50, 28, 28, 28, 28);
-// Get Data and store in Result
-$result = $data->getdata($conn, $query, $numfield, $field);
-// Set Table
-$pdf->SetFont('THSarabun', 'b', 10);
-$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
+$queryy = "SELECT
+site.private,
+site.government
+FROM
+site
+WHERE site.HptCode = '$HptCode' ";
+$meQuery = mysqli_query($conn, $queryy);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $private = $Result['private'];
+  $government = $Result['government'];
+}
+if ($private == 1) {
+  // var_dump($query); die;
+  // Number of column
+  $numfield = 6;
+  // Field data (Must match with Query)
+  $field = ",ItemName,UnitName,TotalQty,Price,Total";
+  // Table header
+  $header = array($array2['no'][$language], $array2['itemname'][$language], $array2['unit'][$language], $array2['amount'][$language], $array2['priceperunit'][$language], $array2['total_price'][$language]);
+  // width of column table
+  $width = array(28, 50, 28, 28, 28, 28);
+  // Get Data and store in Result
+  $result = $data->getdata($conn, $query, $numfield, $field);
+  // Set Table
+  $pdf->SetFont('THSarabun', 'b', 10);
+  $pdf->setTable($pdf, $header, $result, $width, $numfield, $field, $private);
+}
+if ($government == 1) {
+  // var_dump($query); die;
+  // Number of column
+  $numfield = 6;
+  // Field data (Must match with Query)
+  $field = ",ItemName,UnitName,TotalQty";
+  // Table header
+  $header = array($array2['no'][$language], $array2['itemname'][$language], $array2['unit'][$language], $array2['amount'][$language]);
+  // width of column table
+  $width = array(42, 64, 42, 42);
+  // Get Data and store in Result
+  $result = $data->getdata($conn, $query, $numfield, $field);
+  // Set Table
+  $pdf->SetFont('THSarabun', 'b', 10);
+  $pdf->setTable($pdf, $header, $result, $width, $numfield, $field, $private);
+}
+$pdf->isFinished = true;
 $pdf->Ln();
-
-
-
-
-
-
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Clean_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Summary_billing' . $ddate . '.pdf');

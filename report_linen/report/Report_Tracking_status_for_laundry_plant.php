@@ -17,6 +17,7 @@ $DepCode = $data['DepCode'];
 $language = $_SESSION['lang'];
 $betweendate1 = $data['betweendate1'];
 $betweendate2 = $data['betweendate2'];
+$Docno = $_GET['Docno'];
 if ($language == "en") {
   $language = "en";
 } else {
@@ -95,7 +96,7 @@ class PDF extends FPDF
   function Header()
   { }
 
-  function setTable($pdf, $header, $data, $width, $numfield, $field)
+  function setTable($pdf, $header, $data, $width, $numfield, $field,$i)
   {
     $language = $_SESSION['lang'];
     if ($language == "en") {
@@ -114,7 +115,7 @@ class PDF extends FPDF
     $w = $width;
     // Header
     $this->SetFont('THSarabun', 'b', 12);
-
+if($i==0){
     $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
     $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
     $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
@@ -129,6 +130,8 @@ class PDF extends FPDF
       $this->Cell(17.5, -10, iconv("UTF-8", "TIS-620", $array2['finish'][$language]), 1, 0, 'C');
     }
     $this->Ln(0);
+  }
+
     // set Data Details
     $rows = 1;
     $loop = 0;
@@ -178,26 +181,28 @@ class PDF extends FPDF
     }
     // Footer Table
 
-    $pdf->Cell(array_sum($w), 0, '', 'T');
-    $pdf->Ln(8);
-    $pdf->SetFont('THSarabun', 'b', 11);
-    $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language]."..................................................."), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language]."........................................"), 0, 0, 'L');
-    $pdf->Ln(7);
-    $pdf->Cell(5);
-    $pdf->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language]."......................................................................"), 0, 0, 'L');
-    $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language].".........................................................."), 0, 0, 'L');
-    $pdf->Ln(7);
-    $footer_nextpage = $loop % 24;
-    if ($footer_nextpage >= 23) {
-      $pdf->AddPage("P", "A4");
-    }
+  
   }
 
   // Page footer
   function Footer()
-  {
+  {$this->isFinished = true;
+    if ($this->isFinished) {
+      $this->SetFont('THSarabun', '', 10);
+      $this->SetY(-17);
+      $xml = simplexml_load_file('../xml/general_lang.xml');
+      $xml2 = simplexml_load_file('../xml/report_lang.xml');
+      $json = json_encode($xml);
+      $array = json_decode($json, TRUE);
+      $json2 = json_encode($xml2);
+      $array2 = json_decode($json2, TRUE);
+      $language = $_SESSION['lang'];
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . ".................................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "..................................................."), 0, 0, 'L');
+      $this->Ln(7);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "........................................................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+    }
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
@@ -231,6 +236,7 @@ INNER JOIN dirty ON process.DocNo = dirty.DocNo
 INNER JOIN factory ON factory.FacCode = dirty.FacCode
 $where
 AND dirty.FacCode = $FacCode
+AND process.DocNo = '$Docno'
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -261,7 +267,10 @@ $pdf->Cell(1);
 $pdf->Cell(165, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] ." : ". $Facname), 0, 0, 'L');
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12 );
-
+$HptCode=substr($HptCode,0,3);
+$doc = array(dirty,repair_wash,newlinentable);
+$j=0;
+for($i=0;$i<3;$i++){
 $query = "SELECT
 TIME (process.WashStartTime) AS WashStartTime ,
 TIME (process.WashEndTime) AS WashEndTime,
@@ -269,18 +278,15 @@ TIME (process.PackStartTime)AS PackStartTime,
 TIME (process.PackEndTime)AS PackEndTime,
 TIME (process.SendStartTime)AS SendStartTime,
 TIME (process.SendEndTime)AS SendEndTime,
-dirty.FacCode,
+$doc[$i].FacCode,
 process.DocNo AS  DocNo1 ,
-TIME (dirty.ReceiveDate)AS ReceiveDate1,
-TIME (rewash.ReceiveDate )AS ReceiveDate2,
-TIME (newlinentable.ReceiveDate)AS ReceiveDate3
+TIME ($doc[$i].ReceiveDate)AS ReceiveDate1
 FROM
 process
-LEFT JOIN dirty ON process.DocNo = dirty.DocNo
-LEFT JOIN rewash ON process.DocNo = rewash.DocNo
-LEFT JOIN newlinentable ON process.DocNo = newlinentable.DocNo
-$where 
-AND $FacCode in (dirty.FacCode,rewash.FacCode,newlinentable.FacCode)
+LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
+WHERE $FacCode in ($doc[$i].FacCode)
+AND process.DocNo = '$Docno'
+AND process.isStatus= 4
 ";
 // var_dump($query); die;
 // Number of column
@@ -295,10 +301,11 @@ $width = array(25, 35, 35, 35, 35, 25);
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
 $pdf->SetFont('THSarabun', 'b', 10);
-$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
-$pdf->Ln();
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field,$i);
+$j++;
+}
 
 // Footer Table
 
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Clean_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Tracking_status_for_laundry_plant' . $ddate . '.pdf');

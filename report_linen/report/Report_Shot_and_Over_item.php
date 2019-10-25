@@ -127,22 +127,66 @@ class PDF extends FPDF
     // set Data Details
     $count = 0;
     $loop = 0;
+    $y=65;
+    $main =1 ;
     $this->SetFont('THSarabun', '', 14);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
+        $txt = getStrLenTH($inner_array[$field[1]]); // 10
+        $round = $txt /13;
+        list($main, $point) = explode(".", $round);
+        if ($point > 0) {
+          $point = 1;
+          $main += $point;
+        }
         $this->Cell(22.5, 10, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count + 1), 1, 0, 'C');
-        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
+        $pdf->SetX($w[0]+22.5+ 10);
+        $this->MultiCell($w[1], 10/$main, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 'L');
+        $pdf->SetXY($w[0] + $w[1] +22.5 +10, $y);
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
         $this->Ln();
         $count++;
+        $y+=10;
       }
     }
 
     // Closing line
 
   }
+}
+function getMBStrSplit($string, $split_length = 1)
+{
+  mb_internal_encoding('UTF-8');
+  mb_regex_encoding('UTF-8');
+
+  $split_length = ($split_length <= 0) ? 1 : $split_length;
+  $mb_strlen = mb_strlen($string, 'utf-8');
+  $array = array();
+  $i = 0;
+
+  while ($i < $mb_strlen) {
+    $array[] = mb_substr($string, $i, $split_length);
+    $i = $i + $split_length;
+  }
+
+  return $array;
+}
+// Get string length for Character Thai
+function getStrLenTH($string)
+{
+  $array = getMBStrSplit($string);
+  $count = 0;
+
+  foreach ($array as $value) {
+    $ascii = ord(iconv("UTF-8", "TIS-620", $value));
+
+    if (!($ascii == 209 || ($ascii >= 212 && $ascii <= 218) || ($ascii >= 231 && $ascii <= 238))) {
+      $count += 1;
+    }
+  }
+  return $count;
 }
 
 // *** Prepare Data Resource *** //
@@ -156,13 +200,15 @@ if ($DepCode == " ") {
   $depname =  "ทั้งหมด";
   $DepCode == " ";
 } else{
-  $DepCode = "WHERE $DepCode";
+  $subdep=substr($DepCode,3);
+  $DepCode = "AND $subdep";
   $Sql = "SELECT
   department.depname
   FROM
   shelfcount
   INNER JOIN shelfcount_detail ON shelfcount.DocNo =  shelfcount_detail.DocNo
   INNER JOIN department ON department.depcode = shelfcount.DepCode
+  WHERE  $subdep
   ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -179,8 +225,8 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
-// $image="../images/Nhealth_linen 4.0.png";
-// $pdf-> Image($image,10,10,43,15);
+$image="../images/Nhealth_linen 4.0.png";
+$pdf-> Image($image,10,10,43,15);
 $pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
@@ -196,15 +242,18 @@ $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12);
 
 $query = "SELECT
-IFNULL(shelfcount_detail.Over,0) AS OverPar,
-IFNULL(shelfcount_detail.Short,0) AS Short ,
+IFNULL(SUM(shelfcount_detail.Over),0) AS OverPar,
+IFNULL(SUM(shelfcount_detail.Short),0) AS Short ,
 item.itemName
 FROM
 shelfcount_detail
 INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
 INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
 INNER JOIN department ON department.DepCode = shelfcount.DepCode
-$DepCode
+$where $DepCode
+AND department.HptCode = '$HptCode'
+AND shelfcount.isStatus= 4
+GROUP BY item.itemName
 ";
 // var_dump($query); die;
 // Number of column
@@ -224,7 +273,7 @@ $pdf->Ln();
 // Get $totalsum
 //*************** Send Email ***************//
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Daily_Issue_Request_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Shot_And_Over_item_' . $ddate . '.pdf');
 
 // require '../../PHPMailer/PHPMailerAutoload.php';
 //     // build message body

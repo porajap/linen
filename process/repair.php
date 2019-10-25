@@ -765,6 +765,7 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["xdocno"];
     $RefDocNo = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
+    $DepCode = $DATA["deptCode"];
 
     $max = sizeof($ItemCodex, 0);
     $Sqlcount =  "SELECT COUNT(*) AS cnt FROM claim_detail WHERE DocNo = '$RefDocNo' ";
@@ -776,6 +777,15 @@ function CreateDocument($conn, $DATA)
     for ($i = 0; $i < $cnt; $i++) {
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
+
+      $selectstock = "SELECT TotalQty FROM par_item_stock WHERE DepCode = $DepCode AND ItemCode = '$iItemStockId'";
+      $mequery4 = mysqli_query($conn, $selectstock);
+      while ($Res1 = mysqli_fetch_assoc($mequery4)) {
+        $sum1 = $Qtyzz + $Res1['TotalQty'];
+      }
+      $updateStock = "UPDATE par_item_stock SET TotalQty = $sum1 WHERE DepCode = $DepCode AND ItemCode = '$iItemStockId'";
+      mysqli_query($conn, $updateStock);
+
 
       $update55 = "UPDATE repair_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
       mysqli_query($conn, $update55);
@@ -802,8 +812,6 @@ function CreateDocument($conn, $DATA)
         $QtySum = $Qty - ($QtyDaMage + $Qtyx);
         } 
     }  
-  
-
     if($QtySum <=0){
        $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
        mysqli_query($conn, $update);

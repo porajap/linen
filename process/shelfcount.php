@@ -1037,7 +1037,7 @@ function SaveBill($conn, $DATA)
       //   mysqli_query($conn, $update);
       // }
     }
-    $updateStock = "UPDATE item_stock SET TotalQty = $QtyArray[$i] WHERE DepCode = $DepCode AND ItemCode = '$ItemCode[$i]'";
+    $updateStock = "UPDATE par_item_stock SET TotalQty = $QtyArray[$i] WHERE DepCode = $DepCode AND ItemCode = '$ItemCode[$i]'";
     mysqli_query($conn, $updateStock);
   }
   $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ

@@ -1386,7 +1386,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#hover2").addClass('mhee');
                 $("#hover4").addClass('mhee');
                 $("#hover5").addClass('mhee');
-
+                $("#settime").prop('disabled', false);
                 $("#bImport2").removeClass('opacity');
                 $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
@@ -1424,14 +1424,13 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', true);
-                $("#bCancel").prop('disabled', true);
                 // $("#bdetail").prop('disabled', true);
                 $("#hover2").removeClass('mhee');
                 $("#hover3").removeClass('mhee');
                 $("#hover4").removeClass('mhee');
                 $("#hover5").removeClass('mhee');
                 // $("#hover6").removeClass('mhee');
-
+                $('#bpacking').attr('disabled', true);
                 $("#bImport2").addClass('opacity');
                 $("#bDelete2").addClass('opacity');
                 $("#bSave2").addClass('opacity');
