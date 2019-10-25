@@ -13,7 +13,6 @@ if(isset($_POST['DATA']))
     $HptName = $DATA['HptName'];
     $DepName = $DATA['DepName'];
 }else{
-
 }
 // build message body
 $body = '
