@@ -343,13 +343,20 @@ $array2 = json_decode($json2,TRUE);
                 $('#rem').show(5).css("color","red");
             }else{
                 /* we join the array separated by the comma */
-                if(lang =='th'){
+            if(lang =='th'){
                 xDate = xDate.substr(6,4)-543+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
             }else if(lang =='en'){
                 xDate = xDate.substr(6,4)+"-"+xDate.substr(3,2)+"-"+xDate.substr(0,2);
             }
-            var chk1 = new Date();
-            var chk2 = new Date(xDate);
+            var fullDate = new Date()
+            var day = fullDate.getDate();
+            var month = fullDate.getMonth()<9?'0'+(fullDate.getMonth()+1):(fullDate.getMonth()+1);
+            var year = fullDate.getFullYear();
+
+            var current = year+'-'+month+'-'+day;
+
+            var chk1 = Number(Date.parse(current));
+            var chk2 = Number(Date.parse(xDate));
             if(chk1>chk2){
                 swal({
                     title: "",
