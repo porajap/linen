@@ -325,6 +325,7 @@ $array2 = json_decode($json2,TRUE);
             ShowItem();
             $('#DepName').val('');
             $('#DepCode').val('');
+            $('#rem1').hide();
             $("#xCenter").prop('checked', false);
             $('#hptsel2').css('border-color', '');
             $('#hptsel').css('border-color', '');

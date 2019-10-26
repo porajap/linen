@@ -148,7 +148,7 @@ function CancelItem($conn, $DATA){
   $TimeID = $DATA['TimeID'];
   $Sql = "DELETE FROM time_express WHERE ID = $TimeID";
   mysqli_query($conn, $Sql);
-  ShowItem($conn, $DATA);
+  // ShowItem($conn, $DATA);
 }
 
 
