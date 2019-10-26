@@ -98,7 +98,7 @@ function ShowDocument($conn,$DATA){
   FROM  contract_parties_hospital 
   INNER JOIN site ON contract_parties_hospital.HptCode = site.HptCode
   WHERE contract_parties_hospital.IsStatus = 0 ";
-  if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate = '$sDate' AND EndDate  = '$eDate' ";
+  if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate BETWEEN '$sDate' AND  '$eDate' ";
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);

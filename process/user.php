@@ -27,7 +27,7 @@ function ShowItem($conn, $DATA)
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON site.HptCode = users.HptCode
         INNER JOIN department ON department.DepCode = users.DepCode
-        WHERE users.IsCancel = 0 AND ( users.EngName LIKE '%$Keyword%')";
+        WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') )";
           if ($department2 != "") {
             $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
           }else{
@@ -41,7 +41,7 @@ function ShowItem($conn, $DATA)
       INNER JOIN permission ON users.PmID = permission.PmID
       INNER JOIN site ON site.HptCode = users.HptCode
       INNER JOIN department ON department.DepCode = users.DepCode
-      WHERE users.IsCancel = 0 AND ( users.EngName LIKE '%$Keyword%') AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
+      WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') ) AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
         if ($department2 != "") {
           $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
         }else{

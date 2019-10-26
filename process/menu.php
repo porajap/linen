@@ -208,9 +208,10 @@ function alert_SetPrice($conn,$DATA)
           WHERE users.HptCode = '$HptCode'
           AND users.PmID IN (1,6)
           AND email IS NOT NULL AND NOT email = '' AND NOT email = '-'";
+          $return['mail'] = $SelectMail;
           $SQuery = mysqli_query($conn,$SelectMail);
           while ($SResult = mysqli_fetch_assoc($SQuery)) {
-            $return[$count]['set_price']['email'] = $SResult['email'];
+            $return[$count]['set_price']['email'] = trim($SResult['email']);
           }
         }
       }
