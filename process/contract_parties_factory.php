@@ -97,7 +97,7 @@ function ShowDocument($conn,$DATA){
   FROM contract_parties_factory
   INNER JOIN factory ON contract_parties_factory.FacCode = factory.FacCode
   WHERE contract_parties_factory.IsStatus = 0 ";
-  if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate = '$sDate' AND EndDate  = '$eDate' ";
+  if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate BETWEEN '$sDate' AND  '$eDate' ";
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
