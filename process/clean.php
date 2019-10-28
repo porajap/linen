@@ -840,25 +840,41 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
-    $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
+    $Sqlx = "SELECT dirty.DocNo , dirty.FacCode FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $DocNoDirty = $Result['DocNo'];
+      $dirtyFacCode = $Result['FacCode'];
     }
-    if($DocNoDirty != "" ){
+
+    $Sqlx1 = "SELECT repair_wash.DocNo , repair_wash.FacCode FROM repair_wash WHERE repair_wash.DocNo = '$RefDocNo' ";
+    $meQuery1 = mysqli_query($conn, $Sqlx1);
+    while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+      $DocNorepair_wash = $Result1['DocNo'];
+      $repair_washFacCode = $Result1['FacCode'];
+    }
+
+    if($DocNoDirty != "" &&  $DocNorepair_wash == ""){
     $Sql = "UPDATE dirty SET IsRef = 1 , IsStatus = 4 WHERE dirty.DocNo = '$RefDocNo'";
     mysqli_query($conn, $Sql);
-    }else{
+    $Sql = "UPDATE clean SET FacCode = '$dirtyFacCode' WHERE DocNo = '$DocNo'";
+    mysqli_query($conn, $Sql);
+    }else if($DocNoDirty == "" &&  $DocNorepair_wash != ""){
     $Sql = "UPDATE repair_wash SET IsRef = 1 , IsStatus = 4 WHERE repair_wash.DocNo = '$RefDocNo'";
     mysqli_query($conn, $Sql);
+    $Sql = "UPDATE clean SET FacCode = '$repair_washFacCode' WHERE DocNo = '$DocNo'";
+    mysqli_query($conn, $Sql);
     }
-    $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
+    $Sqlx = "SELECT newlinentable.DocNo , newlinentable.FacCode FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $DocNonewlinentable = $Result['DocNo'];
+      $newlinentableFacCode = $Result['FacCode'];
     }
     if($DocNonewlinentable != "" ){
       $Sql = "UPDATE newlinentable SET IsRef = 1 , IsStatus = 4 WHERE newlinentable.DocNo = '$RefDocNo'";
+      mysqli_query($conn, $Sql);
+      $Sql = "UPDATE clean SET FacCode = '$newlinentableFacCode' WHERE DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
       }
 
