@@ -851,10 +851,8 @@ $array2 = json_decode($json2,TRUE);
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
-          $("#bCancel2").removeClass('opacity');
           $("#bImport").prop('disabled', false);
           $("#bSave").prop('disabled', false);
-          $("#bCancel").prop('disabled', false);
           var word = '<?php echo $array['save'][$language]; ?>';
             var changeBtn = "<i class='fa fa-save'></i>";
             changeBtn += "<div>"+word+"</div>";
@@ -1386,6 +1384,7 @@ $array2 = json_decode($json2,TRUE);
               $("#cycle").val(temp[0]['CycleTime']);
               $("#settime").val(temp[0]['DeliveryTime']);
               $('#department').attr('disabled', true);
+              $('#department').addClass('icon_select');
               $('#settime').attr('disabled', true);
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -1408,7 +1407,17 @@ $array2 = json_decode($json2,TRUE);
                 // $('#bPrint').attr('disabled', true);
                 // $('#bPrint2').addClass('opacity');
                 // $('#hover7').removeClass('mhee');
-              }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
+              }else if(temp[0]['IsStatus']==1  || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
+
+                  if(temp[0]['IsStatus'] !=1){
+                    $("#hover5").removeClass('mhee');
+                    $("#bCancel").prop('disabled', true);
+                    $("#bCancel2").addClass('opacity');
+                  }else{
+                    $("#hover5").addClass('mhee');
+                    $("#bCancel").prop('disabled', false);
+                    $("#bCancel2").removeClass('opacity');
+                  }
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
                 changeBtn += "<div>"+word+"</div>";
@@ -1416,7 +1425,6 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', false);
-                $("#bCancel").prop('disabled', true);
                 // $("#bdetail").prop('disabled', false);
                 $("#barcode").prop('disabled', false);
                 $("#hover4").addClass('mhee');
@@ -1426,6 +1434,10 @@ $array2 = json_decode($json2,TRUE);
                 $('#bPrint').attr('disabled', false);
                 $('#bPrint2').removeClass('opacity');
                 $('#hover7').addClass('mhee');
+
+                $('#bPrintsticker').attr('disabled', false);
+                $('#bPrintsticker2').removeClass('opacity');
+                $('#hover8').addClass('mhee');
                 if(temp[0]['PkStartTime'] != 0){
                   $('#bpacking').attr('disabled', true);
                   $('#bpacking2').addClass('opacity');
@@ -1436,16 +1448,28 @@ $array2 = json_decode($json2,TRUE);
                   $('#hover9').addClass('mhee');
                 }
               }else{
+                $('#bPrint').attr('disabled', true);
+                $('#bPrint2').addClass('opacity');
+                $('#hover7').removeClass('mhee');
+
+                $('#bPrintsticker').attr('disabled', true);
+                $('#bPrintsticker2').addClass('opacity');
+                $('#hover8').removeClass('mhee');
+
+                $('#bpacking').attr('disabled', true);
+                $('#bpacking2').addClass('opacity');
+                $('#hover9').removeClass('mhee');
+
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
                 $("#bSave").prop('disabled', true);
+                $("#bCancel").prop('disabled', true);
                 // $("#bdetail").prop('disabled', true);
                 $("#hover2").removeClass('mhee');
                 $("#hover3").removeClass('mhee');
                 $("#hover4").removeClass('mhee');
                 $("#hover5").removeClass('mhee');
                 // $("#hover6").removeClass('mhee');
-                $('#bpacking').attr('disabled', true);
                 $("#bImport2").addClass('opacity');
                 $("#bDelete2").addClass('opacity');
                 $("#bSave2").addClass('opacity');
@@ -2280,10 +2304,10 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee"  id="hover8">
+                          <div class="menu "  id="hover8">
                             <div class="d-flex justify-content-center">
-                              <div class="circle8 d-flex justify-content-center">
-                                <button class="btn" onclick="PrintstickerModal()" id="bPrintsticker" >
+                              <div class="circle8 d-flex justify-content-center opacity" id="bPrintsticker2">
+                                <button class="btn" onclick="PrintstickerModal()" id="bPrintsticker" disabled="true">
                                 <i class="fas fa-print"></i>
                                 <div>
                                     <?php echo $array['Sticker'][$language]; ?>

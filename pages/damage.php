@@ -779,10 +779,10 @@ if (e.keyCode == 13) {
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
-          $("#bCancel2").removeClass('opacity');
+          // $("#bCancel2").removeClass('opacity');
           $("#bImport").prop('disabled', false);
           $("#bSave").prop('disabled', false);
-          $("#bCancel").prop('disabled', false);
+          // $("#bCancel").prop('disabled', false);
           var word = '<?php echo $array['save'][$language]; ?>';
           var changeBtn = "<i class='fa fa-save'></i>";
             changeBtn += "<div>"+word+"</div>";
@@ -1047,13 +1047,12 @@ if (e.keyCode == 13) {
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
-                  $("#bCancel").prop('disabled', true);
                   $("#bSave2").removeClass('opacity');
                   $("#hover4").addClass('mhee');
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
-                  $("#bSave").prop('disabled', false);
+                  $("#bSave").prop('disabled', true);
                   $("#bCancel").prop('disabled', true);
                   $("#bImport2").addClass('opacity');
                   $("#bDelete2").addClass('opacity');
