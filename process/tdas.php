@@ -450,6 +450,7 @@ function SelectDocument($conn, $DATA){
     $count ++;
   }
   $return['CountRow'] = $count;
+  $limit = $count;
 
   $Sql = "SELECT total_par1, total_par2 FROM tdas_total WHERE HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
@@ -458,36 +459,32 @@ function SelectDocument($conn, $DATA){
     $return['total_par2'] = $Result['total_par2'];
   }
   #-----------------------------------------------------------------
-  foreach($DepCode as $key => $value){
-    $Type1 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 1 AND DepCode = $value";
+  for($i=0;$i<$limit;$i++){
+    $Type1 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 1 AND DepCode = $DepCode[$i]";
     $TypeQuery1 = mysqli_query($conn, $Type1);
     while ($Result = mysqli_fetch_assoc($TypeQuery1)) {
-      $return[$key]['ID1']  = $Result['ID'];
-      $return[$key]['Qty1']  = $Result['Qty'];
+      $return[$i]['Qty1']  = $Result['Qty'];
     }
   }
-  foreach($DepCode as $key => $value){
-    $Type2 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 2 AND DepCode = $value";
+  for($i=0;$i<$limit;$i++){
+    $Type2 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 2 AND DepCode = $DepCode[$i]";
     $TypeQuery2 = mysqli_query($conn, $Type2);
     while ($Result = mysqli_fetch_assoc($TypeQuery2)) {
-      $return[$key]['ID2']  = $Result['ID'];
-      $return[$key]['Qty2']  = $Result['Qty'];
+      $return[$i]['Qty2']  = $Result['Qty'];
     }
   }
-  foreach($DepCode as $key => $value){
-    $Type3 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 3 AND DepCode = $value";
+  for($i=0;$i<$limit;$i++){
+    $Type3 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 3 AND DepCode = $DepCode[$i]";
     $TypeQuery3 = mysqli_query($conn, $Type3);
     while ($Result = mysqli_fetch_assoc($TypeQuery3)) {
-      $return[$key]['ID3']  = $Result['ID'];
-      $return[$key]['Qty3']  = $Result['Qty'];
+      $return[$i]['Qty3']  = $Result['Qty'];
     }
   }
-  foreach($DepCode as $key => $value){
-    $Type4 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 4 AND DepCode = $value";
+  for($i=0;$i<$limit;$i++){
+    $Type4 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 4 AND DepCode = $DepCode[$i]";
     $TypeQuery4 = mysqli_query($conn, $Type4);
     while ($Result = mysqli_fetch_assoc($TypeQuery4)) {
-      $return[$key]['ID4']  = $Result['ID'];
-      $return[$key]['Qty4']  = $Result['Qty'];
+      $return[$i]['Qty4']  = $Result['Qty'];
     }
   }
   #-----------------------------------------------------------------
@@ -518,11 +515,21 @@ function SelectDocument($conn, $DATA){
   }
   $return['RowCount'] = $count;
   #-----------------------------------------------------------------
+  $return['DocNo'] = $DATA['DocNo'];
   $return['status'] = "success";
   $return['form'] = "SelectDocument";
   echo json_encode($return);
   mysqli_close($conn);
   die;
+}
+function UpdateQty($conn, $DATA){
+  $DepCode = $DATA['DepCode'];
+  $DocNo = $DATA['DocNo'];
+  $Type = $DATA['Type'];
+  $Qty = $DATA['Qty'];
+
+  $Update = "UPDATE tdas_detail SET Qty = $Qty WHERE DocNo = '$DocNo' AND DepCode = $DepCode AND Type = $Type";
+  mysqli_query($conn, $Update);
 }
 if(isset($_POST['DATA']))
 {
@@ -549,6 +556,8 @@ if(isset($_POST['DATA']))
         CancelDocNo($conn, $DATA);
       }else if($DATA['STATUS'] == 'SelectDocument'){
         SelectDocument($conn, $DATA);
+      }else if($DATA['STATUS'] == 'UpdateQty'){
+        UpdateQty($conn, $DATA);
       }
 
 
