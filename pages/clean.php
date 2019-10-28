@@ -859,6 +859,7 @@ $(document).ready(function(e){
           $("#recorder").prop('disabled', true);
           $("#timerec").prop('disabled', true);
           $("#total").prop('disabled', true);
+          $("#factory1").val('');
           ShowDocument();
           Blankinput();
           if(input_chk == 1){
@@ -1127,12 +1128,16 @@ $(document).ready(function(e){
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
-                $("#factory1").val(temp[0]['FacCode']);
 
+                alert(temp[0]['FacCode']);
                 if(temp[0]['FacCode'] ==0){
                   $("#factory1").attr('disabled' , false);
                   $("#factory1").removeClass('icon_select');
                   $("#factory1").val('');
+                }else{
+                  $("#factory1").attr('disabled' , true);
+                  $("#factory1").addClass('icon_select');
+                  $("#factory1").val(temp[0]['FacCode']);
                 }
 
                 if(temp[0]['IsStatus']==0){
