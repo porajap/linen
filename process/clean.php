@@ -355,7 +355,7 @@ function CreateDocument($conn, $DATA)
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
-      $return[$count]['FacCode']   = $Result['FacCode'];
+      $return[$count]['FacCode']   = $Result['FacCode']==null?0:$Result['FacCode'];
       $return[$count]['DocDate']   = $newdate;
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];

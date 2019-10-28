@@ -627,6 +627,10 @@ $(document).ready(function(e){
             senddata(JSON.stringify(data));
             $('#RefDocNo').attr('disabled', false);
             $('#input_chk').val(0);
+            var word = '<?php echo $array['save'][$language]; ?>';
+            var changeBtn = "<i class='fa fa-save'></i>";
+            changeBtn += "<div>"+word+"</div>";
+          $('#icon_edit').html(changeBtn); 
           } else if (result.dismiss === 'cancel') {
             swal.close();
           } 
@@ -1111,6 +1115,9 @@ $(document).ready(function(e){
                       $("#TableDocument tbody").html(Str);
                     }
               }else if(temp["form"]=='SelectDocument'){
+                $('#bCreate').attr('disabled', true);
+                $('#hover1').removeClass('mhee');
+                $('#bCreate2').addClass('opacity');
                 $('#home-tab').tab('show')
                 $( "#TableItemDetail tbody" ).empty();
                 $("#docno").val(temp[0]['DocNo']);
@@ -1121,6 +1128,12 @@ $(document).ready(function(e){
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
                 $("#factory1").val(temp[0]['FacCode']);
+
+                if(temp[0]['FacCode'] ==0){
+                  $("#factory1").attr('disabled' , false);
+                  $("#factory1").removeClass('icon_select');
+                  $("#factory1").val('');
+                }
 
                 if(temp[0]['IsStatus']==0){
                   var word = '<?php echo $array['save'][$language]; ?>';
@@ -1841,7 +1854,7 @@ $(document).ready(function(e){
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu mhee"  id="hover1">
                             <div class="d-flex justify-content-center">
-                              <div class="circle1 d-flex justify-content-center">
+                              <div class="circle1 d-flex justify-content-center" id="bCreate2">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
                                   <i class="fas fa-file-medical"></i>
                                   <div>

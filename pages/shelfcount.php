@@ -586,7 +586,7 @@ $array2 = json_decode($json2,TRUE);
             confirmButtonText: 'Ok'
           });
       }else{
-      $('#TableDetail tbody').empty();
+      $( "#TableItemDetail tbody" ).empty();
       swal({
         title: "<?php echo $array['confirmdoc'][$language]; ?>",
         text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
@@ -610,6 +610,10 @@ $array2 = json_decode($json2,TRUE);
             'settime'	: settime ,
           };
           senddata(JSON.stringify(data));
+          var word = '<?php echo $array['save'][$language]; ?>';
+            var changeBtn = "<i class='fa fa-save'></i>";
+            changeBtn += "<div>"+word+"</div>";
+            $('#icon_edit').html(changeBtn); 
         } else if (result.dismiss === 'cancel') {
             swal.close();
           } 
@@ -1192,7 +1196,11 @@ $array2 = json_decode($json2,TRUE);
                                     }
                                     $("#Dep2").append(Str2);
 
-                        }else if( (temp["form"]=='CreateDocument') ){
+            }else if( (temp["form"]=='CreateDocument') ){
+              $('#bCreate').attr('disabled', true);
+              $('#hover1').removeClass('mhee');
+              $('#bCreate2').addClass('opacity');
+              $( "#TableItemDetail tbody" ).empty();
               $("#docno").val(temp[0]['DocNo']);
               $("#docdate").val(temp[0]['DocDate']);
               $("#recorder").val(temp[0]['Record']);
@@ -1204,6 +1212,9 @@ $array2 = json_decode($json2,TRUE);
               $('#barcode').attr('disabled', false);
               $('#department').attr('disabled', true);
               $('#settime').attr('disabled', true);
+              $('#department').addClass('icon_select');
+              $('#settime').addClass('icon_select');
+
 
               $('#hover2').addClass('mhee');
               $('#hover4').addClass('mhee');
@@ -1349,6 +1360,9 @@ $array2 = json_decode($json2,TRUE);
                 }
               }
             }else if(temp["form"]=='SelectDocument'){
+              $('#bCreate').attr('disabled', true);
+              $('#hover1').removeClass('mhee');
+              $('#bCreate2').addClass('opacity');
               if(temp[0]['PkStartTime'] != 0){
               if(temp[0]['jaipar'] == 1){
                 $('#bdetail').attr('disabled' , true);
@@ -2169,7 +2183,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu mhee"  id="hover1">
                             <div class="d-flex justify-content-center">
-                              <div class="circle1 d-flex justify-content-center">
+                              <div class="circle1 d-flex justify-content-center" id="bCreate2">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
                                   <i class="fas fa-file-medical"></i>
                                   <div>

@@ -669,7 +669,6 @@ $array2 = json_decode($json2,TRUE);
             confirmButtonText: 'Ok'
           });
           }else{
-            $('#TableDetail tbody').empty();
             swal({
               title: "<?php echo $array['confirmdoc'][$language]; ?>",
               text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text(),
@@ -691,6 +690,10 @@ $array2 = json_decode($json2,TRUE);
                   'FacCode'	: FacCode
                 };
                 senddata(JSON.stringify(data));
+                var word = '<?php echo $array['save'][$language]; ?>';
+                var changeBtn = "<i class='fa fa-save'></i>";
+                changeBtn += "<div>"+word+"</div>";
+                $('#icon_edit').html(changeBtn); 
               } else if (result.dismiss === 'cancel') {
                 swal.close();
                 }
@@ -1034,6 +1037,9 @@ $array2 = json_decode($json2,TRUE);
                       setTimeout(() => {
                       OpenDialogItem();
                       }, 1200);
+                      $('#bCreate').attr('disabled', true);
+                      $('#hover1').removeClass('mhee');
+                      $('#bCreate2').addClass('opacity');
                       $("#docno").val(temp[0]['DocNo']);
                       $("#docdate").val(temp[0]['DocDate']);
                       $("#recorder").val(temp[0]['Record']);
@@ -1045,6 +1051,7 @@ $array2 = json_decode($json2,TRUE);
                       $('#bImport').attr('disabled', false);
                       $('#bCancel').attr('disabled', false);
                       $('#factory').attr('disabled', true);
+                      $('#factory').addClass('icon_select');
                       $('#bSave2').removeClass('opacity');
                       $('#bImport2').removeClass('opacity');
                       $('#bCancel2').removeClass('opacity');
@@ -1107,6 +1114,9 @@ $array2 = json_decode($json2,TRUE);
                       $("#TableDocument tbody").html(Str);
                     }
                     }else if(temp["form"]=='SelectDocument'){
+                      $('#bCreate').attr('disabled', true);
+                      $('#hover1').removeClass('mhee');
+                      $('#bCreate2').addClass('opacity');
                       $('#home-tab').tab('show')
                       $( "#TableItemDetail tbody" ).empty();
                       $("#docno").val(temp[0]['DocNo']);

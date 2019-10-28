@@ -618,6 +618,10 @@ $(document).ready(function(e){
               'factory'	: factory
             };
             senddata(JSON.stringify(data));
+            var word = '<?php echo $array['save'][$language]; ?>';
+            var changeBtn = "<i class='fa fa-save'></i>";
+            changeBtn += "<div>"+word+"</div>";
+            $('#icon_edit').html(changeBtn); 
             $('#RefDocNo').attr('disabled', false);
 
           } else if (result.dismiss === 'cancel') {
@@ -992,7 +996,10 @@ $(document).ready(function(e){
                 $( "#TableItemDetail tbody" ).empty();
                 $("#wTotal").val(0);
                 // $("#bSave").text('<?php echo $array['save'][$language]; ?>');
-
+                $('#bCreate').attr('disabled', true);
+                $('#hover1').removeClass('mhee');
+                $('#bCreate2').addClass('opacity');
+                $( "#TableItemDetail tbody" ).empty();
                 $("#total").prop('disabled', false);
                 $("#docno").val(temp[0]['DocNo']);
                 $("#docdate").val(temp[0]['DocDate']);
@@ -1003,6 +1010,7 @@ $(document).ready(function(e){
                 $('#bSave').attr('disabled', false);
                 $('#bImport').attr('disabled', false);
                 $('#factory').attr('disabled', true);
+                $('#factory').addClass('icon_select');
                 $('#hover2').addClass('mhee');
                 $('#hover4').addClass('mhee');
                 $('#hover5').addClass('mhee');
@@ -1063,6 +1071,9 @@ $(document).ready(function(e){
                       $("#TableDocument tbody").html(Str);
                     }
               }else if(temp["form"]=='SelectDocument'){
+                $('#bCreate').attr('disabled', true);
+                $('#hover1').removeClass('mhee');
+                $('#bCreate2').addClass('opacity');
                 $('#home-tab').tab('show')
                 $( "#TableItemDetail tbody" ).empty();
                 $("#docno").val(temp[0]['DocNo']);
@@ -1665,7 +1676,7 @@ $(document).ready(function(e){
                         <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
                           <div class="menu mhee"  id="hover1">
                             <div class="d-flex justify-content-center">
-                              <div class="circle1 d-flex justify-content-center">
+                              <div class="circle1 d-flex justify-content-center" id="bCreate2">
                                 <button class="btn" onclick="CreateDocument()" id="bCreate" >
                                   <i class="fas fa-file-medical"></i>
                                   <div>
