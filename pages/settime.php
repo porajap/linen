@@ -313,6 +313,7 @@ $array2 = json_decode($json2,TRUE);
             $('#rem1').hide();
             $('#hptsel2').removeClass('border border-danger');
             $('#hptsel').val(hptsel2);
+            $('#form1').addClass('form-group');
             ShowItem();
         }
         function senddata(data) {
