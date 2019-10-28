@@ -1164,6 +1164,7 @@ $array2 = json_decode($json2,TRUE);
                         $('#bPrint2').removeClass('opacity');
                         $('#hover6').addClass('mhee');
                       }else if(  temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
+                        $('.chk_edit').attr('disabled', true);
                         $("#hover5").removeClass('mhee');
                         $("#bCancel").prop('disabled', true);
                         $("#bCancel2").addClass('opacity');
@@ -1452,7 +1453,7 @@ $array2 = json_decode($json2,TRUE);
                   $('.numonly').on('input', function() {
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
-                  if(isStatus==1 || isStatus==9){
+                  if(isStatus==1 || isStatus==9 || isStatus==2 || isStatus==3 || isStatus==4){
                     $('.chk_edit').attr('disabled', true);
                   }
                 }else if( (temp["form"]=='ShowUsageCode') ){
