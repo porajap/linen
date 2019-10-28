@@ -648,6 +648,15 @@ $array2 = json_decode($json2,TRUE);
                 } 
             })
         }
+
+        function SelectDocument(){
+            var DocNo = $('input[name="checkdocno"]:checked').val();
+            var data = {
+                'STATUS': 'SelectDocument',
+                'DocNo': DocNo
+            };
+            senddata(JSON.stringify(data));
+        }
         // End Function ----------------------------------------
         function senddata(data) {
             var form_data = new FormData();
@@ -838,12 +847,12 @@ $array2 = json_decode($json2,TRUE);
                             if(temp['CountRow']>0){
                                 $('#TableDocument tbody').empty();
                                 for(var i=0; i<temp['CountRow']; i++){
-                                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' class='checkblank' data-value='"+i+"' name='checkdocno' id='checkdocno' onclick='cancelDoc(\"" + temp[i]["DocNo"] + "\","+i+")'><span class='checkmark'></span></label>";
+                                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' class='checkblank' data-value='"+i+"' name='checkdocno' id='checkdocno' value='"+temp[i]["DocNo"]+"' onclick='cancelDoc(\"" + temp[i]["DocNo"] + "\","+i+")'><span class='checkmark'></span></label>";
                                     StrTR = "<tr id='tr"+temp[i]['DocNo']+"'>" +
                                             "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                             "<td style='width: 25%;'>" + temp[i]['DocNo'] + "</td>" +
                                             "<td style='width: 26%;'>" + temp[i]['DocDate'] + "</td>" +
-                                            "<td style='width: 25%;'>" + temp[i]['FName'] + "</td>" +
+                                            "<td style='width: 25%;'>" + temp[i]['EngName'] + "</td>" +
                                             "<td style='width: 19%;'><button class='btn btn_cancel' style='background: none;' onclick='CancelDocNo(\"" + temp[i]["DocNo"] + "\");' id='cancel_btn"+i+"' disabled='true'><i class='fas fa-trash' style='font-size:24px'></i></button></td>" +
                                         "</tr>";
                                     $("#TableDocument tbody").append(StrTR);
@@ -861,6 +870,144 @@ $array2 = json_decode($json2,TRUE);
                                     timer: 2000,
                                 });
                             }
+                        }else if(temp['form'] == 'SelectDocument'){
+                            $('#home-tab').click();
+                            var HeadTB = "<tr style='height:50px;' >" + 
+                                            "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
+                                            "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
+                                            "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
+                                            "<th style='width :15%;'  class='text-left'>Department</th>"+
+                                            "<th style='width :13%;' class='text-center'>Change <br>(ความถึ่ในการเปลี่ยน)</th>";
+                            for (var i = 0; i < temp['CountRow']; i++) {
+                                HeadTB += "<th  class='text-center numDep' style='width :12%;'>" + temp[i]['DepName'] + "</th>" ;
+                            }
+                            var DepCount = i;
+                            var total_par1 = temp['total_par1']==undefined?"placeholder='0'":"value='"+temp['total_par1']+"'";
+                            var total_par2 = temp['total_par2']==undefined?"placeholder='0'":"value='"+temp['total_par2']+"'";
+                            HeadTB += "<th class='text-center'nowrap style=width:12%;'>TOTAL</th>"+
+                            "<th class='text-center' ' nowrap style='width:12%;'>TOTAL</th>"+
+                            "<th class='text-center'nowrap style='width:12%;'>TOTAL</th>"+
+                            "</tr>";
+                            HeadTB += "<tr style='height:50px;'>"+
+                                        "<th style='width:12%;' nowrap  class='text-left'>COST CENTER</th>"+
+                                        "<th colspan='"+(i+1)+"'></th>"+
+                                        "<th  nowrap  class='text-center' style='padding-left: 20px;padding-right: 20px;'>Ex.STOCK</th>"+
+                                        "<th  nowrap  class='text-center' style='padding-left: 20px;padding-right: 20px;'>PAR</th>"+
+                                        "<th  nowrap  class='text-center' style='padding-left: 20px;padding-right: 20px;'>PAR</th>"+
+                                    "</tr>";
+                                HeadTB += "<tr style='height:50px;'>"+
+                                "<th style='width:12%;' nowrap  class='text-left'>Name</th>"+
+                                "<th colspan='"+(i+2)+"'></th>"+
+                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' "+total_par1+" id='total_par1' disabled='true'></th>"+
+                                "<th  nowrap  class='text-center'><input type='text' class='form-control text-center' "+total_par2+" id='total_par2' onkeyup='if(event.keyCode==13){SavePar()}else{Calculate()}'></th>"+
+                            "</tr>";
+                            $('#theadsum').html(HeadTB);
+
+                            StrTRx = "<tr style='height:50px;'>"+
+                                "<td style='width :5%;'  class='text-left'  rowspan='4'></td>"+
+                                "<td style='width :5%;'  class='text-left'  rowspan='4'></td>"+
+                                "<td style='width:5%;' class='text-center'>1</td>"+
+                                "<td style='width:5%;' class='text-left'>จำนวนเตียงรวม <br>(Total Patient Room)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty1 = temp[i]['Qty1']==null?"placeholder='0'":"value='"+temp[i]['Qty1']+"'";
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' "+Qty1+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center width_custom' id='totalQty1' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;'  class='text-center'>2</td>"+
+                                "<td style='width:5%;'  class='text-left'>ห้องพักญาติ <br>(Relative Room In VIP)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty2 = temp[i]['Qty2']==null?"placeholder='0'":"value='"+temp[i]['Qty2']+"'";
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+" type2' data-type='2' id='QtyType2_"+i+"'  "+Qty2+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty2' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;'  class='text-center'>3</td>"+
+                                "<td style='width:5%;'  class='text-left'>จำนวนผู้ป่วย <br>(AVG Patient Census)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty3 = temp[i]['Qty3']==null?"placeholder='0'":"value='"+temp[i]['Qty3']+"'";
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty3 numonly_dot col_"+i+"' id='QtyType3_"+i+"' "+Qty3+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+3+"\",\""+i+"\")}else{Calculate()}'></td>" ;
+                                }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center totalQty3' id='totalQty3' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;'  class='text-center'>4</td>"+
+                                "<td style='width:5%;'  class='text-left'>จำนวนผู้ป่วยกลับบ้าน <br>(Dis charge plan)</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < temp['CountRow']; i++) {
+                                    Qty4 = temp[i]['Qty4']==null?"placeholder='0'":"value='"+temp[i]['Qty4']+"'";
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty4 numonly_dot col_"+i+"' id='QtyType4_"+i+"' "+Qty4+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+4+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                }
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty4' value='0' disabled></td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                            "</tr>";
+                            StrTRx += "<tr style='height:50px;'>"+
+                                "<td style='width:5%;' nowrap  class='text-center'></td>"+
+                                "<td nowrap  class='text-center'  style='width:15%;' colspan='2'>"+
+                                    "<select name='type_"+i+"' id='type_"+i+"' class='form-control width_custom'>"+
+                                        "<option>เลือกทั้งหมด</option>"+
+                                        "<option>PPU</option>"+
+                                        "<option>NONPPU</option>"+
+                                    "</select>"+
+                                "</td>"+
+                                // "<td style='width:5%;'></td>"+
+                                "<td  nowrap  class='text-center'>"+
+                                    "<select name='safty_"+i+"' id='safty_"+i+"' class='form-control' style='width: 260px;'>"+
+                                        "<option>Total Safty stock</option>"+
+                                        "<option>เลือกทั้งหมด</option>"+
+                                    "</select>"+
+                                "</td>"+
+                                "<td></td>";
+                                for (var i = 0; i < (temp['CountRow']); i++) {
+                                    Hptpercent = temp[i]['Hptpercent']==null?"placeholder='0'":"value='"+temp[i]['Hptpercent']+"'";
+                                    StrTRx += "<td  nowrap  class='text-center'>"+
+                                        "<div class='input-group'>"+
+                                            "<input  "+Hptpercent+" onkeyup='if(event.keyCode==13){SavePercent(\""+temp[i]['DepCode']+"\",\""+i+"\")}else{Calculate()}' class='form-control numonly percentSend text-center' id='percent_"+i+"'>"+
+                                            "<div class='labelPrecent'><label for='percent_"+i+"'>%</label></div>"+
+                                        "</div>"
+                                    "</td>";
+                                }
+                            StrTRx +=   "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "<td  nowrap  class='text-center'> </td>"+
+                                "</tr>";
+                            if(temp['RowCount']>0){
+                                for (var j = 0; j < (temp['RowCount']); j++) {
+                                    var chkItem = "<input type='checkbox' class='chkItem' name='checkitem' checked  id='chkItem_"+temp[j]['ItemCode']+"'  value='1' onclick='Calculate();'>";
+                                    change_value = temp[j]['change_value']==null?"placeholder='0'":"value='"+temp[j]['change_value']+"'";
+                                    StrTRx += "<tr style='height:50px;'>"+
+                                        "<td style='width :5%;' class='text-center'>"+(j+1)+"</td>"+
+                                        "<td  nowrap  class='text-left'>"+temp[j]['mainType']+"</td>"+
+                                        "<td style='width :5%;' class='text-center'>"+chkItem+"</td>"+
+                                        "<td  nowrap  class='text-left ItemCode' data-itemcode='"+temp[j]['ItemCode']+"'>"+temp[j]['ItemName']+"</td>"+
+                                        "<td  nowrap  class='text-left'><input type='text'  "+change_value+" id='change_"+j+"' class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
+                                        for (var i = 0; i < temp['CountRow']; i++) {
+                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+"  SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
+                                        }
+                                    StrTRx += "<td  class='text-center'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalSum CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
+                                    "</tr>";
+                                }
+                                var RowChg = j;
+                            }else{
+                                    StrTRx += "<tr style='height:50px;'>"+
+                                        "<td  class='text-center' colspan='13'><?php echo $array['notfoundmsg'][$language]; ?></td>"+
+                                    "</tr>";
+                            }
+                            $('#body_table').html(StrTRx);
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
