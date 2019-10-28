@@ -1162,9 +1162,15 @@ $array2 = json_decode($json2,TRUE);
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                     // $('.chk_edit').attr('disabled', true);
                     // $('#').attr('disabled', true);
+                    if(temp[0]['IsStatus'] !=1){
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
                     $("#bCancel2").addClass('opacity');
+                    }else{
+                        $("#hover5").addClass('mhee');
+                        $("#bCancel").prop('disabled', false);
+                        $("#bCancel2").removeClass('opacity');
+                    }
                     var word = '<?php echo $array['edit'][$language]; ?>';
                     var changeBtn = "<i class='fas fa-edit'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1172,7 +1178,6 @@ $array2 = json_decode($json2,TRUE);
                     $("#bImport").prop('disabled', true);
                     $("#bDelete").prop('disabled', true);
                     $("#bSave").prop('disabled', false);
-                    $("#bCancel").prop('disabled', true);
                     $('#hover4').addClass('mhee');
                     $("#bSave2").removeClass('opacity');
                     $('#bPrint').attr('disabled', false);
@@ -1183,6 +1188,13 @@ $array2 = json_decode($json2,TRUE);
                     $('#bPrintnew2').removeClass('opacity');
                     $('#hover7').addClass('mhee');
                   }else{
+                    $('#bPrint').attr('disabled', true);
+                    $('#bPrint2').addClass('opacity');
+                    $('#hover6').removeClass('mhee');
+
+                    $('#bPrintnew').attr('disabled', true);
+                    $('#bPrintnew2').addClass('opacity');
+                    $('#hover7').removeClass('mhee');
                     $("#bImport").prop('disabled', true);
                     $("#bDelete").prop('disabled', true);
                     $("#bSave").prop('disabled', true);

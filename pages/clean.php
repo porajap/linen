@@ -1161,13 +1161,18 @@ $(document).ready(function(e){
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
                   $('#icon_edit').html(changeBtn);
-                  $("#bCancel").prop('disabled', true);
-                  $("#bCancel2").addClass('opacity');
-                  $('#icon_edit').html(changeBtn);
+                  if(temp[0]['IsStatus'] !=1){
+                    $("#hover5").removeClass('mhee');
+                    $("#bCancel").prop('disabled', true);
+                    $("#bCancel2").addClass('opacity');
+                  }else{
+                    $("#hover5").addClass('mhee');
+                    $("#bCancel").prop('disabled', false);
+                    $("#bCancel2").removeClass('opacity');
+                  }
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
-                  $("#bCancel").prop('disabled', true);
                   $('#hover4').addClass('mhee');
                   $("#bSave2").removeClass('opacity');
                   $('#bPrint').attr('disabled', false);
@@ -1195,7 +1200,14 @@ $(document).ready(function(e){
                   $("#recorder").prop('disabled', true);
                   $("#timerec").prop('disabled', true);
                   $("#total").prop('disabled', true);
+                  $('#bPrint').attr('disabled', true);
+                  $('#bPrint2').addClass('opacity');
+                  $('#hover6').removeClass('mhee');
 
+                  $('#bPrintnew').attr('disabled', true);
+                  $('#bPrintnew2').addClass('opacity');
+                  $('#hover7').removeClass('mhee');
+                  
                   $('#qty1_'+i).prop('disabled', true);
                   $('#weight_'+i).prop('disabled', true);
                   $('#price_'+i).prop('disabled', true);
