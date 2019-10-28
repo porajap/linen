@@ -810,10 +810,10 @@ $(document).ready(function(e){
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
-          $("#bCancel2").removeClass('opacity');
+          // $("#bCancel2").removeClass('opacity');
           $("#bImport").prop('disabled', false);
           $("#bSave").prop('disabled', false);
-          $("#bCancel").prop('disabled', false);
+          // $("#bCancel").prop('disabled', false);
           var word = '<?php echo $array['save'][$language]; ?>';
           var changeBtn = "<i class='fa fa-save'></i>";
             changeBtn += "<div>"+word+"</div>";
@@ -1072,6 +1072,9 @@ $(document).ready(function(e){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
+                  $("#hover5").removeClass('mhee');
+                  $("#bCancel").prop('disabled', true);
+                  $("#bCancel2").addClass('opacity');
                   $('#icon_edit').html(changeBtn);
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);

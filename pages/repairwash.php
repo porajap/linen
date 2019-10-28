@@ -830,10 +830,8 @@ $(document).ready(function(e){
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
-          $("#bCancel2").removeClass('opacity');
           $("#bImport").prop('disabled', false);
           $("#bSave").prop('disabled', false);
-          $("#bCancel").prop('disabled', false);
           var word = '<?php echo $array['save'][$language]; ?>';
           var changeBtn = "<i class='fa fa-save'></i>";
             changeBtn += "<div>"+word+"</div>";
@@ -1101,7 +1099,10 @@ $(document).ready(function(e){
                   $('#bPrint').attr('disabled', true);
                   $('#bPrint2').addClass('opacity');
                   $('#hover6').removeClass('mhee');
-                }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
+                }else if(temp[0]['IsStatus']==1|| temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
+                  $("#bCancel").prop('disabled', true);
+                  $("#bCancel2").addClass('opacity');
+                  $('#icon_edit').html(changeBtn);
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";

@@ -800,10 +800,10 @@ $array2 = json_decode($json2,TRUE);
             }else{
               $("#bImport2").removeClass('opacity');
               $("#bSave2").removeClass('opacity');
-              $("#bCancel2").removeClass('opacity');
+              // $("#bCancel2").removeClass('opacity');
               $("#bImport").prop('disabled', false);
               $("#bSave").prop('disabled', false);
-              $("#bCancel").prop('disabled', false);
+              // $("#bCancel").prop('disabled', false);
               var word = '<?php echo $array['save'][$language]; ?>';
               var changeBtn = "<i class='fa fa-save'></i>";
               changeBtn += "<div>"+word+"</div>";
@@ -1159,9 +1159,12 @@ $array2 = json_decode($json2,TRUE);
                     $('#bPrintnew').attr('disabled', true);
                     $('#bPrintnew2').addClass('opacity');
                     $('#hover7').removeClass('mhee');
-                  }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
+                  }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                     // $('.chk_edit').attr('disabled', true);
                     // $('#').attr('disabled', true);
+                    $("#hover5").removeClass('mhee');
+                    $("#bCancel").prop('disabled', true);
+                    $("#bCancel2").addClass('opacity');
                     var word = '<?php echo $array['edit'][$language]; ?>';
                     var changeBtn = "<i class='fas fa-edit'></i>";
                     changeBtn += "<div>"+word+"</div>";
