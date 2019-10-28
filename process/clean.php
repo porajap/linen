@@ -13,7 +13,37 @@ function OnLoadPage($conn, $DATA)
   $HptCode = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
   $count = 0; 
+  $countx = 0;
   $boolean = false;
+
+
+  if($lang == 'en'){
+    $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 ";
+    }else{
+    $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 ";
+    }  
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  $return[$countx]['FacCode'] = $Result['FacCode'];
+  $return[$countx]['FacName'] = $Result['FacName'];
+  $countx  ++;
+}
+$return['Rowx'] = $countx;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
     if($PmID ==2 || $PmID ==3){
@@ -60,7 +90,28 @@ function OnLoadPage($conn, $DATA)
     die;
   }
 }
+function savefactory($conn, $DATA){
+  $DocNo = $DATA["docno"];
+  $factory2 = $DATA["factory2"];
 
+  $Sql ="UPDATE clean SET FacCode = $factory2 WHERE DocNo = '$DocNo'";
+  $meQuery = mysqli_query($conn, $Sql);
+  $return['FacCode'] = $factory2;
+
+  if (mysqli_query($conn, $Sql)) {
+    $return['status'] = "success";
+    $return['form'] = "savefactory";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "failed";
+    $return['form'] = "savefactory";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 function getDepartment($conn, $DATA)
 {
   $count = 0;
@@ -282,7 +333,7 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
     $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) 
-    AS DocDate ,clean.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus,clean.RefDocNo
+    AS DocDate ,clean.Total,users.EngName , users.EngLName ,clean.FacCode ,  users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus,clean.RefDocNo
     FROM clean
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -304,6 +355,7 @@ function CreateDocument($conn, $DATA)
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
+      $return[$count]['FacCode']   = $Result['FacCode'];
       $return[$count]['DocDate']   = $newdate;
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
@@ -735,11 +787,12 @@ function CreateDocument($conn, $DATA)
     $PmID = $_SESSION['PmID'];
     $HptCode = $_SESSION['HptCode'];
     $DocNo = $DATA["xdocno"];
+    $factory1 = $DATA["factory1"];
     $DocNo2 = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
     $count = 0 ;
     $count4 = 0;
-    $Sql = "UPDATE clean SET IsStatus = $isStatus WHERE clean.DocNo = '$DocNo'";
+    $Sql = "UPDATE clean SET IsStatus = $isStatus , FacCode = $factory1  WHERE clean.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     // ================================================================================
     $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$DocNo2' ";
@@ -840,26 +893,47 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
-    $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
+    $Sqlx = "SELECT dirty.DocNo , dirty.FacCode FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $DocNoDirty = $Result['DocNo'];
+      $dirtyFacCode = $Result['FacCode'];
     }
-    if($DocNoDirty != "" ){
+
+    $Sqlx1 = "SELECT repair_wash.DocNo , repair_wash.FacCode FROM repair_wash WHERE repair_wash.DocNo = '$RefDocNo' ";
+    $meQuery1 = mysqli_query($conn, $Sqlx1);
+    while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+      $DocNorepair_wash = $Result1['DocNo'];
+      $repair_washFacCode = $Result1['FacCode'];
+    }
+
+    if($DocNoDirty != "" &&  $DocNorepair_wash == ""){
     $Sql = "UPDATE dirty SET IsRef = 1 , IsStatus = 4 WHERE dirty.DocNo = '$RefDocNo'";
     mysqli_query($conn, $Sql);
-    }else{
+    $Sql = "UPDATE clean SET FacCode = '$dirtyFacCode' WHERE DocNo = '$DocNo'";
+    mysqli_query($conn, $Sql);
+    $return['FacCode'] 	= $dirtyFacCode;
+    }else if($DocNoDirty == "" &&  $DocNorepair_wash != ""){
     $Sql = "UPDATE repair_wash SET IsRef = 1 , IsStatus = 4 WHERE repair_wash.DocNo = '$RefDocNo'";
     mysqli_query($conn, $Sql);
+    $Sql = "UPDATE clean SET FacCode = '$repair_washFacCode' WHERE DocNo = '$DocNo'";
+    mysqli_query($conn, $Sql);
+    $return['FacCode'] 	= $repair_washFacCode;
+
     }
-    $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
+    $Sqlx = "SELECT newlinentable.DocNo , newlinentable.FacCode FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $DocNonewlinentable = $Result['DocNo'];
+      $newlinentableFacCode = $Result['FacCode'];
     }
     if($DocNonewlinentable != "" ){
       $Sql = "UPDATE newlinentable SET IsRef = 1 , IsStatus = 4 WHERE newlinentable.DocNo = '$RefDocNo'";
       mysqli_query($conn, $Sql);
+      $Sql = "UPDATE clean SET FacCode = '$newlinentableFacCode' WHERE DocNo = '$DocNo'";
+      mysqli_query($conn, $Sql);
+      $return['FacCode'] 	= $newlinentableFacCode;
+
       }
 
 $Sql2 = "SELECT DocNo FROM repair_wash WHERE DocNo = '$RefDocNo'";
@@ -1335,7 +1409,9 @@ $meQuery = mysqli_query($conn, $Sql);
       chk_percent($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'updateQty') {
     updateQty($conn, $DATA);
-  }
+    } elseif ($DATA['STATUS'] == 'savefactory') {
+      savefactory($conn, $DATA);
+    }
 
 
 

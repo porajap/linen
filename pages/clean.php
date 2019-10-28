@@ -85,6 +85,7 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+
   $('#searchdocument').keyup(function(e) {
             if (e.keyCode == 13) {
               ShowDocument(1);
@@ -222,7 +223,8 @@ $(document).ready(function(e){
         xrow = xrow.split(",");
         swal({
           title: "<?php echo $array['confirmdelete'][$language]; ?>",
-          text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
+          // text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
+          text: "<?php echo $array['confirm1'][$language]; ?>",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",
@@ -305,11 +307,33 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
         $('#isStatus').val(0)
       }
+      function savefactory(){
+        var docno = $("#docno").val();
+        var factory2 = $("#factory2").val();
+        var data = {
+          'STATUS' : 'savefactory',
+          'DocNo'  : docno,
+          'factory2'  : factory2,
+        };
+        console.log(JSON.stringify(data));
+        senddata(JSON.stringify(data));
+      }
 
       function open_dirty_doc(){
         // dialogRefDocNo.dialog( "open" );
-        $('#dialogRefDocNo').modal('show');
+        $("#dialogRefDocNo").modal({
+            backdrop: 'static',
+            keyboard: false
+        });        
         get_dirty_doc();
+
+      }
+
+      function get_factory(){
+        $("#dialogfactory").modal({
+            backdrop: 'static',
+            keyboard: false
+        });   
       }
 
       function get_dirty_doc(){
@@ -452,6 +476,8 @@ $(document).ready(function(e){
           $('input[name="checkAllDetail').prop('checked',false);
         }
       }
+
+
 
       function ShowDetail() {
         var docno = $("#docno").val();
@@ -728,10 +754,28 @@ $(document).ready(function(e){
           }
         }
     }
+    function removeClassBorder2(){
+          $('#factory1').removeClass('border-danger');
+          $('#rem2').attr('hidden' , true);
+        }
+
+    function checkblank(){
+          $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem2').attr('hidden' , false).css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem2').attr('hidden' , true);
+            }
+          });
+        }
+
       function SaveBill(chk){        
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
+        var factory1 = $("#factory1").val();
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
         // alert( isStatus );
@@ -741,7 +785,20 @@ $(document).ready(function(e){
         isStatus=1;
 
         if(isStatus==1){
-          
+        if(factory1 ==""){
+          checkblank();
+          swal({
+              title: '',
+              text: "<?php echo $array['required'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+        }else{
           if(docno!=""){
             if(chk == '' || chk == undefined){
             chk_percent();
@@ -775,7 +832,8 @@ $(document).ready(function(e){
                   'xdocno'      : docno,
                   'xdocno2'      : docno2,
                   'isStatus'    : isStatus,
-                  'deptCode'    : dept
+                  'deptCode'    : dept ,
+                  'factory1'    : factory1
                 };
 
           senddata(JSON.stringify(data));
@@ -805,8 +863,9 @@ $(document).ready(function(e){
         } else if (result.dismiss === 'cancel') {
           swal.close();}
         })
-        }
-        }
+      }
+     }
+    }
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
@@ -850,6 +909,12 @@ $(document).ready(function(e){
         $('#input_chk').val(0);
         senddata(JSON.stringify(data));
       }
+
+      function unlockfactory() {
+        $('#factory1').attr('disabled' , false);
+        $('#factory1').removeClass('icon_select');
+      }
+
       function UpdateRefDocNo(){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
@@ -917,7 +982,16 @@ $(document).ready(function(e){
 
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
+                $("#factory1").empty();
+                $("#factory2").empty();
                 $("#Hos2").empty();
+
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                  }
+                  $("#factory1").append(Str);
+                  $("#factory2").append(Str);
                 // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
@@ -1046,6 +1120,7 @@ $(document).ready(function(e){
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
+                $("#factory1").val(temp[0]['FacCode']);
 
                 if(temp[0]['IsStatus']==0){
                   var word = '<?php echo $array['save'][$language]; ?>';
@@ -1068,7 +1143,7 @@ $(document).ready(function(e){
                   $('#bPrintnew').attr('disabled', true);
                   $('#bPrintnew2').addClass('opacity');
                   $('#hover7').removeClass('mhee');
-                }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
+                }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4 || temp[0]['IsStatus']==5){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
@@ -1308,13 +1383,28 @@ $(document).ready(function(e){
                     $('#TableRefDocNo tbody:last-child').append(Str);
                         }
               }else if(temp['form']=="UpdateRefDocNo"){
-
+                  $('#factory1').val(temp['FacCode']);
                   $('#RefDocNo').attr('disabled' , true);
                   $('#RefDocNo').val(temp['DocNoxx']);
                   if(temp['DocNox'] == null){
                       OpenDialogItem();
                   }
                         ShowDetail();
+              }else if(temp['form']=="savefactory"){
+                  $('#factory1').val(temp['FacCode']);
+                  $('#factory1').attr('disabled' , true);
+                  $('#factory1').addClass('icon_select');
+                  swal({
+                      title: '',
+                      text: '<?php echo $array['savesuccess'][$language]; ?>',
+                      type: 'success',
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 1500,
+                      });
+                  $('#dialogfactory').modal('toggle');
+
+
               }else if(temp['form']=="SaveBill"){
                 if(temp['countpercent']>0){
                   for (var i = 0; i < temp['countpercent']; i++) {
@@ -1608,6 +1698,24 @@ $(document).ready(function(e){
       .opacity{
         opacity:0.5;
       }
+
+      .modal-content1{
+        width: 72% !important;
+        right: -15% !important;
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+        outline: 0;
+      }
+
       @media (min-width: 992px) and (max-width: 1199.98px) { 
 
       .icon{
@@ -1713,6 +1821,16 @@ $(document).ready(function(e){
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
                                       <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['factory'][$language]; ?></label>
+                                      <select  class="form-control col-sm-7 icon_select checkblank" disabled="true" style="font-size:22px;" onchange="removeClassBorder2();"  id="factory1"  >
+                                      </select>
+                                      <label id="rem2" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                 </div>
@@ -1972,7 +2090,7 @@ $(document).ready(function(e){
     <div class="modal-content">
       <div class="modal-header">
         <?php echo $array['refdocno'][$language]; ?>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" onclick="get_factory();" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -2052,6 +2170,27 @@ $(document).ready(function(e){
           </div>
         </div>
       </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="dialogfactory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content1">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['selectfactory'][$language]; ?></h5>
+        <button type="button" onclick="unlockfactory();" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <select  class="form-control col-sm-12 "  style="font-size:22px;"  id="factory2">         
+      </select>
+      </div>
+      <div class="modal-footer">
+      <button type="button" onclick="savefactory();" class="btn btn-success" style="width: 41%;"><?php echo $array['wantsave'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Bootstrap core JavaScript-->
 <script src="../template/vendor/jquery/jquery.min.js"></script>
 <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

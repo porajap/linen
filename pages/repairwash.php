@@ -213,7 +213,8 @@ $(document).ready(function(e){
         xrow = xrow.split(",");
         swal({
           title: "<?php echo $array['confirmdelete'][$language]; ?>",
-          text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
+          // text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
+          text: "<?php echo $array['confirm1'][$language]; ?>",
           type: "warning",
           showCancelButton: true,
           confirmButtonClass: "btn-danger",

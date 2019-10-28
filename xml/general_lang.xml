@@ -149,7 +149,7 @@
 <confirmcancel><en>Confirm cancel doc</en><th>ยืนยันการยกเลิกเอกสาร</th></confirmcancel>
 <sendlinen><en>Send Linen</en><th>จัดส่งผ้า</th></sendlinen>
 <sendlinendep><en>Send linen to department.</en><th>จัดส่งผ้าเข้าแผนก</th></sendlinendep>
-<confirm1><en>Are you sure to delete [ </en><th>คุณต้องการลบรายการนี้ [ </th></confirm1>
+<confirm1><en>Are you sure to delete [ </en><th>คุณต้องการลบรายการนี้  </th></confirm1>
 <confirm2><en> ] ?</en><th> ] ใช่หรือไม่</th></confirm2>
 <confirmdelete><en>Delete Item ?</en><th>ลบข้อมูล ?</th></confirmdelete>
 <confirmdelete1><en>Are you sure to delete</en><th>คุณต้องการลบข้อมูลนี้ [ </th></confirmdelete1>
