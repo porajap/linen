@@ -657,6 +657,32 @@ $array2 = json_decode($json2,TRUE);
             };
             senddata(JSON.stringify(data));
         }
+
+        function UpdateQty(DepCode, Type, row){
+            var Qty = 0;
+            if(Type == 1){
+               Qty = $('#QtyType1_'+row).val();
+               $('#QtyType1_'+row).addClass('border border-dark');
+            }else if(Type == 2){
+                Qty = $('#QtyType2_'+row).val();
+               $('#QtyType2_'+row).addClass('border border-dark');
+            }else if(Type == 3){
+                Qty = $('#QtyType3_'+row).val();
+               $('#QtyType3_'+row).addClass('border border-dark');
+            }else if(Type == 4){
+                Qty = $('#QtyType4_'+row).val();
+               $('#QtyType4_'+row).addClass('border border-dark');
+            }
+            var DocNo = $('#DocNo').val();
+            var data = {
+                'STATUS': 'UpdateQty',
+                'DocNo': DocNo,
+                'DepCode': DepCode,
+                'Type': Type,
+                'Qty': Qty
+            };
+            senddata(JSON.stringify(data));
+        }
         // End Function ----------------------------------------
         function senddata(data) {
             var form_data = new FormData();
@@ -872,6 +898,7 @@ $array2 = json_decode($json2,TRUE);
                             }
                         }else if(temp['form'] == 'SelectDocument'){
                             $('#home-tab').click();
+                            $('#DocNo').val(temp['DocNo']);
                             var HeadTB = "<tr style='height:50px;' >" + 
                                             "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
                                             "<th style='width :5%;'  class='text-left'  rowspan='3'></th>"+
@@ -911,7 +938,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty1 = temp[i]['Qty1']==null?"placeholder='0'":"value='"+temp[i]['Qty1']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' "+Qty1+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' "+Qty1+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
                                 StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center width_custom' id='totalQty1' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
@@ -923,7 +950,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty2 = temp[i]['Qty2']==null?"placeholder='0'":"value='"+temp[i]['Qty2']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+" type2' data-type='2' id='QtyType2_"+i+"'  "+Qty2+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+" type2' data-type='2' id='QtyType2_"+i+"'  "+Qty2+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
                                 StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty2' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
@@ -935,7 +962,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty3 = temp[i]['Qty3']==null?"placeholder='0'":"value='"+temp[i]['Qty3']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty3 numonly_dot col_"+i+"' id='QtyType3_"+i+"' "+Qty3+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+3+"\",\""+i+"\")}else{Calculate()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty3 numonly_dot col_"+i+"' id='QtyType3_"+i+"' "+Qty3+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+3+"\",\""+i+"\")}else{Calculate()}'></td>" ;
                                 }
                                 StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center totalQty3' id='totalQty3' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
@@ -947,7 +974,7 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty4 = temp[i]['Qty4']==null?"placeholder='0'":"value='"+temp[i]['Qty4']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty4 numonly_dot col_"+i+"' id='QtyType4_"+i+"' "+Qty4+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+4+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty4 numonly_dot col_"+i+"' id='QtyType4_"+i+"' "+Qty4+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+4+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
                                 StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty4' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
@@ -1198,7 +1225,7 @@ $array2 = json_decode($json2,TRUE);
 <body id="page-top">
         <input type="hidden" id="DepCount">
         <input type="hidden" id="RowChg">
-
+        
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['tdas'][$language]; ?></a>
@@ -1245,6 +1272,11 @@ $array2 = json_decode($json2,TRUE);
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 ml-2">
+                        <input type="text" id="DocNo" class="form-control" placeholder="<?php echo $array['docno'][$language]; ?>" disabled> 
                     </div>
                 </div>
                 <table style="margin-top:10px;" class="table mt-2 " id="TableItem" cellspacing="0" role="grid" >
