@@ -1129,7 +1129,6 @@ $(document).ready(function(e){
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
 
-                alert(temp[0]['FacCode']);
                 if(temp[0]['FacCode'] ==0){
                   $("#factory1").attr('disabled' , false);
                   $("#factory1").removeClass('icon_select');
