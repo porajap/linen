@@ -436,7 +436,7 @@ function SelectDocument($conn, $DATA){
     $HptCode = $Result['HptCode'];
   }
   #-----------------------------------------------------------------
-  $SqlDepCode = "SELECT tdas_detail.DepCode, department.DepName
+  $SqlDepCode = "SELECT tdas_detail.DepCode, department.DepName, tdas_detail.Percent
   FROM tdas_detail 
   INNER JOIN department ON department.DepCode = tdas_detail.DepCode
   WHERE tdas_detail.DocNo = '$DocNo' 
@@ -445,6 +445,7 @@ function SelectDocument($conn, $DATA){
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode']  = $Result['DepCode'];
     $return[$count]['DepName']  = $Result['DepName'];
+    $return[$count]['Hptpercent']  = $Result['Percent'];
     $DepCode[$count] = $Result['DepCode'];
     $count ++;
   }
@@ -453,8 +454,8 @@ function SelectDocument($conn, $DATA){
   $Sql = "SELECT total_par1, total_par2 FROM tdas_total WHERE HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['Total_par1'] = $Result['total_par1'];
-    $return['Total_par2'] = $Result['total_par2'];
+    $return['total_par1'] = $Result['total_par1'];
+    $return['total_par2'] = $Result['total_par2'];
   }
   #-----------------------------------------------------------------
   foreach($DepCode as $key => $value){
@@ -494,7 +495,8 @@ function SelectDocument($conn, $DATA){
   $Sql = "SELECT
       item_main_category.MainCategoryName,
       item.ItemName,
-      item.ItemCode
+      item.ItemCode,
+      tdas_detail_item.Change_value
     FROM
       tdas_detail_item
     INNER JOIN item ON item.ItemCode = tdas_detail_item.ItemCode
@@ -510,6 +512,7 @@ function SelectDocument($conn, $DATA){
     $return[$count]['mainType']  = $Result['MainCategoryName'];
     $return[$count]['ItemName']  = $Result['ItemName'];
     $return[$count]['ItemCode']  = $Result['ItemCode'];
+    $return[$count]['change_value']  = $Result['Change_value'];
     $ItemCode[$count]  = $Result['ItemCode'];
     $count++;
   }

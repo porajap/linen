@@ -1008,6 +1008,16 @@ $array2 = json_decode($json2,TRUE);
                                     "</tr>";
                             }
                             $('#body_table').html(StrTRx);
+                            $('.numonly_dot').on('input', function() {
+                              this.value = this.value.replace(/[^0-9]/g, '');
+                            });
+                            $('.numonly').on('input', function() {
+                              this.value = this.value.replace(/[^0-9.]/g, '');
+                            });
+                            $('#DepCount').val(DepCount);
+                            $('#RowChg').val(RowChg);
+                            TotalQty();
+                            Calculate();
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
