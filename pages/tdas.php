@@ -683,6 +683,11 @@ $array2 = json_decode($json2,TRUE);
             };
             senddata(JSON.stringify(data));
         }
+        function ClearInput(){
+            $('.ClearInput2').val("0");
+            $('.ClearInput').val('').attr("placeholder","0");
+            // $('#DocNo').val("");
+        }
         // End Function ----------------------------------------
         function senddata(data) {
             var form_data = new FormData();
@@ -752,9 +757,9 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty1 = temp[i]['Qty1']==null?"placeholder='0'":"value='"+temp[i]['Qty1']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' "+Qty1+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control ClearInput width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' "+Qty1+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center width_custom' id='totalQty1' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center ClearInput2 width_custom' id='totalQty1' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -766,7 +771,7 @@ $array2 = json_decode($json2,TRUE);
                                     Qty2 = temp[i]['Qty2']==null?"placeholder='0'":"value='"+temp[i]['Qty2']+"'";
                                     StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+" type2' data-type='2' id='QtyType2_"+i+"'  "+Qty2+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty2' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control ClearInput ClearInput2 text-center' id='totalQty2' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -776,9 +781,9 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty3 = temp[i]['Qty3']==null?"placeholder='0'":"value='"+temp[i]['Qty3']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty3 numonly_dot col_"+i+"' id='QtyType3_"+i+"' "+Qty3+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+3+"\",\""+i+"\")}else{Calculate()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control ClearInput text-center qty3 numonly_dot col_"+i+"' id='QtyType3_"+i+"' "+Qty3+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+3+"\",\""+i+"\")}else{Calculate()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center totalQty3' id='totalQty3' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center ClearInput2 totalQty3' id='totalQty3' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -788,9 +793,9 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty4 = temp[i]['Qty4']==null?"placeholder='0'":"value='"+temp[i]['Qty4']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty4 numonly_dot col_"+i+"' id='QtyType4_"+i+"' "+Qty4+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+4+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control ClearInput text-center qty4 numonly_dot col_"+i+"' id='QtyType4_"+i+"' "+Qty4+" onkeyup='if(event.keyCode==13){SaveQty(\""+temp[i]['DepCode']+"\",\""+4+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty4' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control ClearInput2 text-center' id='totalQty4' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -815,7 +820,7 @@ $array2 = json_decode($json2,TRUE);
                                     Hptpercent = temp[i]['Hptpercent']==null?"placeholder='0'":"value='"+temp[i]['Hptpercent']+"'";
                                     StrTRx += "<td  nowrap  class='text-center'>"+
                                         "<div class='input-group'>"+
-                                            "<input  "+Hptpercent+" onkeyup='if(event.keyCode==13){SavePercent(\""+temp[i]['DepCode']+"\",\""+i+"\")}else{Calculate()}' class='form-control numonly percentSend text-center' id='percent_"+i+"'>"+
+                                            "<input  "+Hptpercent+" onkeyup='if(event.keyCode==13){SavePercent(\""+temp[i]['DepCode']+"\",\""+i+"\")}else{Calculate()}' class='form-control numonly percentSend text-center' ClearInput2 id='percent_"+i+"'>"+
                                             "<div class='labelPrecent'><label for='percent_"+i+"'>%</label></div>"+
                                         "</div>"
                                     "</td>";
@@ -833,13 +838,13 @@ $array2 = json_decode($json2,TRUE);
                                         "<td  nowrap  class='text-left'>"+temp[j]['mainType']+"</td>"+
                                         "<td style='width :5%;' class='text-center'>"+chkItem+"</td>"+
                                         "<td  nowrap  class='text-left ItemCode' data-itemcode='"+temp[j]['ItemCode']+"'>"+temp[j]['ItemName']+"</td>"+
-                                        "<td  nowrap  class='text-left'><input type='text'  "+change_value+" id='change_"+j+"' class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
+                                        "<td  nowrap  class='text-left'><input type='text'  "+change_value+" id='change_"+j+"' class='form-control ClearInput2 text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
                                         for (var i = 0; i < temp['CountRow']; i++) {
-                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+"  SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
+                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control ClearInput2 text-center result_"+j+i+"  SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
                                         }
                                     StrTRx += "<td  class='text-center'></td>"+
-                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
-                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalSum CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum ClearInput2 TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalSum ClearInput2 CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
                                     "</tr>";
                                 }
                                 var RowChg = j;
@@ -938,9 +943,9 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty1 = temp[i]['Qty1']==null?"placeholder='0'":"value='"+temp[i]['Qty1']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' "+Qty1+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control ClearInput width_custom text-center qty1 numonly_dot col_"+i+"' id='QtyType1_"+i+"' "+Qty1+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+1+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center width_custom' id='totalQty1' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center width_custom ClearInput2' id='totalQty1' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -950,9 +955,9 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty2 = temp[i]['Qty2']==null?"placeholder='0'":"value='"+temp[i]['Qty2']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty2 numonly_dot col_"+i+" type2' data-type='2' id='QtyType2_"+i+"'  "+Qty2+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center ClearInput qty2 numonly_dot col_"+i+" type2' data-type='2' id='QtyType2_"+i+"'  "+Qty2+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+2+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty2' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center ClearInput2' id='totalQty2' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -962,9 +967,9 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty3 = temp[i]['Qty3']==null?"placeholder='0'":"value='"+temp[i]['Qty3']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty3 numonly_dot col_"+i+"' id='QtyType3_"+i+"' "+Qty3+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+3+"\",\""+i+"\")}else{Calculate()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control ClearInput text-center qty3 numonly_dot col_"+i+"' id='QtyType3_"+i+"' "+Qty3+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+3+"\",\""+i+"\")}else{Calculate()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center totalQty3' id='totalQty3' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center totalQty3 ClearInput2' id='totalQty3' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -974,9 +979,9 @@ $array2 = json_decode($json2,TRUE);
                                 "<td></td>";
                                 for (var i = 0; i < temp['CountRow']; i++) {
                                     Qty4 = temp[i]['Qty4']==null?"placeholder='0'":"value='"+temp[i]['Qty4']+"'";
-                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center qty4 numonly_dot col_"+i+"' id='QtyType4_"+i+"' "+Qty4+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+4+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
+                                    StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center ClearInput qty4 numonly_dot col_"+i+"' id='QtyType4_"+i+"' "+Qty4+" onkeyup='if(event.keyCode==13){UpdateQty(\""+temp[i]['DepCode']+"\",\""+4+"\",\""+i+"\")}else{TotalQty()}'></td>" ;
                                 }
-                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center' id='totalQty4' value='0' disabled></td>"+
+                                StrTRx += "<td  nowrap  class='text-center'><input type='text' class='form-control text-center ClearInput2' id='totalQty4' value='0' disabled></td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                                 "<td  nowrap  class='text-center'> </td>"+
                             "</tr>";
@@ -1001,7 +1006,7 @@ $array2 = json_decode($json2,TRUE);
                                     Hptpercent = temp[i]['Hptpercent']==null?"placeholder='0'":"value='"+temp[i]['Hptpercent']+"'";
                                     StrTRx += "<td  nowrap  class='text-center'>"+
                                         "<div class='input-group'>"+
-                                            "<input  "+Hptpercent+" onkeyup='if(event.keyCode==13){SavePercent(\""+temp[i]['DepCode']+"\",\""+i+"\")}else{Calculate()}' class='form-control numonly percentSend text-center' id='percent_"+i+"'>"+
+                                            "<input  "+Hptpercent+" onkeyup='if(event.keyCode==13){SavePercent(\""+temp[i]['DepCode']+"\",\""+i+"\")}else{Calculate()}' class='form-control numonly percentSend text-center ClearInput2' id='percent_"+i+"'>"+
                                             "<div class='labelPrecent'><label for='percent_"+i+"'>%</label></div>"+
                                         "</div>"
                                     "</td>";
@@ -1019,13 +1024,13 @@ $array2 = json_decode($json2,TRUE);
                                         "<td  nowrap  class='text-left'>"+temp[j]['mainType']+"</td>"+
                                         "<td style='width :5%;' class='text-center'>"+chkItem+"</td>"+
                                         "<td  nowrap  class='text-left ItemCode' data-itemcode='"+temp[j]['ItemCode']+"'>"+temp[j]['ItemName']+"</td>"+
-                                        "<td  nowrap  class='text-left'><input type='text'  "+change_value+" id='change_"+j+"' class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
+                                        "<td  nowrap  class='text-left'><input type='text'  "+change_value+" id='change_"+j+"' ClearInput2 class='form-control text-center changeSend width_custom change_"+j+"' onkeyup='if(event.keyCode==13){SaveChange(\""+temp[j]['ItemCode']+"\",\""+j+"\")}else{TotalQty()}'></td>";
                                         for (var i = 0; i < temp['CountRow']; i++) {
-                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control text-center result_"+j+i+"  SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
+                                            StrTRx += "<td  class='text-center'><input type='text' class='form-control ClearInput2 text-center result_"+j+i+"  SumRow_"+j+"' onkeyup='CalRow("+j+")'></td>" ;
                                         }
                                     StrTRx += "<td  class='text-center'></td>"+
-                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center TotalSum TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
-                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center CalSum CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center ClearInput2 TotalSum TotalSum_"+j+"' style='width:140px;' disabled id='SumRow_"+j+"'></td>"+
+                                        "<td  class='text-center'>"+"<input type='text' class='form-control text-center ClearInput2 CalSum CalRow_"+j+"' style='width:140px;' disabled id='CalRow_"+j+"'></td>"+
                                     "</tr>";
                                 }
                                 var RowChg = j;
@@ -1275,8 +1280,14 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3 ml-2">
-                        <input type="text" id="DocNo" class="form-control" placeholder="<?php echo $array['docno'][$language]; ?>" disabled> 
+                    <input type="text" id="DocNo" class="form-control ml-4" style="font-size:24px;width:25%;" placeholder="<?php echo $array['docno'][$language]; ?>" disabled> 
+                    <div class="search_custom ml-3">
+                        <div class="circle10 d-flex justify-content-start">
+                            <button class="btn"  onclick="ClearInput()" >
+                                <i class="fas fa-eraser mr-2"></i>
+                                <?php echo $array['isno'][$language]; ?>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <table style="margin-top:10px;" class="table mt-2 " id="TableItem" cellspacing="0" role="grid" >
@@ -1292,10 +1303,10 @@ $array2 = json_decode($json2,TRUE);
                     <input type="text" class="form-control" style="font-size:24px;width:29%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                     <div class="search_custom ml-3">
                         <div class="search_1 d-flex justify-content-start">
-                        <button class="btn"  onclick="ShowDocument()" >
-                            <i class="fas fa-search mr-2"></i>
-                            <?php echo $array['search'][$language]; ?>
-                        </button>
+                            <button class="btn"  onclick="ShowDocument()" >
+                                <i class="fas fa-search mr-2"></i>
+                                <?php echo $array['search'][$language]; ?>
+                            </button>
                         </div>
                     </div>
                     <div class="search_custom ml-2">
