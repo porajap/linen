@@ -1384,6 +1384,7 @@ $array2 = json_decode($json2,TRUE);
               $("#cycle").val(temp[0]['CycleTime']);
               $("#settime").val(temp[0]['DeliveryTime']);
               $('#department').attr('disabled', true);
+              $('#department').addClass('icon_select');
               $('#settime').attr('disabled', true);
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
