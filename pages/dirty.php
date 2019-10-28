@@ -716,7 +716,6 @@ $array2 = json_decode($json2,TRUE);
         function SaveBill(){
           var count = 0;
           var chk_weight = document.getElementsByClassName("chk_weight"); //checkbox items
-          
           var docno = $("#docno").val();
           var isStatus = $("#IsStatus").val();
           var dept = $("#Dep2").val();

@@ -333,7 +333,7 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
     $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) 
-    AS DocDate ,clean.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus,clean.RefDocNo
+    AS DocDate ,clean.Total,users.EngName , users.EngLName ,clean.FacCode ,  users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus,clean.RefDocNo
     FROM clean
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -355,6 +355,7 @@ function CreateDocument($conn, $DATA)
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
+      $return[$count]['FacCode']   = $Result['FacCode'];
       $return[$count]['DocDate']   = $newdate;
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
@@ -786,11 +787,12 @@ function CreateDocument($conn, $DATA)
     $PmID = $_SESSION['PmID'];
     $HptCode = $_SESSION['HptCode'];
     $DocNo = $DATA["xdocno"];
+    $factory1 = $DATA["factory1"];
     $DocNo2 = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
     $count = 0 ;
     $count4 = 0;
-    $Sql = "UPDATE clean SET IsStatus = $isStatus WHERE clean.DocNo = '$DocNo'";
+    $Sql = "UPDATE clean SET IsStatus = $isStatus , FacCode = $factory1  WHERE clean.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     // ================================================================================
     $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$DocNo2' ";

@@ -477,6 +477,8 @@ $(document).ready(function(e){
         }
       }
 
+
+
       function ShowDetail() {
         var docno = $("#docno").val();
         var data = {
@@ -752,10 +754,28 @@ $(document).ready(function(e){
           }
         }
     }
+    function removeClassBorder2(){
+          $('#factory1').removeClass('border-danger');
+          $('#rem2').attr('hidden' , true);
+        }
+
+    function checkblank(){
+          $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem2').attr('hidden' , false).css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem2').attr('hidden' , true);
+            }
+          });
+        }
+
       function SaveBill(chk){        
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
+        var factory1 = $("#factory1").val();
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
         // alert( isStatus );
@@ -765,7 +785,20 @@ $(document).ready(function(e){
         isStatus=1;
 
         if(isStatus==1){
-          
+        if(factory1 ==""){
+          checkblank();
+          swal({
+              title: '',
+              text: "<?php echo $array['required'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+        }else{
           if(docno!=""){
             if(chk == '' || chk == undefined){
             chk_percent();
@@ -799,7 +832,8 @@ $(document).ready(function(e){
                   'xdocno'      : docno,
                   'xdocno2'      : docno2,
                   'isStatus'    : isStatus,
-                  'deptCode'    : dept
+                  'deptCode'    : dept ,
+                  'factory1'    : factory1
                 };
 
           senddata(JSON.stringify(data));
@@ -829,8 +863,9 @@ $(document).ready(function(e){
         } else if (result.dismiss === 'cancel') {
           swal.close();}
         })
-        }
-        }
+      }
+     }
+    }
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
@@ -874,6 +909,12 @@ $(document).ready(function(e){
         $('#input_chk').val(0);
         senddata(JSON.stringify(data));
       }
+
+      function unlockfactory() {
+        $('#factory1').attr('disabled' , false);
+        $('#factory1').removeClass('icon_select');
+      }
+
       function UpdateRefDocNo(){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
@@ -1079,6 +1120,7 @@ $(document).ready(function(e){
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
+                $("#factory1").val(temp[0]['FacCode']);
 
                 if(temp[0]['IsStatus']==0){
                   var word = '<?php echo $array['save'][$language]; ?>';
@@ -1101,7 +1143,7 @@ $(document).ready(function(e){
                   $('#bPrintnew').attr('disabled', true);
                   $('#bPrintnew2').addClass('opacity');
                   $('#hover7').removeClass('mhee');
-                }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
+                }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4 || temp[0]['IsStatus']==5){
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
@@ -1349,7 +1391,6 @@ $(document).ready(function(e){
                   }
                         ShowDetail();
               }else if(temp['form']=="savefactory"){
-
                   $('#factory1').val(temp['FacCode']);
                   $('#factory1').attr('disabled' , true);
                   $('#factory1').addClass('icon_select');
@@ -1359,7 +1400,7 @@ $(document).ready(function(e){
                       type: 'success',
                       showCancelButton: false,
                       showConfirmButton: false,
-                      timer: 800,
+                      timer: 1500,
                       });
                   $('#dialogfactory').modal('toggle');
 
@@ -1787,8 +1828,9 @@ $(document).ready(function(e){
                                 <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['factory'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select" disabled="true" style="font-size:22px;"  id="factory1"  >
+                                      <select  class="form-control col-sm-7 icon_select checkblank" disabled="true" style="font-size:22px;" onchange="removeClassBorder2();"  id="factory1"  >
                                       </select>
+                                      <label id="rem2" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                 </div>
@@ -2134,8 +2176,8 @@ $(document).ready(function(e){
   <div class="modal-dialog" role="document">
     <div class="modal-content1">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">กรุณาเลือกโรงซัก</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['selectfactory'][$language]; ?></h5>
+        <button type="button" onclick="unlockfactory();" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
