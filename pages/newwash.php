@@ -1424,7 +1424,7 @@ $array2 = json_decode($json2,TRUE);
                     var chkItem = "<label class='radio ' style='margin-top: 20%;'><input type='radio' name='checkitem' onclick='resetradio(\""+i+"\")' id='checkrow' class='checkrow_"+i+" chk_edit' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'><span class='checkmark'></span></label>";
                     DataRow += "<tr><td style='width:3%;' nowrap>"+chkItem+"</td>";
                     DataRow += "<td style='width:6%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+(i+1)+"</td>";
-                    DataRow += "<td style='width:18%;text-overflow: ellipsis;overflow: hidden;' nowrap  nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
+                    DataRow += "<td style='width:18%;text-overflow:  ellipsis;overflow: hidden;' class='tooltip-test' nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
                     DataRow += "<td style='width:21%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['ItemName']+"</td>"+
                     "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
                     "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+

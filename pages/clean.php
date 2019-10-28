@@ -85,6 +85,7 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+
   $('#searchdocument').keyup(function(e) {
             if (e.keyCode == 13) {
               ShowDocument(1);
@@ -306,11 +307,33 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
         $('#isStatus').val(0)
       }
+      function savefactory(){
+        var docno = $("#docno").val();
+        var factory2 = $("#factory2").val();
+        var data = {
+          'STATUS' : 'savefactory',
+          'DocNo'  : docno,
+          'factory2'  : factory2,
+        };
+        console.log(JSON.stringify(data));
+        senddata(JSON.stringify(data));
+      }
 
       function open_dirty_doc(){
         // dialogRefDocNo.dialog( "open" );
-        $('#dialogRefDocNo').modal('show');
+        $("#dialogRefDocNo").modal({
+            backdrop: 'static',
+            keyboard: false
+        });        
         get_dirty_doc();
+
+      }
+
+      function get_factory(){
+        $("#dialogfactory").modal({
+            backdrop: 'static',
+            keyboard: false
+        });   
       }
 
       function get_dirty_doc(){
@@ -918,7 +941,16 @@ $(document).ready(function(e){
 
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
+                $("#factory1").empty();
+                $("#factory2").empty();
                 $("#Hos2").empty();
+
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                  }
+                  $("#factory1").append(Str);
+                  $("#factory2").append(Str);
                 // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
@@ -1309,13 +1341,29 @@ $(document).ready(function(e){
                     $('#TableRefDocNo tbody:last-child').append(Str);
                         }
               }else if(temp['form']=="UpdateRefDocNo"){
-
+                  $('#factory1').val(temp['FacCode']);
                   $('#RefDocNo').attr('disabled' , true);
                   $('#RefDocNo').val(temp['DocNoxx']);
                   if(temp['DocNox'] == null){
                       OpenDialogItem();
                   }
                         ShowDetail();
+              }else if(temp['form']=="savefactory"){
+
+                  $('#factory1').val(temp['FacCode']);
+                  $('#factory1').attr('disabled' , true);
+                  $('#factory1').addClass('icon_select');
+                  swal({
+                      title: '',
+                      text: '<?php echo $array['savesuccess'][$language]; ?>',
+                      type: 'success',
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 800,
+                      });
+                  $('#dialogfactory').modal('toggle');
+
+
               }else if(temp['form']=="SaveBill"){
                 if(temp['countpercent']>0){
                   for (var i = 0; i < temp['countpercent']; i++) {
@@ -1609,6 +1657,24 @@ $(document).ready(function(e){
       .opacity{
         opacity:0.5;
       }
+
+      .modal-content1{
+        width: 72% !important;
+        right: -15% !important;
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+        outline: 0;
+      }
+
       @media (min-width: 992px) and (max-width: 1199.98px) { 
 
       .icon{
@@ -1714,6 +1780,15 @@ $(document).ready(function(e){
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
                                       <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['factory'][$language]; ?></label>
+                                      <select  class="form-control col-sm-7 icon_select" disabled="true" style="font-size:22px;"  id="factory1"  >
+                                      </select>
                                     </div>
                                   </div>
                                 </div>
@@ -1973,7 +2048,7 @@ $(document).ready(function(e){
     <div class="modal-content">
       <div class="modal-header">
         <?php echo $array['refdocno'][$language]; ?>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" onclick="get_factory();" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -2053,6 +2128,27 @@ $(document).ready(function(e){
           </div>
         </div>
       </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="dialogfactory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content1">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">กรุณาเลือกโรงซัก</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <select  class="form-control col-sm-12 "  style="font-size:22px;"  id="factory2">         
+      </select>
+      </div>
+      <div class="modal-footer">
+      <button type="button" onclick="savefactory();" class="btn btn-success" style="width: 41%;"><?php echo $array['wantsave'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Bootstrap core JavaScript-->
 <script src="../template/vendor/jquery/jquery.min.js"></script>
 <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
