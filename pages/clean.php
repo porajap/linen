@@ -2186,7 +2186,7 @@ $(document).ready(function(e){
       </select>
       </div>
       <div class="modal-footer">
-      <button type="button" onclick="savefactory();" class="btn btn-success" style="width: 41%;"><?php echo $array['wantsave'][$language]; ?></button>
+      <button type="button" onclick="savefactory();" class="btn btn-success" style="width: 50%;"><?php echo $array['wantsave'][$language]; ?></button>
       </div>
     </div>
   </div>
