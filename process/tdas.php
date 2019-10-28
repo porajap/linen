@@ -18,7 +18,7 @@ function getSection($conn, $DATA)
           tdas_percent.Percent_value
         FROM department
         LEFT JOIN tdas_percent ON tdas_percent.DepCode = department.DepCode
-        WHERE department.IsStatus = 0 AND department.HptCode ='$HptCode'";
+        WHERE department.IsStatus = 0 AND department.HptCode ='$HptCode' ORDER BY department.DepCode";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode']  = $Result['DepCode'];
@@ -103,7 +103,6 @@ function getSection($conn, $DATA)
   die;
 
 }
-
 function SaveQty($conn, $DATA){
   $HptCode = $_SESSION['HptCode'];
   $DepCode = $DATA['DepCode'];
@@ -118,6 +117,7 @@ function SaveQty($conn, $DATA){
     }else{
       $Sql = "INSERT INTO tdas_qty (HptCode, DepCode, Type, Qty)VALUES('$HptCode', $DepCode, $Type, $Qty)";
     }
+    $return['sql'] = $Sql;
     mysqli_query($conn, $Sql);
   }
 }
@@ -403,14 +403,14 @@ function ShowDocument($conn, $DATA){
   $DepCode = $_SESSION['DepCode'];
   $Keyword = $DATA['Keyword'];
   $count = 0;
-  $Sql = "SELECT td.DocNo, td.DocDate, users.FName
+  $Sql = "SELECT td.DocNo, td.DocDate, users.EngName
   FROM tdas_document td INNER JOIN users ON users.ID = td.Modify_Code
   WHERE td.HptCode = '$HptCode' AND td.IsCancel = 0 AND (td.DocNo LIKE '%$Keyword%') ORDER BY td.DocDate, td.DocNo";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DocNo']  = $Result['DocNo'];
     $return[$count]['DocDate']  = $Result['DocDate'];
-    $return[$count]['FName']  = $Result['FName'];
+    $return[$count]['EngName']  = $Result['EngName'];
     $count ++;
   }
     $return['CountRow'] = $count;
@@ -424,6 +424,100 @@ function CancelDocNo($conn, $DATA){
   $DocNo = $DATA['DocNo'];
   $Sql = "UPDATE tdas_document SET IsCancel = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
+  mysqli_close($conn);
+  die;
+}
+function SelectDocument($conn, $DATA){
+  $DocNo = $DATA['DocNo'];
+  $count = 0;
+  $SqlHpt = "SELECT HptCode FROM tdas_document WHERE DocNo = '$DocNo'";
+  $meQuery = mysqli_query($conn, $SqlHpt);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $HptCode = $Result['HptCode'];
+  }
+  #-----------------------------------------------------------------
+  $SqlDepCode = "SELECT tdas_detail.DepCode, department.DepName
+  FROM tdas_detail 
+  INNER JOIN department ON department.DepCode = tdas_detail.DepCode
+  WHERE tdas_detail.DocNo = '$DocNo' 
+  GROUP BY tdas_detail.DepCode ORDER BY tdas_detail.DepCode ASC";
+  $meQuery = mysqli_query($conn, $SqlDepCode);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['DepCode']  = $Result['DepCode'];
+    $return[$count]['DepName']  = $Result['DepName'];
+    $DepCode[$count] = $Result['DepCode'];
+    $count ++;
+  }
+  $return['CountRow'] = $count;
+
+  $Sql = "SELECT total_par1, total_par2 FROM tdas_total WHERE HptCode = '$HptCode'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return['Total_par1'] = $Result['total_par1'];
+    $return['Total_par2'] = $Result['total_par2'];
+  }
+  #-----------------------------------------------------------------
+  foreach($DepCode as $key => $value){
+    $Type1 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 1 AND DepCode = $value";
+    $TypeQuery1 = mysqli_query($conn, $Type1);
+    while ($Result = mysqli_fetch_assoc($TypeQuery1)) {
+      $return[$key]['ID1']  = $Result['ID'];
+      $return[$key]['Qty1']  = $Result['Qty'];
+    }
+  }
+  foreach($DepCode as $key => $value){
+    $Type2 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 2 AND DepCode = $value";
+    $TypeQuery2 = mysqli_query($conn, $Type2);
+    while ($Result = mysqli_fetch_assoc($TypeQuery2)) {
+      $return[$key]['ID2']  = $Result['ID'];
+      $return[$key]['Qty2']  = $Result['Qty'];
+    }
+  }
+  foreach($DepCode as $key => $value){
+    $Type3 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 3 AND DepCode = $value";
+    $TypeQuery3 = mysqli_query($conn, $Type3);
+    while ($Result = mysqli_fetch_assoc($TypeQuery3)) {
+      $return[$key]['ID3']  = $Result['ID'];
+      $return[$key]['Qty3']  = $Result['Qty'];
+    }
+  }
+  foreach($DepCode as $key => $value){
+    $Type4 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 4 AND DepCode = $value";
+    $TypeQuery4 = mysqli_query($conn, $Type4);
+    while ($Result = mysqli_fetch_assoc($TypeQuery4)) {
+      $return[$key]['ID4']  = $Result['ID'];
+      $return[$key]['Qty4']  = $Result['Qty'];
+    }
+  }
+  #-----------------------------------------------------------------
+  $count = 0;
+  $Sql = "SELECT
+      item_main_category.MainCategoryName,
+      item.ItemName,
+      item.ItemCode
+    FROM
+      tdas_detail_item
+    INNER JOIN item ON item.ItemCode = tdas_detail_item.ItemCode
+    INNER JOIN item_category ON item_category.CategoryCode = item.CategoryCode
+    INNER JOIN item_main_category ON item_main_category.MainCategoryCode = item_category.MainCategoryCode
+    LEFT JOIN tdas_change ON tdas_change.ItemCode = item.ItemCode
+    WHERE tdas_detail_item.DocNo = '$DocNo'
+    AND item.Tdas = 1
+    AND item.HptCode = '$HptCode'
+    GROUP BY tdas_detail_item.ItemCode ORDER BY tdas_detail_item.ItemCode DESC";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['mainType']  = $Result['MainCategoryName'];
+    $return[$count]['ItemName']  = $Result['ItemName'];
+    $return[$count]['ItemCode']  = $Result['ItemCode'];
+    $ItemCode[$count]  = $Result['ItemCode'];
+    $count++;
+  }
+  $return['RowCount'] = $count;
+  #-----------------------------------------------------------------
+  $return['status'] = "success";
+  $return['form'] = "SelectDocument";
+  echo json_encode($return);
   mysqli_close($conn);
   die;
 }
@@ -450,6 +544,8 @@ if(isset($_POST['DATA']))
         ShowDocument($conn, $DATA);
       }else if($DATA['STATUS'] == 'CancelDocNo'){
         CancelDocNo($conn, $DATA);
+      }else if($DATA['STATUS'] == 'SelectDocument'){
+        SelectDocument($conn, $DATA);
       }
 
 
