@@ -342,10 +342,12 @@ $(document).ready(function(e){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
+        var DepCode = $('#department option:selected').val();
         var data = {
           'STATUS' : 'get_dirty_doc',
           'DocNo'  : docno,
           'hptcode'  : hptcode,
+          'DepCode'  : DepCode,
           'searchitem1'  : searchitem1
         };
         console.log(JSON.stringify(data));
@@ -436,9 +438,11 @@ $(document).ready(function(e){
         var deptCode = $('#department option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
         var searchitem = $('#searchitem').val();
+        var RefDocNo = $('#RefDocNo').val();
         var data = {
           'STATUS'  : 'ShowItem',
           'xitem'	: searchitem,
+          'RefDocNo'	: RefDocNo,
           'deptCode'	: deptCode
         };
         senddata(JSON.stringify(data));
@@ -468,17 +472,17 @@ $(document).ready(function(e){
       }
 
       function SelectDocument(){
-
         var selectdocument = "";
         $("#checkdocno:checked").each(function() {
           selectdocument = $(this).val();
         });
-        var deptCode = $('#Dep2 option:selected').attr("value");
-        if( typeof deptCode == 'undefined' ) deptCode = "1";
+
+        // var deptCode = $('#Dep2 option:selected').attr("value");
+        // if( typeof deptCode == 'undefined' ) deptCode = "1";
 
         var data = {
           'STATUS'  	: 'SelectDocument',
-          'xdocno'	: selectdocument
+          'DocNo'	: selectdocument
         };
         senddata(JSON.stringify(data));
       }
@@ -794,7 +798,6 @@ $(document).ready(function(e){
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
-        var factory1 = $("#factory1").val();
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
         // alert( isStatus );
@@ -804,20 +807,7 @@ $(document).ready(function(e){
         isStatus=1;
 
         if(isStatus==1){
-        if(factory1 ==""){
           checkblank();
-          swal({
-              title: '',
-              text: "<?php echo $array['required'][$language]; ?>",
-              type: 'info',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 2000,
-              confirmButtonText: 'Ok'
-            });
-        }else{
           if(docno!=""){
             if(chk == '' || chk == undefined){
             chk_percent();
@@ -851,8 +841,7 @@ $(document).ready(function(e){
                   'xdocno'      : docno,
                   'xdocno2'      : docno2,
                   'isStatus'    : isStatus,
-                  'deptCode'    : dept ,
-                  'factory1'    : factory1
+                  'deptCode'    : dept 
                 };
 
           senddata(JSON.stringify(data));
@@ -885,7 +874,7 @@ $(document).ready(function(e){
           })
           }
         }
-        }
+        
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
@@ -947,7 +936,7 @@ $(document).ready(function(e){
         var deptCode = $('#Dep2 option:selected').attr("value");
         var data = {
           'STATUS'      : 'UpdateRefDocNo',
-          'xdocno'      : docno,
+          'DocNo'      : docno,
           'RefDocNo'    : RefDocNo,
           'selecta'     : 0,
           'deptCode'	  : deptCode,
@@ -1062,7 +1051,8 @@ $(document).ready(function(e){
                   showConfirmButton: false
                   });
                 setTimeout(function () {
-                  get_Department();                  
+                  // get_Department();  
+                  open_dirty_doc();                
                   parent.OnLoadPage();
                 }, 1000);
                 $( "#TableItemDetail tbody" ).empty();
@@ -1149,6 +1139,8 @@ $(document).ready(function(e){
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
+                $("#department").val(temp[0]['DepCodeFrom']);
+                $("#departmentName").val(temp[0]['DepCodeTo']);
 
                 if(temp[0]['FacCode'] ==0){
                   $("#factory1").attr('disabled' , false);
@@ -1239,17 +1231,21 @@ $(document).ready(function(e){
 
                   $('#unit'+i).prop('disabled', true);
                 }
+
                 if(temp[0]['RefDocNo'] != ''){
                   $("#RefDocNo").attr('disabled' , true);
                 }else{
                   $("#RefDocNo").attr('disabled' , false);
-                }                ShowDetail();
+                }    
+                $("#RefDocNo").val(temp[0]['RefDocNo']);            
+                $("#department").val(temp[0]['DepCodeFrom']);            
+                $("#departmentName").val(temp[0]['DepCodeTo']);            
+                ShowDetail();
               }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
                 $( "#TableItemDetail tbody" ).empty();
                 if(temp["Row"] > 0)
-                $("#wTotal").val(temp[0]['Total']);
-                else
-                $("#wTotal").val(0);
+                  $("#wTotal").val(temp[0]['Total']);
+                else $("#wTotal").val(0);
                 var st1 = "style='font-size:24px;margin-left:3px;width:153px;'";
                 var isStatus = $("#IsStatus").val();
                 for (var i = 0; i < temp["Row"]; i++) {
@@ -1325,8 +1321,11 @@ $(document).ready(function(e){
                   }
                 }
                 $('.numonly').on('input', function() {
-                        this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-                        });
+                  this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                });
+                // $('#department').val(temp[0]['DepCodeFrom']);
+                // $('#departmentName').val(temp[0]['DepCodeTo']);
+                // $('#RefDocNo').val(temp[0]['RefDocNo']);
               }else if( (temp["form"]=='ShowItem') ){
 
                 var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-size:24px;'";
@@ -1422,9 +1421,9 @@ $(document).ready(function(e){
                     var chkDoc = "<input type='radio'  onclick='disRef()' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
                     $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                    "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
+                    "<td style='width: 52%;'>"+temp[i]['RefDocNo']+"</td>"+
                     "<td style='width: 33%;'>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
+                    // "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
                     "</tr>";
                     if(rowCount == 0){
                       $("#TableRefDocNo tbody").append( $StrTR );
@@ -2010,7 +2009,7 @@ $(document).ready(function(e){
                   </div>
                   <div class="col-md-2">
                     <div class="row" style="font-size:24px;margin-left:2px;">
-                      <select class="form-control" style='font-size:24px;' id="Dep2" disabled="true">
+                      <select class="form-control" style='font-size:24px;' id="Dep2" >
                       </select>
                     </div>
                   </div>
@@ -2170,9 +2169,9 @@ $(document).ready(function(e){
             <thead style="font-size:24px;">
               <tr role="row">
                 <th style='width: 15%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <th style='width: 27%;' nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                <th style='width: 52%;' nowrap><?php echo $array['refdocno'][$language]; ?></th>
                 <th style='width: 33%;' nowrap><?php echo $array['selectdateref'][$language]; ?></th>
-                <th style='width: -4%;' nowrap><?php echo $array['factory'][$language]; ?></th>
+                <!-- <th style='width: -4%;' nowrap><?php echo $array['factory'][$language]; ?></th> -->
               </tr>
             </thead>
             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

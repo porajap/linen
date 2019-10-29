@@ -1174,7 +1174,7 @@ $id_h=$_SESSION['id_h'];
           </li>
           <?php } ?>
 
-          <?php if($gen_s13== 1){ ?>
+          <?php if($gen_s6== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/return.php?lang=<?php echo $language; ?>" id="act36" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
