@@ -114,6 +114,14 @@
           บันทึกรับผ้าใหม่ส่งซัก
         </th>
       </sub>
+        <sub>
+        <en>
+          Return
+        </en>
+        <th>
+          บันทึกรับการคืนผ้า
+        </th>
+      </sub>
     </general>
     <account>
       <title>
