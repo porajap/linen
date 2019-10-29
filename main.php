@@ -65,8 +65,8 @@ switch ($PmID) {
         $sys_s2=1;
         $sys_s3=1;
         $sys_s4=1;
-        $sys_s5=1;
-        $sys_s6=0;
+        $sys_s5=0;
+        $sys_s6=1;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;
@@ -118,8 +118,8 @@ switch ($PmID) {
         $sys_s2=0;
         $sys_s3=0;
         $sys_s4=0;
-        $sys_s5=1;
-        $sys_s6=0;
+        $sys_s5=0;
+        $sys_s6=1;
         $sys_s7=0;
         $sys_s8=0;
         $sys_s9=0;
@@ -138,8 +138,8 @@ switch ($PmID) {
         $gen_s2=1;
         $gen_s3=1;
         $gen_s4=1;
-        $gen_s5=1;
-        $gen_s6=1;
+        $sys_s5=0;
+        $sys_s6=1;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -272,8 +272,8 @@ switch ($PmID) {
         $sys_s2=1;
         $sys_s3=1;
         $sys_s4=1;
-        $sys_s5=1;
-        $sys_s6=0;
+        $sys_s5=0;
+        $sys_s6=1;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;
@@ -323,8 +323,8 @@ switch ($PmID) {
         $sys_s2=1;
         $sys_s3=1;
         $sys_s4=1;
-        $sys_s5=1;
-        $sys_s6=0;
+        $sys_s5=0;
+        $sys_s6=1;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;

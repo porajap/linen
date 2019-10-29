@@ -79,7 +79,7 @@ $array2 = json_decode($json2,TRUE);
 
         $('#rem1').hide();
         $('#rem2').hide();
-        // ShowItem();
+        ShowItem();
 
         //On create
         GetmainCat();
@@ -289,19 +289,6 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
-      function GetmainCat(){
-        // var maincatagory = $("#maincatagory").val();
-        var maincatagory = $('#maincatagory option:selected').attr("value");
-        if( typeof maincatagory == 'undefined' ) maincatagory = "1";
-        var data = {
-          'STATUS'    : 'GetmainCat',
-          'maincatagory' : maincatagory
-        };
-        console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
-    }
-
-
       function AddPayoutDetail(){
         var userid = '<?php echo $Userid; ?>';
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
@@ -358,7 +345,6 @@ $array2 = json_decode($json2,TRUE);
         });
         
         console.log(count);
-        var CategoryMain = $('#maincatagory').val();
         var CategoryCode = $('#CategoryCodeReal').val();
         var CategoryName = $('#CategoryName').val();
         if(count==0){
@@ -387,7 +373,6 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS' : 'AddItem',
                   'CategoryCode' : CategoryCode,
                   'CategoryName' : CategoryName,
-                  'CategoryMain' : CategoryMain
                 };
 
                 console.log(JSON.stringify(data));
@@ -416,8 +401,7 @@ $array2 = json_decode($json2,TRUE);
                 var data = {
                   'STATUS' : 'EditItem',
                   'CategoryCode' : CategoryCode,
-                  'CategoryName' : CategoryName,
-                  'CategoryMain' : CategoryMain
+                  'CategoryName' : CategoryName
                 };
 
                 console.log(JSON.stringify(data));
@@ -1155,13 +1139,8 @@ $array2 = json_decode($json2,TRUE);
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px; margin-top:-12px;">
                         <div class="row">
-                        <div class="col-md-4">
-                              <div class="row" style="font-size:24px;margin-left:5px;">
-                                  <select class="form-control col-md-9 checkblank66" style="font-size:24px;" id="maincatagory" onchange="removeborder();"></select>
-                              </div>
-                        </div>
-                        <div class="col-md-8">
-                                        <div class="row" style="margin-left:-120px;">
+                        <div class="col-md-12">
+                                        <div class="row" style="margin-left: 9px;">
                                           <input type="text"  autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchsubcategory'][$language]; ?>" >
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
@@ -1249,7 +1228,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
-                                      <input type="text"  class="form-control col-sm-7 " id="CategoryCode"    placeholder="<?php echo $array['categorysubcode'][$language]; ?>" readonly>
+                                      <input type="text"  class="form-control col-sm-7 " id="CategoryCode"    placeholder="<?php echo $array['categorycode'][$language]; ?>" readonly>
                                     </div>
                                   </div>
                                   <div class="col-md-6" hidden>

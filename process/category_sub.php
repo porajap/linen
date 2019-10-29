@@ -10,7 +10,6 @@ function ShowItem($conn, $DATA)
   $count = 0;
   $check =        $DATA['check'];
   $Keyword =      $DATA['Keyword'];
-  $maincatagory = $DATA['maincatagory'];
   // if($maincatagory==""){
   //   $maincatagory = 1;
   // }
@@ -20,8 +19,7 @@ function ShowItem($conn, $DATA)
           item_category.IsStatus
           FROM
           item_category
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
-          WHERE item_main_category.MainCategoryCode = '$maincatagory' AND item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%'";
+          WHERE  item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%'";
 
           $return['sql']= $Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -46,39 +44,6 @@ function ShowItem($conn, $DATA)
     die;
   }
 
-}
-
-function GetmainCat($conn, $DATA)
-{
-  $count = 0;
-  $Sql = "SELECT
-          item_main_category.MainCategoryCode,
-          item_main_category.MainCategoryName,
-          item_main_category.IsStatus
-          FROM
-          item_main_category
-          WHERE item_main_category.IsStatus = 0
-          ";
-  // var_dump($Sql); die;
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['MainCategoryCode'] = $Result['MainCategoryCode'];
-    $return[$count]['MainCategoryName'] = $Result['MainCategoryName'];
-    $count++;
-  }
-  if($count>0){
-    $return['status'] = "success";
-    $return['form'] = "GetmainCat";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "notfound";
-    $return['msg'] = "notfound";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
 }
 
 
@@ -151,11 +116,10 @@ function getSection($conn, $DATA)
 function AddItem($conn, $DATA)
 {
   $Userid = $_SESSION['Userid'];
-  $CategoryMain = $DATA['CategoryMain'];
   $count = 0;
   $Sql = "INSERT INTO item_category(
           CategoryName,
-          IsStatus,MainCategoryCode,
+          IsStatus,
           DocDate,
           Modify_Code,
           Modify_Date
@@ -164,13 +128,14 @@ function AddItem($conn, $DATA)
           (
             '".$DATA['CategoryName']."',
             0,
-            $CategoryMain,
             NOW(),
             $Userid,
             NOW()
           )
   ";
   // var_dump($Sql); die;
+  $return['aaa'] = $Sql;
+
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
     $return['form'] = "AddItem";
@@ -191,11 +156,9 @@ function AddItem($conn, $DATA)
 function EditItem($conn, $DATA)
 {
   $Userid = $_SESSION['Userid'];
-  $CategoryMain = $DATA['CategoryMain'];
   $count = 0;
   if($DATA["CategoryCode"]!=""){
     $Sql = "UPDATE item_category SET
-            MainCategoryCode = $CategoryMain , 
             CategoryCode = '".$DATA['CategoryCode']."',
             CategoryName = '".$DATA['CategoryName']."',
             Modify_Date = NOW() ,
@@ -277,8 +240,6 @@ if(isset($_POST['DATA']))
         CancelItem($conn,$DATA);
       }else if ($DATA['STATUS'] == 'getdetail') {
         getdetail($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'GetmainCat') {
-        GetmainCat($conn,$DATA);
       }
 
 }else{

@@ -21,7 +21,7 @@
 <selectCycle><en>Please choose Cycle time</en><th>กรุณาเลือกรอบส่งผ้า</th></selectCycle>
 <selectfactory><en>Please choose a factory</en><th>กรุณาเลือกโรงซัก</th></selectfactory>
 <Pleasechoosemaincategory><en>Please choose main category</en><th>กรุณาเลือกหมวดหมู่หลัก</th></Pleasechoosemaincategory>
-<Pleaseselectasubcategory><en>Please select a subcategory</en><th>กรุณาเลือกหมวดหมู่รอง</th></Pleaseselectasubcategory>
+<Pleaseselectasubcategory><en>Please select a subcategory</en><th>กรุณาเลือกหมวดหมู่</th></Pleaseselectasubcategory>
  
 <!--============================================================================== -->
 <Laundry2><en>Laundry</en><th>โรงงานซัก</th></Laundry2>
