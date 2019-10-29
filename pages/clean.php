@@ -1401,7 +1401,9 @@ $(document).ready(function(e){
                   var chkDoc = "<input type='radio'  onclick='disRef()' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
                   $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                  "<td style='width: 85%;'>"+temp[i]['RefDocNo']+"</td>"+
+                  "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
+                  "<td style='width: 29%;'>"+temp[i]['DocDate']+"</td>"+
+                  "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableRefDocNo tbody").append( $StrTR );
