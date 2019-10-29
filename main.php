@@ -42,6 +42,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
+        $gen_s13=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -65,7 +66,7 @@ switch ($PmID) {
         $sys_s3=1;
         $sys_s4=1;
         $sys_s5=1;
-        $sys_s6=1;
+        $sys_s6=0;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;
@@ -93,6 +94,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
+        $gen_s13=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -117,7 +119,7 @@ switch ($PmID) {
         $sys_s3=0;
         $sys_s4=0;
         $sys_s5=1;
-        $sys_s6=1;
+        $sys_s6=0;
         $sys_s7=0;
         $sys_s8=0;
         $sys_s9=0;
@@ -144,6 +146,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
+        $gen_s13=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -167,7 +170,7 @@ switch ($PmID) {
         $sys_s3=1;
         $sys_s4=1;
         $sys_s5=1;
-        $sys_s6=1;
+        $sys_s6=0;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;
@@ -194,6 +197,8 @@ switch ($PmID) {
         $gen_s10=0;
         $gen_s11=0;
         $gen_s12=0;
+        $gen_s13=0;
+
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -244,6 +249,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
+        $gen_s13=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -267,7 +273,7 @@ switch ($PmID) {
         $sys_s3=1;
         $sys_s4=1;
         $sys_s5=1;
-        $sys_s6=1;
+        $sys_s6=0;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;
@@ -294,6 +300,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
+        $gen_s13=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -317,7 +324,7 @@ switch ($PmID) {
         $sys_s3=1;
         $sys_s4=1;
         $sys_s5=1;
-        $sys_s6=1;
+        $sys_s6=0;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;
@@ -345,6 +352,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
+        $gen_s13=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -368,7 +376,7 @@ switch ($PmID) {
         $sys_s3=1;
         $sys_s4=1;
         $sys_s5=1;
-        $sys_s6=1;
+        $sys_s6=0;
         $sys_s7=1;
         $sys_s8=1;
         $sys_s9=0;
@@ -1165,6 +1173,8 @@ $id_h=$_SESSION['id_h'];
               <em></em><?php echo $array['menu']['general']['sub'][5][$language]; ?></a>
           </li>
           <?php } ?>
+
+          <?php if($gen_s13== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/return.php?lang=<?php echo $language; ?>" id="act36" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
@@ -1172,6 +1182,7 @@ $id_h=$_SESSION['id_h'];
               <!-- <span style='color: #1659A2;'id='clean_Cnt'>0</span> -->
               </a>
           </li>
+          <?php } ?>
 
           <?php if($gen_s7== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"

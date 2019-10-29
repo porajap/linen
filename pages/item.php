@@ -389,13 +389,8 @@ $array2 = json_decode($json2, TRUE);
       if (typeof maincatagory == 'undefined') maincatagory = "1";
       $('#maincatagory').val(maincatagory);
       var catagory1 = $("#catagory1").val();
-      var data = {
-        'STATUS': 'getCatagory',
-        'maincatagory': maincatagory
 
-      };
-      console.log(JSON.stringify(data));
-      senddata(JSON.stringify(data));
+      ShowItem();
     }
 
 
@@ -505,7 +500,7 @@ $array2 = json_decode($json2, TRUE);
       });
       console.log(count);
 
-      var Catagory = $('#catagory2').val();
+      var Catagory = $('#maincatagory2').val();
       var ItemCode = $('#ItemCode').val();
       var ItemName = $('#ItemName').val();
       var CusPrice = $('#CusPrice').val();
@@ -670,7 +665,7 @@ if(Catagory !="" && Catagory!=undefined){
       console.log(count);
       var mainCatagory = $('#maincatagory2').val();
       var Hos2 = $('#hospital').val();
-      var Catagory = $('#catagory2').val();
+      var Catagory = $('#maincatagory2').val();
       var ItemCode = $('#ItemCode').val();
       var ItemName = $('#ItemName').val();
       var CusPrice = $('#CusPrice').val();
@@ -2394,17 +2389,17 @@ if(Catagory !="" && Catagory!=undefined){
                     <select class="form-control" style="font-size:24px;margin-left: -23%;width: 80%;" id="maincatagory" onchange="getCatagory();"></select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                   <div class="row" style="font-size:24px;margin-left:2px;">
                     <select class="form-control" style="font-size:24px;width: 80%;margin-left: -46%;" id="catagory1" onchange="shownow()"> </select>
                   </div>
-                </div>
-                <div class="col-md-2">
+                </div> -->
+                <div class="col-md-3">
                   <div class="row " style="margin-left:2px;">
-                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;margin-left: -106%;width: 155%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
+                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;margin-left: -46%;width: 155%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
                   </div>
                 </div>
-                <div class="col-md-1" style="margin-left: -9%;">
+                <div class="col-md-1" style="margin-left: -1%;">
                   <div class="search_custom col-md-2" id="searchItem_1">
 										<div class="search_1 d-flex justify-content-start">
 											<button class="btn" onclick="ShowItem()">
@@ -2671,11 +2666,21 @@ if(Catagory !="" && Catagory!=undefined){
 
                           <div class="col-md-6">
                             <div class='form-group row'>
+
+                            <label class="col-sm-3 col-form-label "><?php echo $array['widthunit'][$language]; ?></label>
+
+                              <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['Quality'][$language]; ?>">
+                              <select class="form-control col-sm-4"   id="sUnitName" onchange="getplaceholder();"></select>
+                              <label id="rem6" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                            </div>
+                          </div>
+                          <!-- <div class="col-md-6">
+                            <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['categorysub'][$language]; ?></label>
                               <select  onchange="resetinput5()"  class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()" ></select>
                               <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                             </div>
-                          </div>
+                          </div> -->
 
                         </div>
 
@@ -2774,16 +2779,7 @@ if(Catagory !="" && Catagory!=undefined){
                             </div>
                           </div>
                           
-                          <div class="col-md-6">
-                            <div class='form-group row'>
 
-                            <label class="col-sm-3 col-form-label "><?php echo $array['widthunit'][$language]; ?></label>
-
-                              <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['Quality'][$language]; ?>">
-                              <select class="form-control col-sm-4"   id="sUnitName" onchange="getplaceholder();"></select>
-                              <label id="rem6" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
-                            </div>
-                          </div>
                         </div>
                         <!-- =================================================================== -->
                       </div>
