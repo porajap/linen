@@ -246,36 +246,40 @@ $array = json_decode($json,TRUE);
                             '<td nowrap style="width:40%" class="text-left"><?php echo $array['changprice'][$language]; ?>: ' +temp[i]['set_price']['xDate']+ ' <?php echo $array['Timeleft'][$language]; ?>  ' + temp[i]['set_price']['dateDiff'] +  ' <?php echo $array['day'][$language]; ?></td>'+
                           '</tr></table><hr>' ;
             
-                var HptName = temp[i]['set_price']['HptName'];
-                var HptNameTH = temp[i]['set_price']['HptNameTH'];
-                var DocNo = temp[i]['set_price']['DocNo'];
-                var StartDate = temp[i]['set_price']['StartDate'];
-                var EndDate = temp[i]['set_price']['EndDate'];
-                var xDate = temp[i]['set_price']['xDate'];
-                var email = temp[i]['set_price']['email'];
-                var dateDiff = temp[i]['set_price']['dateDiff'];
+ 
 
                 if(temp[i]['set_price']['cntAcive'] == 0){
-                  var URL = '../process/sendMail_alertPrice.php';
-                  $.ajax({
-                    url: URL,
-                    method:"POST",
-                    data: 
-                    {
-                      HptName:HptName,
-                      DocNo:DocNo,
-                      StartDate:StartDate,
-                      EndDate:EndDate,
-                      xDate:xDate,
-                      email:email,
-                      dateDiff:dateDiff,
-                      HptNameTH:HptNameTH
-                    },
-                    success:function(data)
-                    {
-                      console.log['success'];
-                    }
-                  });
+                  for(var m=0; m<temp['countMail']; m++){
+                    var HptName = temp[i]['set_price']['HptName'];
+                  var HptNameTH = temp[i]['set_price']['HptNameTH'];
+                  var DocNo = temp[i]['set_price']['DocNo'];
+                  var StartDate = temp[i]['set_price']['StartDate'];
+                  var EndDate = temp[i]['set_price']['EndDate'];
+                  var xDate = temp[i]['set_price']['xDate'];
+                  var email = temp[m]['set_price']['email'];
+                  var dateDiff = temp[i]['set_price']['dateDiff'];
+                    var URL = '../process/sendMail_alertPrice.php';
+                    $.ajax({
+                      url: URL,
+                      method:"POST",
+                      data: 
+                      {
+                        HptName:HptName,
+                        DocNo:DocNo,
+                        StartDate:StartDate,
+                        EndDate:EndDate,
+                        xDate:xDate,
+                        email:email,
+                        dateDiff:dateDiff,
+                        HptNameTH:HptNameTH
+                      },
+                      success:function(data)
+                      {
+                        console.log['success'];
+                      }
+                    });
+                  }
+                  
                 }
               }
               $("#price").html(result);
