@@ -192,7 +192,7 @@ function alert_SetPrice($conn,$DATA)
       #send email to user---------------------------------------------------
       $HptCode = $Result['HptCode'];
       $DocNo = $Result['DocNo'];
-
+      $countMail=0;
       if($DateDiff == 30){
         $count_active = "SELECT COUNT(*) AS cnt FROM alert_mail_price WHERE DocNo = '$DocNo' AND day_30 = 1";
       }else if($DateDiff == 7){
@@ -211,7 +211,8 @@ function alert_SetPrice($conn,$DATA)
           $return['mail'] = $SelectMail;
           $SQuery = mysqli_query($conn,$SelectMail);
           while ($SResult = mysqli_fetch_assoc($SQuery)) {
-            $return[$count]['set_price']['email'] = trim($SResult['email']);
+            $return[$countMail]['set_price']['email'] = trim($SResult['email']);
+            $countMail++;
           }
         }
       }
@@ -220,6 +221,7 @@ function alert_SetPrice($conn,$DATA)
     }
   }
   $return['countSetprice'] = $count;
+  $return['countMail'] = $countMail;
   #-------------------------------------------------------------------------------------
   $count2 = 0;
   if($PmID == 1 || $PmID == 2 || $PmID == 3 || $PmID ==6){
