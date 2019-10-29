@@ -10,8 +10,8 @@
  <SearchDepartment><en>Search Department</en><th>ค้นหา แผนก</th></SearchDepartment>
 <SearchHospital><en>Search Hospital</en><th>ค้นหา โรงพยาบาล</th></SearchHospital>
 <SearchLaundry><en>Search Laundry</en><th>ค้นหา โรงงานซัก</th></SearchLaundry>
-<private><en>Private hospital</en><th>เอกชน</th></private>
-<government><en>Public hospital</en><th>รัฐบาล</th></government>
+<private><en>Show Money</en><th>แสดงเงิน</th></private>
+<government><en>Don't Money</en><th>ไม่แสดงเงิน</th></government>
 <!--============================================================================== -->
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
