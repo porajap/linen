@@ -96,7 +96,11 @@ $array2 = json_decode($json2,TRUE);
       }  
   };
   
-  $(document).ready(function(e){ 
+  $(document).ready(function(e){
+    var PmID = <?php echo $PmID;?>;
+    if(PmID ==1 || PmID==6){
+      $('#hotpital').removeClass('icon_select');
+    }
     $('#searchdocument').keyup(function(e) {
                 if (e.keyCode == 13) {
                   ShowDocument(1);
@@ -108,7 +112,8 @@ $array2 = json_decode($json2,TRUE);
         }
     });
     $('#rem1').hide();
-    $('#rem2').hide();    
+    $('#rem2').hide();
+    $('#rem3').hide();
     $('.only').on('input', function() {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
@@ -289,6 +294,8 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function getDepartment(){
+          $('#hotpital').removeClass('border-danger');
+          $('#rem3').hide();
           var Hotp = $('#Hos2 option:selected').attr("value");
           if(Hotp == '' || Hotp == undefined){
             Hotp = $('#getHot').val();
@@ -560,15 +567,26 @@ $array2 = json_decode($json2,TRUE);
           $('#factory').removeClass('border-danger');
           $('#rem2').hide();
         }
-
+        function checkblank3(){
+          $('.checkblank3').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem3').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem3').hide();
+            }
+          });
+        }
 
         function CreateDocument(){
           var userid = '<?php echo $Userid; ?>';
           var hotpCode = $('#hotpital option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
-          if(FacCode == ''){
+          if(FacCode == '' || hotpCode == ''){
             checkblank();
             checkblank2();
+            checkblank3();
             swal({
               title: '',
               text: "<?php echo $array['required'][$language]; ?>",
@@ -1014,8 +1032,8 @@ $array2 = json_decode($json2,TRUE);
                   for (var i = 0; i < temp["Row"]; i++) {
                     var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
                     Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
-                    $("#hotpital").append(Str);
                   }
+                  $("#hotpital").append(Str1);
                   $("#Hos2").append(Str1);
                   $("#factory").empty();
                   var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
@@ -1523,12 +1541,6 @@ $array2 = json_decode($json2,TRUE);
                   $('.numonly').on('input', function() {
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
-        
-
-
-
-
-
                   if(isStatus==1 || isStatus==9 || isStatus==2 || isStatus==3 || isStatus==4){
                     $('.chk_edit').attr('disabled', true);
                   }
@@ -1861,7 +1873,8 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="col-md-6">
                                       <div class='form-group row'>
                                         <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['side'][$language]; ?></label>
-                                        <select  class="form-control form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true"> </select>
+                                        <select  class="form-control form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();"  <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>> </select>
+                                        <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                       </div>
                                     </div>
                                     <div class="col-md-6">
