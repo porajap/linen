@@ -289,7 +289,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,dirty.DocNo,DATE(dirty.DocDate) AS DocDate ,dirty.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
+    $Sql = "SELECT   site.HptCode,dirty.DocNo,DATE(dirty.DocDate) AS DocDate ,dirty.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
     FROM dirty
     INNER JOIN site ON dirty.HptCode = site.HptCode
     INNER JOIN users ON dirty.Modify_Code = users.ID
@@ -309,7 +309,7 @@ function SelectDocument($conn, $DATA)
       }
 
   
-      $return[$count]['HptName']   = $Result['HptName'];
+      $return[$count]['HptName']   = $Result['HptCode'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
     $return[$count]['RecNow']   = $Result['xTime'];

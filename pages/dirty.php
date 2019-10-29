@@ -1146,6 +1146,7 @@ $array2 = json_decode($json2,TRUE);
                   $('#bCreate2').addClass('opacity');
                   $('#home-tab').tab('show')
                   $( "#TableItemDetail tbody" ).empty();
+                  $("#hotpital").val(temp[0]['HptName']);
                   $("#docno").val(temp[0]['DocNo']);
                   $("#docdate").val(temp[0]['DocDate']);
                   $("#recorder").val(temp[0]['Record']);

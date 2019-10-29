@@ -448,7 +448,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,newlinentable.DocNo,DATE(newlinentable.DocDate) 
+    $Sql = "SELECT   site.HptCode,newlinentable.DocNo,DATE(newlinentable.DocDate) 
     AS DocDate,newlinentable.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,newlinentable.FacCode,TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
   FROM newlinentable
   INNER JOIN site ON newlinentable.HptCode = site.HptCode
@@ -468,7 +468,7 @@ function SelectDocument($conn, $DATA)
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
 
-    $return[$count]['HptName']   = $Result['HptName'];
+    $return[$count]['HptName']   = $Result['HptCode'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
     $return[$count]['RecNow']   = $Result['xTime'];

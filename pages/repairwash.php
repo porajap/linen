@@ -1099,6 +1099,11 @@ $(document).ready(function(e){
                 $( "#TableItemDetail tbody" ).empty();
                 $("#docno").val(temp[0]['DocNo']);
                 $("#docdate").val(temp[0]['DocDate']);
+                
+                $("#hotpital").val(temp[0]['HptName']);
+                $("#hotpital").prop('disabled', true);
+                $('#hotpital').addClass('icon_select');
+
                 $("#recorder").val(temp[0]['Record']);
                 $("#timerec").val(temp[0]['RecNow']);
                 $("#wTotal").val(temp[0]['Total']);

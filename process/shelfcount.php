@@ -108,13 +108,13 @@ function getDepartment($conn, $DATA)
   $count2 = 0;
   $boolean = false;
   $boolean2 = false;
-  $Hotp = $DATA["Hotp"];
+  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
   AND department.IsStatus = 0
   ORDER BY department.DepName ASC";
-  // $return['sql'] = $Sql;
+  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
@@ -122,6 +122,32 @@ function getDepartment($conn, $DATA)
     $count++;
     $boolean = true;
   }
+  $return['row'] = $count;
+
+
+
+  if ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return['status'] = "success";
+    $return['form'] = "getDepartment";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "success";
+    $return['form'] = "getDepartment";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+function gettime($conn, $DATA)
+{
+
+  $count = 0;
+  $count2 = 0;
+  $boolean = false;
+  $boolean2 = false;
+  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
 
   $Sql = "SELECT time_express.Time_ID,time_sc.TimeName
   FROM time_express
@@ -135,20 +161,25 @@ function getDepartment($conn, $DATA)
     $count2++;
     $boolean2 = true;
   } 
+  $return['row'] = $count2;
 
-  if ($boolean || $boolean2) {
+  if ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['status'] = "success";
-    $return['form'] = "getDepartment";
+    $return['form'] = "gettime";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
-    $return['form'] = "getDepartment";
+    $return['status'] = "success";
+    $return['form'] = "gettime";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   }
+
+
+
+
 }
 // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
 // mysqli_query($conn,$Sqlx);
@@ -407,7 +438,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["xdocno"];
   $Datepicker = $DATA["Datepicker"];
-  $Sql = "SELECT   site.HptName,
+  $Sql = "SELECT   site.HptCode,
     department.DepName,
     shelfcount.DocNo,
     shelfcount.DepCode,
@@ -442,7 +473,7 @@ function SelectDocument($conn, $DATA)
     }
 
 
-    $return[$count]['HptName']   = $Result['HptName'];
+    $return[$count]['HptName']   = $Result['HptCode'];
     $return[$count]['jaipar']   = $Result['jaipar'];
     $return[$count]['DepName']   = $Result['DepName'];
     $return[$count]['DepCode']   = $Result['DepCode'];
@@ -1796,8 +1827,10 @@ function find_item($conn, $DATA)
       getDepartment2($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'setpacking') {
       setpacking($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'gettime') {
+      gettime($conn, $DATA);
     }
-
+    
     
   } else {
     $return['status'] = "error";

@@ -1050,6 +1050,11 @@ $(document).ready(function(e){
                 $('#bCreate2').addClass('opacity');
                 $('#home-tab').tab('show')
                 $( "#TableItemDetail tbody" ).empty();
+
+                $("#hotpital").val(temp[0]['HptName']);
+                $("#hotpital").prop('disabled', true);
+                $('#hotpital').addClass('icon_select');
+
                 $("#docno").val(temp[0]['DocNo']);
                 $("#docdate").val(temp[0]['DocDate']);
                 $("#recorder").val(temp[0]['Record']);

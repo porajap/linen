@@ -332,7 +332,7 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) 
+    $Sql = "SELECT site.HptCode,department.DepName,clean.DocNo,DATE(clean.DocDate) 
     AS DocDate ,clean.Total,users.EngName , users.EngLName ,clean.FacCode ,  users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus,clean.RefDocNo
     FROM clean
     INNER JOIN department ON clean.DepCode = department.DepCode
@@ -352,7 +352,7 @@ function CreateDocument($conn, $DATA)
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
 
-      $return[$count]['HptName']   = $Result['HptName'];
+      $return[$count]['HptName']   = $Result['HptCode'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['FacCode']   = $Result['FacCode']==null?0:$Result['FacCode'];

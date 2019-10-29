@@ -1020,6 +1020,11 @@ if (e.keyCode == 13) {
                 $('#home-tab').tab('show')
                 $( "#TableItemDetail tbody" ).empty();
                 $("#docno").val(temp[0]['DocNo']);
+                
+                $("#hotpital").val(temp[0]['HptName']);
+                $("#hotpital").prop('disabled', true);
+                $('#hotpital').addClass('icon_select');
+
                 $("#docdate").val(temp[0]['DocDate']);
                 $("#recorder").val(temp[0]['Record']);
                 $("#timerec").val(temp[0]['RecNow']);
