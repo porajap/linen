@@ -1402,7 +1402,7 @@ $(document).ready(function(e){
                   $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
-                  "<td style='width: 29%;'>"+temp[i]['DocDate']+"</td>"+
+                  "<td style='width: 33%;'>"+temp[i]['DocDate']+"</td>"+
                   "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
@@ -2158,7 +2158,9 @@ $(document).ready(function(e){
             <thead style="font-size:24px;">
               <tr role="row">
                 <th style='width: 15%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <th style='width: 85%;' nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                <th style='width: 27%;' nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                <th style='width: 33%;' nowrap><?php echo $array['selectdateref'][$language]; ?></th>
+                <th style='width: -4%;' nowrap><?php echo $array['factory'][$language]; ?></th>
               </tr>
             </thead>
             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

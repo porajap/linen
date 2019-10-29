@@ -27,6 +27,7 @@
 <Laundry2><en>Laundry</en><th>โรงงานซัก</th></Laundry2>
 <ddmmyyyy><en>dd-mm-yyyy</en><th>วว-ดด-ปปปป</th></ddmmyyyy>
 <selectdate><en>Please choose a date</en><th>กรุณาเลือกวันที่</th></selectdate>
+<selectdateref><en>Date</en><th>วันที่</th></selectdateref>
 <insert_date><en>Please choose date of the form</en><th>กรุณาเลือกแบบฟอร์มวันที่</th></insert_date>
 <ppu><en>PPU</en><th>PPU</th></ppu>
 <prin><en>Print</en><th>พิมพ์</th></prin>
