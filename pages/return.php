@@ -4,6 +4,7 @@ $Userid = $_SESSION['Userid'];
 $TimeOut = $_SESSION['TimeOut'];
 $PmID = $_SESSION['PmID'];
 $HptCode = $_SESSION['HptCode'];
+$DepCode = $_SESSION['DepCode'];
 
 if($Userid==""){
   header("location:../index.html");
@@ -107,6 +108,7 @@ $(document).ready(function(e){
       });
   OnLoadPage();
   getDepartment();
+  getDepartment2();
   // CreateDocument();
   //==============================
   $('.TagImage').bind('click', {
@@ -307,13 +309,13 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
         $('#isStatus').val(0)
       }
-      function savefactory(){
+      function saveDep(){
         var docno = $("#docno").val();
-        var factory2 = $("#factory2").val();
+        var DepCode = $("#department2").val();
         var data = {
-          'STATUS' : 'savefactory',
+          'STATUS' : 'saveDep',
           'DocNo'  : docno,
-          'factory2'  : factory2,
+          'DepCode'  : DepCode,
         };
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
@@ -329,8 +331,8 @@ $(document).ready(function(e){
 
       }
 
-      function get_factory(){
-        $("#dialogfactory").modal({
+      function get_Department(){
+        $("#dialogDepartment").modal({
             backdrop: 'static',
             keyboard: false
         });   
@@ -387,7 +389,20 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
         
       }
+      function getDepartment2(){
+        var Hotp = $('#Hos2 option:selected').attr("value");
+        if( typeof Hotp == 'undefined' ) 
+        {
+          Hotp = '<?php echo $HptCode; ?>';
+        }
+        var data = {
+          'STATUS'  : 'getDepartment2',
+          'Hotp'	: Hotp
+        };
 
+        senddata(JSON.stringify(data));
+        
+      }
       function ShowDocument(selecta){
         var DocNo = $('#docno').val();
         var Hotp = $('#Hos2 option:selected').attr("value");
@@ -739,7 +754,7 @@ $(document).ready(function(e){
         }
       }
       function dis2(row){
-      if($('#checkrow_'+row).prop("checked") == true){
+       if($('#checkrow_'+row).prop("checked") == true){
           var countcheck2 = Number($("#countcheck").val())+1;
           $("#countcheck").val(countcheck2);
           $('#bSaveadd').attr('disabled', false);
@@ -757,23 +772,23 @@ $(document).ready(function(e){
           $("#countcheck").val(countcheck3);
           }
         }
-    }
-    function removeClassBorder2(){
-          $('#factory1').removeClass('border-danger');
-          $('#rem2').attr('hidden' , true);
-        }
+      }
+      function removeClassBorder2(){
+            $('#factory1').removeClass('border-danger');
+            $('#rem2').attr('hidden' , true);
+          }
 
-    function checkblank(){
-          $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-              $('#rem2').attr('hidden' , false).css("color","red");
-            }else{
-              $(this).removeClass('border-danger');
-              $('#rem2').attr('hidden' , true);
-            }
-          });
-        }
+      function checkblank(){
+        $('.checkblank').each(function() {
+          if($(this).val()==""||$(this).val()==undefined){
+            $(this).addClass('border-danger');
+            $('#rem2').attr('hidden' , false).css("color","red");
+          }else{
+            $(this).removeClass('border-danger');
+            $('#rem2').attr('hidden' , true);
+          }
+        });
+      }
 
       function SaveBill(chk){        
         var docno = $("#docno").val();
@@ -866,11 +881,11 @@ $(document).ready(function(e){
                   $('#alert_percent').modal('toggle');
                 }
         } else if (result.dismiss === 'cancel') {
-          swal.close();}
-        })
-      }
-     }
-    }
+            swal.close();}
+          })
+          }
+        }
+        }
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
@@ -969,7 +984,7 @@ $(document).ready(function(e){
       function senddata(data){
         var form_data = new FormData();
         form_data.append("DATA",data);
-        var URL = '../process/clean.php';
+        var URL = '../process/return.php';
         $.ajax({
           url: URL,
           dataType: 'text',
@@ -1026,9 +1041,16 @@ $(document).ready(function(e){
                   $("#department").append(Str);
                   $("#Dep2").append(Str);
                 }
-                // if(PmID != 1){
-                //   $("#Dep2").val(temp[0]['DepCode']);
-                // }
+                $("#department").val(<?=$DepCode?>);
+              }else if(temp["form"]=='getDepartment2'){
+                $("#department2").empty();
+                $("#departmentName").empty();
+                var Str = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
+                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                  Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                }
+                $("#department2").html(Str);
+                $("#departmentName").html(Str);
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1040,12 +1062,11 @@ $(document).ready(function(e){
                   showConfirmButton: false
                   });
                 setTimeout(function () {
-                  open_dirty_doc()                  
+                  get_Department();                  
                   parent.OnLoadPage();
                 }, 1000);
                 $( "#TableItemDetail tbody" ).empty();
                 $("#wTotal").val(0);
-                // $("#bSave").text('<?php echo $array['save'][$language]; ?>');
 
                 $("#total").prop('disabled', false);
                 $("#docno").val(temp[0]['DocNo']);
@@ -1103,7 +1124,7 @@ $(document).ready(function(e){
                     $('#TableDocument tbody:last-child').append(  $StrTr );
                   }
                 }
-              }else{
+                }else{
                     var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                         swal({
                           title: '',
@@ -1348,11 +1369,11 @@ $(document).ready(function(e){
                 $('.numonly').on('input', function() {
                   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
-              }else{
-                $('#TableItem tbody').empty();
-                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
-                $('#TableItem tbody:last-child').append(Str);
-              }
+                }else{
+                  $('#TableItem tbody').empty();
+                  var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                  $('#TableItem tbody:last-child').append(Str);
+                }
               }else if( (temp["form"]=='ShowUsageCode') ){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
@@ -1392,30 +1413,30 @@ $(document).ready(function(e){
 
               }else if(temp['form']=="get_dirty_doc"){
                 if(temp["count2"] > 0){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
-                var checkitem = $("#checkitem").val();
-                $( "#TableRefDocNo tbody" ).empty();
-                for (var i = 0; i < temp["Row"]; i++) {
-                  var rowCount = $('#TableRefDocNo >tbody >tr').length;
-                  var chkDoc = "<input type='radio'  onclick='disRef()' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
-                  $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                  "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                  "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
-                  "<td style='width: 33%;'>"+temp[i]['DocDate']+"</td>"+
-                  "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
-                  "</tr>";
-                  if(rowCount == 0){
-                    $("#TableRefDocNo tbody").append( $StrTR );
-                  }else{
-                    $('#TableRefDocNo tbody:last-child').append( $StrTR );
+                  var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                  var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
+                  var checkitem = $("#checkitem").val();
+                  $( "#TableRefDocNo tbody" ).empty();
+                  for (var i = 0; i < temp["Row"]; i++) {
+                    var rowCount = $('#TableRefDocNo >tbody >tr').length;
+                    var chkDoc = "<input type='radio'  onclick='disRef()' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
+                    $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
+                    "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                    "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
+                    "<td style='width: 33%;'>"+temp[i]['DocDate']+"</td>"+
+                    "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
+                    "</tr>";
+                    if(rowCount == 0){
+                      $("#TableRefDocNo tbody").append( $StrTR );
+                    }else{
+                      $('#TableRefDocNo tbody:last-child').append( $StrTR );
+                    }
                   }
-                }
                 }else{
-                    $( "#TableRefDocNo tbody" ).empty();
-                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
-                    $('#TableRefDocNo tbody:last-child').append(Str);
-                        }
+                  $( "#TableRefDocNo tbody" ).empty();
+                  var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                  $('#TableRefDocNo tbody:last-child').append(Str);
+                }
               }else if(temp['form']=="UpdateRefDocNo"){
                   $('#factory1').val(temp['FacCode']);
                   $('#RefDocNo').attr('disabled' , true);
@@ -1424,10 +1445,10 @@ $(document).ready(function(e){
                       OpenDialogItem();
                   }
                         ShowDetail();
-              }else if(temp['form']=="savefactory"){
-                  $('#factory1').val(temp['FacCode']);
-                  $('#factory1').attr('disabled' , true);
-                  $('#factory1').addClass('icon_select');
+              }else if(temp['form']=="saveDep"){
+                  $('#departmentName').val(temp['DepCode']);
+                  $('#departmentName').attr('disabled' , true);
+                  $('#departmentName').addClass('icon_select');
                   swal({
                       title: '',
                       text: '<?php echo $array['savesuccess'][$language]; ?>',
@@ -1436,7 +1457,7 @@ $(document).ready(function(e){
                       showConfirmButton: false,
                       timer: 1500,
                       });
-                  $('#dialogfactory').modal('toggle');
+                  $('#dialogDepartment').modal('toggle');
 
 
               }else if(temp['form']=="SaveBill"){
@@ -1620,443 +1641,434 @@ $(document).ready(function(e){
       }
     }
     </script>
-    <style media="screen">
-     /* ======================================== */
-      a.nav-link{
-        width:auto!important;
-      }
-      .datepicker{z-index:9999 !important}
-      .hidden{visibility: hidden;}
-
-      button,input[id^='qty'],input[id^='order'],input[id^='max'] {
-        font-size: 24px!important;
-      }
-
-      table tr th,
-      table tr td {
-        border-right: 0px solid #bbb;
-        border-bottom: 0px solid #bbb;
-        padding: 5px;
-      }
-      table tr th:first-child,
-      table tr td:first-child {
-        border-left: 0px solid #bbb;
-      }
-      table tr th {
-        background: #eee;
-        border-top: 0px solid #bbb;
-        text-align: left;
-      }
-      table tr:first-child th:first-child {
-        border-top-left-radius: 15px;
-      }
-      table tr:first-child th:first-child {
-        border-bottom-left-radius: 15px;
-      }
-
-      /* top-right border-radius */
-      table tr:first-child th:last-child {
-        border-top-right-radius: 15px;
-      }
-      table tr:first-child th:last-child {
-        border-bottom-right-radius: 15px;
-      }
-
-      /* bottom-right border-radius */
-      table tr:last-child td:last-child {
-        border-bottom-right-radius: 6px;
-      }
-      .table th, .table td {
-          border-top: none !important;
-      }
-
-      .table > thead > tr >th {
-        background-color: #1659a2;
-      }
-
-  .only1:disabled, .form-control[readonly] {
-    background-color: transparent !important;
-    opacity: 1;
-}
-      .sidenav {
-        height: 100%;
-        overflow-x: hidden;
-        /* padding-top: 20px; */
-        border-left: 2px solid #bdc3c7;
-      }
-      .mhee a{
-        /* padding: 6px 8px 6px 16px; */
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-      }
-        .mhee a:hover {
-          color: #2c3e50;
-          font-weight:bold;
-          font-size:26px;
+  <style media="screen">
+      /* ======================================== */
+        a.nav-link{
+          width:auto!important;
         }
-          .mhee button{
-            /* padding: 6px 8px 6px 16px; */
-            text-decoration: none;
-            font-size: 23px;
-            color: #2c3e50;
-            display: block;
-            background: none;
-            box-shadow: none !important;
-            
-          }
-          .mhee button:hover {
+        .datepicker{z-index:9999 !important}
+        .hidden{visibility: hidden;}
+
+        button,input[id^='qty'],input[id^='order'],input[id^='max'] {
+          font-size: 24px!important;
+        }
+
+        table tr th,
+        table tr td {
+          border-right: 0px solid #bbb;
+          border-bottom: 0px solid #bbb;
+          padding: 5px;
+        }
+        table tr th:first-child,
+        table tr td:first-child {
+          border-left: 0px solid #bbb;
+        }
+        table tr th {
+          background: #eee;
+          border-top: 0px solid #bbb;
+          text-align: left;
+        }
+        table tr:first-child th:first-child {
+          border-top-left-radius: 15px;
+        }
+        table tr:first-child th:first-child {
+          border-bottom-left-radius: 15px;
+        }
+
+        /* top-right border-radius */
+        table tr:first-child th:last-child {
+          border-top-right-radius: 15px;
+        }
+        table tr:first-child th:last-child {
+          border-bottom-right-radius: 15px;
+        }
+
+        /* bottom-right border-radius */
+        table tr:last-child td:last-child {
+          border-bottom-right-radius: 6px;
+        }
+        .table th, .table td {
+            border-top: none !important;
+        }
+
+        .table > thead > tr >th {
+          background-color: #1659a2;
+        }
+
+    .only1:disabled, .form-control[readonly] {
+      background-color: transparent !important;
+      opacity: 1;
+    }
+        .sidenav {
+          height: 100%;
+          overflow-x: hidden;
+          /* padding-top: 20px; */
+          border-left: 2px solid #bdc3c7;
+        }
+        .mhee a{
+          /* padding: 6px 8px 6px 16px; */
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+        }
+          .mhee a:hover {
             color: #2c3e50;
             font-weight:bold;
             font-size:26px;
           }
-      .sidenav a {
-        padding: 6px 8px 6px 16px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-      }
+            .mhee button{
+              /* padding: 6px 8px 6px 16px; */
+              text-decoration: none;
+              font-size: 23px;
+              color: #2c3e50;
+              display: block;
+              background: none;
+              box-shadow: none !important;
+              
+            }
+            .mhee button:hover {
+              color: #2c3e50;
+              font-weight:bold;
+              font-size:26px;
+            }
+        .sidenav a {
+          padding: 6px 8px 6px 16px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+        }
 
-      .sidenav a:hover {
-        color: #2c3e50;
-        font-weight:bold;
-        font-size:26px;
-      }
+        .sidenav a:hover {
+          color: #2c3e50;
+          font-weight:bold;
+          font-size:26px;
+        }
 
-      .icon{
-        padding-top: 6px;
-        padding-left: 44px;
-      }
-      .opacity{
-        opacity:0.5;
-      }
+        .icon{
+          padding-top: 6px;
+          padding-left: 44px;
+        }
+        .opacity{
+          opacity:0.5;
+        }
 
-      .modal-content1{
-        width: 72% !important;
-        right: -15% !important;
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        width: 100%;
-        pointer-events: auto;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid rgba(0,0,0,.2);
-        border-radius: .3rem;
-        outline: 0;
-      }
+        .modal-content1{
+          width: 72% !important;
+          right: -15% !important;
+          position: relative;
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          width: 100%;
+          pointer-events: auto;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid rgba(0,0,0,.2);
+          border-radius: .3rem;
+          outline: 0;
+        }
 
-      @media (min-width: 992px) and (max-width: 1199.98px) { 
+        @media (min-width: 992px) and (max-width: 1199.98px) { 
 
-      .icon{
-        padding-top: 6px;
-        padding-left: 23px;
-      }
-      .sidenav a {
-        font-size: 21px;
+        .icon{
+          padding-top: 6px;
+          padding-left: 23px;
+        }
+        .sidenav a {
+          font-size: 21px;
 
-      }
-     
-}
-      /* ======================================== */
-    </style>
+        }
+      
+    }
+        /* ======================================== */
+  </style>
 
   </head>
 
   <body id="page-top">
 
     <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
       <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][2][$language]; ?></li>
     </ol>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
     <input type="hidden" id='input_chk' value='0'>
     <div id="wrapper">
-          <div id="content-wrapper">            
-            <div class="row">
-              <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titleclean'][$language]; ?></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
-                  </li>
-                </ul>
+      <div id="content-wrapper">            
+        <div class="row">
+          <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titleclean'][$language]; ?></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
+              </li>
+            </ul>
 
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <!-- /.content-wrapper -->
-                    <div class="row">
-                        <div class="col-md-11">
-                            <!-- tag column 1 -->
-                            <div class="container-fluid">
-                              <div class="card-body mt-3">
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select class="form-control col-sm-7 icon_select" style="font-size:22px;" id="department" disabled="true">
-                                        </select>
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docno'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" style="font-size:22px;" disabled="true" class="form-control col-sm-7 only1" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-7 " style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
-                                      <label id="rem1" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  class="form-control col-sm-7 only1" disabled="true"  style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "><?php echo $array['time'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
-                                      <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['factory'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select checkblank" disabled="true" style="font-size:22px;" onchange="removeClassBorder2();"  id="factory1"  >
-                                      </select>
-                                      <label id="rem2" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                        </div> <!-- tag column 1 -->
-                                      <!-- row btn -->
-                        <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
-                          <div class="menu mhee"  id="hover1">
-                            <div class="d-flex justify-content-center">
-                              <div class="circle1 d-flex justify-content-center" id="bCreate2">
-                                <button class="btn" onclick="CreateDocument()" id="bCreate" >
-                                  <i class="fas fa-file-medical"></i>
-                                  <div>
-                                    <?php echo $array['createdocno'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane show active fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row">
+                  <div class="col-md-11">
+                    <div class="container-fluid">
+                      <div class="card-body mt-3">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
+                              <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
+                              </select>
                             </div>
                           </div>
-                          <div class="menu"   id="hover2">
-                            <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
-                                <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true"> 
-                                  <i class="fas fa-file-import"></i>
-                                  <div>
-                                    <?php echo $array['import'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="menu"  id="hover3">
-                            <div class="d-flex justify-content-center">
-                              <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
-                                <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
-                                  <i class="fas fa-trash-alt"></i>
-                                  <div>
-                                    <?php echo $array['delitem'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="menu"  id="hover4">
-                            <div class="d-flex justify-content-center">
-                              <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
-                                <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
-                                  <div id="icon_edit">
-                                    <i class="fas fa-save"></i>
-                                    <div>
-                                      <?php echo $array['save'][$language]; ?>
-                                    </div>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="menu"  id="hover5">
-                            <div class="d-flex justify-content-center">
-                              <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
-                                <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
-                                  <i class="fas fa-times"></i>
-                                  <div>
-                                    <?php echo $array['Canceldoc'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="menu "  id="hover6">
-                            <div class="d-flex justify-content-center">
-                              <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
-                                <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
-                                  <i class="fas fa-print"></i>
-                                  <div>
-                                    <?php echo $array['print'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="menu "  id="hover7">
-                            <div class="d-flex justify-content-center">
-                              <div class="circle9 d-flex justify-content-center opacity" id="bPrintnew2">
-                                <button class="btn" onclick="PrintData2()" id="bPrintnew" disabled="true">
-                                  <i class="fas fa-print"></i>
-                                  <div>
-                                    <?php echo $array['print2'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
+                              <select class="form-control col-sm-7 icon_select" style="font-size:22px;" id="department" disabled="true">
+                              </select>
                             </div>
                           </div>
                         </div>
-                        <!-- end row btn -->
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-12"> <!-- tag column 1 -->
-                        <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" style="">
-                          <thead id="theadsum" style="font-size:24px;">
-                            <tr role="row">
-                            <th style="width: 3%;">&nbsp;</th>
-                              <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
-                              <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                              <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 5%;' nowrap><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
-                            </tr>
-                          </thead>
-                          <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;height:630px;">
-                          </tbody>
-                        </table>
-                      </div> <!-- tag column 1 -->
-                    </div>
-                  </div>
-
-                  <!-- search document -->
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row mt-3">
-                        <div class="col-md-2">
-                            <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select   class="form-control" style='font-size:24px;' id="Hos2" >
+                        <!-- =================================================================== -->
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
+                              <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docno'][$language]; ?></label>
+                              <input type="text" autocomplete="off" style="font-size:22px;" disabled="true" class="form-control col-sm-7 only1" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
+                            </div>
+                          </div>
+                        </div>
+                        <!-- =================================================================== -->
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
+                              <input class="form-control col-sm-7 " style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
+                              <label id="rem1" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
+                              <input type="text" autocomplete="off"  class="form-control col-sm-7 only1" disabled="true"  style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
+                            </div>
+                          </div>
+                        </div>
+                        <!-- =================================================================== -->
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "><?php echo $array['time'][$language]; ?></label>
+                              <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
+                              <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
+                              <select class="form-control col-sm-7 icon_select" style="font-size:22px;" id="departmentName" disabled="true">
                               </select>
                             </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Dep2" disabled="true">
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="row" style="font-size:24px;margin-left:2px;">
-                            <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
-                            </div>
-                          </div>
-                          <div class="col-md-6 mhee">
-                          <div class="row" style="margin-left:2px;">
-                            <input type="text" class="form-control" autocomplete="off" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                            <div class="search_custom col-md-2">
-                              <div class="search_1 d-flex justify-content-start">
-                                <button class="btn"  onclick="ShowDocument(1)" >
-                                  <i class="fas fa-search mr-2"></i>
-                                  <?php echo $array['search'][$language]; ?>
-                                </button>
-                              </div>
-                            </div>
-                            <div class="search_custom col-md-2">
-                          <div class="circle11 d-flex justify-content-start">
-                            <button class="btn"  onclick="SelectDocument()" id="btn_show" >
-                              <i class="fas fa-paste mr-2 pt-1"></i>
-                              <?php echo $array['show'][$language]; ?>
-                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="row m-1 mt-4 d-flex justify-content-end col-12" >
+                  <div class="menu mhee"  id="hover1">
+                    <div class="d-flex justify-content-center">
+                      <div class="circle1 d-flex justify-content-center" id="bCreate2">
+                        <button class="btn" onclick="CreateDocument()" id="bCreate" >
+                          <i class="fas fa-file-medical"></i>
+                          <div>
+                            <?php echo $array['createdocno'][$language]; ?>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="menu"   id="hover2">
+                    <div class="d-flex justify-content-center">
+                      <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
+                        <button class="btn" onclick="OpenDialogItem()" id="bImport" disabled="true"> 
+                          <i class="fas fa-file-import"></i>
+                          <div>
+                            <?php echo $array['import'][$language]; ?>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="menu"  id="hover3">
+                    <div class="d-flex justify-content-center">
+                      <div class="circle3 d-flex justify-content-center opacity" id="bDelete2">
+                        <button class="btn" onclick="DeleteItem()" id="bDelete"disabled="true">
+                          <i class="fas fa-trash-alt"></i>
+                          <div>
+                            <?php echo $array['delitem'][$language]; ?>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="menu"  id="hover4">
+                    <div class="d-flex justify-content-center">
+                      <div  class="circle4 d-flex justify-content-center opacity" id="bSave2">
+                        <button class="btn" onclick="SaveBill()" id="bSave"disabled="true">
+                          <div id="icon_edit">
+                            <i class="fas fa-save"></i>
+                            <div>
+                              <?php echo $array['save'][$language]; ?>
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="menu"  id="hover5">
+                    <div class="d-flex justify-content-center">
+                      <div class="circle5 d-flex justify-content-center opacity" id="bCancel2">
+                        <button class="btn" onclick="CancelDocument()" id="bCancel"disabled="true">
+                          <i class="fas fa-times"></i>
+                          <div>
+                            <?php echo $array['Canceldoc'][$language]; ?>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="menu "  id="hover6">
+                    <div class="d-flex justify-content-center">
+                      <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
+                        <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
+                          <i class="fas fa-print"></i>
+                          <div>
+                            <?php echo $array['print'][$language]; ?>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="menu "  id="hover7">
+                    <div class="d-flex justify-content-center">
+                      <div class="circle9 d-flex justify-content-center opacity" id="bPrintnew2">
+                        <button class="btn" onclick="PrintData2()" id="bPrintnew" disabled="true">
+                          <i class="fas fa-print"></i>
+                          <div>
+                            <?php echo $array['print2'][$language]; ?>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-                        <div class="row">
-                          <div class="col-md-12"> <!-- tag column 1 -->
-                            <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
-                              <thead id="theadsum" style="font-size:24px;">
-                                <tr role="row">
-                                  <th style='width: 10%;' nowrap>&nbsp;</th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
-                                </tr>
-                              </thead>
-                              <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
-                              </tbody>
-                            </table>
-                          </div> <!-- tag column 1 -->
-                        </div>
-                      </div> 
-                  <!-- end row tab -->
+                <div class="row">
+                  <div class="col-md-12"> <!-- tag column 1 -->
+                    <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" style="">
+                      <thead id="theadsum" style="font-size:24px;">
+                        <tr role="row">
+                        <th style="width: 3%;">&nbsp;</th>
+                          <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
+                          <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
+                          <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                          <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                          <th style='width: 5%;' nowrap><?php echo $array['qty'][$language]; ?></th>
+                          <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;height:630px;">
+                      </tbody>
+                    </table>
+                  </div> <!-- tag column 1 -->
                 </div>
               </div>
 
-              
-              <!-- </div> -->
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row mt-3">
+                  <div class="col-md-2">
+                    <div class="row" style="font-size:24px;margin-left:2px;">
+                      <select   class="form-control" style='font-size:24px;' id="Hos2" >
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row" style="font-size:24px;margin-left:2px;">
+                      <select class="form-control" style='font-size:24px;' id="Dep2" disabled="true">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row" style="font-size:24px;margin-left:2px;">
+                      <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
+                    </div>
+                  </div>
+                  <div class="col-md-6 mhee">
+                    <div class="row" style="margin-left:2px;">
+                      <input type="text" class="form-control" autocomplete="off" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                      <div class="search_custom col-md-2">
+                        <div class="search_1 d-flex justify-content-start">
+                          <button class="btn"  onclick="ShowDocument(1)" >
+                            <i class="fas fa-search mr-2"></i>
+                            <?php echo $array['search'][$language]; ?>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="search_custom col-md-2">
+                        <div class="circle11 d-flex justify-content-start">
+                          <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                            <i class="fas fa-paste mr-2 pt-1"></i>
+                            <?php echo $array['show'][$language]; ?>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"> <!-- tag column 1 -->
+                    <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
+                      <thead id="theadsum" style="font-size:24px;">
+                        <tr role="row">
+                          <th style='width: 10%;' nowrap>&nbsp;</th>
+                          <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
+                          <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                          <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                          <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                          <th style='width: 10%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                          <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                          <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
+                      </tbody>
+                    </table>
+                  </div> 
+                </div>
+              </div> 
+
             </div>
+            
           </div>
         </div>
+      </div>
+    </div>
 
 
 <!-- -----------------------------Custome1------------------------------------ -->
@@ -2124,7 +2136,7 @@ $(document).ready(function(e){
     <div class="modal-content">
       <div class="modal-header">
         <?php echo $array['refdocno'][$language]; ?>
-        <button type="button" onclick="get_factory();" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" onclick="get_Department();" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -2173,42 +2185,42 @@ $(document).ready(function(e){
 </div>
 
   <!-- custom modal3 -->
-  <div class="modal fade" id="alert_percent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2 class="modal-title"><?php echo $array['alertPercent'][$language]; ?></h2>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="card-body" style="padding:0px;">
-                <div class="row">
-                </div>
-                <table class="table table-fixed table-condensed table-striped" id="TablePar" cellspacing="0" role="grid">
-                  <thead style="font-size:24px;">
-                    <tr role="row">
-                    <th style='width: 25%;'nowrap class='text-left'><?php echo $array['docno'][$language]; ?></th>
-                    <th style='width: 35%;'nowrap class='text-left'><?php echo $array['TotalPercent'][$language]; ?></th>
-                    <th style='width: 40%;'nowrap class='text-right'><?php echo $array['overPercent'][$language]; ?></th>
-                    </tr>
-                  </thead>
-                  <tbody id="detail_percent" class="nicescrolled" style="font-size:23px;height:auto;">
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" onclick="SaveBill(1)" class="btn btn-success" style="width: 15%;"><?php echo $array['wantsave'][$language]; ?></button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 10%;"><?php echo $array['cancel'][$language]; ?></button>
-            </div>
+<div class="modal fade" id="alert_percent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title"><?php echo $array['alertPercent'][$language]; ?></h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body" style="padding:0px;">
+          <div class="row">
           </div>
+          <table class="table table-fixed table-condensed table-striped" id="TablePar" cellspacing="0" role="grid">
+            <thead style="font-size:24px;">
+              <tr role="row">
+              <th style='width: 25%;'nowrap class='text-left'><?php echo $array['docno'][$language]; ?></th>
+              <th style='width: 35%;'nowrap class='text-left'><?php echo $array['TotalPercent'][$language]; ?></th>
+              <th style='width: 40%;'nowrap class='text-right'><?php echo $array['overPercent'][$language]; ?></th>
+              </tr>
+            </thead>
+            <tbody id="detail_percent" class="nicescrolled" style="font-size:23px;height:auto;">
+            </tbody>
+          </table>
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" onclick="SaveBill(1)" class="btn btn-success" style="width: 15%;"><?php echo $array['wantsave'][$language]; ?></button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 10%;"><?php echo $array['cancel'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- Modal -->
-<div class="modal fade" id="dialogfactory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="dialogDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content1">
       <div class="modal-header">
@@ -2218,11 +2230,11 @@ $(document).ready(function(e){
         </button>
       </div>
       <div class="modal-body">
-      <select  class="form-control col-sm-12 "  style="font-size:22px;"  id="factory2">         
+      <select  class="form-control col-sm-12 "  style="font-size:22px;"  id="department2">         
       </select>
       </div>
       <div class="modal-footer">
-      <button type="button" onclick="savefactory();" class="btn btn-success" style="width: 50%;"><?php echo $array['wantsave'][$language]; ?></button>
+      <button type="button" onclick="saveDep();" class="btn btn-success" style="width: 50%;"><?php echo $array['wantsave'][$language]; ?></button>
       </div>
     </div>
   </div>
