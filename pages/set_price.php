@@ -98,7 +98,6 @@ $array2 = json_decode($json2,TRUE);
             $('#rem1').hide();
             getHotpital();
             getCategoryMain();
-            getCategorySub(1);
             getDate_price();
             var HptCode = $('#hptsel').val();
             var data = {
@@ -142,36 +141,11 @@ $array2 = json_decode($json2,TRUE);
         })(jQuery);
         // ---------------------------------------------------
       function getHotpital() {
+                getCategorySub();
               var lang = '<?php echo $language; ?>';
               var data2 = {
                   'STATUS': 'getHotpital',
                   'lang'	: lang
-              };
-              // console.log(JSON.stringify(data2));
-              senddata(JSON.stringify(data2));
-      }
-
-      function getCategoryMain() {
-              var data2 = {
-                  'STATUS': 'getCategoryMain'
-              };
-              // console.log(JSON.stringify(data2));
-              senddata(JSON.stringify(data2));
-      }
-
-      function getCategorySub(Sel) {
-        var CgrID;
-        if(Sel==1){
-          CgrID = $('#Category_Main').val();
-          ShowItem1();
-        }
-        else{
-          CgrID = $('#Category_Main1').val();
-        }
-        if( CgrID == null ) CgrID = 1;
-              var data2 = {
-                  'STATUS': 'getCategorySub',
-                  'CgrID' : CgrID
               };
               // console.log(JSON.stringify(data2));
               senddata(JSON.stringify(data2));
@@ -291,6 +265,15 @@ $array2 = json_decode($json2,TRUE);
             }
         }
 
+        function getCategorySub() {
+            var data = {
+                'STATUS': 'getCategorySub'
+            };
+
+            console.log(JSON.stringify(data));
+            senddata(JSON.stringify(data));
+
+        }
         function getSearchDocNo() {
             var dept = '<?php echo $_SESSION['Deptid ']; ?>';
 
@@ -394,7 +377,6 @@ $array2 = json_decode($json2,TRUE);
 
         function ShowItem1(Sel) {
             var HptCode = $('#hptsel').val();
-            var CgMainID = $('#Category_Main').val();
             var CgSubID = $('#Category_Sub').val();
             $('#bSave').attr('disabled', true);
             $('#delete_icon').addClass('opacity');
@@ -404,7 +386,6 @@ $array2 = json_decode($json2,TRUE);
             var data = {
                 'STATUS': 'ShowItem1',
                 'HptCode': HptCode,
-                'CgMainID': CgMainID,
                 'CgSubID': CgSubID
             };
 
@@ -851,9 +832,8 @@ $array2 = json_decode($json2,TRUE);
 
                                 StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
                                 "<td style='width: 5%;' nowrap>" + chkDoc + "</td>" +
-                                "<td style='width: 25%;' nowrap>" + temp[i]['HptName'] + "</td>" +
-                                "<td style='width: 26%;' nowrap>" + temp[i]['MainCategoryName'] + "</td>" +
-								"<td style='width: 25%;' nowrap>" + temp[i]['CategoryName'] + "</td>" +
+                                "<td style='width: 35%;' nowrap>" + temp[i]['HptName'] + "</td>" +
+								"<td style='width: 35%;' nowrap>" + temp[i]['CategoryName'] + "</td>" +
                                 "<td style='width: 19%;' nowrap>" + temp[i]['Price'] + " </td>" +
                                 "</tr>";
 
@@ -894,9 +874,8 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 5%;' nowrap>"+ RowID +"</td>" +
                                     "<td hidden>"+ chkPrice +"</td>" +
                                     "<td hidden>"+ chkCategoryCode +"</td>" +
-                                    "<td style='width: 26%;' nowrap>" + temp[i]['HptName'] + "</td>" +
-                                    "<td style='width: 25%;' nowrap>" + temp[i]['MainCategoryName'] + "</td>" +
-                                    "<td style='width: 25%;' nowrap>" + temp[i]['CategoryName'] + "</td>" +
+                                    "<td style='width: 35%;' nowrap>" + temp[i]['HptName'] + "</td>" +
+                                    "<td style='width: 35%;' nowrap>" + temp[i]['CategoryName'] + "</td>" +
                                     "<td style='width: 19%;' nowrap>" + Price + " </td>" +
                                     "</tr>";
 
@@ -923,7 +902,6 @@ $array2 = json_decode($json2,TRUE);
                             if ((Object.keys(temp).length - 2) > 0) {
                                 $('#RowID').val(temp['RowID']);
                                 $('#HotName').val(temp['HptName']);
-                                $('#Category_Main2').val(temp['MainCategoryName']);
                                 $('#Category_Sub2').val(temp['CategoryName']);
                                 $('#Price').val(temp['Price']);
                                 $('#delete_icon').removeClass('opacity');
@@ -1283,12 +1261,12 @@ $array2 = json_decode($json2,TRUE);
                                                   </select>
                                               </div>
                                           </div>
-                                          <div class="col-md-3">
+                                          <!-- <div class="col-md-3">
                                               <div class="row" style="margin-left:-6px;">
-                                              <!-- <label class="col-sm-6 col-form-label text-right"style="margin-left: -111px;"><?php echo $array['categorymain'][$language]; ?></label> -->
+                                              <label class="col-sm-6 col-form-label text-right"style="margin-left: -111px;"><?php echo $array['categorymain'][$language]; ?></label>
                                                   <select class="form-control col-md-12" id="Category_Main" onchange="getCategorySub(1);"></select>
                                               </div>
-                                          </div>
+                                          </div> -->
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left: -6px;">
                                               <!-- <label class="col-sm-3 col-form-label text-right"style="margin-left: -65px;"><?php echo $array['categorysub'][$language]; ?></label> -->
@@ -1312,16 +1290,13 @@ $array2 = json_decode($json2,TRUE);
                                             <thead id="theadsum" style="font-size:11px;">
                                                 <tr role="row">
                                                     <th style='width: 5%;'>&nbsp;</th>
-                                                    <th style='width: 25%;' nowrap>
+                                                    <th style='width: 35%;' nowrap>
                                                         <?php echo $array['side'][$language]; ?>
                                                     </th>
-                                                    <th style='width: 25%;' nowrap>
-                                                        <?php echo $array['categorymain'][$language]; ?>
-                                                    </th>
-                                                    <th style='width: 25%;' nowrap>
+                                                    <th style='width: 34%;' nowrap>
                                                         <?php echo $array['categorysub'][$language]; ?>
                                                     </th>
-                                                    <th style='width: 20%;' nowrap>
+                                                    <th style='width: 26%;' nowrap>
                                                         <?php echo $array['price'][$language]; ?>
                                                     </th>
                                                 </tr>
@@ -1397,11 +1372,11 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                             <div class="col-md-6">
                                                 <div class='form-group row'>
-                                                <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" class="form-control col-sm-7 " id="Category_Main2"    placeholder="<?php echo $array['categorymain'][$language]; ?>">
+                                                <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" class="form-control col-sm-7 numonly" id="Price"    placeholder="<?php echo $array['price'][$language]; ?>">
                                                 </div>
                                             </div>
-                                            </div>  
+                                        </div>  
                      
                                         <!-- =================================================================== -->
                                         <div class="row">
@@ -1411,13 +1386,7 @@ $array2 = json_decode($json2,TRUE);
                                                 <input type="text" autocomplete="off" class="form-control col-sm-7 " id="Category_Sub2"    placeholder="<?php echo $array['categorysub'][$language]; ?>">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class='form-group row'>
-                                                <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" class="form-control col-sm-7 numonly" id="Price"    placeholder="<?php echo $array['price'][$language]; ?>">
-                                                </div>
-                                            </div>
-                                            </div>  
+                                        </div>  
                      
                               
                                         <!-- =================================================================== -->
@@ -1538,10 +1507,9 @@ $array2 = json_decode($json2,TRUE);
                         <thead style="font-size:24px;">
                             <tr role="row">
                             <th style='width: 5%;'>&nbsp;</th>
-                                <th style='width: 25%;' nowrap><?php echo $array['side'][$language]; ?></th>
-                                <th style='width: 25%;' nowrap><?php echo $array['categorymain'][$language]; ?></th>
-                                <th style='width: 25%;' nowrap><?php echo $array['categorysub'][$language]; ?></th>
-                                <th style='width: 20%;' nowrap><?php echo $array['price'][$language]; ?></th>
+                                <th style='width: 35%;' nowrap><?php echo $array['side'][$language]; ?></th>
+                                <th style='width: 35%;' nowrap><?php echo $array['categorysub'][$language]; ?></th>
+                                <th style='width: 25%;' nowrap><?php echo $array['price'][$language]; ?></th>
                             </tr>
                         </thead>
                         <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">

@@ -153,26 +153,18 @@ function ShowItem1($conn, $DATA)
 {
   $count = 0;
   $xHptCode = $DATA['HptCode'];
-  $CgMainID = $DATA['CgMainID'];
   $CgSubID = $DATA['CgSubID'];
   $lang = $_SESSION['lang'];
 
-  $Sql = "SELECT category_price.RowID,site.HptName,site.HptNameTH,item_main_category.MainCategoryName,item_category.CategoryName,category_price.Price
+  $Sql = "SELECT category_price.RowID,site.HptName,site.HptNameTH,item_category.CategoryName,category_price.Price
   FROM category_price
   INNER JOIN site ON category_price.HptCode = site.HptCode
-  INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode
-  INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode ";
-  if( $xHptCode != null && $CgMainID == null && $CgSubID == null ){
+  INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode ";
+  if( $xHptCode != null  && $CgSubID == null ){
     $Sql .= "WHERE site.HptCode = '$xHptCode'";
-  }else if($xHptCode != null && $CgMainID != null && $CgSubID == null){
-    $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID";
-  }else if($xHptCode != null && $CgMainID != null && $CgSubID != null ){
-    $Sql .= "WHERE site.HptCode = '$xHptCode' AND item_main_category.MainCategoryCode = $CgMainID AND category_price.CategoryCode = $CgSubID";
-  }else if($xHptCode == null && $CgMainID != null && $CgSubID == null ){
-    $Sql .= "WHERE item_main_category.MainCategoryCode = $CgMainID";
-  }else if($xHptCode == null && $CgMainID != null && $CgSubID != null ){
-    $Sql .= "WHERE item_main_category.MainCategoryCode = $CgMainID AND category_price.CategoryCode = $CgSubID";
-  }else if($xHptCode == null && $CgMainID == null && $CgSubID != null ){
+  }else if($xHptCode != null  && $CgSubID != null ){
+    $Sql .= "WHERE site.HptCode = '$xHptCode'  AND category_price.CategoryCode = $CgSubID";
+  }else if($xHptCode == null && $CgSubID != null ){
     $Sql .= "WHERE category_price.CategoryCode = $CgSubID";
   }
   $meQuery = mysqli_query($conn, $Sql);
@@ -184,7 +176,6 @@ function ShowItem1($conn, $DATA)
     }
     $return[$count]['RowID'] = $Result['RowID'];
     $return[$count]['HptName'] = $sitePage;
-    $return[$count]['MainCategoryName'] = $Result['MainCategoryName'];
 	$return[$count]['CategoryName'] = $Result['CategoryName'];
     $return[$count]['Price'] = $Result['Price'];
     $count++;
@@ -276,18 +267,16 @@ function getdetail($conn, $DATA)
   $count = 0;
   $RowID = $DATA['RowID'];
   //---------------HERE------------------//
-  $Sql = "SELECT category_price.RowID,site.HptName,item_main_category.MainCategoryName,item_category.CategoryName,category_price.Price
+  $Sql = "SELECT category_price.RowID,site.HptName,item_category.CategoryName,category_price.Price
     FROM category_price
     INNER JOIN site ON category_price.HptCode = site.HptCode
     INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode
-    INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
     WHERE category_price.RowID = $RowID";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return['RowID'] = $Result['RowID'];
       $return['HptName'] = $Result['HptName'];
-      $return['MainCategoryName'] = $Result['MainCategoryName'];
       $return['CategoryName'] = $Result['CategoryName'];
       $return['Price'] = $Result['Price'];
     $count++;
@@ -360,12 +349,9 @@ function getCategoryMain($conn, $DATA)
 function getCategorySub($conn, $DATA)
 {
   $count = 0;
-  $CgrID = $DATA['CgrID'];
   $Sql = "SELECT item_category.CategoryCode,item_category.CategoryName
-  FROM item_main_category
-  INNER JOIN item_category ON item_main_category.MainCategoryCode = item_category.MainCategoryCode
-  WHERE item_category.IsStatus = 0
-  AND item_category.MainCategoryCode = $CgrID";
+  FROM item_category
+  WHERE item_category.IsStatus = 0 ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['CategoryCode']  = $Result['CategoryCode'];
