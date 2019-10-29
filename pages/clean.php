@@ -376,8 +376,13 @@ $(document).ready(function(e){
         })
 
       }
+      function remove1(){
+          $('#hotpital').removeClass('border-danger');
+          $('#rem3').hide();
 
+        }
       function getDepartment(){
+
         var Hotp = $('#Hos2 option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) 
         {
@@ -602,12 +607,36 @@ $(document).ready(function(e){
         };
         senddata(JSON.stringify(data));
       }
-
+      function checkblank3(){
+          $('.checkblank3').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem3').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem3').hide();
+            }
+          });
+        }
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
         $('#TableDetail tbody').empty();
+        if(hotpCode == ''){
+            checkblank3();
+            swal({
+              title: '',
+              text: "<?php echo $array['required'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+          }else{
         swal({
           title: "<?php echo $array['confirmdoc'][$language]; ?>",
           text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
@@ -639,8 +668,8 @@ $(document).ready(function(e){
             swal.close();
           } 
           })
-      }
-
+        }
+    }
       function canceldocno(docno) {
         swal({
           title: "<?php echo $array['confirmdelete'][$language]; ?>",
@@ -1804,7 +1833,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="remove1();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
                                       <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>

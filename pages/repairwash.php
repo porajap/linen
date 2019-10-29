@@ -85,6 +85,7 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+  $('#rem3').hide();
   var PmID = <?php echo $PmID;?>;
     if(PmID ==1 || PmID==6){
       $('#hotpital').removeClass('icon_select');
@@ -360,6 +361,12 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
         
       }
+      
+      function remove1(){
+          $('#hotpital').removeClass('border-danger');
+          $('#rem3').hide();
+
+        }
 
       function ShowDocument(selecta){
         var DocNo = $('#docno').val();
@@ -580,13 +587,25 @@ $(document).ready(function(e){
             }
           });
         }
+        function checkblank3(){
+          $('.checkblank3').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem3').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem3').hide();
+            }
+          });
+        }
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
         var factory = $('#factory option:selected').attr("value");
-        if(factory == ''){
+        if(factory == ''|| hotpCode=='' ){
             checkblank2();
+            checkblank3();
             swal({
               title: '',
               text: "<?php echo $array['required'][$language]; ?>",
@@ -1628,8 +1647,9 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="remove1();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
+                                      <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
