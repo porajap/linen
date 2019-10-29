@@ -1278,17 +1278,22 @@ $array2 = json_decode($json2,TRUE);
                             </div>
                         </div>
                     </div>
+                    <div class="menu2">
+                        <div class="d-flex justify-content-center">
+                            <div class="circle10 d-flex justify-content-center">
+                                <button class="btn"  id="bImport" onclick="ClearInput()">
+                                <i class="fas fa-eraser mr-2"></i>
+                                    <div>
+                                    <?php echo $array['isno'][$language]; ?>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <input type="text" id="DocNo" class="form-control ml-4" style="font-size:24px;width:25%;" placeholder="<?php echo $array['docno'][$language]; ?>" disabled> 
-                    <div class="search_custom ml-3">
-                        <div class="circle10 d-flex justify-content-start">
-                            <button class="btn"  onclick="ClearInput()" >
-                                <i class="fas fa-eraser mr-2"></i>
-                                <?php echo $array['isno'][$language]; ?>
-                            </button>
-                        </div>
-                    </div>
+
                 </div>
                 <table style="margin-top:10px;" class="table mt-2 " id="TableItem" cellspacing="0" role="grid" >
                     <thead id="theadsum" style="font-size:11px;">

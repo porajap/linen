@@ -1162,6 +1162,7 @@ $array2 = json_decode($json2,TRUE);
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
                     // $('.chk_edit').attr('disabled', true);
                     // $('#').attr('disabled', true);
+                    // $('.chk_edit').attr('disabled', true);
                     if(temp[0]['IsStatus'] !=1){
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
@@ -1528,7 +1529,7 @@ $array2 = json_decode($json2,TRUE);
 
 
 
-                  if(isStatus==1 || isStatus==9){
+                  if(isStatus==1 || isStatus==9 || isStatus==2 || isStatus==3 || isStatus==4){
                     $('.chk_edit').attr('disabled', true);
                   }
                 }else if( (temp["form"]=='UpdateDetailWeight') ){

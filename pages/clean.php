@@ -859,6 +859,7 @@ $(document).ready(function(e){
           $("#recorder").prop('disabled', true);
           $("#timerec").prop('disabled', true);
           $("#total").prop('disabled', true);
+          $("#factory1").val('');
           ShowDocument();
           Blankinput();
           if(input_chk == 1){
@@ -1127,12 +1128,15 @@ $(document).ready(function(e){
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
-                $("#factory1").val(temp[0]['FacCode']);
 
                 if(temp[0]['FacCode'] ==0){
                   $("#factory1").attr('disabled' , false);
                   $("#factory1").removeClass('icon_select');
                   $("#factory1").val('');
+                }else{
+                  $("#factory1").attr('disabled' , true);
+                  $("#factory1").addClass('icon_select');
+                  $("#factory1").val(temp[0]['FacCode']);
                 }
 
                 if(temp[0]['IsStatus']==0){
@@ -1397,7 +1401,9 @@ $(document).ready(function(e){
                   var chkDoc = "<input type='radio'  onclick='disRef()' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
                   $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                  "<td style='width: 85%;'>"+temp[i]['RefDocNo']+"</td>"+
+                  "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
+                  "<td style='width: 29%;'>"+temp[i]['DocDate']+"</td>"+
+                  "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableRefDocNo tbody").append( $StrTR );
