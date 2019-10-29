@@ -1166,7 +1166,7 @@ $id_h=$_SESSION['id_h'];
           </li>
           <?php } ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/return.php?lang=<?php echo $language; ?>" id="act4" class="current_page"
+              href="pages/return.php?lang=<?php echo $language; ?>" id="act36" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][13][$language]; ?>
               <!-- <span style='color: #1659A2;'id='clean_Cnt'>0</span> -->
