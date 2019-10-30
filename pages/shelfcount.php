@@ -1445,7 +1445,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#settime").append(StrTrX);
             }else if(temp["form"]=='gettimesc'){
               $("#setcount").empty();
-                      var StrTrX = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
+                      var StrTrX = "<option value='' selected><?php echo $array['selectsc'][$language]; ?></option>";
                       for (var i = 0; i <  temp['row'];  i++) {
                          StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
                       }

@@ -19,6 +19,7 @@
 <selecthospital><en>Please Choose Hospital</en><th>กรุณาเลือกโรงพยาบาล</th></selecthospital>
 <selectdep><en>Please choose department</en><th>กรุณาเลือกแผนก</th></selectdep>
 <selectCycle><en>Please choose Cycle time</en><th>กรุณาเลือกรอบส่งผ้า</th></selectCycle>
+<selectsc><en>Please choose ShelfCount time</en><th>กรุณาเลือกรอบนับผ้า</th></selectsc>
 <selectfactory><en>Please choose a factory</en><th>กรุณาเลือกโรงซัก</th></selectfactory>
 <Pleasechoosemaincategory><en>Please choose main category</en><th>กรุณาเลือกหมวดหมู่หลัก</th></Pleasechoosemaincategory>
 <Pleaseselectasubcategory><en>Please select a subcategory</en><th>กรุณาเลือกหมวดหมู่</th></Pleaseselectasubcategory>
