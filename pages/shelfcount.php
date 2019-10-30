@@ -1263,6 +1263,7 @@ $array2 = json_decode($json2,TRUE);
     }
     function DelTotalQty(RowID, i, iMax){
       var NewQty = Number($('#qty1_'+i).val())-1;
+      var Issue = Number($('#Issue_'+i).val());
       var Max = Number(iMax);
       if(NewQty<=0){
         var Qty = 0 ; 
@@ -1285,6 +1286,7 @@ $array2 = json_decode($json2,TRUE);
         $('#Over_'+i).val(Result);
         $('#Short_'+i).val(0);
         var chk = "Over";
+
       }
 
 
@@ -1302,6 +1304,7 @@ $array2 = json_decode($json2,TRUE);
     }
     function KeyNewCcQty(RowID, i, iMax){
       var NewQty = Number($('#qty1_'+i).val());
+      var Issue = Number($('#Issue_'+i).val());
       var Max = Number(iMax);
       if(NewQty<=0){
         var Qty = 0 ; 
@@ -2193,13 +2196,13 @@ $array2 = json_decode($json2,TRUE);
                 var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee ' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>-</button>"+
                 "<input autocomplete='off' class='form-control numonly QtyItem' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>"+
                 "<button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
-                var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;'>";
-                var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;' disabled value='"+temp[i]['ParQty']+"'>";
-                var Issue = "<input autocomplete='off' class='form-control' id='Issue_"+i+"'  type='text' style='text-align:center;' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
-                var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;' disabled>";
-                var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Short']+"'>";
-                var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Over']+"'>";
-                var Weight = "<input autocomplete='off' class='form-control'  id='Weight_"+i+"' type='text' style='text-align:center;'  disabled value='"+temp[i]['Weight']+"'>";
+                var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;font-size: 24px!important'>";
+                var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['ParQty']+"'>";
+                var Issue = "<input autocomplete='off' class='form-control' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
+                var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
+                var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
+                var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
+                var Weight = "<input autocomplete='off' class='form-control'  id='Weight_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weight']+"'>";
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
