@@ -1179,7 +1179,7 @@ $array2 = json_decode($json2,TRUE);
     function addTotalQty(RowID, i, iMax){
       var NewQty = Number($('#qty1_'+i).val())+1;
       var Max = Number(iMax);
- 
+      var Issue = Number($('#Issue_'+i).val());
       if(NewQty<=0){
         var Qty = 1 ; 
       }else if(NewQty>Max){
@@ -1191,12 +1191,28 @@ $array2 = json_decode($json2,TRUE);
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
       $('#Max_'+i).val(Max);
 
+      if(Max>=Issue){
+        Result = Max-Issue;
+        $('#Short_'+i).val(Result);
+        $('#Over_'+i).val(0);
+        var chk = "Short";
+      }else if(Issue>Max){
+        Result = Issue-Max;
+        $('#Over_'+i).val(Result);
+        $('#Short_'+i).val(0);
+        var chk = "Over";
+      }
+
+
       var DocNo = $('#docno').val();
       var data = {
         'STATUS':'UpdateNewQty',
         'DocNo':DocNo,
         'RowID':RowID,
-        'NewQty':Qty
+        'NewQty':Qty,
+        'chk':chk,
+        'Issue':Issue,
+        'Result':Result
       };
       senddata(JSON.stringify(data));
 
@@ -1215,12 +1231,28 @@ $array2 = json_decode($json2,TRUE);
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
       $('#Max_'+i).val(Max);
 
+      if(Max>=Issue){
+        Result = Max-Issue;
+        $('#Short_'+i).val(Result);
+        $('#Over_'+i).val(0);
+        var chk = "Short";
+      }else if(Issue>Max){
+        Result = Issue-Max;
+        $('#Over_'+i).val(Result);
+        $('#Short_'+i).val(0);
+        var chk = "Over";
+      }
+
+
       var DocNo = $('#docno').val();
       var data = {
         'STATUS':'UpdateNewQty',
         'DocNo':DocNo,
         'RowID':RowID,
-        'NewQty':Qty
+        'NewQty':Qty,
+        'chk':chk,
+        'Issue':Issue,
+        'Result':Result
       };
       senddata(JSON.stringify(data));
     }
@@ -1237,27 +1269,61 @@ $array2 = json_decode($json2,TRUE);
       $('#qty1_'+i).val(Qty);
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
       $('#Max_'+i).val(Max);
-      
+
+      if(Max>=Issue){
+        Result = Max-Issue;
+        $('#Short_'+i).val(Result);
+        $('#Over_'+i).val(0);
+        var chk = "Short";
+      }else if(Issue>Max){
+        Result = Issue-Max;
+        $('#Over_'+i).val(Result);
+        $('#Short_'+i).val(0);
+        var chk = "Over";
+      }
+
+
       var DocNo = $('#docno').val();
       var data = {
         'STATUS':'UpdateNewQty',
         'DocNo':DocNo,
         'RowID':RowID,
-        'NewQty':Qty
+        'NewQty':Qty,
+        'chk':chk,
+        'Issue':Issue,
+        'Result':Result
       };
       senddata(JSON.stringify(data));
     }
     function KeyNewTotalQty(RowID, i){
-      var Max = Number($('#Max_'+i).val())==null?0:Number($('#Max_'+i).val());
-      var Issue = Number($('#Issue_'+i).val())==null?0:Number($('#Issue_'+i).val());
+      var NewQty = Number($('#qty1_'+i).val());
+      var Max = Number($('#Max_'+i).val());
+      var Issue = Number($('#Issue_'+i).val());
+      var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
+
       if(Max>=Issue){
-        $('#Short_'+i).val(Max-Issue);
+        Result = Max-Issue;
+        $('#Short_'+i).val(Result);
         $('#Over_'+i).val(0);
+        var chk = "Short";
       }else if(Issue>Max){
-        $('#Over_'+i).val(Issue-Max);
+        Result = Issue-Max;
+        $('#Over_'+i).val(Result);
         $('#Short_'+i).val(0);
+        var chk = "Over";
       }
 
+      var DocNo = $('#docno').val();
+      var data = {
+        'STATUS':'UpdateNewQty',
+        'DocNo':DocNo,
+        'RowID':RowID,
+        'NewQty':Qty,
+        'chk':chk,
+        'Issue':Issue,
+        'Result':Result
+      };
+      senddata(JSON.stringify(data));
     }
     function Calculate(loop){
       for(var i=0; i<loop; i++){
@@ -1265,7 +1331,16 @@ $array2 = json_decode($json2,TRUE);
         $('#Max_'+i).val(Max);
       }
     }
-
+    function ChkItemInDep(){
+      var DepCode = $('#department option:selected').val();
+      var HptCode = $('#hotpital option:selected').val();
+      var data = {
+        'STATUS':'ChkItemInDep',
+        'DepCode':DepCode,
+        'HptCode':HptCode
+      };
+      senddata(JSON.stringify(data));
+    }
     function senddata(data){
       var form_data = new FormData();
       form_data.append("DATA",data);
@@ -1326,6 +1401,12 @@ $array2 = json_decode($json2,TRUE);
                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                     }
                     $("#Dep2").append(Str2);
+            }else if(temp["form"]=='ChkItemInDep'){
+              if(temp['Count']>0){
+                $('#bCreate').attr('disabled', false);
+              }else{
+                $('#bCreate').attr('disabled', true);
+              }
             }else if( (temp["form"]=='CreateDocument') ){
               $('#bCreate').attr('disabled', true);
               $('#hover1').removeClass('mhee');
@@ -1607,7 +1688,7 @@ $array2 = json_decode($json2,TRUE);
 
                 $('#unit'+i).prop('disabled', true);
               }
-              ShowDetail();
+              ShowDetailNew();
             }else if(temp["form"]=='ShowMenu'){
                   $('#home-tab').tab('show')
                   $( "#TableItemDetail tbody" ).empty();
@@ -2009,37 +2090,37 @@ $array2 = json_decode($json2,TRUE);
               var st1 = "style='font-size:24px;margin-left:20px; width:130px;'";
               for (var i = 0; i < temp["Row"]; i++) {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
-                var chkunit ="<select onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control selectCenter' style='font-size:24px;' id='unit"+i+"'>";
-                for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                  if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode2']){
-                    chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                  }else{
-                    chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                  }
-                }
-                chkunit += "</select>";
+                // var chkunit ="<select onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control selectCenter' style='font-size:24px;' id='unit"+i+"'>";
+                // for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
+                //   if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode2']){
+                //     chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                //   }else{
+                //     chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                //   }
+                // }
+                // chkunit += "</select>";
                 var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee ' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>-</button>"+
                 "<input class='form-control numonly QtyItem' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>"+
                 "<button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
                 var Order = "<input class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;'>";
                 var Par = "<input class='form-control' id='Par_"+i+"' type='text' style='text-align:center;' disabled value='"+temp[i]['ParQty']+"'>";
-                var Issue = "<input class='form-control' id='Issue_"+i+"'  type='text' style='text-align:center;' placeholder='0' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
+                var Issue = "<input class='form-control' id='Issue_"+i+"'  type='text' style='text-align:center;' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
                 var Max = "<input class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;' disabled>";
-                var Short = "<input class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;' disabled>";
-                var Over = "<input class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;' disabled>";
+                var Short = "<input class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Short']+"'>";
+                var Over = "<input class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Over']+"'>";
                 var Weight = "<input class='form-control'  id='Weight_"+i+"' type='text' style='text-align:center;'  disabled value='"+temp[i]['Weight']+"'>";
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
-                "<td style='text-overflow: ellipsis;overflow: hidden;width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
-                "<td style='width: 12%;'nowrap>"+chkunit+"</td>"+
-                "<td style='width: 9%;'nowrap>"+Par+"</td>"+
-                "<td style='width: 9%;'nowrap>"+Sc+"</td>"+
-                "<td style='width: 8%;'nowrap>"+Max+"</td>"+
-                "<td style='width: 9%;'nowrap>"+Issue+"</td>"+
-                "<td style='width: 9%;'nowrap>"+Short+"</td>"+
-                "<td style='width: 9%;'nowrap>"+Over+"</td>"+
-                "<td style='width: 9%;'nowrap>"+Weight+"</td>"+
+                "<td style='text-overflow: ellipsis;overflow: hidden;width: 25%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                // "<td style='width: 12%;'nowrap>"+chkunit+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Par+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Sc+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Max+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Issue+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Short+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Over+"</td>"+
+                "<td style='width: 10%;'nowrap>"+Weight+"</td>"+
                 "</tr>";
 
                 if(rowCount == 0){
@@ -2346,7 +2427,7 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                                                <select class="form-control col-sm-7 checkblank2 border" style="font-size:22px;" id="department"  onchange="removeClassBorder1();"></select>
+                                                <select class="form-control col-sm-7 checkblank2 border" style="font-size:22px;" id="department"  onchange="ChkItemInDep();"></select>
                                                 <label id="rem1"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                             </div>
                                         </div>
@@ -2432,7 +2513,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu mhee"  id="hover1">
                             <div class="d-flex justify-content-center">
                               <div class="circle1 d-flex justify-content-center" id="bCreate2">
-                                <button class="btn" onclick="CreateDocument()" id="bCreate" >
+                                <button class="btn" onclick="CreateDocument()" id="bCreate" disabled>
                                   <i class="fas fa-file-medical"></i>
                                   <div>
                                     <?php echo $array['createdocno'][$language]; ?>
@@ -2553,15 +2634,15 @@ $array2 = json_decode($json2,TRUE);
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
                                       <th style='width: 5%;' nowrap><?php echo $array['sn'][$language]; ?></th>
-                                      <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                                      <th style='width: 12%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                                      <th style='width: 9%;' nowrap> <center><?php echo $array['parsc'][$language]; ?></center> </th>
-                                      <th style='width: 9%;' nowrap> <center><?php echo $array['count'][$language]; ?></center> </th>
-                                      <th style='width: 8%;' nowrap> <center>Max<center> </th>
-                                      <th style='width: 9%;' nowrap> <center>Issue<center> </th>
-                                      <th style='width: 9%;' nowrap> <center>Short<center> </th>
-                                      <th style='width: 9%;' nowrap> <center>Over<center> </th>
-                                      <th style='width: 9%;' nowrap> <center><?php echo $array['weight'][$language]; ?><center> </th>
+                                      <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                                      <!-- <th style='width: 12%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th> -->
+                                      <th style='width: 10%;' nowrap> <center><?php echo $array['parsc'][$language]; ?></center> </th>
+                                      <th style='width: 10%;' nowrap> <center><?php echo $array['count'][$language]; ?></center> </th>
+                                      <th style='width: 10%;' nowrap> <center>Max<center> </th>
+                                      <th style='width: 10%;' nowrap> <center>Issue<center> </th>
+                                      <th style='width: 10%;' nowrap> <center>Short<center> </th>
+                                      <th style='width: 10%;' nowrap> <center>Over<center> </th>
+                                      <th style='width: 10%;' nowrap> <center><?php echo $array['weight'][$language]; ?><center> </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;">

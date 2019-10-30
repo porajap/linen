@@ -1902,6 +1902,7 @@ function ShowItemAll($conn, $DATA)
 
 function ShowDetailNew($conn, $DATA)
 {
+
   $countqty = 0;
   $count = 0;
   $Total = 0;
@@ -1942,6 +1943,8 @@ function ShowDetailNew($conn, $DATA)
   shelfcount_detail.ParQty,
   shelfcount_detail.CcQty,
   shelfcount_detail.TotalQty,
+  shelfcount_detail.Over,
+  shelfcount_detail.Short,
   item.Weight
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
@@ -1960,7 +1963,9 @@ function ShowDetailNew($conn, $DATA)
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['ParQty']     = $Result['ParQty'];
     $return[$count]['CcQty']       = $Result['CcQty'];
-    $return[$count]['Weight']       = $Result['Weight'];
+    $return[$count]['Over']       = $Result['Over']==null?0:$Result['Over'];
+    $return[$count]['Short']       = $Result['Short']==null?0:$Result['Short'];
+    $return[$count]['Weight']       = $Result['Weight']==null?0:$Result['Weight'];
     $return[$count]['TotalQty']   = $Result['TotalQty']==null?0:$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $UnitCode                     = $Result['UnitCode'];
@@ -2049,9 +2054,31 @@ function ShowDetailNew($conn, $DATA)
 function UpdateNewQty($conn, $DATA){
   $RowID  = $DATA["RowID"];
   $NewQty  =  $DATA["NewQty"];
-  $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty WHERE shelfcount_detail.Id = $RowID";
+  $Issue  =  $DATA["Issue"];
+  $chk  =  $DATA["chk"];
+  $Result  =  $DATA["Result"];
+  if($chk == "Over"){
+    $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Over = $Result, Short = 0 WHERE shelfcount_detail.Id = $RowID";
+  }else if($chk == "Short"){
+    $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Short = $Result, Over = 0 WHERE shelfcount_detail.Id = $RowID";
+  }
   mysqli_query($conn, $Sql);
   ShowDetailNew($conn, $DATA);
+}
+
+function ChkItemInDep($conn, $DATA){
+  $DepCode = $DATA['DepCode'];
+  $HtpCode = $DATA['HtpCode'];
+  $Sql = "SELECT COUNT(*) AS cnt FROM par_item_stock WHERE DepCode = $DepCode";
+  $MQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($MQuery)) {
+    $return['Count'] = $Result['cnt'];
+  }
+  $return['status'] = "success";
+  $return['form'] = "ChkItemInDep";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }
   //==========================================================
   //
@@ -2126,6 +2153,8 @@ function UpdateNewQty($conn, $DATA){
       ShowDetailNew($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'UpdateNewQty') {
       UpdateNewQty($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'ChkItemInDep') {
+      ChkItemInDep($conn, $DATA);
     }
     
     
