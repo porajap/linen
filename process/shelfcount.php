@@ -221,11 +221,12 @@ function CreateDocument($conn, $DATA)
     $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
-    //	  $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
-    //      mysqli_query($conn,$Sql);
+
   }
 
+
   if ($count == 1) {
+
     $Sql = "INSERT INTO shelfcount
     ( DocNo,DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
@@ -251,7 +252,6 @@ function CreateDocument($conn, $DATA)
 
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $DocNo = $Result['DocNo'];
         $return[0]['Record']   = $Result['FName'];
         if($lang == "en"){
           $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
@@ -259,11 +259,46 @@ function CreateDocument($conn, $DATA)
           $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
         }
       }
+  
+
+      $Sql = "SELECT
+        par_item_stock.RowID,
+        site.HptName,
+        department.DepName,
+        item_category.CategoryName,
+        item.ItemCode,
+        item.ItemName,
+        item.UnitCode,
+        item_unit.UnitName,
+        par_item_stock.ParQty,
+        par_item_stock.TotalQty,
+        item.Weight
+          FROM site
+        INNER JOIN department ON site.HptCode = department.HptCode
+        INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
+        INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+        INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
+        INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+        WHERE  par_item_stock.DepCode = $deptCode
+        GROUP BY item.ItemCode
+        ORDER BY item.ItemName ASC LImit 100";
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $ItemCode = $Result['ItemCode'];
+        $UnitCode = $Result['UnitCode'];
+        $ParQty = $Result['ParQty'];
+
+        $Sql = "INSERT INTO shelfcount_detail
+        (DocNo,ItemCode,UnitCode,ParQty) VALUES
+        ('$DocNo','$ItemCode', $UnitCode,$ParQty)";
+        mysqli_query($conn, $Sql);
+      }
+
 
       $boolean = true;
-    } else {
-      $boolean = false;
-    }
+  } else {
+    $boolean = false;
+  }
 
     if ($boolean) {
       $return['status'] = "success";
@@ -1762,6 +1797,262 @@ function find_item($conn, $DATA)
   ShowDetail($conn, $DATA);
 }
 
+function ShowItemAll($conn, $DATA)
+{
+  $count = 0;
+  $boolean = false;
+  $deptCode = $DATA["deptCode"];
+
+  $Sql = "SELECT
+  par_item_stock.RowID,
+  site.HptName,
+  department.DepName,
+  item_category.CategoryName,
+  item.ItemCode,
+  item.ItemName,
+  item.UnitCode,
+  item_unit.UnitName,
+  par_item_stock.ParQty,
+  par_item_stock.TotalQty,
+  item.Weight
+    FROM site
+  INNER JOIN department ON site.HptCode = department.HptCode
+  INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
+  INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+  INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
+  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+  WHERE  par_item_stock.DepCode = $deptCode
+  GROUP BY item.ItemCode
+  ORDER BY item.ItemName ASC LImit 100";
+  $return['sql'] = $Sql;
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['RowID'] = $Result['RowID'];
+    $return[$count]['ItemCode'] = $Result['ItemCode'];
+    $return[$count]['ItemName'] = $Result['ItemName'];
+    $return[$count]['UnitCode'] = $Result['UnitCode'];
+    $return[$count]['UnitName'] = $Result['UnitName'];
+    $return[$count]['ParQty'] = $Result['ParQty'];
+    $return[$count]['Weight'] = $Result['Weight'];
+    $return[$count]['Qty'] = $Result['TotalQty']==null?0:$Result['TotalQty'];
+    $ItemCode = $Result['ItemCode'];
+    $UnitCode = $Result['UnitCode'];
+    $count2 = 0;
+
+    $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+    $MQuery = mysqli_query($conn, $countM);
+    while ($MResult = mysqli_fetch_assoc($MQuery)) {
+      $return['sql'] = $countM;
+      if($MResult['cnt']!=0){
+        $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
+        FROM item_multiple_unit
+        INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
+        WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+        $xQuery = mysqli_query($conn, $xSql);
+        while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          $m1 = "MpCode_" . $ItemCode . "_" . $count;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m5 = "Cnt_" . $ItemCode;
+
+          $return[$m1][$count2] = $xResult['MpCode'];
+          $return[$m2][$count2] = $xResult['UnitCode'];
+          $return[$m3][$count2] = $xResult['UnitName'];
+          $return[$m4][$count2] = $xResult['Multiply'];
+          $count2++;
+        }
+      }else{
+        $xSql = "SELECT 
+          item.UnitCode,
+          item_unit.UnitName
+        FROM item
+        INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+        WHERE item.ItemCode = '$ItemCode'";
+        $xQuery = mysqli_query($conn, $xSql);
+        while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          $m1 = "MpCode_" . $ItemCode . "_" . $count;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m5 = "Cnt_" . $ItemCode;
+
+          $return[$m1][$count2] = 1;
+          $return[$m2][$count2] = $xResult['UnitCode'];
+          $return[$m3][$count2] = $xResult['UnitName'];
+          $return[$m4][$count2] = 1;
+          $count2++;
+        }
+      }
+    }
+
+    $return[$m5][$count] = $count2;
+    $count++;
+    $boolean = true;
+  }
+
+  $return['Row'] = $count;
+  $return['status'] = "success";
+  $return['form'] = "ShowItemAll";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+
+}
+
+function ShowDetailNew($conn, $DATA)
+{
+  $countqty = 0;
+  $count = 0;
+  $Total = 0;
+  $boolean = false;
+  $DocNo = $DATA["DocNo"];
+
+   //==========================================================
+   $Sql = "SELECT department.HptCode FROM shelfcount 
+   INNER JOIN department ON shelfcount.DepCode = department.DepCode 
+   WHERE shelfcount.DocNo = '$DocNo'";
+   $meQuery = mysqli_query($conn, $Sql);
+   while ($Result = mysqli_fetch_assoc($meQuery)) {
+       $HptCode = $Result['HptCode'];
+   }
+   $Sql = "SELECT department.DepCode 
+           FROM department
+           WHERE department.HptCode = '$HptCode'
+           AND department.IsDefault = 1
+           AND department.IsStatus =0";
+   $meQuery = mysqli_query($conn, $Sql);
+   while ($Result = mysqli_fetch_assoc($meQuery)) {
+       $DepCode = $Result['DepCode'];
+   }
+ //==========================================================
+
+  $Sql = "SELECT
+  shelfcount_detail.Id,
+  shelfcount_detail.ItemCode,
+  item.ItemName,
+  item_unit.UnitName,
+  item_unit.UnitCode,
+  (
+      SELECT item_stock_detail.Qty 
+      FROM item_stock_detail 
+      WHERE item_stock_detail.ItemCode = shelfcount_detail.ItemCode 
+      AND item_stock_detail.DepCode =  $DepCode 
+  ) AS ParQty,
+  shelfcount_detail.ParQty,
+  shelfcount_detail.CcQty,
+  shelfcount_detail.TotalQty,
+  item.Weight
+  FROM item
+  INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+  INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
+  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  WHERE shelfcount_detail.DocNo = '$DocNo'
+  ORDER BY shelfcount_detail.Id DESC";
+  $return['sq'] = $Sql;
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    $return[$count]['RowID']      = $Result['Id'];
+    $return[$count]['ItemCode']   = $Result['ItemCode'];
+    $return[$count]['ItemName']   = $Result['ItemName'];
+    $return[$count]['UnitName']   = $Result['UnitName'];
+    $return[$count]['ParQty']     = $Result['ParQty'];
+    $return[$count]['CcQty']       = $Result['CcQty'];
+    $return[$count]['Weight']       = $Result['Weight'];
+    $return[$count]['TotalQty']   = $Result['TotalQty']==null?0:$Result['TotalQty'];
+    $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
+    $UnitCode                     = $Result['UnitCode'];
+    $ItemCode                     = $Result['ItemCode'];
+    $count2 = 0;
+
+
+
+    $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode 
+                AND item_multiple_unit.ItemCode = '$ItemCode'";
+    $return['sqlxxx'] = $countM;
+    $MQuery = mysqli_query($conn, $countM);
+    while ($MResult = mysqli_fetch_assoc($MQuery)) {
+      if($MResult['cnt'] !=0){
+        $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
+        FROM item_multiple_unit
+        INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
+        WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+        $xQuery = mysqli_query($conn, $xSql);
+        while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          $m1 = "MpCode_" . $ItemCode . "_" . $count;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m5 = "Cnt_" . $ItemCode;
+
+          $return[$m1][$count2]   = $xResult['MpCode'];
+          $return[$m2][$count2] = $xResult['UnitCode'];
+          $return[$m3][$count2] = $xResult['UnitName'];
+          $return[$m4][$count2] = $xResult['Multiply'];
+          $count2++;
+        }
+      }else{
+        $xSql = "SELECT 
+          item.UnitCode,
+          item_unit.UnitName
+        FROM item
+        INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+        WHERE item.ItemCode = '$ItemCode'";
+        $xQuery = mysqli_query($conn, $xSql);
+        while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          $m1 = "MpCode_" . $ItemCode . "_" . $count;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m5 = "Cnt_" . $ItemCode;
+
+          $return[$m1][$count2] = 1;
+          $return[$m2][$count2] = $xResult['UnitCode'];
+          $return[$m3][$count2] = $xResult['UnitName'];
+          $return[$m4][$count2] = 1;
+          $count2++;
+        }
+      }
+    }
+    $return[$m5][$count] = $count2;
+    //================================================================
+    $Total += $Result['Weight'];
+    // $Sql = "UPDATE shelfcount SET Total = $Total WHERE DocNo = '$DocNo'";
+    //   mysqli_query($conn,$Sql);
+    $return[0]['Total']    = round($Total, 2);
+    //================================================================
+    $count++;
+    $boolean = true;
+  }
+
+  $return['Row'] = $count;
+  //==========================================================
+
+  $boolean = true;
+  if ($boolean) {
+    $return['status'] = "success";
+    $return['form'] = "ShowDetailNew";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "failed";
+    $return['form'] = "ShowDetailNew";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
+function UpdateNewQty($conn, $DATA){
+  $RowID  = $DATA["RowID"];
+  $NewQty  =  $DATA["NewQty"];
+  $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty WHERE shelfcount_detail.Id = $RowID";
+  mysqli_query($conn, $Sql);
+  ShowDetailNew($conn, $DATA);
+}
   //==========================================================
   //
   //==========================================================
@@ -1829,6 +2120,12 @@ function find_item($conn, $DATA)
       setpacking($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'gettime') {
       gettime($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'ShowItemAll') {
+      ShowItemAll($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'ShowDetailNew') {
+      ShowDetailNew($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'UpdateNewQty') {
+      UpdateNewQty($conn, $DATA);
     }
     
     
