@@ -76,7 +76,7 @@ switch ($PmID) {
         $sys_s13=1;
         $sys_s14=1;
         $sys_s15=0;
-        $sys_s16=0;
+        $sys_s16=1;
         break;
     case "2":
         //genneral
@@ -180,6 +180,7 @@ switch ($PmID) {
         $sys_s13=1;
         $sys_s14=1;
         $sys_s15=0;
+        $sys_s16=1;
         break;
     case "4":
         //genneral
@@ -283,6 +284,7 @@ switch ($PmID) {
         $sys_s13=1;
         $sys_s14=1;
         $sys_s15=0;
+        $sys_s16=1;
         break;
     case "6":
         //genneral
@@ -334,7 +336,7 @@ switch ($PmID) {
         $sys_s13=1;
         $sys_s14=1;
         $sys_s15=0;
-        $sys_s16=0;
+        $sys_s16=1;
         break;
         case "7":
         //genneral
@@ -386,6 +388,7 @@ switch ($PmID) {
         $sys_s13=1;
         $sys_s14=1;
         $sys_s15=0;
+        $sys_s16=1;
         break;
 }
 
@@ -1359,16 +1362,6 @@ $id_h=$_SESSION['id_h'];
           </li>
           <?php } ?>
 
-          <?php if($sys_s16== 1){ ?>
-          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/itemhotpital.php?lang=<?php echo $language; ?>" id="act25" class="current_page"
-              onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['system']['sub'][17][$language]; ?>
-              <!-- <span style='color: #ff0000;' id='Item_Cnt'>0</span> -->
-              </a>
-          </li>
-          <?php } ?>
-
           <?php if($sys_s5== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/category_main.php?lang=<?php echo $language; ?>" id="act26" class="current_page"
@@ -1436,6 +1429,14 @@ $id_h=$_SESSION['id_h'];
               <em></em><?php echo $array['menu']['system']['sub'][14][$language]; ?></a>
           </li>
           <?php } ?>
+
+          <?php if($sys_s16== 1){ ?>
+                <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+                       href="pages/setsc.php?lang=<?php echo $language; ?>" id="act35" class="current_page"
+                       onclick="return loadIframe('ifrm', this.href)">
+                        <em></em><?php echo $array['menu']['system']['sub'][17][$language]; ?></a>
+                </li>
+            <?php } ?>
 
             <?php if($sys_s14== 1){ ?>
                 <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"

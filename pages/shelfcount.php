@@ -1261,7 +1261,7 @@ $array2 = json_decode($json2,TRUE);
       var NewQty = Number($('#qty1_'+i).val());
       var Max = Number(iMax);
       if(NewQty<=0){
-        var Qty = 1 ; 
+        var Qty = 0 ; 
       }else if(NewQty>Max){
         var Qty = Max; 
       }else{
@@ -2107,22 +2107,22 @@ $array2 = json_decode($json2,TRUE);
                 // }
                 // chkunit += "</select>";
                 var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee ' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>-</button>"+
-                "<input class='form-control numonly QtyItem' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>"+
+                "<input autocomplete='off' class='form-control numonly QtyItem' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>"+
                 "<button class='btn btn_mheesave' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
-                var Order = "<input class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;'>";
-                var Par = "<input class='form-control' id='Par_"+i+"' type='text' style='text-align:center;' disabled value='"+temp[i]['ParQty']+"'>";
-                var Issue = "<input class='form-control' id='Issue_"+i+"'  type='text' style='text-align:center;' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
-                var Max = "<input class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;' disabled>";
-                var Short = "<input class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Short']+"'>";
-                var Over = "<input class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Over']+"'>";
-                var Weight = "<input class='form-control'  id='Weight_"+i+"' type='text' style='text-align:center;'  disabled value='"+temp[i]['Weight']+"'>";
+                var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;'>";
+                var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;' disabled value='"+temp[i]['ParQty']+"'>";
+                var Issue = "<input autocomplete='off' class='form-control' id='Issue_"+i+"'  type='text' style='text-align:center;' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
+                var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;' disabled>";
+                var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Short']+"'>";
+                var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;' disabled value='"+temp[i]['Over']+"'>";
+                var Weight = "<input autocomplete='off' class='form-control'  id='Weight_"+i+"' type='text' style='text-align:center;'  disabled value='"+temp[i]['Weight']+"'>";
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
-                "<td style='text-overflow: ellipsis;overflow: hidden;width: 25%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                "<td style='text-overflow: ellipsis;overflow: hidden;width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
                 // "<td style='width: 12%;'nowrap>"+chkunit+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Par+"</td>"+
-                "<td style='width: 10%;'nowrap>"+Sc+"</td>"+
+                "<td style='width: 11%;'nowrap>"+Sc+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Max+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Issue+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Short+"</td>"+
@@ -2508,9 +2508,18 @@ $array2 = json_decode($json2,TRUE);
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row" >
+                                        <div class="col-md-6">
+                                            <div class='form-group row'>
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['settime'][$language]; ?></label>
+                                                <select  id="settime"  style="font-size:22px;" class="form-control col-sm-7 checkblank3 border "  onchange="removeClassBorder2();" name="searchitem"
+                                                placeholder="<?php echo $array['settime'][$language]; ?>">  </select>
+                                                <label id="rem4"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
-     
-
+    
                                     </div>
                                 </div>
                             </div>
@@ -2641,7 +2650,7 @@ $array2 = json_decode($json2,TRUE);
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
                                       <th style='width: 5%;' nowrap><?php echo $array['sn'][$language]; ?></th>
-                                      <th style='width: 25%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                                      <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
                                       <!-- <th style='width: 12%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th> -->
                                       <th style='width: 10%;' nowrap> <center><?php echo $array['parsc'][$language]; ?></center> </th>
                                       <th style='width: 10%;' nowrap> <center><?php echo $array['count'][$language]; ?></center> </th>
@@ -2649,7 +2658,7 @@ $array2 = json_decode($json2,TRUE);
                                       <th style='width: 10%;' nowrap> <center>Issue<center> </th>
                                       <th style='width: 10%;' nowrap> <center>Short<center> </th>
                                       <th style='width: 10%;' nowrap> <center>Over<center> </th>
-                                      <th style='width: 10%;' nowrap> <center><?php echo $array['weight'][$language]; ?><center> </th>
+                                      <th style='width: 14%;padding-right: 3%;' nowrap> <center><?php echo $array['weightsc'][$language]; ?><center> </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;">

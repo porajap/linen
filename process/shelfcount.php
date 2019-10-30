@@ -75,6 +75,7 @@ function getDepartment2($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName
 		  FROM department
 		  WHERE department.HptCode = '$Hotp'
+      AND department.IsActive = 1
 		  AND department.IsStatus = 0
       ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
@@ -112,6 +113,7 @@ function getDepartment($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
+  AND department.IsActive = 1
   AND department.IsStatus = 0
   ORDER BY department.DepName ASC";
   $return['sql'] = $Sql;
@@ -371,6 +373,7 @@ function ShowMenu($conn, $DATA)
 function ShowDocument($conn, $DATA)
 {
   $lang = $_SESSION['lang'];
+  $PmID = $_SESSION['PmID'];
   $boolean = false;
   $count = 0;
   $deptCode = $DATA["deptCode"];
@@ -401,6 +404,26 @@ function ShowDocument($conn, $DATA)
   // if($DocNo!=null){
   //   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   // }else{
+  if($PmID ==1 || $PmID==6){
+  if ($Hotp != null && $deptCode == null && $datepicker == null) {
+    $Sql .= " WHERE  shelfcount.DocNo LIKE '%$xDocNo%' ";
+    if($xDocNo!=null){
+      $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
+    }
+  }else if($Hotp == null && $deptCode != null && $datepicker == null){
+      $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' ";
+  }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+  }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$xDocNo%'";
+  }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+  }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+  }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+  }
+}else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
     $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
     if($xDocNo!=null){
@@ -419,6 +442,7 @@ function ShowDocument($conn, $DATA)
   }else if($Hotp != null && $deptCode != null && $datepicker != null){
     $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }
+}
   // }
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
   // $return['sql'] = $Sql;

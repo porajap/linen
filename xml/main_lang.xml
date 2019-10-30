@@ -357,7 +357,7 @@
     </sub>
         <sub>
       <en>
-        Cycle
+        Delivery Cycle
       </en>
       <th>
         รอบส่งผ้า
@@ -365,10 +365,10 @@
     </sub>
     <sub>
       <en>
-        ItemHospital
+        ShelfCount Time
       </en>
       <th>
-        รายการในโรงพยาบาล
+        รอบนับผ้า
       </th>
     </sub>
   </system>
