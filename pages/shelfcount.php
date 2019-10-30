@@ -320,14 +320,15 @@ $array2 = json_decode($json2,TRUE);
 
     function getDepartment(){
       var Hotp = $('#hotpital option:selected').attr("value");
+      $('#bCreate').attr('disabled', true);
       if(Hotp == '' || Hotp == undefined){
-              Hotp = '<?php echo $HptCode; ?>';
-            }
-      var data = {
-        'STATUS'  : 'getDepartment',
-        'Hotp'	: Hotp
-      };
-      senddata(JSON.stringify(data));
+          Hotp = '<?php echo $HptCode; ?>';
+        }
+        var data = {
+          'STATUS'  : 'getDepartment',
+          'Hotp'	: Hotp
+        };
+        senddata(JSON.stringify(data));
       $('#hotpital').removeClass('border-danger');
       $('#rem3').hide();
     }
@@ -1334,12 +1335,18 @@ $array2 = json_decode($json2,TRUE);
     function ChkItemInDep(){
       var DepCode = $('#department option:selected').val();
       var HptCode = $('#hotpital option:selected').val();
-      var data = {
-        'STATUS':'ChkItemInDep',
-        'DepCode':DepCode,
-        'HptCode':HptCode
-      };
-      senddata(JSON.stringify(data));
+
+      if(DepCode!="null" || HptCode!="null"){
+         var data = {
+          'STATUS':'ChkItemInDep',
+          'DepCode':DepCode,
+          'HptCode':HptCode
+        };
+        senddata(JSON.stringify(data));
+      }else{
+        $('#bCreate').attr('disabled', true);
+      }
+     
     }
     function senddata(data){
       var form_data = new FormData();
@@ -1366,7 +1373,7 @@ $array2 = json_decode($json2,TRUE);
                             var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
                 if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7){
-                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                      var Str1 = "<option value='null' selected><?php echo $array['selecthospital'][$language]; ?></option>";
                       }else{
                         var Str1 = "";
                         $('#side').attr('disabled' , true);
@@ -1380,7 +1387,7 @@ $array2 = json_decode($json2,TRUE);
 
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
-                          var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
+                          var Str2 = "<option value='null'><?php echo $array['selectdep'][$language]; ?></option>";
                           for (var i = 0; i < temp['row']; i++) {
                               Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                           }
