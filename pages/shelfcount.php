@@ -1425,7 +1425,6 @@ $array2 = json_decode($json2,TRUE);
                       }
                       $("#hotpital").append(Str1);
                       $("#side").append(Str1);
-
             }else if(temp["form"]=='getDepartment'){
                       $("#department").empty();
                           var Str2 = "<option value='null'><?php echo $array['selectdep'][$language]; ?></option>";

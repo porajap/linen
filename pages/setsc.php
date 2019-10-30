@@ -366,14 +366,14 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel2").append(StrTr);
                         }else if ((temp["form"] == 'getTime')) {
                             $("#selectTime").empty()
-                            var StrTr = "<option value=''><?php echo $array['TimeSC'][$language]; ?></option>";
+                            var StrTr = "<option value=''><?php echo $array['TimeSCcount'][$language]; ?></option>";
                             for (var i = 0; i < temp['Count']; i++) {
                                 StrTr += "<option value = '" + temp[i]['ID'] + "'> " + temp[i]['TimeName'] + " </option>";
                             }
                             $("#selectTime").html(StrTr);
                         }else if ((temp["form"] == 'getTime2')) {
                             $("#selectTime").empty()
-                            var StrTr = "<option value=''><?php echo $array['TimeSC'][$language]; ?></option>";
+                            var StrTr = "<option value=''><?php echo $array['TimeSCcount'][$language]; ?></option>";
                             for (var i = 0; i < temp['Count']; i++) {
                                 StrTr += "<option value = '" + temp[i]['ID'] + "'> " + temp[i]['TimeName'] + " </option>";
                             }
