@@ -1324,7 +1324,6 @@ $array2 = json_decode($json2,TRUE);
         var chk = "Over";
       }
 
-
       var DocNo = $('#docno').val();
       var data = {
         'STATUS':'UpdateNewQty',
