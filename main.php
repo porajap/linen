@@ -138,8 +138,8 @@ switch ($PmID) {
         $gen_s2=1;
         $gen_s3=1;
         $gen_s4=1;
-        $sys_s5=0;
-        $sys_s6=1;
+        $gen_s5=1;
+        $gen_s6=1;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -1177,15 +1177,7 @@ $id_h=$_SESSION['id_h'];
           </li>
           <?php } ?>
 
-          <?php if($gen_s6== 1){ ?>
-          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/return.php?lang=<?php echo $language; ?>" id="act36" class="current_page"
-              onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['general']['sub'][13][$language]; ?>
-              <!-- <span style='color: #1659A2;'id='clean_Cnt'>0</span> -->
-              </a>
-          </li>
-          <?php } ?>
+
 
           <?php if($gen_s7== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
@@ -1345,13 +1337,6 @@ $id_h=$_SESSION['id_h'];
           </li>
           <?php } ?>
 
-          <?php if($sys_s16== 1){ ?>
-          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/department.php?lang=<?php echo $language; ?>" id="act24" class="current_page"
-              onclick="return loadIframe('ifrm', this.href)">
-              <em></em><?php echo $array['menu']['system']['sub'][2][$language]; ?></a>
-          </li>
-          <?php } ?>
           <?php if($sys_s4== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/item.php?lang=<?php echo $language; ?>" id="act25" class="current_page"
