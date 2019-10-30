@@ -361,6 +361,8 @@
 <nameeng><en>Eng Name-Lastname</en><th>ชื่อ-สกุล อังกฤษ</th></nameeng>
 <nameth><en>TH Name-Lastname</en><th>ชื่อ-สกุล ไทย</th></nameth>
 <remask><en>Remask</en><th>หมายเหตุ</th></remask>
+<depfrom><en>Department From</en><th>แผนกส่งคืน</th></depfrom>
+<depto><en>Department To</en><th>แผนกรับกลับ</th></depto>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>

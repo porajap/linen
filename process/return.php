@@ -107,8 +107,8 @@ function getDepartment($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
-  -- AND department.IsDefault = 1
-  AND department.IsStatus = 0";
+  AND department.IsDefault = 1
+  AND department.IsStatus = 0 ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
@@ -171,7 +171,15 @@ function CreateDocument($conn, $DATA)
   $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
 
-
+  $Sql = "SELECT department.DepCode
+  FROM department
+  WHERE department.HptCode = '$hotpCode'
+  AND department.IsDefault = 1
+  AND department.IsStatus = 0";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepCodeDefault = $Result['DepCode'];
+  }
 
   $Sql = "SELECT CONCAT('RT',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
@@ -203,10 +211,9 @@ function CreateDocument($conn, $DATA)
 
   if ($count == 1) {
     $Sql = "INSERT INTO return_doc
-    ( DocNo, DocDate, HptCode, DepCodeFrom, RefDocNo, IsCancel, Modify_Code, Modify_Date )VALUES
-    ('$DocNo', NOW(), '$hotpCode', $deptCode, '$RefDocNo', 0, $userid, NOW() )";
+    ( DocNo, DocDate, HptCode, DepCodeFrom, DepCodeTo, RefDocNo, IsCancel, Modify_Code, Modify_Date )VALUES
+    ('$DocNo', NOW(), '$hotpCode', $deptCode, $DepCodeDefault,'$RefDocNo', 0, $userid, NOW() )";
       mysqli_query($conn, $Sql);
-      $return['sqlq'] = $Sql;
 
 
       $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
@@ -397,10 +404,7 @@ function ShowItem($conn, $DATA)
   $boolean = false;
   $searchitem = str_replace(' ', '%', $DATA["xitem"]);
   $deptCode = $DATA["deptCode"];
-  $RefDocNo = $DATA["RefDocNo"];
 
-  // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
-  // mysqli_query($conn,$Sqlx);
 
   $Sql = "SELECT
   par_item_stock.RowID,
@@ -411,7 +415,8 @@ function ShowItem($conn, $DATA)
   item.ItemName,
   item.UnitCode,
   item_unit.UnitName,
-  par_item_stock.ParQty
+  par_item_stock.ParQty,
+  par_item_stock.TotalQty
     FROM site
   INNER JOIN department ON site.HptCode = department.HptCode
   INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
@@ -419,8 +424,7 @@ function ShowItem($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-	INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
-  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%%' AND shelfcount_detail.DocNo = '$RefDocNo'
+  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%%'
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
   $return['sdqel'] = $Sql;
@@ -430,6 +434,7 @@ function ShowItem($conn, $DATA)
     $return[$count]['ItemName'] = $Result['ItemName'];
     $return[$count]['UnitCode'] = $Result['UnitCode'];
     $return[$count]['UnitName'] = $Result['UnitName'];
+    $return[$count]['TotalQty'] = $Result['TotalQty'];
     $ItemCode = $Result['ItemCode'];
     $UnitCode = $Result['UnitCode'];
     $count2 = 0;
@@ -738,30 +743,9 @@ function DeleteItem($conn, $DATA)
 {
   $RowID  = $DATA["rowid"];
   $DocNo = $DATA["DocNo"];
-  $n = 0;
-  $Sql = "SELECT clean_detail_sub.UsageCode,clean_detail.ItemCode
-  FROM clean_detail
-  INNER JOIN clean_detail_sub ON clean_detail.DocNo = clean_detail_sub.DocNo
-  WHERE  clean_detail.Id = $RowID";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $ItemCode = $Result['ItemCode'];
-    $UsageCode[$n] = $Result['UsageCode'];
-    $n++;
-  }
-
-  for ($i = 0; $i < $n; $i++) {
-    $xUsageCode = $UsageCode[$i];
-    $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
-    mysqli_query($conn, $Sql);
-  }
-
-  $Sql = "DELETE FROM clean_detail_sub
-  WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-  mysqli_query($conn, $Sql);
-
-  $Sql = "DELETE FROM clean_detail
-  WHERE clean_detail.Id = $RowID";
+  
+  $Sql = "DELETE FROM return_detail
+  WHERE return_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
 }
@@ -771,7 +755,6 @@ function SaveBill($conn, $DATA)
   $PmID = $_SESSION['PmID'];
   $HptCode = $_SESSION['HptCode'];
   $DocNo = $DATA["xdocno"];
-  $DocNo2 = $DATA["xdocno2"];
   $isStatus = $DATA["isStatus"];
   $count = 0 ;
   $count4 = 0;
@@ -912,16 +895,18 @@ function ShowDetail($conn, $DATA)
   return_doc.RefDocNo,
   return_doc.DepCodeFrom,
   return_doc.DepCodeTo,
-  return_detail.Qty
+  return_detail.Qty,
+  par_item_stock.TotalQty
   FROM
   item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN return_detail ON return_detail.ItemCode = item.ItemCode
   INNER JOIN item_unit ON return_detail.UnitCode = item_unit.UnitCode
   INNER JOIN return_doc ON return_detail.DocNo = return_doc.DocNo
-  WHERE return_detail.DocNo = '$DocNo'
+  INNER JOIN par_item_stock ON par_item_stock.ItemCode = item.ItemCode
+  WHERE return_detail.DocNo = '$DocNo' GROUP BY return_detail.ItemCode
   ORDER BY return_detail.Id DESC";
-  // $return['sql']=$Sql;
+  $return['sqlss']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -934,6 +919,7 @@ function ShowDetail($conn, $DATA)
     $return[$count]['RefDocNo']     = $Result['RefDocNo'];
     $return[$count]['DepCodeFrom']     = $Result['DepCodeFrom'];
     $return[$count]['DepCodeTo']     = $Result['DepCodeTo'];
+    $return[$count]['TotalQty']     = $Result['TotalQty'];
     $return[$count]['Qty']     = $Result['Qty'];
     $UnitCode           = $Result['UnitCode1'];
     $ItemCode               = $Result['ItemCode'];
