@@ -358,6 +358,7 @@ $array2 = json_decode($json2,TRUE);
             var DepCode = $('#DepCode').val();
             var DepName = $('#DepName').val();
             var HptCode = $('#hptsel2').val();
+            var IsActive = $('#IsActive').val();
             var xCenter = 0;
 
 
@@ -392,7 +393,8 @@ $array2 = json_decode($json2,TRUE);
                             'DepName': DepName,
                             'DepCode': DepCode,
                             'DepCode1': DepCode1,
-                            'xCenter': xCenter
+                            'xCenter': xCenter,
+                            'IsActive': IsActive
                         };
 
                         console.log(JSON.stringify(data));
@@ -664,7 +666,8 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
                                     "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
-									"<td style='width: 65%;'>" +  temp[i]['DepName']  + "</td>" +
+									"<td style='width: 27%;'>" +  temp[i]['DepName']  + "</td>" +
+                                    "<td style='width: 30%;'>" +  temp[i]['IsActive']  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -1168,8 +1171,11 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 17%;'>
                                             <?php echo $array['xcenter'][$language]; ?>
                                         </th>
-                                        <th style='width: 68%; '>
+                                        <th style='width: 26%; '>
                                             <?php echo $array['department'][$language]; ?>
+                                        </th>
+                                        <th style='width: 42%; '>
+                                            <?php echo $array['status'][$language]; ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -1269,7 +1275,18 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                 </div> 
    <!-- =================================================================== -->
-                     
+                            <div class="row" <?php if($PmID != 1 && $PmID != 6) echo 'hidden'; ?>>
+                                <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['status'][$language]; ?></label>
+                                      <select   class="form-control col-sm-7 " id="IsActive" >
+                                      <option value="1">active</option>
+                                      <option value="0">inactive</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div> 
+   <!-- =================================================================== -->     
 
                         </div>
                     </div>

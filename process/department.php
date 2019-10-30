@@ -8,6 +8,7 @@ if($Userid==""){
 function ShowItem($conn, $DATA)
 {
   $count = 0;
+  $PmID = $_SESSION['PmID'];
   $xHptCode = $DATA['HptCode'];
   // if($xHptCode==""){
   //   $xHptCode = 'BHQ';
@@ -16,6 +17,7 @@ function ShowItem($conn, $DATA)
   $Sql = "SELECT site.HptCode,
           CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,
           department.DepCode,TRIM(department.DepName) AS DepName,department.IsDefault,
+          department.IsActive,
 		  CASE department.IsDefault WHEN 0 THEN '0' WHEN 1 THEN '1' END AS DefaultName
           FROM site
           INNER JOIN department ON site.HptCode = department.HptCode
@@ -25,10 +27,11 @@ function ShowItem($conn, $DATA)
           department.DepName LIKE '%$Keyword%')
           ORDER BY department.DepName ASC
           ";
-          $return['sql'] = $Sql;
+  
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['IsActive'] = $Result['IsActive'];
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['DepCode'] = $Result['DepCode'];
     $return[$count]['DepName'] = $Result['DepName'];
@@ -127,32 +130,37 @@ function getSection($conn, $DATA)
 function AddItem($conn, $DATA)
 {
   $count = 0;
+  $IsActive = $DATA['IsActive'];
   $HptCode = $DATA['HptCode'];
   $DepCode1 = trim($DATA['DepCode1']);
   $DepCode = trim($DATA['DepCode']);
   $DepName = trim($DATA['DepName']);
   $xCenter = $DATA['xCenter'];
   $Userid = $_SESSION['Userid'];
+  $PmID = $_SESSION['PmID'];
 
 if($DepCode1 == ""){
 
   if($xCenter == 1){ 
-    $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-    WHERE department.DepCode =  $DepCode and department.IsStatus = 0   AND department.IsDefault = 1";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $count = $Result['Cnt'];
-      $DepCode = $Result['DepCode'];
-    }
-    if($count > 0){
-      $return['status'] = "failed";
-      $return['msg'] = "editcenterfailedmsg";
-     echo json_encode($return);
-     mysqli_close($conn);
-     die;
-   }
+      $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
+      WHERE department.DepCode =  $DepCode and department.IsStatus = 0   AND department.IsDefault = 1";
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $count = $Result['Cnt'];
+        $DepCode = $Result['DepCode'];
+      }
+      if($count > 0)
+      {
+        $return['status'] = "failed";
+        $return['msg'] = "editcenterfailedmsg";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+      }
   }
-  $Sql = "INSERT INTO department(
+  if($PmID==1 || $PmID==6){
+  $Sql = "INSERT INTO department
+          (
           DepCode,
           HptCode,
           DepName,
@@ -160,7 +168,35 @@ if($DepCode1 == ""){
 		      IsDefault, 
           DocDate ,
           Modify_Code ,
-          Modify_Date)
+          Modify_Date,
+          IsActive
+          )
+          VALUES
+          (
+            $DepCode,
+            '$HptCode',
+            '$DepName',
+            0,
+            $xCenter,
+            NOW(),
+            $Userid,
+            NOW(),
+            $IsActive
+          )
+  ";
+}else{
+  $Sql = "INSERT INTO department
+          (
+          DepCode,
+          HptCode,
+          DepName,
+          IsStatus,
+		      IsDefault, 
+          DocDate ,
+          Modify_Code ,
+          Modify_Date,
+          IsActive
+          )
           VALUES
           (
             $DepCode,
@@ -170,9 +206,11 @@ if($DepCode1 == ""){
             $xCenter,
           NOW(),
           $Userid,
-          NOW()
+          NOW(),
+          0
           )
   ";
+}
   // var_dump($Sql); die;
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
