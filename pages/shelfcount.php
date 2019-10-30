@@ -1359,7 +1359,7 @@ $array2 = json_decode($json2,TRUE);
         'STATUS':'UpdateNewQty',
         'DocNo':DocNo,
         'RowID':RowID,
-        'NewQty':Qty,
+        'NewQty':NewQty,
         'chk':chk,
         'Issue':Issue,
         'Result':Result

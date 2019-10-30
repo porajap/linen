@@ -107,7 +107,7 @@ function getDepartment($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
-  AND department.IsDefault = 1
+  AND department.IsDefault = 1  AND department.IsActive = 1 
   AND department.IsStatus = 0 ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -138,8 +138,8 @@ function getDepartment2($conn, $DATA)
   $Hotp = $DATA["Hotp"];
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
-  WHERE department.HptCode = '$Hotp'
-  AND department.IsStatus = 0";
+  WHERE department.HptCode = '$Hotp'AND department.IsActive = 1 
+  AND department.IsStatus = 0 ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
@@ -424,7 +424,7 @@ function ShowItem($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%%'
+  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
   $return['sdqel'] = $Sql;

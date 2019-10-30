@@ -12,6 +12,7 @@
 <SearchLaundry><en>Search Laundry</en><th>ค้นหา โรงงานซัก</th></SearchLaundry>
 <private><en>Show Money</en><th>แสดงเงิน</th></private>
 <government><en>Don't Money</en><th>ไม่แสดงเงิน</th></government>
+<return><en>Return</en><th>บันทึกรับคืนผ้า</th></return>
 <!--============================================================================== -->
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>

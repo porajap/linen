@@ -2162,6 +2162,7 @@ function UpdateNewQty($conn, $DATA){
   }else if($chk == "Short"){
     $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Short = $Result, Over = 0 WHERE shelfcount_detail.Id = $RowID";
   }
+  // echo json_encode($Sql);
   mysqli_query($conn, $Sql);
   ShowDetailNew($conn, $DATA);
 }
