@@ -514,7 +514,7 @@ function ShowItem($conn, $DATA)
 
   $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
 
-  FROM item , item_unit WHERE item.UnitCode = item_unit.UnitCode AND Itemnew = 1";
+  FROM item , item_unit WHERE item.UnitCode = item_unit.UnitCode AND item.ItemName LIKE '%$searchitem%'";
     $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
