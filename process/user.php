@@ -386,6 +386,7 @@ function getDepartment($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName
 		  FROM department
 		  WHERE department.HptCode = '$Hotp'
+      AND department.IsActive = 1
 		  AND department.IsStatus = 0
       ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
@@ -427,6 +428,7 @@ function getDepartment2($conn, $DATA)
 		  FROM department
 		  WHERE department.HptCode = '$Hotp'
 		  AND department.IsStatus = 0
+      AND department.IsActive = 1
       ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

@@ -361,7 +361,6 @@ $array2 = json_decode($json2,TRUE);
             var IsActive = $('#IsActive').val();
             var xCenter = 0;
 
-
             if ($('#xCenter').is(':checked')) xCenter = 1;
 
             if (count == 0) {
@@ -477,6 +476,7 @@ $array2 = json_decode($json2,TRUE);
           });
             $('#DepCode').val("");
             $('#hptsel2').val("");
+            $('#IsActive').val("1");
              $('#DepCodeReal').val("");
              $("#xCenter").prop('checked', false);
             ShowItem();
@@ -657,7 +657,13 @@ $array2 = json_decode($json2,TRUE);
                             $("#TableItem tbody").empty();
                             console.log(temp);
                             if(temp['Count']>0){
+                                var Active ;
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                if(temp[i]['IsActive'] == 1){
+                                  Active = 'active';
+                                }else{
+                                  Active = 'inactive';
+                                }
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
@@ -666,8 +672,8 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
                                     "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
-									"<td style='width: 27%;'>" +  temp[i]['DepName']  + "</td>" +
-                                    "<td style='width: 30%;'>" +  temp[i]['IsActive']  + "</td>" +
+									"<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
+                                    "<td style='width: 30%;'>" +  Active  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -698,6 +704,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#DepCode').val(temp['DepCodeReal']);
                                 $('#DepName').val(temp['DepName']);
                                 $('#hptsel2').val(temp['HptCode']);
+                                $('#IsActive').val(temp['IsActive']);
 								if (temp['IsDefault'] == 1) 
 									$('#xCenter').prop( "checked", true );
 								else
@@ -1189,7 +1196,7 @@ $array2 = json_decode($json2,TRUE);
             </div>
             <!-- /.content-wrapper -->
             <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu mhee" >
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -1213,7 +1220,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee" id="delete1" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu mhee" id="delete1" >
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
@@ -1243,7 +1250,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
-                                      <input type="text" autocomplete="off" onkeyup="resetinput(2)"   class="form-control col-sm-7 checkblank" id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" onkeyup="resetinput(2)"  maxlength="6"  class="form-control col-sm-7 checkblank" id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" >
                                       <input type="text" autocomplete="off" hidden  class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
                                       <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
