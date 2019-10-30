@@ -871,6 +871,7 @@ $array2 = json_decode($json2,TRUE);
               });
               var ItemCode = Item.join(',') ;
               var Qty = QtyItemArray.join(',') ;
+
               swal({
                 title: "<?php echo $array['confirmsave'][$language]; ?>",
                 text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -970,6 +971,7 @@ $array2 = json_decode($json2,TRUE);
       for(var j=0;j<ItemCodeArray.length; j++){
         Item.push( $("#item_array"+ItemCodeArray[j]).val() );
       }
+
       var ItemCode = Item.join(',') ;
       var data = {
         'STATUS'      : 'chk_par',
@@ -2210,6 +2212,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width: 10%;'nowrap>"+Short+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Over+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Weight+"</td>"+
+                "<td><input type='hidden' id='item_array"+temp[i]['ItemCode']+"' value='"+temp[i]['ItemCode']+"' class='item_array'></input></td>"+
                 "</tr>";
 
                 if(rowCount == 0){
