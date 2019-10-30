@@ -2063,8 +2063,8 @@ function ShowDetailNew($conn, $DATA)
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['ParQty']     = $Result['ParQty'];
     $return[$count]['CcQty']       = $Result['CcQty'];
-    $return[$count]['Over']       = $Result['Over']==null?0:$Result['Over'];
-    $return[$count]['Short']       = $Result['Short']==null?0:$Result['Short'];
+    $return[$count]['Over']       = $Result['Over']==0?"":$Result['Over'];
+    $return[$count]['Short']       = $Result['Short']==0?"":$Result['Short'];
     $return[$count]['Weight']       = $Result['Weight']==null?0:$Result['Weight'];
     $return[$count]['TotalQty']   = $Result['TotalQty']==0?"":$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
@@ -2157,11 +2157,16 @@ function UpdateNewQty($conn, $DATA){
   $Issue  =  $DATA["Issue"];
   $chk  =  $DATA["chk"];
   $Result  =  $DATA["Result"];
-  if($chk == "Over"){
-    $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Over = $Result, Short = 0 WHERE shelfcount_detail.Id = $RowID";
-  }else if($chk == "Short"){
-    $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Short = $Result, Over = 0 WHERE shelfcount_detail.Id = $RowID";
+  if($Issue!=""||$Issue!=0){
+    if($chk == "Over"){
+      $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Over = $Result, Short = 0 WHERE shelfcount_detail.Id = $RowID";
+    }else if($chk == "Short"){
+      $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Short = $Result, Over = 0 WHERE shelfcount_detail.Id = $RowID";
+    }
+  }else{
+    $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Over = 0, Short = 0 WHERE shelfcount_detail.Id = $RowID";
   }
+  
   // echo json_encode($Sql);
   mysqli_query($conn, $Sql);
   ShowDetailNew($conn, $DATA);

@@ -1235,16 +1235,21 @@ $array2 = json_decode($json2,TRUE);
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
       $('#Max_'+i).val(Max);
 
-      if(Max>=Issue){
-        Result = Max-Issue;
-        $('#Short_'+i).val(Result);
-        $('#Over_'+i).val(0);
-        var chk = "Short";
-      }else if(Issue>Max){
-        Result = Issue-Max;
-        $('#Over_'+i).val(Result);
-        $('#Short_'+i).val(0);
-        var chk = "Over";
+      if(Issue!=0){
+        if(Max>=Issue){
+          Result = Max-Issue;
+          $('#Short_'+i).val(Result);
+          $('#Over_'+i).val("");
+          var chk = "Short";
+        }else if(Issue>Max){
+          Result = Issue-Max;
+          $('#Over_'+i).val(Result);
+          $('#Short_'+i).val("");
+          var chk = "Over";
+        }
+      }else if(Issue==0){
+        $('#Over_'+i).val("");
+        $('#Short_'+i).val("");
       }
 
 
@@ -1276,17 +1281,21 @@ $array2 = json_decode($json2,TRUE);
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
       $('#Max_'+i).val(Max);
 
-      if(Max>=Issue){
-        Result = Max-Issue;
-        $('#Short_'+i).val(Result);
-        $('#Over_'+i).val(0);
-        var chk = "Short";
-      }else if(Issue>Max){
-        Result = Issue-Max;
-        $('#Over_'+i).val(Result);
-        $('#Short_'+i).val(0);
-        var chk = "Over";
-
+      if(Issue!=0){
+        if(Max>=Issue){
+          Result = Max-Issue;
+          $('#Short_'+i).val(Result);
+          $('#Over_'+i).val("");
+          var chk = "Short";
+        }else if(Issue>Max){
+          Result = Issue-Max;
+          $('#Over_'+i).val(Result);
+          $('#Short_'+i).val("");
+          var chk = "Over";
+        }
+      }else if(Issue==0){
+        $('#Over_'+i).val("");
+        $('#Short_'+i).val("");
       }
 
 
@@ -1317,17 +1326,23 @@ $array2 = json_decode($json2,TRUE);
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
       $('#Max_'+i).val(Max);
 
-      if(Max>=Issue){
-        Result = Max-Issue;
-        $('#Short_'+i).val(Result);
-        $('#Over_'+i).val(0);
-        var chk = "Short";
-      }else if(Issue>Max){
-        Result = Issue-Max;
-        $('#Over_'+i).val(Result);
-        $('#Short_'+i).val(0);
-        var chk = "Over";
+      if(Issue!=0){
+        if(Max>=Issue){
+          Result = Max-Issue;
+          $('#Short_'+i).val(Result);
+          $('#Over_'+i).val("");
+          var chk = "Short";
+        }else if(Issue>Max){
+          Result = Issue-Max;
+          $('#Over_'+i).val(Result);
+          $('#Short_'+i).val("");
+          var chk = "Over";
+        }
+      }else if(Issue==0){
+        $('#Over_'+i).val("");
+        $('#Short_'+i).val("");
       }
+      
 
       var DocNo = $('#docno').val();
       var data = {
@@ -1347,16 +1362,24 @@ $array2 = json_decode($json2,TRUE);
       var Issue = Number($('#Issue_'+i).val());
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
 
-      if(Max>=Issue){
-        Result = Max-Issue;
-        $('#Short_'+i).val(Result);
-        $('#Over_'+i).val(0);
-        var chk = "Short";
-      }else if(Issue>Max){
-        Result = Issue-Max;
-        $('#Over_'+i).val(Result);
-        $('#Short_'+i).val(0);
-        var chk = "Over";
+      if(Issue!=0){
+        if(Max>=Issue){
+          Result = Max-Issue;
+          $('#Short_'+i).val(Result);
+          $('#Over_'+i).val("");
+          var chk = "Short";
+        }else if(Issue>Max){
+          Result = Issue-Max;
+          $('#Over_'+i).val(Result);
+          $('#Short_'+i).val("");
+          var chk = "Over";
+        }else if(Issue==0||Issue==null||Issue==""){
+          $('#Short_'+i).val("");
+          $('#Over_'+i).val("");
+        }
+      }else if(Issue==0){
+        $('#Over_'+i).val("");
+        $('#Short_'+i).val("");
       }
 
       var DocNo = $('#docno').val();
