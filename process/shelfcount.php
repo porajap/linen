@@ -2066,7 +2066,7 @@ function ShowDetailNew($conn, $DATA)
     $return[$count]['Over']       = $Result['Over']==null?0:$Result['Over'];
     $return[$count]['Short']       = $Result['Short']==null?0:$Result['Short'];
     $return[$count]['Weight']       = $Result['Weight']==null?0:$Result['Weight'];
-    $return[$count]['TotalQty']   = $Result['TotalQty']==null?"":$Result['TotalQty'];
+    $return[$count]['TotalQty']   = $Result['TotalQty']==0?"":$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $UnitCode                     = $Result['UnitCode'];
     $ItemCode                     = $Result['ItemCode'];
