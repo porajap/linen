@@ -1041,25 +1041,23 @@ $(document).ready(function(e){
                   $("#hotpital").val(HptCode);
                 }
               }else if(temp["form"]=='getDepartment'){
-                $("#department").empty();
-                $("#Dep2").empty();
+                $("#departmentName").empty();
                 var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                 for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                   var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                   Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                  $("#department").append(Str);
-                  $("#Dep2").append(Str);
+                  $("#departmentName").append(Str);
                 }
                 $("#department").val(<?=$DepCode?>);
               }else if(temp["form"]=='getDepartment2'){
-                $("#department2").empty();
-                $("#departmentName").empty();
+                $("#department").empty();
+                $("#Dep2").empty();
                 var Str = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                 for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                   Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                 }
-                $("#department2").html(Str);
-                $("#departmentName").html(Str);
+                $("#department").html(Str);
+                $("#Dep2").html(Str);
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
