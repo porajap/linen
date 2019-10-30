@@ -86,6 +86,7 @@ $array2 = json_decode($json2,TRUE);
 
     $(document).ready(function(e){
       $('#rem3').hide();
+      $('#rem4').hide();
   var PmID = <?php echo $PmID;?>;
     if(PmID ==1 || PmID==6){
       $('#hotpital').removeClass('icon_select');
@@ -111,6 +112,7 @@ $array2 = json_decode($json2,TRUE);
       getDepartment2();
       ShowMenu();
       gettime();
+      gettimesc();
     }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
@@ -334,11 +336,20 @@ $array2 = json_decode($json2,TRUE);
     }
     function gettime(){
       var Hotp = $('#hotpital option:selected').attr("value");
-      if(Hotp == '' || Hotp == undefined){
-              Hotp = '<?php echo $HptCode; ?>';
-            }
+  
       var data = {
         'STATUS'  : 'gettime',
+        'Hotp'	: Hotp
+      };
+      senddata(JSON.stringify(data));
+      
+      $('#hotpital').removeClass('border-danger');
+      $('#rem3').hide();
+    }
+    function gettimesc(){
+      var Hotp = $('#hotpital option:selected').attr("value");
+      var data = {
+        'STATUS'  : 'gettimesc',
         'Hotp'	: Hotp
       };
       senddata(JSON.stringify(data));
@@ -428,6 +439,17 @@ $array2 = json_decode($json2,TRUE);
         }
       });
     }
+    function checkblank5(){
+      $('.checkblank5').each(function() {
+        if($(this).val()==""||$(this).val()==undefined){
+          $(this).addClass('border-danger');
+          $('#rem4').show().css("color","red");
+        }else{
+          $(this).removeClass('border-danger');
+          $('#rem4').hide();
+        }
+      });
+    }
     function checkblank2(){
       $('.checkblank2').each(function() {
         if($(this).val()==""||$(this).val()==undefined){
@@ -444,8 +466,20 @@ $array2 = json_decode($json2,TRUE);
       $('#rem1').hide();
     }
     function removeClassBorder2(){
+      var settime = $('#settime').val();
+      if(settime == 0){
+        $('#setcount').val(settime);
+      }
       $('#settime').removeClass('border-danger');
       $('#rem2').hide();
+    }
+    function removeClassBorder3(){
+      var setcount = $('#setcount').val();
+      if(setcount == 0){
+        $('#settime').val(setcount);
+      }
+      $('#setcount').removeClass('border-danger');
+      $('#rem4').hide();
     }
     function SelectDocument(){
 
@@ -609,11 +643,14 @@ $array2 = json_decode($json2,TRUE);
       var hotpCode = $('#hotpital option:selected').attr("value");
       var deptCode = $('#department option:selected').attr("value");
       var settime = $('#settime option:selected').attr("value");
+      var setcount = $('#setcount option:selected').attr("value");
       var cycle = $("#cycle").val();
-      if(deptCode=='' || settime=='' || hotpCode=='' ){
+      
+      if(deptCode=='' || settime=='' || hotpCode=='' || setcount=='' ){
           checkblank2();
           checkblank3();
           checkblank4();
+          checkblank5();
           swal({
             title: '',
             text: "<?php echo $array['required'][$language]; ?>",
@@ -648,6 +685,7 @@ $array2 = json_decode($json2,TRUE);
             'userid'	: userid,
             'cycle'	: cycle ,
             'settime'	: settime ,
+            'setcount'	: setcount 
           };
           senddata(JSON.stringify(data));
           var word = '<?php echo $array['save'][$language]; ?>';
@@ -807,6 +845,7 @@ $array2 = json_decode($json2,TRUE);
       var dept = $('#department').val();
       var cycle = $('#cycle').val();
       var settime = $('#settime').val();
+      var setcount = $('#setcount').val();
       var input_chk = $('#input_chk').val();
         if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
@@ -864,7 +903,8 @@ $array2 = json_decode($json2,TRUE);
                     'ItemCode'    : ItemCode,
                     'Qty'    : Qty,
                     'cycle'    : cycle ,
-                    'settime'    : settime
+                    'settime'    : settime,
+                    'setcount'    : setcount
                   };
 
 
@@ -879,6 +919,7 @@ $array2 = json_decode($json2,TRUE);
                   $('#settime').attr('disabled', false);
                   $('#department').val('');
                   $('#settime').val('');
+                  $('#setcount').val('');
                   ShowDocument();
                   if(input_chk == 1){
                             $('#alert_par').modal('toggle');
@@ -1393,6 +1434,7 @@ $array2 = json_decode($json2,TRUE);
                           }
                       $("#department").append(Str2);
                       gettime();
+                      gettimesc();
             }else if(temp["form"]=='gettime'){
               $("#settime").empty();
                       var StrTrX = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
@@ -1401,6 +1443,14 @@ $array2 = json_decode($json2,TRUE);
                       }
                       StrTrX += "<option value='0' >Extra</option>";
                       $("#settime").append(StrTrX);
+            }else if(temp["form"]=='gettimesc'){
+              $("#setcount").empty();
+                      var StrTrX = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
+                      for (var i = 0; i <  temp['row'];  i++) {
+                         StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
+                      }
+                      StrTrX += "<option value='0' >Extra</option>";
+                      $("#setcount").append(StrTrX);
             }else if(temp["form"]=='getDepartment2'){
                     $("#Dep2").empty();
                     var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
@@ -1432,7 +1482,8 @@ $array2 = json_decode($json2,TRUE);
               $('#settime').attr('disabled', true);
               $('#department').addClass('icon_select');
               $('#settime').addClass('icon_select');
-
+              $('#setcount').attr('disabled', true);
+              $('#setcount').addClass('icon_select');
 
               $('#hover2').addClass('mhee');
               $('#hover4').addClass('mhee');
@@ -1560,9 +1611,25 @@ $array2 = json_decode($json2,TRUE);
                 }
               }
             }else if(temp["form"]=='SelectDocument'){
+              // $("#settime").empty();
+              var StrTrX = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
+              for (var i = 0; i <  temp['row'];  i++) {
+                  StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
+              }
+              StrTrX += "<option value='0' >Extra</option>";
+              $("#settime").html(StrTrX);
+
+              var StrTrX2 = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
+              for (var i = 0; i <  temp['row2'];  i++) {
+                  StrTrX2 += "<option value="+temp[i]['ID2']+">"+temp[i]['time_value2']+"</option>";
+              }
+              StrTrX2 += "<option value='0' >Extra</option>";
+              $("#setcount").html(StrTrX2);
+
               $('#bCreate').attr('disabled', true);
               $('#hover1').removeClass('mhee');
               $('#bCreate2').addClass('opacity');
+              
               if(temp[0]['PkStartTime'] != 0){
                 if(temp[0]['jaipar'] == 1){
                   $('#bdetail').attr('disabled' , true);
@@ -1578,8 +1645,9 @@ $array2 = json_decode($json2,TRUE);
               $("#hotpital").val(temp[0]['HptName']);
               $("#hotpital").prop('disabled', true);
               $('#hotpital').addClass('icon_select');
+                if(temp[0]['HptName'] !=""){
 
-
+                }
               $('#home-tab').tab('show');
               $( "#TableItemDetail tbody" ).empty();
               $("#docno").val(temp[0]['DocNo']);
@@ -1590,9 +1658,14 @@ $array2 = json_decode($json2,TRUE);
               $("#department").val(temp[0]['DepCode']);
               $("#cycle").val(temp[0]['CycleTime']);
               $("#settime").val(temp[0]['DeliveryTime']);
+              $("#setcount").val(temp[0]['ScTime']);
               $('#department').attr('disabled', true);
               $('#department').addClass('icon_select');
               $('#settime').attr('disabled', true);
+              $('#setcount').attr('disabled', true);
+              $('#settime').addClass('icon_select');
+              $('#setcount').addClass('icon_select');
+
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
                 var changeBtn = "<i class='fa fa-save'></i>";
@@ -1608,6 +1681,9 @@ $array2 = json_decode($json2,TRUE);
                 $("#hover4").addClass('mhee');
                 $("#hover5").addClass('mhee');
                 $("#settime").prop('disabled', false);
+                $("#setcount").prop('disabled', false);
+                $('#settime').removeClass('icon_select');
+                $('#setcount').removeClass('icon_select');
                 $("#bImport2").removeClass('opacity');
                 $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
@@ -1645,14 +1721,22 @@ $array2 = json_decode($json2,TRUE);
                 $('#bPrintsticker').attr('disabled', false);
                 $('#bPrintsticker2').removeClass('opacity');
                 $('#hover8').addClass('mhee');
-                if(temp[0]['PkStartTime'] != 0){
+                if(temp[0]['ScTime'] != 0){
                   $('#bpacking').attr('disabled', true);
                   $('#bpacking2').addClass('opacity');
                   $('#hover9').removeClass('mhee');
+
+                  $('#bdetail').attr('disabled', false);
+                  $('#bdetail2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
                 }else{
                   $('#bpacking').attr('disabled', false);
                   $('#bpacking2').removeClass('opacity');
                   $('#hover9').addClass('mhee');
+
+                  $('#bdetail').attr('disabled', true);
+                  $('#bdetail2').addClass('opacity');
+                  $('#hover6').removeClass('mhee');
                 }
               }else{
                 $('#bPrint').attr('disabled', true);
@@ -2494,9 +2578,10 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-7 "  name="searchitem"
-                                                placeholder="<?php echo $array['barcode'][$language]; ?>">
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['setcount'][$language]; ?></label>
+                                                <select  id="setcount"  style="font-size:22px;" class="form-control col-sm-7 checkblank5 border "  onchange="removeClassBorder3();" name="searchitem"
+                                                placeholder="<?php echo $array['setcount'][$language]; ?>">  </select>
+                                                <label id="rem4"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -2509,12 +2594,11 @@ $array2 = json_decode($json2,TRUE);
                                         </div>
                                     </div>
                                     <div class="row" >
-                                        <div class="col-md-6">
+                                    <div class="col-md-6">
                                             <div class='form-group row'>
-                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['settime'][$language]; ?></label>
-                                                <select  id="settime"  style="font-size:22px;" class="form-control col-sm-7 checkblank3 border "  onchange="removeClassBorder2();" name="searchitem"
-                                                placeholder="<?php echo $array['settime'][$language]; ?>">  </select>
-                                                <label id="rem4"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['barcode'][$language]; ?></label>
+                                                <input type="text" autocomplete="off" id="barcode" disabled="true"  style="font-size:22px;" class="form-control col-sm-7 "  name="searchitem"
+                                                placeholder="<?php echo $array['barcode'][$language]; ?>">
                                             </div>
                                         </div>
                                     </div>
