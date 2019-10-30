@@ -1224,6 +1224,8 @@ $array2 = json_decode($json2,TRUE);
       var NewQty = Number($('#qty1_'+i).val())+1;
       var Max = Number(iMax);
       var Issue = Number($('#Issue_'+i).val());
+      var Result = 0;
+
       if(NewQty<=0){
         var Qty = 1 ; 
       }else if(NewQty>Max){
@@ -1270,6 +1272,8 @@ $array2 = json_decode($json2,TRUE);
       var NewQty = Number($('#qty1_'+i).val())-1;
       var Issue = Number($('#Issue_'+i).val());
       var Max = Number(iMax);
+      var Result = 0;
+
       if(NewQty<=0){
         var Qty = 0 ; 
       }else if(NewQty>Max){
@@ -1315,14 +1319,18 @@ $array2 = json_decode($json2,TRUE);
       var NewQty = Number($('#qty1_'+i).val());
       var Issue = Number($('#Issue_'+i).val());
       var Max = Number(iMax);
+      var Result = 0;
+
       if(NewQty<=0){
-        var Qty = 0 ; 
+        var Qty =  0 ;
+        $('#qty1_'+i).val("");
       }else if(NewQty>Max){
         var Qty = Max; 
+        $('#qty1_'+i).val(Qty);
       }else{
         var Qty = NewQty; 
+        $('#qty1_'+i).val(Qty);
       }
-      $('#qty1_'+i).val(Qty);
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
       $('#Max_'+i).val(Max);
 
@@ -1361,6 +1369,7 @@ $array2 = json_decode($json2,TRUE);
       var Max = Number($('#Max_'+i).val());
       var Issue = Number($('#Issue_'+i).val());
       var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
+      var Result = 0;
 
       if(Issue!=0){
         if(Max>=Issue){
