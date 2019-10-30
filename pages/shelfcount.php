@@ -1265,7 +1265,7 @@ $array2 = json_decode($json2,TRUE);
       var NewQty = Number($('#qty1_'+i).val())-1;
       var Max = Number(iMax);
       if(NewQty<=0){
-        var Qty = 1 ; 
+        var Qty = 0 ; 
       }else if(NewQty>Max){
         var Qty = Max; 
       }else{
