@@ -93,7 +93,7 @@ function getDepartment($conn, $DATA)
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
-  -- AND department.IsDefault = 1
+  AND department.IsActive = 1
   AND department.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -225,7 +225,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 function showDep($conn, $DATA){
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
-  $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 ORDER BY dep.DepName ASC ";
+  $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
+  WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1
+  ORDER BY dep.DepName ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = trim($Result['DepCode']);

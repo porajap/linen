@@ -69,7 +69,8 @@ function getdetail($conn, $DATA)
           department.HptCode,
           TRIM(department.DepName) AS DepName,
           department.IsStatus,
-		  department.IsDefault
+          department.IsDefault,
+          department.IsActive
           FROM department
           WHERE department.IsStatus = 0
           AND department.DepCode = $DepCode LIMIT 1";
@@ -78,10 +79,11 @@ function getdetail($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['DepCode'] 		= $number;
     $return['DepCodeReal'] 		= $Result['DepCode'];
-    $return['HptCode'] 		= $Result['HptCode'];
-    $return['DepName'] 		= $Result['DepName'];
-    $return['IsStatus'] 	= $Result['IsStatus'];
-	$return['IsDefault'] 	= $Result['IsDefault'];
+    $return['IsActive'] 		= $Result['IsActive'];
+    $return['HptCode'] 		  = $Result['HptCode'];
+    $return['DepName'] 		  = $Result['DepName'];
+    $return['IsStatus'] 	  = $Result['IsStatus'];
+    $return['IsDefault'] 	    = $Result['IsDefault'];
     $count++;
   }
 
@@ -242,16 +244,28 @@ if($DepCode1 == ""){
       mysqli_close($conn);
       die;
     }
-
+    if($PmID==1 || $PmID==6){
     $Sql = "UPDATE department SET
     DepCode =  $DepCode,
     HptCode =  '$HptCode',
     DepName = '$DepName',
     IsDefault =  $xCenter ,
     Modify_Date = NOW() ,
-    Modify_Code =  $Userid   
+    Modify_Code =  $Userid ,
+    IsActive = $IsActive  
     WHERE DepCode = ".$DATA['DepCode']."
 ";
+    }else{
+      $Sql = "UPDATE department SET
+      DepCode =  $DepCode,
+      HptCode =  '$HptCode',
+      DepName = '$DepName',
+      IsDefault =  $xCenter ,
+      Modify_Date = NOW() ,
+      Modify_Code =  $Userid 
+      WHERE DepCode = ".$DATA['DepCode']."
+  ";
+    }
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
