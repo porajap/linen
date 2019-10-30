@@ -1095,10 +1095,9 @@ function CreateDocument($conn, $DATA)
     $searchitem1 = $DATA["searchitem1"];
     $boolean = false;
     $count = 0;
-    $Sql =  "SELECT rewash.DocNo , DATE(process.WashEndTime) AS DocDate , factory.FacName FROM rewash
+    $Sql =  "SELECT rewash.DocNo , DATE(rewash.DocDate) AS DocDate , factory.FacName FROM rewash
     INNER JOIN department ON rewash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN process ON process.DocNo = rewash.DocNo
     INNER JOIN factory ON factory.FacCode = rewash.FacCode
     WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 1 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' AND  rewash.DocNo LIKE '%$searchitem1%'";
 $meQuery = mysqli_query($conn, $Sql);
