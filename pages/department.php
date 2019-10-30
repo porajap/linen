@@ -76,6 +76,7 @@ $array2 = json_decode($json2,TRUE);
         $(document).ready(function(e) {
             $('#rem1').hide();
             $('#rem2').hide();
+            $('#rem3').hide();
             // Blankinput();
             getSection();
             //On create
@@ -330,8 +331,14 @@ $array2 = json_decode($json2,TRUE);
             $('#hptsel2').css('border-color', '');
             $('#hptsel').css('border-color', '');
         }
-        function resetinput(){
-
+        function resetinput(chk){
+            if(chk ==2){
+                var DepCode = $('#DepCode').val();
+            if(DepCode !="" && DepCode!=undefined){
+            $('#rem3').hide();
+            $('#DepCode').css('border-color', '');
+            }
+            }
             var DepName = $('#DepName').val();
             if(DepName !="" && DepName!=undefined){
             $('#rem2').hide();
@@ -347,7 +354,8 @@ $array2 = json_decode($json2,TRUE);
             });
             console.log(count);
 
-            var DepCode = $('#DepCodeReal').val();
+            var DepCode1 = $('#DepCodeReal').val();
+            var DepCode = $('#DepCode').val();
             var DepName = $('#DepName').val();
             var HptCode = $('#hptsel2').val();
             var xCenter = 0;
@@ -361,10 +369,10 @@ $array2 = json_decode($json2,TRUE);
                         $(this).css('border-color', 'red');
                     }
                 });
-                if (DepCode == "") {
+                if (DepCode != "") {
                     swal({
-                        title: "<?php echo $array['adddata'][$language]; ?>",
-                        text: "<?php echo $array['adddata1'][$language]; ?>",
+                        title: "<?php echo $array['addoredit'][$language]; ?>",
+                        // text: "<?php echo $array['adddata1'][$language]; ?>",
                         type: "question",
                         showCancelButton: true,
                         confirmButtonClass: "btn-success",
@@ -383,6 +391,7 @@ $array2 = json_decode($json2,TRUE);
                             'HptCode': HptCode,
                             'DepName': DepName,
                             'DepCode': DepCode,
+                            'DepCode1': DepCode1,
                             'xCenter': xCenter
                         };
 
@@ -393,40 +402,7 @@ $array2 = json_decode($json2,TRUE);
           }  
                     })
 
-                } else {
-                    swal({
-                        title: "<?php echo $array['editdata'][$language]; ?>",
-                        text: "<?php echo $array['editdata1'][$language]; ?>",
-                        type: "question",
-                        showCancelButton: true,
-                        confirmButtonClass: "btn-warning",
-                        confirmButtonText: "<?php echo $array['edit'][$language]; ?>",
-                        cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-                        confirmButtonColor: '#6fc864',
-                        cancelButtonColor: '#3085d6',
-                        closeOnConfirm: false,
-                        closeOnCancel: false,
-                        showCancelButton: true
-                    }).then(result => {
-                        if (result.value) {
-
-                        var data = {
-                            'STATUS': 'EditItem',
-                            'DepCode': DepCode,
-                            'DepName': DepName,
-                            'HptCode': HptCode,
-                            'xCenter': xCenter
-                        };
-
-                        console.log(JSON.stringify(data));
-                        senddata(JSON.stringify(data));
-                    } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }  
-             
-                    })
-
-                }
+                } 
             } else {
                 swal({
                     title: '',
@@ -447,6 +423,9 @@ $array2 = json_decode($json2,TRUE);
                         }
                         if(DepName ==""||DepName==undefined){
                         $('#rem2').show().css("color","red");
+                        }
+                        if(DepCode ==""||DepCode==undefined){
+                        $('#rem3').show().css("color","red");
                         }
                     }
                 });
@@ -469,7 +448,7 @@ $array2 = json_decode($json2,TRUE);
             }).then(result => {
                 if (result.value) {
                     
-                var DepCode = $('#DepCodeReal').val();
+                var DepCode = $('#DepCode').val();
                 var data = {
                     'STATUS': 'CancelItem',
                     'DepCode': DepCode
@@ -713,11 +692,9 @@ $array2 = json_decode($json2,TRUE);
                             if ((Object.keys(temp).length - 2) > 0) {
                                 console.log(temp);
                                 $('#DepCodeReal').val(temp['DepCodeReal']);
-                                $('#DepCode').val(temp['DepCode']);
+                                $('#DepCode').val(temp['DepCodeReal']);
                                 $('#DepName').val(temp['DepName']);
                                 $('#hptsel2').val(temp['HptCode']);
-                                
-			
 								if (temp['IsDefault'] == 1) 
 									$('#xCenter').prop( "checked", true );
 								else
@@ -782,7 +759,7 @@ $array2 = json_decode($json2,TRUE);
                                     $(this).css('border-color', '');
                                 });
                                 $('#DepCode').val("");
-                                $('#hptsel2').val("1");
+
                                 ShowItem();
                             })
                         } else if ((temp["form"] == 'EditItem')) {
@@ -1257,14 +1234,15 @@ $array2 = json_decode($json2,TRUE);
                             </ul>
    <!-- =================================================================== -->
                                 <div class="row mt-4">
-                                  <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
-                                      </select>
-                                      <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
+                                      <input type="text" autocomplete="off" onkeyup="resetinput(2)"   class="form-control col-sm-7 checkblank" id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" >
+                                      <input type="text" autocomplete="off" hidden  class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
+                                      <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
+                                  
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['department'][$language]; ?></label>
@@ -1275,12 +1253,12 @@ $array2 = json_decode($json2,TRUE);
                                 </div> 
    <!-- =================================================================== -->
                                 <div class="row">
-                                  <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"   class="form-control col-sm-7 " id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
-                                      <input type="text" autocomplete="off"   hidden class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
-                                      
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
+                                      </select>
+                                      <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">

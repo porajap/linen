@@ -128,28 +128,32 @@ function AddItem($conn, $DATA)
 {
   $count = 0;
   $HptCode = $DATA['HptCode'];
+  $DepCode1 = trim($DATA['DepCode1']);
+  $DepCode = trim($DATA['DepCode']);
   $DepName = trim($DATA['DepName']);
   $xCenter = $DATA['xCenter'];
   $Userid = $_SESSION['Userid'];
+
+if($DepCode1 == ""){
+
   if($xCenter == 1){ 
-  $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-  WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $count = $Result['Cnt'];
-    $DepCode = $Result['DepCode'];
+    $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
+    WHERE department.DepCode =  $DepCode and department.IsStatus = 0   AND department.IsDefault = 1";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $count = $Result['Cnt'];
+      $DepCode = $Result['DepCode'];
+    }
+    if($count > 0){
+      $return['status'] = "failed";
+      $return['msg'] = "editcenterfailedmsg";
+     echo json_encode($return);
+     mysqli_close($conn);
+     die;
+   }
   }
-  if($count > 0){
-    $return['status'] = "failed";
-    $return['msg'] = "editcenterfailedmsg";
-   echo json_encode($return);
-   mysqli_close($conn);
-   die;
- }
-
-}
-
   $Sql = "INSERT INTO department(
+          DepCode,
           HptCode,
           DepName,
           IsStatus,
@@ -159,6 +163,7 @@ function AddItem($conn, $DATA)
           Modify_Date)
           VALUES
           (
+            $DepCode,
             '$HptCode',
             '$DepName',
             0,
@@ -178,11 +183,56 @@ function AddItem($conn, $DATA)
     die;
   }else{
     $return['status'] = "failed";
-    $return['msg'] = "addfailed";
+    $return['msg'] = "editcenterfailedmsg";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   }
+  }else{
+
+    $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
+    WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $count = $Result[ 'Cnt'];
+      $xDepCode = $Result[ 'DepCode'];
+    }
+    if($xCenter == 1 && $count > 0 && $DepCode != $xDepCode){
+      $return['status'] = "failed";
+      $return['msg'] = "editcenterfailedmsg";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+
+    $Sql = "UPDATE department SET
+    DepCode =  $DepCode,
+    HptCode =  '$HptCode',
+    DepName = '$DepName',
+    IsDefault =  $xCenter ,
+    Modify_Date = NOW() ,
+    Modify_Code =  $Userid   
+    WHERE DepCode = ".$DATA['DepCode']."
+";
+    // var_dump($Sql); die;
+    if(mysqli_query($conn, $Sql)){
+    $return['status'] = "success";
+    $return['form'] = "EditItem";
+    $return['msg'] = "editsuccess";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+    }else{
+    $return['status'] = "failed";
+    $return['msg'] = "editfailed :  $xCenter";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+    }
+
+
+  }
+
 
 }
 

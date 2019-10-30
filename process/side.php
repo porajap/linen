@@ -142,7 +142,6 @@ function AddItem($conn, $DATA)
     $boolcount = $Result['Countn'];
   }
   // ==============================================
-
   if($HptCode1== ""){
     $count = 0;
     $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government , site.DocDate ,site.Modify_Code ,site.Modify_Date) 
