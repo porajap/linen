@@ -264,7 +264,7 @@ $(document).ready(function(e){
             
       function CancelDocument(){
         var docno = $("#docno").val();
-        var RefDocNo = $('#RefDocNo').val();
+        // var RefDocNo = $('#RefDocNo').val();
         if(docno!= ""){
         swal({
           title: "<?php echo $array['confirmcancel'][$language]; ?>",
@@ -282,8 +282,7 @@ $(document).ready(function(e){
             if (result.value) {
                 var data = {
                       'STATUS'  : 'CancelBill',
-                      'DocNo'   : docno,
-                      'RefDocNo'   : RefDocNo
+                      'DocNo'   : docno
                     };
                     senddata(JSON.stringify(data));
                     $('#profile-tab').tab('show');
@@ -331,12 +330,12 @@ $(document).ready(function(e){
 
       }
 
-      function get_Department(){
-        $("#dialogDepartment").modal({
-            backdrop: 'static',
-            keyboard: false
-        });   
-      }
+      // function get_Department(){
+      //   $("#dialogDepartment").modal({
+      //       backdrop: 'static',
+      //       keyboard: false
+      //   });   
+      // }
 
       function get_dirty_doc(){
         var hptcode = '<?php echo $HptCode ?>';
@@ -438,11 +437,9 @@ $(document).ready(function(e){
         var deptCode = $('#department option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
         var searchitem = $('#searchitem').val();
-        var RefDocNo = $('#RefDocNo').val();
         var data = {
           'STATUS'  : 'ShowItem',
           'xitem'	: searchitem,
-          'RefDocNo'	: RefDocNo,
           'deptCode'	: deptCode
         };
         senddata(JSON.stringify(data));
@@ -679,16 +676,24 @@ $(document).ready(function(e){
           })
       }
 
-      function addnum(cnt) {
+      function addnum(cnt, Max) {
         var add = parseInt($('#iqty'+cnt).val())+1;
-        if((add>0) && (add<=500)){
+        if(add<=0){
+          $('#iqty'+cnt).val(1);
+        }else if(add>Max){
+          $('#iqty'+cnt).val(Max);
+        }else{
           $('#iqty'+cnt).val(add);
         }
       }
 
-      function subtractnum(cnt) {
+      function subtractnum(cnt, Max) {
         var sub = parseInt($('#iqty'+cnt).val())-1;
-        if((sub>0) && (sub<=500)) {
+        if(sub<=0) {
+          $('#iqty'+cnt).val(1);
+        }else if(sub>Max){
+          $('#iqty'+cnt).val(Max);
+        }else{
           $('#iqty'+cnt).val(sub);
         }
       }
@@ -796,7 +801,7 @@ $(document).ready(function(e){
 
       function SaveBill(chk){        
         var docno = $("#docno").val();
-        var docno2 = $("#RefDocNo").val();
+        // var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
@@ -839,7 +844,6 @@ $(document).ready(function(e){
                 var data = {
                   'STATUS'      : 'SaveBill',
                   'xdocno'      : docno,
-                  'xdocno2'      : docno2,
                   'isStatus'    : isStatus,
                   'deptCode'    : dept 
                 };
@@ -908,8 +912,15 @@ $(document).ready(function(e){
                   $(btn_show).attr('disabled',false);
               }
       }
-      function updateQty(RowID, i){
+      function updateQty(RowID, i, Max){
         var newQty = $('#qty1_'+i).val();
+        if(newQty<=0){
+          $('#qty1_'+i).val(1);
+        }else if(newQty>Max){
+          $('#qty1_'+i).val(Max);
+        }else{
+          $('#qty1_'+i).val(newQty);
+        }
         var data = {
           'STATUS' : 'updateQty',
           'RowID' : RowID,
@@ -968,6 +979,15 @@ $(document).ready(function(e){
 
           }
         })
+      }
+
+      function QtyKey(MaxQty, i){
+        var Qty = Number($('#iqty'+i).val());
+        if(Qty>MaxQty){
+          $('#iqty'+i).val(MaxQty);
+        }else{
+          $('#iqty'+i).val(Qty);
+        }
       }
 
       function senddata(data){
@@ -1052,7 +1072,7 @@ $(document).ready(function(e){
                   });
                 setTimeout(function () {
                   // get_Department();  
-                  open_dirty_doc();                
+                  // open_dirty_doc();                
                   parent.OnLoadPage();
                 }, 1000);
                 $( "#TableItemDetail tbody" ).empty();
@@ -1264,7 +1284,7 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['TotalQty']+"\");'  value='"+temp[i]['Qty']+"' ></div>";
                 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1347,17 +1367,17 @@ $(document).ready(function(e){
 
                   var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
-                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' onkeyup='QtyKey(\""+temp[i]['TotalQty']+"\",\""+i+"\")'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>+</button></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0'></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 25%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='width: 30%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='width: 45%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
                   "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
-                  "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
+                  // "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableItem tbody").append( $StrTR );
@@ -1824,8 +1844,8 @@ $(document).ready(function(e){
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                              <select class="form-control col-sm-7 icon_select" style="font-size:22px;" id="department" disabled="true">
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['depfrom'][$language]; ?></label>
+                              <select class="form-control col-sm-7" style="font-size:22px;" id="department">
                               </select>
                             </div>
                           </div>
@@ -1849,37 +1869,23 @@ $(document).ready(function(e){
                         <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
-                              <input class="form-control col-sm-7 " style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
-                              <label id="rem1" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class='form-group row'>
                               <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
                               <input type="text" autocomplete="off"  class="form-control col-sm-7 only1" disabled="true"  style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                             </div>
                           </div>
-                        </div>
-                        <!-- =================================================================== -->
-                        <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label "><?php echo $array['time'][$language]; ?></label>
                               <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                             </div>
                           </div>
-                          <div class="col-md-6">
-                            <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
-                              <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
-                            </div>
-                          </div>
                         </div>
+                        <!-- =================================================================== -->
+                        
                         <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['depto'][$language]; ?></label>
                               <select class="form-control col-sm-7 icon_select" style="font-size:22px;" id="departmentName" disabled="true">
                               </select>
                             </div>
@@ -2112,12 +2118,12 @@ $(document).ready(function(e){
             <thead style="font-size:24px;">
               <tr role="row">
               <input type="text" hidden id="countcheck">
-                <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                <th style='width: 25%;' nowrap><?php echo $array['no'][$language]; ?></th>
                 <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 23%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 45%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                 <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
-                <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                <!-- <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th> -->
               </tr>
             </thead>
             <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
