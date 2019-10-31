@@ -1594,16 +1594,18 @@ $array2 = json_decode($json2,TRUE);
                     var chkunit ="<select "+st1+" class='form-control chk_edit' id='iUnit_"+i+"'>";
                     var nUnit = "";
 
-                    for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                      if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
-                        chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
-                      }else{
-                        chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                        nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
-                      }
-                    }
-                    chkunit += "</select>"; 
+                    // for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
+                    //   if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
+                    //     chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                    //     nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
+                    //   }else{
+                    //     chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                    //     nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
+                    //   }
+                    // }
+                    // chkunit += "</select>"; 
+
+                    var nUnit = temp[i]['UnitName'];
 
                     var chkDoc = "<div class='form-inline'><label class='radio'  style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
@@ -1618,7 +1620,7 @@ $array2 = json_decode($json2,TRUE);
                     DataRow += "<td style='width:6%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+(i+1)+"</td>";
                     DataRow += "<td style='width:18%;text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
                     DataRow += "<td style='width:21%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
+                    "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+nUnit+"</center></td>"+
                     "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+
                     "<td style='width:20%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>";
 

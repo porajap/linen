@@ -226,7 +226,7 @@ function showDep($conn, $DATA){
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
   $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
-  WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1
+  WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1 AND IsDefault = 1
   ORDER BY dep.DepName ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -246,6 +246,9 @@ function showDep($conn, $DATA){
 function confirmDep($conn, $DATA){
   $DocNo = $DATA['DocNo'];
   $ItemCode = $DATA['ItemCode'];
+  $ItemCode1 = $DATA['ItemCode1'];
+  $ItemName1 = $DATA['ItemName1'];
+
   $DepCode = explode(',', $DATA['DepCode']);
   $limit = sizeof($DepCode, 0);
   for($i=0; $i<$limit; $i++){
