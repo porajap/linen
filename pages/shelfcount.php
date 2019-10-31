@@ -844,7 +844,7 @@ $array2 = json_decode($json2,TRUE);
       var isStatus = $("#IsStatus").val();
       var dept = $('#department').val();
       var cycle = $('#cycle').val();
-      var settime = $('#settime').val();
+      var settime = $('#settime option:selected').val();
       var setcount = $('#setcount').val();
       var input_chk = $('#input_chk').val();
         if(isStatus==1 || isStatus==3 || isStatus==4){
