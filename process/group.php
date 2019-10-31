@@ -16,27 +16,22 @@ function ShowItem($conn, $DATA)
   $Keyword = $DATA['Keyword'];
   $Sql = "SELECT site.HptCode,
           CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,
-          department.DepCode,TRIM(department.DepName) AS DepName,department.IsDefault,
-          department.IsActive,
-		  CASE department.IsDefault WHEN 0 THEN '0' WHEN 1 THEN '1' END AS DefaultName
+          grouphpt.GroupCode,TRIM(grouphpt.GroupName) AS GroupName
           FROM site
-          INNER JOIN department ON site.HptCode = department.HptCode
-          WHERE department.IsStatus = 0
+          INNER JOIN grouphpt ON site.HptCode = grouphpt.HptCode
+          WHERE grouphpt.IsStatus = 0
           AND site.HptCode = '$xHptCode'
-          AND ( department.DepCode LIKE '%$Keyword%' OR
-          department.DepName LIKE '%$Keyword%')
-          ORDER BY department.DepName ASC
+          AND ( grouphpt.GroupCode LIKE '%$Keyword%' OR
+          grouphpt.GroupName LIKE '%$Keyword%')
+          ORDER BY grouphpt.GroupName ASC
           ";
   
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['IsActive'] = $Result['IsActive'];
     $return[$count]['HptCode'] = $Result['HptCode'];
-    $return[$count]['DepCode'] = $Result['DepCode'];
-    $return[$count]['DepName'] = $Result['DepName'];
-	$return[$count]['IsDefault'] = $Result['IsDefault'];
-    $return[$count]['DefaultName'] = $Result['DefaultName'];
+    $return[$count]['DepCode'] = $Result['GroupCode'];
+    $return[$count]['DepName'] = $Result['GroupName'];
     $count++;
   }
   $return['Count'] = $count;
@@ -65,25 +60,21 @@ function getdetail($conn, $DATA)
   $number = $DATA['number'];
   //---------------HERE------------------//
   $Sql = "SELECT
-          department.DepCode,
-          department.HptCode,
-          TRIM(department.DepName) AS DepName,
-          department.IsStatus,
-          department.IsDefault,
-          department.IsActive
-          FROM department
-          WHERE department.IsStatus = 0
-          AND department.DepCode = $DepCode LIMIT 1";
+          grouphpt.GroupCode,
+          grouphpt.HptCode,
+          TRIM(grouphpt.GroupName) AS DepName,
+          grouphpt.IsStatus
+          FROM grouphpt
+          WHERE grouphpt.IsStatus = 0
+          AND grouphpt.GroupCode = $DepCode LIMIT 1";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['DepCode'] 		= $number;
-    $return['DepCodeReal'] 		= $Result['DepCode'];
-    $return['IsActive'] 		= $Result['IsActive'];
+    $return['DepCodeReal'] 		= $Result['GroupCode'];
     $return['HptCode'] 		  = $Result['HptCode'];
     $return['DepName'] 		  = $Result['DepName'];
     $return['IsStatus'] 	  = $Result['IsStatus'];
-    $return['IsDefault'] 	    = $Result['IsDefault'];
     $count++;
   }
 
@@ -132,46 +123,23 @@ function getSection($conn, $DATA)
 function AddItem($conn, $DATA)
 {
   $count = 0;
-  $IsActive = $DATA['IsActive'];
   $HptCode = $DATA['HptCode'];
   $DepCode1 = trim($DATA['DepCode1']);
   $DepCode = trim($DATA['DepCode']);
   $DepName = trim($DATA['DepName']);
-  $xCenter = $DATA['xCenter'];
   $Userid = $_SESSION['Userid'];
   $PmID = $_SESSION['PmID'];
 
 if($DepCode1 == ""){
-
-  if($xCenter == 1){ 
-      $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-      WHERE department.DepCode =  $DepCode and department.IsStatus = 0   AND department.IsDefault = 1";
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $count = $Result['Cnt'];
-        $DepCode = $Result['DepCode'];
-      }
-      if($count > 0)
-      {
-        $return['status'] = "failed";
-        $return['msg'] = "editcenterfailedmsg";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-      }
-  }
-  if($PmID==1 || $PmID==6){
-  $Sql = "INSERT INTO department
+  $Sql = "INSERT INTO grouphpt
           (
-          DepCode,
+          GroupCode,
           HptCode,
-          DepName,
+          GroupName,
           IsStatus,
-		      IsDefault, 
           DocDate ,
           Modify_Code ,
-          Modify_Date,
-          IsActive
+          Modify_Date
           )
           VALUES
           (
@@ -179,40 +147,11 @@ if($DepCode1 == ""){
             '$HptCode',
             '$DepName',
             0,
-            $xCenter,
             NOW(),
             $Userid,
-            NOW(),
-            $IsActive
+            NOW()
           )
   ";
-}else{
-  $Sql = "INSERT INTO department
-          (
-          DepCode,
-          HptCode,
-          DepName,
-          IsStatus,
-		      IsDefault, 
-          DocDate ,
-          Modify_Code ,
-          Modify_Date,
-          IsActive
-          )
-          VALUES
-          (
-            $DepCode,
-            '$HptCode',
-            '$DepName',
-            0,
-            $xCenter,
-          NOW(),
-          $Userid,
-          NOW(),
-          0
-          )
-  ";
-}
   // var_dump($Sql); die;
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
@@ -230,42 +169,14 @@ if($DepCode1 == ""){
   }
   }else{
 
-    $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-    WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $count = $Result[ 'Cnt'];
-      $xDepCode = $Result[ 'DepCode'];
-    }
-    if($xCenter == 1 && $count > 0 && $DepCode != $xDepCode){
-      $return['status'] = "failed";
-      $return['msg'] = "editcenterfailedmsg";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }
-    if($PmID==1 || $PmID==6){
-    $Sql = "UPDATE department SET
-    DepCode =  $DepCode,
+    $Sql = "UPDATE grouphpt SET
+    GroupCode =  $DepCode,
     HptCode =  '$HptCode',
-    DepName = '$DepName',
-    IsDefault =  $xCenter ,
+    GroupName = '$DepName',
     Modify_Date = NOW() ,
-    Modify_Code =  $Userid ,
-    IsActive = $IsActive  
-    WHERE DepCode = ".$DATA['DepCode']."
+    Modify_Code =  $Userid
+    WHERE GroupCode = ".$DATA['DepCode1']."
 ";
-    }else{
-      $Sql = "UPDATE department SET
-      DepCode =  $DepCode,
-      HptCode =  '$HptCode',
-      DepName = '$DepName',
-      IsDefault =  $xCenter ,
-      Modify_Date = NOW() ,
-      Modify_Code =  $Userid 
-      WHERE DepCode = ".$DATA['DepCode']."
-  ";
-    }
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
@@ -372,9 +283,9 @@ function CancelItem($conn, $DATA)
 {
   $count = 0;
   if($DATA["DepCode"]!=""){
-    $Sql = "UPDATE department SET
+    $Sql = "UPDATE grouphpt SET
             IsStatus = 1
-            WHERE DepCode = ".$DATA['DepCode']."
+            WHERE GroupCode = ".$DATA['DepCode']."
     ";
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){

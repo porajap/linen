@@ -33,7 +33,7 @@ $array2 = json_decode($json2,TRUE);
     <meta name="author" content="">
 
     <title>
-        <?php echo $array['department'][$language]; ?>
+        <?php echo $array['group'][$language]; ?>
     </title>
 
     <link rel="icon" type="image/png" href="../img/pose_favicon.png">
@@ -358,8 +358,6 @@ $array2 = json_decode($json2,TRUE);
             var DepCode = $('#DepCode').val();
             var DepName = $('#DepName').val();
             var HptCode = $('#hptsel2').val();
-            var IsActive = $('#IsActive').val();
-            var xCenter = 0;
 
             if ($('#xCenter').is(':checked')) xCenter = 1;
 
@@ -391,9 +389,7 @@ $array2 = json_decode($json2,TRUE);
                             'HptCode': HptCode,
                             'DepName': DepName,
                             'DepCode': DepCode,
-                            'DepCode1': DepCode1,
-                            'xCenter': xCenter,
-                            'IsActive': IsActive
+                            'DepCode1': DepCode1
                         };
 
                         console.log(JSON.stringify(data));
@@ -626,7 +622,7 @@ $array2 = json_decode($json2,TRUE);
         function senddata(data) {
             var form_data = new FormData();
             form_data.append("DATA", data);
-            var URL = '../process/department.php';
+            var URL = '../process/group.php';
             $.ajax({
                 url: URL,
                 dataType: 'text',
@@ -670,10 +666,8 @@ $array2 = json_decode($json2,TRUE);
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                 StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
                                     "<td style='width: 5%;'>" + chkDoc + "</td>" +
-                                    "<td style='width: 10%;'>" + (i + 1) + "</td>" +
-                                    "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
-									"<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
-                                    "<td style='width: 30%;'>" +  Active  + "</td>" +
+                                    "<td style='width: 20%;'>" + (i + 1) + "</td>" +
+									                  "<td style='width: 75%;'>" +  temp[i]['DepName']  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -1122,7 +1116,7 @@ $array2 = json_decode($json2,TRUE);
 <ol class="breadcrumb">
   
   <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
-  <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][2][$language]; ?></li>
+  <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][18][$language]; ?></li>
 </ol>
     <div id="wrapper">
         <!-- content-wrapper -->
@@ -1172,18 +1166,13 @@ $array2 = json_decode($json2,TRUE);
                                 <thead id="theadsum" style="font-size:11px;">
                                     <tr role="row">
                                         <th style='width: 5%;'>&nbsp;</th>
-                                        <th style='width: 10%;'>
+                                        <th style='width: 20%;'>
                                             <?php echo $array['no'][$language]; ?>
                                         </th>
-                                        <th style='width: 17%;'>
-                                            <?php echo $array['xcenter'][$language]; ?>
+                                        <th style='width: 75%; '>
+                                            <?php echo $array['group'][$language]; ?>
                                         </th>
-                                        <th style='width: 26%; '>
-                                            <?php echo $array['department'][$language]; ?>
-                                        </th>
-                                        <th style='width: 42%; '>
-                                            <?php echo $array['status'][$language]; ?>
-                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:250px;">
@@ -1258,8 +1247,8 @@ $array2 = json_decode($json2,TRUE);
                                   
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['department'][$language]; ?></label>
-                                      <input type="text"  autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['group'][$language]; ?></label>
+                                      <input type="text"  autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['group'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>

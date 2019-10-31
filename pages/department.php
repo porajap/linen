@@ -77,8 +77,10 @@ $array2 = json_decode($json2,TRUE);
             $('#rem1').hide();
             $('#rem2').hide();
             $('#rem3').hide();
+            $('#rem4').hide();
             // Blankinput();
             getSection();
+            GetGroup();
             //On create
             $('.TagImage').bind('click', {
                 imgId: $(this).attr('id')
@@ -294,12 +296,20 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-        function removeborder(){
+        function GetGroup(){
             Blankinput();
             ShowItem();
             var hptsel = $('#hptsel').val();
             $('#hptsel').css('border-color', '');
             $('#hptsel2').val(hptsel);
+
+            var data = {
+                'STATUS': 'GetGroup',
+                'HptCode': hptsel
+            };
+            // Blankinput();
+            console.log(JSON.stringify(data));
+            senddata(JSON.stringify(data));
         }
         function ShowItem() {
             $('.checkblank66').each(function() {
@@ -309,12 +319,14 @@ $array2 = json_decode($json2,TRUE);
               $(this).css('border-color', '');
             }
           });
+            var group = $('#group').val();
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
             var data = {
                 'STATUS': 'ShowItem',
                 'HptCode': HptCode,
-                'Keyword': keyword
+                'Keyword': keyword,
+                'group': group
             };
             // Blankinput();
             console.log(JSON.stringify(data));
@@ -359,6 +371,7 @@ $array2 = json_decode($json2,TRUE);
             var DepName = $('#DepName').val();
             var HptCode = $('#hptsel2').val();
             var IsActive = $('#IsActive').val();
+            var group2 = $('#group2').val();
             var xCenter = 0;
 
             if ($('#xCenter').is(':checked')) xCenter = 1;
@@ -393,7 +406,8 @@ $array2 = json_decode($json2,TRUE);
                             'DepCode': DepCode,
                             'DepCode1': DepCode1,
                             'xCenter': xCenter,
-                            'IsActive': IsActive
+                            'IsActive': IsActive,
+                            'group2': group2
                         };
 
                         console.log(JSON.stringify(data));
@@ -427,6 +441,9 @@ $array2 = json_decode($json2,TRUE);
                         }
                         if(DepCode ==""||DepCode==undefined){
                         $('#rem3').show().css("color","red");
+                        }
+                        if(group2 ==""||group2==undefined){
+                        $('#rem4').show().css("color","red");
                         }
                     }
                 });
@@ -464,6 +481,9 @@ $array2 = json_decode($json2,TRUE);
         function Blankinput() {
             $('#rem1').hide();
             $('#rem2').hide();
+            $('#rem3').hide();
+            $('#rem4').hide();
+
             $('.checkblank').each(function() {
                 $(this).val("");
             });
@@ -704,6 +724,7 @@ $array2 = json_decode($json2,TRUE);
                                 $('#DepCode').val(temp['DepCodeReal']);
                                 $('#DepName').val(temp['DepName']);
                                 $('#hptsel2').val(temp['HptCode']);
+                                $('#group2').val(temp['GroupCode']);
                                 $('#IsActive').val(temp['IsActive']);
 								if (temp['IsDefault'] == 1) 
 									$('#xCenter').prop( "checked", true );
@@ -888,7 +909,8 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hptsel2').val("BHQ");
                                 ShowItem();
                             })
-                        } else if ((temp["form"] == 'getSection')) {
+                        } 
+                        else if ((temp["form"] == 'getSection')) {
                             var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
@@ -896,6 +918,17 @@ $array2 = json_decode($json2,TRUE);
                             }
                             $("#hptsel").append(StrTr);
                             $("#hptsel2").append(StrTr);
+                        } 
+                        else if ((temp["form"] == 'GetGroup')) {
+                            $("#group").empty();
+                            $("#group2").empty();
+                            var StrTr = "<option value=''><?php echo $array['selectgroup'][$language]; ?></option>";
+                            for (var i = 0; i < temp['row']; i++) {
+                                 StrTr += "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupCode'] + " </option>";
+                                var Str = "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupCode'] + " </option>";
+                            }
+                            $("#group").append(StrTr);
+                            $("#group2").append(StrTr);
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -1139,17 +1172,23 @@ $array2 = json_decode($json2,TRUE);
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:-12px;">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="row" style="margin-left:5px;">
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-left:5px;width: 130%;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="removeborder();">
+                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="GetGroup();">
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="col-md-8">
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-left:-62px;">
+                                    <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
+                                        <select class="form-control col-md-8 " id="group" onchange="ShowItem();">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="row" style="margin-left:5px;">
-                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;margin-left: -18%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchDepartment'][$language]; ?>">
+                                        <input type="text" autocomplete="off"  class="form-control" style="width:65%;margin-left: -21.7%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchDepartment'][$language]; ?>">
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
                                           <?php echo $array['search'][$language]; ?></a>       -->
@@ -1276,10 +1315,14 @@ $array2 = json_decode($json2,TRUE);
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['xcenter'][$language]; ?></label>
-                                      <input type="checkbox"  id="xCenter" style="margin-top: 1.5%;">
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['group'][$language]; ?></label>
+                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="group2" >
+                                      </select>
+                                      <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
+
+
                                 </div> 
    <!-- =================================================================== -->
                             <div class="row" <?php if($PmID != 1 && $PmID != 6) echo 'hidden'; ?>>
@@ -1290,6 +1333,12 @@ $array2 = json_decode($json2,TRUE);
                                       <option value="1">active</option>
                                       <option value="0">inactive</option>
                                       </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['xcenter'][$language]; ?></label>
+                                      <input type="checkbox"  id="xCenter" style="margin-top: 1.5%;">
                                     </div>
                                   </div>
                                 </div> 
