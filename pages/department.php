@@ -694,7 +694,6 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
 									"<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
                                     "<td style='width: 20%;'>" +  Active  + "</td>" +
-                                    "<td style='width: 20%;'>" +  temp[i]['par']  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -925,8 +924,8 @@ $array2 = json_decode($json2,TRUE);
                             $("#group2").empty();
                             var StrTr = "<option value=''><?php echo $array['selectgroup'][$language]; ?></option>";
                             for (var i = 0; i < temp['row']; i++) {
-                                 StrTr += "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupCode'] + " </option>";
-                                var Str = "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupCode'] + " </option>";
+                                 StrTr += "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupName'] + " </option>";
+                                var Str = "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupName'] + " </option>";
                             }
                             $("#group").append(StrTr);
                             $("#group2").append(StrTr);

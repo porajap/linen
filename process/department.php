@@ -42,14 +42,7 @@ function ShowItem($conn, $DATA)
     $return[$count]['DepName'] = $Result['DepName'];
 	$return[$count]['IsDefault'] = $Result['IsDefault'];
     $return[$count]['DefaultName'] = $Result['DefaultName'];
-    $DepCodepar      	       = $Result['DepCode'];
     $count++;
-
-    $Sql="SELECT DepCode AS DepCodestock FROM par_item_stock WHERE DepCode = $DepCodepar";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['par'] 		  = $Result['DepCodestock']==null?0:1;
-    }
   }
   $return['Count'] = $count;
   if($count>0){
