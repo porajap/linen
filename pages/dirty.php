@@ -908,18 +908,18 @@ $array2 = json_decode($json2,TRUE);
         function selectAll(){
           var select_all = document.getElementById('selectAll'); //select all checkbox
           var checkboxes = document.getElementsByClassName("myDepName"); //checkbox items
-
+          $('.checkbox:checked').prop('checked', true);
           //select all checkboxes
           select_all.addEventListener("change", function(e){
             for (i = 0; i < checkboxes.length; i++) { 
               checkboxes[i].checked = select_all.checked;
-              $('#btn_confirm').attr('disabled', false);
+              // $('#btn_confirm').attr('disabled', false);
             }
           });
 
-
           for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+            checkboxes[i].addEventListener('change', function(e){ 
+              //".checkbox" change 
               //uncheck "select all", if one of the listed checkbox item is unchecked
               if(this.checked == false){
                 select_all.checked = false;
@@ -1039,10 +1039,10 @@ $array2 = json_decode($json2,TRUE);
           select_all.addEventListener("change", function(e){
             for (i = 0; i < checkboxes.length; i++) { 
               checkboxes[i].checked = select_all.checked;
-              $('#btn_confirm2').attr('disabled', false);
+              // $('#btn_confirm2').attr('disabled', false);
             }
           });
-
+ 
 
           for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
@@ -1051,7 +1051,7 @@ $array2 = json_decode($json2,TRUE);
                 select_all.checked = false;
               }
               //check "select all" if all checkbox items are checked
-              if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+              if(document.querySelectorAll('.checkbox2:checked').length == checkboxes.length){
                 select_all.checked = true;
               }
             });
@@ -1061,7 +1061,7 @@ $array2 = json_decode($json2,TRUE);
             $("#countcheck2").val(0);
             $('#btn_confirm2').attr('disabled', true);
           }else{
-            $("#countcheck").val(i);
+            $("#countcheck2").val(i);
             $('#btn_confirm2').attr('disabled', false);
           }
         }
@@ -1073,7 +1073,7 @@ $array2 = json_decode($json2,TRUE);
               this.checked = status;
             });
           });
-          $('.unchk').change(function(){ 
+          $('.unchk2').change(function(){ 
             if(this.checked == false){ 
               $("#selectAll2")[0].checked = false; 
             }
@@ -1084,17 +1084,17 @@ $array2 = json_decode($json2,TRUE);
           });
 
           if($('#checkDep2_'+i).prop("checked") == true){
-            var countcheck2 = Number($("#countcheck2").val())+1;
-            $("#countcheck2").val(countcheck2);
+            var countcheck = Number($("#countcheck2").val())+1;
+            $("#countcheck2").val(countcheck);
             $('#btn_confirm2').attr('disabled', false);
             $('#checkDep2_'+i).attr('previousValue', 'checked');
           }else if($('#checkDep2_'+i).prop("checked") == false){
-            var countcheck3 = Number($("#countcheck").val())-1;
-            $("#countcheck2").val(countcheck3);
-            if(countcheck3 == 0 ){
+            var countcheck = Number($("#countcheck2").val())-1;
+            $("#countcheck2").val(countcheck);
+            if(countcheck == 0 ){
               $('#btn_confirm2').attr('disabled', true);
               $('.checkDep2_'+i).removeAttr('checked');
-              $("#countcheck2").val(countcheck3);
+              $("#countcheck2").val(countcheck);
             }
           }
         }
@@ -1582,6 +1582,7 @@ $array2 = json_decode($json2,TRUE);
                     var DocNoHide = $('#docno').val();
                     $('#ItemCodeHide').val(temp['ItemCode']);
                     $('#DocNoHide').val(DocNoHide);
+                    $('#btn_confirm').attr('disabled', true);
                   }
                 }else if( (temp["form"]=='ShowDetailDoc') ){
                   var isStatus = $("#IsStatus").val();
@@ -1591,19 +1592,17 @@ $array2 = json_decode($json2,TRUE);
                   var DataRow = '';
                   $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["CountDep"]; i++) {
-                    var chkunit ="<select "+st1+" class='form-control chk_edit' id='iUnit_"+i+"'>";
                     var nUnit = "";
-
-                    // for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                    //   if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
-                    //     chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                    //     nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
-                    //   }else{
-                    //     chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                    //     nUnit = temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j];
-                    //   }
-                    // }
-                    // chkunit += "</select>"; 
+                  
+                    var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
+                    $.each(temp['Unit'], function(key, val){
+                      if(temp[i]['UnitCode']==val.UnitCode){
+                        chkunit += '<option selected value="'+val.UnitCode+'">'+val.UnitName+'</option>';
+                      }else{
+                        chkunit += '<option value="'+val.UnitCode+'">'+val.UnitName+'</option>';
+                      }
+                    });
+                    chkunit += "</select>";
 
                     var nUnit = temp[i]['UnitName'];
 
@@ -1620,7 +1619,7 @@ $array2 = json_decode($json2,TRUE);
                     DataRow += "<td style='width:6%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+(i+1)+"</td>";
                     DataRow += "<td style='width:18%;text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>";
                     DataRow += "<td style='width:21%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+nUnit+"</center></td>"+
+                    "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
                     "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+
                     "<td style='width:20%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>";
 
@@ -1664,7 +1663,7 @@ $array2 = json_decode($json2,TRUE);
                     });
                     for(var i = 0; i<temp['CountDep']; i++){
                       var DepName = "<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['DepName']+"</span>";
-                      var chkDep = "<input type='checkbox' id='checkDep2_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep2' style='top:-10%;' class='checkbox myDepName2 checkDep2_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
+                      var chkDep = "<input type='checkbox' id='checkDep2_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep2' style='top:-10%;' class='checkbox2 myDepName2 checkDep2_"+i+" unchk2' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked2(\""+i+"\")'>";
                       myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+chkDep+DepName+"</div>";
                     }
                     $('#DepAll').html(myDATA);
@@ -1673,6 +1672,8 @@ $array2 = json_decode($json2,TRUE);
                     var DocNoHide = $('#docno').val();
                     // $('#ItemCodeHide').val(temp['ItemCode']);
                     $('#DocNoHide2').val(DocNoHide);
+                    $('#btn_confirm2').attr('disabled', true);
+
                   }
                 }
               }else if (temp['status']=="failed") {
