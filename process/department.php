@@ -10,9 +10,7 @@ function ShowItem($conn, $DATA)
   $count = 0;
   $PmID = $_SESSION['PmID'];
   $xHptCode = $DATA['HptCode'];
-  // if($xHptCode==""){
-  //   $xHptCode = 'BHQ';
-  // }
+  $group = $DATA['group'];
   $Keyword = $DATA['Keyword'];
   $Sql = "SELECT site.HptCode,
           CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,
@@ -20,15 +18,22 @@ function ShowItem($conn, $DATA)
           department.IsActive,
 		  CASE department.IsDefault WHEN 0 THEN '0' WHEN 1 THEN '1' END AS DefaultName
           FROM site
-          INNER JOIN department ON site.HptCode = department.HptCode
-          WHERE department.IsStatus = 0
-          AND site.HptCode = '$xHptCode'
-          AND ( department.DepCode LIKE '%$Keyword%' OR
-          department.DepName LIKE '%$Keyword%')
-          ORDER BY department.DepName ASC
-          ";
-  
+          INNER JOIN department ON site.HptCode = department.HptCode ";
+
+        if ($Keyword == '' && $xHptCode != '') {
+          if ( $xHptCode != '' && $group =='') {
+            $Sql .= " WHERE  department.HptCode = '$xHptCode' AND department.IsStatus = 0 AND  department.DepName LIKE '%$Keyword%'"; 
+          }else if($xHptCode != '' && $group !=''){
+            $Sql .= " WHERE  department.HptCode = '$xHptCode' AND GroupCode = $group AND department.IsStatus = 0 AND  department.DepName LIKE '%$Keyword%'"; 
+            }
+        }else{
+            $Sql .= " WHERE   site.HptCode = '$xHptCode' AND ( department.DepCode LIKE '%$Keyword%' OR department.DepName LIKE '%$Keyword%') "; 
+        }
+
+
+          $Sql .= "  ORDER BY department.DepName ASC ";
   // var_dump($Sql); die;
+  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['IsActive'] = $Result['IsActive'];
@@ -70,7 +75,8 @@ function getdetail($conn, $DATA)
           TRIM(department.DepName) AS DepName,
           department.IsStatus,
           department.IsDefault,
-          department.IsActive
+          department.IsActive ,
+          department.GroupCode
           FROM department
           WHERE department.IsStatus = 0
           AND department.DepCode = $DepCode LIMIT 1";
@@ -81,6 +87,7 @@ function getdetail($conn, $DATA)
     $return['DepCodeReal'] 		= $Result['DepCode'];
     $return['IsActive'] 		= $Result['IsActive'];
     $return['HptCode'] 		  = $Result['HptCode'];
+    $return['GroupCode'] 		  = $Result['GroupCode'];
     $return['DepName'] 		  = $Result['DepName'];
     $return['IsStatus'] 	  = $Result['IsStatus'];
     $return['IsDefault'] 	    = $Result['IsDefault'];
@@ -102,7 +109,25 @@ function getdetail($conn, $DATA)
   }
 
 }
+function GetGroup($conn , $DATA){
+  $HptCode = $DATA["HptCode"];
+  $count = 0;
+  $Sql = "SELECT grouphpt.GroupCode,grouphpt.GroupName
+  FROM grouphpt WHERE grouphpt.IsStatus = 0 AND grouphpt.HptCode = '$HptCode'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['GroupCode']  = $Result['GroupCode'];
+    $return[$count]['GroupName']  = $Result['GroupName'];
+    $count++;
+  }
+  $return['row'] = $count;
+  $return['status'] = "success";
+  $return['form'] = "GetGroup";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 
+}
 function getSection($conn, $DATA)
 {
   $lang = $DATA["lang"];
@@ -137,6 +162,7 @@ function AddItem($conn, $DATA)
   $DepCode1 = trim($DATA['DepCode1']);
   $DepCode = trim($DATA['DepCode']);
   $DepName = trim($DATA['DepName']);
+  $group2 = trim($DATA['group2']);
   $xCenter = $DATA['xCenter'];
   $Userid = $_SESSION['Userid'];
   $PmID = $_SESSION['PmID'];
@@ -171,7 +197,8 @@ if($DepCode1 == ""){
           DocDate ,
           Modify_Code ,
           Modify_Date,
-          IsActive
+          IsActive,
+          GroupCode
           )
           VALUES
           (
@@ -183,7 +210,8 @@ if($DepCode1 == ""){
             NOW(),
             $Userid,
             NOW(),
-            $IsActive
+            $IsActive,
+            $group2
           )
   ";
 }else{
@@ -197,7 +225,8 @@ if($DepCode1 == ""){
           DocDate ,
           Modify_Code ,
           Modify_Date,
-          IsActive
+          IsActive,
+          GroupCode
           )
           VALUES
           (
@@ -209,7 +238,8 @@ if($DepCode1 == ""){
           NOW(),
           $Userid,
           NOW(),
-          0
+          0,
+          $group2
           )
   ";
 }
@@ -252,8 +282,9 @@ if($DepCode1 == ""){
     IsDefault =  $xCenter ,
     Modify_Date = NOW() ,
     Modify_Code =  $Userid ,
-    IsActive = $IsActive  
-    WHERE DepCode = ".$DATA['DepCode']."
+    IsActive = $IsActive,
+    GroupCode = $group2 
+    WHERE DepCode = ".$DATA['DepCode1']."
 ";
     }else{
       $Sql = "UPDATE department SET
@@ -262,8 +293,9 @@ if($DepCode1 == ""){
       DepName = '$DepName',
       IsDefault =  $xCenter ,
       Modify_Date = NOW() ,
-      Modify_Code =  $Userid 
-      WHERE DepCode = ".$DATA['DepCode']."
+      Modify_Code =  $Userid ,
+      GroupCode = $group2 
+      WHERE DepCode = ".$DATA['DepCode1']."
   ";
     }
     // var_dump($Sql); die;
@@ -418,8 +450,10 @@ if(isset($_POST['DATA']))
         CancelItem($conn,$DATA);
       }else if ($DATA['STATUS'] == 'getdetail') {
         getdetail($conn,$DATA);
+      }else if ($DATA['STATUS'] == 'GetGroup') {
+        GetGroup($conn,$DATA);
       }
-
+      
 }else{
 	$return['status'] = "error";
 	$return['msg'] = 'noinput';

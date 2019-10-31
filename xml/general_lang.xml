@@ -18,6 +18,7 @@
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
 <selectenddate><en>Please Choose Enddate</en><th>กรุณาเลือกวันที่สิ้นสุดสัญญา</th></selectenddate>
 <selecthospital><en>Please Choose Hospital</en><th>กรุณาเลือกโรงพยาบาล</th></selecthospital>
+<selectgroup><en>Please Choose Group</en><th>กรุณาเลือกกลุ่ม</th></selectgroup>
 <selectdep><en>Please choose department</en><th>กรุณาเลือกแผนก</th></selectdep>
 <selectCycle><en>Please choose Cycle time</en><th>กรุณาเลือกรอบส่งผ้า</th></selectCycle>
 <selectsc><en>Please choose ShelfCount time</en><th>กรุณาเลือกรอบนับผ้า</th></selectsc>
@@ -107,6 +108,7 @@
 <selectDep><en>Select Department</en><th>เลือกแผนก</th></selectDep>
 
 <department><en>Department</en><th>แผนก</th></department>
+<group><en>Group</en><th>กลุ่ม</th></group>
 <docdate><en>Document date</en><th>วันที่เอกสาร</th></docdate>
 <docno><en>Document number</en><th>เลขที่เอกสาร</th></docno>
 <refdocno><en>Reference</en><th>เอกสารอ้างอิง</th></refdocno>
