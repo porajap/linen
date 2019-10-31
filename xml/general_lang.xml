@@ -13,6 +13,7 @@
 <private><en>Show Money</en><th>แสดงเงิน</th></private>
 <government><en>Don't Money</en><th>ไม่แสดงเงิน</th></government>
 <return><en>Return</en><th>บันทึกรับคืนผ้า</th></return>
+<addrequest><en>Add request</en><th>เพิ่มรายการ</th></addrequest>
 <!--============================================================================== -->
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
@@ -105,6 +106,7 @@
 <confac><en>Factory Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงซัก</th></confac>
 <conhos><en>Hospital Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงโรงพยาบาล</th></conhos>
 <selectDep><en>Select Department</en><th>เลือกแผนก</th></selectDep>
+<itemaneme><en>Item Name</en><th>ชื่อรายการ</th></itemaneme>
 
 <department><en>Department</en><th>แผนก</th></department>
 <docdate><en>Document date</en><th>วันที่เอกสาร</th></docdate>

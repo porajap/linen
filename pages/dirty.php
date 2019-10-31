@@ -899,6 +899,12 @@ $array2 = json_decode($json2,TRUE);
           }
           senddata(JSON.stringify(data));
         }
+        function showDepRequest(){
+          var data = {
+            'STATUS' : 'showDepRequest'
+          }
+          senddata(JSON.stringify(data));
+        }
         function selectAll(){
           var select_all = document.getElementById('selectAll'); //select all checkbox
           var checkboxes = document.getElementsByClassName("myDepName"); //checkbox items
@@ -995,7 +1001,103 @@ $array2 = json_decode($json2,TRUE);
             $('#ModalDepartment').modal('toggle');
           }, 500);
         }
+        function confirmDep2(){
+          var DocNo = $('#DocNoHide2').val();
+          // var ItemCode = $('#ItemCodeHide').val();
+          var RequestName = $('#NameRequest').val();
+          var DepCodeArray = [];
+          $(".myDepName2:checked").each(function() {
+            DepCodeArray.push($(this).data('depcode'));
+          });
+          var DepCode = DepCodeArray.join(',') ;
+          // console.log(DepCode);
+          swal({
+            title: " ",
+            text:  " <?php echo $array['save'][$language]; ?>",
+            type: "success",
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 500,
+            closeOnConfirm: false
+          });
+          setTimeout(() => {
+            var data = {
+              'STATUS' : 'confirmDep2',
+              'DocNo' : DocNo,
+              'DepCode' : DepCode,
+              'RequestName' : RequestName
+            }
+            senddata(JSON.stringify(data));
+            $('#ModalRequest').modal('toggle');
+          }, 500);
+        }
+        function selectAll2(){
+          var select_all = document.getElementById('selectAll2'); //select all checkbox
+          var checkboxes = document.getElementsByClassName("myDepName2"); //checkbox items
 
+          //select all checkboxes
+          select_all.addEventListener("change", function(e){
+            for (i = 0; i < checkboxes.length; i++) { 
+              checkboxes[i].checked = select_all.checked;
+              $('#btn_confirm2').attr('disabled', false);
+            }
+          });
+
+
+          for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+              //uncheck "select all", if one of the listed checkbox item is unchecked
+              if(this.checked == false){
+                select_all.checked = false;
+              }
+              //check "select all" if all checkbox items are checked
+              if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+                select_all.checked = true;
+              }
+            });
+          }
+          var numRow = $("#countcheck2").val();
+          if(numRow == i){
+            $("#countcheck2").val(0);
+            $('#btn_confirm2').attr('disabled', true);
+          }else{
+            $("#countcheck").val(i);
+            $('#btn_confirm2').attr('disabled', false);
+          }
+        }
+        function swithChecked2(i){
+          $('#btn_confirm2').attr('disabled', false);
+          $("#selectAll2").change(function(){
+            var status = this.checked;
+            $('.myDepName2').each(function(){ 
+              this.checked = status;
+            });
+          });
+          $('.unchk').change(function(){ 
+            if(this.checked == false){ 
+              $("#selectAll2")[0].checked = false; 
+            }
+            if ($('.myDepName2:checked').length == $('.myDepName2').length ){ 
+              $("#selectAll2")[0].checked = true; 
+              $('#btn_confirm2').attr('disabled', false);
+            }
+          });
+
+          if($('#checkDep2_'+i).prop("checked") == true){
+            var countcheck2 = Number($("#countcheck2").val())+1;
+            $("#countcheck2").val(countcheck2);
+            $('#btn_confirm2').attr('disabled', false);
+            $('#checkDep2_'+i).attr('previousValue', 'checked');
+          }else if($('#checkDep2_'+i).prop("checked") == false){
+            var countcheck3 = Number($("#countcheck").val())-1;
+            $("#countcheck2").val(countcheck3);
+            if(countcheck3 == 0 ){
+              $('#btn_confirm2').attr('disabled', true);
+              $('.checkDep2_'+i).removeAttr('checked');
+              $("#countcheck2").val(countcheck3);
+            }
+          }
+        }
         function senddata(data){
           var form_data = new FormData();
           form_data.append("DATA",data);
@@ -1550,6 +1652,26 @@ $array2 = json_decode($json2,TRUE);
                   $("#wTotal").val(temp[0]['wTotal']);
                   else
                   $("#wTotal").val(0);
+                }else if( (temp["form"]=='showDepRequest') ){
+                  $('#NameRequest').val("");
+                  if(temp['CountDep']>0){
+                    var myDATA = "";
+                    $('#DepAll').empty();
+                    $("input:checked").each(function() {
+                      $(this).prop('checked', false);
+                    });
+                    for(var i = 0; i<temp['CountDep']; i++){
+                      var DepName = "<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['DepName']+"</span>";
+                      var chkDep = "<input type='checkbox' id='checkDep2_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep2' style='top:-10%;' class='checkbox myDepName2 checkDep2_"+i+" unchk' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked(\""+i+"\")'>";
+                      myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+chkDep+DepName+"</div>";
+                    }
+                    $('#DepAll').html(myDATA);
+                    // $('#HItemName').html(temp['ItemName']);
+                    $('#ModalRequest').modal('toggle');
+                    var DocNoHide = $('#docno').val();
+                    // $('#ItemCodeHide').val(temp['ItemCode']);
+                    $('#DocNoHide2').val(DocNoHide);
+                  }
                 }
               }else if (temp['status']=="failed") {
                 switch (temp['msg']) {
@@ -1829,6 +1951,15 @@ $array2 = json_decode($json2,TRUE);
           top: 136px;
        }
        #ModalDepartment .card-body{
+          overflow-y:auto;
+          max-height:328px;
+       }
+       #ModalRequest .modal-content{
+          width: 70% !important;
+          right: 0% !important;
+          top: 136px;
+       }
+       #ModalRequest .card-body{
           overflow-y:auto;
           max-height:328px;
        }
@@ -2124,87 +2255,123 @@ $array2 = json_decode($json2,TRUE);
           </div>
         </div>
 
-  <!-- -----------------------------Custom1------------------------------------ -->
-  <div class="modal" id="dialogItemCode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="card-body" style="padding:0px;">
-            <div class="row">
-              <div class="col-md-8">
-                <div class='form-group row'>
-                  <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
-                  <input type="text" autocomplete="off" style="margin-left: -3%;" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
-                </div>
+<!-- -----------------------------Custom1------------------------------------ -->
+<div class="modal" id="dialogItemCode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body" style="padding:0px;">
+          <div class="row">
+            <div class="col-md-8">
+              <div class='form-group row'>
+                <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                <input type="text" autocomplete="off" style="margin-left: -3%;" class="form-control col-sm-7" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
               </div>
- 
-              <!-- serach----------------------- -->
-              <div class="search_custom col-md-2" style="margin-left: -14%;">
-                <div class="search_1 d-flex justify-content-start">
-                  <button class="btn" onclick="ShowItem()" id="bSave">
-                    <i class="fas fa-search mr-2"></i>
-                    <?php echo $array['search'][$language]; ?>
-                  </button>
-                </div>
-              </div>
-
-              <div class="search_custom col-md-2" hidden>
-                <div class="import_1 d-flex justify-content-start opacity" id="bSaveadd2">
-                  <button class="btn dis" onclick="getImport(1)" id="bSaveadd" disabled="true">
-                    <i class="fas fa-file-import mr-2 pt-1"></i>
-                      <?php echo $array['import'][$language]; ?>
-                  </button>
-                </div>
-              </div>
-              <!-- end serach----------------------- -->
             </div>
-            <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
-              <thead style="font-size:24px;">
-                <tr role="row">
-                <th style='width: 12%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <th style='width: 38%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 50%;' nowrap><center><?php echo $array['selectDep'][$language]; ?></center></th>
-                </tr>
-              </thead>
-              <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="modal fade" id="ModalDepartment" tabindex="-1" style='background-color: #00000061!important;' role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header" id="modalHead">
-          <h4 id="HItemName"></h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        <input type="text"  id="countcheck" value="0" hidden>
-        <input type="text" id="DocNoHide" hidden>
-        <input type="text" id="ItemCodeHide" hidden>
-          <div class="card-body" style="padding:0px;">
-            <input type='checkbox'  id='selectAll' onclick='selectAll()' style="top:-4px;"><span style="font-size:30px; " class="ml-4"><?php echo $array['selectall'][$language]; ?></span>
-            <div id='Dep' class='row'></div>
+            <!-- serach----------------------- -->
+            <div class="search_custom col-md-2" style="margin-left: -14%;">
+              <div class="search_1 d-flex justify-content-start">
+                <button class="btn" onclick="ShowItem()" id="bSave">
+                  <i class="fas fa-search mr-2"></i>
+                  <?php echo $array['search'][$language]; ?>
+                </button>
+              </div>
+            </div>
+            <div class="search_custom col-md-2">
+              <div class="circle2 d-flex justify-content-start">
+                <button class="btn" onclick="showDepRequest()">
+                  <i class="fas fa-plus mr-2"></i>
+                  <?php echo $array['addrequest'][$language]; ?>
+                </button>
+              </div>
+            </div>
+            <div class="search_custom col-md-2" hidden>
+              <div class="import_1 d-flex justify-content-start opacity" id="bSaveadd2">
+                <button class="btn dis" onclick="getImport(1)" id="bSaveadd" disabled="true">
+                  <i class="fas fa-file-import mr-2 pt-1"></i>
+                    <?php echo $array['import'][$language]; ?>
+                </button>
+              </div>
+            </div>
+            <!-- end serach----------------------- -->
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="btn_confirm" style="width:12%;" disabled class="btn btn-success px-2" onclick="confirmDep()"><?php echo $array['confirm'][$language]; ?></button>
-          <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
+            <thead style="font-size:24px;">
+              <tr role="row">
+              <th style='width: 12%;' nowrap><?php echo $array['no'][$language]; ?></th>
+              <th style='width: 38%;' nowrap><?php echo $array['item'][$language]; ?></th>
+              <th style='width: 50%;' nowrap><center><?php echo $array['selectDep'][$language]; ?></center></th>
+              </tr>
+            </thead>
+            <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade" id="ModalDepartment" tabindex="-1" style='background-color: #00000061!important;' role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" id="modalHead">
+        <h4 id="HItemName"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <input type="text"  id="countcheck" value="0" hidden>
+      <input type="text" id="DocNoHide" hidden>
+      <input type="text" id="ItemCodeHide" hidden>
+        <div class="card-body" style="padding:0px;">
+          <input type='checkbox'  id='selectAll' onclick='selectAll()' style="top:-4px;"><span style="font-size:30px; " class="ml-4"><?php echo $array['selectall'][$language]; ?></span>
+          <div id='Dep' class='row'></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn_confirm" style="width:12%;" disabled class="btn btn-success px-2" onclick="confirmDep()"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalRequest" tabindex="-1" style='background-color: #00000061!important;' role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><?php echo $array['addrequest'][$language]; ?></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <input type="text"  id="countcheck2" value="0" hidden>
+      <input type="text" id="DocNoHide2" hidden>
+      <input type="text" id="ItemCodeHide2" hidden>
+        <div class="card-body" style="padding:0px;">
+          <div class="row row pr-4 pl-3 mb-2">
+            <input type="text" class="form-control" id="NameRequest" placeholder="<?php echo $array['itemaneme'][$language]; ?>">
+          </div>
+          <input type='checkbox'  id='selectAll2' onclick='selectAll2()' style="top:-4px;"><span style="font-size:30px; " class="ml-4"><?php echo $array['selectall'][$language]; ?></span>
+          <div id='DepAll' class='row'></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn_confirm2" style="width:12%;" disabled class="btn btn-success px-2" onclick="confirmDep2()"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
   <!-- Bootstrap core JavaScript-->
   <script src="../template/vendor/jquery/jquery.min.js"></script>
   <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
