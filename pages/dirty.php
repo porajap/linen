@@ -523,10 +523,6 @@ $array2 = json_decode($json2,TRUE);
           var chkArray = data.split(",");
           var weight = $('#weight_'+chkArray[0]).val();
           var qty = $('#qty1_'+chkArray[0]).val();
-          var oleqty = $('#OleQty_'+chkArray[0]).val();
-          qty = oleqty*chkArray[2];
-          $('#qty1_'+chkArray[0]).val(qty);
-          // console.log( "UnitCode : "+chkArray[1] );
           var data = {
             'STATUS'  	: 'updataDetail',
             'Rowid'     : rowid,
@@ -1597,9 +1593,9 @@ $array2 = json_decode($json2,TRUE);
                     var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
                     $.each(temp['Unit'], function(key, val){
                       if(temp[i]['UnitCode']==val.UnitCode){
-                        chkunit += '<option selected value="'+val.UnitCode+'">'+val.UnitName+'</option>';
+                        chkunit += '<option selected value="'+val.UnitCode+','+val.MpCode+','+val.Multiply+'">'+val.UnitName+'</option>';
                       }else{
-                        chkunit += '<option value="'+val.UnitCode+'">'+val.UnitName+'</option>';
+                        chkunit += '<option value="'+val.UnitCode+','+val.MpCode+','+val.Multiply+'">'+val.UnitName+'</option>';
                       }
                     });
                     chkunit += "</select>";
