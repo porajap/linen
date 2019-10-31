@@ -486,7 +486,6 @@ function ShowDocument($conn, $DATA)
 }
   // }
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
-  // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -1213,9 +1212,12 @@ function SaveBill($conn, $DATA)
     $Sum = $Res['Summ'];
   }
   $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum  , CycleTime=$cycle , DeliveryTime=$settime , ScTime=$setcount WHERE shelfcount.DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum  , DeliveryTime=$settime , ScTime=$setcount WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
+  // echo json_encode($Sql);
+  // exit();
+  
   $isStatus = $DATA["isStatus"];
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
@@ -1288,7 +1290,7 @@ function SaveBill($conn, $DATA)
   $Sql = "UPDATE shelfcount SET IsRequest = 1 , IsStatus = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
-  ShowDocument($conn, $DATA);
+  // ShowDocument($conn, $DATA);
 }
 function SendData($conn, $DATA)
 {
