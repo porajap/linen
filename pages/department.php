@@ -693,7 +693,8 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
                                     "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
 									"<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
-                                    "<td style='width: 30%;'>" +  Active  + "</td>" +
+                                    "<td style='width: 20%;'>" +  Active  + "</td>" +
+                                    "<td style='width: 20%;'>" +  temp[i]['par']  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
