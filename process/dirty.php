@@ -1001,61 +1001,82 @@ function ShowDetailDoc($conn, $DATA)
       $ItemCode                     = $Result['ItemCode']==0?'0':$Result['ItemCode'];
 
       
-        $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-        $MQuery = mysqli_query($conn, $countM);
-        while ($MResult = mysqli_fetch_assoc($MQuery)) {
-          if($MResult['cnt']!=0){
-            $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
-            FROM item_multiple_unit
-            INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
-            WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-            $xQuery = mysqli_query($conn, $xSql);
-            while ($xResult = mysqli_fetch_assoc($xQuery)) {
-              $m1 = "MpCode_" . $ItemCode . "_" . $count1;
-              $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
-              $m3 = "UnitName_" . $ItemCode . "_" . $count1;
-              $m4 = "Multiply_" . $ItemCode . "_" . $count1;
-              $m5 = "Cnt_" . $ItemCode;
+      //   $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+      //   $MQuery = mysqli_query($conn, $countM);
+      //   while ($MResult = mysqli_fetch_assoc($MQuery)) {
+      //     if($MResult['cnt']!=0){
+      //       $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
+      //       FROM item_multiple_unit
+      //       INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
+      //       WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+      //       $xQuery = mysqli_query($conn, $xSql);
+      //       while ($xResult = mysqli_fetch_assoc($xQuery)) {
+      //         $return['UnitCode'][$count2]['MpCode'] = $xResult['MpCode'];
+      //         $return['UnitCode'][$count2]['UnitCode'] = $xResult['UnitCode'];
+      //         $return['UnitCode'][$count2]['UnitName'] = $xResult['UnitName'];
+      //         $return['UnitCode'][$count2]['Multiply'] = $xResult['Multiply'];
+      //         // $m1 = "MpCode_" . $ItemCode . "_" . $count1;
+      //         // $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
+      //         // $m3 = "UnitName_" . $ItemCode . "_" . $count1;
+      //         // $m4 = "Multiply_" . $ItemCode . "_" . $count1;
+      //         // $m5 = "Cnt_" . $ItemCode;
 
-              $return[$m1][$count2] = $xResult['MpCode'];
-              $return[$m2][$count2] = $xResult['UnitCode'];
-              $return[$m3][$count2] = $xResult['UnitName'];
-              $return[$m4][$count2] = $xResult['Multiply'];
-              $count2++;
-            }
-          }else{
-            $xSql = "SELECT 
-              item.UnitCode,
-              item_unit.UnitName
-            FROM item
-            INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-            WHERE item.ItemCode = '$ItemCode'";
-            $xQuery = mysqli_query($conn, $xSql);
-            while ($xResult = mysqli_fetch_assoc($xQuery)) {
-              $m1 = "MpCode_" . $ItemCode . "_" . $count1;
-              $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
-              $m3 = "UnitName_" . $ItemCode . "_" . $count1;
-              $m4 = "Multiply_" . $ItemCode . "_" . $count1;
-              $m5 = "Cnt_" . $ItemCode;
+      //         // $return[$m1][$count2] = $xResult['MpCode'];
+      //         // $return[$m2][$count2] = $xResult['UnitCode'];
+      //         // $return[$m3][$count2] = $xResult['UnitName'];
+      //         // $return[$m4][$count2] = $xResult['Multiply'];
+      //         // $count2++;
+      //       }
+      //     }else{
+      //       $xSql = "SELECT 
+      //         item.UnitCode,
+      //         item_unit.UnitName
+      //       FROM item
+      //       INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+      //       WHERE item.ItemCode = '$ItemCode'";
+      //       $xQuery = mysqli_query($conn, $xSql);
+      //       while ($xResult = mysqli_fetch_assoc($xQuery)) {
+      //         // $m1 = "MpCode_" . $ItemCode . "_" . $count1;
+      //         // $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
+      //         // $m3 = "UnitName_" . $ItemCode . "_" . $count1;
+      //         // $m4 = "Multiply_" . $ItemCode . "_" . $count1;
+      //         // $m5 = "Cnt_" . $ItemCode;
 
-              $return[$m1][$count2] = 1;
-              $return[$m2][$count2] = $xResult['UnitCode']==null?1:$xResult['UnitCode'];
-              $return[$m3][$count2] = $xResult['UnitName']==null?'piece':$xResult['UnitCode'];
-              $return[$m4][$count2] = 1;
-              $count2++;
-            }
-        }
-      }
+      //         // $return[$m1][$count2] = 1;
+      //         // $return[$m2][$count2] = $xResult['UnitCode']==null?1:$xResult['UnitCode'];
+      //         // $return[$m3][$count2] = $xResult['UnitName']==null?'piece':$xResult['UnitCode'];
+      //         // $return[$m4][$count2] = 1;
+      //         $return['UnitCode'][$count2]['MpCode'] = 1;
+      //         $return['UnitCode'][$count2]['UnitCode'] = $xResult['UnitCode']==null?1:$xResult['UnitCode'];
+      //         $return['UnitCode'][$count2]['UnitName'] = $xResult['UnitName']==null?'piece':$xResult['UnitCode'];
+      //         $return['UnitCode'][$count2]['Multiply'] = 1;
+      //         $count2++;
+      //       }
+      //   }
+      // }
 
 
-      $return[$m5][$count1] = $count2;
-      $count++;
-      $boolean = true;
-      $return['Row'] = $count1;
-      //================================================================
-      $Total += $Result['Weight'];
+      // $return[$m5][$count1] = $count2;
+      // $count++;
+      // $boolean = true;
+      // $return['Row'] = $count1;
+      // //================================================================
+      // $Total += $Result['Weight'];
       $count1++;
     }
+    $cntUnit = 0;
+    $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
+      FROM item_multiple_unit
+      INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
+      WHERE item_unit.IsStatus = 0 GROUP BY item_multiple_unit.UnitCode";
+      $xQuery = mysqli_query($conn, $xSql);
+      while ($xResult = mysqli_fetch_assoc($xQuery)) {
+        $return['Unit'][$cntUnit]['MpCode'] = $xResult['MpCode'];
+        $return['Unit'][$cntUnit]['UnitCode'] = $xResult['UnitCode'];
+        $return['Unit'][$cntUnit]['UnitName'] = $xResult['UnitName'];
+        $return['Unit'][$cntUnit]['Multiply'] = $xResult['Multiply'];
+        $cntUnit++;
+      }
     
   $return[0]['Total']    = round($Total, 2);
   $return['CountDep'] = $count1;
