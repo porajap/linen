@@ -2056,7 +2056,7 @@ function ShowDetailNew($conn, $DATA)
   $return['sq'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-
+ 
     $return[$count]['RowID']      = $Result['Id'];
     $return[$count]['ItemCode']   = $Result['ItemCode'];
     $return[$count]['ItemName']   = $Result['ItemName'];
@@ -2065,7 +2065,7 @@ function ShowDetailNew($conn, $DATA)
     $return[$count]['CcQty']       = $Result['CcQty'];
     $return[$count]['Over']       = $Result['Over']==0?"":$Result['Over'];
     $return[$count]['Short']       = $Result['Short']==0?"":$Result['Short'];
-    $return[$count]['Weight']       = $Result['Weight']==null?0:$Result['Weight'];
+    $return[$count]['Weight']       = $Result['Weight']*$Result['CcQty'];
     $return[$count]['TotalQty']   = $Result['TotalQty']==0?"":$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $UnitCode                     = $Result['UnitCode'];
