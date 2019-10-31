@@ -77,6 +77,7 @@ switch ($PmID) {
         $sys_s14=1;
         $sys_s15=0;
         $sys_s16=1;
+        $sys_s17=1;
         break;
     case "2":
         //genneral
@@ -181,6 +182,7 @@ switch ($PmID) {
         $sys_s14=1;
         $sys_s15=0;
         $sys_s16=1;
+        $sys_s17=1;
         break;
     case "4":
         //genneral
@@ -285,6 +287,7 @@ switch ($PmID) {
         $sys_s14=1;
         $sys_s15=0;
         $sys_s16=1;
+        $sys_s17=1;
         break;
     case "6":
         //genneral
@@ -337,6 +340,7 @@ switch ($PmID) {
         $sys_s14=1;
         $sys_s15=0;
         $sys_s16=1;
+        $sys_s17=1;
         break;
         case "7":
         //genneral
@@ -389,6 +393,7 @@ switch ($PmID) {
         $sys_s14=1;
         $sys_s15=0;
         $sys_s16=1;
+        $sys_s17=1;
         break;
 }
 
@@ -1329,6 +1334,15 @@ $id_h=$_SESSION['id_h'];
               <em></em><?php echo $array['menu']['system']['sub'][1][$language]; ?></a>
           </li>
           <?php } ?>
+
+          <?php if($sys_s17== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/group.php?lang=<?php echo $language; ?>" id="act24" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['system']['sub'][18][$language]; ?></a>
+          </li>
+          <?php } ?>
+
           <?php if($sys_s3== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/department.php?lang=<?php echo $language; ?>" id="act24" class="current_page"
