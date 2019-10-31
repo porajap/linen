@@ -847,6 +847,7 @@ $array2 = json_decode($json2,TRUE);
       var settime = $('#settime option:selected').val();
       var setcount = $('#setcount').val();
       var input_chk = $('#input_chk').val();
+
         if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
           $('.inputDis').attr('disabled', false);
