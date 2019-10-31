@@ -1042,7 +1042,7 @@ $array2 = json_decode($json2,TRUE);
               // $('#btn_confirm2').attr('disabled', false);
             }
           });
-
+ 
 
           for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
