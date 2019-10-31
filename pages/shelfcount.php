@@ -2644,7 +2644,7 @@ $array2 = json_decode($json2,TRUE);
                                             <option value="0">On process</option>
                                             <option value="1">Completed</option>
                                           </select>
-                                              <!-- <label id="rem2"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label> -->
+                                             <!-- <label id="rem2"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label> -->
                                           </div>
                                         </div>
                                     </div>
