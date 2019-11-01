@@ -866,7 +866,7 @@ $array2 = json_decode($json2,TRUE);
                                 $("#datepicker").val(temp[i]['date']);
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var RowID = "<input type='hidden' name='RowID_"+i+"' id='RowID_"+i+"' value='" + temp[i]['RowID'] +"'>";
-                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control price_array numonly numonly2' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' placeholder='0' onKeyPress='if(event.keyCode==13){SavePriceTime("+i+")}'></div>";
+                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control price_array numonly decimal ' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' placeholder='0' onKeyPress='if(event.keyCode==13){SavePriceTime("+i+")}'></div>";
                                 var chkPrice = "<input type='radio' name='checkPrice' class='checkPrice' value='"+temp[i]['RowID']+"'>";
                                 var chkCategoryCode = "<input type='radio' name='chkCategoryCode' class='chkCategoryCode' value='"+temp[i]['CategoryCode']+"'>";
                                 StrTR = "<tr id='tr" + RowID + "'>" +
@@ -889,11 +889,13 @@ $array2 = json_decode($json2,TRUE);
                                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                             });
 
-                            $('.numonly2').bind('paste', function () {
-                                var self = this;
-                                setTimeout(function () {
-                                    if (!/^\d*(\.\d{1,2})+$/.test($(self).val())) $(self).val('');
-                                }, 0);
+                            $('.decimal').keypress(function (e) {
+                                var character = String.fromCharCode(e.keyCode)
+                                var newValue = this.value + character;
+                                if (isNaN(newValue) || parseFloat(newValue) * 100 % 1 > 0) {
+                                    e.preventDefault();
+                                    return false;
+                                }
                             });
                             $('#rowCount').val(rowCount+1);
                             $("#datepicker").val(date);
