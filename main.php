@@ -43,6 +43,7 @@ switch ($PmID) {
         $gen_s11=1;
         $gen_s12=1;
         $gen_s13=1;
+        $gen_s14=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -149,6 +150,7 @@ switch ($PmID) {
         $gen_s11=1;
         $gen_s12=1;
         $gen_s13=1;
+        $gen_s14=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -255,6 +257,7 @@ switch ($PmID) {
         $gen_s11=1;
         $gen_s12=1;
         $gen_s13=1;
+        $gen_s14=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -309,6 +312,7 @@ switch ($PmID) {
         $gen_s11=1;
         $gen_s12=1;
         $gen_s13=1;
+        $gen_s14=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -363,6 +367,7 @@ switch ($PmID) {
         $gen_s11=1;
         $gen_s12=1;
         $gen_s13=1;
+        $gen_s14=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -1141,6 +1146,13 @@ $id_h=$_SESSION['id_h'];
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][2][$language]; ?><span style='color: #1659A2;'
                 id='clean_Cnt'>0</span></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s14== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/cleanstock.php?lang=<?php echo $language; ?>" id="act12" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][14][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s11== 1){ ?>

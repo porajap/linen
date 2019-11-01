@@ -122,6 +122,14 @@
           บันทึกรับการคืนผ้า
         </th>
       </sub>
+        <sub>
+        <en>
+          Stock receipt records
+        </en>
+        <th>
+          บันทึกรับเข้าสต๊อก
+        </th>
+      </sub>
     </general>
     <account>
       <title>
