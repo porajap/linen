@@ -1137,6 +1137,41 @@ $array2 = json_decode($json2,TRUE);
           };
           senddata(JSON.stringify(data));
         }
+        function EditRound(row){
+          $('#roundQ_'+row).attr('disabled', false);
+          $('#roundW_'+row).attr('disabled', false);
+          $('#btn_edit'+row).attr('hidden', true);
+          $('#btn_save'+row).attr('hidden', false);
+        }
+        function SavEditRound(row, ID){
+          var docno = $("#docno").val();
+          var ItemCode = $('#RoundItemCode').val();
+          var ItemName = $('#RoundItemName').val();
+          var DepCode = $('#factory option:selected').val();
+          var RowID = $('#RoundRowID').val();
+
+          $('#roundQ_'+row).attr('disabled', true);
+          $('#roundW_'+row).attr('disabled', true);
+          $('#btn_edit'+row).attr('hidden', false);
+          $('#btn_save'+row).attr('hidden', true);
+
+          var Qty = $('#roundQ_'+row).val()==null?0:$('#roundQ_'+row).val();
+          var Weight = $('#roundQ_'+row).val()==null?0:$('#roundW_'+row).val();
+          var data = {
+            'STATUS'  	: 'SavEditRound',
+            'DocNo'   	: docno,
+            'ID'		: ID,
+            'Weight'		: Weight,
+            'Qty'		: Qty,
+            'ItemName'	: ItemName,
+            'DepCode'	: DepCode,
+            'RowID'		: RowID,
+            'ItemCode'     : ItemCode
+
+          };
+          senddata(JSON.stringify(data));
+        }
+        
         <!-- ================================================================= --!>
         function senddata(data){
           var form_data = new FormData();
@@ -1720,6 +1755,8 @@ $array2 = json_decode($json2,TRUE);
 
                   }
                 }else if( (temp["form"]=='GetRound') ){
+                  $('#RoundNumber').val(1);
+                  $('#RoundWeight').val("");
                   $('#ItemNameRound').text(temp['ItemName']);
                   $('#RoundItemCode').val(temp['ItemCode']);
                   $('#RoundRowID').val(temp['RowID']);
@@ -1728,15 +1765,25 @@ $array2 = json_decode($json2,TRUE);
                   if(!$.isEmptyObject(temp['ValueObj'])){
                     $.each(temp['ValueObj'], function(key, val){
                       myTable += '<tr><td style="width:10%;" class="text-center">'+(key+1)+'</td>'+
-                                '<td style="width:40%;" class="text-center">'+val.Qty+'</td>'+
-                                '<td style="width:40%;" class="text-center">'+val.Weight+'</td>'+
-                                '<td style="width:10%;" class="text-right"><i class="fas fa-edit text-warning"></i></td></tr>';
+                                '<td style="width:40%;" class="text-center"><input type="text" class="text-center numonly RoundBG" value="'+val.Qty+'" disabled id="roundQ_'+key+'"></td>'+
+                                '<td style="width:40%;" class="text-center"><input type="text" class="text-center numonly RoundBG" value="'+val.Weight+'" disabled id="roundW_'+key+'"></td>'+
+                                '<td style="width:10%;" class="text-right">'+
+                                  '<a href="javascript:void(0)">'+
+                                    '<i class="fas fa-edit text-warning" style="font-size:20px" onclick="EditRound(\''+key+'\')" id="btn_edit'+key+'"></i>'+
+                                  '</a>'+
+                                  '<a href="javascript:void(0)">'+
+                                    '<i class="fas fa-check text-success" style="font-size:20px" onclick="SavEditRound(\''+key+'\',\''+val.Id+'\')" id="btn_save'+key+'" hidden></i>'+
+                                  '</a>'+
+                                '</td></tr>';
                     });
                   }else{
                     myTable = '<tr><td class="text-center" colspan="4" style="width:100%"><?php echo $array['notfoundmsg'][$language]; ?></td></tr>';
                   }
                   $('#BodyRound').html(myTable);
                   $('#ModalRoundShow').modal('show');
+                  $('.numonly').on('input', function() {
+                    this.value = this.value.replace(/[^0-9.]/g, ''); 
+                  });
                   ShowDetail();
                 }
               }else if (temp['status']=="failed") {
@@ -2040,7 +2087,10 @@ $array2 = json_decode($json2,TRUE);
         overflow-y:auto;
           max-height:600px;
        }
-
+       .RoundBG:disabled {
+        background: transparent;
+        border:none;
+      }
     </style>
 </head>
 
@@ -2461,17 +2511,21 @@ $array2 = json_decode($json2,TRUE);
       </div>
       <div class="modal-body">
         <div class="card-body" style="padding:0px;">
-          <div class="row mb-4">
-            <div class="col-4">
-              <input type="text" class="form-control numonly text-center" placeholder="<?php echo $array['total'][$language]; ?>" style="font-size:24px;" id="RoundNumber">
+          <div class="row mb-2">
+          <div class="form-group row">
+            <label  class="col-sm-2 col-form-label pl-5"><?php echo $array['total'][$language]; ?></label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control numonly text-center" value="1" placeholder="<?php echo $array['total'][$language]; ?>" style="font-size:24px;" id="RoundNumber">
             </div>
-            <div class="col-4">
-              <input type="text" class="form-control numonly text-center" placeholder="<?php echo $array['weight'][$language]; ?>" style="font-size:24px;" id="RoundWeight">
+            <label  class="col-sm-2 col-form-label text-right"><?php echo $array['weight'][$language]; ?></label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control numonly text-center" placeholder="0" style="font-size:24px;" id="RoundWeight">
             </div>
-            <div class="col-4 pl-0">
+            <div class="col-sm-2 pl-0">
               <button class="btn btn-info px-2" onclick="SaveRound()"><?php echo $array['confirm'][$language]; ?></button>
-              <button class="btn btn-danger px-2"><?php echo $array['cancel'][$language]; ?></button>
             </div>
+          </div>
+
           </div>
           <table class="table table-fixed table-condensed table-striped" id="TableRound" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
             <thead style="font-size:24px;">
