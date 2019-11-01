@@ -38,10 +38,17 @@ function ShowItem($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['IsActive'] = $Result['IsActive'];
     $return[$count]['HptCode'] = $Result['HptCode'];
+    $cnt                       = $Result['DepCode'];
     $return[$count]['DepCode'] = $Result['DepCode'];
     $return[$count]['DepName'] = $Result['DepName'];
-	$return[$count]['IsDefault'] = $Result['IsDefault'];
+	  $return[$count]['IsDefault'] = $Result['IsDefault'];
     $return[$count]['DefaultName'] = $Result['DefaultName'];
+    // 
+    $countDep="SELECT COUNT(DepCode) AS cnt FROM par_item_stock WHERE DepCode = $cnt";
+    $meQueryDep = mysqli_query($conn, $countDep);
+    $Result = mysqli_fetch_assoc($meQueryDep);
+    $return[$count]['cnt'] = $Result['cnt'];
+    // 
     $count++;
   }
   $return['Count'] = $count;

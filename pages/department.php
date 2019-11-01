@@ -684,6 +684,11 @@ $array2 = json_decode($json2,TRUE);
                                 }else{
                                   Active = 'inactive';
                                 }
+                                if(temp[i]['cnt'] > 0){
+                                    cnt = 'tied';
+                                }else{
+                                    cnt = 'Not tied';
+                                }
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
@@ -694,6 +699,7 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
 									"<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
                                     "<td style='width: 20%;'>" +  Active  + "</td>" +
+                                    "<td style='width: 20%;'>" +  cnt  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -1220,9 +1226,13 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 26%; '>
                                             <?php echo $array['department'][$language]; ?>
                                         </th>
-                                        <th style='width: 42%; '>
+                                        <th style='width: 20%; '>
                                             <?php echo $array['status'][$language]; ?>
                                         </th>
+                                        <th style='width: 22%; '>
+                                            <?php echo $array['pardep'][$language]; ?>
+                                        </th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:250px;">

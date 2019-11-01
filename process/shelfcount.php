@@ -234,6 +234,7 @@ function CreateDocument($conn, $DATA)
   $userid   = $DATA["userid"];
   $cycle   = $DATA["cycle"];
   $settime   = $DATA["settime"];
+  $DocDate    = $DATA["DocDate"];
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
   $Sql = "SELECT CONCAT('SC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
@@ -250,10 +251,10 @@ function CreateDocument($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
     }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
 
@@ -274,7 +275,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime , DeliveryTime , ScTime)
       VALUES
-      ( '$DocNo',NOW(),$deptCode,'',
+      ( '$DocNo','$DocDate',$deptCode,'',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() ,  '$settime' , '$setcount' )";

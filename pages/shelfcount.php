@@ -645,7 +645,13 @@ $array2 = json_decode($json2,TRUE);
       var settime = $('#settime option:selected').attr("value");
       var setcount = $('#setcount option:selected').attr("value");
       var cycle = $("#cycle").val();
-      
+      var DocDate = $('#docdate').val();
+          var lang = '<?php echo $language; ?>';
+          if(lang =='th'){
+            DocDate = DocDate.substring(6, 10)-543+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }else if(lang =='en'){
+            DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }
       if(deptCode=='' || settime=='' || hotpCode=='' || setcount=='' ){
           checkblank2();
           checkblank3();
@@ -685,7 +691,8 @@ $array2 = json_decode($json2,TRUE);
             'userid'	: userid,
             'cycle'	: cycle ,
             'settime'	: settime ,
-            'setcount'	: setcount 
+            'setcount'	: setcount ,
+            'DocDate'	: DocDate 
           };
           senddata(JSON.stringify(data));
           var word = '<?php echo $array['save'][$language]; ?>';
@@ -1700,6 +1707,7 @@ $array2 = json_decode($json2,TRUE);
               $('#department').addClass('icon_select');
               $('#settime').attr('disabled', true);
               $('#setcount').attr('disabled', true);
+              $('#docdate').attr('disabled', true);
               $('#settime').addClass('icon_select');
               $('#setcount').addClass('icon_select');
 
@@ -2568,10 +2576,9 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem"
-                                                    id="docdate"
-                                                    placeholder="<?php echo $array['docdate'][$language]; ?>">
-                                            </div>
+                                                <!-- <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>"> -->
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                              </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class='form-group row'>

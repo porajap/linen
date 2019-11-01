@@ -861,15 +861,14 @@ $array2 = json_decode($json2,TRUE);
                             }
                         }else if ((temp["form"] == 'ShowItem2')) {
                             $("#TableItemPrice tbody").empty();
-              
+
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 $("#datepicker").val(temp[i]['date']);
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var RowID = "<input type='hidden' name='RowID_"+i+"' id='RowID_"+i+"' value='" + temp[i]['RowID'] +"'>";
-                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control price_array numonly' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' placeholder='0' onKeyPress='if(event.keyCode==13){SavePriceTime("+i+")}'></div>";
+                                var Price = "<div class='row' style='margin-left:2px;'><input class='form-control price_array numonly numonly2' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' placeholder='0' onKeyPress='if(event.keyCode==13){SavePriceTime("+i+")}'></div>";
                                 var chkPrice = "<input type='radio' name='checkPrice' class='checkPrice' value='"+temp[i]['RowID']+"'>";
                                 var chkCategoryCode = "<input type='radio' name='chkCategoryCode' class='chkCategoryCode' value='"+temp[i]['CategoryCode']+"'>";
-
                                 StrTR = "<tr id='tr" + RowID + "'>" +
                                     "<td style='width: 5%;' nowrap>"+ RowID +"</td>" +
                                     "<td hidden>"+ chkPrice +"</td>" +
@@ -888,6 +887,13 @@ $array2 = json_decode($json2,TRUE);
                             }
                             $('.numonly').on('input', function() {
                                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                            });
+
+                            $('.numonly2').bind('paste', function () {
+                                var self = this;
+                                setTimeout(function () {
+                                    if (!/^\d*(\.\d{1,2})+$/.test($(self).val())) $(self).val('');
+                                }, 0);
                             });
                             $('#rowCount').val(rowCount+1);
                             $("#datepicker").val(date);

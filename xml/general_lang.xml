@@ -173,6 +173,7 @@
 <cleandoc><en>Clean linen document </en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
 <totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
 <parsc><en>ParQty</en><th>ParQty</th></parsc>
+<pardep><en>Par</en><th>Par</th></pardep>
 <leftsc><en>ShelfCount</en><th>ShelfCount</th></leftsc>
 <qty><en>QTY</en><th>จำนวน</th></qty>
 <total><en>Number</en><th>จำนวน</th></total>
