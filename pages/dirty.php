@@ -2352,8 +2352,8 @@ $array2 = json_decode($json2,TRUE);
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="btn_confirm" style="width:12%;" disabled class="btn btn-success px-2" onclick="confirmDep()"><?php echo $array['confirm'][$language]; ?></button>
-        <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+        <button type="button" id="btn_confirm" style="width:15%;" disabled class="btn btn-success px-2" onclick="confirmDep()"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:15%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
       </div>
     </div>
   </div>
