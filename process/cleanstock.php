@@ -1318,29 +1318,13 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     $boolean = false;
     $count = 0;
     $count2 = 0;
-    $Sql = "SELECT dirty.DocNo , RefDocNo ,DATE(process.WashEndTime) AS DocDate , factory.FacName FROM dirty     
-    INNER JOIN site ON dirty.HptCode = site.HptCode
-    INNER JOIN factory ON factory.FacCode = dirty.FacCode
-    INNER JOIN process ON process.DocNo = dirty.DocNo
-    WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode'  AND  dirty.DocNo LIKE '%$searchitem1%'
-    
-    UNION ALL 
-    
-    SELECT repair_wash.DocNo , RefDocNo , DATE(process.WashEndTime) AS DocDate , factory.FacName FROM repair_wash
-    INNER JOIN department ON repair_wash.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN factory ON factory.FacCode = repair_wash.FacCode
-    INNER JOIN process ON process.DocNo = repair_wash.DocNo
-    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode'  AND NOT repair_wash.RefDocNo = '' AND  repair_wash.DocNo LIKE '%$searchitem1%'
-
-    UNION ALL  
-    
-    SELECT newlinentable.DocNo , RefDocNo , DATE(process.WashEndTime) AS DocDate , factory.FacName FROM newlinentable
-    INNER JOIN site ON newlinentable.HptCode = site.HptCode
-    INNER JOIN factory ON factory.FacCode = newlinentable.FacCode
-    INNER JOIN process ON process.DocNo = newlinentable.DocNo
-    WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode' AND  newlinentable.DocNo LIKE '%$searchitem1%'  ";
-$meQuery = mysqli_query($conn, $Sql);
+    $Sql = "SELECT clean.DocNo  ,clean.DocDate  , factory.FacName FROM clean
+    INNER JOIN factory ON factory.FacCode = clean.FacCode
+    INNER JOIN department ON department.DepCode = clean.DepCode
+    INNER JOIN site ON site.HptCode = department.HptCode
+    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1 AND clean.IsRef = 0 AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%%'";
+    $meQuery = mysqli_query($conn, $Sql);
+    $return['sql'] = $Sql;
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       
       $return[$count]['RefDocNo'] = $Result['DocNo'];
