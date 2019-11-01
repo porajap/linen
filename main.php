@@ -42,7 +42,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
-        $gen_s13=0;
+        $gen_s13=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -148,7 +148,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
-        $gen_s13=0;
+        $gen_s13=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -254,7 +254,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
-        $gen_s13=0;
+        $gen_s13=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -308,7 +308,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
-        $gen_s13=0;
+        $gen_s13=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -362,7 +362,7 @@ switch ($PmID) {
         $gen_s10=1;
         $gen_s11=1;
         $gen_s12=1;
-        $gen_s13=0;
+        $gen_s13=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -1172,6 +1172,13 @@ $id_h=$_SESSION['id_h'];
                 id='shelfcount_Cnt'>0</span></a>
           </li>
           <?php } ?>
+          <?php if($gen_s13== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/return.php?lang=<?php echo $language; ?>" id="act12" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][13][$language]; ?></a>
+          </li>
+          <?php } ?>
           <?php if($gen_s5== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/percent.php?lang=<?php echo $language; ?>" id="act8" class="current_page"
@@ -1186,9 +1193,6 @@ $id_h=$_SESSION['id_h'];
               <em></em><?php echo $array['menu']['general']['sub'][5][$language]; ?></a>
           </li>
           <?php } ?>
-
-
-
           <?php if($gen_s7== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
               href="pages/stock_in.php?lang=<?php echo $language; ?>" id="act10" class="current_page"
@@ -1212,7 +1216,8 @@ $id_h=$_SESSION['id_h'];
               <em></em><?php echo $array['menu']['general']['sub'][8][$language]; ?></a>
           </li>
           <?php } ?>
- 
+
+
         </ul>
 
       </li>
