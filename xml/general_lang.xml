@@ -356,6 +356,7 @@
 <issetb><en>This item in another set you want to change set item?</en><th>รายการนี้อยู่ในเซ็ทรายการอื่น คุณต้องการเปลี่ยนเซ็ทรายการหรือไม่</th></issetb>
 <updatestock><en>Update Stock</en><th>อัพเดทคลัง</th></updatestock>
 <settime><en>Cycle time</en><th>รอบส่งผ้า</th></settime>
+<settimefac><en>Cycle time Factory</en><th>รอบส่งผ้าโรงซัก</th></settimefac>
 <setcount><en>ShelfCount time</en><th>รอบนับผ้า</th></setcount>
 <dte><en>Deleted</en><th>ลบสำเร็จ</th></dte>
 <excel><en>Create File Excel</en><th>สร้างไฟล์ Excel</th></excel>
