@@ -890,13 +890,18 @@ $array2 = json_decode($json2,TRUE);
                             });
 
                             $('.decimal').keypress(function (e) {
-                                var character = String.fromCharCode(e.keyCode)
-                                var newValue = this.value + character;
-                                if (isNaN(newValue) || parseFloat(newValue) * 100 % 1 > 0) {
-                                    e.preventDefault();
-                                    return false;
+                                    var character = String.fromCharCode(e.keyCode)
+                                    var newValue = this.value + character;
+                                    if (isNaN(newValue) || hasDecimalPlace(newValue, 3)) {
+                                        e.preventDefault();
+                                        return false;
+                                    }
+                                });
+                                
+                                function hasDecimalPlace(value, x) {
+                                    var pointIndex = value.indexOf('.');
+                                    return  pointIndex >= 0 && pointIndex < value.length - x;
                                 }
-                            });
                             $('#rowCount').val(rowCount+1);
                             $("#datepicker").val(date);
                             for (var i = 0; i < 1; i++) {
