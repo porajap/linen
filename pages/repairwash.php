@@ -347,26 +347,30 @@ $(document).ready(function(e){
 
       }
 
-      function getDepartment(){
-        var Hotp = $('#Hos2 option:selected').attr("value");
-        if( typeof Hotp == 'undefined' ) 
-        {
-          Hotp = '<?php echo $HptCode; ?>';
-        }
-        var data = {
-          'STATUS'  : 'getDepartment',
-          'Hotp'	: Hotp
-        };
-
-        senddata(JSON.stringify(data));
-        
+      function getDepartment(chk){
+        $('#hotpital').removeClass('border-danger');
+        $('#rem3').hide();
+      var Hotp = $('#hotpital option:selected').attr("value");
+      var Hotp2 = $('#Hos2 option:selected').attr("value");
+          if(chk!=2){
+          if(Hotp2 !=""){
+            Hotp = Hotp2;
+            }
+          }
+      if( typeof Hotp == 'undefined' ) 
+      {
+        Hotp = '<?php echo $HptCode; ?>';
       }
-      
-      function remove1(){
-          $('#hotpital').removeClass('border-danger');
-          $('#rem3').hide();
+      var data = {
+        'STATUS'  : 'getDepartment',
+        'Hotp'	: Hotp
+      };
 
-        }
+      senddata(JSON.stringify(data));
+      
+    }
+      
+
 
       function ShowDocument(selecta){
         var DocNo = $('#docno').val();
@@ -603,6 +607,13 @@ $(document).ready(function(e){
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
         var factory = $('#factory option:selected').attr("value");
+        var DocDate = $('#docdate').val();
+          var lang = '<?php echo $language; ?>';
+          if(lang =='th'){
+            DocDate = DocDate.substring(6, 10)-543+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }else if(lang =='en'){
+            DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }
         if(factory == ''|| hotpCode=='' ){
             checkblank2();
             checkblank3();
@@ -638,7 +649,8 @@ $(document).ready(function(e){
               'hotpCode'  : hotpCode,
               'deptCode'  : deptCode,
               'userid'	: userid,
-              'factory'	: factory
+              'factory'	: factory,
+              'DocDate'	: DocDate
             };
             senddata(JSON.stringify(data));
             var word = '<?php echo $array['save'][$language]; ?>';
@@ -1108,8 +1120,10 @@ $(document).ready(function(e){
                 $("#timerec").val(temp[0]['RecNow']);
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
+                $("#factory").val(temp[0]['FacCode']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
-                $('#factory').attr('disabled', true);
+                $('#factory').attr('disabled', false);
+                $("#factory").removeClass('icon_select');
                 if(temp[0]['IsStatus']==0){
                   var word = '<?php echo $array['save'][$language]; ?>';
                   var changeBtn = "<i class='fa fa-save'></i>";
@@ -1145,6 +1159,8 @@ $(document).ready(function(e){
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
                   $('#hover4').addClass('mhee');
+                  $('#factory').addClass('icon_select');
+                  $('#factory').attr('disabled', true);
                   $("#bSave2").removeClass('opacity');
                   $('#bPrint').attr('disabled', false);
                   $('#bPrint2').removeClass('opacity');
@@ -1652,7 +1668,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="remove1();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
                                       <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
@@ -1670,7 +1686,8 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <!-- <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1817,7 +1834,7 @@ $(document).ready(function(e){
                         <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select  class="form-control" style='font-size:24px;' id="Hos2" >
+                              <select  class="form-control" style='font-size:24px;' id="Hos2" onchange="getDepartment();">
                               </select>
                             </div>
                           </div>

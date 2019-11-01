@@ -121,6 +121,7 @@ function CreateDocument($conn, $DATA)
   $deptCode = $DATA["deptCode"];
   $factory = $DATA["factory"];
   $userid   = $DATA["userid"];
+  $DocDate    = $DATA["DocDate"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
@@ -138,10 +139,10 @@ function CreateDocument($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate );
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
     }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate );
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
 
@@ -161,7 +162,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       repair_wash.Modify_Code,repair_wash.Modify_Date )
       VALUES
-      ( '$DocNo','$hotpCode',$factory,NOW(),$deptCode,'$RefDocNo',
+      ( '$DocNo','$hotpCode',$factory,'$DocDate',$deptCode,'$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -301,7 +302,8 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
     $Sql = "SELECT site.HptCode,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) 
-    AS DocDate ,repair_wash.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus,repair_wash.RefDocNo
+    AS DocDate ,repair_wash.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
+    TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus,repair_wash.RefDocNo,repair_wash.FacCode
     FROM repair_wash
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
@@ -326,6 +328,7 @@ function CreateDocument($conn, $DATA)
       $return[$count]['DocDate']   = $newdate;
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
+      $return[$count]['FacCode']   = $Result['FacCode'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];
       $return[$count]['RefDocNo'] = $Result['RefDocNo'];
 

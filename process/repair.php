@@ -87,6 +87,7 @@ function getDepartment($conn, $DATA)
     die;
   } else {
     $return['status'] = "failed";
+    $return['msg'] = 'selectnothospital';
     $return['form'] = "getDepartment";
     echo json_encode($return);
     mysqli_close($conn);
@@ -104,6 +105,7 @@ function CreateDocument($conn, $DATA)
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
+  $DocDate    = $DATA["DocDate"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
@@ -122,10 +124,10 @@ function CreateDocument($conn, $DATA)
 
 
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
     }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
 
@@ -146,7 +148,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       repair.Modify_Code,repair.Modify_Date )
       VALUES
-      ( '$DocNo',NOW(),$deptCode,'$RefDocNo',
+      ( '$DocNo','$DocDate',$deptCode,'$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -175,12 +177,10 @@ function CreateDocument($conn, $DATA)
           $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
         }
       }
-
       $boolean = true;
     } else {
       $boolean = false;
     }
-
     if ($boolean) {
       $return['status'] = "success";
       $return['form'] = "CreateDocument";
@@ -191,6 +191,7 @@ function CreateDocument($conn, $DATA)
       $return['status'] = "failed";
       $return['form'] = "CreateDocument";
       $return['msg'] = 'cantcreate';
+      
       echo json_encode($return);
       mysqli_close($conn);
       die;
@@ -287,7 +288,7 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptName,department.DepName,repair.DocNo,DATE(repair.DocDate) 
+    $Sql = "SELECT   site.HptCode,department.DepName,repair.DocNo,DATE(repair.DocDate) 
     AS DocDate ,repair.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(repair.Modify_Date) AS xTime,repair.IsStatus,repair.RefDocNo
     FROM repair
     INNER JOIN department ON repair.DepCode = department.DepCode
@@ -296,7 +297,6 @@ function CreateDocument($conn, $DATA)
     WHERE repair.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-
       if($lang =='en'){
         $date2 = explode("-", $Result['DocDate']);
         $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
@@ -307,7 +307,7 @@ function CreateDocument($conn, $DATA)
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
       
-      $return[$count]['HptName']   = $Result['HptName'];
+      $return[$count]['HptName']   = $Result['HptCode'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;

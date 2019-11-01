@@ -622,6 +622,13 @@ $(document).ready(function(e){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
+        var DocDate = $('#docdate').val();
+          var lang = '<?php echo $language; ?>';
+          if(lang =='th'){
+            DocDate = DocDate.substring(6, 10)-543+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }else if(lang =='en'){
+            DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }
         $('#TableDetail tbody').empty();
         if(hotpCode == ''){
             checkblank3();
@@ -655,7 +662,8 @@ $(document).ready(function(e){
               'STATUS'    : 'CreateDocument',
               'hotpCode'  : hotpCode,
               'deptCode'  : deptCode,
-              'userid'	: userid
+              'userid'	: userid,
+              'DocDate'	: DocDate
             };
             senddata(JSON.stringify(data));
             $('#RefDocNo').attr('disabled', false);
@@ -1086,6 +1094,7 @@ $(document).ready(function(e){
                 $("#recorder").val(temp[0]['Record']);
                 $("#timerec").val(temp[0]['RecNow']);
                 $("#RefDocNo").val("");
+                $('#docdate').attr('disabled', true);
                 $('#bCancel').attr('disabled', false);
                 $('#bSave').attr('disabled', false);
                 $('#bImport').attr('disabled', false);
@@ -1857,7 +1866,8 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <!-- <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">

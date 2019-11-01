@@ -19,6 +19,7 @@
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
 <selectenddate><en>Please Choose Enddate</en><th>กรุณาเลือกวันที่สิ้นสุดสัญญา</th></selectenddate>
 <selecthospital><en>Please Choose Hospital</en><th>กรุณาเลือกโรงพยาบาล</th></selecthospital>
+<selectnothospital><en>Hospital not center</en><th>โรงพยาบาลที่ท่านเลือกไม่มีแผนกศูนย์กลาง</th></selectnothospital>
 <selectgroup><en>Please Choose Group</en><th>กรุณาเลือกกลุ่ม</th></selectgroup>
 <selectdep><en>Please choose department</en><th>กรุณาเลือกแผนก</th></selectdep>
 <selectCycle><en>Please choose Cycle time</en><th>กรุณาเลือกรอบส่งผ้า</th></selectCycle>
@@ -26,7 +27,6 @@
 <selectfactory><en>Please choose a factory</en><th>กรุณาเลือกโรงซัก</th></selectfactory>
 <Pleasechoosemaincategory><en>Please choose main category</en><th>กรุณาเลือกหมวดหมู่หลัก</th></Pleasechoosemaincategory>
 <Pleaseselectasubcategory><en>Please select a subcategory</en><th>กรุณาเลือกหมวดหมู่</th></Pleaseselectasubcategory>
- 
 <!--============================================================================== -->
 <Laundry2><en>Laundry</en><th>โรงงานซัก</th></Laundry2>
 <ddmmyyyy><en>dd-mm-yyyy</en><th>วว-ดด-ปปปป</th></ddmmyyyy>

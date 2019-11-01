@@ -321,18 +321,25 @@ if (e.keyCode == 13) {
 
       }
 
-      function getDepartment(){
-      var Hotp = $('#Hos2 option:selected').attr("value");
+      function getDepartment(chk){
+      var Hotp = $('#hotpital option:selected').attr("value");
+      var Hotp2 = $('#Hos2 option:selected').attr("value");
+          if(chk!=2){
+          if(Hotp2 !=""){
+            Hotp = Hotp2;
+            }
+          }
       if( typeof Hotp == 'undefined' ) 
       {
         Hotp = '<?php echo $HptCode; ?>';
+      }
       var data = {
         'STATUS'  : 'getDepartment',
         'Hotp'	: Hotp
       };
 
       senddata(JSON.stringify(data));
-      }
+      
     }
     function dis2(row){
       if($('#checkrow_'+row).prop("checked") == true){
@@ -564,6 +571,13 @@ if (e.keyCode == 13) {
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
+        var DocDate = $('#docdate').val();
+          var lang = '<?php echo $language; ?>';
+          if(lang =='th'){
+            DocDate = DocDate.substring(6, 10)-543+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }else if(lang =='en'){
+            DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }
         $('#TableDetail tbody').empty();
         swal({
           title: "<?php echo $array['confirmdoc'][$language]; ?>",
@@ -583,7 +597,8 @@ if (e.keyCode == 13) {
               'STATUS'    : 'CreateDocument',
               'hotpCode'  : hotpCode,
               'deptCode'  : deptCode,
-              'userid'	: userid
+              'userid'	: userid,
+              'DocDate'	: DocDate
             };
             senddata(JSON.stringify(data));
             var word = '<?php echo $array['save'][$language]; ?>';
@@ -949,6 +964,7 @@ if (e.keyCode == 13) {
                 $("#recorder").val(temp[0]['Record']);
                 $("#timerec").val(temp[0]['RecNow']);
                 $("#RefDocNo").val("");
+                $('#docdate').attr('disabled', true);
                 $('#bCancel').attr('disabled', false);
                 $('#bSave').attr('disabled', false);
                 $('#bImport').attr('disabled', false);
@@ -1532,7 +1548,7 @@ if (e.keyCode == 13) {
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
                                     </div>
                                   </div>
@@ -1549,7 +1565,8 @@ if (e.keyCode == 13) {
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
+                                      <!-- <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1687,7 +1704,7 @@ if (e.keyCode == 13) {
                     <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control " style='font-size:24px;' id="Hos2" >
+                              <select class="form-control " style='font-size:24px;' id="Hos2" onchange="getDepartment();">
                               </select>
                             </div>
                           </div>
