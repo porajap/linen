@@ -98,6 +98,7 @@ switch ($PmID) {
         $gen_s11=1;
         $gen_s12=1;
         $gen_s13=0;
+        $gen_s14=1;
         //account
         $ac_head=1;
         $ac_s1=0;
