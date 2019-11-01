@@ -342,7 +342,7 @@
 <formatmonth><en>Format month</en><th>รูปแบบเดือน</th></formatmonth>
 <typereport><en>Type Report</en><th>ประเภทเอกสาร : </th></typereport>
 <datefound><en>Format date is Worng!</en><th>รูปแบบวันที่ไม่ถูกต้อง!</th></datefound>
-<spacial><en>Spacial Item</en><th>รายการพิเศษ</th></spacial>
+<spacial><en>Clean</en><th>ผ้าสะอาด</th></spacial>
 <newitem><en>New item</en><th>รายการใหม่</th></newitem>
 <editTime_deli><en>Edit shipping time</en><th>แก้ไขระยะเวลาขนส่ง</th></editTime_deli>
 <TimeSC><en>Cycle time</en><th>เวลาขนส่ง</th></TimeSC>

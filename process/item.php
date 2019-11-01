@@ -31,7 +31,7 @@ function ShowItem($conn, $DATA)
             item.FacPrice,
             item.Weight,
             item.Picture,
-            item.IsDirtyBag,
+            item.IsClean,
             item.Itemnew,
             item.isset,
             item.Tdas
@@ -67,7 +67,7 @@ function ShowItem($conn, $DATA)
     $return[$count]['FacPrice'] = $Result['FacPrice'];
     $return[$count]['Weight'] = $Result['Weight'];
     $return[$count]['Picture'] = $Result['Picture'];
-    $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['IsDirtyBag'];
+    $return[$count]['IsDirtyBag'] = $Result['IsClean']==null?0:$Result['IsClean'];
     $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $return[$count]['isset'] = $Result['isset']==null?0:$Result['isset'];
     $return[$count]['Tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
@@ -419,7 +419,7 @@ function getdetail($conn, $DATA)
           Multiply,PriceUnit,
           item.QtyPerUnit,
           item.UnitCode2,
-          IsDirtyBag,
+          IsClean,
           Itemnew,
           Tdas,
           isset,
@@ -457,7 +457,7 @@ function getdetail($conn, $DATA)
     $return[$count]['PriceUnit'] = $Result['PriceUnit']==null?0:$Result['PriceUnit'];
     $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
     $return[$count]['sUnitName'] = $Result['UnitCode2'];
-    $return[0]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['IsDirtyBag'];
+    $return[0]['IsDirtyBag'] = $Result['IsClean']==null?0:$Result['IsClean'];
     $return[0]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $return[0]['isset'] = $Result['isset']==null?0:$Result['isset'];
     $return[0]['tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
@@ -566,7 +566,7 @@ function AddItem($conn, $DATA)
             Weight = '" . $DATA['Weight'] . "',
             QtyPerUnit = '" . $DATA['qpu'] . "',
             UnitCode2 = '" . $DATA['sUnit'] . "',
-            IsDirtyBag = '" . $DATA['xCenter'] . "',  
+            IsClean = '" . $DATA['xCenter'] . "',  
             Itemnew = '" . $DATA['xItemnew'] . "',
             Tdas = '" . $DATA['tdas'] . "',
             isset = ". $DATA['masterItem'].",
@@ -737,7 +737,7 @@ function NewItem($conn, $DATA)
             IsActive,
             QtyPerUnit,
             UnitCode2,
-            IsDirtyBag,
+            IsClean,
             Itemnew,
             itemDate,
             Tdas,

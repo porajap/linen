@@ -398,7 +398,6 @@ $array2 = json_decode($json2, TRUE);
       senddata(JSON.stringify(data));
     }
 
-
     function ShowItem(column, sort) {
       // var count = 0;
       // $(".checkblank66").each(function() {
@@ -434,6 +433,7 @@ $array2 = json_decode($json2, TRUE);
       senddata(JSON.stringify(data));
       // }
     }
+
     function ShowItem2(mItemCode) {
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
@@ -449,6 +449,7 @@ $array2 = json_decode($json2, TRUE);
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
+
     function ShowItemMaster(column, sort) {
       $("#TableItemMaster tbody").empty();
       var maincatagory = $("#maincatagory").val();
@@ -467,6 +468,7 @@ $array2 = json_decode($json2, TRUE);
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
+
     function ShowItemMaster2(ItemCode) {
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
@@ -597,6 +599,7 @@ $array2 = json_decode($json2, TRUE);
         });
       }
     }
+
     function resetinput(){
 
       var mainCatagory = $('#maincatagory2').val();
@@ -648,18 +651,22 @@ $array2 = json_decode($json2, TRUE);
         // $('#rem6').hide();
         $('#typeLinen').css('border-color', '');
       }
-}
-function resetinput5(){
-var Catagory = $('#catagory2').val();
-$('#catagory1').val(Catagory);
-ShowItem();
-if(Catagory !="" && Catagory!=undefined){
-  $('#rem3').hide();
-  $('#catagory2').css('border-color', '');
-  CreateItemCode();
-}
+    }
 
-}
+    function resetinput5(){
+      var Catagory = $('#catagory2').val();
+      $('#catagory1').val(Catagory);
+      ShowItem();
+      if(Catagory !="" && Catagory!=undefined){
+        $('#rem3').hide();
+        $('#catagory2').css('border-color', '');
+        CreateItemCode();
+      }
+
+    
+    
+    }
+
     function NewItem() {
       var count = 0;
       $(".checkblank").each(function() {
@@ -923,12 +930,14 @@ if(Catagory !="" && Catagory!=undefined){
       $('#AddItemBNT').hide();
       $("input[name=formatitem][value=1]").prop('checked', true);
     }
+
     function uncheckAll2() {
       $('input[type=radio]').each(function() 
           { 
                   this.checked = false; 
           });
     }
+
     function Blankinput() {
       $('#hospital').attr('disabled', false);
       $('#maincatagory2').attr('disabled', false);
@@ -981,6 +990,7 @@ if(Catagory !="" && Catagory!=undefined){
       $('#btn_del').attr('disabled', true);
 
     }
+
     function Blankinput2() {
       $(".radio-c :input").attr("disabled", false);
       $('#bSave_chk').attr('disabled', false);
@@ -1004,6 +1014,7 @@ if(Catagory !="" && Catagory!=undefined){
       $('#btn_del').attr('disabled', true);
 
     }
+    
     function getdetail(ItemCode,row) {
       $('#bSave_chk').attr('disabled', false);
       $('#btn_importMaster').attr('disabled', false);
@@ -1071,6 +1082,7 @@ if(Catagory !="" && Catagory!=undefined){
         senddata(JSON.stringify(data));
       }
     }
+
     function ActiveItem() {
       var ItemCode = $('#ItemCode').val();
       if (ItemCode != "" && ItemCode != undefined) {
@@ -1083,12 +1095,15 @@ if(Catagory !="" && Catagory!=undefined){
         senddata(JSON.stringify(data));
       }
     }
+
     function uncheckAll2() {
+
                 $('input[type=checkbox]').each(function() 
                     { 
                             this.checked = false; 
                     });
-                }
+   }
+
     function DeleteUnit() {
       var RowID = $("#checkitem2:checked").val();
       swal({
@@ -1246,6 +1261,7 @@ if(Catagory !="" && Catagory!=undefined){
       $('#searchItem_2').attr('hidden', true);
       $('#scroll555').addClass('table-scroll');
     }
+
     function menu_tapHide(chk){
       if(chk != 2){
         $('#scroll555').addClass('table-scroll');
@@ -1267,6 +1283,7 @@ if(Catagory !="" && Catagory!=undefined){
       }
 
     }
+    
 		function getplaceholder(){
 			var sUnitName = $('#sUnitName option:selected').attr("value");
 
@@ -1608,12 +1625,12 @@ if(Catagory !="" && Catagory!=undefined){
                   "<td style='width: 8%;padding-right: 5%;' "+top+"   align='center'nowrap><label> " + (i+1) + "</label></td>" +
                   "<td style='width: 8%;padding-right: 5%;' "+down+"  align='center'nowrap><label> " + j-- + "</label></td>" +
                   "<td style='width: 16%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 16%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 15%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 9%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
-                  "<td style='width: 11%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
-                  "<td style='width: 13%;'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 10%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                  "<td style='width: 11%;'nowrap>" + temp[i]['Weight'] + "</td>" +
                   "<td style='width: 8%;' nowrap>" + IsDirtyBag + "</td>" +
-                  "<td style='width: 6%;' nowrap>" + isset + "</td>" +
+                  "<td style='width: 9%;' nowrap>" + isset + "</td>" +
                   "<td style='width: 6%;' align='center'nowrap>" + Tdas + "</td>" +
                   "</tr>";
 
@@ -2770,12 +2787,12 @@ if(Catagory !="" && Catagory!=undefined){
                               <span class="checkmark"></span>
                               </label>
 
-                              <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['newitem'][$language]; ?></label>
+                              <!-- <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['newitem'][$language]; ?></label>
 
                               <label class="radio" style="margin:0px !important;">
                               <input type="checkbox"  id="masterItem" >
                               <span class="checkmark"></span>
-                              </label>
+                              </label> -->
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['itemmas'][$language]; ?></label>
 
                               <label class="radio" style="margin:0px !important;">
