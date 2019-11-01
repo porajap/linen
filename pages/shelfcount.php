@@ -2136,6 +2136,7 @@ $array2 = json_decode($json2,TRUE);
                   showConfirmButton: false,
                   timer: 1500,
                 });
+                $('#profile-tab').tab('show');
               }else{
                 result = '';
                 if(temp["CountRow"]>0){
@@ -2712,7 +2713,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  id="hover2">
+                          <div class="menu"  id="hover2" hidden>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport"disabled="true">
