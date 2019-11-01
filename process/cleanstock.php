@@ -894,7 +894,7 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
-    $Sqlx = "SELECT dirty.DocNo , dirty.FacCode FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
+    $Sqlx = "SELECT clean.DocNo , clean.FacCode FROM clean WHERE clean.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $DocNoDirty = $Result['DocNo'];
