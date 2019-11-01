@@ -2686,7 +2686,7 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6">
                                           <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label " style="font-size:24px;">Process</label>
-                                          <input type="text" id="completed"  style="font-size:22px;" class="form-control col-sm-7 checkblank3 border only only1" disabled="true"  >  
+                                          <input type="text" id="completed"  style="font-size:22px;" class="form-control col-sm-7  border only only1" disabled="true"  >  
                                  
                                              <!-- <label id="rem2"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label> -->
                                           </div>
