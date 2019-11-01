@@ -78,7 +78,7 @@ switch ($PmID) {
         $sys_s15=0;
         $sys_s16=1;
         $sys_s17=1;
-        $sys_s18=1;
+        $sys_s18=0;
         break;
     case "2":
         //genneral
@@ -184,7 +184,7 @@ switch ($PmID) {
         $sys_s15=0;
         $sys_s16=1;
         $sys_s17=1;
-        $sys_s18=1;
+        $sys_s18=0;
         break;
     case "4":
         //genneral
@@ -290,7 +290,7 @@ switch ($PmID) {
         $sys_s15=0;
         $sys_s16=1;
         $sys_s17=1;
-        $sys_s18=1;
+        $sys_s18=0;
         break;
     case "6":
         //genneral
@@ -344,7 +344,7 @@ switch ($PmID) {
         $sys_s15=0;
         $sys_s16=1;
         $sys_s17=1;
-        $sys_s18=1;
+        $sys_s18=0;
         break;
         case "7":
         //genneral
@@ -398,7 +398,7 @@ switch ($PmID) {
         $sys_s15=0;
         $sys_s16=1;
         $sys_s17=1;
-        $sys_s18=1;
+        $sys_s18=0;
         break;
 }
 

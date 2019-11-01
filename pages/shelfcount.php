@@ -87,6 +87,7 @@ $array2 = json_decode($json2,TRUE);
     $(document).ready(function(e){
       $('#rem3').hide();
       $('#rem4').hide();
+      $('#rem9').hide();
   var PmID = <?php echo $PmID;?>;
     if(PmID ==1 || PmID==6){
       $('#hotpital').removeClass('icon_select');
@@ -636,7 +637,27 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
-
+    function checkblank(){
+          $('.checkblank').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem9').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem9').hide();
+            }
+          });
+        }
+        (function ($) {
+            $(document).ready(function () {
+                $("#docdate").datepicker({
+                    onSelect: function (date, el) {
+                      $('#docdate').removeClass('border-danger');
+                      $('#rem9').hide();                    
+                      }
+                });
+            });
+        })(jQuery);
     function CreateDocument(){
 
       var userid = '<?php echo $Userid; ?>';
@@ -652,7 +673,8 @@ $array2 = json_decode($json2,TRUE);
             }else if(lang =='en'){
             DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
             }
-      if(deptCode=='' || settime=='' || hotpCode=='' || setcount=='' ){
+      if(deptCode=='' || settime=='' || hotpCode=='' || setcount=='' || DocDate=='--' || DocDate=='-543--' ){
+          checkblank();
           checkblank2();
           checkblank3();
           checkblank4();
@@ -1517,6 +1539,7 @@ $array2 = json_decode($json2,TRUE);
               $("#docdate").val(temp[0]['DocDate']);
               $("#recorder").val(temp[0]['Record']);
               $("#timerec").val(temp[0]['RecNow']);
+              $("#completed").val('on process');
               $('#bCancel').attr('disabled', false);
               $('#bSave').attr('disabled', false);
               $('#bImport').attr('disabled', false);
@@ -1572,19 +1595,19 @@ $array2 = json_decode($json2,TRUE);
                 var Status = "";
                 var Style  = "";
                 if(temp[i]['IsStatus']==1){
-                  Status = "<?php echo $array['savesuccess'][$language]; ?>";
-                  Style  = "style='width: 10%;color: #20B80E;'";
+                  Status = "on process";
+                  Style  = "style='width: 10%;color: #3399ff;'";
                 }else{
-                  Status = "<?php echo $array['draft'][$language]; ?>";
+                  Status = "on process";
                   Style  = "style='width: 10%;color: #3399ff;'";
                 }if(temp[i]['IsStatus']==9){
-                  Status = "<?php echo $array['Canceldoc'][$language]; ?>";
+                  Status = "cancel";
                   Style  = "style='width: 10%;color: #ff0000;'";
                 }if(temp[i]['IsStatus']==3){
-                  Status = "<?php echo $array['Delivery'][$language]; ?>";
-                  Style  = "style='width: 10%;color: #CD853F;'";
+                  Status = "completed";
+                  Style  = "style='width: 10%;color: #20B80E;'";
                 }else if(temp[i]['IsStatus']==4){
-                  Status = "<?php echo $array['Successx'][$language]; ?>";
+                  Status = "completed";
                   Style  = "style='width: 10%;color: #20B80E;'";
                 }
 
@@ -1686,6 +1709,15 @@ $array2 = json_decode($json2,TRUE);
                   $("#hover6").addClass('mhee');
                 }
               }
+
+              if(temp[0]['IsStatus'] ==4 || temp[0]['IsStatus'] ==3){
+                  $("#completed").val('completed');
+                  }else{
+                  $("#completed").val('on process');
+                  }
+
+
+
               $("#hotpital").val(temp[0]['HptName']);
               $("#hotpital").prop('disabled', true);
               $('#hotpital').addClass('icon_select');
@@ -1746,6 +1778,7 @@ $array2 = json_decode($json2,TRUE);
                     $("#bCancel").prop('disabled', false);
                     $("#bCancel2").removeClass('opacity');
                   }
+ 
                 var word = '<?php echo $array['edit'][$language]; ?>';
                 var changeBtn = "<i class='fas fa-edit'></i>";
                 changeBtn += "<div>"+word+"</div>";
@@ -2103,6 +2136,7 @@ $array2 = json_decode($json2,TRUE);
                   showConfirmButton: false,
                   timer: 1500,
                 });
+                $('#profile-tab').tab('show');
               }else{
                 result = '';
                 if(temp["CountRow"]>0){
@@ -2577,7 +2611,8 @@ $array2 = json_decode($json2,TRUE);
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['docdate'][$language]; ?></label>
                                                 <!-- <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>"> -->
-                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                                <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1 checkblank" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                                <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                               </div>
                                         </div>
                                         <div class="col-md-6">
@@ -2652,10 +2687,8 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6">
                                           <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label " style="font-size:24px;">Process</label>
-                                          <select  id="completed"  style="font-size:22px;" class="form-control col-sm-7 checkblank3 border "  onchange="removeClassBorder2();" name="searchitem" placeholder="Process">  
-                                            <option value="0">On process</option>
-                                            <option value="1">Completed</option>
-                                          </select>
+                                          <input type="text" id="completed"  style="font-size:22px;" class="form-control col-sm-7  border only only1" disabled="true"  >  
+                                 
                                              <!-- <label id="rem2"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label> -->
                                           </div>
                                         </div>
@@ -2680,7 +2713,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu"  id="hover2">
+                          <div class="menu"  id="hover2" hidden>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center opacity" id="bImport2">
                                 <button class="btn" onclick="OpenDialogItem()" id="bImport"disabled="true">

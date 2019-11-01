@@ -336,7 +336,16 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
           $('#isStatus').val(0)
         }
-
+        (function ($) {
+            $(document).ready(function () {
+                $("#docdate").datepicker({
+                    onSelect: function (date, el) {
+                      $('#docdate').removeClass('border-danger');
+                      $('#rem1').hide();                    
+                      }
+                });
+            });
+        })(jQuery);
         function getDepartment(){
           $('#hotpital').removeClass('border-danger');
           $('#rem3').hide();
@@ -680,7 +689,7 @@ $array2 = json_decode($json2,TRUE);
             }else if(lang =='en'){
             DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
             }
-          if(FacCode == '' || hotpCode==''){
+          if(FacCode == '' || hotpCode=='' || DocDate=='--' || DocDate=='-543--'){
             checkblank();
             checkblank2();
             checkblank3();
@@ -1856,7 +1865,8 @@ $array2 = json_decode($json2,TRUE);
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
                                           <!-- <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-7 only only1" disabled="true" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
-                                          <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                          <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1 checkblank" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                          <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                         </div>
                                       </div>
                                       <div class="col-md-6">

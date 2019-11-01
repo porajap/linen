@@ -82,6 +82,8 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+  $('#rem4').hide();
+  $('#rem3').hide();
   var PmID = <?php echo $PmID;?>;
     if(PmID ==1 || PmID==6){
       $('#hotpital').removeClass('icon_select');
@@ -322,6 +324,8 @@ if (e.keyCode == 13) {
       }
 
       function getDepartment(chk){
+        $('#hotpital').removeClass('border-danger');
+        $('#rem3').hide();
       var Hotp = $('#hotpital option:selected').attr("value");
       var Hotp2 = $('#Hos2 option:selected').attr("value");
           if(chk!=2){
@@ -566,7 +570,38 @@ if (e.keyCode == 13) {
         };
         senddata(JSON.stringify(data));
       }
-
+      function checkblank3(){
+          $('.checkblank3').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem3').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem3').hide();
+            }
+          });
+        }
+      function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem4').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem4').hide();
+            }
+          });
+        }
+        (function ($) {
+            $(document).ready(function () {
+                $("#docdate").datepicker({
+                    onSelect: function (date, el) {
+                      $('#docdate').removeClass('border-danger');
+                      $('#rem4').hide();                    
+                      }
+                });
+            });
+        })(jQuery);
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
@@ -579,6 +614,21 @@ if (e.keyCode == 13) {
             DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
             }
         $('#TableDetail tbody').empty();
+        if(hotpCode == '' || DocDate == '--' || DocDate=='-543--'){
+            checkblank2();
+            checkblank3();
+            swal({
+              title: '',
+              text: "<?php echo $array['required'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+          }else{
         swal({
           title: "<?php echo $array['confirmdoc'][$language]; ?>",
           text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
@@ -610,6 +660,7 @@ if (e.keyCode == 13) {
             swal.close();
           } 
           })
+        }
       }
 
       function canceldocno(docno) {
@@ -1548,8 +1599,9 @@ if (e.keyCode == 13) {
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
+                                      <label id="rem3"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1566,7 +1618,8 @@ if (e.keyCode == 13) {
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
                                       <!-- <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
-                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1 checkblank2" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                      <label id="rem4"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">

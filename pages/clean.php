@@ -86,6 +86,7 @@ var RowCnt=0;
 
 $(document).ready(function(e){
   $('#rem3').hide();
+  $('#rem4').hide();
   var PmID = <?php echo $PmID;?>;
     if(PmID ==1 || PmID==6){
       $('#hotpital').removeClass('icon_select');
@@ -618,6 +619,18 @@ $(document).ready(function(e){
             }
           });
         }
+        function checkblank2(){
+          $('.checkblank2').each(function() {
+            if($(this).val()==""||$(this).val()==undefined){
+              $(this).addClass('border-danger');
+              $('#rem4').show().css("color","red");
+            }else{
+              $(this).removeClass('border-danger');
+              $('#rem4').hide();
+            }
+          });
+        }
+
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
@@ -630,7 +643,8 @@ $(document).ready(function(e){
             DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
             }
         $('#TableDetail tbody').empty();
-        if(hotpCode == ''){
+        if(hotpCode == '' || DocDate == '--' || DocDate=='-543--'){
+            checkblank2();
             checkblank3();
             swal({
               title: '',
@@ -1647,6 +1661,16 @@ $(document).ready(function(e){
         })
       }
     }
+    (function ($) {
+            $(document).ready(function () {
+                $("#docdate").datepicker({
+                    onSelect: function (date, el) {
+                      $('#docdate').removeClass('border-danger');
+                      $('#rem4').hide();                    
+                      }
+                });
+            });
+        })(jQuery);
     function PrintData2(){
       var docno = $('#docno').val();
       var lang = '<?php echo $language; ?>';
@@ -1867,7 +1891,8 @@ $(document).ready(function(e){
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
                                       <!-- <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
-                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1 checkblank2" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                      <label id="rem4"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
