@@ -2137,6 +2137,7 @@ $array2 = json_decode($json2,TRUE);
                   timer: 1500,
                 });
                 $('#profile-tab').tab('show');
+                ShowDocument();
               }else{
                 result = '';
                 if(temp["CountRow"]>0){
