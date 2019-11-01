@@ -1628,7 +1628,8 @@ $array2 = json_decode($json2,TRUE);
                     DataRow += "<td style='width:21%;text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['ItemName']+"</td>"+
                     "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
                     "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+
-                    "<td style='width:20%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>";
+                    "<td style='width:15%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>"+
+                    "<td style='width:5%;'><center><a href='javascript:void(0)' onclick='addRound=(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\",\""+temp[i]['RowID']+"\",\""+i+"\")'><i class='fas fa-plus-square text-info'></i></a></center></td></<tr>";
 
                     if(isStatus==0){
                       $('#qty1_'+i).prop('disabled', false);
@@ -2177,16 +2178,17 @@ $array2 = json_decode($json2,TRUE);
                                   id="TableItemDetail" width="100%" cellspacing="0"  role="grid" style="">
                                   <thead id="theadsum" style="font-size:24px;">
                             <tr role="row" id='tr_1'>
-                            <th style="width: 3%;">&nbsp;</th>
+                              <th style="width: 3%;">&nbsp;</th>
                               <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['department'][$language]; ?></th>
                               <th style='width: 16%;' nowrap><?php echo $array['item'][$language]; ?></th>
                               <th style='width: 30%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                               <th style='width: 7%;' nowrap ><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
-                                  </thead>
-                                  <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;">
-                                  </tbody>
+                              <th style='width: 15%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 5%;' nowrap>&nbsp;</th>
+                              </thead>
+                              <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;">
+                              </tbody>
                               </table>
                           </div> <!-- tag column 1 -->
                       </div>
