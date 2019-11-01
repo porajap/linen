@@ -983,13 +983,24 @@ function ShowDetailDoc($conn, $DATA)
       INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
       RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
       INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-      INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode,
-			(SELECT SUM(sub.Qty) FROM dirty_detail_sub sub INNER JOIN dirty_detail ON dirty_detail.Id = sub.RowID) AS Qty,
-			(SELECT SUM(sub.Weight) FROM dirty_detail_sub sub INNER JOIN dirty_detail ON dirty_detail.Id = sub.RowID) AS Weight
+      INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
       WHERE dirty_detail.DocNo = '$DocNo'
       ORDER BY dirty_detail.DepCode, dirty_detail.ItemCode ASC";
+      $return['SqlItem'] = $SqlItem;
       $meQuery = mysqli_query($conn, $SqlItem);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $RowID = $Result['Id'];
+      $Weight=0;
+      $Qty=0;
+      #-------------------------------------------------------------------------------------------------------------------------
+      $Sql = "SELECT SUM(Qty) AS Qty, SUM(Weight) AS Weight FROM dirty_detail_sub WHERE DocNo = '$DocNo' AND RowID = $RowID";
+      $RoundQuery = mysqli_query($conn, $Sql);
+      while ($RoundResult = mysqli_fetch_assoc($RoundQuery)) {
+        $Weight = $RoundResult['Weight']==null?0:$RoundResult['Weight'];
+        $Qty = $RoundResult['Qty']==null?0:$RoundResult['Qty'];
+      }
+      $return['sqsqs'] = $Sql;
+      #-------------------------------------------------------------------------------------------------------------------------
       $count2 = 0;
       $return[$count1]['RowID']     = $Result['Id'];
       $return[$count1]['ItemCode']  = $Result['ItemCode']==null?"RequestName":$Result['ItemCode'];
@@ -998,14 +1009,16 @@ function ShowDetailDoc($conn, $DATA)
       $return[$count1]['UnitName']  = $Result['UnitName'];
       $return[$count1]['DepCode']   = $Result['DepCode'];
       $return[$count1]['DepName']   = $Result['DepName'];
-      $return[$count1]['Weight']    = $Result['Weight']==0?'':$Result['Weight'];
-      $return[$count1]['Qty']       = $Result['Qty']==0?'':$Result['Qty'];
+      $return[$count1]['Weight']    = $Weight;
+      $return[$count1]['Qty']       = $Qty;
       $UnitCode                     = $Result['UnitCode']==0?'0':$Result['UnitCode'];
       $ItemCode                     = $Result['ItemCode']==0?'0':$Result['ItemCode'];
-
-    
       $count1++;
     }
+
+
+
+
     $cntUnit = 0;
     $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
       FROM item_multiple_unit
@@ -1075,6 +1088,8 @@ function GetRound($conn, $DATA){
   $count = 0;
 
   $Sql = "SELECT Qty, Weight FROM dirty_detail_sub WHERE DocNo = '$DocNo' AND RowID = $RowID";
+  mysqli_query($conn, $Sql);
+
   $Query = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($Query)) {
     $return['ValueObj'][$count]['Qty'] = $Result['Qty'];
@@ -1082,12 +1097,41 @@ function GetRound($conn, $DATA){
     $count++;
   }
   $return['ItemName'] = $DATA['ItemName'];
+  $return['ItemCode'] = $DATA['ItemCode'];
+  $return['RowID'] = $DATA['RowID'];
 
   $return['status'] = "success";
   $return['form'] = "GetRound";
   echo json_encode($return);
   mysqli_close($conn);
   die;
+}
+function SaveRound($conn, $DATA){
+  $DocNo = $DATA['DocNo'];
+  $RowID = $DATA['RowID'];
+  $ItemCode = $DATA['ItemCode'];
+  $DepCode = $DATA['DepCode'];
+  $Qty = $DATA['Qty'];
+  $Weight = $DATA['Weight'];
+  $RequestName = "";
+  $count = 0;
+  if($ItemCode=="RequestName"){
+    $RequestName = $DATA['ItemName'];
+  }
+
+  $Sql = "INSERT INTO dirty_detail_sub(DocNo, RowID, ItemCode, DepCode, RequestName, Qty, Weight)VALUES
+          ('$DocNo', $RowID, '$ItemCode', $DepCode, '$RequestName', $Qty, $Weight)";
+  mysqli_query($conn, $Sql);
+
+  $return['ItemName'] = $DATA['ItemName'];
+  $return['ItemCode'] = $DATA['ItemCode'];
+  $return['RowID'] = $DATA['RowID'];
+  GetRound($conn, $DATA);
+  // $return['status'] = "success";
+  // $return['form'] = "GetRound";
+  // echo json_encode($return);
+  // mysqli_close($conn);
+  // die;
 }
 //==========================================================
 //
@@ -1144,6 +1188,8 @@ if (isset($_POST['DATA'])) {
     confirmDep2($conn, $DATA);
   }elseif ($DATA['STATUS'] == 'GetRound') {
     GetRound($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'SaveRound') {
+    SaveRound($conn, $DATA);
   }
 } else {
   $return['status'] = "error";

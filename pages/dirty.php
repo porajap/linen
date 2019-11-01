@@ -1106,12 +1106,34 @@ $array2 = json_decode($json2,TRUE);
         <!-- ================================================================= --!>
         function GetRound(ItemCode, ItemName, RowID, Row){
           var docno = $("#docno").val();
+          $('#RoundNumber').val("");
+          $('#RoundWeight').val("");
           var data = {
             'STATUS'  	: 'GetRound',
             'ItemCode'     : ItemCode,
             'DocNo'   	: docno,
             'ItemName'	: ItemName,
             'RowID'		: RowID
+          };
+          senddata(JSON.stringify(data));
+        }
+        function SaveRound(){
+          var docno = $("#docno").val();
+          var ItemCode = $('#RoundItemCode').val();
+          var ItemName = $('#RoundItemName').val();
+          var RowID = $('#RoundRowID').val();
+          var Weight = $('#RoundWeight').val()==null?0:$('#RoundWeight').val();
+          var Qty = $('#RoundNumber').val()==null?0:$('#RoundNumber').val();
+          var DepCode = $('#factory option:selected').val();
+          var data = {
+            'STATUS'  	: 'SaveRound',
+            'ItemCode'     : ItemCode,
+            'DocNo'   	: docno,
+            'ItemName'	: ItemName,
+            'DepCode'	: DepCode,
+            'RowID'		: RowID,
+            'Weight'		: Weight,
+            'Qty'		: Qty
           };
           senddata(JSON.stringify(data));
         }
@@ -1699,20 +1721,23 @@ $array2 = json_decode($json2,TRUE);
                   }
                 }else if( (temp["form"]=='GetRound') ){
                   $('#ItemNameRound').text(temp['ItemName']);
+                  $('#RoundItemCode').val(temp['ItemCode']);
+                  $('#RoundRowID').val(temp['RowID']);
+                  $('#RoundItemName').val(temp['ItemName']);
                   var myTable = '';
                   if(!$.isEmptyObject(temp['ValueObj'])){
                     $.each(temp['ValueObj'], function(key, val){
                       myTable += '<tr><td style="width:10%;" class="text-center">'+(key+1)+'</td>'+
-                                '<td style="width:45%;" class="text-right">'+val.Qty+'</td>'+
-                                '<td style="width:45%;" class="text-right">'+val.Weight+'</td></tr>';
+                                '<td style="width:40%;" class="text-center">'+val.Qty+'</td>'+
+                                '<td style="width:40%;" class="text-center">'+val.Weight+'</td>'+
+                                '<td style="width:10%;" class="text-right"><i class="fas fa-edit text-warning"></i></td></tr>';
                     });
                   }else{
-                    myTable = '<tr><td class="text-center" style="width:10%;">1</td>'+
-                    '<td class="text-center" style="width:45%"><input type="text" class="form-control numonly text-center" placeholder="0" style="font-size:24px;"></td>'+
-                    '<td class="text-center" style="width:45%;"><input type="text" class="form-control numonly text-center" placeholder="0" style="font-size:24px;"></td></tr>';
+                    myTable = '<tr><td class="text-center" colspan="4" style="width:100%"><?php echo $array['notfoundmsg'][$language]; ?></td></tr>';
                   }
                   $('#BodyRound').html(myTable);
                   $('#ModalRoundShow').modal('show');
+                  ShowDetail();
                 }
               }else if (temp['status']=="failed") {
                 switch (temp['msg']) {
@@ -2001,6 +2026,13 @@ $array2 = json_decode($json2,TRUE);
           top: 136px;
        }
        #ModalRequest .card-body{
+          overflow-y:auto;
+          max-height:328px;
+       }
+       #ModalRoundShow .modal-content{
+          right: 12% !important;
+       }
+       #ModalRoundShow .card-body{
           overflow-y:auto;
           max-height:328px;
        }
@@ -2416,22 +2448,38 @@ $array2 = json_decode($json2,TRUE);
 </div>
 
 <div class="modal fade" id="ModalRoundShow" tabindex="-1" style='background-color: #00000061!important;' role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="ItemNameRound"></h4>
+        <input type="hidden" id="RoundItemCode">
+        <input type="hidden" id="RoundRowID">
+        <input type="hidden" id="RoundItemName">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="card-body" style="padding:0px;">
+          <div class="row mb-4">
+            <div class="col-4">
+              <input type="text" class="form-control numonly text-center" placeholder="<?php echo $array['total'][$language]; ?>" style="font-size:24px;" id="RoundNumber">
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control numonly text-center" placeholder="<?php echo $array['weight'][$language]; ?>" style="font-size:24px;" id="RoundWeight">
+            </div>
+            <div class="col-4 pl-0">
+              <button class="btn btn-info px-2" onclick="SaveRound()"><?php echo $array['confirm'][$language]; ?></button>
+              <button class="btn btn-danger px-2"><?php echo $array['cancel'][$language]; ?></button>
+            </div>
+          </div>
           <table class="table table-fixed table-condensed table-striped" id="TableRound" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
             <thead style="font-size:24px;">
               <tr role="row">
                 <th style='width: 10%;' nowrap><center><?php echo $array['no'][$language]; ?></center></th>
-                <th style='width: 45%;' nowrap><center><?php echo $array['total'][$language]; ?></center></th>
-                <th style='width: 45%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                <th style='width: 40%;' nowrap><center><?php echo $array['total'][$language]; ?></center></th>
+                <th style='width: 40%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                <th style='width: 10%;' nowrap>&nbsp;</th>
               </tr>
             </thead>
             <tbody id="BodyRound" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -2439,10 +2487,10 @@ $array2 = json_decode($json2,TRUE);
           </table>
         </div>
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button type="button"  style="width:12%;" class="btn btn-success px-2" ><?php echo $array['confirm'][$language]; ?></button>
         <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
