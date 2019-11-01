@@ -897,7 +897,7 @@ $array2 = json_decode($json2,TRUE);
                                         return false;
                                     }
                                 });
-                                
+                                 
                                 function hasDecimalPlace(value, x) {
                                     var pointIndex = value.indexOf('.');
                                     return  pointIndex >= 0 && pointIndex < value.length - x;
