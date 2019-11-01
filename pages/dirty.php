@@ -1103,9 +1103,19 @@ $array2 = json_decode($json2,TRUE);
             }
           }
         }
-        function addRound(){
-          alert("ควย");
+        <!-- ================================================================= --!>
+        function GetRound(ItemCode, ItemName, RowID, Row){
+          var docno = $("#docno").val();
+          var data = {
+            'STATUS'  	: 'GetRound',
+            'ItemCode'     : ItemCode,
+            'DocNo'   	: docno,
+            'ItemName'	: ItemName,
+            'RowID'		: RowID
+          };
+          senddata(JSON.stringify(data));
         }
+        <!-- ================================================================= --!>
         function senddata(data){
           var form_data = new FormData();
           form_data.append("DATA",data);
@@ -1618,9 +1628,9 @@ $array2 = json_decode($json2,TRUE);
 
                     var chkDoc = "<div class='form-inline'><label class='radio'  style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
-                    var Qty = "<input class='form-control numonly chk_edit'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
+                    var Qty = "<input class='form-control numonly chk_edit' disabled  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input  class='form-control numonly chk_edit chk_weight weight_"+i+"' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+                    var Weight = "<input  class='form-control numonly chk_edit chk_weight weight_"+i+"' disabled style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
                    
@@ -1632,7 +1642,8 @@ $array2 = json_decode($json2,TRUE);
                     "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
                     "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+
                     "<td style='width:15%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>"+
-                    "<td style='width:5%;'><center><a href='javascript:void(0)' onclick='addRound=(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\",\""+temp[i]['RowID']+"\",\""+i+"\")'><i class='fas fa-plus-square text-info'></i></a></center></td></<tr>";
+                    "<td style='width:5%;'><center><a href='javascript:void(0)' onclick='GetRound(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\",\""+temp[i]['RowID']+"\",\""+i+"\")'>"+
+                    "<i class='fas fa-plus-square text-info'></i></a></center></td></<tr>";
 
                     if(isStatus==0){
                       $('#qty1_'+i).prop('disabled', false);
@@ -1686,6 +1697,22 @@ $array2 = json_decode($json2,TRUE);
                     $('#btn_confirm2').attr('disabled', true);
 
                   }
+                }else if( (temp["form"]=='GetRound') ){
+                  $('#ItemNameRound').text(temp['ItemName']);
+                  var myTable = '';
+                  if(!$.isEmptyObject(temp['ValueObj'])){
+                    $.each(temp['ValueObj'], function(key, val){
+                      myTable += '<tr><td style="width:10%;" class="text-center">'+(key+1)+'</td>'+
+                                '<td style="width:45%;" class="text-right">'+val.Qty+'</td>'+
+                                '<td style="width:45%;" class="text-right">'+val.Weight+'</td></tr>';
+                    });
+                  }else{
+                    myTable = '<tr><td class="text-center" style="width:10%;">1</td>'+
+                    '<td class="text-center" style="width:45%"><input type="text" class="form-control numonly text-center" placeholder="0" style="font-size:24px;"></td>'+
+                    '<td class="text-center" style="width:45%;"><input type="text" class="form-control numonly text-center" placeholder="0" style="font-size:24px;"></td></tr>';
+                  }
+                  $('#BodyRound').html(myTable);
+                  $('#ModalRoundShow').modal('show');
                 }
               }else if (temp['status']=="failed") {
                 switch (temp['msg']) {
@@ -2382,6 +2409,38 @@ $array2 = json_decode($json2,TRUE);
       </div>
       <div class="modal-footer">
         <button type="button" id="btn_confirm2" style="width:12%;" disabled class="btn btn-success px-2" onclick="confirmDep2()"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalRoundShow" tabindex="-1" style='background-color: #00000061!important;' role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="ItemNameRound"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body" style="padding:0px;">
+          <table class="table table-fixed table-condensed table-striped" id="TableRound" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
+            <thead style="font-size:24px;">
+              <tr role="row">
+                <th style='width: 10%;' nowrap><center><?php echo $array['no'][$language]; ?></center></th>
+                <th style='width: 45%;' nowrap><center><?php echo $array['total'][$language]; ?></center></th>
+                <th style='width: 45%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+              </tr>
+            </thead>
+            <tbody id="BodyRound" class="nicescrolled" style="font-size:23px;height:300px;">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  style="width:12%;" class="btn btn-success px-2" ><?php echo $array['confirm'][$language]; ?></button>
         <button type="button" style="width:10%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
       </div>
     </div>

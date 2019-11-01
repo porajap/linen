@@ -977,20 +977,22 @@ function ShowDetailDoc($conn, $DATA)
   //==========================================================
 
     $SqlItem = "SELECT dirty_detail.Id, dirty_detail.ItemCode, item.ItemName, item.UnitCode AS UnitCode1,
-      item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, dirty_detail.Weight, dirty_detail.Qty, item.UnitCode,
+      item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, item.UnitCode,
       department.DepCode, department.DepName, dirty_detail.RequestName
       FROM item
       INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
       RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
       INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-      INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
+      INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode,
+			(SELECT SUM(sub.Qty) FROM dirty_detail_sub sub INNER JOIN dirty_detail ON dirty_detail.Id = sub.RowID) AS Qty,
+			(SELECT SUM(sub.Weight) FROM dirty_detail_sub sub INNER JOIN dirty_detail ON dirty_detail.Id = sub.RowID) AS Weight
       WHERE dirty_detail.DocNo = '$DocNo'
       ORDER BY dirty_detail.DepCode, dirty_detail.ItemCode ASC";
       $meQuery = mysqli_query($conn, $SqlItem);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $count2 = 0;
       $return[$count1]['RowID']     = $Result['Id'];
-      $return[$count1]['ItemCode']  = $Result['ItemCode']==null?12:$Result['ItemCode'];
+      $return[$count1]['ItemCode']  = $Result['ItemCode']==null?"RequestName":$Result['ItemCode'];
       $return[$count1]['ItemName']  = $Result['ItemName']==null?$Result['RequestName']:$Result['ItemName'];
       $return[$count1]['UnitCode']  = $Result['UnitCode2'];
       $return[$count1]['UnitName']  = $Result['UnitName'];
@@ -1001,68 +1003,7 @@ function ShowDetailDoc($conn, $DATA)
       $UnitCode                     = $Result['UnitCode']==0?'0':$Result['UnitCode'];
       $ItemCode                     = $Result['ItemCode']==0?'0':$Result['ItemCode'];
 
-      
-      //   $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-      //   $MQuery = mysqli_query($conn, $countM);
-      //   while ($MResult = mysqli_fetch_assoc($MQuery)) {
-      //     if($MResult['cnt']!=0){
-      //       $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
-      //       FROM item_multiple_unit
-      //       INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
-      //       WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-      //       $xQuery = mysqli_query($conn, $xSql);
-      //       while ($xResult = mysqli_fetch_assoc($xQuery)) {
-      //         $return['UnitCode'][$count2]['MpCode'] = $xResult['MpCode'];
-      //         $return['UnitCode'][$count2]['UnitCode'] = $xResult['UnitCode'];
-      //         $return['UnitCode'][$count2]['UnitName'] = $xResult['UnitName'];
-      //         $return['UnitCode'][$count2]['Multiply'] = $xResult['Multiply'];
-      //         // $m1 = "MpCode_" . $ItemCode . "_" . $count1;
-      //         // $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
-      //         // $m3 = "UnitName_" . $ItemCode . "_" . $count1;
-      //         // $m4 = "Multiply_" . $ItemCode . "_" . $count1;
-      //         // $m5 = "Cnt_" . $ItemCode;
-
-      //         // $return[$m1][$count2] = $xResult['MpCode'];
-      //         // $return[$m2][$count2] = $xResult['UnitCode'];
-      //         // $return[$m3][$count2] = $xResult['UnitName'];
-      //         // $return[$m4][$count2] = $xResult['Multiply'];
-      //         // $count2++;
-      //       }
-      //     }else{
-      //       $xSql = "SELECT 
-      //         item.UnitCode,
-      //         item_unit.UnitName
-      //       FROM item
-      //       INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-      //       WHERE item.ItemCode = '$ItemCode'";
-      //       $xQuery = mysqli_query($conn, $xSql);
-      //       while ($xResult = mysqli_fetch_assoc($xQuery)) {
-      //         // $m1 = "MpCode_" . $ItemCode . "_" . $count1;
-      //         // $m2 = "UnitCode_" . $ItemCode . "_" . $count1;
-      //         // $m3 = "UnitName_" . $ItemCode . "_" . $count1;
-      //         // $m4 = "Multiply_" . $ItemCode . "_" . $count1;
-      //         // $m5 = "Cnt_" . $ItemCode;
-
-      //         // $return[$m1][$count2] = 1;
-      //         // $return[$m2][$count2] = $xResult['UnitCode']==null?1:$xResult['UnitCode'];
-      //         // $return[$m3][$count2] = $xResult['UnitName']==null?'piece':$xResult['UnitCode'];
-      //         // $return[$m4][$count2] = 1;
-      //         $return['UnitCode'][$count2]['MpCode'] = 1;
-      //         $return['UnitCode'][$count2]['UnitCode'] = $xResult['UnitCode']==null?1:$xResult['UnitCode'];
-      //         $return['UnitCode'][$count2]['UnitName'] = $xResult['UnitName']==null?'piece':$xResult['UnitCode'];
-      //         $return['UnitCode'][$count2]['Multiply'] = 1;
-      //         $count2++;
-      //       }
-      //   }
-      // }
-
-
-      // $return[$m5][$count1] = $count2;
-      // $count++;
-      // $boolean = true;
-      // $return['Row'] = $count1;
-      // //================================================================
-      // $Total += $Result['Weight'];
+    
       $count1++;
     }
     $cntUnit = 0;
@@ -1128,6 +1069,26 @@ function confirmDep2($conn, $DATA){
   }
   ShowDetailDoc($conn, $DATA);
 }
+function GetRound($conn, $DATA){
+  $DocNo = $DATA['DocNo'];
+  $RowID = $DATA['RowID'];
+  $count = 0;
+
+  $Sql = "SELECT Qty, Weight FROM dirty_detail_sub WHERE DocNo = '$DocNo' AND RowID = $RowID";
+  $Query = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($Query)) {
+    $return['ValueObj'][$count]['Qty'] = $Result['Qty'];
+    $return['ValueObj'][$count]['Weight'] = $Result['Weight'];
+    $count++;
+  }
+  $return['ItemName'] = $DATA['ItemName'];
+
+  $return['status'] = "success";
+  $return['form'] = "GetRound";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
 //==========================================================
 //
 //==========================================================
@@ -1181,6 +1142,8 @@ if (isset($_POST['DATA'])) {
     showDepRequest($conn, $DATA);
   }elseif ($DATA['STATUS'] == 'confirmDep2') {
     confirmDep2($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'GetRound') {
+    GetRound($conn, $DATA);
   }
 } else {
   $return['status'] = "error";
