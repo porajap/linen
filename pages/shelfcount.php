@@ -1825,18 +1825,15 @@ $array2 = json_decode($json2,TRUE);
 
 
                 if(temp[0]['ScTime'] == 0){
+                  if(temp[0]['jaipar'] == 1){
+                    $('#bpacking').attr('disabled', true);
+                    $('#bpacking2').addClass('opacity');
+                    $('#hover9').removeClass('mhee');
+                  }else if(temp[0]['jaipar'] == 0){
                     $('#bpacking').attr('disabled', false);
                     $('#bpacking2').removeClass('opacity');
                     $('#hover9').addClass('mhee');
-                  // if(temp[0]['jaipar'] == 1){
-                  //   $('#bdetail').attr('disabled' , true);
-                  //   $("#bdetail2").addClass('opacity');
-                  //   $("#hover6").removeClass('mhee');
-                  // }else if(temp[0]['jaipar'] == 0){
-                  //   $('#bdetail').attr('disabled' , false);
-                  //   $("#bdetail2").removeClass('opacity');
-                  //   $("#hover6").addClass('mhee');
-                  // }
+                  }
                 }else{
                     $('#bpacking').attr('disabled', true);
                     $('#bpacking2').addClass('opacity');
