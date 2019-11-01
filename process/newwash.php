@@ -129,7 +129,7 @@ function CreateDocument($conn, $DATA)
   // $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
   $FacCode   = $DATA["FacCode"];
-
+  $DocDate    = $DATA["DocDate"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
@@ -143,10 +143,10 @@ $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
 
   if($lang =='en'){
-    $date2 = explode("-", $Result['DocDate']);
+    $date2 = explode("-", $DocDate);
     $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
   }else if ($lang == 'th'){
-    $date2 = explode("-", $Result['DocDate']);
+    $date2 = explode("-", $DocDate);
     $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
   }
 
@@ -166,7 +166,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 		Total,IsCancel,Detail,
 		newlinentable.Modify_Code,newlinentable.Modify_Date,newlinentable.FacCode )
       VALUES
-      ( '$DocNo',NOW(),'$hotpCode','',
+      ( '$DocNo','$DocDate','$hotpCode','',
 		0,NOW(),0,0,
 		0,0,'',
 		$userid,NOW(),$FacCode )";
@@ -366,7 +366,7 @@ function ShowDocument($conn, $DATA)
   $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
-  $Hotp = $DATA["Hotp"]==null? $_SESSION['HptCode']:$DATA["Hotp"];
+  $Hotp = $DATA["Hotp"];
   $DocNo = $DATA["DocNo"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $datepicker = $DATA["datepicker1"];

@@ -123,10 +123,11 @@ function CreateDocument($conn, $DATA)
 {
   $boolean = false;
   $count = 0;
-  $hotpCode = $DATA["hotpCode"];
-  $userid   = $DATA["userid"];
-  $FacCode   = $DATA["FacCode"];
-  $lang = $_SESSION['lang'];
+  $hotpCode   = $DATA["hotpCode"];
+  $userid     = $DATA["userid"];
+  $FacCode    = $DATA["FacCode"];
+  $DocDate    = $DATA["DocDate"];
+  $lang       = $_SESSION['lang'];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
@@ -139,10 +140,10 @@ function CreateDocument($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
     }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
+      $date2 = explode("-", $DocDate);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
 
@@ -158,7 +159,7 @@ function CreateDocument($conn, $DATA)
     if ($count == 1) {
       $Sql = "INSERT INTO dirty
         ( DocNo,DocDate,HptCode,RefDocNo, TaxNo,TaxDate,DiscountPercent,DiscountBath, Total,IsCancel,Detail, dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode )
-        VALUES ( '$DocNo',NOW(),'$hotpCode','', 0,NOW(),0,0, 0,0,'', $userid,NOW(), $FacCode )";
+        VALUES ( '$DocNo','$DocDate','$hotpCode','', 0,NOW(),0,0, 0,0,'', $userid,NOW(), $FacCode )";
       mysqli_query($conn,$Sql);
 
         $Sql = "INSERT INTO daily_request
@@ -208,7 +209,7 @@ function ShowDocument($conn, $DATA)
   $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
-  $Hotp = $DATA["Hotp"]==null? $_SESSION['HptCode']:$DATA["Hotp"];
+  $Hotp = $DATA["Hotp"];
   $DocNo = $DATA["docno"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $datepicker = $DATA["datepicker1"];
@@ -240,7 +241,7 @@ function ShowDocument($conn, $DATA)
 //   $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
 // }
   $Sql .= "ORDER BY dirty.DocNo DESC LIMIT 500";
-// $return['sql'] = $Sql;
+$return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 

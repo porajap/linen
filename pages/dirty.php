@@ -579,6 +579,13 @@ $array2 = json_decode($json2,TRUE);
           var userid = '<?php echo $Userid; ?>';
           var hotpCode = $('#hotpital option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
+          var DocDate = $('#docdate').val();
+          var lang = '<?php echo $language; ?>';
+          if(lang =='th'){
+            DocDate = DocDate.substring(6, 10)-543+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }else if(lang =='en'){
+            DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
+            }
           if(FacCode == '' || hotpCode == ''){
             checkblank();
             checkblank2();
@@ -613,7 +620,9 @@ $array2 = json_decode($json2,TRUE);
                   'STATUS'    : 'CreateDocument',
                   'hotpCode'  : hotpCode,
                   'userid'	: userid,
-                  'FacCode'	: FacCode
+                  'FacCode'	: FacCode,
+                  'DocDate'	: DocDate
+                  
                 };
                 senddata(JSON.stringify(data));
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -1119,6 +1128,7 @@ $array2 = json_decode($json2,TRUE);
                   var PmID = <?php echo $PmID;?>;
                   var HptCode = '<?php echo $HptCode;?>';
                   $("#Hos2").empty();
+                  $("#hotpital").empty();
                   $('#getHot').val(temp[0]['HptCode']);
                   if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7){
                       var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
@@ -1182,6 +1192,7 @@ $array2 = json_decode($json2,TRUE);
                   $('#bSave').attr('disabled', false);
                   $('#bImport').attr('disabled', false);
                   $('#factory').attr('disabled', true);
+                  $('#docdate').attr('disabled', true);
                   $('#factory').addClass('icon_select');
                   $('#bSave2').removeClass('opacity');
                   $('#bImport2').removeClass('opacity');
@@ -2021,8 +2032,8 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                          <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-7 only only1" disabled="true" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" >
-
+                                          <!-- <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-7 only only1" disabled="true" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
+                                          <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
                                         </div>
                                       </div>
                                       <div class="col-md-6">
