@@ -673,7 +673,7 @@ $array2 = json_decode($json2,TRUE);
             }else if(lang =='en'){
             DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
             }
-      if(deptCode=='' || settime=='' || hotpCode=='' || setcount=='' || DocDate=='--' ){
+      if(deptCode=='' || settime=='' || hotpCode=='' || setcount=='' || DocDate=='--' || DocDate=='-543--' ){
           checkblank();
           checkblank2();
           checkblank3();

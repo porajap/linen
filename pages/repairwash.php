@@ -636,7 +636,7 @@ $(document).ready(function(e){
             }else if(lang =='en'){
             DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
             }
-        if(factory == ''|| hotpCode=='' || DocDate=='--'){
+        if(factory == ''|| hotpCode=='' || DocDate=='--' || DocDate=='-543--'){
             checkblank();
             checkblank2();
             checkblank3();

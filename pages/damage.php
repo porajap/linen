@@ -614,7 +614,7 @@ if (e.keyCode == 13) {
             DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
             }
         $('#TableDetail tbody').empty();
-        if(hotpCode == '' || DocDate == '--'){
+        if(hotpCode == '' || DocDate == '--' || DocDate=='-543--'){
             checkblank2();
             checkblank3();
             swal({
