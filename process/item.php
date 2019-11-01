@@ -26,7 +26,10 @@ function ShowItem($conn, $DATA)
           WHEN '3' THEN 'M'
           WHEN '4' THEN 'L'
           WHEN '5' THEN 'XL'
-          WHEN '6' THEN 'XXL' END AS SizeCode,
+          WHEN '6' THEN 'XXL' 
+          WHEN '7' THEN '3XL' 
+          WHEN '8' THEN '6XL' 
+          WHEN '9' THEN 'NO SIZE' END AS SizeCode,
             item.CusPrice,
             item.FacPrice,
             item.Weight,
@@ -72,7 +75,6 @@ function ShowItem($conn, $DATA)
     $return[$count]['isset'] = $Result['isset']==null?0:$Result['isset'];
     $return[$count]['Tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
-
   }
   if($column == 'itemDate' && $sort=='ASC'){
     $return['down'] = 1;
