@@ -196,7 +196,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       cleanstock.Modify_Code,cleanstock.Modify_Date )
       VALUES
-      ( '$DocNo','$DocDate',$deptCode,'$RefDocNo',
+      ( '$DocNo','$DocDate','$deptCode','$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -206,7 +206,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',NOW(),$deptCode,'$RefDocNo','cleanstock',$userid,DATE(NOW()))";
+      ('$DocNo',NOW(),'$deptCode','$RefDocNo','cleanstock',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -274,13 +274,13 @@ function CreateDocument($conn, $DATA)
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND cleanstock.DepCode = $deptCode AND cleanstock.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND cleanstock.DepCode = '$deptCode' AND cleanstock.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE cleanstock.DepCode = $deptCode AND DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE cleanstock.DepCode = '$deptCode' AND DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE cleanstock.DepCode = $deptCode AND DATE(cleanstock.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND cleanstock.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE cleanstock.DepCode = '$deptCode' AND DATE(cleanstock.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND cleanstock.DocNo LIKE '%$xDocNo%'";
     }
   // }
     $Sql .= "ORDER BY cleanstock.DocNo DESC LIMIT 500";

@@ -252,11 +252,11 @@ function confirmDep($conn, $DATA){
   $DepCode = explode(',', $DATA['DepCode']);
   $limit = sizeof($DepCode, 0);
   for($i=0; $i<$limit; $i++){
-    $count = "SELECT COUNT(*) as cnt FROM newlinentable_detail WHERE DocNo = '$DocNo' AND DepCode = $DepCode[$i] AND ItemCode = '$ItemCode'";
+    $count = "SELECT COUNT(*) as cnt FROM newlinentable_detail WHERE DocNo = '$DocNo' AND DepCode = '$DepCode[$i]' AND ItemCode = '$ItemCode'";
     $meQuery = mysqli_query($conn, $count);
     $Result = mysqli_fetch_assoc($meQuery);
     if($Result['cnt']==0){
-      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty)VALUES('$DocNo', '$ItemCode', 1, $DepCode[$i], 1)";
+      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty)VALUES('$DocNo', '$ItemCode', 1, '$DepCode[$i]', 1)";
       mysqli_query($conn, $Insert);
     }
   }
@@ -822,7 +822,7 @@ function getImport($conn, $DATA)
 	}
     for ($i = 0; $i < $n; $i++) {
       $xUsageCode = $zUsageCode[$i];
-	  $Sql = "UPDATE item_stock SET DepCode = $DepCode WHERE UsageCode = '$xUsageCode'";
+	  $Sql = "UPDATE item_stock SET DepCode = '$DepCode' WHERE UsageCode = '$xUsageCode'";
       $meQuery = mysqli_query($conn, $Sql);
     }
     ShowDetail($conn, $DATA);

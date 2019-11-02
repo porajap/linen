@@ -274,13 +274,13 @@ function CreateDocument($conn, $DATA)
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DepCode = $deptCode AND clean.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DepCode = '$deptCode' AND clean.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE clean.DepCode = $deptCode AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE clean.DepCode = $deptCode AND DATE(clean.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%'";
     }
   // }
     $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";

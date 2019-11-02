@@ -916,7 +916,10 @@ $(document).ready(function(e){
           $("#total").prop('disabled', true);
           $("#factory1").val('');
           ShowDocument();
-          Blankinput();
+          // Blankinput();
+          // setTimeout(() => {
+          //   $('#ModalSign').modal("show");
+          // }, 1500);
           if(input_chk == 1){
                   $('#alert_percent').modal('toggle');
                 }
@@ -1832,7 +1835,7 @@ $(document).ready(function(e){
         font-size: 21px;
 
       }
-     
+      .kbw-signature { width: 100%; height: 240px; }
 }
       /* ======================================== */
     </style>
@@ -2302,6 +2305,23 @@ $(document).ready(function(e){
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="ModalSign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top: 50px;background-color:#fff;">
+      <div class="modal-header">
+        <h2 class="modal-title"><?php echo $array['Signature'][$language]; ?></h2>
+      </div>
+      <div class="modal-body">
+        <div id="sig" class="kbw-signature"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" style="width:10%;" class="btn btn-success" id="svg"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:10%;" class="btn btn-danger" id="clear"><?php echo $array['clear'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Bootstrap core JavaScript-->
 <script src="../template/vendor/jquery/jquery.min.js"></script>
 <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -2318,7 +2338,45 @@ $(document).ready(function(e){
 
 <!-- Demo scripts for this page-->
 <script src="../template/js/demo/datatables-demo.js"></script>
-
+<script src="../assets-sign/js/jquery-ui.min.js"></script>
+<script src="../assets-sign/js/jquery.signature.js"></script>
+<script>
+  $(function() {
+    var sig = $('#sig').signature();
+    $('#clear').click(function() {
+      sig.signature('clear');
+    });
+    $('#svg').click(function() {
+      var SignSVG = sig.signature('toSVG');
+      var DocNo = $('#docno').val();
+      console.log(SignSVG);
+      $.ajax({
+        url: '../process/UpdateSign.php',
+        dataType: 'text',
+        cache: false,
+        data: {
+          SignSVG:SignSVG,
+          DocNo:DocNo,
+          Table:"clean",
+          Column:"signature"
+        },
+        type: 'post',
+        success: function (data) {
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $('#ModalSign').modal('toggle');
+        }
+      });
+    });
+  });
+  
+</script>
 </body>
 
 </html>

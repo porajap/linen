@@ -791,7 +791,7 @@ $array2 = json_decode($json2,TRUE);
                     if (result.value) {
                       var data = {
                         'STATUS'      : 'SaveBill',
-                        'docno'      : docno,
+                        'xdocno'      : docno,
                         'isStatus'    : isStatus,
                         'Hotp'    : HptCode,
                         'FacCode'    : FacCode
@@ -804,7 +804,10 @@ $array2 = json_decode($json2,TRUE);
                       $("#bSave").prop('disabled', true);
                       $("#bCancel").prop('disabled', true);
                       $('#factory').attr('disabled', false);
-                      Blankinput();
+                      // Blankinput();
+                    //   setTimeout(() => {
+                    // $('#ModalSign').modal("show");
+                    // }, 1500);
                     } else if (result.dismiss === 'cancel') {
                       swal.close();}
                     })
@@ -1280,13 +1283,13 @@ $array2 = json_decode($json2,TRUE);
                     var Status = "";
                     var Style  = "";
                     if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
-                      Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                      Status = "completed";
                       Style  = "style='width: 10%;color: #20B80E;'";
                     }else{
-                      Status = "<?php echo $array['draft'][$language]; ?>";
+                      Status = "on process";
                       Style  = "style='width: 10%;color: #3399ff;'";
                     }if(temp[i]['IsStatus']==9){
-                      Status = "<?php echo $array['Canceldoc'][$language]; ?>";
+                      Status = "cancel";
                       Style  = "style='width: 10%;color: #ff0000;'";
                     }
 
@@ -2091,6 +2094,8 @@ $array2 = json_decode($json2,TRUE);
         background: transparent;
         border:none;
       }
+      .kbw-signature { width: 100%; height: 240px; }
+
     </style>
 </head>
 
@@ -2548,6 +2553,23 @@ $array2 = json_decode($json2,TRUE);
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="ModalSign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top: 50px;background-color:#fff;">
+      <div class="modal-header">
+        <h2 class="modal-title"><?php echo $array['Signature'][$language]; ?></h2>
+      </div>
+      <div class="modal-body">
+        <div id="sig" class="kbw-signature"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" style="width:10%;" class="btn btn-success" id="svg"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:10%;" class="btn btn-danger" id="clear"><?php echo $array['clear'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
   <!-- Bootstrap core JavaScript-->
   <script src="../template/vendor/jquery/jquery.min.js"></script>
   <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -2564,7 +2586,45 @@ $array2 = json_decode($json2,TRUE);
 
   <!-- Demo scripts for this page-->
   <script src="../template/js/demo/datatables-demo.js"></script>
-
+  <script src="../assets-sign/js/jquery-ui.min.js"></script>
+  <script src="../assets-sign/js/jquery.signature.js"></script>
+  <script>
+  $(function() {
+    var sig = $('#sig').signature();
+    $('#clear').click(function() {
+      sig.signature('clear');
+    });
+    $('#svg').click(function() {
+      var SignSVG = sig.signature('toSVG');
+      var DocNo = $('#docno').val();
+      console.log(SignSVG);
+      $.ajax({
+        url: '../process/UpdateSign.php',
+        dataType: 'text',
+        cache: false,
+        data: {
+          SignSVG:SignSVG,
+          DocNo:DocNo,
+          Table:"dirty",
+          Column:"signature"
+        },
+        type: 'post',
+        success: function (data) {
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $('#ModalSign').modal('toggle');
+        }
+      });
+    });
+  });
+  
+</script>
 </body>
 
 </html>

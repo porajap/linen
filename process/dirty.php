@@ -668,7 +668,7 @@ function getImport($conn, $DATA)
 	}
     for ($i = 0; $i < $n; $i++) {
       $xUsageCode = $zUsageCode[$i];
-	  $Sql = "UPDATE item_stock SET DepCode = $DepCode WHERE UsageCode = '$xUsageCode'";
+	  $Sql = "UPDATE item_stock SET DepCode = '$DepCode' WHERE UsageCode = '$xUsageCode'";
       $meQuery = mysqli_query($conn, $Sql);
     }
   	ShowDetail($conn, $DATA);
@@ -777,7 +777,7 @@ function DeleteItem($conn, $DATA)
 
 function SaveBill($conn, $DATA)
 {
-  $DocNo = $DATA["docno"];
+  $DocNo = $DATA["xdocno"];
   $isStatus = $DATA["isStatus"];
 
   $Sql = "UPDATE dirty SET IsStatus = $isStatus WHERE dirty.DocNo = '$DocNo'";
@@ -786,7 +786,7 @@ function SaveBill($conn, $DATA)
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
-  ShowDocument($conn,$DATA);
+  ShowDocument($conn, $DATA);
 }
 
 function UpdateRefDocNo($conn, $DATA)
@@ -958,11 +958,11 @@ function confirmDep($conn, $DATA){
   $DepCode = explode(',', $DATA['DepCode']);
   $limit = sizeof($DepCode, 0);
   for($i=0; $i<$limit; $i++){
-    $count = "SELECT COUNT(*) as cnt FROM dirty_detail WHERE DocNo = '$DocNo' AND DepCode = $DepCode[$i] AND ItemCode = '$ItemCode'";
+    $count = "SELECT COUNT(*) as cnt FROM dirty_detail WHERE DocNo = '$DocNo' AND DepCode = '$DepCode[$i]' AND ItemCode = '$ItemCode'";
     $meQuery = mysqli_query($conn, $count);
     $Result = mysqli_fetch_assoc($meQuery);
     if($Result['cnt']==0){
-      $Insert = "INSERT dirty_detail (DocNo, ItemCode, UnitCode, DepCode, Qty)VALUES('$DocNo', '$ItemCode', 1, $DepCode[$i], 1)";
+      $Insert = "INSERT dirty_detail (DocNo, ItemCode, UnitCode, DepCode, Qty)VALUES('$DocNo', '$ItemCode', 1, '$DepCode[$i]', 1)";
       mysqli_query($conn, $Insert);
     }
   }
@@ -1072,11 +1072,11 @@ function confirmDep2($conn, $DATA){
   $DepCode = explode(',', $DATA['DepCode']);
   $limit = sizeof($DepCode, 0);
   for($i=0; $i<$limit; $i++){
-    $count = "SELECT COUNT(*) as cnt FROM dirty_detail WHERE DocNo = '$DocNo' AND DepCode = $DepCode[$i] AND RequestName = '$RequestName'";
+    $count = "SELECT COUNT(*) as cnt FROM dirty_detail WHERE DocNo = '$DocNo' AND DepCode = '$DepCode[$i]' AND RequestName = '$RequestName'";
     $meQuery = mysqli_query($conn, $count);
     $Result = mysqli_fetch_assoc($meQuery);
     if($Result['cnt']==0){
-      $Insert = "INSERT dirty_detail (DocNo, RequestName, UnitCode, DepCode, Qty)VALUES('$DocNo', '$RequestName', 1, $DepCode[$i], 1)";
+      $Insert = "INSERT dirty_detail (DocNo, RequestName, UnitCode, DepCode, Qty)VALUES('$DocNo', '$RequestName', 1, '$DepCode[$i]', 1)";
       mysqli_query($conn, $Insert);
     }
   }
@@ -1121,7 +1121,7 @@ function SaveRound($conn, $DATA){
   }
 
   $Sql = "INSERT INTO dirty_detail_round(DocNo, RowID, ItemCode, DepCode, RequestName, Qty, Weight)VALUES
-          ('$DocNo', $RowID, '$ItemCode', $DepCode, '$RequestName', $Qty, $Weight)";
+          ('$DocNo', $RowID, '$ItemCode', '$DepCode', '$RequestName', $Qty, $Weight)";
   mysqli_query($conn, $Sql);
 
 

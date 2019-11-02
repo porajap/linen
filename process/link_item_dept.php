@@ -401,7 +401,6 @@ function additemstock($conn, $DATA)
           mysqli_query($conn,$Sql2);
           $boolean++;
       }else{
-
         $update = "UPDATE item_stock SET ParQty = $setPar, TotalQty = $setTotalQty WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
         $return['update'] = $update;
         mysqli_query($conn,$update);
