@@ -347,14 +347,14 @@ function additemstock($conn, $DATA)
   $Itemcode = explode(",",$DATA['ItemCode']);
   $Number = explode(",",$DATA['Number']);
 
-  $Sql1="SELECT  COUNT(department.DepCode) AS cnt  FROM department WHERE DepCode = $Deptid AND IsDefault = 1";
+  $Sql1="SELECT  COUNT(department.DepCode) AS cnt  FROM department WHERE DepCode = '$Deptid' AND IsDefault = 1";
   $query = mysqli_query($conn,$Sql1);
   $Resultquery = mysqli_fetch_assoc($query);
   $cnt = $Resultquery['cnt']==null?0:$Resultquery['cnt'];
   // var_dump($Number[0]); die;
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
     // =====================================================================
-    $SqlCount3 = "SELECT COUNT(ItemCode) AS ParCount , ParQty , TotalQty FROM par_item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
+    $SqlCount3 = "SELECT COUNT(ItemCode) AS ParCount , ParQty , TotalQty FROM par_item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = '$Deptid'";
     $meQuery3 = mysqli_query($conn,$SqlCount3);
     while ($Result3 = mysqli_fetch_assoc($meQuery3)) {
       $ParCount = $Result3['ParCount'];
@@ -363,25 +363,25 @@ function additemstock($conn, $DATA)
     }
     if($xCenter2 != 1){
     if($ParCount == 0){
-    $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty , $Number[$i])";
+    $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , $Number[$i])";
     mysqli_query($conn,$Sqlpar);
     }else{
       $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 ,TotalQty = $TotalQty8
-      WHERE DepCode = $Deptid AND ItemCode = '$Itemcode[$i]'";
+      WHERE DepCode = '$Deptid' AND ItemCode = '$Itemcode[$i]'";
       mysqli_query($conn,$Sqlpar);  
     }
   }else{
     if($ParCount == 0){
-      $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty , 0)";
+      $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , 0)";
       mysqli_query($conn,$Sqlpar);
       }else{
         $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 ,TotalQty = 0
-        WHERE DepCode = $Deptid AND ItemCode = '$Itemcode[$i]'";
+        WHERE DepCode = '$Deptid' AND ItemCode = '$Itemcode[$i]'";
         mysqli_query($conn,$Sqlpar);  
       }
   }
     // =====================================================================
-    $SqlCount = "SELECT COUNT(ItemCode) AS countPar, TotalQty, ParQty FROM item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
+    $SqlCount = "SELECT COUNT(ItemCode) AS countPar, TotalQty, ParQty FROM item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = '$Deptid'";
     $meQuery = mysqli_query($conn,$SqlCount);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $countPar = $Result['countPar'];
@@ -400,7 +400,7 @@ function additemstock($conn, $DATA)
           $boolean++;
         }
       }else{
-        $update = "UPDATE item_stock SET ParQty = $setPar, TotalQty = $setTotalQty WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
+        $update = "UPDATE item_stock SET ParQty = $setPar, TotalQty = $setTotalQty WHERE ItemCode = '$Itemcode[$i]' AND DepCode = '$Deptid'";
         $return['update'] = $update;
         mysqli_query($conn,$update);
 
@@ -573,7 +573,7 @@ function SelectItemStock($conn, $DATA)
             FROM par_item_stock
             INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
             -- WHERE par_item_stock.ItemCode = '$ItemCode[$j]' 
-            WHERE par_item_stock.DepCode = $DepCode ";
+            WHERE par_item_stock.DepCode = '$DepCode' ";
 
             $ItemQuery = mysqli_query($conn, $SqlItem);
             while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
@@ -613,7 +613,7 @@ function ShowItemStock($conn, $DATA)
 {
   // $boolean = 0;
   // $count = 0;
-  // $Deptid = $DATA['Deptid'];
+  // '$Deptid' = $DATA['Deptid'];
   // $Keyword = $DATA['Keyword'];
   // $Sql = "SELECT
   //         item_stock.RowID,
@@ -625,7 +625,7 @@ function ShowItemStock($conn, $DATA)
   //         FROM
   //         item_stock
   //         INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-  //         WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = $Deptid  AND item_stock.IsStatus = 9  AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+  //         WHERE item_stock.IsStatus = 9 AND item_stock.DepCode = '$Deptid'  AND item_stock.IsStatus = 9  AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
   //         ORDER BY item_stock.RowID DESC";
   //         // $return['sql'] = $Sql;
   // $meQuery = mysqli_query($conn,$Sql);
@@ -835,7 +835,7 @@ function Submititemstock($conn, $DATA)
                 FROM
                 item_stock
                 INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-                WHERE item_stock.IsStatus = 0 AND item_stock.DepCode = $Deptid AND item_stock.ExpireDate IS NOT NULL
+                WHERE item_stock.IsStatus = 0 AND item_stock.DepCode = '$Deptid' AND item_stock.ExpireDate IS NOT NULL
                 GROUP BY item_stock.ItemCode
                 ORDER BY item_stock.RowID DESC";
   $meQuery2 = mysqli_query($conn,$Sqlsearch);
@@ -845,7 +845,7 @@ function Submititemstock($conn, $DATA)
             COUNT(*) AS Cnt
             FROM
             item_stock_detail
-            WHERE item_stock_detail.DepCode = $Deptid AND item_stock_detail.ItemCode = '".$row['ItemCode']."'";
+            WHERE item_stock_detail.DepCode = '$Deptid' AND item_stock_detail.ItemCode = '".$row['ItemCode']."'";
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       if($Result['Cnt']==0){
@@ -853,7 +853,7 @@ function Submititemstock($conn, $DATA)
           VALUES(
             '".$row['ItemCode']."',
             '".$row['ExpireDate']."',
-            $Deptid,
+            '$Deptid',
             ".$row['ParQty'].",
             0
           )";
@@ -864,7 +864,7 @@ function Submititemstock($conn, $DATA)
     }
   }
 
-  $Sql = "UPDATE item_stock SET IsStatus = 1 WHERE DepCode = $Deptid AND ExpireDate <> '' AND ExpireDate IS NOT NULL";
+  $Sql = "UPDATE item_stock SET IsStatus = 1 WHERE DepCode = '$Deptid' AND ExpireDate <> '' AND ExpireDate IS NOT NULL";
   // var_dump($Sql); die;
   if(mysqli_query($conn,$Sql)){
     $count++;

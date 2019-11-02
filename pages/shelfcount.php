@@ -1758,10 +1758,12 @@ $array2 = json_decode($json2,TRUE);
                     $("#bCancel").prop('disabled', false);
                     $("#bCancel2").removeClass('opacity');
                   }
- 
-                var word = '<?php echo $array['edit'][$language]; ?>';
-                var changeBtn = "<i class='fas fa-edit'></i>";
+                var word = '<?php echo $array['save'][$language]; ?>';
+                var changeBtn = "<i class='fa fa-save'></i>";
                 changeBtn += "<div>"+word+"</div>";
+                // var word = '<?php echo $array['edit'][$language]; ?>';
+                // var changeBtn = "<i class='fas fa-edit'></i>";
+                // changeBtn += "<div>"+word+"</div>";
                 $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
