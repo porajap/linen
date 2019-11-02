@@ -497,9 +497,11 @@ $(document).ready(function(e){
 
       function ShowDetail() {
         var docno = $("#docno").val();
+        var deptCode = $('#department option:selected').val();
         var data = {
           'STATUS'  : 'ShowDetail',
-          'DocNo'   : docno
+          'DocNo'   : docno,
+          'deptCode'   : deptCode,
         };
         senddata(JSON.stringify(data));
       }
@@ -555,7 +557,7 @@ $(document).ready(function(e){
         var xweight = weightArray.join(',') ;
         var xunit = unitArray.join(',') ;
 
-        var deptCode = $('#department option:selected').attr("value");
+        var deptCode = $('#department option:selected').val();
 
         // alert("xrow : "+xrow);
 
@@ -677,9 +679,9 @@ $(document).ready(function(e){
       }
 
       function addnum(cnt, Max) {
-        var add = parseInt($('#iqty'+cnt).val())+1;
+        var add = Number($('#iqty'+cnt).val())==null?0+1:(Number($('#iqty'+cnt).val())+1);
         if(add<=0){
-          $('#iqty'+cnt).val(1);
+          $('#iqty'+cnt).val(0);
         }else if(add>Max){
           $('#iqty'+cnt).val(Max);
         }else{
@@ -688,9 +690,9 @@ $(document).ready(function(e){
       }
 
       function subtractnum(cnt, Max) {
-        var sub = parseInt($('#iqty'+cnt).val())-1;
+        var sub = Number($('#iqty'+cnt).val())==null?0+1:(Number($('#iqty'+cnt).val())-1);
         if(sub<=0) {
-          $('#iqty'+cnt).val(1);
+          $('#iqty'+cnt).val(0);
         }else if(sub>Max){
           $('#iqty'+cnt).val(Max);
         }else{
@@ -913,18 +915,25 @@ $(document).ready(function(e){
               }
       }
       function updateQty(RowID, i, Max){
-        var newQty = $('#qty1_'+i).val();
+        var docno = $("#docno").val();
+        var newQty = Number($('#qty1_'+i).val());
+        var deptCode = $('#department option:selected').val();
         if(newQty<=0){
-          $('#qty1_'+i).val(1);
+          $('#qty1_'+i).val(0);
+          var Qty = 0;
         }else if(newQty>Max){
           $('#qty1_'+i).val(Max);
+          var Qty = Max;
         }else{
           $('#qty1_'+i).val(newQty);
+          var Qty = newQty;
         }
         var data = {
           'STATUS' : 'updateQty',
           'RowID' : RowID,
-          'newQty' : newQty
+          'newQty' : Qty,
+          'DocNo' : docno,
+          'deptCode' : deptCode
         }
         $('#input_chk').val(0);
         senddata(JSON.stringify(data));
@@ -982,7 +991,7 @@ $(document).ready(function(e){
       }
 
       function QtyKey(MaxQty, i){
-        var Qty = Number($('#iqty'+i).val());
+        var Qty = Number($('#iqty'+i).val())==null?0:Number($('#iqty'+i).val());
         if(Qty>MaxQty){
           $('#iqty'+i).val(MaxQty);
         }else{
@@ -1365,7 +1374,7 @@ $(document).ready(function(e){
 
                   var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
-                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' onkeyup='QtyKey(\""+temp[i]['TotalQty']+"\",\""+i+"\")'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>+</button></div>";
+                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' placeholder='0' onkeyup='QtyKey(\""+temp[i]['TotalQty']+"\",\""+i+"\")'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>+</button></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0'></div>";
 
