@@ -361,7 +361,7 @@ function additemstock($conn, $DATA)
       $ParQty3 =  $Result3['ParQty'] + $ParQty;
       $TotalQty8 = $Number[$i] + $Result3['TotalQty'] ;
     }
-    if($xCenter2 != 1){
+  if($xCenter2 != 1){
     if($ParCount == 0){
     $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , $Deptid , $ParQty , $Number[$i])";
     mysqli_query($conn,$Sqlpar);
@@ -392,30 +392,54 @@ function additemstock($conn, $DATA)
     $return['TotalQty'] = $TotalQty;
     $return['setTotalQty'] = $setTotalQty;
     if($cnt == 1){
-    for ($j=0; $j < $Number[$i] ; $j++) {
-      if($countPar == 0){
-        $Sql2 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)
-        VALUES( '".$Itemcode[$i]."', '$Deptid', $ParQty, 0, $Number[$i],0,NOW())";
-        if(mysqli_query($conn,$Sql2)){
+      if($countPar==0){
+        $Sql2="INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)VALUES";
+          for($j=0; $j < $Number[$i] ; $j++){
+            $Sql2.="('".$Itemcode[$i]."', '$Deptid', $ParQty, 0, $Number[$i], 0, NOW()),";
+          }
+          $Sql2=rtrim($Sql2, ",");
+          mysqli_query($conn,$Sql2);
           $boolean++;
-        }
       }else{
+
         $update = "UPDATE item_stock SET ParQty = $setPar, TotalQty = $setTotalQty WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
         $return['update'] = $update;
         mysqli_query($conn,$update);
 
-        $Sql3 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus, TotalQty, UsageCode)
-        VALUES( '".$Itemcode[$i]."', '$Deptid', $setPar, 0, $setTotalQty,0)";
-        $return['Sql3'] = $Sql3;
-        if(mysqli_query($conn,$Sql3)){
-          $boolean++;
+        $Sql2="INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus, TotalQty, UsageCode) VALUES";
+        for($j=0; $j < $Number[$i] ; $j++){
+          $Sql2.="('".$Itemcode[$i]."', '$Deptid', $setPar, 0, $setTotalQty, 0),";
         }
+        $Sql2=rtrim($Sql2, ",");
+        mysqli_query($conn,$Sql2);
+        $boolean++;
       }
-    }
+
+    // for ($j=0; $j < $Number[$i] ; $j++) {
+    //   if($countPar == 0){
+    //     $Sql2 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)
+    //     VALUES( '".$Itemcode[$i]."', '$Deptid', $ParQty, 0, $Number[$i],0,NOW())";
+    //     if(mysqli_query($conn,$Sql2)){
+    //       $boolean++;
+    //     }
+    //   }else{
+    //     $update = "UPDATE item_stock SET ParQty = $setPar, TotalQty = $setTotalQty WHERE ItemCode = '$Itemcode[$i]' AND DepCode = $Deptid";
+    //     $return['update'] = $update;
+    //     mysqli_query($conn,$update);
+
+    //     $Sql3 = "INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus, TotalQty, UsageCode)
+    //     VALUES( '".$Itemcode[$i]."', '$Deptid', $setPar, 0, $setTotalQty,0)";
+    //     $return['Sql3'] = $Sql3;
+    //     if(mysqli_query($conn,$Sql3)){
+    //       $boolean++;
+    //     }
+    //   }
+    // }
   }else{
     $boolean++;
   }
 }
+$return['Sqls'] = $Sql2;
 
   // ====================================================================================
   for ($i=0; $i < sizeof($Itemcode,0) ; $i++) {
@@ -648,7 +672,7 @@ function ShowItemStock($conn, $DATA)
   $DepCode = $DATA['Deptid'];
   $Keyword = $DATA['Keyword'];
   $xCenter2 = $DATA['xCenter2'];
-if($xCenter2 == 0){
+  if($xCenter2 == 0){
   $Sql="SELECT item_stock.ItemCode 
   FROM item_stock 
   INNER JOIN item ON item_stock.ItemCode = item.ItemCode
@@ -708,7 +732,7 @@ if($xCenter2 == 0){
     $return[$i]['num'] = $count2;
     $boolean = true;
   }
-}else{
+  }else{
   $Sql="SELECT par_item_stock.ItemCode 
   FROM par_item_stock 
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
@@ -741,7 +765,7 @@ if($xCenter2 == 0){
     $return[$i]['num'] = $count2;
     $boolean = true;
   }
-}
+  }
       $return['countpar'] = $countpar;
       $return['countx'] = $count5;
         if($boolean==true){
