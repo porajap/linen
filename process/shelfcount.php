@@ -447,25 +447,25 @@ function ShowDocument($conn, $DATA)
   //   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   // }else{
   if($PmID ==1 || $PmID==6){
-  if ($Hotp != null && $deptCode == null && $datepicker == null) {
-    $Sql .= " WHERE  shelfcount.DocNo LIKE '%$xDocNo%' ";
-    if($xDocNo!=null){
-      $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
+    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+      $Sql .= " WHERE  shelfcount.DocNo LIKE '%$xDocNo%' ";
+      if($xDocNo!=null){
+        $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
+      }
+    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+        $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' ";
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+      $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }
-  }else if($Hotp == null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' ";
-  }else if ($Hotp == null && $deptCode == null && $datepicker != null){
-    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp != null && $deptCode != null && $datepicker == null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp != null && $deptCode == null && $datepicker != null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp == null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp != null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
-  }
-}else{
+  }else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
     $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
     if($xDocNo!=null){
@@ -484,7 +484,7 @@ function ShowDocument($conn, $DATA)
   }else if($Hotp != null && $deptCode != null && $datepicker != null){
     $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }
-}
+  }
   // }
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
   $meQuery = mysqli_query($conn, $Sql);
@@ -536,7 +536,7 @@ function SelectDocument($conn, $DATA)
   $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
-  $DocNo = $DATA["xdocno"];
+  $DocNo = $DATA["DocNo"];
   $Datepicker = $DATA["Datepicker"];
   $Sql = "SELECT   site.HptCode,
     department.DepName,
@@ -1150,7 +1150,7 @@ function DeleteItem($conn, $DATA)
 
 function SaveBill($conn, $DATA)
 {
-  $DocNo = $DATA["xdocno"];
+  $DocNo = $DATA["DocNo"];
   $DepCode = $DATA["deptCode"];
   $cycle = $DATA["cycle"];
   $settime = $DATA["settime"];
@@ -1189,20 +1189,20 @@ function SaveBill($conn, $DATA)
     AND shelfcount_detail.ItemCode = '$ItemCode[$i]' 
     AND shelfcount.DepCode = $DepCode";
 
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      // $MoreThan = $Result['TotalQty'] +  $Result['TotalQty2'];
-      // if($MoreThan>$Result['ParQty']){
-      //   $OverPar = $MoreThan - $Result['ParQty'];
-      //   $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = $OverPar WHERE shelfcount_detail.DocNo = '$DocNo' 
-      //   AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
-      //   mysqli_query($conn, $update);
-      // }else{
-      //   $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = 0 WHERE shelfcount_detail.DocNo = '$DocNo' 
-      //   AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
-      //   mysqli_query($conn, $update);
-      // }
-    }
+    // $meQuery = mysqli_query($conn, $Sql);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   $MoreThan = $Result['TotalQty'] +  $Result['TotalQty2'];
+    //   if($MoreThan>$Result['ParQty']){
+    //     $OverPar = $MoreThan - $Result['ParQty'];
+    //     $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = $OverPar WHERE shelfcount_detail.DocNo = '$DocNo' 
+    //     AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
+    //     mysqli_query($conn, $update);
+    //   }else{
+    //     $update = "UPDATE shelfcount_detail SET shelfcount_detail.OverPar = 0 WHERE shelfcount_detail.DocNo = '$DocNo' 
+    //     AND shelfcount_detail.ItemCode = '$ItemCode[$i]'";
+    //     mysqli_query($conn, $update);
+    //   }
+    // }
     $updateStock = "UPDATE par_item_stock SET TotalQty = $QtyArray[$i] WHERE DepCode = $DepCode AND ItemCode = '$ItemCode[$i]'";
     mysqli_query($conn, $updateStock);
   }
@@ -1290,8 +1290,8 @@ function SaveBill($conn, $DATA)
 
   $Sql = "UPDATE shelfcount SET IsRequest = 1 , IsStatus = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
-
-  // ShowDocument($conn, $DATA);
+  // ShowDetailNew($conn, $DATA);
+  SelectDocument($conn, $DATA);
 }
 function SendData($conn, $DATA)
 {
@@ -2012,6 +2012,7 @@ function ShowDetailNew($conn, $DATA)
   $boolean = false;
   $DocNo = $DATA["DocNo"];
 
+  
    //==========================================================
    $Sql = "SELECT department.HptCode FROM shelfcount 
    INNER JOIN department ON shelfcount.DepCode = department.DepCode 
@@ -2137,6 +2138,7 @@ function ShowDetailNew($conn, $DATA)
 
   $return['Row'] = $count;
   //==========================================================
+  $return['DepCode']  = $Result['DepCode'];
 
   $boolean = true;
   if ($boolean) {
