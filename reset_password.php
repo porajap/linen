@@ -13,11 +13,13 @@
 <div id="form_inputReset">
     <div id="email_input">
         <div id="icon_email">
-            <i class="fas fa-envelope"></i>
+            <!-- <i class="fas fa-envelope"></i> -->
         </div>
         <div class="form-group bmd-form-group">
-            <label for="email" id="label_email" class="bmd-label-floating">Email</label>
-            <input type="email" autocomplete="off" class="form-control" id="email" value="<?php echo $email?>" readonly>
+            <!-- <label for="email" id="label_email" class="bmd-label-floating">Email</label> -->
+            
+            <input type="email" autocomplete="off" class="form-control" id="email" value="รหัสผ่านจะถูกส่งไปที่ Admin /  It" readonly> 
+            <!-- <input type="email" autocomplete="off" class="form-control" id="email" value="<?php echo $email?>" readonly> -->
         </div>
     </div>
     <!-- ----------------------------------------------------------------------------------- -->

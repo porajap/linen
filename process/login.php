@@ -163,6 +163,7 @@ function sendmail($conn,$DATA)
     $user = $DATA['user'];
     $newpassword = rand_string(5);
     $newpassword2 = md5($newpassword);
+    $countMail=0;
     $Sql = "UPDATE users SET users.`Password` = '$newpassword2', Count = 0, users.IsActive = 0 WHERE  users.Username = '$user'";
     $Chk = mysqli_query($conn,$Sql);
     if($Chk){
@@ -170,7 +171,7 @@ function sendmail($conn,$DATA)
               FROM users
               INNER JOIN site ON site.HptCode = users.HptCode
               INNER JOIN department ON department.DepCode = users.DepCode
-              WHERE users.UserName = '$user' LIMIT 1";
+              WHERE users.UserName = '$user' ";
         $meQuery = mysqli_query($conn,$Sql);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $return['UserName'] = $Result['UserName'];
@@ -179,11 +180,24 @@ function sendmail($conn,$DATA)
           $return['HptName']    = $Result['HptName'];
           $return['DepName']    = $Result['DepName'];
         }
+
+          $SelectMail = "SELECT users.email, 	site.HptName
+          FROM users
+          INNER JOIN site ON site.HptCode = users.HptCode
+          WHERE users.PmID IN (1,6)
+          AND email IS NOT NULL AND NOT email = '' AND NOT email = '-'";
+          $return['mail'] = $SelectMail;
+          $SQuery = mysqli_query($conn,$SelectMail);
+          while ($SResult = mysqli_fetch_assoc($SQuery)) {
+            $return[$countMail]['email'] = trim($SResult['email']);
+            $countMail++;
+          }
+        
         $return['status'] = "success";
         $return['form']   = "sendmail";
         $return['msg']    = "Chang password to email success.";
-        $return['email']  = $email;
-
+        // $return['email']  = $email;
+        $return['countMail']  = $countMail;
         echo json_encode($return);
         mysqli_close($conn);
         die;
@@ -199,7 +213,7 @@ function sendmail($conn,$DATA)
 
 function reset_pass($conn,$DATA)
 {
-  if (isset($DATA)) {
+  // if (isset($DATA)) {
 
     $user = $DATA['user'];
     $email = "";
@@ -215,8 +229,6 @@ function reset_pass($conn,$DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $email = $Result['email'];
     }
-
-    if($email != ""){
       $return['status'] = "success";
       $return['form']   = "rPass";
       $return['msg']    = "Get email success.";
@@ -224,24 +236,33 @@ function reset_pass($conn,$DATA)
       $return['email'] = $email;
       echo json_encode($return);
       mysqli_close($conn);
-      die;
-    }else{
-      $return['status'] = "success";
-      $return['form']   = "rPass";
-      $return['email'] = "";
-      $return['msg'] = "Not found email. !";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }
 
-  }else{
-    $return['status'] = "failed";
-    $return['msg'] = "Not found chang password !";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
+    // if($email != ""){
+    //   $return['status'] = "success";
+    //   $return['form']   = "rPass";
+    //   $return['msg']    = "Get email success.";
+    //   $return['user'] = $user;
+    //   $return['email'] = $email;
+    //   echo json_encode($return);
+    //   mysqli_close($conn);
+    //   die;
+    // }else{
+    //   $return['status'] = "success";
+    //   $return['form']   = "rPass";
+    //   $return['email'] = "";
+    //   $return['msg'] = "Not found email. !";
+    //   echo json_encode($return);
+    //   mysqli_close($conn);
+    //   die;
+    // }
+
+  // }else{
+  //   $return['status'] = "failed";
+  //   $return['msg'] = "Not found chang password !";
+  //   echo json_encode($return);
+  //   mysqli_close($conn);
+  //   die;
+  // }
 }
 
 function SetActive($conn,$DATA){

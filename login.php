@@ -385,8 +385,9 @@ $language = $_SESSION['lang'];
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Ok'
                             }).then(function () {
-
-                            var eamil    = temp["email"];
+                        if(temp['countMail'] > 0 ){
+                        for(var m=0; m<temp['countMail']; m++){ 
+                            var eamil    = temp[m]["email"];
                             var UserName = temp["UserName"];
                             var Password = temp["Password"];
                             var Subject  = 'Reset password...';
@@ -404,7 +405,8 @@ $language = $_SESSION['lang'];
                                     'DepName'     : DepName
                                 };
                                 sendtomail(JSON.stringify(data),)
-
+                                }
+                        }
                             }, function (dismiss) {
                                 // dismiss can be 'cancel', 'overlay',
                                 // 'close', and 'timer'
@@ -416,20 +418,20 @@ $language = $_SESSION['lang'];
                         }, 1000);
 
                     }else if(temp["form"] == 'rPass'){
-                        if(temp["email"] == ''){
-                            swal({
-                                title: '',
-                                text: temp["msg"],
-                                type: 'error',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                timer: 1000,
-                                confirmButtonText: 'Ok',
-                                showConfirmButton: false
-                            });
-                            back();
-                        } else{
+                        // if(temp["email"] == ''){
+                        //     swal({
+                        //         title: '',
+                        //         text: temp["msg"],
+                        //         type: 'error',
+                        //         showCancelButton: false,
+                        //         confirmButtonColor: '#3085d6',
+                        //         cancelButtonColor: '#d33',
+                        //         timer: 1000,
+                        //         confirmButtonText: 'Ok',
+                        //         showConfirmButton: false
+                        //     });
+                        //     back();
+                        // } else{
                             var email = temp["email"];
                             $.ajax({
                                 url:"reset_password.php",
@@ -453,7 +455,7 @@ $language = $_SESSION['lang'];
                                 confirmButtonText: 'Ok',
                                 showConfirmButton: false
                             });
-                        }
+                        // }
 
                     }else if(temp["form"] == 'SetActive'){
                         if(temp['count'] == 1){
