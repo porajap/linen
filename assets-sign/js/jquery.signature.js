@@ -235,7 +235,7 @@ $(selector).signature({color: 'blue', guideline: true}) */
 			this.curLine = null;
 			this._changed(event);
 		},
-
+ 
 		/** Round to two decimal points.
 			@memberof Signature
 			@private

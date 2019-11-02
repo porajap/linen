@@ -1240,7 +1240,7 @@ function SaveBill($conn, $DATA)
     $Sql = "UPDATE item_stock SET IsStatus = 1 WHERE UsageCode = '$xUsageCode'";
     mysqli_query($conn, $Sql);
   }
-
+ 
     // =======================================================================================
     // Set Stock Qty
     // =======================================================================================

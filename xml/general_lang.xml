@@ -70,7 +70,7 @@
 <changprice><en>DATE OF CHG PC.</en><th>เปลี่ยนราคาวันที่</th></changprice>
 <filename><en>File Name</en><th>ชื่อไฟล์</th></filename>
 <pack><en>Pack</en><th>แพ็ค</th></pack>
-<type><en>type</en><th>ประเภท</th></type>
+<type><en>type</en><th>ประเภท</th></type> 
 <search><en>Search</en><th>ค้นหา</th></search>
 <search_active><en>SRCH NOT AT.</en><th>ค้นหา รายการใหม่</th></search_active>
 <search_hp><en>SRCH HOSP</en><th>ค้นหา โรงพยาบาล</th></search_hp>

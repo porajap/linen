@@ -9,7 +9,7 @@
   }
 
   $Sign = $_POST['SignSVG'];
-  $Table = $_POST['Table'];
+  $Table = $_POST['Table']; 
   $Column = $_POST['Column'];
   $DocNo = $_POST['DocNo'];
 
