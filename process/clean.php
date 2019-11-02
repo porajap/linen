@@ -196,7 +196,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       clean.Modify_Code,clean.Modify_Date )
       VALUES
-      ( '$DocNo','$DocDate',$deptCode,'$RefDocNo',
+      ( '$DocNo','$DocDate','$deptCode','$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -206,7 +206,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',NOW(),$deptCode,'$RefDocNo','Clean',$userid,DATE(NOW()))";
+      ('$DocNo',NOW(),'$deptCode','$RefDocNo','Clean',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -420,7 +420,7 @@ function CreateDocument($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%' AND item.IsClean = 1
+  WHERE  item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%' AND item.IsClean = 1
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
     $meQuery = mysqli_query($conn, $Sql);
