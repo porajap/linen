@@ -883,7 +883,7 @@ $array2 = json_decode($json2,TRUE);
         }else{
           isStatus=1;
         }
-        if(isStatus==1 ){
+        // if(isStatus==1 ){
           if(docno!=""){
               var ItemCodeArray = [];
               var Item = [];
@@ -958,31 +958,31 @@ $array2 = json_decode($json2,TRUE);
               })
             //}
           }
-        }else{
-          $("#bImport2").removeClass('opacity');
-          $("#bSave2").removeClass('opacity');
-          $("#bImport").prop('disabled', false);
-          $("#bSave").prop('disabled', false);
-          var word = '<?php echo $array['save'][$language]; ?>';
-            var changeBtn = "<i class='fa fa-save'></i>";
-            changeBtn += "<div>"+word+"</div>";
-            $('#icon_edit').html(changeBtn);          
-            $("#IsStatus").val("0");
-            $("#docno").prop('disabled', false);
-            $("#docdate").prop('disabled', false);
-            $("#recorder").prop('disabled', false);
-            $("#timerec").prop('disabled', false);
-            $("#total").prop('disabled', false);
-            var rowCount = $('#TableItemDetail >tbody >tr').length;
-            for (var i = 0; i < rowCount; i++) {
+        // }else{
+        //   $("#bImport2").removeClass('opacity');
+        //   $("#bSave2").removeClass('opacity');
+        //   $("#bImport").prop('disabled', false);
+        //   $("#bSave").prop('disabled', false);
+        //   var word = '<?php echo $array['save'][$language]; ?>';
+        //     var changeBtn = "<i class='fa fa-save'></i>";
+        //     changeBtn += "<div>"+word+"</div>";
+        //     $('#icon_edit').html(changeBtn);          
+        //     $("#IsStatus").val("0");
+        //     $("#docno").prop('disabled', false);
+        //     $("#docdate").prop('disabled', false);
+        //     $("#recorder").prop('disabled', false);
+        //     $("#timerec").prop('disabled', false);
+        //     $("#total").prop('disabled', false);
+        //     var rowCount = $('#TableItemDetail >tbody >tr').length;
+        //     for (var i = 0; i < rowCount; i++) {
 
-                $('#qty1_'+i).prop('disabled', false);
-                $('#weight_'+i).prop('disabled', false);
-                $('#price_'+i).prop('disabled', false);
+        //         $('#qty1_'+i).prop('disabled', false);
+        //         $('#weight_'+i).prop('disabled', false);
+        //         $('#price_'+i).prop('disabled', false);
 
-                $('#unit'+i).prop('disabled', false);
-            }
-        }
+        //         $('#unit'+i).prop('disabled', false);
+        //     }
+        // }
     }
 
     function chk_par(){
@@ -1127,9 +1127,10 @@ $array2 = json_decode($json2,TRUE);
             $('#bpacking2').addClass('opacity');
             $('#hover9').removeClass('mhee');
 
-            $('#bdetail').attr('disabled' , false);
-            $("#bdetail2").removeClass('opacity');
-            $("#hover6").addClass('mhee');
+            $("#bSave").prop('disabled', false);
+            $("#bSave2").removeClass('opacity');
+            $("#hover4").addClass('mhee');
+
             senddata(JSON.stringify(data));
           } else if (result.dismiss === 'cancel') {
                 swal.close();
@@ -1549,14 +1550,28 @@ $array2 = json_decode($json2,TRUE);
               $('#setcount').attr('disabled', true);
               $('#setcount').addClass('icon_select');
 
-              $('#hover2').addClass('mhee');
-              $('#hover4').addClass('mhee');
-              $('#hover5').addClass('mhee');
+              if(temp[0]['settime'] ==0){
+              $('#bpacking').attr('disabled', false);
+              $('#bpacking2').removeClass('opacity');
+              $('#hover9').addClass('mhee');
 
-              $('#bSave2').removeClass('opacity');
+              $("#bSave").prop('disabled', true);
+              $("#bSave2").addClass('opacity');
+              $("#hover4").removeClass('mhee');
+              }else{
+              $('#bpacking').attr('disabled', true);
+              $('#bpacking2').addClass('opacity');
+              $('#hover9').removeClass('mhee');
+
+              $("#bSave").prop('disabled', false);
+              $("#bSave2").removeClass('opacity');
+              $("#hover4").addClass('mhee');
+              }
+
+              $('#hover2').addClass('mhee');
+              $('#hover5').addClass('mhee');
               $('#bImport2').removeClass('opacity');
               $('#bCancel2').removeClass('opacity');
-              // ShowDocument_sub();
               swal({
                 title: "<?php echo $array['createdocno'][$language]; ?>",
                 text: temp[0]['DocNo'] + " <?php echo $array['success'][$language]; ?>",
@@ -1581,6 +1596,16 @@ $array2 = json_decode($json2,TRUE);
               $("#docdate").val("");
               $("#recorder").val("");
               $("#timerec").val("");
+              $("#completed").val("");
+              $("#department").val('null');
+              $("#department").prop('disabled', false);
+              $("#department").removeClass('icon_select');
+              $("#settime").val("");
+              $("#settime").prop('disabled', false);
+              $("#settime").removeClass('icon_select');
+              $("#setcount").val("");
+              $("#setcount").prop('disabled', false);
+              $("#setcount").removeClass('icon_select');
               $("#docno").prop('disabled', false);
               $("#docdate").prop('disabled', false);
               $("#recorder").prop('disabled', false);
@@ -1592,8 +1617,8 @@ $array2 = json_decode($json2,TRUE);
                 var Status = "";
                 var Style  = "";
                 if(temp[i]['IsStatus']==1){
-                  Status = "on process";
-                  Style  = "style='width: 10%;color: #3399ff;'";
+                  Status = "completed";
+                  Style  = "style='width: 10%;color: #20B80E;'";
                 }else{
                   Status = "on process";
                   Style  = "style='width: 10%;color: #3399ff;'";
@@ -1746,9 +1771,8 @@ $array2 = json_decode($json2,TRUE);
                 $("#bImport2").removeClass('opacity');
                 $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
-
+                $("#completed").val('on process');
               }else if(temp[0]['IsStatus']==1  || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
-
                   if(temp[0]['IsStatus'] !=1){
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
@@ -1758,44 +1782,23 @@ $array2 = json_decode($json2,TRUE);
                     $("#bCancel").prop('disabled', false);
                     $("#bCancel2").removeClass('opacity');
                   }
- 
-                var word = '<?php echo $array['edit'][$language]; ?>';
-                var changeBtn = "<i class='fas fa-edit'></i>";
-                changeBtn += "<div>"+word+"</div>";
+                $("#completed").val('completed');
                 $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
-                $("#bSave").prop('disabled', false);
-                // $("#bdetail").prop('disabled', false);
+                $("#bSave").prop('disabled', true);
                 $("#barcode").prop('disabled', false);
-                $("#hover4").addClass('mhee');
-                // $("#hover6").addClass('mhee');
-                $("#bSave2").removeClass('opacity');
-                // $("#bdetail2").removeClass('opacity');
+                $("#hover4").removeClass('mhee');
+                $("#bSave2").addClass('opacity');
                 $('#bPrint').attr('disabled', false);
                 $('#bPrint2').removeClass('opacity');
                 $('#hover7').addClass('mhee');
-
+                $("#bCancel2").removeClass('opacity');
+                $("#hover5").addClass('mhee');
+                $("#bCancel").prop('disabled', false);
                 $('#bPrintsticker').attr('disabled', false);
                 $('#bPrintsticker2').removeClass('opacity');
                 $('#hover8').addClass('mhee');
-
-
-
-                if(temp[0]['ScTime'] == 0){
-                  if(temp[0]['jaipar'] == 1){
-                    $('#bpacking').attr('disabled', true);
-                    $('#bpacking2').addClass('opacity');
-                    $('#hover9').removeClass('mhee');
-                  }else if(temp[0]['jaipar'] == 0){
-                    $('#bpacking').attr('disabled', false);
-                    $('#bpacking2').removeClass('opacity');
-                    $('#hover9').addClass('mhee');
-                  }
-                }else{
-                    $('#bpacking').attr('disabled', true);
-                    $('#bpacking2').addClass('opacity');
-                    $('#hover9').removeClass('mhee');
                   if(temp[0]['jaipar'] == 1){
                     $('#bdetail').attr('disabled' , true);
                     $("#bdetail2").addClass('opacity');
@@ -1805,9 +1808,31 @@ $array2 = json_decode($json2,TRUE);
                     $("#bdetail2").removeClass('opacity');
                     $("#hover6").addClass('mhee');
                   }
-                }
 
-
+                // if(temp[0]['ScTime'] == 0){
+                //   if(temp[0]['jaipar'] == 1){
+                //     $('#bpacking').attr('disabled', true);
+                //     $('#bpacking2').addClass('opacity');
+                //     $('#hover9').removeClass('mhee');
+                //   }else if(temp[0]['jaipar'] == 0){
+                //     $('#bpacking').attr('disabled', false);
+                //     $('#bpacking2').removeClass('opacity');
+                //     $('#hover9').addClass('mhee');
+                //   }
+                // }else{
+                //     $('#bpacking').attr('disabled', true);
+                //     $('#bpacking2').addClass('opacity');
+                //     $('#hover9').removeClass('mhee');
+                //   if(temp[0]['jaipar'] == 1){
+                //     $('#bdetail').attr('disabled' , true);
+                //     $("#bdetail2").addClass('opacity');
+                //     $("#hover6").removeClass('mhee');
+                //   }else if(temp[0]['jaipar'] == 0){
+                //     $('#bdetail').attr('disabled' , false);
+                //     $("#bdetail2").removeClass('opacity');
+                //     $("#hover6").addClass('mhee');
+                //   }
+                // }
 
               }else{
                 $('#bPrint').attr('disabled', true);
