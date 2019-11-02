@@ -618,7 +618,7 @@ function getImport($conn, $DATA)
 
   for ($i = 0; $i < $max; $i++) {
     $iItemStockId = $ItemStockId[$i];
-    $iqty = $nqty[$i];
+    $iqty = $nqty[$i]==""?0:$nqty[$i];
     $iweight = $nweight[$i]==null?0:$nweight[$i];
     $iunit1 = 0;
     $iunit2 = $nunit[$i];
@@ -670,16 +670,10 @@ function getImport($conn, $DATA)
         mysqli_query($conn, $Sql);
 
     }
+    // $return[$i]['asdasd'] = $Sql;
   }
 
   if ($Sel == 2) {
-    // $n = 0;
-    // $Sql = "SELECT COUNT(*) AS Qty FROM clean_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-    // $meQuery = mysqli_query($conn, $Sql);
-    // while ($Result = mysqli_fetch_assoc($meQuery)) {
-    //   $Qty[$n] = $Result['Qty'];
-    //   $n++;
-    // }
     for ($i = 0; $i < $n; $i++) {
       $xQty = $Qty[$i];
       if ($chkUpdate == 0) {
@@ -691,10 +685,12 @@ function getImport($conn, $DATA)
         $Sql = "UPDATE return_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
       }
       mysqli_query($conn, $Sql);
+    // $return[$i]['assassdasd'] = $Sql;
+
     }
   }
-
   ShowDetail($conn, $DATA);
+  // echo json_encode($return);
 }
 
 function UpdateDetailQty($conn, $DATA)
@@ -882,6 +878,7 @@ function ShowDetail($conn, $DATA)
   $Total = 0;
   $boolean = false;
   $DocNo = $DATA["DocNo"];
+  $DepCode = $DATA["deptCode"];
   //==========================================================
   $Sql = "SELECT
   return_detail.Id,
@@ -904,7 +901,7 @@ function ShowDetail($conn, $DATA)
   INNER JOIN item_unit ON return_detail.UnitCode = item_unit.UnitCode
   INNER JOIN return_doc ON return_detail.DocNo = return_doc.DocNo
   INNER JOIN par_item_stock ON par_item_stock.ItemCode = item.ItemCode
-  WHERE return_detail.DocNo = '$DocNo' GROUP BY return_detail.ItemCode
+  WHERE return_detail.DocNo = '$DocNo' AND par_item_stock.DepCode = $DepCode GROUP BY return_detail.ItemCode
   ORDER BY return_detail.Id DESC";
   $return['sqlss']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -1043,6 +1040,7 @@ function updateQty($conn, $DATA){
   $RowID = $DATA['RowID'];
   $Sql = "UPDATE return_detail SET Qty = $newQty WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
+  ShowDetail($conn, $DATA);
 }
 
 function get_dirty_doc($conn, $DATA)
