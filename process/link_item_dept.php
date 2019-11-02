@@ -560,7 +560,6 @@ function SelectItemStock($conn, $DATA)
               $i++;
             }
           }
-         
     }
   }else{
           // for ($i=0; $i < sizeof($ItemCode,0) ; $i++) {
