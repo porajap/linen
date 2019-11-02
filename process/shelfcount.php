@@ -262,6 +262,7 @@ function CreateDocument($conn, $DATA)
     $return[0]['DocNo']   = $Result['DocNo'];
     $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
+    $return[0]['settime']  = $settime;
     $count = 1;
 
   }
@@ -275,7 +276,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime , DeliveryTime , ScTime)
       VALUES
-      ( '$DocNo','$DocDate',$deptCode,'',
+      ( '$DocNo','$DocDate','$deptCode','',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() ,  '$settime' , '$setcount' )";
@@ -284,7 +285,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',DATE(NOW()),$deptCode,'','Shelf Count',$userid,DATE(NOW()))";
+      ('$DocNo',DATE(NOW()),'$deptCode','','Shelf Count',$userid,DATE(NOW()))";
       mysqli_query($conn, $Sql);
 
 
@@ -321,7 +322,7 @@ function CreateDocument($conn, $DATA)
         INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
         INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
         INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-        WHERE  par_item_stock.DepCode = $deptCode
+        WHERE  par_item_stock.DepCode = '$deptCode'
         GROUP BY item.ItemCode
         ORDER BY item.ItemName ASC LImit 100";
       $meQuery = mysqli_query($conn, $Sql);
@@ -2042,7 +2043,7 @@ function ShowDetailNew($conn, $DATA)
       SELECT item_stock_detail.Qty 
       FROM item_stock_detail 
       WHERE item_stock_detail.ItemCode = shelfcount_detail.ItemCode 
-      AND item_stock_detail.DepCode =  $DepCode 
+      AND item_stock_detail.DepCode =  '$DepCode' 
   ) AS ParQty,
   shelfcount_detail.ParQty,
   shelfcount_detail.CcQty,
