@@ -1682,7 +1682,7 @@ $array2 = json_decode($json2,TRUE);
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
-                  $('#wTotal').val(temp[0]['Total'].toFixed(2));
+                  // $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["CountDep"]; i++) {
                     var nUnit = "";
                   
@@ -1772,6 +1772,8 @@ $array2 = json_decode($json2,TRUE);
                 }else if( (temp["form"]=='GetRound') ){
                   $('#RoundNumber').val(1);
                   $('#RoundWeight').val("");
+                  $('#wTotal').val(temp[0]['wTotal']);
+                  // $('#wTotal').val(temp[0]['wTotal'].toFixed(2));
                   $('#ItemNameRound').text(temp['ItemName']);
                   $('#RoundItemCode').val(temp['ItemCode']);
                   $('#RoundRowID').val(temp['RowID']);

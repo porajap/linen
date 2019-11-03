@@ -1097,6 +1097,21 @@ function GetRound($conn, $DATA){
     $return['ValueObj'][$count]['Weight'] = $Result['Weight'];
     $count++;
   }
+
+  $wTotal = 0;
+  $Sql = "SELECT SUM(Weight) AS wTotal
+  FROM dirty_detail_round
+  WHERE DocNo = '$DocNo'";
+  $meQuery = mysqli_query($conn,$Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $wTotal  	= $Result['wTotal'];
+    $return[0]['wTotal'] = $Result['wTotal'];
+  }
+   $Sql = "UPDATE dirty SET Total = $wTotal WHERE DocNo = '$DocNo'";
+   $meQuery = mysqli_query($conn,$Sql);
+
+
+
   $return['ItemName'] = $DATA['ItemName'];
   $return['ItemCode'] = $DATA['ItemCode'];
   $return['RowID'] = $DATA['RowID'];
@@ -1123,6 +1138,11 @@ function SaveRound($conn, $DATA){
   $Sql = "INSERT INTO dirty_detail_round(DocNo, RowID, ItemCode, DepCode, RequestName, Qty, Weight)VALUES
           ('$DocNo', $RowID, '$ItemCode', '$DepCode', '$RequestName', $Qty, $Weight)";
   mysqli_query($conn, $Sql);
+
+
+
+
+
 
 
   GetRound($conn, $DATA);
