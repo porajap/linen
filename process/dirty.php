@@ -794,6 +794,7 @@ function DeleteItem($conn, $DATA)
   mysqli_query($conn, $Sql1);
 
   ShowDetailDoc($conn, $DATA);
+  
 }
 
 function SaveBill($conn, $DATA)
@@ -999,7 +1000,8 @@ function ShowDetailDoc($conn, $DATA)
 
     $SqlItem = "SELECT dirty_detail.Id, dirty_detail.ItemCode, item.ItemName, item.UnitCode AS UnitCode1,
       item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, item.UnitCode,
-      department.DepCode, department.DepName, dirty_detail.RequestName
+      department.DepCode, department.DepName, dirty_detail.RequestName,
+      (SELECT Total FROM dirty WHERE DocNo = '$DocNo') AS Total
       FROM item
       INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
       RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
@@ -1029,7 +1031,7 @@ function ShowDetailDoc($conn, $DATA)
       $return[$count1]['UnitCode']  = $Result['UnitCode2'];
       $return[$count1]['UnitName']  = $Result['UnitName'];
       $return[$count1]['DepCode']   = $Result['DepCode'];
-      $return[$count1]['DepName']   = $Result['DepName'];
+      $return['Total']   = number_format($Result['Total'], 2);
       $return[$count1]['Weight']    = $Weight;
       $return[$count1]['Qty']       = $Qty;
       $UnitCode                     = $Result['UnitCode']==0?'0':$Result['UnitCode'];
