@@ -1031,6 +1031,7 @@ function ShowDetailDoc($conn, $DATA)
       $return[$count1]['UnitCode']  = $Result['UnitCode2'];
       $return[$count1]['UnitName']  = $Result['UnitName'];
       $return[$count1]['DepCode']   = $Result['DepCode'];
+      $return[$count1]['DepName']   = $Result['DepName'];
       $return['Total']   = number_format($Result['Total'], 2);
       $return[$count1]['Weight']    = $Weight;
       $return[$count1]['Qty']       = $Qty;
