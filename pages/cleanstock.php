@@ -1147,8 +1147,8 @@ $(document).ready(function(e){
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 20%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                    "<td style='width: 22%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
+                    "<td style='width: 12%;' nowrap>"+temp[i]['RecNow']+"</td>"+
                     // "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
@@ -2109,10 +2109,10 @@ $(document).ready(function(e){
                                   <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
                                   <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
                                   <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 20%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                  <th style='width: 21%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                                  <th style='width: 13%;'  nowrap><?php echo $array['time'][$language]; ?></th>
                                   <!-- <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th> -->
-                                  <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
+                                  <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                                 </tr>
                               </thead>
                               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
