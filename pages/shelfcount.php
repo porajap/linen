@@ -1636,13 +1636,13 @@ $array2 = json_decode($json2,TRUE);
                 }
 
                 $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                "<td style='width: 10%;'nowrap>"+chkDoc+"</td>"+
-                "<td style='width: 15%;'nowrap>"+temp[i]['DocDate']+"</td>"+
-                "<td style='width: 15%;'nowrap>"+temp[i]['DocNo']+"</td>"+
-                "<td style='width: 15%;'nowrap>"+temp[i]['DepName']+"</td>"+
-                "<td style='width: 15%;'nowrap>"+temp[i]['Record']+"</td>"+
-                "<td style='width: 10%;'nowrap>"+temp[i]['RecNow']+"</td>"+
-                "<td style='width: 10%;'nowrap>"+temp[i]['Total']+"</td>"+
+                "<td style='width: 10%;'overflow: hidden; text-overflow: ellipsis;' nowrap>"+chkDoc+"</td>"+
+                "<td style='width: 15%;'overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['DocDate']+"</td>"+
+                "<td style='width: 15%;'overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                "<td style='width: 15%;'overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['DepName']+"</td>"+
+                "<td style='width: 15%;'overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
+                "<td style='width: 10%;'overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                "<td style='width: 10%;'overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Total']+"</td>"+
                 "<td "+Style+"nowrap>"+Status+"</td>"+
                 "</tr>";
 
