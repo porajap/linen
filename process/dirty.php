@@ -253,19 +253,12 @@ function ShowDocument($conn, $DATA)
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
       $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
-    $DocNo = $Result['DocNo'];
-    $SqlWeight = "SELECT SUM(Weight) AS Total FROM dirty_detail_round  WHERE dirty_detail_round.DocNo  = '$DocNo' LIMIT 1";
-
-    $Query = mysqli_query($conn, $SqlWeight);
-    while ($WResult = mysqli_fetch_assoc($Query)) {
-      $Weight = $WResult['Total'];
-    }
 
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
     $return[$count]['RecNow']   = $Result['xTime'];
-    $return[$count]['Total']   = $Weight;
+    $return[$count]['Total']   = $Result['Total'];
     $return[$count]['IsStatus'] = $Result['IsStatus'];
     $boolean = true;
     $count++;
@@ -1061,7 +1054,7 @@ function ShowDetailDoc($conn, $DATA)
         $cntUnit++;
       }
     
-  // $return[0]['Total']    = round($Total, 2);
+  $return[0]['Total']    = round($Total, 2);
   $return['CountDep'] = $count1;
   $return['status'] = "success";
   $return['form'] = "ShowDetailDoc";
@@ -1167,6 +1160,14 @@ function SaveRound($conn, $DATA){
           ('$DocNo', $RowID, '$ItemCode', '$DepCode', '$RequestName', $Qty, $Weight)";
   mysqli_query($conn, $Sql);
 
+  $Sql = "SELECT SUM(Weight) AS Total FROM dirty_detail_round WHERE dirty_detail_round.DocNo = '$DocNo' LIMIT 1";
+  $meQuery = mysqli_query($conn,$Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $Weight = $Result['Total'];
+  }
+
+  $Update = "UPDATE dirty SET Total = $Weight WHERE DocNo = '$DocNo'";
+  mysqli_query($conn,$Update);
 
   GetRound($conn, $DATA);
 }
