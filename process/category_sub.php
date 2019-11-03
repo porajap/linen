@@ -19,7 +19,7 @@ function ShowItem($conn, $DATA)
           item_category.IsStatus
           FROM
           item_category
-          WHERE  item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%'";
+          WHERE  item_category.IsStatus = 0 AND item_category.CategoryName LIKE '%$Keyword%' ORDER BY item_category.CategoryCode";
 
           $return['sql']= $Sql;
   $meQuery = mysqli_query($conn, $Sql);
