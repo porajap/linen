@@ -364,6 +364,15 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
         }
 
+        function unchk(){
+          var NameRequest = $('#NameRequest').val();
+          if(NameRequest ==""){
+              $('.unchk').attr('disabled' , true);
+          }else{
+              $('.unchk').attr('disabled' , false);
+          }
+        }
+
         function SelectDocument(){
    
 
@@ -1757,8 +1766,8 @@ $array2 = json_decode($json2,TRUE);
                     });
                     for(var i = 0; i<temp['CountDep']; i++){
                       var DepName = "<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+temp[i]['DepName']+"</span>";
-                      var chkDep = "<input type='checkbox' id='checkDep2_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep2' style='top:-10%;' class='checkbox2 myDepName2 checkDep2_"+i+" unchk2' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked2(\""+i+"\")'>";
-                      myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>"+chkDep+DepName+"</div>";
+                      var chkDep = "<input disabled='true'   type='checkbox' id='checkDep2_"+i+"' title='"+temp[i]['DepName']+"' name='checkDep2' style='top:-10%;' class='checkbox2 unchk myDepName2 checkDep2_"+i+" unchk2' data-DepCode='"+temp[i]['DepCode']+"' onclick='swithChecked2(\""+i+"\")'>";
+                      myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;'  nowrap>"+chkDep+DepName+"</div>";
                     }
                     $('#DepAll').html(myDATA);
                     // $('#HItemName').html(temp['ItemName']);
@@ -2513,10 +2522,10 @@ $array2 = json_decode($json2,TRUE);
       <input type="text" id="ItemCodeHide2" hidden>
         <div class="card-body" style="padding:0px;">
           <div class="row row pr-4 pl-3 mb-2">
-            <input type="text" class="form-control" id="NameRequest" placeholder="<?php echo $array['itemaneme'][$language]; ?>">
+            <input type="text" autocomplete="off" class="form-control" onchange="unchk();" id="NameRequest" placeholder="<?php echo $array['itemaneme'][$language]; ?>">
           </div>
-          <input type='checkbox'  id='selectAll2' onclick='selectAll2()' style="top:-4px;"><span style="font-size:30px; " class="ml-4"><?php echo $array['selectall'][$language]; ?></span>
-          <div id='DepAll' class='row'></div>
+          <input type='checkbox' class='unchk' id='selectAll2' disabled="true" onclick='selectAll2()' style="top:-4px;"><span style="font-size:30px; " class="ml-4 "><?php echo $array['selectall'][$language]; ?></span>
+          <div id='DepAll'class='row'></div>
         </div>
       </div>
       <div class="modal-footer">
