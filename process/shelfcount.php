@@ -2190,6 +2190,13 @@ function ChkItemInDep($conn, $DATA){
   mysqli_close($conn);
   die;
 }
+
+function settime($conn, $DATA){
+  $settime = $DATA['settime'];
+  $DocNo = $DATA['DocNo'];
+  $Sql="UPDATE shelfcount SET DeliveryTime = $settime WHERE DocNo ='$DocNo'";
+  mysqli_query($conn, $Sql);
+}
   //==========================================================
   //
   //==========================================================
@@ -2267,6 +2274,8 @@ function ChkItemInDep($conn, $DATA){
       ChkItemInDep($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'gettimesc') {
       gettimesc($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'settime') {
+      settime($conn, $DATA);
     }
     
     

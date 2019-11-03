@@ -467,12 +467,20 @@ $array2 = json_decode($json2,TRUE);
       $('#rem1').hide();
     }
     function removeClassBorder2(){
+      var DocNo = $('#docno').val();
       var settime = $('#settime').val();
       if(settime == 0){
         $('#setcount').val(settime);
       }
       $('#settime').removeClass('border-danger');
       $('#rem2').hide();
+
+      var data = {
+        'STATUS'  	: 'settime',
+        'settime'	: settime,
+        'DocNo'	: DocNo
+      };
+      senddata(JSON.stringify(data));
     }
     function removeClassBorder3(){
       var setcount = $('#setcount').val();
@@ -877,6 +885,7 @@ $array2 = json_decode($json2,TRUE);
       var setcount = $('#setcount').val();
       var input_chk = $('#input_chk').val();
 
+        alert(settime);
         if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
           $('.inputDis').attr('disabled', false);
