@@ -241,7 +241,6 @@ function ShowDocument($conn, $DATA)
 //   $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
 // }
   $Sql .= "ORDER BY dirty.DocNo DESC LIMIT 500";
-$return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -254,12 +253,19 @@ $return['sql'] = $Sql;
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
       $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
+    $DocNo = $Result['DocNo'];
+    $SqlWeight = "SELECT SUM(Weight) AS Total FROM dirty_detail_round  WHERE dirty_detail_round.DocNo  = '$DocNo' LIMIT 1";
+
+    $Query = mysqli_query($conn, $SqlWeight);
+    while ($WResult = mysqli_fetch_assoc($Query)) {
+      $Weight = $WResult['Total'];
+    }
 
     $return[$count]['HptName']   = $Result['HptName'];
     $return[$count]['DocNo']   = $Result['DocNo'];
     $return[$count]['DocDate']   = $newdate;
     $return[$count]['RecNow']   = $Result['xTime'];
-    $return[$count]['Total']   = $Result['Total'];
+    $return[$count]['Total']   = $Weight;
     $return[$count]['IsStatus'] = $Result['IsStatus'];
     $boolean = true;
     $count++;
