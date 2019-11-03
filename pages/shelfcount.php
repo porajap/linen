@@ -883,6 +883,20 @@ $array2 = json_decode($json2,TRUE);
         }else{
           isStatus=1;
         }
+        if(settime=='' ){
+          checkblank3();
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+      }else{
         // if(isStatus==1 ){
           if(docno!=""){
               var ItemCodeArray = [];
@@ -983,6 +997,7 @@ $array2 = json_decode($json2,TRUE);
         //         $('#unit'+i).prop('disabled', false);
         //     }
         // }
+      }
     }
 
     function chk_par(){
