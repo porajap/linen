@@ -674,7 +674,7 @@ function ShowItemStock($conn, $DATA)
   $Sql="SELECT item_stock.ItemCode 
   FROM item_stock 
   INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-  WHERE DepCode = $DepCode AND (item.ItemName LIKE '%$Keyword%') GROUP BY ItemCode";
+  WHERE DepCode = '$DepCode' AND (item.ItemName LIKE '%$Keyword%') GROUP BY ItemCode";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
    $ItemCode[$count5] = $Result['ItemCode'];
@@ -687,7 +687,7 @@ function ShowItemStock($conn, $DATA)
         item.ItemName
       FROM item_stock
       INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-      WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+      WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = '$DepCode' AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
       GROUP BY item_stock.ItemCode
       ORDER BY item_stock.RowID DESC";
       $ItemQuery = mysqli_query($conn, $SqlItem);
@@ -706,7 +706,7 @@ function ShowItemStock($conn, $DATA)
             item_stock.UsageCode
           FROM item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
+          WHERE item_stock.ItemCode = '$ItemCode[$i]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = '$DepCode' AND  (item_stock.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%')
           -- GROUP BY item_stock.ItemCode
           ORDER BY item_stock.RowID DESC";
           $meQuery = mysqli_query($conn,$Sql);
@@ -734,7 +734,7 @@ function ShowItemStock($conn, $DATA)
   $Sql="SELECT par_item_stock.ItemCode 
   FROM par_item_stock 
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
-  WHERE par_item_stock.DepCode = $DepCode AND (item.ItemName LIKE '%$Keyword%') ";
+  WHERE par_item_stock.DepCode = '$DepCode' AND (item.ItemName LIKE '%$Keyword%') ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
    $ItemCode[$count5] = $Result['ItemCode'];
@@ -750,7 +750,7 @@ function ShowItemStock($conn, $DATA)
   FROM par_item_stock
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
   WHERE par_item_stock.ItemCode = '$ItemCode[$i]' 
-  AND par_item_stock.DepCode = $DepCode ";
+  AND par_item_stock.DepCode = '$DepCode' ";
       $ItemQuery = mysqli_query($conn, $SqlItem);
       while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
         $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
