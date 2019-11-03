@@ -1687,6 +1687,7 @@ $array2 = json_decode($json2,TRUE);
                   }
                 }else if( (temp["form"]=='ShowDetailDoc') ){
                   var isStatus = $("#IsStatus").val();
+                   $("#wTotal").val(temp['Total']);
                   var st1 = "style='font-size:24px;margin-left: -10px; width:150px;'";
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                   $( "#TableItemDetail tbody" ).empty();
