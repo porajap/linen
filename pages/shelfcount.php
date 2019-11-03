@@ -3244,7 +3244,7 @@ $array2 = json_decode($json2,TRUE);
           SignSVG:SignSVG,
           DocNo:DocNo,
           Table:"shelfcount",
-          Column:"signature"
+          Column:"signature_web"
         },
         type: 'post',
         success: function (data) {

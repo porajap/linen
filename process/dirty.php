@@ -747,6 +747,8 @@ function DeleteItem($conn, $DATA)
   $RowID  = $DATA["rowid"];
   $DocNo = $DATA["DocNo"];
   $n = 0;
+
+
   $Sql = "SELECT dirty_detail_sub.UsageCode,dirty_detail.ItemCode
   FROM dirty_detail
   INNER JOIN dirty_detail_sub ON dirty_detail.DocNo = dirty_detail_sub.DocNo
@@ -771,6 +773,26 @@ function DeleteItem($conn, $DATA)
   $Sql = "DELETE FROM dirty_detail
 	WHERE dirty_detail.Id = $RowID";
   mysqli_query($conn, $Sql);
+
+  $wTotal = 0;
+  $Sql2 = "SELECT SUM(Weight) AS wTotal
+  FROM dirty_detail_round
+  WHERE DocNo = '$DocNo' AND RowID =  $RowID";
+  $meQuery = mysqli_query($conn,$Sql2);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $wTotal  	= $Result['wTotal'];
+  }
+
+   $Sql3 = "UPDATE dirty SET Total = (Total - $wTotal) WHERE DocNo = '$DocNo'";
+   $meQuery = mysqli_query($conn,$Sql3);
+      $Sql4="SELECT Total FROM dirty WHERE DocNo = '$DocNo'";
+      $meQuery = mysqli_query($conn,$Sql4);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[0]['wTotal'] = $Result['wTotal'];
+      }
+
+  $Sql1 ="DELETE FROM dirty_detail_round WHERE  DocNo = '$DocNo' AND RowID =  $RowID ";
+  mysqli_query($conn, $Sql1);
 
   ShowDetailDoc($conn, $DATA);
 }
@@ -1033,7 +1055,7 @@ function ShowDetailDoc($conn, $DATA)
         $cntUnit++;
       }
     
-  $return[0]['Total']    = round($Total, 2);
+  // $return[0]['Total']    = round($Total, 2);
   $return['CountDep'] = $count1;
   $return['status'] = "success";
   $return['form'] = "ShowDetailDoc";
@@ -1138,11 +1160,6 @@ function SaveRound($conn, $DATA){
   $Sql = "INSERT INTO dirty_detail_round(DocNo, RowID, ItemCode, DepCode, RequestName, Qty, Weight)VALUES
           ('$DocNo', $RowID, '$ItemCode', '$DepCode', '$RequestName', $Qty, $Weight)";
   mysqli_query($conn, $Sql);
-
-
-
-
-
 
 
   GetRound($conn, $DATA);

@@ -1691,7 +1691,7 @@ $array2 = json_decode($json2,TRUE);
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                   $( "#TableItemDetail tbody" ).empty();
                   var DataRow = '';
-                  // $('#wTotal').val(temp[0]['Total'].toFixed(2));
+                  // $('#wTotal').val(temp[0]['Total']);
                   for (var i = 0; i < temp["CountDep"]; i++) {
                     var nUnit = "";
                   

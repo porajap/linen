@@ -1104,7 +1104,9 @@ $(document).ready(function(e){
                 $( "#TableItemDetail tbody" ).empty();
                 $("#wTotal").val(0);
                 // $("#bSave").text('<?php echo $array['save'][$language]; ?>');
-
+                $('#bCreate').attr('disabled', true);
+                $('#hover1').removeClass('mhee');
+                $('#bCreate2').addClass('opacity');
                 $("#total").prop('disabled', false);
                 $("#docno").val(temp[0]['DocNo']);
                 $("#docdate").val(temp[0]['DocDate']);

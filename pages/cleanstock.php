@@ -1321,9 +1321,9 @@ $(document).ready(function(e){
                   "<td style='text-overflow: ellipsis;overflow: hidden;width: 29%;' nowrap>"+temp[i]['ItemName']+"</td>"+
                   // "<td style='width: 20%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
                   // "<td style='width: 30%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 18%;font-size:24px;' nowrap>"+chkunit+"</td>"+
-                  "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
-                  "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
+                  "<td style='width: 24%;font-size:24px;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 9%;' nowrap>"+Qty+"</td>"+
+                  "<td style='width: 12%;' hidden nowrap>"+Weight+"</td>"+
                   "</tr>";
 
 
@@ -1398,8 +1398,8 @@ $(document).ready(function(e){
                   // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
                   "<td style='width: 30%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
                   "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
-                  "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
-                  "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
+                  "<td style='width: 30%;' nowrap align='center'>"+Qty+"</td>"+
+                  // "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableItem tbody").append( $StrTR );
@@ -2044,10 +2044,10 @@ $(document).ready(function(e){
                             <th style="width: 3%;">&nbsp;</th>
                               <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                              <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 5%;' nowrap><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 16%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 39%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 18%;' nowrap><?php echo $array['qty'][$language]; ?></th>
+                              <!-- <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th> -->
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;height:630px;">
@@ -2178,8 +2178,8 @@ $(document).ready(function(e){
                 <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
                 <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
                 <th style='width: 23%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
-                <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                <th style='width: 27%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <!-- <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th> -->
               </tr>
             </thead>
             <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
