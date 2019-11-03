@@ -336,8 +336,6 @@ function CreateDocument($conn, $DATA)
         ('$DocNo','$ItemCode', $UnitCode,$ParQty)";
         mysqli_query($conn, $Sql);
       }
-
-
       $boolean = true;
   } else {
     $boolean = false;
