@@ -1114,13 +1114,13 @@ $array2 = json_decode($json2,TRUE);
                         var Status = "";
                         var Style  = "";
                         if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
-                          Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                          Status = "completed";
                           Style  = "style='width: 10%;color: #20B80E;'";
                         }else{
-                          Status = "<?php echo $array['draft'][$language]; ?>";
+                          Status = "on process";
                           Style  = "style='width: 10%;color: #3399ff;'";
                         }if(temp[i]['IsStatus']==9){
-                          Status = "<?php echo $array['Canceldoc'][$language]; ?>";
+                          Status = "cancel";
                           Style  = "style='width: 10%;color: #ff0000;'";
                         }
 

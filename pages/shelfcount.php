@@ -1766,7 +1766,6 @@ $array2 = json_decode($json2,TRUE);
               $('#docdate').attr('disabled', true);
               $('#settime').addClass('icon_select');
               $('#setcount').addClass('icon_select');
-
               if(temp[0]['IsStatus']==0){
                 var word = '<?php echo $array['save'][$language]; ?>';
                 var changeBtn = "<i class='fa fa-save'></i>";
@@ -1777,7 +1776,9 @@ $array2 = json_decode($json2,TRUE);
                 $("#bCancel").prop('disabled', false);
                 // $("#bdetail").prop('disabled', true);
                 $("#barcode").prop('disabled', false);
-
+                $('#bPrint').attr('disabled', false);
+                $('#bPrint2').removeClass('opacity');
+                $('#hover7').addClass('mhee');
                 $("#hover2").addClass('mhee');
                 $("#hover4").addClass('mhee');
                 $("#hover5").addClass('mhee');
