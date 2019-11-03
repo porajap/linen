@@ -1495,16 +1495,16 @@ $(document).ready(function(e){
                   $('#factory1').val(temp['FacCode']);
                   $('#factory1').attr('disabled' , true);
                   $('#factory1').addClass('icon_select');
-                  swal({
-                      title: '',
-                      text: '<?php echo $array['savesuccess'][$language]; ?>',
-                      type: 'success',
-                      showCancelButton: false,
-                      showConfirmButton: false,
-                      timer: 1500,
-                      });
+                  // swal({
+                  //     title: '',
+                  //     text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  //     type: 'success',
+                  //     showCancelButton: false,
+                  //     showConfirmButton: false,
+                  //     timer: 1000,
+                  //     });
                   $('#dialogfactory').modal('toggle');
-
+                  OpenDialogItem();
 
               }else if(temp['form']=="SaveBill"){
                 if(temp['countpercent']>0){

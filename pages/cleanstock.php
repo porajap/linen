@@ -1132,13 +1132,13 @@ $(document).ready(function(e){
                   var Status = "";
                   var Style  = "";
                   if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
-                    Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                    Status = "completed";
                     Style  = "style='width: 10%;color: #20B80E;'";
                   }else{
-                    Status = "<?php echo $array['draft'][$language]; ?>";
+                    Status = "on process";
                     Style  = "style='width: 10%;color: #3399ff;'";
                   }if(temp[i]['IsStatus']==9){
-                    Status = "<?php echo $array['Canceldoc'][$language]; ?>";
+                    Status = "cancel";
                     Style  = "style='width: 10%;color: #ff0000;'";
                   }
 
@@ -1148,8 +1148,8 @@ $(document).ready(function(e){
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
                     "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 20%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                    // "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
 
@@ -1490,16 +1490,16 @@ $(document).ready(function(e){
                   $('#factory1').val(temp['FacCode']);
                   $('#factory1').attr('disabled' , true);
                   $('#factory1').addClass('icon_select');
-                  swal({
-                      title: '',
-                      text: '<?php echo $array['savesuccess'][$language]; ?>',
-                      type: 'success',
-                      showCancelButton: false,
-                      showConfirmButton: false,
-                      timer: 1500,
-                      });
+                  // swal({
+                  //     title: '',
+                  //     text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  //     type: 'success',
+                  //     showCancelButton: false,
+                  //     showConfirmButton: false,
+                  //     timer: 1500,
+                  //     });
                   $('#dialogfactory').modal('toggle');
-
+                  OpenDialogItem();
 
               }else if(temp['form']=="SaveBill"){
                 if(temp['countpercent']>0){
@@ -2110,8 +2110,8 @@ $(document).ready(function(e){
                                   <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
                                   <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
                                   <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                                  <th style='width: 20%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                  <!-- <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th> -->
                                   <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                                 </tr>
                               </thead>
