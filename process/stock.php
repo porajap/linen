@@ -114,7 +114,7 @@ INNER JOIN department ON par_item_stock.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode  ";
   if ($dept!=null) {
-    $Sql.="WHERE site.HptCode = '$hos' AND par_item_stock.DepCode =  $dept AND item.ItemName LIKE '%$search%' ";
+    $Sql.="WHERE site.HptCode = '$hos' AND par_item_stock.DepCode =  '$dept' AND item.ItemName LIKE '%$search%' ";
   }elseif($dept==null){
     $Sql.="WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%$search%'";
   }

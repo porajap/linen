@@ -2179,7 +2179,7 @@ function UpdateNewQty($conn, $DATA){
 function ChkItemInDep($conn, $DATA){
   $DepCode = $DATA['DepCode'];
   $HtpCode = $DATA['HtpCode'];
-  $Sql = "SELECT COUNT(*) AS cnt FROM par_item_stock WHERE DepCode = $DepCode";
+  $Sql = "SELECT COUNT(*) AS cnt FROM par_item_stock WHERE DepCode = '$DepCode'";
   $MQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($MQuery)) {
     $return['Count'] = $Result['cnt'];

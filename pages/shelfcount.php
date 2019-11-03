@@ -1542,6 +1542,8 @@ $array2 = json_decode($json2,TRUE);
               $('#bSave').attr('disabled', false);
               $('#bImport').attr('disabled', false);
               $('#bPrint').attr('disabled', false);
+              $('#bPrint2').removeClass('opacity');
+              $('#hover7').addClass('mhee');
               $('#barcode').attr('disabled', false);
               $('#department').attr('disabled', true);
               $('#settime').attr('disabled', true);
@@ -2280,11 +2282,11 @@ $array2 = json_decode($json2,TRUE);
               for (var i = 0; i < temp["Row"]; i++) {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
                 var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee inputDis' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>-</button>"+
-                "<input autocomplete='off' class='form-control numonly QtyItem inputDis' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onkeyup='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>"+
+                "<input autocomplete='off' class='form-control numonly QtyItem inputDis' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onchange='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>"+
                 "<button class='btn btn_mheesave inputDis' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
                 var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;font-size: 24px!important'>";
                 var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['ParQty']+"'>";
-                var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
+                var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onchange='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
                 var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
                 var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
                 var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
