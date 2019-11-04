@@ -2048,7 +2048,8 @@ function ShowDetailNew($conn, $DATA)
   shelfcount_detail.TotalQty,
   shelfcount_detail.Over,
   shelfcount_detail.Short,
-  item.Weight
+  item.Weight,
+  (SELECT chk_sign FROM shelfcount WHERE DocNo = '$DocNo') AS chk_sign
   FROM item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
@@ -2056,7 +2057,6 @@ function ShowDetailNew($conn, $DATA)
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
   WHERE shelfcount_detail.DocNo = '$DocNo'
   ORDER BY shelfcount_detail.Id DESC";
-  $return['sq'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
  
@@ -2071,6 +2071,7 @@ function ShowDetailNew($conn, $DATA)
     $return[$count]['TotalQty']   = $Result['TotalQty']==0?"":$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $return[$count]['Weight']       = $Result['Weight']*$Result['TotalQty'];
+    $return['chk_sign']       = $Result['chk_sign'];
     $UnitCode                     = $Result['UnitCode'];
     $ItemCode                     = $Result['ItemCode'];
     $count2 = 0;
