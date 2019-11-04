@@ -861,7 +861,7 @@ $array2 = json_decode($json2,TRUE);
                 $("#recorder").prop('disabled', false);
                 $("#timerec").prop('disabled', false);
                 $("#total").prop('disabled', false);
-                $('.chk_edit').attr('disabled', false);
+                $('.chk_edit1').attr('disabled', false);
             }
           
         }
@@ -1385,6 +1385,7 @@ $array2 = json_decode($json2,TRUE);
                     // $('.chk_edit').attr('disabled', true);
                     // $('#').attr('disabled', true);
                     // $('.chk_edit').attr('disabled', true);
+                    $('.chk_edit1').attr('disabled', true);
                     if(temp[0]['IsStatus'] !=1){
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
@@ -1394,6 +1395,7 @@ $array2 = json_decode($json2,TRUE);
                         $("#bCancel").prop('disabled', false);
                         $("#bCancel2").removeClass('opacity');
                     }
+                  
                     var word = '<?php echo $array['edit'][$language]; ?>';
                     var changeBtn = "<i class='fas fa-edit'></i>";
                     changeBtn += "<div>"+word+"</div>";
@@ -1724,8 +1726,8 @@ $array2 = json_decode($json2,TRUE);
                     "<td style='width:22%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+chkunit+"</center></td>"+
                     "<td style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Qty+"</center></td>"+
                     "<td style='width:15%;text-overflow: ellipsis;overflow: hidden;' nowrap><center>"+Weight+"</center></td></<tr>"+
-                    "<td style='width:5%;'><center><a href='javascript:void(0)' onclick='GetRound(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\",\""+temp[i]['RowID']+"\",\""+i+"\")'>"+
-                    "<i class='fas fa-plus-square text-info'></i></a></center></td></<tr>";
+                    "<td style='width:5%;'><center><button style='background: none;border: none;' class='chk_edit1' onclick='GetRound(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\",\""+temp[i]['RowID']+"\",\""+i+"\")'>"+
+                    "<i class='fas fa-plus-square text-info'></i></b></center></td></<tr>";
 
                     if(isStatus==0){
                       $('#qty1_'+i).prop('disabled', false);
@@ -1750,7 +1752,7 @@ $array2 = json_decode($json2,TRUE);
                     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
                   if(isStatus==1 || isStatus==9 || isStatus==2 || isStatus==3 || isStatus==4){
-                    $('.chk_edit').attr('disabled', true);
+                    $('.chk_edit1').attr('disabled', true);
                   }
                 }else if( (temp["form"]=='UpdateDetailWeight') ){
                   if(temp[0]['wTotal'] > 0)
