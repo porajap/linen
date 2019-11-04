@@ -885,7 +885,6 @@ $array2 = json_decode($json2,TRUE);
       var setcount = $('#setcount').val();
       var input_chk = $('#input_chk').val();
 
-        alert(settime);
         if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
           $('.inputDis').attr('disabled', false);
@@ -2347,6 +2346,9 @@ $array2 = json_decode($json2,TRUE);
               });
               if(isStatus==1){
                 $(".inputDis").attr('disabled', true);
+              }
+              if(temp['chk_sign']==0){
+                $('#ModalSign').modal("show");
               }
             }
           }else if (temp['status']=="failed") {
