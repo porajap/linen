@@ -495,14 +495,15 @@ $Sql = "SELECT
         department.DepName,
         time_sc.TimeName AS CycleTime,
         site.HptName,
-        DATE_FORMAT(shelfcount.Modify_Date,'%H:%i:%S') AS TIME , 
+        sc_time_2.TimeName AS TIME , 
         time_sc.timename AS ENDTIME
         FROM
         shelfcount
         INNER JOIN department ON shelfcount.DepCode = department.DepCode
         INNER JOIN site ON site.HptCode = department.HptCode
         INNER JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
-        WHERE shelfcount.DocNo='$docno'
+        INNER JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
+        WHERE shelfcount.DocNo='$docno' 
         ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -533,12 +534,12 @@ $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);
 $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['r4'][$language]), 0, 1, 'C');
 $pdf->SetFont('THSarabun', 'b', 14);
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['docno'][$language] . " : " . $docno), 0, 1, 'L');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['hospital'][$language] . " : " . $HptName), 0, 1, 'L');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['ward'][$language] . " : " . $DeptName), 0, 1, 'L');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . " : " . $DocDate), 0, 1, 'L');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['shelfcounttime'][$language] . " : " . $TIME), 0, 1, 'L');
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['deliverytime'][$language] . " : " . $ENDTIME), 0, 1, 'L');
+$pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['docno'][$language] . " : " . $docno), 0, 1, 'L');
+$pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['hospital'][$language] . " : " . $HptName), 0, 1, 'L');
+$pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['ward'][$language] . " : " . $DeptName), 0, 1, 'L');
+$pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['date'][$language] . " : " . $DocDate), 0, 1, 'L');
+$pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['shelfcounttime'][$language] . " : " . $TIME), 0, 1, 'L');
+$pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['deliverytime'][$language] . " : " . $ENDTIME), 0, 1, 'L');
 $pdf->Ln(5);
 $pdf->SetFont('THSarabun', '', 14);
 
@@ -576,14 +577,15 @@ INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
 INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
           WHERE shelfcount.DocNo='$docno'
+          AND shelfcount_detail.TotalQty <> 0
            ";
 $meQuery = mysqli_query($conn, $query);
 $i = 1;
-$y= 113;
+$y= 95;
 $pdf->SetFont('THSarabun', '', 14);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $txt = getStrLenTH($Result['ItemName']); // 10
-        $round = $txt /12;
+        $round = $txt /20;
         list($main, $point) = explode(".", $round);
         if ($point > 0) {
           $point = 1;
@@ -596,15 +598,15 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $pdf->SetX($w[0]+ 10);
   $pdf->MultiCell($w[1], 10/$main, iconv("UTF-8", "TIS-620", $Result['ItemName']), 1, 'L');
   $pdf->SetXY($w[0] + $w[1]  +10, $y);
-  $pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $Result['ParQty']), 1, 0, 'C');
-  $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $Result['CcQty']), 1, 0, 'C');
-  $pdf->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $issue), 1, 0, 'C');
-  $pdf->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $Result['TotalQty']), 1, 0, 'C');
-  $pdf->Cell($w[6], 10, iconv("UTF-8", "TIS-620", $Result['Short']), 1, 0, 'C');
-  $pdf->Cell($w[7], 10, iconv("UTF-8", "TIS-620", $Result['OverPar']), 1, 0, 'C');
-  $pdf->Cell($w[8], 10, iconv("UTF-8", "TIS-620", $totalweight), 1, 0, 'C');
+  $pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($Result['ParQty'])), 1, 0, 'C');
+  $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($Result['CcQty'])), 1, 0, 'C');
+  $pdf->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($issue)), 1, 0, 'C');
+  $pdf->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($Result['TotalQty'])), 1, 0, 'C');
+  $pdf->Cell($w[6], 10, iconv("UTF-8", "TIS-620", number_format($Result['Short'])), 1, 0, 'C');
+  $pdf->Cell($w[7], 10, iconv("UTF-8", "TIS-620", number_format($Result['OverPar'])), 1, 0, 'C');
+  $pdf->Cell($w[8], 10, iconv("UTF-8", "TIS-620", number_format($totalweight,2)), 1, 0, 'C');
   if($private == 1){
-  $pdf->Cell($w[9], 10, iconv("UTF-8", "TIS-620", $price), 1, 0, 'C');
+  $pdf->Cell($w[9], 10, iconv("UTF-8", "TIS-620", number_format($price,2)), 1, 0, 'C');
   }
   $pdf->ln();
   $i++;
@@ -613,12 +615,12 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $y+=10;
 }
 $pdf->Cell(150, 7, iconv("UTF-8", "TIS-620", $array2['total_weight'][$language]), 1, 0, 'C');
-$pdf->Cell($w[8]+$w[9], 7, iconv("UTF-8", "TIS-620", $totalw), 1, 0, 'C');
+$pdf->Cell($w[8]+$w[9], 7, iconv("UTF-8", "TIS-620", number_format($totalw,2)), 1, 0, 'C');
 $pdf->Cell($w[8], 7, iconv("UTF-8", "TIS-620", $array2['kg'][$language]), 1, 0, 'C');
 $pdf->ln();
 if($private == 1){
 $pdf->Cell(150, 7, iconv("UTF-8", "TIS-620", $array2['total_price'][$language]), 1, 0, 'C');
-$pdf->Cell($w[8]+$w[9], 7, iconv("UTF-8", "TIS-620", $price_total), 1, 0, 'C');
+$pdf->Cell($w[8]+$w[9], 7, iconv("UTF-8", "TIS-620", number_format($price_total,2)), 1, 0, 'C');
 $pdf->Cell($w[8], 7, iconv("UTF-8", "TIS-620", $array2['bath'][$language]), 1, 0, 'C');
 }
 function getMBStrSplit($string, $split_length = 1)

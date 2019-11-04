@@ -76,11 +76,11 @@ class PDF extends FPDF
       $this->SetY(-27);
       $language = $_GET['lang'];
       $this->SetFont('THSarabun', 'b', 11);
-      
+
       $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['comlinen'][$language] . "............................................"), 0, 0, 'L');
       $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['comlaundry'][$language] . "........................................"), 0, 0, 'L');
       $this->Ln(7);
-      
+
       $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . "..................................................................."), 0, 0, 'L');
       $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . ".........................................................."), 0, 0, 'L');
       $this->Ln(7);
@@ -111,7 +111,7 @@ class PDF extends FPDF
     $w = $width;
     // Header
     $this->SetFont('THSarabun', 'b', 16);
-   
+
     $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
     $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
     $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
@@ -150,7 +150,7 @@ class PDF extends FPDF
             $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 0, 'C');
             $this->Ln();
             $y = 25;
-            $next_page = 1 ;
+            $next_page = 1;
           }
         }
 
@@ -158,14 +158,14 @@ class PDF extends FPDF
         $this->SetFont('THSarabun', '', 13);
 
         $txt = getStrLenTH($inner_array[$field[1]]); // 10
-        $round = $txt / 20;
+        $round = $txt / 32;
         list($main, $point) = explode(".", $round);
         if ($point > 0) {
           $point = 1;
           $main += $point;
         }
         $txt2 = getStrLenTH(trim($inner_array[$field[5]])); // 10
-        $round2 = $txt2 /30;
+        $round2 = $txt2 / 30;
         // echo $round2 ."<br>";
         list($main2, $point2) = explode(".", $round2);
         if ($point2 > 0) {
@@ -173,25 +173,29 @@ class PDF extends FPDF
           $main2 += $point2;
         }
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count + 1), 1, 0, 'C');
-        $this->SetX($w[0]+ 15);
-        $this->MultiCell($w[1], 10/$main, iconv("UTF-8", "TIS-620", "  " . $inner_array[$field[1]]), 1,  'L');
-        $this->SetXY($w[0] + $w[1]  +15, $y);
-        $this->MultiCell($w[5], 10/$main2, iconv("UTF-8", "TIS-620", trim($inner_array[$field[5]]) . " "), 1,'C');
-        $this->SetXY($w[0] + $w[1] +$w[5] +15, $y);
-        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]] . " "), 1, 0, 'C');
+        $this->SetX($w[0] + 15);
+        $this->MultiCell($w[1], 10 / $main, iconv("UTF-8", "TIS-620",  $inner_array[$field[1]]), 1,  'L');
+        $this->SetXY($w[0] + $w[1]  + 15, $y);
+        $this->MultiCell($w[5], 10 / $main2, iconv("UTF-8", "TIS-620", trim($inner_array[$field[5]]) . " "), 1, 'C');
+        $this->SetXY($w[0] + $w[1] + $w[5] + 15, $y);
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]]) . " "), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]] . " "), 1, 0, 'C');
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]] . " "), 1, 0, 'C');
         $this->Ln();
         $total = $inner_array[$field[3]] + $total;
         $count++;
-        $y+=10; 
+        $y += 10;
         $r++;
       }
     }
 
+
     $this->Cell($w[0] + $w[1] + $w[2] + $w[3] + $w[5], 10, iconv("UTF-8", "TIS-620", $array['total'][$language]), 1, 0, 'C');
     $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($total, 2) . " "), 1, 0, 'C');
     $this->Ln();
+    if ($count == 18 ) {
+      $this->AddPage();
+        }
   }
 }
 function getMBStrSplit($string, $split_length = 1)
@@ -277,13 +281,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
 }
-list($d,$m,$y)=explode('-',$DocDate);
-if($language == 'th'){
-  $y = $y+543;
-}else{
-  $y =$y;
+list($d, $m, $y) = explode('-', $DocDate);
+if ($language == 'th') {
+  $y = $y + 543;
+} else {
+  $y = $y;
 }
-$DocDate = $d."-".$m."-".$y;
+$DocDate = $d . "-" . $m . "-" . $y;
 $pdf->SetFont('THSarabun', 'b', 16);
 
 $pdf->Cell(15);

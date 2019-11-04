@@ -121,8 +121,8 @@ class PDF extends FPDF
    
     $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
     $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
-    $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
-    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
+    $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
+    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
     $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
     $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 1, 'C');
 
@@ -185,9 +185,9 @@ class PDF extends FPDF
         $this->SetXY($w[0] + $w[1]  +15, $y);
         $this->MultiCell($w[5], 10/$main2, iconv("UTF-8", "TIS-620", trim($inner_array[$field[5]]) . " "), 1,'C');
         $this->SetXY($w[0] + $w[1] +$w[5] +15, $y);
-        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]] . " "), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]]) . " "), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]] . " "), 1, 0, 'C');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]] . " "), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]],2) . " "), 1, 0, 'C');
         $this->Ln();
         $total = $inner_array[$field[3]] + $total;
         $count++;
@@ -286,25 +286,25 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DocDate = $d."-".$m."-".$y;
 $hos . $date . $recorder . $timerec . $fac;
 $pdf->SetFont('THSarabun', 'b', 16);
-$pdf->Cell(15);
+$pdf->Cell(10);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['hospital'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $HptName), 0, 0, 'L');
+$pdf->Cell(73, 10, iconv("UTF-8", "TIS-620", ": " . $HptName), 0, 0, 'L');
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['factory'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $FacName), 0, 0, 'L');
+$pdf->Cell(73, 10, iconv("UTF-8", "TIS-620", ": " . $FacName), 0, 0, 'L');
 $pdf->Ln();
-$pdf->Cell(15);
+$pdf->Cell(10);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docno'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $DocNo), 0, 0, 'L');
+$pdf->Cell(73, 10, iconv("UTF-8", "TIS-620", ": " . $DocNo), 0, 0, 'L');
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docdate'][$language]), 0, 0, 'L');
 $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", ": " . $DocDate), 0, 0, 'L');
 $pdf->Ln();
-$pdf->Cell(15);
+$pdf->Cell(10);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['user'][$language]), 0, 0, 'L');
-$pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", ": " . $FName), 0, 0, 'L');
+$pdf->Cell(73, 10, iconv("UTF-8", "TIS-620", ": " . $FName), 0, 0, 'L');
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['time'][$language]), 0, 0, 'L');
 $pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", ": " . $xTime), 0, 0, 'L');
 $pdf->Ln();
-$pdf->Cell(15);
+$pdf->Cell(10);
 
 $pdf->SetMargins(15, 0, 0);
 $pdf->Ln();
@@ -332,7 +332,7 @@ $numfield = 7;
 // Field data (Must match with Query)
 $field = "no,ItemName,Qty,Weight,UnitName,DepName";
 // Table header
-$header = array($array['no'][$language],  $array['itemname'][$language],$array['department'][$language], $array['qty'][$language], $array['unit'][$language], $array['weight'][$language]);
+$header = array($array['no'][$language],  $array['itemname'][$language],$array['qty'][$language], $array['weight'][$language], $array['unit'][$language], $array['department'][$language]);
 // width of column table
 $width = array(15, 55, 20, 20, 20, 50);
 // Get Data and store in Result
@@ -340,8 +340,6 @@ $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
 $pdf->SetFont('THSarabun', 'b', 12);
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
-
-
 $pdf->isFinished = true;
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Dirty_' . $ddate . '.pdf');

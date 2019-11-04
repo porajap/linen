@@ -93,6 +93,7 @@ class PDF extends FPDF
     $language = $_GET['lang'];
     $total = 0;
     $wtotal = 0;
+    $y=92;
     $field = explode(",",$field);
     // Column widths
     $w = $width;
@@ -107,14 +108,24 @@ class PDF extends FPDF
     $this->SetFont('THSarabun','',14);
     if(is_array($data)){
     foreach($data as $data=>$inner_array){
-      $this->Cell($w[0],6,iconv("UTF-8","TIS-620",$count+1),1,0,'C');
-      $this->Cell($w[1],6,iconv("UTF-8","TIS-620","  ".$inner_array[$field[1]]),1,0,'L');
-      $this->Cell($w[2],6,iconv("UTF-8","TIS-620",$inner_array[$field[2]]." "),1,0,'C');
-      $this->Cell($w[3],6,iconv("UTF-8","TIS-620",$inner_array[$field[4]]." "),1,0,'C');
-      $this->Cell($w[4],6,iconv("UTF-8","TIS-620",$inner_array[$field[3]]." "),1,0,'C');
+      $txt = getStrLenTH($inner_array[$field[1]]); // 10
+      $round = $txt /33;
+      list($main, $point) = explode(".", $round);
+      if ($point > 0) {
+        $point = 1;
+        $main += $point;
+      }
+      $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count + 1), 1, 0, 'C');
+      $this->SetX($w[0] + 10);
+      $this->MultiCell($w[1], 10/$main, iconv("UTF-8", "TIS-620",$inner_array[$field[1]]), 1, 'L');
+      $this->SetXY($w[0] + $w[1]  + 10, $y);
+      $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]]) . " "), 1, 0, 'C');
+      $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]] . " "), 1, 0, 'C');
+      $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]],2) . " "), 1, 0, 'C');
       $this->Ln();
-      $total=$inner_array[$field[3]] + $total;
+      $total = $inner_array[$field[3]] + $total;
       $count++;
+      $y+=10;
     }
   }
 
@@ -122,8 +133,42 @@ class PDF extends FPDF
   $this->Cell($w[3],6,iconv("UTF-8","TIS-620",number_format($total,2)." "),1,0,'C');
   $this->Ln();  
   }
-
+  if ($count == 18 ) {
+    $this->AddPage();
+      }
   }
+  function getMBStrSplit($string, $split_length = 1)
+{
+  mb_internal_encoding('UTF-8');
+  mb_regex_encoding('UTF-8');
+
+  $split_length = ($split_length <= 0) ? 1 : $split_length;
+  $mb_strlen = mb_strlen($string, 'utf-8');
+  $array = array();
+  $i = 0;
+
+  while ($i < $mb_strlen) {
+    $array[] = mb_substr($string, $i, $split_length);
+    $i = $i + $split_length;
+  }
+
+  return $array;
+}
+// Get string length for Character Thai
+function getStrLenTH($string)
+{
+  $array = getMBStrSplit($string);
+  $count = 0;
+
+  foreach ($array as $value) {
+    $ascii = ord(iconv("UTF-8", "TIS-620", $value));
+
+    if (!($ascii == 209 || ($ascii >= 212 && $ascii <= 218) || ($ascii >= 231 && $ascii <= 238))) {
+      $count += 1;
+    }
+  }
+  return $count;
+}
 
 // *** Prepare Data Resource *** //
 // Instanciation of inherited class
