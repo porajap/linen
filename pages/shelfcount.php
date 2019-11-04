@@ -257,6 +257,7 @@ $array2 = json_decode($json2,TRUE);
 
     function CancelDocument(){
         var docno = $("#docno").val();
+        $('#chk_sign').val(0);
         if(docno!= ""){
         swal({
             title: "<?php echo $array['confirmcancel'][$language]; ?>",
@@ -490,8 +491,10 @@ $array2 = json_decode($json2,TRUE);
       $('#setcount').removeClass('border-danger');
       $('#rem4').hide();
     }
-    function SelectDocument(){
-
+    function SelectDocument(chk){
+      if(chk=="click"){
+        $('#chk_sign').val(1);
+      }
       var selectdocument = "";
       $("#checkdocno:checked").each(function() {
         selectdocument = $(this).val();
@@ -2347,8 +2350,11 @@ $array2 = json_decode($json2,TRUE);
               if(isStatus==1){
                 $(".inputDis").attr('disabled', true);
               }
-              if(temp['chk_sign']==0){
-                $('#ModalSign').modal("show");
+              var chk_sign = $('#chk_sign').val();
+              if(chk_sign == 1){
+                if(temp['chk_sign']==0){
+                  $('#ModalSign').modal('show');
+                }
               }
             }
           }else if (temp['status']=="failed") {
@@ -2597,6 +2603,9 @@ $array2 = json_decode($json2,TRUE);
 
     .kbw-signature { width: 100%; height: 240px; }
 
+       #ModalSign{
+        top: 0% !important;
+       }
   </style>
 </head>
 
@@ -2609,6 +2618,7 @@ $array2 = json_decode($json2,TRUE);
   <hr style='width: 98%;height:1px;background-color: #ecf0f1;'>
   <input type="hidden" id='input_chk' value='0'>
   <input type="hidden" id='chk_Key' value='0'>
+  <input type="hidden" id='chk_sign' value='0'>
 
 
 
@@ -2921,7 +2931,7 @@ $array2 = json_decode($json2,TRUE);
                             </div>
                             <div class="search_custom col-md-2">
                           <div class="circle11 d-flex justify-content-start">
-                            <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                            <button class="btn"  onclick="SelectDocument('click')" id="btn_show" >
                               <i class="fas fa-paste mr-2 pt-1"></i>
                               <?php echo $array['show'][$language]; ?>
                             </button>
@@ -3262,7 +3272,7 @@ $array2 = json_decode($json2,TRUE);
     $('#svg').click(function() {
       var SignSVG = sig.signature('toSVG');
       var DocNo = $('#docno').val();
-      console.log(SignSVG);
+      $('#chk_sign').val(0);
       $.ajax({
         url: '../process/UpdateSign.php',
         dataType: 'text',
@@ -3283,6 +3293,7 @@ $array2 = json_decode($json2,TRUE);
             showConfirmButton: false,
             timer: 1500,
           });
+          $('#sig').signature('clear'); ;
           $('#ModalSign').modal('toggle');
         }
       });
