@@ -57,7 +57,7 @@ function getSection($conn, $DATA)
   }
   
   for($i=0;$i<$limit;$i++){
-    $Type1 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 1 AND DepCode = $DepCode[$i]";
+    $Type1 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 1 AND DepCode = '$DepCode[$i]'";
     $TypeQuery1 = mysqli_query($conn, $Type1);
     while ($Result = mysqli_fetch_assoc($TypeQuery1)) {
       $return[$i]['ID1']  = $Result['ID'];
@@ -65,7 +65,7 @@ function getSection($conn, $DATA)
     }
   }
   for($i=0;$i<$limit;$i++){
-    $Type2 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 2 AND DepCode = $DepCode[$i]";
+    $Type2 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 2 AND DepCode = '$DepCode[$i]'";
     $TypeQuery2 = mysqli_query($conn, $Type2);
     while ($Result = mysqli_fetch_assoc($TypeQuery2)) {
       $return[$i]['ID2']  = $Result['ID'];
@@ -73,7 +73,7 @@ function getSection($conn, $DATA)
     }
   }
   for($i=0;$i<$limit;$i++){
-    $Type3 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 3 AND DepCode = $DepCode[$i]";
+    $Type3 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 3 AND DepCode = '$DepCode[$i]'";
     $TypeQuery3 = mysqli_query($conn, $Type3);
     while ($Result = mysqli_fetch_assoc($TypeQuery3)) {
       $return[$i]['ID3']  = $Result['ID'];
@@ -81,7 +81,7 @@ function getSection($conn, $DATA)
     }
   }
   for($i=0;$i<$limit;$i++){
-    $Type4 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 4 AND DepCode = $DepCode[$i]";
+    $Type4 = "SELECT ID, Qty FROM tdas_qty WHERE HptCode = '$HptCode' AND Type = 4 AND DepCode = '$DepCode[$i]'";
     $TypeQuery4 = mysqli_query($conn, $Type4);
     while ($Result = mysqli_fetch_assoc($TypeQuery4)) {
       $return[$i]['ID2']  = $Result['ID'];
@@ -109,13 +109,13 @@ function SaveQty($conn, $DATA){
   $Type = $DATA['Type'];
   $Qty = $DATA['Qty'];
 
-  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_qty WHERE HptCode = '$HptCode' AND DepCode = $DepCode AND Type = $Type";
+  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_qty WHERE HptCode = '$HptCode' AND DepCode = '$DepCode' AND Type = $Type";
   $meQuery = mysqli_query($conn, $SqlFind);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($Result['cnt'] > 0){
-      $Sql = "UPDATE tdas_qty SET Qty = $Qty WHERE HptCode = '$HptCode' AND DepCode = $DepCode AND Type = $Type";
+      $Sql = "UPDATE tdas_qty SET Qty = $Qty WHERE HptCode = '$HptCode' AND DepCode = '$DepCode' AND Type = $Type";
     }else{
-      $Sql = "INSERT INTO tdas_qty (HptCode, DepCode, Type, Qty)VALUES('$HptCode', $DepCode, $Type, $Qty)";
+      $Sql = "INSERT INTO tdas_qty (HptCode, DepCode, Type, Qty)VALUES('$HptCode', '$DepCode', $Type, $Qty)";
     }
     $return['sql'] = $Sql;
     mysqli_query($conn, $Sql);
@@ -158,13 +158,13 @@ function SavePercent($conn, $DATA){
   $DepCode = $DATA['DepCode'];
   $Percent = $DATA['Percent'];
 
-  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_percent WHERE HptCode = '$HptCode' AND DepCode = $DepCode";
+  $SqlFind = "SELECT COUNT(*) AS cnt FROM tdas_percent WHERE HptCode = '$HptCode' AND DepCode = '$DepCode'";
   $meQuery = mysqli_query($conn, $SqlFind);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($Result['cnt'] > 0){
-      $Sql = "UPDATE tdas_percent SET Percent_value = $Percent WHERE HptCode = '$HptCode' AND DepCode = $DepCode";
+      $Sql = "UPDATE tdas_percent SET Percent_value = $Percent WHERE HptCode = '$HptCode' AND DepCode = '$DepCode'";
     }else{
-      $Sql = "INSERT INTO tdas_percent (HptCode, DepCode, Percent_value)VALUES('$HptCode', $DepCode, $Percent)";
+      $Sql = "INSERT INTO tdas_percent (HptCode, DepCode, Percent_value)VALUES('$HptCode', '$DepCode', $Percent)";
     }
     mysqli_query($conn, $Sql);
   }
@@ -266,7 +266,7 @@ function CreateDocument($conn, $DATA){
   for($t = 0; $t<$TypeLoop; $t++){
     for($d = 0; $d<$DepLoop; $d++){
       $Sql1 = "INSERT INTO tdas_detail (DocNo, DepCode, Type, Qty, TotalStock, TotalPar, Percent) 
-            VALUES ('$DocNo', $DepCodeX[$d], $t+1, '".$Qty[$t][$d]."', $SumType[$t], $Total_par2, $PercentArray[$d])";
+            VALUES ('$DocNo', '$DepCodeX[$d]', $t+1, '".$Qty[$t][$d]."', $SumType[$t], $Total_par2, $PercentArray[$d])";
             mysqli_query($conn, $Sql1);
     }
   }
@@ -276,7 +276,7 @@ function CreateDocument($conn, $DATA){
       $result = $resultStock[$i][$d]==''?0:$resultStock[$i][$d];
       $change = $changeArray[$i]==null?0:$changeArray[$i];
       $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, Change_value, ItemCode , Result, SumResult, CalSum, AllSum)VALUES
-      ('$DocNo', $DepCodeX[$d], $change, '$ItemCodeArray[$i]', $result, $TotalArray[$i], $CalArray[$i], $AllSum[$i])";
+      ('$DocNo', '$DepCodeX[$d]', $change, '$ItemCodeArray[$i]', $result, $TotalArray[$i], $CalArray[$i], $AllSum[$i])";
       // if($AllSum[$i]==0){
       //   $Sql2 = "INSERT INTO tdas_detail_item (DocNo, DepCode, Change_value, ItemCode , Result, SumResult, CalSum, AllSum)VALUES
       //   ('$DocNo', $DepCodeX[$d], $changeArray[$i], '$ItemCodeArray[$i]', ((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d])-'".$Qty[1][$d]."', $TotalArray[$i], $CalArray[$i], $AllSum[$i])";
@@ -371,7 +371,7 @@ function updateStock($conn, $DATA){
       // }else{
       //   $result = round((($SumCol[$d]*$PercentArray[$d]/100)*$changeArray[$i]) + $SumCol[$d]);
       // }
-      $Sql = "SELECT COUNT(*) AS cnt, ParQty FROM par_item_stock WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = $DepCodeX[$d] LIMIT 1";
+      $Sql = "SELECT COUNT(*) AS cnt, ParQty FROM par_item_stock WHERE ItemCode = '$ItemCodeArray[$i]' AND DepCode = '$DepCodeX[$d]' LIMIT 1";
       $meQuery = mysqli_query($conn, $Sql);
       $Result = mysqli_fetch_assoc($meQuery);
       $cnt = $Result['cnt'];
@@ -384,7 +384,7 @@ function updateStock($conn, $DATA){
           //   mysqli_query($conn, $Insert);
           // }
           $Insert = "INSERT INTO par_item_stock (ItemCode, ExpireDate, DepCode, ParQty, TotalQty, UsageCode, IsStatus)
-                        VALUES('$ItemCodeArray[$i]', NOW(), $DepCodeX[$d], '".$resultStock[$i][$d]."', 0, 0, 9)";
+                        VALUES('$ItemCodeArray[$i]', NOW(), '$DepCodeX[$d]', '".$resultStock[$i][$d]."', 0, 0, 9)";
             mysqli_query($conn, $Insert);
         }
         
@@ -460,28 +460,28 @@ function SelectDocument($conn, $DATA){
   }
   #-----------------------------------------------------------------
   for($i=0;$i<$limit;$i++){
-    $Type1 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 1 AND DepCode = $DepCode[$i]";
+    $Type1 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 1 AND DepCode = '$DepCode[$i]'";
     $TypeQuery1 = mysqli_query($conn, $Type1);
     while ($Result = mysqli_fetch_assoc($TypeQuery1)) {
       $return[$i]['Qty1']  = $Result['Qty'];
     }
   }
   for($i=0;$i<$limit;$i++){
-    $Type2 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 2 AND DepCode = $DepCode[$i]";
+    $Type2 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 2 AND DepCode = '$DepCode[$i]'";
     $TypeQuery2 = mysqli_query($conn, $Type2);
     while ($Result = mysqli_fetch_assoc($TypeQuery2)) {
       $return[$i]['Qty2']  = $Result['Qty'];
     }
   }
   for($i=0;$i<$limit;$i++){
-    $Type3 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 3 AND DepCode = $DepCode[$i]";
+    $Type3 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 3 AND DepCode = '$DepCode[$i]'";
     $TypeQuery3 = mysqli_query($conn, $Type3);
     while ($Result = mysqli_fetch_assoc($TypeQuery3)) {
       $return[$i]['Qty3']  = $Result['Qty'];
     }
   }
   for($i=0;$i<$limit;$i++){
-    $Type4 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 4 AND DepCode = $DepCode[$i]";
+    $Type4 = "SELECT Qty FROM tdas_detail WHERE DocNo = '$DocNo' AND Type = 4 AND DepCode = '$DepCode[$i]'";
     $TypeQuery4 = mysqli_query($conn, $Type4);
     while ($Result = mysqli_fetch_assoc($TypeQuery4)) {
       $return[$i]['Qty4']  = $Result['Qty'];
@@ -528,7 +528,7 @@ function UpdateQty($conn, $DATA){
   $Type = $DATA['Type'];
   $Qty = $DATA['Qty'];
 
-  $Update = "UPDATE tdas_detail SET Qty = $Qty WHERE DocNo = '$DocNo' AND DepCode = $DepCode AND Type = $Type";
+  $Update = "UPDATE tdas_detail SET Qty = $Qty WHERE DocNo = '$DocNo' AND DepCode = '$DepCode' AND Type = $Type";
   mysqli_query($conn, $Update);
 }
 if(isset($_POST['DATA']))
