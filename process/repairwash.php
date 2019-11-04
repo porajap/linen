@@ -172,7 +172,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',NOW(),$deptCode,'$RefDocNo','repair_wash',$userid,DATE(NOW()))";
+      ('$DocNo',NOW(),'$deptCode','$RefDocNo','repair_wash',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -243,13 +243,13 @@ function CreateDocument($conn, $DATA)
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DepCode = $deptCode AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DepCode = '$deptCode' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair_wash.DepCode = $deptCode AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE repair_wash.DepCode = '$deptCode' AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair_wash.DepCode = $deptCode AND DATE(repair_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE repair_wash.DepCode = '$deptCode' AND DATE(repair_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%'";
     }
   // }
     $Sql .= "ORDER BY repair_wash.DocNo DESC LIMIT 500";

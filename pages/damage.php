@@ -795,11 +795,12 @@ if (e.keyCode == 13) {
               });
         var Qty = QtyArray.join(',') ;
         // alert(Qty);
-        if(isStatus==1)
-        isStatus=0;
-        else
+        if(isStatus==0){
         isStatus=1;
-        if(isStatus==1){
+        }
+        // else
+        // isStatus=1;
+        // if(isStatus==1){
           if(docno!=""){
         swal({
             title: "<?php echo $array['confirmsave'][$language]; ?>",
@@ -846,33 +847,33 @@ if (e.keyCode == 13) {
           swal.close();}
         })
         }
-        }else{
-          $("#bImport2").removeClass('opacity');
-          $("#bSave2").removeClass('opacity');
-          // $("#bCancel2").removeClass('opacity');
-          $("#bImport").prop('disabled', false);
-          $("#bSave").prop('disabled', false);
-          // $("#bCancel").prop('disabled', false);
-          var word = '<?php echo $array['save'][$language]; ?>';
-          var changeBtn = "<i class='fa fa-save'></i>";
-            changeBtn += "<div>"+word+"</div>";
-            $('#icon_edit').html(changeBtn);            
-            $("#IsStatus").val("0");
-          $("#docno").prop('disabled', false);
-          $("#docdate").prop('disabled', false);
-          $("#recorder").prop('disabled', false);
-          $("#timerec").prop('disabled', false);
-          $("#total").prop('disabled', false);
-          var rowCount = $('#TableItemDetail >tbody >tr').length;
-          for (var i = 0; i < rowCount; i++) {
+        // }else{
+        //   $("#bImport2").removeClass('opacity');
+        //   $("#bSave2").removeClass('opacity');
+        //   // $("#bCancel2").removeClass('opacity');
+        //   $("#bImport").prop('disabled', false);
+        //   $("#bSave").prop('disabled', false);
+        //   // $("#bCancel").prop('disabled', false);
+        //   var word = '<?php echo $array['save'][$language]; ?>';
+        //   var changeBtn = "<i class='fa fa-save'></i>";
+        //     changeBtn += "<div>"+word+"</div>";
+        //     $('#icon_edit').html(changeBtn);            
+        //     $("#IsStatus").val("0");
+        //   $("#docno").prop('disabled', false);
+        //   $("#docdate").prop('disabled', false);
+        //   $("#recorder").prop('disabled', false);
+        //   $("#timerec").prop('disabled', false);
+        //   $("#total").prop('disabled', false);
+        //   var rowCount = $('#TableItemDetail >tbody >tr').length;
+        //   for (var i = 0; i < rowCount; i++) {
 
-            $('#qty1_'+i).prop('disabled', false);
-            $('#weight_'+i).prop('disabled', false);
-            $('#price_'+i).prop('disabled', false);
+        //     $('#qty1_'+i).prop('disabled', false);
+        //     $('#weight_'+i).prop('disabled', false);
+        //     $('#price_'+i).prop('disabled', false);
 
-            $('#unit'+i).prop('disabled', false);
-          }
-        }
+        //     $('#unit'+i).prop('disabled', false);
+        //   }
+        // }
       }
       function show_btn(DocNo){
               if(DocNo != undefined || DocNo != ''){
@@ -1042,13 +1043,13 @@ if (e.keyCode == 13) {
                   var Status = "";
                   var Style  = "";
                   if(temp[i]['IsStatus']==1){
-                    Status = "<?php echo $array['savesuccess'][$language]; ?>";
+                    Status = "completed";
                     Style  = "style='width: 10%;color: #20B80E;'";
                   }else{
-                    Status = "<?php echo $array['draft'][$language]; ?>";
+                    Status = "on process";
                     Style  = "style='width: 10%;color: #3399ff;'";
                   }if(temp[i]['IsStatus']==9){
-                    Status = "<?php echo $array['Canceldoc'][$language]; ?>";
+                    Status = "cancel";
                     Style  = "style='width: 10%;color: #ff0000;'";
                   }
 
@@ -1116,10 +1117,10 @@ if (e.keyCode == 13) {
                   $("#bSave2").removeClass('opacity');
                   $("#bCancel2").removeClass('opacity');
                 }else if(temp[0]['IsStatus']==1){
-                  var word = '<?php echo $array['edit'][$language]; ?>';
-                  var changeBtn = "<i class='fas fa-edit'></i>";
-                  changeBtn += "<div>"+word+"</div>";
-                  $('#icon_edit').html(changeBtn);                  
+                  // var word = '<?php echo $array['edit'][$language]; ?>';
+                  // var changeBtn = "<i class='fas fa-edit'></i>";
+                  // changeBtn += "<div>"+word+"</div>";
+                  // $('#icon_edit').html(changeBtn);                  
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);

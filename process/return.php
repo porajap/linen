@@ -81,10 +81,9 @@ function saveDep($conn, $DATA){
   $DocNo = $DATA["DocNo"];
   $DepCode = $DATA["DepCode"];
 
-  $Sql ="UPDATE return_doc SET DepCodeTo = $DepCode WHERE DocNo = '$DocNo'";
+  $Sql ="UPDATE return_doc SET DepCodeTo = '$DepCode' WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   $return['DepCode'] = $DepCode;
-
   if (mysqli_query($conn, $Sql)) {
     $return['status'] = "success";
     $return['form'] = "saveDep";
@@ -212,7 +211,7 @@ function CreateDocument($conn, $DATA)
   if ($count == 1) {
     $Sql = "INSERT INTO return_doc
     ( DocNo, DocDate, HptCode, DepCodeFrom, DepCodeTo, RefDocNo, IsCancel, Modify_Code, Modify_Date )VALUES
-    ('$DocNo', NOW(), '$hotpCode', $deptCode, $DepCodeDefault,'$RefDocNo', 0, $userid, NOW() )";
+    ('$DocNo', NOW(), '$hotpCode', '$deptCode', '$DepCodeDefault','$RefDocNo', 0, $userid, NOW() )";
       mysqli_query($conn, $Sql);
 
 
@@ -769,10 +768,10 @@ function SaveBill($conn, $DATA)
       $ItemCode = $Result['ItemCode'];
       $Qty = $Result['Qty'];
 
-      $DelUpdate = "UPDATE par_item_stock SET TotalQty = (TotalQty-$Qty) WHERE ItemCode = '$ItemCode' AND DepCode = $DepCodeFrom";
+      $DelUpdate = "UPDATE par_item_stock SET TotalQty = (TotalQty-$Qty) WHERE ItemCode = '$ItemCode' AND DepCode = '$DepCodeFrom'";
       mysqli_query($conn, $DelUpdate);
 
-      $PlusUpdate = "UPDATE par_item_stock SET TotalQty = (TotalQty+$Qty) WHERE ItemCode = '$ItemCode' AND DepCode = $DepCodeTo";
+      $PlusUpdate = "UPDATE par_item_stock SET TotalQty = (TotalQty+$Qty) WHERE ItemCode = '$ItemCode' AND DepCode = '$DepCodeTo'";
       mysqli_query($conn, $PlusUpdate);
     }
   
@@ -805,7 +804,7 @@ function UpdateRefDocNo($conn, $DATA)
   }
 
 
-  $Sql = "UPDATE return_doc SET RefDocNo = '$RefDocNo', DepCodeTo = $DepCode WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE return_doc SET RefDocNo = '$RefDocNo', DepCodeTo = '$DepCode' WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
   SelectDocument($conn, $DATA);
@@ -901,7 +900,7 @@ function ShowDetail($conn, $DATA)
   INNER JOIN item_unit ON return_detail.UnitCode = item_unit.UnitCode
   INNER JOIN return_doc ON return_detail.DocNo = return_doc.DocNo
   INNER JOIN par_item_stock ON par_item_stock.ItemCode = item.ItemCode
-  WHERE return_detail.DocNo = '$DocNo' AND par_item_stock.DepCode = $DepCode GROUP BY return_detail.ItemCode
+  WHERE return_detail.DocNo = '$DocNo' AND par_item_stock.DepCode = '$DepCode' GROUP BY return_detail.ItemCode
   ORDER BY return_detail.Id DESC";
   $return['sqlss']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -1062,7 +1061,7 @@ function get_dirty_doc($conn, $DATA)
     WHERE
       shelfcount.IsCancel = 0
     AND shelfcount.IsStatus = 4
-    AND shelfcount.DepCode = $DepCode
+    AND shelfcount.DepCode = '$DepCode'
     AND site.HptCode = '$hptcode'
     AND shelfcount.DocNo LIKE '%$searchitem1%'";
     $return['fgfg'] = $Sql;

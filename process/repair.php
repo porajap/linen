@@ -148,7 +148,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       repair.Modify_Code,repair.Modify_Date )
       VALUES
-      ( '$DocNo','$DocDate',$deptCode,'$RefDocNo',
+      ( '$DocNo','$DocDate','$deptCode','$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -158,7 +158,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',DATE(NOW()),$deptCode,'$RefDocNo','repair',$userid,DATE(NOW()))";
+      ('$DocNo',DATE(NOW()),'$deptCode','$RefDocNo','repair',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -230,13 +230,13 @@ function CreateDocument($conn, $DATA)
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(repair.DocDate) = '$datepicker' AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair.DepCode = $deptCode AND repair.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair.DepCode = '$deptCode' AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair.DocDate) = '$datepicker' AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair.DepCode = $deptCode AND DATE(repair.DocDate) = '$datepicker' AND repair.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE repair.DepCode = '$deptCode' AND DATE(repair.DocDate) = '$datepicker' AND repair.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair.DepCode = $deptCode AND DATE(repair.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE repair.DepCode = '$deptCode' AND DATE(repair.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair.DocNo LIKE '%$xDocNo%'";
     }
   // }
     $Sql .= "ORDER BY repair.DocNo DESC LIMIT 500";
@@ -371,7 +371,7 @@ function CreateDocument($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
+  WHERE  item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%'
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
     $meQuery = mysqli_query($conn, $Sql);
@@ -778,12 +778,12 @@ function CreateDocument($conn, $DATA)
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
 
-      $selectstock = "SELECT TotalQty FROM par_item_stock WHERE DepCode = $DepCode AND ItemCode = '$iItemStockId'";
+      $selectstock = "SELECT TotalQty FROM par_item_stock WHERE DepCode = '$DepCode' AND ItemCode = '$iItemStockId'";
       $mequery4 = mysqli_query($conn, $selectstock);
       while ($Res1 = mysqli_fetch_assoc($mequery4)) {
         $sum1 = $Qtyzz + $Res1['TotalQty'];
       }
-      $updateStock = "UPDATE par_item_stock SET TotalQty = $sum1 WHERE DepCode = $DepCode AND ItemCode = '$iItemStockId'";
+      $updateStock = "UPDATE par_item_stock SET TotalQty = $sum1 WHERE DepCode = '$DepCode' AND ItemCode = '$iItemStockId'";
       mysqli_query($conn, $updateStock);
 
 

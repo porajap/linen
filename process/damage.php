@@ -145,7 +145,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       damage.Modify_Code,damage.Modify_Date )
       VALUES
-      ( '$DocNo','$DocDate',$deptCode,'$RefDocNo',
+      ( '$DocNo','$DocDate','$deptCode','$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -155,7 +155,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',DATE(NOW()),$deptCode,'$RefDocNo','damage',$userid,DATE(NOW()))";
+      ('$DocNo',DATE(NOW()),'$deptCode','$RefDocNo','damage',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -228,13 +228,13 @@ function CreateDocument($conn, $DATA)
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND damage.DepCode = $deptCode AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND damage.DepCode = '$deptCode' AND damage.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE damage.DepCode = $deptCode AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE damage.DepCode = '$deptCode' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE damage.DepCode = $deptCode AND DATE(damage.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE damage.DepCode = '$deptCode' AND DATE(damage.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damage.DocNo LIKE '%$xDocNo%'";
     }
   // }
     $Sql .= "ORDER BY damage.DocNo DESC LIMIT 500";

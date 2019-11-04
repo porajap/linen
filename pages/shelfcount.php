@@ -975,6 +975,7 @@ $array2 = json_decode($json2,TRUE);
                   setTimeout(() => {
                     $('#ModalSign').modal("show");
                   }, 1500);
+                  $('#ModalSign').modal({backdrop: 'static', keyboard: false})
                 } else if (result.dismiss === 'cancel') {
                   swal.close();}
               })

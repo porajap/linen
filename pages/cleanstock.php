@@ -838,12 +838,12 @@ $(document).ready(function(e){
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
         // alert( isStatus );
-        if(isStatus==1  || isStatus==3 || isStatus==4)
-        isStatus=0;
-        else
+        if(isStatus==0){
         isStatus=1;
+        }
 
-        if(isStatus==1){
+
+        // if(isStatus==1){
         if(factory1 ==""){
           checkblank();
           swal({
@@ -926,33 +926,33 @@ $(document).ready(function(e){
       }
      }
     }
-        }else{
-          $("#bImport2").removeClass('opacity');
-          $("#bSave2").removeClass('opacity');
-          // $("#bCancel2").removeClass('opacity');
-          $("#bImport").prop('disabled', false);
-          $("#bSave").prop('disabled', false);
-          // $("#bCancel").prop('disabled', false);
-          var word = '<?php echo $array['save'][$language]; ?>';
-          var changeBtn = "<i class='fa fa-save'></i>";
-            changeBtn += "<div>"+word+"</div>";
-            $('#icon_edit').html(changeBtn);          
-            $("#IsStatus").val("0");
-          $("#docno").prop('disabled', false);
-          $("#docdate").prop('disabled', false);
-          $("#recorder").prop('disabled', false);
-          $("#timerec").prop('disabled', false);
-          $("#total").prop('disabled', false);
-          var rowCount = $('#TableItemDetail >tbody >tr').length;
-          for (var i = 0; i < rowCount; i++) {
+        // }else{
+        //   $("#bImport2").removeClass('opacity');
+        //   $("#bSave2").removeClass('opacity');
+        //   // $("#bCancel2").removeClass('opacity');
+        //   $("#bImport").prop('disabled', false);
+        //   $("#bSave").prop('disabled', false);
+        //   // $("#bCancel").prop('disabled', false);
+        //   var word = '<?php echo $array['save'][$language]; ?>';
+        //   var changeBtn = "<i class='fa fa-save'></i>";
+        //     changeBtn += "<div>"+word+"</div>";
+        //     $('#icon_edit').html(changeBtn);          
+        //     $("#IsStatus").val("0");
+        //   $("#docno").prop('disabled', false);
+        //   $("#docdate").prop('disabled', false);
+        //   $("#recorder").prop('disabled', false);
+        //   $("#timerec").prop('disabled', false);
+        //   $("#total").prop('disabled', false);
+        //   var rowCount = $('#TableItemDetail >tbody >tr').length;
+        //   for (var i = 0; i < rowCount; i++) {
 
-            $('#qty1_'+i).prop('disabled', false);
-            $('#weight_'+i).prop('disabled', false);
-            $('#price_'+i).prop('disabled', false);
+        //     $('#qty1_'+i).prop('disabled', false);
+        //     $('#weight_'+i).prop('disabled', false);
+        //     $('#price_'+i).prop('disabled', false);
 
-            $('#unit'+i).prop('disabled', false);
-          }
-        }
+        //     $('#unit'+i).prop('disabled', false);
+        //   }
+        // }
       }
       function show_btn(DocNo){
               if(DocNo != undefined || DocNo != ''){
@@ -1222,10 +1222,10 @@ $(document).ready(function(e){
                   $('#bPrintnew2').addClass('opacity');
                   $('#hover7').removeClass('mhee');
                 }else if(temp[0]['IsStatus']==1|| temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4 || temp[0]['IsStatus']==5){
-                  var word = '<?php echo $array['edit'][$language]; ?>';
-                  var changeBtn = "<i class='fas fa-edit'></i>";
-                  changeBtn += "<div>"+word+"</div>";
-                  $('#icon_edit').html(changeBtn);
+                  // var word = '<?php echo $array['edit'][$language]; ?>';
+                  // var changeBtn = "<i class='fas fa-edit'></i>";
+                  // changeBtn += "<div>"+word+"</div>";
+                  // $('#icon_edit').html(changeBtn);
                   if(temp[0]['IsStatus'] !=1){
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
@@ -1926,20 +1926,15 @@ $(document).ready(function(e){
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
-                                      <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                <div class="col-md-6">
-                                    <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['factory'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 icon_select checkblank" disabled="true" style="font-size:22px;" onchange="removeClassBorder2();"  id="factory1"  >
                                       </select>
                                       <label id="rem2" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
+                                </div>
+                                <div class="row">
+
                                 </div>
                               </div>
                             </div>
