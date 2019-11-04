@@ -3,14 +3,16 @@ session_start();
 require '../connect/connect.php';
 date_default_timezone_set("Asia/Bangkok");
 $filename = 'tdas'.date('Y-m-d').'.xls';
-header("Content-Type: application/vnd.ms-excel"); // ประเภทของไฟล์
-header('Content-Disposition: attachment; filename="'.$filename.'"'); //กำหนดชื่อไฟล์
-header("Content-Type: application/force-download"); // กำหนดให้ถ้าเปิดหน้านี้ให้ดาวน์โหลดไฟล์
-header("Content-Type: application/octet-stream"); 
-header("Content-Type: application/download"); // กำหนดให้ถ้าเปิดหน้านี้ให้ดาวน์โหลดไฟล์
-header("Content-Transfer-Encoding: binary"); 
-header("Content-Length: ".filesize("'.$filename.'"));   
-
+// header("Content-Type: application/vnd.ms-excel"); // ประเภทของไฟล์
+// header('Content-Disposition: attachment; filename="'.$filename.'"'); //กำหนดชื่อไฟล์
+// header("Content-Type: application/force-download"); // กำหนดให้ถ้าเปิดหน้านี้ให้ดาวน์โหลดไฟล์
+// header("Content-Type: application/octet-stream"); 
+// header("Content-Type: application/download"); // กำหนดให้ถ้าเปิดหน้านี้ให้ดาวน์โหลดไฟล์
+// header("Content-Transfer-Encoding: binary"); 
+// header("Content-Length: ".filesize("'.$filename.'"));   
+header("Content-Type: application/x-msexcel; name=\"$filename\"");
+header("Content-Disposition: inline; filename=\"$filename\"");
+header("Pragma:no-cache");
 // @readfile($filename); 
   $HptCode = $_SESSION['HptCode'];
   $DepCode = $_SESSION['DepCode'];
@@ -95,7 +97,9 @@ header("Content-Length: ".filesize("'.$filename.'"));
 ?>
 
 <!-- <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"> -->
+<html xmlns:o="urn:schemas-microsoft-com:office:office"xmlns:x="urn:schemas-microsoft-com:office:excel"xmlns="http://www.w3.org/TR/REC-html40">
  
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -261,5 +265,9 @@ header("Content-Length: ".filesize("'.$filename.'"));
 <?php }?>
 
 </table>
+<script>
+window.onbeforeunload = function(){return false;};
+setTimeout(function(){window.close();}, 10000);
+</script>
 </body>
 </html>
