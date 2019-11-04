@@ -53,7 +53,7 @@ if($Userid==""){
             copy($_FILES['file']['tmp_name'], '../profile/img/' . $filename);
             $Sql = "UPDATE users SET 
                 users.HptCode='$host',
-                users.DepCode=$department,
+                users.DepCode='$department',
                 users.UserName='$UserName',
                 users.EngPerfix='$EngPerfix',
                 users.ThPerfix='$ThPerfix',
@@ -73,7 +73,7 @@ if($Userid==""){
         }else{
             $Sql = "UPDATE users SET 
                 users.HptCode='$host',
-                users.DepCode=$department,
+                users.DepCode='$department',
                 users.UserName='$UserName',
                 users.EngPerfix='$EngPerfix',
                 users.ThPerfix='$ThPerfix',
@@ -127,7 +127,7 @@ if($Userid==""){
                 VALUES
                 (
                     '$host',
-                    $department,
+                    '$department',
                     '$UserName',
                     '$Password',
                     '$EngPerfix',
@@ -180,7 +180,7 @@ if($Userid==""){
                 VALUES
                 (
                     '$host',
-                    $department,
+                    '$department',
                     '$UserName',
                     '$Password',
                     '$EngPerfix',

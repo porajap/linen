@@ -587,7 +587,7 @@ $array2 = json_decode($json2,TRUE);
             $('#rem6').hide();
             $('#rem7').hide();
                 $('#username').val("");
-                $('#Password').val("");
+                $('#Password').val("").attr('disabled' , false);
                 $('#flname').val("");
                 $('.checkblank').each(function() {
                     if($(this).val()==""||$(this).val()==undefined){

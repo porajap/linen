@@ -849,12 +849,15 @@ $array2 = json_decode($json2,TRUE);
               var FacCode = $("#factory").val();
 
               // alert( isStatus );
-              if(isStatus==1 || isStatus==3 || isStatus==4){
-              isStatus=0;}
-              else{
-              isStatus=1;
+              // if(isStatus==1 || isStatus==3 || isStatus==4){
+              // isStatus=0;}
+              // else{
+              // isStatus=1;
+              // }
+              if(isStatus ==0){
+                isStatus=1;
               }
-              if(isStatus==1){
+              // if(isStatus==1){
                 if(docno!=""){
                   for(i=0;i<chk_weight.length; i++){
                     var chk = $('#myweight_'+i).val();
@@ -921,25 +924,25 @@ $array2 = json_decode($json2,TRUE);
                     });
                   }
                 }
-              }else{
-                $("#bImport").prop('disabled', false);
-                $("#bSave").prop('disabled', false);
-                // $("#bCancel").prop('disabled', false);
-                $("#bImport2").removeClass('opacity');
-                $("#bSave2").removeClass('opacity');
-                // $("#bCancel2").removeClass('opacity');
-                var word = '<?php echo $array['save'][$language]; ?>';
-                var changeBtn = "<i class='fa fa-save'></i>";
-                changeBtn += "<div>"+word+"</div>";
-                  $('#icon_edit').html(changeBtn);                
-                  $("#IsStatus").val("0");
-                  $("#docno").prop('disabled', false);
-                  $("#docdate").prop('disabled', false);
-                  $("#recorder").prop('disabled', false);
-                  $("#timerec").prop('disabled', false);
-                  $("#total").prop('disabled', false);
-                  $('.chk_edit').attr('disabled', false);
-              }
+              // }else{
+              //   $("#bImport").prop('disabled', false);
+              //   $("#bSave").prop('disabled', false);
+              //   // $("#bCancel").prop('disabled', false);
+              //   $("#bImport2").removeClass('opacity');
+              //   $("#bSave2").removeClass('opacity');
+              //   // $("#bCancel2").removeClass('opacity');
+              //   var word = '<?php echo $array['save'][$language]; ?>';
+              //   var changeBtn = "<i class='fa fa-save'></i>";
+              //   changeBtn += "<div>"+word+"</div>";
+              //     $('#icon_edit').html(changeBtn);                
+              //     $("#IsStatus").val("0");
+              //     $("#docno").prop('disabled', false);
+              //     $("#docdate").prop('disabled', false);
+              //     $("#recorder").prop('disabled', false);
+              //     $("#timerec").prop('disabled', false);
+              //     $("#total").prop('disabled', false);
+              //     $('.chk_edit').attr('disabled', false);
+              // }
             }
 
 
@@ -1195,10 +1198,10 @@ $array2 = json_decode($json2,TRUE);
                         $("#bCancel").prop('disabled', false);
                         $("#bCancel2").removeClass('opacity');
                         $('.chk_edit').attr('disabled', true);
-                        var word = '<?php echo $array['edit'][$language]; ?>';
-                        var changeBtn = "<i class='fas fa-edit'></i>";
-                        changeBtn += "<div>"+word+"</div>";
-                        $('#icon_edit').html(changeBtn);
+                        // var word = '<?php echo $array['edit'][$language]; ?>';
+                        // var changeBtn = "<i class='fas fa-edit'></i>";
+                        // changeBtn += "<div>"+word+"</div>";
+                        // $('#icon_edit').html(changeBtn);
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
                         $("#bSave").prop('disabled', false);
@@ -1212,10 +1215,10 @@ $array2 = json_decode($json2,TRUE);
                         $("#hover5").removeClass('mhee');
                         $("#bCancel").prop('disabled', true);
                         $("#bCancel2").addClass('opacity');
-                        var word = '<?php echo $array['edit'][$language]; ?>';
-                        var changeBtn = "<i class='fas fa-edit'></i>";
-                        changeBtn += "<div>"+word+"</div>";
-                        $('#icon_edit').html(changeBtn);
+                        // var word = '<?php echo $array['edit'][$language]; ?>';
+                        // var changeBtn = "<i class='fas fa-edit'></i>";
+                        // changeBtn += "<div>"+word+"</div>";
+                        // $('#icon_edit').html(changeBtn);
                         $("#bImport").prop('disabled', true);
                         $("#bDelete").prop('disabled', true);
                         $("#bSave").prop('disabled', false);

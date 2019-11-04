@@ -44,7 +44,7 @@ function ShowItem($conn, $DATA)
 	  $return[$count]['IsDefault'] = $Result['IsDefault'];
     $return[$count]['DefaultName'] = $Result['DefaultName'];
     // 
-    $countDep="SELECT COUNT(DepCode) AS cnt FROM par_item_stock WHERE DepCode = $cnt";
+    $countDep="SELECT COUNT(DepCode) AS cnt FROM par_item_stock WHERE DepCode = '$cnt'";
     $meQueryDep = mysqli_query($conn, $countDep);
     $Result = mysqli_fetch_assoc($meQueryDep);
     $return[$count]['cnt'] = $Result['cnt'];
@@ -86,7 +86,7 @@ function getdetail($conn, $DATA)
           department.GroupCode
           FROM department
           WHERE department.IsStatus = 0
-          AND department.DepCode = $DepCode LIMIT 1";
+          AND department.DepCode = '$DepCode' LIMIT 1";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -208,7 +208,7 @@ if($DepCode1 == ""){
           )
           VALUES
           (
-            $DepCode,
+            '$DepCode',
             '$HptCode',
             '$DepName',
             0,
@@ -236,7 +236,7 @@ if($DepCode1 == ""){
           )
           VALUES
           (
-            $DepCode,
+            '$DepCode',
             '$HptCode',
             '$DepName',
             0,
@@ -282,7 +282,7 @@ if($DepCode1 == ""){
     }
     if($PmID==1 || $PmID==6){
     $Sql = "UPDATE department SET
-    DepCode =  $DepCode,
+    DepCode =  '$DepCode',
     HptCode =  '$HptCode',
     DepName = '$DepName',
     IsDefault =  $xCenter ,
@@ -290,18 +290,18 @@ if($DepCode1 == ""){
     Modify_Code =  $Userid ,
     IsActive = $IsActive,
     GroupCode = $group2 
-    WHERE DepCode = ".$DATA['DepCode1']."
+    WHERE DepCode = '".$DATA['DepCode1']."'
 ";
     }else{
       $Sql = "UPDATE department SET
-      DepCode =  $DepCode,
+      DepCode =  '$DepCode',
       HptCode =  '$HptCode',
       DepName = '$DepName',
       IsDefault =  $xCenter ,
       Modify_Date = NOW() ,
       Modify_Code =  $Userid ,
       GroupCode = $group2 
-      WHERE DepCode = ".$DATA['DepCode1']."
+      WHERE DepCode = '".$DATA['DepCode1']."'
   ";
     }
     // var_dump($Sql); die;
@@ -412,7 +412,7 @@ function CancelItem($conn, $DATA)
   if($DATA["DepCode"]!=""){
     $Sql = "UPDATE department SET
             IsStatus = 1
-            WHERE DepCode = ".$DATA['DepCode']."
+            WHERE DepCode = '".$DATA['DepCode']."'
     ";
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){

@@ -29,7 +29,7 @@ function ShowItem($conn, $DATA)
         INNER JOIN department ON department.DepCode = users.DepCode
         WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') )";
           if ($department2 != "") {
-            $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
+            $Sql .= " AND department.DepCode = '$department2' AND site.HptCode ='$xHptCode'  ";
           }else{
             $Sql .= "AND site.HptCode = '$xHptCode'";
           }
@@ -43,7 +43,7 @@ function ShowItem($conn, $DATA)
       INNER JOIN department ON department.DepCode = users.DepCode
       WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') ) AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
         if ($department2 != "") {
-          $Sql .= " AND department.DepCode = $department2 AND site.HptCode ='$xHptCode'  ";
+          $Sql .= " AND department.DepCode = '$department2' AND site.HptCode ='$xHptCode'  ";
         }else{
           $Sql .= "AND site.HptCode = '$xHptCode'";
         }
