@@ -770,11 +770,13 @@ $array2 = json_decode($json2,TRUE);
           var FacCode = $("#factory").val();
           var HptCode = $("#hotpital").val();
 
-          if(isStatus==0 ){
-          isStatus=1;
-          }
+          if(isStatus==1  || isStatus==2 || isStatus==3 || isStatus==4){
+        isStatus=0;
+        }else{
+        isStatus=1;
+        }
           
-            // if(isStatus==1){
+            if(isStatus==1){
               if(docno!=""){
                 for(i=0;i<chk_weight.length; i++){
                   var chk = $('#weight_'+i).val();
@@ -843,25 +845,25 @@ $array2 = json_decode($json2,TRUE);
                   });
                 }
               }
-            // }else{
-            //   $("#bImport2").removeClass('opacity');
-            //   $("#bSave2").removeClass('opacity');
-            //   // $("#bCancel2").removeClass('opacity');
-            //   $("#bImport").prop('disabled', false);
-            //   $("#bSave").prop('disabled', false);
-            //   // $("#bCancel").prop('disabled', false);
-            //   var word = '<?php echo $array['save'][$language]; ?>';
-            //   var changeBtn = "<i class='fa fa-save'></i>";
-            //   changeBtn += "<div>"+word+"</div>";
-            //     $('#icon_edit').html(changeBtn);                
-            //     $("#IsStatus").val("0");
-            //     $("#docno").prop('disabled', false);
-            //     $("#docdate").prop('disabled', false);
-            //     $("#recorder").prop('disabled', false);
-            //     $("#timerec").prop('disabled', false);
-            //     $("#total").prop('disabled', false);
-            //     $('.chk_edit1').attr('disabled', false);
-            // }
+            }else{
+              $("#bImport2").removeClass('opacity');
+              $("#bSave2").removeClass('opacity');
+              // $("#bCancel2").removeClass('opacity');
+              $("#bImport").prop('disabled', false);
+              $("#bSave").prop('disabled', false);
+              // $("#bCancel").prop('disabled', false);
+              var word = '<?php echo $array['save'][$language]; ?>';
+              var changeBtn = "<i class='fa fa-save'></i>";
+              changeBtn += "<div>"+word+"</div>";
+                $('#icon_edit').html(changeBtn);                
+                $("#IsStatus").val("0");
+                $("#docno").prop('disabled', false);
+                $("#docdate").prop('disabled', false);
+                $("#recorder").prop('disabled', false);
+                $("#timerec").prop('disabled', false);
+                $("#total").prop('disabled', false);
+                $('.chk_edit1').attr('disabled', false);
+            }
           
         }
 
@@ -1395,10 +1397,10 @@ $array2 = json_decode($json2,TRUE);
                         $("#bCancel2").removeClass('opacity');
                     }
                   
-                    // var word = '<?php echo $array['edit'][$language]; ?>';
-                    // var changeBtn = "<i class='fas fa-edit'></i>";
-                    // changeBtn += "<div>"+word+"</div>";
-                    // $('#icon_edit').html(changeBtn);
+                    var word = '<?php echo $array['edit'][$language]; ?>';
+                    var changeBtn = "<i class='fas fa-edit'></i>";
+                    changeBtn += "<div>"+word+"</div>";
+                    $('#icon_edit').html(changeBtn);
                     $("#bImport").prop('disabled', true);
                     $("#bDelete").prop('disabled', true);
                     $("#bSave").prop('disabled', false);

@@ -835,12 +835,12 @@ $(document).ready(function(e){
               });
         var Qty = QtyArray.join(',') ;
         // alert(Qty);
-        if(isStatus==0){
+        if(isStatus==1  || isStatus==2 || isStatus==3 || isStatus==4){
+        isStatus=0;
+        }else{
         isStatus=1;
         }
-        // else
-        // isStatus=1;
-        // if(isStatus==1 ){
+        if(isStatus==1 ){
           if(docno!=""){
           swal({
             title: "<?php echo $array['confirmsave'][$language]; ?>",
@@ -888,33 +888,33 @@ $(document).ready(function(e){
           swal.close();}
         })
         }
-        // }else{
-        //   $("#bImport2").removeClass('opacity');
-        //   $("#bSave2").removeClass('opacity');
-        //   // $("#bCancel2").removeClass('opacity');
-        //   $("#bImport").prop('disabled', false);
-        //   $("#bSave").prop('disabled', false);
-        //   // $("#bCancel").prop('disabled', false);
-        //   var word = '<?php echo $array['save'][$language]; ?>';
-        //   var changeBtn = "<i class='fa fa-save'></i>";
-        //     changeBtn += "<div>"+word+"</div>";
-        //     $('#icon_edit').html(changeBtn);             
-        //     $("#IsStatus").val("0");
-        //   $("#docno").prop('disabled', false);
-        //   $("#docdate").prop('disabled', false);
-        //   $("#recorder").prop('disabled', false);
-        //   $("#timerec").prop('disabled', false);
-        //   $("#total").prop('disabled', false);
-        //   var rowCount = $('#TableItemDetail >tbody >tr').length;
-        //   for (var i = 0; i < rowCount; i++) {
+        }else{
+          $("#bImport2").removeClass('opacity');
+          $("#bSave2").removeClass('opacity');
+          // $("#bCancel2").removeClass('opacity');
+          $("#bImport").prop('disabled', false);
+          $("#bSave").prop('disabled', false);
+          // $("#bCancel").prop('disabled', false);
+          var word = '<?php echo $array['save'][$language]; ?>';
+          var changeBtn = "<i class='fa fa-save'></i>";
+            changeBtn += "<div>"+word+"</div>";
+            $('#icon_edit').html(changeBtn);             
+            $("#IsStatus").val("0");
+          $("#docno").prop('disabled', false);
+          $("#docdate").prop('disabled', false);
+          $("#recorder").prop('disabled', false);
+          $("#timerec").prop('disabled', false);
+          $("#total").prop('disabled', false);
+          var rowCount = $('#TableItemDetail >tbody >tr').length;
+          for (var i = 0; i < rowCount; i++) {
 
-        //     $('#qty1_'+i).prop('disabled', false);
-        //     $('#weight_'+i).prop('disabled', false);
-        //     $('#price_'+i).prop('disabled', false);
+            $('#qty1_'+i).prop('disabled', false);
+            $('#weight_'+i).prop('disabled', false);
+            $('#price_'+i).prop('disabled', false);
 
-        //     $('#unit'+i).prop('disabled', false);
-        //   }
-        // }
+            $('#unit'+i).prop('disabled', false);
+          }
+        }
       }
       function show_btn(DocNo){
               if(DocNo != undefined || DocNo != ''){
@@ -1156,9 +1156,9 @@ $(document).ready(function(e){
                   $("#hover4").addClass('mhee');
                   $("#hover5").addClass('mhee');
                 }else if(temp[0]['IsStatus']==1 ||temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
-                  // var word = '<?php echo $array['edit'][$language]; ?>';
-                  // var changeBtn = "<i class='fas fa-edit'></i>";
-                  // changeBtn += "<div>"+word+"</div>";
+                  var word = '<?php echo $array['edit'][$language]; ?>';
+                  var changeBtn = "<i class='fas fa-edit'></i>";
+                  changeBtn += "<div>"+word+"</div>";
                   if(temp[0]['IsStatus'] !=1){
                   $("#hover5").removeClass('mhee');
                   $("#bCancel").prop('disabled', true);
@@ -1168,7 +1168,7 @@ $(document).ready(function(e){
                     $("#bCancel").prop('disabled', false);
                     $("#bCancel2").removeClass('opacity');
                   }
-                  // $('#icon_edit').html(changeBtn);
+                  $('#icon_edit').html(changeBtn);
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
