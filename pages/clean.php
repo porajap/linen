@@ -1128,7 +1128,7 @@ $(document).ready(function(e){
                   var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                   var Status = "";
                   var Style  = "";
-                  if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
+                  if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==2 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
                     Status = "completed";
                     Style  = "style='width: 10%;color: #20B80E;'";
                   }else{
