@@ -65,7 +65,7 @@ $array2 = json_decode($json2,TRUE);
   <script src="../dist/js/sweetalert2.min.js"></script>
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
   <link href="../css/responsive.css" rel="stylesheet">
-
+  <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 <!-- =================================== -->
 <?php if ($language =='th'){ ?>
       <script src="../datepicker/dist/js/datepicker.js"></script>
@@ -85,6 +85,7 @@ $array2 = json_decode($json2,TRUE);
     var xItemcode;
 
     $(document).ready(function(e){
+      $(".select2").select2();
       $('#rem3').hide();
       $('#rem4').hide();
       $('#rem9').hide();
@@ -2430,6 +2431,16 @@ $array2 = json_decode($json2,TRUE);
 
   </script>
   <style media="screen">
+      .select2-container--default .select2-selection--single {
+        height: 38px;
+        border: 1px solid #aaaaaa85;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+          line-height: 38px;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+          top: 5px;
+      }
     @font-face {
       font-family: myFirstFont;
       src: url("../fonts/DB Helvethaica X.ttf");
@@ -2657,7 +2668,7 @@ $array2 = json_decode($json2,TRUE);
                                         <div class="col-md-6">
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                                                <select class="form-control col-sm-7 checkblank2 border" style="font-size:22px;" id="department"  onchange="ChkItemInDep();"></select>
+                                                <select class="form-control col-sm-7 checkblank2 border select2 custom-select" style="font-size:22px;" id="department"  onchange="ChkItemInDep();"></select>
                                                 <label id="rem1"   class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                             </div>
                                         </div>
@@ -3257,6 +3268,7 @@ $array2 = json_decode($json2,TRUE);
     
     <script src="../assets-sign/js/jquery-ui.min.js"></script>
     <script src="../assets-sign/js/jquery.signature.js"></script>
+    <script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
 <script>
   $('#barcode').keydown(function (e){
     if(e.keyCode == 13){
