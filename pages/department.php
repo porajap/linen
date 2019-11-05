@@ -1198,7 +1198,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;width: 130%;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-8 checkblank66 select2 custom-select" id="hptsel" onchange="GetGroup();">
+                                        <select class="form-control col-md-8 checkblank66 " id="hptsel" onchange="GetGroup();">
                                         </select>
                                     </div>
                                 </div>

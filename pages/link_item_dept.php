@@ -70,11 +70,12 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
-
+    <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
       var summary = [];
 
       $(document).ready(function(e){
+        $(".select2").select2();
         $("#xCenter").prop('checked', true);
         $('#rem1').hide();
         $('#rem2').hide();
@@ -1664,6 +1665,16 @@ $array2 = json_decode($json2,TRUE);
 
     </script>
   <style media="screen">
+        .select2-container--default .select2-selection--single {
+        height: 38px;
+        border: 1px solid #aaaaaa85;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 38px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 5px;
+        }
           @font-face {
                 font-family: myFirstFont;
                 src: url("../fonts/DB Helvethaica X.ttf");
@@ -1851,7 +1862,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class='col-3 mr-sm-2 text-left'style="margin-left: -1%;"> 
                           <span><?php echo $array['department'][$language]; ?></span>
                         </div>
-                        <select disabled="true" class="form-control col-8 checkblank2 border icon_select" id="department" onchange="removeClassBorder1(1);"> </select>
+                        <select disabled="true" class="form-control col-8 checkblank2 border icon_select select2 custom-select" id="department" onchange="removeClassBorder1(1);"> </select>
                         <label id="rem1" style="font-size: 180%;    margin-left: 1%;padding-top: 2%;"> * </label>
                       </div>
                     </div>
@@ -2062,6 +2073,7 @@ $array2 = json_decode($json2,TRUE);
 
     <!-- Demo scripts for this page-->
     <script src="../template/js/demo/datatables-demo.js"></script>
+    <script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
 
   </body>
 
