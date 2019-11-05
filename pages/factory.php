@@ -1405,7 +1405,7 @@ label{
              </div>
     <!-- /.content-wrapper -->
                         <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                          <div class="menu mhee"  id="addhot" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu mhee"  id="addhot" <?php if( $PmID == 7) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -1417,7 +1417,7 @@ label{
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee" id="adduser" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu mhee" id="adduser" <?php if( $PmID == 7) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="Adduser()" id="bSave">
@@ -1441,7 +1441,7 @@ label{
                               </div>
                             </div>
                           </div>
-                          <div class="menu " id="delete1" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu " id="delete1" <?php if( $PmID == 7) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center " id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">

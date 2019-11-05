@@ -2004,7 +2004,7 @@ $array2 = json_decode($json2,TRUE);
                     <th style='width: 24%;' nowrap hidden><?php echo $array['nono'][$language]; ?></th>
                     <th style='width:60%;' nowrap><?php echo $array['item'][$language]; ?></th>
                     <!-- <th style='width: 11%;' nowrap>Par</th> -->
-                    <th style='width: 30%;' id="showcenter1"  nowrap><?php echo $array['rfid'][$language]; ?></th>
+                    <th style='width: 30%;' id="showcenter1"  nowrap><?php echo $array['par'][$language]; ?></th>
                     <th style='width: 30%;' id="showcenter2" hidden nowrap><?php echo $array['par'][$language]; ?></th>
                   </tr>
                 </thead>
