@@ -71,6 +71,7 @@ $array2 = json_decode($json2,TRUE);
     
     <link href="../css/menu_custom.css" rel="stylesheet">
     <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+
     <script type="text/javascript">
         var summary = [];
 
@@ -1019,6 +1020,17 @@ $array2 = json_decode($json2,TRUE);
         }
     </script>
     <style media="screen">
+    .select2-container--default .select2-selection--single {
+        height: 38px;
+        border: 1px solid #aaaaaa85;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 38px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        top: 5px;
+    }
+
         @font-face {
             font-family: myFirstFont;
             src: url("../fonts/DB Helvethaica X.ttf");
@@ -1159,6 +1171,7 @@ $array2 = json_decode($json2,TRUE);
             }
         }
     </style>
+
 </head>
 
 <body id="page-top">
@@ -1197,7 +1210,7 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="row" style="margin-left:5px;">
+                                    <div class="row" style="margin-left:15px;">
                                         <input type="text" autocomplete="off"  class="form-control" style="width:65%;margin-left: -21.7%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchDepartment'][$language]; ?>">
                                         <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
                                           <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
