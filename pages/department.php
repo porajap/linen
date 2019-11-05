@@ -70,10 +70,14 @@ $array2 = json_decode($json2,TRUE);
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
     
     <link href="../css/menu_custom.css" rel="stylesheet">
+    <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         var summary = [];
 
         $(document).ready(function(e) {
+            $(".select2").select2();
+
+            // $(".select2").select2();
             $('#rem1').hide();
             $('#rem2').hide();
             $('#rem3').hide();
@@ -1181,7 +1185,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;width: 130%;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="GetGroup();">
+                                        <select class="form-control col-md-8 checkblank66 select2 custom-select" id="hptsel" onchange="GetGroup();">
                                         </select>
                                     </div>
                                 </div>
@@ -1374,6 +1378,7 @@ $array2 = json_decode($json2,TRUE);
             <!-- Page level plugin JavaScript-->
             <script src="../template/vendor/datatables/jquery.dataTables.js"></script>
             <script src="../template/vendor/datatables/dataTables.bootstrap4.js"></script>
+            <script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
 
             <!-- Custom scripts for all pages-->
             <script src="../template/js/sb-admin.min.js"></script>
