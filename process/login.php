@@ -72,7 +72,7 @@ function checklogin($conn,$DATA)
           }else{
             $return['msg'] = "เข้าสู่ระบบสำเร็จ";  
           }
-          $Sql = "UPDATE users SET users.IsActive = 1 users.chk_logoff = 0 WHERE users.ID = $ID";
+          $Sql = "UPDATE users SET users.IsActive = 1 , users.chk_logoff = 0 WHERE users.ID = $ID";
           mysqli_query($conn,$Sql);
           $_SESSION['chk_logoff']  = 0;
         }else if($IsActive == 1){
