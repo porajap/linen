@@ -55,6 +55,7 @@ $array2 = json_decode($json2,TRUE);
   <link href="../css/xfont.css" rel="stylesheet">
   <!-- custome style -->
   <link href="../css/responsive.css" rel="stylesheet">
+  <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
   <!-- ---------------------------------------------- -->
   <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
   <script src="../jQuery-ui/jquery-1.12.4.js"></script>
@@ -86,7 +87,7 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
-
+  $(".select2").select2();
   $('#searchdocument').keyup(function(e) {
             if (e.keyCode == 13) {
               ShowDocument(1);
@@ -1672,6 +1673,16 @@ $(document).ready(function(e){
     }
     </script>
   <style media="screen">
+        .select2-container--default .select2-selection--single {
+        height: 38px;
+        border: 1px solid #aaaaaa85;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+          line-height: 38px;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+          top: 5px;
+      }
       /* ======================================== */
         a.nav-link{
           width:auto!important;
@@ -1856,7 +1867,7 @@ $(document).ready(function(e){
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['depfrom'][$language]; ?></label>
-                              <select class="form-control col-sm-7" style="font-size:22px;" id="department">
+                              <select class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" id="department">
                               </select>
                             </div>
                           </div>
@@ -2271,7 +2282,7 @@ $(document).ready(function(e){
 
 <!-- Demo scripts for this page-->
 <script src="../template/js/demo/datatables-demo.js"></script>
-
+<script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
 </body>
 
 </html>

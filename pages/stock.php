@@ -52,7 +52,7 @@ $array2 = json_decode($json2,TRUE);
   <link href="../template/css/sb-admin.css" rel="stylesheet">
   <link href="../css/xfont.css" rel="stylesheet">
   <link href="../css/menu_custom.css" rel="stylesheet">
-
+  <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="../jQuery-ui/jquery-1.12.4.js"></script>
   <script src="../jQuery-ui/jquery-ui.js"></script>
@@ -74,6 +74,7 @@ $array2 = json_decode($json2,TRUE);
   var summary = [];
 
   $(document).ready(function(e){
+    $(".select2").select2();
     var PmID = <?php echo $PmID;?>;
     if(PmID ==2 || PmID ==3 || PmID ==7){
     $('#hotpital').addClass('icon_select');
@@ -335,7 +336,16 @@ $array2 = json_decode($json2,TRUE);
   }
   </script>
   <style media="screen">
-
+        .select2-container--default .select2-selection--single {
+        height: 38px;
+        border: 1px solid #aaaaaa85;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+          line-height: 38px;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+          top: 5px;
+      }
 @font-face {
             font-family: myFirstFont;
             src: url("../fonts/DB Helvethaica X.ttf");
@@ -465,7 +475,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="col-md-3">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                              <select  class="form-control col-sm-7 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
+                              <select  class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
                             </div>
                           </div>
 
@@ -526,7 +536,7 @@ $array2 = json_decode($json2,TRUE);
     <!-- Page level plugin JavaScript-->
     <script src="../template/vendor/datatables/jquery.dataTables.js"></script>
     <script src="../template/vendor/datatables/dataTables.bootstrap4.js"></script>
-
+    <script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     <!-- Custom scripts for all pages-->
     <script src="../template/js/sb-admin.min.js"></script>
 
