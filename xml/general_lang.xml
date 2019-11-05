@@ -381,7 +381,7 @@
 <r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
 <r3><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r3>
 <r2><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r2>
-<r4><en>Daily issue Request</en><th>รายงานคำร้องขอการส่งผ้า</th></r4>
+<r4><en>Daily issue Request</en><th>ใบรายการจ่ายผ้าประจำวัน</th></r4>
 <r5><en>Report Operations Time Spend</en><th>Report Operations Time Spend</th></r5>
 <r6><en>Report Rewash</en><th>รายงานบันทึกผ้าแก้ไข</th></r6>
 <r7><en>Report Shot and Over item</en><th>รายงานบันทึกผ้าขาด และผ้าเกินจากยอด</th></r7>
