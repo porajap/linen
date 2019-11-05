@@ -154,7 +154,6 @@ function CreateDocument($conn, $DATA)
   $count = 0;
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
-  $DocDate    = $DATA["DocDate"];
   $userid   = $DATA["userid"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
@@ -173,10 +172,10 @@ function CreateDocument($conn, $DATA)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     if($lang =='en'){
-      $date2 = explode("-", $DocDate);
+      $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
     }else if ($lang == 'th'){
-      $date2 = explode("-", $DocDate);
+      $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
 
@@ -196,7 +195,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       clean.Modify_Code,clean.Modify_Date )
       VALUES
-      ( '$DocNo','$DocDate','$deptCode','$RefDocNo',
+      ( '$DocNo',DATE(NOW()),'$deptCode','$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";

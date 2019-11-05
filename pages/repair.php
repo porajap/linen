@@ -624,30 +624,14 @@ $(document).ready(function(e){
             }
           });
         }
-        (function ($) {
-            $(document).ready(function () {
-                $("#docdate").datepicker({
-                    onSelect: function (date, el) {
-                      $('#docdate').removeClass('border-danger');
-                      $('#rem4').hide();                    
-                      }
-                });
-            });
-        })(jQuery);
+
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
-        var DocDate = $('#docdate').val();
-          var lang = '<?php echo $language; ?>';
-          if(lang =='th'){
-            DocDate = DocDate.substring(6, 10)-543+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
-            }else if(lang =='en'){
-            DocDate = DocDate.substring(6, 10)+"-"+DocDate.substring(3, 5)+"-"+DocDate.substring(0, 2);
-            }
+
         $('#TableDetail tbody').empty();
-        if(hotpCode == '' || DocDate == '--' || DocDate=='-543--'){
-            checkblank2();
+        if(hotpCode == '' ){
             checkblank3();
             swal({
               title: '',
@@ -679,8 +663,7 @@ $(document).ready(function(e){
               'STATUS'    : 'CreateDocument',
               'hotpCode'  : hotpCode,
               'deptCode'  : deptCode,
-              'userid'	: userid,
-              'DocDate'	: DocDate
+              'userid'	: userid
             };
             senddata(JSON.stringify(data));
             var word = '<?php echo $array['save'][$language]; ?>';
@@ -1651,7 +1634,7 @@ $(document).ready(function(e){
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label " style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
                                       <!-- <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
-                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here numonly charonly only only1 checkblank2" id="docdate" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
+                                      <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7  numonly charonly only only1 " disabled="true" id="docdate"  placeholder="<?php echo $array['docdate'][$language]; ?>">
                                       <label id="rem4"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
