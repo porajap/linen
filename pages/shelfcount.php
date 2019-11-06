@@ -2336,11 +2336,11 @@ $array2 = json_decode($json2,TRUE);
                 $(".inputDis").attr('disabled', true);
               }
               var chk_sign = $('#chk_sign').val();
-              if(chk_sign == 1){
-                if(temp['chk_sign']==0){
-                  $('#ModalSign').modal('show');
-                }
-              }
+              // if(chk_sign == 1){
+              //   if(temp['chk_sign']==0){
+              //     $('#ModalSign').modal('show');
+              //   }
+              // }
             }
           }else if (temp['status']=="failed") {
             switch (temp['msg']) {
