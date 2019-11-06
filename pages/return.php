@@ -1866,7 +1866,7 @@ $(document).ready(function(e){
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['depfrom'][$language]; ?></label>
+                              <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
                               <select class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" id="department">
                               </select>
                             </div>
