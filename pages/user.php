@@ -1346,15 +1346,14 @@ $array2 = json_decode($json2,TRUE);
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <!-- <div class="col-md-3">
                                     <div class="row" style="margin-left:-35px;">
-                                    <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['department'][$language]; ?></label> -->
                                         <select class="form-control col-md-10" id="department2" onchange="ShowItem(1)" style="margin-left:-7%;">
                                         </select>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-5">
-                                    <div class="row" style="margin-left:5px;margin-left: -96px;">
+                                    <div class="row" style="margin-left:5px;margin-left: -64px;">
                                         <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchuser'][$language]; ?>">
                                         <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">

@@ -26,7 +26,7 @@ function ShowItem($conn, $DATA)
         FROM users
         INNER JOIN permission ON users.PmID = permission.PmID
         INNER JOIN site ON site.HptCode = users.HptCode
-        INNER JOIN department ON department.DepCode = users.DepCode
+        LEFT JOIN department ON department.DepCode = users.DepCode
         WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') )";
           if ($department2 != "") {
             $Sql .= " AND department.DepCode = '$department2' AND site.HptCode ='$xHptCode'  ";
@@ -388,6 +388,7 @@ function getDepartment($conn, $DATA)
 		  WHERE department.HptCode = '$Hotp'
       AND department.IsActive = 1
 		  AND department.IsStatus = 0
+      AND department.IsDefault = 1
       ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -429,6 +430,7 @@ function getDepartment2($conn, $DATA)
 		  WHERE department.HptCode = '$Hotp'
 		  AND department.IsStatus = 0
       AND department.IsActive = 1
+      AND department.IsDefault = 1
       ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
