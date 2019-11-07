@@ -1355,6 +1355,40 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
       die;
     }
   }
+  function getfactory($conn, $DATA){
+    $lang     = $DATA["lang"];
+    $hotpital = $DATA["hotpital"];
+    $boolean  = false;
+    $countx = 0;
+    if($lang == 'en'){
+      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+      }else{
+      $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+      }
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
+      $return[$countx]['FacCode'] = $Result['FacCode'];
+      $return[$countx]['FacName'] = $Result['FacName'];
+      $countx  ++;
+    }
+    $boolean = true;
+    $return['Rowx'] = $countx;
+  
+    if ($boolean) {
+      $return['status'] = "success";
+      $return['form'] = "getfactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['form'] = "getfactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+  }
   //==========================================================
   //
   //==========================================================
@@ -1404,6 +1438,8 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     updateQty($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'savefactory') {
       savefactory($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'getfactory') {
+      getfactory($conn, $DATA);
     }
 
 

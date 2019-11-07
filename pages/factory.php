@@ -83,6 +83,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem7').hide();
         $('#rem8').hide();
         $('#rem9').hide();
+        $('#rem10').hide();
         $('.numonly').on('input', function() {
           this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
         });
@@ -93,6 +94,7 @@ $array2 = json_decode($json2,TRUE);
           this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
         });
         getFactory();
+        gethos();
         $('#addhot').show();
        $('#adduser').hide();
         //On create
@@ -288,6 +290,16 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
+      function gethos(){
+            var lang = '<?php echo $language; ?>';
+            var data2 = {
+                'STATUS': 'gethos',
+                'lang'	: lang
+            };
+            console.log(JSON.stringify(data2));
+            senddata(JSON.stringify(data2));
+      }
+
       function setTag(){
         var DocNo = $("#docnofield").val();
         /* declare an checkbox array */
@@ -340,13 +352,23 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
-      function ShowItem(){
+      function ShowItem(chk){
+        if(chk == 1){
+          var Hos = $('#Hos1').val();
+          $('#Hos2').val(Hos);  
+        }
+        else if(chk ==2){
+          var Hos = $('#Hos2').val();
+          $('#Hos1').val(Hos);  
+        }
+        var Hos = $('#Hos1').val();
         var dept = $('#Deptsel').val();
         var keyword = $('#searchitem').val();
         var data = {
           'STATUS'  : 'ShowItem',
           'Dept'    : dept,
-          'Keyword' : keyword
+          'Keyword' : keyword,
+          'Hos'     : Hos
         };
 
         console.log(JSON.stringify(data));
@@ -369,6 +391,7 @@ $array2 = json_decode($json2,TRUE);
         var Address = $('#Address').val();
         var Dept = $('#Dept').val();
         var Post = $('#Post').val();
+        var Hos2 = $('#Hos2').val();
         var DiscountPercent = $('#DiscountPercent').val();
         var TaxID = $('#TaxID').val();
         if(count==0){
@@ -403,7 +426,8 @@ $array2 = json_decode($json2,TRUE);
                   //'DepCode' : Dept,
                   'Post' : Post,
                   'DiscountPercent' : DiscountPercent,
-                  'TaxID' : TaxID
+                  'TaxID' : TaxID,
+                  'Hos2' : Hos2
                 };
 
                 console.log(JSON.stringify(data));
@@ -439,7 +463,8 @@ $array2 = json_decode($json2,TRUE);
                   //'DepCode' : Dept,
                   'Post' : Post,
                   'DiscountPercent' : DiscountPercent,
-                  'TaxID' : TaxID
+                  'TaxID' : TaxID,
+                  'Hos2' : Hos2
                 };
 
                 console.log(JSON.stringify(data));
@@ -482,6 +507,9 @@ $array2 = json_decode($json2,TRUE);
                 }
                 if(FacNameTH ==""||FacNameTH==undefined){
                   $('#rem9').show().css("color","red");
+                }
+                if(Hos2 ==""||Hos2==undefined){
+                  $('#rem10').show().css("color","red");
                 }
             }
           });
@@ -661,6 +689,8 @@ $array2 = json_decode($json2,TRUE);
         $('#rem6').hide();
         $('#rem7').hide();
         $('#rem8').hide();
+        $('#rem9').hide();
+        $('#rem10').hide();
         $('.checkblank').each(function() {
           $(this).val("");
         });
@@ -908,6 +938,8 @@ $array2 = json_decode($json2,TRUE);
                                 $('#DepCode').val(temp['DepCode']);
                                 $('#FacName').val(temp['FacName']);
                                 $('#FacNameTH').val(temp['FacNameTH']);
+                                $('#Hos1').val(temp['HptCode']);
+                                $('#Hos2').val(temp['HptCode']);
                                 $('#DiscountPercent').val(temp['DiscountPercent']);
                                 $('#Price').val(temp['Price']);
                                 $('#IsCancel').val(temp['IsCancel']);
@@ -1111,7 +1143,8 @@ $array2 = json_decode($json2,TRUE);
                                 //$('#Dept').val("1");
                                 ShowItem();
                               })
-                            }else if( (temp["form"]=='getSection') ){
+                            }
+                          else if( (temp["form"]=='getSection') ){
                               for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                 var StrTr = "<option value = '"+temp[i]['DepCode']+"'> " + temp[i]['DepName'] + " </option>";
                                 $("#Dept").append(StrTr);
@@ -1119,6 +1152,24 @@ $array2 = json_decode($json2,TRUE);
                               }
 
                             }
+                          else if ((temp["form"] == 'gethos')) {
+                            if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7){
+                            var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                            }else{
+                                var StrTr = "";
+                                $('#Hos1').attr('disabled' , true);
+                                $('#Hos1').addClass('icon_select');
+
+                                $('#Hos2').attr('disabled' , true);
+                                $('#Hos2').addClass('icon_select');
+                            }
+                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                 StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                                var Str = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                            }
+                            $("#Hos1").html(StrTr);
+                            $("#Hos2").html(StrTr);
+                        } 
                           }else if (temp['status']=="failed") {
                             switch (temp['msg']) {
                               case "notchosen":
@@ -1357,20 +1408,19 @@ label{
     </a>
       <!-- content-wrapper -->
       <div id="content-wrapper">
-<!--
-          <div class="mycheckbox">
-            <input type="checkbox" name='useful' id='useful' onclick='setTag()'/><label for='useful' style='color:#FFFFFF'> </label>
-          </div>
--->
-
           <div class="row">
               <div class="col-md-12"> <!-- tag column 1 -->
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px; margin-top:-12px;">
                         <div class="row">            
+                        <div class="col-md-3">
+                              <div class="row" style="margin-left:5px;width: 130%;">
+                              <select class="form-control col-md-8 checkblank66 " id="Hos1" onchange="ShowItem(1);"></select> 
+                            </div>
+                          </div>
                             <div class="col-md-9">
-                              <div class="row" style="margin-left:5px;">
-                                <input type="text" autocomplete="off" class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchLaundry'][$language]; ?>" >
+                              <div class="row" style="margin-left:-62px;">
+                                <input type="text" autocomplete="off" class="form-control" style="width:40%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchLaundry'][$language]; ?>" >
                                 <div class="search_custom col-md-2">
                                 <div class="search_1 d-flex justify-content-start">
                                   <button class="btn" onclick="ShowItem()" id="bSave">
@@ -1481,9 +1531,9 @@ label{
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
-                                        <input type="text" autocomplete="off" onkeyup="resetinput()"  class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
-                                        <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                                      <select   class="form-control col-sm-7" id="Hos2" onchange="ShowItem(2)"></select>
+                                      <label id="rem10" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                 </div>          
@@ -1522,7 +1572,7 @@ label{
                                   </div>
                                 </div> 
   <!-- =================================================================== -->
-                                <div class="row">
+                              <div class="row">
                                 <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['postid'][$language]; ?></label>
@@ -1536,7 +1586,17 @@ label{
                                       <input type="text" autocomplete="off"  class="form-control col-sm-7  numonly" id="DiscountPercent"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['discount'][$language]; ?>">
                                     </div>
                                   </div>
-                                </div>               
+                                </div>    
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
+                                          <input type="text" autocomplete="off" onkeyup="resetinput()"  class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
+                                          <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      </div>
+                                    </div> 
+                                </div>   
+             
 <!-- =================================================================== -->
                     </div>
                   </div>

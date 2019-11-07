@@ -161,7 +161,7 @@ function CreateDocument($conn, $DATA)
       Total,IsCancel,Detail,
       repair_wash.Modify_Code,repair_wash.Modify_Date )
       VALUES
-      ( '$DocNo','$hotpCode',$factory,DATE(NOW()),$deptCode,'$RefDocNo',
+      ( '$DocNo','$hotpCode','',DATE(NOW()),'$deptCode','',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() )";
@@ -796,15 +796,32 @@ function CreateDocument($conn, $DATA)
     // $checkitem = $DATA["checkitem"];
     // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo / $RefDocNo')";
     // mysqli_query($conn,$Sqlx);
+
+
+    // update เอกสารอ้างอิง เข้า repair_wash
     $Sql = "UPDATE repair_wash SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
-    mysqli_query($conn, $Sql);
+      mysqli_query($conn, $Sql);
 
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
-    mysqli_query($conn, $Sql);
+      mysqli_query($conn, $Sql);
 
     $Sql = "UPDATE rewash SET IsRef = 1 WHERE rewash.DocNo = '$RefDocNo'";
-    mysqli_query($conn, $Sql);
+      mysqli_query($conn, $Sql);
 
+    // select เอา faccode กับ docno ไปแสดงหน้า page
+    $Sql2 = "SELECT rewash.FacCode , rewash.DocNo  FROM rewash WHERE rewash.DocNo = '$RefDocNo'";
+        $meQuery = mysqli_query($conn, $Sql2);
+          while ($Result2 = mysqli_fetch_assoc($meQuery)) {
+            $return['FacCode']  = $Result2['FacCode'];
+            $return['DocNo']    = $Result2['DocNo'];
+            $FacCode1           = $Result2['FacCode'];
+            $count              == 1;
+          }
+    
+    // update refdocno , faccode เข้าเอกสาร repair_wash
+    $Sql = "UPDATE repair_wash SET RefDocNo = '$RefDocNo' , FacCode = $FacCode1 WHERE DocNo = '$DocNo'";
+      mysqli_query($conn, $Sql);
+    
     $n = 0;
     $Sql = "SELECT
     rewash_detail.ItemCode,
@@ -835,7 +852,22 @@ function CreateDocument($conn, $DATA)
       ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
       mysqli_query($conn, $Sql);
     }
-    SelectDocument($conn, $DATA);
+
+    if($count == 1){
+      $return['status'] = "success";
+      $return['form'] = "UpdateRefDocNo";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }else{
+      $return['status'] = "success";
+      $return['form'] = "UpdateRefDocNo";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+    // SelectDocument($conn, $DATA);
+
     // $n = 0;
     // $Sql = "SELECT
     // dirty_detail.ItemCode,
@@ -897,21 +929,21 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA['DocNo'];
 
     $Sql = "SELECT repair_wash.Total
-    FROM repair_wash WHERE repair_wash.DocNo = '$DocNo'";
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $cTotal	= $Result['Total']==null?0:$Result['Total'];
-    }
+      FROM repair_wash WHERE repair_wash.DocNo = '$DocNo'";
+      $meQuery = mysqli_query($conn,$Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $cTotal	= $Result['Total']==null?0:$Result['Total'];
+      }
 
     $Sql = "SELECT dirty.Total
     FROM dirty WHERE dirty.DocNo = '$RefDocNo'";
-    $return['sql'] = $Sql;
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $dTotal	= $Result['Total']==null?0:$Result['Total'];
-      $boolean = true;
-      $count++;
-    }
+      $return['sql'] = $Sql;
+      $meQuery = mysqli_query($conn,$Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $dTotal	= $Result['Total']==null?0:$Result['Total'];
+        $boolean = true;
+        $count++;
+      }
     if($dTotal !=0){
       $Total =  ROUND( ((($cTotal - $dTotal )/$dTotal)*100)*-1 , 2)  ;
       }else{

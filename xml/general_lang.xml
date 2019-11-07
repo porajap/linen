@@ -49,6 +49,7 @@
 <protime><en>Use time</en><th>เวลาที่ใช้</th></protime>
 <Starttime><en>Start</en><th>เวลาเริ่ม</th></Starttime>
 <tFinish><en>Finish</en><th>เสร็จสิ้น</th></tFinish>
+<departmentcode><en>DepCode</en><th>รหัสแผนก</th></departmentcode>
 <Wash><en>Wash</en><th>ซักผ้า</th></Wash>
 <packing><en>Pack</en><th>บรรจุผ้า</th></packing>
 <shipping><en>Shipping</en><th>ขนส่ง</th></shipping>

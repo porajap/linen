@@ -93,8 +93,7 @@ $array2 = json_decode($json2,TRUE);
             getEmployee();
             getPermission();
             getFactory();
-            getHotpital_user();
-      
+            getDepartment2();
             $('#searchitem').keyup(function(e) {
                 if (e.keyCode == 13) {
                     ShowItem();
@@ -142,7 +141,6 @@ $array2 = json_decode($json2,TRUE);
           // console.log(JSON.stringify(data2));
           senddata(JSON.stringify(data2));
         }
-
         function getHotpital(){
           var lang = '<?php echo $language; ?>';
           var data2 = {
@@ -151,37 +149,18 @@ $array2 = json_decode($json2,TRUE);
           };
           senddata(JSON.stringify(data2));
         }
-        function getHotpital_user(){
-          var lang = '<?php echo $language; ?>';
-          var data2 = {
-              'STATUS': 'getHotpital_user',
-              'lang'	: lang
-          };
-          // console.log(JSON.stringify(data2));
-          senddata(JSON.stringify(data2));
-        }
-        function getDepartment(){
-            ShowItem();
-            var Hotp = $('#hptsel option:selected').attr("value");
-            if( typeof Hotp == 'undefined' ) Hotp ='';
-            $('#host').val(Hotp);
-            getDepartment2();
-            var data = {
-                'STATUS'  : 'getDepartment',
-                'Hotp'	: Hotp
-            };
-            senddata(JSON.stringify(data));
-        }
-        function getDepartment2(){
-            var Hotp = $('#host option:selected').attr("value");
-            $('#hptsel').val(Hotp);
-            ShowItem();
-            Blankinput3();
-            $('#rem1').hide();
-            $('#hptsel').css('border-color', '');
-            if(Hotp == '' || Hotp == undefined){
-            Hotp = '';
+        function getDepartment2(chk){
+            if(chk==1){
+                var Hotp = $('#hptsel').val();
+                $('#host').val(Hotp);
+                ShowItem(1);  
+            }else if(chk==2){
+                var Hotp = $('#host').val();
+                $('#hptsel').val(Hotp);
+                ShowItem(2);  
             }
+            // $('#rem1').hide();
+            // $('#hptsel').css('border-color', '');
             var data = {
             'STATUS'  : 'getDepartment2',
             'Hotp'	: Hotp
@@ -198,11 +177,11 @@ $array2 = json_decode($json2,TRUE);
   
 
         function getPermission(){
-          var data2 = {
-              'STATUS': 'getPermission'
-          };
-          // console.log(JSON.stringify(data2));
-          senddata(JSON.stringify(data2));
+            var data2 = {
+                'STATUS': 'getPermission'
+            };
+            // console.log(JSON.stringify(data2));
+            senddata(JSON.stringify(data2));
         }
         function getFactory(){
           var data = {
@@ -287,28 +266,16 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
         }
         function ShowItem(chk) {
+            if(chk==1){
+                var Hotp = $('#hptsel').val();
+                $('#host').val(Hotp);
+            }else if(chk==2){
+                var Hotp = $('#host').val();
+                $('#hptsel').val(Hotp);
+            }
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
-            var department = $('#department').val();
-            var department22 = $('#department2').val();
-            if(chk ==1){
-                $('#department').val(department22);
-                var department2 = $('#department2').val();
-            }else if(chk ==2){
-                $('#department2').val(department);
-                var department2 = $('#department').val();
-                if(department !="" && department!=undefined){
-                    $('#rem2').hide();
-                    $('#department').css('border-color', '');
-                }
-            }
-            $('.checkblank66').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', 'red');
-            }else{
-              $(this).css('border-color', '');
-            }
-          });
+            var department2 = $('#department').val();
             var data = {
                 'STATUS': 'ShowItem',
                 'HptCode': HptCode,
@@ -508,6 +475,7 @@ $array2 = json_decode($json2,TRUE);
                                 setTimeout(function(){ 
                                     $('xemail').prop( "checked", false );
                                     Blankinput();
+                                    getDepartment2(1);
                                  }, 1000);
                                 
                             }
@@ -616,8 +584,7 @@ $array2 = json_decode($json2,TRUE);
                 $('#Thlname').val("");
                 $('#EnPerfix').val("Mr.");
                 $('#ThPerfix').val("นาย");
-
-                getDepartment();
+                getDepartment2(1);
         }
         function Blankinput2() {
             $('#rem1').hide();
@@ -659,7 +626,6 @@ $array2 = json_decode($json2,TRUE);
                 // });
                 $(".dropify-clear").click(); 
                 // getHotpital();
-                // getHotpital_user();
                 // getDepartment();
                 // getEmployee();
                 // getPermission();
@@ -1032,51 +998,29 @@ $array2 = json_decode($json2,TRUE);
                         }else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
                             $("#hptsel").empty();
-                            getDepartment2();
                             if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7){
                             var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             }else{
                                 var StrTr = "";
                                 $('#hptsel').attr('disabled' , true);
                                 $('#hptsel').addClass('icon_select');
+
+                                $('#host').attr('disabled' , true);
+                                $('#host').addClass('icon_select');
                             }
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                             }
                             $("#host").append(StrTr);
                             $("#hptsel").append(StrTr);
-                        }else if(temp["form"]=='getDepartment'){
-                            $("#department2").empty();
-                            var Str = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
-                            for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                             Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                            }
-                            $("#department2").append(Str);
                         }else if(temp["form"]=='getDepartment2'){
                                     $("#department").empty();
-                                    $("#department2").empty();
                                     var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length-2); i++) {
                                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                                    var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     }
                                     $("#department").append(Str2);
-                                    $("#department2").append(Str2);
-
-                        }else if ((temp["form"] == 'getHotpital_user')) {
-                                    $("#host").empty();
-                                    if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7){
-                                        var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
-                                        }else{
-                                            var StrTr = "";
-                                            $('#host').attr('disabled' , true);
-                                            $('#host').addClass('icon_select');
-                                        }                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                         StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
-                                    }
-                                    $("#host").append(StrTr);
-
-                                } else if ((temp["form"] == 'getEmployee')) {
+                        }else if ((temp["form"] == 'getEmployee')) {
                                     $("#EmpCode").empty();
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                         var StrTr = "<option value = '" + temp[i]['EmpCode'] + "'> " + temp[i]['xName'] + " </option>";
@@ -1341,17 +1285,9 @@ $array2 = json_decode($json2,TRUE);
 
                             <div class="col-md-3">
                                     <div class="row" style="margin-left:5px;">
-                                    <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-10 checkblank66" id="hptsel" onchange="getDepartment();">
-                                        </select>
+                                        <select class="form-control col-md-10 " id="hptsel" onchange="getDepartment2(1);"></select>
                                     </div>
-                                </div>
-                                <!-- <div class="col-md-3">
-                                    <div class="row" style="margin-left:-35px;">
-                                        <select class="form-control col-md-10" id="department2" onchange="ShowItem(1)" style="margin-left:-7%;">
-                                        </select>
-                                    </div>
-                                </div> -->
+                            </div>
                                 <div class="col-md-5">
                                     <div class="row" style="margin-left:5px;margin-left: -64px;">
                                         <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchuser'][$language]; ?>">
@@ -1465,14 +1401,14 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  onchange="getDepartment2()" class="form-control col-sm-8 checkblank" id="host" onchange="getDepartment();"></select>
+                                      <select  onchange="getDepartment2(2)" class="form-control col-sm-8 checkblank" id="host"></select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                       <div class='form-group row'>
                                       <label class="col-sm-3 col-form-label " style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                                        <select onchange="ShowItem(2)" class="form-control col-sm-8 checkblank" style="font-size:22px;"  id="department" >
+                                        <select class="form-control col-sm-8 checkblank" style="font-size:22px;"  id="department" >
                                         </select>
                                         <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>

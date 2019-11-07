@@ -7,6 +7,40 @@ $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
 }
+function getfactory($conn, $DATA){
+  $lang     = $DATA["lang"];
+  $hotpital = $DATA["hotpital"];
+  $boolean  = false;
+  $countx = 0;
+  if($lang == 'en'){
+    $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+    }else{
+    $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+    }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+  
+    $return[$countx]['FacCode'] = $Result['FacCode'];
+    $return[$countx]['FacName'] = $Result['FacName'];
+    $countx  ++;
+  }
+  $boolean = true;
+  $return['Rowx'] = $countx;
+
+  if ($boolean) {
+    $return['status'] = "success";
+    $return['form'] = "getfactory";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "failed";
+    $return['form'] = "getfactory";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 function OnLoadPage($conn, $DATA)
 {
   $lang = $DATA["lang"];
@@ -17,21 +51,7 @@ function OnLoadPage($conn, $DATA)
   $countx = 0;
   $boolean = false;
 
-  if($lang == 'en'){
-  $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 ";
-  }else{
-  $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 ";
-  }
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
 
-  $return[$countx]['FacCode'] = $Result['FacCode'];
-  $return[$countx]['FacName'] = $Result['FacName'];
-
-  $countx  ++;
-
-}
-$return['Rowx'] = $countx;
 
 if($lang == 'en'){
   $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
@@ -1127,7 +1147,10 @@ if (isset($_POST['DATA'])) {
     confirmDep($conn, $DATA);
   }elseif ($DATA['STATUS'] == 'ShowDetailDoc') {
     ShowDetailDoc($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'getfactory') {
+    getfactory($conn, $DATA);
   }
+  
 } else {
   $return['status'] = "error";
   $return['msg'] = 'noinput';

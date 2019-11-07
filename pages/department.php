@@ -316,14 +316,14 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-        function ShowItem() {
-            $('.checkblank66').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', 'red');
-            }else{
-              $(this).css('border-color', '');
+        function ShowItem(chk) {
+            if(chk==1){
+                var group = $('#group').val();
+                $('#group2').val(group);
+            }else if(chk==2){
+                var group = $('#group2').val();
+                $('#group').val(group);
             }
-          });
             var group = $('#group').val();
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
@@ -701,10 +701,11 @@ $array2 = json_decode($json2,TRUE);
                                 StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
                                     "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
-                                    "<td style='width: 17.5%;'>" +  DefaultName+ "</td>" +
+                                    "<td style='width: 11%;'>" + temp[i]['DepCode'] + "</td>" +
+                                    "<td style='width: 16.5%;'>" +  DefaultName+ "</td>" +
 									"<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
                                     "<td style='width: 20%;'>" +  Active  + "</td>" +
-                                    "<td style='width: 20%;'>" +  cnt  + "</td>" +
+                                    "<td style='width: 10%;'>" +  cnt  + "</td>" +
                                     "</tr>";
 
                                 if (rowCount == 0) {
@@ -1205,7 +1206,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-3">
                                     <div class="row" style="margin-left:-62px;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-8 " id="group" onchange="ShowItem();">
+                                        <select class="form-control col-md-8 " id="group" onchange="ShowItem(1);">
                                         </select>
                                     </div>
                                 </div>
@@ -1237,6 +1238,9 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 10%;'>
                                             <?php echo $array['no'][$language]; ?>
                                         </th>
+                                        <th style='width: 10%;'>
+                                            <?php echo $array['departmentcode'][$language]; ?>
+                                        </th>
                                         <th style='width: 17%;'>
                                             <?php echo $array['xcenter'][$language]; ?>
                                         </th>
@@ -1246,7 +1250,7 @@ $array2 = json_decode($json2,TRUE);
                                         <th style='width: 20%; '>
                                             <?php echo $array['status'][$language]; ?>
                                         </th>
-                                        <th style='width: 22%; '>
+                                        <th style='width: 12%; '>
                                             <?php echo $array['pardep'][$language]; ?>
                                         </th>
                                         
@@ -1343,7 +1347,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['group'][$language]; ?></label>
-                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="group2" >
+                                      <select onchange="ShowItem(2)"  class="form-control col-sm-7 checkblank" id="group2" >
                                       </select>
                                       <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>

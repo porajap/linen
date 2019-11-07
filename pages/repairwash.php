@@ -619,10 +619,10 @@ $(document).ready(function(e){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
-        var factory = $('#factory option:selected').attr("value");
+        // var factory = $('#factory option:selected').attr("value");
 
-        if(factory == ''|| hotpCode=='' ){
-            checkblank2();
+        if(hotpCode=='' ){
+            // checkblank2();
             checkblank3();
             swal({
               title: '',
@@ -1132,8 +1132,8 @@ $(document).ready(function(e){
                 $("#factory").val(temp[0]['FacCode']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
                 $('#docdate').attr('disabled', true);
-                $('#factory').attr('disabled', false);
-                $("#factory").removeClass('icon_select');
+                // $('#factory').attr('disabled', false);
+                // $("#factory").removeClass('icon_select');
                 if(temp[0]['IsStatus']==0){
                   var word = '<?php echo $array['save'][$language]; ?>';
                   var changeBtn = "<i class='fa fa-save'></i>";
@@ -1331,6 +1331,10 @@ $(document).ready(function(e){
                 $('.numonly').on('input', function() {
                   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+              }else if(temp['form']=="UpdateRefDocNo"){
+                  $('#factory').val(temp['FacCode']);
+                  $('#RefDocNo').val(temp['DocNo']);
+                  ShowDetail();
               }else if( (temp["form"]=='ShowUsageCode') ){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
@@ -1730,7 +1734,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "><?php echo $array['factory'][$language]; ?></label>
-                                    <select  class="form-control col-sm-7 checkblank2"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder();">
+                                    <select  class="form-control col-sm-7 icon_select" disabled="true" style="font-size:22px;"  id="factory"  onchange="removeClassBorder();">
                                       </select>
                                       <label id="rem2"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>                                   
                                       </div>

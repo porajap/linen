@@ -11,13 +11,14 @@ function OnLoadPage($conn,$DATA){
   $count = 0;
   $boolean = false;
   $lang = $_SESSION['lang'];
+  $HptCode = $_SESSION['HptCode'];
 
   if($lang == 'en'){
     $Sql = "SELECT factory.FacCode,factory.FacName
-    FROM factory WHERE factory.IsCancel = 0";
+    FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode= '$HptCode'";
   }else{
     $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName
-    FROM factory WHERE factory.IsCancel = 0";
+    FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode= '$HptCode'";
   }
 
   $meQuery = mysqli_query($conn,$Sql);
@@ -47,6 +48,7 @@ function getDepartment($conn,$DATA){
   $count = 0;
   $boolean = false;
   $Hotp = $DATA["Hotp"];
+  // $lang = $_SESSION['lang'];
   $Sql = "SELECT factory.FacCode,factory.FacName
   FROM factory
   WHERE factory.FacCode = '$Hotp'";
@@ -82,6 +84,7 @@ function ShowDocument($conn,$DATA){
   $deptCode = $DATA["deptCode"];
   $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $lang = $_SESSION['lang'];
+  $HptCode = $_SESSION['HptCode'];
   $sDate = $DATA["sDate"];
   $eDate = $DATA["eDate"];
 
@@ -96,7 +99,7 @@ function ShowDocument($conn,$DATA){
 
   FROM contract_parties_factory
   INNER JOIN factory ON contract_parties_factory.FacCode = factory.FacCode
-  WHERE contract_parties_factory.IsStatus = 0 ";
+  WHERE contract_parties_factory.IsStatus = 0 AND factory.HptCode = '$HptCode'";
   if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate BETWEEN '$sDate' AND  '$eDate' ";
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $meQuery = mysqli_query($conn,$Sql);

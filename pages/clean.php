@@ -112,6 +112,7 @@ $(document).ready(function(e){
       });
   OnLoadPage();
   getDepartment();
+  getfactory();
   // CreateDocument();
   //==============================
   $('.TagImage').bind('click', {
@@ -301,6 +302,18 @@ $(document).ready(function(e){
 
       //======= On create =======
       //console.log(JSON.stringify(data));
+      function getfactory(){
+        $('#hotpital').removeClass('border-danger');
+        $('#rem3').hide();
+          var lang = '<?php echo $language; ?>';
+          var hotpital = $('#hotpital').val();
+          var data = {
+            'STATUS'    : 'getfactory',
+            'hotpital'	: hotpital ,
+            'lang'	    : lang
+          };
+          senddata(JSON.stringify(data));
+        }
       function OnLoadPage(){
         var lang = '<?php echo $language; ?>';
         var docno = $("#docno").val();
@@ -377,11 +390,6 @@ $(document).ready(function(e){
         })
 
       }
-      function remove1(){
-          $('#hotpital').removeClass('border-danger');
-          $('#rem3').hide();
-
-        }
       function getDepartment(){
 
         var Hotp = $('#Hos2 option:selected').attr("value");
@@ -1037,16 +1045,10 @@ $(document).ready(function(e){
 
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
-                $("#factory1").empty();
-                $("#factory2").empty();
+
                 $("#Hos2").empty();
 
-                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
-                  for (var i = 0; i < temp["Rowx"]; i++) {
-                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
-                  }
-                  $("#factory1").append(Str);
-                  $("#factory2").append(Str);
+
                 // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
@@ -1066,7 +1068,16 @@ $(document).ready(function(e){
                 if(PmID != 1){
                   $("#hotpital").val(HptCode);
                 }
-              }else if(temp["form"]=='getDepartment'){
+              }else if(temp["form"]=='getfactory'){
+                $("#factory1").empty();
+                $("#factory2").empty();                        
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                  }
+                  $("#factory1").append(Str);
+                  $("#factory2").append(Str);
+                }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
                 $("#Dep2").empty();
                 var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
@@ -1859,7 +1870,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="remove1();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getfactory();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
                                       <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>

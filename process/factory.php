@@ -9,6 +9,7 @@ function ShowItem($conn, $DATA)
   {
     $count = 0;
     $Keyword = $DATA['Keyword'];
+    $Hos = $DATA['Hos'];
     $Sql = "SELECT
             factory.FacCode,
             factory.FacName,
@@ -27,7 +28,8 @@ function ShowItem($conn, $DATA)
             FROM
             factory
             LEFT JOIN contractfac ON contractfac.FacCode = factory.FacCode 
-            WHERE factory.IsCancel = 0
+            WHERE factory.IsCancel = 0 
+            AND factory.HptCode = '$Hos'
             AND (factory.FacCode LIKE '%$Keyword%' OR
             factory.FacName LIKE '%$Keyword%' OR
             factory.FacNameTH LIKE '%$Keyword%' OR
@@ -93,6 +95,7 @@ function getdetail($conn, $DATA)
             factory.Post,
             factory.Tel,
             factory.TaxID ,
+            factory.HptCode ,
             contractfac.contractName , 
             contractfac.permission , 
             contractfac.Number , 
@@ -115,6 +118,7 @@ function getdetail($conn, $DATA)
       $return['FacNameTH'] = $Result['FacNameTH'];
       $return['DiscountPercent'] = $Result['DiscountPercent'];
       $return['Price'] = $Result['Price'];
+      $return['HptCode'] = $Result['HptCode'];
       $return['IsCancel'] = $Result['IsCancel'];
       $return['Address'] = $Result['Address'];
       $return['Post'] = $Result['Post'];
@@ -158,7 +162,8 @@ function AddItem($conn, $DATA)
             Post,
             Tel,
             TaxID,
-            FacNameTH)
+            FacNameTH,
+            HptCode)
             VALUES
             (
               '".$DATA['FacName']."',
@@ -169,7 +174,8 @@ function AddItem($conn, $DATA)
               '".$DATA['Post']."',
               '".$DATA['Tel']."',
               '".$DATA['TaxID']."',
-              '".$DATA['FacNameTH']."'
+              '".$DATA['FacNameTH']."',
+              '".$DATA['Hos2']."'
             )
     ";
     // var_dump($Sql); die;
@@ -202,7 +208,8 @@ function EditItem($conn, $DATA)
               Address = '".$DATA['Address']."',
               Post = '".$DATA['Post']."',
               Tel = '".$DATA['Tel']."',
-              TaxID = '".$DATA['TaxID']."'
+              TaxID = '".$DATA['TaxID']."',
+              HptCode = '".$DATA['Hos2']."'
               WHERE FacCode = ".$DATA['FacCode']."
       ";
       // var_dump($Sql); die;
@@ -282,6 +289,43 @@ function CancelItem($conn, $DATA)
     }
 
   }
+function gethos($conn, $DATA){
+  $count = 0;
+  $lang = $DATA["lang"];
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+
+  if($PmID == 3 && $PmID == 7){
+  if($lang == 'en'){
+    $Sql = "SELECT site.HptCode,site.HptName
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+  }else{
+    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+  } 
+}else{
+  if($lang == 'en'){
+    $Sql = "SELECT site.HptCode,site.HptName
+    FROM site WHERE site.IsStatus = 0";
+  }else{
+    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+    FROM site WHERE site.IsStatus = 0";
+  } 
+}
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['HptCode']  = $Result['HptCode'];
+    $return[$count]['HptName']  = $Result['HptName'];
+    $count++;
+  }
+  $return[0]['PmID']  = $PmID;
+  $return['status'] = "success";
+  $return['form'] = "gethos";
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
 function getFactory($conn, $DATA)
   {
       $count = 0;
@@ -430,8 +474,10 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
         getFactory($conn,$DATA);
       }else if ($DATA['STATUS'] == 'Adduser') {
         Adduser($conn,$DATA);
+      }else if ($DATA['STATUS'] == 'gethos') {
+        gethos($conn,$DATA);
       }
-
+      
 }else{
 	$return['status'] = "error";
 	$return['msg'] = 'noinput';

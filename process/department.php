@@ -167,6 +167,7 @@ function AddItem($conn, $DATA)
   $HptCode = $DATA['HptCode'];
   $DepCode1 = trim($DATA['DepCode1']);
   $DepCode = trim($DATA['DepCode']);
+  $DepCode2 = trim($DATA['DepCode']);
   $DepName = trim($DATA['DepName']);
   $group2 = trim($DATA['group2']);
   $xCenter = $DATA['xCenter'];
@@ -177,11 +178,11 @@ if($DepCode1 == ""){
 
   if($xCenter == 1){ 
       $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-      WHERE department.DepCode =  $DepCode and department.IsStatus = 0   AND department.IsDefault = 1";
+      WHERE department.DepCode =  '$DepCode' and department.IsStatus = 0   AND department.IsDefault = 1";
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $count = $Result['Cnt'];
-        $DepCode = $Result['DepCode'];
+        $DepCode = $Result['DepCode']==null?$DepCode2:$Result['DepCode'];
       }
       if($count > 0)
       {
@@ -267,7 +268,7 @@ if($DepCode1 == ""){
   }else{
 
     $Sql =  "SELECT COUNT(*) as Cnt, DepCode FROM department
-    WHERE department.HptCode =  '$HptCode' and department.IsStatus = 0   AND department.IsDefault = 1";
+    WHERE department.DepCode =  '$DepCode' and department.IsStatus = 0   AND department.IsDefault = 1";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $count = $Result[ 'Cnt'];
