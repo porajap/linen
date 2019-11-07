@@ -320,20 +320,36 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-
+      $Hotp   = $Result['HptCode'];
       $return[$count]['HptName']   = $Result['HptCode'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
-      $return[$count]['FacCode']   = $Result['FacCode'];
+      $return[$count]['FacCode2']   = $Result['FacCode'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];
       $return[$count]['RefDocNo'] = $Result['RefDocNo'];
 
       $boolean = true;
       $count++;
     }
+
+    $countx = 0;
+    if($lang == 'en'){
+      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+      }else{
+      $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+      }
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
+      $return[$countx]['FacCode'] = $Result['FacCode'];
+      $return[$countx]['FacName'] = $Result['FacName'];
+      $countx  ++;
+    }
+    $boolean = true;
+    $return['Rowx'] = $countx;
 
     if ($boolean) {
       $return['status'] = "success";

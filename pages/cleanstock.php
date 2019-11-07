@@ -1067,9 +1067,9 @@ $(document).ready(function(e){
                       }
                       $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);
-                if(PmID != 1){
-                  $("#hotpital").val(HptCode);
-                }
+                // if(PmID != 1){
+                //   $("#hotpital").val(HptCode);
+                // }
               }else if(temp["form"]=='getfactory'){
                 $("#factory1").empty();
                 $("#factory2").empty();                        

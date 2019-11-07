@@ -1351,19 +1351,29 @@ $array2 = json_decode($json2,TRUE);
                     $("#TableDocument tbody").append(Str);
                     }
                 }else if(temp["form"]=='SelectDocument'){
+
+                  var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                        for (var i = 0; i < temp["Rowx"]; i++) {
+                          Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                      }
+                      $("#factory").html(Str);
+
                   $('#bCreate').attr('disabled', true);
                   $('#hover1').removeClass('mhee');
                   $('#bCreate2').addClass('opacity');
                   $('#home-tab').tab('show')
                   $( "#TableItemDetail tbody" ).empty();
                   $("#hotpital").val(temp[0]['HptName']);
+                  $("#hotpital").prop('disabled', true);
+                  $('#hotpital').addClass('icon_select');                  
                   $("#docno").val(temp[0]['DocNo']);
                   $("#docdate").val(temp[0]['DocDate']);
                   $("#recorder").val(temp[0]['Record']);
                   $("#timerec").val(temp[0]['RecNow']);
                   $("#wTotal").val(temp[0]['Total']);
                   $("#IsStatus").val(temp[0]['IsStatus']);
-                  $("#factory").val(temp[0]['FacCode']);
+                  $('#factory').addClass('icon_select');
+                  $("#factory").val(temp[0]['FacCode2']);
                   $('#factory').attr('disabled', true);
                   if(temp[0]['IsStatus']==0){
                     // $('.chk_edit').prop('disabled', false);

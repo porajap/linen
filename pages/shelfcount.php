@@ -1741,9 +1741,7 @@ $array2 = json_decode($json2,TRUE);
               $("#hotpital").prop('disabled', true);
               $('#hotpital').addClass('icon_select');
                 if(temp[0]['HptName'] !=""){
-
                 }
-
               $('#home-tab').tab('show');
               $( "#TableItemDetail tbody" ).empty();
               $("#docno").val(temp[0]['DocNo']);

@@ -925,7 +925,7 @@ if (e.keyCode == 13) {
       function senddata(data){
         var form_data = new FormData();
         form_data.append("DATA",data);
-        var URL = '../process/damage.php';
+        var URL = '../process/damageNh.php';
         $.ajax({
           url: URL,
           dataType: 'text',
@@ -1552,7 +1552,7 @@ if (e.keyCode == 13) {
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
-      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][11][$language]; ?></li>
+      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][15][$language]; ?></li>
     </ol>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
 
@@ -1611,22 +1611,6 @@ if (e.keyCode == 13) {
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docno'][$language]; ?></label>
                                       <input type="text" autocomplete="off" style="font-size:22px;" disabled="true" class="form-control col-sm-7 only1" name="searchitem" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- =================================================================== -->
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label " style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-7 only" style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_claim_doc()">
-                                      <label id="rem1" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['employee'][$language]; ?></label>
-                                      <input type="text" autocomplete="off"  class="form-control col-sm-7 only1" disabled="true"  style="font-size:22px;width:220px;" name="searchitem" id="recorder" placeholder="<?php echo $array['employee'][$language]; ?>" >
                                     </div>
                                   </div>
                                 </div>

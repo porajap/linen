@@ -108,12 +108,12 @@ function CreateDocument($conn, $DATA)
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT CONCAT('DM',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
+  $Sql = "SELECT CONCAT('DMN',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
   CURRENT_TIME() AS RecNow
-  FROM damage
-  INNER JOIN department on damage.DepCode = department.DepCode
-  WHERE DocNo Like CONCAT('DM',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
+  FROM damagenh
+  INNER JOIN department on damagenh.DepCode = department.DepCode
+  WHERE DocNo Like CONCAT('DMN',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
   AND department.HptCode = '$hotpCode'
   ORDER BY DocNo DESC LIMIT 1";
 
@@ -138,11 +138,11 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO damage
+    $Sql = "INSERT INTO damagenh
     ( DocNo,DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
-      damage.Modify_Code,damage.Modify_Date )
+      damagenh.Modify_Code,damagenh.Modify_Date )
       VALUES
       ( '$DocNo',DATE(NOW()),'$deptCode','$RefDocNo',
       0,DATE(NOW()),0,0,
@@ -154,7 +154,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',DATE(NOW()),'$deptCode','$RefDocNo','damage',$userid,DATE(NOW()))";
+      ('$DocNo',DATE(NOW()),'$deptCode','$RefDocNo','damagenh',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -208,35 +208,35 @@ function CreateDocument($conn, $DATA)
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
-    $Sql = "SELECT site.HptName,department.DepName,damage.DocNo,DATE(damage.DocDate) 
-    AS DocDate,damage.RefDocNo,damage.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damage.Modify_Date) AS xTime,damage.IsStatus
-    FROM damage
-    INNER JOIN department ON damage.DepCode = department.DepCode
+    $Sql = "SELECT site.HptName,department.DepName,damagenh.DocNo,DATE(damagenh.DocDate) 
+    AS DocDate,damagenh.RefDocNo,damagenh.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damagenh.Modify_Date) AS xTime,damagenh.IsStatus
+    FROM damagenh
+    INNER JOIN department ON damagenh.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN users ON damage.Modify_Code = users.ID ";
+    INNER JOIN users ON damagenh.Modify_Code = users.ID ";
   // if($DocNo!=null){
-  //   $Sql .= " WHERE damage.DocNo = '$DocNo' AND damage.DocNo LIKE '%$xDocNo%'";
+  //   $Sql .= " WHERE damagenh.DocNo = '$DocNo' AND damagenh.DocNo LIKE '%$xDocNo%'";
   // }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp'  ";
       if($xDocNo!=null){
-        $Sql .= " OR damage.DocNo LIKE '%$xDocNo%' ";
+        $Sql .= " OR damagenh.DocNo LIKE '%$xDocNo%' ";
       }
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
-        $Sql .= " WHERE damage.DocNo LIKE '%$xDocNo%' ";
+        $Sql .= " WHERE damagenh.DocNo LIKE '%$xDocNo%' ";
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND damage.DepCode = '$deptCode' AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND damagenh.DepCode = '$deptCode' AND damagenh.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE damage.DepCode = '$deptCode' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE damagenh.DepCode = '$deptCode' AND DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE damage.DepCode = '$deptCode' AND DATE(damage.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damage.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE damagenh.DepCode = '$deptCode' AND DATE(damagenh.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damagenh.DocNo LIKE '%$xDocNo%'";
     }
   // }
-    $Sql .= "ORDER BY damage.DocNo DESC LIMIT 500";
+    $Sql .= "ORDER BY damagenh.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -285,13 +285,13 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptCode,department.DepName,damage.DocNo,DATE(damage.DocDate) 
-    AS DocDate ,damage.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damage.Modify_Date) AS xTime,damage.IsStatus,damage.RefDocNo
-    FROM damage
-    INNER JOIN department ON damage.DepCode = department.DepCode
+    $Sql = "SELECT   site.HptCode,department.DepName,damagenh.DocNo,DATE(damagenh.DocDate) 
+    AS DocDate ,damagenh.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damagenh.Modify_Date) AS xTime,damagenh.IsStatus,damagenh.RefDocNo
+    FROM damagenh
+    INNER JOIN department ON damagenh.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN users ON damage.Modify_Code = users.ID
-    WHERE damage.DocNo = '$DocNo'";
+    INNER JOIN users ON damagenh.Modify_Code = users.ID
+    WHERE damagenh.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -583,15 +583,16 @@ function CreateDocument($conn, $DATA)
       }
 
       $Sql = "SELECT COUNT(*) as Cnt
-      FROM damage_detail
-      INNER JOIN item  ON damage_detail.ItemCode = item.ItemCode
-      INNER JOIN damage ON damage.DocNo = damage_detail.DocNo
-      WHERE damage.DocNo = '$DocNo'
+      FROM damagenh_detail
+      INNER JOIN item  ON damagenh_detail.ItemCode = item.ItemCode
+      INNER JOIN damagenh ON damagenh.DocNo = damagenh_detail.DocNo
+      WHERE damagenh.DocNo = '$DocNo'
       AND item.ItemCode = '$ItemCode'";
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $chkUpdate = $Result['Cnt'];
       }
+
       // $iqty2 = $iqty;
       // if ($iunit1 != $iunit2) {
       //   $Sql = "SELECT item_multiple_unit.Multiply
@@ -604,15 +605,16 @@ function CreateDocument($conn, $DATA)
       //     $iqty2 = $iqty / $Multiply;
       //   }
       // }
+
       if ($chkUpdate == 0) {
         if ($Sel == 1) {
-          $Sql = " INSERT INTO damage_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel , RefDocNo)
+          $Sql = " INSERT INTO damagenh_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel , RefDocNo)
           VALUES('$DocNo', '$ItemCode', $iunit2, $iqty, 0, 0 , '$RefDocNo') ";
           mysqli_query($conn, $Sql);
           // $return['sql'] = $Sql;
           // echo json_encode($return);
         } else {
-          $Sql = " INSERT INTO damage_detail_sub(DocNo, ItemCode, UsageCode)
+          $Sql = " INSERT INTO damagenh_detail_sub(DocNo, ItemCode, UsageCode)
           VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
           mysqli_query($conn, $Sql);
           $Sql = " UPDATE item_stock SET IsStatus = 0
@@ -621,12 +623,12 @@ function CreateDocument($conn, $DATA)
         }
       } else {
         if ($Sel == 1) {
-          $Sql = " UPDATE damage_detail
+          $Sql = " UPDATE damagenh_detail
           SET  Qty = (Qty + $iqty)
           WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
           mysqli_query($conn, $Sql);
         } else {
-          $Sql = " INSERT INTO damage_detail_sub(DocNo, ItemCode, UsageCode)
+          $Sql = " INSERT INTO damagenh_detail_sub(DocNo, ItemCode, UsageCode)
           VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
           mysqli_query($conn, $Sql);
           $Sql = " UPDATE item_stock SET IsStatus = 0
@@ -634,7 +636,7 @@ function CreateDocument($conn, $DATA)
           mysqli_query($conn, $Sql);
         }
       }
-      // $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
+      // $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damagenh_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
       // mysqli_query($conn, $Sqlx);
       // while ($Result = mysqli_fetch_assoc($meQuery)) {
       //   $Qtyx = $Result['Qty'];
@@ -657,7 +659,7 @@ function CreateDocument($conn, $DATA)
 
     // if ($Sel == 2) {
     //   $n = 0;
-    //   $Sql = "SELECT COUNT(*) AS Qty FROM damage_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+    //   $Sql = "SELECT COUNT(*) AS Qty FROM damagenh_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
     //   $meQuery = mysqli_query($conn, $Sql);
     //   while ($Result = mysqli_fetch_assoc($meQuery)) {
     //     $Qty[$n] = $Result['Qty'];
@@ -668,12 +670,12 @@ function CreateDocument($conn, $DATA)
     //     // $Sqlx = "INSERT INTO log ( log ) VALUES ('$n :: $xQty :: $chkUpdate :: $iweight')";
     //     // mysqli_query($conn,$Sqlx);
     //     if ($chkUpdate == 0) {
-    //       $Sql = "INSERT INTO damage_detail
+    //       $Sql = "INSERT INTO damagenh_detail
     //       (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
     //       VALUES
     //       ('$DocNo','$ItemCode',$iunit2,$xQty,0,0)";
     //     } else {
-    //       $Sql = "UPDATE damage_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+    //       $Sql = "UPDATE damagenh_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
     //     }
     //     mysqli_query($conn, $Sql);
     //   }
@@ -688,9 +690,9 @@ function CreateDocument($conn, $DATA)
     $Qty  =  $DATA["Qty"];
     $OleQty =  $DATA["OleQty"];
     $UnitCode =  $DATA["unitcode"];
-    $Sql = "UPDATE damage_detail
+    $Sql = "UPDATE damagenh_detail
     SET Qty1 = $OleQty,Qty2 = $Qty,UnitCode2 = $UnitCode
-    WHERE damage_detail.Id = $RowID";
+    WHERE damagenh_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -699,7 +701,7 @@ function CreateDocument($conn, $DATA)
   //   $RowID  = $DATA["Rowid"];
   //   $Qty  =  $DATA["Qty"];
 
-  //   $Sql = "UPDATE damage_detail SET Qty = $Qty WHERE damage_detail.Id = $RowID";
+  //   $Sql = "UPDATE damagenh_detail SET Qty = $Qty WHERE damagenh_detail.Id = $RowID";
   //   mysqli_query($conn, $Sql);
   //   ShowDetail($conn, $DATA);
   // }
@@ -707,7 +709,7 @@ function CreateDocument($conn, $DATA)
   {
      $RowID  = $DATA["Rowid"];
      $Qty  =  $DATA["Qty"];
-     $Sql = "UPDATE damage_detail SET Qty = $Qty WHERE damage_detail.Id = $RowID";
+     $Sql = "UPDATE damagenh_detail SET Qty = $Qty WHERE damagenh_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -722,9 +724,9 @@ function CreateDocument($conn, $DATA)
     //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
     //	mysqli_query($conn,$Sqlx);
 
-    $Sql = "UPDATE damage_detail
+    $Sql = "UPDATE damagenh_detail
     SET Weight = $Weight
-    WHERE damage_detail.Id = $RowID";
+    WHERE damagenh_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -734,9 +736,9 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["Rowid"];
     $UnitCode =  $DATA["unitcode"];
     $qty =  $DATA["qty"];
-    $Sql = "UPDATE damage_detail
+    $Sql = "UPDATE damagenh_detail
     SET UnitCode = $UnitCode
-    WHERE damage_detail.Id = $RowID";
+    WHERE damagenh_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -746,10 +748,10 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["rowid"];
     $DocNo = $DATA["DocNo"];
     $n = 0;
-    $Sql = "SELECT damage_detail_sub.UsageCode,damage_detail.ItemCode
-    FROM damage_detail
-    INNER JOIN damage_detail_sub ON damage_detail.DocNo = damage_detail_sub.DocNo
-    WHERE  damage_detail.Id = $RowID";
+    $Sql = "SELECT damagenh_detail_sub.UsageCode,damagenh_detail.ItemCode
+    FROM damagenh_detail
+    INNER JOIN damagenh_detail_sub ON damagenh_detail.DocNo = damagenh_detail_sub.DocNo
+    WHERE  damagenh_detail.Id = $RowID";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $ItemCode = $Result['ItemCode'];
@@ -763,12 +765,12 @@ function CreateDocument($conn, $DATA)
       mysqli_query($conn, $Sql);
     }
 
-    $Sql = "DELETE FROM damage_detail_sub
+    $Sql = "DELETE FROM damagenh_detail_sub
     WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
     mysqli_query($conn, $Sql);
 
-    $Sql = "DELETE FROM damage_detail
-    WHERE damage_detail.Id = $RowID";
+    $Sql = "DELETE FROM damagenh_detail
+    WHERE damagenh_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -793,12 +795,12 @@ function CreateDocument($conn, $DATA)
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
 
-      $update55 = "UPDATE damage_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
+      $update55 = "UPDATE damagenh_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
       mysqli_query($conn, $update55);
 
 
       
-      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' ";
+      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damagenh_detail WHERE RefDocNo = '$RefDocNo' ";
       $meQueryx = mysqli_query($conn, $Sqlx);
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
@@ -825,7 +827,7 @@ function CreateDocument($conn, $DATA)
        mysqli_query($conn, $update);
     }
 
-    $Sql = "UPDATE damage SET IsStatus = $isStatus WHERE damage.DocNo = '$DocNo'";
+    $Sql = "UPDATE damagenh SET IsStatus = $isStatus WHERE damagenh.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
     // $Sql = "UPDATE dirty SET IsRef = 1 WHERE dirty.DocNo = '$DocNo2'";
@@ -848,7 +850,7 @@ function CreateDocument($conn, $DATA)
     // $checkitem = $DATA["checkitem"];
     // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo / $RefDocNo')";
     // mysqli_query($conn,$Sqlx);
-    $Sql = "UPDATE damage SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
+    $Sql = "UPDATE damagenh SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
@@ -872,7 +874,7 @@ function CreateDocument($conn, $DATA)
     //   $ItemCode = $zItemCode[$i];
     //   $UnitCode = $zUnitCode[$i];
     //   $IsCancel = $zIsCancel[$i];
-    //   $Sql = "INSERT INTO damage_detail
+    //   $Sql = "INSERT INTO damagenh_detail
     //   (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel,RefDocNo)
     //   VALUES
     //   ('$DocNo','$ItemCode',$UnitCode,0,0,$IsCancel,'$RefDocNo')";
@@ -899,24 +901,24 @@ function CreateDocument($conn, $DATA)
 
     //==========================================================
     $Sql = "SELECT
-    damage_detail.Id,
-    damage_detail.DocNo,
-    damage_detail.ItemCode,
-    damage_detail.RefDocNo,
+    damagenh_detail.Id,
+    damagenh_detail.DocNo,
+    damagenh_detail.ItemCode,
+    damagenh_detail.RefDocNo,
     item.ItemName,
     item.UnitCode AS UnitCode1,
     item_unit.UnitName,
-    damage_detail.UnitCode AS UnitCode2,
-    damage_detail.Weight,
-    damage_detail.Qty
+    damagenh_detail.UnitCode AS UnitCode2,
+    damagenh_detail.Weight,
+    damagenh_detail.Qty
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-    INNER JOIN damage_detail ON damage_detail.ItemCode = item.ItemCode
-    INNER JOIN item_unit ON damage_detail.UnitCode = item_unit.UnitCode
-    INNER JOIN damage ON damage_detail.DocNo = damage.DocNo
-    WHERE damage_detail.DocNo = '$DocNo'
-    ORDER BY damage_detail.Id DESC";
+    INNER JOIN damagenh_detail ON damagenh_detail.ItemCode = item.ItemCode
+    INNER JOIN item_unit ON damagenh_detail.UnitCode = item_unit.UnitCode
+    INNER JOIN damagenh ON damagenh_detail.DocNo = damagenh.DocNo
+    WHERE damagenh_detail.DocNo = '$DocNo'
+    ORDER BY damagenh_detail.Id DESC";
     $return['sql']=$Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -924,7 +926,7 @@ function CreateDocument($conn, $DATA)
       $RefDocNo = $Result['RefDocNo'];
       $ItemCode = $Result['ItemCode'];
 
-      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$ItemCode'";
+      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damagenh_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$ItemCode'";
       $meQueryx = mysqli_query($conn, $Sqlx);
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
@@ -1017,7 +1019,7 @@ function CreateDocument($conn, $DATA)
 
     if ($count == 0) $Total = 0;
 
-    $Sql = "UPDATE damage SET Total = $Total WHERE DocNo = '$DocNo'";
+    $Sql = "UPDATE damagenh SET Total = $Total WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     $return[0]['Total']    = round($Total, 2);
 
@@ -1045,7 +1047,7 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["DocNo"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
     // mysqli_query($conn,$Sql);
-    $Sql = "UPDATE damage SET IsStatus = 9  WHERE DocNo = '$DocNo'";
+    $Sql = "UPDATE damagenh SET IsStatus = 9  WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     ShowDocument($conn, $DATA);
   }
@@ -1056,16 +1058,16 @@ function CreateDocument($conn, $DATA)
     $searchitem1 = $DATA["searchitem1"];
     $boolean = false;
     $count = 0;
-    $Sql = "SELECT claim.DocNo
-    FROM claim
-    INNER JOIN department ON claim.DepCode = department.DepCode
+    $Sql = "SELECT clean.DocNo
+    FROM clean
+    INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE claim.IsCancel = 0 
-    AND claim.IsStatus = 1
-    AND claim.IsRef = 0
+    WHERE clean.IsCancel = 0 
+    AND clean.IsStatus = 1
+    AND clean.IsRef = 0
     AND site.HptCode = '$hptcode'
-    AND  claim.DocNo LIKE '%$searchitem1%'
-    ORDER BY claim.Modify_Date DESC
+    AND  clean.DocNo LIKE '%$searchitem1%'
+    ORDER BY clean.Modify_Date DESC
     LIMIT 100";
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
@@ -1101,7 +1103,7 @@ function CreateDocument($conn, $DATA)
  
     $count = 0;
     $Sql = "SELECT df.ID, df.FileName, df.Date, users.FName  
-    FROM damage_file df
+    FROM damagenh_file df
     INNER JOIN users ON users.ID = df.UserID
     WHERE df.HptCode = '$HptCode' 
     AND (df.Date LIKE '%$KeyDate%') AND (df.FileName LIKE '%$Keyword%') AND df.Status = 0 ORDER BY df.Date ASC";
@@ -1126,7 +1128,7 @@ function CreateDocument($conn, $DATA)
       
   function deleteExcel($conn, $DATA){
     $ID = $DATA['ID'];
-    $Sql = "UPDATE damage_file SET Status = 1 WHERE ID = $ID";
+    $Sql = "UPDATE damagenh_file SET Status = 1 WHERE ID = $ID";
     mysqli_query($conn, $Sql);
     showExcel($conn, $DATA);
   }

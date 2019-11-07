@@ -40,10 +40,11 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=1;
-        $gen_s11=1;
+        $gen_s11=0;
         $gen_s12=1;
         $gen_s13=1;
         $gen_s14=1;
+        $gen_s15=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -95,10 +96,11 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=1;
-        $gen_s11=1;
+        $gen_s11=0;
         $gen_s12=1;
         $gen_s13=1;
         $gen_s14=1;
+        $gen_s15=1;
         //account
         $ac_head=0;
         $ac_s1=0;
@@ -148,10 +150,11 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=1;
-        $gen_s11=1;
+        $gen_s11=0;
         $gen_s12=1;
         $gen_s13=1;
         $gen_s14=1;
+        $gen_s15=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -206,7 +209,6 @@ switch ($PmID) {
         $gen_s11=0;
         $gen_s12=0;
         $gen_s13=0;
-
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -255,10 +257,11 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=1;
-        $gen_s11=1;
+        $gen_s11=0;
         $gen_s12=1;
         $gen_s13=1;
         $gen_s14=1;
+        $gen_s15=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -310,10 +313,11 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=1;
-        $gen_s11=1;
+        $gen_s11=0;
         $gen_s12=1;
         $gen_s13=1;
         $gen_s14=1;
+        $gen_s15=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -365,10 +369,11 @@ switch ($PmID) {
         $gen_s8=0;
         $gen_s9=0;
         $gen_s10=1;
-        $gen_s11=1;
+        $gen_s11=0;
         $gen_s12=1;
         $gen_s13=1;
         $gen_s14=1;
+        $gen_s15=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -1168,6 +1173,13 @@ $id_h=$_SESSION['id_h'];
               href="pages/damage.php?lang=<?php echo $language; ?>" id="act6" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][11][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s15== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/damageNh.php?lang=<?php echo $language; ?>" id="act6" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][15][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s10== 1){ ?>

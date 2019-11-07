@@ -1135,7 +1135,6 @@ $array2 = json_decode($json2,TRUE);
                         "<td style='width: 13%;' nowrap>"+temp[i]['Total']+"</td>"+
                         "<td "+Style+" nowrap>"+Status+"</td>"+
                         "</tr>";
-
                         if(rowCount == 0){
                           $("#TableDocument tbody").append( $StrTr );
                         }else{
@@ -1155,6 +1154,13 @@ $array2 = json_decode($json2,TRUE);
                       $("#TableDocument tbody").html(Str);
                     }
                     }else if(temp["form"]=='SelectDocument'){
+
+                        var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                        for (var i = 0; i < temp["Rowx"]; i++) {
+                          Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                      }
+                      $("#factory").html(Str);
+
                       $('#bCreate').attr('disabled', true);
                       $('#hover1').removeClass('mhee');
                       $('#bCreate2').addClass('opacity');
@@ -1164,14 +1170,14 @@ $array2 = json_decode($json2,TRUE);
                       $("#hotpital").val(temp[0]['HptName']);
                       $("#hotpital").prop('disabled', true);
                       $('#hotpital').addClass('icon_select');
-
+                      $('#factory').addClass('icon_select');
+                      $("#factory").val(temp[0]['FacCode2']);
                       $("#docno").val(temp[0]['DocNo']);
                       $("#docdate").val(temp[0]['DocDate']);
                       $("#recorder").val(temp[0]['Record']);
                       $("#timerec").val(temp[0]['RecNow']);
                       $("#wTotal").val(temp[0]['Total']);
                       $("#IsStatus").val(temp[0]['IsStatus']);
-                      $("#factory").val(temp[0]['FacCode']);
                       $('#factory').attr('disabled', true);
                       if(temp[0]['IsStatus']==0){
                         var word = '<?php echo $array['save'][$language]; ?>';

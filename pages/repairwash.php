@@ -1113,6 +1113,13 @@ $(document).ready(function(e){
                       $("#TableDocument tbody").html(Str);
                     }
               }else if(temp["form"]=='SelectDocument'){
+
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                        for (var i = 0; i < temp["Rowx"]; i++) {
+                          Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                      }
+                      $("#factory").html(Str);
+
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
@@ -1129,7 +1136,7 @@ $(document).ready(function(e){
                 $("#timerec").val(temp[0]['RecNow']);
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
-                $("#factory").val(temp[0]['FacCode']);
+                $("#factory").val(temp[0]['FacCode2']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
                 $('#docdate').attr('disabled', true);
                 // $('#factory').attr('disabled', false);

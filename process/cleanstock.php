@@ -1357,7 +1357,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
   }
   function getfactory($conn, $DATA){
     $lang     = $DATA["lang"];
-    $hotpital = $DATA["hotpital"];
+    $hotpital = $DATA["hotpital"]==null?$_SESSION['HptCode']:$DATA["hotpital"];
     $boolean  = false;
     $countx = 0;
     if($lang == 'en'){

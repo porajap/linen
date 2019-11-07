@@ -1045,10 +1045,7 @@ $(document).ready(function(e){
 
             if(temp["status"]=='success'){
               if(temp["form"]=='OnLoadPage'){
-
                 $("#Hos2").empty();
-
-
                 // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
@@ -1065,9 +1062,9 @@ $(document).ready(function(e){
                       }
                       $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);
-                if(PmID != 1){
-                  $("#hotpital").val(HptCode);
-                }
+                // if(PmID != 1){
+                //   $("#hotpital").val(HptCode);
+                // }
               }else if(temp["form"]=='getfactory'){
                 $("#factory1").empty();
                 $("#factory2").empty();                        
@@ -1180,6 +1177,11 @@ $(document).ready(function(e){
                       $("#TableDocument tbody").html(Str);
                     }
               }else if(temp["form"]=='SelectDocument'){
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                        for (var i = 0; i < temp["Rowx"]; i++) {
+                          Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                      }
+                      $("#factory1").html(Str);
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
@@ -1198,14 +1200,14 @@ $(document).ready(function(e){
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
 
-                if(temp[0]['FacCode'] ==0){
+                if(temp[0]['FacCode2'] ==0){
                   $("#factory1").attr('disabled' , false);
                   $("#factory1").removeClass('icon_select');
                   $("#factory1").val('');
                 }else{
                   $("#factory1").attr('disabled' , true);
                   $("#factory1").addClass('icon_select');
-                  $("#factory1").val(temp[0]['FacCode']);
+                  $("#factory1").val(temp[0]['FacCode2']);
                 }
 
                 if(temp[0]['IsStatus']==0){
