@@ -312,6 +312,7 @@ $(document).ready(function(e){
             'hotpital'	: hotpital ,
             'lang'	    : lang
           };
+          getDepartment(1);
           senddata(JSON.stringify(data));
         }
       function OnLoadPage(){
@@ -390,9 +391,14 @@ $(document).ready(function(e){
         })
 
       }
-      function getDepartment(){
-
-        var Hotp = $('#Hos2 option:selected').attr("value");
+      function getDepartment(chk){
+        if(chk==1){
+          var Hotp = $('#hotpital option:selected').attr("value");
+            $('#Hos2').val(Hotp);
+        }else{
+          var Hotp = $('#Hos2 option:selected').attr("value");
+          $('#hotpital').val(Hotp);
+        }
         if( typeof Hotp == 'undefined' ) 
         {
           Hotp = '<?php echo $HptCode; ?>';
@@ -1074,19 +1080,19 @@ $(document).ready(function(e){
                   }
                   $("#factory1").append(Str);
                   $("#factory2").append(Str);
-                }else if(temp["form"]=='getDepartment'){
-                $("#department").empty();
-                $("#Dep2").empty();
-                var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
-                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                  var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                  Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                  $("#department").append(Str);
-                  $("#Dep2").append(Str);
-                }
-                // if(PmID != 1){
-                //   $("#Dep2").val(temp[0]['DepCode']);
-                // }
+              }else if(temp["form"]=='getDepartment'){
+              $("#department").empty();
+              $("#Dep2").empty();
+              var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
+              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                $("#department").append(Str);
+                $("#Dep2").append(Str);
+              }
+              // if(PmID != 1){
+              //   $("#Dep2").val(temp[0]['DepCode']);
+              // }
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1551,22 +1557,22 @@ $(document).ready(function(e){
       }
               }else if(temp['form']=="chk_percent"){
                 result = '';
-              if(temp["Row"]>0){
+                if(temp["Row"]>0){
                 for(var i = 0; i < temp['Row']; i++){
                   result += "<tr>"+
                     '<td nowrap style="width: 30%;" class="text-left">'+temp[0]['DocNo']+'</td>'+
                     '<td nowrap style="width: 35%;" class="text-left">'+temp[0]['Percent']+'%'+'</td>'+
                     '<td nowrap style="width: 32%;" class="text-right">'+temp[0]['over']+'%'+'</td>'+
                   "</tr>";
+                  }
+                  $("#detail_percent").html(result);
+                  $('#alert_percent').modal('show');
+                  $('#input_chk').val(1);
+                }else if(temp["Row"]=="No"){
+                  SaveBill(1);
+                  }
+          
                 }
-                $("#detail_percent").html(result);
-                $('#alert_percent').modal('show');
-                $('#input_chk').val(1);
-              }else if(temp["Row"]=="No"){
-                SaveBill(1);
-                }
-        
-              }
 
             }else if (temp['status']=="failed") {
               switch (temp['msg']) {
@@ -2064,7 +2070,7 @@ $(document).ready(function(e){
                         <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select   class="form-control" style='font-size:24px;' id="Hos2" >
+                              <select   class="form-control" style='font-size:24px;' id="Hos2" onchange="getDepartment();">
                               </select>
                             </div>
                           </div>

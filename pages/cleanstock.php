@@ -312,6 +312,7 @@ $(document).ready(function(e){
             'hotpital'	: hotpital ,
             'lang'	    : lang
           };
+          getDepartment(1);
           senddata(JSON.stringify(data));
         }
       function OnLoadPage(){
@@ -395,8 +396,14 @@ $(document).ready(function(e){
           $('#rem3').hide();
 
         }
-      function getDepartment(){
-
+      function getDepartment(chk){
+        if(chk==1){
+          var Hotp = $('#hotpital option:selected').attr("value");
+            $('#Hos2').val(Hotp);
+        }else{
+          var Hotp = $('#Hos2 option:selected').attr("value");
+          $('#hotpital').val(Hotp);
+        }
         var Hotp = $('#Hos2 option:selected').attr("value");
         if( typeof Hotp == 'undefined' ) 
         {
@@ -2069,7 +2076,7 @@ $(document).ready(function(e){
                         <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select   class="form-control" style='font-size:24px;' id="Hos2" >
+                              <select   class="form-control" style='font-size:24px;' id="Hos2" onchange="getDepartment();">
                               </select>
                             </div>
                           </div>

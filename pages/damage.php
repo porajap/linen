@@ -283,7 +283,7 @@ if (e.keyCode == 13) {
       function open_claim_doc(){
         // dialogRefDocNo.dialog( "open" );
         $('#dialogRefDocNo').modal('show');
-        // get_claim_doc();
+        get_claim_doc();
       }
 
       function get_claim_doc(){
@@ -885,7 +885,8 @@ if (e.keyCode == 13) {
         };
         senddata(JSON.stringify(data));
         // dialogRefDocNo.dialog( "close" );
-        $('#dialogRefDocNo').modal('toggle')
+        $('#dialogRefDocNo').modal('toggle');
+        // OpenDialogItem();
       }
 
       // function UpdateQty(row,rowid) {
@@ -986,6 +987,7 @@ if (e.keyCode == 13) {
                   showConfirmButton: false
                   });
                 setTimeout(function () {
+                  open_claim_doc();
                   parent.OnLoadPage();
                 }, 1000);
                 $('#bCreate').attr('disabled', true);

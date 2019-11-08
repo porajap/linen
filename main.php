@@ -45,6 +45,7 @@ switch ($PmID) {
         $gen_s13=1;
         $gen_s14=1;
         $gen_s15=1;
+        $gen_s16=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -101,6 +102,7 @@ switch ($PmID) {
         $gen_s13=1;
         $gen_s14=1;
         $gen_s15=1;
+        $gen_s16=1;
         //account
         $ac_head=0;
         $ac_s1=0;
@@ -155,6 +157,7 @@ switch ($PmID) {
         $gen_s13=1;
         $gen_s14=1;
         $gen_s15=1;
+        $gen_s16=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -262,6 +265,7 @@ switch ($PmID) {
         $gen_s13=1;
         $gen_s14=1;
         $gen_s15=1;
+        $gen_s16=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -318,6 +322,7 @@ switch ($PmID) {
         $gen_s13=1;
         $gen_s14=1;
         $gen_s15=1;
+        $gen_s16=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -374,6 +379,7 @@ switch ($PmID) {
         $gen_s13=1;
         $gen_s14=1;
         $gen_s15=1;
+        $gen_s16=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -1202,6 +1208,13 @@ $id_h=$_SESSION['id_h'];
               href="pages/return.php?lang=<?php echo $language; ?>" id="act12" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][13][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s16== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/stricker.php?lang=<?php echo $language; ?>" id="act12" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][16][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s5== 1){ ?>

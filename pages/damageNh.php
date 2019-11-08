@@ -1562,7 +1562,7 @@ if (e.keyCode == 13) {
               <div class="col-md-12" style='padding-left: 26px;' id='switch_col'>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titledamage'][$language]; ?></a>
+                    <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titledamage2'][$language]; ?></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>

@@ -130,12 +130,20 @@
           บันทึกรับเข้าสต๊อก
         </th>
       </sub>
-              <sub>
+        <sub>
         <en>
           Damage NHealth
         </en>
         <th>
           บันทึกผ้าชำรุด NHealth
+        </th>
+      </sub>
+        <sub>
+        <en>
+          Stricker
+        </en>
+        <th>
+          สติํ๊กเกอร์
         </th>
       </sub>
     </general>
