@@ -1201,7 +1201,7 @@ function SaveBill($conn, $DATA)
     //     mysqli_query($conn, $update);
     //   }
     // }
-    $updateStock = "UPDATE par_item_stock SET TotalQty = $QtyArray[$i] WHERE DepCode = $DepCode AND ItemCode = '$ItemCode[$i]'";
+    $updateStock = "UPDATE par_item_stock SET OldQty = TotalQty, TotalQty = $QtyArray[$i] WHERE DepCode = $DepCode AND ItemCode = '$ItemCode[$i]'";
     mysqli_query($conn, $updateStock);
   }
   $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ
@@ -1520,8 +1520,14 @@ function ShowDetailSub($conn, $DATA)
 function CancelBill($conn, $DATA)
 {
   $DocNo = $DATA["DocNo"];
-  // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
-  // mysqli_query($conn,$Sql);
+  $ItemCode = explode("," ,$DATA["ItemCode"]);
+  $DepCode = $DATA["DepCode"];
+
+  foreach($ItemCode as $key => $value){
+    $Sql = "UPDATE par_item_stock SET TotalQty = OldQty, OldQty = 0 WHERE DepCode = '$DepCode' AND ItemCode = '$value'";
+    $meQuery = mysqli_query($conn, $Sql);
+  }
+
   $Sql = "UPDATE shelfcount SET IsStatus = 9 ,IsRequest = 1, Total = 0 WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   ShowDocument($conn, $DATA);
