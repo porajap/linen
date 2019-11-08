@@ -362,10 +362,13 @@ $(document).ready(function(e){
         var datepicker = $('#datepicker').val();
         var lang = '<?php echo $language; ?>';
         if(lang =='th'){
-          datepicker = datepicker.substring(6, 10)-543+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
-          }else if(lang =='en'){
-            datepicker = datepicker.substring(6, 10)+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
-          }
+        datepicker = datepicker.substring(6, 10)-543+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+        }else if(lang =='en'){
+          datepicker = datepicker.substring(6, 10)+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+        }
+        if(datepicker=="-543--"||datepicker=="--"){
+          datepicker = "";
+        }
         var data = {
           'STATUS' : 'get_dirty_doc',
           'DocNo'  : docno,

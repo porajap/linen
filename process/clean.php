@@ -1327,7 +1327,7 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
     INNER JOIN site ON dirty.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = dirty.FacCode
     INNER JOIN process ON process.DocNo = dirty.DocNo
-    WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode'  AND  dirty.DocNo LIKE '%$searchitem1%'
+    WHERE  dirty.IsCancel = 0 AND dirty.IsStatus = 3 AND dirty.IsRef = 0 AND site.HptCode = '$hptcode'  AND  (dirty.DocNo LIKE '%$searchitem1%') AND (process.WashEndTime LIKE '%$datepicker%')
     
     UNION ALL 
     
@@ -1336,19 +1336,22 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = repair_wash.FacCode
     INNER JOIN process ON process.DocNo = repair_wash.DocNo
-    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode'  AND NOT repair_wash.RefDocNo = '' AND  repair_wash.DocNo LIKE '%$searchitem1%'
-
+    WHERE repair_wash.IsCancel = 0 AND repair_wash.IsStatus = 3 AND repair_wash.IsRef = 0 AND site.HptCode = '$hptcode'  
+    AND NOT repair_wash.RefDocNo = '' AND  (repair_wash.DocNo LIKE '%$searchitem1%') AND (process.WashEndTime LIKE '%$datepicker%')
+    
     UNION ALL  
     
     SELECT newlinentable.DocNo , RefDocNo , DATE(process.WashEndTime) AS DocDate , factory.FacName FROM newlinentable
     INNER JOIN site ON newlinentable.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = newlinentable.FacCode
     INNER JOIN process ON process.DocNo = newlinentable.DocNo
-    WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode' AND  newlinentable.DocNo LIKE '%$searchitem1%'  ";
+    WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 
+    AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode' 
+    AND  (newlinentable.DocNo LIKE '%$searchitem1%')  
+    AND (process.WashEndTime LIKE '%$datepicker%')";
 
-if ( $datepicker != null) {
-  $Sql .= "AND process.WashEndTime = '$datepicker' ";
-}
+
+$return['sql'] = $Sql;
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       
