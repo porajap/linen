@@ -1319,6 +1319,7 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
   {
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
+    $datepicker = $DATA["datepicker"];
     $boolean = false;
     $count = 0;
     $count2 = 0;
@@ -1344,6 +1345,10 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
     INNER JOIN factory ON factory.FacCode = newlinentable.FacCode
     INNER JOIN process ON process.DocNo = newlinentable.DocNo
     WHERE newlinentable.IsCancel = 0 AND newlinentable.IsStatus = 3 AND newlinentable.IsRef = 0 AND site.HptCode = '$hptcode' AND  newlinentable.DocNo LIKE '%$searchitem1%'  ";
+
+if ( $datepicker != null) {
+  $Sql .= "AND process.WashEndTime = '$datepicker' ";
+}
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       

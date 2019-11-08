@@ -223,7 +223,6 @@
       INNER JOIN site ON dirty.HptCode = site.HptCode
       INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
-
       if ($Hotp != null  && $datepicker == null) {
         $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%' ";
       }else if ($Hotp == null  && $datepicker != null){
