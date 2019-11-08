@@ -535,12 +535,24 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
-
+ 
     function CancelBill() {
+      var ItemCodeArray = [];
+      var Item = [];
+      $(".item_array").each(function() {
+        ItemCodeArray.push($(this).val());
+      });
+      for(var j=0;j<ItemCodeArray.length; j++){
+        Item.push( $("#item_array"+ItemCodeArray[j]).val() );
+      }
+      var ItemCode = Item.join(',') ;
       var docno = $("#docno").val();
+      var DepCode = $("#department option:selected").val();
       var data = {
         'STATUS'  : 'CancelBill',
-        'DocNo'   : docno
+        'DocNo'   : docno,
+        'ItemCode':ItemCode,
+        'DepCode':DepCode
       };
       senddata(JSON.stringify(data));
       $('#profile-tab').tab('show');
