@@ -182,7 +182,32 @@ $array2 = json_decode($json2,TRUE);
       }
     })
   }
-
+  function chkVakue(i){
+    var Qty = Number($('#Qty_'+i).val())==null?0:Number($('#Qty_'+i).val());
+    if(Qty<=0 || Qty == ""){
+      $('#btnPrint_'+i).attr('disabled', true);
+    }else if(Qty>0){
+      $('#btnPrint_'+i).attr('disabled', false);
+    }
+  }
+  function PrintSticker(ItemCode, ItemName, i){
+    var Qty = Number($('#Qty_'+i).val())==null?0:Number($('#Qty_'+i).val());
+    $('#sp_ItemCode').text(ItemCode);
+    $('#ItemCode').val(ItemCode);
+    $('#sp_ItemName').text(ItemName);
+    $('#numberSticker').val(Qty);
+    $('#maxNumSticker').val(Qty);
+    $('#numberModal').modal('show');
+  }
+  function StickerPrint(){
+    var lang = '<?php echo $language; ?>';
+    var DocNo = $('#docno').val();
+    var ItemCode = $('#ItemCode').val();
+    var TotalQty =  $('#maxNumSticker').val();
+    var sendQty = $('#numberSticker').val();
+    var url  = "../report/Sticker_Shelfcount.php?DocNo="+DocNo+"&ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang;
+    window.open(url);
+  }
   function senddata(data){
     var form_data = new FormData();
     form_data.append("DATA",data);
@@ -240,20 +265,16 @@ $array2 = json_decode($json2,TRUE);
             $( "#TableDocument tbody" ).empty();
             for (var i = 0; i < temp["Row"]; i++) {
               var rowCount = $('#TableDocument >tbody >tr').length;
-              var Par = Number(temp[i]['ParQty']);
-              var Qty = Number(temp[i]['Qty']);
-              var textColor = '';
-              if(Qty<Par){
-                textColor = 'text-danger';
-              }
+
+              var Qty = '<input type="text" class="form-control text-center" placeholder="0" style="font-size:24px;" id="Qty_'+i+'" onkeyup="chkVakue('+i+');">';
+
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
-              "<td style='width: 15%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-              "<td style='width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
-              "<td style='width: 15%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
-              "<td style='width: 15%;'nowrap><center>"+Par+"</center></td>"+
-              "<td style='width: 15%;'nowrap class='"+textColor+"'><center>"+Qty+"</center></td>"+
-              "<td style='width: 14%;'nowrap><center>"+temp[i]['DepName']+"</center></td>"+
+              "<td style='width: 20%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
+              "<td style='width: 25%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+              "<td style='width: 20%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
+              "<td style='width: 15%;'nowrap>"+Qty+"</td>"+
+              "<td style='width: 15%;'nowrap class='text-center'><button class='btn btn-info px-2 py-1' id='btnPrint_"+i+"' onclick='PrintSticker(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\", \""+i+"\");' disabled><i class='fas fa-print'></i></button></td>"+
               "</tr>";
 
               if(rowCount == 0){
@@ -509,15 +530,14 @@ $array2 = json_decode($json2,TRUE);
                 <thead id="theadsum" style="font-size:24px;">
                   <tr role="row">
                     <th style='width: 5%;'nowrap><?php echo $array['sn'][$language]; ?></th>
-                    <th style='width: 15%;'nowrap><?php echo $array['code'][$language]; ?></th>
-                    <th style='width: 20%;'nowrap><?php echo $array['item'][$language]; ?></th>
-                    <th style='width: 15%;'nowrap><?php echo $array['category'][$language]; ?></th>
+                    <th style='width: 20%;'nowrap><?php echo $array['code'][$language]; ?></th>
+                    <th style='width: 25%;'nowrap><?php echo $array['item'][$language]; ?></th>
+                    <th style='width: 20%;'nowrap><?php echo $array['category'][$language]; ?></th>
                     <th style='width: 15%;'nowrap><center><?php echo $array['totalnum'][$language]; ?></center></th>
-                    <th style='width: 15%;'nowrap><center><?php echo $array['balance'][$language]; ?></center></th>
-                    <th style='width: 15%;'nowrap><center><?php echo $array['department'][$language]; ?></center></th>
+                    <th style='width: 15%;'nowrap><center><?php echo $array['Sticker'][$language]; ?></center></th>
                   </tr>
                 </thead>
-                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
+                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:600px;">
                 </tbody>
               </table>
             </div> <!-- tag column 1 -->
@@ -526,7 +546,49 @@ $array2 = json_decode($json2,TRUE);
         </div>
       </div> <!-- end row tab -->
 
-
+<div class="modal fade" id="numberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content" style="margin-top: 50px;background-color:#fff;">
+      <div class="modal-header">
+        <h2 class="modal-title"><?php echo $array['pleaseenter'][$language]; ?></h2>
+      </div>
+      <div class="modal-body">
+        <div class="card-body" style="padding:0px;">
+          <div class="row">
+            <div class="col-3">
+              <?php echo $array['code'][$language]; ?>: 
+            </div>
+            <div class="col-9">
+              <span id="sp_ItemCode"></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <?php echo $array['item'][$language]; ?>: 
+            </div>
+            <div class="col-9">
+              <span id="sp_ItemName"></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <?php echo $array['qty'][$language]; ?>: 
+            </div>
+            <div class="col-9">
+              <input type="hidden" id="maxNumSticker">
+              <input type="hidden" id="ItemCode">
+              <input type="text" class="form-control numonly_dot" id="numberSticker" autocomplete="off" onkeyup="chk_numbrtSticker(this.value);" style="font-size: 22px;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" style="width:10%;" onclick="StickerPrint();" class="btn btn-success"><?php echo $array['btnPrint'][$language]; ?></button>
+        <button type="button" style="width:10%;" class="btn btn-danger" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../template/vendor/jquery/jquery.min.js"></script>

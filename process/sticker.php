@@ -100,37 +100,22 @@ function ShowDocument($conn,$DATA){
   $selecta = $DATA["selecta"];
 
   $Sql = "SELECT
-    item_stock.ItemCode,
+    item.ItemCode,
     item.ItemName,
-    department.DepCode,
-    department.DepName,
     site.HptName,
-    item_stock.ParQty,
-    item_stock.TotalQty,
     item_category.CategoryName
   FROM
-    item_stock
-  INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-  INNER JOIN department ON item_stock.DepCode = department.DepCode
-  INNER JOIN site ON department.HptCode = site.HptCode
-  INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode";
-  if ($dept!=null) {
-    $Sql.=" WHERE site.HptCode = '$hos' AND item_stock.DepCode =  '$dept' AND item.ItemName LIKE '%$search%' ";
-  }elseif($dept==null){
-    $Sql.=" WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%$search%'";
-  }
-  $Sql.="GROUP BY item_stock.ItemCode , item_stock.DepCode ORDER BY department.DepCode,item.ItemName";
-  $return['sql'] = $Sql;
+    item
+  INNER JOIN site ON item.HptCode = site.HptCode
+  INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode 
+  WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%%' GROUP BY item.ItemCode ORDER BY item.ItemName";
+
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] 	= $Result['ItemCode'];
     $return[$count]['ItemName'] 	= $Result['ItemName'];
     $return[$count]['CategoryName'] 	= $Result['CategoryName'];
     $return[$count]['DepCode'] 	= $Result['DepCode'];
-    $return[$count]['DepName'] 	= $Result['DepName'];
-    $return[$count]['Qty'] 	= $Result['TotalQty'];
-    $return[$count]['ParQty'] 	= $Result['ParQty'];
-
     $boolean = true;
     $count++;
   }
