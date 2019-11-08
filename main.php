@@ -1212,7 +1212,7 @@ $id_h=$_SESSION['id_h'];
           <?php } ?>
           <?php if($gen_s16== 1){ ?>
           <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
-              href="pages/stricker.php?lang=<?php echo $language; ?>" id="act12" class="current_page"
+              href="pages/sticker.php?lang=<?php echo $language; ?>" id="act36" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][16][$language]; ?></a>
           </li>

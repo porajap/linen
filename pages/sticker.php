@@ -186,7 +186,7 @@ $array2 = json_decode($json2,TRUE);
   function senddata(data){
     var form_data = new FormData();
     form_data.append("DATA",data);
-    var URL = '../process/stock.php';
+    var URL = '../process/sticker.php';
     $.ajax({
       url: URL,
       dataType: 'text',
@@ -223,16 +223,16 @@ $array2 = json_decode($json2,TRUE);
             }
             if(temp["Row"] == 0){
               swal({
-            title: '',
-            text: '<?php echo $array['notfoundmsg'][$language]; ?>',
-            type: 'warning',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            showConfirmButton: false,
-            timer: 2000,
-            confirmButtonText: 'Ok'
-          });
+                title: '',
+                text: '<?php echo $array['notfoundmsg'][$language]; ?>',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
+              });
             }
             $("#department").append(Str);
             $("#Dep2").append(Str);
@@ -346,7 +346,7 @@ $array2 = json_decode($json2,TRUE);
       .select2-container--default .select2-selection--single .select2-selection__arrow {
           top: 5px;
       }
-@font-face {
+        @font-face {
             font-family: myFirstFont;
             src: url("../fonts/DB Helvethaica X.ttf");
             }
@@ -360,61 +360,61 @@ $array2 = json_decode($json2,TRUE);
           font-size:22px;
         }
 
-  button,input[id^='qty'] {
-    font-size: 24px!important;
-  }
-  .table > thead > tr >th {
-    background-color: #1659a2;
-  }
-  .table th, .table td {
-        border-top: none !important;
+    button,input[id^='qty'] {
+      font-size: 24px!important;
     }
-  table tr th,
-  table tr td {
-    border-right: 0px solid #bbb;
-    border-bottom: 0px solid #bbb;
-    padding: 5px;
-  }
-  table tr th:first-child,
-  table tr td:first-child {
-    border-left: 0px solid #bbb;
-  }
-  table tr th {
-    background: #eee;
-    border-top: 0px solid #bbb;
-    text-align: left;
-  }
+    .table > thead > tr >th {
+      background-color: #1659a2;
+    }
+    .table th, .table td {
+          border-top: none !important;
+      }
+    table tr th,
+    table tr td {
+      border-right: 0px solid #bbb;
+      border-bottom: 0px solid #bbb;
+      padding: 5px;
+    }
+    table tr th:first-child,
+    table tr td:first-child {
+      border-left: 0px solid #bbb;
+    }
+    table tr th {
+      background: #eee;
+      border-top: 0px solid #bbb;
+      text-align: left;
+    }
 
-  /* top-left border-radius */
-  /* top-left border-radius */
-  table tr:first-child th:first-child {
-      border-top-left-radius: 15px;
-    }
+    /* top-left border-radius */
+    /* top-left border-radius */
     table tr:first-child th:first-child {
-      border-bottom-left-radius: 15px;
-    }
+        border-top-left-radius: 15px;
+      }
+      table tr:first-child th:first-child {
+        border-bottom-left-radius: 15px;
+      }
 
-    /* top-right border-radius */
-    table tr:first-child th:last-child {
-      border-top-right-radius: 15px;
-    }
-    table tr:first-child th:last-child {
-      border-bottom-right-radius: 15px;
-    }
+      /* top-right border-radius */
+      table tr:first-child th:last-child {
+        border-top-right-radius: 15px;
+      }
+      table tr:first-child th:last-child {
+        border-bottom-right-radius: 15px;
+      }
 
-    /* bottom-left border-radius */
-    table tr:last-child td:first-child {
-      border-bottom-left-radius: 6px;
-    }
+      /* bottom-left border-radius */
+      table tr:last-child td:first-child {
+        border-bottom-left-radius: 6px;
+      }
 
-    /* bottom-right border-radius */
-    table tr:last-child td:last-child {
-      border-bottom-right-radius: 6px;
+      /* bottom-right border-radius */
+      table tr:last-child td:last-child {
+        border-bottom-right-radius: 6px;
+      }
+    a.nav-link{
+      width:auto!important;
     }
-  a.nav-link{
-    width:auto!important;
-  }
-  .mhee a{
+    .mhee a{
             /* padding: 6px 8px 6px 16px; */
             text-decoration: none;
             font-size: 23px;
@@ -438,8 +438,8 @@ $array2 = json_decode($json2,TRUE);
             font-weight:bold;
             font-size:26px;
         }
-  .datepicker{z-index:9999 !important}
-  .hidden{visibility: hidden;}
+    .datepicker{z-index:9999 !important}
+    .hidden{visibility: hidden;}
   </style>
 </head>
 
