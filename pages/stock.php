@@ -466,22 +466,24 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row col-12">
                           <div class="col-md-4">
                             <div class='form-group row'>
-                              <label class="col-sm-5 col-form-label text-right" style="font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                              <select class="form-control col-sm-6 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
+                              <label class="col-sm-5 col-form-label text-right" style="margin-left: -22%;font-size:24px;"><?php echo $array['side'][$language]; ?></label>
+                              <select class="form-control col-sm-8 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
                             </div>
                           </div>
   
 
                           <div class="col-md-3">
                             <div class='form-group row'>
-                              <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                              <select  class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
+                              <!-- <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+                              <select  class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select> -->
+                              <label class="col-sm-5 col-form-label text-right" style="margin-left: -37%;font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+                              <select class="form-control select2 custom-select " style="width: 85% !important;font-size:22px;"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
                             </div>
                           </div>
 
                           <div class="col-md-5">
                             <div class='form-group row'>
-                              <input  type="text" class="form-control col-sm-5" style="font-size:22px;" id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                              <input  type="text" class="form-control col-sm-8" style="margin-left: -4%;font-size:22px;" id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                               <div class="search_custom col-md-3">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(0)" >
