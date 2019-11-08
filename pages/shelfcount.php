@@ -1039,7 +1039,7 @@ $array2 = json_decode($json2,TRUE);
       var docno = $('#docno').val();
       var lang = '<?php echo $language; ?>';
       if(docno!=""&&docno!=undefined){
-        var url  = "../report/Report_Shelfcount.php?DocNo="+docno+"&lang="+lang;
+        var url  = "../report/Report_Shelfcount_tc.php?DocNo="+docno+"&lang="+lang;
         window.open(url);
       }else{
         swal({
