@@ -1318,7 +1318,7 @@ function UpdateRefDocNo($conn, $DATA)
   mysqli_query($conn, $Sql);
   ShowDocument($conn, $DATA);
 }
-
+  
 function ShowDetail($conn, $DATA)
 {
   $countqty = 0;

@@ -535,7 +535,7 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
-
+ 
     function CancelBill() {
       var ItemCodeArray = [];
       var Item = [];
