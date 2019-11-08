@@ -201,11 +201,10 @@ $array2 = json_decode($json2,TRUE);
   }
   function StickerPrint(){
     var lang = '<?php echo $language; ?>';
-    var DocNo = $('#docno').val();
     var ItemCode = $('#ItemCode').val();
     var TotalQty =  $('#maxNumSticker').val();
     var sendQty = $('#numberSticker').val();
-    var url  = "../report/Sticker_Shelfcount.php?DocNo="+DocNo+"&ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang;
+    var url  = "../report/Item_Sticker.php?ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang;
     window.open(url);
   }
   function senddata(data){

@@ -132,7 +132,7 @@ function ShowItem($conn, $DATA)
   $count = 0;
   $xCenter2 = $DATA['xCenter2'];
   $HosCenter = $DATA['HosCenter'];
-  $Keyword = $DATA['Keyword'];
+  $Keyword = str_replace(' ' ,'%' ,$DATA['Keyword']);
   $HptCode = $DATA['HptCode'];
   $userid = $DATA['Userid'];
   if($xCenter2 != 1){

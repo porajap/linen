@@ -18,7 +18,7 @@ function ShowItem($conn, $DATA)
     $xHptCode = $DATA['HptCode'];
   }
 
-  $Keyword = $DATA['Keyword'];
+  $Keyword = str_replace(' ' ,'%' ,$DATA['Keyword']);
   if($PmID != 3 && $PmID != 7){
   $Sql="SELECT users.ID, users.EngPerfix, users.EngName, users.EngLName, users.ThPerfix, users.ThName,users.ThLName,
         users.`Password`,users.UserName,users.email,users.Active_mail,
