@@ -315,11 +315,22 @@ $(document).ready(function(e){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
+        var datepicker = $('#datepicker').val();
+        var lang = '<?php echo $language; ?>';
+        if(lang =='th'){
+        datepicker = datepicker.substring(6, 10)-543+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+        }else if(lang =='en'){
+          datepicker = datepicker.substring(6, 10)+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+        }
+        if(datepicker=="-543--"||datepicker=="--"){
+          datepicker = "";
+        }
         var data = {
           'STATUS' : 'get_dirty_doc',
           'DocNo'  : docno,
           'hptcode'  : hptcode,
-          'searchitem1'  : searchitem1
+          'searchitem1'  : searchitem1,
+          'datepicker'  : datepicker
         };
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
@@ -1989,7 +2000,7 @@ $(document).ready(function(e){
     <div class="modal-content">
       <div class="modal-header">
         <?php echo $array['refdocno'][$language]; ?>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" onclick="get_factory();" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -1998,11 +2009,12 @@ $(document).ready(function(e){
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-              <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+                <!-- <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label> -->
+                <input type="text" class="form-control col-sm-5" style="margin-left: 3%;font-size: 20px;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-5 datepicker-here" style="margin-left: 1%;font-size: 20px;" name="searchitem1" id="datepicker" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
               </div>
             </div>
-            <div class="search_custom col-md-2" style="margin-left: -11%;">
+            <div class="search_custom col-md-2" style="margin-left: -8%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="get_dirty_doc()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
@@ -2010,7 +2022,7 @@ $(document).ready(function(e){
                   </button>
                 </div>
               </div>
-              <div class="search_custom col-md-2">
+              <div class="search_custom col-md-2" style="margin-left: -5%;">
                 <div class="import_1 d-flex justify-content-start opaciy">
                   <button class="btn" onclick="UpdateRefDocNo()" id="bsaveRef" disabled="true">
                   <i class="fas fa-file-import pt-1 mr-2"></i>

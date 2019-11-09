@@ -821,11 +821,11 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
 
-    $Sql = "UPDATE rewash SET IsRef = 1 WHERE rewash.DocNo = '$RefDocNo'";
+    $Sql = "UPDATE clean SET IsRef = 1 WHERE clean.DocNo = '$RefDocNo'";
       mysqli_query($conn, $Sql);
 
     // select เอา faccode กับ docno ไปแสดงหน้า page
-    $Sql2 = "SELECT rewash.FacCode , rewash.DocNo  FROM rewash WHERE rewash.DocNo = '$RefDocNo'";
+    $Sql2 = "SELECT clean.FacCode , clean.DocNo  FROM clean WHERE clean.DocNo = '$RefDocNo'";
         $meQuery = mysqli_query($conn, $Sql2);
           while ($Result2 = mysqli_fetch_assoc($meQuery)) {
             $return['FacCode']  = $Result2['FacCode'];
@@ -838,36 +838,36 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE repair_wash SET RefDocNo = '$RefDocNo' , FacCode = $FacCode1 WHERE DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
     
-    $n = 0;
-    $Sql = "SELECT
-    rewash_detail.ItemCode,
-    rewash_detail.UnitCode,
-    rewash_detail.Qty,
-    rewash_detail.Weight,
-    rewash_detail.IsCancel
-    FROM rewash_detail
-    WHERE rewash_detail.DocNo = '$RefDocNo'";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $zItemCode[$n] = $Result['ItemCode'];
-      $zUnitCode[$n] = $Result['UnitCode'];
-      $zQty[$n]      = $Result['Qty'];
-      $zWeight[$n]   = $Result['Weight'];
-      $zIsCancel[$n] = $Result['IsCancel'];
-      $n++;
-    }
-    for ($i = 0; $i < $n; $i++) {
-      $ItemCode = $zItemCode[$i];
-      $UnitCode = $zUnitCode[$i];
-      $Qty      = $zQty[$i];
-      $Weight   = $zWeight[$i];
-      $IsCancel = $zIsCancel[$i];
-      $Sql = "INSERT INTO repair_wash_detail
-      (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
-      VALUES
-      ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
-      mysqli_query($conn, $Sql);
-    }
+    // $n = 0;
+    // $Sql = "SELECT
+    // rewash_detail.ItemCode,
+    // rewash_detail.UnitCode,
+    // rewash_detail.Qty,
+    // rewash_detail.Weight,
+    // rewash_detail.IsCancel
+    // FROM rewash_detail
+    // WHERE rewash_detail.DocNo = '$RefDocNo'";
+    // $meQuery = mysqli_query($conn, $Sql);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   $zItemCode[$n] = $Result['ItemCode'];
+    //   $zUnitCode[$n] = $Result['UnitCode'];
+    //   $zQty[$n]      = $Result['Qty'];
+    //   $zWeight[$n]   = $Result['Weight'];
+    //   $zIsCancel[$n] = $Result['IsCancel'];
+    //   $n++;
+    // }
+    // for ($i = 0; $i < $n; $i++) {
+    //   $ItemCode = $zItemCode[$i];
+    //   $UnitCode = $zUnitCode[$i];
+    //   $Qty      = $zQty[$i];
+    //   $Weight   = $zWeight[$i];
+    //   $IsCancel = $zIsCancel[$i];
+    //   $Sql = "INSERT INTO repair_wash_detail
+    //   (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
+    //   VALUES
+    //   ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
+    //   mysqli_query($conn, $Sql);
+    // }
 
     if($count == 1){
       $return['status'] = "success";
@@ -1143,13 +1143,14 @@ function CreateDocument($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
+    $datepicker = $DATA["datepicker"];
     $boolean = false;
     $count = 0;
-    $Sql =  "SELECT rewash.DocNo , DATE(rewash.DocDate) AS DocDate , factory.FacName FROM rewash
-    INNER JOIN department ON rewash.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN factory ON factory.FacCode = rewash.FacCode
-    WHERE rewash.IsCancel = 0 AND rewash.IsStatus = 1 AND rewash.IsRef = 0 AND site.HptCode = '$hptcode' AND  rewash.DocNo LIKE '%$searchitem1%'";
+    $Sql =  "SELECT clean.DocNo  ,clean.DocDate  , factory.FacName FROM clean
+    INNER JOIN factory ON factory.FacCode = clean.FacCode
+    INNER JOIN department ON department.DepCode = clean.DepCode
+    INNER JOIN site ON site.HptCode = department.HptCode
+    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1  AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%'AND (clean.DocDate LIKE '%$datepicker%')";
 $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['RefDocNo'] = $Result['DocNo'];

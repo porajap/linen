@@ -1622,12 +1622,12 @@ if (e.keyCode == 13) {
                                       <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                  <!-- <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
                                       <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </div>
                               </div>
                             </div>
@@ -1771,8 +1771,8 @@ if (e.keyCode == 13) {
                               <tr role="row">
                                 <th style='width: 10%;' nowrap>&nbsp;</th>
                                 <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                                <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                                <th style='width: 30%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <!-- <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th> -->
                                 <th style='width: 18%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
                                 <th style='width: 16%;'  nowrap><?php echo $array['time'][$language]; ?></th>
                                 <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>

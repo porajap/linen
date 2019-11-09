@@ -784,46 +784,18 @@ function CreateDocument($conn, $DATA)
     $isStatus = $DATA["isStatus"];
 
     $max = sizeof($ItemCodex, 0);
-    $Sqlcount =  "SELECT COUNT(*) AS cnt FROM claim_detail WHERE DocNo = '$RefDocNo' ";
-    $meQuery = mysqli_query($conn, $Sqlcount);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $cnt = $Result['cnt'];
-    }  
-    for ($i = 0; $i < $cnt; $i++) {
+
+    for ($i = 0; $i < $max ; $i++) {
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
 
       $update55 = "UPDATE damage_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
       mysqli_query($conn, $update55);
-
-
-      
-      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damage_detail WHERE RefDocNo = '$RefDocNo' ";
-      $meQueryx = mysqli_query($conn, $Sqlx);
-      while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
-        $Qtyx = $Resultx['Qty'];
-      }
-      $SqlsumRe =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' ";
-      $meQuerysumRe = mysqli_query($conn, $SqlsumRe);
-      while ($ResultsumRe = mysqli_fetch_assoc($meQuerysumRe)) {
-        $QtyRePair = $ResultsumRe['Qty']==null?0:$ResultsumRe['Qty'];
-      }
     }
-    $Sql =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' ";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $Qty = $Result['Qty1'];
-      if($Qtyx > $QtyRePair){
-        $QtySum = $Qty - ($Qtyx + $QtyRePair);
-        }else if ($QtyRePair > $Qtyx ){
-        $QtySum = $Qty - ($QtyRePair + $Qtyx);
-        } 
-    }  
-
-    if($QtySum <=0){
-       $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
+ 
+       $update = "UPDATE clean SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
        mysqli_query($conn, $update);
-    }
+    
 
     $Sql = "UPDATE damage SET IsStatus = $isStatus WHERE damage.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
@@ -1050,6 +1022,7 @@ function CreateDocument($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
+    $datepicker = $DATA["datepicker"];
     $boolean = false;
     $count = 0;
     $count2 = 0;
@@ -1057,7 +1030,7 @@ function CreateDocument($conn, $DATA)
     INNER JOIN factory ON factory.FacCode = clean.FacCode
     INNER JOIN department ON department.DepCode = clean.DepCode
     INNER JOIN site ON site.HptCode = department.HptCode
-    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1 AND clean.IsRef = 0 AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%'";
+    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1  AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%' AND (clean.DocDate LIKE '%$datepicker%')";
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
