@@ -14,7 +14,7 @@
   $DocNo = $_POST['DocNo'];
 
   if($Table == "shelfcount"){
-    $Update = "UPDATE $Table SET $Column = '$Sign', chk_sign = 1 WHERE DocNo = '$DocNo'";
+    $Update = "UPDATE $Table SET $Column = '$Sign', PTime = NOW() chk_sign = 1 WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Update);
   }else{
     $Update = "UPDATE $Table SET $Column = '$Sign' WHERE DocNo = '$DocNo'";
