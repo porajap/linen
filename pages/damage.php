@@ -291,11 +291,22 @@ if (e.keyCode == 13) {
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
+        var datepicker = $('#datepicker').val();
+        var lang = '<?php echo $language; ?>';
+        if(lang =='th'){
+        datepicker = datepicker.substring(6, 10)-543+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+        }else if(lang =='en'){
+          datepicker = datepicker.substring(6, 10)+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+        }
+        if(datepicker=="-543--"||datepicker=="--"){
+          datepicker = "";
+        }
         var data = {
           'STATUS' : 'get_claim_doc',
           'DocNo'  : docno,
           'hptcode'  : hptcode,
-          'searchitem1'  : searchitem1
+          'searchitem1'  : searchitem1,
+          'datepicker'  : datepicker
         };
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
@@ -1154,7 +1165,6 @@ if (e.keyCode == 13) {
                 var isStatus = $("#IsStatus").val();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
-
                   var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control ' style='font-size:24px;' id='Unit_"+i+"'>";
                   var nUnit = temp[i]['UnitName'];
                   for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
@@ -1170,7 +1180,7 @@ if (e.keyCode == 13) {
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value = 0){this.value = 0}' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"'  ></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1304,6 +1314,7 @@ if (e.keyCode == 13) {
                 }
 
               }else if(temp['form']=="get_claim_doc"){
+                if(temp["count2"] > 0){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
@@ -1313,7 +1324,9 @@ if (e.keyCode == 13) {
                   var chkDoc = "<input type='radio' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
                   $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 15%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                  "<td style='width: 85%;'>"+temp[i]['RefDocNo']+"</td>"+
+                  "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
+                  "<td style='width: 33%;'>"+temp[i]['DocDate']+"</td>"+
+                  "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+                  
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableRefDocNo tbody").append( $StrTR );
@@ -1321,6 +1334,11 @@ if (e.keyCode == 13) {
                     $('#TableRefDocNo tbody:last-child').append( $StrTR );
                   }
                 }
+              }else{
+                    $( "#TableRefDocNo tbody" ).empty();
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                    $('#TableRefDocNo tbody:last-child').append(Str);
+                        }
               }else if( (temp["form"]=='showExcel') ){
                 $( "#TableExcel tbody" ).empty();
                 var DataTr = '';
@@ -1569,7 +1587,7 @@ if (e.keyCode == 13) {
                   <li class="nav-item">
                     <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" hidden>
                     <a class="nav-link" id="excel-tab"  data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="false">Excel</a>
                   </li>
                 </ul>
@@ -1918,7 +1936,7 @@ if (e.keyCode == 13) {
     <div class="modal-content">
       <div class="modal-header">
         <?php echo $array['refdocno'][$language]; ?>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" onclick="get_factory();" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -1927,11 +1945,11 @@ if (e.keyCode == 13) {
           <div class="row">
             <div class="col-md-8">
               <div class='form-group row'>
-              <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-5" style="margin-left: 3%;font-size: 20px;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-5 datepicker-here" style="margin-left: 1%;font-size: 20px;" name="searchitem1" id="datepicker" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
               </div>
             </div>
-            <div class="search_custom col-md-2" style="margin-left: -11%;">
+            <div class="search_custom col-md-2" style="margin-left: -8%;">
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="get_claim_doc()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
@@ -1939,8 +1957,8 @@ if (e.keyCode == 13) {
                   </button>
                 </div>
               </div>
-              <div class="search_custom col-md-2">
-                <div class="import_1 d-flex justify-content-start">
+              <div class="search_custom col-md-2" style="margin-left: -5%;">
+                <div class="import_1 d-flex justify-content-start opaciy">
                   <button class="btn" onclick="UpdateRefDocNo()" id="bSave">
                   <i class="fas fa-file-import pt-1 mr-2"></i>
                     <?php echo $array['import'][$language]; ?>
@@ -1952,7 +1970,9 @@ if (e.keyCode == 13) {
             <thead style="font-size:24px;">
               <tr role="row">
                 <th style='width: 15%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <th style='width: 85%;' nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                <th style='width: 27%;' nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                <th style='width: 33%;' nowrap><?php echo $array['selectdateref'][$language]; ?></th>
+                <th style='width: -4%;' nowrap><?php echo $array['factory'][$language]; ?></th>
               </tr>
             </thead>
             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

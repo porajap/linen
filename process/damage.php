@@ -878,10 +878,6 @@ function CreateDocument($conn, $DATA)
     //   ('$DocNo','$ItemCode',$UnitCode,0,0,$IsCancel,'$RefDocNo')";
     //   mysqli_query($conn, $Sql);
     // }
-
-
-
-
     SelectDocument($conn, $DATA);
   }
 
@@ -1056,25 +1052,24 @@ function CreateDocument($conn, $DATA)
     $searchitem1 = $DATA["searchitem1"];
     $boolean = false;
     $count = 0;
-    $Sql = "SELECT claim.DocNo
-    FROM claim
-    INNER JOIN department ON claim.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE claim.IsCancel = 0 
-    AND claim.IsStatus = 1
-    AND claim.IsRef = 0
-    AND site.HptCode = '$hptcode'
-    AND  claim.DocNo LIKE '%$searchitem1%'
-    ORDER BY claim.Modify_Date DESC
-    LIMIT 100";
+    $count2 = 0;
+    $Sql = "SELECT clean.DocNo  ,clean.DocDate  , factory.FacName FROM clean
+    INNER JOIN factory ON factory.FacCode = clean.FacCode
+    INNER JOIN department ON department.DepCode = clean.DepCode
+    INNER JOIN site ON site.HptCode = department.HptCode
+    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1 AND clean.IsRef = 0 AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%'";
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['RefDocNo'] = $Result['DocNo'];
+      $return[$count]['DocDate'] = $Result['DocDate'];
+      $return[$count]['FacName'] = $Result['FacName'];      
       $boolean = true;
       $count++;
+      $count2++;
     }
     $return['Row'] = $count;
+    $return['count2'] = $count2;
     // $return['form'] = "get_dirty_doc";
     // echo json_encode($return);
     // mysqli_close($conn);
@@ -1086,8 +1081,8 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
-      $return['msg'] = "notfound";
+      $return['status'] = "success";
+      $return['form'] = "get_claim_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;

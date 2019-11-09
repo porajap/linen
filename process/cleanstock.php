@@ -1314,6 +1314,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
   {
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
+    $datepicker = $DATA["datepicker"];
     $boolean = false;
     $count = 0;
     $count2 = 0;
@@ -1321,7 +1322,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     INNER JOIN factory ON factory.FacCode = clean.FacCode
     INNER JOIN department ON department.DepCode = clean.DepCode
     INNER JOIN site ON site.HptCode = department.HptCode
-    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1 AND clean.IsRef = 0 AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%%'";
+    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1 AND clean.IsRef = 0 AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%' AND (clean.DocDate LIKE '%$datepicker%')";
     $meQuery = mysqli_query($conn, $Sql);
     $return['sql'] = $Sql;
     while ($Result = mysqli_fetch_assoc($meQuery)) {
