@@ -1335,7 +1335,7 @@ $(document).ready(function(e){
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 25%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='width: 30%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='width: 30%;cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
                   "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
                   "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
@@ -1352,6 +1352,7 @@ $(document).ready(function(e){
               }else if(temp['form']=="UpdateRefDocNo"){
                   $('#factory').val(temp['FacCode']);
                   $('#RefDocNo').val(temp['DocNo']);
+                  OpenDialogItem();
                   ShowDetail();
               }else if( (temp["form"]=='ShowUsageCode') ){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";

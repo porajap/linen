@@ -1,7 +1,7 @@
 <?php
 
 date_default_timezone_set("Asia/Bangkok");
-$xDate = date('Y-m-d');
+$xDate = date('d-m-Y');
 require '../connect/connect.php';
 session_start();
 $lang = $_GET['lang'];
@@ -10,6 +10,10 @@ $TotalQty = $_GET['TotalQty'];
 $sendQty = $_GET['sendQty'];
 $UserID = $_SESSION['PmID'];
 $count = 0;
+
+
+
+
 
 // $Sql = "SELECT
 //   item.ItemName,
@@ -35,7 +39,10 @@ $count = 0;
 // }
 
 
-
+$Sql="SELECT item.ItemName FROM item WHERE item.ItemCode = '$ItemCode'";
+$meQuery = mysqli_query($conn, $Sql);
+$Result = mysqli_fetch_assoc($meQuery);
+$ItemName = $Result['ItemName'];
 /**
  * @package com.tecnick.tcpdf
  * @abstract TCPDF - Example: 2D barcodes.
@@ -50,7 +57,7 @@ require_once('../tcpdf/tcpdf.php');
 
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(50,50), true, 'UTF-8', false);
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(45,45), true, 'UTF-8', false);
 
 $pdf->SetTitle('Sticker_Shelfcount');
 // set default monospaced font
@@ -97,21 +104,25 @@ $loop1 = floor($TotalQty/$sendQty);
 for($i=1;$i<=$loop1;$i++){
 
 $pdf->AddPage();
-$pdf->SetY(3);
-$pdf->Cell(45,  0, $ItemName, 0, 1, 'L', 0, '', 0);
-$pdf->Cell(11, 4, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
-$pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
+$pdf->SetY(1);
+$pdf->SetFont('thsarabunnew', '', 10);
+$pdf->Cell(45,0, $xDate, 0, 1, 'L', 0, '', 0);
+$pdf->SetY(6);
+$pdf->SetX(8);
+$pdf->Cell(30, 0,$ItemName. ' '. $sendQty. ' ชิ้น' , 0, 1, 'C', 0, '', 1);
+$pdf->SetFont('thsarabunnew', '', 10);
+$pdf->Cell(43, 5, $ItemCode , 0, 0, 'C', 0, '', 1);
+$pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
+$pdf->SetFont('thsarabunnew', '', 12);
+$pdf->SetY(35);
+$pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
+$pdf->SetX(7);
+$pdf->Cell(36, 1, 'ศรายุธ' , 0, 0, 'L', 0, '', 1);
+$pdf->SetX(7);
+$pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
 $pdf->SetX(1);
-$pdf->Cell(36, 1, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
-$pdf->SetX(15);
-$pdf->Cell(36, 1, 'หมี' , 0, 1, 'L', 0, '', 1);
-$pdf->SetX(1);
-$pdf->Cell(36, 1, 'ผู้ตรวจ ' , 0, 0, 'L', 0, '', 1);
-$pdf->SetX(15);
-$pdf->Cell(38, 1, '. . . . . . . . . . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
-$pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', -1,25, 22, 22, $style, 'L');
+$pdf->Cell(45, 1, '. . . . . . . . ' , 0, 1, 'R', 0, '', 1);
 // $pdf->SetY(0);
-$pdf->Cell(25,0,$pdf->Image($imagex,25, 39, 18 ),0,1,'L');
 
 
 // ==================================================================================================
@@ -155,21 +166,24 @@ $loop2 = $loop1*$sendQty;
 $totallast =$TotalQty - $loop2;
 if($loop2<$TotalQty){
   $pdf->AddPage();
-  $pdf->SetY(3);
-  $pdf->Cell(45,  0, $ItemName, 0, 1, 'L', 0, '', 0);
-  $pdf->Cell(11, 4, $totallast. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
-  $pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
+  $pdf->SetY(1);
+  $pdf->SetFont('thsarabunnew', '', 10);
+  $pdf->Cell(45,0, $xDate, 0, 1, 'L', 0, '', 0);
+  $pdf->SetY(6);
+  $pdf->SetX(8);
+  $pdf->Cell(30, 0,$ItemName. ' '. $totallast. ' ชิ้น' , 0, 1, 'C', 0, '', 1);
+  $pdf->SetFont('thsarabunnew', '', 10);
+  $pdf->Cell(43, 5, $ItemCode , 0, 0, 'C', 0, '', 1);
+  $pdf->write2DBarcode($ItemCode.','.$totallast, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
+  $pdf->SetFont('thsarabunnew', '', 12);
+  $pdf->SetY(35);
+  $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
+  $pdf->SetX(7);
+  $pdf->Cell(36, 1, 'ศรายุธ' , 0, 0, 'L', 0, '', 1);
+  $pdf->SetX(7);
+  $pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
   $pdf->SetX(1);
-  $pdf->Cell(36, 1, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(15);
-  $pdf->Cell(36, 1, 'หมี' , 0, 1, 'L', 0, '', 1);
-  $pdf->SetX(1);
-  $pdf->Cell(36, 1, 'ผู้ตรวจ ' , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(15);
-  $pdf->Cell(38, 1, '. . . . . . . . . . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
-  $pdf->write2DBarcode($ItemCode.','.$totallast, 'QRCODE,L', -1,25, 22, 22, $style, 'L');
-  // $pdf->SetY(0);
-  $pdf->Cell(25,0,$pdf->Image($imagex,25, 39, 18 ),0,1,'L');
+  $pdf->Cell(45, 1, '. . . . . . . . ' , 0, 1, 'R', 0, '', 1);
   }
 
 // ---------------------------------------------------------

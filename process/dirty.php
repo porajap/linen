@@ -974,7 +974,7 @@
       
       if($ItemCode == 'Dirty4' || $ItemCode == 'Dirty5' || $ItemCode == 'Dirty6'){
         $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
-        WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1 AND dep.DepCode ='3211'
+        WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1 AND dep.DepName ='linen'
         ORDER BY dep.DepName ASC ";
         $meQuery = mysqli_query($conn, $Sql);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
