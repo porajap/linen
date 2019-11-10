@@ -266,7 +266,11 @@ function confirmDep($conn, $DATA){
   $DocNo = $DATA['DocNo'];
   $ItemCode = $DATA['ItemCode'];
   $ItemCode1 = $DATA['ItemCode1'];
-  $ItemName1 = $DATA['ItemName1'];
+
+  $SqlWe = "SELECT Weight FROM item WHERE ItemCode = '$ItemCode'";
+  $WeQuery = mysqli_query($conn, $SqlWe);
+  $row = mysqli_fetch_assoc($WeQuery);
+  $Weight = $row['Weight'];
 
   $DepCode = explode(',', $DATA['DepCode']);
   $limit = sizeof($DepCode, 0);
@@ -275,7 +279,7 @@ function confirmDep($conn, $DATA){
     $meQuery = mysqli_query($conn, $count);
     $Result = mysqli_fetch_assoc($meQuery);
     if($Result['cnt']==0){
-      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty)VALUES('$DocNo', '$ItemCode', 1, '$DepCode[$i]', 1)";
+      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty, Weight)VALUES('$DocNo', '$ItemCode', 1, '$DepCode[$i]', 1, $Weight)";
       mysqli_query($conn, $Insert);
     }
   }
@@ -291,7 +295,7 @@ function ShowDetailDoc($conn, $DATA)
 
     $SqlItem = "SELECT newlinentable_detail.Id, newlinentable_detail.ItemCode, item.ItemName, item.UnitCode AS UnitCode1,
       item_unit.UnitName, newlinentable_detail.UnitCode AS UnitCode2, newlinentable_detail.Weight, newlinentable_detail.Qty, item.UnitCode,
-      department.DepCode, department.DepName
+      department.DepCode, department.DepName, item.Weight AS Weight2
       FROM item
       INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
       INNER JOIN newlinentable_detail ON newlinentable_detail.ItemCode = item.ItemCode
@@ -309,15 +313,15 @@ function ShowDetailDoc($conn, $DATA)
       $return[$count1]['UnitName']  = $Result['UnitName'];
       $return[$count1]['DepCode']   = $Result['DepCode'];
       $return[$count1]['DepName']   = $Result['DepName'];
-      $return[$count1]['Weight']    = $Result['Weight']==0?'':$Result['Weight'];
+      $return[$count1]['Weight']    = $Result['Qty']==1?($Result['Qty']*$Result['Weight2']):$Result['Weight'];
+      $return[$count1]['Weight2']    = $Result['Weight2'];
       $return[$count1]['Qty']       = $Result['Qty']==0?'':$Result['Qty'];
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
 
       $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-    $MQuery = mysqli_query($conn, $countM);
-    while ($MResult = mysqli_fetch_assoc($MQuery)) {
-      $return['sql'] = $countM;
+      $MQuery = mysqli_query($conn, $countM);
+      while ($MResult = mysqli_fetch_assoc($MQuery)) {
       if($MResult['cnt']!=0){
         $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
         FROM item_multiple_unit
@@ -1116,8 +1120,10 @@ function CancelBill($conn, $DATA){
 function updateQty($conn, $DATA){
   $newQty = $DATA['newQty'];
   $RowID = $DATA['RowID'];
-  $Sql = "UPDATE newlinentable_detail SET Qty = $newQty WHERE Id = $RowID";
+  $Weight = $DATA['Weight'];
+  $Sql = "UPDATE newlinentable_detail SET Qty = $newQty, Weight = ($newQty*$Weight) WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
+  ShowDetailDoc($conn, $DATA);
 }
 //==========================================================
 //

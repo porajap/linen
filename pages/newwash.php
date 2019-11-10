@@ -983,12 +983,15 @@ $array2 = json_decode($json2,TRUE);
               })
             }
 
-            function updateQty(RowID, i){
+            function updateQty(RowID, i, Weight){
               var newQty = $('#qty1_'+i).val();
+              var DocNo = $('#docno').val();
               var data = {
                 'STATUS' : 'updateQty',
                 'RowID' : RowID,
-                'newQty' : newQty
+                'newQty' : newQty,
+                'DocNo' : DocNo,
+                'Weight' : Weight
               }
               senddata(JSON.stringify(data));
             }
@@ -1486,9 +1489,9 @@ $array2 = json_decode($json2,TRUE);
 
                     var chkDoc = "<div class='form-inline'><label class='radio' style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px; '> "+(i+1)+"</label></label></div>";
 
-                    var Qty = "<input class='form-control numonly chk_edit'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
+                    var Qty = "<input class='form-control numonly chk_edit'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['Weight2']+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='myweight_"+i+"' value='"+temp[i]['Weight']+"' onkeyup='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+                    var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"' disabled style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='myweight_"+i+"' value='"+temp[i]['Weight']+"' onkeyup='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
               
