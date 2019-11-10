@@ -297,7 +297,7 @@ function ShowDetailDoc($conn, $DATA)
       item_unit.UnitName, newlinentable_detail.UnitCode AS UnitCode2, newlinentable_detail.Weight, newlinentable_detail.Qty, item.UnitCode,
       department.DepCode, department.DepName, item.Weight AS Weight2
       FROM item
-      INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+      LEFT JOIN item_category ON item.CategoryCode = item_category.CategoryCode
       INNER JOIN newlinentable_detail ON newlinentable_detail.ItemCode = item.ItemCode
       INNER JOIN department ON department.DepCode = newlinentable_detail.DepCode
       INNER JOIN item_unit ON newlinentable_detail.UnitCode = item_unit.UnitCode
