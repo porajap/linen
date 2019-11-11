@@ -473,6 +473,8 @@ $array2 = json_decode($json2,TRUE);
       var settime = $('#settime').val();
       if(settime == 0){
         $('#setcount').val(settime);
+        $('#setcount').removeClass('border-danger');
+        $('#rem4').hide();
       }
       $('#settime').removeClass('border-danger');
       $('#rem2').hide();
@@ -488,9 +490,12 @@ $array2 = json_decode($json2,TRUE);
       var setcount = $('#setcount').val();
       if(setcount == 0){
         $('#settime').val(setcount);
+        $('#settime').removeClass('border-danger');
+      $('#rem2').hide();
       }
       $('#setcount').removeClass('border-danger');
       $('#rem4').hide();
+
     }
     function SelectDocument(chk){
       if(chk=="click"){
@@ -1036,8 +1041,25 @@ $array2 = json_decode($json2,TRUE);
     }
 
     function PrintData(){
+      var settime = $('#settime option:selected').val();
+      var setcount = $('#setcount option:selected').val();
       var docno = $('#docno').val();
       var lang = '<?php echo $language; ?>';
+      if(setcount =='' || settime ==''){
+        checkblank3();
+        checkblank5();
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+      }else{
       if(docno!=""&&docno!=undefined){
         var url  = "../report/Report_Shelfcount_tc.php?DocNo="+docno+"&lang="+lang;
         window.open(url);
@@ -1055,6 +1077,7 @@ $array2 = json_decode($json2,TRUE);
         })
       }
     }
+   }
     
     function SendData(){
       var docno = $('#docno').val();
@@ -2910,7 +2933,6 @@ $array2 = json_decode($json2,TRUE);
                         </div> <!-- tag column 1 -->
                     </div>
                 </div>
-
                 <!-- search document -->
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="row mt-3">
