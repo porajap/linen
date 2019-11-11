@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require '../connect/connect.php';
+    require '../../connect/connect.php';
     date_default_timezone_set("Asia/Bangkok");
     $count  = 0;
     $current = date('Y-m-d');
