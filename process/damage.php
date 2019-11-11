@@ -370,7 +370,7 @@ function CreateDocument($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
+  WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%' AND NOT item.IsClean = 1 AND NOT item.IsDirtyBag = 1 
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
     $meQuery = mysqli_query($conn, $Sql);
@@ -1017,12 +1017,11 @@ function CreateDocument($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     ShowDocument($conn, $DATA);
   }
-
   function get_claim_doc($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
-    $datepicker = $DATA["datepicker"];
+    $datepicker = $DATA["datepicker"]==''?date('Y-m-d'):$DATA["datepicker"];
     $boolean = false;
     $count = 0;
     $count2 = 0;
