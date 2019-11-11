@@ -614,7 +614,6 @@ function SelectDocument($conn, $DATA)
     $count3++;
   } 
   $return['row2'] = $count3;
-
   $count4=0;
   $Sql="SELECT department.DepCode AS DepCode2 , department.DepName AS DepName2 FROM department WHERE department.HptCode='$Hotp'";
   $meQuery = mysqli_query($conn, $Sql);

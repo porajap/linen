@@ -2922,7 +2922,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control" style='font-size:24px;' id="Dep2" >
+                              <select class="form-control " style='font-size:24px;' id="Dep2" >
                               </select>
                             </div>
                           </div>
