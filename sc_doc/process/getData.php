@@ -1,8 +1,10 @@
 <?php
+    session_start();
     require '../connect/connect.php';
     date_default_timezone_set("Asia/Bangkok");
     $count  = 0;
     $current = date('Y-m-d');
+    $HptCode = $_SESSION['HptCode'];
 	$Sql = "SELECT 
         site.HptName,
         department.DepName,
@@ -12,7 +14,7 @@
     site.HptCode
     FROM shelfcount
     INNER JOIN department ON shelfcount.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode WHERE shelfcount.DocDate='$current' AND shelfcount.IsStatus = 0
+    INNER JOIN site ON department.HptCode = site.HptCode WHERE shelfcount.DocDate='$current' AND shelfcount.IsStatus = 0 AND site.HptCode = '$HptCode'
     ORDER BY shelfcount.DocNo DESC";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
