@@ -729,7 +729,9 @@ if (e.keyCode == 13) {
           senddata(JSON.stringify(data));
         }
       }
-
+      function removeborder(row,rowid) {
+        $('#qty1_'+row).removeClass('border border-danger');
+      }
       function updateWeight(row,rowid) {
         var docno = $("#docno").val();
         var weight = $("#weight_"+row).val();
@@ -756,6 +758,8 @@ if (e.keyCode == 13) {
             OnLoadPage();
       }
       function SaveBill(){
+        var count = 0;
+        var chk_qty = document.getElementsByClassName("chk_qty"); //checkbox items
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -786,6 +790,14 @@ if (e.keyCode == 13) {
         }
         if(isStatus==1){
           if(docno!=""){
+            for(i=0;i<chk_qty.length; i++){
+                    var chk = $('#qty1_'+i).val();
+                    if(chk == 0){
+                      $('#qty1_'+i).addClass('border border-danger');
+                      count++;
+                    }
+                  }
+      if(count==0){
         swal({
             title: "<?php echo $array['confirmsave'][$language]; ?>",
             text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -830,6 +842,17 @@ if (e.keyCode == 13) {
         } else if (result.dismiss === 'cancel') {
           swal.close();}
         })
+      }else{
+            swal({
+              title: " ",
+              text:  " <?php echo $array['insert_form'][$language]; ?>",
+              type: "warning",
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1000,
+              closeOnConfirm: true
+            });
+          }
         }
         }else{
           $("#bImport2").removeClass('opacity');
@@ -1168,7 +1191,7 @@ if (e.keyCode == 13) {
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' value='"+temp[i]['Qty']+"' onkeyup='if(this.value = 0){this.value = 0}' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly chk_qty' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='removeborder(\""+i+"\",\""+temp[i]['RowID']+"\")'   value='"+temp[i]['Qty']+"'  ></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 

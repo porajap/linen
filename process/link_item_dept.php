@@ -141,7 +141,7 @@ function ShowItem($conn, $DATA)
           item.ItemName
           FROM
           item
-          WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
+          WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') AND item.IsActive = 1
           ORDER BY item.Modify_Date ASC
           ";
   }else{

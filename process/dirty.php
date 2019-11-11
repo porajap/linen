@@ -370,14 +370,15 @@
         WHERE item.UnitCode = item_unit.UnitCode 
         AND IsDirtyBag = 1 
         AND item.HptCode = '$hotpital'
-        AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%')";
+        AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%') AND item.IsActive = 1";
       }else{
         $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
         FROM item , item_unit 
         WHERE item.UnitCode = item_unit.UnitCode 
         AND (IsDirtyBag = 1 OR IsDirtyBag = 2 )
         AND (item.HptCode = '$hotpital' OR item.HptCode = '0' )
-        AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%') ORDER BY item.ItemCode";
+        AND (item.ItemCode LIKE '%$searchitem%' OR item.ItemName LIKE '%$searchitem%') AND item.IsActive = 1 
+        ORDER BY item.ItemCode";
       }
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {

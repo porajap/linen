@@ -1740,6 +1740,14 @@ $array2 = json_decode($json2,TRUE);
               StrTrX2 += "<option value='0' >Extra</option>";
               $("#setcount").html(StrTrX2);
 
+              var StrTrX3 = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
+              for (var i = 0; i <  temp['row3'];  i++) {
+                  StrTrX3 += "<option value="+temp[i]['DepCode2']+">"+temp[i]['DepName2']+"</option>";
+              }
+              $("#department").html(StrTrX3);
+
+
+
               $('#bCreate').attr('disabled', true);
               $('#hover1').removeClass('mhee');
               $('#bCreate2').addClass('opacity');

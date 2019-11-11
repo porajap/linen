@@ -321,7 +321,7 @@ function CreateDocument($conn, $DATA)
         INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
         INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
         INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-        WHERE  par_item_stock.DepCode = '$deptCode'
+        WHERE  par_item_stock.DepCode = '$deptCode' AND item.IsActive = 1
         GROUP BY item.ItemCode
         ORDER BY item.ItemName ASC LImit 100";
       $meQuery = mysqli_query($conn, $Sql);
@@ -455,13 +455,13 @@ function ShowDocument($conn, $DATA)
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }
   }else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
@@ -474,13 +474,13 @@ function ShowDocument($conn, $DATA)
   }else if ($Hotp == null && $deptCode == null && $datepicker != null){
     $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode != null && $datepicker == null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = $deptCode AND shelfcount.DocNo LIKE '%$xDocNo%'";
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode == null && $datepicker != null){
     $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp == null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = $deptCode AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   }
   }
   // }
@@ -615,8 +615,15 @@ function SelectDocument($conn, $DATA)
   } 
   $return['row2'] = $count3;
 
-
-
+  $count4=0;
+  $Sql="SELECT department.DepCode AS DepCode2 , department.DepName AS DepName2 FROM department WHERE department.HptCode='$Hotp'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count4]['DepCode2'] = $Result['DepCode2'];
+    $return[$count4]['DepName2'] = $Result['DepName2'];
+    $count4++;
+  } 
+  $return['row3'] = $count4;
 
   if ($boolean) {
     $return['status'] = "success";
@@ -681,7 +688,7 @@ function ShowItem($conn, $DATA)
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%'
+  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%' 
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
   $return['sql'] = $Sql;

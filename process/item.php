@@ -45,17 +45,17 @@ function ShowItem($conn, $DATA)
 
   if ($Keyword == '' && $HptCode != '') {
       if($HptCode != '' && $maincatagory != '' && $Catagory=='' ){
-        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode' AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
+        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode' AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
       }else if($HptCode != '' && $maincatagory == '' && $Catagory !=''){
-        $Sql .= " WHERE item.CategoryCode = $Catagory AND HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
+        $Sql .= " WHERE item.CategoryCode = $Catagory AND HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
       }else if($HptCode != '' && $maincatagory == '' && $Catagory=='' ){
-        $Sql .= " WHERE HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003')";
+        $Sql .= " WHERE HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
       }else if($maincatagory != '' && $Catagory !=''){
-      $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode'";
+      $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode' AND item.IsActive =1";
       }
   } else {
     $Sql .= " WHERE item.HptCode = '$HptCode' AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
+    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') AND item.IsActive = 1 ";
   }
   $Sql .= " ORDER BY item.$column $sort";
   $return['sql'] = $Sql;
@@ -915,10 +915,9 @@ function CancelItem($conn, $DATA)
 {
   $count = 0;
   if ($DATA["ItemCode"] != "") {
-    $Sql1 = "DELETE FROM item
-            WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
-    $Sql2 = "DELETE FROM item_multiple_unit
-            WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+    $Sql1 = "UPDATE item SET IsActive = 0  WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+            
+    $Sql2 = "DELETE FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
     //$return['Sql'] = $Sql;
     if (mysqli_query($conn, $Sql1)&&mysqli_query($conn, $Sql2)) {
       $return['status'] = "success";
