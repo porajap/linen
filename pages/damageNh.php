@@ -593,12 +593,10 @@ if (e.keyCode == 13) {
             }
           });
         }
-
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
-
         $('#TableDetail tbody').empty();
         if(hotpCode == '' ){
             checkblank3();
@@ -1032,6 +1030,7 @@ if (e.keyCode == 13) {
                   });
                 setTimeout(function () {
                   parent.OnLoadPage();
+                  OpenDialogItem();
                 }, 1000);
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
