@@ -245,7 +245,6 @@ function CreateDocument($conn, $DATA)
   AND department.HptCode = '$hotpCode'
   ORDER BY DocNo DESC LIMIT 1";
 
-
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -273,12 +272,12 @@ function CreateDocument($conn, $DATA)
     ( DocNo,DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
-      shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime , DeliveryTime , ScTime)
+      shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime , DeliveryTime , ScTime , ScEndTime )
       VALUES
       ( '$DocNo',DATE(NOW()),'$deptCode','',
       0,DATE(NOW()),0,0,
       0,0,'',
-      $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() ,  '$settime' , '$setcount' )";
+      $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() ,  '$settime' , '$setcount' , NOW()  )";
       mysqli_query($conn, $Sql);
 
       $Sql = "INSERT INTO daily_request
@@ -1214,7 +1213,7 @@ function SaveBill($conn, $DATA)
     $Sum = $Res['Summ'];
   }
   $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , ScEndTime =NOW() ,Total = $Sum  , DeliveryTime=$settime , ScTime=$setcount WHERE shelfcount.DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus  ,Total = $Sum  , DeliveryTime=$settime , ScTime=$setcount WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
   $isStatus = $DATA["isStatus"];
