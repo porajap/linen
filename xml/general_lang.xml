@@ -14,6 +14,7 @@
 <government><en>Don't Money</en><th>ไม่แสดงเงิน</th></government>
 <return><en>Return</en><th>บันทึกรับคืนผ้า</th></return>
 <addrequest><en>Add request</en><th>เพิ่มรายการ</th></addrequest>
+<additem><en>Additem</en><th>เพิ่มรายการ</th></additem>
 <!--============================================================================== -->
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
@@ -85,6 +86,7 @@
 <titleclean><en>Receive clean linen</en><th>รับผ้าสะอาด</th></titleclean>
 <titlecleanstock><en>Receive cleanstock linen</en><th>รับผ้าเข้าสต๊อก</th></titlecleanstock>
 <titlerewash><en>Receive rewash linen</en><th>รับผ้าแก้ไข</th></titlerewash>
+<titlerewashreturn><en>Receive rewash return linen</en><th>ผ้าแก้ไขรับกลับ</th></titlerewashreturn>
 <titlerepair><en>Receive repair linen</en><th>รับผ้าที่ถูกซ่อม</th></titlerepair>
 <titledamage><en>Receive claim linen</en><th>รับผ้าส่งเคลมโรงซัก</th></titledamage>
 <titledamage2><en>Receive damage linen</en><th>รับผ้าส่งชำรุด NHealth</th></titledamage2>
@@ -401,6 +403,9 @@
 <r19><en>Report Tracking status for linen operation By User</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้</th></r19>
 <r20><en>Report Summary billing</en><th>รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
 <r21><en>Report T-das</en><th>รายงาน T-das</th></r21>
+<r22><en>Report New Linen</en><th>รายงานแบบบันทึกการส่งซักผ้าใหม่ให้โรงซัก</th></r22>
+<r23><en>Report Repair</en><th>แบบบันทึก ผ้าชำรุด เสียหาย</th></r23>
+<r24><en>Report Claim Factory</en><th>รายงานบันทึกผ้าส่งเคลม-โรงซัก</th></r24>
 <!--  -->
 <pleaseday><en>-----Please Choose Date------</en><th>-----กรุณาเลือกวันที่-----</th></pleaseday>
 <pleasemonth><en>-----Please Choose Month------</en><th>-----กรุณาเลือกเดือน-----</th></pleasemonth>

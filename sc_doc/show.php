@@ -18,7 +18,13 @@
     <title>Shelfcount Document</title>
     <style>
         body,html{
-            font-size:22px;
+            font-size:19px;
+        }
+        .BG{
+            background-color : #1659a2;
+        }
+        .font-color{
+            color:#fff;
         }
     </style>
 </head>
@@ -26,12 +32,14 @@
 <body class="fix-header card-no-border fix-sidebar">
     <div id="fullscreen" style="min-height:100%">
         <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" class="text-center">NO.</th>
-                    <th scope="col" class="text-left">Document Number</th>
-                    <th scope="col" class="text-center">Date</th>
-                    <th scope="col" class="text-left">Department</th>
+            <thead class="BG">
+                <tr class="font-color">
+                    <th scope="col" class="text-center">ลำดับ</th>
+                    <th scope="col" class="text-left">เลขที่เอกสาร</th>
+                    <th scope="col" class="text-left">สร้างเอกสาร</th>
+                    <th scope="col" class="text-left">จัดเตรียมผ้า</th>
+                    <th scope="col" class="text-left">บันทึก</th>
+                    <th scope="col" class="text-left">จ่ายผ้า</th>
                     <th scope="col" class="text-left" style="width:3%">
                         <a href="#" onclick="openFullscreen();" id="FullScreen" title="Open Fullscreen"><i class="far fa-window-maximize text-white"></i></a>
                         <a href="#" onclick="closeFullscreen();" id="ExitFull" title="Exit Fullscreen" hidden><i class="fas fa-window-restore text-white"></i></a>
@@ -79,8 +87,11 @@
                             row += '<tr>'+
                                     '<td class="text-center">'+(key+1)+'</td>'+
                                     '<td class="text-left">'+val.DocNo+'</td>'+
-                                    '<td class="text-center">'+val.DocDate+'</td>'+
-                                    '<td class="text-left">'+val.DepName+'</td>'+
+                                    '<td class="text-left">'+val.DocDate+'</td>'+
+                                    '<td class="text-left">'+val.DocDate+'</td>'+
+                                    '<td class="text-left">'+val.DocDate+'</td>'+
+                                    '<td class="text-left">'+val.DocDate+'</td>'+
+
                                     '<td></td>'+
                                 '</tr>';
                         });

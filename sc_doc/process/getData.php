@@ -14,7 +14,12 @@
     site.HptCode
     FROM shelfcount
     INNER JOIN department ON shelfcount.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode WHERE shelfcount.DocDate='$current' AND shelfcount.IsStatus = 0 AND site.HptCode = '$HptCode'
+    INNER JOIN site ON department.HptCode = site.HptCode 
+    WHERE shelfcount.DocDate='$current' 
+    AND shelfcount.IsStatus = 0 
+    AND site.HptCode = '$HptCode' 
+    AND shelfcount.DeliveryTime = 0
+    AND shelfcount.ScTime = 0 
     ORDER BY shelfcount.DocNo DESC";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

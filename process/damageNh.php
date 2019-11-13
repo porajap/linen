@@ -782,7 +782,6 @@ function CreateDocument($conn, $DATA)
     $ItemCode = $DATA["ItemCode"];
     $ItemCodex = explode(",", $ItemCode);
     $DocNo = $DATA["xdocno"];
-    $RefDocNo = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
 
     $max = sizeof($ItemCodex, 0);
@@ -795,36 +794,9 @@ function CreateDocument($conn, $DATA)
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
 
-      $update55 = "UPDATE damagenh_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
+      $update55 = "UPDATE damagenh_detail SET Qty = $Qtyzz WHERE DocNo = '$DocNo' AND ItemCode = '$iItemStockId'";
       mysqli_query($conn, $update55);
 
-
-      
-      $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damagenh_detail WHERE RefDocNo = '$RefDocNo' ";
-      $meQueryx = mysqli_query($conn, $Sqlx);
-      while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
-        $Qtyx = $Resultx['Qty'];
-      }
-      $SqlsumRe =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' ";
-      $meQuerysumRe = mysqli_query($conn, $SqlsumRe);
-      while ($ResultsumRe = mysqli_fetch_assoc($meQuerysumRe)) {
-        $QtyRePair = $ResultsumRe['Qty']==null?0:$ResultsumRe['Qty'];
-      }
-    }
-    $Sql =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' ";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $Qty = $Result['Qty1'];
-      if($Qtyx > $QtyRePair){
-        $QtySum = $Qty - ($Qtyx + $QtyRePair);
-        }else if ($QtyRePair > $Qtyx ){
-        $QtySum = $Qty - ($QtyRePair + $Qtyx);
-        } 
-    }  
-
-    if($QtySum <=0){
-       $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
-       mysqli_query($conn, $update);
     }
 
     $Sql = "UPDATE damagenh SET IsStatus = $isStatus WHERE damagenh.DocNo = '$DocNo'";
@@ -834,9 +806,6 @@ function CreateDocument($conn, $DATA)
     // mysqli_query($conn, $Sql);
 
     $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
-    mysqli_query($conn, $Sql);
-
-    $Sql = "UPDATE factory_out SET IsRequest = 1 WHERE DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
 
     ShowDocument($conn, $DATA);

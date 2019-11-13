@@ -105,7 +105,7 @@ for($i=1;$i<=$loop1;$i++){
 
 $pdf->AddPage();
 $pdf->SetY(1);
-$pdf->SetFont('thsarabunnew', '', 10);
+$pdf->SetFont('thsarabunnew', '', 11);
 $pdf->Cell(45,0, $xDate, 0, 1, 'L', 0, '', 0);
 $pdf->SetY(6);
 $pdf->SetX(8);
@@ -113,7 +113,7 @@ $pdf->Cell(30, 0,$ItemName. ' '. $sendQty. ' ชิ้น' , 0, 1, 'C', 0, '', 1
 $pdf->SetFont('thsarabunnew', '', 10);
 $pdf->Cell(43, 5, $ItemCode , 0, 0, 'C', 0, '', 1);
 $pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
-$pdf->SetFont('thsarabunnew', '', 12);
+$pdf->SetFont('thsarabunnew', '', 10);
 $pdf->SetY(35);
 $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
 $pdf->SetX(7);
@@ -167,7 +167,7 @@ $totallast =$TotalQty - $loop2;
 if($loop2<$TotalQty){
   $pdf->AddPage();
   $pdf->SetY(1);
-  $pdf->SetFont('thsarabunnew', '', 10);
+  $pdf->SetFont('thsarabunnew', '', 11);
   $pdf->Cell(45,0, $xDate, 0, 1, 'L', 0, '', 0);
   $pdf->SetY(6);
   $pdf->SetX(8);
@@ -175,7 +175,7 @@ if($loop2<$TotalQty){
   $pdf->SetFont('thsarabunnew', '', 10);
   $pdf->Cell(43, 5, $ItemCode , 0, 0, 'C', 0, '', 1);
   $pdf->write2DBarcode($ItemCode.','.$totallast, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
-  $pdf->SetFont('thsarabunnew', '', 12);
+  $pdf->SetFont('thsarabunnew', '', 10);
   $pdf->SetY(35);
   $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
   $pdf->SetX(7);
