@@ -817,10 +817,10 @@
       $DocNo = $DATA["xdocno"];
       $isStatus = $DATA["isStatus"];
 
-      $Sql = "UPDATE dirty SET IsStatus = $isStatus WHERE dirty.DocNo = '$DocNo'";
+      $Sql = "UPDATE dirty SET IsStatus = 0 WHERE dirty.DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
 
-      $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
+      $Sql = "UPDATE daily_request SET IsStatus = 0 WHERE daily_request.DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
 
       ShowDocument($conn, $DATA);

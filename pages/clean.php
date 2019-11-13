@@ -791,6 +791,23 @@ $(document).ready(function(e){
           senddata(JSON.stringify(data));
         }
       }
+      
+      function updateDetail(row,rowid) {
+        var docno = $("#docno").val();
+        var Detail = $("#Detail_"+row).val();
+        var isStatus = $("#IsStatus").val();
+        $('#input_chk').val(0);
+        //alert(rowid+" :: "+docno+" :: "+weight);
+        if(isStatus==0){
+          var data = {
+            'STATUS'      : 'UpdateDetail',
+            'Rowid'       : rowid,
+            'DocNo'       : docno,
+            'Detail'      : Detail
+          };
+          senddata(JSON.stringify(data));
+        }
+      }
 
       function updateWeight(row,rowid) {
         var docno = $("#docno").val();
@@ -953,6 +970,7 @@ $(document).ready(function(e){
           $("#bImport").prop('disabled', false);
           $("#bSave").prop('disabled', false);
           // $("#bCancel").prop('disabled', false);
+          $('#hover2').addClass('mhee');
           var word = '<?php echo $array['save'][$language]; ?>';
           var changeBtn = "<i class='fa fa-save'></i>";
             changeBtn += "<div>"+word+"</div>";
@@ -969,7 +987,7 @@ $(document).ready(function(e){
             $('#qty1_'+i).prop('disabled', false);
             $('#weight_'+i).prop('disabled', false);
             $('#price_'+i).prop('disabled', false);
-
+            $('#Detail_'+i).prop('disabled', false);
             $('#unit'+i).prop('disabled', false);
           }
         }
@@ -1336,21 +1354,22 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
                 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+
+                  var Detail = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='Detail_"+i+"' value='"+temp[i]['Detail']+"' OnBlur='updateDetail(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 9%;' nowrap>"+chkDoc+"</td>"+
                   "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 29%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                  // "<td style='width: 20%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                  // "<td style='width: 30%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;' nowrap>"+temp[i]['ItemName']+"</td>"+
                   "<td style='width: 18%;font-size:24px;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
+                  "<td style='width: 12%;' nowrap>"+Detail+"</td>"+
                   "</tr>";
 
 
@@ -1371,7 +1390,7 @@ $(document).ready(function(e){
                     // $("#recorder").prop('disabled', false);
                     // $("#timerec").prop('disabled', false);
                     // $("#total").prop('disabled', false);
-
+                    $('#Detail_'+i).prop('disabled', false);
                     $('#qty1_'+i).prop('disabled', false);
                     $('#weight_'+i).prop('disabled', false);
                     $('#price_'+i).prop('disabled', false);
@@ -1384,7 +1403,7 @@ $(document).ready(function(e){
                     $("#recorder").prop('disabled', true);
                     $("#timerec").prop('disabled', true);
                     $("#total").prop('disabled', true);
-
+                    $('#Detail_'+i).prop('disabled', true);
                     $('#qty1_'+i).prop('disabled', true);
                     $('#weight_'+i).prop('disabled', true);
                     $('#price_'+i).prop('disabled', true);
@@ -2063,10 +2082,11 @@ $(document).ready(function(e){
                             <th style="width: 3%;">&nbsp;</th>
                               <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                              <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 9%;' nowrap><?php echo $array['item'][$language]; ?></th>
                               <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                               <th style='width: 5%;' nowrap><?php echo $array['qty'][$language]; ?></th>
-                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='padding-left: 4%;width: 17%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 15%;padding-right: 3%;' nowrap><center><?php echo $array['detail'][$language]; ?></center></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;height:630px;">

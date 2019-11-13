@@ -2455,6 +2455,9 @@ $array2 = json_decode($json2,TRUE);
 
   </script>
   <style media="screen">
+      .select3{
+        width: 255px !important;
+      }
       .select2-container--default .select2-selection--single {
         height: 38px;
         border: 1px solid #aaaaaa85;
@@ -2944,7 +2947,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control " style='font-size:24px;' id="Dep2" >
+                              <select class="form-control select2 custom-select select3" style='font-size:24px;' id="Dep2" >
                               </select>
                             </div>
                           </div>

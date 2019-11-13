@@ -352,15 +352,15 @@ function CreateDocument($conn, $DATA)
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
       $Hotp   = $Result['HptCode'];
-      $return[$count]['HptName']   = $Result['HptCode'];
-      $return[$count]['DepName']   = $Result['DepName'];
-      $return[$count]['DocNo']   = $Result['DocNo'];
+      $return[$count]['HptName']    = $Result['HptCode'];
+      $return[$count]['DepName']    = $Result['DepName'];
+      $return[$count]['DocNo']      = $Result['DocNo'];
       $return[$count]['FacCode2']   = $Result['FacCode']==null?0:$Result['FacCode'];
-      $return[$count]['DocDate']   = $newdate;
-      $return[$count]['RecNow']   = $Result['xTime'];
-      $return[$count]['Total']   = $Result['Total'];
-      $return[$count]['IsStatus'] = $Result['IsStatus'];
-      $return[$count]['RefDocNo'] = $Result['RefDocNo'];
+      $return[$count]['DocDate']    = $newdate;
+      $return[$count]['RecNow']     = $Result['xTime'];
+      $return[$count]['Total']      = $Result['Total'];
+      $return[$count]['IsStatus']   = $Result['IsStatus'];
+      $return[$count]['RefDocNo']   = $Result['RefDocNo'];
 
       $boolean = true;
       $count++;
@@ -656,7 +656,7 @@ function CreateDocument($conn, $DATA)
         }
       }
 
-      if ($chkUpdate == 0) {
+      // if ($chkUpdate == 0) {
         if ($Sel == 1) {
           $Sql = " INSERT INTO clean_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel)
           VALUES('$DocNo', '$ItemCode', $iunit2, $iqty2, $iweight, 0) ";
@@ -669,21 +669,21 @@ function CreateDocument($conn, $DATA)
           WHERE UsageCode = '$UsageCode' ";
           mysqli_query($conn, $Sql);
         }
-      } else {
-        if ($Sel == 1) {
-          $Sql = " UPDATE clean_detail
-          SET Weight = (Weight+$iweight), Qty = (Qty + $iqty2)
-          WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
-          mysqli_query($conn, $Sql);
-        } else {
-          $Sql = " INSERT INTO clean_detail_sub(DocNo, ItemCode, UsageCode)
-          VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
-          mysqli_query($conn, $Sql);
-          $Sql = " UPDATE item_stock SET IsStatus = 0
-          WHERE UsageCode = '$UsageCode' ";
-          mysqli_query($conn, $Sql);
-        }
-      }
+      // } else {
+      //   if ($Sel == 1) {
+      //     $Sql = " UPDATE clean_detail
+      //     SET Weight = (Weight+$iweight), Qty = (Qty + $iqty2)
+      //     WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
+      //     mysqli_query($conn, $Sql);
+      //   } else {
+      //     $Sql = " INSERT INTO clean_detail_sub(DocNo, ItemCode, UsageCode)
+      //     VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
+      //     mysqli_query($conn, $Sql);
+      //     $Sql = " UPDATE item_stock SET IsStatus = 0
+      //     WHERE UsageCode = '$UsageCode' ";
+      //     mysqli_query($conn, $Sql);
+      //   }
+      // }
     }
 
     if ($Sel == 2) {
@@ -742,6 +742,22 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
+
+
+  function UpdateDetail($conn, $DATA)
+  {
+    $RowID  = $DATA["Rowid"];
+    $Detail  =  $DATA["Detail"];
+    $isStatus = $DATA["isStatus"];
+    //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
+    //	mysqli_query($conn,$Sqlx);
+    $Sql = "UPDATE clean_detail
+    SET Detail = '$Detail'
+    WHERE clean_detail.Id = $RowID";
+    mysqli_query($conn, $Sql);
+    ShowDetail($conn, $DATA);
+  }
+
 
   function updataDetail($conn, $DATA)
   {
@@ -1168,7 +1184,8 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
     clean_detail.UnitCode AS UnitCode2,
     clean_detail.Weight,
     clean_detail.Qty,
-    clean.Detail
+    clean.Detail,
+    clean_detail.Detail
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
@@ -1184,15 +1201,16 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
       //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$count :: ".$Result['Id']." / ".$Result['Weight']."')";
       //	mysqli_query($conn,$Sqlx);
 
-      $return[$count]['RowID']    = $Result['Id'];
+      $return[$count]['RowID']      = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
       $return[$count]['ItemName']   = $Result['ItemName'];
       $return[$count]['UnitCode']   = $Result['UnitCode2'];
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
-      $return[$count]['Qty']     = $Result['Qty'];
-      $UnitCode           = $Result['UnitCode1'];
-      $ItemCode               = $Result['ItemCode'];
+      $return[$count]['Qty']        = $Result['Qty'];
+      $return[$count]['Detail']     = $Result['Detail']==null?'':$Result['Detail'];
+      $UnitCode                     = $Result['UnitCode1'];
+      $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;
 
       $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
@@ -1470,8 +1488,10 @@ $meQuery = mysqli_query($conn, $Sql);
       savefactory($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'getfactory') {
       getfactory($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'UpdateDetail') {
+      UpdateDetail($conn, $DATA);
     }
-
+    
 
     
     

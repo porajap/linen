@@ -46,6 +46,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -103,6 +104,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
+        $gen_s17=1;
         //account
         $ac_head=0;
         $ac_s1=0;
@@ -158,6 +160,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -266,6 +269,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -323,6 +327,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -380,6 +385,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -1193,6 +1199,13 @@ $id_h=$_SESSION['id_h'];
               href="pages/repairwash.php?lang=<?php echo $language; ?>" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][9][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s17== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/repairwash_return.php?lang=<?php echo $language; ?>" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][17][$language]; ?></a>
           </li>
           <?php } ?>
           <?php if($gen_s4== 1){ ?>

@@ -108,6 +108,7 @@ if (e.keyCode == 13) {
       });
   OnLoadPage();
   getDepartment();
+  getfactory();
   // CreateDocument();
   //==============================
   $('.TagImage').bind('click', {
@@ -177,6 +178,20 @@ if (e.keyCode == 13) {
         }
         ShowItem();
       }
+
+      function getfactory(){
+        $('#hotpital').removeClass('border-danger');
+        $('#rem3').hide();
+          var lang = '<?php echo $language; ?>';
+          var hotpital = $('#hotpital').val();
+          var data = {
+            'STATUS'    : 'getfactory',
+            'hotpital'	: hotpital ,
+            'lang'	    : lang
+          };
+          getDepartment(1);
+          senddata(JSON.stringify(data));
+        }
 
       function OpenDialogUsageCode(itemcode){
         xItemcode = itemcode;
@@ -336,27 +351,25 @@ if (e.keyCode == 13) {
       }
 
       function getDepartment(chk){
-        $('#hotpital').removeClass('border-danger');
-        $('#rem3').hide();
-      var Hotp = $('#hotpital option:selected').attr("value");
-      var Hotp2 = $('#Hos2 option:selected').attr("value");
-          if(chk!=2){
-          if(Hotp2 !=""){
-            Hotp = Hotp2;
-            }
-          }
-      if( typeof Hotp == 'undefined' ) 
-      {
-        Hotp = '<?php echo $HptCode; ?>';
-      }
-      var data = {
-        'STATUS'  : 'getDepartment',
-        'Hotp'	: Hotp
-      };
+        if(chk==1){
+          var Hotp = $('#hotpital option:selected').attr("value");
+            $('#Hos2').val(Hotp);
+        }else{
+          var Hotp = $('#Hos2 option:selected').attr("value");
+          $('#hotpital').val(Hotp);
+        }
+        if( typeof Hotp == 'undefined' ) 
+        {
+          Hotp = '<?php echo $HptCode; ?>';
+        }
+        var data = {
+          'STATUS'  : 'getDepartment',
+          'Hotp'	: Hotp
+        };
 
-      senddata(JSON.stringify(data));
-      
-    }
+        senddata(JSON.stringify(data));
+        
+      }
     function dis2(row){
       if($('#checkrow_'+row).prop("checked") == true){
           var countcheck2 = Number($("#countcheck").val())+1;
@@ -740,7 +753,26 @@ if (e.keyCode == 13) {
           senddata(JSON.stringify(data));
         }
       }
-
+      function PrintData(){
+      var docno = $('#docno').val();
+      var lang = '<?php echo $language; ?>';
+      if(docno!=""&&docno!=undefined){
+        var url  = "../report/Report_damage_tc.php?DocNo="+docno+"&lang="+lang;
+        window.open(url);
+      }else{
+        swal({
+          title: '',
+          text: '<?php echo $array['docfirst'][$language]; ?>',
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showConfirmButton: false,
+          timer: 2000,
+          confirmButtonText: 'Ok'
+        })
+      }
+    }
       function updateWeight(row,rowid) {
         var docno = $("#docno").val();
         var weight = $("#weight_"+row).val();
@@ -1014,6 +1046,13 @@ if (e.keyCode == 13) {
                 if(PmID != 1){
                   $("#Dep2").val(temp[0]['DepCode']);
                 }
+              }else if(temp["form"]=='getfactory'){
+                $("#factory1").empty();
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                  }
+                  $("#factory1").append(Str);
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1052,6 +1091,11 @@ if (e.keyCode == 13) {
                 $('#bSave2').removeClass('opacity');
                 $('#bImport2').removeClass('opacity');
                 $('#bCancel2').removeClass('opacity');
+              }else if(temp['form']=="UpdateRefDocNo"){
+                  $('#factory1').val(temp['FacCode']);
+                  $('#RefDocNo').attr('disabled' , true);
+                  $('#RefDocNo').val(temp['DocNo1']);
+                        ShowDetail();
               }else if(temp["form"]=='ShowDocument'){
 
                 setTimeout(function () {
@@ -1093,7 +1137,7 @@ if (e.keyCode == 13) {
                     $('#TableDocument tbody:last-child').append(  $StrTr );
                   }
                 }
-              }else{
+                }else{
                     var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                         swal({
                           title: '',
@@ -1106,6 +1150,11 @@ if (e.keyCode == 13) {
                       $("#TableDocument tbody").html(Str);
                     }
               }else if(temp["form"]=='SelectDocument'){
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                        for (var i = 0; i < temp["Rowx"]; i++) {
+                          Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                      }
+                      $("#factory1").html(Str);
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
@@ -1124,6 +1173,16 @@ if (e.keyCode == 13) {
                 $("#IsStatus").val(temp[0]['IsStatus']);
                 $("#RefDocNo").val(temp[0]['RefDocNo']);
 
+                if(temp[0]['FacCode2'] ==0){
+                  $("#factory1").attr('disabled' , false);
+                  $("#factory1").removeClass('icon_select');
+                  $("#factory1").val('');
+                }else{
+                  $("#factory1").attr('disabled' , true);
+                  $("#factory1").addClass('icon_select');
+                  $("#factory1").val(temp[0]['FacCode2']);
+                }
+                
                 if(temp[0]['IsStatus']==0){
                   var word = '<?php echo $array['save'][$language]; ?>';
                   var changeBtn = "<i class='fa fa-save'></i>";
@@ -1150,6 +1209,9 @@ if (e.keyCode == 13) {
                   $("#bSave").prop('disabled', false);
                   $("#bSave2").removeClass('opacity');
                   $("#hover4").addClass('mhee');
+                  $('#bPrint').attr('disabled', false);
+                  $('#bPrint2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
@@ -1361,7 +1423,7 @@ if (e.keyCode == 13) {
                     $('#TableRefDocNo tbody:last-child').append( $StrTR );
                   }
                 }
-              }else{
+                }else{
                     $( "#TableRefDocNo tbody" ).empty();
                     var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                     $('#TableRefDocNo tbody:last-child').append(Str);
@@ -1631,7 +1693,7 @@ if (e.keyCode == 13) {
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getfactory();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
                                       <label id="rem3"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
@@ -1683,6 +1745,14 @@ if (e.keyCode == 13) {
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "><?php echo $array['time'][$language]; ?></label>
                                       <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6" >
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['factory'][$language]; ?></label>
+                                      <select  class="form-control col-sm-7  checkblank icon_select" disabled="true"  style="font-size:22px;" onchange="removeClassBorder2();"  id="factory1"  >
+                                      </select>
+                                      <label id="rem2" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
                                     </div>
                                   </div>
                                   <!-- <div class="col-md-6">
@@ -1759,7 +1829,18 @@ if (e.keyCode == 13) {
                               </div>
                             </div>
                           </div>
-                         
+                          <div class="menu "  id="hover6">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
+                                <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <!-- end row btn -->
                     </div>

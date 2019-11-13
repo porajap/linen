@@ -1123,7 +1123,27 @@ function updateQty($conn, $DATA){
   $Weight = $DATA['Weight'];
   $Sql = "UPDATE newlinentable_detail SET Qty = $newQty, Weight = ($newQty*$Weight) WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
-  ShowDetailDoc($conn, $DATA);
+  $Sql="SELECT DocNo FROM newlinentable_detail WHERE Id = $RowID";
+  $Query = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($Query)) {
+    $DocNo = $Result['DocNo'];
+  }
+
+  $Sql = "SELECT SUM(Weight) AS Weight1 FROM newlinentable_detail WHERE DocNo = '$DocNo' ";
+  $Query = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($Query)) {
+    $Weight1 = $Result['Weight1'];
+    $return['Total'] = $Result['Weight1'];
+  }
+
+  $Sql = "UPDATE newlinentable SET Total = $Weight1 WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+
+  $return['status'] = "success";
+  $return['form'] = "updateQty";
+  echo json_encode($return);
+  mysqli_close($conn);
+  // ShowDetailDoc($conn, $DATA);
 }
 //==========================================================
 //

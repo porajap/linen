@@ -887,6 +887,27 @@ if (e.keyCode == 13) {
                   $(btn_show).attr('disabled',false);
               }
             }
+
+      function PrintData(){
+      var docno = $('#docno').val();
+      var lang = '<?php echo $language; ?>';
+      if(docno!=""&&docno!=undefined){
+        var url  = "../report/Report_damagenh_tc.php?DocNo="+docno+"&lang="+lang;
+        window.open(url);
+      }else{
+        swal({
+          title: '',
+          text: '<?php echo $array['docfirst'][$language]; ?>',
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showConfirmButton: false,
+          timer: 2000,
+          confirmButtonText: 'Ok'
+        })
+      }
+    }
       function UpdateRefDocNo(){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
@@ -1133,6 +1154,9 @@ if (e.keyCode == 13) {
                   $("#bSave").prop('disabled', false);
                   $("#bSave2").removeClass('opacity');
                   $("#hover4").addClass('mhee');
+                  $('#bPrint').attr('disabled', false);
+                  $('#bPrint2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
@@ -1719,7 +1743,18 @@ if (e.keyCode == 13) {
                               </div>
                             </div>
                           </div>
-                         
+                          <div class="menu "  id="hover6">
+                            <div class="d-flex justify-content-center">
+                              <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
+                                <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
+                                  <i class="fas fa-print"></i>
+                                  <div>
+                                    <?php echo $array['print'][$language]; ?>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <!-- end row btn -->
                     </div>
