@@ -1203,7 +1203,11 @@ $array2 = json_decode($json2,TRUE);
           };
           senddata(JSON.stringify(data));
         }
-        
+        function CloseModal(){
+          $('#countcheck').val(0);
+          $('#countcheck2').val(0);
+          $("#ModalDepartment").modal('toggle');
+        }
         <!-- ================================================================= --!>
         function senddata(data){
           var form_data = new FormData();
@@ -2509,7 +2513,7 @@ $array2 = json_decode($json2,TRUE);
     <div class="modal-content">
       <div class="modal-header" id="modalHead">
         <h4 id="HItemName"></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close"  aria-label="Close" onclick="CloseModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -2524,7 +2528,7 @@ $array2 = json_decode($json2,TRUE);
       </div>
       <div class="modal-footer">
         <button type="button" id="btn_confirm" style="width:15%;" disabled class="btn btn-success px-2" onclick="confirmDep()"><?php echo $array['confirm'][$language]; ?></button>
-        <button type="button" style="width:15%;"  class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+        <button type="button" style="width:15%;"  class="btn btn-danger px-2" onclick="CloseModal()"><?php echo $array['close'][$language]; ?></button>
       </div>
     </div>
   </div>
