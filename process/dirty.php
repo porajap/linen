@@ -973,17 +973,17 @@
       $ItemCode =    $DATA['ItemCode'];
       $ItemName =    $DATA['ItemName'];
       
-      if($ItemCode == 'Dirty4' || $ItemCode == 'Dirty5' || $ItemCode == 'Dirty6'){
-        $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
-        WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1 AND dep.DepName ='linen'
-        ORDER BY dep.DepName ASC ";
-        $meQuery = mysqli_query($conn, $Sql);
-        while ($Result = mysqli_fetch_assoc($meQuery)) {
-          $return[$count]['DepCode'] = trim($Result['DepCode']);
-          $return[$count]['DepName'] = trim($Result['DepName']);
-          $count++;
-        }
-    }else{
+    //   if($ItemCode == 'Dirty4' || $ItemCode == 'Dirty5' || $ItemCode == 'Dirty6'){
+    //     $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
+    //     WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1 AND dep.DepName ='linen'
+    //     ORDER BY dep.DepName ASC ";
+    //     $meQuery = mysqli_query($conn, $Sql);
+    //     while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //       $return[$count]['DepCode'] = trim($Result['DepCode']);
+    //       $return[$count]['DepName'] = trim($Result['DepName']);
+    //       $count++;
+    //     }
+    // }else{
       $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
       WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1
       ORDER BY dep.DepName ASC ";
@@ -994,7 +994,7 @@
         $count++;
       }
 
-    }
+    // }
       $return['CountDep'] = $count;
       $return['ItemCode'] = $DATA['ItemCode'];
       $return['ItemName'] = $DATA['ItemName'];

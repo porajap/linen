@@ -349,7 +349,7 @@ $array2 = json_decode($json2,TRUE);
             });
                 var UsID = $('#UsID').val();
                 var UserName = $('#username').val();
-                var Password = $('#Password').val();
+                // var Password = $('#Password').val();
                 var host = $('#host').val();
                 var department = $('#department').val();
                 var Permission = $('#Permission').val();
@@ -412,7 +412,7 @@ $array2 = json_decode($json2,TRUE);
                         form_data.append('file', file_data);
                         form_data.append('UsID', UsID);
                         form_data.append('UserName', UserName);
-                        form_data.append('Password', Password);
+                        // form_data.append('Password', Password);
                         form_data.append('host', host);
                         form_data.append('department', department);
                         form_data.append('Permission', Permission);
@@ -1425,12 +1425,18 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                   </div>
                                   <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['remask'][$language]; ?></label>
+                                            <input type="text" class="form-control col-sm-8"  id="remask" >
+                                        </div>
+                                    </div>
+                                  <!-- <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['password'][$language]; ?></label>
                                     <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-8 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
                                     <label id="rem4" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </div>   
 
                                 <div class="row">
@@ -1508,12 +1514,7 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                 </div>
                                 <div class="row">
-                                 <div class="col-md-6">
-                                        <div class='form-group row'>
-                                        <label class="col-sm-3 col-form-label "><?php echo $array['remask'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8"  id="remask" >
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-6">
                                         <div class='form-group row'>
                                         <label class="col-sm-3 col-form-label "><?php echo $array['img'][$language]; ?></label>

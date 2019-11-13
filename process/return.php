@@ -423,7 +423,7 @@ function ShowItem($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  par_item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%'
+  WHERE  par_item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%' AND item.IsActive = 1
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
   $return['sdqel'] = $Sql;

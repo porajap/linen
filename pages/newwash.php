@@ -150,625 +150,608 @@ $array2 = json_decode($json2,TRUE);
 
     });
 
-    function OpenDialogItem(){
-      var docno = $("#docno").val();
-      if( docno != "" ){
-        $( "#TableItem tbody" ).empty();
-        // dialogItemCode.dialog( "open" );
-        $('#dialogItemCode').modal('show');
+            function OpenDialogItem(){
+              var docno = $("#docno").val();
+              if( docno != "" ){
+                $( "#TableItem tbody" ).empty();
+                // dialogItemCode.dialog( "open" );
+                $('#dialogItemCode').modal('show');
 
-      }
-      ShowItem();
-    }
-
-    function OpenDialogUsageCode(itemcode){
-      xItemcode = itemcode;
-      var docno = $("#docno").val();
-      if( docno != "" ){
-        dialogItemCode.dialog( "close" );
-        dialogUsageCode.dialog( "open" );
-        $( "#TableItem tbody" ).empty();
-        ShowUsageCode();
-      }
-    }
-
-    function ShowUsageCode(){
-      // var searchitem = $('#searchitem1').val();
-      var docno = $("#docno").val();
-      var data = {
-        'STATUS'  : 'ShowUsageCode',
-        'docno'	: docno,
-        'xitem'	: xItemcode
-      };
-      senddata(JSON.stringify(data));
-    }
-    function resetradio(row){
-
-      var previousValue = $('.checkrow_'+row).attr('previousValue');
-        var name = $('.checkrow_'+row).attr('name');
-        if (previousValue == 'checked') {
-          $('#bDelete').attr('disabled', true);
-          $('#bDelete2').addClass('opacity');
-          $('#hover3').removeClass('mhee');
-          $('.checkrow_'+row).removeAttr('checked');
-          $('.checkrow_'+row).attr('previousValue', false);
-          $('.checkrow_'+row).prop('checked', false);
-          // Blankinput();
-        } else {
-          $('#bDelete').attr('disabled', false);
-          $('#hover3').addClass('mhee');
-          $('#bDelete2').removeClass('opacity');
-          $("input[name="+name+"]:radio").attr('previousValue', false);
-          $('.checkrow_'+row).attr('previousValue', 'checked');
-        }
-    }
-
-    function dis2(row){
-      if($('#checkrow_'+row).prop("checked") == true){
-          var countcheck2 = Number($("#countcheck").val())+1;
-          $("#countcheck").val(countcheck2);
-          $('#bSaveadd').attr('disabled', false);
-          $('#bSaveadd2').removeClass('opacity');
-          // $('#checkrow_'+row).prop('checked', true);
-          $('#checkrow_'+row).attr('previousValue', 'checked');
-        }else if($('#checkrow_'+row).prop("checked") == false){
-          var countcheck3 = Number($("#countcheck").val())-1;
-          $("#countcheck").val(countcheck3);
-          if(countcheck3 == 0 ){
-          $('#bSaveadd').attr('disabled', true);
-          $('#bSaveadd2').addClass('opacity');
-          $('.checkrow_'+row).removeAttr('checked');
-          // $('#checkrow_'+row).prop('checked', false);
-          $("#countcheck").val(countcheck3);
-          }
-        }
- 
-    }
-    function DeleteItem(){
-      var docno = $("#docno").val();
-      var xrow = $("#checkrow:checked").val() ;
-      xrow = xrow.split(",");
-      swal({
-        title: "<?php echo $array['confirmdelete'][$language]; ?>",
-        // text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
-        text: "<?php echo $array['confirm1'][$language]; ?>",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        closeOnConfirm: false,
-        closeOnCancel: false,
-        showCancelButton: true}).then(result => {
-          if (result.value) {
-          var data = {
-            'STATUS'    : 'DeleteItem',
-            'rowid'  : xrow[0],
-            'DocNo'   : docno
-          };
-          senddata(JSON.stringify(data));
-          $('#bDelete').attr('disabled', true);
-          $('#bDelete2').addClass('opacity');
-          $('#hover3').removeClass('mhee');
-        } else if (result.dismiss === 'cancel') {
-          swal.close();
-          }
-        })
-    }
-    function selectAll(){
-          var select_all = document.getElementById('selectAll'); //select all checkbox
-          var checkboxes = document.getElementsByClassName("myDepName"); //checkbox items
-
-          //select all checkboxes
-          select_all.addEventListener("change", function(e){
-            for (i = 0; i < checkboxes.length; i++) { 
-              checkboxes[i].checked = select_all.checked;
-              $('#btn_confirm').attr('disabled', false);
+              }
+              ShowItem();
             }
-          });
+            function OpenDialogUsageCode(itemcode){
+              xItemcode = itemcode;
+              var docno = $("#docno").val();
+              if( docno != "" ){
+                dialogItemCode.dialog( "close" );
+                dialogUsageCode.dialog( "open" );
+                $( "#TableItem tbody" ).empty();
+                ShowUsageCode();
+              }
+            }
+            function ShowUsageCode(){
+              // var searchitem = $('#searchitem1').val();
+              var docno = $("#docno").val();
+              var data = {
+                'STATUS'  : 'ShowUsageCode',
+                'docno'	: docno,
+                'xitem'	: xItemcode
+              };
+              senddata(JSON.stringify(data));
+            }
+            function resetradio(row){
+
+              var previousValue = $('.checkrow_'+row).attr('previousValue');
+                var name = $('.checkrow_'+row).attr('name');
+                if (previousValue == 'checked') {
+                  $('#bDelete').attr('disabled', true);
+                  $('#bDelete2').addClass('opacity');
+                  $('#hover3').removeClass('mhee');
+                  $('.checkrow_'+row).removeAttr('checked');
+                  $('.checkrow_'+row).attr('previousValue', false);
+                  $('.checkrow_'+row).prop('checked', false);
+                  // Blankinput();
+                } else {
+                  $('#bDelete').attr('disabled', false);
+                  $('#hover3').addClass('mhee');
+                  $('#bDelete2').removeClass('opacity');
+                  $("input[name="+name+"]:radio").attr('previousValue', false);
+                  $('.checkrow_'+row).attr('previousValue', 'checked');
+                }
+            }
+            function dis2(row){
+              if($('#checkrow_'+row).prop("checked") == true){
+                  var countcheck2 = Number($("#countcheck").val())+1;
+                  $("#countcheck").val(countcheck2);
+                  $('#bSaveadd').attr('disabled', false);
+                  $('#bSaveadd2').removeClass('opacity');
+                  // $('#checkrow_'+row).prop('checked', true);
+                  $('#checkrow_'+row).attr('previousValue', 'checked');
+                }else if($('#checkrow_'+row).prop("checked") == false){
+                  var countcheck3 = Number($("#countcheck").val())-1;
+                  $("#countcheck").val(countcheck3);
+                  if(countcheck3 == 0 ){
+                  $('#bSaveadd').attr('disabled', true);
+                  $('#bSaveadd2').addClass('opacity');
+                  $('.checkrow_'+row).removeAttr('checked');
+                  // $('#checkrow_'+row).prop('checked', false);
+                  $("#countcheck").val(countcheck3);
+                  }
+                }
+        
+            }
+            function DeleteItem(){
+              var docno = $("#docno").val();
+              var xrow = $("#checkrow:checked").val() ;
+              xrow = xrow.split(",");
+              swal({
+                title: "<?php echo $array['confirmdelete'][$language]; ?>",
+                // text: "<?php echo $array['confirm1'][$language]; ?>"+xrow[1]+"<?php echo $array['confirm2'][$language]; ?>",
+                text: "<?php echo $array['confirm1'][$language]; ?>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+                  if (result.value) {
+                  var data = {
+                    'STATUS'    : 'DeleteItem',
+                    'rowid'  : xrow[0],
+                    'DocNo'   : docno
+                  };
+                  senddata(JSON.stringify(data));
+                  $('#bDelete').attr('disabled', true);
+                  $('#bDelete2').addClass('opacity');
+                  $('#hover3').removeClass('mhee');
+                } else if (result.dismiss === 'cancel') {
+                  swal.close();
+                  }
+                })
+            }
+            function selectAll(){
+                  var select_all = document.getElementById('selectAll'); //select all checkbox
+                  var checkboxes = document.getElementsByClassName("myDepName"); //checkbox items
+
+                  //select all checkboxes
+                  select_all.addEventListener("change", function(e){
+                    for (i = 0; i < checkboxes.length; i++) { 
+                      checkboxes[i].checked = select_all.checked;
+                      $('#btn_confirm').attr('disabled', false);
+                    }
+                  });
 
 
-          for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
-              //uncheck "select all", if one of the listed checkbox item is unchecked
-              if(this.checked == false){
-                select_all.checked = false;
+                  for (var i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+                      //uncheck "select all", if one of the listed checkbox item is unchecked
+                      if(this.checked == false){
+                        select_all.checked = false;
+                      }
+                      //check "select all" if all checkbox items are checked
+                      if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+                        select_all.checked = true;
+                      }
+                    });
+                  }
+                  var numRow = $("#countcheck").val();
+                  if(numRow == i){
+                    $("#countcheck").val(0);
+                    $('#btn_confirm').attr('disabled', true);
+                  }else{
+                    $("#countcheck").val(i);
+                    $('#btn_confirm').attr('disabled', false);
+                  }
+            }
+            function Blankinput() {
+                    $('#docno').val("");
+                    $('#docdate').val("");
+                    $('#recorder').val("");
+                    $('#timerec').val("");
+                    $('#wTotal').val("");
+                    getDepartment();
+                    OnLoadPage();
+            }
+            function CancelDocument(){
+              var docno = $("#docno").val();
+              if(docno!= ""){
+              swal({
+                title: "<?php echo $array['confirmcancel'][$language]; ?>",
+                text: " "+docno+" ",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+                  if (result.value) {
+                  CancelBill();
+                } else if (result.dismiss === 'cancel') {
+                  swal.close();}
+                })
               }
-              //check "select all" if all checkbox items are checked
-              if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
-                select_all.checked = true;
-              }
-            });
-          }
-          var numRow = $("#countcheck").val();
-          if(numRow == i){
-            $("#countcheck").val(0);
-            $('#btn_confirm').attr('disabled', true);
-          }else{
-            $("#countcheck").val(i);
-            $('#btn_confirm').attr('disabled', false);
-          }
-        }
-    function Blankinput() {
-            $('#docno').val("");
-            $('#docdate').val("");
-            $('#recorder').val("");
-            $('#timerec').val("");
-            $('#wTotal').val("");
-            getDepartment();
-            OnLoadPage();
-    }
-    function CancelDocument(){
-      var docno = $("#docno").val();
-      if(docno!= ""){
-      swal({
-        title: "<?php echo $array['confirmcancel'][$language]; ?>",
-        text: " "+docno+" ",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        closeOnConfirm: false,
-        closeOnCancel: false,
-        showCancelButton: true}).then(result => {
-          if (result.value) {
-          CancelBill();
-        } else if (result.dismiss === 'cancel') {
-          swal.close();}
-        })
-      }
-    }
+            }
         //======= On create =======
         //console.log(JSON.stringify(data));
-        function getfactory(){
-          $('#hotpital').removeClass('border-danger');
-          $('#rem3').hide();
-          var lang = '<?php echo $language; ?>';
-          var hotpital = $('#hotpital').val();
-          var data = {
-            'STATUS'    : 'getfactory',
-            'hotpital'	: hotpital ,
-            'lang'	    : lang
-          };
-          senddata(JSON.stringify(data));
-        }
-        function OnLoadPage(){
-          var lang = '<?php echo $language; ?>';
-          Hotp = "<?php echo $HptCode; ?>";
-          var data = {
-            'STATUS'  : 'OnLoadPage',
-            'Hotp'	: Hotp ,
-            'lang'	: lang ,
-            'hotpital'	: hotpital 
-          };
-          senddata(JSON.stringify(data));
-          $('#isStatus').val(0)
-        }
-        function getDepartment(){
-          $('#hotpital').removeClass('border-danger');
-          $('#rem3').hide();
-          var Hotp = $('#Hos2 option:selected').attr("value");
-          if(Hotp == '' || Hotp == undefined){
-            Hotp = $('#getHot').val();
-          };
-            var data = {
-              'STATUS'  : 'getDepartment',
-              'Hotp'	: Hotp
-            };
-
-            senddata(JSON.stringify(data));
-        }
-        function confirmDep(){
-          var DocNo = $('#DocNoHide').val();
-          var ItemCode = $('#ItemCodeHide').val();
-          var DepCodeArray = [];
-          $(".myDepName:checked").each(function() {
-            DepCodeArray.push($(this).data('depcode'));
-          });
-          var DepCode = DepCodeArray.join(',') ;
-          swal({
-            title: " ",
-            text:  " <?php echo $array['save'][$language]; ?>",
-            type: "success",
-            showCancelButton: false,
-            showConfirmButton: false,
-            timer: 500,
-            closeOnConfirm: false
-          });
-          setTimeout(() => {
-            var data = {
-              'STATUS' : 'confirmDep',
-              'DocNo' : DocNo,
-              'DepCode' : DepCode,
-              'ItemCode' : ItemCode
+            function getfactory(){
+              $('#hotpital').removeClass('border-danger');
+              $('#rem3').hide();
+              var lang = '<?php echo $language; ?>';
+              var hotpital = $('#hotpital').val();
+              var data = {
+                'STATUS'    : 'getfactory',
+                'hotpital'	: hotpital ,
+                'lang'	    : lang
+              };
+              senddata(JSON.stringify(data));
             }
-            senddata(JSON.stringify(data));
-            $('#ModalDepartment').modal('toggle');
-          }, 500);
-        }
-        function ShowDocument(selecta){
-          var DocNo = $('#docno').val();
-          var Hotp = $('#Hos2 option:selected').attr("value");
-          var searchdocument = $('#searchdocument').val();
-          var datepicker1 = $('#datepicker1').val();
-          var lang = '<?php echo $language; ?>';
-          if(datepicker1 !=""){
-          if(lang =='th'){
-          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-          }else if(lang =='en'){
-          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-          }
-          }else{
-            datepicker1 = "";
-          }
-          if( typeof searchdocument == 'undefined' ) searchdocument = "";
-          var data = {
-            'STATUS'  	: 'ShowDocument',
-            'xdocno'	: searchdocument,
-            'selecta' : selecta,
-            'Hotp'	: Hotp,
-            'datepicker1' : datepicker1,
-            'DocNo' : DocNo
-          };
-          senddata(JSON.stringify(data));
-        }
-
-        function ShowDocument_sub(){
-          var searchdocument = $('#searchdocument').val();
-          if( typeof searchdocument == 'undefined' ) searchdocument = "";
-          var deptCode = $('#Dep2 option:selected').attr("value");
-          if( typeof deptCode == 'undefined' ) deptCode = "1";
-          var data = {
-            'STATUS'  	: 'ShowDocument',
-            'xdocno'	: searchdocument,
-            'deptCode'	: deptCode
-          };
-          senddata(JSON.stringify(data));
-        }
-
-        function ShowItem(){
-          var deptCode = $('#department option:selected').attr("value");
-          if( typeof deptCode == 'undefined' ) deptCode = "1";
-          var searchitem = $('#searchitem').val();
-          var data = {
-            'STATUS'  : 'ShowItem',
-            'xitem'	: searchitem,
-            'deptCode'	: deptCode
-          };
-          senddata(JSON.stringify(data));
-        }
-
-        function SelectDocument(){
-   
-
-          var selectdocument = "";
-          $("#checkdocno:checked").each(function() {
-            selectdocument = $(this).val();
-          });
-          var deptCode = $('#Dep2 option:selected').attr("value");
-          if( typeof deptCode == 'undefined' ) deptCode = "1";
-
-          var data = {
-            'STATUS'  	: 'SelectDocument',
-            'xdocno'		: selectdocument
-          };
-          senddata(JSON.stringify(data));
-        }
-
-        function unCheckDocDetail(){
-          // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-          if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length){
-            $('input[name="checkAllDetail').prop('checked',true);
-          }else {
-            $('input[name="checkAllDetail').prop('checked',false);
-          }
-        }
-
-        function ShowDetail() {
-          var docno = $("#docno").val();
-          var data = {
-            'STATUS'  : 'ShowDetailDoc',
-            'DocNo'   : docno
-          };
-          senddata(JSON.stringify(data));
-        }
-
-        function CancelBill() {
-          var docno = $("#docno").val();
-          var data = {
-            'STATUS'  : 'CancelBill',
-            'DocNo'   : docno,
-            'selecta' : '0'
-          };
-          senddata(JSON.stringify(data));
-          $('#profile-tab').tab('show');
-          ShowDocument(3);
-          Blankinput();
-          $('#factory').attr('disabled', false);
-        }
-        
-        function swithChecked(i){
-          $('#btn_confirm').attr('disabled', false);
-          $("#selectAll").change(function(){
-            var status = this.checked;
-            $('.myDepName').each(function(){ 
-              this.checked = status;
-            });
-          });
-          $('.unchk').change(function(){ 
-            if(this.checked == false){ 
-              $("#selectAll")[0].checked = false; 
+            function OnLoadPage(){
+              var lang = '<?php echo $language; ?>';
+              Hotp = "<?php echo $HptCode; ?>";
+              var data = {
+                'STATUS'  : 'OnLoadPage',
+                'Hotp'	: Hotp ,
+                'lang'	: lang ,
+                'hotpital'	: hotpital 
+              };
+              senddata(JSON.stringify(data));
+              $('#isStatus').val(0)
             }
-            if ($('.myDepName:checked').length == $('.myDepName').length ){ 
-              $("#selectAll")[0].checked = true; 
+            function getDepartment(){
+              $('#hotpital').removeClass('border-danger');
+              $('#rem3').hide();
+              var Hotp = $('#Hos2 option:selected').attr("value");
+              if(Hotp == '' || Hotp == undefined){
+                Hotp = $('#getHot').val();
+              };
+                var data = {
+                  'STATUS'  : 'getDepartment',
+                  'Hotp'	: Hotp
+                };
+
+                senddata(JSON.stringify(data));
+            }
+            function confirmDep(ItemCode, ItemName){
+              var DocNo =    $('#docno').val();
+              // var ItemCode = $('#ItemCodeHide').val();
+              var HptCode =  $('#hotpital').val();
+              // var DepCodeArray = [];
+              // $(".myDepName:checked").each(function() {
+              //   DepCodeArray.push($(this).data('depcode'));
+              // });
+              // var DepCode = DepCodeArray.join(',') ;
+              swal({
+                title: " ",
+                text:  " <?php echo $array['save'][$language]; ?>",
+                type: "success",
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 500,
+                closeOnConfirm: false
+              });
+              setTimeout(() => {
+                var data = {
+                  'STATUS' : 'confirmDep',
+                  'DocNo' : DocNo,
+                  'HptCode' : HptCode,
+                  'ItemCode' : ItemCode
+                }
+                senddata(JSON.stringify(data));
+                // $('#ModalDepartment').modal('toggle');
+              }, 500);
+            }
+            function ShowDocument(selecta){
+              var DocNo = $('#docno').val();
+              var Hotp = $('#Hos2 option:selected').attr("value");
+              var searchdocument = $('#searchdocument').val();
+              var datepicker1 = $('#datepicker1').val();
+              var lang = '<?php echo $language; ?>';
+              if(datepicker1 !=""){
+              if(lang =='th'){
+              datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+              }else if(lang =='en'){
+              datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+              }
+              }else{
+                datepicker1 = "";
+              }
+              if( typeof searchdocument == 'undefined' ) searchdocument = "";
+              var data = {
+                'STATUS'  	: 'ShowDocument',
+                'xdocno'	: searchdocument,
+                'selecta' : selecta,
+                'Hotp'	: Hotp,
+                'datepicker1' : datepicker1,
+                'DocNo' : DocNo
+              };
+              senddata(JSON.stringify(data));
+            }
+            function ShowDocument_sub(){
+              var searchdocument = $('#searchdocument').val();
+              if( typeof searchdocument == 'undefined' ) searchdocument = "";
+              var deptCode = $('#Dep2 option:selected').attr("value");
+              if( typeof deptCode == 'undefined' ) deptCode = "1";
+              var data = {
+                'STATUS'  	: 'ShowDocument',
+                'xdocno'	: searchdocument,
+                'deptCode'	: deptCode
+              };
+              senddata(JSON.stringify(data));
+            }
+            function ShowItem(){
+              var deptCode = $('#department option:selected').attr("value");
+              if( typeof deptCode == 'undefined' ) deptCode = "1";
+              var searchitem = $('#searchitem').val();
+              var data = {
+                'STATUS'  : 'ShowItem',
+                'xitem'	: searchitem,
+                'deptCode'	: deptCode
+              };
+              senddata(JSON.stringify(data));
+            }
+            function SelectDocument(){
+      
+
+              var selectdocument = "";
+              $("#checkdocno:checked").each(function() {
+                selectdocument = $(this).val();
+              });
+              var deptCode = $('#Dep2 option:selected').attr("value");
+              if( typeof deptCode == 'undefined' ) deptCode = "1";
+
+              var data = {
+                'STATUS'  	: 'SelectDocument',
+                'xdocno'		: selectdocument
+              };
+              senddata(JSON.stringify(data));
+            }
+            function unCheckDocDetail(){
+              // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
+              if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length){
+                $('input[name="checkAllDetail').prop('checked',true);
+              }else {
+                $('input[name="checkAllDetail').prop('checked',false);
+              }
+            }
+            function ShowDetail() {
+              var docno = $("#docno").val();
+              var data = {
+                'STATUS'  : 'ShowDetailDoc',
+                'DocNo'   : docno
+              };
+              senddata(JSON.stringify(data));
+            }
+            function CancelBill() {
+              var docno = $("#docno").val();
+              var data = {
+                'STATUS'  : 'CancelBill',
+                'DocNo'   : docno,
+                'selecta' : '0'
+              };
+              senddata(JSON.stringify(data));
+              $('#profile-tab').tab('show');
+              ShowDocument(3);
+              Blankinput();
+              $('#factory').attr('disabled', false);
+            }
+            function swithChecked(i){
               $('#btn_confirm').attr('disabled', false);
+              $("#selectAll").change(function(){
+                var status = this.checked;
+                $('.myDepName').each(function(){ 
+                  this.checked = status;
+                });
+              });
+              $('.unchk').change(function(){ 
+                if(this.checked == false){ 
+                  $("#selectAll")[0].checked = false; 
+                }
+                if ($('.myDepName:checked').length == $('.myDepName').length ){ 
+                  $("#selectAll")[0].checked = true; 
+                  $('#btn_confirm').attr('disabled', false);
+                }
+              });
+
+              if($('#checkDep_'+i).prop("checked") == true){
+                var countcheck2 = Number($("#countcheck").val())+1;
+                $("#countcheck").val(countcheck2);
+                $('#btn_confirm').attr('disabled', false);
+                $('#checkDep_'+i).attr('previousValue', 'checked');
+              }else if($('#checkDep_'+i).prop("checked") == false){
+                var countcheck3 = Number($("#countcheck").val())-1;
+                $("#countcheck").val(countcheck3);
+                if(countcheck3 == 0 ){
+                  $('#btn_confirm').attr('disabled', true);
+                  $('.checkDep_'+i).removeAttr('checked');
+                  $("#countcheck").val(countcheck3);
+                }
+              }
             }
-          });
-
-          if($('#checkDep_'+i).prop("checked") == true){
-            var countcheck2 = Number($("#countcheck").val())+1;
-            $("#countcheck").val(countcheck2);
-            $('#btn_confirm').attr('disabled', false);
-            $('#checkDep_'+i).attr('previousValue', 'checked');
-          }else if($('#checkDep_'+i).prop("checked") == false){
-            var countcheck3 = Number($("#countcheck").val())-1;
-            $("#countcheck").val(countcheck3);
-            if(countcheck3 == 0 ){
-              $('#btn_confirm').attr('disabled', true);
-              $('.checkDep_'+i).removeAttr('checked');
-              $("#countcheck").val(countcheck3);
+            function showDep(ItemCode, ItemName){
+              var data = {
+                'STATUS' : 'showDep',
+                'ItemCode' : ItemCode,
+                'ItemName' : ItemName
+              }
+              senddata(JSON.stringify(data));
             }
-          }
-        }
-
-        function showDep(ItemCode, ItemName){
-          var data = {
-            'STATUS' : 'showDep',
-            'ItemCode' : ItemCode,
-            'ItemName' : ItemName
-          }
-          senddata(JSON.stringify(data));
-        }
-        function getImport(Sel) {
-          //alert(Sel);
-          var docno = $("#docno").val();
-          /* declare an checkbox array */
-          var iArray = [];
-          var qtyArray = [];
-          var chkArray = [];
-          var weightArray = [];
-          var unitArray = [];
-          var i=0;
+            function getImport(Sel) {
+              //alert(Sel);
+              var docno = $("#docno").val();
+              /* declare an checkbox array */
+              var iArray = [];
+              var qtyArray = [];
+              var chkArray = [];
+              var weightArray = [];
+              var unitArray = [];
+              var i=0;
 
 
-          if(Sel==1){
-            $(".checkitem:checked").each(function() {
-              iArray.push($(this).val());
-            });
-          }else{
-            $("#checkitemSub:checked").each(function() {
-              iArray.push($(this).val());
-            });
-          }
+              if(Sel==1){
+                $(".checkitem:checked").each(function() {
+                  iArray.push($(this).val());
+                });
+              }else{
+                $("#checkitemSub:checked").each(function() {
+                  iArray.push($(this).val());
+                });
+              }
 
-          /* we join the array separated by the comma */
+              /* we join the array separated by the comma */
 
-          for(var j=0;j<iArray.length; j++){
-            if(Sel==1)
-            chkArray.push( $("#RowID"+iArray[j]).val() );
-            else
-            chkArray.push( $("#RowIDSub"+iArray[j]).val() );
+              for(var j=0;j<iArray.length; j++){
+                if(Sel==1)
+                chkArray.push( $("#RowID"+iArray[j]).val() );
+                else
+                chkArray.push( $("#RowIDSub"+iArray[j]).val() );
 
-            qtyArray.push( $("#iqty"+iArray[j]).val() );
-            weightArray.push( $("#iweight"+iArray[j]).val() );
-            unitArray.push( $("#iUnit_"+iArray[j]).val() );
-          }
+                qtyArray.push( $("#iqty"+iArray[j]).val() );
+                weightArray.push( $("#iweight"+iArray[j]).val() );
+                unitArray.push( $("#iUnit_"+iArray[j]).val() );
+              }
 
-          var xrow = chkArray.join(',') ;
-          var xqty = qtyArray.join(',') ;
-          var xweight = weightArray.join(',') ;
-          var xunit = unitArray.join(',') ;
+              var xrow = chkArray.join(',') ;
+              var xqty = qtyArray.join(',') ;
+              var xweight = weightArray.join(',') ;
+              var xunit = unitArray.join(',') ;
 
 
 
-          var Hotp = $('#hotpital option:selected').attr("value");
-          if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
+              var Hotp = $('#hotpital option:selected').attr("value");
+              if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
 
-          // alert("xrow : "+xrow);
-          //	  alert("xqty : "+xqty);
-          //	  alert("xweight : "+xweight);
-          //	  alert("xunit : "+xunit);
+              // alert("xrow : "+xrow);
+              //	  alert("xqty : "+xqty);
+              //	  alert("xweight : "+xweight);
+              //	  alert("xunit : "+xunit);
 
-          $('#TableDetail tbody').empty();
-          var data = {
-            'STATUS'  	: 'getImport',
-            'xrow'		: xrow,
-            'xqty'		: xqty,
-            'xweight'	: xweight,
-            'xunit'		: xunit,
-            'DocNo'   	: docno,
-            'Sel'     	: Sel,
-            'Hotp'		: Hotp
-          };
-          console.log(data);
-          senddata(JSON.stringify(data));
-          ShowItem();
-          // $('#dialogItemCode').modal('toggle')
-          // dialogUsageCode.dialog( "close" );
-        }
-
-        var isChecked1 = false;
-        var isChecked2 = false;
-        function getCheckAll(sel){
-          if(sel==0){
-            isChecked1 = !isChecked1;
-            $('input[name="checkdocno"]').each(function(){
-              this.checked = isChecked1;
-            });
-            getDocDetail();
-          }else{
-            isChecked2 = !isChecked2;
-            $('input[name="checkdocdetail"]').each(function(){
-              this.checked = isChecked2;
-            });
-          }
-        }
-
-        function convertUnit(rowid,selectObject){
-          var docno = $("#docno").val();
-          var data = selectObject.value;
-          var chkArray = data.split(",");
-          var weight = $('#weight_'+chkArray[0]).val();
-          var qty = $('#qty1_'+chkArray[0]).val();
-          var oleqty = $('#OleQty_'+chkArray[0]).val();
-          qty = oleqty*chkArray[2];
-          $('#qty1_'+chkArray[0]).val(qty);
-          // console.log( "UnitCode : "+chkArray[1] );
-          var data = {
-            'STATUS'  	: 'updataDetail',
-            'Rowid'     : rowid,
-            'DocNo'   	: docno,
-            'unitcode'	: chkArray[1],
-            'qty'		: qty
-          };
-          senddata(JSON.stringify(data));
-        }
-
-        function checkblank(){
-          $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-              $('#rem1').show().css("color","red");
-            }else{
-              $(this).removeClass('border-danger');
+              $('#TableDetail tbody').empty();
+              var data = {
+                'STATUS'  	: 'getImport',
+                'xrow'		: xrow,
+                'xqty'		: xqty,
+                'xweight'	: xweight,
+                'xunit'		: xunit,
+                'DocNo'   	: docno,
+                'Sel'     	: Sel,
+                'Hotp'		: Hotp
+              };
+              console.log(data);
+              senddata(JSON.stringify(data));
+              ShowItem();
+              // $('#dialogItemCode').modal('toggle')
+              // dialogUsageCode.dialog( "close" );
+            }
+            var isChecked1 = false;
+            var isChecked2 = false;
+            function getCheckAll(sel){
+              if(sel==0){
+                isChecked1 = !isChecked1;
+                $('input[name="checkdocno"]').each(function(){
+                  this.checked = isChecked1;
+                });
+                getDocDetail();
+              }else{
+                isChecked2 = !isChecked2;
+                $('input[name="checkdocdetail"]').each(function(){
+                  this.checked = isChecked2;
+                });
+              }
+            }
+            function convertUnit(rowid,selectObject){
+              var docno = $("#docno").val();
+              var data = selectObject.value;
+              var chkArray = data.split(",");
+              var weight = $('#weight_'+chkArray[0]).val();
+              var qty = $('#qty1_'+chkArray[0]).val();
+              var oleqty = $('#OleQty_'+chkArray[0]).val();
+              qty = oleqty*chkArray[2];
+              $('#qty1_'+chkArray[0]).val(qty);
+              // console.log( "UnitCode : "+chkArray[1] );
+              var data = {
+                'STATUS'  	: 'updataDetail',
+                'Rowid'     : rowid,
+                'DocNo'   	: docno,
+                'unitcode'	: chkArray[1],
+                'qty'		: qty
+              };
+              senddata(JSON.stringify(data));
+            }
+            function checkblank(){
+              $('.checkblank').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                  $(this).addClass('border-danger');
+                  $('#rem1').show().css("color","red");
+                }else{
+                  $(this).removeClass('border-danger');
+                  $('#rem1').hide();
+                }
+              });
+            }
+            function checkblank2(){
+              $('.checkblank2').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                  $(this).addClass('border-danger');
+                  $('#rem2').show().css("color","red");
+                }else{
+                  $(this).removeClass('border-danger');
+                  $('#rem2').hide();
+                }
+              });
+            }
+            function checkblank3(){
+              $('.checkblank3').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                  $(this).addClass('border-danger');
+                  $('#rem3').show().css("color","red");
+                }else{
+                  $(this).removeClass('border-danger');
+                  $('#rem3').hide();
+                }
+              });
+            }
+            function removeClassBorder1(){
+              $('#department').removeClass('border-danger');
               $('#rem1').hide();
+
             }
-          });
-        }
-        function checkblank2(){
-          $('.checkblank2').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-              $('#rem2').show().css("color","red");
-            }else{
-              $(this).removeClass('border-danger');
+            function removeClassBorder2(){
+              $('#factory').removeClass('border-danger');
               $('#rem2').hide();
             }
-          });
-        }
-        function checkblank3(){
-          $('.checkblank3').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-              $('#rem3').show().css("color","red");
-            }else{
-              $(this).removeClass('border-danger');
-              $('#rem3').hide();
+            function CreateDocument(){
+              var userid = '<?php echo $Userid; ?>';
+              var hotpCode = $('#hotpital option:selected').attr("value");
+              var FacCode = $('#factory option:selected').attr("value");
+              if(FacCode == '' || hotpCode=='' ){
+                checkblank2();
+                checkblank3();
+                swal({
+                title: '',
+                text: "<?php echo $array['required'][$language]; ?>",
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
+              });
+              }else{
+                swal({
+                  title: "<?php echo $array['confirmdoc'][$language]; ?>",
+                  text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text(),
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                  cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  closeOnConfirm: false,
+                  closeOnCancel: false,
+                  showCancelButton: true}).then(result => {
+                    if (result.value) {
+                    var data = {
+                      'STATUS'    : 'CreateDocument',
+                      'hotpCode'  : hotpCode,
+                      'userid'	: userid,
+                      'FacCode'	: FacCode
+                    };
+                    senddata(JSON.stringify(data));
+                    var word = '<?php echo $array['save'][$language]; ?>';
+                    var changeBtn = "<i class='fa fa-save'></i>";
+                    changeBtn += "<div>"+word+"</div>";
+                    $('#icon_edit').html(changeBtn); 
+                  } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                    }
+                  })
+              }
             }
-          });
-        }
-        function removeClassBorder1(){
-          $('#department').removeClass('border-danger');
-          $('#rem1').hide();
-
-        }
-        function removeClassBorder2(){
-          $('#factory').removeClass('border-danger');
-          $('#rem2').hide();
-        }
-        function CreateDocument(){
-          var userid = '<?php echo $Userid; ?>';
-          var hotpCode = $('#hotpital option:selected').attr("value");
-          var FacCode = $('#factory option:selected').attr("value");
-          if(FacCode == '' || hotpCode=='' ){
-            checkblank2();
-            checkblank3();
-            swal({
-            title: '',
-            text: "<?php echo $array['required'][$language]; ?>",
-            type: 'info',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            showConfirmButton: false,
-            timer: 2000,
-            confirmButtonText: 'Ok'
-          });
-          }else{
-            swal({
-              title: "<?php echo $array['confirmdoc'][$language]; ?>",
-              text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text(),
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonClass: "btn-danger",
-              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              closeOnConfirm: false,
-              closeOnCancel: false,
-              showCancelButton: true}).then(result => {
-                if (result.value) {
-                var data = {
-                  'STATUS'    : 'CreateDocument',
-                  'hotpCode'  : hotpCode,
-                  'userid'	: userid,
-                  'FacCode'	: FacCode
-                };
-                senddata(JSON.stringify(data));
-                var word = '<?php echo $array['save'][$language]; ?>';
-                var changeBtn = "<i class='fa fa-save'></i>";
-                changeBtn += "<div>"+word+"</div>";
-                $('#icon_edit').html(changeBtn); 
-              } else if (result.dismiss === 'cancel') {
-                swal.close();
-                }
-              })
-          }
-        }
-
-          function canceldocno(docno) {
-            swal({
-              title: "<?php echo $array['confirmdelete'][$language]; ?>",
-              text: "<?php echo $array['confirmdelete1'][$language]; ?>" +docno+ "<?php echo $array['confirmdelete2'][$language]; ?>",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonClass: "btn-danger",
-              confirmButtonText: "<?php echo $array['deleete'][$language]; ?>",
-              cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-              confirmButtonColor: '#d33',
-              cancelButtonColor: '#3085d6',
-              closeOnConfirm: false,
-              closeOnCancel: false,
-              showCancelButton: true}).then(result => {
-                var data = {
-                  'STATUS'      : 'CancelDocNo',
-                  'DocNo'       : docno
-                };
-                senddata(JSON.stringify(data));
-                getSearchDocNo();
-              })
-          }
-
+            function canceldocno(docno) {
+              swal({
+                title: "<?php echo $array['confirmdelete'][$language]; ?>",
+                text: "<?php echo $array['confirmdelete1'][$language]; ?>" +docno+ "<?php echo $array['confirmdelete2'][$language]; ?>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['deleete'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true}).then(result => {
+                  var data = {
+                    'STATUS'      : 'CancelDocNo',
+                    'DocNo'       : docno
+                  };
+                  senddata(JSON.stringify(data));
+                  getSearchDocNo();
+                })
+            }
             function addnum(cnt) {
               var add = parseInt($('#iqty'+cnt).val())+1;
               if((add>0) && (add<=500)){
                 $('#iqty'+cnt).val(add);
               }
             }
-
             function subtractnum(cnt) {
               var sub = parseInt($('#iqty'+cnt).val())-1;
               if((sub>0) && (sub<=500)) {
                 $('#iqty'+cnt).val(sub);
               }
             }
-
             function addnum1(rowid,cnt,unitcode) {
               var Dep = $("#Dep_").val();
               var docno = $("#docno").val();
@@ -791,7 +774,6 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
               }
             }
-
             function subtractnum1(rowid,cnt,unitcode) {
               var Dep = $("#Dep_").val();
               var docno = $("#docno").val();
@@ -814,7 +796,6 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
               }
             }
-
             function updateWeight(row,rowid) {
               var docno = $("#docno").val();
               var weight = $("#myweight_"+row).val();
@@ -832,7 +813,6 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
               }
             }
-
             function SaveBill(){
               var count = 0;
               var chk_weight = document.getElementsByClassName("chk_weight"); //checkbox items
@@ -938,8 +918,6 @@ $array2 = json_decode($json2,TRUE);
                   $('.chk_edit').attr('disabled', false);
               }
             }
-
-
             function UpdateRefDocNo(){
               var docno = $("#docno").val();
               var RefDocNo = $("#RefDocNo").val();
@@ -956,7 +934,6 @@ $array2 = json_decode($json2,TRUE);
               };
               senddata(JSON.stringify(data));
             }
-
             function show_btn(DocNo){
               if(DocNo != undefined || DocNo != ''){
                   $(btn_show).attr('disabled',false);
@@ -992,14 +969,13 @@ $array2 = json_decode($json2,TRUE);
               } 
 
               var totalweight = parseFloat(newQty*Weight).toFixed(2);
-              $('#myweight_'+i).val(totalweight);
+              // $('#myweight_'+i).val(totalweight);
 
               var data = {
                 'STATUS' : 'updateQty',
                 'RowID' : RowID,
                 'newQty' : newQty,
-                'DocNo' : DocNo,
-                'Weight' : Weight
+                'DocNo' : DocNo
               }
               senddata(JSON.stringify(data));
             }
@@ -1413,6 +1389,7 @@ $array2 = json_decode($json2,TRUE);
                   var st1 = "style='font-size:24px;margin-left: -10px; width:150px;";
                   var st2 = "style='height:40px;width:60px;font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;"
                   $( "#TableItem tbody" ).empty();
+                  if(temp["Row"]>0){
                   // $('#wTotal').val(temp[0]['Total'].toFixed(2));
                   for (var i = 0; i < temp["Row"]; i++) {
                     var rowCount = $('#TableItem >tbody >tr').length;
@@ -1439,7 +1416,7 @@ $array2 = json_decode($json2,TRUE);
                     $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 12%;'><label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                     "<td style='width: 38%;cursor: pointer;' title='"+temp[i]['ItemCode']+"'>"+temp[i]['ItemName']+"</td>"+
-                    "<td style='width: 50%;text-align:center;color:#307FE2;'><i class='btn fas fa-plus-circle' style='width: 29px;height:28px;padding-top:4px;font-size:28px;' id='icon_"+temp[i]['ItemCode']+"' onclick='showDep(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\")'></i></td>"+
+                    "<td style='width: 50%;text-align:center;color:#307FE2;'><i class='btn fas fa-plus-circle' style='width: 29px;height:28px;padding-top:4px;font-size:28px;' id='icon_"+temp[i]['ItemCode']+"' onclick='confirmDep(\""+temp[i]['ItemCode']+"\",\""+temp[i]['ItemName']+"\")'></i></td>"+
                     "</tr>";
                     if(rowCount == 0){
                       $("#TableItem tbody").append( $StrTR );
@@ -1450,6 +1427,11 @@ $array2 = json_decode($json2,TRUE);
                       $('.numonly').on('input', function() {
                       this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+                }else{
+                $('#TableItem tbody').empty();
+                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                $('#TableItem tbody:last-child').append(Str);
+              }
                 }else if( (temp["form"]=='showDep') ){
                   if(temp['CountDep']>0){
                     var myDATA = "";
@@ -1502,7 +1484,7 @@ $array2 = json_decode($json2,TRUE);
 
                     var Qty = "<input class='form-control numonly chk_edit'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onchange='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['Weight2']+"\");' value='"+temp[i]['Qty']+"' autocomplete='off' placeholder='0'>";
 
-                    var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"' disabled style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='myweight_"+i+"' value='"+temp[i]['Weight']+"' onkeyup='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
+                    var Weight = "<input class='form-control numonly chk_edit chk_weight weight_"+i+"'  style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='myweight_"+i+"' value='"+temp[i]['Weight']+"' onkeyup='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")' autocomplete='off' placeholder='0'>";
 
                     var Price = "<input class='form-control chk_edit' style='height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'>";
               
@@ -2148,7 +2130,7 @@ $array2 = json_decode($json2,TRUE);
                 <tr role="row">
                 <th style='width: 12%;' nowrap><?php echo $array['no'][$language]; ?></th>
                 <th style='width: 38%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 50%;' nowrap><center><?php echo $array['selectDep'][$language]; ?></center></th>
+                <th style='width: 50%;' nowrap><center><?php echo $array['additem'][$language]; ?></center></th>
                 </tr>
               </thead>
               <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">

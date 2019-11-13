@@ -1212,6 +1212,9 @@ if (e.keyCode == 13) {
                   $('#bPrint').attr('disabled', false);
                   $('#bPrint2').removeClass('opacity');
                   $('#hover6').addClass('mhee');
+                  $("#bCancel").prop('disabled', false);
+                  $("#bCancel2").removeClass('opacity');
+                  $('#hover5').addClass('mhee');
                 }else{
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
@@ -1327,8 +1330,8 @@ if (e.keyCode == 13) {
                         this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                         });
               }else if( (temp["form"]=='ShowItem') ){
-                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='font-size: 20px;height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
+                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-size:24px;'";
+                var st2 = "style='font-size: 20px;height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;'"
                 $( "#TableItem tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
@@ -1347,7 +1350,7 @@ if (e.keyCode == 13) {
 
                   var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly ' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 27%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1366,8 +1369,8 @@ if (e.keyCode == 13) {
                   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
               }else if( (temp["form"]=='ShowUsageCode') ){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
+                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 $( "#TableUsageCode tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableUsageCode >tbody >tr').length;
@@ -1404,8 +1407,8 @@ if (e.keyCode == 13) {
 
               }else if(temp['form']=="get_claim_doc"){
                 if(temp["count2"] > 0){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
+                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
                 $( "#TableRefDocNo tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
@@ -2018,7 +2021,7 @@ if (e.keyCode == 13) {
               </div>
               <!-- end serach----------------------- -->
           </div>
-          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
+          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
             <thead style="font-size:24px;">
               <tr role="row">
                 <input type="text" hidden id="countcheck">

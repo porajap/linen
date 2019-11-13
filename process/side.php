@@ -9,7 +9,7 @@ function ShowItem($conn, $DATA)
   {
     $count = 0;
     $Keyword = $DATA['Keyword'];
-    $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName  , site.HptNameTH
+    $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName  , site.HptNameTH , site.Site_Path
     FROM site
     LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
     WHERE site.IsStatus = 0
@@ -19,6 +19,7 @@ function ShowItem($conn, $DATA)
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['HptCode'] = $Result['HptCode'];
       $return[$count]['HptName'] = $Result['HptName'];
+      $return[$count]['sitepath'] = $Result['Site_Path'];
       $return[$count]['HptNameTH'] = $Result['HptNameTH'];
       $return[$count]['id'] = $Result['id']==null?"":$Result['id'];
       $return[$count]['contractName'] = $Result['contractName']==null?"":$Result['contractName'];
@@ -51,7 +52,7 @@ function getdetail($conn, $DATA)
     $id = $DATA['id'];
     //---------------HERE------------------//
     $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName ,
-            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government , 
+            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government , site.Site_Path , 
             (SELECT COUNT(*) FROM contractsite WHERE HptCode = '$HptCode')  AS cnt 
             FROM site
             LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
@@ -65,6 +66,7 @@ function getdetail($conn, $DATA)
       $return['id'] = $Result['id'];
       $return['HptCode'] = $Result['HptCode'];
       $return['HptName'] = $Result['HptName'];
+      $return['Site_Path'] = $Result['Site_Path'];
       $return['contractName'] = $Result['contractName'];
       $return['permission'] = $Result['permission'];
       $return['Number'] = $Result['Number'];
@@ -129,6 +131,7 @@ function AddItem($conn, $DATA)
   $Position = $DATA['Position'];
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
+  $sitepath = $DATA['sitepath'];
   $xcenter1 = $DATA['xcenter1']==null?0:$DATA['xcenter1'];
   $xcenter2 = $DATA['xcenter2']==null?0:$DATA['xcenter2'];
   $Userid = $_SESSION['Userid'];
@@ -144,8 +147,8 @@ function AddItem($conn, $DATA)
   // ==============================================
   if($HptCode1== ""){
     $count = 0;
-    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government , site.DocDate ,site.Modify_Code ,site.Modify_Date) 
-                            VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2 ,NOW() ,$Userid , NOW() )";
+    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government , site.DocDate ,site.Modify_Code ,site.Modify_Date,site.Site_Path) 
+                            VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2 ,NOW() ,$Userid , NOW() , '$sitepath')";
     $return['sss'] = $Sql;
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
@@ -162,7 +165,7 @@ function AddItem($conn, $DATA)
     die;
   }
   }else{
-      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' , site.private = $xcenter1 , site.government= $xcenter2 ,site.Modify_Date = NOW() , Modify_Code = $Userid   WHERE site.HptCode = '$HptCode1'";
+      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' , site.private = $xcenter1 , site.government= $xcenter2 ,site.Modify_Date = NOW() , Modify_Code = $Userid , Site_Path = '$sitepath'  WHERE site.HptCode = '$HptCode1'";
       if(mysqli_query($conn, $Sql)){
         $return['status'] = "success";
         $return['form'] = "AddItem";

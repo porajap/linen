@@ -460,6 +460,7 @@ $array2 = json_decode($json2,TRUE);
         function Blankinput() {
             $('#rem1').hide();
             $('#rem2').hide();
+            $('#rem3').hide();
             $('.checkblank').each(function() {
                 $(this).val("");
             });
@@ -1136,7 +1137,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-4">
                                     <div class="row" style="margin-left:5px;">
                                     <!-- <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label> -->
-                                        <select class="form-control col-md-8 checkblank66" id="hptsel" onchange="removeborder();">
+                                        <select class="form-control col-md-8 " id="hptsel" onchange="removeborder();">
                                         </select>
                                     </div>
                                 </div>

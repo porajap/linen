@@ -81,6 +81,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem5').hide();
         $('#rem6').hide();
         $('#rem7').hide();
+        $('#rem8').hide();
         getHotpital();
         $('#addhot').show();
       $('#adduser').hide();
@@ -352,7 +353,7 @@ $array2 = json_decode($json2,TRUE);
           }
         });
         console.log(count);
-        
+        var sitepath = $('#sitepath').val();
         var idcontract = $('#idcontract').val();
         var ContractName = $('#ContractName').val();
         var Position = $('#Position').val();
@@ -400,7 +401,8 @@ $array2 = json_decode($json2,TRUE);
                   'idcontract' : idcontract,
                   'HptNameTH' : HptNameTH,
                   'xcenter1' : xcenter1,
-                  'xcenter2' : xcenter2
+                  'xcenter2' : xcenter2,
+                  'sitepath' : sitepath
                 };
 
                 console.log(JSON.stringify(data));
@@ -438,7 +440,7 @@ $array2 = json_decode($json2,TRUE);
           $('.checkblank').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
               $(this).css('border-color', 'red');
-              if(HptCode ==""||HptCode==undefined){
+                if(HptCode ==""||HptCode==undefined){
                   $('#rem1').show().css("color","red");
                   $('#form1').removeClass('form-group');
                 }
@@ -450,13 +452,19 @@ $array2 = json_decode($json2,TRUE);
                   $('#rem7').show().css("color","red");
                   $('#form3').removeClass('form-group');
                 }
+                if(sitepath ==""||sitepath==undefined){
+                  $('#rem8').show().css("color","red");
+                  $('#form8').removeClass('form-group');
+                }
+                
             }
           });
         }
       }
 
       function resetinput(){
-
+        
+        var sitepath = $('#sitepath').val();
         var ContractName = $('#ContractName').val();
         var Position = $('#Position').val();
         var phone = $('#phone').val();
@@ -465,7 +473,13 @@ $array2 = json_decode($json2,TRUE);
         var HptNameTH = $('#HptNameTH').val();
         var host = $('#host').val();
 
-      if(HptCode !="" && HptCode!=undefined){
+
+        if(sitepath !="" && sitepath!=undefined){
+          $('#rem8').hide();
+          $('#sitepath').css('border-color', '');
+          $('#form8').addClass('form-group');
+        }
+        if(HptCode !="" && HptCode!=undefined){
           $('#rem1').hide();
           $('#HptCode').css('border-color', '');
           $('#form1').addClass('form-group');
@@ -632,6 +646,7 @@ $array2 = json_decode($json2,TRUE);
         $('#rem5').hide();
         $('#rem6').hide();
         $('#rem7').hide();
+        $('#rem8').hide();
         $('#form1').addClass('form-group');
         $('#form2').addClass('form-group');
         $('#form3').addClass('form-group');
@@ -913,6 +928,8 @@ $array2 = json_decode($json2,TRUE);
                         }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
+                                
+                                $('#sitepath').val(temp['Site_Path']);
                                 $('#HptCode1').val(temp['HptCode']);
                                 $('#HptCode').val(temp['HptCode']);
                                 $('#HptNameTH').val(temp['HptNameTH']);
@@ -1516,6 +1533,13 @@ $array2 = json_decode($json2,TRUE);
                                       <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row' id="form1">
+                                    <label class="col-sm-4 col-form-label ">Sitepath</label>
+                                      <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="sitepath"    placeholder="Sitepath">
+                                      <label id="rem8" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                    </div>
+                                  </div>
                                 </div>                        
    <!-- =================================================================== -->
                                 <div class="row" >
@@ -1526,8 +1550,6 @@ $array2 = json_decode($json2,TRUE);
                                       <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                </div>  
-                                <div class="row" >
                                   <div class="col-md-6">
                                     <div class='form-group row' id="form3">
                                     <label class="col-sm-4 col-form-label"><?php echo $array['hosnameTH'][$language]; ?></label>
@@ -1535,7 +1557,8 @@ $array2 = json_decode($json2,TRUE);
                                       <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
                                     </div>
                                   </div>
-                                </div>
+                                </div>  
+
                                 <div class="row" >
                                 <div class="col-md-6">
                             <div class='form-group row offset-6' style="padding-left: 5%;">

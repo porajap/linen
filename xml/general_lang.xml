@@ -14,6 +14,7 @@
 <government><en>Don't Money</en><th>ไม่แสดงเงิน</th></government>
 <return><en>Return</en><th>บันทึกรับคืนผ้า</th></return>
 <addrequest><en>Add request</en><th>เพิ่มรายการ</th></addrequest>
+<additem><en>Additem</en><th>เพิ่มรายการ</th></additem>
 <!--============================================================================== -->
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>

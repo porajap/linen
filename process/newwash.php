@@ -241,6 +241,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
     die;
   }
 }
+
 function showDep($conn, $DATA){
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
@@ -266,23 +267,29 @@ function confirmDep($conn, $DATA){
   $DocNo = $DATA['DocNo'];
   $ItemCode = $DATA['ItemCode'];
   $ItemCode1 = $DATA['ItemCode1'];
+  $HptCode = $DATA['HptCode'];
+
+$Sql = "SELECT DepCode AS DepCodecenter FROM department WHERE HptCode = '$HptCode' AND department.IsDefault = 1 ";
+$meQuery = mysqli_query($conn, $Sql);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $DepCodecenter = trim($Result['DepCodecenter']);
+
+}
 
   $SqlWe = "SELECT Weight FROM item WHERE ItemCode = '$ItemCode'";
   $WeQuery = mysqli_query($conn, $SqlWe);
   $row = mysqli_fetch_assoc($WeQuery);
   $Weight = $row['Weight'];
 
-  $DepCode = explode(',', $DATA['DepCode']);
-  $limit = sizeof($DepCode, 0);
-  for($i=0; $i<$limit; $i++){
-    $count = "SELECT COUNT(*) as cnt FROM newlinentable_detail WHERE DocNo = '$DocNo' AND DepCode = '$DepCode[$i]' AND ItemCode = '$ItemCode'";
+    $count = "SELECT COUNT(*) as cnt FROM newlinentable_detail WHERE DocNo = '$DocNo' AND DepCode = '$DepCodecenter' AND ItemCode = '$ItemCode'";
     $meQuery = mysqli_query($conn, $count);
     $Result = mysqli_fetch_assoc($meQuery);
+
     if($Result['cnt']==0){
-      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty, Weight)VALUES('$DocNo', '$ItemCode', 1, '$DepCode[$i]', 1, $Weight)";
+      $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty, Weight)VALUES('$DocNo', '$ItemCode', 1, '$DepCodecenter', 1, 1)";
       mysqli_query($conn, $Insert);
     }
-  }
+  
   ShowDetailDoc($conn, $DATA);
 }
 function ShowDetailDoc($conn, $DATA)
@@ -313,8 +320,8 @@ function ShowDetailDoc($conn, $DATA)
       $return[$count1]['UnitName']  = $Result['UnitName'];
       $return[$count1]['DepCode']   = $Result['DepCode'];
       $return[$count1]['DepName']   = $Result['DepName'];
-      $return[$count1]['Weight']    = $Result['Qty']==1?($Result['Qty']*$Result['Weight2']):$Result['Weight'];
-      $return[$count1]['Weight2']    = $Result['Weight2'];
+      $return[$count1]['Weight']    = $Result['Weight'];
+      $return[$count1]['Weight2']   = $Result['Weight2'];
       $return[$count1]['Qty']       = $Result['Qty']==0?'':$Result['Qty'];
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
@@ -633,7 +640,7 @@ function ShowItem($conn, $DATA)
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
+    $return['status'] = "success";
     $return['form'] = "ShowItem";
     $return[$count]['RowID'] = "";
     $return[$count]['UsageCode'] = "";
@@ -1120,8 +1127,7 @@ function CancelBill($conn, $DATA){
 function updateQty($conn, $DATA){
   $newQty = $DATA['newQty'];
   $RowID = $DATA['RowID'];
-  $Weight = $DATA['Weight'];
-  $Sql = "UPDATE newlinentable_detail SET Qty = $newQty, Weight = ($newQty*$Weight) WHERE Id = $RowID";
+  $Sql = "UPDATE newlinentable_detail SET Qty = $newQty WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
   $Sql="SELECT DocNo FROM newlinentable_detail WHERE Id = $RowID";
   $Query = mysqli_query($conn, $Sql);
