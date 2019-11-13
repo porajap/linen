@@ -1010,6 +1010,7 @@ $array2 = json_decode($json2,TRUE);
         function confirmDep(){
           var DocNo = $('#DocNoHide').val();
           var ItemCode = $('#ItemCodeHide').val();
+          $('#countcheck').val(0);
           var DepCodeArray = [];
           $(".myDepName:checked").each(function() {
             DepCodeArray.push($(this).data('depcode'));
@@ -1039,6 +1040,8 @@ $array2 = json_decode($json2,TRUE);
           var DocNo = $('#DocNoHide2').val();
           // var ItemCode = $('#ItemCodeHide').val();
           var RequestName = $('#NameRequest').val();
+          $('#countcheck2').val(0);
+
           var DepCodeArray = [];
           $(".myDepName2:checked").each(function() {
             DepCodeArray.push($(this).data('depcode'));
