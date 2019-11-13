@@ -785,12 +785,7 @@ function CreateDocument($conn, $DATA)
     $isStatus = $DATA["isStatus"];
 
     $max = sizeof($ItemCodex, 0);
-    $Sqlcount =  "SELECT COUNT(*) AS cnt FROM claim_detail WHERE DocNo = '$RefDocNo' ";
-    $meQuery = mysqli_query($conn, $Sqlcount);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $cnt = $Result['cnt'];
-    }  
-    for ($i = 0; $i < $cnt; $i++) {
+    for ($i = 0; $i < $max; $i++) {
       $iItemStockId = $ItemCodex[$i];
       $Qtyzz = $Qtyz[$i];
 
