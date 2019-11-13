@@ -288,6 +288,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
     if($Result['cnt']==0){
       $Insert = "INSERT newlinentable_detail (DocNo, ItemCode, UnitCode, DepCode, Qty, Weight)VALUES('$DocNo', '$ItemCode', 1, '$DepCodecenter', 1, 1)";
       mysqli_query($conn, $Insert);
+
+      $update = "UPDATE newlinentable SET Total = (Total + 1) WHERE DocNo = '$DocNo'";
+      mysqli_query($conn, $update);
     }
   
   ShowDetailDoc($conn, $DATA);

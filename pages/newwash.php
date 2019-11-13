@@ -835,7 +835,7 @@ $array2 = json_decode($json2,TRUE);
                 if(docno!=""){
                   for(i=0;i<chk_weight.length; i++){
                     var chk = $('#myweight_'+i).val();
-                    if(chk == ""){
+                    if(chk == "" || chk==0){
                       $('#myweight_'+i).addClass('border border-danger');
                       count++;
                     }
