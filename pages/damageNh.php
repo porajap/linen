@@ -759,7 +759,7 @@ if (e.keyCode == 13) {
       }
       function SaveBill(){
         var count = 0;
-        var chk_qty = document.getElementsByClassName("chk_qty"); //checkbox items
+        var chk_qty = document.getElementsByClassName("chkEmpty"); 
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -772,7 +772,7 @@ if (e.keyCode == 13) {
           if($(this).val()!=""){
               ItemCodeArray.push($(this).val());
           }
-            });
+        });
         var ItemCode = ItemCodeArray.join(',') ;
         // alert(ItemCode); 
 
@@ -791,12 +791,12 @@ if (e.keyCode == 13) {
         if(isStatus==1){
           if(docno!=""){
             for(i=0;i<chk_qty.length; i++){
-                    var chk = $('#qty1_'+i).val();
-                    if(chk == 0){
-                      $('#qty1_'+i).addClass('border border-danger');
-                      count++;
-                    }
-                  }
+              var chk = $('#qty1_'+i).val();
+              if(chk == 0 || chk == ""){
+                $('#qty1_'+i).addClass('border border-danger');
+                count++;
+              }
+            }
       if(count==0){
 
         swal({
@@ -1219,7 +1219,7 @@ if (e.keyCode == 13) {
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly chk_qty' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='removeborder(\""+i+"\",\""+temp[i]['RowID']+"\")'   value='"+temp[i]['Qty']+"'  ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly chk_qty chkEmpty' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='removeborder(\""+i+"\",\""+temp[i]['RowID']+"\")'   value='"+temp[i]['Qty']+"'  ></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
