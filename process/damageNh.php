@@ -1061,13 +1061,13 @@ function CreateDocument($conn, $DATA)
   }
   function showExcel($conn, $DATA){
     $HptCode = $_SESSION['HptCode'];
-    $ID = $DATA['ID'];
+    // $ID = $DATA['ID'];
     $Keyword = $DATA['Keyword'];
     $KeyDate = $DATA['KeyDate'];
  
     $count = 0;
-    $Sql = "SELECT df.ID, df.FileName, df.Date, users.FName  
-    FROM damagenh_file df
+    $Sql = "SELECT df.ID, df.FileName, df.Date, users.EngName  
+    FROM damage_file df
     INNER JOIN users ON users.ID = df.UserID
     WHERE df.HptCode = '$HptCode' 
     AND (df.Date LIKE '%$KeyDate%') AND (df.FileName LIKE '%$Keyword%') AND df.Status = 0 ORDER BY df.Date ASC";
@@ -1077,7 +1077,7 @@ function CreateDocument($conn, $DATA)
        $return[$count]['ID'] = $Result['ID'];
        $return[$count]['FileName'] = $Result['FileName'];
        $return[$count]['Date'] = $Result['Date'];
-       $return[$count]['FName'] = $Result['FName'];
+       $return[$count]['FName'] = $Result['EngName'];
        $boolean = true;
        $count++;
      }
