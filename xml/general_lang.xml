@@ -407,7 +407,7 @@
 <r23><en>Report Repair</en><th>แบบบันทึก ผ้าชำรุด เสียหาย</th></r23>
 <r24><en>Report Claim Factory</en><th>รายงานบันทึกผ้าส่งเคลม-โรงซัก</th></r24>
 <r24><en>Report Claim Factory</en><th>รายงานเคลมโรงซัก</th></r24>
-<DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealthth></DM>
+<DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
 <!--  -->
 <pleaseday><en>-----Please Choose Date------</en><th>-----กรุณาเลือกวันที่-----</th></pleaseday>
 <pleasemonth><en>-----Please Choose Month------</en><th>-----กรุณาเลือกเดือน-----</th></pleasemonth>
