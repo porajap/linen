@@ -341,22 +341,26 @@ $pdf->SetFont('THSarabun', 'b', 10);
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $queryy = "SELECT
 item.ItemName,
-SUM(dirty_detail.Qty) AS Qty
+SUM(dirty_detail.Qty) AS Qty,
+dirty_detail.RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-INNER JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT  JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
-GROUP BY item.ItemName
+GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC
           ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  if($Result['ItemName'] == null){
+    $Result['ItemName'] = $Result['RequestName'];
+  }
   $ItemName = $Result['ItemName'];
   $Qty = $Result['Qty'];
   $pdf->SetFont('THSarabun', '', 14);

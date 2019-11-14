@@ -10,6 +10,8 @@ $HptCode = $data['HptCode'];
 $FacCode = $data['FacCode'];
 $date1 = $data['date1'];
 $date2 = $data['date2'];
+$date_query1 = $data['date1'];
+$date_query2 = $data['date2'];
 $chk = $data['chk'];
 $year = $data['year'];
 $format = $data['Format'];
@@ -255,17 +257,17 @@ $j = 0;
 for ($i = 0; $i < 3; $i++) {
   if ($chk == 'one') {
     if ($format == 1) {
-      $where =   "WHERE DATE (".$doc[$i].".Docdate) = DATE('$date1')";
+      $where =   "WHERE DATE (".$doc[$i].".Docdate) = DATE('$date_query1')";
       
     } elseif ($format = 3) {
-      $where = "WHERE  year (".$doc[$i].".Docdate) LIKE '%$date1%'";
+      $where = "WHERE  year (".$doc[$i].".Docdate) LIKE '%$date_query1%'";
       
     }
   } elseif ($chk == 'between') {
-    $where =   "WHERE ".$doc[$i].".Docdate BETWEEN '$date1' AND '$date2'";
+    $where =   "WHERE ".$doc[$i].".Docdate BETWEEN '$date_query1' AND '$date_query2'";
     
   } elseif ($chk == 'month') {
-    $where =   "WHERE month (".$doc[$i].".Docdate) = " . $date1;
+    $where =   "WHERE month (".$doc[$i].".Docdate) = " . $date_query1;
     
   } elseif ($chk == 'monthbetween') {
     $where =   "WHERE date(".$doc[$i].".Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
@@ -286,6 +288,7 @@ LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
 $where AND $FacCode in ($doc[$i].FacCode)
 AND process.isStatus <> 9
 ";
+
   // var_dump($query); die;
   // Number of column
   $numfield = 6;

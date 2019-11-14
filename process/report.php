@@ -582,7 +582,7 @@ function find_report($conn, $DATA)
         $return = r22($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'monthbetween');
       }
     }
-  }else if ($typeReport == 23) {
+  } else if ($typeReport == 23) {
     if ($Format == 1 || $Format == 3) {
       if ($FormatDay == 1 || $Format == 3) {
         $date1 = $date;
@@ -602,7 +602,7 @@ function find_report($conn, $DATA)
         $return = r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'monthbetween');
       }
     }
-  }else if ($typeReport == 24) {
+  } else if ($typeReport == 24) {
     if ($Format == 1 || $Format == 3) {
       if ($FormatDay == 1 || $Format == 3) {
         $date1 = $date;
@@ -754,9 +754,9 @@ function typeReport($typeReport)
         'รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้' => 19,
         'รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน' => 20,
         'รายงาน T-das' => 21,
-        'Report New Linen' => 22,
-        'Report Damage Nhealth' => 23,
-        'Report Claim Factory' => 24
+        'รายงานแบบบันทึกการส่งซักผ้าใหม่ให้โรงซัก' => 22,
+        'รายงานผ้าชำรุด NHealth' => 23,
+        'รายงานเคลมโรงซัก' => 24
       ];
   }
   $myReport = array_search($type, $typeArray);
@@ -2248,19 +2248,6 @@ function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $doc = array(dirty, repair_wash, newlinentable);
   if ($Format == 1) {
     if ($chk == 'one') {
-      // for ($i = 0; $i < 3; $i++) {
-      //   $query = "SELECT $doc[$i].DocDate
-      //        factory.FacName,
-      //         process.DocNo AS  DocNo1 
-      //         FROM
-      //         process
-      //         LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
-      //         LEFT JOIN factory ON $doc[$i].FacCode = factory.FacCode
-      //         WHERE $FacCode in ($doc[$i].FacCode)
-      //         AND DATE($doc[$i].DocDate) = '$date1' 
-      //         GROUP BY  $doc[$i].DocDate
-      //         ORDER BY $doc[$i].DocNo ASC";
-
       $Sql = "SELECT
         process.DocNo,
         process.FacCode,
@@ -2350,7 +2337,7 @@ OR repair_wash.HptCode = '$HptCode')limit 1";
  dirty.HptCode = '$HptCode'
 OR newlinentable.HptCode = '$HptCode'
 OR repair_wash.HptCode = '$HptCode')limit 1";
-    }  else {
+    } else {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
       $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
@@ -3237,7 +3224,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
       $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
-      $Sql =" SELECT  damagenh.DocDate, site.HptName
+      $Sql = " SELECT  damagenh.DocDate, site.HptName
               FROM
               damagenh  
               INNER JOIN department ON department.DepCode = damagenh.DepCode  
@@ -3287,7 +3274,8 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $return['form'] = 'r23';
     return $return;
   }
-}function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
+}
+function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 {
   $count = 0;
   $boolean = false;
@@ -3337,7 +3325,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
       $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
-      $Sql =" SELECT  damage.DocDate, site.HptName
+      $Sql = " SELECT  damage.DocDate, site.HptName
               FROM
               damage  
               INNER JOIN department ON department.DepCode = damage.DepCode  

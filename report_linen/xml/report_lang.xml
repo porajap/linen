@@ -110,7 +110,7 @@
 <r22><en>Report New Linen</en><th>รายงานแบบบันทึกการส่งซักผ้าใหม่ให้โรงซัก</th></r22>
 <r23><en>Report Damage</en><th>รายงาน ผ้าชำรุด เสียหาย</th></r23>
 <r24><en>Report Claim Factory</en><th>รายงานเคลมโรงซัก</th></r24>
-<DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealthth></DM>
+<DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
 <sign><en>Sign</en><th>ลงชื่อ</th></sign>
 <packing><en>Packing</en><th>เจ้าหน้าที่แพ็คของ</th></packing>
 <passenger><en>Passenger</en><th>เจ้าหน้าที่ส่งของ</th></passenger>

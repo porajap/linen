@@ -210,10 +210,6 @@ $pdf->Cell(95, 7, " : " . $FirstName, 0, 0, 'L');
 $pdf->Cell(22, 7, $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $xTime, 0, 0, 'L');
 $pdf->Ln();
-
-
-
-$pdf->Ln();
 $pdf->Ln(5);
 $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
 <tr>
