@@ -111,22 +111,22 @@ class MYPDF extends TCPDF
     $DocNo = $_GET['DocNo'];
     if ($this->last_page_flag) {
       require('connect.php');
-      $head = "SELECT
-      clean.SignFac,
-      clean.SignNH,
-      SignFacTime as  SignFacTime ,
-      SignNHTime as  SignNHTime
-      FROM
-      clean
-      WHERE clean.DocNo = '$DocNo'
-      ";
-      $meQuery = mysqli_query($conn, $head);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $SignFac = $Result['SignFac'];
-        $SignNH = $Result['SignNH'];
-        $SignFacTime = $Result['SignFacTime'];
-        $SignNHTime = $Result['SignNHTime'];
-      }
+      // $head = "SELECT
+      // clean.SignFac,
+      // clean.SignNH,
+      // SignFacTime as  SignFacTime ,
+      // SignNHTime as  SignNHTime
+      // FROM
+      // clean
+      // WHERE clean.DocNo = '$DocNo'
+      // ";
+      // $meQuery = mysqli_query($conn, $head);
+      // while ($Result = mysqli_fetch_assoc($meQuery)) {
+      //   $SignFac = $Result['SignFac'];
+      //   $SignNH = $Result['SignNH'];
+      //   $SignFacTime = $Result['SignFacTime'];
+      //   $SignNHTime = $Result['SignNHTime'];
+      // }
       list($date1, $time1) = explode(' ', $SignFacTime);
       list($date2, $time2) = explode(' ', $SignNHTime);
       list($y1, $m1, $d1) = explode('-', $date1);
@@ -264,7 +264,27 @@ WHERE clean_detail.DocNo = '$DocNo'
 GROUP BY item.ItemCode,clean_detail.Detail
 ORDER BY item.ItemName ASC";
 
-
+$SUM = "SELECT
+dirty.Total AS Wdirty,
+clean.DocNo AS Dclean,
+dirty.DocNo AS Ddirty,
+clean.Total AS Wclean,
+newlinentable.DocNo AS Dnewlinentable,
+newlinentable.Total AS Wnewlinentable
+FROM
+clean
+LEFT JOIN dirty ON clean.RefDocNo = dirty.DocNo
+LEFT JOIN newlinentable ON clean.RefDocNo = newlinentable.DocNo
+WHERE clean.DocNo = '$DocNo'";
+$meQuery = mysqli_query($conn, $SUM);
+while ($Result = mysqli_fetch_assoc($meQuery)) {  
+ $Wdirty =$Result['Wdirty'];
+ $Wclean =$Result['Wclean'];
+ $Wnewlinentable =$Result['Wnewlinentable'];
+ $Dclean =$Result['Dclean'];
+ $Ddirty =$Result['Ddirty'];
+ $Dnewlinentable =$Result['Dnewlinentable'];
+}
 // set some language-dependent strings (optional)
 
 // --------------------------------------------------------
@@ -330,8 +350,38 @@ $pdf->SetFont('thsarabunnew', 'b', 13);
 $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 9.0);
 $pdf->Cell(135, 5,  $array2['total'][$language], 1, 0, 'C');
-$pdf->Cell(27, 5,   number_format($totalsum, 2), 1, 0, 'C');
-
+$pdf->Cell(27, 5,   number_format($totalsum, 2), 1, 1, 'C');
+$pdf->ln();
+if($Ddirty <> null ){
+  $w1 =$Wclean;
+  $w2 =$Wdirty;
+  $d1 =$Dclean;
+  $d2 =$Ddirty;
+}elseif ($Dnewlinentable <> null){
+  $w1 =$Wclean;
+  $w2 =$Wnewlinentable;
+  $d1 =$Dclean;
+  $d2 =$Dnewlinentable;
+}
+$total=(($w1/$w2)-1)*100;
+$pdf->Cell(40, 5, '', 0, 0, 'C');
+$pdf->Cell(50, 5,  $array2['detail'][$language], 1, 0, 'C');
+$pdf->Cell(30, 5,  $array2['docno'][$language], 1, 0, 'C');
+$pdf->Cell(30, 5,  $array2['weight'][$language], 1, 0, 'C');
+$pdf->ln();
+$pdf->Cell(40, 5,  '', 0, 0, 'C');
+$pdf->Cell(50, 5,  $array2['docclean'][$language], 1, 0, 'C');
+$pdf->Cell(30, 5,  $d1, 1, 0, 'C');
+$pdf->Cell(30, 5,  $w1, 1, 0, 'C');
+$pdf->ln();
+$pdf->Cell(40, 5,  '', 0, 0, 'C');
+$pdf->Cell(50, 5,  $array2['docdirty'][$language], 1, 0, 'C');
+$pdf->Cell(30, 5,  $d2, 1, 0,'C');
+$pdf->Cell(30, 5,  $w2, 1, 0, 'C');
+$pdf->ln();
+$pdf->Cell(40, 5,  '', 0, 0, 'C');
+$pdf->Cell(50, 5,  $array2['total'][$language], 1, 0, 'C');
+$pdf->Cell(60, 5,  abs(number_format($total,2))." %", 1, 0, 'C');
 // ---------------------------------------------------------
 
 //Close and output PDF document
