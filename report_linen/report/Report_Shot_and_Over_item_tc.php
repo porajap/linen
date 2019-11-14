@@ -13,18 +13,20 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 //--------------------------------------------------------------------------
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$chk = $data['chk'];
-$year = $data['year'];
-$format = $data['Format'];
-$DepCode = $data['DepCode'];
-$betweendate1 = $data['betweendate1'];
-$betweendate2 = $data['betweendate2'];
-$DepCode=array();
+$data = explode(',', $_GET['data']);
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
+$DepCode = array();
 $old_code = '';
 //--------------------------------------------------------------------------
 $where = '';
@@ -161,7 +163,7 @@ class MYPDF extends TCPDF
     $json2 = json_encode($xml2);
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
-   
+
     // Position at 1.5 cm from bottom
     $this->SetY(-12);
     // Arial italic 8
@@ -206,15 +208,19 @@ if ($language == 'th') {
 }
 $header = array($array2['no'][$language], $array2['itemname'][$language], $array2['shot'][$language], $array2['over'][$language]);
 // ------------------------------------------------------------------------------
-$Sql = "SELECT
-department.DepCode
-FROM
-department
-INNER JOIN shelfcount ON department.DepCode = shelfcount.DepCode
+$Sql = "SELECT 
+department.DepCode, department.DepName 
+FROM department 
+INNER JOIN shelfcount ON department.DepCode = shelfcount.DepCode 
+INNER JOIN shelfcount_detail ON shelfcount_detail.DocNo = shelfcount.DocNo 
+$where 
+AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
+GROUP BY department.DepCode
  ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DepCode[] = $Result['DepCode'];
+  $DepName[] = $Result['DepName'];
 }
 $Count_Dep = sizeof($DepCode);
 // --------------------------------------------------------
@@ -232,8 +238,8 @@ $pdf->Ln(3);
 
 
 for ($i = 0; $i < $Count_Dep; $i++) {
-  
-$data = "SELECT
+
+  $data = "SELECT
 IFNULL(SUM(shelfcount_detail.Over),0) AS OverPar,
 IFNULL(SUM(shelfcount_detail.Short),0) AS Short ,
 item.itemName,
@@ -248,36 +254,34 @@ AND  department.DepCode = '$DepCode[$i]'
 AND department.HptCode = '$HptCode'
 AND shelfcount.isStatus<> 9
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
-GROUP BY item.itemName";
-$meQuery = mysqli_query($conn, $data);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $depname= $Result['DepName'];
-}
-if($old_code<>$DepCode[$i]){
-  $html = '<h5 align="left">'.$array2['department'][$language].' : '. $depname .'</h5>';
+GROUP BY
+	item.itemName,
+	department.DepCode";
+  if ($old_code <> $DepCode[$i]) {
+    $h5 = '<h5 align="left">' . $array2['department'][$language] . ' : ' .  $DepName[$i]  . '</h5>';
+    $pdf->writeHTML($h5, true, false, false, false, '');
+      $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead> 
+    <tr>
+    <th width="10 %" align="center">' . $header[0] . '</th>
+    <th width="50 %" align="center">' . $header[1] . '</th>
+    <th width="20 %" align="center">' . $header[2] . '</th>
+    <th width="20 %" align="center">' . $header[3] . '</th>
+    </tr></thead>';
+    $old_code = $DepCode[$i];
+    $count = 1;
+  }
+  $meQuery = mysqli_query($conn, $data);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $html .= '<tr style="font-size: 12px;" nobr="true">';
+    $html .=   '<td width="10 %" align="center">' . $count . '</td>';
+    $html .=   '<td width="50 %" align="left"> ' . $Result['itemName'] . '</td>';
+    $html .=   '<td width="20 %" align="center"> ' . $Result['Short'] . '</td>';
+    $html .=   '<td width="20 %" align="center"> ' . $Result['OverPar'] . '</td>';
+    $html .=  '</tr>';
+    $count++;
+  }
+  $html .= '</table>';
   $pdf->writeHTML($html, true, false, false, false, '');
-$html = '<table cellspacing="0" cellpadding="3" border="1" ><thead> 
-<tr>
-<th width="10 %" align="center">' . $header[0] . '</th>
-<th width="50 %" align="center">' . $header[1] . '</th>
-<th width="20 %" align="center">' . $header[2] . '</th>
-<th width="20 %" align="center">' . $header[3] . '</th>
-</tr></thead>';
-$old_code = $DepCode[$i];
-$count = 1;
-}
-$meQuery = mysqli_query($conn, $data);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $html .= '<tr style="font-size: 12px;" nobr="true">';
-  $html .=   '<td width="10 %" align="center">' . $count . '</td>';
-  $html .=   '<td width="50 %" align="left"> ' . $Result['itemName'] . '</td>';
-  $html .=   '<td width="20 %" align="center"> ' . $Result['Short'] . '</td>';
-  $html .=   '<td width="20 %" align="center"> ' . $Result['OverPar'] . '</td>';
-  $html .=  '</tr>';
-  $count++;
-}
-$html .= '</table>';
-$pdf->writeHTML($html, true, false, false, false, '');
 }
 
 

@@ -5,21 +5,23 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$date_query1 = $data['date1'];
-$date_query2 = $data['date2'];
-$chk = $data['chk'];
-$year = $data['year'];
-$format = $data['Format'];
-$DepCode = $data['DepCode'];
-$language = $_SESSION['lang'];
-$betweendate1 = $data['betweendate1'];
-$betweendate2 = $data['betweendate2'];
-$Docno = $_GET['Docno'];
+$data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+
+$data =explode( ',',$_GET['data']);
+  // echo "<pre>";
+  // print_r($data);
+  // echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
+$date_query1 = $data[2];
+$date_query2 = $data[3];
 if ($language == "en") {
   $language = "en";
 } else {

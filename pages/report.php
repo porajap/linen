@@ -924,14 +924,15 @@ $array2 = json_decode($json2, TRUE);
 
 
 		function send_data(data) {
-			var URL = data; //your url send_from process process/report.php
+			var dataSend =$('#data').val();
+			var URL = data+'?data='+dataSend; //your url send_from process process/report.php
 			window.open(URL);
 		}
 
 		function send_data2(data) {
-			var myData = data.split(',');
-			var URL = myData[0]; //your url send_from process process/report.php
-			window.open(URL + myData[1]);
+			var dataSend =$('#data').val();
+			var URL = data //your url send_from process process/report.php
+			window.open(URL);
 		}
 		//============================================ Close Function ======================================================
 
@@ -1034,6 +1035,7 @@ $array2 = json_decode($json2, TRUE);
 						// 	var DocDate = temp[i]['DocDate'];
 						// } 
 						else if (temp["form"] == 'r1') {
+							$('#data').val(Object.values(temp['data_send']));
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var show_date = '';
 							var format = temp['Format'];
@@ -1093,6 +1095,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R1 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r2') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1150,6 +1153,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R2 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r3') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1207,6 +1211,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R3 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r4') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1262,11 +1267,12 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data2(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R4 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r5') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1323,6 +1329,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R5 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r6') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1379,6 +1386,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R6 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r7') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1438,6 +1446,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R7 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r8') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1497,6 +1506,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R8 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r9') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1552,6 +1562,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R9 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r10' || temp["form"] == 'r11' || temp["form"] == 'r12') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1607,6 +1618,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R10 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r13') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1665,6 +1677,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R13 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r14') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1722,6 +1735,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R14 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1777,6 +1791,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R15 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r17') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1832,6 +1847,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R17 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r18') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1887,6 +1903,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R18 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r19') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -1943,6 +1960,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R19 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r20') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -1999,6 +2017,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R20 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r21') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -2056,6 +2075,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R21 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r22') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -2108,11 +2128,12 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R22 tbody").append(dataRow);
 							}
 						}else if (temp["form"] == 'r23') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -2169,6 +2190,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R23 tbody").append(dataRow);
 							}
 						}else if (temp["form"] == 'r24') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -2221,7 +2243,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] +  "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R24 tbody").append(dataRow);
 							}
@@ -3383,6 +3405,7 @@ $array2 = json_decode($json2, TRUE);
 </head>
 
 <body id="page-top">
+	<input type="hidden" id='data'>
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['report']['title'][$language]; ?></a></li>
 		<li class="breadcrumb-item active"><?php echo $array2['menu']['report']['title'][$language]; ?></li>

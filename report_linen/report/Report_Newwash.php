@@ -6,17 +6,19 @@ header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
 // ?รับค่าจาก process
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$chk = $data['chk'];
-$year = $data['year'];
-$depcode = $data['DepCode'];
-$format = $data['Format'];
-$betweendate1 = $data['betweendate1'];
-$betweendate2 = $data['betweendate2'];
+$data =explode( ',',$_GET['data']);
+  // echo "<pre>";
+  // print_r($data);
+  // echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
 $where = '';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -149,7 +151,7 @@ INNER JOIN department ON clean.DepCode=department.DepCode
 INNER JOIN clean_detail ON clean.DocNo=clean_detail.DocNo
 INNER JOIN site ON department.HptCode=site.HptCode
 $where
-AND clean.FacCode = $FacCode
+AND clean.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
  ";
 $meQuery = mysqli_query($conn, $Sql);

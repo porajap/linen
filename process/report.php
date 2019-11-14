@@ -862,8 +862,8 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
                ORDER BY dirty.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  // $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
   $return['urlxls'] = '../report_linen/excel/Report_Dirty_Linen_Weight_xls.php';
   $return['555'] = $Sql;
@@ -876,7 +876,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $boolean = true;
     $count++;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['countRow'] = $count;
@@ -1008,8 +1008,8 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
                AND factory.FacCode = $FacCode
               GROUP BY YEAR (claim.DocDate) ORDER BY claim.DocDate ASC";
   }
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+ // $_SESSION['data_send'] = $data_send;
   $return['Sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Claim.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1021,7 +1021,7 @@ function r2($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r2';
@@ -1117,8 +1117,8 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
              ORDER BY clean.DocDate ASC";
   }
   $return['sql'] = $Sql;
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Cleaned_Linen_Weight.php';
   $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1129,7 +1129,7 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r3';
@@ -1206,8 +1206,8 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
               AND shelfcount.isStatus <> 9 
              ";
   }
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'cycle' => $cycle, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'cycle' => $cycle, 'chk' => $chk];
+ // $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Daily_Issue_Request.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1218,7 +1218,7 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r4';
@@ -1294,8 +1294,8 @@ function r5($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               WHERE shelfcount.DocDate LIKE '%$date1%'
               GROUP BY YEAR(shelfcount.Docdate) ORDER BY shelfcount.DocNo ASC";
   }
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+ // $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Daily_Issue_Request.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1305,7 +1305,7 @@ function r5($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r4';
@@ -1411,8 +1411,8 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             ORDER BY repair_wash.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+ // $_SESSION['data_send'] = $data_send;
   $return['Sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Rewash.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1423,7 +1423,7 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r6';
@@ -1505,7 +1505,7 @@ function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   }
   $return['ql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,  'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2,  'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Shot_and_Over_item_tc.php';
   $return['urlxls'] = '../report_linen/excel/Report_Shot_And_Over_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1514,6 +1514,7 @@ function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r7';
@@ -1616,8 +1617,8 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             GROUP BY YEAR(clean.DocDate)";
   }
   $return['ql'] = $Sql;
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'year1' => $year1, 'year2' => $year2, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'year1' => $year1, 'year2' => $year2, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Soiled_Clean_Ratio.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1628,7 +1629,7 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r8';
@@ -1657,8 +1658,8 @@ INNER JOIN item ON item.itemCode = par_item_stock.itemCode
               WHERE par_item_stock.DepCode= '$DepCode'
               GROUP BY DATE(par_item_stock.DepCode)";
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,  'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,  'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2,  'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Stock_Count.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -1670,7 +1671,7 @@ INNER JOIN item ON item.itemCode = par_item_stock.itemCode
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r9';
@@ -1760,8 +1761,8 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
        ORDER BY claim.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Billing_Claim.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1771,7 +1772,7 @@ function r10($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r10';
@@ -1870,8 +1871,8 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
        ORDER BY billcustomer.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Billing_Customer.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1881,7 +1882,7 @@ function r11($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r11';
@@ -1980,8 +1981,8 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
        ORDER BY billwash.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+ // $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Billing_Factory.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1991,7 +1992,7 @@ function r12($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r12';
@@ -2072,8 +2073,8 @@ function r14($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     ORDER BY shelfcount.DocDate  ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Summary.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -2084,7 +2085,7 @@ function r14($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r14';
@@ -2212,8 +2213,8 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $ppu,
               ORDER BY clean.DocDate ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'ppu' => $ppu];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'ppu' => $ppu];
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Summary_Dirty.php';
   $return['Sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -2225,7 +2226,7 @@ function r13($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $ppu,
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r13';
@@ -2398,8 +2399,8 @@ OR repair_wash.HptCode = '$HptCode')limit 1 ";
   }
 
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_laundry_plant.php';
   $return['555'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
@@ -2412,7 +2413,7 @@ OR repair_wash.HptCode = '$HptCode')limit 1 ";
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r15';
@@ -2502,8 +2503,8 @@ function r16($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_linen_operation.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -2514,6 +2515,7 @@ function r16($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r16';
@@ -2607,8 +2609,8 @@ function r17($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 ";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+ // $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Damaged_And_Loss.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -2618,6 +2620,7 @@ function r17($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r17';
@@ -2717,8 +2720,8 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+ // $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_linen_operation_by_ward.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -2729,6 +2732,7 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r18';
@@ -2827,8 +2831,8 @@ function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $User
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  //$_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_linen_operation_by_user.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -2839,6 +2843,7 @@ function r19($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $User
     $count++;
     $boolean = true;
   }
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r19';
@@ -2937,8 +2942,8 @@ function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $User
             ORDER BY shelfcount.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year' => $year];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year' => $year];
+  //$_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Summary_billing.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -2949,6 +2954,7 @@ function r20($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $User
     $count++;
     $boolean = true;
   }
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r20';
@@ -3039,8 +3045,8 @@ function r21($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $User
 			ORDER BY tdas_document.DocNo ASC";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year' => $year];
-  $_SESSION['data_send'] = $data_send;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year' => $year];
+  //$_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tdas.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -3051,6 +3057,7 @@ function r21($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $User
     $count++;
     $boolean = true;
   }
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r21';
@@ -3147,7 +3154,7 @@ function r22($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   }
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Newwash.php';
   $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -3158,7 +3165,7 @@ function r22($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r22';
@@ -3249,7 +3256,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   }
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_damagenh.php';
   $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -3259,7 +3266,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r23';
@@ -3350,7 +3357,7 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   }
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
-  $_SESSION['data_send'] = $data_send;
+  //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Claim_Factory.php';
   $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
@@ -3360,7 +3367,7 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $count++;
     $boolean = true;
   }
-
+  $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['form'] = 'r24';
