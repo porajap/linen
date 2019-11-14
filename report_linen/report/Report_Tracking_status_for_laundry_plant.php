@@ -33,7 +33,7 @@ $where = '';
 //print_r($data);
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (process.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -43,7 +43,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (dirty.Docdate) LIKE '%$date1%'";
+    $where = "WHERE  year (process.Docdate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -52,7 +52,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE dirty.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE process.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -66,7 +66,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (dirty.Docdate) = " . $date1;
+  $where =   "WHERE month (process.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -74,7 +74,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE date(dirty.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE date(process.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   $datetime = new DatetimeTH();
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
@@ -96,7 +96,7 @@ class PDF extends FPDF
   function Header()
   { }
 
-  function setTable($pdf, $header, $data, $width, $numfield, $field,$i)
+  function setTable($pdf, $header, $data, $width, $numfield, $field, $i)
   {
     $language = $_SESSION['lang'];
     if ($language == "en") {
@@ -115,22 +115,22 @@ class PDF extends FPDF
     $w = $width;
     // Header
     $this->SetFont('THSarabun', 'b', 12);
-if($i==0){
-    $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
-    $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
-    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
-    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 0, 'C');
-    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
-    $this->Cell($w[5], 20, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
-    $this->Ln();
+    if ($i == 0) {
+      $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
+      $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
+      $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
+      $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 0, 'C');
+      $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
+      $this->Cell($w[5], 20, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
+      $this->Ln();
 
-    $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
-    for ($i = 0; $i < 4; $i++) {
-      $this->Cell(17.5, -10, iconv("UTF-8", "TIS-620", $array2['start'][$language]), 1, 0, 'C');
-      $this->Cell(17.5, -10, iconv("UTF-8", "TIS-620", $array2['finish'][$language]), 1, 0, 'C');
+      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      for ($i = 0; $i < 4; $i++) {
+        $this->Cell(17.5, -10, iconv("UTF-8", "TIS-620", $array2['start'][$language]), 1, 0, 'C');
+        $this->Cell(17.5, -10, iconv("UTF-8", "TIS-620", $array2['finish'][$language]), 1, 0, 'C');
+      }
+      $this->Ln(0);
     }
-    $this->Ln(0);
-  }
 
     // set Data Details
     $rows = 1;
@@ -140,9 +140,10 @@ if($i==0){
 
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
-        if($inner_array[$field[1]] == null){
+        if ($inner_array[$field[1]] == null) {
           $inner_array[$field[1]] = $inner_array[$field[10]];
-        }if($inner_array[$field[1]] == null && $inner_array[$field[10]] == NULL ){
+        }
+        if ($inner_array[$field[1]] == null && $inner_array[$field[10]] == NULL) {
           $inner_array[$field[1]] = $inner_array[$field[11]];
         }
         if ($language == 'th') {
@@ -172,7 +173,7 @@ if($i==0){
         $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[6]], 0, 5)), 1, 0, 'C');
         $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[7]], 0, 5)), 1, 0, 'C');
         $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[8]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", abs($total_hours) . $hour_show ." ". abs($total_min) . $min_show), 1, 0, 'C');
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", abs($total_hours) . $hour_show . " " . abs($total_min) . $min_show), 1, 0, 'C');
         $this->Ln();
         $rows++;
         $totalsum1 += $inner_array[$field[2]];
@@ -181,28 +182,12 @@ if($i==0){
     }
     // Footer Table
 
-  
+
   }
 
   // Page footer
   function Footer()
-  {$this->isFinished = true;
-    if ($this->isFinished) {
-      $this->SetFont('THSarabun', '', 10);
-      $this->SetY(-17);
-      $xml = simplexml_load_file('../xml/general_lang.xml');
-      $xml2 = simplexml_load_file('../xml/report_lang.xml');
-      $json = json_encode($xml);
-      $array = json_decode($json, TRUE);
-      $json2 = json_encode($xml2);
-      $array2 = json_decode($json2, TRUE);
-      $language = $_SESSION['lang'];
-      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . ".................................................."), 0, 0, 'L');
-      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "..................................................."), 0, 0, 'L');
-      $this->Ln(7);
-      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "........................................................................."), 0, 0, 'L');
-      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
-    }
+  {
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
@@ -232,11 +217,8 @@ $Sql = "SELECT
 factory.$FacName
 FROM
 process
-INNER JOIN dirty ON process.DocNo = dirty.DocNo
-INNER JOIN factory ON factory.FacCode = dirty.FacCode
-$where
-AND dirty.FacCode = $FacCode
-AND process.DocNo = '$Docno'
+INNER JOIN factory ON factory.FacCode = process.FacCode
+where process.FacCode = $FacCode
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -251,8 +233,8 @@ if ($language == 'th') {
 }
 // Move to the right
 $pdf->SetFont('THSarabun', '', 10);
-$image="../images/Nhealth_linen 4.0.png";
-$pdf-> Image($image,10,10,43,15);
+$image = "../images/Nhealth_linen 4.0.png";
+$pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
@@ -264,14 +246,31 @@ $pdf->Ln(10);
 
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(1);
-$pdf->Cell(165, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] ." : ". $Facname), 0, 0, 'L');
+$pdf->Cell(165, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] . " : " . $Facname), 0, 0, 'L');
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
-$pdf->Ln(12 );
-$HptCode=substr($HptCode,0,3);
-$doc = array(dirty,repair_wash,newlinentable);
-$j=0;
-for($i=0;$i<3;$i++){
-$query = "SELECT
+$pdf->Ln(12);
+$HptCode = substr($HptCode, 0, 3);
+$doc = array(dirty, repair_wash, newlinentable);
+$j = 0;
+for ($i = 0; $i < 3; $i++) {
+  if ($chk == 'one') {
+    if ($format == 1) {
+      $where =   "WHERE DATE (".$doc[$i].".Docdate) = DATE('$date1')";
+      
+    } elseif ($format = 3) {
+      $where = "WHERE  year (".$doc[$i].".Docdate) LIKE '%$date1%'";
+      
+    }
+  } elseif ($chk == 'between') {
+    $where =   "WHERE ".$doc[$i].".Docdate BETWEEN '$date1' AND '$date2'";
+    
+  } elseif ($chk == 'month') {
+    $where =   "WHERE month (".$doc[$i].".Docdate) = " . $date1;
+    
+  } elseif ($chk == 'monthbetween') {
+    $where =   "WHERE date(".$doc[$i].".Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  }
+  $query = "SELECT
 TIME (process.WashStartTime) AS WashStartTime ,
 TIME (process.WashEndTime) AS WashEndTime,
 TIME (process.PackStartTime)AS PackStartTime,
@@ -284,25 +283,24 @@ TIME ($doc[$i].ReceiveDate)AS ReceiveDate1
 FROM
 process
 LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
-WHERE $FacCode in ($doc[$i].FacCode)
-AND process.DocNo = '$Docno'
-AND process.isStatus= 4
+$where AND $FacCode in ($doc[$i].FacCode)
+AND process.isStatus <> 9
 ";
-// var_dump($query); die;
-// Number of column
-$numfield = 6;
-// Field data (Must match with Query)
-$field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total,ReceiveDate2,ReceiveDate3";
-// Table header
-$header = array($array2['docdate'][$language], $array2['receive_time'][$language], $array2['washing_time'][$language], $array2['packing_time'][$language], $array2['distribute_time'][$language], $array2['total'][$language]);
-// width of column table
-$width = array(25, 35, 35, 35, 35, 25);
-// Get Data and store in Result
-$result = $data->getdata($conn, $query, $numfield, $field);
-// Set Table
-$pdf->SetFont('THSarabun', 'b', 10);
-$pdf->setTable($pdf, $header, $result, $width, $numfield, $field,$i);
-$j++;
+  // var_dump($query); die;
+  // Number of column
+  $numfield = 6;
+  // Field data (Must match with Query)
+  $field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total,ReceiveDate2,ReceiveDate3";
+  // Table header
+  $header = array($array2['docdate'][$language], $array2['receive_time'][$language], $array2['washing_time'][$language], $array2['packing_time'][$language], $array2['distribute_time'][$language], $array2['total'][$language]);
+  // width of column table
+  $width = array(25, 35, 35, 35, 35, 25);
+  // Get Data and store in Result
+  $result = $data->getdata($conn, $query, $numfield, $field);
+  // Set Table
+  $pdf->SetFont('THSarabun', 'b', 10);
+  $pdf->setTable($pdf, $header, $result, $width, $numfield, $field, $i);
+  $j++;
 }
 
 // Footer Table

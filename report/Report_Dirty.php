@@ -6,6 +6,7 @@ header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 // Date
 // $eDate = "2018-06-06";
+session_start();
 $eDate = $_GET['eDate'];
 $eDate = explode("/", $eDate);
 $eDate = $eDate[2] . '-' . $eDate[1] . '-' . $eDate[0];
@@ -75,21 +76,23 @@ class PDF extends FPDF
   function Footer()
   {
     if ($this->isFinished) {
-      $xml = simplexml_load_file('../report_linen/xml/report_lang.xml');
+      $this->SetY(-30);
+      $xml = simplexml_load_file('../xml/general_lang.xml');
+      $xml2 = simplexml_load_file('../xml/report_lang.xml');
       $json = json_encode($xml);
       $array = json_decode($json, TRUE);
-      $this->SetFont('THSarabun', '', 10);
-      $this->SetY(-27);
-      $language = $_GET['lang'];
-      $this->SetFont('THSarabun', 'b', 11);
-      
-      $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['comlinen'][$language] . "............................................"), 0, 0, 'L');
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['comlaundry'][$language] . "........................................"), 0, 0, 'L');
+      $json2 = json_encode($xml2);
+      $array2 = json_decode($json2, TRUE);
+       $language = $_SESSION['lang'];
+      $this->SetFont('THSarabun', 'b', 10);
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . "..............................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "........................................"), 0, 0, 'L');
       $this->Ln(7);
-      
-      $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . "..................................................................."), 0, 0, 'L');
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . ".........................................................."), 0, 0, 'L');
-      $this->Ln(7);
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . ".........................................................."), 0, 0, 'L');
+
     }
     $datetime = new DatetimeTH();
     // Position at 1.5 cm from bottom
@@ -132,6 +135,9 @@ class PDF extends FPDF
     $this->SetFont('THSarabun', '', 12);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
+        if ($inner_array[$field[1]]== null){
+          $inner_array[$field[1]] = $inner_array[$field[6]] ;
+        }
         if ($r > 19) {
           $next_page++;
           if ($status == 0) {
@@ -172,7 +178,7 @@ class PDF extends FPDF
           $main += $point;
         }
         $txt2 = getStrLenTH(trim($inner_array[$field[5]])); // 10
-        $round2 = $txt2 /30;
+        $round2 = $txt2 /32;
         // echo $round2 ."<br>";
         list($main2, $point2) = explode(".", $round2);
         if ($point2 > 0) {
@@ -184,10 +190,11 @@ class PDF extends FPDF
         $this->MultiCell($w[1], 10/$main, iconv("UTF-8", "TIS-620", "  " . $inner_array[$field[1]]), 1,  'L');
         $this->SetXY($w[0] + $w[1]  +15, $y);
         $this->MultiCell($w[5], 10/$main2, iconv("UTF-8", "TIS-620", trim($inner_array[$field[5]]) . " "), 1,'C');
-        $this->SetXY($w[0] + $w[1] +$w[5] +15, $y);
+        $this->SetXY($w[0] + $w[1] +$w[5] +15, $y);   
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]]) . " "), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]] . " "), 1, 0, 'C');
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]],2) . " "), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]] . " "), 1, 0, 'C');
+        
         $this->Ln();
         $total = $inner_array[$field[3]] + $total;
         $count++;
@@ -196,8 +203,8 @@ class PDF extends FPDF
       }
     }
     $this->SetFont('THSarabun', 'b', 14);
-    $this->Cell($w[0]+$w[1]+$w[2]+$w[3]+$w[5], 10, iconv("UTF-8", "TIS-620", $array['total'][$language]), 1, 0, 'C');
-    $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($total,2 ). " "), 1, 0, 'C');
+    $this->Cell(140, 10, iconv("UTF-8", "TIS-620", $array['total'][$language]), 1, 0, 'C');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($total,2 ). " "), 1, 0, 'C');
     $this->Ln();
     // Closing line
   }
@@ -309,30 +316,31 @@ $pdf->Cell(10);
 $pdf->SetMargins(15, 0, 0);
 $pdf->Ln();
 $pdf->Ln(5);
-$query = "SELECT
-          dirty_detail.ItemCode,
-          item.ItemName,
-          item_unit.UnitName,
-          department.DepName,
-          sum(dirty_detail.Qty) as Qty,
-          sum(dirty_detail.Weight) as Weight
-          FROM item
-          INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-          INNER JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
-          INNER JOIN department ON dirty_detail.DepCode = department.DepCode
-          WHERE dirty_detail.DocNo = '$DocNo'
-		      GROUP BY item.ItemCode,department.depname
-          ORDER BY
-	department.Depcode,item.ItemCode ASC
+$query = "					SELECT
+dirty_detail.ItemCode,
+item.ItemName,
+dirty_detail.RequestName,
+COALESCE (item_unit.UnitName,'-') AS  UnitName,
+department.DepName,
+sum(dirty_detail.Qty) as Qty,
+sum(dirty_detail.Weight) as Weight
+FROM item
+INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
+INNER JOIN department ON dirty_detail.DepCode = department.DepCode
+WHERE dirty_detail.DocNo = '$DocNo'
+GROUP BY item.ItemCode,department.depname,item_unit.UnitName
+ORDER BY
+department.Depcode,item.ItemCode ASC
           ";
+
 // var_dump($query); die;
 // Number of column
 $numfield = 7;
 // Field data (Must match with Query)
-$field = "no,ItemName,Qty,Weight,UnitName,DepName";
+$field = "no,ItemName,Qty,Weight,UnitName,DepName,RequestName";
 // Table header
-$header = array($array['no'][$language],  $array['itemname'][$language],$array['qty'][$language], $array['weight'][$language], $array['unit'][$language], $array['department'][$language]);
+$header = array($array['no'][$language],  $array['itemname'][$language],$array['qty'][$language], $array['unit'][$language], $array['weight'][$language], $array['department'][$language]);
 // width of column table
 $width = array(15, 55, 20, 20, 20, 50);
 // Get Data and store in Result

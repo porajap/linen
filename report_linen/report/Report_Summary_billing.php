@@ -225,7 +225,7 @@ class PDF extends FPDF
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'L');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]])), 1, 0, 'C');
         $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
         $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($total, 2)), 1, 0, 'C');
         $this->Ln();
@@ -234,6 +234,7 @@ class PDF extends FPDF
       }
     }
     if ($private == 1) {
+      $pdf->SetFont('THSarabun', '', 11);
       $total_all = $total_all * 100 / 100;
       if ($language == 'th') {
         $text = m2t($total_all);
@@ -380,7 +381,7 @@ INNER JOIN department ON department.DepCode = shelfcount.DepCode
 INNER JOIN site ON site.HptCode = department.HptCode
 $where
 AND site.HptCode = '$HptCode'
-AND shelfcount.isStatus= 4
+AND shelfcount.isStatus<> 9
 GROUP BY item.ItemName ASC
 ";
 $queryy = "SELECT
@@ -403,7 +404,7 @@ if ($private == 1) {
   // Table header
   $header = array($array2['no'][$language], $array2['itemname'][$language], $array2['unit'][$language], $array2['amount'][$language], $array2['priceperunit'][$language], $array2['total_price'][$language]);
   // width of column table
-  $width = array(28, 50, 28, 28, 28, 28);
+  $width = array(24, 70, 24, 24, 24, 24);
   // Get Data and store in Result
   $result = $data->getdata($conn, $query, $numfield, $field);
   // Set Table

@@ -12,13 +12,14 @@
 <shot><en>Shot</en><th>ผ้าขาด</th></shot>
 <over><en>Over</en><th>ผ้าเกิน</th></over>
 <Cycle><en>Cycle</en><th>รอบส่ง</th></Cycle>
+<receivecycle><en>Receive</en><th>รอบรับ</th></receivecycle>
 <factory><en>Factory</en><th>โรงซัก</th></factory>
 <receive><en>Receive (Qty)</en><th>ผ้าที่รับ(จำนวน)</th></receive>
 <reject><en>Reject (Qty)</en><th>ผ้าใหม่ส่งซัก(จำนวน)</th></reject>
 <repair><en>Repair (Qty)</en><th>ผ้าส่งซ่อม(จำนวน)</th></repair>
 <qty><en>Qty</en><th>จำนวน</th></qty>
-<receivepercent><en>Receive (%)</en><th>ผ้าที่รับ (%)</th></receivepercent>
-<rejectpercent><en>Reject (%)</en><th>ผ้าซักใหม่ (%)</th></rejectpercent>
+<damagepercent><en>Damage (%)</en><th>ผ้าเสียหาย (%)</th></damagepercent>
+<rejectpercent><en>Reject (%)</en><th>ผ้าใหม่ส่งซัก (%)</th></rejectpercent>
 <repairpercent><en>Repair (%)</en><th>ผ้าส่งซ่อม (%)</th></repairpercent>
 <dirty><en>Dirty</en><th>ผ้าเปื้อน</th></dirty>
 <soild><en>Soild</en><th>รายการผ้าเปื้อน</th></soild>
@@ -27,7 +28,7 @@
 <shelfcounttime><en>Shelf Count Time</en><th>เวลานับผ้า</th></shelfcounttime>
 <deliverytime><en>Delivery Time</en><th>รอบส่งผ้า</th></deliverytime>
 <repair_dirty><en>Repair (Dirty)</en><th>ผ้าส่งแก้ไข</th></repair_dirty>
-<newlinen><en>Newlinen</en><th>ผ้าซักใหม่</th></newlinen>
+<newlinen><en>Newlinen</en><th>ผ้าใหม่ส่งซัก</th></newlinen>
 <Totaldirty><en>Total dirty</en><th>รวมผ้าเปื้อน</th></Totaldirty>
 <clean><en>Clean</en><th>ผ้าสะอาด</th></clean>
 <receive_dirty><en>Receive Dirty</en><th>ผ้าแก้ไขรับกลับ</th></receive_dirty>
@@ -35,8 +36,8 @@
 <Totalclean><en>Total Clean</en><th>รวมผ้าสะอาด</th></Totalclean>
 <damaged><en>Damaged (Qty)</en><th>ผ้าสูญหาย (จำนวน)</th></damaged>
 <damage><en>Damage</en><th>ผ้าเสียหาย</th></damage>
-<rewash><en>Rewash (Qty) </en><th>ผ้าซักใหม่ (จำนวน)</th></rewash>
-<rewashpercent><en>Rewash (%) </en><th>ผ้าซักใหม่ (%)</th></rewashpercent>
+<rewash><en>Rewash (Qty) </en><th>ผ้าใหม่ส่งซัก (จำนวน)</th></rewash>
+<rewashpercent><en>Rewash (%) </en><th>ผ้าใหม่ส่งซัก (%)</th></rewashpercent>
 <loss><en>Loss</en><th>ผ้าถูกซ่อม (จำนวน)</th></loss>
 <docno><en>Doc No</en><th>เลขที่เอกสาร</th></docno>
 <docdate><en>Doc Date</en><th>วันที่เอกสาร</th></docdate>
@@ -76,6 +77,7 @@
 <comlinen><en>Competent N Health</en><th>เจ้าหน้า N Health</th></comlinen>
 <comlaundry><en>Competent laundry</en><th>เจ้าหน้าที่โรงซัก</th></comlaundry>
 <date><en>Date</en><th>วันที่</th></date>
+<Enforcementdate><en>Enforcement date</en><th>วันที่บังคับใช้</th></Enforcementdate>
 <nhealth><en>N health Company</en><th>สวนของเจ้าหน้าที่ บริษัท เนชั่นแนล เฮลท์แคร์ ซิสเท็มส์ จำกัด</th></nhealth>
 <foremanlinen><en>Fore Manlinen</en><th>หัวหน้างานแผนกห้องผ้า</th></foremanlinen>
 <examiner><en>Examiner</en><th>ผู้ตรวจสอบ</th></examiner>
@@ -87,7 +89,7 @@
 <r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
 <r3><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r3>
 <r2><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r2>
-<r4><en>Daily issue Request</en><th>รายงานคำร้องขอการส่งผ้า</th></r4>
+<r4><en>Daily issue Request</en><th>ใบรายการจ่ายผ้าประจำวัน</th></r4>
 <r5><en>Report Operations Time Spend</en><th>Report Operations Time Spend</th></r5>
 <r6><en>Report Rewash</en><th>รายงานบันทึกผ้าแก้ไข</th></r6>
 <r7><en>Report Shot and Over item</en><th>รายงานบันทึกผ้าขาด และผ้าเกินจากยอด</th></r7>
@@ -105,6 +107,10 @@
 <r19><en>Report Tracking status for linen operation By User</en><th>รายงานการติดตามการจัดจ่ายผ้าโดยอิงจากผู้ใช้</th></r19>
 <r20><en>Report Summary billing</en><th>รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
 <r21><en>Report T-das</en><th>รายงาน T-das</th></r21>
+<r22><en>Report New Linen</en><th>รายงานแบบบันทึกการส่งซักผ้าใหม่ให้โรงซัก</th></r22>
+<r23><en>Report Damage</en><th>รายงาน ผ้าชำรุด เสียหาย</th></r23>
+<r24><en>Report Claim Factory</en><th>รายงานเคลมโรงซัก</th></r24>
+<DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealthth></DM>
 <sign><en>Sign</en><th>ลงชื่อ</th></sign>
 <packing><en>Packing</en><th>เจ้าหน้าที่แพ็คของ</th></packing>
 <passenger><en>Passenger</en><th>เจ้าหน้าที่ส่งของ</th></passenger>

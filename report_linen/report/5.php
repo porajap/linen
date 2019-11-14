@@ -1,75 +1,62 @@
 <?php
-
-date_default_timezone_set("Asia/Bangkok");
-$xDate = date('Y-m-d');
-require '../connect/connect.php';
-session_start();
-$DocNo = $_GET['DocNo'];
-$lang = $_GET['lang'];
-$ItemCode = $_GET['ItemCode'];
-$TotalQty = $_GET['TotalQty'];
-$sendQty = $_GET['sendQty'];
-$UserID = $_SESSION['PmID'];
-$count = 0;
-
-$Sql = "SELECT
-  item.ItemName,
-  item_unit.UnitName,
-  users.FName,
- (
-  SELECT users.FName FROM users WHERE ID = $UserID
- ) AS UserC
-  FROM item
-  INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
-  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
- INNER JOIN users ON users.ID = shelfcount.Modify_Code
-  WHERE shelfcount_detail.DocNo = '$DocNo' AND shelfcount_detail.ItemCode = '$ItemCode'
-  GROUP BY item.ItemCode ORDER BY item.ItemName ASC ";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $ItemName = $Result['ItemName'];
-  $UserC = $Result['UserC'];
-  $FName = $Result['FName'];
-  $UnitName = $Result['UnitName'];
-}
-
-
+//============================================================+
+// File name   : example_005.php
+// Begin       : 2008-03-04
+// Last Update : 2013-05-14
+//
+// Description : Example 005 for TCPDF class
+//               Multicell
+//
+// Author: Nicola Asuni
+//
+// (c) Copyright:
+//               Nicola Asuni
+//               Tecnick.com LTD
+//               www.tecnick.com
+//               info@tecnick.com
+//============================================================+
 
 /**
+ * Creates an example PDF TEST document using TCPDF
  * @package com.tecnick.tcpdf
- * @abstract TCPDF - Example: 2D barcodes.
+ * @abstract TCPDF - Example: Multicell
  * @author Nicola Asuni
  * @since 2008-03-04
  */
 
 // Include the main TCPDF library (search for installation path).
-require_once('../tcpdf/tcpdf.php');
-
-
-
+require('tcpdf/tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(50,50), true, 'UTF-8', false);
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-$pdf->SetTitle('Sticker_Shelfcount');
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetTitle('TCPDF Example 005');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 005', PDF_HEADER_STRING);
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 // set margins
-$pdf->SetMargins(1, 2, 1);
-$pdf->SetHeaderMargin(10);
-$pdf->SetFooterMargin(10);
-$pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
 // set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 // set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-
 
 // set some language-dependent strings (optional)
 if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
@@ -80,113 +67,91 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('thsarabunnew', '', 13);
-$imagex = "../img/mhee1.png";
-$image2 = "../img/mhee2.png";
-// set style for barcode
-$style = array(
-    'border' => false,
-    'vpadding' => 'auto',
-    'hpadding' => 'auto',
-    'fgcolor' => array(0,0,0),
-    'bgcolor' => false, //array(255,255,255)
-    'module_width' => 1, // width of a single module in points
-    'module_height' => 1 // height of a single module in points
-);
+$pdf->SetFont('times', '', 10);
+
 // add a page
-$loop1 = floor($TotalQty/$sendQty);
-for($i=1;$i<=$loop1;$i++){
-
 $pdf->AddPage();
-$pdf->SetY(0);
 
-$pdf->Cell(25,0,$pdf->Image($imagex,3, 5, 18 ),0,1,'L');
-$pdf->SetFont('thsarabunnew', 'U', 16);
-$pdf->SetX(0);
-$pdf->Cell("",  0, "                                       ", 0, 1, 'L', 0, '', 0);
-$pdf->SetFont('thsarabunnew', '', 14);
-$pdf->Cell(50,  0, $ItemName, 0, 1, 'L', 0, '', 0);
-$pdf->SetY(19);
-$pdf->SetFont('thsarabunnew', '', 14);
-$pdf->Cell(11, 4, $sendQty. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
-$pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
-$pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
+// set cell padding
+$pdf->setCellPaddings(1, 1, 1, 1);
 
+// set cell margins
+$pdf->setCellMargins(1, 1, 1, 1);
 
-$pdf->SetY(26);
-$pdf->SetFont('thsarabunnew', '', 14);
-$pdf->SetX(27);
-$pdf->Cell(36, 1, 'ผู้จัด ' , 0, 1, 'L', 0, '', 1);
-$pdf->SetX(27);
-$pdf->SetFont('thsarabunnew', '', 12);
-$pdf->Cell(36, 1, $FName , 0, 1, 'L', 0, '', 1);
+// set color for background
+$pdf->SetFillColor(255, 255, 127);
 
-$pdf->SetX(27);
-$pdf->SetFont('thsarabunnew', '', 14);
-$pdf->Cell(38, 1, 'ผู้ตรวจ' , 0, 1, 'L', 0, '', 1);
-$pdf->SetY(42);
-$pdf->SetFont('thsarabunnew', '', 12);
-$pdf->SetX(27);
-$pdf->Cell(38, 1, '. . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
+// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0)
 
-  // $pdf->lastPage();
-  $pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', 1,23, 26, 26, $style, 'L');
+// set some text for example
+$txt = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-}
-$loop2 = $loop1*$sendQty;
-$totallast =$TotalQty - $loop2;
-if($loop2<$TotalQty){
-  $pdf->AddPage();
-  $pdf->SetY(0);
-  
-  $pdf->Cell(25,0,$pdf->Image($imagex,3, 5, 18 ),0,1,'L');
-  $pdf->SetFont('thsarabunnew', 'U', 16);
-  $pdf->SetX(0);
-  $pdf->Cell("",  0, "                                       ", 0, 1, 'L', 0, '', 0);
-  
-  // $strlen=strlen($ItemName);//นับstr
-  // $str=$ItemName;
-  
-  // if($strlen>50){
-  // $ItemName1=substr($str,0,50);//ตัดstr
-  // $item_name=$ItemName1.'...';
-  // }else if($strlen<50){
-  // $item_name=$ItemName;
-  // }
-  
-  $pdf->SetFont('thsarabunnew', '', 14);
-  $pdf->Cell(50,  0, $ItemName, 0, 1, 'L', 0, '', 0);
-  $pdf->SetY(19);
-  $pdf->SetFont('thsarabunnew', '', 14);
-  $pdf->Cell(11, 4, $totallast. ' ชิ้น' , 0, 0, 'L', 0, '', 1);
-  $pdf->Cell(30, 4, $ItemCode , 0, 1, 'R', 0, '', 1);
-  $pdf->Cell(50,  4, "", 0, 1, 'L', 0, '', 0);
-  
-  
-  $pdf->SetY(26);
-  $pdf->SetFont('thsarabunnew', '', 14);
-  $pdf->SetX(27);
-  $pdf->Cell(36, 1, 'ผู้จัด ' , 0, 1, 'L', 0, '', 1);
-  $pdf->SetX(27);
-  $pdf->SetFont('thsarabunnew', '', 12);
-  $pdf->Cell(36, 1, $FName , 0, 1, 'L', 0, '', 1);
-  
-  $pdf->SetX(27);
-  $pdf->SetFont('thsarabunnew', '', 14);
-  $pdf->Cell(38, 1, 'ผู้ตรวจ' , 0, 1, 'L', 0, '', 1);
-  $pdf->SetY(42);
-  $pdf->SetFont('thsarabunnew', '', 12);
-  $pdf->SetX(27);
-  $pdf->Cell(38, 1, '. . . . . . . . . .' , 0, 1, 'L', 0, '', 1);
-  
-    // $pdf->lastPage();
-    $pdf->write2DBarcode($ItemCode.','.$totallast, 'QRCODE,L', 1,23, 26, 26, $style, 'L');
-  }
+// Multicell test
+$pdf->MultiCell(55, 5, '[LEFT] '.$txt, 1, 'L', 1, 0, '', '', true);
+$pdf->MultiCell(55, 5, '[RIGHT] '.$txt, 1, 'R', 0, 1, '', '', true);
+$pdf->MultiCell(55, 5, '[CENTER] '.$txt, 1, 'C', 0, 0, '', '', true);
+$pdf->MultiCell(55, 5, '[JUSTIFY] '.$txt."\n", 1, 'J', 1, 2, '' ,'', true);
+$pdf->MultiCell(55, 5, '[DEFAULT] '.$txt, 1, '', 0, 1, '', '', true);
+
+$pdf->Ln(4);
+
+// set color for background
+$pdf->SetFillColor(220, 255, 220);
+
+// Vertical alignment
+$pdf->MultiCell(55, 40, '[VERTICAL ALIGNMENT - TOP] '.$txt, 1, 'J', 1, 0, '', '', true, 0, false, true, 40, 'T');
+$pdf->MultiCell(55, 40, '[VERTICAL ALIGNMENT - MIDDLE] '.$txt, 1, 'J', 1, 0, '', '', true, 0, false, true, 40, 'M');
+$pdf->MultiCell(55, 40, '[VERTICAL ALIGNMENT - BOTTOM] '.$txt, 1, 'J', 1, 1, '', '', true, 0, false, true, 40, 'B');
+
+$pdf->Ln(4);
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// set color for background
+$pdf->SetFillColor(215, 235, 255);
+
+// set some text for example
+$txt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed imperdiet lectus. Phasellus quis velit velit, non condimentum quam. Sed neque urna, ultrices ac volutpat vel, laoreet vitae augue. Sed vel velit erat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras eget velit nulla, eu sagittis elit. Nunc ac arcu est, in lobortis tellus. Praesent condimentum rhoncus sodales. In hac habitasse platea dictumst. Proin porta eros pharetra enim tincidunt dignissim nec vel dolor. Cras sapien elit, ornare ac dignissim eu, ultricies ac eros. Maecenas augue magna, ultrices a congue in, mollis eu nulla. Nunc venenatis massa at est eleifend faucibus. Vivamus sed risus lectus, nec interdum nunc.
+
+Fusce et felis vitae diam lobortis sollicitudin. Aenean tincidunt accumsan nisi, id vehicula quam laoreet elementum. Phasellus egestas interdum erat, et viverra ipsum ultricies ac. Praesent sagittis augue at augue volutpat eleifend. Cras nec orci neque. Mauris bibendum posuere blandit. Donec feugiat mollis dui sit amet pellentesque. Sed a enim justo. Donec tincidunt, nisl eget elementum aliquam, odio ipsum ultrices quam, eu porttitor ligula urna at lorem. Donec varius, eros et convallis laoreet, ligula tellus consequat felis, ut ornare metus tellus sodales velit. Duis sed diam ante. Ut rutrum malesuada massa, vitae consectetur ipsum rhoncus sed. Suspendisse potenti. Pellentesque a congue massa.';
+
+// print a blox of text using multicell()
+$pdf->MultiCell(80, 5, $txt."\n", 1, 'J', 1, 1, '' ,'', true);
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// AUTO-FITTING
+
+// set color for background
+$pdf->SetFillColor(255, 235, 235);
+
+// Fit text on cell by reducing font size
+$pdf->MultiCell(55, 60, '[FIT CELL] '.$txt."\n", 1, 'J', 1, 1, 125, 145, true, 0, false, true, 60, 'M', true);
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// CUSTOM PADDING
+
+// set color for background
+$pdf->SetFillColor(255, 255, 215);
+
+// set font
+$pdf->SetFont('helvetica', '', 8);
+
+// set cell padding
+$pdf->setCellPaddings(2, 4, 6, 8);
+
+$txt = "CUSTOM PADDING:\nLeft=2, Top=4, Right=6, Bottom=8\nLorem ipsum dolor sit amet, consectetur adipiscing elit. In sed imperdiet lectus. Phasellus quis velit velit, non condimentum quam. Sed neque urna, ultrices ac volutpat vel, laoreet vitae augue.\n";
+
+$pdf->MultiCell(55, 5, $txt, 1, 'J', 1, 2, 125, 210, true);
+
+// move pointer to last page
+$pdf->lastPage();
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('Sticker_Shelfcount.pdf', 'I');
+$pdf->Output('example_005.pdf', 'I');
 
 //============================================================+
 // END OF FILE

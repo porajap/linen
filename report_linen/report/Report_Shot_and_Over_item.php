@@ -132,8 +132,9 @@ class PDF extends FPDF
     $this->SetFont('THSarabun', '', 14);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
+        
         $txt = getStrLenTH($inner_array[$field[1]]); // 10
-        $round = $txt /13;
+        $round = $txt /22;
         list($main, $point) = explode(".", $round);
         if ($point > 0) {
           $point = 1;
@@ -144,8 +145,8 @@ class PDF extends FPDF
         $pdf->SetX($w[0]+22.5+ 10);
         $this->MultiCell($w[1], 10/$main, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 'L');
         $pdf->SetXY($w[0] + $w[1] +22.5 +10, $y);
-        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+        $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]])), 1, 0, 'C');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]])), 1, 0, 'C');
         $this->Ln();
         $count++;
         $y+=10;
@@ -217,6 +218,7 @@ if ($DepCode == " ") {
 }
 
 
+
 $datetime = new DatetimeTH();
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
@@ -252,7 +254,7 @@ INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
 INNER JOIN department ON department.DepCode = shelfcount.DepCode
 $where $DepCode
 AND department.HptCode = '$HptCode'
-AND shelfcount.isStatus= 4
+AND shelfcount.isStatus<> 9
 GROUP BY item.itemName
 ";
 // var_dump($query); die;

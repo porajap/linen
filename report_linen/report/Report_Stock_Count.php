@@ -124,8 +124,8 @@ class PDF extends FPDF
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'R');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'R');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]])), 1, 0, 'R');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[4]])), 1, 0, 'R');
         $this->Ln();
       }
       }
@@ -168,7 +168,7 @@ $Sql = "SELECT
         FROM
         par_item_stock
         INNER JOIN department ON par_item_stock.Depcode=department.Depcode
-        WHERE par_item_stock.DepCode=$depcode
+        WHERE par_item_stock.DepCode='$depcode'
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -220,7 +220,7 @@ $Sql = "SELECT
         INNER JOIN department ON par_item_stock.Depcode=department.Depcode
         INNER JOIN item on item.ItemCode=par_item_stock.ItemCode
         INNER JOIN item_unit on item.unitcode=item_unit.unitcode
-        WHERE par_item_stock.DepCode=$depcode
+        WHERE par_item_stock.DepCode='$depcode'
         ORDER BY item.itemName ";
 
 $meQuery = mysqli_query($conn, $Sql);
