@@ -222,6 +222,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DepCode[] = $Result['DepCode'];
   $DepName[] = $Result['DepName'];
 }
+
 $Count_Dep = sizeof($DepCode);
 // --------------------------------------------------------
 // set font
@@ -256,7 +257,8 @@ AND shelfcount.isStatus<> 9
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
 GROUP BY
 	item.itemName,
-	department.DepCode";
+  department.DepCode";
+
   if ($old_code <> $DepCode[$i]) {
     $h5 = '<h5 align="left">' . $array2['department'][$language] . ' : ' .  $DepName[$i]  . '</h5>';
     $pdf->writeHTML($h5, true, false, false, false, '');
