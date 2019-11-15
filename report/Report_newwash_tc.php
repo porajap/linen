@@ -1,5 +1,4 @@
 <?php
-session_start();
 require('../tcpdf/tcpdf.php');
 require('connect.php');
 require('Class.php');
@@ -13,17 +12,12 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 //--------------------------------------------------------------------------
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$chk = $data['chk'];
-$year = $data['year'];
-$format = $data['Format'];
-$DepCode = $data['DepCode'];
-$betweendate1 = $data['betweendate1'];
-$betweendate2 = $data['betweendate2'];
+$language = $_GET['lang'];
+if ($language == "en") {
+  $language = "en";
+} else {
+  $language = "th";
+}
 $DocNo = $_GET['DocNo'];
 //--------------------------------------------------------------------------
 $where = '';
@@ -36,12 +30,6 @@ $fisrt_page = 0;
 $r = 1;
 $status = 0;
 //--------------------------------------------------------------------------
-$language = $_SESSION['lang'];
-if ($language == "en") {
-  $language = "en";
-} else {
-  $language = "th";
-}
 //--------------------------------------------------------------------------
 //print_r($data);
 
@@ -65,7 +53,12 @@ class MYPDF extends TCPDF
     $array = json_decode($json, TRUE);
     $json2 = json_encode($xml2);
     $array2 = json_decode($json2, TRUE);
-    $language = $_SESSION['lang'];
+    $language = $_GET['lang'];
+    if ($language == "en") {
+      $language = "en";
+    } else {
+      $language = "th";
+    }
     $header = array($array['no'][$language],  $array2['itemname'][$language], $array['department'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 
 
@@ -109,7 +102,12 @@ class MYPDF extends TCPDF
     $array = json_decode($json, TRUE);
     $json2 = json_encode($xml2);
     $array2 = json_decode($json2, TRUE);
-    $language = $_SESSION['lang'];
+    $language = $_GET['lang'];
+    if ($language == "en") {
+      $language = "en";
+    } else {
+      $language = "th";
+    }
     $DocNo = $_GET['DocNo'];
     if ($this->last_page_flag) {
       require('connect.php');
