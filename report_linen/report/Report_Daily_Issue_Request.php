@@ -98,6 +98,38 @@ $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("P", "A4");
 
+
+$Sql = "SELECT
+shelfcount.DocNo,
+DATE(shelfcount.DocDate) AS DocDate,
+TIME(shelfcount.DocDate) AS DocTime,
+department.DepName,
+time_sc.TimeName AS CycleTime,
+site.HptName,
+sc_time_2.TimeName AS TIME , 
+time_sc.timename AS ENDTIME ,
+site.HptCode
+FROM
+shelfcount
+LEFT JOIN department ON shelfcount.DepCode = department.DepCode
+LEFT JOIN site ON site.HptCode = department.HptCode
+LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
+LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
+WHERE shelfcount.DocNo='$docno'
+        AND shelfcount.isStatus<> 9
+        ";
+$meQuery = mysqli_query($conn, $Sql);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $DeptName = $Result['DepName'];
+  $DocDate = $Result['DocDate'];
+  $DocTime = $Result['DocTime'];
+  $DocNo = $Result['DocNo'];
+  $TIME = $Result['TIME'];
+  $ENDTIME = $Result['ENDTIME'];
+  $HptName = $Result['HptName'];
+ $HptCode = $Result['HptCode'];
+}
+//---------------------------------------------------------------------
 $queryy = "SELECT
 site.private,
 site.government
@@ -114,34 +146,7 @@ if ($private == 1) {
 } elseif ($government == 1) {
   $w = array(10, 40, 20, 20, 20, 20, 20, 22.5, 22.5);
 }
-$Sql = "SELECT
-shelfcount.DocNo,
-DATE(shelfcount.DocDate) AS DocDate,
-TIME(shelfcount.DocDate) AS DocTime,
-department.DepName,
-time_sc.TimeName AS CycleTime,
-site.HptName,
-sc_time_2.TimeName AS TIME , 
-time_sc.timename AS ENDTIME
-FROM
-shelfcount
-INNER JOIN department ON shelfcount.DepCode = department.DepCode
-INNER JOIN site ON site.HptCode = department.HptCode
-INNER JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
-INNER JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
-WHERE shelfcount.DocNo='$docno'
-        AND shelfcount.isStatus<> 9
-        ";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $DeptName = $Result['DepName'];
-  $DocDate = $Result['DocDate'];
-  $DocTime = $Result['DocTime'];
-  $DocNo = $Result['DocNo'];
-  $TIME = $Result['TIME'];
-  $ENDTIME = $Result['ENDTIME'];
-  $HptName = $Result['HptName'];
-}
+
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
 } else {
