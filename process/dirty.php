@@ -1049,7 +1049,7 @@
           $Sql = "SELECT SUM(Qty) AS Qty, SUM(Weight) AS Weight FROM dirty_detail_round WHERE DocNo = '$DocNo' AND RowID = $RowID";
           $RoundQuery = mysqli_query($conn, $Sql);
           while ($RoundResult = mysqli_fetch_assoc($RoundQuery)) {
-            $Weight = $RoundResult['Weight']==null?0:$RoundResult['Weight'];
+            $Weight = round($RoundResult['Weight'] , 2)==null?0:$RoundResult['Weight'];
             $Qty = $RoundResult['Qty']==null?0:$RoundResult['Qty'];
           }
           $return['sqsqs'] = $Sql;
@@ -1063,7 +1063,7 @@
           $return[$count1]['DepCode']   = $Result['DepCode'];
           $return[$count1]['DepName']   = $Result['DepName'];
           $return['Total']   = number_format($Result['Total'], 2);
-          $return[$count1]['Weight']    = $Weight;
+          $return[$count1]['Weight']    = number_format($Weight , 2);
           $return[$count1]['Qty']       = $Qty;
           $UnitCode                     = $Result['UnitCode']==0?'0':$Result['UnitCode'];
           $ItemCode                     = $Result['ItemCode']==0?'0':$Result['ItemCode'];
@@ -1148,7 +1148,7 @@
       while ($Result = mysqli_fetch_assoc($Query)) {
         $return['ValueObj'][$count]['Id'] = $Result['Id'];
         $return['ValueObj'][$count]['Qty'] = $Result['Qty'];
-        $return['ValueObj'][$count]['Weight'] = $Result['Weight'];
+        $return['ValueObj'][$count]['Weight'] = number_format($Result['Weight'] , 2);
         $count++;
       }
 
@@ -1202,7 +1202,7 @@
       $Sql ="SELECT SUM(Weight) AS Weight2 , SUM(Qty) AS Qty2 FROM dirty_detail_round WHERE RowID = $RowID";
       $meQuery = mysqli_query($conn,$Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $Weight2 = $Result['Weight2'];
+        $Weight2 = round($Result['Weight2'] , 2);
         $Qty2 = $Result['Qty2'];
       }
 
