@@ -141,8 +141,7 @@ INNER JOIN clean_detail ON clean.DocNo=clean_detail.DocNo
 INNER JOIN site ON department.HptCode=site.HptCode
 $where
 AND clean.FacCode = $FacCode
-AND department.HptCode = '$HptCode'
- ";
+AND department.HptCode = '$HptCode'";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $side = $Result[$HptName];

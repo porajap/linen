@@ -42,6 +42,7 @@ if ($language == "en") {
 } else {
   $language = "th";
 }
+
 //--------------------------------------------------------------------------
 //print_r($data);
 //--------------------------------------------------------------------------
@@ -345,7 +346,13 @@ if ($private == 1) {
   $w = array(5, 35, 12, 12, 12, 12, 12);
 }
 // set some language-dependent strings (optional)
-
+list($y,$m,$d)=explode('-',$DocDate);
+if($language == 'th'){
+$y=$y+543;
+}elseif($language =='en'){
+  $y=$y;
+}
+$DocDate =$d.'-'.$m.'-'.$y;
 // --------------------------------------------------------
 // set font
 // add a page
@@ -388,9 +395,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="' . $w[3] . '% " align="center">' . $Result['CcQty'] . '</td>';
   $html .=   '<td width="' . $w[4] . '% " align="center">' . $issue  . '</td>';
   $html .=   '<td width="' . $w[5] . '% " align="center">' .  $Result['TotalQty']  . '</td>';
-  $html .=   '<td width="' . $w[6] . '% " align="center">' . $totalweight  . '</td>';
+  $html .=   '<td width="' . $w[6] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
   if ($private == 1) {
-    $html .=   '<td width="' . $w[7] . '% " align="center">' . $price  . '</td>';
+    $html .=   '<td width="' . $w[7] . '% " align="center">' . NUMBER_FORMAT($price, 2)  . '</td>';
   }
   $html .=  '</tr>';
   $totalsum_W += $totalweight;

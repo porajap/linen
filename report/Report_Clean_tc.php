@@ -363,6 +363,7 @@ if($Ddirty <> null ){
   $d1 =$Dclean;
   $d2 =$Dnewlinentable;
 }
+if($Ddirty <> null ||  $Dnewlinentable <> null){
 $total=(($w1/$w2)-1)*100;
 $pdf->Cell(40, 5, '', 0, 0, 'C');
 $pdf->Cell(50, 5,  $array2['detail'][$language], 1, 0, 'C');
@@ -382,6 +383,7 @@ $pdf->ln();
 $pdf->Cell(40, 5,  '', 0, 0, 'C');
 $pdf->Cell(50, 5,  $array2['total'][$language], 1, 0, 'C');
 $pdf->Cell(60, 5,  abs(number_format($total,2))." %", 1, 0, 'C');
+}
 // ---------------------------------------------------------
 
 //Close and output PDF document
