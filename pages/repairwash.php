@@ -814,7 +814,9 @@ $(document).ready(function(e){
             OnLoadPage();
       }
       function SaveBill(chk){
-      
+        var count = 0;
+        var chk_qty = document.getElementsByClassName("chk_qty"); //checkbox items
+        var chk_weight = document.getElementsByClassName("chk_weight"); //checkbox items
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -832,8 +834,14 @@ $(document).ready(function(e){
         if(isStatus==1){
           
           if(docno!=""){
-            if(chk == '' || chk == undefined){
-            chk_percent();}else{
+            for(i=0;i<chk_qty.length; i++){
+                    var chk = $('#qty1_'+i).val();
+                    if(chk == 0){
+                      $('#qty1_'+i).addClass('border border-danger');
+                      count++;
+                    }
+                  }
+        if(count==0){
           swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -880,7 +888,17 @@ $(document).ready(function(e){
         } else if (result.dismiss === 'cancel') {
           swal.close();}
         })
-        }
+              }else{
+            swal({
+              title: " ",
+              text:  " <?php echo $array['insert_form'][$language]; ?>",
+              type: "warning",
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1000,
+              closeOnConfirm: true
+            });
+          }
         }
         }else{
           $("#bImport2").removeClass('opacity');
@@ -918,6 +936,7 @@ $(document).ready(function(e){
           $('#rem2').hide();
         }
       function updateQty(RowID, i){
+        $('#qty1_'+i).removeClass('border border-danger');
         var newQty = $('#qty1_'+i).val();
         var data = {
           'STATUS' : 'updateQty',
@@ -1250,9 +1269,9 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly chk_qty' autocomplete='off' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
                 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly chk_weight' autocomplete='off' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1310,9 +1329,10 @@ $(document).ready(function(e){
                         });
               }else if( (temp["form"]=='ShowItem') ){
 
-                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;font-family:THSarabunNew'"
+                var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                 $( "#TableItem tbody" ).empty();
+                if(temp["Row"]>0){
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
 
@@ -1330,7 +1350,7 @@ $(document).ready(function(e){
 
                   var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' autocomplete='off'  "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;;font-family:THSarabunNew;' id='iweight"+i+"' placeholder='0'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0'></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 25%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
@@ -1349,14 +1369,19 @@ $(document).ready(function(e){
                 $('.numonly').on('input', function() {
                   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+                }else{
+                  $('#TableItem tbody').empty();
+                  var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                  $('#TableItem tbody:last-child').append(Str);
+                }
               }else if(temp['form']=="UpdateRefDocNo"){
                   $('#factory').val(temp['FacCode']);
                   $('#RefDocNo').val(temp['DocNo']);
                   OpenDialogItem();
                   ShowDetail();
               }else if( (temp["form"]=='ShowUsageCode') ){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
+                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 $( "#TableUsageCode tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableUsageCode >tbody >tr').length;
@@ -1393,8 +1418,8 @@ $(document).ready(function(e){
 
               }else if(temp['form']=="get_dirty_doc"){
                 if(temp["Row"] > 0){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-family:THSarabunNew;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-family:THSarabunNew;font-size:32px;'"
+                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
                 $( "#TableRefDocNo tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
@@ -1974,7 +1999,7 @@ $(document).ready(function(e){
               </div>
               <!-- end serach----------------------- -->
           </div>
-          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;font-family: 'THSarabunNew'">
+          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;'">
             <thead style="font-size:24px;">
               <tr role="row">
               <input type="text" hidden id="countcheck">

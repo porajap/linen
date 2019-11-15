@@ -202,7 +202,6 @@
         die;
       }
     }
-
     function ShowDocument($conn, $DATA)
     {
       $lang = $_SESSION['lang'];
@@ -211,7 +210,7 @@
       $Hotp = $DATA["Hotp"];
       $DocNo = $DATA["docno"];
       $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-      $datepicker = $DATA["datepicker1"];
+      $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
       $selecta = $DATA["selecta"];
       $Sql = "SELECT site.HptName,
       dirty.DocNo,
@@ -449,7 +448,7 @@
         mysqli_close($conn);
         die;
       } else {
-        $return['status'] = "failed";
+        $return['status'] = "success";
         $return['form'] = "ShowItem";
         $return[$count]['RowID'] = "";
         $return[$count]['UsageCode'] = "";
@@ -1131,7 +1130,7 @@
         $meQuery = mysqli_query($conn, $count);
         $Result = mysqli_fetch_assoc($meQuery);
         if($Result['cnt']==0){
-          $Insert = "INSERT dirty_detail (DocNo, RequestName, UnitCode, DepCode, Qty)VALUES('$DocNo', '$RequestName', 1, '$DepCode[$i]', 1)";
+          $Insert = "INSERT dirty_detail (DocNo, RequestName, UnitCode, DepCode, Qty , ItemCode )VALUES('$DocNo', '$RequestName', 1, '$DepCode[$i]', 1 , 'HDL')";
           mysqli_query($conn, $Insert);
         }
       }

@@ -204,7 +204,7 @@ function CreateDocument($conn, $DATA)
     $deptCode = $DATA["deptCode"];
     $DocNo = $DATA["docno"];
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"];
+    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
@@ -443,7 +443,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
+      $return['status'] = "success";
       $return['form'] = "ShowItem";
       $return['msg'] = "notfound";
       $return[$count]['RowID'] = "";
@@ -748,26 +748,26 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["rowid"];
     $DocNo = $DATA["DocNo"];
     $n = 0;
-    $Sql = "SELECT damagenh_detail_sub.UsageCode,damagenh_detail.ItemCode
-    FROM damagenh_detail
-    INNER JOIN damagenh_detail_sub ON damagenh_detail.DocNo = damagenh_detail_sub.DocNo
-    WHERE  damagenh_detail.Id = $RowID";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $ItemCode = $Result['ItemCode'];
-      $UsageCode[$n] = $Result['UsageCode'];
-      $n++;
-    }
+    // $Sql = "SELECT damagenh_detail_sub.UsageCode,damagenh_detail.ItemCode
+    // FROM damagenh_detail
+    // INNER JOIN damagenh_detail_sub ON damagenh_detail.DocNo = damagenh_detail_sub.DocNo
+    // WHERE  damagenh_detail.Id = $RowID";
+    // $meQuery = mysqli_query($conn, $Sql);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   $ItemCode = $Result['ItemCode'];
+    //   $UsageCode[$n] = $Result['UsageCode'];
+    //   $n++;
+    // }
 
-    for ($i = 0; $i < $n; $i++) {
-      $xUsageCode = $UsageCode[$i];
-      $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
-      mysqli_query($conn, $Sql);
-    }
+    // for ($i = 0; $i < $n; $i++) {
+    //   $xUsageCode = $UsageCode[$i];
+    //   $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
+    //   mysqli_query($conn, $Sql);
+    // }
 
-    $Sql = "DELETE FROM damagenh_detail_sub
-    WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-    mysqli_query($conn, $Sql);
+    // $Sql = "DELETE FROM damagenh_detail_sub
+    // WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+    // mysqli_query($conn, $Sql);
 
     $Sql = "DELETE FROM damagenh_detail
     WHERE damagenh_detail.Id = $RowID";

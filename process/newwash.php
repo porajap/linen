@@ -402,7 +402,7 @@ function ShowDocument($conn, $DATA)
   $Hotp = $DATA["Hotp"];
   $DocNo = $DATA["DocNo"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-  $datepicker = $DATA["datepicker1"];
+  $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
   $selecta = $DATA["selecta"];
 
   // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
