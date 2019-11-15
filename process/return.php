@@ -260,7 +260,7 @@ function ShowDocument($conn, $DATA)
   $deptCode = $DATA["deptCode"];
   $DocNo = $DATA["docno"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-  $datepicker = $DATA["datepicker1"];
+  $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
   $selecta = $DATA["selecta"];
   $Sql = "SELECT site.HptName,department.DepName,return_doc.DocNo,DATE(return_doc.DocDate) 
   AS DocDate,return_doc.RefDocNo,return_doc.Total,users.EngName , 
@@ -1007,30 +1007,30 @@ function CancelBill($conn, $DATA)
   $RefDocNo = $DATA["RefDocNo"];
   // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
   // mysqli_query($conn,$Sql);
-  $Sql = "UPDATE clean SET IsStatus = 9  WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE return_doc SET IsStatus = 9  WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
 
-  $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
-  $meQuery = mysqli_query($conn, $Sqlx);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $DocNoDirty = $Result['DocNo'];
-  }
-  if($DocNoDirty != "" ){
-  $Sql = "UPDATE dirty SET IsRef = 0 , IsStatus = 3 WHERE dirty.DocNo = '$RefDocNo'";
-  mysqli_query($conn, $Sql);
-  }else{
-  $Sql = "UPDATE repair_wash SET IsRef = 0 , IsStatus = 3 WHERE repair_wash.DocNo = '$RefDocNo'";
-  mysqli_query($conn, $Sql);
-  }
-  $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
-  $meQuery = mysqli_query($conn, $Sqlx);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $DocNonewlinentable = $Result['DocNo'];
-  }
-  if($DocNonewlinentable != "" ){
-    $Sql = "UPDATE newlinentable SET IsRef = 0 , IsStatus = 3 WHERE newlinentable.DocNo = '$RefDocNo'";
-    mysqli_query($conn, $Sql);
-    }
+  // $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
+  // $meQuery = mysqli_query($conn, $Sqlx);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $DocNoDirty = $Result['DocNo'];
+  // }
+  // if($DocNoDirty != "" ){
+  // $Sql = "UPDATE dirty SET IsRef = 0 , IsStatus = 3 WHERE dirty.DocNo = '$RefDocNo'";
+  // mysqli_query($conn, $Sql);
+  // }else{
+  // $Sql = "UPDATE repair_wash SET IsRef = 0 , IsStatus = 3 WHERE repair_wash.DocNo = '$RefDocNo'";
+  // mysqli_query($conn, $Sql);
+  // }
+  // $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
+  // $meQuery = mysqli_query($conn, $Sqlx);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $DocNonewlinentable = $Result['DocNo'];
+  // }
+  // if($DocNonewlinentable != "" ){
+  //   $Sql = "UPDATE newlinentable SET IsRef = 0 , IsStatus = 3 WHERE newlinentable.DocNo = '$RefDocNo'";
+  //   mysqli_query($conn, $Sql);
+  //   }
     ShowDocument($conn, $DATA);
 }
 

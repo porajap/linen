@@ -255,7 +255,7 @@ function CreateDocument($conn, $DATA)
     $deptCode = $DATA["deptCode"];
     $DocNo = $DATA["docno"];
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"];
+    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) 
     AS DocDate,clean.RefDocNo,clean.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
@@ -732,6 +732,7 @@ function CreateDocument($conn, $DATA)
     $Weight  =  $DATA["Weight"];
     $Price  =  $DATA["Price"];
     $isStatus = $DATA["isStatus"];
+    $DocNo = $DATA["DocNo"];
 
     //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
     //	mysqli_query($conn,$Sqlx);
@@ -740,7 +741,24 @@ function CreateDocument($conn, $DATA)
     SET Weight = $Weight
     WHERE clean_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
-    ShowDetail($conn, $DATA);
+
+    $Sql = "SELECT SUM(Weight) AS Weight2 FROM clean_detail WHERE DocNo = '$DocNo'";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $Weight2 = $Result['Weight2'];
+      $return['Weight2'] = $Result['Weight2'];
+    }
+
+  $Sql="UPDATE clean SET Total = $Weight2 WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+    // ShowDetail($conn, $DATA);
+
+
+    $return['status'] = "success";
+    $return['form'] = "UpdateDetailWeight";
+    echo json_encode($return);
+    mysqli_close($conn);
+
   }
 
 

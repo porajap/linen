@@ -203,7 +203,7 @@ function CreateDocument($conn, $DATA)
     $deptCode = $DATA["deptCode"];
     $DocNo = $DATA["docno"];
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"];
+    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
@@ -459,7 +459,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
+      $return['status'] = "success";
       $return['form'] = "ShowItem";
       $return['msg'] = "notfound";
       $return[$count]['RowID'] = "";

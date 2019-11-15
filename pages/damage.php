@@ -1333,6 +1333,7 @@ if (e.keyCode == 13) {
                 var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-size:24px;'";
                 var st2 = "style='font-size: 20px;height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;'"
                 $( "#TableItem tbody" ).empty();
+                if(temp["Row"]>0){
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
 
@@ -1368,6 +1369,11 @@ if (e.keyCode == 13) {
                 $('.numonly').on('input', function() {
                   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
+                }else{
+                  $('#TableItem tbody').empty();
+                  var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                  $('#TableItem tbody:last-child').append(Str);
+                }
               }else if( (temp["form"]=='ShowUsageCode') ){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"

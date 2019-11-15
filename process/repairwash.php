@@ -221,7 +221,7 @@ function CreateDocument($conn, $DATA)
     $deptCode = $DATA["deptCode"];
     $DocNo = $DATA["docno"];
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"];
+    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     $Sql = "SELECT site.HptName,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) 
     AS DocDate,repair_wash.RefDocNo,repair_wash.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus
@@ -477,7 +477,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     } else {
-      $return['status'] = "failed";
+      $return['status'] = "success";
       $return['form'] = "ShowItem";
       $return['msg'] = "notfound";
       $return[$count]['RowID'] = "";
@@ -713,6 +713,7 @@ function CreateDocument($conn, $DATA)
     $Weight  =  $DATA["Weight"];
     $Price  =  $DATA["Price"];
     $isStatus = $DATA["isStatus"];
+    $DocNo = $DATA["DocNo"];
 
     //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
     //	mysqli_query($conn,$Sqlx);
@@ -721,7 +722,16 @@ function CreateDocument($conn, $DATA)
     SET Weight = $Weight
     WHERE repair_wash_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
-    ShowDetail($conn, $DATA);
+
+    $Sql = "SELECT SUM(Weight) AS Weight2 FROM repair_wash_detail WHERE DocNo = '$DocNo'";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $Weight2 = $Result['Weight2'];
+    }
+
+  $Sql="UPDATE repair_wash SET Total = $Weight2 WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+    // ShowDetail($conn, $DATA);
   }
 
   function updataDetail($conn, $DATA)
@@ -741,26 +751,26 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["rowid"];
     $DocNo = $DATA["DocNo"];
     $n = 0;
-    $Sql = "SELECT repair_wash_detail_sub.UsageCode,repair_wash_detail.ItemCode
-    FROM repair_wash_detail
-    INNER JOIN repair_wash_detail_sub ON repair_wash_detail.DocNo = repair_wash_detail_sub.DocNo
-    WHERE  repair_wash_detail.Id = $RowID";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $ItemCode = $Result['ItemCode'];
-      $UsageCode[$n] = $Result['UsageCode'];
-      $n++;
-    }
+    // $Sql = "SELECT repair_wash_detail_sub.UsageCode,repair_wash_detail.ItemCode
+    // FROM repair_wash_detail
+    // INNER JOIN repair_wash_detail_sub ON repair_wash_detail.DocNo = repair_wash_detail_sub.DocNo
+    // WHERE  repair_wash_detail.Id = $RowID";
+    // $meQuery = mysqli_query($conn, $Sql);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   $ItemCode = $Result['ItemCode'];
+    //   $UsageCode[$n] = $Result['UsageCode'];
+    //   $n++;
+    // }
 
-    for ($i = 0; $i < $n; $i++) {
-      $xUsageCode = $UsageCode[$i];
-      $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
-      mysqli_query($conn, $Sql);
-    }
+    // for ($i = 0; $i < $n; $i++) {
+    //   $xUsageCode = $UsageCode[$i];
+    //   $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
+    //   mysqli_query($conn, $Sql);
+    // }
 
-    $Sql = "DELETE FROM repair_wash_detail_sub
-    WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-    mysqli_query($conn, $Sql);
+    // $Sql = "DELETE FROM repair_wash_detail_sub
+    // WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+    // mysqli_query($conn, $Sql);
 
     $Sql = "DELETE FROM repair_wash_detail
     WHERE repair_wash_detail.Id = $RowID";
@@ -1143,7 +1153,7 @@ function CreateDocument($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
-    $datepicker = $DATA["datepicker"];
+    $datepicker = $DATA["datepicker"]==''?date('Y-m-d'):$DATA["datepicker"];
     $boolean = false;
     $count = 0;
     $Sql =  "SELECT clean.DocNo  ,clean.DocDate  , factory.FacName FROM clean

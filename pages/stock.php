@@ -249,11 +249,11 @@ $array2 = json_decode($json2,TRUE);
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
               "<td style='width: 15%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
-              "<td style='width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+              "<td style='width: 21%; overflow: hidden; text-overflow: ellipsis;'  nowrap title='"+temp[i]['ItemName']+"'>"+temp[i]['ItemName']+"</td>"+
               "<td style='width: 15%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
               "<td style='width: 15%;'nowrap><center>"+Par+"</center></td>"+
               "<td style='width: 15%;'nowrap class='"+textColor+"'><center>"+Qty+"</center></td>"+
-              "<td style='width: 14%;'nowrap><center>"+temp[i]['DepName']+"</center></td>"+
+              "<td style='width: 13%; overflow: hidden; text-overflow: ellipsis;'nowrap title='"+temp[i]['DepName']+"'><center>"+temp[i]['DepName']+"</center></td>"+
               "</tr>";
 
               if(rowCount == 0){

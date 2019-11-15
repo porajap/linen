@@ -853,6 +853,8 @@ $(document).ready(function(e){
         }
 
       function SaveBill(chk){        
+        var count = 0;
+        var chk_qty = document.getElementsByClassName("chk_qty"); //checkbox items
         var docno = $("#docno").val();
         var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
@@ -885,9 +887,14 @@ $(document).ready(function(e){
             });
         }else{
           if(docno!=""){
-            if(chk == '' || chk == undefined){
-            chk_percent();
-            }else{
+            for(i=0;i<chk_qty.length; i++){
+                    var chk = $('#qty1_'+i).val();
+                    if(chk == 0 || chk == ''){
+                      $('#qty1_'+i).addClass('border border-danger');
+                      count++;
+                    }
+                  }
+        if(count==0){
           swal({
               title: "<?php echo $array['confirmsave'][$language]; ?>",
               text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -949,7 +956,18 @@ $(document).ready(function(e){
         } else if (result.dismiss === 'cancel') {
           swal.close();}
         })
-      }
+      }else{
+            swal({
+              title: " ",
+              text:  " <?php echo $array['insert_form'][$language]; ?>",
+              type: "warning",
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1000,
+              closeOnConfirm: true
+            });
+          }
+      
      }
     }
         }else{
@@ -986,6 +1004,7 @@ $(document).ready(function(e){
               }
       }
       function updateQty(RowID, i){
+        $('#qty1_'+i).removeClass('border border-danger');
         var newQty = $('#qty1_'+i).val();
         var data = {
           'STATUS' : 'updateQty',
@@ -1348,9 +1367,9 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly chk_qty' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
                 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\",\""+i+"\")'></div>";
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 

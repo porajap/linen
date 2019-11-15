@@ -255,7 +255,7 @@ function CreateDocument($conn, $DATA)
     $deptCode = $DATA["deptCode"];
     $DocNo = $DATA["docno"];
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"];
+    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
     $selecta = $DATA["selecta"];
     $Sql = "SELECT site.HptName,department.DepName,cleanstock.DocNo,DATE(cleanstock.DocDate) 
     AS DocDate,cleanstock.RefDocNo,cleanstock.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(cleanstock.Modify_Date) AS xTime,cleanstock.IsStatus
@@ -755,26 +755,26 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["rowid"];
     $DocNo = $DATA["DocNo"];
     $n = 0;
-    $Sql = "SELECT cleanstock_detail_sub.UsageCode,cleanstock_detail.ItemCode
-    FROM cleanstock_detail
-    INNER JOIN cleanstock_detail_sub ON cleanstock_detail.DocNo = cleanstock_detail_sub.DocNo
-    WHERE  cleanstock_detail.Id = $RowID";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $ItemCode = $Result['ItemCode'];
-      $UsageCode[$n] = $Result['UsageCode'];
-      $n++;
-    }
+    // $Sql = "SELECT cleanstock_detail_sub.UsageCode,cleanstock_detail.ItemCode
+    // FROM cleanstock_detail
+    // INNER JOIN cleanstock_detail_sub ON cleanstock_detail.DocNo = cleanstock_detail_sub.DocNo
+    // WHERE  cleanstock_detail.Id = $RowID";
+    // $meQuery = mysqli_query($conn, $Sql);
+    // while ($Result = mysqli_fetch_assoc($meQuery)) {
+    //   $ItemCode = $Result['ItemCode'];
+    //   $UsageCode[$n] = $Result['UsageCode'];
+    //   $n++;
+    // }
 
-    for ($i = 0; $i < $n; $i++) {
-      $xUsageCode = $UsageCode[$i];
-      $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
-      mysqli_query($conn, $Sql);
-    }
+    // for ($i = 0; $i < $n; $i++) {
+    //   $xUsageCode = $UsageCode[$i];
+    //   $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
+    //   mysqli_query($conn, $Sql);
+    // }
 
-    $Sql = "DELETE FROM cleanstock_detail_sub
-    WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-    mysqli_query($conn, $Sql);
+    // $Sql = "DELETE FROM cleanstock_detail_sub
+    // WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+    // mysqli_query($conn, $Sql);
 
     $Sql = "DELETE FROM cleanstock_detail
     WHERE cleanstock_detail.Id = $RowID";
