@@ -4,6 +4,7 @@ require('../connect/connect.php');
 require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
+session_start();
 // Date
 // $eDate = "2018-06-06";
 $eDate = $_GET['eDate'];
@@ -69,20 +70,22 @@ class PDF extends FPDF
   function Footer()
   {
     if ($this->isFinished) {
-      $xml = simplexml_load_file('../report_linen/xml/report_lang.xml');
+      $this->SetY(-30);
+      $xml = simplexml_load_file('../xml/general_lang.xml');
+      $xml2 = simplexml_load_file('../xml/report_lang.xml');
       $json = json_encode($xml);
       $array = json_decode($json, TRUE);
-      $this->SetFont('THSarabun', '', 10);
-      $this->SetY(-27);
-      $language = $_GET['lang'];
-      $this->SetFont('THSarabun', 'b', 11);
-
-      $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['comlinen'][$language] . "............................................"), 0, 0, 'L');
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['comlaundry'][$language] . "........................................"), 0, 0, 'L');
+      $json2 = json_encode($xml2);
+      $array2 = json_decode($json2, TRUE);
+      $language = $_SESSION['lang'];
+      $this->SetFont('THSarabun', 'b', 10);
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . "..............................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "........................................"), 0, 0, 'L');
       $this->Ln(7);
-
-      $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . "..................................................................."), 0, 0, 'L');
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . ".........................................................."), 0, 0, 'L');
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . ".........................................................."), 0, 0, 'L');
       $this->Ln(7);
     }
     // Position at 1.5 cm from bottom
@@ -193,9 +196,9 @@ class PDF extends FPDF
     $this->Cell($w[0] + $w[1] + $w[2] + $w[3] + $w[5], 10, iconv("UTF-8", "TIS-620", $array['total'][$language]), 1, 0, 'C');
     $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($total, 2) . " "), 1, 0, 'C');
     $this->Ln();
-    if ($count == 18 ) {
+    if ($count == 18) {
       $this->AddPage();
-        }
+    }
   }
 }
 function getMBStrSplit($string, $split_length = 1)
@@ -263,12 +266,14 @@ $Sql = "SELECT site.$HptName,
         newlinentable.Total,
         CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
         TIME(newlinentable.Modify_Date) AS xTime,
-        newlinentable.RefDocNo
+        newlinentable.RefDocNo,
+        factory.facname
         FROM newlinentable
 INNER JOIN newlinentable_detail ON newlinentable.DocNo = newlinentable_detail.DocNo
 INNER JOIN department ON newlinentable_detail.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN users ON newlinentable.Modify_Code = users.ID
+INNER JOIN factory ON factory.faccode = newlinentable.faccode
         WHERE newlinentable.DocNo = '$DocNo' limit 1 ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -280,6 +285,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
+  $facname = $Result['facname'];
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
@@ -295,19 +301,21 @@ $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['hospital'][$language]), 0, 
 $pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $HptName), 0, 0, 'L');
 // $pdf->Cell(22,10,iconv("UTF-8","TIS-620",$array['department'][$language]),0,0,'L');
 // $pdf->Cell(40,10,iconv("UTF-8","TIS-620"," : ".$DepName),0,0,'L');
-$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docdate'][$language]), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $DocDate), 0, 0, 'L');
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['factory'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $facname), 0, 0, 'L');
 $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docno'][$language]), 0, 0, 'L');
 $pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $DocNo), 0, 0, 'L');
-$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['time'][$language]), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $xTime), 0, 0, 'L');
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docdate'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $DocDate), 0, 0, 'L');
 
 $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['user'][$language]), 0, 0, 'L');
 $pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $FirstName), 0, 0, 'L');
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['time'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $xTime), 0, 0, 'L');
 
 $pdf->Ln();
 $pdf->Cell(15);

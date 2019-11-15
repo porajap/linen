@@ -89,7 +89,7 @@ $query = "SELECT
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
           INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
           WHERE shelfcount_detail.DocNo = '$DocNo'
-    GROUP BY item.ItemCode
+          GROUP BY item.ItemCode
           ORDER BY item.ItemName ASC
           ";
 // var_dump($query); die;

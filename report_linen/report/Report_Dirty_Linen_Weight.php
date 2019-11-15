@@ -2,6 +2,7 @@
 require('fpdf.php');
 require('connect.php');
 require('Class.php');
+session_start();
 header('Content-Type: text/html; charset=utf-8');
 if ($language == "en") {
   $language = "en";
@@ -15,20 +16,26 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 date_default_timezone_set("Asia/Bangkok");
-session_start();
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$chk = $data['chk'];
-$year = $data['year'];
-$format = $data['Format'];
-$DepCode = $data['DepCode'];
-$betweendate1 = $data['betweendate1'];
-$betweendate2 = $data['betweendate2'];
-$where = '';
+// $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
 
+$data =explode( ',',$_GET['data']);
+  // echo "<pre>";
+  // print_r($data);
+  // echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
+$year = $data['year'];
+
+
+
+$where = '';
 $language = $_SESSION['lang'];
 //print_r($data);
 if ($chk == 'one') {
@@ -97,25 +104,7 @@ class PDF extends FPDF
   // Page footer
   function Footer()
   {
-
-    if ($this->isFinished) {
-      $this->SetY(-27);
-      $xml = simplexml_load_file('../xml/general_lang.xml');
-      $xml2 = simplexml_load_file('../xml/report_lang.xml');
-      $json = json_encode($xml);
-      $array = json_decode($json, TRUE);
-      $json2 = json_encode($xml2);
-      $array2 = json_decode($json2, TRUE);
-      $language = $_SESSION['lang'];
-      $this->SetFont('THSarabun', 'b', 10);
-      $this->Cell(5);
-      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . "..................................................."), 0, 0, 'L');
-      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "........................................"), 0, 0, 'L');
-      $this->Ln(7);
-      $this->Cell(5);
-      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
-      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . ".........................................................."), 0, 0, 'L');
-    }
+ 
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
@@ -159,6 +148,9 @@ class PDF extends FPDF
     $this->SetFont('THSarabun', '', 14);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
+if($inner_array[$field[0]] == null){
+  $inner_array[$field[0]] = $inner_array[$field[4]];
+}
         if ($r > 21) {
           $next_page++;
           if ($status == 0) {
@@ -171,6 +163,7 @@ class PDF extends FPDF
             $status = 1;
           }
           if ($next_page % 25 == 1) {
+            $pdf->AddPage("P", "A4");
             $this->SetFont('THSarabun', 'b', 14);
             for ($i = 0; $i < count($header); $i++)
               $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
@@ -209,7 +202,7 @@ class PDF extends FPDF
           $sum_check[] = $check;
         }
         $sumcount[] = $count;
- 
+
         $this->SetX($w[0] + $w[1] + 10);
         $this->MultiCell($w[2], 10 / $main, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 'C');
         $this->SetXY($w[0] + $w[1] + $w[2] + 10, $y);
@@ -294,6 +287,7 @@ $Sql = "SELECT
         $where
         AND  factory.FacCode = '$FacCode'
         AND  site.HptCode = '$HptCode'
+        AND dirty.isStatus <> 9
         GROUP BY factory.$FacName
         ";
 $meQuery = mysqli_query($conn, $Sql);
@@ -326,23 +320,24 @@ $query = "SELECT
 item.ItemName,
 dirty_detail.Weight,
 department.DepName,
-SUM(dirty_detail.Qty) AS Qty
+SUM(dirty_detail.Qty) AS Qty,
+dirty_detail.RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-INNER JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT  JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
-AND  dirty.isStatus=4
-GROUP BY item.ItemName,department.DepName,date(dirty.DocDate)
+AND dirty.isStatus <> 9
+GROUP BY item.ItemName,department.DepName,date(dirty.DocDate),dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC";
 // Number of column
 $numfield = 4;
 // Field data (Must match with Query)
-$field = "ItemName,Qty,DepName,Weight";
+$field = "ItemName,Qty,DepName,Weight,RequestName";
 // Table header
 $header = array($array2['itemname'][$language], $array2['amount'][$language], $array2['department1'][$language], $array2['weight_kg'][$language]);
 // width of column table
@@ -354,22 +349,26 @@ $pdf->SetFont('THSarabun', 'b', 10);
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $queryy = "SELECT
 item.ItemName,
-SUM(dirty_detail.Qty) AS Qty
+SUM(dirty_detail.Qty) AS Qty,
+dirty_detail.RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-INNER JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT  JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
-AND  dirty.isStatus=4
-GROUP BY item.ItemName
+AND dirty.isStatus <> 9
+GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC
           ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  if($Result['ItemName'] == null){
+    $Result['ItemName'] = $Result['RequestName'];
+  }
   $ItemName = $Result['ItemName'];
   $Qty = $Result['Qty'];
   $pdf->SetFont('THSarabun', '', 14);
@@ -378,7 +377,37 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $pdf->Cell(60, 10, iconv("UTF-8", "TIS-620", ''), 1, 0, 'C');
   $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", ''), 1, 1, 'R');
 }
+  
+
+// $im = new Imagick();
+// $svg = file_get_contents($svg);
+
+// $im->readImageBlob($svg);
+
+// // /*png settings*/
+// // $im->setImageFormat("png24");
+// // $im->resizeImage(720, 445, imagick::FILTER_LANCZOS, 1);  /*Optional, if you need to resize*/
+
+// /*jpeg*/
+// $im->setImageFormat("jpeg");
+// $im->adaptiveResizeImage(720, 445); /*Optional, if you need to resize*/
+
+// $im->writeImage('us-map.png');/*(or .jpg)*/
+// $im->clear();
+// $im->destroy();
+
+// $ImageName1 = "กรื้อออ";
+// $ImagePath1 = $ImageName1 . ".PNG";
+// $b1 = file_put_contents($ImagePath1, base64_decode($encoded));
+
+
+
+
+
+
+
+
 $pdf->isFinished = true;
 // $pdf->Ln(7);
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Dirty_Linen_Weight' . $ddate . '.pdf');
+$pdf->Output('Report_Dirty_Linen_Weight' . $ddate . '.pdf', 'I');

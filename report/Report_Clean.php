@@ -4,6 +4,7 @@ require('../connect/connect.php');
 require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
+session_start();
 // Date
 // $eDate = "2018-06-06";
 $eDate = $_GET['eDate'];
@@ -66,21 +67,24 @@ class PDF extends FPDF
   function Footer()
   {
     if ($this->isFinished) {
-      $xml = simplexml_load_file('../report_linen/xml/report_lang.xml');
+      $this->SetY(-30);
+      $xml = simplexml_load_file('../xml/general_lang.xml');
+      $xml2 = simplexml_load_file('../xml/report_lang.xml');
       $json = json_encode($xml);
       $array = json_decode($json, TRUE);
-      $this->SetFont('THSarabun', '', 10);
-      $this->SetY(-27);
-      $language = $_GET['lang'];
-      $this->SetFont('THSarabun', 'b', 11);
-      
-      $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['comlinen'][$language] . "............................................"), 0, 0, 'L');
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['comlaundry'][$language] . "........................................"), 0, 0, 'L');
+      $json2 = json_encode($xml2);
+      $array2 = json_decode($json2, TRUE);
+      $language = $_SESSION['lang'];
+      $this->SetFont('THSarabun', 'b', 10);
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . "..............................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "........................................"), 0, 0, 'L');
       $this->Ln(7);
-      
-      $this->Cell(120, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . "..................................................................."), 0, 0, 'L');
-      $this->Cell(30, 10, iconv("UTF-8", "TIS-620", $array['date'][$language] . ".........................................................."), 0, 0, 'L');
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . ".........................................................."), 0, 0, 'L');
       $this->Ln(7);
+
     }
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
@@ -98,51 +102,75 @@ class PDF extends FPDF
     $language = $_GET['lang'];
     $total = 0;
     $wtotal = 0;
-    $y=92;
+    $y = 95;
     $field = explode(",", $field);
     // Column widths
     $w = $width;
     // Header
     $this->SetFont('THSarabun', 'b', 16);
     for ($i = 0; $i < count($header); $i++)
-      $this->Cell($w[$i], 7, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+      $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
     $this->Ln();
 
     // set Data Details
     $count = 0;
-    $this->SetFont('THSarabun', '', 14);
+    $next_page = 1;
+    $status = 0;
+    $this->SetFont('THSarabun', 'b', 16);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
+        if ($count >= 18) {
+          $this->SetFont('THSarabun', 'b', 16);
+          $next_page++;
+          if ($status == 0) {
+            for ($i = 0; $i < count($header); $i++) {
+              $pdf->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+            }
+            $pdf->Ln();
+            $y = 35;
+            $status = 1;
+          }
+          if ($next_page % 24 == 1) {
+            $pdf->AddPage("P", "A4");
+            for ($i = 0; $i < count($header); $i++)
+              $pdf->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
+            $pdf->Ln();
+            $y = 35;
+          }
+        }
         $txt = getStrLenTH($inner_array[$field[1]]); // 10
-        $round = $txt /33;
+        $round = $txt / 33;
         list($main, $point) = explode(".", $round);
         if ($point > 0) {
           $point = 1;
           $main += $point;
         }
+        if ($inner_array[$field[1]] == "ผ้าอื่นๆ") {
+          $inner_array[$field[1]] = $inner_array[$field[1]] . "( " . $inner_array[$field[5]] . " )";
+        } else {
+          $inner_array[$field[1]] = $inner_array[$field[1]];
+        }
+        $pdf->SetFont('THSarabun', '', 14);
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count + 1), 1, 0, 'C');
         $this->SetX($w[0] + 10);
-        $this->MultiCell($w[1], 10/$main, iconv("UTF-8", "TIS-620",$inner_array[$field[1]]), 1, 'L');
+        $this->MultiCell($w[1], 10 / $main, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 'L');
         $this->SetXY($w[0] + $w[1]  + 10, $y);
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]]) . " "), 1, 0, 'C');
         $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]] . " "), 1, 0, 'C');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]],2) . " "), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]], 2) . " "), 1, 0, 'C');
         $this->Ln();
         $total = $inner_array[$field[3]] + $total;
         $count++;
-        $y+=10;
+        $y += 10;
       }
     }
     $this->Cell($w[0] + $w[1] + $w[2] + $w[3], 6, iconv("UTF-8", "TIS-620", $array['total'][$language]), 1, 0, 'C');
     $this->Cell($w[3], 6, iconv("UTF-8", "TIS-620", number_format($total, 2) . " "), 1, 0, 'C');
     $this->Ln();
-    if ($count == 18 ) {
+    if ($count == 18) {
       $this->AddPage();
-        }
+    }
   }
-
-    
-  
 }
 function getMBStrSplit($string, $split_length = 1)
 {
@@ -209,10 +237,12 @@ $Sql = "SELECT   site.$HptName,
         clean.Total,
         CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
         TIME(clean.Modify_Date) AS xTime,
-        clean.RefDocNo
+        clean.RefDocNo,
+        factory.facname
         FROM clean
         INNER JOIN department ON clean.DepCode = department.DepCode
         INNER JOIN site ON department.HptCode = site.HptCode
+        INNER JOIN factory ON factory.FacCode = clean.FacCode
         INNER JOIN users ON clean.Modify_Code = users.ID
         WHERE clean.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn, $Sql);
@@ -225,6 +255,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
+  $facname = $Result['facname'];
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
@@ -243,8 +274,8 @@ $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docno'][$language]), 0, 0, 'L');
 $pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $DocNo), 0, 0, 'L');
-$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docdate'][$language]), 0, 0, 'L');
-$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $DocDate), 0, 0, 'L');
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['factory'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $facname), 0, 0, 'L');
 $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['refdocno'][$language]), 0, 0, 'L');
@@ -255,7 +286,8 @@ $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['user'][$language]), 0, 0, 'L');
 $pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $FirstName), 0, 0, 'L');
-
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['docdate'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $DocDate), 0, 0, 'L');
 $pdf->Ln();
 $pdf->Ln(5);
 $query = "SELECT
@@ -263,7 +295,8 @@ $query = "SELECT
           item.ItemName,
           item_unit.UnitName,
           sum(clean_detail.Qty) as Qty ,
-          sum(clean_detail.Weight) as Weight
+          sum(clean_detail.Weight) as Weight,
+          clean_detail.Detail
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
@@ -276,7 +309,7 @@ $query = "SELECT
 // Number of column
 $numfield = 7;
 // Field data (Must match with Query)
-$field = "no,ItemName,Qty,Weight,UnitName";
+$field = "no,ItemName,Qty,Weight,UnitName,Detail";
 // Table header
 $header = array($array['no'][$language], $array['itemname'][$language], $array['qty'][$language], $array['unit'][$language], $array['weight'][$language]);
 // width of column table

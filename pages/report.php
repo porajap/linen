@@ -93,11 +93,11 @@ $array2 = json_decode($json2, TRUE);
 		var many_month = '';
 		var show_year = '';
 		var PmID = <?PHP echo  $PmID ?>;
-			if(PmID == 1 || PmID == 6 ){
-				var tf = false;
-			}else{
-				var tf = true;
-			}
+		if (PmID == 1 || PmID == 6) {
+			var tf = false;
+		} else {
+			var tf = true;
+		}
 		$(document).ready(function(e) {
 			$('#showday').hide();
 			$('#showmonth').hide();
@@ -391,12 +391,12 @@ $array2 = json_decode($json2, TRUE);
 						$('#rem7').css('color', 'red');
 					}
 				} else if (FormatDay == 2) {
-					if (oneday == null || oneday == '' || oneday == undefined ) {
+					if (oneday == null || oneday == '' || oneday == undefined) {
 						$('#oneday').addClass('border-danger');
 						$('#rem7').show();
 						$('#rem7').css('color', 'red');
 					}
-					if ( someday == '' || someday == undefined || someday == undefined) {
+					if (someday == '' || someday == undefined || someday == undefined) {
 						$('#someday').addClass('border-danger');
 						$('#rem8').show();
 						$('#rem8').css('color', 'red');
@@ -413,12 +413,12 @@ $array2 = json_decode($json2, TRUE);
 
 					}
 				} else if (FormatMonth == 2) {
-					if (onemonth == null || onemonth == '' || onemonth == undefined ) {
+					if (onemonth == null || onemonth == '' || onemonth == undefined) {
 						$('#onemonth').addClass('border-danger');
 						$('#rem9').show();
 						$('#rem9').css('color', 'red');
 					}
-					if ( somemonth == '' || someday == undefined || someday == undefined) {
+					if (somemonth == '' || someday == undefined || someday == undefined) {
 						$('#somemonth').addClass('border-danger');
 						$('#rem10').show();
 						$('#rem10').css('color', 'red');
@@ -460,7 +460,7 @@ $array2 = json_decode($json2, TRUE);
 					$('#rem2').css('color', 'red');
 				}
 			}
-			if (typeReport == 2 || typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 18) {
+			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 ) {
 				if (department == '' || department == undefined || department == '0') {
 					$('#department').addClass('border-danger');
 					$('#rem4').show();
@@ -705,7 +705,7 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 2 || typeReport == 4 || typeReport == 7 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 18) {
+			if (typeReport == 4  || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 ) {
 				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
 					swal({
 						title: '',
@@ -898,6 +898,18 @@ $array2 = json_decode($json2, TRUE);
 			senddata(JSON.stringify(data));
 		}
 
+		function grouphptWhere() {
+			$('#PPU').val(0);
+			var HptCode = $('#hotpital').val();
+			var grouphpt = $('#grouphpt').val();
+			var data = {
+				'STATUS': 'departmentWhere',
+				'HptCode': HptCode,
+				'grouphpt': grouphpt,
+			};
+			senddata(JSON.stringify(data));
+		}
+
 		function departmentWhere() {
 			$('#PPU').val(0);
 			var HptCode = $('#hotpital').val();
@@ -910,15 +922,17 @@ $array2 = json_decode($json2, TRUE);
 
 
 
+
 		function send_data(data) {
-			var URL = data; //your url send_from process process/report.php
+			var dataSend =$('#data').val();
+			var URL = data+'?data='+dataSend; //your url send_from process process/report.php
 			window.open(URL);
 		}
 
 		function send_data2(data) {
-			var myData = data.split(',');
-			var URL = myData[0]; //your url send_from process process/report.php
-			window.open(URL + myData[1]);
+			var dataSend =$('#data').val();
+			var URL = data //your url send_from process process/report.php
+			window.open(URL);
 		}
 		//============================================ Close Function ======================================================
 
@@ -949,7 +963,7 @@ $array2 = json_decode($json2, TRUE);
 							var FacCode = '<?php echo $FacCode ?>';
 							var DepCode = '<?php echo $DepCode ?>';
 							var HptName = '<?php echo $HptName ?>';
-							
+
 							$("#factory").empty();
 							$("#department").empty();
 							$("#hotpital").empty();
@@ -971,9 +985,11 @@ $array2 = json_decode($json2, TRUE);
 							$("#hotpital").val(HptCode);
 
 							$("#department").empty();
-							var depValue0 = '-';
+							// var depValue0 = '-';
+							// var dep1 = "<option value='0'>" + depValue0 + "</option>";
+							// dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
+							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
-							dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -1006,7 +1022,20 @@ $array2 = json_decode($json2, TRUE);
 							$("#department").append(dep2);
 							$("#select_0").attr('selected', true);
 							var DocDate = temp[i]['DocDate'];
-						} else if (temp["form"] == 'r1') {
+						}
+						// else if (temp["form"] == 'grouphptWhere') {
+						// 	$("#department").empty();
+						// 	var groupValue0 = '<?php echo $array['department'][$language]; ?>';
+						// 	var group = "<option value='0'>" + groupValue0 + "</option>";
+						// 	for (var i = 0; i < temp['Row']; i++) {
+						// 		group += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
+						// 	}
+						// 	$("#department").append(dep2);
+						// 	$("#select_0").attr('selected', true);
+						// 	var DocDate = temp[i]['DocDate'];
+						// } 
+						else if (temp["form"] == 'r1') {
+							$('#data').val(Object.values(temp['data_send']));
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var show_date = '';
 							var format = temp['Format'];
@@ -1049,6 +1078,11 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1056,10 +1090,12 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['facname'] + "</td>" +
 									"<td class='text-center' style='width:22%'>" + show_date + "</td>" +
 									"<td class='text-center' style='width:13%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									// "<td class='text-center' style='width:7%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R1 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r2') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1103,18 +1139,21 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center pl-4' style='width:20%'>" + temp[i]['facname'] + "</td>" +
-									"<td class='text-center' style='width:20%'>" + temp[i]['Hptname'] + "</td>" +
-									"<td class='text-center' style='width:20%'>" + dep + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
+									"<td class='text-center' style='width:30%'>" + temp[i]['Hptname'] + "</td>" +
+									"<td class='text-center' style='width:35%'>" + show_date + "</td>" +
 									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R2 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r3') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1157,6 +1196,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1164,10 +1206,12 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:15%'>" + show_date + "</td>" +
 									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									// "<td class='text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R3 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r4') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1213,6 +1257,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1220,11 +1267,12 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data2(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R4 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r5') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1267,6 +1315,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1278,6 +1329,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R5 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r6') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1320,6 +1372,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1331,6 +1386,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R6 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r7') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1375,6 +1431,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1382,10 +1441,12 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:30%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
 									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									// "<td class='text-center text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R7 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r8') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1430,6 +1491,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+														$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1442,6 +1506,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R8 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r9') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1484,6 +1549,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1494,6 +1562,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R9 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r10' || temp["form"] == 'r11' || temp["form"] == 'r12') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1536,6 +1605,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1546,6 +1618,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R10 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r13') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1588,6 +1661,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
@@ -1601,6 +1677,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R13 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r14') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1643,6 +1720,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1655,6 +1735,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R14 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1697,17 +1778,20 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:25%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:30%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:30%'>" + temp[i]['DocNo'] + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:50%'>" + temp[i]['FacName'] + "</td>" +
+									"<td class='text-center' style='width:35%'>" + show_date + "</td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url']  + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R15 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r17') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1750,6 +1834,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1760,6 +1847,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R17 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r18') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var format = temp['Format'];
@@ -1802,6 +1890,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1812,6 +1903,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R18 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r19') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -1855,6 +1947,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', false);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1865,6 +1960,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R19 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r20') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -1908,6 +2004,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', false);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1918,6 +2017,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_R20 tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'r21') {
+							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var hot = $("#hotpital option:selected").text();
@@ -1961,6 +2061,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', false);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1971,7 +2074,181 @@ $array2 = json_decode($json2, TRUE);
 									"</tr>";
 								$("#table_R21 tbody").append(dataRow);
 							}
+						} else if (temp["form"] == 'r22') {
+							$('#data').val(Object.values(temp['data_send']));
+							var show_date = '';
+							var print = '<?php echo $array['prin'][$language]; ?>';
+							var hot = $("#hotpital option:selected").text();
+							var format = temp['Format'];
+							var chk = temp['chk'];
+							if (format == 1) {
+								if (chk == 'one') {
+									show_date = day;
+								} else {
+									show_date = many_day;
+								}
+							} else if (format == 2) {
+								if (chk == 'month') {
+									show_date = month;
+								} else {
+									show_date = many_month;
+								}
+							} else if (format == 3) {
+								show_date = show_year;
+							}
+							$('#type_report').text(temp['typeReport']);
+							$('#table_R22 tbody').empty();
+							$('#table_R1').attr('hidden', true);
+							$('#table_R2').attr('hidden', true);
+							$('#table_R3').attr('hidden', true);
+							$('#table_R4').attr('hidden', true);
+							$('#table_R5').attr('hidden', true);
+							$('#table_R6').attr('hidden', true);
+							$('#table_R7').attr('hidden', true);
+							$('#table_R8').attr('hidden', true);
+							$('#table_R9').attr('hidden', true);
+							$('#table_R10').attr('hidden', true);
+							$('#table_R11').attr('hidden', true);
+							$('#table_R12').attr('hidden', true);
+							$('#table_R13').attr('hidden', true);
+							$('#table_R14').attr('hidden', true);
+							$('#table_R15').attr('hidden', true);
+							$('#table_R16').attr('hidden', true);
+							$('#table_R17').attr('hidden', true);
+							$('#table_R18').attr('hidden', true);
+							$('#table_R19').attr('hidden', true);
+							$('#table_R20').attr('hidden', true);
+							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', false);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
+							for (var i = 0; i < temp['countRow']; i++) {
+								var dataRow = "<tr>" +
+									"<td style='width:5%'>" + (i + 1) + "</td>" +
+									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
+									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
+									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"</tr>";
+								$("#table_R22 tbody").append(dataRow);
+							}
+						}else if (temp["form"] == 'r23') {
+							$('#data').val(Object.values(temp['data_send']));
+							var show_date = '';
+							var print = '<?php echo $array['prin'][$language]; ?>';
+							var hot = $("#hotpital option:selected").text();
+							var format = temp['Format'];
+							var chk = temp['chk'];
+							if (format == 1) {
+								if (chk == 'one') {
+									show_date = day;
+								} else {
+									show_date = many_day;
+								}
+							} else if (format == 2) {
+								if (chk == 'month') {
+									show_date = month;
+								} else {
+									show_date = many_month;
+								}
+							} else if (format == 3) {
+								show_date = show_year;
+							}
+							$('#type_report').text(temp['typeReport']);
+							$('#table_R23 tbody').empty();
+							$('#table_R1').attr('hidden', true);
+							$('#table_R2').attr('hidden', true);
+							$('#table_R3').attr('hidden', true);
+							$('#table_R4').attr('hidden', true);
+							$('#table_R5').attr('hidden', true);
+							$('#table_R6').attr('hidden', true);
+							$('#table_R7').attr('hidden', true);
+							$('#table_R8').attr('hidden', true);
+							$('#table_R9').attr('hidden', true);
+							$('#table_R10').attr('hidden', true);
+							$('#table_R11').attr('hidden', true);
+							$('#table_R12').attr('hidden', true);
+							$('#table_R13').attr('hidden', true);
+							$('#table_R14').attr('hidden', true);
+							$('#table_R15').attr('hidden', true);
+							$('#table_R16').attr('hidden', true);
+							$('#table_R17').attr('hidden', true);
+							$('#table_R18').attr('hidden', true);
+							$('#table_R19').attr('hidden', true);
+							$('#table_R20').attr('hidden', true);
+							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', false);
+							$('#table_R24').attr('hidden', true);
+							for (var i = 0; i < temp['countRow']; i++) {
+								var dataRow = "<tr>" +
+									"<td style='width:5%'>" + (i + 1) + "</td>" +
+									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
+									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] +  "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"</tr>";
+								$("#table_R23 tbody").append(dataRow);
+							}
+						}else if (temp["form"] == 'r24') {
+							$('#data').val(Object.values(temp['data_send']));
+							var show_date = '';
+							var print = '<?php echo $array['prin'][$language]; ?>';
+							var hot = $("#hotpital option:selected").text();
+							var format = temp['Format'];
+							var chk = temp['chk'];
+							if (format == 1) {
+								if (chk == 'one') {
+									show_date = day;
+								} else {
+									show_date = many_day;
+								}
+							} else if (format == 2) {
+								if (chk == 'month') {
+									show_date = month;
+								} else {
+									show_date = many_month;
+								}
+							} else if (format == 3) {
+								show_date = show_year;
+							}
+							$('#type_report').text(temp['typeReport']);
+							$('#table_R24 tbody').empty();
+							$('#table_R1').attr('hidden', true);
+							$('#table_R2').attr('hidden', true);
+							$('#table_R3').attr('hidden', true);
+							$('#table_R4').attr('hidden', true);
+							$('#table_R5').attr('hidden', true);
+							$('#table_R6').attr('hidden', true);
+							$('#table_R7').attr('hidden', true);
+							$('#table_R8').attr('hidden', true);
+							$('#table_R9').attr('hidden', true);
+							$('#table_R10').attr('hidden', true);
+							$('#table_R11').attr('hidden', true);
+							$('#table_R12').attr('hidden', true);
+							$('#table_R13').attr('hidden', true);
+							$('#table_R14').attr('hidden', true);
+							$('#table_R15').attr('hidden', true);
+							$('#table_R16').attr('hidden', true);
+							$('#table_R17').attr('hidden', true);
+							$('#table_R18').attr('hidden', true);
+							$('#table_R19').attr('hidden', true);
+							$('#table_R20').attr('hidden', true);
+							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', false);
+							for (var i = 0; i < temp['countRow']; i++) {
+								var dataRow = "<tr>" +
+									"<td style='width:5%'>" + (i + 1) + "</td>" +
+									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
+									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
+									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] +  "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"</tr>";
+								$("#table_R24 tbody").append(dataRow);
+							}
 						}
+
 					} else if (temp['status'] == "notfound") {
 						$('#type_report').text(temp['typeReport']);
 						if (temp["form"] == 'r1') {
@@ -1996,6 +2273,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R1 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R1 tbody").append(dataRow);
@@ -2021,6 +2301,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R2 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R2 tbody").append(dataRow);
@@ -2046,6 +2329,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R3 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R3 tbody").append(dataRow);
@@ -2071,6 +2357,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R4 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R4 tbody").append(dataRow);
@@ -2096,6 +2385,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R5 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R5 tbody").append(dataRow);
@@ -2121,6 +2413,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R6 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R6 tbody").append(dataRow);
@@ -2146,6 +2441,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R7 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R7 tbody").append(dataRow);
@@ -2171,6 +2469,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R8 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R8 tbody").append(dataRow);
@@ -2196,6 +2497,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R9 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R9 tbody").append(dataRow);
@@ -2221,6 +2525,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R10 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R10 tbody").append(dataRow);
@@ -2246,6 +2553,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R13 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R13 tbody").append(dataRow);
@@ -2271,6 +2581,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R14 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R14 tbody").append(dataRow);
@@ -2296,6 +2609,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R15 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R15 tbody").append(dataRow);
@@ -2321,6 +2637,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R17 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R17 tbody").append(dataRow);
@@ -2346,6 +2665,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R18 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R18 tbody").append(dataRow);
@@ -2371,6 +2693,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', false);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R19 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R19 tbody").append(dataRow);
@@ -2396,6 +2721,9 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', false);
 							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R20 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R20 tbody").append(dataRow);
@@ -2421,9 +2749,96 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R19').attr('hidden', true);
 							$('#table_R20').attr('hidden', true);
 							$('#table_R21').attr('hidden', false);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
 							$('#table_R21 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R21 tbody").append(dataRow);
+						} else if (temp["form"] == 'r22') {
+							$('#table_R1').attr('hidden', true);
+							$('#table_R2').attr('hidden', true);
+							$('#table_R3').attr('hidden', true);
+							$('#table_R4').attr('hidden', true);
+							$('#table_R5').attr('hidden', true);
+							$('#table_R6').attr('hidden', true);
+							$('#table_R7').attr('hidden', true);
+							$('#table_R8').attr('hidden', true);
+							$('#table_R9').attr('hidden', true);
+							$('#table_R10').attr('hidden', true);
+							$('#table_R11').attr('hidden', true);
+							$('#table_R12').attr('hidden', true);
+							$('#table_R13').attr('hidden', true);
+							$('#table_R14').attr('hidden', true);
+							$('#table_R15').attr('hidden', true);
+							$('#table_R16').attr('hidden', true);
+							$('#table_R17').attr('hidden', true);
+							$('#table_R18').attr('hidden', true);
+							$('#table_R19').attr('hidden', true);
+							$('#table_R20').attr('hidden', true);
+							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', false);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', true);
+							$('#table_R22 tbody').empty();
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
+							$("#table_R22 tbody").append(dataRow);
+						}else if (temp["form"] == 'r23') {
+							$('#table_R1').attr('hidden', true);
+							$('#table_R2').attr('hidden', true);
+							$('#table_R3').attr('hidden', true);
+							$('#table_R4').attr('hidden', true);
+							$('#table_R5').attr('hidden', true);
+							$('#table_R6').attr('hidden', true);
+							$('#table_R7').attr('hidden', true);
+							$('#table_R8').attr('hidden', true);
+							$('#table_R9').attr('hidden', true);
+							$('#table_R10').attr('hidden', true);
+							$('#table_R11').attr('hidden', true);
+							$('#table_R12').attr('hidden', true);
+							$('#table_R13').attr('hidden', true);
+							$('#table_R14').attr('hidden', true);
+							$('#table_R15').attr('hidden', true);
+							$('#table_R16').attr('hidden', true);
+							$('#table_R17').attr('hidden', true);
+							$('#table_R18').attr('hidden', true);
+							$('#table_R19').attr('hidden', true);
+							$('#table_R20').attr('hidden', true);
+							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', false);
+							$('#table_R24').attr('hidden', true);
+							$('#table_R23 tbody').empty();
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
+							$("#table_R23 tbody").append(dataRow);
+						}else if (temp["form"] == 'r24') {
+							$('#table_R1').attr('hidden', true);
+							$('#table_R2').attr('hidden', true);
+							$('#table_R3').attr('hidden', true);
+							$('#table_R4').attr('hidden', true);
+							$('#table_R5').attr('hidden', true);
+							$('#table_R6').attr('hidden', true);
+							$('#table_R7').attr('hidden', true);
+							$('#table_R8').attr('hidden', true);
+							$('#table_R9').attr('hidden', true);
+							$('#table_R10').attr('hidden', true);
+							$('#table_R11').attr('hidden', true);
+							$('#table_R12').attr('hidden', true);
+							$('#table_R13').attr('hidden', true);
+							$('#table_R14').attr('hidden', true);
+							$('#table_R15').attr('hidden', true);
+							$('#table_R16').attr('hidden', true);
+							$('#table_R17').attr('hidden', true);
+							$('#table_R18').attr('hidden', true);
+							$('#table_R19').attr('hidden', true);
+							$('#table_R20').attr('hidden', true);
+							$('#table_R21').attr('hidden', true);
+							$('#table_R22').attr('hidden', true);
+							$('#table_R23').attr('hidden', true);
+							$('#table_R24').attr('hidden', false);
+							$('#table_R24 tbody').empty();
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
+							$("#table_R24 tbody").append(dataRow);
 						}
 
 					} else {
@@ -2590,12 +3005,12 @@ $array2 = json_decode($json2, TRUE);
 		function disabled_fill() {
 			var typeReport = $('#typereport').val();
 			var PmID = <?PHP echo  $PmID ?>;
-			if(PmID == 1 || PmID == 6 ){
+			if (PmID == 1 || PmID == 6) {
 				var tf = false;
-			}else{
+			} else {
 				var tf = true;
 			}
-			if (typeReport == 1 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 15 || typeReport == 8) {
+			if (typeReport == 1 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 15 || typeReport == 8 || typeReport == 22) {
 				$('#hotpital').attr('disabled', tf);
 				$('#department').attr('disabled', true);
 				$('#factory').attr('disabled', false);
@@ -2603,7 +3018,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#PPU').attr('disabled', true);
 				$('#PPU').val(0);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
 			} else if (typeReport == 14 || typeReport == 16) {
 				$('#department').attr('disabled', false);
@@ -2613,9 +3028,9 @@ $array2 = json_decode($json2, TRUE);
 				$('#PPU').attr('disabled', true);
 				$('#PPU').val(0);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
-			} else if (typeReport == 7 || typeReport == 18 || typeReport == 9) {
+			} else if ( typeReport == 9) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
@@ -2623,9 +3038,9 @@ $array2 = json_decode($json2, TRUE);
 				$('#PPU').attr('disabled', true);
 				$('#PPU').val(0);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
-			} else if (typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 20 || typeReport == 21) {
+			} else if (typeReport == 7  ||typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19|| typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
@@ -2633,7 +3048,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#PPU').attr('disabled', true);
 				$('#PPU').val(0);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
 			} else if (typeReport == 2) {
 				$('#factory').attr('disabled', false);
@@ -2643,9 +3058,9 @@ $array2 = json_decode($json2, TRUE);
 				$('#PPU').attr('disabled', true);
 				$('#PPU').val(0);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
-				
+
 			} else if (typeReport == 4) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
@@ -2654,7 +3069,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#PPU').attr('disabled', true);
 				$('#PPU').val(0);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
 
 			} else if (typeReport == 13) {
@@ -2664,7 +3079,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#PPU').attr('disabled', false);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#PPU').val(0);
 			} else if (typeReport == 17) {
@@ -2675,7 +3090,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#PPU').attr('disabled', true);
 				$('#PPU').val(0);
 				$('#factory').val(0);
-				// $('#department').val(0);
+				$('#department').val(0);
 				$('#cycle').val(0);
 			}
 			if (typeReport == 9) {
@@ -2731,7 +3146,7 @@ $array2 = json_decode($json2, TRUE);
 			$('#rem10').hide();
 			$('#rem11').hide();
 			// $('#department').attr('disabled', true);
-			
+
 		}
 	</script>
 	<style media="screen">
@@ -2990,6 +3405,7 @@ $array2 = json_decode($json2, TRUE);
 </head>
 
 <body id="page-top">
+	<input type="hidden" id='data'>
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['report']['title'][$language]; ?></a></li>
 		<li class="breadcrumb-item active"><?php echo $array2['menu']['report']['title'][$language]; ?></li>
@@ -3021,26 +3437,29 @@ $array2 = json_decode($json2, TRUE);
 														<select class="form-control col-sm-8 " id="typereport" style="font-size:22px;" onchange="disabled_fill();">
 															<option value="0"><?php echo $array['r' . 0][$language]; ?></option>
 															<option value=1><?php echo "1. &nbsp; " . $array['r' . 1][$language]; ?></option>
-															<option value=2><?php echo "2. &nbsp; " . $array['r' . 2][$language]; ?></option>
-															<option value=3><?php echo "3. &nbsp; " . $array['r' . 3][$language]; ?></option>
-															<option value=4><?php echo "4. &nbsp; " . $array['r' . 4][$language]; ?></option>
+															<!-- <option value=2><?php echo "2. &nbsp; " . $array['r' . 2][$language]; ?></option> -->
+															<option value=3><?php echo "2. &nbsp; " . $array['r' . 3][$language]; ?></option>
+															<option value=4><?php echo "3. &nbsp; " . $array['r' . 4][$language]; ?></option>
 															<!-- <option value=5><?php echo "5. " . $array['r' . 5][$language]; ?></option> -->
-															<option value=6><?php echo "5. &nbsp; " . $array['r' . 6][$language]; ?></option>
-															<option value=7><?php echo "6. &nbsp; " . $array['r' . 7][$language]; ?></option>
-															<option value=8><?php echo "7. &nbsp; " . $array['r' . 8][$language]; ?></option>
-															<option value=9><?php echo "8. &nbsp; " . $array['r' . 9][$language]; ?></option>
+															<option value=6><?php echo "4. &nbsp; " . $array['r' . 6][$language]; ?></option>
+															<option value=7><?php echo "5. &nbsp; " . $array['r' . 7][$language]; ?></option>
+															<option value=8><?php echo "6. &nbsp; " . $array['r' . 8][$language]; ?></option>
+															<option value=9><?php echo "7. &nbsp; " . $array['r' . 9][$language]; ?></option>
 															<!-- <option value=10><?php echo "10. " . $array['r' . 10][$language]; ?></option>
 															<option value=11><?php echo "11. " . $array['r' . 11][$language]; ?></option>
 															<option value=12><?php echo "12. " . $array['r' . 12][$language]; ?></option> -->
 															<!-- <option value=13><?php echo "9.  &nbsp; " . $array['r' . 13][$language]; ?></option> -->
 															<!-- <option value=14><?php echo "10. " . $array['r' . 14][$language]; ?></option> -->
-															<option value=15><?php echo "9. &nbsp; " . $array['r' . 15][$language]; ?></option>
+															<option value=15><?php echo "8. &nbsp; " . $array['r' . 15][$language]; ?></option>
 															<!-- <option value=16><?php echo "16. " . $array['r' . 16][$language]; ?></option> -->
 															<!-- <option value=17><?php echo "12. " . $array['r' . 17][$language]; ?></option> -->
-															<option value=18><?php echo "10. " . $array['r' . 18][$language]; ?></option>
-															<option value=19><?php echo "11. " . $array['r' . 19][$language]; ?></option>
-															<option value=20><?php echo "12. " . $array['r' . 20][$language]; ?></option>
+															<option value=18><?php echo "9. &nbsp; " . $array['r' . 18][$language]; ?></option>
+															<!-- <option value=19><?php echo "10. " . $array['r' . 19][$language]; ?></option>
+															<option value=20><?php echo "11. " . $array['r' . 20][$language]; ?></option> -->
 															<!-- <option value=21><?php echo "16. " . $array['r' . 21][$language]; ?></option> -->
+															<option value=22><?php echo "10. " . $array['r' . 22][$language]; ?></option>
+															<option value=23><?php echo "11. " . $array['r' . 23][$language]; ?></option>
+															<option value=24><?php echo "12. " . $array['r' . 24][$language]; ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -3069,6 +3488,14 @@ $array2 = json_decode($json2, TRUE);
 														<label id="rem4" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
+												<!-- <div class="col-md-6 ">
+													<div class='form-group row checkblank '>
+														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;">OPD</label>
+														<select class="form-control col-sm-8" style="font-size:22px;" id="grouphpt" onchange="blank_dep();">
+														</select>
+														<label id="rem4" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
+													</div>
+												</div> -->
 											</div>
 											<div class="row">
 												<!-- <div class="col-md-6">
@@ -3085,6 +3512,14 @@ $array2 = json_decode($json2, TRUE);
 														</select><label id="rem6" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
+												<!-- <div class="col-md-6 ">
+													<div class='form-group row checkblank '>
+														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+														<select class="form-control col-sm-8" style="font-size:22px;" id="department" onchange="blank_dep();">
+														</select>
+														<label id="rem4" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
+													</div>
+												</div> -->
 											</div>
 											<div class="row">
 												<div class="col-md-6">
@@ -3179,7 +3614,7 @@ $array2 = json_decode($json2, TRUE);
 															someday.update('minDate', date)
 														}
 													})
-													
+
 													$("#oneday").datepicker({ //---ฟังชั่นตรวจสอบค่าtextdate--
 														onSelect: function(dateText) {
 															$('#oneday').removeClass('border-danger');
@@ -3200,7 +3635,7 @@ $array2 = json_decode($json2, TRUE);
 															$('#rem9').hide();
 														}
 													});
-													
+
 													$("#somemonth").datepicker({ //---ฟังชั่นตรวจสอบค่าtextdate--
 														onSelect: function(dateText) {
 															$('#somemonth').removeClass('border-danger');
@@ -3214,7 +3649,6 @@ $array2 = json_decode($json2, TRUE);
 															$('#rem11').hide();
 														}
 													});
-
 												</script>
 											</div>
 										</div>
@@ -3265,9 +3699,8 @@ $array2 = json_decode($json2, TRUE);
 									<tr role="row" id='tr_1'>
 										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
 										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
 										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
 
@@ -3428,9 +3861,8 @@ $array2 = json_decode($json2, TRUE);
 								<thead id="theadsum" style="font-size:24px;">
 									<tr role="row" id='tr_1'>
 										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
+										<th style='width: 50%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
+										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
 										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
 								</thead>
@@ -3502,7 +3934,44 @@ $array2 = json_decode($json2, TRUE);
 										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
 										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
-
+									<!-- ---------------------------------Report 22--------------------------------------- -->
+									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R22" width="100%" cellspacing="0" role="grid" hidden>
+										<thead id="theadsum" style="font-size:24px;">
+											<tr role="row" id='tr_1'>
+												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+											</tr>
+										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+										</tbody>
+									</table>
+										<!-- ---------------------------------Report 23--------------------------------------- -->
+										<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R23" width="100%" cellspacing="0" role="grid" hidden>
+										<thead id="theadsum" style="font-size:24px;">
+											<tr role="row" id='tr_1'>
+												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+												<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+											</tr>
+										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+										</tbody>
+									</table>
+										<!-- ---------------------------------Report 24--------------------------------------- -->
+										<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R24" width="100%" cellspacing="0" role="grid" hidden>
+										<thead id="theadsum" style="font-size:24px;">
+											<tr role="row" id='tr_1'>
+												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+											</tr>
+										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+										</tbody>
+									</table>
 								</thead>
 								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 								</tbody>

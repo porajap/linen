@@ -152,23 +152,16 @@ class PDF extends FPDF
     $this->SetFont('THSarabun', 'b', 14);
 
     $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
+    $this->Cell($w[7], 20, iconv("UTF-8", "TIS-620", $header[7]), 1, 0, 'C');
     $this->Cell($w[1], 20, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
     $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
     $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 0, 'C');
     $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
     $this->Cell($w[5], 20, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
-    $this->SetFont('THSarabun', 'b', 12);
     $this->Cell($w[6], 20, iconv("UTF-8", "TIS-620", $header[6]), 1, 1, 'C');
-    $this->Cell($w[6] + $w[6], 0, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
-    $this->SetFont('THSarabun', 'b', 10);
-    if($language == 'th'){
-      $size = 10;
-    }
-    else{
-      $size = 10;
-    }
+    $this->Cell($w[0] + $w[1] + $w[7], 0, iconv("UTF-8", "TIS-620", ""), 1, 0, 'C');
     for ($i = 0; $i < 3; $i++) {
-      $this->SetFont('THSarabun', 'b', $size);
+      $this->SetFont('THSarabun', 'b', 12);
       $this->Cell($w[2] / 3, -10, iconv("UTF-8", "TIS-620", $array2['start'][$language]), 1, 0, 'C');
       $this->Cell($w[2] / 3, -10, iconv("UTF-8", "TIS-620", $array2['finish'][$language]), 1, 0, 'C');
       $this->Cell($w[2] / 3, -10, iconv("UTF-8", "TIS-620", $array2['total'][$language]), 1, 0, 'C');
@@ -184,7 +177,7 @@ class PDF extends FPDF
     $this->SetFont('THSarabun', '', 12);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
-       
+
         // if ($rows > 22) {
         //   $count++;
         //   if ($count % 25 == 1) {
@@ -195,7 +188,7 @@ class PDF extends FPDF
         //   }
         // }
         $txt = getStrLenTH($inner_array[$field[12]]); // 10
-        $round = $txt /9;
+        $round = $txt / 20;
         list($main, $point) = explode(".", $round);
         if ($point > 0) {
           $point = 1;
@@ -210,8 +203,10 @@ class PDF extends FPDF
         list($hoursDF, $minDF, $secordDF) = explode(":", $inner_array[$field[9]]);
         $h1 = $hoursSS - $hoursSF;
         $m1 = $minSS - $minSF;
-        $h2 = $hoursPS - $hoursPF;
-        $m2 = $minPS - $minPF;
+        if ($inner_array[$field[1]] == 'Extra') {
+          $h2 = $hoursPS - $hoursPF;
+          $m2 = $minPS - $minPF;
+        }
         $h3 = $hoursDS - $hoursDF;
         $m3 = $minDS - $minDF;
         $m1 = abs($m1);
@@ -232,31 +227,41 @@ class PDF extends FPDF
         //   $total_hours += $total_min / 60;
         //   $total_min = $total_min % 60;
         // }
-        $totalhour=$h1+$h2+$h3;
-        $totalmin=$m1+$m2+$m3;
-        if($totalmin >= 60){
-         $totalhouradd =$totalhour+($totalmin/60);
-         $totalhour += $totalhouradd;
-         $totalmin = $totalmin % (60*$totalhouradd);
+        $total1 = substr($inner_array[$field[4]], 0, 5);
+        $total2 = substr($inner_array[$field[7]], 0, 5);
+        $total3 = substr($inner_array[$field[10]], 0, 5);
+        list($sumh1, $summ1) = explode(":", $total1);
+        list($sumh2, $summ2) = explode(":", $total2);
+        list($sumh3, $summ3) = explode(":", $total3);
+
+
+        // echo timeplus($arr);
+        $totalhour = $h1 + $h2 + $h3;
+        
+        $totalmin = $m1 + $m2 + $m3;
+        if ($totalmin >= 60) {
+          $totalhouradd = ($totalmin / 60);
+          $totalhour += $totalhouradd;
+          $totalmin = $totalmin % (60 * $totalhouradd);
         }
         for ($i = 0; $i < 10; $i++) {
           if ($m1 == $i) {
             $m1 = "0" . $m1;
           }
           if ($h1 == $i) {
-            $h1 = $h1 . "0";
+            $h1 =  "0" . $h1;
           }
           if ($m2 == $i) {
             $m2 = "0" . $m2;
           }
           if ($h2 == $i) {
-            $h2 = $h2 . "0";
+            $h2 =  "0" . $h2;
           }
           if ($m3 == $i) {
             $m3 = "0" . $m3;
           }
           if ($h3 == $i) {
-            $h3 = $h3 . "0";
+            $h3 =  "0" . $h3;
           }
         }
         if ($language == 'th') {
@@ -273,34 +278,44 @@ class PDF extends FPDF
           } else {
             $min_show = " mins ";
           }
-
-        }$this->SetFont('THSarabun', '', 14);
-        $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
-        $this->SetFont('THSarabun', '', 14);
-        $this->Cell($w[1], 20, iconv("UTF-8", "TIS-620", substr($inner_array[$field[1]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[2] / 3, 20, iconv("UTF-8", "TIS-620", substr($inner_array[$field[2]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[3] / 3, 20, iconv("UTF-8", "TIS-620", substr($inner_array[$field[3]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[4] / 3, 20, iconv("UTF-8", "TIS-620", $h1 . ":" . $m1), 1, 0, 'C');
-        $this->Cell($w[2] / 3, 20, iconv("UTF-8", "TIS-620", substr($inner_array[$field[5]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[3] / 3, 20, iconv("UTF-8", "TIS-620", substr($inner_array[$field[6]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[4] / 3, 20, iconv("UTF-8", "TIS-620", $h2 . ":" . $m2), 1, 0, 'C');
-        $this->Cell($w[2] / 3, 20, iconv("UTF-8", "TIS-620", substr($inner_array[$field[8]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[3] / 3, 20, iconv("UTF-8", "TIS-620", substr($inner_array[$field[9]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[4] / 3, 20, iconv("UTF-8", "TIS-620", $h3 . ":" . $m3), 1, 0, 'C');
-        $this->Cell($w[5], 20, iconv("UTF-8", "TIS-620", number_format($totalhour) . " $hour_show " . $totalmin . " $min_show"), 1, 0, 'C');
-        $this->SetX(180);
-        $this->MultiCell($w[6], 20/$main, iconv("UTF-8", "TIS-620", $inner_array[$field[12]]), 1, 'C');
-        $this->SetXY($w[0] + $w[1] + $w[2] + $w[3] + $w[4] + $w[2] + $w[3] + $w[4] + $w[2] + $w[3] + $w[4] + $w[5] + $w[6] + 20, $y);
+        }
+        $total1 = $h1 . ":" . $m1;
+        $total2 = $h2 . ":" . $m2;
+        $total3 = $h3 . ":" . $m3;
+        if ($inner_array[$field[1]] == 'Extra') {
+          $pack1 = substr($inner_array[$field[5]], 0, 5);
+          $pack2 = substr($inner_array[$field[6]], 0, 5);
+          $total2 = $h2 . ":" . $m2;
+        } else {
+          $pack1 = '-';
+          $pack2 = '-';
+          $total2 = '-';
+        }
+        $pdf->SetFont('THSarabun', '', 14);
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
+        $pdf->SetFont('THSarabun', '', 14);
+        $this->Cell($w[7], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[13]], 0, 5)), 1, 0, 'C');
+        $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[1]], 0, 5)), 1, 0, 'C');
+        $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[2]], 0, 5)), 1, 0, 'C');
+        $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[3]], 0, 5)), 1, 0, 'C');
+        $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $total1), 1, 0, 'C');
+        $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", $pack1), 1, 0, 'C');
+        $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", $pack2), 1, 0, 'C');
+        $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $total2), 1, 0, 'C');
+        $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[8]], 0, 5)), 1, 0, 'C');
+        $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[9]], 0, 5)), 1, 0, 'C');
+        $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $total3), 1, 0, 'C');
+        $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($totalhour) . $hour_show . " " . $totalmin .  $min_show), 1, 0, 'C');
+        $this->SetX(240);
+        $this->MultiCell($w[6], 10 / $main, iconv("UTF-8", "TIS-620", $inner_array[$field[12]]), 1, 'C');
+        $this->SetXY($w[0] + $w[1] + $w[2] + $w[3] + $w[4] + $w[2] + $w[3] + $w[4] + $w[2] + $w[3] + $w[4] + $w[5] + $w[6] + 10, $y);
         $this->Ln();
-        $y+=20;
+        $y += 10;
       }
     }
 
 
 
-    if ($count % 25 >= 22) {
-      $pdf->AddPage("P", "A4");
-    }
 
     // Closing line
 
@@ -324,7 +339,7 @@ class PDF extends FPDF
 $pdf = new PDF();
 $font = new Font($pdf);
 $data = new Data();
-$pdf->AddPage("P", "A4");
+$pdf->AddPage("L", "A4");
 if ($language == 'th') {
   $Perfix = THPerfix;
   $Name = THName;
@@ -352,55 +367,57 @@ if ($language == 'th') {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 $pdf->SetFont('THSarabun', '', 10);
-$image="../images/Nhealth_linen 4.0.png";
-$pdf-> Image($image,10,10,43,15);
+$image = "../images/Nhealth_linen 4.0.png";
+$pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Cell(0, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
 // Title
 $pdf->SetFont('THSarabun', 'b', 18);
-$pdf->Cell(80);
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array2['r19'][$language]), 0, 0, 'C');
+
+$pdf->Cell(0, 10, iconv("UTF-8", "TIS-620", $array2['r19'][$language]), 0, 0, 'C');
 
 $pdf->Ln(10);
 
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(1);
-$pdf->Cell(165, 10, iconv("UTF-8", "TIS-620", $array2['officer'][$language]." :  " . $FName), 0, 0, 'L');
+$pdf->Cell(165, 10, iconv("UTF-8", "TIS-620", $array2['officer'][$language] . " :  " . $FName), 0, 0, 'L');
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(10);
 
 $query = "SELECT
 shelfcount.docno,
 time_sc.TimeName AS CycleTime,
-TIME(shelfcount.ScStartTime) AS ScStartTime ,
-TIME(shelfcount.ScEndTime) AS ScEndTime ,  
-TIME(shelfcount.PkEndTime) AS PkEndTime ,
-TIME(shelfcount.PkStartTime) AS PkStartTime ,
-TIME(shelfcount.DvStartTime) AS DvStartTime ,
-TIME(shelfcount.DvEndTime) AS DvEndTime ,
+COALESCE(TIME(shelfcount.ScStartTime),'-') AS ScStartTime ,
+COALESCE(TIME(shelfcount.ScEndTime),'-') AS ScEndTime ,  
+COALESCE(TIME(shelfcount.PkEndTime),'-') AS PkEndTime ,
+COALESCE(TIME(shelfcount.PkStartTime),'-') AS PkStartTime ,
+COALESCE(TIME(shelfcount.DvStartTime),'-') AS DvStartTime ,
+COALESCE(TIME(shelfcount.DvEndTime),'-') AS DvEndTime ,
 TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
 TIMEDIFF(shelfcount.PkStartTime,shelfcount.PkEndTime)AS PK ,
 TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV,
-department.DepName
+department.DepName,
+sc_time_2.TimeName 
 FROM
 shelfcount
 INNER JOIN department on department.DepCode = shelfcount.DepCode
 INNER JOIN users ON users.ID = shelfcount.Modify_Code
-INNER JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
+LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
+LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
 $where
 AND shelfcount.Modify_code = $Userid
-AND shelfcount.isStatus= 4
+AND shelfcount.isStatus <> 9
 ";
 // var_dump($query); die;
 // Number of column
 $numfield = 6;
 // Field data (Must match with Query)
-$field = "docno,CycleTime,ScStartTime,ScEndTime,SC,PkStartTime,PkEndTime,PK,DvStartTime,DvEndTime,DV,,DepName";
+$field = "docno,CycleTime,ScStartTime,ScEndTime,SC,PkStartTime,PkEndTime,PK,DvStartTime,DvEndTime,DV,,DepName,TimeName";
 // Table header
-$header = array($array2['docno'][$language], $array2['Cycle'][$language], $array2['shelfcount'][$language], $array2['packing_time'][$language], $array2['delivery_time'][$language], $array2['total'][$language], $array2['department1'][$language]);
+$header = array($array2['docno'][$language], $array2['Cycle'][$language], $array2['shelfcount'][$language], $array2['packing_time'][$language], $array2['delivery_time'][$language], $array2['total'][$language], $array2['department1'][$language], $array2['receivecycle'][$language]);
 // width of column table
-$width = array(30, 10, 32.5, 32.5, 32.5, 32.5, 20);
+$width = array(40, 15, 40, 40, 40, 40, 50, 15);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table

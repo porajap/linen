@@ -5,15 +5,20 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data=$_SESSION['data_send'];
-$HptCode=$data['HptCode'];
-$FacCode=$data['FacCode'];
-$date1=$data['date1'];
-$date2=$data['date2'];
-$chk=$data['chk'];
-$year=$data['year'];
-$format=$data['Format'];
-$depcode=$data['DepCode'];
+
+$data =explode( ',',$_GET['data']);
+  // echo "<pre>";
+  // print_r($data);
+  // echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
 $where='';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -124,8 +129,8 @@ class PDF extends FPDF
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
-        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'R');
-        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'R');
+        $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]])), 1, 0, 'R');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[4]])), 1, 0, 'R');
         $this->Ln();
       }
       }
@@ -168,7 +173,7 @@ $Sql = "SELECT
         FROM
         par_item_stock
         INNER JOIN department ON par_item_stock.Depcode=department.Depcode
-        WHERE par_item_stock.DepCode=$depcode
+        WHERE par_item_stock.DepCode='$DepCode'
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -220,7 +225,7 @@ $Sql = "SELECT
         INNER JOIN department ON par_item_stock.Depcode=department.Depcode
         INNER JOIN item on item.ItemCode=par_item_stock.ItemCode
         INNER JOIN item_unit on item.unitcode=item_unit.unitcode
-        WHERE par_item_stock.DepCode=$depcode
+        WHERE par_item_stock.DepCode='$DepCode'
         ORDER BY item.itemName ";
 
 $meQuery = mysqli_query($conn, $Sql);

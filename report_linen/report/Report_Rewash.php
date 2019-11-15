@@ -5,17 +5,20 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$chk = $data['chk'];
+$data =explode( ',',$_GET['data']);
+  // echo "<pre>";
+  // print_r($data);
+  // echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
 $year = $data['year'];
-$format = $data['Format'];
-$DepCode = $data['DepCode'];
-$betweendate1 = $data['betweendate1'];
-$betweendate2 = $data['betweendate2'];
 $where = '';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -104,27 +107,33 @@ class PDF extends FPDF
   function Footer()
   {
     if ($this->isFinished) {
-      $this->SetFont('THSarabun', '', 10);
-      $this->SetY(-27);
+      $this->SetY(-30);
       $xml = simplexml_load_file('../xml/general_lang.xml');
       $xml2 = simplexml_load_file('../xml/report_lang.xml');
       $json = json_encode($xml);
       $array = json_decode($json, TRUE);
       $json2 = json_encode($xml2);
       $array2 = json_decode($json2, TRUE);
-      $language = $_SESSION['lang'];
-      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . ".................................................."), 0, 0, 'L');
-      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "..................................................."), 0, 0, 'L');
+       $language = $_SESSION['lang'];
+      $this->SetFont('THSarabun', 'b', 10);
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['comlinen'][$language] . "..............................................."), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['comlaundry'][$language] . "........................................"), 0, 0, 'L');
       $this->Ln(7);
-      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "........................................................................."), 0, 0, 'L');
-      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . "......................................................................"), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['date'][$language] . ".........................................................."), 0, 0, 'L');
+      $this->Ln(7);
+      $this->Cell(5);
+      $this->Cell(130, 10, iconv("UTF-8", "TIS-620", "FL-NLP-BMC-00-00514 แก้ไขครั้งที่ 00 "), 0, 0, 'L');
+      $this->Cell(40, 10, iconv("UTF-8", "TIS-620", $array2['Enforcementdate'][$language] . "  20/02/2562"), 0, 0, 'L');
     }
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
-    $this->SetFont('THSarabun', 'i', 9);
+    $this->SetFont('THSarabun', 'i', 10);
     // Page number
-    $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') . $this->PageNo() . '/{nb}', 0, 0, 'R');
+    $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') .$array2['page'][$language]. $this->PageNo() . '/{nb}', 0, 0, 'R');
   }
 
   function setTable($pdf, $header, $data, $width, $numfield, $field)
@@ -145,7 +154,7 @@ class PDF extends FPDF
     // Column widths
     $w = $width;
     // Header
-    $this->SetFont('THSarabun', 'b', 12);
+    $this->SetFont('THSarabun', 'b', 16);
     for ($i = 0; $i < count($header); $i++)
       $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
     $this->Ln();
@@ -156,49 +165,40 @@ class PDF extends FPDF
     $totalsum1 = 0;
     $totalsum2 = 0;
     $date = "";
-    $this->SetFont('THSarabun', '', 14);
+
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
-        if ($rows > 23) {
+        $this->SetFont('THSarabun', 'b', 16);
+        if ($rows > 21) {
           $loop++;
-          if ($loop % 24 == 1) {
+          if ($loop % 25 == 1) {
             for ($i = 0; $i < count($header); $i++)
               $this->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
             $this->Ln();
           }
         }
-        for ($i = 0; $i < count($inner_array[$field[0]]); $i++) {
-          if ($inner_array[$field[0]] == $date) {
-            $this->Cell($w[0], 10, "", 1, 0, 'C');
-            $loop++;
-          } else {
-            $count = 1;
-            $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
-            $date = $inner_array[$field[0]];
-            $loop = 0;
-            $check++;
-          }
-          $sum_loop[] = $loop;
-          $sum_check[] = $check;
-        }
-
+        $this->SetFont('THSarabun', '', 14);
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $rows), 1, 0, 'C');
         $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'L');
         $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]])), 1, 0, 'C');
+        $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]],2)), 1, 0, 'C');
         $this->Ln();
         $rows++;
         $totalsum1 += $inner_array[$field[2]];
+        $totalsum2 += $inner_array[$field[3]];
       }
     }
     // Footer Table
     $this->SetFont('THSarabun', 'B', 14);
-    $this->Cell(140, 10, iconv("UTF-8", "TIS-620", $array2['total'][$language]), 1, 0, 'C');
-    $this->Cell(50, 10, iconv("UTF-8", "TIS-620", number_format($totalsum1)), 1, 0, 'C');
+    $this->Cell($w[0]+$w[1], 10, iconv("UTF-8", "TIS-620", $array2['total'][$language]), 1, 0, 'C');
+    $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($totalsum1)), 1, 0, 'C');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($totalsum2)), 1, 0, 'C');
     $pdf->Ln(10);
 
-    $footer_nextpage = $loop % 24;
-    if ($footer_nextpage >= 23) {
-      $pdf->AddPage("P", "A4");
-    }
+    // $footer_nextpage = $loop % 24;
+    // if ($footer_nextpage >= 23) {
+    //   $pdf->AddPage("P", "A4");
+    // }
   }
 }
 
@@ -229,7 +229,7 @@ $Sql = "SELECT
         $where
         AND repair_wash.FacCode = $FacCode
         AND department.HptCode = '$HptCode'
-        AND repair_wash.isStatus= 4";
+        AND repair_wash.isStatus<> 9";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $factory = $Result[$FacName];
@@ -260,7 +260,8 @@ $pdf->Ln(12);
 $query = "SELECT
           item.ItemName,
           repair_wash.DocNo,
-          repair_wash_detail.Qty
+          sum(repair_wash_detail.Qty) as Qty ,
+	        sum(repair_wash_detail.Weight) as Weight
           FROM
           repair_wash_detail
           INNER JOIN item ON repair_wash_detail.ItemCode = item.ItemCode
@@ -269,26 +270,26 @@ $query = "SELECT
           $where
           AND repair_wash.FacCode = $FacCode
           AND department.HptCode = '$HptCode'
-          AND repair_wash.isStatus= 4
+          AND repair_wash.isStatus<> 9
+          GROUP BY  item.ItemName
           ORDER BY repair_wash.DocNo ASC ";
-// echo $query."<br>"
 // .$Sql;
 // var_dump($query); die;
 // Number of column
 $numfield = 5;
 // Field data (Must match with Query)
-$field = "DocNo,ItemName,Qty";
+$field = "DocNo,ItemName,Qty,Weight";
 // Table header
-$header = array($array2['docno'][$language], $array2['itemname'][$language], $array2['amount1'][$language],);
+$header = array($array2['no'][$language], $array2['itemname'][$language], $array2['amount1'][$language],$array2['weight'][$language].' (kg)');
 // width of column table
-$width = array(60, 80, 50);
+$width = array(20, 80, 50,40);
 // Get Data and store in Result
 $result = $data->getdata($conn, $query, $numfield, $field);
 // Set Table
 $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $pdf->SetFont('THSarabun', 'b', 11);
 
-$pdf->isFinished = true;
+// $pdf->isFinished = true;
 
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Rewash_' . $ddate . '.pdf');

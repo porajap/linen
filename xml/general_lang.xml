@@ -404,8 +404,7 @@
 <r20><en>Report Summary billing</en><th>รายงานสรุปค่าบริการรับ-ส่งผ้าประจำเดือน</th></r20>
 <r21><en>Report T-das</en><th>รายงาน T-das</th></r21>
 <r22><en>Report New Linen</en><th>รายงานแบบบันทึกการส่งซักผ้าใหม่ให้โรงซัก</th></r22>
-<r23><en>Report Repair</en><th>แบบบันทึก ผ้าชำรุด เสียหาย</th></r23>
-<r24><en>Report Claim Factory</en><th>รายงานบันทึกผ้าส่งเคลม-โรงซัก</th></r24>
+<r23><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></r23>
 <r24><en>Report Claim Factory</en><th>รายงานเคลมโรงซัก</th></r24>
 <DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
 <!--  -->
