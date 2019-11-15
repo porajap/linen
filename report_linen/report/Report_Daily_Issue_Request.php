@@ -115,8 +115,7 @@ LEFT JOIN department ON shelfcount.DepCode = department.DepCode
 LEFT JOIN site ON site.HptCode = department.HptCode
 LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
 LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
-WHERE shelfcount.DocNo='$docno'
-        AND shelfcount.isStatus<> 9
+WHERE shelfcount.DocNo='$docno' AND shelfcount.isStatus<> 9
         ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {

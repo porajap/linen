@@ -17,15 +17,21 @@ $json = json_encode($xml);
 $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$chk = $data['chk'];
-$year = $data['year'];
-$DepCode = $data['DepCode'];
-$format = $data['Format'];
+$data =explode( ',',$_GET['data']);
+  // echo "<pre>";
+  // print_r($data);
+  // echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
+$year1 = $data[9];
+$year2 = $data[10];
 $where = '';
 $i = 9;
 $check = '';
@@ -195,7 +201,35 @@ $objPHPExcel->setActiveSheetIndex(0)
   ->setCellValue('B6',  'No.')
   ->setCellValue('C6',  'Standard')
   ->setCellValue('D6',  'Question');
-$now = '2019-11-';
+
+
+  
+$query = "SELECT
+kpi_dirty1_question.Question,
+kpi_dirty1_question.Standard
+FROM
+kpi_dirty1_question
+order by kpi_dirty1_question.ID
+";
+$meQuery = mysqli_query($conn, $query);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $count);
+  $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $Result["Standard"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $Result["Question"]);
+  $i++;
+  $count++;
+}
+
+$r1 = $i;
+$r2 = $i+1;
+$r3 = $i+2;
+
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r1, 'สรุปข้อที่ทำได้ตามมาตรฐาน');
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r2, 'คิดเป็นร้อยละต่อครั้ง');
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, 'คิดเป็นร้อยละต่อเดือน');
+$objPHPExcel->getActiveSheet()->mergeCells('E'.$r3.':AI'.$r3);
+
+$now =  $year1.'-'.$date1.'-';
 for ($r = 0; $r < 30; $r++) {
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '6',  $date);
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '7',  'YES');
@@ -223,6 +257,13 @@ for ($r = 0; $r < 30; $r++) {
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] .$row2, $percent. ' %'); 
   $sum_percent += $percent;
   }
+  else{
+    $row1 = $row_question;
+    $row2 = $row_question+1;
+    $percent = '0';
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] .$r1, '0'); 
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] .$r2, $percent. ' %'); 
+  }
   $row_question = 9;
   $row1 = 0;
   $row2 = 0;
@@ -230,33 +271,10 @@ for ($r = 0; $r < 30; $r++) {
   $Check_Sum = 0;
   $Qty=0;
 }
-
-$query = "SELECT
-kpi_dirty1_question.Question,
-kpi_dirty1_question.Standard
-FROM
-kpi_dirty1_question
-order by kpi_dirty1_question.ID
-";
-$meQuery = mysqli_query($conn, $query);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $count);
-  $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $Result["Standard"]);
-  $objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $Result["Question"]);
-  $i++;
-  $count++;
-}
-
-$r1 = $i;
-$r2 = $i+1;
-$r3 = $i+2;
 $Total_PerCent=$sum_percent / $count_date;
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r1, 'สรุปข้อที่ทำได้ตามมาตรฐาน');
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r2, 'คิดเป็นร้อยละต่อครั้ง');
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, 'คิดเป็นร้อยละต่อเดือน');
-$objPHPExcel->getActiveSheet()->mergeCells('E'.$r3.':AI'.$r3);
-
 $objPHPExcel->getActiveSheet()->setCellValue('E' . $r3, $Total_PerCent);
+
+
 $cols = array('A', 'B', 'C', 'D', 'E');
 $width = array(10, 40, 10, 10, 15);
 for ($j = 0; $j < count($cols); $j++) {
@@ -333,10 +351,16 @@ $CENTER = array(
     'name'  => 'THSarabun'
   )
 );
-
+$colorfill = array(
+  'fill' => array(
+    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+    'color' => array('rgb' => 'B9E3E6')
+  )
+);
 $objPHPExcel->getActiveSheet()->getStyle("B9:C".$i)->applyFromArray($CENTER);
 $objPHPExcel->getActiveSheet()->getStyle("E".$r1.":AI".$r3)->applyFromArray($CENTER);
 $objPHPExcel->getActiveSheet()->getStyle("A6:AI24")->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle("A6:AI8")->applyFromArray($colorfill);
 $objPHPExcel->getActiveSheet()->getStyle("D".$r1.":AI".$r3)->applyFromArray($styleArray);
 
 $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->applyFromArray($A1H1)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
@@ -393,7 +417,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Excel_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_QC_Process_checklist_dirty" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file
