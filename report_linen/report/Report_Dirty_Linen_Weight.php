@@ -367,7 +367,7 @@ ORDER BY item.ItemName , department.DepName ASC
           ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($Result['ItemName'] == null) {
+  if ($Result['RequestName'] <> null) {
     $Result['ItemName'] = $Result['RequestName'];
   }
   $ItemName = $Result['ItemName'];
@@ -378,35 +378,6 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $pdf->Cell(60, 10, iconv("UTF-8", "TIS-620", ''), 1, 0, 'C');
   $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", ''), 1, 1, 'R');
 }
-
-
-// $im = new Imagick();
-// $svg = file_get_contents($svg);
-
-// $im->readImageBlob($svg);
-
-// // /*png settings*/
-// // $im->setImageFormat("png24");
-// // $im->resizeImage(720, 445, imagick::FILTER_LANCZOS, 1);  /*Optional, if you need to resize*/
-
-// /*jpeg*/
-// $im->setImageFormat("jpeg");
-// $im->adaptiveResizeImage(720, 445); /*Optional, if you need to resize*/
-
-// $im->writeImage('us-map.png');/*(or .jpg)*/
-// $im->clear();
-// $im->destroy();
-
-// $ImageName1 = "กรื้อออ";
-// $ImagePath1 = $ImageName1 . ".PNG";
-// $b1 = file_put_contents($ImagePath1, base64_decode($encoded));
-
-
-
-
-
-
-
 
 $pdf->isFinished = true;
 // $pdf->Ln(7);
