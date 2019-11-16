@@ -18,10 +18,10 @@ $array2 = json_decode($json2, TRUE);
 date_default_timezone_set("Asia/Bangkok");
 // $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
 
-$data =explode( ',',$_GET['data']);
-  // echo "<pre>";
-  // print_r($data);
-  // echo "</pre>"; 
+$data = explode(',', $_GET['data']);
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -104,7 +104,7 @@ class PDF extends FPDF
   // Page footer
   function Footer()
   {
- 
+
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
@@ -148,9 +148,9 @@ class PDF extends FPDF
     $this->SetFont('THSarabun', '', 14);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
-if($inner_array[$field[0]] == null){
-  $inner_array[$field[0]] = $inner_array[$field[4]];
-}
+        if ($inner_array[$field[4]] <> null) {
+          $inner_array[$field[0]] = $inner_array[$field[4]];
+        }
         if ($r > 21) {
           $next_page++;
           if ($status == 0) {
@@ -332,6 +332,7 @@ $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
+AND dirty.isStatus <> 0
 GROUP BY item.ItemName,department.DepName,date(dirty.DocDate),dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC";
 // Number of column
@@ -366,7 +367,7 @@ ORDER BY item.ItemName , department.DepName ASC
           ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if($Result['ItemName'] == null){
+  if ($Result['ItemName'] == null) {
     $Result['ItemName'] = $Result['RequestName'];
   }
   $ItemName = $Result['ItemName'];
@@ -377,7 +378,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $pdf->Cell(60, 10, iconv("UTF-8", "TIS-620", ''), 1, 0, 'C');
   $pdf->Cell(35, 10, iconv("UTF-8", "TIS-620", ''), 1, 1, 'R');
 }
-  
+
 
 // $im = new Imagick();
 // $svg = file_get_contents($svg);

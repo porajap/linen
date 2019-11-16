@@ -17,10 +17,10 @@ $json = json_encode($xml);
 $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
-$data =explode( ',',$_GET['data']);
-  // echo "<pre>";
-  // print_r($data);
-  // echo "</pre>"; 
+$data = explode(',', $_GET['data']);
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -221,14 +221,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 $r1 = $i;
 $r2 = $i + 1;
 $r3 = $i + 2;
-
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r1, 'สรุปข้อที่ทำได้ตามมาตรฐาน');
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r2, 'คิดเป็นร้อยละต่อครั้ง');
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, 'คิดเป็นร้อยละต่อเดือน');
-$objPHPExcel->getActiveSheet()->mergeCells('E' . $r3 . ':AI' . $r3);
-
-$now =  $year1.'-'.$date1.'-';
-for ($r = 0; $r < 30; $r++) {
+$now =  $year1 . '-' . $date1 . '-';
+$count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
+for ($r = 0; $r < $count; $r++) {
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '6',  $date);
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '7',  'YES');
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '8',  '1');
@@ -269,6 +264,11 @@ for ($r = 0; $r < 30; $r++) {
   $Qty = 0;
 }
 $Total_PerCent = $sum_percent / $count_date;
+$lastdate = $count - 1;
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r1, 'สรุปข้อที่ทำได้ตามมาตรฐาน');
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r2, 'คิดเป็นร้อยละต่อครั้ง');
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, 'คิดเป็นร้อยละต่อเดือน');
+$objPHPExcel->getActiveSheet()->mergeCells('E' . $r3 . ':' . $date_cell[$lastdate] . $r3);
 $objPHPExcel->getActiveSheet()->setCellValue('E' . $r3, $Total_PerCent);
 $cols = array('A', 'B', 'C', 'D');
 $width = array(10, 40, 10, 10);
@@ -353,14 +353,14 @@ $colorfill = array(
   )
 );
 $objPHPExcel->getActiveSheet()->getStyle("B9:C" . $i)->applyFromArray($CENTER);
-$objPHPExcel->getActiveSheet()->getStyle("E" . $r1 . ":AI" . $r3)->applyFromArray($CENTER);
-$objPHPExcel->getActiveSheet()->getStyle("A6:AI21")->applyFromArray($styleArray);
-$objPHPExcel->getActiveSheet()->getStyle("D" . $r1 . ":AI" . $r3)->applyFromArray($styleArray);
-$objPHPExcel->getActiveSheet()->getStyle("A6:AI8")->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle("E" . $r1 . ":".$date_cell[$lastdate] . $r3)->applyFromArray($CENTER);
+$objPHPExcel->getActiveSheet()->getStyle("A6:".$date_cell[$lastdate]."21")->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle("D" . $r1 . ":".$date_cell[$lastdate] . $r3)->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle("A6:".$date_cell[$lastdate]."8")->applyFromArray($colorfill);
 $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->applyFromArray($A1H1)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 $objPHPExcel->getActiveSheet()->getStyle("A2:H2")->applyFromArray($A2H2)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 $objPHPExcel->getActiveSheet()->getStyle("E1")->applyFromArray($E1);
-$objPHPExcel->getActiveSheet()->getStyle("A6:AI8")->applyFromArray($A6AI8);
+$objPHPExcel->getActiveSheet()->getStyle("A6:".$date_cell[$lastdate]."8")->applyFromArray($A6AI8);
 $objPHPExcel->getActiveSheet()->getStyle("B6:D6")->applyFromArray($A6AI8);
 $objPHPExcel->getActiveSheet()->getStyle("A3")->applyFromArray($A3)->getFont()->setUnderline(true);
 // $objPHPExcel->getActiveSheet()->getStyle("A9:A" . $i)->applyFromArray($fill1)->getNumberFormat();
