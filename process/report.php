@@ -17,9 +17,11 @@ function OnLoadPage($conn, $DATA)
   $countDep = 0;
   $count_cycle = 0;
   $count_main = 0;
+  $countG = 0;
   $HptCode = $_SESSION['HptCode'];
   $FacCode = $_SESSION['FacCode'];
-  $DepCode = $_SESSION['FacCode'];
+  $DepCode = $_SESSION['DepCode'];
+  $GroupCode =  $_SESSION['GroupCode'];
   $lang = $_SESSION['lang'];
   if ($lang == 'th') {
     $HptName = HptNameTH;
@@ -47,7 +49,20 @@ function OnLoadPage($conn, $DATA)
     $boolean = true;
   }
   $return['Row'] = $count;
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode'and department.isDefault= 1  order by department.DepName asc";
+
+  $SqlG = "SELECT grouphpt.GroupName,grouphpt.GroupCode FROM grouphpt  ";
+  $meQuery = mysqli_query($conn, $SqlG);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$countG]['GroupCode'] = trim($Result['GroupCode']);
+    $return[$countG]['GroupName'] = trim($Result['GroupName']);
+    $countG++;
+    $boolean = true;
+  }
+  $return['RowG'] = $countG;
+  $return['SqlG'] = $SqlG;
+
+
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode'and  department.GroupCode = '$GroupCode' and department.isDefault= 1  order by department.DepName asc";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countDep]['DepCode'] = trim($Result['DepCode']);
@@ -55,7 +70,8 @@ function OnLoadPage($conn, $DATA)
     $countDep++;
     $boolean = true;
   }
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode'and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc";
+
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode'and  department.GroupCode = '$GroupCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countDep]['DepCode'] = trim($Result['DepCode']);
@@ -78,9 +94,9 @@ function OnLoadPage($conn, $DATA)
   $Sql = "SELECT
 	item_main_category.MainCategoryName,
 	item_main_category.MainCategoryCode
-FROM
-	item_main_category
-GROUP BY
+  FROM
+    item_main_category
+  GROUP BY
 	item_main_category.MainCategoryName ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -109,9 +125,10 @@ GROUP BY
 function departmentWhere($conn, $DATA)
 {
   $HptCode = $DATA['HptCode'];
+  $GroupCode = $DATA['GroupCode'];
   $count = 0;
   $boolean = false;
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 1  order by department.DepName asc ";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.GroupCode = '$GroupCode' and department.isDefault= 1  order by department.DepName asc ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = trim($Result['DepCode']);
@@ -119,7 +136,7 @@ function departmentWhere($conn, $DATA)
     $count++;
     $boolean = true;
   }
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc ";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.GroupCode = '$GroupCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = trim($Result['DepCode']);
@@ -130,6 +147,7 @@ function departmentWhere($conn, $DATA)
   $return['Row'] = $count;
   $boolean = true;
   if ($boolean) {
+    $return['555'] = $Sql;
     $return['status'] = "success";
     $return['form'] = "departmentWhere";
     echo json_encode($return);
@@ -682,6 +700,26 @@ function find_report($conn, $DATA)
         $return = r27($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'monthbetween');
       }
     }
+  }else if ($typeReport == 28) {
+    if ($Format == 1 || $Format == 3) {
+      if ($FormatDay == 1 || $Format == 3) {
+        $date1 = $date;
+        $return = r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'one');
+      } else {
+        $date1 = newDate1($date);
+        $date2 = newDate2($date);
+        $return = r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'between');
+      }
+    } else if ($Format == 2) {
+      if ($FormatMonth == 1) {
+        $date1 = newMonth($date);
+        $return = r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'month');
+      } else {
+        $date1 = newMonth1($date);
+        $date2 = newMonth2($date);
+        $return = r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'monthbetween');
+      }
+    }
   }
   $return['typeReport'] = typeReport($typeReport);
   echo json_encode($return);
@@ -791,7 +829,8 @@ function typeReport($typeReport)
         'Report Claim Factory' => 24,
         'Report_QC_Process_checklist_Dirty' => 25,
         'Report_QC_Process_checklist_clean1' => 26,
-        'Report_QC_Process_checklist_clean2' => 27
+        'Report_QC_Process_checklist_clean2' => 27,
+        'Report_billing' => 28
       ];
   } else {
     $typeArray =
@@ -822,7 +861,8 @@ function typeReport($typeReport)
         'รายงานเคลมโรงซัก' => 24,
         'Report_QC_Process_checklist_Dirty' => 25,
         'Report_QC_Process_checklist_clean1' => 26,
-        'Report_QC_Process_checklist_clean2' => 27
+        'Report_QC_Process_checklist_clean2' => 27,
+        'Report_billing' => 28
       ];
   }
   $myReport = array_search($type, $typeArray);
@@ -3465,7 +3505,7 @@ function r25($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               from kpi_dirty1
               INNER JOIN site ON site.HptCode = kpi_dirty1.HptCode
               WHERE MONTH(kpi_dirty1.DocDate) = '$date1'
-              AND site.HptCode = '$HptCode'
+              AND site.HptCode = '$HptCode' AND kpi_dirty1.isStatus = 1
               GROUP BY MONTH (kpi_dirty1.Docdate)
               ORDER BY kpi_dirty1.DocDate ASC";
     } 
@@ -3572,6 +3612,55 @@ function r27($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk,'year1' => $year1,'year2' => $year2];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/excel/Report_QC_Process_checklist_clean2.php';
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['HptName'] = $Result['HptName'];
+    $return[$count]['DocDate'] = $Result['DocDate'];
+    $count++;
+    $boolean = true;
+  }
+  $return['data_send'] = $data_send;
+  if ($boolean == true) {
+    $return['status'] = 'success';
+    $return['form'] = 'r23';
+    $return['countRow'] = $count;
+    $return['date1'] = $date1;
+    $return['date2'] = $date2;
+    $return['Format'] = $Format;
+    $return['chk'] = $chk;
+    return $return;
+  } else {
+    $return['status'] = 'notfound';
+    $return['form'] = 'r23';
+    return $return;
+  }
+}
+function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
+{
+  $count = 0;
+  $boolean = false;
+  if ($Format == 2) {
+    $date = subMonth($date1, $date2);
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
+    $date1 = $date['date1'];
+    $date2 = $date['date2'];
+
+    if ($chk == 'month') {
+      $Sql = "SELECT site.HptName
+              from shelfcount
+              INNER JOIN department ON shelfcount.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              WHERE MONTH(shelfcount.DocDate) = '$date1'
+              AND site.HptCode = '$HptCode'
+              GROUP BY MONTH (shelfcount.Docdate)
+              ORDER BY shelfcount.DocDate ASC";
+    } 
+  } 
+  $return['sql'] = $Sql;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk,'year1' => $year1,'year2' => $year2];
+  //$_SESSION['data_send'] = $data_send;
+  $return['url'] = '../report_linen/excel/Report_Billing_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName'] = $Result['HptName'];

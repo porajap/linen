@@ -174,6 +174,7 @@ $pdf->Cell(120, 10, iconv("UTF-8", "TIS-620",  $array['factory'][$language] . " 
 $pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12);
 
+
 // $query = " SELECT
 // item.ItemName,
 // item_unit.UnitName,
