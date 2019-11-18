@@ -460,7 +460,7 @@ $array2 = json_decode($json2, TRUE);
 					$('#rem2').css('color', 'red');
 				}
 			}
-			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 ) {
+			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12) {
 				if (department == '' || department == undefined || department == '0') {
 					$('#department').addClass('border-danger');
 					$('#rem4').show();
@@ -705,7 +705,7 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 4  || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 ) {
+			if (typeReport == 4 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12) {
 				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
 					swal({
 						title: '',
@@ -924,13 +924,13 @@ $array2 = json_decode($json2, TRUE);
 
 
 		function send_data(data) {
-			var dataSend =$('#data').val();
-			var URL = data+'?data='+dataSend; //your url send_from process process/report.php
+			var dataSend = $('#data').val();
+			var URL = data + '?data=' + dataSend; //your url send_from process process/report.php
 			window.open(URL);
 		}
 
 		function send_data2(data) {
-			var dataSend =$('#data').val();
+			var dataSend = $('#data').val();
 			var URL = data //your url send_from process process/report.php
 			window.open(URL);
 		}
@@ -1057,32 +1057,14 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R1 tbody').empty();
-							$('#table_R1').attr('hidden', false);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+
+							for (var i = 1; i <= 27; i++) {
+								if (i == 1) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1118,30 +1100,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R2 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', false);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 2) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1175,30 +1140,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R3 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', false);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 3) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1236,30 +1184,13 @@ $array2 = json_decode($json2, TRUE);
 
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R4 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', false);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 4) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1294,30 +1225,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R5 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', false);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 5) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1351,30 +1265,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R6 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', false);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 6) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1410,30 +1307,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R7 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', false);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 7) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1470,30 +1350,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R8 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', false);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-														$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 8) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1528,30 +1391,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R9 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', false);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 9) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1640,30 +1486,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R13 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', false);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 13) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
@@ -1699,30 +1528,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R14 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', false);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 14) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1757,36 +1569,19 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R15 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', false);
-							$('#table_R16').attr('hidden', false);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 15 || i == 16) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center' style='width:50%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:35%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url']  + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R15 tbody").append(dataRow);
 							}
@@ -1813,30 +1608,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R17 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', false);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 17) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1869,30 +1647,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R18 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', false);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 18) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1926,30 +1687,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R19 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', false);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 19) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1983,30 +1727,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R20 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', false);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 20) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -2040,30 +1767,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R21 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', false);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 21) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -2098,30 +1808,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R22 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', false);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 22) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -2132,7 +1825,7 @@ $array2 = json_decode($json2, TRUE);
 									"</tr>";
 								$("#table_R22 tbody").append(dataRow);
 							}
-						}else if (temp["form"] == 'r23') {
+						} else if (temp["form"] == 'r23') {
 							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
@@ -2156,40 +1849,23 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R23 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', false);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 23) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] +  "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R23 tbody").append(dataRow);
 							}
-						}else if (temp["form"] == 'r24') {
+						} else if (temp["form"] == 'r24') {
 							$('#data').val(Object.values(temp['data_send']));
 							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
@@ -2213,37 +1889,20 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$('#type_report').text(temp['typeReport']);
 							$('#table_R24 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', false);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 24) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] +  "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R24 tbody").append(dataRow);
 							}
@@ -2252,254 +1911,101 @@ $array2 = json_decode($json2, TRUE);
 					} else if (temp['status'] == "notfound") {
 						$('#type_report').text(temp['typeReport']);
 						if (temp["form"] == 'r1') {
-							$('#table_R1').attr('hidden', false);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 1) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R1 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R1 tbody").append(dataRow);
 						} else if (temp["form"] == 'r2') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', false);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 2) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R2 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R2 tbody").append(dataRow);
 						} else if (temp["form"] == 'r3') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', false);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 3) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R3 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R3 tbody").append(dataRow);
 						} else if (temp["form"] == 'r4') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', false);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 4) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R4 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R4 tbody").append(dataRow);
 						} else if (temp["form"] == 'r5') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', false);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 5) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R5 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R5 tbody").append(dataRow);
 						} else if (temp["form"] == 'r6') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', false);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 6) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R6 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R6 tbody").append(dataRow);
 						} else if (temp["form"] == 'r7') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', false);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 7) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R7 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R7 tbody").append(dataRow);
 						} else if (temp["form"] == 'r8') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', false);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 8) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R8 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R8 tbody").append(dataRow);
 						} else if (temp["form"] == 'r9') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', false);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 9) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R9 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R9 tbody").append(dataRow);
@@ -2532,310 +2038,123 @@ $array2 = json_decode($json2, TRUE);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R10 tbody").append(dataRow);
 						} else if (temp["form"] == 'r13') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', false);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 13) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R13 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R13 tbody").append(dataRow);
 						} else if (temp["form"] == 'r14') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', false);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 14) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R14 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R14 tbody").append(dataRow);
 						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', false);
-							$('#table_R16').attr('hidden', false);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 15 || i == 16) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R15 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R15 tbody").append(dataRow);
 						} else if (temp["form"] == 'r17') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', false);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 17) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R17 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R17 tbody").append(dataRow);
 						} else if (temp["form"] == 'r18') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', false);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 18) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R18 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R18 tbody").append(dataRow);
 						} else if (temp["form"] == 'r19') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', false);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 19) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R19 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R19 tbody").append(dataRow);
 						} else if (temp["form"] == 'r20') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', false);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 20) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R20 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R20 tbody").append(dataRow);
 						} else if (temp["form"] == 'r21') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', false);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 21) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R21 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R21 tbody").append(dataRow);
 						} else if (temp["form"] == 'r22') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', false);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
+							for (var i = 1; i <= 27; i++) {
+								if (i == 22) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R22 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R22 tbody").append(dataRow);
-						}else if (temp["form"] == 'r23') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', false);
-							$('#table_R24').attr('hidden', true);
+						} else if (temp["form"] == 'r23') {
+							for (var i = 1; i <= 27; i++) {
+								if (i == 23) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R23 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R23 tbody").append(dataRow);
-						}else if (temp["form"] == 'r24') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', true);
-							$('#table_R11').attr('hidden', true);
-							$('#table_R12').attr('hidden', true);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', false);
+						} else if (temp["form"] == 'r24') {
+							for (var i = 1; i <= 27; i++) {
+								if (i == 24) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
 							$('#table_R24 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R24 tbody").append(dataRow);
@@ -3030,7 +2349,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
-			} else if ( typeReport == 9) {
+			} else if (typeReport == 9) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
@@ -3040,7 +2359,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
-			} else if (typeReport == 7  ||typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19|| typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24) {
+			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
@@ -3112,7 +2431,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkday').prop('checked', false)
 				$('#chkyear').prop('checked', false)
 			}
-			if (typeReport == 20) {
+			if (typeReport == 20 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#showday').hide();
 				$('#myDay').hide();
 				$('#showmonth').hide();
@@ -3460,6 +2779,9 @@ $array2 = json_decode($json2, TRUE);
 															<option value=22><?php echo "10. " . $array['r' . 22][$language]; ?></option>
 															<option value=23><?php echo "11. " . $array['r' . 23][$language]; ?></option>
 															<option value=24><?php echo "12. " . $array['r' . 24][$language]; ?></option>
+															<option value=25><?php echo "13. " . $array['r' . 25][$language]; ?></option>
+															<option value=26><?php echo "14. " . $array['r' . 26][$language]; ?></option>
+															<option value=27><?php echo "15. " . $array['r' . 27][$language]; ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -3947,8 +3269,8 @@ $array2 = json_decode($json2, TRUE);
 										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 										</tbody>
 									</table>
-										<!-- ---------------------------------Report 23--------------------------------------- -->
-										<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R23" width="100%" cellspacing="0" role="grid" hidden>
+									<!-- ---------------------------------Report 23--------------------------------------- -->
+									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R23" width="100%" cellspacing="0" role="grid" hidden>
 										<thead id="theadsum" style="font-size:24px;">
 											<tr role="row" id='tr_1'>
 												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
@@ -3959,8 +3281,8 @@ $array2 = json_decode($json2, TRUE);
 										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 										</tbody>
 									</table>
-										<!-- ---------------------------------Report 24--------------------------------------- -->
-										<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R24" width="100%" cellspacing="0" role="grid" hidden>
+									<!-- ---------------------------------Report 24--------------------------------------- -->
+									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R24" width="100%" cellspacing="0" role="grid" hidden>
 										<thead id="theadsum" style="font-size:24px;">
 											<tr role="row" id='tr_1'>
 												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
