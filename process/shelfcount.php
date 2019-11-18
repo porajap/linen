@@ -1153,26 +1153,47 @@ function DeleteItem($conn, $DATA)
 
 function SaveBill($conn, $DATA)
 {
-  $DocNo = $DATA["DocNo"];
-  $DepCode = $DATA["deptCode"];
-  $cycle = $DATA["cycle"];
-  $settime = $DATA["settime"];
-  $setcount = $DATA["setcount"];
+  $DocNo      = $DATA["DocNo"];
+  $DepCode    = $DATA["deptCode"];
+  $cycle      = $DATA["cycle"];
+  $settime    = $DATA["settime"];
+  $setcount   = $DATA["setcount"];
 
 
-  $ItemCodeArray = $DATA['ItemCode'];
-  $ItemCode = explode(",", $ItemCodeArray);
-  $ItemCodeLoop = explode(",", $ItemCodeArray);
-  $QtyArray = explode(",", $DATA['Qty']);
-  $limit = sizeof($ItemCode, 0);
+  $ItemCodeArray  = $DATA['ItemCode'];
+  $ItemCode       = explode(",", $ItemCodeArray);
+  $ItemCodeLoop   = explode(",", $ItemCodeArray);
+  $QtyArray       = explode(",", $DATA['Qty']);
+  $Weight         = explode(",", $DATA['Weight']);
+  $limit          = sizeof($ItemCode, 0);
   #-------------------------------------------------------------------------------
   foreach($ItemCodeLoop AS $key => $value){
-    $Sql = "SELECT TotalQty FROM par_item_stock WHERE DepCode = '$DepCode' AND ItemCode = '$value'";
+    $Sql    = "SELECT TotalQty FROM par_item_stock WHERE DepCode = '$DepCode' AND ItemCode = '$value'";
     $result = mysqli_query($conn, $Sql);
-    $row = mysqli_fetch_assoc($result);
-    $Qty = $row['TotalQty'];
-    $Update = "UPDATE shelfcount_detail SET OldQty = $Qty WHERE ItemCode = '$value' AND DocNo = '$DocNo'";
+    $row    = mysqli_fetch_assoc($result);
+    $Qty    = $row['TotalQty'];
+
+      // เก็บค่านํ้าหนักและจำนวนเงิน 
+    $Sql2     = "SELECT category_price.Price
+    FROM item
+    INNER JOIN shelfcount_detail ON item.ItemCode     = shelfcount_detail.ItemCode
+    INNER JOIN category_price    ON item.CategoryCode = category_price.CategoryCode
+    WHERE item.ItemCode = '$value' AND shelfcount_detail.DocNo = '$DocNo' AND category_price.HptCode = 'BHQ'";
+    $result2  = mysqli_query($conn, $Sql2);
+    $row2     = mysqli_fetch_assoc($result2);
+    $Price    = $row2['Price'] * $Weight[$key];
+    $Update   = "UPDATE shelfcount_detail SET Weight = $Weight[$key] , Price = $Price WHERE ItemCode = '$value' AND DocNo = '$DocNo'";
     mysqli_query($conn, $Update);
+
+    // นํ้าหนักรวม และ จำนวนเงินรวม
+    $Sql3     = "SELECT SUM(Weight) AS Weight2 , SUM(Price) AS Price2 FROM shelfcount_detail WHERE DocNo = '$DocNo'";
+    $result3  = mysqli_query($conn, $Sql3);
+    $row3     = mysqli_fetch_assoc($result3);
+    $Weight2  = $row3['Weight2'];
+    $Price2   = $row3['Price2'];
+
+    $Update2   = "UPDATE shelfcount SET Totalw = $Weight2 , Totalp = $Price2 WHERE DocNo = '$DocNo'";
+    mysqli_query($conn, $Update2);
   }
   #-------------------------------------------------------------------------------
   for ($i = 0; $i < $limit; $i++) {
