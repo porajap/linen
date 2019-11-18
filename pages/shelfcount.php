@@ -914,6 +914,8 @@ $array2 = json_decode($json2,TRUE);
               var ItemCodeArray = [];
               var Item = [];
               var QtyItemArray = [];
+              var WeightItemArray = [];
+
               $(".item_array").each(function() {
                 ItemCodeArray.push($(this).val());
               });
@@ -925,6 +927,13 @@ $array2 = json_decode($json2,TRUE);
               });
               var ItemCode = Item.join(',') ;
               var Qty = QtyItemArray.join(',') ;
+
+                  ////////////////////////////////////
+              $(".WeightItem").each(function() {
+                WeightItemArray.push($(this).val());
+              });
+              var Weight = WeightItemArray.join(',') ;
+                  ////////////////////////////////////
 
               swal({
                 title: "<?php echo $array['confirmsave'][$language]; ?>",
@@ -952,14 +961,15 @@ $array2 = json_decode($json2,TRUE);
                 if (result.value) {
                   var data = {
                     'STATUS'      : 'SaveBill',
-                    'DocNo'      : docno,
+                    'DocNo'       : docno,
                     'isStatus'    : isStatus,
                     'deptCode'    : dept,
                     'ItemCode'    : ItemCode,
-                    'Qty'    : Qty,
-                    'cycle'    : cycle ,
-                    'settime'    : settime,
-                    'setcount'    : setcount
+                    'Qty'         : Qty,
+                    'cycle'       : cycle ,
+                    'settime'     : settime,
+                    'setcount'    : setcount,
+                    'Weight'      : Weight
                   };
                   senddata(JSON.stringify(data));
                   // $('#profile-tab').tab('show');
@@ -2300,7 +2310,7 @@ $array2 = json_decode($json2,TRUE);
                 var Max = "<input class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;' disabled>";
                 var Short = "<input class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;' disabled>";
                 var Over = "<input class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;' disabled>";
-                var Weight = "<input class='form-control'  id='Weight_"+i+"' type='text' style='text-align:center;'  disabled value='"+temp[i]['Weight']+"'>";
+                var Weight = "<input class='form-control '  id='Weight_"+i+"' type='text' style='text-align:center;'  disabled value='"+temp[i]['Weight']+"'>";
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
@@ -2343,7 +2353,7 @@ $array2 = json_decode($json2,TRUE);
                 var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
                 var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
                 var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
-                var Weight = "<input autocomplete='off' class='form-control'  id='Weight_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weight']+"'>";
+                var Weight = "<input autocomplete='off' class='form-control WeightItem'  id='Weight_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weight']+"'>";
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
