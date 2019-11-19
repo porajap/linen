@@ -15,7 +15,8 @@
     TIME(shelfcount.PkStartTime) 	AS PkStartTime,
     TIME(shelfcount.PkEndTime) 		AS PkEndTime,
     TIME(shelfcount.DvStartTime) 	AS DvStartTime,
-    TIME(shelfcount.DvEndTime) 		AS DvEndTime
+    TIME(shelfcount.DvEndTime) 		AS DvEndTime,
+    shelfcount.IsStatus
 FROM shelfcount
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode 
@@ -29,6 +30,7 @@ ORDER BY shelfcount.DocNo DESC";
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $reurn['Sc'][$count]['DocNo']       = $Result['DocNo'];
         $reurn['Sc'][$count]['DepName']     = $Result['DepName'];
+        $reurn['Sc'][$count]['IsStatus']     = $Result['IsStatus'];
         $reurn['Sc'][$count]['ScStartTime'] = $Result['ScStartTime']    ==null?'Not arrive':$Result['ScStartTime'];
         $reurn['Sc'][$count]['ScEndTime']   = $Result['ScEndTime']      ==null?'Not arrive':$Result['ScEndTime'];
         $reurn['Sc'][$count]['PkStartTime'] = $Result['PkStartTime']    ==null?'Not arrive':$Result['PkStartTime'];
