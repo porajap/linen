@@ -333,6 +333,7 @@
 <adduserfacfailed><en>Cannot add more than 1 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 1 คน</th></adduserfacfailed>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 <editcenterfailedmsg><en>The center can add 1 hospital per department</en><th>ศูนย์กลางสามารถเพิ่มได้โรงพยาบาลละ 1 แผนก</th></editcenterfailedmsg>
+<Repeatmsg><en>Repeat code number</en><th>เลขรหัสซํ้า</th></Repeatmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
 <widthunit><en>Measurement</en><th>มาตรวัด</th></widthunit>
 <searchuser><en>search user</en><th>ค้นหาจาก ชื่อ - สกุล</th></searchuser>

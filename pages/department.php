@@ -340,7 +340,7 @@ $array2 = json_decode($json2,TRUE);
         function resetinputuser(){
             var hptsel = $('#hptsel2').val();
             $('#hptsel').val(hptsel);
-            ShowItem();
+            GetGroup();
             $('#DepName').val('');
             $('#DepCode').val('');
             $('#rem1').hide();
@@ -1319,7 +1319,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="row mt-4">
                                 <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['codecode'][$language]; ?></label>
                                       <input type="text" autocomplete="off" onkeyup="resetinput(2)"  maxlength="6"  class="form-control col-sm-7 checkblank" id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" >
                                       <input type="text" autocomplete="off" hidden  class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
                                       <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
