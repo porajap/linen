@@ -252,12 +252,7 @@ input{
     position: absolute;
     width: 287px;
     left: 839px;
-    top: 38px;
-}
-#text_noti{
-    position: absolute;
-    left: 839px;
-    top: 132px;
+    top: 95px;
 }
 #change_form {
     position: absolute;
@@ -271,11 +266,11 @@ input{
     position: absolute;
     width: 408px;
     left: 839px;
-    top: 266px;
+    top: 213px;
 }
 #btn_change {
     position: absolute;
-    margin-top:25px;
+    margin-top:9px;
     left: 0px;
 }
 #btn_save {

@@ -21,12 +21,6 @@
 <div id="logo_change">
     <img src="img/logo.png">
 </div>
-<div id="text_noti">
-                <div id="Length" class="glyphicon glyphicon-remove">Must be at least 8 -16 charcters</div>
-                <div id="UpperCase" class="glyphicon glyphicon-remove">Must have atleast 1 upper case character</div>
-                <div id="LowerCase" class="glyphicon glyphicon-remove">Must have atleast 1 lower case character</div>
-                <div id="Numbers" class="glyphicon glyphicon-remove">Must have atleast 1 numeric character</div>
-            </div>
 <div id="form_inputChange">
     <div id="usernameCh_input">
         <div class="form-group bmd-form-group">
@@ -71,60 +65,29 @@
 <script src="js/bootstrap-material-design.js"></script>
 <script src="js/application.js"></script>
 <script>
-    /*Actual validation function*/
-    function ValidatePassword() {
-        /*Array of rules and the information target*/
-        var rules = [
-            {
-                Pattern: "[A-Z]",
-                Target: "UpperCase"
-            },
-            {
-                Pattern: "[a-z]",
-                Target: "LowerCase"
-            },
-            {
-                Pattern: "[0-9]",
-                Target: "Numbers"
+        $(document).ready(function() {
+        $.validator.addMethod("hasUppercase", function(value, element) {
+            if (this.optional(element)) {
+                return true;
             }
-            // ,
-            // {
-            // Pattern: "[!@@#$%^&*]",
-            // Target: "Symbols"
-            // }
-        ];
+            return /[A-Z]/.test(value);
+        }, "Must have atleast 1 upper case character");
 
-        //Just grab the password once
-        var password = $(this).val();
+        $.validator.addMethod("hasLowercase", function(value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            return /[a-z]/.test(value);
+        }, "Must have atleast 1 lower case character");
+        
+        $.validator.addMethod("hasLowercase", function(value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            return /[0-9]/.test(value);
+        }, "Must have atleast 1 numeric character");
 
-        /*Length Check, add and remove class could be chained*/
-        /*I've left them seperate here so you can see what is going on */
-        /*Note the Ternary operators ? : to select the classes*/
-        // $("#Length").removeClass(password.length > 6 ? "glyphicon-remove" : "glyphicon-ok");
-        // $("#Length").addClass(password.length > 6 ? "glyphicon-ok" : "glyphicon-remove");
-        if(password.length >= 8 && password.length <= 16){
-            $("#Length").removeClass("glyphicon-remove");
-        }else{
-            $("#Length").removeClass("glyphicon-ok");
-        }
-
-        if(password.length >= 8 && password.length <= 16){
-            $("#Length").addClass("glyphicon-ok");
-        }else{
-            $("#Length").addClass("glyphicon-remove");
-        }
-        /*Iterate our remaining rules. The logic is the same as for Length*/
-        for (var i = 0; i < rules.length; i++) {
-
-            $("#" + rules[i].Target).removeClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-remove" : "glyphicon-ok"); 
-            $("#" + rules[i].Target).addClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-ok" : "glyphicon-remove");
-        }
-    }
-
-    /*Bind our event to key up for the field. It doesn't matter if it's delete or not*/
-    $(document).ready(function() {
-      $("#newpassword").on('keyup', ValidatePassword)
-      $('#test').validate({
+        $('#test').validate({
             errorPlacement: function(error, element) {
             // Append error within linked label
             $( element )
@@ -137,6 +100,8 @@
                 newpassword:
                 {
                     rangelength: [8, 16],
+                    hasUppercase: true,
+                    hasLowercase: true
                 },
                 confirmpassword:
                 {
@@ -153,7 +118,11 @@
                 {
                     equalTo: "Passwords do not match"
                 }
-            }		
+            }
+            // ,
+            // success: function(label) {
+            //     label.addClass("valid").text("Ok!")
+            // }
         });
     });
 </script>
