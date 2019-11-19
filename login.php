@@ -39,6 +39,13 @@ $language = $_SESSION['lang'];
         #password,#email:-moz-read-only { /* For Firefox */
             background-color:transparent; !important;
         }
+        .glyphicon-remove {
+            color: red;
+        }
+
+        .glyphicon-ok {
+            color: green;
+        }
     </style>
     <title>Login | Linen</title>
 </head>
@@ -108,6 +115,12 @@ $language = $_SESSION['lang'];
             <div id="logo_change">
                 <img src="img/logo.png">
             </div>
+            <div id="text_noti">
+                <div id="Length" class="glyphicon glyphicon-remove">Must be at least 8 -16 charcters</div>
+                <div id="UpperCase" class="glyphicon glyphicon-remove">Must have atleast 1 upper case character</div>
+                <div id="LowerCase" class="glyphicon glyphicon-remove">Must have atleast 1 lower case character</div>
+                <div id="Numbers" class="glyphicon glyphicon-remove">Must have atleast 1 numeric character</div>
+            </div>
             <div id="form_inputChange">
                 <div id="usernameCh_input">
                     <div class="form-group bmd-form-group">
@@ -152,26 +165,26 @@ $language = $_SESSION['lang'];
     <script src="js/bootstrap-material-design.js"></script>
     <script src="js/application.js"></script>
     <script>
-    $(document).ready(function(e){
-        $('#username').focus();
-    });
+        $(document).ready(function(e){
+            $('#username').focus();
+        });
 
-    function typePass(){
-      $('#oldpassword').attr('type', 'password');
-    }
-    $(document).keyup(function(e) {
-        
-        if (e.keyCode === 13){
-            var chk = $('#chk').val();
-            if(chk == 1){
-                chklogin();
-            }else if(chk == 2){
-                sendmail();
-            }else if(chk == 3){
-                passwordUpdate();
-            }
+        function typePass(){
+        $('#oldpassword').attr('type', 'password');
         }
-    });
+        $(document).keyup(function(e) {
+            
+            if (e.keyCode === 13){
+                var chk = $('#chk').val();
+                if(chk == 1){
+                    chklogin();
+                }else if(chk == 2){
+                    sendmail();
+                }else if(chk == 3){
+                    passwordUpdate();
+                }
+            }
+        });
 
         function reset_pass(){
             $('#chk').val(2);
@@ -550,101 +563,156 @@ $language = $_SESSION['lang'];
                 });
         }
         
-    function sendtomail(data) {
-        var form_data = new FormData();
-        form_data.append("DATA", data);
-            var URL = 'sendmail.php';
-            $.ajax({
-                url: URL,
-                dataType: 'text',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
-                type: 'post',
-                success: function (result) {
-                try{
-                    var temp = $.parseJSON(result);
-                    console.log(result);
-                } catch (e) {
-                    console.log('Error#542-decode error');
-                }
-                swal({
-                         title: 'Something Wrong',
-                         text: temp["msg"],
-                         type: 'success',
-                         showCancelButton: false,
-                         confirmButtonColor: '#3085d6',
-                         cancelButtonColor: '#d33',
-                         confirmButtonText: 'Ok'
-                    }).then(function () {
+        function sendtomail(data) {
+            var form_data = new FormData();
+            form_data.append("DATA", data);
+                var URL = 'sendmail.php';
+                $.ajax({
+                    url: URL,
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function (result) {
+                    try{
+                        var temp = $.parseJSON(result);
+                        console.log(result);
+                    } catch (e) {
+                        console.log('Error#542-decode error');
+                    }
+                    swal({
+                            title: 'Something Wrong',
+                            text: temp["msg"],
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ok'
+                        }).then(function () {
 
-                    }, function (dismiss) {
-                        if (dismiss === 'cancel') {
+                        }, function (dismiss) {
+                            if (dismiss === 'cancel') {
 
-                        }
-                    })
+                            }
+                        })
 
+                    },
+                    failure: function (result) {
+                    alert(result);
                 },
-                failure: function (result) {
-                alert(result);
+                error: function (xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+        }
+
+        function mailSetAvtice(data) {
+            var form_data = new FormData();
+            form_data.append("DATA", data);
+                var URL = 'mailSetActive.php';
+                $.ajax({
+                    url: URL,
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function (result) {
+                    try{
+                        var temp = $.parseJSON(result);
+                        console.log(result);
+                    } catch (e) {
+                        console.log('Error#542-decode error');
+                    }
+                    swal({
+                            title: 'Something Wrong',
+                            text: temp["msg"],
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ok'
+                        }).then(function () {
+
+                        }, function (dismiss) {
+                            if (dismiss === 'cancel') {
+
+                            }
+                        })
+
+                    },
+                    failure: function (result) {
+                    alert(result);
+                },
+                error: function (xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+        }
+</script>
+<script>
+    /*Actual validation function*/
+    function ValidatePassword() {
+        /*Array of rules and the information target*/
+        var rules = [
+            {
+                Pattern: "[A-Z]",
+                Target: "UpperCase"
             },
-            error: function (xhr, status, p3, p4) {
-                var err = "Error " + " " + status + " " + p3 + " " + p4;
-                if (xhr.responseText && xhr.responseText[0] == "{")
-                    err = JSON.parse(xhr.responseText).Message;
-                console.log(err);
+            {
+             Pattern: "[a-z]",
+                Target: "LowerCase"
+            },
+            {
+                Pattern: "[0-9]",
+                Target: "Numbers"
             }
-        });
+            // ,{
+            //     Pattern: "[!@@#$%^&*]",
+            //     Target: "Symbols"
+            // }
+        ];
+
+        //Just grab the password once
+        var password = $(this).val();
+
+        /*Length Check, add and remove class could be chained*/
+        /*I've left them seperate here so you can see what is going on */
+        /*Note the Ternary operators ? : to select the classes*/
+        // $("#Length").removeClass(password.length > 6 ? "glyphicon-remove" : "glyphicon-ok");
+        // $("#Length").addClass(password.length > 6 ? "glyphicon-ok" : "glyphicon-remove");
+        if(password.length >= 8 && password.length <= 16){
+            $("#Length").removeClass("glyphicon-remove");
+        }else{
+            $("#Length").removeClass("glyphicon-ok");
+        }
+
+        if(password.length >= 8 && password.length <= 16){
+            $("#Length").addClass("glyphicon-ok");
+        }else{
+            $("#Length").addClass("glyphicon-remove");
+        }
+        /*Iterate our remaining rules. The logic is the same as for Length*/
+        for (var i = 0; i < rules.length; i++) {
+
+            $("#" + rules[i].Target).removeClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-remove" : "glyphicon-ok"); 
+            $("#" + rules[i].Target).addClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-ok" : "glyphicon-remove");
+        }
     }
 
-    function mailSetAvtice(data) {
-        var form_data = new FormData();
-        form_data.append("DATA", data);
-            var URL = 'mailSetActive.php';
-            $.ajax({
-                url: URL,
-                dataType: 'text',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
-                type: 'post',
-                success: function (result) {
-                try{
-                    var temp = $.parseJSON(result);
-                    console.log(result);
-                } catch (e) {
-                    console.log('Error#542-decode error');
-                }
-                swal({
-                         title: 'Something Wrong',
-                         text: temp["msg"],
-                         type: 'success',
-                         showCancelButton: false,
-                         confirmButtonColor: '#3085d6',
-                         cancelButtonColor: '#d33',
-                         confirmButtonText: 'Ok'
-                    }).then(function () {
-
-                    }, function (dismiss) {
-                        if (dismiss === 'cancel') {
-
-                        }
-                    })
-
-                },
-                failure: function (result) {
-                alert(result);
-            },
-            error: function (xhr, status, p3, p4) {
-                var err = "Error " + " " + status + " " + p3 + " " + p4;
-                if (xhr.responseText && xhr.responseText[0] == "{")
-                    err = JSON.parse(xhr.responseText).Message;
-                console.log(err);
-            }
-        });
-    }
+    /*Bind our event to key up for the field. It doesn't matter if it's delete or not*/
+    $(document).ready(function() {
+      $("#newpassword").on('keyup', ValidatePassword)
+    });
 </script>
 </body>
 </html>

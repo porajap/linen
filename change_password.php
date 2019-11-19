@@ -5,7 +5,16 @@
 ?>
 <link rel="stylesheet" href="css/bootstrap-material-design.css">
 <link rel="stylesheet" href="css/docs.min.css">
+<style>
 
+    .glyphicon-remove {
+        color: red;
+    }
+
+    .glyphicon-ok {
+        color: green;
+    }
+</style>
 <div id="fram_white">
     <img src="img/frame1.png">
 </div>
@@ -52,3 +61,59 @@
 <script src="dist/js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap-material-design.js"></script>
 <script src="js/application.js"></script>
+<script>
+    /*Actual validation function*/
+    function ValidatePassword() {
+        /*Array of rules and the information target*/
+        var rules = [
+            {
+                Pattern: "[A-Z]",
+                Target: "UpperCase"
+            },
+            {
+                Pattern: "[a-z]",
+                Target: "LowerCase"
+            },
+            {
+                Pattern: "[0-9]",
+                Target: "Numbers"
+            }
+            // ,
+            // {
+            // Pattern: "[!@@#$%^&*]",
+            // Target: "Symbols"
+            // }
+        ];
+
+        //Just grab the password once
+        var password = $(this).val();
+
+        /*Length Check, add and remove class could be chained*/
+        /*I've left them seperate here so you can see what is going on */
+        /*Note the Ternary operators ? : to select the classes*/
+        // $("#Length").removeClass(password.length > 6 ? "glyphicon-remove" : "glyphicon-ok");
+        // $("#Length").addClass(password.length > 6 ? "glyphicon-ok" : "glyphicon-remove");
+        if(password.length >= 8 && password.length <= 16){
+            $("#Length").removeClass("glyphicon-remove");
+        }else{
+            $("#Length").removeClass("glyphicon-ok");
+        }
+
+        if(password.length >= 8 && password.length <= 16){
+            $("#Length").addClass("glyphicon-ok");
+        }else{
+            $("#Length").addClass("glyphicon-remove");
+        }
+        /*Iterate our remaining rules. The logic is the same as for Length*/
+        for (var i = 0; i < rules.length; i++) {
+
+            $("#" + rules[i].Target).removeClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-remove" : "glyphicon-ok"); 
+            $("#" + rules[i].Target).addClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-ok" : "glyphicon-remove");
+        }
+    }
+
+    /*Bind our event to key up for the field. It doesn't matter if it's delete or not*/
+    $(document).ready(function() {
+      $("#newpassword").on('keyup', ValidatePassword)
+    });
+</script>
