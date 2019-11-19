@@ -46,7 +46,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
-        $gen_s17=0;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -104,7 +104,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
-        $gen_s17=0;
+        $gen_s17=1;
         //account
         $ac_head=0;
         $ac_s1=0;
@@ -160,7 +160,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
-        $gen_s17=0;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -269,7 +269,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
-        $gen_s17=0;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -327,7 +327,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
-        $gen_s17=0;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -385,7 +385,7 @@ switch ($PmID) {
         $gen_s14=1;
         $gen_s15=1;
         $gen_s16=1;
-        $gen_s17=0;
+        $gen_s17=1;
         //account
         $ac_head=1;
         $ac_s1=0;

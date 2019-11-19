@@ -162,7 +162,7 @@ if($DepCode1 == ""){
     die;
   }else{
     $return['status'] = "failed";
-    $return['msg'] = "editcenterfailedmsg";
+    $return['msg'] = "Repeatmsg";
     echo json_encode($return);
     mysqli_close($conn);
     die;

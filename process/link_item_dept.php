@@ -340,6 +340,7 @@ function additemstock($conn, $DATA)
   $boolean = 0;
   $count = 0;
   $HptCode = $_SESSION['HptCode'];
+  $Userid = $_SESSION['Userid'];
   // $hotpital = $DATA['hotpital'];
   $xCenter2 = $DATA['xCenter2'];
   $Deptid = $DATA['DeptID'];
@@ -370,6 +371,10 @@ function additemstock($conn, $DATA)
       WHERE DepCode = '$Deptid' AND ItemCode = '$Itemcode[$i]'";
       mysqli_query($conn,$Sqlpar);  
     }
+          // เก็บ log par
+          $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty , TotalQty , UserID , xDate ) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , $Number[$i] , $Userid , NOW() )";
+          mysqli_query($conn,$Sqlparlog);
+
   }else{
     if($ParCount == 0){
       $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , 0)";
@@ -379,6 +384,8 @@ function additemstock($conn, $DATA)
         WHERE DepCode = '$Deptid' AND ItemCode = '$Itemcode[$i]'";
         mysqli_query($conn,$Sqlpar);  
       }
+      $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty , TotalQty , UserID , xDate) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , 0 , $Userid , NOW() )";
+      mysqli_query($conn,$Sqlparlog);
   }
     // =====================================================================
     $SqlCount = "SELECT COUNT(ItemCode) AS countPar, TotalQty, ParQty FROM item_stock WHERE ItemCode = '$Itemcode[$i]' AND DepCode = '$Deptid'";

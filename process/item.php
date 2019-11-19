@@ -696,10 +696,24 @@ function CreateItemCode($conn, $DATA)
 function NewItem($conn, $DATA)
 {
   // var_dump($DATA); die;
-  $count = 0;
-  $Userid = $_SESSION['Userid'];
-  $HptCode = $_SESSION['HptCode'];
+  $count    = 0;
+  $Userid   = $_SESSION['Userid'];
+  $HptCode  = $_SESSION['HptCode'];
+  $HptCode2 = $DATA['HptCode'];
   $return['$HptCode'] = $HptCode;
+
+  // หาแผนกกลาง
+  $Sql5 = "SELECT DepCode FROM department WHERE IsDefault = 1 AND HptCode ='$HptCode2'";
+  $meQuery5 = mysqli_query($conn, $Sql5);
+  while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
+    $DepCode = $Result5['DepCode'];
+  }
+
+  $insert ="INSERT INTO par_item_stock( ItemCode , DepCode , ParQty , TotalQty) VALUES ('" . $DATA['ItemCode'] . "', '$DepCode' , 0 , 0)";
+  mysqli_query($conn, $insert);
+
+
+
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
           item
