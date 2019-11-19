@@ -305,7 +305,7 @@ $html = '<table cellspacing="0" cellpadding="2" border="1" >
 </tr> </thead>';
 $meQuery = mysqli_query($conn, $data);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($Result['ItemName'] == null) {
+  if ($Result['RequestName'] <> null) {
     $Result['ItemName'] = $Result['RequestName'];
   }
   $html .= '<tr nobr="true">';
@@ -357,7 +357,7 @@ $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <th width="15 %"  align="center">' . $header[5] . '</th>
 </tr> </thead>';
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($Result['ItemName'] == null) {
+  if ($Result['RequestName'] <> null) {
     $Result['ItemName'] = $Result['RequestName'];
   }
   $html .= '<tr nobr="true">';

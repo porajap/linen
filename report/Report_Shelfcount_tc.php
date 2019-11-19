@@ -401,7 +401,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   }
   $html .=  '</tr>';
   $totalsum_W += $totalweight;
-  $price_W += $price;
+  $price_W += NUMBER_FORMAT($price, 2);
   $count++;
 }
 

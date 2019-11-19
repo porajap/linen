@@ -218,13 +218,14 @@ $query = "SELECT
 item.ItemName,
 dirty_detail.Weight,
 department.DepName,
+dirty_detail.RequestName,
 SUM(dirty_detail.Qty) AS Qty
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-INNER JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
@@ -234,7 +235,9 @@ ORDER BY item.ItemName , department.DepName ASC
 ";
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-
+  if ($Result['RequestName'] <> null) {
+    $Result['ItemName'] = $Result['RequestName'];
+  }
   if ($Result["ItemName"] == $check) {
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, "");
     $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, number_format($Result["Qty"]));
@@ -258,13 +261,14 @@ $i += 1;
 
 $queryy = "SELECT
 item.ItemName,
-SUM(dirty_detail.Qty) AS Qty
+SUM(dirty_detail.Qty) AS Qty,
+dirty_detail.RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-INNER JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
@@ -274,6 +278,9 @@ ORDER BY item.ItemName , department.DepName ASC
           ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  if ($Result['RequestName'] <> null) {
+    $Result['ItemName'] = $Result['RequestName'];
+  }
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $Result["ItemName"]);
   $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $Result["Qty"]);
   $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, " ");

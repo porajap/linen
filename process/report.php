@@ -3721,7 +3721,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r23';
+    $return['form'] = 'r18';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -3730,7 +3730,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r23';
+    $return['form'] = 'r18';
     return $return;
   }
 }

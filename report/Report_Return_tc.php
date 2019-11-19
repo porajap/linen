@@ -247,27 +247,28 @@ $pdf->SetFont('thsarabunnew', 'b', 22);
 $pdf->Cell(0, 10,  $array2['return'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 16);
-
-$pdf->Cell(22,7, $array2['hospital'][$language],0,0,'L');
-$pdf->Cell(95,7, " : ".$HptName,0,0,'L');
-$pdf->Cell(22,7, $array['department'][$language],0,0,'L');
+$pdf->Cell(35,7, $array2['hospital'][$language],0,0,'L');
+$pdf->Cell(90,7, " : ".$HptName,0,0,'L');
+$pdf->Cell(28 ,7, $array['department'][$language],0,0,'L');
 $pdf->Cell(55,7, " : ".$DepName,0,0,'L');
 $pdf->Ln();
 
-$pdf->Cell(22,7, $array['docno'][$language],0,0,'L');
-$pdf->Cell(95,7, " : ".$DocNo,0,0,'L');
-$pdf->Cell(22,7, $array['docdate'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$DocDate,0,0,'L');
+$pdf->Cell(35,7, $array['docno'][$language],0,0,'L');
+$pdf->Cell(90,7, " : ".$DocNo,0,0,'L');
+$pdf->Cell(28,7, $array['factory'][$language],0,0,'L');
+$pdf->Cell(55,7, " : ".$facname,0,0,'L');
 $pdf->Ln();
 
-$pdf->Cell(22,7, $array['refdocno'][$language],0,0,'L');
-$pdf->Cell(95,7, " : ".$RefDocNo,0,0,'L');
-$pdf->Cell(22,7, $array['time'][$language],0,0,'L');
+$pdf->Cell(35,7, $array['refdocno'][$language],0,0,'L');
+$pdf->Cell(90,7, " : ".$RefDocNo,0,0,'L');
+$pdf->Cell(28,7, $array['time'][$language],0,0,'L');
 $pdf->Cell(55,7, " : ".$xTime,0,0,'L');
 $pdf->Ln();
 
-$pdf->Cell(22,7, $array2['user'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$FirstName,0,0,'L');
+$pdf->Cell(35,7, $array2['user'][$language],0,0,'L');
+$pdf->Cell(90,7, " : ".$FirstName,0,0,'L');
+$pdf->Cell(28,7, $array['docdate'][$language],0,0,'L');
+$pdf->Cell(55,7, " : ".$DocDate,0,0,'L');
 
 $pdf->Ln();
 $pdf->Ln(5);

@@ -1056,7 +1056,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['facname'] + "</td>" +
 									"<td class='text-center' style='width:22%'>" + show_date + "</td>" +
 									"<td class='text-center' style='width:6%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center' style='width:7%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:7%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R1 tbody").append(dataRow);
 							}
@@ -1138,7 +1138,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:15%'>" + show_date + "</td>" +
 									"<td class='text-center' style='width:5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R3 tbody").append(dataRow);
 							}
@@ -1263,7 +1263,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:39%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:16%'>" + show_date + "</td>" +
 									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									
 									"</tr>";
 								$("#table_R6 tbody").append(dataRow);
@@ -1307,7 +1307,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:30%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
 									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									// "<td class='text-center text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									// "<td class='text-center text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R7 tbody").append(dataRow);
 							}
@@ -1848,7 +1848,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
 									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R23 tbody").append(dataRow);
 							}
@@ -1890,7 +1890,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
 									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-warning btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
 									"</tr>";
 								$("#table_R24 tbody").append(dataRow);
 							}
@@ -2503,7 +2503,7 @@ $array2 = json_decode($json2, TRUE);
 			}
 
 			else if ( typeReport == 28) {
-				$('#department').attr('disabled', false);
+				$('#department').attr('disabled', true);
 				$('#factory').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);

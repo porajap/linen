@@ -272,14 +272,13 @@ for ($row = 0; $row < $count; $row++) {
 $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
 $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '7', "total");
 // -----------------------------------------------------------------------------------
-$dap_data_row1 = 9;
-$dap_data_row2 = 9;
+$start_row = 9;
 $r = 1;
 $j = 3;
 $lek = 0;
 $COUNT_DEP = SIZEOF($DepCode);
 for ($q = 0; $q < $COUNT_DEP; $q++) {
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $DepName[$lek]);
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $DepName[$lek]);
   $r++;
   for ($day = 1; $day <= $count; $day++) {
     $data = "SELECT SUM(shelfcount_detail.Weight) AS aWeight , SUM(shelfcount_detail.Price ) AS aPrice FROM shelfcount 
@@ -287,9 +286,9 @@ for ($q = 0; $q < $COUNT_DEP; $q++) {
                               AND shelfcount.DepCode = '$DepCode[$lek]'   ";
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $Result["aWeight"]);
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aWeight"]);
       $r++;
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $Result["aPrice"]);
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aPrice"]);
       $r++;
       $sumdayweight += $Result["aWeight"];
       $sumdayprice += $Result["aPrice"];
@@ -297,18 +296,18 @@ for ($q = 0; $q < $COUNT_DEP; $q++) {
     $Totaldayweight += $sumdayweight;
     $Totaldayprice += $sumdayprice;
   }
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $sumdayweight);
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayweight);
   $r++;
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $sumdayprice);
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayprice);
   $sumdayweight = 0;
   $sumdayprice = 0;
   $r = 1;
-  $dap_data_row1++;
+  $start_row++;
   $lek++;
 }
 
 $r = 1;
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, 'total');
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 'total');
 $r++;
 for ($day = 1; $day <= $count; $day++) {
   $data =       "SELECT
@@ -327,17 +326,17 @@ for ($day = 1; $day <= $count; $day++) {
                  
   $meQuery = mysqli_query($conn, $data);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $Result["aWeight"]);
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aWeight"]);
     $r++;
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $Result["aPrice"]);
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aPrice"]);
     $r++;
     $sumdayweight += $Result["aWeight"];
     $sumdayprice += $Result["aPrice"];
   }
 }
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $sumdayweight);
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayweight);
 $r++;
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $sumdayprice);
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayprice);
 $A5 = array(
   'alignment' => array(
     'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
@@ -359,7 +358,18 @@ $fill = array(
     'name'  => 'THSarabun'
   )
 );
+$styleArray = array(
+
+  'borders' => array(
+
+    'allborders' => array(
+
+      'style' => PHPExcel_Style_Border::BORDER_THIN
+    )
+  )
+);
 $objPHPExcel->getActiveSheet()->getStyle("A5")->applyFromArray($A5);
+$objPHPExcel->getActiveSheet()->getStyle("A7:".$date_cell1[$r].$start_row)->applyFromArray($styleArray)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 
 // $objPHPExcel->getActiveSheet()->getColumnDimension("A:D")->setAutoSize(true);
 
