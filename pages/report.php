@@ -44,11 +44,11 @@ $array2 = json_decode($json2, TRUE);
 	<!-- Bootstrap core CSS-->
 	<!-- <link href="../fontawesome/css/fontawesome.min.css" rel="stylesheet"> -->
 	<link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 
 	<link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../bootstrap/css/tbody.css" rel="stylesheet">
 	<link href="../bootstrap/css/myinput.css" rel="stylesheet">
-
 	<!-- Page level plugin CSS-->
 	<link href="../template/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
@@ -81,7 +81,6 @@ $array2 = json_decode($json2, TRUE);
 	<script src="../datepicker/dist/js/datepicker.th.js"></script>
 	<link href="../css/report.css" rel="stylesheet">
 	<script src="../fontawesome/js/fontawesome.min.js"></script>
-
 	<script type="text/javascript">
 		var summary = [];
 		var xItemcode;
@@ -127,8 +126,8 @@ $array2 = json_decode($json2, TRUE);
 			$('#cycle').attr('disabled', true);
 			$('#factory').attr('disabled', true);
 			$('#PPU').attr('disabled', true);
-
-
+			$('#grouphpt').attr('disabled', true);
+			$(".select2").select2();
 		}).mousemove(function(e) {
 			parent.afk();
 		}).keyup(function(e) {
@@ -461,14 +460,14 @@ $array2 = json_decode($json2, TRUE);
 					$('#rem2').css('color', 'red');
 				}
 			}
-			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12) {
+			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29||typeReport == 30) {
 				if (department == '' || department == undefined || department == '0') {
 					$('#department').addClass('border-danger');
 					$('#rem4').show();
 					$('#rem4').css('color', 'red');
 				}
 			}
-			if (typeReport == '0' || typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
+			if (typeReport == '0' || typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29||typeReport == 30) {
 				if (hotpital == '' || hotpital == undefined || hotpital == '0') {
 					$('#hotpital').addClass('border-danger');
 					$('#rem3').show();
@@ -541,6 +540,7 @@ $array2 = json_decode($json2, TRUE);
 			var someday = $('#someday').val();
 			var onemonth = $('#onemonth').val();
 			var somemonth = $('#somemonth').val();
+			var GroupCode = $('#grouphpt').val();
 			var year = $('#year').val();
 			var Format = $("input[name='radioFormat']:checked").val();
 			var FormatDay = $("input[name='formatDay']:checked").val();
@@ -706,7 +706,7 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 4 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12) {
+			if (typeReport == 4 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29||typeReport == 30) {
 				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
 					swal({
 						title: '',
@@ -722,7 +722,7 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16) {
+			if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29||typeReport == 30) {
 				if (HptCode == '' || HptCode == undefined) {
 					swal({
 						title: '',
@@ -813,7 +813,8 @@ $array2 = json_decode($json2, TRUE);
 					'FormatDay': FormatDay,
 					'cycle': cycle,
 					'ppu': ppu,
-					'date': date
+					'date': date,
+					'GroupCode' : GroupCode
 				};
 			} else if (Format == 2) {
 				var language = '<?php echo $language ?>';
@@ -873,7 +874,8 @@ $array2 = json_decode($json2, TRUE);
 					'Format': Format,
 					'cycle': cycle,
 					'ppu': ppu,
-					'date': date
+					'date': date,
+					'GroupCode' : GroupCode
 				}
 			} else {
 				var language = '<?php echo $language ?>';
@@ -891,7 +893,8 @@ $array2 = json_decode($json2, TRUE);
 					'Format': Format,
 					'cycle': cycle,
 					'ppu': ppu,
-					'date': date
+					'date': date,
+					'GroupCode' : GroupCode
 				};
 
 			}
@@ -968,7 +971,7 @@ $array2 = json_decode($json2, TRUE);
 
 
 							$("#hotpital").empty();
-							var hotValue0 = '<?php echo $array['side'][$language]; ?>';
+							var hotValue0 = '<?php echo $array['pleasehot'][$language]; ?>';
 							var hot = "<option value='' id='hotpitalX'>" + hotValue0 + "</option>";
 							for (var i = 0; i < temp['Row']; i++) {
 								hot += "<option value=" + temp[i]['HptCode'] + " id='selectHpt" + i + "'>" + temp[i]['HptName'] + "</option>";
@@ -986,7 +989,6 @@ $array2 = json_decode($json2, TRUE);
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
 							$("#department").append(dep1);
-							$("#department").val(DepCode);
 
 							// $("#cycle").empty();
 							// var cycleValue0 = '-';
@@ -997,12 +999,14 @@ $array2 = json_decode($json2, TRUE);
 							// $("#cycle").append(cycle);
 
 							$("#grouphpt").empty();
+
+							var groupValue0 = '<?php echo $array['Allgroup'][$language]; ?>';
+							var grouphpt = "<option value='0'>" + groupValue0 + "</option>";
 							for (var i = 0; i < temp['RowG']; i++) {
 								grouphpt += "<option value=" + temp[i]['GroupCode'] + " id='select_" + i + "'>" + temp[i]['GroupName'] + "</option>";
 							}
 							$("#grouphpt").append(grouphpt);
 							$("#grouphpt").val(GroupCode);
-
 						} else if (temp["form"] == 'departmentWhere') {
 							$("#department").empty();
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
@@ -1013,8 +1017,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#department").append(dep2);
 							$("#select_0").attr('selected', true);
 							var DocDate = temp[i]['DocDate'];
-						}
-						else if (temp["form"] == 'r1') {
+						} else if (temp["form"] == 'r1') {
 							$('#data').val(Object.values(temp['data_send']));
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var show_date = '';
@@ -1886,6 +1889,47 @@ $array2 = json_decode($json2, TRUE);
 									"</tr>";
 								$("#table_R24 tbody").append(dataRow);
 							}
+						} else if (temp["form"] == 'r29') {
+							$('#data').val(Object.values(temp['data_send']));
+							var show_date = '';
+							var print = '<?php echo $array['prin'][$language]; ?>';
+							var hot = $("#hotpital option:selected").text();
+							var format = temp['Format'];
+							var chk = temp['chk'];
+							if (format == 1) {
+								if (chk == 'one') {
+									show_date = day;
+								} else {
+									show_date = many_day;
+								}
+							} else if (format == 2) {
+								if (chk == 'month') {
+									show_date = month;
+								} else {
+									show_date = many_month;
+								}
+							} else if (format == 3) {
+								show_date = show_year;
+							}
+							$('#type_report').text(temp['typeReport']);
+							$('#table_R29 tbody').empty();
+							for (var i = 1; i <= 35; i++) {
+								if (i == 29) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
+							for (var i = 0; i < temp['countRow']; i++) {
+								var dataRow = "<tr>" +
+									"<td style='width:5%'>" + (i + 1) + "</td>" +
+									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
+									"<td class='text-center' style='width:40%'>" + temp[i]['department'] + "</td>" +
+									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
+									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"</tr>";
+								$("#table_R29 tbody").append(dataRow);
+							}
 						}
 
 					} else if (temp['status'] == "notfound") {
@@ -2138,6 +2182,17 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_R24 tbody').empty();
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_R24 tbody").append(dataRow);
+						} else if (temp["form"] == 'r29') {
+							for (var i = 1; i <= 35; i++) {
+								if (i == 29) {
+									$('#table_R' + i).attr('hidden', false);
+								} else {
+									$('#table_R' + i).attr('hidden', true);
+								}
+							}
+							$('#table_R29 tbody').empty();
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
+							$("#table_R29 tbody").append(dataRow);
 						}
 
 					} else {
@@ -2314,8 +2369,8 @@ $array2 = json_decode($json2, TRUE);
 				$('#department').attr('disabled', true);
 				$('#factory').attr('disabled', false);
 				$('#cycle').attr('disabled', true);
-				$('#PPU').attr('disabled', true);
-				$('#PPU').val(0);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
@@ -2324,8 +2379,8 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
-				$('#PPU').attr('disabled', true);
-				$('#PPU').val(0);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
@@ -2334,18 +2389,18 @@ $array2 = json_decode($json2, TRUE);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
-				$('#PPU').attr('disabled', true);
-				$('#PPU').val(0);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
-			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27|| typeReport == 28) {
+			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27 || typeReport == 28) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
-				$('#PPU').attr('disabled', true);
-				$('#PPU').val(0);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
@@ -2354,40 +2409,53 @@ $array2 = json_decode($json2, TRUE);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
-				$('#PPU').attr('disabled', true);
-				$('#PPU').val(0);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 
-			} else if (typeReport == 4) {
+			} else if (typeReport == 29 ||typeReport == 30  ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', false);
-				$('#PPU').attr('disabled', true);
-				$('#PPU').val(0);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);	
+				$('#cycle').val(0);
+				$('#chksomemonth').parent().hide();
+				$('#chkyear').parent().hide();
+			}  
+			else if (typeReport == 4 || typeReport == 29|| typeReport == 30 ) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
-				$('#cycle').val(0);
-
-			} else if (typeReport == 13) {
+				$('#cycle').val(0);			
+			}
+			else if (typeReport == 13) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
-				$('#PPU').attr('disabled', false);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
-				$('#PPU').val(0);
 			} else if (typeReport == 17) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
-				$('#PPU').attr('disabled', true);
-				$('#PPU').val(0);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
@@ -2411,7 +2479,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkday').prop('checked', false)
 				$('#chkyear').prop('checked', false)
 			}
-			if (typeReport == 20 || typeReport == 25 || typeReport == 26 || typeReport == 27|| typeReport == 28) {
+			if (typeReport == 20 || typeReport == 25 || typeReport == 26 || typeReport == 27 ) {
 				$('#showday').hide();
 				$('#myDay').hide();
 				$('#showmonth').hide();
@@ -2427,6 +2495,32 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
 				// $('#oneMonth').attr('value', onemonth);
+			}
+
+			else if ( typeReport == 28) {
+				$('#department').attr('disabled', true);
+				$('#factory').attr('disabled', true);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', true);
+				$('#grouphpt').attr('disabled', false);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#showday').hide();
+				$('#myDay').hide();
+				$('#showmonth').hide();
+				$('#showyear').hide();
+				$('#myMonth').show();
+				$('#onemonth').show();
+				$('#somemonth').hide();
+				$('#textto2').hide();
+				$('#chk').hide();
+				$('#chkmonth').prop('checked', true);
+				$('#chkonemonth').prop('checked', true);
+				$('#chkday').prop('checked', false)
+				$('#chkyear').prop('checked', false)
+				find_indexMonth(new Date().getFullYear())
 			}
 			$('#typereport').removeClass('border-danger');
 			$('#factory').removeClass('border-danger');
@@ -2459,6 +2553,17 @@ $array2 = json_decode($json2, TRUE);
 			font-size: 22px;
 		}
 
+		.select2-container--default .select2-selection--single {
+        height: 38px;
+        border: 1px solid #aaaaaa85;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+          line-height: 38px;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+          top: 5px;
+			}
+			
 		.nfont {
 			font-family: myFirstFont;
 			font-size: 22px;
@@ -2763,6 +2868,8 @@ $array2 = json_decode($json2, TRUE);
 															<option value=26><?php echo "14. " . $array['r' . 26][$language]; ?></option>
 															<option value=27><?php echo "15. " . $array['r' . 27][$language]; ?></option>
 															<option value=28><?php echo "16. " . $array['r' . 28][$language]; ?></option>
+															<option value=29><?php echo "17. " . $array['r' . 29][$language]; ?></option>
+															<option value=30><?php echo "18. " . $array['r' . 30][$language]; ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -2786,7 +2893,7 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6 ">
 													<div class='form-group row checkblank '>
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-														<select class="form-control col-sm-8" style="font-size:22px;" id="department" onchange="blank_dep();">
+														<select class="form-control col-sm-8 select2" style="font-size:22px;" id="department" onchange="blank_dep();">
 														</select>
 														<label id="rem4" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -3275,6 +3382,19 @@ $array2 = json_decode($json2, TRUE);
 										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 										</tbody>
 									</table>
+									<!-- ---------------------------------Report 24--------------------------------------- -->
+									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R29" width="100%" cellspacing="0" role="grid" hidden>
+										<thead id="theadsum" style="font-size:24px;">
+											<tr role="row" id='tr_1'>
+												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+											</tr>
+										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+										</tbody>
+									</table>
 								</thead>
 								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 								</tbody>
@@ -3309,6 +3429,7 @@ $array2 = json_decode($json2, TRUE);
 	<script src="../template/js/demo/datatables-demo.js"></script>
 	<!-- Bootstrap core JavaScript-->
 
+	<script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
 
 </body>
 

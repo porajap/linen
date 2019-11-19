@@ -59,6 +59,7 @@
 <Alldep><en>All ward</en><th>ทุกแผนก</th></Alldep>
 <AllCatmain><en>All CategoryMain</en><th>ทุกหมวดหมู่หลัก</th></AllCatmain>
 <AllCatsub><en>All CategorySub</en><th>ทุกหมวดหมู่รอง</th></AllCatsub>
+<Allgroup><en>All Group</en><th>ทุกกลุ่ม</th></Allgroup>
 <DuplicateItemcode><en>Duplicate Itemcode</en><th>รหัสรายการซ้ำ</th></DuplicateItemcode>
 <perunit><en>Per unit</en><th>ขนาดต่อหน่วย</th></perunit>
 <custom><en>Blank ID</en><th>รหัสเปล่า</th></custom>
@@ -419,10 +420,13 @@
 <r26><en>Report_QC_Process_checklist_clean1</en><th>Report_QC_Process_checklist_clean1</th></r26>
 <r27><en>Report_QC_Process_checklist_clean2</en><th>Report_QC_Process_checklist_clean2</th></r27>
 <r28><en>Report_billing</en><th>Report_billing</th></r28>
+<r29><en>Report Summary</en><th>Report Summary</th></r29>
+<r30><en>Report Usage Detail</en><th>Report Usage Detail</th></r30>
 <DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
 <!--  -->
 <pleaseday><en>-----Please Choose Date------</en><th>-----กรุณาเลือกวันที่-----</th></pleaseday>
 <pleasemonth><en>-----Please Choose Month------</en><th>-----กรุณาเลือกเดือน-----</th></pleasemonth>
 <pleaseyear><en>-----Please Choose Year------</en><th>-----กรุณาเลือกปี-----</th></pleaseyear>
+<pleasehot><en>-----Please Choose Hospital------</en><th>-----กรุณาเลือกโรงพยาบาล-----</th></pleasehot>
 
 </lang>
