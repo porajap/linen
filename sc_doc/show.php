@@ -17,8 +17,15 @@
     <link href="assets/fontawesome/css/all.min.css" rel="stylesheet">
     <title>Shelfcount Document</title>
     <style>
+              @font-face {
+        font-family: myFirstFont;
+        src: url("../fonts/DB Helvethaica X.ttf");
+      }
         body,html{
-            font-size:19px;
+            font-family: myFirstFont;
+            font-size: 25px;
+            /* overflow: scroll;
+            overflow-x: hidden;         */
         }
         .BG{
             background-color : #1659a2;
@@ -31,19 +38,31 @@
 
 <body class="fix-header card-no-border fix-sidebar">
     <div id="fullscreen" style="min-height:100%">
-        <table class="table">
+        <table class="table table-striped">
             <thead class="BG">
                 <tr class="font-color">
-                    <th scope="col" class="text-center">ลำดับ</th>
-                    <th scope="col" class="text-left">เลขที่เอกสาร</th>
-                    <th scope="col" class="text-left">สร้างเอกสาร</th>
-                    <th scope="col" class="text-left">จัดเตรียมผ้า</th>
-                    <th scope="col" class="text-left">บันทึก</th>
-                    <th scope="col" class="text-left">จ่ายผ้า</th>
+                    <th scope="col" class="text-center">No</th>
+                    <th scope="col" class="text-left">DocNo</th>
+                    <th scope="col" class="text-left">DepName</th>
+                    <th colspan="2" scope="col" class="text-left" style="padding-left: 4%;">ShelfCount</th>
+                    <th colspan="2" scope="col" class="text-left" style="padding-left: 5%;">Packing</th>
+                    <th colspan="2" scope="col" class="text-left" style="padding-left: 5%;">Delivery</th>
                     <th scope="col" class="text-left" style="width:3%">
                         <a href="#" onclick="openFullscreen();" id="FullScreen" title="Open Fullscreen"><i class="far fa-window-maximize text-white"></i></a>
                         <a href="#" onclick="closeFullscreen();" id="ExitFull" title="Exit Fullscreen" hidden><i class="fas fa-window-restore text-white"></i></a>
                     </th>
+                </tr>
+                <tr class="font-color">
+                    <th scope="col" class="text-center"></th>
+                    <th scope="col" class="text-left"></th>
+                    <th scope="col" class="text-left"></th>
+                    <th scope="col" class="text-left">START</th>
+                    <th scope="col" class="text-left">END</th>
+                    <th scope="col" class="text-left">START</th>
+                    <th scope="col" class="text-left">END</th>
+                    <th scope="col" class="text-left">START</th>
+                    <th scope="col" class="text-left">END</th>
+                    <th scope="col" class="text-left" style="width:3%"></th>
                 </tr>
             </thead>
             <tbody id="TableData" class="table-striped ">
@@ -81,22 +100,31 @@
                         console.log('Error#542-decode error');
                     }
                     var row = "";
-                    if(temp['count'] > 0)
+                    if(temp['count'] > 0)   
                     {
                         $.each(temp['Sc'], function(key, val) {
-                            row += '<tr>'+
-                                    '<td class="text-center">'+(key+1)+'</td>'+
-                                    '<td class="text-left">'+val.DocNo+'</td>'+
-                                    '<td class="text-left">'+val.DocDate+'</td>'+
-                                    '<td class="text-left">'+val.DocDate+'</td>'+
-                                    '<td class="text-left">'+val.DocDate+'</td>'+
-                                    '<td class="text-left">'+val.DocDate+'</td>'+
-
+                            var Style  = "";
+                            if( val.IsStatus ==4){
+                                Style  = "style='background-color: #20B80E' ";
+                                }
+                            row += '<tr '+Style+'>'+
+                                    '<td class="text-center">'+(key+1)+'        </td>'+
+                                    '<td class="text-left">'+val.DocNo+'        </td>'+
+                                    '<td class="text-left">'+val.DepName+'      </td>'+
+                                    '<td class="text-left">'+val.ScStartTime+'  </td>'+
+                                    '<td class="text-left">'+val.ScEndTime+'    </td>'+
+                                    '<td class="text-left">'+val.PkStartTime+'  </td>'+
+                                    '<td class="text-left">'+val.PkEndTime+'    </td>'+
+                                    '<td class="text-left">'+val.DvStartTime+'  </td>'+
+                                    '<td class="text-left">'+val.DvEndTime+'    </td>'+
+                                    // '<td class="text-left">'+val.ScStartTime+'|'+val.ScEndTime+'</td>'+
+                                    // '<td class="text-left">'+val.PkStartTime+'|'+val.PkEndTime+'</td>'+
+                                    // '<td class="text-left">'+val.DvStartTime+'|'+val.DvEndTime+'</td>'+
                                     '<td></td>'+
                                 '</tr>';
                         });
                     }else {
-                        row += '<tr><td class="text-center" colspan="4" style="font-size:24px;">Document is Empty</td></tr>';
+                        row += '<tr><td class="text-center" colspan="12" style="font-size:24px;">Document is Empty</td></tr>';
                     }
                     $('#TableData').html(row);
                 }

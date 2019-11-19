@@ -34,7 +34,7 @@ $array2 = json_decode($json2,TRUE);
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo $array['titledamage'][$language]; ?></title>
+  <title><?php echo $array['damagenh'][$language]; ?></title>
 
   <link rel="icon" type="image/png" href="../img/pose_favicon.png">
   <!-- Bootstrap core CSS-->
@@ -989,7 +989,7 @@ if (e.keyCode == 13) {
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
                 $("#Hos2").empty();
-                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7) {
+                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7 && temp[0]['PmID'] !=5) {
                       var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
                       }else{
                         var Str1 = "";

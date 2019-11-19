@@ -16,14 +16,14 @@ function OnLoadPage($conn, $DATA)
   $PmID = $_SESSION['PmID'];
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-    if($PmID ==2 || $PmID ==3){
+    if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
       $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
       }else{
         $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
       }  
     }else{
         $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-        if($PmID ==2 || $PmID ==3){
+        if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
         $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
         }else{
         $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
@@ -234,8 +234,8 @@ function CreateDocument($conn, $DATA)
   $userid   = $DATA["userid"];
   $cycle   = $DATA["cycle"];
   $settime   = $DATA["settime"];
-  //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
-  //     mysqli_query($conn,$Sql);
+  	//  $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
+    //   mysqli_query($conn,$Sql);
   $Sql = "SELECT CONCAT('SC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
   CURRENT_TIME() AS RecNow
@@ -262,7 +262,8 @@ function CreateDocument($conn, $DATA)
     $return[0]['RecNow']  = $Result['RecNow'];
     $return[0]['settime']  = $settime;
     $count = 1;
-
+    $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
+      mysqli_query($conn,$Sql);
   }
 
 

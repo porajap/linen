@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang>
+     
+<addcost><en>Add cost</en><th>เพิ่มค่าใช้จ่าย</th></addcost>
+<bpr><en>Baht per round</en><th>บาทต่อรอบ</th></bpr>
+<coe><en>Cost of empty</en><th>ไม่มีข้อมูล</th></coe>
+<costname><en>Cost name</en><th>ค่าใช้จ่าย</th></costname>
+<price><en>Price</en><th>จำนวนเงิน</th></price>
+<close><en>Close</en><th>ปิด</th></close>
+<save><en>Save</en><th>บันทึก</th></save>
+<del><en>Delete</en><th>ลบ</th></del>
+<yes><en>Yes</en><th>ใช่</th></yes>
+<no><en>No</en><th>ไม่</th></no>
+<deleted><en>Deleted</en><th>ลบสำเร็จ</th></deleted>
+<bath><en>Bath</en><th>บาท</th></bath>
+<percent><en>Percent</en><th>เปอร์เซนต์</th></percent>
+<yousure><en>Do you want delete this cost ?</en><th>คุณต้องการลบค่าใช้จ่ายนี้หรือไม่?</th></yousure>
+<deldoc><en>Do you want delete this document ?</en><th>คุณต้องการลบเอกสารนี้หรือไม่?</th></deldoc>
+<createdoc><en>Create Doc</en><th>สร้างเอกสาร</th></createdoc>
+<doc><en>Document</en><th>เอกสาร</th></doc>
+<docno><en>Doc No</en><th>เลขที่เอกสาร</th></docno>
+<date><en>Date</en><th>วันที่</th></date>
+<user><en>User</en><th>ผู้บันทึก</th></user>
+<bpm><en>Baht per month</en><th>บาทต่อเดือน</th></bpm>
+<year><en>Year</en><th>ปี</th></year>
+<bpy><en>Baht per year</en><th>บาทต่อปี</th></bpy>
+<min><en>Minute</en><th>นาที</th></min>
+<bpmin><en>Baht per Minute</en><th>บาทต่อนาที</th></bpmin>
+<type><en>Type cost</en><th>ประเภทค่าใช้จ่าย</th></type>
+<nameemp><en>Name employee</en><th>ชื่อพนักงาน</th></nameemp>
+<salary><en>Salary</en><th>เงินเดือน</th></salary>
+<benefits><en>Benefits</en><th>สวัสดิการ</th></benefits>
+<other><en>Other expenses</en><th>ค่าใช้จ่ายอื่น ๆ</th></other>
+<tools><en>Tools</en><th>อุปกรณ์</th></tools>
+<rpm><en>Round per month</en><th>รอบต่อเดือน</th></rpm>
+<confirmdoc><en>Confirm create doc</en><th>ยืนยันการสร้างเอกสาร</th></confirmdoc>
+<success><en>Success</en><th>สำเร็จ</th></success>
+<pcd><en>Please create Document.</en><th>กรุณาสร้างเอกสาร</th></pcd>
+<nonum><en>No.</en><th>ลำดับ</th></nonum>
+<manage><en>Manage</en><th>จัดการ</th></manage>
+<hpt><en>Hospital</en><th>โรงพยาบาล</th></hpt>
+<search><en>Search</en><th>ค้นหา</th></search>
+<docempty><en>Document is empty</en><th>ไม่พบข้อมูล</th></docempty>
+<sdetail><en>Show detail</en><th>แสดงรายละเอียด</th></sdetail>
+<list><en>List</en><th>รายการ</th></list>
+<cam><en>Create a document and add Equipment</en><th>สร้างเอกสารและเพิ่มเครื่องจักร</th></cam>
+<notmac><en>Notfound machine </en><th>เครื่องจักรถูกเพิ่มเข้าในเอกสารแล้ว</th></notmac>
+<macname><en>Machine name</en><th>ชื่อเครื่องจักร</th></macname>
+<add><en>Add</en><th>เพิ่ม</th></add>
+<addmac><en>Add machine</en><th>เพิ่มเครื่องจักร</th></addmac>
+<cac><en>Create a document and add Cost</en><th>สร้างเอกสารและเพิ่มค่าใช้จ่าย</th></cac>
+
+
+
+
+</lang>

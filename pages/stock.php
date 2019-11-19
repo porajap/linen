@@ -464,10 +464,10 @@ $array2 = json_decode($json2,TRUE);
                     <div class="container-fluid">
                       <div class="card-body" >
                         <div class="row col-12">
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                             <div class='form-group row'>
-                              <label class="col-sm-5 col-form-label text-right" style="margin-left: -22%;font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                              <select class="form-control col-sm-8 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
+                              <!-- <label class="col-sm-5 col-form-label text-right" style="margin-left: -22%;font-size:24px;"><?php echo $array['side'][$language]; ?></label> -->
+                              <select class="form-control col-sm-11 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
                             </div>
                           </div>
   
@@ -476,8 +476,8 @@ $array2 = json_decode($json2,TRUE);
                             <div class='form-group row'>
                               <!-- <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
                               <select  class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select> -->
-                              <label class="col-sm-5 col-form-label text-right" style="margin-left: -37%;font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                              <select class="form-control select2 custom-select " style="width: 85% !important;font-size:22px;"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
+                              <!-- <label class="col-sm-5 col-form-label text-right" style="margin-left: -37%;font-size:24px;"><?php echo $array['department'][$language]; ?></label> -->
+                              <select class="form-control select2 custom-select col-sm-11" style="width: 85% !important;font-size:22px;"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
                             </div>
                           </div>
 

@@ -266,11 +266,11 @@ input{
     position: absolute;
     width: 408px;
     left: 839px;
-    top: 266px;
+    top: 213px;
 }
 #btn_change {
     position: absolute;
-    margin-top:40px;
+    margin-top:9px;
     left: 0px;
 }
 #btn_save {
@@ -327,6 +327,16 @@ input{
 #arrow_save{
     margin-left: 35px;
     font-size: 16px;
+}
+#see1{
+    position: absolute;
+    margin-top: -33px;
+    right: 0;
+}
+#see2{
+    position: absolute;
+    margin-top: -30px;
+    right: 0;
 }
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 

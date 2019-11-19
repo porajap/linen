@@ -1534,7 +1534,7 @@ $array2 = json_decode($json2,TRUE);
                             // $("button").css("color", "red");
                             var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7){
+                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7 && temp[0]['PmID'] !=5){
                       var Str1 = "<option value='null' selected><?php echo $array['selecthospital'][$language]; ?></option>";
                       }else{
                         var Str1 = "";

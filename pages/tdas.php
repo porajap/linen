@@ -36,7 +36,7 @@ $array2 = json_decode($json2,TRUE);
     <meta name="author" content="">
 
     <title>
-        <?php echo $array['department'][$language]; ?>
+        <?php echo $array['tdas'][$language]; ?>
     </title>
 
     <link rel="icon" type="image/png" href="../img/pose_favicon.png">

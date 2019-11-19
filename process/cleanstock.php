@@ -46,14 +46,14 @@ $return['Rowx'] = $countx;
 
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-    if($PmID ==2 || $PmID ==3){
+    if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
       $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
       }else{
         $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
       }  
     }else{
         $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-        if($PmID ==2 || $PmID ==3){
+        if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
         $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
         }else{
         $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
@@ -184,8 +184,8 @@ function CreateDocument($conn, $DATA)
     $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
-    // $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
-    //   mysqli_query($conn,$Sql);
+    $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
+      mysqli_query($conn,$Sql);
   }
 
   if ($count == 1) {
