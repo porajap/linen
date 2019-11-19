@@ -134,25 +134,29 @@ $language = $_SESSION['lang'];
                         <input type="text" autocomplete="off" class="form-control" onkeyup="make_char()"   id="oldpassword" > 
                     </div>
                 </div>
-                <div id="newCh">
-                    <div class="form-group bmd-form-group">
-                        <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
-                        <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" >
+                <form id="test">
+                    <div id="newCh">
+                        <div class="form-group bmd-form-group">
+                            <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
+                            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" name="newpassword">
+                            <small for="newpassword" class="text-danger m-l-6 m-b-6"></small>
+                        </div>
                     </div>
-                </div>
-                <div id="confirmCh">
-                    <div class="form-group bmd-form-group">
-                        <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
-                        <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" >
+                    <div id="confirmCh">
+                        <div class="form-group bmd-form-group">
+                            <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
+                            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" name="confirmpassword">
+                            <small for="confirmpassword" class="text-danger m-l-6 m-b-6"></small>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <!-- ----------------------------------------------------------------------------------- -->
                 <!-- ----------------------------------------------------------------------------------- -->
                 <div id="btn_change">
                     <button class="btn btn_black" id="black_reset" onclick="back();">
                         Back <i class="fas fa-undo-alt" id="black_save"></i>
                     </button>
-                    <button class="btn btn_save" onclick="passwordUpdate();">
+                    <button class="btn btn_save" onclick="passwordUpdate();" id="btn_savePass" >
                         Save  <i class="fas fa-arrow-right" id="arrow_save"></i>
                     </button>
                 </div>
@@ -164,6 +168,7 @@ $language = $_SESSION['lang'];
     <script src="fontawesome/js/all.min.js"></script>
     <script src="js/bootstrap-material-design.js"></script>
     <script src="js/application.js"></script>
+    <script src="validate/jquery.validate.min.js"></script>
     <script>
         $(document).ready(function(e){
             $('#username').focus();
@@ -660,6 +665,7 @@ $language = $_SESSION['lang'];
         }
 </script>
 <script>
+
     /*Actual validation function*/
     function ValidatePassword() {
         /*Array of rules and the information target*/
@@ -703,15 +709,47 @@ $language = $_SESSION['lang'];
         }
         /*Iterate our remaining rules. The logic is the same as for Length*/
         for (var i = 0; i < rules.length; i++) {
-
             $("#" + rules[i].Target).removeClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-remove" : "glyphicon-ok"); 
             $("#" + rules[i].Target).addClass(new RegExp(rules[i].Pattern).test(password) ? "glyphicon-ok" : "glyphicon-remove");
         }
+  
     }
 
     /*Bind our event to key up for the field. It doesn't matter if it's delete or not*/
     $(document).ready(function() {
       $("#newpassword").on('keyup', ValidatePassword)
+
+        $('#test').validate({
+            errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+                .closest( "form" )
+                    .find( "small[for='" + element.attr( "id" ) + "']" )
+                        .append( error );
+            },
+            rules:
+            {
+                newpassword:
+                {
+                    rangelength: [8, 16],
+                },
+                confirmpassword:
+                {
+                    equalTo: "#newpassword"
+                }
+            },
+            messages:
+            {	
+                newpassword:
+                {
+                    rangelength: "Must be at least 8 -16 charcters"
+                },
+                confirmpassword:
+                {
+                    equalTo: "Passwords do not match"
+                }
+            }		
+        });
     });
 </script>
 </body>

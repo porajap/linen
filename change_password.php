@@ -21,6 +21,12 @@
 <div id="logo_change">
     <img src="img/logo.png">
 </div>
+<div id="text_noti">
+                <div id="Length" class="glyphicon glyphicon-remove">Must be at least 8 -16 charcters</div>
+                <div id="UpperCase" class="glyphicon glyphicon-remove">Must have atleast 1 upper case character</div>
+                <div id="LowerCase" class="glyphicon glyphicon-remove">Must have atleast 1 lower case character</div>
+                <div id="Numbers" class="glyphicon glyphicon-remove">Must have atleast 1 numeric character</div>
+            </div>
 <div id="form_inputChange">
     <div id="usernameCh_input">
         <div class="form-group bmd-form-group">
@@ -34,18 +40,21 @@
             <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="oldpassword"  required> 
         </div>
     </div>
-    <div id="newCh">
-        <div class="form-group bmd-form-group">
-            <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
-            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" required>
+    <form id="test">
+        <div id="newCh">
+            <div class="form-group bmd-form-group">
+                <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
+                <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" required>
+            </div>
         </div>
-    </div>
-    <div id="confirmCh">
-        <div class="form-group bmd-form-group">
-            <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
-            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" required>
+        <div id="confirmCh">
+            <div class="form-group bmd-form-group">
+                <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
+                <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" required>
+            </div>
         </div>
-    </div>
+    </form>
+
     <!-- ----------------------------------------------------------------------------------- -->
     <!-- ----------------------------------------------------------------------------------- -->
     <div id="btn_change">
@@ -115,5 +124,36 @@
     /*Bind our event to key up for the field. It doesn't matter if it's delete or not*/
     $(document).ready(function() {
       $("#newpassword").on('keyup', ValidatePassword)
+      $('#test').validate({
+            errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+                .closest( "form" )
+                    .find( "small[for='" + element.attr( "id" ) + "']" )
+                        .append( error );
+            },
+            rules:
+            {
+                newpassword:
+                {
+                    rangelength: [8, 16],
+                },
+                confirmpassword:
+                {
+                    equalTo: "#newpassword"
+                }
+            },
+            messages:
+            {	
+                newpassword:
+                {
+                    rangelength: "Must be at least 8 -16 charcters"
+                },
+                confirmpassword:
+                {
+                    equalTo: "Passwords do not match"
+                }
+            }		
+        });
     });
 </script>
