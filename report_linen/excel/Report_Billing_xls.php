@@ -32,6 +32,7 @@ $DepCode = $data[7];
 $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
+$GroupCode = $data[11];
 $where = '';
 $i = 9;
 $check = '';
@@ -223,12 +224,12 @@ FROM
 grouphpt
 INNER JOIN department ON grouphpt.GroupCode = department.GroupCode
 INNER JOIN shelfcount ON shelfcount.DepCode = department.DepCode
-
 WHERE
---  grouphpt.GroupCode = $GroupCode
-  shelfcount.isStatus <> 9
+ grouphpt.GroupCode = '$GroupCode'
+ AND shelfcount.isStatus <> 9
   GROUP BY  department.DepCode 
             ";
+
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   if ($status_group == 1) {
@@ -310,9 +311,20 @@ $r = 1;
 $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, 'total');
 $r++;
 for ($day = 1; $day <= $count; $day++) {
-  $data = "SELECT SUM(shelfcount_detail.Weight) AS aWeight , SUM(shelfcount_detail.Price ) AS aPrice FROM shelfcount 
-                INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo WHERE  DATE(shelfcount.DocDate)  ='$now$day'  AND  shelfcount.isStatus <> 9
-                 ";
+  $data =       "SELECT
+                SUM(shelfcount_detail.Weight) AS aWeight,
+                SUM(shelfcount_detail.Price) AS aPrice
+                FROM
+                shelfcount
+                INNER JOIN department ON shelfcount.DepCode = department.DepCode
+                INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
+                INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
+                WHERE
+                DATE(shelfcount.DocDate) = '$now$day'
+                AND shelfcount.isStatus <> 9
+                AND grouphpt.GroupCode = '$GroupCode'
+                              ";
+                 
   $meQuery = mysqli_query($conn, $data);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $dap_data_row1, $Result["aWeight"]);

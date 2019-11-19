@@ -18,9 +18,9 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 $data = explode(',', $_GET['data']);
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -40,6 +40,9 @@ $Weight = 0;
 $count = 1;
 $itemCode = [];
 $itemName = [];
+$date_header1 = '';
+$date_header2 = '';
+$date_header3 = '';
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -237,7 +240,7 @@ if ($chk == 'one') {
     $date[] = $now . $day;
     $day++;
   }
-  print_r($date);
+  //  print_r($date);
 }
 $query = "SELECT
 department.DepName
@@ -274,138 +277,124 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 
 $countitem = sizeof($itemCode);
 $start_row = 9;
-$start_col = 5;
+$start_col = 2;
 $start_date = 1;
 $start_itemcode = 1;
 // -----------------------------------------------------------------------------------
 $objPHPExcel->setActiveSheetIndex(0)
-  ->setCellValue('A8',  'CusName')
-  ->setCellValue('B8',  'ItemName')
-  ->setCellValue('C8',  'ParQty')
-  ->setCellValue('D8',  'ItemWeight')
-  ->setCellValue('E8',  'Price');
+  ->setCellValue('A8',  'ItemName')
+  ->setCellValue('B8',  'Department');
 for ($j = 0; $j < $count; $j++) {
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", $date[$j]);
-  $start_col++;
-  $start_date++;
-}
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Qty');
-$start_col++;
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Weight ( นนไอเทม * จำนวน qty total )');
-$start_date = 1;
-// -----------------------------------------------------------------------------------
-for ($i = 0; $i < $countitem; $i++) {
-  $item = "SELECT
-  SUM(shelfcount_detail.ParQty) AS  ParQty,
-  SUM(item.Weight) AS Weight ,
-  SUM(item_category.Price) AS Price
-  FROM
-  shelfcount_detail
-  INNER JOIN  shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo 
-  INNER JOIN  item ON item.itemcode = shelfcount_detail.itemcode 
-  INNER JOIN  item_category ON item_category.CategoryCode = item.CategoryCode 
-                  WHERE
-                  shelfcount_detail.itemcode = '$itemCode[$i]'
-                  AND shelfcount.DepCode = '$DepCode'
-                  GROUP BY  shelfcount_detail.itemcode  ";
 
-  $meQuery = mysqli_query($conn, $item);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $itemName[$i]);
-    $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
-    $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);
-    $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["Price"]);
-    $start_row++;
-  }
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'ISSUE QTY');
+  $date_header1 = $date_cell1[$start_col];
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'SHORT QTY');
+  $date_header2 = $date_cell1[$start_col];
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'OVER QTY');
+  $date_header3 = $date_cell1[$start_col];
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->mergeCells($date_header1 . '7:' . $date_header3 . '7');
+  $objPHPExcel->getActiveSheet()->setCellValue($date_header1 . "7", $date[$j]);
+  $date_header1 = '';
+  $date_header2 = '';
+  $date_header3 = '';
 }
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'ISSUE QTY');
+$date_header1 = $date_cell1[$start_col];
+$start_col++;
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'SHORT QTY');
+$date_header2 = $date_cell1[$start_col];
+$start_col++;
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'OVER QTY');
+$date_header3 = $date_cell1[$start_col];
+$start_col++;
+$objPHPExcel->getActiveSheet()->mergeCells($date_header1 . '7:' . $date_header3 . '7');
+$objPHPExcel->getActiveSheet()->setCellValue($date_header1 . "7", 'Total');
+
+$start_date = 1;
+
+
+// -----------------------------------------------------------------------------------
 $start_row = 9;
-$start_col = 5;
+$start_col = 2;
 for ($i = 0; $i < $countitem; $i++) {
   for ($j = 0; $j < $count; $j++) {
     $item = "SELECT
-          sum(shelfcount_detail.TotalQty) as  TotalQty
+          coalesce (sum(shelfcount_detail.TotalQty),'0') as  ISSUE,
+          coalesce (sum(shelfcount_detail.Short),'0') as  Short,
+          coalesce (sum(shelfcount_detail.Over),'0') as  Over
           FROM
           shelfcount_detail
           INNER JOIN shelfcount ON shelfcount.DocNo  = shelfcount_detail.DocNo
           WHERE
           shelfcount_detail.itemcode = '$itemCode[$i]'
-          AND shelfcount.DocDate = '$date[$j]'
           AND shelfcount.DepCode = '$DepCode'
           GROUP BY  shelfcount_detail.itemcode 
                       ";
-    //  echo $item;
+    //  echo $item ;
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $Result["TotalQty"]);
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $Result['ISSUE']);
+      $SUMISSUE += $Result['ISSUE'];
+      $SUMCOLISSUE[] =$Result['ISSUE'];
+      $start_col++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $Result['Short']);
+      $SUMShort += $Result['Short'];
+      $start_col++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $Result['Over']);
+      $SUMOver += $Result['Over'];
+      $start_col++;
     }
-    $start_date++;
-    $start_col++;
   }
-  $lastcell = $start_col;
-  $start_col = 5;
-  $start_row++;
-  $start_date = 1;
-}
-
-$start_row = 9;
-$start_col = 5;
-$lastcellplus = $lastcell + 1;
-for ($i = 0; $i < $countitem; $i++) {
-  $item = "SELECT
-          sum(shelfcount_detail.TotalQty) as  TotalQty,
-          sum(shelfcount_detail.Weight) as  Weight
-          FROM
-          shelfcount_detail
-          INNER JOIN shelfcount ON shelfcount.DocNo  = shelfcount_detail.DocNo
-          WHERE
-          shelfcount_detail.itemcode = '$itemCode[$i]'
-          AND shelfcount.DepCode = '$DepCode'
-          GROUP BY  shelfcount_detail.itemcode 
-                      ";
-  //  echo $item;
-  $meQuery = mysqli_query($conn, $item);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$lastcell] . $start_row, $Result["TotalQty"]);
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$lastcellplus] . $start_row, $Result["TotalQty"] * $Result["Weight"]);
-    $sum += $Result["TotalQty"] * $Result["Weight"];
-  }
-  $start_row++;
-}
-$objPHPExcel->getActiveSheet()->setCellValue("B" . $start_row, 'TotaL');
-$start_col = 5;
-for ($j = 0; $j < $count; $j++) {
-  $item = "SELECT
-    SUM(shelfcount_detail.TotalQty) AS TotalQty
-    FROM
-    shelfcount_detail
-    INNER JOIN shelfcount ON shelfcount.DocNo  = shelfcount_detail.DocNo
-    WHERE shelfcount.DocDate = '$date[$j]'
-    AND shelfcount.DepCode = '$DepCode'
-                ";
-  //  echo $item;
-  $meQuery = mysqli_query($conn, $item);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $Result["TotalQty"]);
-  }
-  $start_date++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $SUMISSUE);
   $start_col++;
-}
-$item = "SELECT
-  SUM(shelfcount_detail.TotalQty) AS TotalQty,
-  SUM(shelfcount_detail.weight) AS weight
-  FROM
-  shelfcount_detail
-  INNER JOIN shelfcount ON shelfcount.DocNo  = shelfcount_detail.DocNo
-  AND shelfcount.DepCode = '$DepCode'
-              ";
-//  echo $item;
-$meQuery = mysqli_query($conn, $item);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $TotalQty = $Result["TotalQty"];
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $SUMShort);
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $SUMOver);
+  $start_col++;
+  $SUMISSUE = '';
+  $SUMShort= '';
+  $SUMOver= '';
+  $start_col = 0;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $itemCode[$i]);
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $itemCode[$i]);
+  $start_col++;
+  $start_row++;
 }
 
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$lastcell] . $start_row, $TotalQty);
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$lastcellplus] . $start_row, $sum);
+
+
+// $start_row = 9 ;
+// $lastcell_Plus1 =$lastcell+1;
+// $lastcell_Plus2 =$lastcell+2;
+// for ($i = 0; $i < $countitem; $i++) {
+//   $item = "SELECT
+//   coalesce (sum(shelfcount_detail.TotalQty),'0') as  ISSUE,
+//   coalesce (sum(shelfcount_detail.Short),'0') as  Short,
+//   coalesce (sum(shelfcount_detail.Over),'0') as  Over
+//   FROM
+//   shelfcount_detail
+//   INNER JOIN shelfcount ON shelfcount.DocNo  = shelfcount_detail.DocNo
+//   WHERE
+//   shelfcount_detail.itemcode = '$itemCode[$i]'
+//   AND shelfcount.DepCode = '$DepCode'
+//   GROUP BY  shelfcount_detail.itemcode 
+//               ";
+//               // echo $item ;
+// $meQuery = mysqli_query($conn, $item);
+// while ($Result = mysqli_fetch_assoc($meQuery)) {
+// $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$lastcell] . $start_row, $Result['ISSUE']);
+// $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$lastcell_Plus1] . $start_row, $Result['Short']);
+// $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$lastcell_Plus2] . $start_row, $Result['Over']);
+// }
+// $start_row++;
+// }
+
+
+
 $objDrawing = new PHPExcel_Worksheet_Drawing();
 $objDrawing->setName('Nhealth_linen');
 $objDrawing->setDescription('Nhealth_linen');
