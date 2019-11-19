@@ -125,12 +125,12 @@ function CreateDocument($conn, $DATA)
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT CONCAT('RPW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
+  $Sql = "SELECT CONCAT('RTW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
   CURRENT_TIME() AS RecNow
-  FROM repair_wash
-  INNER JOIN department on repair_wash.DepCode = department.DepCode
-  WHERE DocNo Like CONCAT('RPW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
+  FROM return_wash
+  INNER JOIN department on return_wash.DepCode = department.DepCode
+  WHERE DocNo Like CONCAT('RTW',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
   AND department.HptCode = '$hotpCode'
   ORDER BY DocNo DESC LIMIT 1";
 
@@ -155,11 +155,11 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO repair_wash
+    $Sql = "INSERT INTO return_wash
     ( DocNo,HptCode,FacCode , DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
-      repair_wash.Modify_Code,repair_wash.Modify_Date )
+      return_wash.Modify_Code,return_wash.Modify_Date )
       VALUES
       ( '$DocNo','$hotpCode','',DATE(NOW()),'$deptCode','',
       0,DATE(NOW()),0,0,
@@ -171,7 +171,7 @@ function CreateDocument($conn, $DATA)
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',NOW(),'$deptCode','$RefDocNo','repair_wash',$userid,DATE(NOW()))";
+      ('$DocNo',NOW(),'$deptCode','$RefDocNo','return_wash',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -223,35 +223,35 @@ function CreateDocument($conn, $DATA)
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
     $datepicker = $DATA["datepicker1"];
     $selecta = $DATA["selecta"];
-    $Sql = "SELECT site.HptName,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) 
-    AS DocDate,repair_wash.RefDocNo,repair_wash.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus
-    FROM repair_wash
-    INNER JOIN department ON repair_wash.DepCode = department.DepCode
+    $Sql = "SELECT site.HptName,department.DepName,return_wash.DocNo,DATE(return_wash.DocDate) 
+    AS DocDate,return_wash.RefDocNo,return_wash.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(return_wash.Modify_Date) AS xTime,return_wash.IsStatus
+    FROM return_wash
+    INNER JOIN department ON return_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN users ON repair_wash.Modify_Code = users.ID ";
+    INNER JOIN users ON return_wash.Modify_Code = users.ID ";
   // if($DocNo!=null){
-  //   $Sql .= " WHERE repair_wash.DocNo = '$DocNo' ";
+  //   $Sql .= " WHERE return_wash.DocNo = '$DocNo' ";
   // }else{
     if ($Hotp != null && $deptCode == null && $datepicker == null) {
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%' ";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND return_wash.DocNo LIKE '%$xDocNo%' ";
       if($xDocNo!=null){
-        $Sql .= " OR repair_wash.DocNo LIKE '%$xDocNo%' ";
+        $Sql .= " OR return_wash.DocNo LIKE '%$xDocNo%' ";
       }
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
-        $Sql .= " WHERE repair_wash.DocNo LIKE '%$xDocNo%' ";
+        $Sql .= " WHERE return_wash.DocNo LIKE '%$xDocNo%' ";
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE DATE(return_wash.DocDate) = '$datepicker' AND return_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DepCode = '$deptCode' AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND return_wash.DepCode = '$deptCode' AND return_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(return_wash.DocDate) = '$datepicker' AND return_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair_wash.DepCode = '$deptCode' AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE return_wash.DepCode = '$deptCode' AND DATE(return_wash.DocDate) = '$datepicker' AND return_wash.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
-      $Sql .= " WHERE repair_wash.DepCode = '$deptCode' AND DATE(repair_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE return_wash.DepCode = '$deptCode' AND DATE(return_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND return_wash.DocNo LIKE '%$xDocNo%'";
     }
   // }
-    $Sql .= "ORDER BY repair_wash.DocNo DESC LIMIT 500";
+    $Sql .= "ORDER BY return_wash.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       
@@ -300,14 +300,14 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT site.HptCode,department.DepName,repair_wash.DocNo,DATE(repair_wash.DocDate) 
-    AS DocDate ,repair_wash.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
-    TIME(repair_wash.Modify_Date) AS xTime,repair_wash.IsStatus,repair_wash.RefDocNo,repair_wash.FacCode
-    FROM repair_wash
-    INNER JOIN department ON repair_wash.DepCode = department.DepCode
+    $Sql = "SELECT site.HptCode,department.DepName,return_wash.DocNo,DATE(return_wash.DocDate) 
+    AS DocDate ,return_wash.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
+    TIME(return_wash.Modify_Date) AS xTime,return_wash.IsStatus,return_wash.RefDocNo,return_wash.FacCode
+    FROM return_wash
+    INNER JOIN department ON return_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN users ON repair_wash.Modify_Code = users.ID
-    WHERE repair_wash.DocNo = '$DocNo'";
+    INNER JOIN users ON return_wash.Modify_Code = users.ID
+    WHERE return_wash.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -615,10 +615,10 @@ function CreateDocument($conn, $DATA)
       }
 
       $Sql = "SELECT COUNT(*) as Cnt
-      FROM repair_wash_detail
-      INNER JOIN item  ON repair_wash_detail.ItemCode = item.ItemCode
-      INNER JOIN repair_wash ON repair_wash.DocNo = repair_wash_detail.DocNo
-      WHERE repair_wash.DocNo = '$DocNo'
+      FROM return_wash_detail
+      INNER JOIN item  ON return_wash_detail.ItemCode = item.ItemCode
+      INNER JOIN return_wash ON return_wash.DocNo = return_wash_detail.DocNo
+      WHERE return_wash.DocNo = '$DocNo'
       AND item.ItemCode = '$ItemCode'";
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -639,11 +639,11 @@ function CreateDocument($conn, $DATA)
 
       if ($chkUpdate == 0) {
         if ($Sel == 1) {
-          $Sql = " INSERT INTO repair_wash_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel)
+          $Sql = " INSERT INTO return_wash_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel)
           VALUES('$DocNo', '$ItemCode', $iunit2, $iqty2, $iweight, 0) ";
           mysqli_query($conn, $Sql);
         } else {
-          $Sql = " INSERT INTO repair_wash_detail_sub(DocNo, ItemCode, UsageCode)
+          $Sql = " INSERT INTO return_wash_detail_sub(DocNo, ItemCode, UsageCode)
           VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
           mysqli_query($conn, $Sql);
           $Sql = " UPDATE item_stock SET IsStatus = 0
@@ -652,12 +652,12 @@ function CreateDocument($conn, $DATA)
         }
       } else {
         if ($Sel == 1) {
-          $Sql = " UPDATE repair_wash_detail
+          $Sql = " UPDATE return_wash_detail
           SET Weight = (Weight+$iweight), Qty = (Qty + $iqty2)
           WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
           mysqli_query($conn, $Sql);
         } else {
-          $Sql = " INSERT INTO repair_wash_detail_sub(DocNo, ItemCode, UsageCode)
+          $Sql = " INSERT INTO return_wash_detail_sub(DocNo, ItemCode, UsageCode)
           VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
           mysqli_query($conn, $Sql);
           $Sql = " UPDATE item_stock SET IsStatus = 0
@@ -669,7 +669,7 @@ function CreateDocument($conn, $DATA)
 
     if ($Sel == 2) {
       $n = 0;
-      $Sql = "SELECT COUNT(*) AS Qty FROM repair_wash_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+      $Sql = "SELECT COUNT(*) AS Qty FROM return_wash_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $Qty[$n] = $Result['Qty'];
@@ -680,12 +680,12 @@ function CreateDocument($conn, $DATA)
         // $Sqlx = "INSERT INTO log ( log ) VALUES ('$n :: $xQty :: $chkUpdate :: $iweight')";
         // mysqli_query($conn,$Sqlx);
         if ($chkUpdate == 0) {
-          $Sql = "INSERT INTO repair_wash_detail
+          $Sql = "INSERT INTO return_wash_detail
           (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
           VALUES
           ('$DocNo','$ItemCode',$iunit2,$xQty,0,0)";
         } else {
-          $Sql = "UPDATE repair_wash_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
+          $Sql = "UPDATE return_wash_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
         }
         mysqli_query($conn, $Sql);
       }
@@ -700,9 +700,9 @@ function CreateDocument($conn, $DATA)
     $Qty  =  $DATA["Qty"];
     $OleQty =  $DATA["OleQty"];
     $UnitCode =  $DATA["unitcode"];
-    $Sql = "UPDATE repair_wash_detail
+    $Sql = "UPDATE return_wash_detail
     SET Qty1 = $OleQty,Qty2 = $Qty,UnitCode2 = $UnitCode
-    WHERE repair_wash_detail.Id = $RowID";
+    WHERE return_wash_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -717,9 +717,9 @@ function CreateDocument($conn, $DATA)
     //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
     //	mysqli_query($conn,$Sqlx);
 
-    $Sql = "UPDATE repair_wash_detail
+    $Sql = "UPDATE return_wash_detail
     SET Weight = $Weight
-    WHERE repair_wash_detail.Id = $RowID";
+    WHERE return_wash_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -729,9 +729,9 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["Rowid"];
     $UnitCode =  $DATA["unitcode"];
     $qty =  $DATA["qty"];
-    $Sql = "UPDATE repair_wash_detail
+    $Sql = "UPDATE return_wash_detail
     SET UnitCode = $UnitCode
-    WHERE repair_wash_detail.Id = $RowID";
+    WHERE return_wash_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -741,10 +741,10 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["rowid"];
     $DocNo = $DATA["DocNo"];
     $n = 0;
-    $Sql = "SELECT repair_wash_detail_sub.UsageCode,repair_wash_detail.ItemCode
-    FROM repair_wash_detail
-    INNER JOIN repair_wash_detail_sub ON repair_wash_detail.DocNo = repair_wash_detail_sub.DocNo
-    WHERE  repair_wash_detail.Id = $RowID";
+    $Sql = "SELECT return_wash_detail_sub.UsageCode,return_wash_detail.ItemCode
+    FROM return_wash_detail
+    INNER JOIN return_wash_detail_sub ON return_wash_detail.DocNo = return_wash_detail_sub.DocNo
+    WHERE  return_wash_detail.Id = $RowID";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $ItemCode = $Result['ItemCode'];
@@ -758,12 +758,12 @@ function CreateDocument($conn, $DATA)
       mysqli_query($conn, $Sql);
     }
 
-    $Sql = "DELETE FROM repair_wash_detail_sub
+    $Sql = "DELETE FROM return_wash_detail_sub
     WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
     mysqli_query($conn, $Sql);
 
-    $Sql = "DELETE FROM repair_wash_detail
-    WHERE repair_wash_detail.Id = $RowID";
+    $Sql = "DELETE FROM return_wash_detail
+    WHERE return_wash_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
@@ -774,7 +774,7 @@ function CreateDocument($conn, $DATA)
     $DocNo2 = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
 
-    $Sql = "UPDATE repair_wash SET IsStatus = $isStatus WHERE repair_wash.DocNo = '$DocNo'";
+    $Sql = "UPDATE return_wash SET IsStatus = $isStatus WHERE return_wash.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
     // ================================================================================
@@ -814,8 +814,8 @@ function CreateDocument($conn, $DATA)
     // mysqli_query($conn,$Sqlx);
 
 
-    // update เอกสารอ้างอิง เข้า repair_wash
-    $Sql = "UPDATE repair_wash SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
+    // update เอกสารอ้างอิง เข้า return_wash
+    $Sql = "UPDATE return_wash SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
 
     $Sql = "UPDATE daily_request SET RefDocNo = '$RefDocNo' WHERE DocNo = '$DocNo'";
@@ -834,8 +834,8 @@ function CreateDocument($conn, $DATA)
             $count              == 1;
           }
     
-    // update refdocno , faccode เข้าเอกสาร repair_wash
-    $Sql = "UPDATE repair_wash SET RefDocNo = '$RefDocNo' , FacCode = $FacCode1 WHERE DocNo = '$DocNo'";
+    // update refdocno , faccode เข้าเอกสาร return_wash
+    $Sql = "UPDATE return_wash SET RefDocNo = '$RefDocNo' , FacCode = $FacCode1 WHERE DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
     
     // $n = 0;
@@ -862,7 +862,7 @@ function CreateDocument($conn, $DATA)
     //   $Qty      = $zQty[$i];
     //   $Weight   = $zWeight[$i];
     //   $IsCancel = $zIsCancel[$i];
-    //   $Sql = "INSERT INTO repair_wash_detail
+    //   $Sql = "INSERT INTO return_wash_detail
     //   (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
     //   VALUES
     //   ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
@@ -908,7 +908,7 @@ function CreateDocument($conn, $DATA)
     //   $Qty      = $zQty[$i];
     //   $Weight   = $zWeight[$i];
     //   $IsCancel = $zIsCancel[$i];
-    //   $Sql = "INSERT INTO repair_wash_detail
+    //   $Sql = "INSERT INTO return_wash_detail
     //   (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
     //   VALUES
     //   ('$DocNo','$ItemCode',$UnitCode,$Qty,$Weight,$IsCancel)";
@@ -927,7 +927,7 @@ function CreateDocument($conn, $DATA)
     // }
     // for ($i = 0; $i < $n; $i++) {
     //   $xUsageCode = $UsageCode[$i];
-    //   $Sql = " INSERT INTO repair_wash_detail_sub(DocNo, ItemCode, UsageCode)
+    //   $Sql = " INSERT INTO return_wash_detail_sub(DocNo, ItemCode, UsageCode)
     //   VALUES('$DocNo', '$ItemCode', '$xUsageCode') ";
     //   mysqli_query($conn, $Sql);
 
@@ -944,8 +944,8 @@ function CreateDocument($conn, $DATA)
     $RefDocNo = $DATA['RefDocNo'];
     $DocNo = $DATA['DocNo'];
 
-    $Sql = "SELECT repair_wash.Total
-      FROM repair_wash WHERE repair_wash.DocNo = '$DocNo'";
+    $Sql = "SELECT return_wash.Total
+      FROM return_wash WHERE return_wash.DocNo = '$DocNo'";
       $meQuery = mysqli_query($conn,$Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $cTotal	= $Result['Total']==null?0:$Result['Total'];
@@ -1002,24 +1002,24 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["DocNo"];
     //==========================================================
     $Sql = "SELECT
-    repair_wash_detail.Id,
-    repair_wash_detail.DocNo,
-    repair_wash_detail.ItemCode,
+    return_wash_detail.Id,
+    return_wash_detail.DocNo,
+    return_wash_detail.ItemCode,
     item.ItemName,
     item.UnitCode AS UnitCode1,
     item_unit.UnitName,
-    repair_wash_detail.UnitCode AS UnitCode2,
-    repair_wash_detail.Weight,
-    repair_wash_detail.Qty,
-    repair_wash.Detail
+    return_wash_detail.UnitCode AS UnitCode2,
+    return_wash_detail.Weight,
+    return_wash_detail.Qty,
+    return_wash.Detail
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-    INNER JOIN repair_wash_detail ON repair_wash_detail.ItemCode = item.ItemCode
-    INNER JOIN item_unit ON repair_wash_detail.UnitCode = item_unit.UnitCode
-    INNER JOIN repair_wash ON repair_wash_detail.DocNo = repair_wash.DocNo
-    WHERE repair_wash_detail.DocNo = '$DocNo'
-    ORDER BY repair_wash_detail.Id DESC";
+    INNER JOIN return_wash_detail ON return_wash_detail.ItemCode = item.ItemCode
+    INNER JOIN item_unit ON return_wash_detail.UnitCode = item_unit.UnitCode
+    INNER JOIN return_wash ON return_wash_detail.DocNo = return_wash.DocNo
+    WHERE return_wash_detail.DocNo = '$DocNo'
+    ORDER BY return_wash_detail.Id DESC";
     $return['sql']=$Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1095,7 +1095,7 @@ function CreateDocument($conn, $DATA)
 
     if ($count == 0) $Total = 0;
 
-    $Sql = "UPDATE repair_wash SET Total = $Total WHERE DocNo = '$DocNo'";
+    $Sql = "UPDATE return_wash SET Total = $Total WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     $return[0]['Total']    = round($Total, 2);
 
@@ -1124,7 +1124,7 @@ function CreateDocument($conn, $DATA)
     $RefDocNo = $DATA["RefDocNo"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
     // mysqli_query($conn,$Sql);
-    $Sql = "UPDATE repair_wash SET IsStatus = 9  WHERE DocNo = '$DocNo'";
+    $Sql = "UPDATE return_wash SET IsStatus = 9  WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
 
     $Sql = "UPDATE rewash SET IsRef = 0 WHERE rewash.DocNo = '$RefDocNo'";
@@ -1135,7 +1135,7 @@ function CreateDocument($conn, $DATA)
   function updateQty($conn, $DATA){
     $newQty = $DATA['newQty'];
     $RowID = $DATA['RowID'];
-    $Sql = "UPDATE repair_wash_detail SET Qty = $newQty WHERE Id = $RowID";
+    $Sql = "UPDATE return_wash_detail SET Qty = $newQty WHERE Id = $RowID";
     mysqli_query($conn, $Sql);
   }
 
