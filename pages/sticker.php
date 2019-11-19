@@ -483,8 +483,8 @@ $array2 = json_decode($json2,TRUE);
                         <div class="row col-12">
                           <div class="col-md-4">
                             <div class='form-group row'>
-                              <label class="col-sm-5 col-form-label text-right" style="margin-left: -22%;font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                              <select class="form-control col-sm-8 " style="font-size:22px;"  id="hotpital" ></select>
+                              <!-- <label class="col-sm-5 col-form-label text-right" style="margin-left: -22%;font-size:24px;"><?php echo $array['side'][$language]; ?></label> -->
+                              <select class="form-control col-sm-11 " style="font-size:22px;"  id="hotpital" ></select>
                             </div>
                           </div>
                           <div class="col-md-5">
