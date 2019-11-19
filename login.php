@@ -133,6 +133,10 @@ $language = $_SESSION['lang'];
                         <div class="form-group bmd-form-group">
                             <label for="newpassword" id="label_new" class="bmd-label-floating">New Password</label>
                             <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="newpassword" name="newpassword">
+                            <div id="see1">
+                                <a href="javascript:void(0)" onclick="ShowPassword1()" id="ShowPassword1"><i class="fas fa-eye"></i></a>
+                                <a href="javascript:void(0)" onclick="HidePassword1()" id="HidePassword1" hidden><i class="fas fa-eye-slash"></i></a>
+                            </div>
                             <small for="newpassword" class="text-danger m-l-6 m-b-6"></small>
                         </div>
                     </div>
@@ -140,6 +144,10 @@ $language = $_SESSION['lang'];
                         <div class="form-group bmd-form-group">
                             <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
                             <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" name="confirmpassword">
+                            <div id="see2">
+                                <a href="javascript:void(0)" onclick="ShowPassword2()" id="ShowPassword2"><i class="fas fa-eye"></i></a>
+                                <a href="javascript:void(0)" onclick="HidePassword2()" id="HidePassword2" hidden><i class="fas fa-eye-slash"></i></a>
+                            </div>
                             <small for="confirmpassword" class="text-danger m-l-6 m-b-6"></small>
                         </div>
                     </div>
@@ -168,9 +176,36 @@ $language = $_SESSION['lang'];
         $(document).ready(function(e){
             $('#username').focus();
         });
-
+        function ShowPassword1(){
+            var x = document.getElementById("newpassword");
+            x.type = "text";
+            $('#ShowPassword1').attr('hidden', true);
+            $('#HidePassword1').attr('hidden', false);
+    
+        }
+        function HidePassword1(){
+            var x = document.getElementById("newpassword");
+            x.type = "password";
+            $('#ShowPassword1').attr('hidden', false);
+            $('#HidePassword1').attr('hidden', true);
+    
+        }
+        function ShowPassword2(){
+            var x = document.getElementById("confirmpassword");
+            x.type = "text";
+            $('#ShowPassword2').attr('hidden', true);
+            $('#HidePassword2').attr('hidden', false);
+    
+        }
+        function HidePassword2(){
+            var x = document.getElementById("confirmpassword");
+            x.type = "password";
+            $('#ShowPassword2').attr('hidden', false);
+            $('#HidePassword2').attr('hidden', true);
+    
+        }
         function typePass(){
-        $('#oldpassword').attr('type', 'password');
+            $('#oldpassword').attr('type', 'password');
         }
         $(document).keyup(function(e) {
             
