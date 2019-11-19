@@ -110,6 +110,7 @@
 <r24><en>Report Claim Factory</en><th>รายงานเคลมโรงซัก</th></r24>
 <SR><en>Report Stock Receive</en><th>รายงานรับเข้าสต๊อก</th></SR>
 <DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
+<return><en>Report Return Wash</en><th>รายงานผ้าแก้ไขรับกลับ</th></return>
 <reportnewlinen><en>Report New Linen</en><th>รายงานแบบบันทึกการส่งซักผ้าใหม่ให้โรงซัก</th></reportnewlinen>
 <sign><en>Sign</en><th>ลงชื่อ</th></sign>
 <docclean><en>Doc Clean No</en><th>เลขที่เอกสารสะอาด</th></docclean>

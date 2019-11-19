@@ -234,14 +234,13 @@ if ($chk == 'one') {
     WHERE DATE (clean.Docdate) = '$date' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
       AND clean.IsStatus <>9
     )d,
-    (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_repair_wash,
-    COALESCE(return_wash.DocDate,0) AS DocDate
-    FROM clean
-    LEFT JOIN return_wash ON return_wash.DocNo=clean.RefDocNo
-    LEFT JOIN department ON department.DepCode = clean.DepCode
-		LEFT JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (clean.Docdate) = '$date' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-    AND clean.IsStatus  <> 9
+    (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
+      COALESCE(return_wash.DocDate,0) AS DocDate
+      FROM return_wash
+      LEFT JOIN department ON department.DepCode = return_wash.DepCode
+      LEFT JOIN site ON department.HptCode = site.HptCode
+    WHERE DATE (return_wash.Docdate) = '$date' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+    AND return_wash.IsStatus  <> 9
     )e,
     (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
     COALESCE(newlinentable.DocDate,0) AS DocDate
@@ -370,14 +369,13 @@ if ($chk == 'one') {
       WHERE DATE (clean.Docdate) = '$date' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
       AND clean.IsStatus <>9
       )d,
-      (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_repair_wash,
-      COALESCE(return_wash.DocDate,0) AS DocDate
-      FROM clean
-      LEFT JOIN return_wash ON return_wash.DocNo=clean.RefDocNo
-      LEFT JOIN department ON department.DepCode = clean.DepCode
-		LEFT JOIN site ON department.HptCode = site.HptCode
-      WHERE DATE (clean.Docdate) = '$date' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-      AND clean.IsStatus  <> 9
+      (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
+          COALESCE(return_wash.DocDate,0) AS DocDate
+          FROM return_wash
+          LEFT JOIN department ON department.DepCode = return_wash.DepCode
+          LEFT JOIN site ON department.HptCode = site.HptCode
+      WHERE DATE (return_wash.Docdate) = '$date' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+      AND return_wash.IsStatus  <> 9
       )e,
       (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
       COALESCE(newlinentable.DocDate,0) AS DocDate
@@ -512,14 +510,13 @@ if ($chk == 'one') {
   WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
       AND clean.IsStatus <>9
   )d,
-  (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_repair_wash,
+  (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
   COALESCE(return_wash.DocDate,0) AS DocDate
-  FROM clean
-  LEFT JOIN return_wash ON return_wash.DocNo=clean.RefDocNo
-  LEFT JOIN department ON department.DepCode = clean.DepCode
+  FROM return_wash
+  LEFT JOIN department ON department.DepCode = return_wash.DepCode
 	LEFT JOIN site ON department.HptCode = site.HptCode
-  WHERE DATE (clean.Docdate) = '$date[$i]' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-  AND clean.IsStatus  <> 9
+  WHERE DATE (return_wash.Docdate) = '$date[$i]' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+  AND return_wash.IsStatus  <> 9
   )e,
   (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
   COALESCE(newlinentable.DocDate,0) AS DocDate
@@ -640,14 +637,13 @@ if ($chk == 'one') {
   WHERE DATE (clean.Docdate) = '$date.$i' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
       AND clean.IsStatus <>9
   )d,
-  (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_repair_wash,
+  (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
   COALESCE(return_wash.DocDate,0) AS DocDate
-  FROM clean
-  LEFT JOIN return_wash ON return_wash.DocNo=clean.RefDocNo
-  LEFT JOIN department ON department.DepCode = clean.DepCode
-		LEFT JOIN site ON department.HptCode = site.HptCode
-  WHERE DATE (clean.Docdate) = '$date.$i' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-  AND clean.IsStatus  <> 9
+  FROM return_wash
+  LEFT JOIN department ON department.DepCode = return_wash.DepCode
+	LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (return_wash.Docdate) = '$date.$i' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+  AND return_wash.IsStatus  <> 9
   )e,
   (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
   COALESCE(newlinentable.DocDate,0) AS DocDate
@@ -770,14 +766,13 @@ if ($chk == 'one') {
   WHERE DATE (clean.Docdate) = '$date$i' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
       AND clean.IsStatus <>9
   )d,
-  (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_repair_wash,
+  (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
   COALESCE(return_wash.DocDate,0) AS DocDate
-  FROM clean
-  LEFT JOIN return_wash ON return_wash.DocNo=clean.RefDocNo
-  LEFT JOIN department ON department.DepCode = clean.DepCode
-		LEFT JOIN site ON department.HptCode = site.HptCode
-  WHERE DATE (clean.Docdate) = '$date$i' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-  AND clean.IsStatus  <> 9
+  FROM return_wash
+  LEFT JOIN department ON department.DepCode = return_wash.DepCode
+	LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (return_wash.Docdate) = '$date$i' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+  AND return_wash.IsStatus  <> 9
   )e,
   (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
   COALESCE(newlinentable.DocDate,0) AS DocDate
