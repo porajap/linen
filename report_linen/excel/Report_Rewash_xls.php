@@ -210,7 +210,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $facname = $Result[$FacName];
 }
 $objPHPExcel->getActiveSheet()->setCellValue('D1', $array2['printdate'][$language] . $printdate);
-$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r3'][$language]);
+$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r6'][$language]);
 $objPHPExcel->getActiveSheet()->mergeCells('A5:D5');
 $objPHPExcel->getActiveSheet()->mergeCells('A6:D6');
 $objPHPExcel->getActiveSheet()->setCellValue('A6', $array['hosname'][$language] . " : " . $hptname);
