@@ -974,7 +974,7 @@ $(document).ready(function(e){
       function senddata(data){
         var form_data = new FormData();
         form_data.append("DATA",data);
-        var URL = '../process/repairwash.php';
+        var URL = '../process/repairwash_return.php';
         $.ajax({
           url: URL,
           dataType: 'text',
@@ -1522,7 +1522,7 @@ $(document).ready(function(e){
       var docno = $('#docno').val();
       var lang = '<?php echo $language; ?>';
       if(docno!=""&&docno!=undefined){
-        var url  = "../report/Report_Rewash_tc.php?DocNo="+docno+"&lang="+lang;
+        var url  = "../report/Report_Return_tc.php?DocNo="+docno+"&lang="+lang;
         window.open(url);
       }else{
         swal({
