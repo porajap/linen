@@ -473,12 +473,9 @@ $array2 = json_decode($json2,TRUE);
   <div id="wrapper">
     <!-- content-wrapper -->
     <div id="content-wrapper">
-
       <div class="row" style="margin-top:-15px;"> <!-- start row tab -->
         <div class="col-md-12"> <!-- tag column 1 -->
           <!-- /.content-wrapper -->
-
-                
                 <div class="row">
                   <div class="col-md-12"> <!-- tag column 1 -->
                     <div class="container-fluid">
@@ -487,20 +484,9 @@ $array2 = json_decode($json2,TRUE);
                           <div class="col-md-4">
                             <div class='form-group row'>
                               <label class="col-sm-5 col-form-label text-right" style="margin-left: -22%;font-size:24px;"><?php echo $array['side'][$language]; ?></label>
-                              <select class="form-control col-sm-8 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
+                              <select class="form-control col-sm-8 " style="font-size:22px;"  id="hotpital" ></select>
                             </div>
                           </div>
-  
-
-                          <div class="col-md-3">
-                            <div class='form-group row'>
-                              <!-- <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                              <select  class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select> -->
-                              <label class="col-sm-5 col-form-label text-right" style="margin-left: -37%;font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                              <select class="form-control select2 custom-select " style="width: 85% !important;font-size:22px;"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
-                            </div>
-                          </div>
-
                           <div class="col-md-5">
                             <div class='form-group row'>
                               <input  type="text" class="form-control col-sm-8" style="margin-left: -4%;font-size:22px;" id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
@@ -510,19 +496,16 @@ $array2 = json_decode($json2,TRUE);
                                   <i class="fas fa-search mr-2"></i> <?php echo $array['search'][$language]; ?>
                                 </button>
                               </div>
-                            </div>
-                                          
-                            </div>
+                            </div>      
                           </div>
-
-                        </div>                 
-                      </div>
+                        </div>
+                      </div>                 
                     </div>
                   </div>
-                </div> <!-- tag column 1 -->
-        </div>
-      </div>
-
+                </div>
+              </div> <!-- tag column 1 -->
+            </div>
+          </div>
           <div class="row">
             <div style='width: 98%;margin-top: -25px;'> <!-- tag column 1 -->
               <table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
@@ -541,10 +524,8 @@ $array2 = json_decode($json2,TRUE);
               </table>
             </div> <!-- tag column 1 -->
           </div>
-
         </div>
       </div> <!-- end row tab -->
-
 <div class="modal fade" id="numberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content" style="margin-top: 50px;background-color:#fff;">
