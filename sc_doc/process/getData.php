@@ -21,7 +21,7 @@ FROM shelfcount
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode 
 WHERE shelfcount.DocDate='$current' 
-AND NOT shelfcount.IsStatus = 4 
+AND NOT shelfcount.IsStatus = 9 
 AND site.HptCode = '$HptCode' 
 AND shelfcount.DeliveryTime = 0
 AND shelfcount.ScTime = 0 

@@ -104,19 +104,19 @@
                     {
                         $.each(temp['Sc'], function(key, val) {
                             var Style  = "";
-                            if( val.IsStatus ==1){
+                            if( val.IsStatus ==4){
                                 Style  = "style='background-color: #20B80E' ";
                                 }
                             row += '<tr '+Style+'>'+
-                                    '<td class="text-center">'+(key+1)+'</td>'+
-                                    '<td class="text-left">'+val.DocNo+'</td>'+
-                                    '<td class="text-left">'+val.DepName+'</td>'+
-                                    '<td class="text-left">'+val.ScStartTime+'</td>'+
-                                    '<td class="text-left">'+val.ScEndTime+'</td>'+
-                                    '<td class="text-left">'+val.PkStartTime+'</td>'+
-                                    '<td class="text-left">'+val.PkEndTime+'</td>'+
-                                    '<td class="text-left">'+val.DvStartTime+'</td>'+
-                                    '<td class="text-left">'+val.DvEndTime+'</td>'+
+                                    '<td class="text-center">'+(key+1)+'        </td>'+
+                                    '<td class="text-left">'+val.DocNo+'        </td>'+
+                                    '<td class="text-left">'+val.DepName+'      </td>'+
+                                    '<td class="text-left">'+val.ScStartTime+'  </td>'+
+                                    '<td class="text-left">'+val.ScEndTime+'    </td>'+
+                                    '<td class="text-left">'+val.PkStartTime+'  </td>'+
+                                    '<td class="text-left">'+val.PkEndTime+'    </td>'+
+                                    '<td class="text-left">'+val.DvStartTime+'  </td>'+
+                                    '<td class="text-left">'+val.DvEndTime+'    </td>'+
                                     // '<td class="text-left">'+val.ScStartTime+'|'+val.ScEndTime+'</td>'+
                                     // '<td class="text-left">'+val.PkStartTime+'|'+val.PkEndTime+'</td>'+
                                     // '<td class="text-left">'+val.DvStartTime+'|'+val.DvEndTime+'</td>'+
