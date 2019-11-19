@@ -720,6 +720,26 @@ function find_report($conn, $DATA)
         $return = r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'monthbetween');
       }
     }
+  }else if ($typeReport == 29) {
+    if ($Format == 1 || $Format == 3) {
+      if ($FormatDay == 1 || $Format == 3) {
+        $date1 = $date;
+        $return = r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'one');
+      } else {
+        $date1 = newDate1($date);
+        $date2 = newDate2($date);
+        $return = r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'between');
+      }
+    } else if ($Format == 2) {
+      if ($FormatMonth == 1) {
+        $date1 = newMonth($date);
+        $return = r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'month');
+      } else {
+        $date1 = newMonth1($date);
+        $date2 = newMonth2($date);
+        $return = r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode,  'monthbetween');
+      }
+    }
   }
   $return['typeReport'] = typeReport($typeReport);
   echo json_encode($return);
@@ -3653,6 +3673,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode
               WHERE MONTH(shelfcount.DocDate) = '$date1'
               AND site.HptCode = '$HptCode'
+              AND shelfcount.isStatus <> 9
               GROUP BY MONTH (shelfcount.Docdate)
               ORDER BY shelfcount.DocDate ASC";
     } 
@@ -3681,6 +3702,111 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   } else {
     $return['status'] = 'notfound';
     $return['form'] = 'r23';
+    return $return;
+  }
+}function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
+{
+  $count = 0;
+  $boolean = false;
+  if ($Format == 1) {
+    if ($chk == 'one') {
+      $Sql = "SELECT  shelfcount.DocDate, site.HptName
+              FROM
+              shelfcount  
+              INNER JOIN department ON department.DepCode = shelfcount.DepCode  
+              INNER JOIN site ON site.HptCode = department.HptCode  
+              WHERE DATE(shelfcount.DocDate) = DATE('$date1')
+              AND site.HptCode = '$HptCode'
+              AND shelfcount.isStatus <> 9 
+              AND shelfcount.DepCode = '$DepCode'
+              GROUP BY Date(shelfcount.DocDate)
+              ORDER BY shelfcount.DocDate ASC";
+    } else {
+      $Sql = "SELECT  shelfcount.DocDate, site.HptName
+              FROM
+              shelfcount  
+              INNER JOIN department ON department.DepCode = shelfcount.DepCode  
+              INNER JOIN site ON site.HptCode = department.HptCode  
+              WHERE shelfcount.DocDate BETWEEN '$date1' AND '$date2'
+              AND site.HptCode = '$HptCode'
+              AND shelfcount.isStatus <> 9 
+              AND shelfcount.DepCode = '$DepCode'
+              GROUP BY MONTH (shelfcount.Docdate)
+              ORDER BY shelfcount.DocDate ASC";
+    }
+  } else if ($Format == 2) {
+    $date = subMonth($date1, $date2);
+    $year1 = $date['year1'];
+    $year2 = $date['year2'];
+    $date1 = $date['date1'];
+    $date2 = $date['date2'];
+
+    if ($chk == 'month') {
+      $Sql = "SELECT  shelfcount.DocDate, site.HptName
+              FROM
+              shelfcount  
+              INNER JOIN department ON department.DepCode = shelfcount.DepCode  
+              INNER JOIN site ON site.HptCode = department.HptCode  
+              WHERE MONTH(shelfcount.DocDate) = '$date1'
+              AND site.HptCode = '$HptCode'
+              AND shelfcount.DepCode = '$DepCode'
+              AND shelfcount.isStatus <> 9 
+              GROUP BY MONTH (shelfcount.Docdate)
+              ORDER BY shelfcount.DocDate ASC";
+    } else {
+      $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
+      $betweendate1 = $year1 . '-' . $date1 . '-1';
+      $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
+      $Sql = " SELECT  shelfcount.DocDate, site.HptName
+              FROM
+              damage  
+              INNER JOIN department ON department.DepCode = shelfcount.DepCode  
+              INNER JOIN site ON site.HptCode = department.HptCode  
+              WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
+           AND site.HptCode = '$HptCode'
+           AND shelfcount.DepCode = '$DepCode'
+           AND shelfcount.isStatus <> 9 
+           GROUP BY YEAR (shelfcount.Docdate)
+           ORDER BY shelfcount.DocDate ASC LIMIT 1";
+    }
+  } else if ($Format == 3) {
+    $Sql = "  SELECT  shelfcount.DocDate, site.HptName
+               FROM
+               shelfcount  
+              INNER JOIN department ON department.DepCode = shelfcount.DepCode  
+              INNER JOIN site ON site.HptCode = department.HptCode  
+              WHERE YEAR(shelfcount.DocDate) = '$date1'
+             AND site.HptCode = '$HptCode'
+             AND shelfcount.DepCode = '$DepCode'
+             AND shelfcount.isStatus <> 9 
+             GROUP BY YEAR (shelfcount.Docdate)
+             ORDER BY shelfcount.DocDate ASC";
+  }
+  $return['sql'] = $Sql;
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk,'year1' => $year1,'year2' => $year2];
+  //$_SESSION['data_send'] = $data_send;
+  $return['url'] = '../report_linen/excel/Report_Summary_xls.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['HptName'] = $Result['HptName'];
+    $return[$count]['DocDate'] = $Result['DocDate'];
+    $count++;
+    $boolean = true;
+  }
+  $return['data_send'] = $data_send;
+  if ($boolean == true) {
+    $return['status'] = 'success';
+    $return['form'] = 'r29';
+    $return['countRow'] = $count;
+    $return['date1'] = $date1;
+    $return['date2'] = $date2;
+    $return['Format'] = $Format;
+    $return['chk'] = $chk;
+    return $return;
+  } else {
+    $return['status'] = 'notfound';
+    $return['form'] = 'r29';
     return $return;
   }
 }
