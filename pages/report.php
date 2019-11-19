@@ -2893,7 +2893,7 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6 ">
 													<div class='form-group row checkblank '>
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-														<select class="form-control col-sm-8 select2" style="font-size:22px;" id="department" onchange="blank_dep();">
+														<select class="form-control col-sm-8 " style="font-size:22px;" id="department" onchange="blank_dep();">
 														</select>
 														<label id="rem4" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
