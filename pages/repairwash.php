@@ -35,7 +35,7 @@ $array2 = json_decode($json2,TRUE);
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo $array['clean'][$language]; ?></title>
+  <title><?php echo $array['Repairwash'][$language]; ?></title>
 
   <link rel="icon" type="image/png" href="../img/pose_favicon.png">
   <!-- Bootstrap core CSS-->

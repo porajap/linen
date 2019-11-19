@@ -168,7 +168,6 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
     $date2 = explode("-", $Result['DocDate']);
     $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
   }
-
   $DocNo = $Result['DocNo'];
   $return[0]['DocNo']   = $Result['DocNo'];
   $return[0]['DocDate'] = $newdate;

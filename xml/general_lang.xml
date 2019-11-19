@@ -94,7 +94,7 @@
 <titleclaim><en>Claim</en><th>ใบเคลม</th></titleclaim>
 <titlecus><en>Customer bill records</en><th>บันทึกบิลลูกค้า</th></titlecus>
 <titlewash><en>Washing bill records</en><th>บันทึกบิลซัก</th></titlewash>
-<titlecontractfac><en>Factory Contract</en><th>สัญญาโรงงาน</th></titlecontractfac>
+<titlecontractfac><en>Factory Contract</en><th>สัญญาโรงซัก</th></titlecontractfac>
 <priceunit><en>Price unit</en><th>ราคาต่อหน่วย</th></priceunit>
 <choosedate><en>Please Choose Date</en><th>กรุณาเลือกวันที่</th></choosedate>
 <titlecontracthos><en>Hospital Contract</en><th>สัญญาโรงพยาบาล</th></titlecontracthos>
@@ -169,7 +169,10 @@
 <confirmdelete2><en> ] ?</en><th> ] ใช่หรือไม่...!</th></confirmdelete2>
 <delete><en>Delete</en><th>ลบ</th></delete>
 <edit><en>Edit</en><th>แก้ไข</th></edit>
+<itemdepartment><en>Set Par</en><th>รายการในแผนก</th></itemdepartment>
 <success><en>Success</en><th>สำเร็จ</th></success>
+<DeliveryCycle><en>Delivery Cycle</en><th>รอบส่งผ้า</th></DeliveryCycle>
+<Deliverysc><en>Shelfcount Time</en><th>รอนับผ้า</th></Deliverysc>
 <savesuccess><en>Saved</en><th>บันทึกสำเร็จ</th></savesuccess>
 <draft><en>Draft</en><th>ยังไม่ได้บันทึก</th></draft>
 <cancelbill><en>Cancel</en><th>ยกเลิกบิล</th></cancelbill>
@@ -197,7 +200,7 @@
 <percent><en>Percent</en><th>เปอร์เซ็นต์</th></percent>
 <date><en>Date</en><th>วันที่</th></date>
 <categorymain><en>Main category</en><th>หมวดหมู่หลัก</th></categorymain>
-<categorysub><en>Sub category</en><th>หมวดหมู่รอง</th></categorysub>
+<categorysub><en>Category</en><th>ประเภทหมวดหมู่</th></categorysub>
 <category><en>Category</en><th>หมวดหมู่</th></category>
 <deptnum><en>Department(Number)</en><th>แผนก(จำนวน)</th></deptnum>
 <factnum><en>Factory(Number)</en><th>โรงงานซัก(จำนวน)</th></factnum>
@@ -281,6 +284,13 @@
 <defaultname><en>Default</en><th>N Health</th></defaultname>
 <dirty><en>Dirty</en><th>รับผ้าสกปรก</th></dirty>
 <clean><en>Clean</en><th>รับผ้าสะอาด</th></clean>
+<cleanstock><en>CleanStock</en><th>รับเข้าสต๊อก</th></cleanstock>
+<damagenh><en>Damage NHealth</en><th>ผ้าชำรุด NHealth</th></damagenh>
+<Repairwash><en>Repairwash</en><th>รับผ้าแก้ไข</th></Repairwash>
+<return><en>Return</en><th>รับคืนผ้า</th></return>
+<Sticker><en>Sticker</en><th>สติ๊กเกอร์</th></Sticker>
+<clean><en>Clean</en><th>รับผ้าสะอาด</th></clean>
+
 <percent1><en>Percent</en><th>เปอร์เซ็นต์</th></percent1>
 <inventory><en>Warehouse</en><th>คลังเก็บของ</th></inventory>
 <recivedirtycloth><en>Recivedirtycloth</en><th>รับเข้าผ้าสกปรก</th></recivedirtycloth>

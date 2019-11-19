@@ -184,8 +184,8 @@ function CreateDocument($conn, $DATA)
     $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
-    // $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
-    //   mysqli_query($conn,$Sql);
+    $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
+      mysqli_query($conn,$Sql);
   }
 
   if ($count == 1) {
