@@ -1566,6 +1566,8 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   // $_SESSION['data_send'] = $data_send;
   $return['Sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Rewash.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Rewash_xls.php';
+
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['FacName'] = $Result['FacName'];
@@ -3409,7 +3411,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_damagenh.php';
-  $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
+  $return['urlxls'] = '../report_linen/excel/Report_damagenh_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName'] = $Result['HptName'];
@@ -3510,7 +3512,7 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Claim_Factory.php';
-  $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Claim_Factory_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName'] = $Result['HptName'];
