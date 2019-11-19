@@ -271,7 +271,6 @@ AND clean.IsStatus <> 9
 GROUP BY
 clean_detail.ItemCode";
 
-
 // set some language-dependent strings (optional)
 
 // --------------------------------------------------------

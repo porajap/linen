@@ -26,9 +26,11 @@ function checklogin($conn,$DATA)
             users.IsActive,
             users.chk_logoff,
             users.pic,
-            users.DepCode
+            users.DepCode,
+            department.GroupCode
             FROM permission
             INNER JOIN users ON users.PmID = permission.PmID
+            INNER JOIN department ON  users.DepCode = department.DepCode
             INNER JOIN site ON users.HptCode = site.HptCode
         WHERE users.UserName = '$user' AND users.`Password` = '$password' AND users.IsCancel = 0";
     $meQuery = mysqli_query($conn,$Sql);
@@ -42,6 +44,7 @@ function checklogin($conn,$DATA)
         $_SESSION['FName']    = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
       }
       $_SESSION['PmID']     = $Result['PmID'];
+      $_SESSION['GroupCode']     = $Result['GroupCode'];
       $_SESSION['HptCode']  = $Result['HptCode'];
       $_SESSION['Permission']  = $Result['Permission'];
       $_SESSION['HptName']  = $Result['HptName'];
@@ -334,4 +337,3 @@ if(isset($_POST['DATA']))
 	mysqli_close($conn);
   die;
 }
-?>
