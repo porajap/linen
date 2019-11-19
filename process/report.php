@@ -39,7 +39,6 @@ function OnLoadPage($conn, $DATA)
   }
   $return['Rowx'] = $countx;
 
-
   $Sql = "SELECT site.HptCode,site.$HptName FROM site WHERE site.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -50,7 +49,7 @@ function OnLoadPage($conn, $DATA)
   }
   $return['Row'] = $count;
 
-  $SqlG = "SELECT grouphpt.GroupName,grouphpt.GroupCode FROM grouphpt  ";
+  $SqlG = "SELECT grouphpt.GroupName,grouphpt.GroupCode FROM grouphpt WHERE grouphpt.HptCode = '$HptCode' ";
   $meQuery = mysqli_query($conn, $SqlG);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countG]['GroupCode'] = trim($Result['GroupCode']);
@@ -62,7 +61,7 @@ function OnLoadPage($conn, $DATA)
   $return['SqlG'] = $SqlG;
 
 
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode'and  department.GroupCode = '$GroupCode' and department.isDefault= 1  order by department.DepName asc";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 1  order by department.DepName asc";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countDep]['DepCode'] = trim($Result['DepCode']);
@@ -71,7 +70,7 @@ function OnLoadPage($conn, $DATA)
     $boolean = true;
   }
 
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode'and  department.GroupCode = '$GroupCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$countDep]['DepCode'] = trim($Result['DepCode']);

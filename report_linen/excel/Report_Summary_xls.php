@@ -200,7 +200,6 @@ for ($a = 0; $a < $round_AZ1; $a++) {
 // print_r($date_cell1);
 // echo "</pre>"; 
 
-
 // -----------------------------------------------------------------------------------
 $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
 $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r29'][$language]);

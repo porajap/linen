@@ -1006,7 +1006,7 @@ $array2 = json_decode($json2, TRUE);
 								grouphpt += "<option value=" + temp[i]['GroupCode'] + " id='select_" + i + "'>" + temp[i]['GroupName'] + "</option>";
 							}
 							$("#grouphpt").append(grouphpt);
-							$("#grouphpt").val(GroupCode);
+							$("#grouphpt").val(0);
 						} else if (temp["form"] == 'departmentWhere') {
 							$("#department").empty();
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
@@ -2498,7 +2498,7 @@ $array2 = json_decode($json2, TRUE);
 			}
 
 			else if ( typeReport == 28) {
-				$('#department').attr('disabled', true);
+				$('#department').attr('disabled', false);
 				$('#factory').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
@@ -2877,7 +2877,7 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6">
 													<div class='form-group row checkblank'>
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['factory'][$language]; ?></label>
-														<select class="form-control col-sm-8 bo" id="factory" style="font-size:22px;" onchange="blank_fac();"></select>
+														<select class="form-control col-sm-8 bo" id="factory" style="font-size:22px;" onchange="blank_fac();">5555555555555555555</select>
 														<label id="rem2" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
