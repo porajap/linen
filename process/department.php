@@ -83,21 +83,23 @@ function getdetail($conn, $DATA)
           department.IsStatus,
           department.IsDefault,
           department.IsActive ,
-          department.GroupCode
+          department.GroupCode,
+          department.Ship_To
           FROM department
           WHERE department.IsStatus = 0
           AND department.DepCode = '$DepCode' LIMIT 1";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['DepCode'] 		= $number;
+    $return['DepCode'] 		    = $number;
     $return['DepCodeReal'] 		= $Result['DepCode'];
-    $return['IsActive'] 		= $Result['IsActive'];
-    $return['HptCode'] 		  = $Result['HptCode'];
-    $return['GroupCode'] 		  = $Result['GroupCode'];
-    $return['DepName'] 		  = $Result['DepName'];
-    $return['IsStatus'] 	  = $Result['IsStatus'];
+    $return['IsActive'] 		  = $Result['IsActive'];
+    $return['HptCode'] 		    = $Result['HptCode'];
+    $return['GroupCode'] 		  = $Result['GroupCode']==null?'':$Result['GroupCode'];
+    $return['DepName'] 		    = $Result['DepName'];
+    $return['IsStatus'] 	    = $Result['IsStatus'];
     $return['IsDefault'] 	    = $Result['IsDefault'];
+    $return['shipto'] 	      = $Result['Ship_To'];
     $count++;
   }
   if($count>0){
@@ -163,6 +165,7 @@ function getSection($conn, $DATA)
 function AddItem($conn, $DATA)
 {
   $count = 0;
+  $shipto = $DATA['shipto'];
   $IsActive = $DATA['IsActive'];
   $HptCode = $DATA['HptCode'];
   $DepCode1 = trim($DATA['DepCode1']);
@@ -205,7 +208,8 @@ if($DepCode1 == ""){
           Modify_Code ,
           Modify_Date,
           IsActive,
-          GroupCode
+          GroupCode,
+          Ship_To
           )
           VALUES
           (
@@ -218,7 +222,8 @@ if($DepCode1 == ""){
             $Userid,
             NOW(),
             $IsActive,
-            $group2
+            $group2,
+            '$shipto'
           )
   ";
 }else{
@@ -233,7 +238,8 @@ if($DepCode1 == ""){
           Modify_Code ,
           Modify_Date,
           IsActive,
-          GroupCode
+          GroupCode,
+          Ship_To
           )
           VALUES
           (
@@ -246,7 +252,8 @@ if($DepCode1 == ""){
           $Userid,
           NOW(),
           0,
-          $group2
+          $group2,
+         '$shipto'
           )
   ";
 }
@@ -290,7 +297,8 @@ if($DepCode1 == ""){
     Modify_Date = NOW() ,
     Modify_Code =  $Userid ,
     IsActive = $IsActive,
-    GroupCode = $group2 
+    GroupCode = $group2,
+    Ship_To = '$shipto'
     WHERE DepCode = '".$DATA['DepCode1']."'
 ";
     }else{
@@ -301,7 +309,8 @@ if($DepCode1 == ""){
       IsDefault =  $xCenter ,
       Modify_Date = NOW() ,
       Modify_Code =  $Userid ,
-      GroupCode = $group2 
+      GroupCode = $group2 ,
+      Ship_To = '$shipto' 
       WHERE DepCode = '".$DATA['DepCode1']."'
   ";
     }

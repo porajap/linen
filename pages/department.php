@@ -370,7 +370,8 @@ $array2 = json_decode($json2,TRUE);
                 }
             });
             console.log(count);
-
+            
+            var shipto = $('#shipto').val();
             var DepCode1 = $('#DepCodeReal').val();
             var DepCode = $('#DepCode').val();
             var DepName = $('#DepName').val();
@@ -412,7 +413,8 @@ $array2 = json_decode($json2,TRUE);
                             'DepCode1': DepCode1,
                             'xCenter': xCenter,
                             'IsActive': IsActive,
-                            'group2': group2
+                            'group2': group2,
+                            'shipto': shipto
                         };
 
                         console.log(JSON.stringify(data));
@@ -736,8 +738,11 @@ $array2 = json_decode($json2,TRUE);
                                 $('#DepCode').val(temp['DepCodeReal']);
                                 $('#DepName').val(temp['DepName']);
                                 $('#hptsel2').val(temp['HptCode']);
+                                if(temp['GroupCode'] != ''){
                                 $('#group2').val(temp['GroupCode']);
+                                }
                                 $('#IsActive').val(temp['IsActive']);
+                                $('#shipto').val(temp['shipto']);
 								if (temp['IsDefault'] == 1) 
 									$('#xCenter').prop( "checked", true );
 								else
@@ -1370,6 +1375,15 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['xcenter'][$language]; ?></label>
                                       <input type="checkbox"  id="xCenter" style="margin-top: 1.5%;">
+                                    </div>
+                                  </div>
+                                </div> 
+   <!-- =================================================================== -->     
+   <div class="row" <?php if($PmID != 1 && $PmID != 6) echo 'hidden'; ?>>
+                                <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label ">SHIP_TO</label>
+                                    <input type="text" autocomplete="off"  maxlength="11"  class="form-control col-sm-7 checkblank" id="shipto" placeholder="SHIP_TO" >
                                     </div>
                                   </div>
                                 </div> 
