@@ -94,23 +94,23 @@ class MYPDF extends TCPDF
     $DocNo = $_GET['DocNo'];
     if ($this->last_page_flag) {
       require('connect.php');
-      $head = "SELECT
-      return_wash.SignFac,
-      return_wash.SignNH,
-      return_wash.SignFacTime,
-      return_wash.SignNHTime
-      FROM
-      return_wash
-      where return_wash.docno =  '$DocNo'
-      ";
+      // $head = "SELECT
+      // return_wash.SignFac,
+      // return_wash.SignNH,
+      // return_wash.SignFacTime,
+      // return_wash.SignNHTime
+      // FROM
+      // return_wash
+      // where return_wash.docno =  '$DocNo'
+      // ";
       
-      $meQuery = mysqli_query($conn, $head);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $SignFac = $Result['SignFac'];
-        $SignNH = $Result['SignNH'];
-        $SignFacTime = $Result['SignFacTime'];
-        $SignNHTime = $Result['SignNHTime'];
-      }
+      // $meQuery = mysqli_query($conn, $head);
+      // while ($Result = mysqli_fetch_assoc($meQuery)) {
+      //   $SignFac = $Result['SignFac'];
+      //   $SignNH = $Result['SignNH'];
+      //   $SignFacTime = $Result['SignFacTime'];
+      //   $SignNHTime = $Result['SignNHTime'];
+      // }
       $this->SetY(-35);
       list($date1, $time1) = explode(' ', $SignFacTime);
       list($date2, $time2) = explode(' ', $SignNHTime);
