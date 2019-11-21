@@ -326,7 +326,8 @@ LEFT JOIN category_price ON category_price.CategoryCode = item.CategoryCode
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
           WHERE shelfcount.DocNo='$docno'
           AND shelfcount_detail.TotalQty <> 0
-            AND shelfcount.isStatus<> 9 ";
+            AND shelfcount.isStatus<> 9 
+            ORDER BY item.ItemName ";
 
 $queryy = "SELECT
 site.private,
