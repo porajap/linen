@@ -128,6 +128,11 @@ $array2 = json_decode($json2, TRUE);
 			$('#PPU').attr('disabled', true);
 			$('#grouphpt').attr('disabled', true);
 			$(".select2").select2();
+			$('#table_Fac').attr('hidden', false);
+			$('#table_Dep').attr('hidden', true);
+			$('#table_DepDoc').attr('hidden', true);
+			$('#table_Group').attr('hidden', true);
+			$('#table_NoFacDep').attr('hidden', true);
 		}).mousemove(function(e) {
 			parent.afk();
 		}).keyup(function(e) {
@@ -460,14 +465,14 @@ $array2 = json_decode($json2, TRUE);
 					$('#rem2').css('color', 'red');
 				}
 			}
-			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29||typeReport == 30) {
+			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29 || typeReport == 30) {
 				if (department == '' || department == undefined || department == '0') {
 					$('#department').addClass('border-danger');
 					$('#rem4').show();
 					$('#rem4').css('color', 'red');
 				}
 			}
-			if (typeReport == '0' || typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29||typeReport == 30) {
+			if (typeReport == '0' || typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29 || typeReport == 30) {
 				if (hotpital == '' || hotpital == undefined || hotpital == '0') {
 					$('#hotpital').addClass('border-danger');
 					$('#rem3').show();
@@ -706,7 +711,7 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 4 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29||typeReport == 30) {
+			if (typeReport == 4 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29 || typeReport == 30) {
 				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
 					swal({
 						title: '',
@@ -722,7 +727,7 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29||typeReport == 30) {
+			if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29 || typeReport == 30) {
 				if (HptCode == '' || HptCode == undefined) {
 					swal({
 						title: '',
@@ -814,7 +819,7 @@ $array2 = json_decode($json2, TRUE);
 					'cycle': cycle,
 					'ppu': ppu,
 					'date': date,
-					'GroupCode' : GroupCode
+					'GroupCode': GroupCode
 				};
 			} else if (Format == 2) {
 				var language = '<?php echo $language ?>';
@@ -875,7 +880,7 @@ $array2 = json_decode($json2, TRUE);
 					'cycle': cycle,
 					'ppu': ppu,
 					'date': date,
-					'GroupCode' : GroupCode
+					'GroupCode': GroupCode
 				}
 			} else {
 				var language = '<?php echo $language ?>';
@@ -894,7 +899,7 @@ $array2 = json_decode($json2, TRUE);
 					'cycle': cycle,
 					'ppu': ppu,
 					'date': date,
-					'GroupCode' : GroupCode
+					'GroupCode': GroupCode
 				};
 
 			}
@@ -989,7 +994,7 @@ $array2 = json_decode($json2, TRUE);
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
-							$("#department").append(dep1);
+							$("#department").html(dep1);
 
 							// $("#cycle").empty();
 							// var cycleValue0 = '-';
@@ -1015,58 +1020,21 @@ $array2 = json_decode($json2, TRUE);
 							for (var i = 0; i < temp['Row']; i++) {
 								dep2 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
-							$("#department").append(dep2);
+							$("#department").html(dep2);
 							$("#select_0").attr('selected', true);
 							var DocDate = temp[i]['DocDate'];
-						} else if (temp["form"] == 'r1') {
-							$('#data').val(Object.values(temp['data_send']));
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var show_date = '';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R1 tbody').empty();
 
-							for (var i = 1; i <= 35; i++) {
-								if (i == 1) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:25%'>" + temp[i]['hptname'] + "</td>" +
-									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['facname'] + "</td>" +
-									"<td class='text-center' style='width:22%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:6%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center' style='width:7%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R1 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r2') {
+						} else if (temp["form"] == 'Fac') {
+							var hot = $("#hotpital option:selected").text();
+
 							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
+							// alert('fac');
 							var print = '<?php echo $array['prin'][$language]; ?>';
+							var show_date = '';
 							var format = temp['Format'];
 							var chk = temp['chk'];
-							var dep = $("#department option:selected").text();
+							var Excel = 'XLS';
+							var Pdf = 'PDF';
 							if (format == 1) {
 								if (chk == 'one') {
 									show_date = day;
@@ -1083,73 +1051,40 @@ $array2 = json_decode($json2, TRUE);
 								show_date = show_year;
 							}
 							$('#type_report').text(temp['typeReport']);
-							$('#table_R2 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 2) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
+
+							$('#table_Fac tbody').empty();
+							$('#table_Fac').attr('hidden', false);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
+
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:20%'>" + temp[i]['facname'] + "</td>" +
-									"<td class='text-center' style='width:30%'>" + temp[i]['Hptname'] + "</td>" +
-									"<td class='text-center' style='width:35%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R2 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r3') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R3 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 3) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:35%'>" + temp[i]['HptName'] + "</td>" +
+									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:15%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R3 tbody").append(dataRow);
+									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
+								if (temp['r'] == 'r15' || temp['r'] == 'r22') {
+									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
+								} else {
+									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
+										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+								}
+								"</tr>";
+								$("#table_Fac tbody").append(dataRow);
 							}
-						} else if (temp["form"] == 'r4') {
+						} else if (temp["form"] == 'Dep') {
 							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
+							var hot = $("#hotpital option:selected").text();
+							var department = $("#department option:selected").text();
+							// alert('Dep');
 							var print = '<?php echo $array['prin'][$language]; ?>';
+							var Excel = 'XLS';
+							var Pdf = 'PDF';
+							var show_date = '-';
 							var format = temp['Format'];
 							var chk = temp['chk'];
-							var text = $("#cycle option:selected").text();
-							var hot = $("#hotpital option:selected").text();
 							if (format == 1) {
 								if (chk == 'one') {
 									show_date = day;
@@ -1165,117 +1100,86 @@ $array2 = json_decode($json2, TRUE);
 							} else if (format == 3) {
 								show_date = show_year;
 							}
-
 							$('#type_report').text(temp['typeReport']);
-							$('#table_R4 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 4) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
+							$('#table_Dep tbody').empty();
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', false);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:25%'>" + temp[i]['DocNo'] + "</td>" +
-									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
+									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
+									"<td class='text-center pl-4' style='width:35%'>" + department + "</td>" +
+									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
+								if (temp['r'] == 'r29' || temp['r'] == 'r30') {
+									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+								} else if (temp['r'] == '9') {
+									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
+								} else {
+									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
+										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+
+								}
+								"</tr>";
+								$("#table_Dep tbody").append(dataRow);
+							}
+						} else if (temp["form"] == 'DepDoc') {
+							$('#data').val(Object.values(temp['data_send']));
+							var hot = $("#hotpital option:selected").text();
+							// alert('DepDoc');
+							var print = '<?php echo $array['prin'][$language]; ?>';
+							var show_date = '';
+							var format = temp['Format'];
+							var chk = temp['chk'];
+							var Excel = 'XLS';
+							var Pdf = 'PDF';
+							if (format == 1) {
+								if (chk == 'one') {
+									show_date = day;
+								} else {
+									show_date = many_day;
+								}
+							} else if (format == 2) {
+								if (chk == 'month') {
+									show_date = month;
+								} else {
+									show_date = many_month;
+								}
+							} else if (format == 3) {
+								show_date = show_year;
+							}
+							$('#type_report').text(temp['typeReport']);
+							$('#table_DepDoc tbody').empty();
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', false);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
+							for (var i = 0; i < temp['countRow']; i++) {
+								var dataRow = "<tr>" +
+									"<td style='width:5%'>" + (i + 1) + "</td>" +
+									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
+									"<td class='text-center pl-4' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
+									"<td class='text-center pl-4' style='width:15%'>" + temp[i]['DocNo'] + "</td>" +
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data2(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center text-center' style='width:7.5%'><button onclick='send_data2(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'; width : 10 px ;><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
+									"<td class='text-center text-center' style='width:7.5%'><button onclick='send_data2(\"" + temp['urlxls'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px; width : 10 px ;'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>" +
 									"</tr>";
-								$("#table_R4 tbody").append(dataRow);
+								$("#table_DepDoc tbody").append(dataRow);
 							}
-						} else if (temp["form"] == 'r5') {
+						} else if (temp["form"] == 'Group') {
 							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R5 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 5) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:36%'>" + temp[i]['DocNo'] + "</td>" +
-									"<td class='text-center' style='width:36%'>" + temp[i]['DepName'] + "</td>" +
-									"<td class='text-center' style='width:12%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:11%'><button onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R5 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r6') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R6 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 6) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:30%'>" + temp[i]['hptname'] + "</td>" +
-									"<td class='text-center pl-4' style='width:39%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:16%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									
-									"</tr>";
-								$("#table_R6 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r7') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
 							var hot = $("#hotpital option:selected").text();
-							var dep = $("#department option:selected").text();
+							var Group = $("#grouphpt option:selected").text();
+							// alert('Group');
+							var print = '<?php echo $array['prin'][$language]; ?>';
+							var show_date = '';
+							var format = temp['Format'];
+							var Excel = 'XLS';
+							var Pdf = 'PDF';
+							var chk = temp['chk'];
 							if (format == 1) {
 								if (chk == 'one') {
 									show_date = day;
@@ -1292,72 +1196,30 @@ $array2 = json_decode($json2, TRUE);
 								show_date = show_year;
 							}
 							$('#type_report').text(temp['typeReport']);
-							$('#table_R7 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 7) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
+							$('#table_Group tbody').empty();
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', false);
+							$('#table_NoFacDep').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:30%'>" + dep + "</td>" +
-									"<td class='text-center pl-4' style='width:30%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									// "<td class='text-center text-center' style='width:5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
+									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
+									"<td class='text-center pl-4' style='width:35%'>" + Group + "</td>" +
+									"<td class='text-center' style='width:20%'>" + show_date + "</td>" +
+									"<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>" +
 									"</tr>";
-								$("#table_R7 tbody").append(dataRow);
+								$("#table_Group tbody").append(dataRow);
 							}
-						} else if (temp["form"] == 'r8') {
+						} else if (temp["form"] == 'NoFacDep') {
 							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
+							// alert('NoFacDep');
 							var hot = $("#hotpital option:selected").text();
-							var dep = $("#department option:selected").text();
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R8 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 8) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:20%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:20%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R8 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r9') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
 							var print = '<?php echo $array['prin'][$language]; ?>';
+							var show_date = '';
+							var Excel = 'XLS';
+							var Pdf = 'PDF';
 							var format = temp['Format'];
 							var chk = temp['chk'];
 							if (format == 1) {
@@ -1376,828 +1238,82 @@ $array2 = json_decode($json2, TRUE);
 								show_date = show_year;
 							}
 							$('#type_report').text(temp['typeReport']);
-							$('#table_R9 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 9) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
+							$('#table_NoFacDep tbody').empty();
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', false);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:45%'>" + temp[i]['DepName'] + "</td>" +
-									"<td class='text-center pl-4' style='width:40%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R9 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r10' || temp["form"] == 'r11' || temp["form"] == 'r12') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
+									"<td class='text-center pl-4' style='width:60%'>" + hot + "</td>" +
+									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
+								if (temp['r'] == 'r23' || temp['r'] == 'r24') {
+									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
+										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
 								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
+								else if (temp['r'] == 'r7' || temp['r'] == 'r18') {
+									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
 								} else {
-									show_date = many_month;
+									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
 								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R10 tbody').empty();
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', false);
-							$('#table_R11').attr('hidden', false);
-							$('#table_R12').attr('hidden', false);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:70%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:12%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:12%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R10 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r13') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R13 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 13) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:25%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:25%'>" + temp[i]['MainCategoryName'] + "</td>" +
-									"<td class='text-center' style='width:30%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-
-								$("#table_R13 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r14') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R14 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 14) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:30%'>" + temp[i]['DepName'] + "</td>" +
-									"<td class='text-center pl-4' style='width:30%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center' style='width:10%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-
-								$("#table_R14 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R15 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 15 || i == 16) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:50%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:35%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R15 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r17') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R17 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 17) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:40%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R17 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r18') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R18 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 18) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:40%'>" + temp[i]['HptName'] + "</td>" +
-									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R18 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r19') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var hot = $("#hotpital option:selected").text();
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R19 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 19) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R19 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r20') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var hot = $("#hotpital option:selected").text();
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R20 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 20) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R20 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r21') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var hot = $("#hotpital option:selected").text();
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R21 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 21) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:40%'>" + temp[i]['DocNo'] + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R21 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r22') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var hot = $("#hotpital option:selected").text();
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R22 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 22) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R22 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r23') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var hot = $("#hotpital option:selected").text();
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R23 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 23) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:40%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:45%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R23 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r24') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var hot = $("#hotpital option:selected").text();
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R24 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 24) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:40%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"<td class='text-center text-center' style='width:5%'><button onclick='send_data(\"" + temp['urlxls'] + "\");' class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R24 tbody").append(dataRow);
-							}
-						} else if (temp["form"] == 'r29') {
-							$('#data').val(Object.values(temp['data_send']));
-							var show_date = '';
-							var print = '<?php echo $array['prin'][$language]; ?>';
-							var hot = $("#hotpital option:selected").text();
-							var format = temp['Format'];
-							var chk = temp['chk'];
-							if (format == 1) {
-								if (chk == 'one') {
-									show_date = day;
-								} else {
-									show_date = many_day;
-								}
-							} else if (format == 2) {
-								if (chk == 'month') {
-									show_date = month;
-								} else {
-									show_date = many_month;
-								}
-							} else if (format == 3) {
-								show_date = show_year;
-							}
-							$('#type_report').text(temp['typeReport']);
-							$('#table_R29 tbody').empty();
-							for (var i = 1; i <= 35; i++) {
-								if (i == 29) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center' style='width:20%'>" + hot + "</td>" +
-									"<td class='text-center' style='width:40%'>" + temp[i]['department'] + "</td>" +
-									"<td class='text-center' style='width:25%'>" + show_date + "</td>" +
-									"<td class='text-center text-center' style='width:10%'><button onclick='send_data(\"" + temp['url'] + "\");' class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + print + "</button></td>" +
-									"</tr>";
-								$("#table_R29 tbody").append(dataRow);
+								"</tr>";
+								$("#table_NoFacDep tbody").append(dataRow);
 							}
 						}
-
 					} else if (temp['status'] == "notfound") {
 						$('#type_report').text(temp['typeReport']);
-						if (temp["form"] == 'r1') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 1) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R1 tbody').empty();
+						if (temp["form"] == 'Fac') {
+							$('#table_Fac tbody').empty();
+
+							$('#table_Fac').attr('hidden', false);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R1 tbody").append(dataRow);
-						} else if (temp["form"] == 'r2') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 2) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R2 tbody').empty();
+							$("#table_Fac tbody").append(dataRow);
+						} else if (temp["form"] == 'Dep') {
+							$('#table_Dep tbody').empty();
+
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', false);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R2 tbody").append(dataRow);
-						} else if (temp["form"] == 'r3') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 3) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R3 tbody').empty();
+							$("#table_Dep tbody").append(dataRow);
+						} else if (temp["form"] == 'Depdoc') {
+							$('#table_DepDoc tbody').empty();
+
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', false);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R3 tbody").append(dataRow);
-						} else if (temp["form"] == 'r4') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 4) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R4 tbody').empty();
+							$("#table_DepDoc tbody").append(dataRow);
+						} else if (temp["form"] == 'Group') {
+							$('#table_Group tbody').empty();
+
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', false);
+							$('#table_NoFacDep').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R4 tbody").append(dataRow);
-						} else if (temp["form"] == 'r5') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 5) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R5 tbody').empty();
+							$("#table_Group tbody").append(dataRow);
+						} else if (temp["form"] == 'NoFacDep') {
+							$('#table_NoFacDep tbody').empty();
+
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', false);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R5 tbody").append(dataRow);
-						} else if (temp["form"] == 'r6') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 6) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R6 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R6 tbody").append(dataRow);
-						} else if (temp["form"] == 'r7') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 7) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R7 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R7 tbody").append(dataRow);
-						} else if (temp["form"] == 'r8') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 8) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R8 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R8 tbody").append(dataRow);
-						} else if (temp["form"] == 'r9') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 9) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R9 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R9 tbody").append(dataRow);
-						} else if (temp["form"] == 'r10' || temp["form"] == 'r11' || temp["form"] == 'r12') {
-							$('#table_R1').attr('hidden', true);
-							$('#table_R2').attr('hidden', true);
-							$('#table_R3').attr('hidden', true);
-							$('#table_R4').attr('hidden', true);
-							$('#table_R5').attr('hidden', true);
-							$('#table_R6').attr('hidden', true);
-							$('#table_R7').attr('hidden', true);
-							$('#table_R8').attr('hidden', true);
-							$('#table_R9').attr('hidden', true);
-							$('#table_R10').attr('hidden', false);
-							$('#table_R11').attr('hidden', false);
-							$('#table_R12').attr('hidden', false);
-							$('#table_R13').attr('hidden', true);
-							$('#table_R14').attr('hidden', true);
-							$('#table_R15').attr('hidden', true);
-							$('#table_R16').attr('hidden', true);
-							$('#table_R17').attr('hidden', true);
-							$('#table_R18').attr('hidden', true);
-							$('#table_R19').attr('hidden', true);
-							$('#table_R20').attr('hidden', true);
-							$('#table_R21').attr('hidden', true);
-							$('#table_R22').attr('hidden', true);
-							$('#table_R23').attr('hidden', true);
-							$('#table_R24').attr('hidden', true);
-							$('#table_R10 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R10 tbody").append(dataRow);
-						} else if (temp["form"] == 'r13') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 13) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R13 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R13 tbody").append(dataRow);
-						} else if (temp["form"] == 'r14') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 14) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R14 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R14 tbody").append(dataRow);
-						} else if (temp["form"] == 'r15' || temp["form"] == 'r16') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 15 || i == 16) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R15 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R15 tbody").append(dataRow);
-						} else if (temp["form"] == 'r17') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 17) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R17 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R17 tbody").append(dataRow);
-						} else if (temp["form"] == 'r18') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 18) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R18 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R18 tbody").append(dataRow);
-						} else if (temp["form"] == 'r19') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 19) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R19 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R19 tbody").append(dataRow);
-						} else if (temp["form"] == 'r20') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 20) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R20 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R20 tbody").append(dataRow);
-						} else if (temp["form"] == 'r21') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 21) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R21 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R21 tbody").append(dataRow);
-						} else if (temp["form"] == 'r22') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 22) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R22 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R22 tbody").append(dataRow);
-						} else if (temp["form"] == 'r23') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 23) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R23 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R23 tbody").append(dataRow);
-						} else if (temp["form"] == 'r24') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 24) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R24 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R24 tbody").append(dataRow);
-						} else if (temp["form"] == 'r29') {
-							for (var i = 1; i <= 35; i++) {
-								if (i == 29) {
-									$('#table_R' + i).attr('hidden', false);
-								} else {
-									$('#table_R' + i).attr('hidden', true);
-								}
-							}
-							$('#table_R29 tbody').empty();
-							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
-							$("#table_R29 tbody").append(dataRow);
+							$("#table_NoFacDep tbody").append(dataRow);
 						}
 
 					} else {
@@ -2216,151 +1332,7 @@ $array2 = json_decode($json2, TRUE);
 				}
 			});
 		}
-		//============================================  Close Display  ======================================================
-		// function disabled_fill() {
-		// 	var typeReport = $('#typereport').val();
-		// 	var PmID = <?PHP echo  $PmID ?>;
-		// 	if(PmID == 1 || PmID == 6 ){
-		// 		var tf = false;
-		// 	}else{
-		// 		var tf = true;
-		// 	}
-		// 	if (typeReport == 1 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 15 || typeReport == 8) {
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#department').attr('disabled', false);
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#PPU').val(0);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
-		// 	} else if (typeReport == 14 || typeReport == 16) {
-		// 		$('#department').attr('disabled', false);
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#PPU').val(0);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
-		// 	} else if (typeReport == 7 || typeReport == 18 || typeReport == 9) {
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#department').attr('disabled', false);
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#PPU').val(0);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
-		// 	} else if (typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 20 || typeReport == 21) {
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#department').attr('disabled', false);
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#PPU').val(0);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
-		// 	} else if (typeReport == 2) {
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#department').attr('disabled', false);
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#PPU').val(0);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
-		// 		$('#cycle').val(0);
-		// 	} else if (typeReport == 4) {
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#department').attr('disabled', false);
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#PPU').val(0);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
 
-		// 	} else if (typeReport == 13) {
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#department').attr('disabled', false);
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
-		// 		$('#PPU').val(0);
-		// 	} else if (typeReport == 17) {
-		// 		$('#factory').attr('disabled', false);
-		// 		$('#department').attr('disabled', false);
-		// 		$('#hotpital').attr('disabled', false);
-		// 		$('#cycle').attr('disabled', false);
-		// 		$('#PPU').attr('disabled', false);
-		// 		$('#PPU').val(0);
-		// 		$('#factory').val(0);
-		// 		$('#department').val(0);
-		// 		$('#cycle').val(0);
-		// 	}
-		// 	if (typeReport == 9) {
-		// 		$('#showday').hide();
-		// 		$('#myDay').hide();
-		// 		$('#showmonth').hide();
-		// 		$('#showyear').hide();
-		// 		$('#myMonth').hide();
-		// 		$('#chk').hide();
-		// 	}
-		// 	if (typeReport != 9 && typeReport != 20) {
-		// 		$('#showday').hide();
-		// 		$('#myDay').hide();
-		// 		$('#showmonth').hide();
-		// 		$('#showyear').hide();
-		// 		$('#myMonth').hide();
-		// 		$('#chk').show();
-		// 		$('#chkmonth').prop('checked', false)
-		// 		$('#chkday').prop('checked', false)
-		// 		$('#chkyear').prop('checked', false)
-		// 	}
-		// 	if (typeReport == 20) {
-		// 		$('#showday').hide();
-		// 		$('#myDay').hide();
-		// 		$('#showmonth').hide();
-		// 		$('#showyear').hide();
-		// 		$('#myMonth').show();
-		// 		$('#onemonth').show();
-		// 		$('#somemonth').hide();
-		// 		$('#textto2').hide();
-		// 		$('#chk').hide();
-		// 		$('#chkmonth').prop('checked', true);
-		// 		$('#chkonemonth').prop('checked', true);
-		// 		$('#chkday').prop('checked', false)
-		// 		$('#chkyear').prop('checked', false)
-		// 		find_indexMonth(new Date().getFullYear())
-		// 		// $('#oneMonth').attr('value', onemonth);
-		// 	}
-		// 	$('#typereport').removeClass('border-danger');
-		// 	$('#factory').removeClass('border-danger');
-		// 	$('#department').removeClass('border-danger');
-		// 	$('#cycle').removeClass('border-danger');
-		// 	$('#PPU').removeClass('border-danger');
-		// 	$('#rem1').hide();
-		// 	$('#rem2').hide();
-		// 	$('#rem3').hide();
-		// 	$('#rem4').hide();
-		// 	$('#rem5').hide();
-		// 	$('#rem6').hide();
-		// 	$('#rem7').hide();
-		// 	$('#rem8').hide();
-		// 	$('#rem9').hide();
-		// 	$('#rem10').hide();
-		// 	$('#rem11').hide();
-		// }
 		function disabled_fill() {
 			var typeReport = $('#typereport').val();
 			var PmID = <?PHP echo  $PmID ?>;
@@ -2420,20 +1392,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#department').val(0);
 				$('#cycle').val(0);
 
-			} else if (typeReport == 29 ||typeReport == 30  ) {
-				$('#factory').attr('disabled', true);
-				$('#department').attr('disabled', false);
-				$('#hotpital').attr('disabled', tf);
-				$('#cycle').attr('disabled', false);
-				$('#grouphpt').attr('disabled', true);
-				$('#grouphpt').val(0);
-				$('#factory').val(0);
-				$('#department').val(0);	
-				$('#cycle').val(0);
-				$('#chksomemonth').parent().hide();
-				$('#chkyear').parent().hide();
-			}  
-			else if (typeReport == 4 || typeReport == 29|| typeReport == 30 ) {
+			} else if (typeReport == 29 || typeReport == 30) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
@@ -2442,9 +1401,20 @@ $array2 = json_decode($json2, TRUE);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
-				$('#cycle').val(0);			
-			}
-			else if (typeReport == 13) {
+				$('#cycle').val(0);
+				$('#chksomemonth').parent().hide();
+				$('#chkyear').parent().hide();
+			} else if (typeReport == 4 || typeReport == 29 || typeReport == 30) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+			} else if (typeReport == 13) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
@@ -2484,7 +1454,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkday').prop('checked', false)
 				$('#chkyear').prop('checked', false)
 			}
-			if (typeReport == 20 || typeReport == 25 || typeReport == 26 || typeReport == 27 ) {
+			if (typeReport == 20 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#showday').hide();
 				$('#myDay').hide();
 				$('#showmonth').hide();
@@ -2500,9 +1470,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
 				// $('#oneMonth').attr('value', onemonth);
-			}
-
-			else if ( typeReport == 28) {
+			} else if (typeReport == 28) {
 				$('#department').attr('disabled', true);
 				$('#factory').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
@@ -2559,16 +1527,18 @@ $array2 = json_decode($json2, TRUE);
 		}
 
 		.select2-container--default .select2-selection--single {
-        height: 38px;
-        border: 1px solid #aaaaaa85;
-      }
-      .select2-container--default .select2-selection--single .select2-selection__rendered {
-          line-height: 38px;
-      }
-      .select2-container--default .select2-selection--single .select2-selection__arrow {
-          top: 5px;
-			}
-			
+			height: 38px;
+			border: 1px solid #aaaaaa85;
+		}
+
+		.select2-container--default .select2-selection--single .select2-selection__rendered {
+			line-height: 38px;
+		}
+
+		.select2-container--default .select2-selection--single .select2-selection__arrow {
+			top: 5px;
+		}
+
 		.nfont {
 			font-family: myFirstFont;
 			font-size: 22px;
@@ -2882,7 +1852,7 @@ $array2 = json_decode($json2, TRUE);
 												<div class="col-md-6">
 													<div class='form-group row checkblank'>
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['factory'][$language]; ?></label>
-														<select class="form-control col-sm-8 bo" id="factory" style="font-size:22px;" onchange="blank_fac();">5555555555555555555</select>
+														<select class="form-control col-sm-8 bo" id="factory" style="font-size:22px;" onchange="blank_fac();"></select>
 														<label id="rem2" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
@@ -2897,8 +1867,8 @@ $array2 = json_decode($json2, TRUE);
 												</div>
 												<div class="col-md-6 ">
 													<div class='form-group row checkblank '>
-														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-														<select class="form-control col-sm-8 " style="font-size:22px;" id="department" onchange="blank_dep();">
+														<label class="col-sm-3 col-form-label text-left " style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
+														<select class="form-control col-sm-8  " style="font-size:22px;" id="department" onchange="blank_dep();">
 														</select>
 														<label id="rem4" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -3093,13 +2063,42 @@ $array2 = json_decode($json2, TRUE);
 
 					<div class="row mx-2">
 						<div class="col-md-12">
-							<!-- ---------------------------------Report 1 AND Report 3--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R1" width="100%" cellspacing="0" role="grid" style="">
+							<!-- ---------------------------------FACTORY--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_Fac" width="100%" cellspacing="0" role="grid" style="">
 								<thead id="theadsum" style="font-size:24px;">
 									<tr role="row" id='tr_1'>
 										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
 										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
 										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------DEPARTMENT--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_Dep" width="100%" cellspacing="0" role="grid" style="">
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------DEPARTMENTDOC--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_DepDoc" width="100%" cellspacing="0" role="grid" style="">
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
+										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
 										<th style='width: 22%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
 										<th style='width: 13%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
@@ -3107,304 +2106,37 @@ $array2 = json_decode($json2, TRUE);
 								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 								</tbody>
 							</table>
-
-							<!-- ---------------------------------Report 2--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R2" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-
-								</thead>
-
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- --------------------------------- Report 3--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R3" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-
-							<!-- ---------------------------------Report 4--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R4" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-
-
-							<!-- ---------------------------------Report 5--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R5" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-										<th style='width: 36%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-										<th style='width: 12%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 11%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 6--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R6" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 39%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-										<th style='width: 16%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-
-							<!-- ---------------------------------Report 7--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R7" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 8--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R8" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 9--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R9" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 45%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 10--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R10" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 74%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 11%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 13--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R13" width="100%" cellspacing="0" role="grid" hidden>
+							<!-- ---------------------------------GROUP--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_Group" width="100%" cellspacing="0" role="grid" style="">
 								<thead id="theadsum" style="font-size:24px;">
 									<tr role="row" id='tr_1'>
 										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
 										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['ppu'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['group'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
 										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
 								</thead>
 								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 								</tbody>
 							</table>
-							<!-- ---------------------------------Report 14--------------------------------------- -->
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R14" width="100%" cellspacing="0" role="grid" hidden>
+							<!-- ---------------------------------NOFACDEP--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_NoFacDep" width="100%" cellspacing="0" role="grid" style="">
 								<thead id="theadsum" style="font-size:24px;">
 									<tr role="row" id='tr_1'>
 										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-										<th style='width: 30%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+										<th style='width: 60%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
 								</thead>
 								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
 								</tbody>
 							</table>
-
-							<!-- ---------------------------------Report 15--------------------------------------- -->
-
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R15" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 50%;' nowrap class='text-center'><?php echo $array['factory'][$language]; ?></th>
-										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
+							</thead>
+							<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+							</tbody>
 							</table>
-							<!-- ---------------------------------Report 17--------------------------------------- -->
-
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R17" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 18--------------------------------------- -->
-
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R18" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 19--------------------------------------- -->
-
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R19" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<!-- ---------------------------------Report 20--------------------------------------- -->
-
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R20" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R21" width="100%" cellspacing="0" role="grid" hidden>
-								<thead id="theadsum" style="font-size:24px;">
-									<tr role="row" id='tr_1'>
-										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-										<th style='width: 40%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-									</tr>
-									<!-- ---------------------------------Report 22--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R22" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 23--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R23" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 45%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 24--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R24" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
-												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-									<!-- ---------------------------------Report 24--------------------------------------- -->
-									<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_R29" width="100%" cellspacing="0" role="grid" hidden>
-										<thead id="theadsum" style="font-size:24px;">
-											<tr role="row" id='tr_1'>
-												<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
-												<th style='width: 20%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
-												<th style='width: 40%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
-												<th style='width: 25%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-												<th style='width: 10%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
-											</tr>
-										<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-										</tbody>
-									</table>
-								</thead>
-								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
-								</tbody>
-							</table>
-
 						</div>
 					</div>
 				</div>

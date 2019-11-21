@@ -280,7 +280,6 @@ AND clean.FacCode = '$FacCode'
 AND clean.IsStatus <> 9
 GROUP BY
 clean_detail.ItemCode";
-
 // -- INNER JOIN item_multiple_unit ON item_multiple_unit.MpCode = clean_detail.UnitCode
 // -- AND item_multiple_unit.ItemCode = clean_detail.ItemCode --
 $meQuery = mysqli_query($conn, $query);

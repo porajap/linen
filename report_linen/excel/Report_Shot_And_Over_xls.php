@@ -17,15 +17,19 @@ $json = json_encode($xml);
 $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
-$data = $_SESSION['data_send'];
-$HptCode = $data['HptCode'];
-$FacCode = $data['FacCode'];
-$date1 = $data['date1'];
-$date2 = $data['date2'];
-$chk = $data['chk'];
-$year = $data['year'];
-$DepCode = $data['DepCode'];
-$format = $data['Format'];
+$data = explode(',', $_GET['data']);
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
+$HptCode = $data[0];
+$FacCode = $data[1];
+$date1 = $data[2];
+$date2 = $data[3];
+$betweendate1 = $data[4];
+$betweendate2 = $data[5];
+$format = $data[6];
+$DepCode = $data[7];
+$chk = $data[8];
 $where = '';
 $i = 8;
 $check = '';
@@ -39,10 +43,9 @@ if ($language == 'th') {
   $HptName = HptName;
   $FacName = FacName;
 }
-
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -52,7 +55,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (dirty.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -61,7 +64,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE dirty.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -72,10 +75,10 @@ if ($chk == 'one') {
       $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
   } else {
     $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
-      $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
+      $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (dirty.Docdate) = " . $date1;
+  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -83,7 +86,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(dirty.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE date(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -222,12 +225,12 @@ shelfcount_detail
 INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
 INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
 INNER JOIN department ON department.DepCode = shelfcount.DepCode
-$where $DepCode
+$where 
 AND department.HptCode = '$HptCode'
 AND shelfcount.isStatus= 4
 GROUP BY item.itemName
-";
-$meQuery = mysqli_query($conn, $query);
+"; echo $query ;
+$meQuery = mysq5li_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
 
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $count);

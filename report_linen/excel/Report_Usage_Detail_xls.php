@@ -206,7 +206,7 @@ for ($a = 0; $a < $round_AZ1; $a++) {
 
 // -----------------------------------------------------------------------------------
 $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
-$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r29'][$language]);
+$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r30'][$language]);
 $objPHPExcel->getActiveSheet()->setCellValue('A6', $array2['department'][$language]);
 $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
 $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
@@ -483,15 +483,22 @@ $HEAD = array(
     'name'  => 'THSarabun'
   )
 );
-
-
-$objPHPExcel->getActiveSheet()->getStyle("A7:".$date_cell1[$r].$start_row)->applyFromArray($styleArray)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-$objPHPExcel->getActiveSheet()->getStyle("A5:".$date_cell1[$r]."8")->applyFromArray($CENTER)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-$objPHPExcel->getActiveSheet()->getStyle($date_cell1[2].$start_row.":".$date_cell1[$r].$start_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$colorfill = array(
+  'fill' => array(
+    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+    'color' => array('rgb' => 'B9E3E6')
+  )
+);
+$r1 =$r -2 ;
+$objPHPExcel->getActiveSheet()->getStyle("A7:".$date_cell1[$r].$start_row)->applyFromArray($styleArray) ;
+$objPHPExcel->getActiveSheet()->getStyle("A7:".$date_cell1[$r]."8")->applyFromArray($colorfill) ;
+$objPHPExcel->getActiveSheet()->getStyle("A".$start_row.":".$date_cell1[$r].$start_row)->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r1]."9:".$date_cell1[$r].$start_row)->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle("A5:".$date_cell1[$r]."8")->applyFromArray($CENTER) ;
+$objPHPExcel->getActiveSheet()->getStyle($date_cell1[2].$start_row.":".$date_cell1[$r].$start_row) ;
 $objPHPExcel->getActiveSheet()->getStyle("A5:A6")->applyFromArray($HEAD);
-$r3=$r-3;
-$start_row1=$start_row-1;
-$objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r3]."9:".$date_cell1[$r].$start_row1)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("C9:".$date_cell1[$r].$start_row)->getNumberFormat()->setFormatCode('#,##0');
+
 
 $cols = array('A', 'B');
 $width = array(40, 40);

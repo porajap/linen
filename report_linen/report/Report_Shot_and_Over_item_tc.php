@@ -222,7 +222,6 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DepCode[] = $Result['DepCode'];
   $DepName[] = $Result['DepName'];
 }
-
 $Count_Dep = sizeof($DepCode);
 // --------------------------------------------------------
 // set font
@@ -239,7 +238,6 @@ $pdf->Ln(3);
 
 
 for ($i = 0; $i < $Count_Dep; $i++) {
-
   $data = "SELECT
 IFNULL(SUM(shelfcount_detail.Over),0) AS OverPar,
 IFNULL(SUM(shelfcount_detail.Short),0) AS Short ,

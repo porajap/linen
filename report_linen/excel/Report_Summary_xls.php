@@ -298,12 +298,12 @@ for ($i = 0; $i < $countitem; $i++) {
   $item = "SELECT
   SUM(shelfcount_detail.ParQty) AS  ParQty,
   SUM(item.Weight) AS Weight ,
-  SUM(item_category.Price) AS Price
+  SUM(category_price.Price) AS Price
   FROM
   shelfcount_detail
   INNER JOIN  shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo 
   INNER JOIN  item ON item.itemcode = shelfcount_detail.itemcode 
-  INNER JOIN  item_category ON item_category.CategoryCode = item.CategoryCode 
+  INNER JOIN  category_price ON category_price.CategoryCode = item.CategoryCode
                   WHERE
                   shelfcount_detail.itemcode = '$itemCode[$i]'
                   AND shelfcount.DepCode = '$DepCode'
@@ -433,19 +433,36 @@ $HEAD = array(
     'name'  => 'THSarabun'
   )
 );
-
-$objPHPExcel->getActiveSheet()->getStyle("A8:".$date_cell1[$r].$start_row)->applyFromArray($styleArray)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-$objPHPExcel->getActiveSheet()->getStyle("A5:".$date_cell1[$r]."8")->applyFromArray($CENTER)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-$objPHPExcel->getActiveSheet()->getStyle($date_cell1[2].$start_row.":".$date_cell1[$r].$start_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$colorfill = array(
+  'fill' => array(
+    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+    'color' => array('rgb' => 'B9E3E6')
+  )
+);
+$r1 =$r -1 ;
+$objPHPExcel->getActiveSheet()->getStyle("A8:".$date_cell1[$r].$start_row)->applyFromArray($styleArray);
 $objPHPExcel->getActiveSheet()->getStyle("A5:A6")->applyFromArray($HEAD);
-$r3=$r-1;
-$start_row1=$start_row;
-$objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r3]."9:".$date_cell1[$r].$start_row1)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("A8:".$date_cell1[$r]."8")->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle("A".$start_row.":".$date_cell1[$r].$start_row)->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r1]."9:".$date_cell1[$r].$start_row)->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle("D9:".$date_cell1[$r].$start_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("C9:".$date_cell1[$r].$start_row)->applyFromArray($CENTER)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle('A1:'.$date_cell1[$r].$start_row)->getAlignment()->setIndent(1);
 
 
 
+$r2 = $r+2;
+$countcell=sizeof($date_cell1);
+for ($i = 0; $i < $r2; $i++) {
 
-
+      if($i == 4 ){
+        $objPHPExcel->getActiveSheet()->getColumnDimension($date_cell1[$i])
+        ->setAutoSize(false);
+      }else{
+        $objPHPExcel->getActiveSheet()->getColumnDimension($date_cell1[$i])
+        ->setAutoSize(true);
+      }
+}
 $objDrawing = new PHPExcel_Worksheet_Drawing();
 $objDrawing->setName('Nhealth_linen');
 $objDrawing->setDescription('Nhealth_linen');

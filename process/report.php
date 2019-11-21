@@ -875,7 +875,9 @@ function typeReport($typeReport)
         'Report_QC_Process_checklist_Dirty' => 25,
         'Report_QC_Process_checklist_clean1' => 26,
         'Report_QC_Process_checklist_clean2' => 27,
-        'Report_billing' => 28
+        'Report_billing' => 28,
+        'Report SUMMARY' => 29,
+        'Report Usage Detail' => 30
       ];
   } else {
     $typeArray =
@@ -907,7 +909,9 @@ function typeReport($typeReport)
         'Report_QC_Process_checklist_Dirty' => 25,
         'Report_QC_Process_checklist_clean1' => 26,
         'Report_QC_Process_checklist_clean2' => 27,
-        'Report_billing' => 28
+        'Report_billing' => 28,
+        'Report SUMMARY' => 29,
+        'Report Usage Detail' => 30
       ];
   }
   $myReport = array_search($type, $typeArray);
@@ -1022,8 +1026,8 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DocDate3'] = $Result['DocDate3'];
     $return[$count]['DocDate2'] = $Result['DocDate2'];
-    $return[$count]['facname'] = $Result['facname'];
-    $return[$count]['hptname'] = $Result['hptname'];
+    $return[$count]['FacName'] = $Result['facname'];
+    $return[$count]['HptName'] = $Result['hptname'];
     $boolean = true;
     $count++;
   }
@@ -1031,7 +1035,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   if ($boolean == true) {
     $return['status'] = 'success';
     $return['countRow'] = $count;
-    $return['form'] = 'r1';
+    $return['form'] = 'Fac';
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
@@ -1039,7 +1043,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r1';
+    $return['form'] = 'Fac';
     return $return;
   }
 }
@@ -1283,7 +1287,7 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r3';
+    $return['form'] = 'Fac';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -1292,7 +1296,7 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r3';
+    $return['form'] = 'Fac';
     return $return;
   }
 }
@@ -1361,6 +1365,7 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
   // $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Daily_Issue_Request.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Daily_issue_Request_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DocNo'] = $Result['DocNo'];
@@ -1372,7 +1377,7 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r4';
+    $return['form'] = 'DepDoc';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -1381,7 +1386,7 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r4';
+    $return['form'] = 'DepDoc';
     return $return;
   }
 }
@@ -1572,14 +1577,14 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['FacName'] = $Result['FacName'];
     $return[$count]['DocDate'] = $Result['DocDate'];
-    $return[$count]['hptname'] = $Result['hptname'];
+    $return[$count]['HptName'] = $Result['hptname'];
     $count++;
     $boolean = true;
   }
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r6';
+    $return['form'] = 'Fac';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -1588,7 +1593,7 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r6';
+    $return['form'] = 'Fac';
     return $return;
   }
 }
@@ -1670,16 +1675,17 @@ function r7($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r7';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = 'r7';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r7';
+    $return['form'] = 'NoFacDep';
     return $return;
   }
 }
@@ -1773,6 +1779,7 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'year1' => $year1, 'year2' => $year2, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Soiled_Clean_Ratio.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Soiled_Clean_Ratio_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['FacName'] = $Result['FacName'];
@@ -1785,7 +1792,7 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r8';
+    $return['form'] = 'Fac';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -1794,7 +1801,7 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r8';
+    $return['form'] = 'Fac';
     return $return;
   }
 }
@@ -1827,16 +1834,17 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r9';
+    $return['form'] = 'Dep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = '9';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r9';
+    $return['form'] = 'Dep';
     return $return;
   }
 }
@@ -2569,16 +2577,17 @@ function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r15';
+    $return['form'] = 'Fac';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = 'r15';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r15';
+    $return['form'] = 'Fac';
     return $return;
   }
 }
@@ -2888,16 +2897,17 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r18';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
+    $return['r'] = 'r18';
     $return['chk'] = $chk;
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r18';
+    $return['form'] = 'NoFacDep';
     return $return;
   }
 }
@@ -3321,16 +3331,17 @@ function r22($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r22';
+    $return['form'] = 'Fac';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = 'r22';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r22';
+    $return['form'] = 'Fac';
     return $return;
   }
 }
@@ -3422,16 +3433,17 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = 'r23';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     return $return;
   }
 }
@@ -3523,16 +3535,17 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r24';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = 'r24';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r24';
+    $return['form'] = 'NoFacDep';
     return $return;
   }
 }
@@ -3572,7 +3585,7 @@ function r25($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -3581,7 +3594,7 @@ function r25($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     return $return;
   }
 }
@@ -3621,7 +3634,7 @@ function r26($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -3630,7 +3643,7 @@ function r26($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     return $return;
   }
 }
@@ -3669,7 +3682,7 @@ function r27($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -3678,7 +3691,7 @@ function r27($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r23';
+    $return['form'] = 'NoFacDep';
     return $return;
   }
 }
@@ -3710,7 +3723,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2, 'GroupCode' => $GroupCode];
   //$_SESSION['data_send'] = $data_send;
-  $return['url'] = '../report_linen/excel/Report_Billing_xls.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Billing_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName'] = $Result['HptName'];
@@ -3721,7 +3734,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r18';
+    $return['form'] = 'Group';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
@@ -3730,7 +3743,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r18';
+    $return['form'] = 'Group';
     return $return;
   }
 }
@@ -3740,7 +3753,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $boolean = false;
   if ($Format == 1) {
     if ($chk == 'one') {
-      $Sql = "SELECT  shelfcount.DocDate, site.HptName
+      $Sql = "SELECT  shelfcount.DocDate, site.HptName , department.DepName
               FROM
               shelfcount  
               INNER JOIN department ON department.DepCode = shelfcount.DepCode  
@@ -3752,7 +3765,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               GROUP BY Date(shelfcount.DocDate)
               ORDER BY shelfcount.DocDate ASC";
     } else {
-      $Sql = "SELECT  shelfcount.DocDate, site.HptName
+      $Sql = "SELECT  shelfcount.DocDate, site.HptName, department.DepName
               FROM
               shelfcount  
               INNER JOIN department ON department.DepCode = shelfcount.DepCode  
@@ -3772,7 +3785,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $date2 = $date['date2'];
 
     if ($chk == 'month') {
-      $Sql = "SELECT  shelfcount.DocDate, site.HptName
+      $Sql = "SELECT  shelfcount.DocDate, site.HptName, department.DepName
               FROM
               shelfcount  
               INNER JOIN department ON department.DepCode = shelfcount.DepCode  
@@ -3787,7 +3800,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
       $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
-      $Sql = " SELECT  shelfcount.DocDate, site.HptName
+      $Sql = " SELECT  shelfcount.DocDate, site.HptName, department.DepName
               FROM
               damage  
               INNER JOIN department ON department.DepCode = shelfcount.DepCode  
@@ -3800,7 +3813,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
            ORDER BY shelfcount.DocDate ASC LIMIT 1";
     }
   } else if ($Format == 3) {
-    $Sql = "  SELECT  shelfcount.DocDate, site.HptName
+    $Sql = "  SELECT  shelfcount.DocDate, site.HptName, department.DepName
                FROM
                shelfcount  
               INNER JOIN department ON department.DepCode = shelfcount.DepCode  
@@ -3815,28 +3828,29 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2];
   //$_SESSION['data_send'] = $data_send;
-  $return['url'] = '../report_linen/excel/Report_Summary_xls.php';
-  $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Summary_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName'] = $Result['HptName'];
     $return[$count]['DocDate'] = $Result['DocDate'];
+    $return[$count]['DepName'] = $Result['DepName'];
     $count++;
     $boolean = true;
   }
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r29';
+    $return['form'] = 'Dep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = 'r29';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r29';
+    $return['form'] = 'Dep';
     return $return;
   }
 }
@@ -3921,7 +3935,7 @@ function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2];
   //$_SESSION['data_send'] = $data_send;
-  $return['url'] = '../report_linen/excel/Report_Usage_Detail_xls.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Usage_Detail_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName'] = $Result['HptName'];
@@ -3932,16 +3946,17 @@ function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'r29';
+    $return['form'] = 'Dep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
     $return['Format'] = $Format;
     $return['chk'] = $chk;
+    $return['r'] = 'r30';
     return $return;
   } else {
     $return['status'] = 'notfound';
-    $return['form'] = 'r29';
+    $return['form'] = 'Dep';
     return $return;
   }
 }
