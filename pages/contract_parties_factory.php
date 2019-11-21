@@ -926,7 +926,7 @@ body{
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['factory'][$language]; ?></label>
                                       <select  style="font-size:22px;" onchange="resetinput()" class="form-control col-sm-7 checkblank2 border" id="factory" onchange="removeClassBorder1();" ></select>
-                                      <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -942,14 +942,14 @@ body{
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['datestartcontract'][$language]; ?></label>
                                         <input type="text" autocomplete="off" class="form-control col-sm-7 datepicker-here only checkblank2" style="font-size:22px;" id="datepicker3"  data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['selectstartdate'][$language]; ?>">
-                                        <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                        <label id="rem2" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['dateendcontract'][$language]; ?></label>
                                       <input type="text" autocomplete="off" class="form-control col-sm-7 datepicker-here only checkblank2" style="font-size:22px;" id="datepicker4" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['selectenddate'][$language]; ?>">
-                                      <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div> 

@@ -1533,7 +1533,7 @@ label{
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                                       <select   class="form-control col-sm-7" id="Hos2" onchange="ShowItem(2)"></select>
-                                      <label id="rem10" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem10" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div>          
@@ -1543,14 +1543,14 @@ label{
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['facname'][$language]; ?></label>
                                       <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank charonly " id="FacName"  <?php echo $array['facname'][$language]; ?>  placeholder="<?php echo $array['facname'][$language]; ?>">
-                                      <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem2" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?></label>
                                         <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank " id="Address"  placeholder="<?php echo $array['address'][$language]; ?>" >
-                                        <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                        <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div>               
@@ -1560,14 +1560,14 @@ label{
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['facnameTH'][$language]; ?></label>
                                       <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank charonlyTH" id="FacNameTH"  <?php echo $array['facnameTH'][$language]; ?>  placeholder="<?php echo $array['facnameTH'][$language]; ?>">
-                                      <label id="rem9" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem9" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['taxid'][$language]; ?></label>
                                       <input type="text"  autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank numonly" id="TaxID"  <?php echo $array['taxid'][$language]; ?>  placeholder="<?php echo $array['taxid'][$language]; ?>">
-                                      <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem4" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1577,7 +1577,7 @@ label{
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['postid'][$language]; ?></label>
                                         <input type="text"  autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank numonly" id="Post"  placeholder="<?php echo $array['postid'][$language]; ?>" >
-                                        <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                        <label id="rem5" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1592,7 +1592,7 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-3 col-form-label "><?php echo $array['price'][$language]; ?></label>
                                           <input type="text" autocomplete="off" onkeyup="resetinput()"  class="form-control col-sm-7 checkblank numonly" id="Price"  placeholder="<?php echo $array['price'][$language]; ?>" >
-                                          <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                          <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                       </div>
                                     </div> 
                                 </div>   
@@ -1616,14 +1616,14 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  class="form-control col-sm-7 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
-                                      <label id="rem6" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem6" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
                                         <input type="text"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
-                                        <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                        <label id="rem7" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1632,7 +1632,7 @@ label{
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  class="form-control col-sm-7 numonly checkblank3" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
-                                      <label id="rem8" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem8" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6" hidden >
