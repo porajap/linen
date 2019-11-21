@@ -368,6 +368,7 @@ $array2 = json_decode($json2,TRUE);
         var deptCode = $('#Dep2 option:selected').attr("value");
         var datepicker1 = $('#datepicker1').val();
           var lang = '<?php echo $language; ?>';
+
           if(datepicker1 !=""){
           if(lang =='th'){
           datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);

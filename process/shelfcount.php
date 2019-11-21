@@ -445,8 +445,8 @@ function ShowDocument($conn, $DATA)
   //   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   // }else{
   if($PmID ==1 || $PmID==6){
-    if ($Hotp != null && $deptCode == null && $datepicker == null) {
-      $Sql .= " WHERE  shelfcount.DocNo LIKE '%$xDocNo%' ";
+      if ($Hotp != null && $deptCode == null && $datepicker == null) {
+      $Sql .= " WHERE  site.HptCode = '$Hotp' AND  shelfcount.DocNo LIKE '%$xDocNo%' ";
       if($xDocNo!=null){
         $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
       }
@@ -465,7 +465,7 @@ function ShowDocument($conn, $DATA)
     }
   }else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
+    $Sql .= " WHERE site.HptCode = LIKE '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
     if($xDocNo!=null){
       $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
     }
@@ -485,6 +485,7 @@ function ShowDocument($conn, $DATA)
   }
   // }
   $Sql.= "ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
+  $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
