@@ -3705,7 +3705,13 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
     $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
-
+    if ($GroupCode == "0") {
+      $GroupCode  = "0";
+      $GroupCode1 = "";
+    } else {
+      $GroupCode = "$GroupCode";
+      $GroupCode1 = "AND grouphpt.GroupCode = $GroupCode";
+    }
     if ($chk == 'month') {
       $Sql = "SELECT site.HptName
               from shelfcount
@@ -3714,7 +3720,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
               INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
               WHERE MONTH(shelfcount.DocDate) = '$date1'
               AND site.HptCode = '$HptCode'
-              AND grouphpt.GroupCode = '$GroupCode'
+              $GroupCode1
               AND shelfcount.isStatus <> 9
               GROUP BY MONTH (shelfcount.Docdate)
               ORDER BY shelfcount.DocDate ASC";
@@ -3751,6 +3757,13 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 {
   $count = 0;
   $boolean = false;
+  if ($DepCode == "ALL") {
+    $DepCode  = "0";
+    $DepCode1 = "";
+  } else {
+    $DepCode = "$DepCode";
+    $DepCode1 = "AND shelfcount.DepCode = '$DepCode'";
+  }
   if ($Format == 1) {
     if ($chk == 'one') {
       $Sql = "SELECT  shelfcount.DocDate, site.HptName , department.DepName
@@ -3761,7 +3774,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               WHERE DATE(shelfcount.DocDate) = DATE('$date1')
               AND site.HptCode = '$HptCode'
               AND shelfcount.isStatus <> 9 
-              AND shelfcount.DepCode = '$DepCode'
+              $DepCode1
               GROUP BY Date(shelfcount.DocDate)
               ORDER BY shelfcount.DocDate ASC";
     } else {
@@ -3773,7 +3786,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               WHERE shelfcount.DocDate BETWEEN '$date1' AND '$date2'
               AND site.HptCode = '$HptCode'
               AND shelfcount.isStatus <> 9 
-              AND shelfcount.DepCode = '$DepCode'
+              $DepCode1
               GROUP BY MONTH (shelfcount.Docdate)
               ORDER BY shelfcount.DocDate ASC";
     }
@@ -3792,7 +3805,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE MONTH(shelfcount.DocDate) = '$date1'
               AND site.HptCode = '$HptCode'
-              AND shelfcount.DepCode = '$DepCode'
+              $DepCode1
               AND shelfcount.isStatus <> 9 
               GROUP BY MONTH (shelfcount.Docdate)
               ORDER BY shelfcount.DocDate ASC";
@@ -3807,7 +3820,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
            AND site.HptCode = '$HptCode'
-           AND shelfcount.DepCode = '$DepCode'
+           $DepCode1
            AND shelfcount.isStatus <> 9 
            GROUP BY YEAR (shelfcount.Docdate)
            ORDER BY shelfcount.DocDate ASC LIMIT 1";
@@ -3820,7 +3833,7 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE YEAR(shelfcount.DocDate) = '$date1'
              AND site.HptCode = '$HptCode'
-             AND shelfcount.DepCode = '$DepCode'
+             $DepCode1
              AND shelfcount.isStatus <> 9 
              GROUP BY YEAR (shelfcount.Docdate)
              ORDER BY shelfcount.DocDate ASC";
@@ -3856,6 +3869,13 @@ function r29($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 }
 function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
 {
+  if ($DepCode == "ALL") {
+    $DepCode  = "0";
+    $DepCode1 = "";
+  } else {
+    $DepCode = "$DepCode";
+    $DepCode1 = "AND shelfcount.DepCode = '$DepCode'";
+  }
   $count = 0;
   $boolean = false;
   if ($Format == 1) {
@@ -3868,7 +3888,7 @@ function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               WHERE DATE(shelfcount.DocDate) = DATE('$date1')
               AND site.HptCode = '$HptCode'
               AND shelfcount.isStatus <> 9 
-              AND shelfcount.DepCode = '$DepCode'
+              $DepCode1
               GROUP BY Date(shelfcount.DocDate)
               ORDER BY shelfcount.DocDate ASC";
     } else {
@@ -3880,7 +3900,7 @@ function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               WHERE shelfcount.DocDate BETWEEN '$date1' AND '$date2'
               AND site.HptCode = '$HptCode'
               AND shelfcount.isStatus <> 9 
-              AND shelfcount.DepCode = '$DepCode'
+              $DepCode1
               GROUP BY MONTH (shelfcount.Docdate)
               ORDER BY shelfcount.DocDate ASC";
     }
@@ -3899,7 +3919,7 @@ function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE MONTH(shelfcount.DocDate) = '$date1'
               AND site.HptCode = '$HptCode'
-              AND shelfcount.DepCode = '$DepCode'
+              $DepCode1
               AND shelfcount.isStatus <> 9 
               GROUP BY MONTH (shelfcount.Docdate)
               ORDER BY shelfcount.DocDate ASC";
@@ -3914,7 +3934,7 @@ function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
            AND site.HptCode = '$HptCode'
-           AND shelfcount.DepCode = '$DepCode'
+           $DepCode1
            AND shelfcount.isStatus <> 9 
            GROUP BY YEAR (shelfcount.Docdate)
            ORDER BY shelfcount.DocDate ASC LIMIT 1";
@@ -3927,7 +3947,7 @@ function r30($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE YEAR(shelfcount.DocDate) = '$date1'
              AND site.HptCode = '$HptCode'
-             AND shelfcount.DepCode = '$DepCode'
+             $DepCode1
              AND shelfcount.isStatus <> 9 
              GROUP BY YEAR (shelfcount.Docdate)
              ORDER BY shelfcount.DocDate ASC";

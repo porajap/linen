@@ -990,7 +990,10 @@ $array2 = json_decode($json2, TRUE);
 							// var dep1 = "<option value='0'>" + depValue0 + "</option>";
 							// dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
+							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
+
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
+							 dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
