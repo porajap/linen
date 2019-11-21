@@ -246,14 +246,18 @@ $array2 = json_decode($json2,TRUE);
               if(Qty<Par){
                 textColor = 'text-danger';
               }
+              // var inputpar = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+Par+"' OnBlur='updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+
+              // var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+Qty+"' OnBlur='updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
               "<td style='width: 15%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
               "<td style='width: 21%; overflow: hidden; text-overflow: ellipsis;'  nowrap title='"+temp[i]['ItemName']+"'>"+temp[i]['ItemName']+"</td>"+
-              "<td style='width: 15%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
+              "<td style='width: 14%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
               "<td style='width: 15%;'nowrap><center>"+Par+"</center></td>"+
               "<td style='width: 15%;'nowrap class='"+textColor+"'><center>"+Qty+"</center></td>"+
-              "<td style='width: 13%; overflow: hidden; text-overflow: ellipsis;'nowrap title='"+temp[i]['DepName']+"'><center>"+temp[i]['DepName']+"</center></td>"+
+              "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;'nowrap title='"+temp[i]['DepName']+"'><center>"+temp[i]['DepName']+"</center></td>"+
               "</tr>";
 
               if(rowCount == 0){
@@ -470,7 +474,6 @@ $array2 = json_decode($json2,TRUE);
                               <select class="form-control col-sm-11 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
                             </div>
                           </div>
-  
 
                           <div class="col-md-3">
                             <div class='form-group row'>
