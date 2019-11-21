@@ -239,10 +239,6 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $count++;
   $Qty += $Result["Qty"];
 }
-$objPHPExcel->getActiveSheet()->mergeCells('A' . $i . ':B' . $i);
-$objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $array2['total'][$language]);
-
-$objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $Qty);
 $row_sum = $i;
 $i += 1;
 $count++;
@@ -378,7 +374,7 @@ $objPHPExcel->getActiveSheet()->getStyle("E9:E" . $i)->applyFromArray($Weight)->
 $objPHPExcel->getActiveSheet()->getStyle("C" . $row_sum)->applyFromArray($sum)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 $objPHPExcel->getActiveSheet()->getStyle("A" . $row_sum . ":B" . $row_sum)->applyFromArray($sum)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
-$i--;
+$i = $i-2;
 $objPHPExcel->getActiveSheet()->getStyle("A5:E5")->applyFromArray($r23)->getNumberFormat();
 $objPHPExcel->getActiveSheet()->getStyle("A6:E6")->applyFromArray($Hos)->getNumberFormat();
 $objPHPExcel->getActiveSheet()->getStyle("E1")->applyFromArray($date)->getNumberFormat();
