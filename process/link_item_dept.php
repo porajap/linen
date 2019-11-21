@@ -339,6 +339,7 @@ function additemstock($conn, $DATA)
 {
   $boolean = 0;
   $count = 0;
+  $hotpital = $DATA['hotpital'];
   $HptCode = $_SESSION['HptCode'];
   $Userid = $_SESSION['Userid'];
   // $hotpital = $DATA['hotpital'];
@@ -364,7 +365,7 @@ function additemstock($conn, $DATA)
     }
   if($xCenter2 != 1){
     if($ParCount == 0){
-    $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , $Number[$i])";
+    $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty , HptCode) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , $Number[$i] , '$hotpital')";
     mysqli_query($conn,$Sqlpar);
     }else{
       $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 ,TotalQty = $TotalQty8
@@ -372,19 +373,21 @@ function additemstock($conn, $DATA)
       mysqli_query($conn,$Sqlpar);  
     }
           // เก็บ log par
-          $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty , TotalQty , UserID , xDate ) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , $Number[$i] , $Userid , NOW() )";
+          $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty , TotalQty , UserID , xDate , HptCode ) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , $Number[$i] , $Userid , NOW(), '$hotpital' )";
           mysqli_query($conn,$Sqlparlog);
 
   }else{
     if($ParCount == 0){
-      $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , 0)";
+      $Sqlpar = "INSERT INTO par_item_stock (ItemCode , DepCode , ParQty , TotalQty , HptCode) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , 0 , '$hotpital')";
       mysqli_query($conn,$Sqlpar);
       }else{
         $Sqlpar = "UPDATE par_item_stock SET ItemCode = '$Itemcode[$i]' , ParQty = $ParQty3 ,TotalQty = 0
         WHERE DepCode = '$Deptid' AND ItemCode = '$Itemcode[$i]'";
         mysqli_query($conn,$Sqlpar);  
       }
-      $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty , TotalQty , UserID , xDate) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , 0 , $Userid , NOW() )";
+
+                // เก็บ log par
+      $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty , TotalQty , UserID , xDate , HptCode) VALUES ('$Itemcode[$i]' , '$Deptid' , $ParQty , 0 , $Userid , NOW() , '$hotpital')";
       mysqli_query($conn,$Sqlparlog);
   }
     // =====================================================================

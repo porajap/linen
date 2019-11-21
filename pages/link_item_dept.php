@@ -720,6 +720,7 @@ $array2 = json_decode($json2,TRUE);
       }
       function Addtodoc(){
         var xCenter = 0;
+        var hotpital = $('#hotpital').val();
         if ($('#xCenter').is(':checked')) xCenter = 1;
         if ($('#xCenter2').is(':checked')) xCenter2 = 1;
         if(xCenter == 1 ){
@@ -773,7 +774,9 @@ $array2 = json_decode($json2,TRUE);
                 'hotpital' : hotpital,
                 'ItemCode' : strchkarray1,
                 'Number' : strchkarray2,
-                'xCenter2' : xCenter2
+                'xCenter2' : xCenter2,
+                'hotpital' : hotpital
+                
               }
               console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));

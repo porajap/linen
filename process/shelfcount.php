@@ -321,7 +321,7 @@ function CreateDocument($conn, $DATA)
         INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
         INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
         INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-        WHERE  par_item_stock.DepCode = '$deptCode' AND item.IsActive = 1
+        WHERE  par_item_stock.DepCode = '$deptCode' AND par_item_stock.HptCode = '$hotpCode' AND item.IsActive = 1
         GROUP BY item.ItemCode
         ORDER BY item.ItemName ASC LImit 100";
       $meQuery = mysqli_query($conn, $Sql);
@@ -687,7 +687,7 @@ function ShowItem($conn, $DATA)
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  par_item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%' 
+  WHERE  par_item_stock.DepCode = $deptCode  AND  item.ItemName LIKE '%$searchitem%' 
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
   $return['sql'] = $Sql;
