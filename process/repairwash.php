@@ -404,7 +404,7 @@ function CreateDocument($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%' AND NOT item.IsClean = 1 AND NOT item.IsDirtyBag = 1 AND item.IsActive = 1 
+  WHERE  item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%' AND NOT item.IsClean = 1 AND NOT item.IsDirtyBag = 1 AND item.IsActive = 1 
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
     $meQuery = mysqli_query($conn, $Sql);

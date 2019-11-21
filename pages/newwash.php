@@ -428,13 +428,15 @@ $array2 = json_decode($json2,TRUE);
               senddata(JSON.stringify(data));
             }
             function ShowItem(){
+              var Hotp = $('#hotpital option:selected').attr("value");
               var deptCode = $('#department option:selected').attr("value");
               if( typeof deptCode == 'undefined' ) deptCode = "1";
               var searchitem = $('#searchitem').val();
               var data = {
-                'STATUS'  : 'ShowItem',
-                'xitem'	: searchitem,
-                'deptCode'	: deptCode
+                'STATUS'    : 'ShowItem',
+                'xitem'	    : searchitem,
+                'deptCode'	: deptCode,
+                'Hotp'	    : Hotp
               };
               senddata(JSON.stringify(data));
             }

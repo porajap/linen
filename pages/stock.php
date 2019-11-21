@@ -248,7 +248,7 @@ $array2 = json_decode($json2,TRUE);
               }
               // var inputpar = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+Par+"' OnBlur='updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
-              // var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+Qty+"' OnBlur='updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+              // var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+Qty+"' OnBlur='updatetotal(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
