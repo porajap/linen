@@ -1703,7 +1703,7 @@ $(document).ready(function(e){
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
                                       <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
-                                      <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1721,7 +1721,7 @@ $(document).ready(function(e){
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
                                       <!-- <input type="text" autocomplete="off"  style="font-size:22px;" disabled="true"  class="form-control col-sm-7 only1"  name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
                                       <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7  datepicker-here numonly charonly only only1" id="docdate" disabled="true"  placeholder="<?php echo $array['docdate'][$language]; ?>">
-                                      <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem4" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1737,7 +1737,7 @@ $(document).ready(function(e){
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
                                       <input class="form-control col-sm-7 " style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
-                                      <label id="rem1" hidden class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>
+                                      <label id="rem1" hidden class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1755,7 +1755,7 @@ $(document).ready(function(e){
                                     <label class="col-sm-4 col-form-label "><?php echo $array['factory'][$language]; ?></label>
                                     <select  class="form-control col-sm-7 icon_select" disabled="true" style="font-size:22px;"  id="factory"  onchange="removeClassBorder();">
                                       </select>
-                                      <label id="rem2"  class="col-sm-1 " style="font-size: 180%; margin-top: -1%; color: red;"> * </label>                                   
+                                      <label id="rem2"  class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>                            
                                       </div>
                                   </div>
                                 </div>

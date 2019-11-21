@@ -258,6 +258,8 @@ $array2 = json_decode($json2,TRUE);
             })
         }
         function Blankinput() {
+            $('#hptsel2').removeClass('border border-danger');
+            $('#selectTime').removeClass('border border-danger');
             $('#form1').addClass('form-group');
             $('#rem1').hide();
             $('#rem2').hide();

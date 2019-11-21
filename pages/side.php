@@ -1530,14 +1530,14 @@ $array2 = json_decode($json2,TRUE);
                                     <label class="col-sm-4 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <input type="text"  autocomplete="off" class="form-control col-sm-7 " id="HptCode1"  hidden  placeholder="<?php echo $array['hoscode'][$language]; ?>">
-                                      <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row' id="form1">
                                     <label class="col-sm-4 col-form-label ">Sitepath</label>
                                       <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="sitepath"    placeholder="Sitepath">
-                                      <label id="rem8" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem8" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div>                        
@@ -1547,14 +1547,14 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row' id="form2">
                                     <label class="col-sm-4 col-form-label "><?php echo $array['hosnameEN'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonly" id="HptName"    placeholder="<?php echo $array['hosnameEN'][$language]; ?>">
-                                      <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem2" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row' id="form3">
                                     <label class="col-sm-4 col-form-label"><?php echo $array['hosnameTH'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosnameTH'][$language]; ?>">
-                                      <label id="rem7" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem7" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div>  
@@ -1596,14 +1596,14 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['ContractName'][$language]; ?></label>
                                       <input type="text" autocomplete="off"  onkeyup="resetinput()"  class="form-control col-sm-7 checkblank3" id="ContractName"    placeholder="<?php echo $array['ContractName'][$language]; ?>">
-                                      <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['Position'][$language]; ?></label>
                                         <input type="text" autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank3" id="Position"  placeholder="<?php echo $array['Position'][$language]; ?>" >
-                                        <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                        <label id="rem4" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1612,14 +1612,14 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row'>
                                       <label class="col-sm-4 col-form-label text-right"><?php echo $array['phone'][$language]; ?></label>
                                       <input type="text" autocomplete="off" onkeyup="resetinput()"  class="form-control col-sm-7 numonly checkblank3" maxlength="10" id="phone"placeholder="<?php echo $array['phone'][$language]; ?>">
-                                      <label id="rem5" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem5" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6" id="hostdetail55">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label text-right"><?php echo $array['side'][$language]; ?></label>
                                       <select onchange="resetinput()"  class="form-control col-sm-7   checkblank3" id="host" onchange="removeClassBorder1();"></select>
-                                      <label id="rem6" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem6" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6"  hidden id="hostdetail">

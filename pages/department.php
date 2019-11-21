@@ -1327,7 +1327,7 @@ $array2 = json_decode($json2,TRUE);
                                     <label class="col-sm-3 col-form-label "><?php echo $array['codecode'][$language]; ?></label>
                                       <input type="text" autocomplete="off" onkeyup="resetinput(2)"  maxlength="6"  class="form-control col-sm-7 checkblank" id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" >
                                       <input type="text" autocomplete="off" hidden  class="form-control col-sm-7 " id="DepCodeReal" placeholder="<?php echo $array['codecode'][$language]; ?>" readonly>
-                                      <label id="rem3" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   
@@ -1335,7 +1335,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['department'][$language]; ?></label>
                                       <input type="text"  autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['department'][$language]; ?>">
-                                      <label id="rem2" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem2" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div> 
@@ -1346,7 +1346,7 @@ $array2 = json_decode($json2,TRUE);
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
                                       <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
-                                      <label id="rem1" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1354,7 +1354,7 @@ $array2 = json_decode($json2,TRUE);
                                     <label class="col-sm-3 col-form-label "><?php echo $array['group'][$language]; ?></label>
                                       <select onchange="ShowItem(2)"  class="form-control col-sm-7 checkblank" id="group2" >
                                       </select>
-                                      <label id="rem4" class="col-sm-1 " style="font-size: 180%;margin-top: -1%;"> * </label>
+                                      <label id="rem4" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
 
@@ -1383,7 +1383,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label ">SHIP_TO</label>
-                                    <input type="text" autocomplete="off"  maxlength="11"  class="form-control col-sm-7 checkblank" id="shipto" placeholder="SHIP_TO" >
+                                    <input type="text" autocomplete="off"  maxlength="11"  class="form-control col-sm-7 " id="shipto" placeholder="SHIP_TO" >
                                     </div>
                                   </div>
                                 </div> 

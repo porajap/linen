@@ -247,6 +247,7 @@
 <hosnameEN><en>HospitalEN</en><th>ชื่อโรงพยาบาลภาษาอังกฤษ</th></hosnameEN>
 <hosnameTH><en>HospitalTH</en><th>ชื่อโรงพยาบาลภาษาไทย</th></hosnameTH>
 <codecode><en>Department code</en><th>รหัส</th></codecode>
+<Groupcode><en>Group code </en><th>รหัสกลุ่ม</th></Groupcode>
 <categorycode><en>Category code </en><th>รหัสหมวดหมู่</th></categorycode>
 <categorysubcode><en>Code</en><th>รหัสหมวดหมู่รอง</th></categorysubcode>
 <customer><en>Customer</en><th>ลูกค้า</th></customer>
