@@ -563,14 +563,18 @@ function SelectDocument($conn, $DATA)
 
 function ShowItem($conn, $DATA)
 {
-  $count = 0;
-  $boolean = false;
+  $count      = 0;
+  $boolean    = false;
   $searchitem = str_replace(' ', '%', $DATA["xitem"]);
-  $deptCode = $DATA["deptCode"];
-
+  $deptCode   = $DATA["deptCode"];
+  $Hotp       = $DATA["Hotp"];
+  
   $Sql = "SELECT item.ItemCode , item.ItemName , item_unit.UnitCode , item_unit.UnitName 
-
-  FROM item , item_unit WHERE item.UnitCode = item_unit.UnitCode AND item.ItemName LIKE '%$searchitem%' AND item.IsActive = 1";
+  FROM item , item_unit 
+  WHERE item.UnitCode = item_unit.UnitCode 
+  AND item.ItemName LIKE '%$searchitem%' 
+  AND item.IsActive = 1
+  AND item.HptCode = '$Hotp'";
     $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
