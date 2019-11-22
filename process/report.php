@@ -1823,6 +1823,7 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   //$_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Stock_Count.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Stock_Count_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepName'] = $Result['DepName'];
@@ -2564,6 +2565,7 @@ function r15($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_laundry_plant.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Tracking_status_for_laundry_plant_xls.php';
   $return['555'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -2887,6 +2889,7 @@ function r18($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   // $_SESSION['data_send'] = $data_send;
   $return['sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Tracking_status_for_linen_operation_by_ward.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Tracking_status_for_linen_operation_by_ward_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DocNo'] = $Result['DocNo'];
@@ -3320,7 +3323,7 @@ function r22($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Newwash.php';
-  $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
+  $return['urlxls'] = '../report_linen/excel/Report_Newwash_xls.php';
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptName'] = $Result['HptName'];
