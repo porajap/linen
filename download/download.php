@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div  class="d-flex justify-content-center mt-5">
-                            <button class="btn btn_customer" onclick="window.location.href='http://poseintelligence.dyndns.biz:8181/linen/linen172.apk'"'"><i class="fas fa-download"></i></button>
+                            <button class="btn btn_customer" onclick="window.location.href='http://poseintelligence.dyndns.biz:8181/linen/linen_nhealth-asia.apk'"'"><i class="fas fa-download"></i></button>
                         </div>
                     </div>
                 </div>
