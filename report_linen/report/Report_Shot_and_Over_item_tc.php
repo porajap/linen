@@ -137,21 +137,7 @@ class MYPDF extends TCPDF
       $this->SetFont('thsarabunnew', '', 9);
       // Title
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 0, 'R');
-    } else {
-      $this->SetFont('thsarabunnew', '', 9);
-      $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 1, 'R');
-      $this->SetFont('thsarabunnew', '', 12);
-      $this->SetY(21);
-      $html = '<table cellspacing="0" cellpadding="1" border="1" >
-      <tr>
-          <th align="center">' . $header[0] . '</th>
-          <th align="center">' . $header[1] . '</th>
-          <th align="center">' . $header[2] . '</th>
-          <th align="center">' . $header[3] . '</th>
-      </tr>
-      </table>';
-      $this->writeHTML($html, true, false, false, false);
-    }
+    } 
   }
   // Page footer
   public function Footer()
@@ -190,7 +176,7 @@ $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 // set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 // set auto page breaks
@@ -215,6 +201,7 @@ INNER JOIN shelfcount ON department.DepCode = shelfcount.DepCode
 INNER JOIN shelfcount_detail ON shelfcount_detail.DocNo = shelfcount.DocNo 
 $where 
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
+AND department.HptCode = '$HptCode'
 GROUP BY department.DepCode
  ";
 $meQuery = mysqli_query($conn, $Sql);
@@ -228,14 +215,12 @@ $Count_Dep = sizeof($DepCode);
 // add a page
 $pdf->AddPage();
 $pdf->SetFont('thsarabunnew', 'b', 18);
+$pdf->Ln(10);
 $pdf->Cell(0, 10,  $array2['r7'][$language], 0, 0, 'C');
-$pdf->SetFont('thsarabunnew', 'b', 12);
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 12);
 $pdf->Cell(ุ0, 5,  $date_header, 0, 1, 'R');
 $pdf->Ln(3);
-
-
 
 for ($i = 0; $i < $Count_Dep; $i++) {
   $data = "SELECT

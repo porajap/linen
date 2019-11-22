@@ -228,7 +228,6 @@ $Sql = "SELECT
         WHERE par_item_stock.DepCode='$DepCode'
         AND par_item_stock.HptCode='$HptCode'
         ORDER BY item.itemName ";
-        ECHO $Sql;
 
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {

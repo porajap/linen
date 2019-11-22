@@ -1816,6 +1816,7 @@ function r9($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   INNER JOIN site ON department.HptCode = site.HptCode 
   INNER JOIN item ON item.itemCode = par_item_stock.itemCode 
                 WHERE par_item_stock.DepCode= '$DepCode'
+                AND par_item_stock.HptCode= '$HptCode'
                 GROUP BY DATE(par_item_stock.DepCode)";
 
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,  'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2,  'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
