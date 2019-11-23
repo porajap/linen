@@ -30,7 +30,7 @@ function OnLoadPage($conn, $DATA)
     $HptName = HptName;
     $FacName = FacName;
   }
-  $Sqlx = "SELECT factory.FacCode,factory.$FacName FROM factory WHERE factory.IsCancel = 0";
+  $Sqlx = "SELECT factory.FacCode,factory.$FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode =  '$HptCode' ";
   $meQueryx = mysqli_query($conn, $Sqlx);
   while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
     $return[$countx]['FacCode'] = trim($Resultx['FacCode']);
@@ -122,7 +122,14 @@ function OnLoadPage($conn, $DATA)
 }
 
 function departmentWhere($conn, $DATA)
-{
+{  $lang = $_SESSION['lang'];
+  if ($lang == 'th') {
+    $HptName = HptNameTH;
+    $FacName = FacNameTH;
+  } else {
+    $HptName = HptName;
+    $FacName = FacName;
+  }
   $HptCode = $DATA['HptCode'];
   $GroupCode = $DATA['GroupCode'];
   if ($GroupCode == 0) {
@@ -132,7 +139,10 @@ function departmentWhere($conn, $DATA)
     $Sql1 = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.GroupCode = '$GroupCode'  AND department.isDefault= 1  ORDER BY department.DepName ASC ";
     $Sql2 = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' AND department.GroupCode = '$GroupCode' AND department.isDefault= 0 AND department.isActive= 1  ORDER BY department.DepName ASC ";
   }
+  $Sql3 = "SELECT factory.FacCode,factory.$FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode =  '$HptCode' ";
+
   $count = 0;
+  $countfac = 0;
   $boolean = false;
   $meQuery = mysqli_query($conn, $Sql1);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -148,7 +158,15 @@ function departmentWhere($conn, $DATA)
     $count++;
     $boolean = true;
   }
+  $meQuery = mysqli_query($conn, $Sql3);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$countfac]['FacCode'] = trim($Result['FacCode']);
+    $return[$countfac]['FacName'] = trim($Result[$FacName]);
+    $countfac++;
+    $boolean = true;
+  }
   $return['Row'] = $count;
+  $return['Rowfac'] = $countfac;
   $boolean = true;
   if ($boolean) {
     $return['555'] = $Sql1;

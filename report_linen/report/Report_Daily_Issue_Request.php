@@ -117,7 +117,7 @@ class MYPDF extends TCPDF
     $json2 = json_encode($xml2);
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
-    $docno = $_GET['DocNo'];
+    $docno = $_GET['Docno'];
     $packing = '';
     $passengertime = '';
     $receiver = '';

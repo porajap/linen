@@ -1018,6 +1018,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#grouphpt").val(0);
 						} else if (temp["form"] == 'departmentWhere') {
 							$("#department").empty();
+							$("#factory").empty();
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep2 = "<option value='0'>" + depValue0 + "</option>";
 							for (var i = 0; i < temp['Row']; i++) {
@@ -1025,6 +1026,14 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$("#department").html(dep2);
 							$("#select_0").attr('selected', true);
+
+
+							var facValue0 = '-';
+							var fac = "<option value='0'>" + facValue0 + "</option>";
+							for (var i = 0; i < temp['Rowfac']; i++) {
+								fac += "<option value=" + temp[i]['FacCode'] + ">" + temp[i]['FacName'] + "</option>";
+							}
+							$("#factory").append(fac);
 							var DocDate = temp[i]['DocDate'];
 
 						} else if (temp["form"] == 'Fac') {

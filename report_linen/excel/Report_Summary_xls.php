@@ -178,7 +178,7 @@ if ($DepCodeCome == '0') {
     FROM
     department
     INNER JOIN shelfcount ON shelfcount.DepCode = department.DepCode
-    WHERE shelfcount.isStatus <> 9
+    WHERE shelfcount.isStatus <> 9 AND department.HptCode  = '$HptCode'
     GROUP BY shelfcount.DepCode ORDER BY shelfcount.DepCode  ASC
                 ";
   $meQuery = mysqli_query($conn, $query);

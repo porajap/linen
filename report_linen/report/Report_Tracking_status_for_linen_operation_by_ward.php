@@ -331,6 +331,7 @@ $Sql = "SELECT
 department.DepCode
 FROM
 department
+WHERE department.HptCode  = '$HptCode'
  ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -404,7 +405,6 @@ AND shelfcount.isStatus <> 9 ";
   // Number of column
   $numfield = 6;
   // Field data (Must match with Query)
-  $field = "docno,CycleTime,ScStartTime,ScEndTime,SC,PkStartTime,PkEndTime,PK,DvStartTime,DvEndTime,DV,,USER,TimeName,DepCode,DepName";
   // Table header
   $width = array(40, 15, 40, 40, 40, 40, 50, 15);
   // Get Data and store in Result
