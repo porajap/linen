@@ -66,6 +66,7 @@ $array2 = json_decode($json2, TRUE);
   <!-- Include English language -->
   <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
   <link href="../css/menu_custom.css" rel="stylesheet">
+  <link rel="stylesheet" href="../dropify/dist/css/dropify.min.css">
 
   <script type="text/javascript">
     var summary = [];
@@ -2504,6 +2505,18 @@ $array2 = json_decode($json2, TRUE);
             <div id="memu_tap1">
 
               <div class="row m-1 mt-5 d-flex justify-content-end" >
+                <div class="menu mhee" >
+                            <div class="d-flex justify-content-center">
+                              <div class="circle6 d-flex justify-content-center">
+                                <button class="btn"  data-toggle="modal" data-target="#modalExcel">
+                                  <i class="fas fa-plus"></i>
+                                  <div>
+                                    Excel/CSV
+                                  </div>       
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                 <div class="menu mhee" id="ActiveBNT" <?php if($PmID != 6) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
@@ -2997,6 +3010,26 @@ $array2 = json_decode($json2, TRUE);
 </div>
 
 
+<div class="modal fade" id="modalExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['upload'][$language]; ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body upload-doc">
+        <input type="file" class="dropify"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="fileExcel" name="fileExcel" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary px-2" data-dismiss="modal"><?php echo $array['isno'][$language]; ?></button>
+        <button type="button" class="btn btn-primary  px-2" id='comfirm_submit' disabled onclick='uploadExcel()'><?php echo $array['yes'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
       <div id="page-down">
       </div>
       <!-- /#wrapper -->
@@ -3022,7 +3055,115 @@ $array2 = json_decode($json2, TRUE);
 
       <!-- Demo scripts for this page-->
       <script src="../template/js/demo/datatables-demo.js"></script>
+      <script src="../dropify/dist/js/dropify.min.js"></script>
+      <script>
+        $(document).ready(function(e) {
+          $('.dropify').dropify();
 
+          // Used events
+          var drEvent = $('#input-file-events').dropify();
+
+          drEvent.on('dropify.beforeClear', function(event, element) {
+              return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+          });
+
+          drEvent.on('dropify.afterClear', function(event, element) {
+              alert('File deleted');
+          });
+
+          drEvent.on('dropify.errors', function(event, element) {
+              console.log('Has Errors');
+          });
+          checkFileLength();
+          $('.upload-doc input[type="file"]').on('change', function () {
+              checkFileLength();
+          });
+        });
+        function checkFileLength() {
+          let $upload_file_elem = $('.upload-doc input[type="file"]');
+          let file_length = $upload_file_elem.length;
+          let validation = 0;
+
+          for (i = 0; i < file_length; i++) {
+              if ($($upload_file_elem[i]).val() != '') {
+                  validation++;
+              }
+          }
+
+          if (validation >= 1) {
+              $('#comfirm_submit').removeAttr('disabled');
+          }
+        }
+
+        function uploadExcel(){
+          var file_data = $('#fileExcel').prop('files')[0];   
+          if(file_data!=''){
+              swal({
+              title: "",
+              text: "<?php echo $array['upload'][$language]; ?>",
+              type: "question",
+              showCancelButton: true,
+              confirmButtonClass: "btn-success",
+              confirmButtonText:  "<?php echo $array['yes'][$language]; ?>",
+              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+              confirmButtonColor: '#6fc864',
+              cancelButtonColor: '#3085d6',
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showCancelButton: true}).then(result => {
+                if (result.value) {
+                      var file_data = $('#fileExcel').prop('files')[0];   
+                      var form_data = new FormData();                  
+                      form_data.append('file', file_data);
+                      var URL = '../process/itemExcel.php';
+                      $.ajax({
+                          url: URL, 
+                          dataType: 'text',
+                          cache: false,
+                          contentType: false,
+                          processData: false,
+                          data:  form_data,
+                          type: 'post',
+                          success: function(result){
+                            swal({
+                              title: '',
+                              text: '<?php echo $array['uploadsuc'][$language]; ?>',
+                              type: 'success',
+                              showCancelButton: false,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: '#d33',
+                              showConfirmButton: false,
+                              timer: 1000,
+                            });
+                            setTimeout(() => {
+                              $('#modalExcel').modal('toggle');
+                            }, 1000); 
+                          }
+                      });
+                } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                }
+              })
+          }else{
+            swal({
+                title: '',
+                text: "<?php echo $array['required'][$language]; ?>",
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
+            })
+            $('.checkblank').each(function() {
+                if($(this).val()==""||$(this).val()==undefined){
+                $(this).css('border-color', 'red');
+                }
+            });
+          }
+        }
+      </script>
 </body>
 
 </html>
