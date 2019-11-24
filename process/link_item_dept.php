@@ -539,7 +539,7 @@ function SelectItemStock($conn, $DATA)
           COUNT(item_stock.ItemCode) AS FindItem
           FROM item_stock
           INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-          WHERE item_stock.ItemCode = '$ItemCode[$j]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = $DepCode";
+          WHERE item_stock.ItemCode = '$ItemCode[$j]'  AND item_stock.IsStatus = 0 AND item_stock.DepCode = '$DepCode'";
           $FindQuery = mysqli_query($conn, $Find);
           while ($FindResult = mysqli_fetch_assoc($FindQuery)){
             if($FindResult['FindItem']>0){

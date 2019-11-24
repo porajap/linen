@@ -1783,6 +1783,12 @@ $(document).ready(function(e){
                                       <label id="rem2"  class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>                       
                                       </div>
                                   </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
+                                      <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>

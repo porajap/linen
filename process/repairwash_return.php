@@ -278,6 +278,7 @@ function CreateDocument($conn, $DATA)
     }
     $return['Count'] = $count;
     if ($boolean) {
+      $return['sql'] = $Sql;
       $return['status'] = "success";
       $return['form'] = "ShowDocument";
       echo json_encode($return);

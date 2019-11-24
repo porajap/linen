@@ -269,8 +269,12 @@ function ShowDocument($conn, $DATA)
   INNER JOIN department ON return_doc.DepCodeFrom = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON return_doc.Modify_Code = users.ID ";
-
-  if ($Hotp != null && $deptCode == null && $datepicker == null) {
+    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND return_doc.DocNo LIKE '%$xDocNo%' ";
+      if($xDocNo!=null){
+        $Sql .= " OR return_doc.DocNo LIKE '%$xDocNo%' ";
+      }
+  }else if ($Hotp != null && $deptCode == null && $datepicker == null) {
     $Sql .= " WHERE site.HptCode = '$Hotp' AND return_doc.DocNo LIKE '%$xDocNo%' ";
   }else if($Hotp == null && $deptCode != null && $datepicker == null){
     $Sql .= "  WHERE return_doc.DocNo LIKE '%$xDocNo%'";

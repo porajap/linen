@@ -1254,7 +1254,6 @@ $(document).ready(function(e){
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
                 $('#home-tab').tab('show')
-
                 $("#hotpital").val(temp[0]['HptName']);
                 $("#hotpital").prop('disabled', true);
                 $('#hotpital').addClass('icon_select');

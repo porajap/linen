@@ -91,6 +91,24 @@ function getDepartment($conn,$DATA){
 // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
 // mysqli_query($conn,$Sqlx);
 
+function updatepar($conn,$DATA){
+  $par = $DATA["par"];
+  $rowid = $DATA["rowid"];
+
+  $Sql="UPDATE par_item_stock SET ParQty  = $par 
+        WHERE RowID = $rowid";
+    mysqli_query($conn,$Sql);
+}
+function updatetotal($conn,$DATA){
+  $total = $DATA["total"];
+  $rowid = $DATA["rowid"];
+
+  $Sql="UPDATE par_item_stock SET TotalQty  = $total 
+        WHERE RowID = $rowid";
+    mysqli_query($conn,$Sql);
+  
+}
+
 function ShowDocument($conn,$DATA){
   $boolean = false;
   $count = 0;
@@ -101,6 +119,7 @@ function ShowDocument($conn,$DATA){
 
   $Sql = "SELECT
   par_item_stock.ItemCode,
+  par_item_stock.RowID,
   item.ItemName,
   department.DepCode,
   department.DepName,
@@ -129,7 +148,8 @@ INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode  ";
     $return[$count]['DepName'] 	= $Result['DepName'];
     $return[$count]['Qty'] 	= $Result['TotalQty'];
     $return[$count]['ParQty'] 	= $Result['ParQty'];
-
+    $return[$count]['RowID'] 	= $Result['RowID'];
+    
     $boolean = true;
     $count++;
   }
@@ -168,6 +188,10 @@ if(isset($_POST['DATA']))
     getDepartment($conn, $DATA);
   }elseif($DATA['STATUS']=='ShowDocument'){
     ShowDocument($conn,$DATA);
+  }elseif($DATA['STATUS']=='updatetotal'){
+    updatetotal($conn,$DATA);
+  }elseif($DATA['STATUS']=='updatepar'){
+    updatepar($conn,$DATA);
   }
 
 }else{

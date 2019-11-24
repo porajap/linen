@@ -415,13 +415,13 @@ function ShowDocument($conn, $DATA)
   INNER JOIN site ON newlinentable.HptCode = site.HptCode
   INNER JOIN users ON newlinentable.Modify_Code = users.ID ";
 
-  // if($DocNo!=null){
-  //   $Sql .= " WHERE newlinentable.DocNo = '$DocNo' AND newlinentable.DocNo LIKE '%$xDocNo%'";
-  // }else{
+  if($DocNo!=null){
+    $Sql .= " WHERE newlinentable.DocNo = '$DocNo' AND newlinentable.DocNo LIKE '%$xDocNo%'";
+  }else{
     if ($Hotp != null  && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%' ";
     }else if ($Hotp == null  && $datepicker != null){
-      $Sql .= " WHERE newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE  newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null  && $datepicker != null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null  && $datepicker != null){
@@ -429,7 +429,7 @@ function ShowDocument($conn, $DATA)
     }else if($Hotp == null  && $datepicker == null){
       $Sql .= "WHERE newlinentable.DocNo LIKE '%$xDocNo%'";
     }
-  // }
+  }
   // if($selecta == null){
   //   $Sql .= " WHERE newlinentable.DocNo = '$DocNo'";
   // }else if ($selecta == 1) {
