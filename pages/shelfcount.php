@@ -2360,7 +2360,7 @@ $array2 = json_decode($json2,TRUE);
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
-                "<td style='text-overflow: ellipsis;overflow: hidden;width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                "<td style='width: 21%;'>"+temp[i]['ItemName']+"</td>"+
                 // "<td style='width: 12%;'nowrap>"+chkunit+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Par+"</td>"+
                 "<td style='width: 11%;'nowrap>"+Sc+"</td>"+
