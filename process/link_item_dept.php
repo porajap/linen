@@ -403,10 +403,8 @@ function additemstock($conn, $DATA)
     $return['setTotalQty'] = $setTotalQty;
     if($cnt == 1){
       if($countPar==0){
-        $Sql2="INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)VALUES";
-          for($j=0; $j < $Number[$i] ; $j++){
-            $Sql2.="('".$Itemcode[$i]."', '$Deptid', $ParQty, 0, $Number[$i], 0, NOW()),";
-          }
+        $Sql2="INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus,TotalQty,UsageCode,ExpireDate)
+          VALUES ('".$Itemcode[$i]."', '$Deptid', $ParQty, 0, $Number[$i], 0, NOW()) ";
           $Sql2=rtrim($Sql2, ",");
           mysqli_query($conn,$Sql2);
           $boolean++;
@@ -415,12 +413,12 @@ function additemstock($conn, $DATA)
         $return['update'] = $update;
         mysqli_query($conn,$update);
 
-        $Sql2="INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus, TotalQty, UsageCode) VALUES";
-        for($j=0; $j < $Number[$i] ; $j++){
-          $Sql2.="('".$Itemcode[$i]."', '$Deptid', $setPar, 0, $setTotalQty, 0),";
-        }
-        $Sql2=rtrim($Sql2, ",");
-        mysqli_query($conn,$Sql2);
+        // $Sql2="INSERT INTO item_stock(ItemCode,DepCode,ParQty,IsStatus, TotalQty, UsageCode) VALUES";
+        // for($j=0; $j < $Number[$i] ; $j++){
+        //   $Sql2.="('".$Itemcode[$i]."', '$Deptid', $setPar, 0, $setTotalQty, 0),";
+        // }
+        // $Sql2=rtrim($Sql2, ",");
+        // mysqli_query($conn,$Sql2);
         $boolean++;
       }
 

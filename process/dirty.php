@@ -216,9 +216,17 @@
       dirty.DocNo,
       DATE(dirty.DocDate) AS DocDate,
       dirty.Total,
-      users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
-      TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
+      users.EngName,
+      users.EngLName,
+      users.ThName,
+      users.ThLName,
+      users.EngPerfix,
+      users.ThPerfix,
+      TIME(dirty.Modify_Date) AS xTime,
+      dirty.IsStatus,
+      factory.FacName
       FROM dirty
+      INNER JOIN factory ON dirty.FacCode = factory.FacCode
       INNER JOIN site ON dirty.HptCode = site.HptCode
       INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
@@ -250,13 +258,13 @@
           $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
           $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
         }
-
-        $return[$count]['HptName']   = $Result['HptName'];
-        $return[$count]['DocNo']   = $Result['DocNo'];
-        $return[$count]['DocDate']   = $newdate;
-        $return[$count]['RecNow']   = $Result['xTime'];
-        $return[$count]['Total']   = $Result['Total'];
-        $return[$count]['IsStatus'] = $Result['IsStatus'];
+        $return[$count]['FacName']    = $Result['FacName'];
+        $return[$count]['HptName']    = $Result['HptName'];
+        $return[$count]['DocNo']      = $Result['DocNo'];
+        $return[$count]['DocDate']    = $newdate;
+        $return[$count]['RecNow']     = $Result['xTime'];
+        $return[$count]['Total']      = $Result['Total'];
+        $return[$count]['IsStatus']   = $Result['IsStatus'];
         $boolean = true;
         $count++;
       }

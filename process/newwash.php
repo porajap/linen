@@ -410,9 +410,18 @@ function ShowDocument($conn, $DATA)
   newlinentable.DocNo,
   DATE(newlinentable.DocDate) AS DocDate,
   newlinentable.Total,
-  users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix , TIME(newlinentable.Modify_Date) AS xTime,newlinentable.IsStatus
+  users.EngName,
+  users.EngLName,
+  users.ThName,
+  users.ThLName,
+  users.EngPerfix,
+  users.ThPerfix,
+  factory.FacName, 
+  TIME(newlinentable.Modify_Date) AS xTime,
+  newlinentable.IsStatus
   FROM newlinentable
   INNER JOIN site ON newlinentable.HptCode = site.HptCode
+  INNER JOIN factory ON newlinentable.FacCode = factory.FacCode
   INNER JOIN users ON newlinentable.Modify_Code = users.ID ";
 
   if($DocNo!=null){
@@ -451,12 +460,13 @@ function ShowDocument($conn, $DATA)
       $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
 
-    $return[$count]['HptName']   = $Result['HptName'];
-    $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $newdate;
-    $return[$count]['RecNow']   = $Result['xTime'];
-    $return[$count]['Total']   = $Result['Total'];
-    $return[$count]['IsStatus'] = $Result['IsStatus'];
+    $return[$count]['FacName']    = $Result['FacName'];
+    $return[$count]['HptName']    = $Result['HptName'];
+    $return[$count]['DocNo']      = $Result['DocNo'];
+    $return[$count]['DocDate']    = $newdate;
+    $return[$count]['RecNow']     = $Result['xTime'];
+    $return[$count]['Total']      = $Result['Total'];
+    $return[$count]['IsStatus']   = $Result['IsStatus'];
     $boolean = true;
     $count++;
   }
