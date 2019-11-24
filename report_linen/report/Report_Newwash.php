@@ -292,9 +292,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 // }
 
 //footer
-$pdf->SetFont('THSarabun', 'b', 14);
-$pdf->Cell(145, 7, iconv("UTF-8", "TIS-620", $array['Sum'][$language]), 1, 0, 'C');
-$pdf->Cell(45, 7, iconv("UTF-8", "TIS-620", number_format($totalsum, 2)), 1, 1, 'C');
+// $pdf->SetFont('THSarabun', 'b', 14);
+// $pdf->Cell(145, 7, iconv("UTF-8", "TIS-620", $array['Sum'][$language]), 1, 0, 'C');
+// $pdf->Cell(45, 7, iconv("UTF-8", "TIS-620", number_format($totalsum, 2)), 1, 1, 'C');
 
 
 

@@ -993,7 +993,7 @@ $array2 = json_decode($json2, TRUE);
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
-							 dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
+							dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -1018,6 +1018,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#grouphpt").val(0);
 						} else if (temp["form"] == 'departmentWhere') {
 							$("#department").empty();
+							$("#factory").empty();
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep2 = "<option value='0'>" + depValue0 + "</option>";
 							for (var i = 0; i < temp['Row']; i++) {
@@ -1025,6 +1026,14 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$("#department").html(dep2);
 							$("#select_0").attr('selected', true);
+
+
+							var facValue0 = '-';
+							var fac = "<option value='0'>" + facValue0 + "</option>";
+							for (var i = 0; i < temp['Rowfac']; i++) {
+								fac += "<option value=" + temp[i]['FacCode'] + ">" + temp[i]['FacName'] + "</option>";
+							}
+							$("#factory").append(fac);
 							var DocDate = temp[i]['DocDate'];
 
 						} else if (temp["form"] == 'Fac') {
@@ -1068,12 +1077,10 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
 									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
-								if (temp['r'] == 'r15' || temp['r'] == 'r22') {
-									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
-								} else {
+								 
 									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
 										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
-								}
+								
 								"</tr>";
 								$("#table_Fac tbody").append(dataRow);
 							}
@@ -1118,9 +1125,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
 								if (temp['r'] == 'r29' || temp['r'] == 'r30') {
 									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
-								} else if (temp['r'] == '9') {
-									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
-								} else {
+								}  else {
 									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
 										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
 
@@ -1252,11 +1257,10 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center pl-4' style='width:60%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
-								if (temp['r'] == 'r23' || temp['r'] == 'r24') {
+								if (temp['r'] == 'r23' || temp['r'] == 'r24' || temp['r'] == 'r7') {
 									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
 										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
-								}
-								else if (temp['r'] == 'r7' || temp['r'] == 'r18') {
+								} else if (temp['r'] == 'r18') {
 									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
 								} else {
 									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";

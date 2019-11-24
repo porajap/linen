@@ -232,7 +232,7 @@ if ($chk == 'one') {
     LEFT JOIN department ON department.DepCode = clean.DepCode
 		LEFT JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-      AND clean.IsStatus <>9
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
     )d,
     (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
       COALESCE(return_wash.DocDate,0) AS DocDate
@@ -366,9 +366,9 @@ if ($chk == 'one') {
       COALESCE(clean.DocDate,0) AS DocDate
       FROM clean
       LEFT JOIN department ON department.DepCode = clean.DepCode
-		LEFT JOIN site ON department.HptCode = site.HptCode
+		  LEFT JOIN site ON department.HptCode = site.HptCode
       WHERE DATE (clean.Docdate) = '$date' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-      AND clean.IsStatus <>9
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
       )d,
       (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
           COALESCE(return_wash.DocDate,0) AS DocDate
@@ -509,7 +509,7 @@ if ($chk == 'one') {
   LEFT JOIN department ON department.DepCode = clean.DepCode
 		LEFT JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-      AND clean.IsStatus <>9
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
   )d,
   (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
   COALESCE(return_wash.DocDate,0) AS DocDate
@@ -636,7 +636,7 @@ if ($chk == 'one') {
   LEFT JOIN department ON department.DepCode = clean.DepCode
 		LEFT JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date.$i' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-      AND clean.IsStatus <>9
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
   )d,
   (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
   COALESCE(return_wash.DocDate,0) AS DocDate
@@ -765,7 +765,7 @@ if ($chk == 'one') {
   LEFT JOIN department ON department.DepCode = clean.DepCode
 		LEFT JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date$i' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-      AND clean.IsStatus <>9
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
   )d,
   (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
   COALESCE(return_wash.DocDate,0) AS DocDate

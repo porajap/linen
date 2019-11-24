@@ -144,12 +144,6 @@ class PDF extends FPDF
 
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
-        if ($inner_array[$field[1]] == null) {
-          $inner_array[$field[1]] = $inner_array[$field[10]];
-        }
-        if ($inner_array[$field[1]] == null && $inner_array[$field[10]] == NULL) {
-          $inner_array[$field[1]] = $inner_array[$field[11]];
-        }
         if ($language == 'th') {
           $hour_show = " ชั่วโมง";
           $min_show = " นาที";
@@ -180,10 +174,8 @@ class PDF extends FPDF
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", abs($total_hours) . $hour_show . " " . abs($total_min) . $min_show), 1, 0, 'C');
         $this->Ln();
         $rows++;
-        $totalsum1 += $inner_array[$field[2]];
-        $totalsum2 += $inner_array[$field[4]];
       }
-    }
+    }  $field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime";
     // Footer Table
 
 
@@ -295,7 +287,7 @@ AND process.isStatus <> 9
   // Number of column
   $numfield = 6;
   // Field data (Must match with Query)
-  $field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total,ReceiveDate2,ReceiveDate3";
+  $field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total";
   // Table header
   $header = array($array2['docdate'][$language], $array2['receive_time'][$language], $array2['washing_time'][$language], $array2['packing_time'][$language], $array2['distribute_time'][$language], $array2['total'][$language]);
   // width of column table

@@ -30,10 +30,8 @@ $betweendate2 = $data[5];
 $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
-$DepCode = [];
-$DepName =  [];
 $where = '';
-$start_row = 8;
+$start_row = 9;
 $check = '';
 $Qty = 0;
 $Weight = 0;
@@ -47,7 +45,8 @@ if ($language == 'th') {
 }
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
+    $where_new = "WHERE  DATE (newlinentable.DocDate) LIKE '%$date1%'";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -57,7 +56,9 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
+    $where_new = "WHERE  year (newlinentable.DocDate) LIKE '%$date1%'";
+
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -66,21 +67,23 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  $where = "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_new = "WHERE newlinentable.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $year2 = $year2 + 543;
     $year = $year + 543;
-    $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . $array['to'][$language] .
+    $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . " " . $array['to'][$language] . " " .
       $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
   } else {
     $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
-      $day2 . " " . $datetime->getmonthFromnum($mouth2) . $year2;
+      $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " .  $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
+  $where =   "WHERE month (clean.Docdate) = " . $date1;
+  $where_new = "WHERE month (newlinentable.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -88,7 +91,8 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE date(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE date(clean.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where_new =  "WHERE date(newlinentable.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -100,11 +104,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
-if ($language == 'th') {
-  $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-} else {
-  $printdate = date('d') . " " . date('F') . " " . date('Y');
-}
+
 /**
  * PHPExcel
  *
@@ -168,117 +168,120 @@ $objPHPExcel->getActiveSheet()
   ->getHeaderFooter()->setOddFooter('&R Page &P / &N');
 $objPHPExcel->getActiveSheet()
   ->getHeaderFooter()->setEvenFooter('&R Page &P / &N');
+
 $objPHPExcel->getActiveSheet()
   ->setShowGridlines(true);
-// Setting rows/columns to repeat at the top/left of each page
 
-$Sql = "SELECT 
-department.DepCode, department.DepName 
-FROM department 
-INNER JOIN shelfcount ON department.DepCode = shelfcount.DepCode 
-INNER JOIN shelfcount_detail ON shelfcount_detail.DocNo = shelfcount.DocNo 
-$where 
-AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
-AND department.HptCode = '$HptCode'
-GROUP BY department.DepCode
- ";
+$objPHPExcel->setActiveSheetIndex(0)
+  ->setCellValue('A8',  $array2['no'][$language])
+  ->setCellValue('B8',  $array2['itemname'][$language])
+  ->setCellValue('C8',  $array2['unit'][$language])
+  ->setCellValue('D8',  $array2['par'][$language])
+  ->setCellValue('E8',  $array2['order'][$language]);
+
+// Write data from MySQL result
+$Sql = "SELECT
+        department.DepName
+        FROM
+        par_item_stock
+        INNER JOIN department ON par_item_stock.Depcode=department.Depcode
+        WHERE par_item_stock.DepCode='$DepCode'
+       ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $DepCode[] = $Result['DepCode'];
-  $DepName[] = $Result['DepName'];
+  $depname = $Result['DepName'];
 }
-$Count_Dep = sizeof($DepCode);
-$objPHPExcel->getActiveSheet()->mergeCells('A5:D5');
+$datetime = new DatetimeTH();
+if ($language == 'th') {
+  $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
+} else {
+  $printdate = date('d') . " " . date('F') . " " . date('Y');
+}
 $objPHPExcel->getActiveSheet()->setCellValue('D1', $array2['printdate'][$language] . $printdate);
-$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r7'][$language]);
-$objPHPExcel->getActiveSheet()->setCellValue('D6', $date_header);
-
-for ($i = 0; $i < $Count_Dep; $i++) {
-  $data = "SELECT
-IFNULL(SUM(shelfcount_detail.Over),0) AS OverPar,
-IFNULL(SUM(shelfcount_detail.Short),0) AS Short ,
-item.itemName,
-department.DepName
-FROM
-shelfcount_detail
-INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
-INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
-INNER JOIN department ON department.DepCode = shelfcount.DepCode
-$where 
-AND  department.DepCode = '$DepCode[$i]'
-AND department.HptCode = '$HptCode'
-AND shelfcount.isStatus<> 9
-AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
-GROUP BY
-	item.itemName,
-  department.DepCode";
-  $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row,$array2['department'][$language] . ' : ' . $DepName[$i]);
+$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r9'][$language]);
+$objPHPExcel->getActiveSheet()->mergeCells('A5:E5');
+$objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['department'][$language] . " : " . $depname);
+$Sql = "SELECT
+        item.itemName,
+        item_unit.unitname,
+        par_item_stock.TotalQty,
+        par_item_stock.ParQty
+        FROM
+        par_item_stock
+        INNER JOIN department ON par_item_stock.Depcode=department.Depcode
+        INNER JOIN item on item.ItemCode=par_item_stock.ItemCode
+        INNER JOIN item_unit on item.unitcode=item_unit.unitcode
+        WHERE par_item_stock.DepCode='$DepCode'
+        AND par_item_stock.HptCode='$HptCode'
+        ORDER BY item.itemName ";
+$meQuery = mysqli_query($conn, $Sql);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $count);
+  $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $Result["itemName"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["unitname"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["ParQty"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["TotalQty"]);
   $start_row++;
-  $first_row = $start_row;
-  $objPHPExcel->setActiveSheetIndex()
-    ->setCellValue('A' . $start_row,  $array2['no'][$language])
-    ->setCellValue('B' . $start_row,  $array2['itemname'][$language])
-    ->setCellValue('C' . $start_row,  $array2['shot'][$language])
-    ->setCellValue('D' . $start_row,  $array2['over'][$language]);
-  $start_row++;
-  $head_row = $start_row;
-  $meQuery = mysqli_query($conn, $data);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $count);
-    $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $Result["itemName"]);
-    $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["Short"]);
-    $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["OverPar"], 2);
-    $last_start_row_dep = $start_row;
-    $start_row++;
-    $count++;
-  }
-  $styleArray = array(
-
-    'borders' => array(
-
-      'allborders' => array(
-
-        'style' => PHPExcel_Style_Border::BORDER_THIN
-      )
-    )
-  );
-  $objPHPExcel->getActiveSheet()->getStyle('A' . $first_row . ':D' . $last_start_row_dep)->applyFromArray($styleArray);
-  $CENTER = array(
-    'alignment' => array(
-      'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-    ),
-    'font'  => array(
-      // 'bold'  => true,
-      // 'color' => array('rgb' => 'FF0000'),
-      'size'  => 10,
-      'name'  => 'THSarabun'
-    )
-  );
-  $objPHPExcel->getActiveSheet()->getStyle('A' . $first_row.':A'.$last_start_row_dep)->applyFromArray($CENTER);
-  $objPHPExcel->getActiveSheet()->getStyle('A' . $first_row . ':D' . $first_row)->applyFromArray($CENTER);
-  $objPHPExcel->getActiveSheet()->getStyle('C' . $first_row . ':D' . $last_start_row_dep)->applyFromArray($CENTER);
-  $R8 = array(
-    'alignment' => array(
-      'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-    ),
-    'font'  => array(
-      'bold'  => true,
-      // 'color' => array('rgb' => 'FF0000'),
-      'size'  => 18,
-      'name'  => 'THSarabun'
-    )
-  );
-  $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($R8);
-  $count = 1;
-  $start_row++;
+  $count++;
 }
-$cols = array('A', 'B', 'C', 'D');
-$width = array(10, 35, 20, 20);
+
+$cols = array('A', 'B', 'C', 'D', 'E');
+$width = array(10, 40, 10, 10, 15);
 for ($j = 0; $j < count($cols); $j++) {
   $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
 }
+$start_row -- ;
+$styleArray = array(
 
-// $objPHPExcel->getActiveSheet()->getColumnDimension("A:D")->setAutoSize(true);
+  'borders' => array(
+
+    'allborders' => array(
+
+      'style' => PHPExcel_Style_Border::BORDER_THIN
+    )
+  )
+);
+$objPHPExcel->getActiveSheet()->getStyle('A8'  . ':E' . $start_row)->applyFromArray($styleArray);
+$CENTER = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    // 'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
+$objPHPExcel->getActiveSheet()->getStyle('A8' . ':A' . $start_row)->applyFromArray($CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('A8'  . ':E' . $start_row)->applyFromArray($CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('C8'  . ':E' . $start_row)->applyFromArray($CENTER);
+$R8 = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 18,
+    'name'  => 'THSarabun'
+  )
+);
+$objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($R8);
+$LEFT = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+  ),
+  'font'  => array(
+    // 'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
+$objPHPExcel->getActiveSheet()->getStyle('B9' . ':B' . $start_row)->applyFromArray($LEFT);
+
+
 $objDrawing = new PHPExcel_Worksheet_Drawing();
 $objDrawing->setName('test_img');
 $objDrawing->setDescription('test_img');
