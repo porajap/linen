@@ -545,6 +545,7 @@ function SelectItemStock($conn, $DATA)
                 $count2 = 0;
                 $SqlItem = " SELECT 
                     item_stock.ItemCode,
+                    item_stock.ParQty,
                     item.ItemName
                   FROM item_stock
                   INNER JOIN item ON item_stock.ItemCode = item.ItemCode
@@ -553,6 +554,7 @@ function SelectItemStock($conn, $DATA)
                   ORDER BY item_stock.RowID DESC";
                   $ItemQuery = mysqli_query($conn, $SqlItem);
                   while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
+                    $return[$countx]['ParQty']    = $IResult['ParQty'];
                     $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
                     $return[$countx]['ItemNameX'] = $IResult['ItemName'];
                     $xItemCode = $IResult['ItemCode'];
@@ -692,6 +694,7 @@ function ShowItemStock($conn, $DATA)
     $count2 = 0;
     $SqlItem = " SELECT
         item_stock.ItemCode,
+        item_stock.ParQty,
         item.ItemName
       FROM item_stock
       INNER JOIN item ON item_stock.ItemCode = item.ItemCode
@@ -700,6 +703,7 @@ function ShowItemStock($conn, $DATA)
       ORDER BY item_stock.RowID DESC";
       $ItemQuery = mysqli_query($conn, $SqlItem);
       while ($IResult = mysqli_fetch_assoc($ItemQuery)) {
+        $return[$countx]['ParQty'] = $IResult['ParQty'];
         $return[$countx]['ItemCodeX'] = $IResult['ItemCode'];
         $return[$countx]['ItemNameX'] = $IResult['ItemName'];
         $xItemCode = $IResult['ItemCode'];

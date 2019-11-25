@@ -16,27 +16,34 @@
     TIME(shelfcount.PkEndTime) 		AS PkEndTime,
     TIME(shelfcount.DvStartTime) 	AS DvStartTime,
     TIME(shelfcount.DvEndTime) 		AS DvEndTime,
-    shelfcount.IsStatus
+    shelfcount.IsStatus,
+	users.EngName,
+    users.EngLName,
+    users.EngPerfix
 FROM shelfcount
+INNER JOIN users ON shelfcount.Modify_Code = users.ID
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode 
 WHERE shelfcount.DocDate='$current' 
 AND NOT shelfcount.IsStatus = 9 
-AND site.HptCode = '$HptCode' 
+AND site.HptCode = 'BHQ'
 AND shelfcount.DeliveryTime = 0
 AND shelfcount.ScTime = 0 
 ORDER BY shelfcount.DocNo DESC";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $reurn['Sc'][$count]['DocNo']       = $Result['DocNo'];
-        $reurn['Sc'][$count]['DepName']     = $Result['DepName'];
-        $reurn['Sc'][$count]['IsStatus']     = $Result['IsStatus'];
-        $reurn['Sc'][$count]['ScStartTime'] = $Result['ScStartTime']    ==null?'Not arrive':$Result['ScStartTime'];
-        $reurn['Sc'][$count]['ScEndTime']   = $Result['ScEndTime']      ==null?'Not arrive':$Result['ScEndTime'];
-        $reurn['Sc'][$count]['PkStartTime'] = $Result['PkStartTime']    ==null?'Not arrive':$Result['PkStartTime'];
-        $reurn['Sc'][$count]['PkEndTime']   = $Result['PkEndTime']      ==null?'Not arrive':$Result['PkEndTime'];
-        $reurn['Sc'][$count]['DvStartTime'] = $Result['DvStartTime']    ==null?'Not arrive':$Result['DvStartTime'];
-        $reurn['Sc'][$count]['DvEndTime']   = $Result['DvEndTime']      ==null?'Not arrive':$Result['DvEndTime'];
+        $reurn['Sc'][$count]['EngName']         = $Result['EngName'];
+        $reurn['Sc'][$count]['EngLName']        = $Result['EngLName'];
+        $reurn['Sc'][$count]['EngPerfix']       = $Result['EngPerfix'];
+        $reurn['Sc'][$count]['DocNo']           = $Result['DocNo'];
+        $reurn['Sc'][$count]['DepName']         = $Result['DepName'];
+        $reurn['Sc'][$count]['IsStatus']        = $Result['IsStatus'];
+        $reurn['Sc'][$count]['ScStartTime']     = $Result['ScStartTime']    ==null?'Not arrive':$Result['ScStartTime'];
+        $reurn['Sc'][$count]['ScEndTime']       = $Result['ScEndTime']      ==null?'Not arrive':$Result['ScEndTime'];
+        $reurn['Sc'][$count]['PkStartTime']     = $Result['PkStartTime']    ==null?'Not arrive':$Result['PkStartTime'];
+        $reurn['Sc'][$count]['PkEndTime']       = $Result['PkEndTime']      ==null?'Not arrive':$Result['PkEndTime'];
+        $reurn['Sc'][$count]['DvStartTime']     = $Result['DvStartTime']    ==null?'Not arrive':$Result['DvStartTime'];
+        $reurn['Sc'][$count]['DvEndTime']       = $Result['DvEndTime']      ==null?'Not arrive':$Result['DvEndTime'];
 
         $count++;
     }

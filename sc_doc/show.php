@@ -109,19 +109,24 @@
                                 }
                             row += '<tr '+Style+'>'+
                                     '<td class="text-center">'+(key+1)+'        </td>'+
-                                    '<td class="text-left">'+val.DocNo+'        </td>'+
+                                    '<td class="text-left">'+val.DocNo+'       </td>'+
                                     '<td class="text-left">'+val.DepName+'      </td>'+
-                                    '<td class="text-left">'+val.ScStartTime+'  </td>'+
-                                    '<td class="text-left">'+val.ScEndTime+'    </td>'+
-                                    '<td class="text-left">'+val.PkStartTime+'  </td>'+
-                                    '<td class="text-left">'+val.PkEndTime+'    </td>'+
-                                    '<td class="text-left">'+val.DvStartTime+'  </td>'+
-                                    '<td class="text-left">'+val.DvEndTime+'    </td>'+
+                                    '<td class="text-left">'+val.ScStartTime+'<br>'+val.EngPerfix+val.EngName+'   </td>'+
+                                    '<td class="text-left">'+val.ScEndTime+'<br>'+val.EngPerfix+val.EngName+'     </td>'+
+                                    '<td class="text-left">'+val.PkStartTime+'<br>'+val.EngPerfix+val.EngName+'   </td>'+
+                                    '<td class="text-left">'+val.PkEndTime+'<br>'+val.EngPerfix+val.EngName+'     </td>'+
+                                    '<td class="text-left">'+val.DvStartTime+'<br>'+val.EngPerfix+val.EngName+'   </td>'+
+                                    '<td class="text-left">'+val.DvEndTime+'<br>'+val.EngPerfix+val.EngName+'      </td>'+
                                     // '<td class="text-left">'+val.ScStartTime+'|'+val.ScEndTime+'</td>'+
                                     // '<td class="text-left">'+val.PkStartTime+'|'+val.PkEndTime+'</td>'+
                                     // '<td class="text-left">'+val.DvStartTime+'|'+val.DvEndTime+'</td>'+
                                     '<td></td>'+
                                 '</tr>';
+                                // row += '<tr '+Style+'>'+
+                                //     '<td colspan="2" class="text-center">'+val.EngPerfix+val.EngName+' '+val.EngLName+'</td>'+
+                                //     '<td></td>'+
+                                // '</tr>';
+                                
                         });
                     }else {
                         row += '<tr><td class="text-center" colspan="12" style="font-size:24px;">Document is Empty</td></tr>';
