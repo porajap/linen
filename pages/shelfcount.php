@@ -367,8 +367,10 @@ $array2 = json_decode($json2,TRUE);
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
         var deptCode = $('#Dep2 option:selected').attr("value");
         var datepicker1 = $('#datepicker1').val();
-          var lang = '<?php echo $language; ?>';
-
+        var lang = '<?php echo $language; ?>';
+          if(Hotp == 'null'){
+            Hotp = 0;
+          }
           if(datepicker1 !=""){
           if(lang =='th'){
           datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
@@ -882,13 +884,14 @@ $array2 = json_decode($json2,TRUE);
     }
 
     function SaveBill(chk){
-      var docno = $("#docno").val();
-      var isStatus = $("#IsStatus").val();
-      var dept = $('#department').val();
-      var cycle = $('#cycle').val();
-      var settime = $('#settime option:selected').val();
-      var setcount = $('#setcount').val();
-      var input_chk = $('#input_chk').val();
+      var docno     =  $("#docno").val();
+      var isStatus  =  $("#IsStatus").val();
+      var dept      =  $('#department').val();
+      var cycle     =  $('#cycle').val();
+      var settime   =  $('#settime option:selected').val();
+      var setcount  =  $('#setcount').val();
+      var input_chk =  $('#input_chk').val();
+      var hotpCode  =  $('#hotpital').val();
 
         if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
@@ -970,7 +973,8 @@ $array2 = json_decode($json2,TRUE);
                     'cycle'       : cycle ,
                     'settime'     : settime,
                     'setcount'    : setcount,
-                    'Weight'      : Weight
+                    'Weight'      : Weight,
+                    'hotpCode'    : hotpCode
                   };
                   senddata(JSON.stringify(data));
                   // $('#profile-tab').tab('show');
@@ -2358,7 +2362,7 @@ $array2 = json_decode($json2,TRUE);
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
-                "<td style='text-overflow: ellipsis;overflow: hidden;width: 21%;'nowrap>"+temp[i]['ItemName']+"</td>"+
+                "<td style='width: 21%;'>"+temp[i]['ItemName']+"</td>"+
                 // "<td style='width: 12%;'nowrap>"+chkunit+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Par+"</td>"+
                 "<td style='width: 11%;'nowrap>"+Sc+"</td>"+

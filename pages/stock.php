@@ -144,6 +144,24 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     
   }
+function updatepar(row , rowid){
+  var par = $("#par_"+row).val();
+  var data = {
+        'STATUS'  : 'updatepar',
+        'par'	    : par,
+        'rowid'	  : rowid
+      };
+      senddata(JSON.stringify(data));
+}
+function updatetotal(row , rowid){
+  var total = $("#qty_"+row).val();
+  var data = {
+        'STATUS'  : 'updatetotal',
+        'total'	  : total,
+        'rowid'	  : rowid
+      };
+      senddata(JSON.stringify(data));
+}
 
   function ShowDocument(selecta){
     var hos = $('#hotpital').val();
@@ -246,18 +264,18 @@ $array2 = json_decode($json2,TRUE);
               if(Qty<Par){
                 textColor = 'text-danger';
               }
-              // var inputpar = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+Par+"' OnBlur='updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+              var inputpar = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='par_"+i+"' value='"+Par+"' onchange='updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
-              // var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+Qty+"' OnBlur='updatetotal(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+              var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty_"+i+"' value='"+Qty+"' onchange='updatetotal(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
               "<td style='width: 15%;'nowrap>"+temp[i]['ItemCode']+"</td>"+
               "<td style='width: 21%; overflow: hidden; text-overflow: ellipsis;'  nowrap title='"+temp[i]['ItemName']+"'>"+temp[i]['ItemName']+"</td>"+
-              "<td style='width: 14%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
-              "<td style='width: 15%;'nowrap><center>"+Par+"</center></td>"+
-              "<td style='width: 15%;'nowrap class='"+textColor+"'><center>"+Qty+"</center></td>"+
-              "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;'nowrap title='"+temp[i]['DepName']+"'><center>"+temp[i]['DepName']+"</center></td>"+
+              "<td style='width: 18%;'nowrap>"+temp[i]['CategoryName']+"</td>"+
+              "<td style='width: 15%;'nowrap><center>"+inputpar+"</center></td>"+
+              "<td style='width: 15%;'nowrap class='"+textColor+"'><center>"+inputqty+"</center></td>"+
+              "<td style='width: 10%; overflow: hidden; text-overflow: ellipsis;'nowrap title='"+temp[i]['DepName']+"'><center>"+temp[i]['DepName']+"</center></td>"+
               "</tr>";
 
               if(rowCount == 0){

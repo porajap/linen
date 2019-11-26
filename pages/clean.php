@@ -1217,12 +1217,13 @@ $(document).ready(function(e){
 
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 9%;' nowrap>"+temp[i]['DocDate']+"</td>"+
+                    "<td style='width: 13%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                    "<td style='width: 13%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
+                    "<td style='width: 13%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
+                    "<td style='width: 8%; overflow: hidden; text-overflow: ellipsis;' nowrap >"+temp[i]['RecNow']+"</td>"+
+                    "<td style='width: 6%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 17%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
 
@@ -1254,7 +1255,6 @@ $(document).ready(function(e){
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
                 $('#home-tab').tab('show')
-
                 $("#hotpital").val(temp[0]['HptName']);
                 $("#hotpital").prop('disabled', true);
                 $('#hotpital').addClass('icon_select');
@@ -2181,12 +2181,13 @@ $(document).ready(function(e){
                               <thead id="theadsum" style="font-size:24px;">
                                 <tr role="row">
                                   <th style='width: 10%;' nowrap>&nbsp;</th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                                  <th style='width: 9%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
+                                  <th style='width: 13%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                                  <th style='width: 13%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                                  <th style='width: 13%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                                  <th style='width: 8%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                  <th style='width: 6%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                                  <th style='width: 18%;'  nowrap><?php echo $array['factory'][$language]; ?></th>
                                   <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                                 </tr>
                               </thead>

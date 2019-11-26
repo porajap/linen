@@ -354,6 +354,7 @@ $array2 = json_decode($json2,TRUE);
         });
         console.log(count);
         var sitepath = $('#sitepath').val();
+        var PayerCode = $('#PayerCode').val();
         var idcontract = $('#idcontract').val();
         var ContractName = $('#ContractName').val();
         var Position = $('#Position').val();
@@ -402,7 +403,8 @@ $array2 = json_decode($json2,TRUE);
                   'HptNameTH' : HptNameTH,
                   'xcenter1' : xcenter1,
                   'xcenter2' : xcenter2,
-                  'sitepath' : sitepath
+                  'sitepath' : sitepath,
+                  'PayerCode' : PayerCode
                 };
 
                 console.log(JSON.stringify(data));
@@ -450,11 +452,11 @@ $array2 = json_decode($json2,TRUE);
                 }
                 if(HptNameTH ==""||HptNameTH==undefined){
                   $('#rem7').show().css("color","red");
-                  $('#form3').removeClass('form-group');
+                  // $('#form3').removeClass('form-group');
                 }
                 if(sitepath ==""||sitepath==undefined){
                   $('#rem8').show().css("color","red");
-                  $('#form8').removeClass('form-group');
+                  // $('#form8').removeClass('form-group');
                 }
                 
             }
@@ -672,6 +674,7 @@ $array2 = json_decode($json2,TRUE);
             }
           });
         $('#idcontract').val("");
+        $('#PayerCode').val("");
         $('#ContractName').val("");
         $('#Position').val("");
         $('#phone').val("");
@@ -928,7 +931,7 @@ $array2 = json_decode($json2,TRUE);
                         }else if( (temp["form"]=='getdetail') ){
                               if((Object.keys(temp).length-2)>0){
                                 console.log(temp);
-                                
+                                $('#PayerCode').val(temp['PayerCode']);
                                 $('#sitepath').val(temp['Site_Path']);
                                 $('#HptCode1').val(temp['HptCode']);
                                 $('#HptCode').val(temp['HptCode']);
@@ -1555,6 +1558,15 @@ $array2 = json_decode($json2,TRUE);
                                     <label class="col-sm-4 col-form-label"><?php echo $array['hosnameTH'][$language]; ?></label>
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH" id="HptNameTH"    placeholder="<?php echo $array['hosnameTH'][$language]; ?>">
                                       <label id="rem7" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
+                                    </div>
+                                  </div>
+                                </div>  
+
+                                <div class="row" >
+                                  <div class="col-md-6">
+                                    <div class='form-group row' id="form2">
+                                    <label class="col-sm-4 col-form-label ">PayerCode</label>
+                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7  charonly" id="PayerCode"    placeholder="PayerCode">
                                     </div>
                                   </div>
                                 </div>  

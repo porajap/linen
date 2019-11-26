@@ -217,7 +217,7 @@ function CreateDocument($conn, $DATA)
   // if($DocNo!=null){
   //   $Sql .= " WHERE damagenh.DocNo = '$DocNo' AND damagenh.DocNo LIKE '%$xDocNo%'";
   // }else{
-    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+    if ($Hotp != null && $deptCode != null && $datepicker == null) {
       $Sql .= " WHERE site.HptCode = '$Hotp'  ";
       if($xDocNo!=null){
         $Sql .= " OR damagenh.DocNo LIKE '%$xDocNo%' ";
@@ -370,7 +370,7 @@ function CreateDocument($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  item_stock.DepCode = $deptCode AND  item.ItemName LIKE '%$searchitem%' AND NOT item.IsClean = 1 AND NOT item.IsDirtyBag = 1 AND item.IsActive = 1 
+  WHERE  item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%' AND NOT item.IsClean = 1 AND NOT item.IsDirtyBag = 1 AND item.IsActive = 1 
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
     $meQuery = mysqli_query($conn, $Sql);
@@ -914,16 +914,16 @@ function CreateDocument($conn, $DATA)
         }else{
         $QtySum = $Qty - ($Qtyx + $QtyRePair);
         }
-      $return[$count]['RowID']    = $Result['Id'];
+      $return[$count]['RowID']      = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
       $return[$count]['ItemName']   = $Result['ItemName'];
       $return[$count]['UnitCode']   = $Result['UnitCode2'];
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
-      $return[$count]['Qty']     = $Result['Qty'];
+      $return[$count]['Qty']        = $Result['Qty']  ==0?'':$Result['Qty'];
       $return[$count]['QtySum']     = $QtySum;
-      $UnitCode           = $Result['UnitCode1'];
-      $ItemCode               = $Result['ItemCode'];
+      $UnitCode                     = $Result['UnitCode1'];
+      $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;
 
       $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";

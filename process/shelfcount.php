@@ -417,11 +417,11 @@ function ShowDocument($conn, $DATA)
   $boolean = false;
   $count = 0;
   $deptCode = $DATA["deptCode"];
-  $Hotp = $DATA["Hotp"];
+  $Hotp = $DATA["Hotp"]==null?'':$DATA["Hotp"];
   $DocNo = $DATA["docno"];
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $selecta = $DATA["selecta"];
-  $datepicker = $DATA["datepicker1"];
+  $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
   //$Datepicker = $DATA["Datepicker"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('$deptCode : $DocNo')";
@@ -446,18 +446,18 @@ function ShowDocument($conn, $DATA)
   // }else{
   if($PmID ==1 || $PmID==6){
       if ($Hotp != null && $deptCode == null && $datepicker == null) {
-      $Sql .= " WHERE  site.HptCode = '$Hotp' AND  shelfcount.DocNo LIKE '%$xDocNo%' ";
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' ";
       if($xDocNo!=null){
         $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
       }
     }else if($Hotp == null && $deptCode != null && $datepicker == null){
-        $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' ";
+        $Sql .= " WHERE shelfcount.DepCode = '$deptCode' ";
     }else if ($Hotp == null && $deptCode == null && $datepicker != null){
       $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker == null){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode == null && $datepicker != null){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
+      $Sql .= " WHERE site.HptCode = '$Hotp' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp == null && $deptCode != null && $datepicker != null){
       $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%'";
     }else if($Hotp != null && $deptCode != null && $datepicker != null){
@@ -465,7 +465,7 @@ function ShowDocument($conn, $DATA)
     }
   }else{
   if ($Hotp != null && $deptCode == null && $datepicker == null) {
-    $Sql .= " WHERE site.HptCode = LIKE '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND shelfcount.DocNo LIKE '%$xDocNo%' ";
     if($xDocNo!=null){
       $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
     }
@@ -1160,6 +1160,7 @@ function SaveBill($conn, $DATA)
   $cycle      = $DATA["cycle"];
   $settime    = $DATA["settime"];
   $setcount   = $DATA["setcount"];
+  $hotpCode   = $DATA["hotpCode"];
 
 
   $ItemCodeArray  = $DATA['ItemCode'];
@@ -1180,7 +1181,7 @@ function SaveBill($conn, $DATA)
     FROM item
     INNER JOIN shelfcount_detail ON item.ItemCode     = shelfcount_detail.ItemCode
     INNER JOIN category_price    ON item.CategoryCode = category_price.CategoryCode
-    WHERE item.ItemCode = '$value' AND shelfcount_detail.DocNo = '$DocNo' AND category_price.HptCode = 'BHQ'";
+    WHERE item.ItemCode = '$value' AND shelfcount_detail.DocNo = '$DocNo' AND category_price.HptCode = '$hotpCode'";
     $result2  = mysqli_query($conn, $Sql2);
     $row2     = mysqli_fetch_assoc($result2);
     $Price    = $row2['Price'] * $Weight[$key];
@@ -2088,7 +2089,7 @@ function ShowDetailNew($conn, $DATA)
   INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
   WHERE shelfcount_detail.DocNo = '$DocNo'
-  ORDER BY shelfcount_detail.Id DESC";
+  ORDER BY item.ItemName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
  

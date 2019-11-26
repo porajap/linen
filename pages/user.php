@@ -563,6 +563,8 @@ $array2 = json_decode($json2,TRUE);
                         $(this).val("");
                     }
                 });
+                
+                $('#remask').val("");
                 $('#factory').attr('disabled' , true);
                 $('#hptsel').val("");
                 $('#host').val("");
