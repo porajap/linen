@@ -351,12 +351,13 @@ function CancelItem($conn, $DATA)
 
 function getFactory($conn, $DATA)
 {
+  $Hotp = $DATA['Hotp'];
   $count = 0;
   $Sql = "SELECT
             factory.FacCode,
             factory.FacName
           FROM factory
-          WHERE factory.IsCancel = 0";
+          WHERE factory.IsCancel = 0 AND HptCode='$Hotp'";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

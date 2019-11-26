@@ -453,13 +453,15 @@ $(document).ready(function(e){
       }
 
       function ShowItem(){
+        var hotpital = $('#hotpital').val();
         var deptCode = $('#department option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
         var searchitem = $('#searchitem').val();
         var data = {
-          'STATUS'  : 'ShowItem',
-          'xitem'	: searchitem,
-          'deptCode'	: deptCode
+          'STATUS'    : 'ShowItem',
+          'xitem'	    : searchitem,
+          'deptCode'	: deptCode,
+          'hotpital'	: hotpital
         };
         senddata(JSON.stringify(data));
       }

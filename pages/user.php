@@ -154,10 +154,12 @@ $array2 = json_decode($json2,TRUE);
                 var Hotp = $('#hptsel').val();
                 $('#host').val(Hotp);
                 ShowItem(1);  
+                getFactory(1);  
             }else if(chk==2){
                 var Hotp = $('#host').val();
                 $('#hptsel').val(Hotp);
                 ShowItem(2);  
+                getFactory(1);  
             }
             // $('#rem1').hide();
             // $('#hptsel').css('border-color', '');
@@ -183,9 +185,18 @@ $array2 = json_decode($json2,TRUE);
             // console.log(JSON.stringify(data2));
             senddata(JSON.stringify(data2));
         }
-        function getFactory(){
+
+        function getFactory(chk){
+            if(chk==1){
+                var Hotp = $('#hptsel').val();
+                $('#host').val(Hotp);
+            }else if(chk==2){
+                var Hotp = $('#host').val();
+                $('#hptsel').val(Hotp);
+            }
           var data = {
-              'STATUS': 'getFactory'
+              'STATUS': 'getFactory',
+              'Hotp': Hotp
           };
           senddata(JSON.stringify(data));
         }

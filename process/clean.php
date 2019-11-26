@@ -270,7 +270,7 @@ function CreateDocument($conn, $DATA)
     clean.IsStatus,
     factory.FacName
     FROM clean
-    INNER JOIN factory ON clean.FacCode = factory.FacCode
+    LEFT JOIN factory ON clean.FacCode = factory.FacCode
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON clean.Modify_Code = users.ID ";
@@ -307,7 +307,7 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-      $return[$count]['FacName']    = $Result['FacName'];
+      $return[$count]['FacName']    = $Result['FacName']==null?'':$Result['FacName'];
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
@@ -421,7 +421,7 @@ function CreateDocument($conn, $DATA)
     $boolean = false;
     $searchitem = str_replace(' ', '%', $DATA["xitem"]);
     $deptCode = $DATA["deptCode"];
-
+    $hotpital = $DATA["hotpital"];
     // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
     // mysqli_query($conn,$Sqlx);
 
@@ -435,7 +435,7 @@ function CreateDocument($conn, $DATA)
   LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE item.ItemName LIKE '%$searchitem%' AND item.IsClean = 1 AND item.IsActive = 1
+  WHERE item.ItemName LIKE '%$searchitem%' AND item.IsClean = 1 AND item.IsActive = 1 AND item.HptCode = '$hotpital'
   GROUP BY item.ItemCode
   ORDER BY item.ItemName ASC LImit 100";
     $meQuery = mysqli_query($conn, $Sql);

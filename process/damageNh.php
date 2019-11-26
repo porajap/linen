@@ -696,22 +696,14 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
-  // function UpdateQty($conn, $DATA)
-  // {
-  //   $RowID  = $DATA["Rowid"];
-  //   $Qty  =  $DATA["Qty"];
 
-  //   $Sql = "UPDATE damagenh_detail SET Qty = $Qty WHERE damagenh_detail.Id = $RowID";
-  //   mysqli_query($conn, $Sql);
-  //   ShowDetail($conn, $DATA);
-  // }
   function UpdateQty($conn, $DATA)
   {
      $RowID  = $DATA["Rowid"];
      $Qty  =  $DATA["Qty"];
      $Sql = "UPDATE damagenh_detail SET Qty = $Qty WHERE damagenh_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
-    ShowDetail($conn, $DATA);
+    // ShowDetail($conn, $DATA);
   }
 
   function UpdateDetailWeight($conn, $DATA)

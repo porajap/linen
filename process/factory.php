@@ -328,6 +328,34 @@ function gethos($conn, $DATA){
 }
 function getFactory($conn, $DATA)
   {
+    // $countx = 0;
+
+
+    // $Sql1="SELECT DocNo FROM shelfcount ";
+    // $meQuery1 = mysqli_query($conn, $Sql1);
+    // while ($Result = mysqli_fetch_assoc($meQuery1)) {
+    //   $DocNo[$countx]  = $Result['DocNo'];
+
+    //   $Sql2="SELECT SUM(Price) AS Price3 , SUM(Weight) AS Weight3
+    //   FROM shelfcount_detail WHERE DocNo = '$DocNo[$countx]' ";
+    //   $meQuery  = mysqli_query($conn, $Sql2);
+    //   $Result2  = mysqli_fetch_assoc($meQuery);
+    //   $Price3[$countx]   = $Result2['Price3'];
+    //   $Weight3[$countx]  = $Result2['Weight3'];
+
+    //   $Sql3="UPDATE shelfcount SET Totalw = $Weight3[$countx] , Totalp = $Price3[$countx] WHERE DocNo = '$DocNo[$countx]'";
+    //   mysqli_query($conn, $Sql3);
+
+    //   $countx++;
+
+    // }
+
+
+
+
+
+
+
       $count = 0;
       $Sql = "SELECT factory.FacCode,factory.FacName FROM factory 	WHERE IsCancel = 0";
       $meQuery = mysqli_query($conn, $Sql);

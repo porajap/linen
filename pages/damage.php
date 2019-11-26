@@ -926,6 +926,15 @@ if (e.keyCode == 13) {
       }
       function removeborder(row,rowid) {
         $('#qty1_'+row).removeClass('border border-danger');
+      var qty = $('#qty1_'+row).val();
+
+      var data = {
+          'STATUS'      : 'UpdateQty',
+          'Qty'      : qty,
+          'Rowid'    : rowid
+
+        };
+        senddata(JSON.stringify(data));
       }
       function show_btn(DocNo){
               if(DocNo != undefined || DocNo != ''){

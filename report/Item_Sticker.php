@@ -43,6 +43,11 @@ $Sql="SELECT item.ItemName FROM item WHERE item.ItemCode = '$ItemCode'";
 $meQuery = mysqli_query($conn, $Sql);
 $Result = mysqli_fetch_assoc($meQuery);
 $ItemName = $Result['ItemName'];
+
+$Sql2="SELECT users.EngName FROM users WHERE users.ID = '$UserID'";
+$meQuery2 = mysqli_query($conn, $Sql2);
+$Result2 = mysqli_fetch_assoc($meQuery2);
+$EngName = $Result2['EngName'];
 /**
  * @package com.tecnick.tcpdf
  * @abstract TCPDF - Example: 2D barcodes.
@@ -117,7 +122,7 @@ $pdf->SetFont('thsarabunnew', '', 10);
 $pdf->SetY(35);
 $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
 $pdf->SetX(7);
-$pdf->Cell(36, 1, 'ศรายุธ' , 0, 0, 'L', 0, '', 1);
+$pdf->Cell(36, 1, $EngName , 0, 0, 'L', 0, '', 1);
 $pdf->SetX(7);
 $pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
 $pdf->SetX(1);
@@ -179,7 +184,7 @@ if($loop2<$TotalQty){
   $pdf->SetY(35);
   $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
   $pdf->SetX(7);
-  $pdf->Cell(36, 1, 'ศรายุธ' , 0, 0, 'L', 0, '', 1);
+  $pdf->Cell(36, 1, $EngName , 0, 0, 'L', 0, '', 1);
   $pdf->SetX(7);
   $pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
   $pdf->SetX(1);

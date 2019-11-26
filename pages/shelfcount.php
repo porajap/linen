@@ -141,15 +141,13 @@ $array2 = json_decode($json2,TRUE);
     });
 
     function find_item() {
-      var DocNo = $('#docno').val();
-      var DepCode = $('#department').val();
-
-
-
+      var DocNo     = $('#docno').val();
+      var DepCode   = $('#department').val();
       var itemCode1 = $('#barcode').val();
       var itemCode2 = itemCode1.split(',');
-      var itemCode = itemCode2[0];
-      var qty = itemCode2[1]
+      var itemCode  = itemCode2[0];
+      var qty       = itemCode2[1];
+
       var data = {
         'STATUS': 'find_item',
         'DepCode': DepCode,
