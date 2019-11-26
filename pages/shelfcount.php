@@ -915,6 +915,8 @@ $array2 = json_decode($json2,TRUE);
       }else{
         // if(isStatus==1 ){
           if(docno!=""){
+            setTimeout(() => {
+
               var ItemCodeArray = [];
               var Item = [];
               var QtyItemArray = [];
@@ -936,7 +938,9 @@ $array2 = json_decode($json2,TRUE);
               $(".WeightItem").each(function() {
                 WeightItemArray.push($(this).val());
               });
-              var Weight = WeightItemArray.join(',') ;
+
+                var Weight = WeightItemArray.join(',') ;
+ 
                   ////////////////////////////////////
 
               swal({
@@ -998,6 +1002,7 @@ $array2 = json_decode($json2,TRUE);
                 } else if (result.dismiss === 'cancel') {
                   swal.close();}
               })
+            }, 800);
             //}
           }
         // }else{
