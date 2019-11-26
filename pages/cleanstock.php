@@ -1201,14 +1201,14 @@ $(document).ready(function(e){
                   }
 
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                    "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 22%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 12%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                    // "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
-                    "<td " +Style+ "nowrap>"+Status+"</td>"+ 
+                  "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
+                        "<td style='width: 8%;' nowrap>"+temp[i]['DocDate']+"</td>"+
+                        "<td style='width: 15%;padding-left: 5%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                        "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
+                        "<td style='width: 12%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                        "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                        "<td style='width: 20%;text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
+                    "<td "+Style+" nowrap>"+Status+"</td>"+
                   "</tr>";
 
                   if(rowCount == 0){
@@ -1455,8 +1455,8 @@ $(document).ready(function(e){
                   "<td style='width: 25%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
                   "<td style='width: 30%;cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
-                  "<td style='width: 30%;' nowrap align='center'>"+Qty+"</td>"+
+                  "<td style='width: 27%;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 18%;' nowrap align='center'>"+Qty+"</td>"+
                   // "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
@@ -2149,14 +2149,14 @@ $(document).ready(function(e){
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
                               <thead id="theadsum" style="font-size:24px;">
                                 <tr role="row">
-                                  <th style='width: 10%;' nowrap>&nbsp;</th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 21%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 13%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <!-- <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th> -->
-                                  <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>
+                                <th style='width: 10%;' nowrap>&nbsp;</th>
+                                <th style='width: 8%;' nowrap><?php echo $array['docdate'][$language]; ?></th>
+                                <th style='width: 15%;padding-left: 5%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <th style='width: 15%;' nowrap><?php echo $array['employee'][$language]; ?></th>
+                                <th style='width: 12%;' nowrap><?php echo $array['time'][$language]; ?></th>
+                                <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                                <th style='width: 20%;' nowrap><?php echo $array['factory'][$language]; ?></th>
+                                <th style='width: 10%;' nowrap><?php echo $array['status'][$language]; ?></th>
                                 </tr>
                               </thead>
                               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
@@ -2218,11 +2218,11 @@ $(document).ready(function(e){
             <thead style="font-size:24px;">
               <tr role="row">
               <input type="text" hidden id="countcheck">
-                <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                <th style='width: 24%;' nowrap><?php echo $array['no'][$language]; ?></th>
                 <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 23%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 27%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 16%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 45%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
                 <!-- <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th> -->
               </tr>
             </thead>

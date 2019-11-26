@@ -501,6 +501,7 @@ $array2 = json_decode($json2,TRUE);
               $(this).css('border-color', '');
             }
           });
+                $('#shipto').val("");
             $('#DepCode').val("");
             $('#hptsel2').val("");
             $('#IsActive').val("1");

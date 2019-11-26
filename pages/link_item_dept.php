@@ -360,15 +360,18 @@ $array2 = json_decode($json2,TRUE);
         senddata(JSON.stringify(data));
       }
 
-      function SavePar(row , rowid){
+      function SavePar( num , row , rowid){
         var mypar = $(".mypar_"+row).val();
         var data = {
           'STATUS' : 'SavePar',
           'mypar' : mypar,
-          'RowID' : rowid
+          'RowID' : rowid,
+          'num' : num
         }
         senddata(JSON.stringify(data));
       }
+
+
 
       function CreateSentSterile() {
         var userid = '<?php echo $Userid; ?>';
@@ -896,24 +899,14 @@ $array2 = json_decode($json2,TRUE);
                   var RowArray = [];
                   var chkRow = [];
                   
-                  $('input[name="chkItem"]:checked').each(function() {
+                  var chkArray = [];
+                  $('input[name="myItem1"]:checked').each(function() {
                     chkArray.push($(this).data('value'));
                   });
-                  $('input[name="chkItem"]:checked').each(function() {
-                    RowArray.push($(this).val());
-                    chkRow.push($(this).data('chknum'));
-                  });
-                  for (i = 0; i < chkArray.length; ++i) {
-                    count_rowArray.push($('#count_row_'+chkArray[i]).val());
-                    var sub = parseInt($('#count_child_'+chkArray[i]).val()) - 1;
-                    $('#count_child_'+chkArray[i]).val(sub);
-                    if(sub <= 0){
-                      $('#tr_mom_'+chkArray[i]).remove();
-                    }
-                  }
                   var ItemCode = chkArray.join(',');
                   var RowID = RowArray.join(',');
                   var ItemArray = $('#itemArray').val();
+
                   var data = {
                     'STATUS' : 'DeleteItem',
                     'DepCode' : DepCode,
@@ -1424,8 +1417,8 @@ $array2 = json_decode($json2,TRUE);
                               $( "#TableItemStock tbody" ).empty();
                               if(temp['countpar'] == 0){
                               for (var i = 0; i < temp['countx']; i++) {
-                                var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
-                                  var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
+                                var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+1+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
+                                  var chkHeadItem = "<input type='checkbox' name='myItem1' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
@@ -1440,7 +1433,7 @@ $array2 = json_decode($json2,TRUE);
                               }
                               }else{
                               for (var i = 0; i < temp['countx']; i++) {
-                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
+                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+2+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
@@ -1515,8 +1508,8 @@ $array2 = json_decode($json2,TRUE);
                               $('#TableItemStock tbody').empty();
                               if(temp['countpar'] == 0){
                                 for (var i = 0; i < temp['countx']; i++) {
-                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
-                                  var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
+                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+1+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
+                                  var chkHeadItem = "<input type='checkbox' name='myItem1' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
@@ -1531,7 +1524,7 @@ $array2 = json_decode($json2,TRUE);
                                 }
                               }else{
                                 for (var i = 0; i < temp['countx']; i++) {
-                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
+                                  var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+2+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+

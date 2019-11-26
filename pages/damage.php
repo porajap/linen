@@ -1123,11 +1123,12 @@ if (e.keyCode == 13) {
 
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
+                    "<td style='width: 8%;' nowrap>"+temp[i]['DocDate']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 19%;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 14%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                    "<td style='width: 15%;' nowrap text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
+                    "<td style='width: 7%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                    "<td style='width: 20%;text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
 
@@ -1272,7 +1273,7 @@ if (e.keyCode == 13) {
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly chk_qty' autocomplete='off' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' onkeyup='removeborder(\""+i+"\",\""+temp[i]['RowID']+"\")' id='qty1_"+i+"' value='"+temp[i]['Qty']+"'  ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input placeholder='0'  class='form-control numonly chk_qty' autocomplete='off' name='qtyx' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' onkeyup='removeborder(\""+i+"\",\""+temp[i]['RowID']+"\")' id='qty1_"+i+"' value='"+temp[i]['Qty']+"'  ></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1354,11 +1355,11 @@ if (e.keyCode == 13) {
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                  "<td style='width: 27%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                  "<td style='width: 25%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='width: 32%;cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 23%;' nowrap>"+chkunit+"</td>"+
-                  "<td style='width: 18%;' nowrap align='center'>"+Qty+"</td>"+
+                  "<td style='width: 30%;cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='width: 27%;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableItem tbody").append( $StrTR );
@@ -1923,12 +1924,13 @@ if (e.keyCode == 13) {
                             <thead id="theadsum" style="font-size:24px;">
                               <tr role="row">
                                 <th style='width: 10%;' nowrap>&nbsp;</th>
-                                <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <th style='width: 8%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
+                                <th style='width: 19%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
                                 <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                <th style='width: 18%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                <th style='width: 16%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>
+                                <th style='width: 10%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                                <th style='width: 8%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                <th style='width: 17%;' nowrap><?php echo $array['factory'][$language]; ?></th>
+                                <th style='width: 13%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                               </tr>
                             </thead>
                             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">

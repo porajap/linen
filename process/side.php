@@ -52,7 +52,7 @@ function getdetail($conn, $DATA)
     $id = $DATA['id'];
     //---------------HERE------------------//
     $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName ,
-            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government , site.Site_Path , 
+            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government , site.Site_Path ,  site.PayerCode , 
             (SELECT COUNT(*) FROM contractsite WHERE HptCode = '$HptCode')  AS cnt 
             FROM site
             LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
@@ -63,21 +63,25 @@ function getdetail($conn, $DATA)
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return['id'] = $Result['id'];
-      $return['HptCode'] = $Result['HptCode'];
-      $return['HptName'] = $Result['HptName'];
-      $return['Site_Path'] = $Result['Site_Path'];
+      $return['id']           = $Result['id'];
+      $HptCode                = $Result['HptCode'];
+      $return['HptCode']      = $Result['HptCode'];
+      $return['HptName']      = $Result['HptName'];
+      $return['Site_Path']    = $Result['Site_Path'];
       $return['contractName'] = $Result['contractName'];
-      $return['permission'] = $Result['permission'];
-      $return['Number'] = $Result['Number'];
-      $return['HptNameTH'] = $Result['HptNameTH'];
-      $return['private'] = $Result['private'];
-      $return['government'] = $Result['government'];
-      $return['cnt'] = $Result['cnt'];
+      $return['permission']   = $Result['permission'];
+      $return['Number']       = $Result['Number'];
+      $return['HptNameTH']    = $Result['HptNameTH'];
+      $return['private']      = $Result['private'];
+      $return['government']   = $Result['government'];
+      $return['PayerCode']    = $Result['PayerCode'];
+      $PayerCode              = $Result['PayerCode'];
+      $return['cnt']          = $Result['cnt'];
 
       //$return['IsStatus'] = $Result['IsStatus'];
       $count++;
     }
+
 
     if($count>0){
       $return['status'] = "success";
@@ -123,18 +127,22 @@ function getSection($conn, $DATA)
 function AddItem($conn, $DATA)
   {
   // ==============================================
-  $HptCode1 = $DATA['HptCode1'];
-  $HptCode = $DATA['HptCode'];
-  $HptName = $DATA['HptName'];
-  $HptNameTH = $DATA['HptNameTH'];
+  $HptCode1     = $DATA['HptCode1'];
+  $HptCode      = $DATA['HptCode'];
+  $HptName      = $DATA['HptName'];
+  $HptNameTH    = $DATA['HptNameTH'];
   $ContractName = $DATA['ContractName'];
-  $Position = $DATA['Position'];
-  $phone = $DATA['phone'];
-  $idcontract = $DATA['idcontract'];
-  $sitepath = $DATA['sitepath'];
-  $xcenter1 = $DATA['xcenter1']==null?0:$DATA['xcenter1'];
-  $xcenter2 = $DATA['xcenter2']==null?0:$DATA['xcenter2'];
-  $Userid = $_SESSION['Userid'];
+  $Position     = $DATA['Position'];
+  $phone        = $DATA['phone'];
+  $idcontract   = $DATA['idcontract'];
+  $sitepath     = $DATA['sitepath'];
+  $PayerCode    = $DATA['PayerCode'];
+  $xcenter1     = $DATA['xcenter1']==null?0:$DATA['xcenter1'];
+  $xcenter2     = $DATA['xcenter2']==null?0:$DATA['xcenter2'];
+  $Userid       = $_SESSION['Userid'];
+
+  $Sql2="UPDATE department SET Ship_To = '$PayerCode' WHERE HptCode = '$HptCode' ";
+  mysqli_query($conn, $Sql2);
   // ==============================================
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
@@ -147,8 +155,8 @@ function AddItem($conn, $DATA)
   // ==============================================
   if($HptCode1== ""){
     $count = 0;
-    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government , site.DocDate ,site.Modify_Code ,site.Modify_Date,site.Site_Path) 
-                            VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2 ,NOW() ,$Userid , NOW() , '$sitepath')";
+    $Sql="INSERT INTO site (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government , site.DocDate ,site.Modify_Code ,site.Modify_Date,site.Site_Path,site.PayerCode) 
+                            VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2 ,NOW() ,$Userid , NOW() , '$sitepath' , '$PayerCode')";
     $return['sss'] = $Sql;
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
@@ -165,7 +173,7 @@ function AddItem($conn, $DATA)
     die;
   }
   }else{
-      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' , site.private = $xcenter1 , site.government= $xcenter2 ,site.Modify_Date = NOW() , Modify_Code = $Userid , Site_Path = '$sitepath'  WHERE site.HptCode = '$HptCode1'";
+      $Sql="UPDATE site SET site.HptCode = '$HptCode' , site.HptName = '$HptName' , site.HptNameTH = '$HptNameTH' , site.private = $xcenter1 , site.government= $xcenter2 ,site.Modify_Date = NOW() , Modify_Code = $Userid , Site_Path = '$sitepath' , PayerCode= '$PayerCode'  WHERE site.HptCode = '$HptCode1'";
       if(mysqli_query($conn, $Sql)){
         $return['status'] = "success";
         $return['form'] = "AddItem";
@@ -183,6 +191,7 @@ function AddItem($conn, $DATA)
 
 
   }
+
 
 
 

@@ -207,9 +207,23 @@ function CreateDocument($conn, $DATA)
     $selecta = $DATA["selecta"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
-    $Sql = "SELECT site.HptName,department.DepName,damage.DocNo,DATE(damage.DocDate) 
-    AS DocDate,damage.RefDocNo,damage.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damage.Modify_Date) AS xTime,damage.IsStatus
+    $Sql = "SELECT site.HptName,
+    department.DepName,
+    damage.DocNo,
+    DATE(damage.DocDate) AS DocDate,
+    damage.RefDocNo,
+    damage.Total, 
+    users.EngName ,
+    users.EngLName,
+    users.ThName,
+    users.ThLName,
+    users.EngPerfix,
+    users.ThPerfix,
+    TIME(damage.Modify_Date) AS xTime,
+    damage.IsStatus,
+    factory.FacName
     FROM damage
+    INNER JOIN factory ON damage.FacCode = factory.FacCode
     INNER JOIN department ON damage.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON damage.Modify_Code = users.ID ";
@@ -248,7 +262,7 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-
+      $return[$count]['FacName']    = $Result['FacName'];
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
@@ -931,7 +945,7 @@ function CreateDocument($conn, $DATA)
       $return[$count]['UnitCode']   = $Result['UnitCode2'];
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
-      $return[$count]['Qty']     = $Result['Qty'];
+      $return[$count]['Qty']     = $Result['Qty'] ==0?'':$Result['Qty'];
       $return[$count]['QtySum']     = $QtySum;
       $UnitCode           = $Result['UnitCode1'];
       $ItemCode               = $Result['ItemCode'];

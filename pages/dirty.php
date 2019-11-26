@@ -1331,11 +1331,11 @@ $array2 = json_decode($json2,TRUE);
                     $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                         "<td style='width: 8%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                        "<td style='width: 19%;padding-left: 5%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                        "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
-                        "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                        "<td style='width: 8%;' nowrap>"+temp[i]['Total']+"</td>"+
-                        "<td style='width: 16%;' nowrap>"+temp[i]['FacName']+"</td>"+
+                        "<td style='width: 15%;padding-left: 5%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                        "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
+                        "<td style='width: 12%;' nowrap>"+temp[i]['RecNow']+"</td>"+
+                        "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                        "<td style='width: 20%;text-overflow: ellipsis;overflow: hidden;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
                     "<td "+Style+" nowrap>"+Status+"</td>"+
                     "</tr>";
 
@@ -2427,14 +2427,14 @@ $array2 = json_decode($json2,TRUE);
                           <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid">
                             <thead id="theadsum" style="font-size:24px;">
                               <tr role="row">
-                              <th style='width: 10%;' nowrap>&nbsp;</th>
+                                <th style='width: 10%;' nowrap>&nbsp;</th>
                                 <th style='width: 8%;' nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                <th style='width: 19%;padding-left: 5%;' nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <th style='width: 15%;padding-left: 5%;' nowrap><?php echo $array['docno'][$language]; ?></th>
                                 <th style='width: 15%;' nowrap><?php echo $array['employee'][$language]; ?></th>
-                                <th style='width: 10%;' nowrap><?php echo $array['time'][$language]; ?></th>
-                                <th style='width: 8%;' nowrap><?php echo $array['weight'][$language]; ?></th>
-                                <th style='width: 17%;' nowrap><?php echo $array['factory'][$language]; ?></th>
-                                <th style='width: 13%;' nowrap><?php echo $array['status'][$language]; ?></th>
+                                <th style='width: 12%;' nowrap><?php echo $array['time'][$language]; ?></th>
+                                <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                                <th style='width: 20%;' nowrap><?php echo $array['factory'][$language]; ?></th>
+                                <th style='width: 10%;' nowrap><?php echo $array['status'][$language]; ?></th>
                               </tr>
                             </thead>
                             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">

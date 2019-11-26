@@ -223,9 +223,24 @@ function CreateDocument($conn, $DATA)
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
     $datepicker = $DATA["datepicker1"];
     $selecta = $DATA["selecta"];
-    $Sql = "SELECT site.HptName,department.DepName,return_wash.DocNo,DATE(return_wash.DocDate) 
-    AS DocDate,return_wash.RefDocNo,return_wash.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(return_wash.Modify_Date) AS xTime,return_wash.IsStatus
+    $Sql = "SELECT 
+    site.HptName,
+    department.DepName,
+    return_wash.DocNo,
+    DATE(return_wash.DocDate) AS DocDate,
+    return_wash.RefDocNo,
+    return_wash.Total,
+    users.EngName ,
+    users.EngLName ,
+    users.ThName ,
+    users.ThLName ,
+    users.EngPerfix ,
+    users.ThPerfix ,
+    TIME(return_wash.Modify_Date) AS xTime,
+    return_wash.IsStatus,
+    factory.FacName
     FROM return_wash
+    INNER JOIN factory ON return_wash.FacCode = factory.FacCode
     INNER JOIN department ON return_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON return_wash.Modify_Code = users.ID ";
@@ -264,15 +279,15 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-
-      $return[$count]['HptName']   = $Result['HptName'];
-      $return[$count]['DepName']   = $Result['DepName'];
-      $return[$count]['DocNo']   = $Result['DocNo'];
-      $return[$count]['DocDate']   = $newdate;
+      $return[$count]['FacName']    = $Result['FacName'];
+      $return[$count]['HptName']    = $Result['HptName'];
+      $return[$count]['DepName']    = $Result['DepName'];
+      $return[$count]['DocNo']      = $Result['DocNo'];
+      $return[$count]['DocDate']    = $newdate;
       $return[$count]['RefDocNo']   = $Result['RefDocNo'];
-      $return[$count]['RecNow']   = $Result['xTime'];
-      $return[$count]['Total']   = $Result['Total'];
-      $return[$count]['IsStatus'] = $Result['IsStatus'];
+      $return[$count]['RecNow']     = $Result['xTime'];
+      $return[$count]['Total']      = $Result['Total'];
+      $return[$count]['IsStatus']   = $Result['IsStatus'];
       $boolean = true;
       $count++;
     }

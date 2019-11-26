@@ -1114,13 +1114,14 @@ $(document).ready(function(e){
                   }
 
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                    "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                  "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
+                    "<td style='width: 9%;' nowrap>"+temp[i]['DocDate']+"</td>"+
+                    "<td style='width: 13%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                    "<td style='width: 13%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
+                    "<td style='width: 13%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
+                    "<td style='width: 8%; overflow: hidden; text-overflow: ellipsis;' nowrap >"+temp[i]['RecNow']+"</td>"+
+                    "<td style='width: 6%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 17%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
 
@@ -1269,9 +1270,9 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly chk_qty' autocomplete='off' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input placeholder='0' class='form-control numonly chk_qty' autocomplete='off' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\");'  value='"+temp[i]['Qty']+"' ></div>";
                 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly chk_weight' autocomplete='off' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input placeholder='0' class='form-control numonly chk_weight' autocomplete='off' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
@@ -1943,12 +1944,13 @@ $(document).ready(function(e){
                               <thead id="theadsum" style="font-size:24px;">
                                 <tr role="row">
                                   <th style='width: 10%;' nowrap>&nbsp;</th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                                  <th style='width: 9%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
+                                  <th style='width: 13%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                                  <th style='width: 13%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                                  <th style='width: 13%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                                  <th style='width: 8%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                  <th style='width: 6%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                                  <th style='width: 18%;'  nowrap><?php echo $array['factory'][$language]; ?></th>
                                   <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                                 </tr>
                               </thead>

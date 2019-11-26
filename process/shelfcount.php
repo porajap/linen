@@ -1160,6 +1160,7 @@ function SaveBill($conn, $DATA)
   $cycle      = $DATA["cycle"];
   $settime    = $DATA["settime"];
   $setcount   = $DATA["setcount"];
+  $hotpCode   = $DATA["hotpCode"];
 
 
   $ItemCodeArray  = $DATA['ItemCode'];
@@ -1180,7 +1181,7 @@ function SaveBill($conn, $DATA)
     FROM item
     INNER JOIN shelfcount_detail ON item.ItemCode     = shelfcount_detail.ItemCode
     INNER JOIN category_price    ON item.CategoryCode = category_price.CategoryCode
-    WHERE item.ItemCode = '$value' AND shelfcount_detail.DocNo = '$DocNo' AND category_price.HptCode = 'BHQ'";
+    WHERE item.ItemCode = '$value' AND shelfcount_detail.DocNo = '$DocNo' AND category_price.HptCode = '$hotpCode'";
     $result2  = mysqli_query($conn, $Sql2);
     $row2     = mysqli_fetch_assoc($result2);
     $Price    = $row2['Price'] * $Weight[$key];

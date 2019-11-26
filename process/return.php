@@ -262,9 +262,21 @@ function ShowDocument($conn, $DATA)
   $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
   $selecta = $DATA["selecta"];
-  $Sql = "SELECT site.HptName,department.DepName,return_doc.DocNo,DATE(return_doc.DocDate) 
-  AS DocDate,return_doc.RefDocNo,return_doc.Total,users.EngName , 
-  users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(return_doc.Modify_Date) AS xTime,return_doc.IsStatus
+  $Sql = "SELECT
+  site.HptName,
+  department.DepName,
+  return_doc.DocNo,
+  DATE(return_doc.DocDate) AS DocDate ,
+  return_doc.RefDocNo,
+  return_doc.Total,
+  users.EngName , 
+  users.EngLName ,
+  users.ThName ,
+  users.ThLName ,
+  users.EngPerfix ,
+  users.ThPerfix ,
+TIME(return_doc.Modify_Date) AS xTime,
+return_doc.IsStatus
   FROM return_doc
   INNER JOIN department ON return_doc.DepCodeFrom = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -305,14 +317,14 @@ function ShowDocument($conn, $DATA)
       $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
 
-    $return[$count]['HptName']   = $Result['HptName'];
-    $return[$count]['DepName']   = $Result['DepName'];
-    $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $newdate;
+    $return[$count]['HptName']    = $Result['HptName'];
+    $return[$count]['DepName']    = $Result['DepName'];
+    $return[$count]['DocNo']      = $Result['DocNo'];
+    $return[$count]['DocDate']    = $newdate;
     $return[$count]['RefDocNo']   = $Result['RefDocNo'];
-    $return[$count]['RecNow']   = $Result['xTime'];
-    $return[$count]['Total']   = $Result['Total']==null?0:$Result['Total'];
-    $return[$count]['IsStatus'] = $Result['IsStatus'];
+    $return[$count]['RecNow']     = $Result['xTime'];
+    $return[$count]['Total']      = $Result['Total']==null?0:$Result['Total'];
+    $return[$count]['IsStatus']   = $Result['IsStatus'];
     $boolean = true;
     $count++;
   }
@@ -340,11 +352,23 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["DocNo"];
   $Datepicker = $DATA["Datepicker"];
-  $Sql = "SELECT site.HptName,department.DepName,return_doc.DocNo,DATE(return_doc.DocDate) 
-  AS DocDate, return_doc.Total,users.EngName, 
-  users.EngLName,  return_doc.DepCodeFrom, return_doc.DepCodeTo,
-  users.ThName, users.ThLName , users.EngPerfix , users.ThPerfix ,
-  TIME(return_doc.Modify_Date) AS xTime,return_doc.IsStatus,return_doc.RefDocNo
+  $Sql = "SELECT
+  site.HptName,
+  department.DepName,
+  return_doc.DocNo,
+  DATE(return_doc.DocDate) AS DocDate,
+   return_doc.Total,
+  users.EngName, 
+  users.EngLName,  
+  return_doc.DepCodeFrom, 
+  return_doc.DepCodeTo,
+  users.ThName, 
+  users.ThLName , 
+  users.EngPerfix , 
+  users.ThPerfix ,
+  TIME(return_doc.Modify_Date) AS xTime,
+  return_doc.IsStatus,
+  return_doc.RefDocNo
   FROM return_doc
   INNER JOIN department ON return_doc.DepCodeFrom = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -888,6 +912,7 @@ function ShowDetail($conn, $DATA)
   return_detail.DocNo,
   return_detail.ItemCode,
   item.ItemName,
+  item.Weight AS Weightitem,
   item.UnitCode AS UnitCode1,
   item_unit.UnitName,
   return_detail.UnitCode AS UnitCode2,
@@ -915,12 +940,13 @@ function ShowDetail($conn, $DATA)
     $return[$count]['ItemName']   = $Result['ItemName'];
     $return[$count]['UnitCode']   = $Result['UnitCode2'];
     $return[$count]['UnitName']   = $Result['UnitName'];
-    $return[$count]['Weight']     = $Result['Weight'];
-    $return[$count]['RefDocNo']     = $Result['RefDocNo'];
-    $return[$count]['DepCodeFrom']     = $Result['DepCodeFrom'];
-    $return[$count]['DepCodeTo']     = $Result['DepCodeTo'];
-    $return[$count]['TotalQty']     = $Result['TotalQty'];
-    $return[$count]['Qty']     = $Result['Qty'];
+    $return[$count]['Weight']     = $Result['Weightitem'] * $Result['Qty'] ;
+    $return[$count]['RefDocNo']    = $Result['RefDocNo'];
+    $return[$count]['DepCodeFrom'] = $Result['DepCodeFrom'];
+    $return[$count]['DepCodeTo']  = $Result['DepCodeTo'];
+    $return[$count]['TotalQty']   = $Result['TotalQty'];
+    $return[$count]['Qty']        = $Result['Qty'];
+    $Weight2                      = $Result['Weightitem'] * $Result['Qty'] ;
     $UnitCode           = $Result['UnitCode1'];
     $ItemCode               = $Result['ItemCode'];
     $count2 = 0;
@@ -974,7 +1000,7 @@ function ShowDetail($conn, $DATA)
     $return[$m5][$count] = $count2;
 
     //================================================================
-    $Total += $Result['Weight'];
+    $Total += $Weight2 ;
     //================================================================
     $count++;
     $boolean = true;
@@ -1041,7 +1067,8 @@ function CancelBill($conn, $DATA)
 function updateQty($conn, $DATA){
   $newQty = $DATA['newQty'];
   $RowID = $DATA['RowID'];
-  $Sql = "UPDATE return_detail SET Qty = $newQty WHERE Id = $RowID";
+  $weight = $DATA['weight'];
+  $Sql = "UPDATE return_detail SET Qty = $newQty , Weight = $weight WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
   ShowDetail($conn, $DATA);
 }

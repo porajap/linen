@@ -922,7 +922,9 @@ $(document).ready(function(e){
       function updateQty(RowID, i, Max){
         var docno = $("#docno").val();
         var newQty = Number($('#qty1_'+i).val());
+        var weight = Number($('#weight_'+i).val());
         var deptCode = $('#department option:selected').val();
+
         if(newQty<=0){
           $('#qty1_'+i).val(0);
           var Qty = 0;
@@ -938,7 +940,9 @@ $(document).ready(function(e){
           'RowID' : RowID,
           'newQty' : Qty,
           'DocNo' : docno,
-          'deptCode' : deptCode
+          'deptCode' : deptCode,
+          'weight' : weight
+          
         }
         $('#input_chk').val(0);
         senddata(JSON.stringify(data));
@@ -1132,11 +1136,11 @@ $(document).ready(function(e){
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
+                    "<td style='width: 16%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                    "<td style='width: 18%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
                     "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
-                    "<td style='width: 10%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 8%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 13%; overflow: hidden; text-overflow: ellipsis;' nowrap >"+temp[i]['DepName']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
 
@@ -1278,7 +1282,7 @@ $(document).ready(function(e){
                 if(temp["Row"] > 0)
                   $("#wTotal").val(temp[0]['Total']);
                 else $("#wTotal").val(0);
-                var st1 = "style='font-size:24px;margin-left:3px;'";
+                var st1 = "style='font-size:24px;margin-left:3px;width:153px;'";
                 var isStatus = $("#IsStatus").val();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableItem >tbody >tr').length;
@@ -1296,21 +1300,21 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input class='form-control numonly' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onkeyup='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['TotalQty']+"\");'  value='"+temp[i]['Qty']+"' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onchange='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['TotalQty']+"\");'  value='"+temp[i]['Qty']+"' ></div>";
                 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input disabled='true' autocomplete='off' class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' ></div>";
 
-                  var Price = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Price = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 9%;' nowrap>"+chkDoc+"</td>"+
-                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 19%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 40%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
+                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 29%;' nowrap>"+temp[i]['ItemName']+"</td>"+
                   // "<td style='width: 20%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
                   // "<td style='width: 30%;' nowrap>"+temp[i]['ItemName']+"</td>"+
                   "<td style='width: 18%;font-size:24px;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
-                  // "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
+                  "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
                   "</tr>";
 
 
@@ -1333,7 +1337,7 @@ $(document).ready(function(e){
                     // $("#total").prop('disabled', false);
 
                     $('#qty1_'+i).prop('disabled', false);
-                    $('#weight_'+i).prop('disabled', false);
+                    $('#weight_'+i).prop('disabled', true);
                     $('#price_'+i).prop('disabled', false);
                     $('#price_'+i).prop('disabled', false);
 
@@ -1379,7 +1383,7 @@ $(document).ready(function(e){
 
                   var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
-                var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' placeholder='0' onkeyup='QtyKey(\""+temp[i]['TotalQty']+"\",\""+i+"\")'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>+</button></div>";
+                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>-</button><input autocomplete='off' class='form-control numonly' "+st2+" id='iqty"+i+"' placeholder='0' onkeyup='QtyKey(\""+temp[i]['TotalQty']+"\",\""+i+"\")'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\",\""+temp[i]['TotalQty']+"\")'>+</button></div>";
 
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0'></div>";
 
@@ -1912,6 +1916,12 @@ $(document).ready(function(e){
                               </select>
                             </div>
                           </div>
+                          <div class="col-md-6">
+                              <div class='form-group row'>
+                              <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
+                                <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                              </div>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -2012,12 +2022,12 @@ $(document).ready(function(e){
                       <thead id="theadsum" style="font-size:24px;">
                         <tr role="row">
                         <th style="width: 3%;">&nbsp;</th>
-                          <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
-                          <th style='width: 19%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                          <th style='width: 40%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                          <th style='width: 18%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                          <th style='width: 14%;' nowrap><center><?php echo $array['qty'][$language]; ?></center></th>
-                          <!-- <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th> -->
+                        <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
+                              <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
+                              <th style='width: 21%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 5%;' nowrap><?php echo $array['qty'][$language]; ?></th>
+                              <th style='width: 20%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
                         </tr>
                       </thead>
                       <tbody id="tbody" class="nicescrolled mhee555" style="font-size:23px;height:630px;">
@@ -2075,11 +2085,11 @@ $(document).ready(function(e){
                         <tr role="row">
                           <th style='width: 10%;' nowrap>&nbsp;</th>
                           <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                          <th style='width: 15%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                          <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                          <th style='width: 15%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                          <th style='width: 10%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                          <th style='width: 10%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                          <th style='width: 16%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                          <th style='width: 17%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                          <th style='width: 9%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                          <th style='width: 9%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                          <th style='width: 14%;'  nowrap><?php echo $array['department'][$language]; ?></th>
                           <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                         </tr>
                       </thead>
@@ -2142,9 +2152,9 @@ $(document).ready(function(e){
               <input type="text" hidden id="countcheck">
                 <th style='width: 25%;' nowrap><?php echo $array['no'][$language]; ?></th>
                 <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 45%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 15%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 40%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 24%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 11%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
                 <!-- <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th> -->
               </tr>
             </thead>

@@ -884,13 +884,14 @@ $array2 = json_decode($json2,TRUE);
     }
 
     function SaveBill(chk){
-      var docno = $("#docno").val();
-      var isStatus = $("#IsStatus").val();
-      var dept = $('#department').val();
-      var cycle = $('#cycle').val();
-      var settime = $('#settime option:selected').val();
-      var setcount = $('#setcount').val();
-      var input_chk = $('#input_chk').val();
+      var docno     =  $("#docno").val();
+      var isStatus  =  $("#IsStatus").val();
+      var dept      =  $('#department').val();
+      var cycle     =  $('#cycle').val();
+      var settime   =  $('#settime option:selected').val();
+      var setcount  =  $('#setcount').val();
+      var input_chk =  $('#input_chk').val();
+      var hotpCode  =  $('#hotpital').val();
 
         if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
@@ -972,7 +973,8 @@ $array2 = json_decode($json2,TRUE);
                     'cycle'       : cycle ,
                     'settime'     : settime,
                     'setcount'    : setcount,
-                    'Weight'      : Weight
+                    'Weight'      : Weight,
+                    'hotpCode'    : hotpCode
                   };
                   senddata(JSON.stringify(data));
                   // $('#profile-tab').tab('show');

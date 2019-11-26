@@ -914,16 +914,16 @@ function CreateDocument($conn, $DATA)
         }else{
         $QtySum = $Qty - ($Qtyx + $QtyRePair);
         }
-      $return[$count]['RowID']    = $Result['Id'];
+      $return[$count]['RowID']      = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
       $return[$count]['ItemName']   = $Result['ItemName'];
       $return[$count]['UnitCode']   = $Result['UnitCode2'];
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
-      $return[$count]['Qty']     = $Result['Qty'];
+      $return[$count]['Qty']        = $Result['Qty']  ==0?'':$Result['Qty'];
       $return[$count]['QtySum']     = $QtySum;
-      $UnitCode           = $Result['UnitCode1'];
-      $ItemCode               = $Result['ItemCode'];
+      $UnitCode                     = $Result['UnitCode1'];
+      $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;
 
       $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";

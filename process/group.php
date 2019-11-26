@@ -122,13 +122,13 @@ function getSection($conn, $DATA)
 
 function AddItem($conn, $DATA)
 {
-  $count = 0;
-  $HptCode = $DATA['HptCode'];
+  $count    = 0;
+  $HptCode  = $DATA['HptCode'];
   $DepCode1 = trim($DATA['DepCode1']);
-  $DepCode = trim($DATA['DepCode']);
-  $DepName = trim($DATA['DepName']);
-  $Userid = $_SESSION['Userid'];
-  $PmID = $_SESSION['PmID'];
+  $DepCode  = trim($DATA['DepCode']);
+  $DepName  = trim($DATA['DepName']);
+  $Userid   = $_SESSION['Userid'];
+  $PmID     = $_SESSION['PmID'];
 
 if($DepCode1 == ""){
   $Sql = "INSERT INTO grouphpt
@@ -143,7 +143,7 @@ if($DepCode1 == ""){
           )
           VALUES
           (
-            $DepCode,
+            '$DepCode',
             '$HptCode',
             '$DepName',
             0,
@@ -170,7 +170,7 @@ if($DepCode1 == ""){
   }else{
 
     $Sql = "UPDATE grouphpt SET
-    GroupCode =  $DepCode,
+    GroupCode =  '$DepCode',
     HptCode =  '$HptCode',
     GroupName = '$DepName',
     Modify_Date = NOW() ,

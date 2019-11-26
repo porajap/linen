@@ -257,9 +257,20 @@ function CreateDocument($conn, $DATA)
     $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
     $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
     $selecta = $DATA["selecta"];
-    $Sql = "SELECT site.HptName,department.DepName,clean.DocNo,DATE(clean.DocDate) 
-    AS DocDate,clean.RefDocNo,clean.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
+    $Sql = "SELECT 
+    site.HptName,
+    department.DepName,
+    clean.DocNo,DATE(clean.DocDate) 
+    AS DocDate,clean.RefDocNo,
+    clean.Total,users.EngName , 
+    users.EngLName , users.ThName , 
+    users.ThLName , users.EngPerfix , 
+    users.ThPerfix ,
+    TIME(clean.Modify_Date) AS xTime,
+    clean.IsStatus,
+    factory.FacName
     FROM clean
+    INNER JOIN factory ON clean.FacCode = factory.FacCode
     INNER JOIN department ON clean.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON clean.Modify_Code = users.ID ";
@@ -296,7 +307,7 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-
+      $return[$count]['FacName']    = $Result['FacName'];
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
