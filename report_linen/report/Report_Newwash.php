@@ -303,4 +303,4 @@ $pdf->isFinished = true;
 
 
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Cleaned_Linen_Weight_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Newwash_' . $ddate . '.pdf');

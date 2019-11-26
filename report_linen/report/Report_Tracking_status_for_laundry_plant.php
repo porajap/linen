@@ -303,4 +303,4 @@ AND process.isStatus <> 9
 // Footer Table
 
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Tracking_status_for_laundry_plant' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Tracking_status_for_laundry_plant_' . $ddate . '.pdf');

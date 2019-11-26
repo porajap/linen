@@ -192,7 +192,54 @@ if ($DepCodeCome == '0') {
 echo "<pre>";
 print_r($DepCode);
 echo "</pre>";
-
+if ($chk == 'one') {
+  if ($format == 1) {
+    $count = 1;
+    $date[] = $date1;
+    list($y,$m,$d)=explode('-',$date1);
+    if($language ==  'th' ){
+      $y = $y+543;
+    }else{
+      $y = $y;
+    }
+    $date1 = $d.'-'.$m.'-'.$y;
+    $DateShow[] = $date1;
+  }
+} elseif ($chk == 'between') {
+  list($year, $month, $day) = explode('-', $date2);
+  if ($day <> 31) {
+    $day = $day + 1;
+  }
+  $date2 = $year . "-" . $month . "-" . $day;
+  $period = new DatePeriod(
+    new DateTime($date1),
+    new DateInterval('P1D'),
+    new DateTime($date2)
+  );
+  foreach ($period as $key => $value) {
+    $date[] = $value->format('Y-m-d');
+  }
+  $count = count($date);
+  for($i =0; $i<$count ; $i++){
+    $date1=$date[$i];
+    list($y,$m,$d)=explode('-',$date1);
+    if($language ==  'th' ){
+      $y = $y+543;
+    }
+    $date1 = $d.'-'.$m.'-'.$y;
+    $DateShow[] = $date1;
+  }
+} elseif ($chk == 'month') {
+  $day = 1;
+  $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
+  $datequery =  $year1 . '-' . $date1 . '-';
+  $dateshow = '-'.$date1. '-'.$year1;
+  for ($i = 0; $i < $count; $i++) {
+    $date[] = $datequery . $day;
+    $DateShow[] = $day.$dateshow;
+    $day++;
+  }
+}
 $sheet_count = sizeof($DepCode);
 for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $objPHPExcel->setActiveSheetIndex($sheet)
@@ -218,54 +265,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
   $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
   // -----------------------------------------------------------------------------------
-  if ($chk == 'one') {
-    if ($format == 1) {
-      $count = 1;
-      $date[] = $date1;
-      list($y,$m,$d)=explode('-',$date1);
-      if($language ==  'th' ){
-        $y = $y+543;
-      }else{
-        $y = $y;
-      }
-      $date1 = $d.'-'.$m.'-'.$y;
-      $DateShow[] = $date1;
-    }
-  } elseif ($chk == 'between') {
-    list($year, $month, $day) = explode('-', $date2);
-    if ($day <> 31) {
-      $day = $day + 1;
-    }
-    $date2 = $year . "-" . $month . "-" . $day;
-    $period = new DatePeriod(
-      new DateTime($date1),
-      new DateInterval('P1D'),
-      new DateTime($date2)
-    );
-    foreach ($period as $key => $value) {
-      $date[] = $value->format('Y-m-d');
-    }
-    $count = count($date);
-    for($i =0; $i<$count ; $i++){
-      $date1=$date[$i];
-      list($y,$m,$d)=explode('-',$date1);
-      if($language ==  'th' ){
-        $y = $y+543;
-      }
-      $date1 = $d.'-'.$m.'-'.$y;
-      $DateShow[] = $date1;
-    }
-  } elseif ($chk == 'month') {
-    $day = 1;
-    $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
-    $datequery =  $year1 . '-' . $date1 . '-';
-    $dateshow = '-'.$date1. '-'.$year1;
-    for ($i = 0; $i < $count; $i++) {
-      $date[] = $datequery . $day;
-      $DateShow[] = $day.$dateshow;
-      $day++;
-    }
-  }
+
   // -----------------------------------------------------------------------------------
   $query = "SELECT
   department.DepName
@@ -508,7 +508,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Excel_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Summary_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file

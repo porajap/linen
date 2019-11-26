@@ -193,7 +193,7 @@ class PDF extends FPDF
             $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[1]])), 1, 0, 'C');
           } else {
             $count = 1;
-            $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'L');
+            $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", trim($inner_array[$field[0]])), 1, 0, 'L');
             $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620",  number_format($inner_array[$field[1]])), 1, 0, 'C');
             $date = $inner_array[$field[0]];
             $check++;
@@ -321,7 +321,7 @@ item.ItemName,
 dirty_detail.Weight,
 department.DepName,
 SUM(dirty_detail.Qty) AS Qty,
-dirty_detail.RequestName
+COALESCE(dirty_detail.RequestName,'-') as RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
@@ -351,7 +351,7 @@ $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $queryy = "SELECT
 item.ItemName,
 SUM(dirty_detail.Qty) AS Qty,
-dirty_detail.RequestName
+COALESCE(dirty_detail.RequestName,'-') as RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
@@ -382,4 +382,4 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 $pdf->isFinished = true;
 // $pdf->Ln(7);
 $ddate = date('d_m_Y');
-$pdf->Output('Report_Dirty_Linen_Weight' . $ddate . '.pdf', 'I');
+$pdf->Output('Report_Dirty_Linen_Weight_' . $ddate . '.pdf', 'I');

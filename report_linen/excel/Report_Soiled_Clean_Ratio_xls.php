@@ -5,12 +5,12 @@ require('../report/Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
-$language = "en";
 $xml = simplexml_load_file('../xml/general_lang.xml');
 $xml2 = simplexml_load_file('../xml/report_lang.xml');
 $json = json_encode($xml);
@@ -357,117 +357,124 @@ if ($chk == 'one') {
       $date1 = $date1 - 543;
     }
     $year = $date1;
-    $k = 0;
-    for ($j = 1; $j <= 12; $j++) {
-      $count[] = cal_days_in_month(CAL_GREGORIAN, $j, $year);
-      $month = '-' . $j . '-';
-      for ($i = 1; $i <= $count[$k]; $i++) {
-        $date = $year . $month . $i;
-        $query = "SELECT 
-         DIRTY,
-        repair_wash,
-         NEWLINEN,
-         CLEAN,
-         CLEAN_repair_wash,
-         CLEAN_NEWLINEN,
-        a.DocDate,
-        b.DocDate,
-        c.DocDate,
-        d.DocDate,
-        e.DocDate,
-        f.DocDate
-        FROM (
-        SELECT
-         COALESCE(sum(dirty.Total),'0') AS DIRTY ,
-        COALESCE(dirty.DocDate,0) AS DocDate
-        FROM
-        dirty
-        WHERE DATE (dirty.Docdate) = '$date' AND dirty.faccode= $FacCode AND dirty.HptCode= '$HptCode'
+    $monthh = 12;
+    for ($i = 1; $i <= $monthh; $i++) {
+      $day = 1;
+      $count = cal_days_in_month(CAL_GREGORIAN, $i, $year);
+      $datequery =  $year . '-' . $i . '-';
+      $dateshow = '-' . $i . '-' . $year;
+      for ($j = 0; $j < $count; $j++) {
+        $date[] = $datequery . $day;
+        $DateShow[] = $day . $dateshow;
+        $day++;
+      }
+    }
+    $count = sizeof($date);
+    for ($i = 0; $i < $count; $i++) {
+      $query = "SELECT 
+       DIRTY,
+      repair_wash,
+       NEWLINEN,
+       CLEAN,
+       CLEAN_repair_wash,
+       CLEAN_NEWLINEN,
+      a.DocDate,
+      b.DocDate,
+      c.DocDate,
+      d.DocDate,
+      e.DocDate,
+      f.DocDate
+      FROM (
+      SELECT
+       COALESCE(sum(dirty.Total),'0') AS DIRTY ,
+      COALESCE(dirty.DocDate,0) AS DocDate
+      FROM
+      dirty
+      WHERE DATE (dirty.Docdate) = '$date[$i]' AND dirty.faccode= $FacCode AND dirty.HptCode= '$HptCode'
       AND dirty.isstatus <> 9
-        )a,
-        (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
-        COALESCE(repair_wash.DocDate,0) AS DocDate
-        FROM  repair_wash
-        LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
-        WHERE DATE (repair_wash.Docdate) = '$date'
-        AND repair_wash.FacCode = $FacCode AND repair_wash.HptCode= '$HptCode'
-        AND repair_wash.isStatus<>9
-        )b,
-        (SELECT COALESCE(SUM(newlinentable.Total),'0') AS NEWLINEN ,
-        COALESCE(newlinentable.DocDate,0) AS DocDate
-        FROM newlinentable
-        WHERE DATE (newlinentable.Docdate) = '$date' AND newlinentable.FacCode = $FacCode AND newlinentable.HptCode= '$HptCode'
-        AND newlinentable.isStatus<>9
-        )c,
-        (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN , 
-        COALESCE(clean.DocDate,0) AS DocDate
-        FROM clean
-        LEFT JOIN department ON department.DepCode = clean.DepCode
-      LEFT JOIN site ON department.HptCode = site.HptCode
-        WHERE DATE (clean.Docdate) = '$date' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-        AND clean.IsStatus <>9
-        )d,
-        (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
-            COALESCE(return_wash.DocDate,0) AS DocDate
-            FROM return_wash
-            LEFT JOIN department ON department.DepCode = return_wash.DepCode
-            LEFT JOIN site ON department.HptCode = site.HptCode
-        WHERE DATE (return_wash.Docdate) = '$date' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-        AND return_wash.IsStatus  <> 9
-        )e,
-        (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
-        COALESCE(newlinentable.DocDate,0) AS DocDate
-        FROM clean
-        LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
-        LEFT JOIN department ON department.DepCode = clean.DepCode
-        LEFT JOIN site ON department.HptCode = site.HptCode
-        WHERE DATE (clean.Docdate) = '$date'
-        AND newlinentable.FacCode = $FacCode AND site.HptCode= '$HptCode'
-        AND clean.IsStatus  <> 9 )
-        f";
-        $meQuery = mysqli_query($conn, $query);
-        while ($Result = mysqli_fetch_assoc($meQuery)) {
-          $docdate = $Result['DocDate'];
-          $dirty = $Result['DIRTY'];
-          $repair_wash = $Result['repair_wash'];
-          $newlinen = $Result['NEWLINEN'];
-          $clean = $Result['CLEAN'];
-          $clean_repair_wash = $Result['CLEAN_repair_wash'];
-          $clean_newlinen = $Result['CLEAN_NEWLINEN'];
-          $total1 = 0;
-          $total2 = 0;
-          $r = 0;
-          if (
-            $dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0
-          ) {
-            list($year, $month, $day) = explode('-', $date);
-            if ($language == 'th') {
-              $year = $year + 543;
-              $date = $day . "-" . $month . "-" . $year;
-            } else {
-              $date = $day . "-" . $month . "-" . $year;
-            }
-            $total1 = $dirty + $repair_wash + $newlinen;
-            $total2 = $clean + $clean_repair_wash + $clean_newlinen;
-            $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $date);
-            $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $dirty);
-            $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $repair_wash);
-            $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $newlinen);
-            $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $total1);
-            $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_row, $clean);
-            $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_row, $clean_repair_wash);
-            $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $clean_newlinen);
-            $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $total2);
-            $start_row++;
-            $totalsum1 += $dirty;
-            $totalsum2 += $repair_wash;
-            $totalsum3 += $newlinen;
-            $totalsum4 += $total1;
-            $totalsum5 += $clean;
-            $totalsum6 += $clean_repair_wash;
-            $totalsum7 += $clean_newlinen;
-            $totalsum8 += $total2;
+      )a,
+      (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
+      COALESCE(repair_wash.DocDate,0) AS DocDate
+      FROM  repair_wash
+      LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+      WHERE DATE (repair_wash.Docdate) = '$date[$i]'
+      AND repair_wash.FacCode = $FacCode AND repair_wash.HptCode= '$HptCode'
+      AND repair_wash.isStatus<>9
+      )b,
+      (SELECT COALESCE(SUM(newlinentable.Total),'0') AS NEWLINEN ,
+      COALESCE(newlinentable.DocDate,0) AS DocDate
+      FROM newlinentable
+      WHERE DATE (newlinentable.Docdate) = '$date[$i]' AND newlinentable.FacCode = $FacCode AND newlinentable.HptCode= '$HptCode'
+      AND newlinentable.isStatus<>9
+      )c,
+      (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN , 
+      COALESCE(clean.DocDate,0) AS DocDate
+      FROM clean
+      LEFT JOIN department ON department.DepCode = clean.DepCode
+		  LEFT JOIN site ON department.HptCode = site.HptCode
+      WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
+      )d,
+      (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
+          COALESCE(return_wash.DocDate,0) AS DocDate
+          FROM return_wash
+          LEFT JOIN department ON department.DepCode = return_wash.DepCode
+          LEFT JOIN site ON department.HptCode = site.HptCode
+      WHERE DATE (return_wash.Docdate) = '$date[$i]' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+      AND return_wash.IsStatus  <> 9
+      )e,
+      (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
+      COALESCE(newlinentable.DocDate,0) AS DocDate
+      FROM clean
+      LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+      LEFT JOIN department ON department.DepCode = clean.DepCode
+		  LEFT JOIN site ON department.HptCode = site.HptCode
+      WHERE DATE (clean.Docdate) = '$date[$i]'
+      AND newlinentable.FacCode = $FacCode AND site.HptCode= '$HptCode'
+      AND clean.IsStatus  <> 9 )
+      f";
+      $meQuery = mysqli_query($conn, $query);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $docdate = $Result['DocDate'];
+        $dirty = $Result['DIRTY'];
+        $repair_wash = $Result['repair_wash'];
+        $newlinen = $Result['NEWLINEN'];
+        $clean = $Result['CLEAN'];
+        $clean_repair_wash = $Result['CLEAN_repair_wash'];
+        $clean_newlinen = $Result['CLEAN_NEWLINEN'];
+        $total1 = 0;
+        $total2 = 0;
+        $r = 0;
+        if (
+          $dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0
+        ) {
+          list($day, $month, $year) = explode('-', $DateShow[$i]);
+          if ($language == 'th') {
+            $year = $year + 543;
+            $datesh = $day . "-" . $month . "-" . $year;
+          } else {
+            $datesh = $day . "-" . $month . "-" . $year;
           }
+          $total1 = $dirty + $repair_wash + $newlinen;
+          $total2 = $clean + $clean_repair_wash + $clean_newlinen;
+          $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $datesh);
+          $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $dirty);
+          $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $repair_wash);
+          $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $newlinen);
+          $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $total1);
+          $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_row, $clean);
+          $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_row, $clean_repair_wash);
+          $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $clean_newlinen);
+          $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $total2);
+          $start_row++;
+          $totalsum1 += $dirty;
+          $totalsum2 += $repair_wash;
+          $totalsum3 += $newlinen;
+          $totalsum4 += $total1;
+          $totalsum5 += $clean;
+          $totalsum6 += $clean_repair_wash;
+          $totalsum7 += $clean_newlinen;
+          $totalsum8 += $total2;
         }
       }
     }
@@ -487,6 +494,7 @@ if ($chk == 'one') {
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
     $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
   }
+  
 } elseif ($chk == 'between') {
   list($year, $month, $day) = explode('-', $date2);
   if ($day <> 31) {
@@ -500,16 +508,17 @@ if ($chk == 'one') {
   );
   foreach ($period as $key => $value) {
     $date[] = $value->format('Y-m-d');
+    $dateshow[] = $value->format('d-m-Y');
   }
   $count = sizeof($date);
   for ($i = 0; $i < $count; $i++) {
     $query = "SELECT 
-     DIRTY,
+    DIRTY,
     repair_wash,
-     NEWLINEN,
-     CLEAN,
-     CLEAN_repair_wash,
-     CLEAN_NEWLINEN,
+    NEWLINEN,
+    CLEAN,
+    CLEAN_repair_wash,
+    CLEAN_NEWLINEN,
     a.DocDate,
     b.DocDate,
     c.DocDate,
@@ -518,7 +527,7 @@ if ($chk == 'one') {
     f.DocDate
     FROM (
     SELECT
-     COALESCE(sum(dirty.Total),'0') AS DIRTY ,
+    COALESCE(sum(dirty.Total),'0') AS DIRTY ,
     COALESCE(dirty.DocDate,0) AS DocDate
     FROM
     dirty
@@ -545,7 +554,7 @@ if ($chk == 'one') {
     LEFT JOIN department ON department.DepCode = clean.DepCode
       LEFT JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-        AND clean.IsStatus <>9
+        AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
     )d,
     (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
     COALESCE(return_wash.DocDate,0) AS DocDate
@@ -577,19 +586,18 @@ if ($chk == 'one') {
       $total1 = 0;
       $total2 = 0;
       $r = 0;
-      if (
-        $dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0
-      ) {
-        list($year, $month, $day) = explode('-', $date[$i]);
-        if ($language == 'th') {
-          $year = $year + 543;
-          $date = $day . "-" . $month . "-" . $year;
-        } else {
-          $date = $day . "-" . $month . "-" . $year;
-        }
+      if ($dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0) {
+
+        list($day, $month, $year) = explode('-', $dateshow[$i]);
+          if ($language == 'th') {
+            $year = $year + 543;
+            $datesh = $day . "-" . $month . "-" . $year;
+          } else {
+            $datesh = $day . "-" . $month . "-" . $year;
+          }
         $total1 = $dirty + $repair_wash + $newlinen;
         $total2 = $clean + $clean_repair_wash + $clean_newlinen;
-        $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $date);
+        $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $datesh);
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $dirty);
         $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $repair_wash);
         $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $newlinen);
@@ -627,71 +635,78 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
 } elseif ($chk == 'month') {
   // 1เดือน
+  $day = 1;
   $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
-  $date = $year1 . '-' . $date1 . '-';
+  $datequery =  $year1 . '-' . $date1 . '-';
+  $dateshow = '-' . $date1 . '-' . $year1;
+  for ($i = 0; $i < $count; $i++) {
+    $date[] = $datequery . $day;
+    $DateShow[] = $day . $dateshow;
+    $day++;
+  }
   for ($i = 1; $i <= $count; $i++) {
     $query = "SELECT 
-     DIRTY,
-     repair_wash,
-     NEWLINEN,
-     CLEAN,
-     CLEAN_repair_wash,
-     CLEAN_NEWLINEN,
-    a.DocDate,
-    b.DocDate,
-    c.DocDate,
-    d.DocDate,
-    e.DocDate,
-    f.DocDate
-    FROM (
-    SELECT
-     COALESCE(sum(dirty.Total),'0') AS DIRTY ,
-    COALESCE(dirty.DocDate,0) AS DocDate
-    FROM
-    dirty
-    WHERE DATE (dirty.Docdate) = '$date.$i' AND dirty.faccode= $FacCode AND dirty.HptCode= '$HptCode'
-    AND dirty.isstatus <> 9
-    )a,
-    (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
-    COALESCE(repair_wash.DocDate,0) AS DocDate
-    FROM  repair_wash
-    LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
-    WHERE DATE (repair_wash.Docdate) = '$date.$i' AND repair_wash.HptCode= '$HptCode'
-    AND repair_wash.FacCode = $FacCode
-    AND repair_wash.isStatus<>9
-    )b,
-    (SELECT COALESCE(SUM(newlinentable.Total),'0') AS NEWLINEN ,
-    COALESCE(newlinentable.DocDate,0) AS DocDate
-    FROM newlinentable
-    WHERE DATE (newlinentable.Docdate) = '$date.$i' AND newlinentable.FacCode = $FacCode AND newlinentable.HptCode= '$HptCode'
-    AND newlinentable.isStatus<>9
-    )c,
-    (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN , 
-    COALESCE(clean.DocDate,0) AS DocDate
-    FROM clean
-    LEFT JOIN department ON department.DepCode = clean.DepCode
-      LEFT JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (clean.Docdate) = '$date.$i' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-        AND clean.IsStatus <>9
-    )d,
-    (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
-    COALESCE(return_wash.DocDate,0) AS DocDate
-    FROM return_wash
-    LEFT JOIN department ON department.DepCode = return_wash.DepCode
-    LEFT JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (return_wash.Docdate) = '$date.$i' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-    AND return_wash.IsStatus  <> 9
-    )e,
-    (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
-    COALESCE(newlinentable.DocDate,0) AS DocDate
-    FROM clean
-    LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
-    LEFT JOIN department ON department.DepCode = clean.DepCode
-    LEFT JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (clean.Docdate) = '$date.$i'
-    AND newlinentable.FacCode = $FacCode AND site.HptCode= '$HptCode'
-    AND clean.IsStatus  <> 9)
-    f";
+   DIRTY,
+   repair_wash,
+   NEWLINEN,
+   CLEAN,
+   CLEAN_repair_wash,
+   CLEAN_NEWLINEN,
+  a.DocDate,
+  b.DocDate,
+  c.DocDate,
+  d.DocDate,
+  e.DocDate,
+  f.DocDate
+  FROM (
+  SELECT
+   COALESCE(sum(dirty.Total),'0') AS DIRTY ,
+  COALESCE(dirty.DocDate,0) AS DocDate
+  FROM
+  dirty
+  WHERE DATE (dirty.Docdate) = '$date[$i]' AND dirty.faccode= $FacCode AND dirty.HptCode= '$HptCode'
+  AND dirty.isstatus <> 9
+  )a,
+  (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
+  COALESCE(repair_wash.DocDate,0) AS DocDate
+  FROM  repair_wash
+  LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+  WHERE DATE (repair_wash.Docdate) = '$date[$i]' AND repair_wash.HptCode= '$HptCode'
+  AND repair_wash.FacCode = $FacCode
+  AND repair_wash.isStatus<>9
+  )b,
+  (SELECT COALESCE(SUM(newlinentable.Total),'0') AS NEWLINEN ,
+  COALESCE(newlinentable.DocDate,0) AS DocDate
+  FROM newlinentable
+  WHERE DATE (newlinentable.Docdate) = '$date[$i]' AND newlinentable.FacCode = $FacCode AND newlinentable.HptCode= '$HptCode'
+  AND newlinentable.isStatus<>9
+  )c,
+  (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN , 
+  COALESCE(clean.DocDate,0) AS DocDate
+  FROM clean
+  LEFT JOIN department ON department.DepCode = clean.DepCode
+		LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
+  )d,
+  (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
+  COALESCE(return_wash.DocDate,0) AS DocDate
+  FROM return_wash
+  LEFT JOIN department ON department.DepCode = return_wash.DepCode
+	LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (return_wash.Docdate) = '$date[$i]' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+  AND return_wash.IsStatus  <> 9
+  )e,
+  (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
+  COALESCE(newlinentable.DocDate,0) AS DocDate
+  FROM clean
+  LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+  LEFT JOIN department ON department.DepCode = clean.DepCode
+	LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (clean.Docdate) = '$date[$i]'
+  AND newlinentable.FacCode = $FacCode AND site.HptCode= '$HptCode'
+  AND clean.IsStatus  <> 9)
+  f";
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $docdate = $Result['DocDate'];
@@ -707,18 +722,18 @@ if ($chk == 'one') {
       if (
         $dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0
       ) {
-        list($year, $month, $day) = explode('-', $date . $i);
+        list($day, $month, $year) = explode('-', $DateShow[$i]);
         if ($language == 'th') {
           $year = $year + 543;
-          $date = $day . "-" . $month . "-" . $year;
+          $datesh = $day . "-" . $month . "-" . $year;
         } else {
-          $date = $day . "-" . $month . "-" . $year;
+          $datesh = $day . "-" . $month . "-" . $year;
         }
 
         $total1 = $dirty + $repair_wash + $newlinen;
         $total2 = $clean + $clean_repair_wash + $clean_newlinen;
 
-        $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $date);
+        $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $datesh);
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $dirty);
         $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $repair_wash);
         $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $newlinen);
@@ -755,99 +770,111 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
   $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
 } elseif ($chk == 'monthbetween') {
-  $m1 = $date1;
-  $m2 = $date2;
-  for ($m1 = $date1; $m1 <= $m2; $m1++) {
-    $count = cal_days_in_month(CAL_GREGORIAN, $m1, $year1);
-    $date = $year1 . '-' . $m1 . '-';
-    for ($i = 1; $i <= $count; $i++) {
-      $query = "SELECT 
-     DIRTY,
-    repair_wash,
-     NEWLINEN,
-     CLEAN,
-     CLEAN_repair_wash,
-     CLEAN_NEWLINEN,
-    a.DocDate,
-    b.DocDate,
-    c.DocDate,
-    d.DocDate,
-    e.DocDate,
-    f.DocDate
-    FROM (
-    SELECT
-     COALESCE(sum(dirty.Total),'0') AS DIRTY ,
-    COALESCE(dirty.DocDate,0) AS DocDate
-    FROM
-    dirty
-    WHERE DATE (dirty.Docdate) = '$date$i' AND dirty.faccode= $FacCode AND dirty.HptCode= '$HptCode'
-   AND dirty.isstatus <> 9
-    )a,
-    (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
-    COALESCE(repair_wash.DocDate,0) AS DocDate
-    FROM  repair_wash
-    LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
-    WHERE DATE (repair_wash.Docdate) = '$date$i'
-    AND repair_wash.FacCode = $FacCode AND repair_wash.HptCode= '$HptCode'
-    AND repair_wash.isStatus<>9
-    )b,
-    (SELECT COALESCE(SUM(newlinentable.Total),'0') AS NEWLINEN ,
-    COALESCE(newlinentable.DocDate,0) AS DocDate
-    FROM newlinentable
-    WHERE DATE (newlinentable.Docdate) = '$date$i' AND newlinentable.FacCode = $FacCode AND newlinentable.HptCode= '$HptCode'
-    AND newlinentable.isStatus<>9
-    )c,
-    (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN , 
-    COALESCE(clean.DocDate,0) AS DocDate
-    FROM clean
-    LEFT JOIN department ON department.DepCode = clean.DepCode
-      LEFT JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (clean.Docdate) = '$date$i' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
-        AND clean.IsStatus <>9
-    )d,
-    (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
-    COALESCE(return_wash.DocDate,0) AS DocDate
-    FROM return_wash
-    LEFT JOIN department ON department.DepCode = return_wash.DepCode
-    LEFT JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (return_wash.Docdate) = '$date$i' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
-    AND return_wash.IsStatus  <> 9
-    )e,
-    (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
-    COALESCE(newlinentable.DocDate,0) AS DocDate
-    FROM clean
-    LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
-    LEFT JOIN department ON department.DepCode = clean.DepCode
-      LEFT JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (clean.Docdate) = '$date$i'
-    AND newlinentable.FacCode = $FacCode AND site.HptCode= '$HptCode'
-    AND clean.IsStatus  <> 9)
-    f";
-      $meQuery = mysqli_query($conn, $query);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $docdate = $Result['DocDate'];
-        $dirty = $Result['DIRTY'];
-        $repair_wash = $Result['repair_wash'];
-        $newlinen = $Result['NEWLINEN'];
-        $clean = $Result['CLEAN'];
-        $clean_repair_wash = $Result['CLEAN_repair_wash'];
-        $clean_newlinen = $Result['CLEAN_NEWLINEN'];
-        $total1 = 0;
-        $total2 = 0;
-        $r = 0;
-        if (
-          $dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0
-        ) {
-          list($year, $month, $day) = explode('-', $date . $i);
-          if ($language == 'th') {
-            $year = $year + 543;
-            $date = $day . "-" . $month . "-" . $year;
-          } else {
-            $date = $day . "-" . $month . "-" . $year;
-          }
+  list($year, $month, $day) = explode('-', $betweendate2);
+  if ($day <> 31) {
+    $day = $day + 1;
+  }
+  $betweendate2 = $year . "-" . $month . "-" . $day;
+  $period = new DatePeriod(
+    new DateTime($betweendate1),
+    new DateInterval('P1D'),
+    new DateTime($betweendate2)
+  );
+  foreach ($period as $key => $value) {
+    $date[] = $value->format('Y-m-d');
+
+    $dateshow[] = $value->format('d-m-Y');
+  }
+  $date[] = $betweendate2;
+  $count = sizeof($date);
+  for ($i = 0; $i < $count; $i++) {
+    $query = "SELECT 
+   DIRTY,
+  repair_wash,
+   NEWLINEN,
+   CLEAN,
+   CLEAN_repair_wash,
+   CLEAN_NEWLINEN,
+  a.DocDate,
+  b.DocDate,
+  c.DocDate,
+  d.DocDate,
+  e.DocDate,
+  f.DocDate
+  FROM (
+  SELECT
+   COALESCE(sum(dirty.Total),'0') AS DIRTY ,
+  COALESCE(dirty.DocDate,0) AS DocDate
+  FROM
+  dirty
+  WHERE DATE (dirty.Docdate) = '$date[$i]' AND dirty.faccode= $FacCode AND dirty.HptCode= '$HptCode'
+ AND dirty.isstatus <> 9
+  )a,
+  (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
+  COALESCE(repair_wash.DocDate,0) AS DocDate
+  FROM  repair_wash
+  LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+  WHERE DATE (repair_wash.Docdate) = '$date[$i]'
+  AND repair_wash.FacCode = $FacCode AND repair_wash.HptCode= '$HptCode'
+  AND repair_wash.isStatus<>9
+  )b,
+  (SELECT COALESCE(SUM(newlinentable.Total),'0') AS NEWLINEN ,
+  COALESCE(newlinentable.DocDate,0) AS DocDate
+  FROM newlinentable
+  WHERE DATE (newlinentable.Docdate) = '$date[$i]' AND newlinentable.FacCode = $FacCode AND newlinentable.HptCode= '$HptCode'
+  AND newlinentable.isStatus<>9
+  )c,
+  (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN , 
+  COALESCE(clean.DocDate,0) AS DocDate
+  FROM clean
+  LEFT JOIN department ON department.DepCode = clean.DepCode
+		LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
+      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode'
+  )d,
+  (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
+  COALESCE(return_wash.DocDate,0) AS DocDate
+  FROM return_wash
+  LEFT JOIN department ON department.DepCode = return_wash.DepCode
+	LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (return_wash.Docdate) = '$date[$i]' AND return_wash.FacCode = $FacCode AND site.HptCode= '$HptCode'
+  AND return_wash.IsStatus  <> 9
+  )e,
+  (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
+  COALESCE(newlinentable.DocDate,0) AS DocDate
+  FROM clean
+  LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+  LEFT JOIN department ON department.DepCode = clean.DepCode
+		LEFT JOIN site ON department.HptCode = site.HptCode
+  WHERE DATE (clean.Docdate) = '$date[$i]'
+  AND newlinentable.FacCode = $FacCode AND site.HptCode= '$HptCode'
+  AND clean.IsStatus  <> 9)
+  f";
+    $meQuery = mysqli_query($conn, $query);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $docdate = $Result['DocDate'];
+      $dirty = $Result['DIRTY'];
+      $repair_wash = $Result['repair_wash'];
+      $newlinen = $Result['NEWLINEN'];
+      $clean = $Result['CLEAN'];
+      $clean_repair_wash = $Result['CLEAN_repair_wash'];
+      $clean_newlinen = $Result['CLEAN_NEWLINEN'];
+      $total1 = 0;
+      $total2 = 0;
+      $r = 0;
+      if (
+        $dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0
+      ) {
+        list($day, $month, $year) = explode('-', $dateshow[$i]);
+        if ($language == 'th') {
+          $year = $year + 543;
+          $datesh = $day . "-" . $month . "-" . $year;
+        } else {
+          $datesh = $day . "-" . $month . "-" . $year;
+        }
           $total1 = $dirty + $repair_wash + $newlinen;
           $total2 = $clean + $clean_repair_wash + $clean_newlinen;
-          $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $date);
+          $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $datesh);
           $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $dirty);
           $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $repair_wash);
           $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $newlinen);
@@ -868,23 +895,24 @@ if ($chk == 'one') {
         }
       }
     }
+    $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total'][$language]);
+    $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $totalsum1);
+    $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $totalsum2);
+    $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $totalsum3);
+    $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $totalsum4);
+    $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_row, $totalsum5);
+    $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_row, $totalsum6);
+    $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalsum7);
+    $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $totalsum8);
+    $S2 = $start_row + 2;
+    $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+    $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
+    $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
+    $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
+    $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
   }
-  $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $totalsum1);
-  $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $totalsum2);
-  $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $totalsum3);
-  $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $totalsum4);
-  $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_row, $totalsum5);
-  $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_row, $totalsum6);
-  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalsum7);
-  $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $totalsum8);
-  $S2 = $start_row + 2;
-  $scr = (($totalsum4 / $totalsum8) - 1) * 100;
-  $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
-  $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
-  $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
-  $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
-}
+ 
+
 
 $cols = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
 $width = array(20, 15, 15, 15, 15, 15, 15, 15, 15);
@@ -962,7 +990,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Excel_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Soiled_Clean_Ratio_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file

@@ -360,15 +360,15 @@ $DocDate =$d.'-'.$m.'-'.$y;
 // add a page
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('  thsarabunnew', 'b', 20);
-$pdf->Cell(0, 10,  $array2['r4']['th'], 0, 0, 'C');
+$pdf->Cell(0, 10,  $array2['r4'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('  thsarabunnew', 'b', 16);
-$pdf->Cell(30, 7,  $array2['docno']['th'] . " : " . $docno, 0, 1, 'L');
-$pdf->Cell(30, 7,  $array2['hospital']['th'] . " : " . $HptName, 0, 1, 'L');
-$pdf->Cell(30, 7,  $array2['ward']['th'] . " : " . $DeptName, 0, 1, 'L');
-$pdf->Cell(30, 7,  $array2['date']['th'] . " : " . $DocDate, 0, 1, 'L');
-$pdf->Cell(30, 7,  $array2['shelfcounttime']['th'] . " : " . $TIME, 0, 1, 'L');
-$pdf->Cell(30, 7,  $array2['deliverytime']['th'] . " : " . $ENDTIME, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['docno'][$language] . " : " . $docno, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['hospital'][$language] . " : " . $HptName, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['ward'][$language] . " : " . $DeptName, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['date'][$language] . " : " . $DocDate, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['shelfcounttime'][$language] . " : " . $TIME, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['deliverytime'][$language] . " : " . $ENDTIME, 0, 1, 'L');
 $pdf->Ln(3);
 $html = '<table cellspacing="0" cellpadding="1" border="1" > <thead>
 <tr style="font-size: 16px;">

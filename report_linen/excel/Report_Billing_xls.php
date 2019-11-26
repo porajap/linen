@@ -217,6 +217,58 @@ if ($GroupCodeCome == '0') {
     $GroupName[] = $Result["GroupName"];
   }
 }
+ // -----------------------------------------------------------------------------------
+ if ($chk == 'one') {
+  if ($format == 1) {
+    $count = 1;
+    $date[] = $date1;
+    list($y,$m,$d)=explode('-',$date1);
+    if($language ==  th ){
+      $y = $y+543;
+    }
+    $date1 = $d.'-'.$m.'-'.$y;
+    $DateShow[] = $date1;
+  }
+} elseif ($chk == 'between') {
+  list($year, $month, $day) = explode('-', $date2);
+  if ($day <> 31) {
+    $day = $day + 1;
+  }
+  $date2 = $year . "-" . $month . "-" . $day;
+  $period = new DatePeriod(
+    new DateTime($date1),
+    new DateInterval('P1D'),
+    new DateTime($date2)
+  );
+  foreach ($period as $key => $value) {
+    $date[] = $value->format('Y-m-d');
+  }
+  $count = count($date);
+  for($i =0; $i<$count ; $i++){
+    $date1=$date[$i];
+    list($y,$m,$d)=explode('-',$date1);
+    if($language ==  'th' ){
+      $y = $y+543;
+    }
+    $date1 = $d.'-'.$m.'-'.$y;
+    $DateShow[] = $date1;
+  }
+} elseif ($chk == 'month') {
+  $day = 1;
+  if($language ==  'th' ){
+    $y = $year1+543;
+  }else{
+    $y = $year1;
+  }
+  $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
+  $datequery =  $year1 . '-' . $date1 . '-';
+  $dateshow = '-'.$date1. '-'.$y;
+  for ($i = 0; $i < $count; $i++) {
+    $date[] = $datequery . $day;
+    $DateShow[] = $day.$dateshow;
+    $day++;
+  }
+}
 $sheet_count = sizeof($GroupCode);
 for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $status_group == 0;
@@ -225,7 +277,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     ->setCellValue('A8',  'GROUP NAME')
     ->setCellValue('B8',  $array['department'][$language]);
   // Write data from MySQL result
-  $COUNT_DATE = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
   $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
   $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r28'][$language]);
   $objPHPExcel->getActiveSheet()->setCellValue('A7', 'รายละเอียด');
@@ -252,59 +303,12 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
       $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result["GroupName"]);
     }
     $i++;
-    $count++;
     $DepName[] =  $Result["DepName"];
     $DepCode[] =  $Result["DepCode"];
   }
   
-  // -----------------------------------------------------------------------------------
-  if ($chk == 'one') {
-    if ($format == 1) {
-      $count = 1;
-      $date[] = $date1;
-      list($y,$m,$d)=explode('-',$date1);
-      if($language ==  th ){
-        $y = $y+543;
-      }
-      $date1 = $d.'-'.$m.'-'.$y;
-      $DateShow[] = $date1;
-    }
-  } elseif ($chk == 'between') {
-    list($year, $month, $day) = explode('-', $date2);
-    if ($day <> 31) {
-      $day = $day + 1;
-    }
-    $date2 = $year . "-" . $month . "-" . $day;
-    $period = new DatePeriod(
-      new DateTime($date1),
-      new DateInterval('P1D'),
-      new DateTime($date2)
-    );
-    foreach ($period as $key => $value) {
-      $date[] = $value->format('Y-m-d');
-    }
-    $count = count($date);
-    for($i =0; $i<$count ; $i++){
-      $date1=$date[$i];
-      list($y,$m,$d)=explode('-',$date1);
-      if($language ==  th ){
-        $y = $y+543;
-      }
-      $date1 = $d.'-'.$m.'-'.$y;
-      $DateShow[] = $date1;
-    }
-  } elseif ($chk == 'month') {
-    $day = 1;
-    $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
-    $datequery =  $year1 . '-' . $date1 . '-';
-    $dateshow = '-'.$date1. '-'.$year1;
-    for ($i = 0; $i < $count; $i++) {
-      $date[] = $datequery . $day;
-      $DateShow[] = $day.$dateshow;
-      $day++;
-    }
-  }
-  $now =  $year1 . '-' . $date1 . '-';
+ 
+
   $r = 2;
   $d = 1;
   $rows = 9;
@@ -478,7 +482,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Excel_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Billing_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file

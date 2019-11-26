@@ -232,4 +232,4 @@ $pdf->SetFont('THSarabun','b',10);
 $pdf->setTable($pdf,$header,$result,$width,$numfield,$field);
 $pdf->Ln();
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Clean_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Billing_Claim_' . $ddate . '.pdf');

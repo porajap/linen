@@ -194,24 +194,22 @@ if ($language == 'th') {
   $Name = EngName;
   $LName = EngLName;
 }
-$header = array($array['no'][$language], $array2['itemname'][$language], $array['qty'][$language], $array['unit'][$language], $array['weight'][$language] . ' (kg)');
+$header = array($array['no'][$language], $array2['itemname'][$language], $array['unit'][$language], $array['qty'][$language], $array['weight'][$language] . ' (kg)');
 $count = 1;
 // ------------------------------------------------------------------------------
 $head = "SELECT   site.$HptName,
 department.DepName,
-return_wash.DocNo,
-DATE_FORMAT(return_wash.DocDate,'%d-%m-%Y')AS DocDate,
-return_wash.Total,
+return_doc.DocNo,
+DATE_FORMAT(return_doc.DocDate,'%d-%m-%Y')AS DocDate,
+return_doc.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
-TIME(return_wash.Modify_Date)  AS xTime,
-return_wash.RefDocNo,
-factory.$FacName
-FROM return_wash
-INNER JOIN department ON return_wash.DepCode = department.DepCode
+TIME(return_doc.Modify_Date)  AS xTime,
+return_doc.RefDocNo
+FROM return_doc
+INNER JOIN department ON return_doc.DepCodeTo = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN users ON return_wash.Modify_Code = users.ID
-INNER JOIN factory ON return_wash.faccode = factory.faccode
-WHERE return_wash.DocNo = '$DocNo'";
+INNER JOIN users ON return_doc.Modify_Code = users.ID
+WHERE return_doc.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptName = $Result[$HptName];
@@ -226,16 +224,16 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 }
 
 $data = "SELECT
-return_wash_detail.ItemCode,
+return_detail.ItemCode,
 item.ItemName,
 item_unit.UnitName,
-sum(return_wash_detail.Qty) as Qty ,
-sum(return_wash_detail.Weight) as Weight
+sum(return_detail.Qty) as Qty ,
+sum(return_detail.Weight) as Weight
 FROM item
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
 INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-INNER JOIN return_wash_detail ON return_wash_detail.ItemCode = item.ItemCode
-WHERE return_wash_detail.DocNo = '$DocNo'
+INNER JOIN return_detail ON return_detail.ItemCode = item.ItemCode
+WHERE return_detail.DocNo = '$DocNo'
  GROUP BY item.ItemCode
 ORDER BY item.ItemName ASC";
 
@@ -258,12 +256,6 @@ $pdf->Ln();
 
 $pdf->Cell(35, 7, $array['docno'][$language], 0, 0, 'L');
 $pdf->Cell(90, 7, " : " . $DocNo, 0, 0, 'L');
-$pdf->Cell(28, 7, $array['factory'][$language], 0, 0, 'L');
-$pdf->Cell(55, 7, " : " . $facname, 0, 0, 'L');
-$pdf->Ln();
-
-$pdf->Cell(35, 7, $array['refdocno'][$language], 0, 0, 'L');
-$pdf->Cell(90, 7, " : " . $RefDocNo, 0, 0, 'L');
 $pdf->Cell(28, 7, $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $xTime, 0, 0, 'L');
 $pdf->Ln();
@@ -278,8 +270,9 @@ $pdf->Ln(5);
 $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
 <tr>
     <th width="15 %" align="center">' . $header[0] . '</th>
-    <th width="50 %" align="center">' . $header[1] . '</th>
+    <th width="35 %" align="center">' . $header[1] . '</th>
     <th width="15 %"  align="center">' . $header[2] . '</th>
+    <th width="15 %" align="center">' . $header[3] . '</th>
     <th width="20 %" align="center">' . $header[4] . '</th>
 </tr></thead>';
 $meQuery = mysqli_query($conn, $data);
@@ -287,7 +280,8 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $Total_Weight = $Result['Qty'] * $Result['Weight'];
   $html .= '<tr nobr="true">';
   $html .=   '<td width="15 %" align="center">' . $count . '</td>';
-  $html .=   '<td width="50 %" align="left"> ' . $Result['ItemName'] . '</td>';
+  $html .=   '<td width="35 %" align="left"> ' . $Result['ItemName'] . '</td>';
+  $html .=   '<td width="15 %" align="center"> ' . $Result['UnitName'] . '</td>';
   $html .=   '<td width="15 %" align="center">' . $Result['Qty'] . '</td>';
   $html .=   '<td width="20 %" align="center">' . $Result['Weight'] . '</td>';
   $html .=  '</tr>';
