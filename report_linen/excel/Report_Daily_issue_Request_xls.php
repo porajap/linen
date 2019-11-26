@@ -348,7 +348,7 @@ if ($government == 1) {
   shelfcount
   INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
   INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
-  INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+  LEFT JOIN category_price ON category_price.CategoryCode = item.CategoryCode
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
             WHERE shelfcount.DocNo='$docno'
             AND shelfcount_detail.TotalQty <> 0
