@@ -1175,7 +1175,6 @@ function SaveBill($conn, $DATA)
     $result = mysqli_query($conn, $Sql);
     $row    = mysqli_fetch_assoc($result);
     $Qty    = $row['TotalQty'];
-
       // เก็บค่านํ้าหนักและจำนวนเงิน 
     $Sql2     = "SELECT category_price.Price
     FROM item
