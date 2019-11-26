@@ -194,7 +194,8 @@ if ($private == 1) {
   IFNULL(shelfcount_detail.Over, 0) AS OverPar,
   IFNULL(shelfcount_detail.Short, 0) AS Short,
   IFNULL(item.Weight, 0) AS Weight,
-  category_price.Price
+  category_price.Price,
+  shelfcount_detail.Price as PriceSC
   FROM
   shelfcount
   INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -226,6 +227,7 @@ if ($private == 1) {
     $count++;
     $Weight += $totalweight;
     $totalprice += $price;
+    $price_W += $Result['PriceSC'];
   }
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $start_row . ':G' . $start_row);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total_weight'][$language]);
@@ -233,7 +235,7 @@ if ($private == 1) {
   $start_row++;
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $start_row . ':G' . $start_row);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total_price'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalprice);
+  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $price_W);
 
 
 
@@ -452,7 +454,7 @@ if ($government == 1) {
 }
 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_Dirty');
+$objPHPExcel->getActiveSheet()->setTitle('Report_Daily_issue_Request');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);

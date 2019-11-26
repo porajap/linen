@@ -131,7 +131,6 @@ class PDF extends FPDF
     $old_code = '';
     $this->SetFont('THSarabun', '', 12);
     if (is_array($data)) {
-
       foreach ($data as $data => $inner_array) {
         $code =  $inner_array[$field[14]];
         $name =  $inner_array[$field[15]];
@@ -328,10 +327,12 @@ $data = new Data();
 $pdf->AddPage("L", "A4");
 $pdf->SetAutoPageBreak(true, 20);
 $Sql = "SELECT
-department.DepCode
+shelfcount.DepCode
 FROM
-department
-WHERE department.HptCode  = '$HptCode'
+shelfcount
+INNER JOIN department ON shelfcount.DepCode = department.DepCode
+INNER JOIN site ON department.HptCode = site.HptCode
+WHERE site.HptCode  = '$HptCode'
  ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -401,6 +402,7 @@ LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
 $where
 AND  department.DepCode = '$DepCode[$i]'
 AND shelfcount.isStatus <> 9 ";
+$field = "docno,CycleTime,ScStartTime,ScEndTime,SC,PkStartTime,PkEndTime,PK,DvStartTime,DvEndTime,DV,,USER,TimeName,DepCode,DepName";
   // var_dump($query); die;
   // Number of column
   $numfield = 6;

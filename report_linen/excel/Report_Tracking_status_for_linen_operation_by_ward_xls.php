@@ -207,7 +207,9 @@ $Sql = "SELECT
 department.DepCode
 FROM
 department
-WHERE department.HptCode  = '$HptCode'
+INNER JOIN shelfcount ON shelfcount.DepCode = department.DepCode
+WHERE shelfcount.isStatus <> 9 AND department.HptCode  = '$HptCode'
+GROUP BY shelfcount.DepCode ORDER BY shelfcount.DepCode  ASC
  ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -231,12 +233,12 @@ department.DepCode,
 department.DepName,
 shelfcount.docno,
 time_sc.TimeName AS CycleTime,
-COALESCE(TIME(shelfcount.ScStartTime),'-') AS ScStartTime ,
-COALESCE(TIME(shelfcount.ScEndTime),'-') AS ScEndTime ,  
-COALESCE(TIME(shelfcount.PkEndTime),'-') AS PkEndTime ,
-COALESCE(TIME(shelfcount.PkStartTime),'-') AS PkStartTime ,
-COALESCE(TIME(shelfcount.DvStartTime),'-') AS DvStartTime ,
-COALESCE(TIME(shelfcount.DvEndTime),'-') AS DvEndTime ,
+COALESCE(DATE_FORMAT(shelfcount.ScStartTime,'%H:%i'),'-') AS ScStartTime ,
+COALESCE(DATE_FORMAT(shelfcount.ScEndTime,'%H:%i'),'-') AS ScEndTime ,  
+COALESCE(DATE_FORMAT(shelfcount.PkEndTime,'%H:%i'),'-') AS PkEndTime ,
+COALESCE(DATE_FORMAT(shelfcount.PkStartTime,'%H:%i'),'-') AS PkStartTime ,
+COALESCE(DATE_FORMAT(shelfcount.DvStartTime,'%H:%i'),'-') AS DvStartTime ,
+COALESCE(DATE_FORMAT(shelfcount.DvEndTime,'%H:%i'),'-') AS DvEndTime ,
 TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
 TIMEDIFF(shelfcount.PkStartTime,shelfcount.PkEndTime)AS PK ,
 TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV,
@@ -250,11 +252,10 @@ LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
 LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
 $where
 AND  department.DepCode = '$DepCode[$i]'
-AND shelfcount.isStatus <> 9 ";
+AND shelfcount.isStatus <> 9 limit 1 ";
 
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-
     $code =  $Result['DepCode'];
     $name =  $Result['DepName'];
     $start_row++;
@@ -293,18 +294,35 @@ AND shelfcount.isStatus <> 9 ";
         $sc1 = substr($Result['ScStartTime'], 0, 5);
         $sc2 = substr($Result['ScEndTime'], 0, 5);
       }
-      list($hoursSS, $minSS, $secordSS) = explode(":",  $sc1);
-      list($hoursSF, $minSF, $secordSF) = explode(":",  $sc2);
-      list($hoursPS, $minPS, $secordPS) = explode(":", $Result['PkStartTime']);
-      list($hoursPF, $minPF, $secordPF) = explode(":", $Result['PkEndTime']);
-      list($hoursDS, $minDS, $secordDS) = explode(":", $Result['DvStartTime']);
-      list($hoursDF, $minDF, $secordDF) = explode(":", $Result['DvEndTime']);
+      // echo "<pre>";
+      // print_r($data);
+      // echo "</pre>"; 
+      if ($sc1 <> '-') {
+        list($hoursSS, $minSS) = explode(":",  $sc1);
+      }
+      if ($sc2 <> '-') {
+        list($hoursSF, $minSF) = explode(":",  $sc2);
+      }
+
+      if ($Result['PkStartTime'] <> '-') {
+        list($hoursPS, $minPS) = explode(":", $Result['PkStartTime']);
+      }
+      if ($Result['PkEndTime'] <> '-') {
+        list($hoursPF, $minPF) = explode(":", $Result['PkEndTime']);
+      }
+      if ($Result['DvStartTime'] <> '-') {
+        list($hoursPS, $minPS) = explode(":", $Result['DvStartTime']);
+      }
+      if ($Result['DvEndTime'] <> '-') {
+        list($hoursPS, $minPS) = explode(":", $Result['DvEndTime']);
+      }
       $h1 = $hoursSS - $hoursSF;
       $m1 = $minSS - $minSF;
       if ($Result['CycleTime'] == 'Extra') {
         $h2 = $hoursPS - $hoursPF;
         $m2 = $minPS - $minPF;
       }
+      break;
       $h3 = $hoursDS - $hoursDF;
       $m3 = $minDS - $minDF;
       $m1 = abs($m1);
@@ -368,20 +386,20 @@ AND shelfcount.isStatus <> 9 ";
         $pack2 = '-';
         $total2 = '-';
       }
-      $objPHPExcel->getActiveSheet()->setCellValue('A'. $start_row,  $Result['docno']);
-      $objPHPExcel->getActiveSheet()->setCellValue('B'. $start_row,  $Result['TimeName']);
-      $objPHPExcel->getActiveSheet()->setCellValue('C'. $start_row,  $Result['CycleTime']);
-      $objPHPExcel->getActiveSheet()->setCellValue('D'. $start_row,  $sc1);
-      $objPHPExcel->getActiveSheet()->setCellValue('E'. $start_row,  $sc2);
-      $objPHPExcel->getActiveSheet()->setCellValue('F'. $start_row,  $total1);
-      $objPHPExcel->getActiveSheet()->setCellValue('G'. $start_row,  $pack1);
-      $objPHPExcel->getActiveSheet()->setCellValue('H'. $start_row,  $pack2);
-      $objPHPExcel->getActiveSheet()->setCellValue('I'. $start_row,  $total2);
-      $objPHPExcel->getActiveSheet()->setCellValue('J'. $start_row,  substr($Result['DvStartTime'], 0, 5));
-      $objPHPExcel->getActiveSheet()->setCellValue('K'. $start_row,  substr($Result['DvEndTime'], 0, 5));
-      $objPHPExcel->getActiveSheet()->setCellValue('L'. $start_row,  $total3);
-      $objPHPExcel->getActiveSheet()->setCellValue('M'. $start_row,  number_format($totalhour) . $hour_show . " " . $totalmin .  $min_show);
-      $objPHPExcel->getActiveSheet()->setCellValue('N'. $start_row, $Result['USER']);
+      $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row,  $Result['docno']);
+      $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row,  $Result['TimeName']);
+      $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row,  $Result['CycleTime']);
+      $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row,  $sc1);
+      $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row,  $sc2);
+      $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_row,  $total1);
+      $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_row,  $pack1);
+      $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row,  $pack2);
+      $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row,  $total2);
+      $objPHPExcel->getActiveSheet()->setCellValue('J' . $start_row,  substr($Result['DvStartTime'], 0, 5));
+      $objPHPExcel->getActiveSheet()->setCellValue('K' . $start_row,  substr($Result['DvEndTime'], 0, 5));
+      $objPHPExcel->getActiveSheet()->setCellValue('L' . $start_row,  $total3);
+      $objPHPExcel->getActiveSheet()->setCellValue('M' . $start_row,  number_format($totalhour) . $hour_show . " " . $totalmin .  $min_show);
+      $objPHPExcel->getActiveSheet()->setCellValue('N' . $start_row, $Result['USER']);
       $start_row++;
     }
     $start_row++;
@@ -447,7 +465,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_Dirty');
+$objPHPExcel->getActiveSheet()->setTitle('Report_Tracking_status_for_linen_operation_by_ward');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);

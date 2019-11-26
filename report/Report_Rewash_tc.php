@@ -204,11 +204,13 @@ DATE_FORMAT(repair_wash.DocDate,'%d-%m-%Y')AS DocDate,
 repair_wash.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
 TIME(repair_wash.Modify_Date)  AS xTime,
-repair_wash.RefDocNo
+repair_wash.RefDocNo,
+factory.$FacName
 FROM repair_wash
 INNER JOIN department ON repair_wash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN users ON repair_wash.Modify_Code = users.ID
+INNER JOIN factory ON repair_wash.FacCode = factory.FacCode
 WHERE repair_wash.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn,$head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -220,8 +222,8 @@ $Total = $Result['Total'];
 $FirstName = $Result['FName'];
 $xTime = $Result['xTime'];
 $RefDocNo = $Result['RefDocNo'];
+$facname = $Result[$FacName];
 }
-
 $data = "SELECT
 repair_wash_detail.ItemCode,
 item.ItemName,
@@ -249,25 +251,25 @@ $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 16);
 
 $pdf->Cell(35,7, $array2['hospital'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$HptName,0,0,'L');
+$pdf->Cell(70,7, " : ".$HptName,0,0,'L');
 $pdf->Cell(28 ,7, $array['department'][$language],0,0,'L');
 $pdf->Cell(55,7, " : ".$DepName,0,0,'L');
 $pdf->Ln();
 
 $pdf->Cell(35,7, $array['docno'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$DocNo,0,0,'L');
+$pdf->Cell(70,7, " : ".$DocNo,0,0,'L');
 $pdf->Cell(28,7, $array['factory'][$language],0,0,'L');
 $pdf->Cell(55,7, " : ".$facname,0,0,'L');
 $pdf->Ln();
 
 $pdf->Cell(35,7, $array['refdocno'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$RefDocNo,0,0,'L');
+$pdf->Cell(70,7, " : ".$RefDocNo,0,0,'L');
 $pdf->Cell(28,7, $array['time'][$language],0,0,'L');
 $pdf->Cell(55,7, " : ".$xTime,0,0,'L');
 $pdf->Ln();
 
 $pdf->Cell(35,7, $array2['user'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$FirstName,0,0,'L');
+$pdf->Cell(70,7, " : ".$FirstName,0,0,'L');
 $pdf->Cell(28,7, $array['docdate'][$language],0,0,'L');
 $pdf->Cell(55,7, " : ".$DocDate,0,0,'L');
 $pdf->Ln();

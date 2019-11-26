@@ -192,7 +192,7 @@ class PDF extends FPDF
     $this->SetFont('THSarabun', 'B', 14);
     $this->Cell($w[0]+$w[1], 10, iconv("UTF-8", "TIS-620", $array2['total'][$language]), 1, 0, 'C');
     $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($totalsum1)), 1, 0, 'C');
-    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($totalsum2)), 1, 0, 'C');
+    $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($totalsum2,2)), 1, 0, 'C');
     $pdf->Ln(10);
 
     // $footer_nextpage = $loop % 24;
@@ -271,7 +271,7 @@ $query = "SELECT
           AND repair_wash.FacCode = $FacCode
           AND department.HptCode = '$HptCode'
           AND repair_wash.isStatus<> 9
-          GROUP BY  item.ItemName
+          GROUP BY  item.ItemCode
           ORDER BY repair_wash.DocNo ASC ";
 // .$Sql;
 // var_dump($query); die;

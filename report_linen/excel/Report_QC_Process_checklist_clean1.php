@@ -401,7 +401,7 @@ $objPHPExcel->getActiveSheet()->getColumnDimension("C")
 $objPHPExcel->getActiveSheet()->getColumnDimension("D")
   ->setAutoSize(true);
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_Dirty');
+$objPHPExcel->getActiveSheet()->setTitle('Report_QC_Process_checklist_clean1');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);

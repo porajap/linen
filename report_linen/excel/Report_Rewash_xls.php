@@ -230,7 +230,7 @@ $where
 AND repair_wash.FacCode = $FacCode
 AND department.HptCode = '$HptCode'
 AND repair_wash.isStatus<> 9
-GROUP BY  item.ItemName
+GROUP BY  item.ItemCode
 ORDER BY repair_wash.DocNo ASC 
 ";
 $meQuery = mysqli_query($conn, $query);
@@ -406,7 +406,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_repair_wash');
+$objPHPExcel->getActiveSheet()->setTitle('Report_Rewash_');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);

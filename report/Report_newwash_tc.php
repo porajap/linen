@@ -283,21 +283,21 @@ $pdf->SetFont('thsarabunnew', 'b', 20);
 $pdf->Cell(0, 10,  $array2['reportnewlinen'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 16);
-$pdf->Cell(20, 7,   $array2['hospital'][$language], 0, 0, 'L');
-$pdf->Cell(95, 7,   ": " . $HptName, 0, 0, 'L');
-$pdf->Cell(20, 7,   $array['factory'][$language], 0, 0, 'L');
+$pdf->Cell(35, 7,   $array2['hospital'][$language], 0, 0, 'L');
+$pdf->Cell(65, 7,   ": " . $HptName, 0, 0, 'L');
+$pdf->Cell(30, 7,   $array['factory'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $facname, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(20, 7,   $array['docno'][$language], 0, 0, 'L');
-$pdf->Cell(95, 7,   ": " . $DocNo, 0, 0, 'L');
-$pdf->Cell(20, 7,   $array['docdate'][$language], 0, 0, 'L');
+$pdf->Cell(35, 7,   $array['docno'][$language], 0, 0, 'L');
+$pdf->Cell(65, 7,   ": " . $DocNo, 0, 0, 'L');
+$pdf->Cell(30, 7,   $array['docdate'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $DocDate, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(20, 7,   $array2['user'][$language], 0, 0, 'L');
-$pdf->Cell(95, 7,   ": " . $FName, 0, 0, 'L');
-$pdf->Cell(20, 7,   $array['time'][$language], 0, 0, 'L');
+$pdf->Cell(35, 7,   $array2['user'][$language], 0, 0, 'L');
+$pdf->Cell(65, 7,   ": " . $FName, 0, 0, 'L');
+$pdf->Cell(30, 7,   $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $xTime, 0, 0, 'L');
 $pdf->Ln(10);
 

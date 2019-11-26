@@ -82,24 +82,6 @@ class MYPDF extends TCPDF
       // Title
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 0, 'R');
     } 
-    // else {
-    //   $this->SetFont('thsarabunnew', '', 9);
-    //   $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 1, 'R');
-    //   $this->SetFont('thsarabunnew', '', 12);
-    //   $this->SetY(19.1);
-    //   $this->SetFont('thsarabunnew', 'b', 16);
-    //   $html = '<table cellspacing="0" cellpadding="0" border="1"   >
-    //   <tr >
-    //   <th width="10 %" align="center" style="border-color: black black white black; " >' . $header[0] . '</th>
-    //   <th width="15 %" align="center"style="border-color: black black white black; ">' . $header[1] . '</th>
-    //   <th width="30  %" align="center"style="border-color: black black white black; ">' . $header[2] . '</th>
-    //   <th width="15 %"  align="center"style="border-color: black black white black; ">' . $header[3] . '</th>
-    //   <th width="15 %" align="center"style="border-color: black black white black; ">' . $header[4] . '</th>
-    //   <th width="15 %"  align="center"style="border-color: black black white black; ">' . $header[5] . '</th>
-    //   </tr>
-    //   </table>';
-    //   $this->writeHTML($html, true, false, false, false);
-    // }
   }
   // Page footer
   public function Footer()
@@ -197,7 +179,7 @@ $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 // set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, 35);
+$pdf->SetAutoPageBreak(TRUE, 38);
 // set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
@@ -274,25 +256,23 @@ $pdf->SetFont('thsarabunnew', 'b', 22);
 $pdf->Cell(0, 10,  $array2['r1'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 16);
-$pdf->Cell(22, 7,   $array2['hospital'][$language], 0, 0, 'L');
-$pdf->Cell(80, 7,   ": " . $HptName, 0, 0, 'L');
-$pdf->Cell(20, 7,   $array['factory'][$language], 0, 0, 'L');
+$pdf->Cell(35, 7,   $array2['hospital'][$language], 0, 0, 'L');
+$pdf->Cell(77, 7,   ": " . $HptName, 0, 0, 'L');
+$pdf->Cell(30, 7,   $array['factory'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $FacName, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(22, 7,   $array['docno'][$language], 0, 0, 'L');
-$pdf->Cell(80, 7,   ": " . $DocNo, 0, 0, 'L');
-$pdf->Cell(20, 7,   $array['docdate'][$language], 0, 0, 'L');
+$pdf->Cell(35, 7,   $array['docno'][$language], 0, 0, 'L');
+$pdf->Cell(77, 7,   ": " . $DocNo, 0, 0, 'L');
+$pdf->Cell(30, 7,   $array['docdate'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $DocDate, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(22, 7,   $array2['user'][$language], 0, 0, 'L');
-$pdf->Cell(80, 7,   ": " . $FName, 0, 0, 'L');
-$pdf->Cell(20, 7,   $array['time'][$language], 0, 0, 'L');
+$pdf->Cell(35, 7,   $array2['user'][$language], 0, 0, 'L');
+$pdf->Cell(77, 7,   ": " . $FName, 0, 0, 'L');
+$pdf->Cell(30, 7,   $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $xTime, 0, 0, 'L');
 $pdf->Ln(10);
-
-
 $pdf->SetFont('thsarabunnew', 'b', 14);
 $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <thead><tr >
@@ -347,7 +327,7 @@ WHERE dirty_detail.DocNo = '$DocNo'
 AND dirty.isStatus <> 9
 GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemCode,dirty_detail.RequestName ASC
-          ";
+          "; 
 $meQuery = mysqli_query($conn, $queryy);
 $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <thead><tr >

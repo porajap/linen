@@ -327,14 +327,14 @@ dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-LEFT  JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
 AND dirty.isStatus <> 0
 GROUP BY item.ItemName,department.DepName,date(dirty.DocDate),dirty_detail.RequestName
-ORDER BY item.ItemName , department.DepName ASC";
+ORDER BY item.ItemName , department.DepName ASC"; 
 // Number of column
 $numfield = 4;
 // Field data (Must match with Query)

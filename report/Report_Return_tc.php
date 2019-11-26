@@ -65,7 +65,7 @@ class MYPDF extends TCPDF
     $json2 = json_encode($xml2);
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
-    $header = array($array['no'][$language],$array['itemname'][$language],$array['qty'][$language],$array['unit'][$language],$array['weight'][$language].' (kg)');
+    $header = array($array['no'][$language], $array['itemname'][$language], $array['qty'][$language], $array['unit'][$language], $array['weight'][$language] . ' (kg)');
     if ($language == 'th') {
       $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
     } else {
@@ -79,7 +79,7 @@ class MYPDF extends TCPDF
       $this->SetFont('thsarabunnew', '', 9);
       // Title
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 0, 'R');
-    } 
+    }
   }
   // Page footer
   public function Footer()
@@ -103,7 +103,7 @@ class MYPDF extends TCPDF
       // return_wash
       // where return_wash.docno =  '$DocNo'
       // ";
-      
+
       // $meQuery = mysqli_query($conn, $head);
       // while ($Result = mysqli_fetch_assoc($meQuery)) {
       //   $SignFac = $Result['SignFac'];
@@ -135,10 +135,10 @@ class MYPDF extends TCPDF
       }
       $this->SetFont('thsarabunnew', 'b', 13);
       if ($SignNH != null) {
-      $this->ImageSVG('@' . $SignNH, $x = 38, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        $this->ImageSVG('@' . $SignNH, $x = 38, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
       if ($SignFac != null) {
-      $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
       $this->Cell(100, 8, $array2['comlinen'][$language]  . "...............................................", 0, 0, 'L');
       $this->Cell(90, 8,  $array2['comlaundry'][$language] . "........................................", 0, 1, 'L');
@@ -194,7 +194,7 @@ if ($language == 'th') {
   $Name = EngName;
   $LName = EngLName;
 }
-$header = array($array['no'][$language],$array2['itemname'][$language],$array['qty'][$language],$array['unit'][$language],$array['weight'][$language].' (kg)');
+$header = array($array['no'][$language], $array2['itemname'][$language], $array['qty'][$language], $array['unit'][$language], $array['weight'][$language] . ' (kg)');
 $count = 1;
 // ------------------------------------------------------------------------------
 $head = "SELECT   site.$HptName,
@@ -204,22 +204,25 @@ DATE_FORMAT(return_wash.DocDate,'%d-%m-%Y')AS DocDate,
 return_wash.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
 TIME(return_wash.Modify_Date)  AS xTime,
-return_wash.RefDocNo
+return_wash.RefDocNo,
+factory.$FacName
 FROM return_wash
 INNER JOIN department ON return_wash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN users ON return_wash.Modify_Code = users.ID
+INNER JOIN factory ON return_wash.faccode = factory.faccode
 WHERE return_wash.DocNo = '$DocNo'";
-$meQuery = mysqli_query($conn,$head);
+$meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-$HptName = $Result[$HptName];
-$DepName = $Result['DepName'];
-$DocNo = $Result['DocNo'];
-$DocDate = $Result['DocDate'];
-$Total = $Result['Total'];
-$FirstName = $Result['FName'];
-$xTime = $Result['xTime'];
-$RefDocNo = $Result['RefDocNo'];
+  $HptName = $Result[$HptName];
+  $DepName = $Result['DepName'];
+  $DocNo = $Result['DocNo'];
+  $DocDate = $Result['DocDate'];
+  $Total = $Result['Total'];
+  $FirstName = $Result['FName'];
+  $xTime = $Result['xTime'];
+  $RefDocNo = $Result['RefDocNo'];
+  $facname = $Result[$FacName];
 }
 
 $data = "SELECT
@@ -247,28 +250,28 @@ $pdf->SetFont('thsarabunnew', 'b', 22);
 $pdf->Cell(0, 10,  $array2['return'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 16);
-$pdf->Cell(35,7, $array2['hospital'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$HptName,0,0,'L');
-$pdf->Cell(28 ,7, $array['department'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$DepName,0,0,'L');
+$pdf->Cell(35, 7, $array2['hospital'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $HptName, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['department'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $DepName, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35,7, $array['docno'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$DocNo,0,0,'L');
-$pdf->Cell(28,7, $array['factory'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$facname,0,0,'L');
+$pdf->Cell(35, 7, $array['docno'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $DocNo, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['factory'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $facname, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35,7, $array['refdocno'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$RefDocNo,0,0,'L');
-$pdf->Cell(28,7, $array['time'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$xTime,0,0,'L');
+$pdf->Cell(35, 7, $array['refdocno'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $RefDocNo, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['time'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $xTime, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35,7, $array2['user'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$FirstName,0,0,'L');
-$pdf->Cell(28,7, $array['docdate'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$DocDate,0,0,'L');
+$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $FirstName, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
 
 $pdf->Ln();
 $pdf->Ln(5);

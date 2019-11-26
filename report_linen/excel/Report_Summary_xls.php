@@ -5,12 +5,12 @@ require('../report/Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
-$language = "en";
 $xml = simplexml_load_file('../xml/general_lang.xml');
 $xml2 = simplexml_load_file('../xml/report_lang.xml');
 $json = json_encode($xml);
@@ -42,6 +42,7 @@ $itemCode = [];
 $itemName = [];
 $DepCode = [];
 $Weight = [];
+$DateShow = [];
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -52,7 +53,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (dirty.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -178,7 +179,7 @@ if ($DepCodeCome == '0') {
     FROM
     department
     INNER JOIN shelfcount ON shelfcount.DepCode = department.DepCode
-    WHERE shelfcount.isStatus <> 9 AND department.HptCode  = '$HptCode'
+    $where AND shelfcount.isStatus <> 9 AND department.HptCode  = '$HptCode'
     GROUP BY shelfcount.DepCode ORDER BY shelfcount.DepCode  ASC
                 ";
   $meQuery = mysqli_query($conn, $query);
@@ -221,6 +222,14 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     if ($format == 1) {
       $count = 1;
       $date[] = $date1;
+      list($y,$m,$d)=explode('-',$date1);
+      if($language ==  'th' ){
+        $y = $y+543;
+      }else{
+        $y = $y;
+      }
+      $date1 = $d.'-'.$m.'-'.$y;
+      $DateShow[] = $date1;
     }
   } elseif ($chk == 'between') {
     list($year, $month, $day) = explode('-', $date2);
@@ -237,12 +246,23 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
       $date[] = $value->format('Y-m-d');
     }
     $count = count($date);
+    for($i =0; $i<$count ; $i++){
+      $date1=$date[$i];
+      list($y,$m,$d)=explode('-',$date1);
+      if($language ==  'th' ){
+        $y = $y+543;
+      }
+      $date1 = $d.'-'.$m.'-'.$y;
+      $DateShow[] = $date1;
+    }
   } elseif ($chk == 'month') {
     $day = 1;
     $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
-    $now =  $year1 . '-' . $date1 . '-';
+    $datequery =  $year1 . '-' . $date1 . '-';
+    $dateshow = '-'.$date1. '-'.$year1;
     for ($i = 0; $i < $count; $i++) {
-      $date[] = $now . $day;
+      $date[] = $datequery . $day;
+      $DateShow[] = $day.$dateshow;
       $day++;
     }
   }
@@ -286,7 +306,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   // -----------------------------------------------------------------------------------
 
   for ($j = 0; $j < $count; $j++) {
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", $date[$j]);
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", $DateShow[$j]);
     $start_col++;
   }
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Qty');
@@ -295,9 +315,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   // -----------------------------------------------------------------------------------
   for ($i = 0; $i < $countitem; $i++) {
     $item = "SELECT
-    SUM(shelfcount_detail.ParQty) AS  ParQty,
-    SUM(item.Weight) AS Weight ,
-    SUM(category_price.Price) AS Price
+    shelfcount_detail.ParQty AS  ParQty,
+    item.Weight AS Weight ,
+    category_price.Price AS Price
     FROM
     shelfcount_detail
     INNER JOIN  shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo 

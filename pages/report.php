@@ -1378,7 +1378,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
-			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27 || typeReport == 28) {
+			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
@@ -1399,12 +1399,24 @@ $array2 = json_decode($json2, TRUE);
 				$('#department').val(0);
 				$('#cycle').val(0);
 
-			} else if (typeReport == 29 || typeReport == 30) {
+			} else if (typeReport == 29 || typeReport == 30 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#chksomemonth').parent().hide();
+				$('#chkyear').parent().hide();
+			}else if ( typeReport == 28) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', true);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', false);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
@@ -1477,31 +1489,32 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
 				// $('#oneMonth').attr('value', onemonth);
-			} else if (typeReport == 28) {
-				$('#department').attr('disabled', true);
-				$('#factory').attr('disabled', true);
-				$('#hotpital').attr('disabled', tf);
-				$('#cycle').attr('disabled', true);
-				$('#grouphpt').attr('disabled', false);
-				$('#grouphpt').val(0);
-				$('#factory').val(0);
-				$('#department').val(0);
-				$('#cycle').val(0);
-				$('#showday').hide();
-				$('#myDay').hide();
-				$('#showmonth').hide();
-				$('#showyear').hide();
-				$('#myMonth').show();
-				$('#onemonth').show();
-				$('#somemonth').hide();
-				$('#textto2').hide();
-				$('#chk').hide();
-				$('#chkmonth').prop('checked', true);
-				$('#chkonemonth').prop('checked', true);
-				$('#chkday').prop('checked', false)
-				$('#chkyear').prop('checked', false)
-				find_indexMonth(new Date().getFullYear())
-			}
+			} 
+			// else if (typeReport == 28) {
+			// 	$('#department').attr('disabled', true);
+			// 	$('#factory').attr('disabled', true);
+			// 	$('#hotpital').attr('disabled', tf);
+			// 	$('#cycle').attr('disabled', true);
+			// 	$('#grouphpt').attr('disabled', false);
+			// 	$('#grouphpt').val(0);
+			// 	$('#factory').val(0);
+			// 	$('#department').val(0);
+			// 	$('#cycle').val(0);
+			// 	$('#showday').hide();
+			// 	$('#myDay').hide();
+			// 	$('#showmonth').hide();
+			// 	$('#showyear').hide();
+			// 	$('#myMonth').show();
+			// 	$('#onemonth').show();
+			// 	$('#somemonth').hide();
+			// 	$('#textto2').hide();
+			// 	$('#chk').hide();
+			// 	$('#chkmonth').prop('checked', true);
+			// 	$('#chkonemonth').prop('checked', true);
+			// 	$('#chkday').prop('checked', false)
+			// 	$('#chkyear').prop('checked', false)
+			// 	find_indexMonth(new Date().getFullYear())
+			// }
 			$('#typereport').removeClass('border-danger');
 			$('#factory').removeClass('border-danger');
 			$('#department').removeClass('border-danger');

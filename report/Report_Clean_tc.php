@@ -25,6 +25,7 @@ $next_page = 1;
 $fisrt_page = 0;
 $r = 1;
 $status = 0;
+$Dclean = [];
 //--------------------------------------------------------------------------
 $language = $_GET['lang'];
 if ($language == "en") {
@@ -75,7 +76,7 @@ class MYPDF extends TCPDF
       $this->SetFont('thsarabunnew', '', 9);
       // Title
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 0, 'R');
-    } 
+    }
     // else {
     //   $this->SetFont('thsarabunnew', '', 9);
     //   $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 1, 'R');
@@ -140,10 +141,10 @@ class MYPDF extends TCPDF
       }
       $date1 = $d1 . "-" . $m1 . "-" . $y1;
       $date2 = $d2 . "-" . $m2 . "-" . $y2;
-      if ($date1 == '--543') {
+      if ($date1 == '--543' || $date1 == '--' ) {
         $date1 = ' ';
       }
-      if ($date2 == '--543') {
+      if ($date2 == '--543' || $date2 == '--') {
         $date2 = ' ';
       }
 
@@ -189,7 +190,7 @@ $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 // set margins
-$pdf->SetMargins(15 , PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetMargins(15, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 // set auto page breaks
@@ -210,7 +211,7 @@ if ($language == 'th') {
   $Name = EngName;
   $LName = EngLName;
 }
-$header = array($array['no'][$language], $array2['itemname'][$language],$array2['detail'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
+$header = array($array['no'][$language], $array2['itemname'][$language], $array2['detail'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 $count = 1;
 // ------------------------------------------------------------------------------
 $head = "SELECT   site.$HptName,
@@ -228,7 +229,7 @@ INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN factory ON factory.FacCode = clean.FacCode
 INNER JOIN users ON clean.Modify_Code = users.ID
 WHERE clean.DocNo = '$DocNo'";
-$meQuery = mysqli_query($conn,$head);
+$meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptName = $Result[$HptName];
   $DepName = $Result['DepName'];
@@ -277,13 +278,13 @@ LEFT JOIN dirty ON clean.RefDocNo = dirty.DocNo
 LEFT JOIN newlinentable ON clean.RefDocNo = newlinentable.DocNo
 WHERE clean.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn, $SUM);
-while ($Result = mysqli_fetch_assoc($meQuery)) {  
- $Wdirty =$Result['Wdirty'];
- $Wclean =$Result['Wclean'];
- $Wnewlinentable =$Result['Wnewlinentable'];
- $Dclean =$Result['Dclean'];
- $Ddirty =$Result['Ddirty'];
- $Dnewlinentable =$Result['Dnewlinentable'];
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $Wdirty = $Result['Wdirty'];
+  $Wclean = $Result['Wclean'];
+  $Wnewlinentable = $Result['Wnewlinentable'];
+  $Dclean = $Result['Dclean'];
+  $Ddirty = $Result['Ddirty'];
+  $Dnewlinentable = $Result['Dnewlinentable'];
 }
 // set some language-dependent strings (optional)
 
@@ -296,28 +297,28 @@ $pdf->Cell(0, 10,  $array2['r3'][$language], 0, 0, 'C');
 $pdf->Ln(15);
 $pdf->SetFont('thsarabunnew', 'b', 16);
 
-$pdf->Cell(35,7, $array2['hospital'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$HptName,0,0,'L');
-$pdf->Cell(28 ,7, $array['department'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$DepName,0,0,'L');
+$pdf->Cell(35, 7, $array2['hospital'][$language], 0, 0, 'L');
+$pdf->Cell(75, 7, " : " . $HptName, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['department'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $DepName, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35,7, $array['docno'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$DocNo,0,0,'L');
-$pdf->Cell(28,7, $array['factory'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$facname,0,0,'L');
+$pdf->Cell(35, 7, $array['docno'][$language], 0, 0, 'L');
+$pdf->Cell(75, 7, " : " . $DocNo, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['factory'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $facname, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35,7, $array['refdocno'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$RefDocNo,0,0,'L');
-$pdf->Cell(28,7, $array['time'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$xTime,0,0,'L');
+$pdf->Cell(35, 7, $array['refdocno'][$language], 0, 0, 'L');
+$pdf->Cell(75, 7, " : " . $RefDocNo, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['time'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $xTime, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35,7, $array2['user'][$language],0,0,'L');
-$pdf->Cell(90,7, " : ".$FirstName,0,0,'L');
-$pdf->Cell(28,7, $array['docdate'][$language],0,0,'L');
-$pdf->Cell(55,7, " : ".$DocDate,0,0,'L');
+$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
+$pdf->Cell(75, 7, " : " . $FirstName, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
 
 $pdf->Ln();
 $pdf->Ln(5);
@@ -328,10 +329,10 @@ $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
     <th width="20 % "  align="center">' . $header[2] . '</th>
     <th width="10 % " align="center">' . $header[3] . '</th>
     <th width="15 % " align="center">' . $header[4] . '</th>
-    <th width="10 % " align="center">' . $header[5] . '</th>
+    <th width="15 % " align="center">' . $header[5] . '</th>
 </tr></thead> ';
 $meQuery = mysqli_query($conn, $data);
-while ($Result = mysqli_fetch_assoc($meQuery)) {  
+while ($Result = mysqli_fetch_assoc($meQuery)) {
   $Total_Weight = $Result['Qty'] * $Result['Weight'];
   $html .= '<tr style="font-size: 16 px;" nobr="true">';
   $html .=   '<td width="10 % " align="center">' . $count . '</td>';
@@ -339,7 +340,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="20 % " align="center">' . $Result['Detail'] . '</td>';
   $html .=   '<td width="10 % " align="center">' . $Result['Qty'] . '</td>';
   $html .=   '<td width="15 % " align="center">' . $Result['Weight'] . '</td>';
-  $html .=   '<td width="10 % " align="center">' . $Result['UnitName'] . '</td>';
+  $html .=   '<td width="15 % " align="center">' . $Result['UnitName'] . '</td>';
   $html .=  '</tr>';
   $totalsum += $Result['Weight'];
   $count++;
@@ -352,37 +353,62 @@ $pdf->sety($pdf->Gety() - 9.0);
 $pdf->Cell(135, 5,  $array2['total'][$language], 1, 0, 'C');
 $pdf->Cell(27, 5,   number_format($totalsum, 2), 1, 1, 'C');
 $pdf->ln();
-if($Ddirty <> null ){
-  $w1 =$Wclean;
-  $w2 =$Wdirty;
-  $d1 =$Dclean;
-  $d2 =$Ddirty;
-}elseif ($Dnewlinentable <> null){
-  $w1 =$Wclean;
-  $w2 =$Wnewlinentable;
-  $d1 =$Dclean;
-  $d2 =$Dnewlinentable;
+
+// $SUM = "SELECT
+// dirty.Total AS Wdirty,
+// clean.DocNo AS Dclean,
+// dirty.DocNo AS Ddirty,
+// clean.Total AS Wclean,
+// newlinentable.DocNo AS Dnewlinentable,
+// newlinentable.Total AS Wnewlinentable
+// FROM
+// clean
+// LEFT JOIN dirty ON clean.RefDocNo = dirty.DocNo
+// LEFT JOIN newlinentable ON clean.RefDocNo = newlinentable.DocNo
+// WHERE clean.DocNo = '$DocNo'";
+// $meQuery = mysqli_query($conn, $SUM);
+// while ($Result = mysqli_fetch_assoc($meQuery)) {
+//   $Wdirty = $Result['Wdirty'];
+//   $Wclean = $Result['Wclean'];
+//   $Wnewlinentable = $Result['Wnewlinentable'];
+//   $Dclean = $Result['Dclean'];
+//   $Ddirty = $Result['Ddirty'];
+//   $Dnewlinentable = $Result['Dnewlinentable'];
+// }
+// $count = sizeof($Dclean);
+
+if ($Ddirty <> null) {
+  $weight1 = $Wclean;
+  $weight2 = $Wdirty;
+  $Doc1 = $Dclean;
+  $Doc2 = $Ddirty;
+} elseif ($Dnewlinentable <> null) {
+  $weight1 = $Wclean;
+  $weight2 = $Wnewlinentable;
+  $Doc1 = $Dclean;
+  $Doc2 = $Dnewlinentable;
 }
-if($Ddirty <> null ||  $Dnewlinentable <> null){
-$total=(($w1/$w2)-1)*100;
-$pdf->Cell(40, 5, '', 0, 0, 'C');
-$pdf->Cell(50, 5,  $array2['detail'][$language], 1, 0, 'C');
-$pdf->Cell(30, 5,  $array2['docno'][$language], 1, 0, 'C');
-$pdf->Cell(30, 5,  $array2['weight'][$language], 1, 0, 'C');
-$pdf->ln();
-$pdf->Cell(40, 5,  '', 0, 0, 'C');
-$pdf->Cell(50, 5,  $array2['docclean'][$language], 1, 0, 'C');
-$pdf->Cell(30, 5,  $d1, 1, 0, 'C');
-$pdf->Cell(30, 5,  $w1, 1, 0, 'C');
-$pdf->ln();
-$pdf->Cell(40, 5,  '', 0, 0, 'C');
-$pdf->Cell(50, 5,  $array2['docdirty'][$language], 1, 0, 'C');
-$pdf->Cell(30, 5,  $d2, 1, 0,'C');
-$pdf->Cell(30, 5,  $w2, 1, 0, 'C');
-$pdf->ln();
-$pdf->Cell(40, 5,  '', 0, 0, 'C');
-$pdf->Cell(50, 5,  $array2['total'][$language], 1, 0, 'C');
-$pdf->Cell(60, 5,  abs(number_format($total,2))." %", 1, 0, 'C');
+if ($Ddirty <> null ||  $Dnewlinentable <> null) {
+  $total = (($weight1 / $weight2) - 1) * 100;
+  $pdf->Cell(40, 5, '', 0, 0, 'C');
+  $pdf->Cell(50, 5,  $array2['detail'][$language], 1, 0, 'C');
+  $pdf->Cell(30, 5,  $array2['docno'][$language], 1, 0, 'C');
+  $pdf->Cell(30, 5,  $array2['weight'][$language], 1, 0, 'C');
+  $pdf->ln();
+  $pdf->Cell(40, 5,  '', 0, 0, 'C');
+  $pdf->Cell(50, 5,  $array2['docclean'][$language], 1, 0, 'C');
+
+  $pdf->Cell(30, 5,  $Doc1, 1, 0, 'C');
+  $pdf->Cell(30, 5,  $weight1, 1, 0, 'C');
+  $pdf->ln();
+  $pdf->Cell(40, 5,  '', 0, 0, 'C');
+  $pdf->Cell(50, 5,  $array2['docdirty'][$language], 1, 0, 'C');
+  $pdf->Cell(30, 5,  $Doc2, 1, 0, 'C');
+  $pdf->Cell(30, 5,  $weight2, 1, 0, 'C');
+  $pdf->ln();
+  $pdf->Cell(40, 5,  '', 0, 0, 'C');
+  $pdf->Cell(50, 5,  $array2['total'][$language], 1, 0, 'C');
+  $pdf->Cell(60, 5,  abs(number_format($total, 2)) . " %", 1, 0, 'C');
 }
 // ---------------------------------------------------------
 

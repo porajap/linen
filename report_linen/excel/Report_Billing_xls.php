@@ -5,12 +5,12 @@ require('../report/Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
-$language = "en";
 $xml = simplexml_load_file('../xml/general_lang.xml');
 $xml2 = simplexml_load_file('../xml/report_lang.xml');
 $json = json_encode($xml);
@@ -44,6 +44,7 @@ $DepCode = [];
 $DepName = [];
 $GroupCode = [];
 $GroupName = [];
+$DateShow=[];
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -257,12 +258,56 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   }
   
   // -----------------------------------------------------------------------------------
+  if ($chk == 'one') {
+    if ($format == 1) {
+      $count = 1;
+      $date[] = $date1;
+      list($y,$m,$d)=explode('-',$date1);
+      if($language ==  th ){
+        $y = $y+543;
+      }
+      $date1 = $d.'-'.$m.'-'.$y;
+      $DateShow[] = $date1;
+    }
+  } elseif ($chk == 'between') {
+    list($year, $month, $day) = explode('-', $date2);
+    if ($day <> 31) {
+      $day = $day + 1;
+    }
+    $date2 = $year . "-" . $month . "-" . $day;
+    $period = new DatePeriod(
+      new DateTime($date1),
+      new DateInterval('P1D'),
+      new DateTime($date2)
+    );
+    foreach ($period as $key => $value) {
+      $date[] = $value->format('Y-m-d');
+    }
+    $count = count($date);
+    for($i =0; $i<$count ; $i++){
+      $date1=$date[$i];
+      list($y,$m,$d)=explode('-',$date1);
+      if($language ==  th ){
+        $y = $y+543;
+      }
+      $date1 = $d.'-'.$m.'-'.$y;
+      $DateShow[] = $date1;
+    }
+  } elseif ($chk == 'month') {
+    $day = 1;
+    $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
+    $datequery =  $year1 . '-' . $date1 . '-';
+    $dateshow = '-'.$date1. '-'.$year1;
+    for ($i = 0; $i < $count; $i++) {
+      $date[] = $datequery . $day;
+      $DateShow[] = $day.$dateshow;
+      $day++;
+    }
+  }
   $now =  $year1 . '-' . $date1 . '-';
-  $day =    '/' . $date1 . '/' . $year1;
   $r = 2;
   $d = 1;
   $rows = 9;
-  $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
   for ($row = 0; $row < $count; $row++) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'นน.(Kg)');
     $r++;
@@ -279,7 +324,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $d = 1;
   for ($row = 0; $row < $count; $row++) {
     $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '7', $d . $day);
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '7', $DateShow[$row]);
     $r += 2;
     $j += 2;
     $d++;
@@ -295,12 +340,12 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   for ($q = 0; $q < $COUNT_DEP; $q++) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $DepName[$lek]);
     $r++;
-    for ($day = 1; $day <= $count; $day++) {
+    for ($day = 0; $day < $count; $day++) {
       $data = "SELECT COALESCE(SUM(shelfcount_detail.Weight),'0') AS aWeight , 
                     COALESCE(SUM(shelfcount_detail.Price ),'0') AS aPrice 
                     FROM shelfcount 
                     INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
-                    WHERE  DATE(shelfcount.DocDate)  ='$now$day'  AND shelfcount.isStatus <> 9
+                    WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  AND shelfcount.isStatus <> 9
                     AND shelfcount.DepCode = '$DepCode[$lek]' ";
                     
       $meQuery = mysqli_query($conn, $data);
@@ -328,7 +373,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $r = 1;
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 'total');
   $r++;
-  for ($day = 1; $day <= $count; $day++) {
+  for ($day = 0; $day < $count; $day++) {
     $data =       "SELECT
                 COALESCE(SUM(shelfcount_detail.Weight),'0') AS aWeight,
                 COALESCE(SUM(shelfcount_detail.Price),'0') AS aPrice
@@ -338,7 +383,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                 INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
                 INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
                 WHERE
-                DATE(shelfcount.DocDate) = '$now$day'
+                DATE(shelfcount.DocDate) = '$date[$day]'
                 AND shelfcount.isStatus <> 9
                 AND grouphpt.HptCode = '$HptCode'
                 AND grouphpt.GroupCode = '$GroupCode[$sheet]'

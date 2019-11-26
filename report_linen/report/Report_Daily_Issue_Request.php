@@ -301,7 +301,8 @@ IFNULL(
 IFNULL(shelfcount_detail.Over, 0) AS OverPar,
 IFNULL(shelfcount_detail.Short, 0) AS Short,
 IFNULL(item.Weight, 0) AS Weight,
-category_price.Price
+category_price.Price,
+shelfcount_detail.Price as PriceSC
 FROM
 shelfcount
 INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -381,11 +382,11 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="' . $w[5] . '% " align="center">' .  $Result['TotalQty']  . '</td>';
   $html .=   '<td width="' . $w[6] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
   if ($private == 1) {
-    $html .=   '<td width="' . $w[7] . '% " align="center">' . NUMBER_FORMAT($price, 2)  . '</td>';
+    $html .=   '<td width="' . $w[7] . '% " align="center">' . $Result['PriceSC']  . '</td>';
   }
   $html .=  '</tr>';
   $totalsum_W += $totalweight;
-  $price_W += $price;
+  $price_W += $Result['PriceSC'];
   $count++;
 }
 
@@ -399,7 +400,7 @@ $pdf->Cell(144, 5, $array2['total_weight']['en'], 1, 0, 'C');
 $pdf->Cell(36, 5, NUMBER_FORMAT($totalsum_W, 2), 1, 1, 'C');
 if ($private == 1) {
   $pdf->Cell(144, 5, $array2['total_price']['en'], 1, 0, 'C');
-  $pdf->Cell(36, 5, number_format($price_W, 2), 1, 0, 'C');
+  $pdf->Cell(36, 5, $price_W, 1, 0, 'C');
 }
 // $sum = '<div style="line-height: 100%;">555 </div><table cellspacing="0" cellpadding="1" border="1"    >';
 // $sum .= '<tr>' .

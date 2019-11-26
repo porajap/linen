@@ -218,19 +218,20 @@ $query = "SELECT
 item.ItemName,
 dirty_detail.Weight,
 department.DepName,
-dirty_detail.RequestName,
-SUM(dirty_detail.Qty) AS Qty
+SUM(dirty_detail.Qty) AS Qty,
+dirty_detail.RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
+INNER  JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
-AND (dirty.isStatus = 3 OR dirty.isStatus = 4)
-GROUP BY item.ItemName,department.DepName,date(dirty.DocDate)
+AND dirty.isStatus <> 9
+AND dirty.isStatus <> 0
+GROUP BY item.ItemName,department.DepName,date(dirty.DocDate),dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC
 ";
 $meQuery = mysqli_query($conn, $query);
@@ -426,7 +427,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_Dirty');
+$objPHPExcel->getActiveSheet()->setTitle('Report_Dirty_Linen_Weight');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
