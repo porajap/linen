@@ -258,4 +258,4 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 $pdf->isFinished = true;
 
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Repair' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Claim_Factory_' . $ddate . '.pdf');

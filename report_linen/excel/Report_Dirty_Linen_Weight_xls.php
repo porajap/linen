@@ -5,12 +5,12 @@ require('../report/Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
-$language = "en";
 $xml = simplexml_load_file('../xml/general_lang.xml');
 $xml2 = simplexml_load_file('../xml/report_lang.xml');
 $json = json_encode($xml);
@@ -219,21 +219,20 @@ item.ItemName,
 dirty_detail.Weight,
 department.DepName,
 SUM(dirty_detail.Qty) AS Qty,
-dirty_detail.RequestName
+COALESCE(dirty_detail.RequestName,'-') as RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-INNER  JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
 AND dirty.isStatus <> 0
 GROUP BY item.ItemName,department.DepName,date(dirty.DocDate),dirty_detail.RequestName
-ORDER BY item.ItemName , department.DepName ASC
-";
+ORDER BY item.ItemName , department.DepName ASC"; 
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   if ($Result['RequestName'] <> null) {
@@ -263,19 +262,19 @@ $i += 1;
 $queryy = "SELECT
 item.ItemName,
 SUM(dirty_detail.Qty) AS Qty,
-dirty_detail.RequestName
+COALESCE(dirty_detail.RequestName,'-') as RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
-LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
+LEFT  JOIN item ON item.itemcode = dirty_detail.itemcode
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
-AND (dirty.isStatus = 3 OR dirty.isStatus = 4)
-GROUP BY item.ItemName
-ORDER BY item.ItemName , department.DepName ASC 
+AND dirty.isStatus <> 9
+GROUP BY item.ItemName,dirty_detail.RequestName
+ORDER BY item.ItemName , department.DepName ASC
           ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -437,7 +436,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Excel_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Dirty_Linen_Weight_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file

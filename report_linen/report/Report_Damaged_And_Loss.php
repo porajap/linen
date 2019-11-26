@@ -287,4 +287,4 @@ $pdf->Ln();
 // Get $totalsum
 
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_damageed_Linen_Weight_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_Damaged_And_Loss_' . $ddate . '.pdf');

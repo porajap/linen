@@ -5,12 +5,12 @@ require('../report/Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {
   $language = "th";
 }
-$language = "en";
 $xml = simplexml_load_file('../xml/general_lang.xml');
 $xml2 = simplexml_load_file('../xml/report_lang.xml');
 $json = json_encode($xml);
@@ -304,7 +304,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Excel_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Shot_And_Over_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file

@@ -76,7 +76,7 @@ class MYPDF extends TCPDF
       $image_file = "../report_linen/images/Nhealth_linen 4.0.png";
       $this->Image($image_file, 10, 10, 33, 12, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
       // Set font
-      $this->SetFont('thsarabunnew', '', 13);
+      $this->SetFont('thsarabunnew', '', 9);
       // Title
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 0, 'R');
     }
@@ -92,14 +92,68 @@ class MYPDF extends TCPDF
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
     $DocNo = $_GET['DocNo'];
+    if ($this->last_page_flag) {
+      require('connect.php');
+      // $head = "SELECT
+      // return_wash.SignFac,
+      // return_wash.SignNH,
+      // return_wash.SignFacTime,
+      // return_wash.SignNHTime
+      // FROM
+      // return_wash
+      // where return_wash.docno =  '$DocNo'
+      // ";
 
+      // $meQuery = mysqli_query($conn, $head);
+      // while ($Result = mysqli_fetch_assoc($meQuery)) {
+      //   $SignFac = $Result['SignFac'];
+      //   $SignNH = $Result['SignNH'];
+      //   $SignFacTime = $Result['SignFacTime'];
+      //   $SignNHTime = $Result['SignNHTime'];
+      // }
+      $this->SetY(-35);
+      list($date1, $time1) = explode(' ', $SignFacTime);
+      list($date2, $time2) = explode(' ', $SignNHTime);
+      list($y1, $m1, $d1) = explode('-', $date1);
+      list($y2, $m2, $d2) = explode('-', $date2);
+      if ($language == 'th') {
+        $y1 = $y1 + 543;
+        $y2 = $y2 + 543;
+        $y3 = $y3 + 543;
+      } else {
+        $y1 = $y1;
+        $y2 = $y2;
+        $y3 = $y3;
+      }
+      $date1 = $d1 . "-" . $m1 . "-" . $y1;
+      $date2 = $d2 . "-" . $m2 . "-" . $y2;
+      if ($date1 == '--543') {
+        $date1 = ' ';
+      }
+      if ($date2 == '--543') {
+        $date2 = ' ';
+      }
+      $this->SetFont('thsarabunnew', 'b', 13);
+      if ($SignNH != null) {
+        $this->ImageSVG('@' . $SignNH, $x = 38, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      }
+      if ($SignFac != null) {
+        $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      }
+      $this->Cell(100, 8, $array2['comlinen'][$language]  . "...............................................", 0, 0, 'L');
+      $this->Cell(90, 8,  $array2['comlaundry'][$language] . "........................................", 0, 1, 'L');
+      $this->Cell(0.1, 7,  "                  $date2", 0, 0, 'L');
+      $this->Cell(100, 8, $array2['date'][$language] . "......................................................................", 0, 0, 'L');
+      $this->Cell(0.1, 7,  "                   $date1", 0, 0, 'L');
+      $this->Cell(90, 8,  $array2['date'][$language] . "..........................................................", 0, 1, 'L');
+    }
     // Position at 1.5 cm from bottom
-    $this->SetY(-20);
+    $this->SetY(-25);
     // Arial italic 8
-    $this->SetFont('thsarabunnew', 'i', 13);
+    $this->SetFont('thsarabunnew', 'i', 12);
     // Page number
 
-    $this->Cell(190, 7,  $array2['page'][$language] . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 0, 'R');
+    $this->Cell(190, 10,  $array2['page'][$language] . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 0, 'R');
   }
 }
 
@@ -108,7 +162,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('Report_damagenh');
+$pdf->SetTitle('Report Rewash');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 // set default header data
@@ -140,22 +194,24 @@ if ($language == 'th') {
   $Name = EngName;
   $LName = EngLName;
 }
-$header = array($array['no'][$language], $array2['itemname'][$language], $array['qty'][$language], $array['unit'][$language]);
+$header = array($array['no'][$language], $array2['itemname'][$language], $array['qty'][$language], $array['unit'][$language], $array['weight'][$language] . ' (kg)');
 $count = 1;
 // ------------------------------------------------------------------------------
 $head = "SELECT   site.$HptName,
 department.DepName,
-damagenh.DocNo,
-DATE_FORMAT(damagenh.DocDate,'%d-%m-%Y')AS DocDate,
-damagenh.Total,
+return_wash.DocNo,
+DATE_FORMAT(return_wash.DocDate,'%d-%m-%Y')AS DocDate,
+return_wash.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
-TIME(damagenh.Modify_Date)  AS xTime,
-damagenh.RefDocNo
-FROM damagenh
-INNER JOIN department ON damagenh.DepCode = department.DepCode
+TIME(return_wash.Modify_Date)  AS xTime,
+return_wash.RefDocNo,
+factory.$FacName
+FROM return_wash
+INNER JOIN department ON return_wash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN users ON damagenh.Modify_Code = users.ID
-WHERE damagenh.DocNo = '$DocNo'";
+INNER JOIN users ON return_wash.Modify_Code = users.ID
+INNER JOIN factory ON return_wash.faccode = factory.faccode
+WHERE return_wash.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptName = $Result[$HptName];
@@ -166,19 +222,20 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
+  $facname = $Result[$FacName];
 }
 
 $data = "SELECT
-damagenh_detail.ItemCode,
+return_wash_detail.ItemCode,
 item.ItemName,
 item_unit.UnitName,
-sum(damagenh_detail.Qty) as Qty ,
-sum(damagenh_detail.Weight) as Weight
+sum(return_wash_detail.Qty) as Qty ,
+sum(return_wash_detail.Weight) as Weight
 FROM item
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
 INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-INNER JOIN damagenh_detail ON damagenh_detail.ItemCode = item.ItemCode
-WHERE damagenh_detail.DocNo = '$DocNo'
+INNER JOIN return_wash_detail ON return_wash_detail.ItemCode = item.ItemCode
+WHERE return_wash_detail.DocNo = '$DocNo'
  GROUP BY item.ItemCode
 ORDER BY item.ItemName ASC";
 
@@ -190,53 +247,65 @@ ORDER BY item.ItemName ASC";
 // add a page
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('thsarabunnew', 'b', 22);
-$pdf->Cell(0, 10,  $array2['DM'][$language], 0, 0, 'C');
+$pdf->Cell(0, 10,  $array2['return'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 16);
-
 $pdf->Cell(35, 7, $array2['hospital'][$language], 0, 0, 'L');
-$pdf->Cell(75, 7, " : " . $HptName, 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $HptName, 0, 0, 'L');
 $pdf->Cell(28, 7, $array['department'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $DepName, 0, 0, 'L');
 $pdf->Ln();
 
 $pdf->Cell(35, 7, $array['docno'][$language], 0, 0, 'L');
-$pdf->Cell(75, 7, " : " . $DocNo, 0, 0, 'L');
-$pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
-$pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $DocNo, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['factory'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $facname, 0, 0, 'L');
 $pdf->Ln();
-$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
-$pdf->Cell(75, 7, " : " . $FirstName, 0, 0, 'L');
+
+$pdf->Cell(35, 7, $array['refdocno'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $RefDocNo, 0, 0, 'L');
 $pdf->Cell(28, 7, $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $xTime, 0, 0, 'L');
+$pdf->Ln();
+
+$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $FirstName, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
+
 $pdf->Ln();
 $pdf->Ln(5);
 $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
 <tr>
-    <th width="25 %" align="center">' . $header[0] . '</th>
+    <th width="15 %" align="center">' . $header[0] . '</th>
     <th width="50 %" align="center">' . $header[1] . '</th>
-    <th width="25 %"  align="center">' . $header[2] . '</th>
+    <th width="15 %"  align="center">' . $header[2] . '</th>
+    <th width="20 %" align="center">' . $header[4] . '</th>
 </tr></thead>';
 $meQuery = mysqli_query($conn, $data);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $Total_Weight = $Result['Qty'] * $Result['Weight'];
   $html .= '<tr nobr="true">';
-  $html .=   '<td width="25 %" align="center">' . $count . '</td>';
+  $html .=   '<td width="15 %" align="center">' . $count . '</td>';
   $html .=   '<td width="50 %" align="left"> ' . $Result['ItemName'] . '</td>';
-  $html .=   '<td width="25 %" align="center">' . $Result['Qty'] . '</td>';
+  $html .=   '<td width="15 %" align="center">' . $Result['Qty'] . '</td>';
+  $html .=   '<td width="20 %" align="center">' . $Result['Weight'] . '</td>';
   $html .=  '</tr>';
+  $totalsum += $Result['Weight'];
   $count++;
 }
 $html .= '</table>';
 $pdf->writeHTML($html, true, false, false, false, '');
-
-
+$pdf->SetLineWidth(0.3);
+$pdf->sety($pdf->Gety() - 9.0);
+$pdf->Cell(144, 7,  $array2['total'][$language], 1, 0, 'C');
+$pdf->Cell(36, 7,   number_format($totalsum, 2), 1, 0, 'C');
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
 $ddate = date('d_m_Y');
-$pdf->Output('Report_Dirty_Linen_Weight' . $date . '.pdf', 'I');
+$pdf->Output('Report_return' . $date . '.pdf', 'I');
 
 //============================================================+
 // END OF FILE
