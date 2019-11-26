@@ -250,18 +250,15 @@ AND clean.IsStatus <> 9
 GROUP BY
 clean_detail.ItemCode
 ";
+echo $query;
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-$total = $Result["Totalqty"] + $Result["Weight"];
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $count);
   $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $Result["ItemName"]);
   $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $Result["Totalqty"]);
   $objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $Result["Weight"]);
   $i++;
   $count++;
-  $Qty += $Result["Qty"];
-  $Weight += $Result["Weight"];
-  $totalWeight += $total;
 }
 $row_sum = $i;
 $i += 1;
