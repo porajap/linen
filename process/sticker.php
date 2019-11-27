@@ -94,7 +94,6 @@ function getDepartment($conn,$DATA){
 function ShowDocument($conn,$DATA){
   $boolean = false;
   $count = 0;
-  $dept = $DATA["dept"];
   $hos = $DATA["hos"];
   $search = $DATA["search"];
   $selecta = $DATA["selecta"];
@@ -103,19 +102,18 @@ function ShowDocument($conn,$DATA){
     item.ItemCode,
     item.ItemName,
     site.HptName,
-    item_category.CategoryName
+    item_category.CategoryName  
   FROM
     item
   INNER JOIN site ON item.HptCode = site.HptCode
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode 
-  WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%%' GROUP BY item.ItemCode ORDER BY item.ItemName";
+  WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%$search%' GROUP BY item.ItemCode ORDER BY item.ItemName";
 
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['ItemCode'] 	= $Result['ItemCode'];
-    $return[$count]['ItemName'] 	= $Result['ItemName'];
+    $return[$count]['ItemCode'] 	    = $Result['ItemCode'];
+    $return[$count]['ItemName'] 	    = $Result['ItemName'];
     $return[$count]['CategoryName'] 	= $Result['CategoryName'];
-    $return[$count]['DepCode'] 	= $Result['DepCode'];
     $boolean = true;
     $count++;
   }

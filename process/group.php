@@ -55,9 +55,10 @@ function ShowItem($conn, $DATA)
 
 function getdetail($conn, $DATA)
 {
-  $count = 0;
-  $DepCode = $DATA['DepCode'];
-  $number = $DATA['number'];
+  $count    = 0;
+  $HptCode  = $DATA['HptCode'];
+  $DepCode  = $DATA['DepCode'];
+  $number   = $DATA['number'];
   //---------------HERE------------------//
   $Sql = "SELECT
           grouphpt.GroupCode,
@@ -66,15 +67,15 @@ function getdetail($conn, $DATA)
           grouphpt.IsStatus
           FROM grouphpt
           WHERE grouphpt.IsStatus = 0
-          AND grouphpt.GroupCode = $DepCode LIMIT 1";
+          AND grouphpt.GroupCode = $DepCode  AND grouphpt.HptCode = '$HptCode'";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['DepCode'] 		= $number;
+    $return['DepCode'] 		    = $number;
     $return['DepCodeReal'] 		= $Result['GroupCode'];
-    $return['HptCode'] 		  = $Result['HptCode'];
-    $return['DepName'] 		  = $Result['DepName'];
-    $return['IsStatus'] 	  = $Result['IsStatus'];
+    $return['HptCode'] 		    = $Result['HptCode'];
+    $return['DepName'] 		    = $Result['DepName'];
+    $return['IsStatus'] 	    = $Result['IsStatus'];
     $count++;
   }
 

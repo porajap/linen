@@ -149,11 +149,11 @@ $array2 = json_decode($json2,TRUE);
       var qty       = itemCode2[1];
 
       var data = {
-        'STATUS': 'find_item',
-        'DepCode': DepCode,
+        'STATUS'  : 'find_item',
+        'DepCode' : DepCode,
         'itemCode': itemCode,
-        'DocNo': DocNo,
-        'qty': qty
+        'DocNo'   : DocNo,
+        'qty'     : qty
       };
       senddata(JSON.stringify(data));
       $('#barcode').val("");
@@ -1458,11 +1458,11 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
     function KeyNewTotalQty(RowID, i){
-      var NewQty = Number($('#qty1_'+i).val());
-      var Max = Number($('#Max_'+i).val());
-      var Issue = Number($('#Issue_'+i).val());
-      var Max = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
-      var Result = 0;
+      var NewQty    = Number($('#qty1_'+i).val());
+      var Max       = Number($('#Max_'+i).val());
+      var Issue     = Number($('#Issue_'+i).val());
+      var Max       = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
+      var Result    = 0;
 
       if(Issue!=0){
         if(Max>=Issue){
@@ -2276,7 +2276,7 @@ $array2 = json_decode($json2,TRUE);
               ShowDocument();
             }else if( (temp["form"]=='PrintstickerModal') ){
               result = '';
-                if(temp["RowCount"]>0){
+              if(temp["RowCount"]>0){
                   for(var i = 0; i < temp['RowCount']; i++){
                     if(temp[i]['TotalQty'] == 0){
                       var btnPrint = "<button class='btn btn-info' style='width:70px;' disabled><?php echo $array['btnPrint'][$language]; ?></button>";
@@ -2295,6 +2295,9 @@ $array2 = json_decode($json2,TRUE);
                   $("#detailSticker").html(result);
                 }
                 $('#PrintStickerModal').modal('show');
+            }else if( (temp["form"]=='find_item') ){
+                ShowDetailNew();
+                // KeyNewTotalQty();
             }else if( (temp["form"]=='ShowItemAll') ){
               $( "#TableItemDetail tbody" ).empty();
               var isStatus = $("#IsStatus").val();
