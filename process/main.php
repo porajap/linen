@@ -13,7 +13,7 @@ function OnLoadPage($conn,$DATA){
   $boolean = false;
   $Sql = "SELECT COUNT(*) AS Cnt
   FROM contract_parties_factory
-  WHERE IsStatus = 0
+  WHERE IsCancel = 0 
   AND DATEDIFF(DATE(contract_parties_factory.EndDate),DATE(NOW())) < 31";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -23,7 +23,7 @@ function OnLoadPage($conn,$DATA){
 
   $Sql = "SELECT COUNT(*) AS Cnt
   FROM contract_parties_hospital
-  WHERE IsStatus = 0
+  WHERE IsCancel = 0
   AND DATEDIFF(DATE(contract_parties_hospital.EndDate),DATE(NOW())) < 31";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

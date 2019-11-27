@@ -1885,22 +1885,25 @@ function PrintstickerModal($conn, $DATA){
 
 function find_item($conn, $DATA)
 {
-  $boolean = false;
-  $count = 0;
-  $DepCode = $DATA["DepCode"];
-  $itemCode = $DATA["itemCode"];
-  $DocNo = $DATA["DocNo"];
-  $qty = $DATA["qty"];
+  $boolean      = false;
+  $count        = 0;
+  $shortover    = 0;
+  $short        = 0;
+  $over         = 0;
+  $DepCode      = $DATA["DepCode"];
+  $itemCode     = $DATA["itemCode"];
+  $DocNo        = $DATA["DocNo"];
+  $qty          = $DATA["qty"];
   $Sqlx = "SELECT
             par_item_stock.ParQty
           FROM par_item_stock
-          WHERE  par_item_stock.DepCode = $DepCode  AND par_item_stock.ItemCode ='$itemCode' LIMIT 1";
+          WHERE  par_item_stock.DepCode = '$DepCode'  AND par_item_stock.ItemCode ='$itemCode' LIMIT 1";
           $meQueryx = mysqli_query($conn, $Sqlx);
           while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
             $ParQty = $Resultx['ParQty'];
           
           
-    $Sql = "SELECT COUNT(*) as Cnt
+    $Sql = "SELECT COUNT(*) as Cnt 
             FROM shelfcount_detail
             INNER JOIN item  ON shelfcount_detail.ItemCode = item.ItemCode
             INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -1908,9 +1911,10 @@ function find_item($conn, $DATA)
             AND item.ItemCode = '$itemCode'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $chkUpdate = $Result['Cnt'];
+      $chkUpdate    = $Result['Cnt'];
     }
     $total = $ParQty-$qty;
+
     if ($chkUpdate == 0) {
       $Sql = "INSERT INTO shelfcount_detail
               (DocNo, ItemCode, UnitCode,ParQty, CcQty,TotalQty,IsCancel, OverPar)
@@ -1919,16 +1923,73 @@ function find_item($conn, $DATA)
       mysqli_query($conn, $Sql);
       #----------------------------------------------------------------------------------------------------------
     } else {
-      $Sqlxx = "UPDATE shelfcount_detail SET CcQty = (CcQty + $qty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
-      mysqli_query($conn, $Sqlxx);
+      // $Sqlxx = "UPDATE shelfcount_detail SET CcQty = (CcQty + $qty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
+      // mysqli_query($conn, $Sqlxx);
         
-      $Sqlx = "UPDATE shelfcount_detail SET TotalQty = ($ParQty-CcQty)  WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
+      $Sqlx = "UPDATE shelfcount_detail SET TotalQty = (TotalQty + $qty)   WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
       mysqli_query($conn, $Sqlx);
-      
       #----------------------------------------------------------------------------------------------------------
     }
+
+
+    $Sql2 = "SELECT shelfcount_detail.ParQty , 
+    CcQty     AS Shelfcount, 
+    TotalQty  AS Issue
+FROM shelfcount_detail
+INNER JOIN item  ON shelfcount_detail.ItemCode = item.ItemCode
+INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+WHERE shelfcount.DocNo = '$DocNo'
+AND item.ItemCode = '$itemCode'";
+$meQuery = mysqli_query($conn, $Sql2);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+$ParQty2      = $Result['ParQty'];
+$Shelfcount   = $Result['Shelfcount'];
+$Issue        = $Result['Issue'];
+$max          = $Result['ParQty'] -  $Result['Shelfcount'] ;
+}
+
+
+// คำนวณ short / over
+if($Issue!=0){
+if($max>=$Issue){
+$shortover = $max-$Issue;
+$short     = $shortover;
+$over      = 0;
+}else if($Issue>$max){
+$shortover = $Issue-$max;
+$short     = 0;
+$over      = $shortover;
+
+}else if($Issue==0||$Issue==null||$Issue==''){
+$short     = 0;
+$over      = '';
+}
+}else if($Issue==0){
+$short     = 0;
+$over      = 0;
+}
+
+// $return['short'] = $short ;
+// $return['over'] = $over  ;
+// $return['max'] = $max ;
+// $return['Issue'] = $Issue ;
+
+// echo json_encode($return);
+
+
+$Sqlxx = "UPDATE shelfcount_detail SET Short = $short , Over = $over   WHERE DocNo = '$DocNo' AND ItemCode = '$itemCode'";
+mysqli_query($conn, $Sqlxx);
+
+
+
+
+
   }
-  ShowDetail($conn, $DATA);
+
+  
+  ShowDetailNew($conn, $DATA);
+
+  // mysqli_close($conn);
 }
 
 function ShowItemAll($conn, $DATA)

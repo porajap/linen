@@ -147,13 +147,9 @@ $array2 = json_decode($json2,TRUE);
 
   function ShowDocument(selecta){
     var hos = $('#hotpital').val();
-    var dept = $('#department').val();
     var search = $('#searchtxt').val();
-
-    if( typeof deptCode == 'undefined' ) deptCode = "1";
     var data = {
       'STATUS'  	: 'ShowDocument',
-      'dept'	: dept,
       'hos'	: hos,
       'selecta' : selecta,
       'search'	: search

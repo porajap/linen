@@ -482,9 +482,10 @@ $array2 = json_decode($json2,TRUE);
             $('#delete1').removeClass('mhee');
         }
         function getdetail(DepCode, row) {
-            var number = parseInt(row)+1;
-            var previousValue = $('#checkitem_'+row).attr('previousValue');
-            var name = $('#checkitem_'+row).attr('name');
+            var HptCode         = $('#hptsel').val();
+            var number          = parseInt(row)+1;
+            var previousValue   = $('#checkitem_'+row).attr('previousValue');
+            var name            = $('#checkitem_'+row).attr('name');
             if (previousValue == 'checked') {
             $('#checkitem_'+row).removeAttr('checked');
             $('#checkitem_'+row).attr('previousValue', false);
@@ -496,9 +497,10 @@ $array2 = json_decode($json2,TRUE);
             $('#checkitem_'+row).attr('previousValue', 'checked');
                 if (DepCode != "" && DepCode != undefined) {
                     var data = {
-                        'STATUS': 'getdetail',
-                        'DepCode': DepCode ,
-                        'number' : number 
+                        'STATUS'    : 'getdetail',
+                        'DepCode'   : DepCode ,
+                        'number'    : number ,
+                        'HptCode'   : HptCode 
                     };
 
                     console.log(JSON.stringify(data));
