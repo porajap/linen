@@ -216,7 +216,7 @@ INNER JOIN damagenh ON damagenh.DocNo = damagenh_detail.DocNo
 INNER JOIN department ON damagenh.DepCode = department.DepCode
 $where
 AND department.HptCode = '$HptCode'
-AND damagenh.IsStatus <> 9
+AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0
 GROUP BY
 damagenh_detail.ItemCode";
 $meQuery = mysqli_query($conn, $query);

@@ -484,7 +484,11 @@ $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
 $file_name = "Report_Billing_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
-
+$objPHPExcel->removeSheetByIndex(
+  $objPHPExcel->getIndex(
+      $objPHPExcel->getSheetByName('Worksheet')
+  )
+);
 // Save Excel 2007 file
 #echo date('H:i:s') . " Write to Excel2007 format\n";
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

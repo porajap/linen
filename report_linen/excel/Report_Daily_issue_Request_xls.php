@@ -144,6 +144,7 @@ list($year, $month, $day) = explode('-', $DocDate);
 if ($language == 'th') {
   $year = $year + 543;
 }
+$datetime = new DatetimeTH();
 $DocDate = $day . "-" . $month . "-" . $year;
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
@@ -204,7 +205,8 @@ if ($private == 1) {
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
             WHERE shelfcount.DocNo='$docno'
             AND shelfcount_detail.TotalQty <> 0
-              AND shelfcount.isStatus<> 9
+            AND shelfcount.isStatus<> 9
+            AND category_price.HptCode = '$HptCode'
   ";
   $issue = $Result['ParQty'] - $Result['CcQty'];
   $totalweight = $Result['TotalQty'] * $Result['Weight'];
@@ -352,7 +354,8 @@ if ($government == 1) {
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
             WHERE shelfcount.DocNo='$docno'
             AND shelfcount_detail.TotalQty <> 0
-              AND shelfcount.isStatus<> 9
+            AND shelfcount.isStatus<> 9
+            AND category_price.HptCode = '$HptCode'
   ";
   $issue = $Result['ParQty'] - $Result['CcQty'];
   $totalweight = $Result['TotalQty'] * $Result['Weight'];

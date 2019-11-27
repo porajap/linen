@@ -3392,7 +3392,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE DATE(damagenh.DocDate) = DATE('$date1')
               AND site.HptCode = '$HptCode'
-              AND damagenh.isStatus <> 9 
+              AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0
               GROUP BY Date(damagenh.DocDate)
               ORDER BY damagenh.DocDate ASC";
     } else {
@@ -3403,7 +3403,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE damagenh.DocDate BETWEEN '$date1' AND '$date2'
               AND site.HptCode = '$HptCode'
-              AND damagenh.isStatus <> 9 
+              AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0
               GROUP BY MONTH (damagenh.Docdate)
               ORDER BY damagenh.DocDate ASC";
     }
@@ -3422,7 +3422,8 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE MONTH(damagenh.DocDate) = '$date1'
               AND site.HptCode = '$HptCode'
-              AND damagenh.isStatus <> 9 
+             AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0       
+              GROUP BY MONTH (damagenh.Docdate) 
               GROUP BY MONTH (damagenh.Docdate)
               ORDER BY damagenh.DocDate ASC";
     } else {
@@ -3436,7 +3437,8 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE DATE(damagenh.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
            AND site.HptCode = '$HptCode'
-           AND damagenh.isStatus <> 9 
+            AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0 
+           GROUP BY MONTH (damagenh.Docdate)
            GROUP BY YEAR (damagenh.Docdate)
            ORDER BY damagenh.DocDate ASC LIMIT 1";
     }
@@ -3448,7 +3450,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               INNER JOIN site ON site.HptCode = department.HptCode  
               WHERE YEAR(damagenh.DocDate) = '$date1'
              AND site.HptCode = '$HptCode'
-             AND damagenh.isStatus <> 9 
+             AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0 
              GROUP BY YEAR (damagenh.Docdate)
              ORDER BY damagenh.DocDate ASC";
   }

@@ -328,6 +328,7 @@ INNER JOIN department ON shelfcount.DepCode = department.DepCode
           WHERE shelfcount.DocNo='$docno'
           AND shelfcount_detail.TotalQty <> 0
             AND shelfcount.isStatus<> 9 
+            AND category_price.HptCode = '$HptCode'
             ORDER BY item.ItemName ";
 
 $queryy = "SELECT

@@ -351,7 +351,7 @@ if ($chk == 'one') {
     $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
     $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
-    $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
+    $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, abs($scr));
   } else if ($format = 3) {
     if ($language == 'th') {
       $date1 = $date1 - 543;
@@ -492,7 +492,7 @@ if ($chk == 'one') {
     $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
     $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
-    $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
+    $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, abs($scr));
   }
   
 } elseif ($chk == 'between') {
@@ -632,7 +632,7 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
   $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
-  $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
+  $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, abs($scr));
 } elseif ($chk == 'month') {
   // 1เดือน
   $day = 1;
@@ -768,7 +768,7 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
   $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
-  $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
+  $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, abs($scr));
 } elseif ($chk == 'monthbetween') {
   list($year, $month, $day) = explode('-', $betweendate2);
   if ($day <> 31) {
@@ -909,7 +909,7 @@ if ($chk == 'one') {
     $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
     $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
-    $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, $scr);
+    $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, abs($scr));
   }
  
 

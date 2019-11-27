@@ -311,7 +311,8 @@ LEFT JOIN category_price ON category_price.CategoryCode = item.CategoryCode
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
           WHERE shelfcount.DocNo='$docno'
           AND shelfcount_detail.TotalQty <> 0
-            AND shelfcount.isStatus<> 9 ";
+            AND shelfcount.isStatus<> 9
+            AND category_price.HptCode = '$HptCode'";
 
 $queryy = "SELECT
 site.private,

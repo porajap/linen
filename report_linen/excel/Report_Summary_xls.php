@@ -173,22 +173,6 @@ $objPHPExcel->getActiveSheet()
   ->getHeaderFooter()->setEvenFooter('&R Page &P / &N');
 $objPHPExcel->getActiveSheet()
   ->setShowGridlines(true);
-if ($DepCodeCome == '0') {
-  $query = "SELECT
-    department.DepCode
-    FROM
-    department
-    INNER JOIN shelfcount ON shelfcount.DepCode = department.DepCode
-    $where AND shelfcount.isStatus <> 9 AND department.HptCode  = '$HptCode'
-    GROUP BY shelfcount.DepCode ORDER BY shelfcount.DepCode  ASC
-                ";
-  $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $DepCode[] = $Result["DepCode"];
-  }
-} else {
-  $DepCode[] = $DepCodeCome;
-}
 echo "<pre>";
 print_r($DepCode);
 echo "</pre>";
@@ -239,6 +223,22 @@ if ($chk == 'one') {
     $DateShow[] = $day.$dateshow;
     $day++;
   }
+}
+if ($DepCodeCome == '0') {
+  $query = "SELECT
+    department.DepCode
+    FROM
+    department
+    INNER JOIN shelfcount ON shelfcount.DepCode = department.DepCode
+    $where AND shelfcount.isStatus <> 9 AND department.HptCode  = '$HptCode'
+    GROUP BY shelfcount.DepCode ORDER BY shelfcount.DepCode  ASC
+                ";
+  $meQuery = mysqli_query($conn, $query);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepCode[] = $Result["DepCode"];
+  }
+} else {
+  $DepCode[] = $DepCodeCome;
 }
 $sheet_count = sizeof($DepCode);
 for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
@@ -510,7 +510,11 @@ $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
 $file_name = "Report_Summary_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
-
+$objPHPExcel->removeSheetByIndex(
+  $objPHPExcel->getIndex(
+      $objPHPExcel->getSheetByName('Worksheet')
+  )
+);
 // Save Excel 2007 file
 #echo date('H:i:s') . " Write to Excel2007 format\n";
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

@@ -22,6 +22,7 @@ $DepCode = $data[7];
 $chk = $data[8];
 $date_query1 = $data[2];
 $date_query2 = $data[3];
+$language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
 } else {

@@ -205,7 +205,8 @@ $Sql = "SELECT
         $where
         AND  factory.FacCode = '$FacCode'
         AND  site.HptCode = '$HptCode'
-        AND (dirty.isStatus = 3 OR dirty.isStatus = 4)
+        AND dirty.isStatus <> 9
+        AND dirty.isStatus <> 0
         GROUP BY factory.$FacName
         ";
 $meQuery = mysqli_query($conn, $Sql);
@@ -231,7 +232,7 @@ AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
 AND dirty.isStatus <> 0
-GROUP BY item.ItemName,department.DepName,date(dirty.DocDate),dirty_detail.RequestName
+GROUP BY item.ItemName,department.DepName,dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC"; 
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -273,6 +274,7 @@ $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
+AND dirty.isStatus <> 0
 GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC
           ";
