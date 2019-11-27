@@ -103,9 +103,7 @@ $objPHPExcel->getActiveSheet()
 // $objPHPExcel->getActiveSheet()
 //   ->setBreak('A10', PHPExcel_Worksheet::BREAK_ROW);
 // // Showing grid lines:
-
-$objPHPExcel->getActiveSheet()
-  ->setShowGridlines(true);
+$objPHPExcel->getActiveSheet()->setShowGridlines(true);
 // Setting rows/columns to repeat at the top/left of each page
 // Setting the print area:
 // Add some data

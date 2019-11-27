@@ -912,8 +912,6 @@ if ($chk == 'one') {
     $objPHPExcel->getActiveSheet()->setCellValue('F' . $S2, abs($scr));
   }
  
-
-
 $cols = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
 $width = array(20, 15, 15, 15, 15, 15, 15, 15, 15);
 for ($j = 0; $j < count($cols); $j++) {

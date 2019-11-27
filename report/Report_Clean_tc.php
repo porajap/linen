@@ -26,6 +26,7 @@ $fisrt_page = 0;
 $r = 1;
 $status = 0;
 $Dclean = [];
+$Wclean=[];
 //--------------------------------------------------------------------------
 $language = $_GET['lang'];
 if ($language == "en") {
@@ -354,28 +355,28 @@ $pdf->Cell(135, 5,  $array2['total'][$language], 1, 0, 'C');
 $pdf->Cell(27, 5,   number_format($totalsum, 2), 1, 1, 'C');
 $pdf->ln();
 
-// $SUM = "SELECT
-// dirty.Total AS Wdirty,
-// clean.DocNo AS Dclean,
-// dirty.DocNo AS Ddirty,
-// clean.Total AS Wclean,
-// newlinentable.DocNo AS Dnewlinentable,
-// newlinentable.Total AS Wnewlinentable
-// FROM
-// clean
-// LEFT JOIN dirty ON clean.RefDocNo = dirty.DocNo
-// LEFT JOIN newlinentable ON clean.RefDocNo = newlinentable.DocNo
-// WHERE clean.DocNo = '$DocNo'";
-// $meQuery = mysqli_query($conn, $SUM);
-// while ($Result = mysqli_fetch_assoc($meQuery)) {
-//   $Wdirty = $Result['Wdirty'];
-//   $Wclean = $Result['Wclean'];
-//   $Wnewlinentable = $Result['Wnewlinentable'];
-//   $Dclean = $Result['Dclean'];
-//   $Ddirty = $Result['Ddirty'];
-//   $Dnewlinentable = $Result['Dnewlinentable'];
-// }
-// $count = sizeof($Dclean);
+$SUM = "SELECT
+dirty.Total AS Wdirty,
+clean.DocNo AS Dclean,
+dirty.DocNo AS Ddirty,
+clean.Total AS Wclean,
+newlinentable.DocNo AS Dnewlinentable,
+newlinentable.Total AS Wnewlinentable
+FROM
+clean
+LEFT JOIN dirty ON clean.RefDocNo = dirty.DocNo
+LEFT JOIN newlinentable ON clean.RefDocNo = newlinentable.DocNo
+WHERE clean.RefDocNo = '$RefDocNo'";
+$meQuery = mysqli_query($conn, $SUM);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $Wdirty = $Result['Wdirty'];
+  $Wclean = $Result['Wclean'];
+  $Wnewlinentable = $Result['Wnewlinentable'];
+  $Dclean = $Result['Dclean'];
+  $Ddirty = $Result['Ddirty'];
+  $Dnewlinentable = $Result['Dnewlinentable'];
+}
+$count = sizeof($Dclean);
 
 if ($Ddirty <> null) {
   $weight1 = $Wclean;
@@ -389,18 +390,24 @@ if ($Ddirty <> null) {
   $Doc2 = $Dnewlinentable;
 }
 if ($Ddirty <> null ||  $Dnewlinentable <> null) {
-  $total = (($weight1 / $weight2) - 1) * 100;
   $pdf->Cell(40, 5, '', 0, 0, 'C');
   $pdf->Cell(50, 5,  $array2['detail'][$language], 1, 0, 'C');
   $pdf->Cell(30, 5,  $array2['docno'][$language], 1, 0, 'C');
   $pdf->Cell(30, 5,  $array2['weight'][$language], 1, 0, 'C');
   $pdf->ln();
-  $pdf->Cell(40, 5,  '', 0, 0, 'C');
-  $pdf->Cell(50, 5,  $array2['docclean'][$language], 1, 0, 'C');
+  $meQuery = mysqli_query($conn, $SUM);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $weight1 = $Result['Wclean'];
+    $Doc1 = $Result['Dclean'];
+    $pdf->Cell(40, 5,  '', 0, 0, 'C');
+    $pdf->Cell(50, 5,  $array2['docclean'][$language], 1, 0, 'C');
+    $pdf->Cell(30, 5,  $Doc1, 1, 0, 'C');
+    $pdf->Cell(30, 5,  $weight1, 1, 0, 'C');
+    $TOTALweight+= $weight1;
+    $pdf->ln();
+  } $total = (($TOTALweight / $weight2) - 1) * 100;
 
-  $pdf->Cell(30, 5,  $Doc1, 1, 0, 'C');
-  $pdf->Cell(30, 5,  $weight1, 1, 0, 'C');
-  $pdf->ln();
+
   $pdf->Cell(40, 5,  '', 0, 0, 'C');
   $pdf->Cell(50, 5,  $array2['docdirty'][$language], 1, 0, 'C');
   $pdf->Cell(30, 5,  $Doc2, 1, 0, 'C');
