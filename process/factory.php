@@ -329,8 +329,6 @@ function gethos($conn, $DATA){
 function getFactory($conn, $DATA)
   {
     // $countx = 0;
-
-
     // $Sql1="SELECT DocNo FROM shelfcount ";
     // $meQuery1 = mysqli_query($conn, $Sql1);
     // while ($Result = mysqli_fetch_assoc($meQuery1)) {
