@@ -309,7 +309,3 @@ $pdf->Output('I', 'Report_Shot_And_Over_item_' . $ddate . '.pdf');
 // echo json_encode($return);
 // die;
 // }
-
-
-
-?>
