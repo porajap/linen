@@ -387,7 +387,7 @@ $array2 = json_decode($json2,TRUE);
                                 // $('#hptsel2').val(temp[0]['HptCode']);
                                 for (var i = 0; i < temp['Count']; i++) {
                                     var chkItem = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno' onclick='getDetail("+temp[i]['ID']+");'><span class='checkmark'></span></label>";
-                                    var Str = "<tr><td style='width:5%' class='text-center'>"+chkItem+"</td>"+
+                                    var Str = "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:5%' class='text-center'>"+chkItem+"</td>"+
                                         "<td  style='width:10%'>"+(i+1)+"</td>"+
                                         "<td  style='width:85%'>"+temp[i]['TimeName']+"</td>"+
                                     "</tr>";
@@ -395,7 +395,7 @@ $array2 = json_decode($json2,TRUE);
                                 }
                             }else{
                                 $('#TableItem tbody').empty();
-                                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                                var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $("#TableItem tbody").append(Str);
                             }
                             getTime2();

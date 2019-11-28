@@ -623,6 +623,20 @@ $(document).ready(function(e){
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
         $('#TableDetail tbody').empty();
+        if( deptCode == ''  ){
+            checkblank();
+            swal({
+              title: '',
+              text: "<?php echo $array['required'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+          }else{
         swal({
           title: "<?php echo $array['confirmdoc'][$language]; ?>",
           text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
@@ -654,6 +668,7 @@ $(document).ready(function(e){
             swal.close();
           } 
           })
+        }
       }
 
       function canceldocno(docno) {
@@ -1871,8 +1886,9 @@ $(document).ready(function(e){
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['department'][$language]; ?></label>
-                              <select class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" id="department">
+                              <select class="checkblank form-control col-sm-7 select2 custom-select " style="font-size:22px;" id="department">
                               </select>
+                              <label id="rem2" hidden class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
                         </div>

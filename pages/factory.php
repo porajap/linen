@@ -911,7 +911,7 @@ $array2 = json_decode($json2,TRUE);
                                  var rowCount = $('#TableItem >tbody >tr').length;
                                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='"+temp[i]['FacCode']+"' onclick='getdetail(\""+temp[i]["FacCode"]+"\" , \""+i+"\")'><span class='checkmark'></span></label>";
                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                 StrTR = "<tr id='tr"+temp[i]['FacCode']+"'>"+
+                                 StrTR = "<tr id='tr"+temp[i]['FacCode']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td nowrap style='width: 10%;'>"+(i+1)+"</td>"+
                                                 "<td nowrap style=' text-overflow: ellipsis;overflow: hidden; width: 16%;' title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
@@ -1261,9 +1261,9 @@ $array2 = json_decode($json2,TRUE);
           font-family: myFirstFont;
           font-size:22px;
         }
-label{
-  margin-bottom: 0rem !important;
-}
+    label{
+      margin-bottom: 0rem !important;
+    }
         .nfont{
           font-family: myFirstFont;
           font-size:22px;
@@ -1271,6 +1271,10 @@ label{
     input,select{
       font-size:24px!important;
     }
+    .table th, .table td {
+          border-top: none !important;
+    }
+
     th,td{
       font-size:24px!important;
     }

@@ -701,7 +701,7 @@ $array2 = json_decode($json2,TRUE);
                                 var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
+                                StrTR = "<tr id='tr" + temp[i]['DepCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                                     "<td style='width: 5%;'>" + chkDoc + "</td>" +
                                     "<td style='width: 10%;'>" + (i + 1) + "</td>" +
                                     "<td style='width: 11%;'>" + temp[i]['DepCode'] + "</td>" +
@@ -721,7 +721,7 @@ $array2 = json_decode($json2,TRUE);
                             }
                         }else{
                                 $('#TableItem tbody').empty();
-                                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                                var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $('#TableItem tbody:last-child').append(Str);
                                 // swal({
                                 //     title: '',

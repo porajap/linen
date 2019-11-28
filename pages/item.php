@@ -1621,7 +1621,7 @@ $array2 = json_decode($json2, TRUE);
                 var rowCount = $('#TableItem >tbody >tr').length;
   
                 var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
+                $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 8%;padding-right: 5%;' "+top+"   align='center'nowrap><label> " + (i+1) + "</label></td>" +
                   "<td style='width: 8%;padding-right: 5%;' "+down+"  align='center'nowrap><label> " + j-- + "</label></td>" +
@@ -1643,7 +1643,7 @@ $array2 = json_decode($json2, TRUE);
               }
             }else{
               $('#TableItem tbody').empty();
-              var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+              var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
               $('#TableItem tbody:last-child').append(Str);
             }
               // $('.checkblank').each(function() {

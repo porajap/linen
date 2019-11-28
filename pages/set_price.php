@@ -830,7 +830,7 @@ $array2 = json_decode($json2,TRUE);
                                 var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem'  id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['RowID'] + "' onclick='getdetail(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
                                 var Price = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='height:40px;width:150px; margin-left:3px; margin-right:3px; text-align:center;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
-                                StrTR = "<tr id='tr" + temp[i]['RowID'] + "'>" +
+                                StrTR = "<tr id='tr" + temp[i]['RowID'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                                 "<td style='width: 5%;' nowrap>" + chkDoc + "</td>" +
                                 "<td style='width: 35%;' nowrap>" + temp[i]['HptName'] + "</td>" +
 								"<td style='width: 35%;' nowrap>" + temp[i]['CategoryName'] + "</td>" +
@@ -848,7 +848,7 @@ $array2 = json_decode($json2,TRUE);
                             });
                         }else{
                                 $('#TableItem tbody').empty();
-                                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                                var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $('#TableItem tbody:last-child').append(Str);
                                 // swal({
                                 //     title: '',

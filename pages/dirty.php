@@ -1347,7 +1347,7 @@ $array2 = json_decode($json2,TRUE);
                   }
                   }else{
                     $("#TableDocument tbody").empty();
-                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                    var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                         swal({
                           title: '',
                           text: '<?php echo $array['notfoundmsg'][$language]; ?>',
