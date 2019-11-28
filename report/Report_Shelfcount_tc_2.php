@@ -268,7 +268,10 @@ if ($language == 'th') {
   $HptName = HptName;
   $FacName = FacName;
 }
-$header = array($array2['no']['en'], $array2['itemname']['en'], $array2['parqty']['en'], $array2['shelfcount1']['en'], $array2['max']['en'], $array2['issue']['en'], $array2['short']['en'], $array2['over']['en'], $array2['weight']['en'], $array2['price']['en']);
+$header = array(
+  $array2['no']['en'], $array2['itemname']['en'], $array2['parqty']['en'],
+  $array2['shelfcount1']['en'], $array2['max']['en'], $array2['issue']['en'], $array2['short']['en'], $array2['over']['en'], $array2['weight']['en'], $array2['price']['en']
+);
 $count = 1;
 
 // // ------------------------------------------------------------------------------
@@ -348,9 +351,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $government = $Result['government'];
 }
 if ($private == 1) {
-  $w = array(5, 35, 10, 10, 10, 10, 10, 10);
+  $w = array(5, 25, 9, 9, 9, 9, 9, 9, 9, 9);
 } elseif ($government == 1) {
-  $w = array(5, 35, 12, 12, 12, 12, 12);
+  $w = array(5, 25, 10, 10, 10, 10, 10, 10, 12);
 }
 // set some language-dependent strings (optional)
 list($y, $m, $d) = explode('-', $DocDate);
@@ -384,7 +387,9 @@ $html = '<table cellspacing="0" cellpadding="1" border="1" > <thead>
 <th width="' . $w[3] . '% " align="center">' . $header[3] . '</th>
 <th width="' . $w[4] . '% " align="center">' . $header[4] . '</th>
 <th width="' . $w[5] . '% " align="center">' . $header[5] . '</th>
-<th width="' . $w[6] . '% " align="center">' . $header[8] . '</th>';
+<th width="' . $w[6] . '% " align="center">' . $header[6] . '</th>
+<th width="' . $w[7] . '% " align="center">' . $header[7] . '</th>
+<th width="' . $w[8] . '% " align="center">' . $header[8] . '</th>';
 if ($private == 1) {
   $html .=   '<th width="' . $w[7] . '% " align="center">' . $header[9] . '</th>';
 }
@@ -403,9 +408,11 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="' . $w[3] . '% " align="center">' . $Result['CcQty'] . '</td>';
   $html .=   '<td width="' . $w[4] . '% " align="center">' . $issue  . '</td>';
   $html .=   '<td width="' . $w[5] . '% " align="center">' .  $Result['TotalQty']  . '</td>';
-  $html .=   '<td width="' . $w[6] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
+  $html .=   '<td width="' . $w[6] . '% " align="center">' .  $Result['Short']  . '</td>';
+  $html .=   '<td width="' . $w[7] . '% " align="center">' .  $Result['OverPar']  . '</td>';
+  $html .=   '<td width="' . $w[8] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
   if ($private == 1) {
-    $html .=   '<td width="' . $w[7] . '% " align="center">' . NUMBER_FORMAT($price, 2)  . '</td>';
+    $html .=   '<td width="' . $w[9] . '% " align="center">' . NUMBER_FORMAT($price, 2)  . '</td>';
   }
   $html .=  '</tr>';
   $totalsum_W += $totalweight;
@@ -416,15 +423,20 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 
 $html .= ' </table>';
 $pdf->writeHTML($html);
-
-
+if ($private == 1) {
+  $width = 151.2;
+  $width1 = 32.5;
+} elseif ($government == 1) {
+  $width = 162;
+  $width1 = 21.7;
+}
 $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 6.0);
-$pdf->Cell(144, 5, $array2['total_weight']['en'], 1, 0, 'C');
-$pdf->Cell(36, 5, NUMBER_FORMAT($totalsum_W, 2), 1, 1, 'C');
+$pdf->Cell($width, 5, $array2['total_weight']['en'], 1, 0, 'C');
+$pdf->Cell($width1, 5, NUMBER_FORMAT($totalsum_W, 2), 1, 1, 'C');
 if ($private == 1) {
-  $pdf->Cell(144, 5, $array2['total_price']['en'], 1, 0, 'C');
-  $pdf->Cell(36, 5, $TOTAL, 1, 0, 'C');
+  $pdf->Cell($width, 5, $array2['total_price']['en'], 1, 0, 'C');
+  $pdf->Cell($width1, 5, $TOTAL, 1, 0, 'C');
 }
 // $sum = '<div style="line-height: 100%;">555 </div><table cellspacing="0" cellpadding="1" border="1"    >';
 // $sum .= '<tr>' .

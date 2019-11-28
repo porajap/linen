@@ -5,13 +5,9 @@
  */
 
 $cfHost = "localhost";
-$cfUser = "root";
+$cfUser = "cssd_admin";
 $cfPassword = "A$192dijd";
 $cfDatabase = "cssd_linen";
-// $cfHost = "localhost";
-// $cfUser = "cssd_admin";
-// $cfPassword = "A$192dijd";
-// $cfDatabase = "cssd_linen";
 
 // A$192dijd
 
