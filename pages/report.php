@@ -1358,6 +1358,8 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#chksomemonth').parent().show();
+				$('#chkyear').parent().show();
 			} else if (typeReport == 14 || typeReport == 16) {
 				$('#department').attr('disabled', false);
 				$('#factory').attr('disabled', true);
@@ -1398,7 +1400,6 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
-
 			} else if (typeReport == 29 || typeReport == 30 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
