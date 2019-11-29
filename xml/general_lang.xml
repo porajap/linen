@@ -209,7 +209,8 @@
 <Quality><en>Quantity</en><th>ปริมาณ</th></Quality>
 <Weightitem><en>Weight</en><th>นํ้าหนัก</th></Weightitem>
 <Sizeitem><en>Size</en><th>ขนาด</th></Sizeitem>
-<wantsave><en>Want save</en><th>ต้องการบันทึกข้อมูล</th></wantsave>
+<wantsave><en>Want Save</en><th>ต้องการบันทึกข้อมูล</th></wantsave>
+<ConfirmPrint><en>Confirm Print</en><th>ยืนยันการพิมพ์รายงาน</th></ConfirmPrint>
 <insert_form><en>Please Complete The Information</en><th>กรุณากรอกข้อมูลให้ครบ</th></insert_form>
 <printbill><en>Print Bill</en><th>พิมพ์บิล</th></printbill>
 <factory><en>Laundry</en><th>โรงงานซัก</th></factory>

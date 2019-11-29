@@ -253,7 +253,9 @@ $array2 = json_decode($json2,TRUE);
               $('#hover3').removeClass('mhee');
         })
       }
-
+    function showprint(){
+      $('#dialogprint').modal('show');
+    }
     function CancelDocument(){
         var docno = $("#docno").val();
         $('#chk_sign').val(0);
@@ -890,7 +892,8 @@ $array2 = json_decode($json2,TRUE);
       var setcount  =  $('#setcount').val();
       var input_chk =  $('#input_chk').val();
       var hotpCode  =  $('#hotpital').val();
-
+      var Signature =  $('#Signature').val();
+      
         if(isStatus==1 || isStatus==3 || isStatus==4){
           isStatus=0;
           $('.inputDis').attr('disabled', false);
@@ -993,10 +996,13 @@ $array2 = json_decode($json2,TRUE);
                   if(input_chk == 1){
                     $('#alert_par').modal('toggle');
                   }
-                  setTimeout(() => {
-                    $('#ModalSign').modal("show");
-                  }, 1500);
-                  $('#ModalSign').modal({backdrop: 'static', keyboard: false})
+                  if(Signature != 1){
+                    setTimeout(() => {
+                      $('#ModalSign').modal("show");
+                    }, 1500);
+                    $('#ModalSign').modal({backdrop: 'static', keyboard: false})
+                }
+
                 } else if (result.dismiss === 'cancel') {
                   swal.close();}
               })
@@ -1059,9 +1065,10 @@ $array2 = json_decode($json2,TRUE);
     }
 
     function PrintData(){
-      var settime = $('#settime option:selected').val();
-      var setcount = $('#setcount option:selected').val();
-      var docno = $('#docno').val();
+      var settime   = $('#settime option:selected').val();
+      var setcount  = $('#setcount option:selected').val();
+      var docno     = $('#docno').val();
+      var printdata = $('#printdata').val();
       var lang = '<?php echo $language; ?>';
       if(setcount =='' || settime ==''){
         checkblank3();
@@ -1079,8 +1086,14 @@ $array2 = json_decode($json2,TRUE);
           });
       }else{
       if(docno!=""&&docno!=undefined){
+        if(printdata == 1){
         var url  = "../report/Report_Shelfcount_tc.php?DocNo="+docno+"&lang="+lang;
         window.open(url);
+        }
+        else if (printdata == 2){
+          var url  = "../report/Report_Shelfcount_tc_2.php?DocNo="+docno+"&lang="+lang;
+        window.open(url);
+        }
       }else{
         swal({
           title: '',
@@ -1601,6 +1614,7 @@ $array2 = json_decode($json2,TRUE);
               $("#docdate").val(temp[0]['DocDate']);
               $("#recorder").val(temp[0]['Record']);
               $("#timerec").val(temp[0]['RecNow']);
+              $("#Signature").val(temp[0]['Signature']);
               $("#completed").val('on process');
               $('#bCancel').attr('disabled', false);
               $('#bSave').attr('disabled', false);
@@ -1805,6 +1819,8 @@ $array2 = json_decode($json2,TRUE);
                 }
               $('#home-tab').tab('show');
               $( "#TableItemDetail tbody" ).empty();
+              
+              $("#Signature").val(temp[0]['Signature']);
               $("#docno").val(temp[0]['DocNo']);
               $("#docdate").val(temp[0]['DocDate']);
               $("#recorder").val(temp[0]['Record']);
@@ -2498,7 +2514,22 @@ $array2 = json_decode($json2,TRUE);
       font-family: myFirstFont;
       font-size:22px;
     }
-
+    .modal-content1{
+        width: 72% !important;
+        right: -15% !important;
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+        outline: 0;
+      }
     .nfont{
       font-family: myFirstFont;
       font-size:22px;
@@ -2753,6 +2784,8 @@ $array2 = json_decode($json2,TRUE);
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['time'][$language]; ?></label>
                                                 <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem"
                                                     id="timerec" placeholder="<?php echo $array['time'][$language]; ?>">
+                                                    <input type="text" hidden autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only only1" disabled="true" name="searchitem"
+                                                    id="Signature" placeholder="<?php echo $array['time'][$language]; ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -2906,7 +2939,7 @@ $array2 = json_decode($json2,TRUE);
                           <div class="menu "  id="hover7">
                             <div class="d-flex justify-content-center">
                               <div class="circle9 d-flex justify-content-center opacity" id="bPrint2">
-                                <button class="btn" onclick="PrintData()" id="bPrint" disabled="true">
+                                <button class="btn" onclick="showprint()" id="bPrint" disabled="true">
                                   <i class="fas fa-print"></i>
                                   <div>
                                     <?php echo $array['print'][$language]; ?>
@@ -3278,7 +3311,30 @@ $array2 = json_decode($json2,TRUE);
         </div>
       </div>
     </div>
-    
+
+
+<div class="modal fade" id="dialogprint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content1" style="margin-top: 50px;background-color:#fff;">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['selectfactory'][$language]; ?></h5>
+        <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>       </div>
+      <div class="modal-body">
+      <select  class="form-control col-sm-12 "  style="font-size:22px;"  id="printdata">         
+          <option value="1">Shelfcount</option>
+          <option value="2">Short and Over</option>
+      </select>      
+      </div>
+      <div class="modal-footer">
+      <button type="button" onclick="PrintData();" class="btn btn-success" style="width: 50%;"><?php echo $array['ConfirmPrint'][$language]; ?></button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="ModalSign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="margin-top: 50px;background-color:#fff;">

@@ -238,9 +238,10 @@ function CreateDocument($conn, $DATA)
     //   mysqli_query($conn,$Sql);
   $Sql = "SELECT CONCAT('SC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
-  CURRENT_TIME() AS RecNow
+  CURRENT_TIME() AS RecNow , site.Signature
   FROM shelfcount
   INNER JOIN department on shelfcount.DepCode = department.DepCode
+  INNER JOIN site on department.HptCode = site.HptCode
   WHERE DocNo Like CONCAT('SC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'%')
   AND department.HptCode = '$hotpCode'
   ORDER BY DocNo DESC LIMIT 1";
@@ -257,10 +258,11 @@ function CreateDocument($conn, $DATA)
     }
 
     $DocNo = $Result['DocNo'];
-    $return[0]['DocNo']   = $Result['DocNo'];
-    $return[0]['DocDate'] = $newdate;
-    $return[0]['RecNow']  = $Result['RecNow'];
-    $return[0]['settime']  = $settime;
+    $return[0]['DocNo']       = $Result['DocNo'];
+    $return[0]['Signature']   = $Result['Signature'];
+    $return[0]['DocDate']     = $newdate;
+    $return[0]['RecNow']      = $Result['RecNow'];
+    $return[0]['settime']     = $settime;
     $count = 1;
     $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
       mysqli_query($conn,$Sql);
@@ -550,7 +552,8 @@ function SelectDocument($conn, $DATA)
     shelfcount.DeliveryTime ,
     shelfcount.jaipar ,
     shelfcount.PkStartTime,
-    shelfcount.ScTime
+    shelfcount.ScTime,
+    site.Signature
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -573,19 +576,20 @@ function SelectDocument($conn, $DATA)
     }
 
     $Hotp   = $Result['HptCode'];
-    $return[$count]['HptName']   = $Result['HptCode'];
-    $return[$count]['jaipar']   = $Result['jaipar'];
-    $return[$count]['DepName']   = $Result['DepName'];
-    $return[$count]['DepCode']   = $Result['DepCode'];
-    $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['ScTime']   = $Result['ScTime'];
-    $return[$count]['DocDate']   = $newdate;
-    $return[$count]['RecNow']   = $Result['xTime'];
-    $return[$count]['Total']   = $Result['Total'];
-    $return[$count]['IsStatus'] = $Result['IsStatus'];
-    $return[$count]['CycleTime'] = $Result['CycleTime'];
+    $return[$count]['Signature']    = $Result['Signature'];
+    $return[$count]['HptName']      = $Result['HptCode'];
+    $return[$count]['jaipar']       = $Result['jaipar'];
+    $return[$count]['DepName']      = $Result['DepName'];
+    $return[$count]['DepCode']      = $Result['DepCode'];
+    $return[$count]['DocNo']        = $Result['DocNo'];
+    $return[$count]['ScTime']       = $Result['ScTime'];
+    $return[$count]['DocDate']      = $newdate;
+    $return[$count]['RecNow']       = $Result['xTime'];
+    $return[$count]['Total']        = $Result['Total'];
+    $return[$count]['IsStatus']     = $Result['IsStatus'];
+    $return[$count]['CycleTime']    = $Result['CycleTime'];
     $return[$count]['DeliveryTime'] = $Result['DeliveryTime'];
-    $return[$count]['PkStartTime'] = $Result['PkStartTime']==null?0:$Result['PkStartTime'];
+    $return[$count]['PkStartTime']  = $Result['PkStartTime']==null?0:$Result['PkStartTime'];
     $boolean = true;
     $count++;
   }

@@ -754,7 +754,7 @@ $array2 = json_decode($json2,TRUE);
                                 var rowCount = $('#TableItem >tbody >tr').length;
                                 var chkDoc = "<label class='radio'style='margin-top: 50%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' style='margin-top: 24%;' value='" + temp[i]['ID'] + "' onclick='getdetail(\"" + temp[i]["ID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
                                 // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                StrTR = "<tr id='tr" + temp[i]['DepCode'] + "'>" +
+                                StrTR = "<tr id='tr" + temp[i]['DepCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                                     "<td style='width: 3%;' nowrap>" + chkDoc + "</td>" +
                                     "<td style='text-overflow: ellipsis;overflow: hidden; width: 5%;' nowrap >" + (i + 1) + "</td>" +
                                     "<td style=' text-overflow: ellipsis;overflow: hidden; width: 22%;' nowrap title='"+temp[i]['Name']+"'>" + temp[i]['Name'] + "</td>" +
@@ -773,7 +773,7 @@ $array2 = json_decode($json2,TRUE);
                             }
                         }else{
                             $('#TableItem tbody').empty();
-                                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                                var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $('#TableItem tbody:last-child').append(Str);
                                 // swal({
                                 //     title: '',

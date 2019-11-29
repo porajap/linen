@@ -29,19 +29,21 @@ $array2 = json_decode($json2,TRUE);
 
   <head>
 
-    <meta charset="utf-8">
+  <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?php echo $array['side'][$language]; ?></title>
+    <title>
+        <?php echo $array['department'][$language]; ?>
+    </title>
 
     <link rel="icon" type="image/png" href="../img/pose_favicon.png">
     <!-- Bootstrap core CSS-->
     <link href="../template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bootstrap/css/tbody.css" rel="stylesheet">
-    <!-- <link href="../bootstrap/css/myinput.css" rel="stylesheet"> -->
+    <link href="../bootstrap/css/myinput.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
     <link href="../template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -57,18 +59,21 @@ $array2 = json_decode($json2,TRUE);
     <script src="../jQuery-ui/jquery-1.12.4.js"></script>
     <script src="../jQuery-ui/jquery-ui.js"></script>
     <script type="text/javascript">
-      jqui = jQuery.noConflict(true);
+        jqui = jQuery.noConflict(true);
     </script>
 
     <link href="../dist/css/sweetalert2.css" rel="stylesheet">
     <script src="../dist/js/sweetalert2.min.js"></script>
     <script src="../dist/js/jquery-3.3.1.min.js"></script>
 
-    <link href="../css/menu_custom.css" rel="stylesheet">
+
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <script src="../datepicker/dist/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="../datepicker/dist/js/i18n/datepicker.en.js"></script>
+    
+    <link href="../css/menu_custom.css" rel="stylesheet">
+    <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
       var summary = [];
@@ -353,18 +358,23 @@ $array2 = json_decode($json2,TRUE);
           }
         });
         console.log(count);
-        var sitepath = $('#sitepath').val();
-        var PayerCode = $('#PayerCode').val();
-        var idcontract = $('#idcontract').val();
-        var ContractName = $('#ContractName').val();
-        var Position = $('#Position').val();
-        var phone = $('#phone').val();
-        var HptCode1 = $('#HptCode1').val();
-        var HptCode = $('#HptCode').val();
-        var HptName = $('#HptName').val();
-        var HptNameTH = $('#HptNameTH').val();
-        var xcenter1 = 0;
-        var xcenter2 = 0;
+        var sitepath      = $('#sitepath').val();
+        var PayerCode     = $('#PayerCode').val();
+        var idcontract    = $('#idcontract').val();
+        var ContractName  = $('#ContractName').val();
+        var Position      = $('#Position').val();
+        var phone         = $('#phone').val();
+        var HptCode1      = $('#HptCode1').val();
+        var HptCode       = $('#HptCode').val();
+        var HptName       = $('#HptName').val();
+        var HptNameTH     = $('#HptNameTH').val();
+        var xcenter1      = 0;
+        var xcenter2      = 0;
+        var Signature     = 0;
+        if ($('#Signature').is(':checked')) 
+        {
+          Signature = 1
+        }
         if ($('#xcenter1').is(':checked')) 
         {
           xcenter1 = 1
@@ -373,6 +383,7 @@ $array2 = json_decode($json2,TRUE);
         {          
           xcenter2 = 1
         };
+
         if(count==0 ){
             if(xcenter1 !=0 || xcenter2 !=0){
           if(HptCode!=""){
@@ -404,7 +415,8 @@ $array2 = json_decode($json2,TRUE);
                   'xcenter1' : xcenter1,
                   'xcenter2' : xcenter2,
                   'sitepath' : sitepath,
-                  'PayerCode' : PayerCode
+                  'PayerCode' : PayerCode,
+                  'Signature' : Signature
                 };
 
                 console.log(JSON.stringify(data));
@@ -654,6 +666,7 @@ $array2 = json_decode($json2,TRUE);
         $('#form3').addClass('form-group');
         $('#xcenter1').prop('checked', false);
         $('#xcenter2').prop('checked', false);
+        $('#Signature').prop('checked', false);
         $('#hostdetail').attr('hidden', true);
        $('#hostdetail55').attr('hidden', false);
         $('.checkblank').each(function() {
@@ -900,7 +913,7 @@ $array2 = json_decode($json2,TRUE);
                                  var rowCount = $('#TableItem >tbody >tr').length;
                                  var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='"+temp[i]['HptCode']+"' onclick='getdetail(\""+temp[i]["HptCode"]+"\" , \""+i+"\")'><span class='checkmark'></span></label>";
                                  // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                 StrTR = "<tr id='tr"+temp[i]['HptCode']+"'>"+
+                                 StrTR = "<tr id='tr"+temp[i]['HptCode']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                                 "<td style='width: 5%;'>"+chkDoc+"</td>"+
                                                 "<td style='width: 10%;'>"+(i+1)+"</td>"+
                                                 "<td nowrap style='overflow-x:auto; text-overflow: ellipsis;overflow: hidden;width: 15%;' title='"+temp[i]['HptCode']+"'>"+temp[i]['HptCode']+"</td>"+
@@ -946,6 +959,12 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hostdetail').attr('hidden', false);
                                 $('#hostdetail55').attr('hidden', true);
                                 $('#host').removeClass('checkblank3');
+                                
+                                if (temp['Signature'] == 1)  {
+                                  $('#Signature').prop('checked', true);
+                                }else{
+                                  $('#Signature').prop('checked', false);
+                                }
                                 if (temp['private'] == 1)  {
                                   $('#xcenter1').prop('checked', true);
                                   $('#xcenter2').prop('checked', false);
@@ -1263,6 +1282,7 @@ $array2 = json_decode($json2,TRUE);
           height:355px;
           margin-top:5px;
         }
+        
         input,select{
           font-size:24px!important;
         }
@@ -1271,6 +1291,9 @@ $array2 = json_decode($json2,TRUE);
         }
         .table > thead > tr >th {
           background-color: #1659a2;
+        }
+        .table th, .table td {
+          border-top: none !important;
         }
 
         table tr th,
@@ -1314,6 +1337,9 @@ $array2 = json_decode($json2,TRUE);
         table tr:last-child td:last-child {
           border-bottom-right-radius: 6px;
         }
+
+
+
         button{
             font-size: 24px!important;
           }
@@ -1569,6 +1595,12 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7  charonly" id="PayerCode"    placeholder="PayerCode">
                                     </div>
                                   </div>
+                                  <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['Signature'][$language]; ?></label>
+                                      <input type="checkbox"  id="Signature" style="margin-top: 1.5%;">
+                                    </div>
+                                  </div>
                                 </div>  
 
                                 <div class="row" >
@@ -1589,6 +1621,7 @@ $array2 = json_decode($json2,TRUE);
   
                             </div>
                           </div>
+                          
                                 </div>  
                               </div>
 <!-- =============================================================================================== -->

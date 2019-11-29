@@ -1135,7 +1135,7 @@ $array2 = json_decode($json2,TRUE);
                                   // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                   var btn = "<center><button class='btn btn-primary' onclick=''>สร้างรายการ</button></center>";
                                   var txtno = "<input type='text' style='text-align:center;' class='form-control numonly' onkeyup='chkpar(\""+temp[i]['ItemCode']+"\")' name='txtno' id='txtno_"+temp[i]['ItemCode']+"' placeholder='0' maxlength='3' min='0'>";
-                                  StrTR = "<tr id='tr"+temp[i]['ItemCode']+"'>"+
+                                  StrTR = "<tr id='tr"+temp[i]['ItemCode']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                                   "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                                                   "<td style='width: 28%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
                                                   "<td style='width: 60%;' nowrap>"+temp[i]['ItemName']+"</td>"+
@@ -1420,7 +1420,7 @@ $array2 = json_decode($json2,TRUE);
                                 var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+1+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='myItem1' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
-                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
+                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
@@ -1436,7 +1436,7 @@ $array2 = json_decode($json2,TRUE);
                                   var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+2+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
-                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
+                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
@@ -1511,7 +1511,7 @@ $array2 = json_decode($json2,TRUE);
                                   var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+1+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='myItem1' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
-                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
+                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
@@ -1527,7 +1527,7 @@ $array2 = json_decode($json2,TRUE);
                                   var parnum = '<input tyle="text"  style="text-align:center;"   class="form-control mypar_'+i+' " onKeyPress="if(event.keyCode==13){SavePar(\''+2+'\',\''+i+'\',\''+temp[i]['RowID']+'\')}" value="'+temp[i]['ParQty']+'" > ';
                                   var chkHeadItem = "<input type='checkbox' name='myItem' id='headChk_"+chk_row+"' data-value='"+temp[i]['ItemCodeX']+"'>";
                                   var rowCount = $('#TableItemStock >tbody >tr').length;
-                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"'>"+
+                                  StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
                                             "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+

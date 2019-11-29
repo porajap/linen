@@ -1,3 +1,6 @@
+  .table th, .table td {
+    border-top: none !important;
+  }
       /* css for menu */
       .swal2-popup{
         width: 450px !important;
