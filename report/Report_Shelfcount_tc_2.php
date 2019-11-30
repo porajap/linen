@@ -104,23 +104,6 @@ class MYPDF extends TCPDF
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 1, 'R');
       $this->SetFont(' thsarabunnew', '', 12);
       $this->SetY(21);
-      //   $html = '<table cellspacing="0" cellpadding="1" border="1" >
-      //   <tr style="font-size: 16px;">
-      //   <th width="' . $w[0] . '% "  align="center">' . $header[0] . '</th>
-      //   <th width="' . $w[1] . '% " align="center">' . $header[1] . '</th>
-      //   <th width="' . $w[2] . '% " align="center"style="font-size: 14px;">' . $header[2] . '</th>
-      //   <th width="' . $w[3] . '% " align="center"style="font-size: 14px;">' . $header[3] . '</th>
-      //   <th width="' . $w[4] . '% " align="center">' . $header[4] . '</th>
-      //   <th width="' . $w[5] . '% " align="center">' . $header[5] . '</th>
-      //   <th width="' . $w[6] . '% " align="center"style="font-size: 14px;">' . $header[6] . '</th>
-      //   <th width="' . $w[7] . '% " align="center">' . $header[7] . '</th>
-      //   <th width="' . $w[8] . '% " align="center">' . $header[8] . '</th>';
-      //   if ($private == 1) {
-      //     $html .=   '<th width="' . $w[9] . '% " align="center">' . $header[9] . '</th>';
-      //   }
-      //   $html .= '</tr>';
-      //   $html .= '</table>';
-      //   $this->writeHTML($html, true, false, true, false, '');
     }
   }
   // Page footer
@@ -179,13 +162,13 @@ class MYPDF extends TCPDF
       $date1 = $d1 . "-" . $m1 . "-" . $y1;
       $date2 = $d2 . "-" . $m2 . "-" . $y2;
       $date3 = $d3 . "-" . $m3 . "-" . $y3;
-      if ($date1 == '--543') {
+      if ($date1 == '--543' || $date3 == '--') {
         $date1 = ' ';
       }
-      if ($date2 == '--543') {
+      if ($date2 == '--543' || $date3 == '--') {
         $date2 = ' ';
       }
-      if ($date3 == '--543') {
+      if ($date3 == '--543' || $date3 == '--') {
         $date3 = ' ';
       }
       $this->SetY(-40);
@@ -313,47 +296,49 @@ if ($isStatus == 1) {
 } elseif ($isStatus == 3 || $isStatus == 4) {
   $Status = 'Complete';
 }
-$data = "SELECT
-item.ItemName,
-item.weight,
-IFNULL(shelfcount_detail.ParQty, 0) AS ParQty,
-IFNULL(shelfcount_detail.CcQty, 0) AS CcQty,
-IFNULL(
-  shelfcount_detail.TotalQty,
-  0
-) AS TotalQty,
-IFNULL(shelfcount_detail.Over, 0) AS OverPar,
-IFNULL(shelfcount_detail.Short, 0) AS Short,
-IFNULL(item.Weight, 0) AS Weight,
-category_price.Price,
-shelfcount_detail.Price as PriceSC
-FROM
-shelfcount
-INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
-INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
-LEFT JOIN category_price ON category_price.CategoryCode = item.CategoryCode
-INNER JOIN department ON shelfcount.DepCode = department.DepCode
-          WHERE shelfcount.DocNo='$docno'
-          AND shelfcount_detail.TotalQty <> 0
-            AND shelfcount.isStatus<> 9 
-            AND category_price.HptCode = '$HptCode'
-            ORDER BY item.ItemName ";
+$data = "     SELECT
+              item.ItemName,
+              item.weight,
+              IFNULL(shelfcount_detail.ParQty, 0) AS ParQty,
+              IFNULL(shelfcount_detail.CcQty, 0) AS CcQty,
+              IFNULL(
+                shelfcount_detail.TotalQty,
+                0
+              ) AS TotalQty,
+              IFNULL(shelfcount_detail.Over, 0) AS OverPar,
+              IFNULL(shelfcount_detail.Short, 0) AS Short,
+              IFNULL(item.Weight, 0) AS Weight,
+              category_price.Price,
+              shelfcount_detail.Price as PriceSC
+              FROM
+              shelfcount
+              INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
+              INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
+              LEFT JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+              INNER JOIN department ON shelfcount.DepCode = department.DepCode
+              WHERE shelfcount.DocNo='$docno'
+              AND shelfcount_detail.TotalQty <> 0
+              AND shelfcount.isStatus<> 9 
+              AND category_price.HptCode = '$HptCode'
+              ORDER BY item.ItemName";
 
 $queryy = "SELECT
-site.private,
-site.government
-FROM
-site
-WHERE site.HptCode = '$HptCode' ";
+          site.private,
+          site.government
+          FROM
+          site
+          WHERE site.HptCode = '$HptCode' ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $private = $Result['private'];
   $government = $Result['government'];
 }
+$private = 0;
+$government = 1;
 if ($private == 1) {
-  $w = array(5, 25, 9, 9, 9, 9, 9, 9, 9, 9);
+  $w = array(5, 25, 9, 9, 8, 8, 9, 9, 9, 9);
 } elseif ($government == 1) {
-  $w = array(5, 25, 10, 10, 10, 10, 10, 10, 12);
+  $w = array(5, 25, 10, 10, 10, 10, 10, 10, 10);
 }
 // set some language-dependent strings (optional)
 list($y, $m, $d) = explode('-', $DocDate);
@@ -391,7 +376,7 @@ $html = '<table cellspacing="0" cellpadding="1" border="1" > <thead>
 <th width="' . $w[7] . '% " align="center">' . $header[7] . '</th>
 <th width="' . $w[8] . '% " align="center">' . $header[8] . '</th>';
 if ($private == 1) {
-  $html .=   '<th width="' . $w[7] . '% " align="center">' . $header[9] . '</th>';
+  $html .=   '<th width="' . $w[9] . '% " align="center">' . $header[9] . '</th>';
 }
 $html .= '</tr></thead>';
 $pdf->SetFont('  thsarabunnew', '', 12);
@@ -424,11 +409,11 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 $html .= ' </table>';
 $pdf->writeHTML($html);
 if ($private == 1) {
-  $width = 151.2;
+  $width = 147.5;
   $width1 = 32.5;
 } elseif ($government == 1) {
   $width = 162;
-  $width1 = 21.7;
+  $width1 = 18;
 }
 $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 6.0);
