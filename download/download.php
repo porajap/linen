@@ -104,8 +104,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-3 ml-4">
+            <div class="col-md-3 mr-4 mt-4">
                 <div class="card">
                     <div class="card-body">
                         <div  class="d-flex justify-content-center mt-3">
@@ -120,7 +119,7 @@
                             </div>
                         </div>
                         <div  class="d-flex justify-content-center mt-5">
-                            <button class="btn btn_customer"><i class="fas fa-download"></i></button>
+                        <button class="btn btn_customer" onclick="window.location.href='https://poseintelligence.com/linen/download/nLinen40.ipa'"'"><i class="fas fa-download"></i></button>
                         </div>
                     </div>
                 </div>
