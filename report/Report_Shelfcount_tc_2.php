@@ -333,8 +333,6 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $private = $Result['private'];
   $government = $Result['government'];
 }
-$private = 0;
-$government = 1;
 if ($private == 1) {
   $w = array(5, 25, 9, 9, 8, 8, 9, 9, 9, 9);
 } elseif ($government == 1) {
