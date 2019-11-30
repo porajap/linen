@@ -334,9 +334,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $government = $Result['government'];
 }
 if ($private == 1) {
-  $w = array(5, 25, 9, 9, 8, 8, 9, 9, 9, 9);
+  $w = array(5, 25, 8, 11, 8, 8, 8, 9, 9, 9);
 } elseif ($government == 1) {
-  $w = array(5, 25, 10, 10, 10, 10, 10, 10, 10);
+  $w = array(5, 25, 9, 11, 10, 10, 10, 10, 10);
 }
 // set some language-dependent strings (optional)
 list($y, $m, $d) = explode('-', $DocDate);
