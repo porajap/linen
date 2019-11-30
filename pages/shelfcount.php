@@ -996,7 +996,7 @@ $array2 = json_decode($json2,TRUE);
                   if(input_chk == 1){
                     $('#alert_par').modal('toggle');
                   }
-                  if(Signature != 1){
+                  if(Signature == 1){
                     setTimeout(() => {
                       $('#ModalSign').modal("show");
                     }, 1500);
@@ -3251,7 +3251,7 @@ $array2 = json_decode($json2,TRUE);
                   <th style='width: 30%;'nowrap class='text-left'><?php echo $array['item'][$language]; ?></th>
                   <th style='width: 10%;'nowrap class='text-right'><?php echo $array['par'][$language]; ?></th>
                   <th style='width: 10%;'nowrap class='text-right'><?php echo $array['count'][$language]; ?></th>
-                  <th style='width: 10%;'nowrap class='text-right'><?php echo $array['order'][$language]; ?></th>
+                  <th style='width: 10%;'nowrap class='text-right'>Issue</th>
                   <th style='width: 12%;'nowrap class='text-center'><?php echo $array['Sticker'][$language]; ?></th>
                   </tr>
                 </thead>
@@ -3317,7 +3317,7 @@ $array2 = json_decode($json2,TRUE);
   <div class="modal-dialog" role="document">
     <div class="modal-content1" style="margin-top: 50px;background-color:#fff;">
       <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['selectfactory'][$language]; ?></h5>
+      <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['Report555'][$language]; ?></h5>
         <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>       </div>

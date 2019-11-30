@@ -44,14 +44,14 @@ function ShowItem($conn, $DATA)
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '' && $HptCode != '') {
-      if($HptCode != '' && $maincatagory != '' && $Catagory=='' ){
-        $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode' AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
-      }else if($HptCode != '' && $maincatagory == '' && $Catagory !=''){
+      if($HptCode != ''  && $Catagory=='' ){
+        $Sql .= " WHERE  HptCode = '$HptCode' AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
+      }else if($HptCode != ''  && $Catagory !=''){
         $Sql .= " WHERE item.CategoryCode = $Catagory AND HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
-      }else if($HptCode != '' && $maincatagory == '' && $Catagory=='' ){
+      }else if($HptCode != ''  && $Catagory=='' ){
         $Sql .= " WHERE HptCode = '$HptCode'AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
-      }else if($maincatagory != '' && $Catagory !=''){
-      $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory AND HptCode = '$HptCode' AND item.IsActive =1";
+      }else if( $Catagory !=''){
+      $Sql .= " WHERE item.CategoryCode = $Catagory  AND HptCode = '$HptCode' AND item.IsActive =1";
       }
   } else {
     $Sql .= " WHERE item.HptCode = '$HptCode' AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
@@ -415,6 +415,8 @@ function getdetail($conn, $DATA)
           item.FacPrice,
           item.Weight,
           item.Picture,
+          item.typeLinen,
+          item.numPack,
           item_multiple_unit.RowID,
           U1.UnitName AS MpCode,
           U2.UnitName AS UnitName2,
@@ -440,29 +442,31 @@ function getdetail($conn, $DATA)
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['ItemCode'] = $Result['ItemCode'];
-    $return[$count]['ItemName'] = $Result['ItemName'];
-    $return[$count]['CategoryCode'] = $Result['CategoryCode'];
-    $return[$count]['Categoryname'] = $Result['Categoryname'];
+    $return[$count]['ItemCode']         = $Result['ItemCode'];
+    $return[$count]['ItemName']         = $Result['ItemName'];
+    $return[$count]['CategoryCode']     = $Result['CategoryCode'];
+    $return[$count]['Categoryname']     = $Result['Categoryname'];
     $return[$count]['MainCategoryCode'] = $Result['MainCategoryCode'];
-    $return[$count]['UnitCode'] = $Result['UnitCode'];
-    $return[$count]['SizeCode'] = $Result['SizeCode'];
-    $return[$count]['CusPrice'] = $Result['CusPrice'];
-    $return[$count]['FacPrice'] = $Result['FacPrice'];
-    $return[$count]['Weight'] = $Result['Weight'];
-    $return[$count]['Picture'] = $Result['Picture'];
-    $return[$count]['RowID'] = $Result['RowID'];
-    $return[$count]['HptCode'] = $Result['HptCode'];
-    $return[$count]['MpCode'] = $Result['MpCode'];
-    $return[$count]['UnitName2'] = $Result['UnitName2'];
-    $return[$count]['Multiply'] = $Result['Multiply'];
-    $return[$count]['PriceUnit'] = $Result['PriceUnit']==null?0:$Result['PriceUnit'];
-    $return[$count]['QtyPerUnit'] = $Result['QtyPerUnit'];
-    $return[$count]['sUnitName'] = $Result['UnitCode2'];
-    $return[0]['IsDirtyBag'] = $Result['IsClean']==null?0:$Result['IsClean'];
-    $return[0]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
-    $return[0]['isset'] = $Result['isset']==null?0:$Result['isset'];
-    $return[0]['tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
+    $return[$count]['UnitCode']         = $Result['UnitCode'];
+    $return[$count]['SizeCode']         = $Result['SizeCode'];
+    $return[$count]['CusPrice']         = $Result['CusPrice'];
+    $return[$count]['FacPrice']         = $Result['FacPrice'];
+    $return[$count]['Weight']           = $Result['Weight'];
+    $return[$count]['Picture']          = $Result['Picture'];
+    $return[$count]['typeLinen']        = $Result['typeLinen'];
+    $return[$count]['numPack']          = $Result['numPack'];
+    $return[$count]['RowID']            = $Result['RowID'];
+    $return[$count]['HptCode']          = $Result['HptCode'];
+    $return[$count]['MpCode']           = $Result['MpCode'];
+    $return[$count]['UnitName2']        = $Result['UnitName2'];
+    $return[$count]['Multiply']         = $Result['Multiply'];
+    $return[$count]['PriceUnit']        = $Result['PriceUnit']==null?0:$Result['PriceUnit'];
+    $return[$count]['QtyPerUnit']       = $Result['QtyPerUnit'];
+    $return[$count]['sUnitName']        = $Result['UnitCode2'];
+    $return[0]['IsDirtyBag']            = $Result['IsClean']==null?0:$Result['IsClean'];
+    $return[0]['Itemnew']               = $Result['Itemnew']==null?0:$Result['Itemnew'];
+    $return[0]['isset']                 = $Result['isset']==null?0:$Result['isset'];
+    $return[0]['tdas']                  = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
     if($Result['UnitName2'] != null){
       $countMP = 1 ;
@@ -559,22 +563,24 @@ function AddItem($conn, $DATA)
   }
   if ($boolcount != 0) {
     $Sql = "UPDATE item SET
-            CategoryCode = '" . $DATA['Catagory'] . "',
-            ItemName = '" . $DATA['ItemName'] . "',
-            UnitCode = '" . $DATA['UnitName'] . "',
-            SizeCode = '" . $DATA['SizeCode'] . "',
-            CusPrice = '" . $DATA['CusPrice'] . "',
-            FacPrice = '" . $DATA['FacPrice'] . "',
-            Weight = '" . $DATA['Weight'] . "',
-            QtyPerUnit = '" . $DATA['qpu'] . "',
-            UnitCode2 = '" . $DATA['sUnit'] . "',
-            IsClean = '" . $DATA['xCenter'] . "',  
-            Itemnew = '" . $DATA['xItemnew'] . "',
-            Tdas = '" . $DATA['tdas'] . "',
-            isset = ". $DATA['masterItem'].",
-            HptCode = '". $DATA['hospital']."',
-            Modify_Date = NOW(),
-            Modify_Code =  $Userid   
+            CategoryCode  = '" . $DATA['Catagory'] . "',
+            ItemName      = '" . $DATA['ItemName'] . "',
+            UnitCode      = '" . $DATA['UnitName'] . "',
+            SizeCode      = '" . $DATA['SizeCode'] . "',
+            CusPrice      = '" . $DATA['CusPrice'] . "',
+            FacPrice      = '" . $DATA['FacPrice'] . "',
+            Weight        = '" . $DATA['Weight'] . "',
+            QtyPerUnit    = '" . $DATA['qpu'] . "',
+            UnitCode2     = '" . $DATA['sUnit'] . "',
+            IsClean       = '" . $DATA['xCenter'] . "',  
+            Itemnew       = '" . $DATA['xItemnew'] . "',
+            Tdas          = '" . $DATA['tdas'] . "',
+            isset         = ". $DATA['masterItem'].",
+            HptCode       = '". $DATA['hospital']."',
+            Modify_Date   = NOW(),
+            Modify_Code   =  $Userid,
+            typeLinen     = '". $DATA['typeLinen']."',
+            numPack       = '". $DATA['numPack']."'
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
             $return['1'] = $Sql;
             $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
@@ -612,86 +618,86 @@ function AddItem($conn, $DATA)
   }
 }
 
-function CreateItemCode($conn, $DATA)
-{
-  $ItemCode = "";
-  $boolcount = 0;
+// function CreateItemCode($conn, $DATA)
+// {
+//   $ItemCode = "";
+//   $boolcount = 0;
 
-  $Sql = "    SELECT 		item_main_category.MainCategoryCode,SUBSTRING(MainCategoryName,1,3) AS MainCategoryName
-              FROM 		item_category,item_main_category
-              WHERE		item_category.CategoryCode=" . $DATA['Catagory'] . "
-              AND     item_main_category.MainCategoryCode = item_category.MainCategoryCode";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $MainCatagory = $Result['MainCategoryCode'];
-    $MainCategoryName = $Result['MainCategoryName'];
-  }
+//   $Sql = "    SELECT 		item_main_category.MainCategoryCode,SUBSTRING(MainCategoryName,1,3) AS MainCategoryName
+//               FROM 		item_category,item_main_category
+//               WHERE		item_category.CategoryCode=" . $DATA['Catagory'] . "
+//               AND     item_main_category.MainCategoryCode = item_category.MainCategoryCode";
+//   $meQuery = mysqli_query($conn, $Sql);
+//   while ($Result = mysqli_fetch_assoc($meQuery)) {
+//     $MainCatagory = $Result['MainCategoryCode'];
+//     $MainCategoryName = $Result['MainCategoryName'];
+//   }
 
-  if ($DATA['modeCode'] == '2') {
-    $Sql = "  SELECT 		CONCAT( LPAD('$MainCatagory', 2, 0),
-                                LPAD('" . $DATA['Catagory'] . "', 2, 0),
-                                LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(ItemCode,5,5),UNSIGNED INTEGER)),0)+1) ,5,0))
-                        AS  ItemCode
-              FROM 			item
-              WHERE 		ItemCode Like CONCAT( LPAD('$MainCatagory', 2, 0),
-                                              LPAD('" . $DATA['Catagory'] . "', 2, 0),
-                                            '%')
-              ORDER BY  ItemCode DESC LIMIT 1";
+//   if ($DATA['modeCode'] == '2') {
+//     $Sql = "  SELECT 		CONCAT( LPAD('$MainCatagory', 2, 0),
+//                                 LPAD('" . $DATA['Catagory'] . "', 2, 0),
+//                                 LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(ItemCode,5,5),UNSIGNED INTEGER)),0)+1) ,5,0))
+//                         AS  ItemCode
+//               FROM 			item
+//               WHERE 		ItemCode Like CONCAT( LPAD('$MainCatagory', 2, 0),
+//                                               LPAD('" . $DATA['Catagory'] . "', 2, 0),
+//                                             '%')
+//               ORDER BY  ItemCode DESC LIMIT 1";
 
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $ItemCode = $Result['ItemCode'];
-    }
+//     $meQuery = mysqli_query($conn, $Sql);
+//     while ($Result = mysqli_fetch_assoc($meQuery)) {
+//       $ItemCode = $Result['ItemCode'];
+//     }
 
-    if ($ItemCode != "") {
-      $boolcount = 1;
-    } else {
-      $boolcount = 0;
-    }
-  } else if ($DATA['modeCode'] == '1') {
-    if($DATA['hospitalCode'] !=""){
-    $preCode = $DATA['hospitalCode'] . "LP" . $MainCategoryName . $DATA['typeCode'] . $DATA['packCode'];
-    $Sql = "  SELECT 		CONCAT(LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(ItemCode,12,4),UNSIGNED INTEGER)),0)+1) ,4,0))
-              AS        ItemCode
-              FROM 			item
-              WHERE 		ItemCode Like CONCAT('$preCode',
-                                            '%')
-              ORDER BY  ItemCode DESC LIMIT 1";
+//     if ($ItemCode != "") {
+//       $boolcount = 1;
+//     } else {
+//       $boolcount = 0;
+//     }
+//   } else if ($DATA['modeCode'] == '1') {
+//     if($DATA['hospitalCode'] !=""){
+//     $preCode = $DATA['hospitalCode'] . "LP" . $MainCategoryName . $DATA['typeCode'] . $DATA['packCode'];
+//     $Sql = "  SELECT 		CONCAT(LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(ItemCode,12,4),UNSIGNED INTEGER)),0)+1) ,4,0))
+//               AS        ItemCode
+//               FROM 			item
+//               WHERE 		ItemCode Like CONCAT('$preCode',
+//                                             '%')
+//               ORDER BY  ItemCode DESC LIMIT 1";
 
-    $meQuery = mysqli_query($conn, $Sql);
-    }else{
-      $preCode = "";
-    }
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $postCode = $Result['ItemCode'];
-    }
-    $ItemCode = $preCode . $postCode;
-    if ($postCode != "") {
-      $boolcount = 1;
-    } else {
-      $boolcount = 0;
-    }
-  } else {
-    $ItemCode = "";
-    $boolcount = 1;
-  }
+//     $meQuery = mysqli_query($conn, $Sql);
+//     }else{
+//       $preCode = "";
+//     }
+//     while ($Result = mysqli_fetch_assoc($meQuery)) {
+//       $postCode = $Result['ItemCode'];
+//     }
+//     $ItemCode = $preCode . $postCode;
+//     if ($postCode != "") {
+//       $boolcount = 1;
+//     } else {
+//       $boolcount = 0;
+//     }
+//   } else {
+//     $ItemCode = "";
+//     $boolcount = 1;
+//   }
 
-  if ($boolcount == 1) {
-    $return['status'] = "success";
-    $return['form'] = "CreateItemCode";
-    $return['ItemCode'] = $ItemCode;
+//   if ($boolcount == 1) {
+//     $return['status'] = "success";
+//     $return['form'] = "CreateItemCode";
+//     $return['ItemCode'] = $ItemCode;
 
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  } else {
-    // $return['status'] = "failed";
-    // $return['msg'] = "editfailed";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-}
+//     echo json_encode($return);
+//     mysqli_close($conn);
+//     die;
+//   } else {
+//     // $return['status'] = "failed";
+//     // $return['msg'] = "editfailed";
+//     echo json_encode($return);
+//     mysqli_close($conn);
+//     die;
+//   }
+// }
 
 function NewItem($conn, $DATA)
 {
@@ -760,7 +766,9 @@ function NewItem($conn, $DATA)
             isset,
             HptCode,
             Modify_Date,
-            Modify_Code
+            Modify_Code,
+            typeLinen,
+            numPack
            )
             VALUES
             (
@@ -782,7 +790,9 @@ function NewItem($conn, $DATA)
               '" . $DATA['masterItem'] . "',
               '" . $DATA['HptCode'] . "',
               NOW(),
-              $Userid 
+              $Userid ,        
+              '" . $DATA['typeLinen'] . "',
+              '" . $DATA['numPack'] . "'
 
 
             )
@@ -1305,9 +1315,12 @@ if (isset($_POST['DATA'])) {
     getdetail($conn, $DATA);
   } else if ($DATA['STATUS'] == 'GetHospital') {
     GetHospital($conn, $DATA);
-  } else if ($DATA['STATUS'] == 'CreateItemCode') {
-    CreateItemCode($conn, $DATA);
-  } else if ($DATA['STATUS'] == 'NewItem') {
+  } 
+  // else if ($DATA['STATUS'] == 'CreateItemCode') {
+  //   CreateItemCode($conn, $DATA);
+  // }
+  
+  else if ($DATA['STATUS'] == 'NewItem') {
     NewItem($conn, $DATA);
   } else if ($DATA['STATUS'] == 'GetmainCat') {
     GetmainCat($conn, $DATA);

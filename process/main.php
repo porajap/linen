@@ -8,12 +8,13 @@ if($Userid==""){
   header("location:../index.html");
 }
 function OnLoadPage($conn,$DATA){
-  $HptCode = $_SESSION['HptCode'];
-  $count = 0;
-  $boolean = false;
+  $HptCode  = $_SESSION['HptCode'];
+  $PmID     = $_SESSION['PmID'];
+  $count    = 0;
+  $boolean  = false;
   $Sql = "SELECT COUNT(*) AS Cnt
   FROM contract_parties_factory
-  WHERE IsCancel = 0 
+  WHERE IsStatus = 0  
   AND DATEDIFF(DATE(contract_parties_factory.EndDate),DATE(NOW())) < 31";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -23,24 +24,37 @@ function OnLoadPage($conn,$DATA){
 
   $Sql = "SELECT COUNT(*) AS Cnt
   FROM contract_parties_hospital
-  WHERE IsCancel = 0
+  WHERE IsStatus = 0 
   AND DATEDIFF(DATE(contract_parties_hospital.EndDate),DATE(NOW())) < 31";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['HOS_Cnt'] = $Result['Cnt'];
 	$boolean = true;
   }
-
+  
+if($PmID !=1 || $PmID !=6){
   $Sql = "SELECT COUNT(*) AS Cnt
   FROM shelfcount
   INNER JOIN department ON department.DepCode = shelfcount.DepCode
   INNER JOIN site ON site.HptCode = department.HptCode
-  WHERE site.HptCode = '$HptCode' AND IsRequest = 0";
+  WHERE site.HptCode = '$HptCode' AND ( shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1 )  ";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['shelfcount_Cnt'] = $Result['Cnt'];
 	$boolean = true;
   }
+}else{
+  $Sql = "SELECT COUNT(*) AS Cnt
+  FROM shelfcount
+  INNER JOIN department ON department.DepCode = shelfcount.DepCode
+  INNER JOIN site ON site.HptCode = department.HptCode
+  WHERE shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1   ";
+  $meQuery = mysqli_query($conn,$Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return['shelfcount_Cnt'] = $Result['Cnt'];
+	$boolean = true;
+  }
+}
   $Sql = "SELECT COUNT(*) AS Cnt
   FROM factory_out
   INNER JOIN department ON department.DepCode = factory_out.DepCode

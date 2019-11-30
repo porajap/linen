@@ -1867,7 +1867,7 @@ function PrintstickerModal($conn, $DATA){
   $Sql = "SELECT sc_d.ItemCode, item.ItemName, sc_d.ParQty, sc_d.CcQty, sc_d.TotalQty
     FROM shelfcount_detail sc_d
     INNER JOIN item ON item.ItemCode = sc_d.ItemCode 
-    WHERE sc_d.DocNo = '$DocNo' ORDER BY sc_d.ItemCode";
+    WHERE sc_d.DocNo = '$DocNo' ORDER BY item.ItemName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ItemCode'] = $Result['ItemCode'];

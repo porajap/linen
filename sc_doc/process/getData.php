@@ -30,7 +30,7 @@ AND NOT shelfcount.IsStatus = 9
 AND site.HptCode = 'BHQ'
 AND shelfcount.DeliveryTime = 0
 AND shelfcount.ScTime = 0 
-ORDER BY shelfcount.DocNo DESC";
+ORDER BY shelfcount.IsStatus ASC , shelfcount.DocNo DESC";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $reurn['Sc'][$count]['EngName']         = $Result['EngName']        ==null?'':$Result['EngName'];

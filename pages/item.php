@@ -93,7 +93,6 @@ $array2 = json_decode($json2, TRUE);
         });
       // ShowItem();
       GetHospital();
-      GetmainCat();
       getCatagory();
       //On create
       $('.TagImage').bind('click', {
@@ -169,7 +168,7 @@ $array2 = json_decode($json2, TRUE);
       $('#Hos2').css('border-color', '');
       var Hos2 = $('#Hos2').val();
       $('#hospital').val(Hos2);
-         CreateItemCode();
+        //  CreateItemCode();
 
     }
 
@@ -357,16 +356,9 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function getCatagory() {
-      var maincatagory = $('#maincatagory').val();
-      if ( maincatagory == ""){
-        $('#maincatagory2').val('1');
-      }
-      $('#maincatagory2').val(maincatagory);
-      console.log($('#maincatagory2 option:selected').attr("value"));
-      // var catagory1 = $("#catagory1").val();
+
       var data = {
-        'STATUS': 'getCatagory',
-        'maincatagory': maincatagory
+        'STATUS': 'getCatagory'
 
       };
       console.log(JSON.stringify(data));
@@ -516,6 +508,8 @@ $array2 = json_decode($json2, TRUE);
       var hospital = $('#hospital').val();
       var UnitName = $('#UnitName').val();
       var SizeCode = $('#SizeCode').val();
+      var typeLinen = $('#typeLinen').val();
+      var numPack   = $('#numPack').val();
       var Weight = $('#Weight').val();
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
@@ -570,7 +564,9 @@ $array2 = json_decode($json2, TRUE);
                 'xItemnew': xItemnew,
                 'masterItem': masterItem,
                 'tdas': tdas,
-                'hospital': hospital
+                'hospital': hospital,
+                'typeLinen': typeLinen,
+                'numPack': numPack
               };
               // console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
@@ -661,7 +657,7 @@ $array2 = json_decode($json2, TRUE);
       if(Catagory !="" && Catagory!=undefined){
         $('#rem3').hide();
         $('#catagory2').css('border-color', '');
-        CreateItemCode();
+        // CreateItemCode();
       }
 
     
@@ -677,22 +673,25 @@ $array2 = json_decode($json2, TRUE);
       });
       console.log(count);
       var mainCatagory = $('#maincatagory2').val();
-      var Hos2 = $('#hospital').val();
-      var Catagory = $('#catagory2').val();
-      var ItemCode = $('#ItemCode').val();
-      var ItemName = $('#ItemName').val();
-      var CusPrice = $('#CusPrice').val();
-      var FacPrice = $('#FacPrice').val();
-      var UnitName = $('#UnitName').val();
-      var SizeCode = $('#SizeCode').val();
-      var Weight = $('#Weight').val();
-      var qpu = $('#QtyPerUnit').val();
-      var sUnit = $('#sUnitName').val();
-      var xCenter = 0;
-      var xItemnew = 0;
-      var tdas = 0;
+      var Hos2      = $('#hospital').val();
+      var Catagory  = $('#catagory2').val();
+      var ItemCode  = $('#ItemCode').val();
+      var ItemName  = $('#ItemName').val();
+      var CusPrice  = $('#CusPrice').val();
+      var FacPrice  = $('#FacPrice').val();
+      var UnitName  = $('#UnitName').val();
+      var SizeCode  = $('#SizeCode').val();
+      var Weight    = $('#Weight').val();
+      var qpu       = $('#QtyPerUnit').val();
+      var sUnit     = $('#sUnitName').val();
+      var typeLinen = $('#typeLinen').val();
+      var numPack   = $('#numPack').val();
+      var xCenter   = 0;
+      var xItemnew  = 0;
+      var tdas      = 0;
       var masterItem = 0;
 
+      alert(Hos2);
       if ($('#masterItem').is(':checked')) masterItem = 1;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       // if ($('#xItemnew').is(':checked')) xItemnew = 1;
@@ -723,30 +722,32 @@ $array2 = json_decode($json2, TRUE);
               if (result.value) {
                 var data = {
                   'STATUS': 'NewItem',
-                  'Catagory': Catagory,
-                  'ItemCode': ItemCode,
-                  'ItemName': ItemName,
-                  'CusPrice': CusPrice,
-                  'FacPrice': FacPrice,
-                  'UnitName': UnitName,
-                  'SizeCode': SizeCode,
-                  'Weight': Weight,
-                  'qpu': qpu,
-                  'sUnit': sUnit,
-                  'xCenter': xCenter,
-                  'xItemnew': xItemnew,
-                  'tdas': tdas ,
+                  'Catagory'  : Catagory,
+                  'ItemCode'  : ItemCode,
+                  'ItemName'  : ItemName,
+                  'CusPrice'  : CusPrice,
+                  'FacPrice'  : FacPrice,
+                  'UnitName'  : UnitName,
+                  'SizeCode'  : SizeCode,
+                  'Weight'    : Weight,
+                  'qpu'       : qpu,
+                  'sUnit'     : sUnit,
+                  'xCenter'   : xCenter,
+                  'xItemnew'  : xItemnew,
+                  'tdas'      : tdas ,
                   'masterItem': masterItem,
-                  'HptCode': Hos2  
+                  'HptCode'   : Hos2 ,
+                  'typeLinen' : typeLinen,
+                  'numPack'   : numPack 
                   
                 };
                 senddata(JSON.stringify(data));
               } else if (result.dismiss == 'cancel') {
                 swal.close();
               }
-              setTimeout(() => {
-                CreateItemCode();
-              }, 700);
+              // setTimeout(() => {
+              //   CreateItemCode();
+              // }, 700);
             })
           } else {
             swal({
@@ -800,70 +801,70 @@ $array2 = json_decode($json2, TRUE);
       }
     }
 
-    function CreateItemCode() {
-        // $('#rem3').hide();
-        var hospital2 = $('#hospital').val();
-        if(hospital2 !=""||hospital2!=undefined){
-        $('#hospital').css('border-color', '');
-        }
-      var Catagory = $('#catagory2').val();
-      var modeCode = $('#formatitem:checked').val();
-      var modeCheck = $('#checkitem:checked').val();
-      console.log(modeCode);
-      if (typeof modeCheck == 'undefined') {
-        if (modeCode == 3) {
-          $('#oldCodetype').hide();
-          // var hospitalCode = "";
-          var typeCode = "";
-          var packCode = "";
-          var hospitalCode = $('#hospital').val();
-          $('#ItemCode').attr("disabled", false);
-          $('#typeLinen').addClass('checkblank');
-          $('#numPack').addClass('checkblank');
-          $('#typeLinen').removeClass('checkblank');
-          $('#numPack').removeClass('checkblank');
-          $('#Hos2').val(hospitalCode);
-          ShowItem();
-        } else {
-          if (modeCode == 1) {
-            $('#ItemCode').attr("disabled", true);
-            $('#oldCodetype').show();
-            var hospitalCode = $('#hospital').val();
-            var typeCode = $('#typeLinen').val();
-            var packCode = $('#numPack').val();
-            $('#Hos2').val(hospitalCode);
-            ShowItem();
-            if(hospitalCode == ""){
-            $('#ItemCode').val("");
-            }
-            $('#typeLinen').addClass('checkblank');
-            $('#numPack').addClass('checkblank');
-          } else {
-            $('#ItemCode').attr("disabled", true);
-            $('#oldCodetype').hide();
-            // var hospitalCode = "";
-            var typeCode = "1";
-            var packCode = "1";
-            $('#ItemCode').val("");
-            var hospitalCode = $('#hospital').val();
-            $('#typeLinen').removeClass('checkblank');
-            $('#numPack').removeClass('checkblank');
-            $('#Hos2').val(hospitalCode);
-            ShowItem();
-          }
-          var data = {
-            'STATUS': 'CreateItemCode',
-            'Catagory': Catagory,
-            'modeCode': modeCode,
-            'hospitalCode': hospitalCode,
-            'typeCode': typeCode,
-            'packCode': packCode
-          };
-          console.log(JSON.stringify(data));
-          senddata(JSON.stringify(data));
-        }
-      }
-    }
+    // function CreateItemCode() {
+    //     // $('#rem3').hide();
+    //     var hospital2 = $('#hospital').val();
+    //     if(hospital2 !=""||hospital2!=undefined){
+    //     $('#hospital').css('border-color', '');
+    //     }
+    //   var Catagory = $('#catagory2').val();
+    //   var modeCode = $('#formatitem:checked').val();
+    //   var modeCheck = $('#checkitem:checked').val();
+    //   console.log(modeCode);
+    //   if (typeof modeCheck == 'undefined') {
+    //     if (modeCode == 3) {
+    //       $('#oldCodetype').hide();
+    //       // var hospitalCode = "";
+    //       var typeCode = "";
+    //       var packCode = "";
+    //       var hospitalCode = $('#hospital').val();
+    //       $('#ItemCode').attr("disabled", false);
+    //       $('#typeLinen').addClass('checkblank');
+    //       $('#numPack').addClass('checkblank');
+    //       $('#typeLinen').removeClass('checkblank');
+    //       $('#numPack').removeClass('checkblank');
+    //       $('#Hos2').val(hospitalCode);
+    //       ShowItem();
+    //     } else {
+    //       if (modeCode == 1) {
+    //         $('#ItemCode').attr("disabled", true);
+    //         $('#oldCodetype').show();
+    //         var hospitalCode = $('#hospital').val();
+    //         var typeCode = $('#typeLinen').val();
+    //         var packCode = $('#numPack').val();
+    //         $('#Hos2').val(hospitalCode);
+    //         ShowItem();
+    //         if(hospitalCode == ""){
+    //         $('#ItemCode').val("");
+    //         }
+    //         $('#typeLinen').addClass('checkblank');
+    //         $('#numPack').addClass('checkblank');
+    //       } else {
+    //         $('#ItemCode').attr("disabled", true);
+    //         $('#oldCodetype').hide();
+    //         // var hospitalCode = "";
+    //         var typeCode = "1";
+    //         var packCode = "1";
+    //         $('#ItemCode').val("");
+    //         var hospitalCode = $('#hospital').val();
+    //         $('#typeLinen').removeClass('checkblank');
+    //         $('#numPack').removeClass('checkblank');
+    //         $('#Hos2').val(hospitalCode);
+    //         ShowItem();
+    //       }
+    //       var data = {
+    //         'STATUS': 'CreateItemCode',
+    //         'Catagory': Catagory,
+    //         'modeCode': modeCode,
+    //         'hospitalCode': hospitalCode,
+    //         'typeCode': typeCode,
+    //         'packCode': packCode
+    //       };
+    //       console.log(JSON.stringify(data));
+    //       senddata(JSON.stringify(data));
+    //     }
+    //   }
+    // }
 
     function AddUnit() {
       var priceunit = $('#priceunit').val();
@@ -944,6 +945,9 @@ $array2 = json_decode($json2, TRUE);
       $('#maincatagory2').attr('disabled', false);
       $('#typeLinen').attr('disabled', false);
       $('#numPack').attr('disabled', false);
+      $('#catagory2').attr('disabled', false);
+      $('#hospital').removeClass('icon_select');
+      $('#catagory2').removeClass('icon_select');
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -978,7 +982,6 @@ $array2 = json_decode($json2, TRUE);
       $('#numPack').val("01");
       $('#sUnitName').val("1");
       getCatagory();
-      ShowItem();
       $('#bCancel').attr('disabled', true);
       $('#delete_icon').addClass('opacity');
       $('#delete1').removeClass('mhee');
@@ -1034,11 +1037,11 @@ $array2 = json_decode($json2, TRUE);
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
           $('#hospital').attr('disabled', false);
-          $('#maincatagory2').attr('disabled', false);
-          $('#typeLinen').attr('disabled', false);
-          $('#numPack').attr('disabled', false);
+          $('#catagory2').attr('disabled', false);
+          // $('#typeLinen').attr('disabled', false);
+          // $('#numPack').attr('disabled', false);
           $('#hospital').removeClass('icon_select');
-          $('#maincatagory2').removeClass('icon_select');
+          $('#catagory2').removeClass('icon_select');
           $('#typeLinen').removeClass('icon_select');
           $('#numPack').removeClass('icon_select');
           $('#checkitem_'+row).removeAttr('checked');
@@ -1047,14 +1050,14 @@ $array2 = json_decode($json2, TRUE);
           Blankinput2();
         } else {
           $('#hospital').addClass('icon_select');
-          $('#maincatagory2').addClass('icon_select');
-          $('#typeLinen').addClass('icon_select');
-          $('#numPack').addClass('icon_select');
+          $('#catagory2').addClass('icon_select');
+          // $('#typeLinen').addClass('icon_select');
+          // $('#numPack').addClass('icon_select');
 
           $('#hospital').attr('disabled', true);
-          $('#maincatagory2').attr('disabled', true);
-          $('#typeLinen').attr('disabled', true);
-          $('#numPack').attr('disabled', true);
+          $('#catagory2').attr('disabled', true);
+          // $('#typeLinen').attr('disabled', true);
+          // $('#numPack').attr('disabled', true);
 
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
@@ -1535,7 +1538,7 @@ $array2 = json_decode($json2, TRUE);
               $("#catagory2").append(Str);
               $("#catagory1").append(StrTr);
               $("#catagoryModal").append(StrTr);
-              CreateItemCode();
+              // CreateItemCode();
               // ShowItem();
             } else if ((temp["form"] == 'GetHospital')) {
               var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
@@ -1779,6 +1782,8 @@ $array2 = json_decode($json2, TRUE);
                 $('#ItemName').val(temp[0]['ItemName']);
                 $('#CusPrice').val(temp[0]['CusPrice']);
                 $('#FacPrice').val(temp[0]['FacPrice']);
+                $('#numPack').val(temp[0]['numPack']);
+                $('#typeLinen').val(temp[0]['typeLinen']);
                 $('#UnitName').val(temp[0]['UnitCode']);
                 $('#Unitshows').val(temp[0]['UnitCode']);
                 $('#SizeCode').val(temp[0]['SizeCode']);
@@ -2086,9 +2091,11 @@ $array2 = json_decode($json2, TRUE);
                 Blankinput();
                 ShowItem();
               }, 2000);
-            } else if (temp['form'] == 'CreateItemCode') {
-              $('#ItemCode').val(temp['ItemCode']);
-            } else if (temp['form'] == 'ActiveItem') {
+            } 
+            // else if (temp['form'] == 'CreateItemCode') {
+            //   $('#ItemCode').val(temp['ItemCode']);
+            // }
+             else if (temp['form'] == 'ActiveItem') {
               temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
               swal({
                 title: '',
@@ -2607,14 +2614,14 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['code'][$language]; ?></label>
-                              <input type="text"autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" disabled>
+                              <input type="text"autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" >
                               <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
-                          <div class="col-md-0">
+                          <!-- <div class="col-md-0">
                           </div>
-                          <div class="col-md-5">
-                            <div class="row ">
+                          <div class="col-md-5"> -->
+                            <!-- <div class="row ">
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
@@ -2648,24 +2655,25 @@ $array2 = json_decode($json2, TRUE);
                                   <label class="col-sm-10 col-form-label text-left" style="margin-top: -7px;"><?php echo $array['newFormatItemCode'][$language]; ?></label>
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
+                            <div class="col-md-6">
+                              <div class='form-group row'>
+                                <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                                <select   class="form-control col-sm-7 checkblank" id="hospital"  ></select>
+                              </div>
                           </div>
-                        </div>
+                        <!-- </div> -->
+                      </div>
                         <!-- =================================================================== -->
                         <!-- id="oldCodetype" -->
                         <div class="row" >
-                          <div class="col-md-6">
-                            <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                              <select   class="form-control col-sm-7 checkblank" id="hospital" onchange="CreateItemCode()" ></select>
-                            </div>
-                          </div>
+              
                           <div class="col-md-6">
                             <div class="row">
                             <label class="col-sm-3 col-form-label "><?php echo $array['type'][$language]; ?></label>
                               <div class="col-md-8">
                                 <div class='form-group row'>
-                                  <select  onchange="CreateItemCode()" class="form-control col-sm-4 " id="typeLinen" onchange="CreateItemCode()" >
+                                  <select   class="form-control col-sm-4 " id="typeLinen" >
                                     <option value="P">Patient Shirt</option>
                                     <option value="S">Staff Uniform</option>
                                     <option value="F">Flat Sheet</option>
@@ -2675,7 +2683,7 @@ $array2 = json_decode($json2, TRUE);
                                   </select>
 
                                   <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
-                                  <select onchange="CreateItemCode()"  class="form-control col-sm-4  numonly" id="numPack" onchange="CreateItemCode()" >
+                                  <select   class="form-control col-sm-4  numonly" id="numPack" >
                                     <option value="01">1 PCS</option>
                                     <option value="05">5 Pc</option>
                                     <option value="10">10 Pc</option>
@@ -2685,6 +2693,24 @@ $array2 = json_decode($json2, TRUE);
                                   </select>
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['sizeunit'][$language]; ?></label>
+                              <select onchange="resetinput()" class="form-control col-sm-7 checkblank numonly" id="SizeCode">
+                                <option value="1">SS</option>
+                                <option value="2">S</option>
+                                <option value="3">M</option>
+                                <option value="4">L</option>
+                                <option value="5">XL</option>
+                                <option value="6">XXL</option>
+                                <option value="7">3XL</option>
+                                <option value="8">6XL</option>
+                                <option value="9">NO SIZE</option>
+
+                              </select>
+                              
                             </div>
                           </div>
                         </div>
@@ -2702,7 +2728,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
-                              <select  onchange="resetinput5()"  class="form-control col-sm-7 checkblank" id="catagory2" onchange="CreateItemCode()" ></select>
+                              <select  onchange="resetinput5()"  class="form-control col-sm-7 checkblank" id="catagory2"  ></select>
                               <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
@@ -2764,24 +2790,7 @@ $array2 = json_decode($json2, TRUE);
                               <select onchange="resetinput()"  class="form-control col-sm-7" id="UnitName"></select>
                             </div>
                           </div>
-                          <div class="col-md-6">
-                            <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['sizeunit'][$language]; ?></label>
-                              <select onchange="resetinput()" class="form-control col-sm-7 checkblank numonly" id="SizeCode">
-                                <option value="1">SS</option>
-                                <option value="2">S</option>
-                                <option value="3">M</option>
-                                <option value="4">L</option>
-                                <option value="5">XL</option>
-                                <option value="6">XXL</option>
-                                <option value="7">3XL</option>
-                                <option value="8">6XL</option>
-                                <option value="9">NO SIZE</option>
-
-                              </select>
-                              
-                            </div>
-                          </div>
+      
                         </div>
                         <!-- =================================================================== -->
                         

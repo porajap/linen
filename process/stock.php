@@ -131,13 +131,13 @@ FROM par_item_stock
 INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
 INNER JOIN department ON par_item_stock.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode  ";
+INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode   ";
   if ($dept!=null) {
     $Sql.="WHERE site.HptCode = '$hos' AND par_item_stock.DepCode =  '$dept' AND item.ItemName LIKE '%$search%' ";
   }elseif($dept==null){
     $Sql.="WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%$search%'";
   }
-  $Sql.="GROUP BY par_item_stock.ItemCode , par_item_stock.DepCode ORDER BY department.DepCode,item.ItemName";
+  $Sql.="GROUP BY par_item_stock.ItemCode , par_item_stock.DepCode ORDER BY department.DepCode,item.ItemName ";
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
