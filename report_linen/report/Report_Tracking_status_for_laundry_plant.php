@@ -120,19 +120,21 @@ class PDF extends FPDF
     $w = $width;
     // Header
     $this->SetFont('THSarabun', 'b', 12);
-    if ($i == 0) {
+    if ($i == 0 || $rows == 11) {
+      $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[6]), 1, 0, 'C');
       $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
       $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
       $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
       $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 0, 'C');
       $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
-      $this->Cell($w[5], 20, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
+      $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
       $this->Ln();
 
-      $this->Cell(25, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(40, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+      $this->Cell(40, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
       for ($i = 0; $i < 4; $i++) {
-        $this->Cell(17.5, -10, iconv("UTF-8", "TIS-620", $array2['start'][$language]), 1, 0, 'C');
-        $this->Cell(17.5, -10, iconv("UTF-8", "TIS-620", $array2['finish'][$language]), 1, 0, 'C');
+        $this->Cell(20, -10, iconv("UTF-8", "TIS-620", $array2['start'][$language]), 1, 0, 'C');
+        $this->Cell(20, -10, iconv("UTF-8", "TIS-620", $array2['finish'][$language]), 1, 0, 'C');
       }
       $this->Ln(0);
     }
@@ -157,24 +159,47 @@ class PDF extends FPDF
             $min_show = " mins ";
           }
         }
-        list($hours, $min, $secord) = explode(":", $inner_array[$field[1]]);
-        list($hours2, $min2, $secord2) = explode(":", $inner_array[$field[8]]);
-        $total_hours = $hours -  $hours2;
-        $total_min = $min - $min2;
-        $this->SetFont('THSarabun', '', 10);
+        list($minus, $time, $secord) = explode("-", $inner_array[$field[11]]);
+        list($hours, $min, $secord) = explode(":", $time);
+        if($inner_array[$field[11]] == '00:00:00' ){
+          $timeshow = '00' . $hour_show . "00" . $min_show;
+        }else{
+          $timeshow = $hours . $hour_show . " " . $min . $min_show;
+        }
+        $this->SetFont('THSarabun', '', 12);
         $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
         $this->SetFont('THSarabun', '', 12);
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[1]], 0, 5)), 1, 0, 'C');
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[2]], 0, 5)), 1, 0, 'C');
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[3]], 0, 5)), 1, 0, 'C');
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[4]], 0, 5)), 1, 0, 'C');
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[5]], 0, 5)), 1, 0, 'C');
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[6]], 0, 5)), 1, 0, 'C');
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[7]], 0, 5)), 1, 0, 'C');
-        $this->Cell(17.5, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[8]], 0, 5)), 1, 0, 'C');
-        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", abs($total_hours) . $hour_show . " " . abs($total_min) . $min_show), 1, 0, 'C');
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[10]]), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[1]], 0, 5)), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[2]], 0, 5)), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[3]], 0, 5)), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[4]], 0, 5)), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[5]], 0, 5)), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[6]], 0, 5)), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[7]], 0, 5)), 1, 0, 'C');
+        $this->Cell(20, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[8]], 0, 5)), 1, 0, 'C');
+        // $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[11]]), 1, 0, 'C');
+        $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $timeshow), 1, 0, 'C');
         $this->Ln();
         $rows++;
+        if ($rows == 11) {
+          $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
+          $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[0]), 1, 0, 'C');
+          $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $header[1]), 1, 0, 'C');
+          $this->Cell($w[2], 10, iconv("UTF-8", "TIS-620", $header[2]), 1, 0, 'C');
+          $this->Cell($w[3], 10, iconv("UTF-8", "TIS-620", $header[3]), 1, 0, 'C');
+          $this->Cell($w[4], 10, iconv("UTF-8", "TIS-620", $header[4]), 1, 0, 'C');
+          $this->Cell($w[0], 20, iconv("UTF-8", "TIS-620", $header[5]), 1, 0, 'C');
+          $this->Ln();
+    
+          $this->Cell(40, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+          $this->Cell(40, 0, iconv("UTF-8", "TIS-620", ""), 0, 0, 'C');
+          for ($i = 0; $i < 4; $i++) {
+            $this->Cell(20, -10, iconv("UTF-8", "TIS-620", $array2['start'][$language]), 1, 0, 'C');
+            $this->Cell(20, -10, iconv("UTF-8", "TIS-620", $array2['finish'][$language]), 1, 0, 'C');
+          }
+          $this->Ln(0);
+        }
       }
     }  $field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime";
     // Footer Table
@@ -202,7 +227,7 @@ $data = new Data();
 $datetime = new DatetimeTH();
 
 // Using Coding
-$pdf->AddPage("P", "A4");
+$pdf->AddPage("L", "A4");
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -233,12 +258,11 @@ $pdf->SetFont('THSarabun', '', 10);
 $image = "../images/Nhealth_linen 4.0.png";
 $pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Cell(0, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
 // Title
 $pdf->SetFont('THSarabun', 'b', 20);
-$pdf->Cell(80);
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array2['r15'][$language]), 0, 0, 'C');
+$pdf->Cell(0, 10, iconv("UTF-8", "TIS-620", $array2['r15'][$language]), 0, 0, 'C');
 $pdf->Ln(10);
 
 $pdf->SetFont('THSarabun', 'b', 14);
@@ -276,23 +300,23 @@ TIME (process.SendStartTime)AS SendStartTime,
 TIME (process.SendEndTime)AS SendEndTime,
 $doc[$i].FacCode,
 process.DocNo AS  DocNo1 ,
-TIME ($doc[$i].ReceiveDate)AS ReceiveDate1
+TIME ($doc[$i].ReceiveDate)AS ReceiveDate1,
+DATE_FORMAT($doc[$i].DocDate,'%d/%m/%Y') AS Date1,
+TIMEDIFF(TIME_FORMAT ($doc[$i].ReceiveDate, '%H:%i') ,TIME_FORMAT (process.SendEndTime, '%H:%i')) AS TIME 
 FROM
 process
 LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
 $where AND $FacCode in ($doc[$i].FacCode)
 AND process.isStatus <> 9
 ";
-
-  // var_dump($query); die;
   // Number of column
   $numfield = 6;
   // Field data (Must match with Query)
-  $field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total";
+  $field = "DocNo1,ReceiveDate1,WashStartTime,WashStartTime,WashEndTime,PackStartTime,PackEndTime,SendStartTime,SendEndTime,Total,Date1,TIME";
   // Table header
-  $header = array($array2['docdate'][$language], $array2['receive_time'][$language], $array2['washing_time'][$language], $array2['packing_time'][$language], $array2['distribute_time'][$language], $array2['total'][$language]);
+  $header = array($array2['docdate'][$language], $array2['receive_time'][$language], $array2['washing_time'][$language], $array2['packing_time'][$language], $array2['distribute_time'][$language], $array2['total'][$language],$array2['docno'][$language]);
   // width of column table
-  $width = array(25, 35, 35, 35, 35, 25);
+  $width = array(40, 40, 40, 40, 40, 25);
   // Get Data and store in Result
   $result = $data->getdata($conn, $query, $numfield, $field);
   // Set Table

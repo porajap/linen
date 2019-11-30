@@ -17,10 +17,10 @@ $json = json_encode($xml);
 $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
-$data =explode( ',',$_GET['data']);
-  // echo "<pre>";
-  // print_r($data);
-  // echo "</pre>"; 
+$data = explode(',', $_GET['data']);
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -38,7 +38,9 @@ $check = '';
 $Qty = 0;
 $Weight = 0;
 $count = 1;
-$start_data = 9 ;
+$start_data = 9;
+$minus=''; $time=''; $secord='';
+$hours=''; $min=''; $secord='';
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -189,28 +191,30 @@ $objPHPExcel->getActiveSheet()
 // Add some data
 
 $header = array($array2['docdate'][$language], $array2['receive_time'][$language], $array2['washing_time'][$language], $array2['packing_time'][$language], $array2['distribute_time'][$language], $array2['total'][$language]);
-$objPHPExcel->getActiveSheet()->mergeCells('B8:C8');
-$objPHPExcel->getActiveSheet()->mergeCells('D8:E8');
-$objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
-$objPHPExcel->getActiveSheet()->mergeCells('H8:I8');
+$objPHPExcel->getActiveSheet()->mergeCells('C8:D8');
+$objPHPExcel->getActiveSheet()->mergeCells('E8:F8');
+$objPHPExcel->getActiveSheet()->mergeCells('G8:H8');
+$objPHPExcel->getActiveSheet()->mergeCells('I8:J8');
 $objPHPExcel->getActiveSheet()->mergeCells('A8:A9');
-$objPHPExcel->getActiveSheet()->mergeCells('J8:J9');
+$objPHPExcel->getActiveSheet()->mergeCells('B8:B9');
+$objPHPExcel->getActiveSheet()->mergeCells('K8:K9');
 $objPHPExcel->setActiveSheetIndex()
-  ->setCellValue('A8',  $array2['docdate'][$language])
-  ->setCellValue('B8',  $array2['receive_time'][$language])
-  ->setCellValue('D8',  $array2['washing_time'][$language])
-  ->setCellValue('F8',  $array2['packing_time'][$language])
-  ->setCellValue('H8',  $array2['distribute_time'][$language])
-  ->setCellValue('J8',  $array2['total'][$language]);
-  $objPHPExcel->setActiveSheetIndex()
-  ->setCellValue('B9',  $array2['start'][$language])
-  ->setCellValue('C9',  $array2['finish'][$language])
-  ->setCellValue('D9',  $array2['start'][$language])
-  ->setCellValue('E9',  $array2['finish'][$language])
-  ->setCellValue('F9',  $array2['start'][$language])
-  ->setCellValue('G9',  $array2['finish'][$language])
-  ->setCellValue('H9',  $array2['start'][$language])
-  ->setCellValue('I9',  $array2['finish'][$language]);
+  ->setCellValue('A8',  $array2['docno'][$language])
+  ->setCellValue('B8',  $array2['docdate'][$language])
+  ->setCellValue('C8',  $array2['receive_time'][$language])
+  ->setCellValue('E8',  $array2['washing_time'][$language])
+  ->setCellValue('G8',  $array2['packing_time'][$language])
+  ->setCellValue('I8',  $array2['distribute_time'][$language])
+  ->setCellValue('K8',  $array2['total'][$language]);
+$objPHPExcel->setActiveSheetIndex()
+  ->setCellValue('C9',  $array2['start'][$language])
+  ->setCellValue('D9',  $array2['finish'][$language])
+  ->setCellValue('E9',  $array2['start'][$language])
+  ->setCellValue('F9',  $array2['finish'][$language])
+  ->setCellValue('G9',  $array2['start'][$language])
+  ->setCellValue('H9',  $array2['finish'][$language])
+  ->setCellValue('I9',  $array2['start'][$language])
+  ->setCellValue('J9',  $array2['finish'][$language]);
 // Write data from MySQL result
 $Sql = "SELECT
 factory.$FacName
@@ -229,12 +233,12 @@ if ($language == 'th') {
 } else {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
-$objPHPExcel->getActiveSheet()->setCellValue('J1', $array2['printdate'][$language] . $printdate);
+$objPHPExcel->getActiveSheet()->setCellValue('K1', $array2['printdate'][$language] . $printdate);
 $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r15'][$language]);
-$objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
+$objPHPExcel->getActiveSheet()->mergeCells('A5:K5');
 $objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['factory'][$language] . " : " . $Facname);
-$objPHPExcel->getActiveSheet()->setCellValue('J7', $date_header);
-$doc = array(dirty, repair_wash, newlinentable);
+$objPHPExcel->getActiveSheet()->setCellValue('K7', $date_header);
+$doc = array('dirty', 'repair_wash', 'newlinentable');
 $j = 0;
 for ($i = 0; $i < 3; $i++) {
   if ($chk == 'one') {
@@ -251,31 +255,35 @@ for ($i = 0; $i < 3; $i++) {
     $where =   "WHERE date(" . $doc[$i] . ".Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   }
   $query = "SELECT
-TIME (process.WashStartTime) AS WashStartTime ,
-TIME (process.WashEndTime) AS WashEndTime,
-TIME (process.PackStartTime)AS PackStartTime,
-TIME (process.PackEndTime)AS PackEndTime,
-TIME (process.SendStartTime)AS SendStartTime,
-TIME (process.SendEndTime)AS SendEndTime,
-$doc[$i].FacCode,
-process.DocNo AS  DocNo1 ,
-TIME ($doc[$i].ReceiveDate)AS ReceiveDate1
-FROM
-process
-LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
-$where AND $FacCode in ($doc[$i].FacCode)
-AND process.isStatus <> 9
+  TIME (process.WashStartTime) AS WashStartTime ,
+  TIME (process.WashEndTime) AS WashEndTime,
+  TIME (process.PackStartTime)AS PackStartTime,
+  TIME (process.PackEndTime)AS PackEndTime,
+  TIME (process.SendStartTime)AS SendStartTime,
+  TIME (process.SendEndTime)AS SendEndTime,
+  $doc[$i].FacCode,
+  process.DocNo AS  DocNo1 ,
+  TIME ($doc[$i].ReceiveDate)AS ReceiveDate1,
+  DATE_FORMAT($doc[$i].DocDate,'%d/%m/%Y') AS Date1,
+  TIMEDIFF(TIME_FORMAT ($doc[$i].ReceiveDate, '%H:%i') ,TIME_FORMAT (process.SendEndTime, '%H:%i')) AS TIMEER
+  FROM
+  process
+  LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
+  $where AND $FacCode in ($doc[$i].FacCode)
+  AND process.isStatus <> 9
 ";
-echo $query ; 
+  echo $query;
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
     $start_data++;
+    $TIMEER = explode("-", $Result["TIMEER"]);
+    $time = explode(":", $TIMEER[1]);
     if ($language == 'th') {
       $hour_show = " ชั่วโมง";
       $min_show = " นาที";
     } else {
-      if ($total_hours <= 1) {
+      if ($time[0] <= 1) {
         $hour_show = " hour ";
         $min_show = " min ";
       } else {
@@ -283,21 +291,23 @@ echo $query ;
         $min_show = " mins ";
       }
     }
-    list($hours, $min, $secord) = explode(":", $Result["ReceiveDate1"]);
-    list($hours2, $min2, $secord2) = explode(":", $Result["SendEndTime"]);
-    $total_hours = $hours -  $hours2;
-    $total_min = $min - $min2;
-    $objPHPExcel->getActiveSheet()->setCellValue('A'.$start_data, $Result["DocNo1"]);
-    $objPHPExcel->getActiveSheet()->setCellValue('B'.$start_data,substr($Result["ReceiveDate1"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('C'.$start_data,substr($Result["WashStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_data,substr($Result["WashStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_data,substr($Result["WashEndTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_data,substr($Result["PackStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('G'.$start_data,substr($Result["PackEndTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('H'.$start_data,substr($Result["SendStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('I'.$start_data,substr($Result["SendEndTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('J'.$start_data,abs($total_hours) . $hour_show . " " . abs($total_min) . $min_show);
 
+    if ($Result["TIMEER"] == '00:00:00') {
+      $timeshow = '00' . $hour_show . "00" . $min_show;
+    } else {
+      $timeshow = $time[0] . $hour_show . " " . $time[1] . $min_show;
+    }
+    $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_data, $Result["DocNo1"]);
+    $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_data, $Result["Date1"]);
+    $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_data, substr($Result["ReceiveDate1"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_data, substr($Result["WashStartTime"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_data, substr($Result["WashStartTime"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_data, substr($Result["WashEndTime"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_data, substr($Result["PackStartTime"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_data, substr($Result["PackEndTime"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_data, substr($Result["SendStartTime"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('J' . $start_data, substr($Result["SendEndTime"], 0, 5));
+    $objPHPExcel->getActiveSheet()->setCellValue('K' . $start_data,$timeshow);
   }
 }
 
@@ -311,7 +321,7 @@ $styleArray = array(
     )
   )
 );
-$objPHPExcel->getActiveSheet()->getStyle('A8:j' . $start_data)->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle('A8:K' . $start_data)->applyFromArray($styleArray);
 
 
 $CENTER = array(
@@ -324,7 +334,7 @@ $CENTER = array(
     'name'  => 'THSarabun'
   )
 );
-$objPHPExcel->getActiveSheet()->getStyle('A8:j' . $start_data)->applyFromArray($CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('A8:K' . $start_data)->applyFromArray($CENTER);
 
 
 $r = array(
@@ -339,8 +349,8 @@ $r = array(
   )
 );
 $objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($r);
-$cols = array('A', 'B', 'C', 'D', 'E','F','G','H','I','J');
-$width = array(20, 8, 8, 8, 8,8,8,8,8,20);
+$cols = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K');
+$width = array(20,20, 8, 8, 8, 8, 8, 8, 8, 8, 20);
 for ($j = 0; $j < count($cols); $j++) {
   $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
 }
