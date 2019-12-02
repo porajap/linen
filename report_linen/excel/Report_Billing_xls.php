@@ -295,6 +295,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
               WHERE
               grouphpt.GroupCode = '$GroupCode[$sheet]'
               AND shelfcount.isStatus <> 9
+              AND grouphpt.HptCode = '$HptCode'
               GROUP BY  department.DepCode 
             ";
   $meQuery = mysqli_query($conn, $query);
@@ -349,8 +350,11 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                     COALESCE(SUM(shelfcount_detail.Price ),'0') AS aPrice 
                     FROM shelfcount 
                     INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
+                    INNER JOIN department ON department.DepCode = shelfcount.DepCode
+                    INNER JOIN site ON site.HptCode = department.HptCode
                     WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  AND shelfcount.isStatus <> 9
-                    AND shelfcount.DepCode = '$DepCode[$lek]' ";
+                    AND shelfcount.DepCode = '$DepCode[$lek]'
+                    AND site.HptCode = '$HptCode' ";
                     
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -386,10 +390,12 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                 INNER JOIN department ON shelfcount.DepCode = department.DepCode
                 INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
                 INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
+                INNER JOIN site ON site.HptCode = department.HptCode
                 WHERE
                 DATE(shelfcount.DocDate) = '$date[$day]'
                 AND shelfcount.isStatus <> 9
                 AND grouphpt.HptCode = '$HptCode'
+                AND site.HptCode = '$HptCode'
                 AND grouphpt.GroupCode = '$GroupCode[$sheet]'
                               ";
 

@@ -273,7 +273,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptCode = $Result['HptCode'];
   $isStatus = $Result['isStatus'];
 }
-if ($isStatus == 1) {
+if ($isStatus == 1 || $isStatus == 0) {
   $Status = 'On Process';
 } elseif ($isStatus == 3 || $isStatus == 4) {
   $Status = 'Complete';
