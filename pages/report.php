@@ -1019,8 +1019,10 @@ $array2 = json_decode($json2, TRUE);
 						} else if (temp["form"] == 'departmentWhere') {
 							$("#department").empty();
 							$("#factory").empty();
+							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep2 = "<option value='0'>" + depValue0 + "</option>";
+							dep2 += "<option value='ALL'>" + depValueAlldep + "</option>";
 							for (var i = 0; i < temp['Row']; i++) {
 								dep2 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}

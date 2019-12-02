@@ -43,6 +43,9 @@ $itemName = [];
 $DepCode = [];
 $Weight = [];
 $DateShow = [];
+$ISSUE = 0;
+$TOTAL_LASTWEIGHT = 0;
+$TotalISSUE = 0;
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -180,13 +183,13 @@ if ($chk == 'one') {
   if ($format == 1) {
     $count = 1;
     $date[] = $date1;
-    list($y,$m,$d)=explode('-',$date1);
-    if($language ==  'th' ){
-      $y = $y+543;
-    }else{
+    list($y, $m, $d) = explode('-', $date1);
+    if ($language ==  'th') {
+      $y = $y + 543;
+    } else {
       $y = $y;
     }
-    $date1 = $d.'-'.$m.'-'.$y;
+    $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
 } elseif ($chk == 'between') {
@@ -204,23 +207,23 @@ if ($chk == 'one') {
     $date[] = $value->format('Y-m-d');
   }
   $count = count($date);
-  for($i =0; $i<$count ; $i++){
-    $date1=$date[$i];
-    list($y,$m,$d)=explode('-',$date1);
-    if($language ==  'th' ){
-      $y = $y+543;
+  for ($i = 0; $i < $count; $i++) {
+    $date1 = $date[$i];
+    list($y, $m, $d) = explode('-', $date1);
+    if ($language ==  'th') {
+      $y = $y + 543;
     }
-    $date1 = $d.'-'.$m.'-'.$y;
+    $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
 } elseif ($chk == 'month') {
   $day = 1;
   $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
   $datequery =  $year1 . '-' . $date1 . '-';
-  $dateshow = '-'.$date1. '-'.$year1;
+  $dateshow = '-' . $date1 . '-' . $year1;
   for ($i = 0; $i < $count; $i++) {
     $date[] = $datequery . $day;
-    $DateShow[] = $day.$dateshow;
+    $DateShow[] = $day . $dateshow;
     $day++;
   }
 }
@@ -491,7 +494,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $objDrawing->setResizeProportional(true);
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
   // Rename worksheet
-  $objPHPExcel->getActiveSheet()->setTitle($DepName);
+  // $objPHPExcel->getActiveSheet()->setTitle('5');
+  $objPHPExcel->getActiveSheet()->setTitle('Report Summary');
   $start_row = 9;
   $start_col = 5;
   $itemName = [];
@@ -512,7 +516,7 @@ $file_name = "Report_Summary_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")
 //
 $objPHPExcel->removeSheetByIndex(
   $objPHPExcel->getIndex(
-      $objPHPExcel->getSheetByName('Worksheet')
+    $objPHPExcel->getSheetByName('Worksheet')
   )
 );
 // Save Excel 2007 file

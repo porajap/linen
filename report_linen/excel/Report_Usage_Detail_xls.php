@@ -259,7 +259,6 @@ if ($DepCodeCome == '0') {
 } else {
   $DepCode[] = $DepCodeCome;
 }
-echo $query;
 echo "<pre>";
 print_r($DepCode);
 echo "</pre>";
@@ -503,8 +502,7 @@ WHERE
   $objDrawing->setResizeProportional(true);
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
   // Rename worksheet
-  $objPHPExcel->getActiveSheet()->setTitle('Report_Summary_xls');
-  $objPHPExcel->getActiveSheet()->setTitle($DepName);
+  $objPHPExcel->getActiveSheet()->setTitle('Report Usage Detail');
   $objPHPExcel->createSheet();
   $itemName = [];
   $itemCode = [];
