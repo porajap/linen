@@ -942,8 +942,10 @@ function CancelItem($conn, $DATA)
     $Sql1 = "UPDATE item SET IsActive = 0  WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
             
     $Sql2 = "DELETE FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
+
+    $Sql3 = "DELETE FROM par_item_stock WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
     //$return['Sql'] = $Sql;
-    if (mysqli_query($conn, $Sql1)&&mysqli_query($conn, $Sql2)) {
+    if (mysqli_query($conn, $Sql1)&& mysqli_query($conn, $Sql2)&& mysqli_query($conn, $Sql3)) {
       $return['status'] = "success";
       $return['form'] = "CancelItem";
       $return['msg'] = "cancelsuccess";

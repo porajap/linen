@@ -8,10 +8,10 @@
     header("location:../index.html");
   }
 
-  $Sign = $_POST['SignSVG'];
-  $Table = $_POST['Table']; 
+  $Sign   = $_POST['SignSVG'];
+  $Table  = $_POST['Table']; 
   $Column = $_POST['Column'];
-  $DocNo = $_POST['DocNo'];
+  $DocNo  = $_POST['DocNo'];
 
   if($Table == "shelfcount"){
     $Update = "UPDATE $Table SET $Column = '$Sign', PTime = NOW() , chk_sign = 1 WHERE DocNo = '$DocNo'";

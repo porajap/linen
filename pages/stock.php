@@ -504,7 +504,7 @@ function updatetotal(row , rowid){
 
                           <div class="col-md-5">
                             <div class='form-group row'>
-                              <input  type="text" class="form-control col-sm-8" style="margin-left: -4%;font-size:22px;" id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                              <input  type="text" class="form-control col-sm-8" style="margin-left: -4%;font-size:22px;" id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
                               <div class="search_custom col-md-3">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(0)" >

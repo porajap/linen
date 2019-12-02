@@ -113,6 +113,7 @@ $(document).ready(function(e){
       });
   OnLoadPage();
   getDepartment();
+  getfactory();
   // CreateDocument();
   //==============================
   $('.TagImage').bind('click', {
@@ -153,6 +154,13 @@ $(document).ready(function(e){
       }
     });
   });
+
+      function get_factory(){
+          $("#dialogfactory").modal({
+              backdrop: 'static',
+              keyboard: false
+          });   
+        }
 
       function OpenDialogItem(){
         // var docno = $("#docno").val();
@@ -247,7 +255,17 @@ $(document).ready(function(e){
           })
           
         } 
-
+        function savefactory(){
+          var docno = $("#docno").val();
+          var factory2 = $("#factory2").val();
+          var data = {
+            'STATUS' : 'savefactory',
+            'DocNo'  : docno,
+            'factory2'  : factory2,
+          };
+          console.log(JSON.stringify(data));
+          senddata(JSON.stringify(data));
+      }
         function dis(){
               $('.dis').attr('disabled', false);
             }
@@ -307,12 +325,15 @@ $(document).ready(function(e){
 
       function open_dirty_doc(){
         // dialogRefDocNo.dialog( "open" );
-        $('#dialogRefDocNo').modal('show');
+        $("#dialogRefDocNo").modal({
+            backdrop: 'static',
+            keyboard: false
+        });                
         get_dirty_doc();
       }
 
       function get_dirty_doc(){
-        var hptcode = '<?php echo $HptCode ?>';
+        var hptcode = $('#hotpital option:selected').attr("value");
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
         var datepicker = $('#datepicker').val();
@@ -472,6 +493,10 @@ $(document).ready(function(e){
           $('input[name="checkAllDetail').prop('checked',false);
         }
       }
+      function unlockfactory() {
+        $('#factory').attr('disabled' , false);
+        $('#factory').removeClass('icon_select');
+      }
 
       function ShowDetail() {
         var docno = $("#docno").val();
@@ -592,6 +617,20 @@ $(document).ready(function(e){
         };
         senddata(JSON.stringify(data));
       }
+      function getfactory(){
+        $('#hotpital').removeClass('border-danger');
+        $('#rem3').hide();
+          var lang = '<?php echo $language; ?>';
+          var hotpital = $('#hotpital').val();
+          var data = {
+            'STATUS'    : 'getfactory',
+            'hotpital'	: hotpital ,
+            'lang'	    : lang
+          };
+          getDepartment(1);
+          senddata(JSON.stringify(data));
+        }
+
       function checkblank2(){
           $('.checkblank2').each(function() {
             if($(this).val()==""||$(this).val()==undefined){
@@ -1115,9 +1154,9 @@ $(document).ready(function(e){
 
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                    "<td style='width: 9%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 13%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                    "<td style='width: 13%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
+                    "<td style='width: 9%;overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['DocDate']+"' nowrap>"+temp[i]['DocDate']+"</td>"+
+                    "<td style='width: 13%;overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['DocNo']+"' nowrap>"+temp[i]['DocNo']+"</td>"+
+                    "<td style='width: 13%;overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['RefDocNo']+"' nowrap>"+temp[i]['RefDocNo']+"</td>"+
                     "<td style='width: 13%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
                     "<td style='width: 8%; overflow: hidden; text-overflow: ellipsis;' nowrap >"+temp[i]['RecNow']+"</td>"+
                     "<td style='width: 6%;' nowrap>"+temp[i]['Total']+"</td>"+
@@ -1380,6 +1419,30 @@ $(document).ready(function(e){
                   $('#RefDocNo').val(temp['DocNo']);
                   OpenDialogItem();
                   ShowDetail();
+              }else if(temp['form']=="savefactory"){
+                  $('#factory').val(temp['FacCode']);
+                  $('#factory').attr('disabled' , true);
+                  $('#factory').addClass('icon_select');
+                  // swal({
+                  //     title: '',
+                  //     text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  //     type: 'success',
+                  //     showCancelButton: false,
+                  //     showConfirmButton: false,
+                  //     timer: 1000,
+                  //     });
+                  $('#dialogfactory').modal('toggle');
+                  OpenDialogItem();
+
+              }else if(temp["form"]=='getfactory'){
+                $("#factory").empty();
+                $("#factory2").empty();                        
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                  }
+                  $("#factory").append(Str);
+                  $("#factory2").append(Str);
               }else if( (temp["form"]=='ShowUsageCode') ){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
@@ -1444,7 +1507,7 @@ $(document).ready(function(e){
                         }
               }else if(temp['form']=="chk_percent"){
                 result = '';
-              if(temp["Row"]>0){
+                if(temp["Row"]>0){
                 for(var i = 0; i < temp['Row']; i++){
                   result += "<tr>"+
                     '<td nowrap style="width: 30%;" class="text-left">'+temp[0]['DocNo']+'</td>'+
@@ -1566,6 +1629,23 @@ $(document).ready(function(e){
     }
     </script>
     <style media="screen">
+
+       .modal-content1{
+        width: 72% !important;
+        right: -15% !important;
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+        outline: 0;
+      }
      /* ======================================== */
       a.nav-link{
         width:auto!important;
@@ -1727,7 +1807,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getfactory();" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
                                       <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
@@ -2027,7 +2107,26 @@ $(document).ready(function(e){
     </div>
   </div>
 </div>
-
+    <!-- Modal -->
+<div class="modal fade" id="dialogfactory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content1">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['selectfactory'][$language]; ?></h5>
+        <button type="button" onclick="unlockfactory();" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <select  class="form-control col-sm-12 "  style="font-size:22px;"  id="factory2">         
+      </select>
+      </div>
+      <div class="modal-footer">
+      <button type="button" onclick="savefactory();" class="btn btn-success" style="width: 50%;"><?php echo $array['wantsave'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- custom modal2 -->
 <div class="modal fade" id="dialogRefDocNo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
