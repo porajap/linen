@@ -296,6 +296,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
               grouphpt.GroupCode = '$GroupCode[$sheet]'
               AND shelfcount.isStatus <> 9
               AND grouphpt.HptCode = '$HptCode'
+              AND department.HptCode = '$HptCode'
               GROUP BY  department.DepCode 
             ";
   $meQuery = mysqli_query($conn, $query);
