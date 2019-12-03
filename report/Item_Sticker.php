@@ -8,9 +8,10 @@ $lang       = $_GET['lang'];
 $ItemCode   = $_GET['ItemCode'];
 $TotalQty   = $_GET['TotalQty'];
 $sendQty    = $_GET['sendQty'];
+$og         = $_GET['og'];
+$of         = $_GET['of'];
 $UserID     = $_SESSION['PmID'];
 $count      = 0;
-$Sign       = $_POST['SignSVG'];
 
 
 
@@ -57,8 +58,6 @@ $EngName = $Result2['EngName'];
 
 // Include the main TCPDF library (search for installation path).
 require_once('../tcpdf/tcpdf.php');
-
-
 
 
 // create new PDF document
@@ -121,17 +120,12 @@ $pdf->Cell(78, 15, $sendQty. ' ชิ้น' , 0, 0, 'C', 0, '', 1);
 $pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
 $pdf->SetFont('thsarabunnew', '', 10);
 $pdf->SetY(35);
-$pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
-$pdf->SetX(7);
-$pdf->Cell(36, 1, $EngName , 0, 0, 'L', 0, '', 1);
-$pdf->SetX(7);
-$pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
-$pdf->SetX(1);
-$pdf->Cell(45, 1, '. . . . . . . . ' , 0, 1, 'R', 0, '', 1);
-// $pdf->SetY(0);
+$pdf->Cell(0,0, 'ผู้จัด '. $og. '            '.'ผู้ตรวจ '. $of  , 0, 0, 'L', 0, '', 1);
 
-
-
+    // _
+//  /O\---------
+// | U |           |     
+// ==================
 }
 $loop2 = $loop1*$sendQty;
 $totallast =$TotalQty - $loop2;
@@ -151,13 +145,18 @@ if($loop2<$TotalQty){
   $pdf->write2DBarcode($ItemCode.','.$totallast, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
   $pdf->SetFont('thsarabunnew', '', 10);
   $pdf->SetY(35);
-  $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(7);
-  $pdf->Cell(36, 1, $EngName , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(7);
-  $pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
-  $pdf->SetX(1);
-  $pdf->Cell(45, 1, '. . . . . . . . ' , 0, 1, 'R', 0, '', 1);
+  $pdf->Cell(0,0, 'ผู้จัด '. $og. '            '.'ผู้ตรวจ '. $of  , 0, 0, 'L', 0, '', 1);
+
+
+
+
+  // $pdf->Cell(25,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
+  // $pdf->SetX(7);
+  // $pdf->Cell(40, 1, $og , 0, 0, 'L', 0, '', 1);
+  // $pdf->SetX(6);
+  // $pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
+  // $pdf->SetX(1);
+  // $pdf->Cell(43, 1, $of , 0, 1, 'R', 0, '', 1);
   }
 
 // ---------------------------------------------------------

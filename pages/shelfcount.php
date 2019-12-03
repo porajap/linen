@@ -1471,11 +1471,15 @@ $array2 = json_decode($json2,TRUE);
       senddata(JSON.stringify(data));
     }
     function KeyNewTotalQty(RowID, i){
-      var NewQty    = Number($('#qty1_'+i).val());
-      var Max       = Number($('#Max_'+i).val());
-      var Issue     = Number($('#Issue_'+i).val());
-      var Max       = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
-      var Result    = 0;
+      var NewQty      = Number($('#qty1_'+i).val());
+      var Max         = Number($('#Max_'+i).val());
+      var Issue       = Number($('#Issue_'+i).val());
+      var Max         = Number($('#Par_'+i).val()) - Number($('#qty1_'+i).val());
+      var Result      = 0;
+      var Weightitem  = 0;
+      var Weight2     = Number($('#Weight2_'+i).val());
+      Weightitem = parseFloat(Weight2 * Issue);
+      $('#Weight_'+i).val(Weightitem.toFixed(2));
 
       if(Issue!=0){
         if(Max>=Issue){
@@ -1496,16 +1500,17 @@ $array2 = json_decode($json2,TRUE);
         $('#Over_'+i).val("");
         $('#Short_'+i).val("");
       }
-
+    
       var DocNo = $('#docno').val();
       var data = {
-        'STATUS':'UpdateNewQty',
-        'DocNo':DocNo,
-        'RowID':RowID,
-        'NewQty':NewQty,
-        'chk':chk,
-        'Issue':Issue,
-        'Result':Result
+        'STATUS'    :'UpdateNewQty',
+        'DocNo'     :DocNo,
+        'RowID'     :RowID,
+        'NewQty'    :NewQty,
+        'chk'       :chk,
+        'Issue'     :Issue,
+        'Result'    :Result,
+        'Weightitem':Weightitem
       };
       senddata(JSON.stringify(data));
     }
@@ -2380,11 +2385,12 @@ $array2 = json_decode($json2,TRUE);
                 "<button class='btn btn_mheesave inputDis' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
                 var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;font-size: 24px!important'>";
                 var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['ParQty']+"'>";
-                var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onchange='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
+                var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
                 var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
                 var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
                 var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
                 var Weight = "<input autocomplete='off' class='form-control WeightItem'  id='Weight_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weight']+"'>";
+                var Weight2 = "<input  autocomplete='off' class='form-control WeightItem'  id='Weight2_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weightitem']+"'>";
                 var Price = "";
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
@@ -2397,6 +2403,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width: 10%;'nowrap>"+Short+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Over+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Weight+"</td>"+
+                "<td hidden style='width: 10%;'nowrap>"+Weight2+"</td>"+
                 "<td><input type='hidden' id='item_array"+temp[i]['ItemCode']+"' value='"+temp[i]['ItemCode']+"' class='item_array'></input></td>"+
                 "</tr>";
 

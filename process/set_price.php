@@ -435,16 +435,18 @@ function CheckPrice($conn,$HptCode,$CategoryCode)
 
 function UpdatePrice($conn, $DATA)
 {
-    $DocNo = $DATA['DocNo'];
+    $DocNo            = $DATA['DocNo'];
     $CategoryCode = explode(',', $DATA['CategoryCode']);
-    $Price = explode(',', $DATA['Price']);
-    $RowId = explode(',', $DATA['RowId']);
-    $limit = sizeof($CategoryCode, 0);
-    $limitRow = sizeof($RowId, 0);
-    $count = 0;
+    $Price               = explode(',', $DATA['Price']);
+    $RowId             = explode(',', $DATA['RowId']);
+    $limit                = sizeof($CategoryCode, 0);
+    $limitRow         = sizeof($RowId, 0);
+    $count              = 0;
     
-    $Sql = "SELECT category_price_time.HptCode,category_price_time.CategoryCode,category_price_time.Price
-            FROM category_price_time
+    $Sql = "SELECT category_price_time.HptCode,
+                              category_price_time.CategoryCode,
+                              category_price_time.Price
+            FROM        category_price_time
             WHERE category_price_time.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -463,7 +465,8 @@ function UpdatePrice($conn, $DATA)
     }
     for($i=0; $i < $limit; $i++)
     {
-        if( CheckPrice($conn,$HptCode,$CategoryCode[$i]) == 0 ){
+ 
+        if( CheckPrice($conn,$HptCode,$CategoryCode[$i]) == 0  ){
             $InsertSql = "INSERT INTO category_price (HptCode,CategoryCode,Price) VALUES ('$HptCode',$CategoryCode[$i],$Price[$i])";
             mysqli_query($conn, $InsertSql);
         }else{
@@ -479,6 +482,7 @@ function UpdatePrice($conn, $DATA)
     }
 
     $return['xCnt'] = $count;
+    $return['xCnt1'] = $limit;
 
         $return['status'] = "success";
         $return['form'] = "UpdatePrice";
