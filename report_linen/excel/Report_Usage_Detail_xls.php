@@ -502,7 +502,7 @@ WHERE
   $objDrawing->setResizeProportional(true);
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
   // Rename worksheet
-  $objPHPExcel->getActiveSheet()->setTitle('Report Usage Detail');
+  $objPHPExcel->getActiveSheet()->setTitle($DepCode[$sheet]);
   $objPHPExcel->createSheet();
   $itemName = [];
   $itemCode = [];
