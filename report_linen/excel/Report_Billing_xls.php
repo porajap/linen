@@ -279,6 +279,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   // Write data from MySQL result
   $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
   $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r28'][$language]);
+  $objPHPExcel->getActiveSheet()->setCellValue('A6', $date_header);
   $objPHPExcel->getActiveSheet()->setCellValue('A7', 'รายละเอียด');
   $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
   $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
@@ -451,7 +452,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     )
   );
   $r1 = $r - 1;
-  $objPHPExcel->getActiveSheet()->getStyle("A5")->applyFromArray($A5);
+  $objPHPExcel->getActiveSheet()->getStyle("A5:A6")->applyFromArray($A5);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($styleArray);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($fill);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . "8")->applyFromArray($colorfill);
