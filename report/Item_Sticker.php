@@ -4,13 +4,13 @@ date_default_timezone_set("Asia/Bangkok");
 $xDate = date('d-m-Y');
 require '../connect/connect.php';
 session_start();
-$lang = $_GET['lang'];
-$ItemCode = $_GET['ItemCode'];
-$TotalQty = $_GET['TotalQty'];
-$sendQty = $_GET['sendQty'];
-$UserID = $_SESSION['PmID'];
-$count = 0;
-
+$lang       = $_GET['lang'];
+$ItemCode   = $_GET['ItemCode'];
+$TotalQty   = $_GET['TotalQty'];
+$sendQty    = $_GET['sendQty'];
+$UserID     = $_SESSION['PmID'];
+$count      = 0;
+$Sign       = $_POST['SignSVG'];
 
 
 

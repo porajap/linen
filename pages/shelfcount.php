@@ -1431,7 +1431,7 @@ $array2 = json_decode($json2,TRUE);
         var Qty =  0 ;
         $('#qty1_'+i).val("");
       }else if(NewQty>Max){
-        var Qty = Max; 
+        var Qty = NewQty; 
         $('#qty1_'+i).val(Qty);
       }else{
         var Qty = NewQty; 
@@ -1697,8 +1697,8 @@ $array2 = json_decode($json2,TRUE);
                 var Status = "";
                 var Style  = "";
                 if(temp[i]['IsStatus']==1){
-                  Status = "completed";
-                  Style  = "style='width: 10%;color: #20B80E;'";
+                  Status = "on process";
+                  Style  = "style='width: 10%;color: #3399ff;'";
                 }else{
                   Status = "on process";
                   Style  = "style='width: 10%;color: #3399ff;'";
@@ -1871,7 +1871,11 @@ $array2 = json_decode($json2,TRUE);
                     $("#bCancel").prop('disabled', false);
                     $("#bCancel2").removeClass('opacity');
                   }
-                $("#completed").val('completed');
+                  if(temp[0]['IsStatus']==1 ){
+                    $("#completed").val('on process');
+                  }else if (temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
+                    $("#completed").val('completed');
+                  }
                 $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);

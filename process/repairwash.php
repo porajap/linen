@@ -119,7 +119,7 @@ function CreateDocument($conn, $DATA)
   $count = 0;
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
-  $factory = $DATA["factory"];
+  $factory =  $DATA["factory"];
   $userid   = $DATA["userid"];
 
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
@@ -240,7 +240,7 @@ function CreateDocument($conn, $DATA)
     repair_wash.IsStatus,
     factory.FacName
     FROM repair_wash
-    INNER JOIN factory ON repair_wash.FacCode = factory.FacCode
+    LEFT JOIN factory ON repair_wash.FacCode = factory.FacCode
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON repair_wash.Modify_Code = users.ID ";
@@ -279,7 +279,7 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-      $return[$count]['FacName']      = $Result['FacName'];
+      $return[$count]['FacName']      = $Result['FacName']==NULL?'':$Result['FacName'];
       $return[$count]['HptName']      = $Result['HptName'];
       $return[$count]['DepName']      = $Result['DepName'];
       $return[$count]['DocNo']        = $Result['DocNo'];
@@ -388,7 +388,40 @@ function CreateDocument($conn, $DATA)
       die;
     }
   }
-
+  function getfactory($conn, $DATA){
+    $lang     = $DATA["lang"];
+    $hotpital = $DATA["hotpital"]==null?$_SESSION['HptCode']:$DATA["hotpital"];
+    $boolean  = false;
+    $countx = 0;
+    if($lang == 'en'){
+      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+      }else{
+      $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+      }
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
+      $return[$countx]['FacCode'] = $Result['FacCode'];
+      $return[$countx]['FacName'] = $Result['FacName'];
+      $countx  ++;
+    }
+    $boolean = true;
+    $return['Rowx'] = $countx;
+  
+    if ($boolean) {
+      $return['status'] = "success";
+      $return['form'] = "getfactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['form'] = "getfactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+  }
   function ShowItem($conn, $DATA)
   {
     $count = 0;
@@ -1186,7 +1219,6 @@ function CreateDocument($conn, $DATA)
       $count++;
     }
     $return['Row'] = $count;
-    // $return['form'] = "get_dirty_doc";
     // echo json_encode($return);
     // mysqli_close($conn);
     // die;
@@ -1199,6 +1231,29 @@ function CreateDocument($conn, $DATA)
     } else {
       $return['status'] = "success";
       $return['form'] = "get_dirty_doc";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+  }
+  function savefactory($conn, $DATA){
+    $DocNo = $DATA["DocNo"];
+    $factory2 = $DATA["factory2"];
+  
+    $Sql ="UPDATE repair_wash SET FacCode = $factory2 WHERE DocNo = '$DocNo'";
+    $meQuery = mysqli_query($conn, $Sql);
+    $return['FacCode'] = $factory2;
+  
+    if (mysqli_query($conn, $Sql)) {
+      $return['status2'] = $Sql;
+      $return['status'] = "success";
+      $return['form'] = "savefactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['form'] = "savefactory";
       echo json_encode($return);
       mysqli_close($conn);
       die;
@@ -1251,6 +1306,10 @@ function CreateDocument($conn, $DATA)
       chk_percent($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'updateQty') {
     updateQty($conn, $DATA);
+  } elseif ($DATA['STATUS'] == 'getfactory') {
+    getfactory($conn, $DATA);
+  }  elseif ($DATA['STATUS'] == 'savefactory') {
+    savefactory($conn, $DATA);
   }
 
 

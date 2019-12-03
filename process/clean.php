@@ -91,7 +91,7 @@ $return['Rowx'] = $countx;
   }
 }
 function savefactory($conn, $DATA){
-  $DocNo = $DATA["docno"];
+  $DocNo = $DATA["DocNo"];
   $factory2 = $DATA["factory2"];
 
   $Sql ="UPDATE clean SET FacCode = $factory2 WHERE DocNo = '$DocNo'";
