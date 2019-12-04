@@ -115,7 +115,6 @@ function ShowDocument($conn,$DATA){
   $dept = $DATA["dept"];
   $hos = $DATA["hos"];
   $search = $DATA["search"];
-  $selecta = $DATA["selecta"];
 
   $Sql = "SELECT
   par_item_stock.ItemCode,
@@ -137,22 +136,59 @@ INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode   ";
   }elseif($dept==null){
     $Sql.="WHERE site.HptCode = '$hos' AND item.ItemName LIKE '%$search%'";
   }
-  $Sql.="GROUP BY par_item_stock.ItemCode , par_item_stock.DepCode ORDER BY department.DepCode,item.ItemName ";
+  $return['sql']    = $Sql;
+  $meQuery       = mysqli_query($conn,$Sql);
+  $Num_Rows   = mysqli_num_rows($meQuery );
+
+  $Per_Page = 200;  
+
+  $Page =  $DATA["Page"];
+  if(! $DATA["Page"])
+  {
+    $Page=1;
+  }
+  $Prev_Page = $Page-1;
+  $Next_Page = $Page+1;
+
+  $Page_Start = (($Per_Page*$Page)-$Per_Page);
+
+if($Num_Rows<=$Per_Page)
+{
+	$Num_Pages =1;
+}
+else if(($Num_Rows % $Per_Page)==0)
+{
+	$Num_Pages =($Num_Rows/$Per_Page) ;
+}
+else
+{
+	$Num_Pages =($Num_Rows/$Per_Page)+1;
+	$Num_Pages = (int)$Num_Pages;
+}
+$return['Num_Rows']     	    = $Num_Rows;
+$return['Num_Pages']     	    = $Num_Pages;
+$return['Prev_Page']      	    = $Prev_Page;
+$return['Next_Page']      	    = $Next_Page;
+$return['Page']      	               = $Page;
+
+  $Sql.="GROUP BY par_item_stock.ItemCode , par_item_stock.DepCode ORDER BY department.DepCode,item.ItemName  LIMIT $Page_Start , $Per_Page ";
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['ItemCode'] 	= $Result['ItemCode'];
-    $return[$count]['ItemName'] 	= $Result['ItemName'];
+    $return[$count]['ItemCode']     	    = $Result['ItemCode'];
+    $return[$count]['ItemName'] 	        = $Result['ItemName'];
     $return[$count]['CategoryName'] 	= $Result['CategoryName'];
-    $return[$count]['DepCode'] 	= $Result['DepCode'];
-    $return[$count]['DepName'] 	= $Result['DepName'];
-    $return[$count]['Qty'] 	= $Result['TotalQty'];
-    $return[$count]['ParQty'] 	= $Result['ParQty'];
-    $return[$count]['RowID'] 	= $Result['RowID'];
+    $return[$count]['DepCode'] 	          = $Result['DepCode'];
+    $return[$count]['DepName'] 	        = $Result['DepName'];
+    $return[$count]['Qty'] 	                   = $Result['TotalQty'];
+    $return[$count]['ParQty'] 	            = $Result['ParQty'];
+    $return[$count]['RowID'] 	              = $Result['RowID'];
     
     $boolean = true;
     $count++;
   }
+
+
   $return['Row'] = $count;
   if($boolean){
     $return['status'] = "success";

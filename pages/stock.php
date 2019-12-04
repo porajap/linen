@@ -163,7 +163,7 @@ function updatetotal(row , rowid){
       senddata(JSON.stringify(data));
 }
 
-  function ShowDocument(selecta){
+  function ShowDocument(Page){
     var hos = $('#hotpital').val();
     var dept = $('#department').val();
     var search = $('#searchtxt').val();
@@ -173,7 +173,7 @@ function updatetotal(row , rowid){
       'STATUS'  	: 'ShowDocument',
       'dept'	: dept,
       'hos'	: hos,
-      'selecta' : selecta,
+      'Page' : Page,
       'search'	: search
     };
     console.log(JSON.stringify(data));
@@ -277,12 +277,36 @@ function updatetotal(row , rowid){
               "<td style='width: 15%;'nowrap class='"+textColor+"'><center>"+inputqty+"</center></td>"+
               "<td style='width: 10%; overflow: hidden; text-overflow: ellipsis;'nowrap title='"+temp[i]['DepName']+"'><center>"+temp[i]['DepName']+"</center></td>"+
               "</tr>";
-
+      
               if(rowCount == 0){
                 $("#TableDocument tbody").append( StrTr );
               }else{
                 $('#TableDocument tbody:last-child').append(  StrTr );
               }
+
+              StrTr2='<nav aria-label="Page navigation example" style="margin-left: 1%; "> <ul class="pagination"> ';
+              if(temp['Prev_Page'])
+                {
+                  StrTr2+= '<li class="page-item"><a class="page-link" href="#"  onclick="ShowDocument('+temp['Prev_Page']+')">Previous</a></li> ';
+                }
+                for(var j=1; j<=temp['Num_Pages'];  j++){
+                  if( j != temp['Page'])
+                  {
+                    StrTr2+='<li class="page-item"><a class="page-link" href="#" onclick="ShowDocument('+j+')"> '+ j +'</a></li> ';
+                  }
+                  else
+                  {
+                    StrTr2+='<li class="page-item"><a class="page-link" href="#"> <b>'+ j +'</b></a></li> ';
+                  }
+                }
+                if(temp['Page']!=temp['Num_Pages'])
+                {
+                  StrTr2+= '<li class="page-item"><a class="page-link" href="#"  onclick="ShowDocument('+temp['Next_Page']+')">Next</a></li> ';
+                }
+                StrTr2+=    '</ul> </nav>  ';
+
+                     $("#pagination").html( StrTr2 );
+
             }
           }
 
@@ -538,9 +562,11 @@ function updatetotal(row , rowid){
                     <th style='width: 15%;'nowrap><center><?php echo $array['department'][$language]; ?></center></th>
                   </tr>
                 </thead>
-                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
+                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:500px;">
                 </tbody>
               </table>
+
+              <div id="pagination"> </div>
               <!-- <nav aria-label="Page navigation example" style=" margin-left: 1%; ">
               <ul class="pagination">
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>
