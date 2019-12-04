@@ -91,31 +91,40 @@ class MYPDF extends TCPDF
     $json2 = json_encode($xml2);
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
-    $DocNo = $_GET['DocNo'];
+    $docno = $_GET['DocNo'];
+    $packing = '';
+    $passengertime = '';
+    $receiver = '';
+    $this->SetFont(' thsarabunnew', '', 8);
     if ($this->last_page_flag) {
       require('connect.php');
-      // $head = "SELECT
-      // return_wash.SignFac,
-      // return_wash.SignNH,
-      // return_wash.SignFacTime,
-      // return_wash.SignNHTime
-      // FROM
-      // return_wash
-      // where return_wash.docno =  '$DocNo'
-      // ";
+      $head = "SELECT
+      return_doc.signature_web AS sign1,
+      return_doc.SignHospital AS sign2,
+      return_doc.SignNH AS sign3,
+      return_doc.signature_webTime AS time1, 
+      return_doc.SignHospitalTime AS time2,
+      return_doc.SignNHTime AS time3
+      FROM
+        return_doc
+        where return_doc.DocNo ='$docno'
+      ";
 
-      // $meQuery = mysqli_query($conn, $head);
-      // while ($Result = mysqli_fetch_assoc($meQuery)) {
-      //   $SignFac = $Result['SignFac'];
-      //   $SignNH = $Result['SignNH'];
-      //   $SignFacTime = $Result['SignFacTime'];
-      //   $SignNHTime = $Result['SignNHTime'];
-      // }
-      $this->SetY(-35);
-      list($date1, $time1) = explode(' ', $SignFacTime);
-      list($date2, $time2) = explode(' ', $SignNHTime);
+      $meQuery = mysqli_query($conn, $head);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $packing = $Result['sign1'];
+        $passenger = $Result['sign2'];
+        $receiver = $Result['sign3'];
+        $packingtime = $Result['time1'];
+        $passengertime = $Result['time2'];
+        $receivertime = $Result['time3'];
+      }
+      list($date1, $time1) = explode(' ', $packingtime);
+      list($date2, $time2) = explode(' ', $passengertime);
+      list($date3, $time3) = explode(' ', $receivertime);
       list($y1, $m1, $d1) = explode('-', $date1);
       list($y2, $m2, $d2) = explode('-', $date2);
+      list($y3, $m3, $d3) = explode('-', $date3);
       if ($language == 'th') {
         $y1 = $y1 + 543;
         $y2 = $y2 + 543;
@@ -127,33 +136,62 @@ class MYPDF extends TCPDF
       }
       $date1 = $d1 . "-" . $m1 . "-" . $y1;
       $date2 = $d2 . "-" . $m2 . "-" . $y2;
-      if ($date1 == '--543') {
+      $date3 = $d3 . "-" . $m3 . "-" . $y3;
+      if ($date1 == '--543' ||$date1 == '--' ) {
         $date1 = ' ';
       }
-      if ($date2 == '--543') {
+      if ($date2 == '--543'||$date2 == '--') {
         $date2 = ' ';
       }
-      $this->SetFont('thsarabunnew', 'b', 13);
-      if ($SignNH != null) {
-        $this->ImageSVG('@' . $SignNH, $x = 38, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      if ($date3 == '--543'||$date3 == '--') {
+        $date3 = ' ';
       }
-      if ($SignFac != null) {
-        $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      $this->SetY(-40);
+      // $this->SetFont('  thsarabunnew', 'b', 8);
+      if ($packing != null) {
+        $this->ImageSVG('@' . $packing, $x = 27, $y = 256, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
-      $this->Cell(100, 8, $array2['comlinen'][$language]  . "...............................................", 0, 0, 'L');
-      $this->Cell(90, 8,  $array2['comlaundry'][$language] . "........................................", 0, 1, 'L');
-      $this->Cell(0.1, 7,  "                  $date2", 0, 0, 'L');
-      $this->Cell(100, 8, $array2['date'][$language] . "......................................................................", 0, 0, 'L');
-      $this->Cell(0.1, 7,  "                   $date1", 0, 0, 'L');
-      $this->Cell(90, 8,  $array2['date'][$language] . "..........................................................", 0, 1, 'L');
+      if ($passenger != null) {
+        $this->ImageSVG('@' . $passenger, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      }
+      if ($receiver != null) {
+        $this->ImageSVG('@' . $receiver, $x = 29, $y = 273, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      }
+
+      $this->SetFont('  thsarabunnew', 'i', 13);
+      $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['recorder'][$language], 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date1 . "                          " . $time1, 0, 0, 'L');
+      $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+
+      $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['returner'][$language], 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date2 . "                          " . $time2, 0, 0, 'L');
+      $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+
+
+      $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['receiver'][$language], 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date3 . "                          " . $time3, 0, 0, 'L');
+      $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+
+      $image1 = "../report_linen/images/chb.jpg";
+      $this->Image($image1, $this->GetX(), $this->GetY(), 5);
+      if ($packing != null && $passenger != null && $receiver != null) {
+        $image = "../report_linen/images/chk1.png";
+        $this->Image($image, $this->GetX() + 1, $this->GetY() + 1, 3);
+      }
+
+      $this->Cell(7);
+      $this->Cell(20, 7,   "Check", 0, 0, 'L');
+      $image2 = "../report_linen/images/chb.jpg";
+      $this->Image($image2, $this->GetX(), $this->GetY(), 5);
+      $this->Cell(7);
+      $this->Cell(40, 7,   "Not Check", 0, 0, 'L');
+      $this->Ln(7);
     }
     // Position at 1.5 cm from bottom
-    $this->SetY(-25);
-    // Arial italic 8
-    $this->SetFont('thsarabunnew', 'i', 12);
+    $this->SetY(-20);
     // Page number
-
-    $this->Cell(190, 10,  $array2['page'][$language] . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 0, 'R');
+    $this->SetFont('  thsarabunnew', '', 14);
+    $this->Cell(200, 10,  $array2['page'][$language] . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 0, 'R');
   }
 }
 
@@ -162,7 +200,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('Report Rewash');
+$pdf->SetTitle('Report Return');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 // set default header data

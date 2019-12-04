@@ -110,7 +110,8 @@
 <r24><en>Report Claim Factory</en><th>รายงานเคลมโรงซัก</th></r24>
 <SR><en>Report Stock Receive</en><th>รายงานรับเข้าสต๊อก</th></SR>
 <DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
-<return><en>Report Return Wash</en><th>รายงานผ้าแก้ไขรับกลับ</th></return>
+<return><en>Report Return From Department</en><th>รายงานบันทึกการคืนผ้า</th></return>
+<return_wash><en>Report Return Wash</en><th>รายงานผ้าแก้ไขรับกลับ</th></return_wash>
 <reportnewlinen><en>Report New Linen</en><th>รายงานแบบบันทึกการส่งซักผ้าใหม่ให้โรงซัก</th></reportnewlinen>
 <sign><en>Sign</en><th>ลงชื่อ</th></sign>
 <docclean><en>Doc Clean No</en><th>เลขที่เอกสารสะอาด</th></docclean>
@@ -121,4 +122,8 @@
 <rfid_dirty><en>Report RFID Dirty</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าเปื้อน</th></rfid_dirty>
 <rfid_clean><en>Report RFID Clean</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าสะอาด</th></rfid_clean>
 <rfid_amount><en>Report RFID Clean</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าสะอาด</th></rfid_amount>
+
+
+<recorder><en>Document recorder</en><th>ผู้บันทึกเอกสาร</th></recorder>
+<returner><en>Returner</en><th>ผู้คืนผ้า</th></returner>
 </lang>

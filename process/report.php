@@ -974,7 +974,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               AND site.HptCode = '$HptCode'
               AND dirty.isStatus <> 9 
               GROUP BY MONTH(dirty.DocDate)
-              ORDER BY dirty.DocDate ASC";
+              ORDER BY dirty.DocDate ASC limit 1";
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
@@ -997,7 +997,7 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
                 AND site.HptCode = '$HptCode'
                 AND dirty.isStatus <> 9 
                  GROUP BY MONTH(dirty.DocDate)
-                 ORDER BY dirty.DocDate ASC";
+                 ORDER BY dirty.DocDate ASC limit 1";
     } else {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
@@ -1032,10 +1032,10 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               AND site.HptCode = '$HptCode'
               AND dirty.isStatus <> 9 
                GROUP BY year(dirty.DocDate)
-               ORDER BY dirty.DocDate ASC";
+               ORDER BY dirty.DocDate ASC limit 1";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2];
   // $_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Dirty_Linen_Weight.php';
   $return['urlxls'] = '../report_linen/excel/Report_Dirty_Linen_Weight_xls.php';
