@@ -122,10 +122,7 @@ $pdf->SetFont('thsarabunnew', '', 10);
 $pdf->SetY(35);
 $pdf->Cell(0,0, 'ผู้จัด '. $og. '            '.'ผู้ตรวจ '. $of  , 0, 0, 'L', 0, '', 1);
 
-    // _
-//  /O\---------
-// | U |           |     
-// ==================
+
 }
 $loop2 = $loop1*$sendQty;
 $totallast =$TotalQty - $loop2;
