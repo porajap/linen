@@ -1059,25 +1059,25 @@ function CreateDocument($conn, $DATA)
     $boolean = false;
     $DocNo = $DATA["DocNo"];
     //==========================================================
-    $Sql = "SELECT
-    repair_wash_detail.Id,
-    repair_wash_detail.DocNo,
-    repair_wash_detail.ItemCode,
-    item.ItemName,
-    item.UnitCode AS UnitCode1,
-    item_unit.UnitName,
-    repair_wash_detail.UnitCode AS UnitCode2,
-    repair_wash_detail.Weight,
-    repair_wash_detail.Qty,
-    repair_wash.Detail
-    FROM
-    item
-    INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-    INNER JOIN repair_wash_detail ON repair_wash_detail.ItemCode = item.ItemCode
-    INNER JOIN item_unit ON repair_wash_detail.UnitCode = item_unit.UnitCode
-    INNER JOIN repair_wash ON repair_wash_detail.DocNo = repair_wash.DocNo
-    WHERE repair_wash_detail.DocNo = '$DocNo'
-    ORDER BY repair_wash_detail.Id DESC";
+    $Sql = "        SELECT
+                                      repair_wash_detail.Id,
+                                      repair_wash_detail.DocNo,
+                                      repair_wash_detail.ItemCode,
+                                      item.ItemName,
+                                      item.UnitCode AS UnitCode1,
+                                      item_unit.UnitName,
+                                      repair_wash_detail.UnitCode AS UnitCode2,
+                                      repair_wash_detail.Weight,
+                                      repair_wash_detail.Qty,
+                                      repair_wash.Detail
+
+                      FROM    item
+                      INNER JOIN item_category        ON item.CategoryCode = item_category.CategoryCode
+                      INNER JOIN repair_wash_detail ON repair_wash_detail.ItemCode = item.ItemCode
+                      INNER JOIN item_unit                ON repair_wash_detail.UnitCode = item_unit.UnitCode
+                      INNER JOIN repair_wash            ON repair_wash_detail.DocNo = repair_wash.DocNo
+                      WHERE repair_wash_detail.DocNo = '$DocNo'
+                      ORDER BY repair_wash_detail.Id DESC";
     $return['sql']=$Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1153,7 +1153,12 @@ function CreateDocument($conn, $DATA)
 
     if ($count == 0) $Total = 0;
 
-    $Sql = "UPDATE repair_wash SET Total = $Total WHERE DocNo = '$DocNo'";
+    $Sql = "      UPDATE      repair_wash
+
+                       SET            Total = $Total 
+
+                      WHERE       DocNo = '$DocNo'";
+
     mysqli_query($conn, $Sql);
     $return[0]['Total']    = round($Total, 2);
 
@@ -1182,10 +1187,20 @@ function CreateDocument($conn, $DATA)
     $RefDocNo = $DATA["RefDocNo"];
     // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
     // mysqli_query($conn,$Sql);
-    $Sql = "UPDATE repair_wash SET IsStatus = 9  WHERE DocNo = '$DocNo'";
+    $Sql = "    UPDATE      repair_wash 
+
+                    SET             IsStatus = 9  
+
+                    WHERE       DocNo = '$DocNo'";
+
     $meQuery = mysqli_query($conn, $Sql);
 
-    $Sql = "UPDATE rewash SET IsRef = 0 WHERE rewash.DocNo = '$RefDocNo'";
+    $Sql = "    UPDATE      rewash 
+
+                    SET             IsRef = 0 
+
+                    WHERE       rewash.DocNo = '$RefDocNo'";
+
     mysqli_query($conn, $Sql);
     ShowDocument($conn, $DATA);
   }
@@ -1193,7 +1208,13 @@ function CreateDocument($conn, $DATA)
   function updateQty($conn, $DATA){
     $newQty = $DATA['newQty'];
     $RowID = $DATA['RowID'];
-    $Sql = "UPDATE repair_wash_detail SET Qty = $newQty WHERE Id = $RowID";
+
+    $Sql = "  UPDATE      repair_wash_detail 
+
+                  SET             Qty = $newQty
+
+                  WHERE       Id = $RowID";
+
     mysqli_query($conn, $Sql);
   }
 
@@ -1204,12 +1225,32 @@ function CreateDocument($conn, $DATA)
     $datepicker = $DATA["datepicker"]==''?date('Y-m-d'):$DATA["datepicker"];
     $boolean = false;
     $count = 0;
-    $Sql =  "SELECT clean.DocNo  ,clean.DocDate  , factory.FacName FROM clean
-    INNER JOIN factory ON factory.FacCode = clean.FacCode
-    INNER JOIN department ON department.DepCode = clean.DepCode
-    INNER JOIN site ON site.HptCode = department.HptCode
-    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1  AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%'AND (clean.DocDate LIKE '%$datepicker%')
-    ORDER BY  clean.Modify_Date ASC ";
+    $Sql =  "SELECT    
+                                  clean.DocNo  ,
+                                  clean.DocDate  , 
+                                  factory.FacName 
+
+                  FROM      clean
+
+                  INNER JOIN factory 
+                  ON factory.FacCode = clean.FacCode
+
+                  INNER JOIN department 
+                  ON department.DepCode = clean.DepCode
+
+                  INNER JOIN site 
+                  ON site.HptCode = department.HptCode
+
+                  WHERE  clean.IsCancel = 0 
+                  AND clean.IsStatus = 1 
+                  AND clean.IsStatus = 2 
+                  AND clean.IsStatus = 3 
+                  AND site.HptCode= '$hptcode'  
+                  AND  clean.DocNo LIKE '%$searchitem1%'
+                  AND (clean.DocDate LIKE '%$datepicker%')
+
+                  ORDER BY  clean.Modify_Date ASC ";
+
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['RefDocNo'] = $Result['DocNo'];
@@ -1224,13 +1265,13 @@ function CreateDocument($conn, $DATA)
     // die;
     if ($boolean) {
       $return['status'] = "success";
-      $return['form'] = "get_dirty_doc";
+      $return['form']   = "get_dirty_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;
     } else {
       $return['status'] = "success";
-      $return['form'] = "get_dirty_doc";
+      $return['form']   = "get_dirty_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;
@@ -1240,7 +1281,9 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["DocNo"];
     $factory2 = $DATA["factory2"];
   
-    $Sql ="UPDATE repair_wash SET FacCode = $factory2 WHERE DocNo = '$DocNo'";
+    $Sql ="UPDATE repair_wash 
+              SET FacCode = $factory2 
+              WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     $return['FacCode'] = $factory2;
   

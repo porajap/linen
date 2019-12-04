@@ -467,6 +467,7 @@ $array2 = json_decode($json2,TRUE);
 
             $(".price_array").each(function() {
                 chkPriceArray.push($(this).val());
+
             });
             var RowId = chkArray.join(',');
             var Price = chkPriceArray.join(',');
@@ -521,7 +522,14 @@ $array2 = json_decode($json2,TRUE);
             });
 
             $(".price_array").each(function() {
-                chkPriceArray.push($(this).val());
+                
+                if($(this).val() ==''){
+                    var pricezero = 0;
+                }else{
+                    var pricezero = $(this).val();
+                }
+                chkPriceArray.push(pricezero);
+
             });
 
             $(".chkCategoryCode").each(function() {

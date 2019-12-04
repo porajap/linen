@@ -1180,15 +1180,15 @@ function SaveBill($conn, $DATA)
     $row    = mysqli_fetch_assoc($result);
     $Qty    = $row['TotalQty'];
       // เก็บค่านํ้าหนักและจำนวนเงิน 
-    $Sql2     = "SELECT category_price.Price
+    $Sql2     = "SELECT category_price.Price , shelfcount_detail.Weight
     FROM item
     INNER JOIN shelfcount_detail ON item.ItemCode     = shelfcount_detail.ItemCode
     INNER JOIN category_price    ON item.CategoryCode = category_price.CategoryCode
     WHERE item.ItemCode = '$value' AND shelfcount_detail.DocNo = '$DocNo' AND category_price.HptCode = '$hotpCode'";
     $result2  = mysqli_query($conn, $Sql2);
     $row2     = mysqli_fetch_assoc($result2);
-    $Price    = $row2['Price'] * $Weight[$key];
-    $Update   = "UPDATE shelfcount_detail SET Weight = $Weight[$key] , Price = $Price WHERE ItemCode = '$value' AND DocNo = '$DocNo'";
+    $Price    = $row2['Price'] * $row2['Weight'];
+    $Update   = "UPDATE shelfcount_detail SET  Price = $Price WHERE ItemCode = '$value' AND DocNo = '$DocNo'";
     mysqli_query($conn, $Update);
 
     // นํ้าหนักรวม และ จำนวนเงินรวม
@@ -2168,7 +2168,8 @@ function ShowDetailNew($conn, $DATA)
     $return[$count]['TotalQty']   = $Result['TotalQty']==0?"":$Result['TotalQty'];
     $return[$count]['Qty']   = $Result['Qty']==null?0:$Result['Qty'];
     $return[$count]['Weight']       = $Result['Weight']*$Result['TotalQty'];
-    $return['chk_sign']       = $Result['chk_sign'];
+    $return[$count]['Weightitem']       = $Result['Weight'];
+    $return['chk_sign']           = $Result['chk_sign'];
     $UnitCode                     = $Result['UnitCode'];
     $ItemCode                     = $Result['ItemCode'];
     $count2 = 0;
@@ -2254,24 +2255,45 @@ function ShowDetailNew($conn, $DATA)
 }
 
 function UpdateNewQty($conn, $DATA){
-  $RowID  = $DATA["RowID"];
-  $NewQty  =  $DATA["NewQty"];
-  $Issue  =  $DATA["Issue"];
-  $chk  =  $DATA["chk"];
-  $Result  =  $DATA["Result"];
+  $RowID        = $DATA["RowID"];
+  $NewQty       =  $DATA["NewQty"];
+  $Issue        =  $DATA["Issue"];
+  $chk          =  $DATA["chk"];
+  $Result       =  $DATA["Result"];
+  $Weightitem   =  $DATA["Weightitem"];
+
   if($Issue!=""||$Issue!=0){
     if($chk == "Over"){
-      $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Over = $Result, Short = 0 WHERE shelfcount_detail.Id = $RowID";
+      $Sql = "UPDATE shelfcount_detail  SET Weight = $Weightitem , CcQty = $NewQty, TotalQty = $Issue, Over = $Result, Short = 0 WHERE shelfcount_detail.Id = $RowID";
     }else if($chk == "Short"){
-      $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Short = $Result, Over = 0 WHERE shelfcount_detail.Id = $RowID";
+      $Sql = "UPDATE shelfcount_detail  SET Weight = $Weightitem , CcQty = $NewQty, TotalQty = $Issue, Short = $Result, Over = 0 WHERE shelfcount_detail.Id = $RowID";
     }
   }else{
-    $Sql = "UPDATE shelfcount_detail  SET CcQty = $NewQty, TotalQty = $Issue, Over = 0, Short = 0 WHERE shelfcount_detail.Id = $RowID";
+    $Sql = "UPDATE shelfcount_detail  SET Weight = $Weightitem , CcQty = $NewQty, TotalQty = $Issue, Over = 0, Short = 0 WHERE shelfcount_detail.Id = $RowID";
   }
-  
+
+
+
   // echo json_encode($Sql);
   mysqli_query($conn, $Sql);
-  ShowDetailNew($conn, $DATA);
+  // ShowDetailNew($conn, $DATA);
+
+  // $Sql1 = "SELECT shelfcount_detail.ItemCode , shelfcount_detail.TotalQty ,item.Weight
+  // FROM shelfcount_detail 
+	// INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+	// WHERE shelfcount_detail.Id = $RowID"; 
+  // $MQuery1  = mysqli_query($conn, $Sql1);
+  // $Result   = mysqli_fetch_assoc($MQuery1);
+  // $ItemCode             = $Result['ItemCode'];
+  // $TotalQty             = $Result['TotalQty'];
+  // $return['Weight']     = $Result['Weight'] * $TotalQty;
+
+  // if(mysqli_query($conn, $Sql1)){
+  // $return['status'] = "success";
+  // $return['form'] = "UpdateNewQty";
+  // echo json_encode($return);
+  // mysqli_close($conn);
+  // }
 }
 
 function ChkItemInDep($conn, $DATA){

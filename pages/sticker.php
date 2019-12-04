@@ -196,11 +196,21 @@ $array2 = json_decode($json2,TRUE);
     $('#numberModal').modal('show');
   }
   function StickerPrint(){
-    var lang = '<?php echo $language; ?>';
-    var ItemCode = $('#ItemCode').val();
-    var TotalQty =  $('#maxNumSticker').val();
-    var sendQty = $('#numberSticker').val();
-    var url  = "../report/Item_Sticker.php?ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang;
+    var lang      = '<?php echo $language; ?>';
+    var ItemCode  = $('#ItemCode').val();
+    var TotalQty  =  $('#maxNumSticker').val();
+    var sendQty   = $('#numberSticker').val();
+    var og        = $('#og').val();
+    var of        = $('#of').val();
+
+    if( $('#og').val().length > 10){
+      og =  $('#og').val().substr(0,10)+'...';
+    }
+    
+    if( $('#of').val().length > 10){
+      of =  $('#of').val().substr(0,10)+'...';
+    }
+    var url  = "../report/Item_Sticker.php?ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang+"&og="+og+"&of="+of;
     window.open(url);
   }
   function senddata(data){
@@ -554,6 +564,22 @@ $array2 = json_decode($json2,TRUE);
               <input type="hidden" id="maxNumSticker">
               <input type="hidden" id="ItemCode">
               <input type="text" class="form-control numonly_dot" id="numberSticker" autocomplete="off" onkeyup="chk_numbrtSticker(this.value);" style="font-size: 22px;">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-3">
+              <?php echo $array['Organizer'][$language]; ?>: 
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control " id="og" autocomplete="off" style="font-size: 22px;">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-3">
+              <?php echo $array['officer'][$language]; ?>: 
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control " id="of" autocomplete="off"  style="font-size: 22px;">
             </div>
           </div>
         </div>
