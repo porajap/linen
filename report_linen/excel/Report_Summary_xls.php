@@ -495,7 +495,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
   // Rename worksheet
   // $objPHPExcel->getActiveSheet()->setTitle('5');
-  $objPHPExcel->getActiveSheet()->setTitle($DepName);
+  $objPHPExcel->getActiveSheet()->setTitle($DepCode[$sheet]);
   $start_row = 9;
   $start_col = 5;
   $itemName = [];
