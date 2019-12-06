@@ -1227,7 +1227,7 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               AND clean.FacCode = $FacCode
               AND clean.isStatus <> 9 
               GROUP BY Date(clean.DocDate)
-              ORDER BY clean.DocDate ASC";
+              ORDER BY clean.DocDate ASC limit 1";
     } else {
       $Sql = "SELECT factory.FacName, clean.DocDate, site.HptName
               FROM clean
@@ -1239,7 +1239,7 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               AND clean.FacCode = $FacCode
               AND clean.isStatus <> 9 
               GROUP BY MONTH (clean.Docdate)
-              ORDER BY clean.DocDate ASC";
+              ORDER BY clean.DocDate ASC limit 1";
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
@@ -1259,7 +1259,7 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               AND clean.FacCode = $FacCode
               AND clean.isStatus <> 9 
               GROUP BY MONTH (clean.Docdate)
-              ORDER BY clean.DocDate ASC";
+              ORDER BY clean.DocDate ASC limit 1";
     } else {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
@@ -1287,10 +1287,10 @@ function r3($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
              AND clean.FacCode = $FacCode
              AND clean.isStatus <> 9 
              GROUP BY YEAR (clean.Docdate)
-             ORDER BY clean.DocDate ASC";
+             ORDER BY clean.DocDate ASC limit 1";
   }
   $return['sql'] = $Sql;
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Cleaned_Linen_Weight.php';
   $return['urlxls'] = '../report_linen/excel/Report_Cleaned_Linen_Weight_xls.php';
@@ -1526,7 +1526,7 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               AND repair_wash.FacCode = $FacCode
               AND site.hptcode = '$HptCode'
               GROUP BY repair_wash.DocDate
-              ORDER BY repair_wash.DocDate ASC";
+              ORDER BY repair_wash.DocDate ASC LIMIT 1";
     } else {
       $Sql = "SELECT
               factory.FacName, month(repair_wash.DocDate) AS DocDate,
@@ -1541,7 +1541,7 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               AND repair_wash.FacCode = $FacCode
               AND site.hptcode = '$HptCode'
               GROUP BY MONTH(repair_wash.DocDate)
-              ORDER BY repair_wash.DocDate ASC";
+              ORDER BY repair_wash.DocDate ASC  LIMIT 1";
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
@@ -1562,7 +1562,7 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       AND repair_wash.FacCode = $FacCode
       AND site.hptcode = '$HptCode'
       GROUP BY MONTH (repair_wash.DocDate)
-      ORDER BY repair_wash.DocDate ASC";
+      ORDER BY repair_wash.DocDate ASC  LIMIT 1";
     } else {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
@@ -1594,10 +1594,10 @@ function r6($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             AND repair_wash.FacCode = $FacCode
             AND site.hptcode = '$HptCode'
             GROUP BY YEAR (repair_wash.DocDate)
-            ORDER BY repair_wash.DocDate ASC";
+            ORDER BY repair_wash.DocDate ASC  LIMIT 1";
   }
 
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2,   'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2];
   // $_SESSION['data_send'] = $data_send;
   $return['Sql'] = $Sql;
   $return['url'] = '../report_linen/report/Report_Rewash.php';
