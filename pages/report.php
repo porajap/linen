@@ -964,6 +964,8 @@ $array2 = json_decode($json2, TRUE);
 							var DepCode = '<?php echo $DepCode ?>';
 							var HptName = '<?php echo $HptName ?>';
 							var GroupCode = '<?php echo $GroupCode ?>';
+							var typereport = $('#typereport').val();
+
 							$("#factory").empty();
 							$("#department").empty();
 							$("#hotpital").empty();
@@ -991,24 +993,16 @@ $array2 = json_decode($json2, TRUE);
 							// dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
-
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
-							dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
+							if (typereport != 29 || typereport != 30) {
+								dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
+							}
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
 							$("#department").html(dep1);
 
-							// $("#cycle").empty();
-							// var cycleValue0 = '-';
-							// var cycle = "<option value='0'>" + cycleValue0 + "</option>";
-							// for (var i = 0; i < temp['Rowcycle']; i++) {
-							// 	cycle += "<option value=" + temp[i]['CycleTime'] + " id='select_" + i + "'>" + temp[i]['CycleTime'] + "</option>";
-							// }
-							// $("#cycle").append(cycle);
-
 							$("#grouphpt").empty();
-
 							var groupValue0 = '<?php echo $array['Allgroup'][$language]; ?>';
 							var grouphpt = "<option value='0'>" + groupValue0 + "</option>";
 							for (var i = 0; i < temp['RowG']; i++) {
@@ -1017,17 +1011,19 @@ $array2 = json_decode($json2, TRUE);
 							$("#grouphpt").append(grouphpt);
 							$("#grouphpt").val(0);
 						} else if (temp["form"] == 'departmentWhere') {
+							var typereport = $('#typereport').val();
 							$("#department").empty();
 							$("#factory").empty();
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep2 = "<option value='0'>" + depValue0 + "</option>";
-							dep2 += "<option value='ALL'>" + depValueAlldep + "</option>";
+							if (typereport != 29 && typereport != 30) {
+								dep2 += "<option value='ALL'>" + depValueAlldep + "</option>";
+							}
 							for (var i = 0; i < temp['Row']; i++) {
 								dep2 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
 							$("#department").html(dep2);
-							$("#select_0").attr('selected', true);
 
 
 							var facValue0 = '-';
@@ -1343,6 +1339,7 @@ $array2 = json_decode($json2, TRUE);
 		}
 
 		function disabled_fill() {
+			departmentWhere();
 			var typeReport = $('#typereport').val();
 			var PmID = <?PHP echo  $PmID ?>;
 			if (PmID == 1 || PmID == 6) {

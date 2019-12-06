@@ -162,7 +162,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('Report Rewash');
+$pdf->SetTitle('Report Return Wash');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 // set default header data
@@ -247,7 +247,7 @@ ORDER BY item.ItemName ASC";
 // add a page
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('thsarabunnew', 'b', 22);
-$pdf->Cell(0, 10,  $array2['return'][$language], 0, 0, 'C');
+$pdf->Cell(0, 10,  $array2['return_wash'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 16);
 $pdf->Cell(35, 7, $array2['hospital'][$language], 0, 0, 'L');
