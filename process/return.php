@@ -253,15 +253,30 @@ function CreateDocument($conn, $DATA)
 
 function ShowDocument($conn, $DATA)
 {
-  $lang = $_SESSION['lang'];
-  $boolean = false;
-  $count = 0;
-  $Hotp = $DATA["Hotp"];
-  $deptCode = $DATA["deptCode"];
-  $DocNo = $DATA["docno"];
-  $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-  $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-  $selecta = $DATA["selecta"];
+  $lang                             = $_SESSION['lang'];
+  $boolean                        = false;
+  $count                            = 0;
+  $Hotp                             = $DATA["Hotp"];
+  $deptCode                     = $DATA["deptCode"];
+  $DocNo                          = $DATA["docno"];
+  $xDocNo                         = str_replace(' ', '%', $DATA["xdocno"]);
+  $datepicker                    = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+  $selecta                         = $DATA["selecta"];
+  $process                        = $DATA["process"];
+
+  if( $process == 'chkpro1'){
+    $onprocess1 = 0;
+    $onprocess3 = 0;
+    $onprocess4 = 0;
+  }else if($process == 'chkpro2'){
+    $onprocess1 = 1;
+    $onprocess3 = 3;
+    $onprocess4 = 4;
+  }else if($process == 'chkpro3'){
+    $onprocess1 = 9;
+    $onprocess3 = 9;
+    $onprocess4 = 9;
+  }
   $Sql = "SELECT
   site.HptName,
   department.DepName,
@@ -286,20 +301,30 @@ return_doc.IsStatus
       if($xDocNo!=null){
         $Sql .= " OR return_doc.DocNo LIKE '%$xDocNo%' ";
       }
-  }else if ($Hotp != null && $deptCode == null && $datepicker == null) {
+  }else if ($Hotp != null && $deptCode == null && $datepicker == null && $process == 'chkpro') {
     $Sql .= " WHERE site.HptCode = '$Hotp' AND return_doc.DocNo LIKE '%$xDocNo%' ";
-  }else if($Hotp == null && $deptCode != null && $datepicker == null){
+  }else if($Hotp == null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
     $Sql .= "  WHERE return_doc.DocNo LIKE '%$xDocNo%'";
-  }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+  }else if ($Hotp == null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
     $Sql .= " WHERE DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp != null && $deptCode != null && $datepicker == null){
+  }else if($Hotp != null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
     $Sql .= " WHERE site.HptCode = '$Hotp' AND return_doc.DepCodeFrom = $deptCode AND return_doc.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp != null && $deptCode == null && $datepicker != null){
+  }else if($Hotp != null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
     $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp == null && $deptCode != null && $datepicker != null){
+  }else if($Hotp == null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
     $Sql .= " WHERE return_doc.DepCodeFrom = $deptCode AND DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'";
-  }else if($Hotp != null && $deptCode != null && $datepicker != null){
+  }else if($Hotp != null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
     $Sql .= " WHERE return_doc.DepCodeFrom = $deptCode AND DATE(return_doc.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND return_doc.DocNo LIKE '%$xDocNo%'";
+  }else if ($Hotp != null && $deptCode ==null && $datepicker == null && $process != 'chkpro') {
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  return_doc.DocNo LIKE '%$xDocNo%'  AND ( return_doc.IsStatus = $onprocess1 OR return_doc.IsStatus = $onprocess3  OR return_doc.IsStatus = $onprocess4 ) ";
+    }else if($Hotp == null && $deptCode !=null && $datepicker == null && $process != 'chkpro'){
+      $Sql .= " WHERE return_doc.DepCodeFrom = '$deptCode'  AND ( return_doc.IsStatus = $onprocess1 OR return_doc.IsStatus = $onprocess3  OR return_doc.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp == null && $deptCode ==null && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'   AND ( return_doc.IsStatus = $onprocess1 OR return_doc.IsStatus = $onprocess3  OR return_doc.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp != null && $deptCode ==null && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(return_doc.DocDate) = '$datepicker' AND ( return_doc.IsStatus = $onprocess1 OR return_doc.IsStatus = $onprocess3  OR return_doc.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp != null && $deptCode !=null && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND return_doc.DepCodeFrom = '$deptCode' AND  DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'  AND ( return_doc.IsStatus = $onprocess1 OR return_doc.IsStatus = $onprocess3  OR return_doc.IsStatus = $onprocess4 )";
   }
 
   $Sql .= "ORDER BY return_doc.DocNo DESC LIMIT 500";
@@ -354,6 +379,7 @@ function SelectDocument($conn, $DATA)
   $Datepicker = $DATA["Datepicker"];
   $Sql = "SELECT
   site.HptName,
+  site.HptCode,
   department.DepName,
   return_doc.DocNo,
   DATE(return_doc.DocDate) AS DocDate,
@@ -386,21 +412,31 @@ function SelectDocument($conn, $DATA)
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
       $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
-
-    $return[$count]['HptName']   = $Result['HptName'];
-    $return[$count]['DepName']   = $Result['DepName'];
-    $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $newdate;
-    $return[$count]['RecNow']   = $Result['xTime'];
-    $return[$count]['Total']   = $Result['Total'];
-    $return[$count]['IsStatus'] = $Result['IsStatus'];
-    $return[$count]['RefDocNo'] = $Result['RefDocNo'];
-    $return[$count]['DepCodeFrom'] = $Result['DepCodeFrom'];
-    $return[$count]['DepCodeTo'] = $Result['DepCodeTo'];
+    $Hotp   = $Result['HptCode'];
+    $return[$count]['HptName']        = $Result['HptName'];
+    $return[$count]['DepName']      = $Result['DepName'];
+    $return[$count]['DocNo']            = $Result['DocNo'];
+    $return[$count]['DocDate']         = $newdate;
+    $return[$count]['RecNow']         = $Result['xTime'];
+    $return[$count]['Total']                = $Result['Total'];
+    $return[$count]['IsStatus']              = $Result['IsStatus'];
+    $return[$count]['RefDocNo']          = $Result['RefDocNo'];
+    $return[$count]['DepCodeFrom']    = $Result['DepCodeFrom'];
+    $return[$count]['DepCodeTo']        = $Result['DepCodeTo'];
 
     $boolean = true;
     $count++;
   }
+
+  $count4=0;
+  $Sql="SELECT department.DepCode AS DepCode2 , department.DepName AS DepName2 FROM department WHERE department.HptCode='$Hotp'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count4]['DepCode2'] = $Result['DepCode2'];
+    $return[$count4]['DepName2'] = $Result['DepName2'];
+    $count4++;
+  } 
+  $return['row3'] = $count4;
 
   if ($boolean) {
     $return['status'] = "success";
@@ -812,7 +848,7 @@ function SaveBill($conn, $DATA)
     mysqli_close($conn);
     die;
   }
-  ShowDocument($conn, $DATA);
+  // ShowDocument($conn, $DATA);
 }
 
 function UpdateRefDocNo($conn, $DATA)
@@ -934,13 +970,14 @@ function ShowDetail($conn, $DATA)
   $return['sqlss']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-
+    $RowID   = $Result['Id'];
     $return[$count]['RowID']    = $Result['Id'];
     $return[$count]['ItemCode']   = $Result['ItemCode'];
     $return[$count]['ItemName']   = $Result['ItemName'];
     $return[$count]['UnitCode']   = $Result['UnitCode2'];
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['Weight']     = $Result['Weightitem'] * $Result['Qty'] ;
+    $Weightpro    = $Result['Weightitem'] * $Result['Qty'] ;
     $return[$count]['RefDocNo']    = $Result['RefDocNo'];
     $return[$count]['DepCodeFrom'] = $Result['DepCodeFrom'];
     $return[$count]['DepCodeTo']  = $Result['DepCodeTo'];
@@ -950,6 +987,9 @@ function ShowDetail($conn, $DATA)
     $UnitCode           = $Result['UnitCode1'];
     $ItemCode               = $Result['ItemCode'];
     $count2 = 0;
+
+    $Sql5 = "UPDATE return_detail SET Weight = $Weightpro WHERE Id = $RowID";
+    mysqli_query($conn, $Sql5);
 
     $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
     $MQuery = mysqli_query($conn, $countM);
@@ -1049,7 +1089,7 @@ function CancelBill($conn, $DATA)
   // $Sql = "UPDATE dirty SET IsRef = 0 , IsStatus = 3 WHERE dirty.DocNo = '$RefDocNo'";
   // mysqli_query($conn, $Sql);
   // }else{
-  // $Sql = "UPDATE repair_wash SET IsRef = 0 , IsStatus = 3 WHERE repair_wash.DocNo = '$RefDocNo'";
+  // $Sql = "UPDATE return_doc SET IsRef = 0 , IsStatus = 3 WHERE return_doc.DocNo = '$RefDocNo'";
   // mysqli_query($conn, $Sql);
   // }
   // $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";

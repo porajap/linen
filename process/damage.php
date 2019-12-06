@@ -196,15 +196,24 @@ function CreateDocument($conn, $DATA)
 
   function ShowDocument($conn, $DATA)
   {
-    $lang = $_SESSION['lang'];
-    $boolean = false;
-    $count = 0;
-    $Hotp = $DATA["Hotp"];
-    $deptCode = $DATA["deptCode"];
-    $DocNo = $DATA["docno"];
-    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-    $selecta = $DATA["selecta"];
+    $lang                                 = $_SESSION['lang'];
+    $boolean                          = false;
+    $count                              = 0;
+    $Hotp                               = $DATA["Hotp"];
+    $deptCode                       = $DATA["deptCode"];
+    $DocNo                            = $DATA["docno"];
+    $xDocNo                         = str_replace(' ', '%', $DATA["xdocno"]);
+    $datepicker                     = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+    $selecta                          = $DATA["selecta"];
+    $process                        = $DATA["process"];
+
+    if( $process == 'chkpro1'){
+      $onprocess1 = 0;
+    }else if($process == 'chkpro2'){
+      $onprocess1 = 1;
+    }else if($process == 'chkpro3'){
+      $onprocess1 = 9;
+    }
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
     $Sql = "SELECT site.HptName,
@@ -223,7 +232,7 @@ function CreateDocument($conn, $DATA)
     damage.IsStatus,
     factory.FacName
     FROM damage
-    INNER JOIN factory ON damage.FacCode = factory.FacCode
+    LEFT JOIN factory ON damage.FacCode = factory.FacCode
     INNER JOIN department ON damage.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON damage.Modify_Code = users.ID ";
@@ -235,21 +244,32 @@ function CreateDocument($conn, $DATA)
       if($xDocNo!=null){
         $Sql .= " OR damage.DocNo LIKE '%$xDocNo%' ";
       }
-    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+    }else if($Hotp == null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
         $Sql .= " WHERE damage.DocNo LIKE '%$xDocNo%' ";
-    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    }else if($Hotp != null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND damage.DepCode = '$deptCode' AND damage.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    }else if($Hotp != null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    }else if($Hotp == null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE damage.DepCode = '$deptCode' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    }else if($Hotp != null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE damage.DepCode = '$deptCode' AND DATE(damage.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damage.DocNo LIKE '%$xDocNo%'";
-    }
+    }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process != 'chkpro') {
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  damage.DocNo LIKE '%$xDocNo%'  AND  damage.IsStatus = $onprocess1 ";
+    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro'){
+      $Sql .= " WHERE damage.DepCode = '$deptCode'  AND damage.IsStatus = $onprocess1  ";
+  }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'   AND  damage.IsStatus = $onprocess1  ";
+  }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'  AND  damage.IsStatus = $onprocess1  ";
+  }else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND damage.DepCode = '$deptCode' AND  DATE(damage.DocDate) = '$datepicker' AND damage.DocNo LIKE '%$xDocNo%'   AND  damage.IsStatus = $onprocess1 ";
+  }
   // }
     $Sql .= "ORDER BY damage.DocNo DESC LIMIT 500";
+    $return['qqq'] = $Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -262,12 +282,12 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-      $return[$count]['FacName']    = $Result['FacName'];
+      $return[$count]['FacName']    = $Result['FacName']==null?"":$Result['FacName'];
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;
-      $return[$count]['RefDocNo']   = $Result['RefDocNo'];
+      $return[$count]['RefDocNo']   = $Result['RefDocNo']==null?"":$Result['RefDocNo'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];
@@ -728,7 +748,6 @@ function CreateDocument($conn, $DATA)
   // {
   //   $RowID  = $DATA["Rowid"];
   //   $Qty  =  $DATA["Qty"];
-
   //   $Sql = "UPDATE damage_detail SET Qty = $Qty WHERE damage_detail.Id = $RowID";
   //   mysqli_query($conn, $Sql);
   //   // ShowDetail($conn, $DATA);

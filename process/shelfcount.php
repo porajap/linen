@@ -414,18 +414,29 @@ function ShowMenu($conn, $DATA)
 
 function ShowDocument($conn, $DATA)
 {
-  $lang = $_SESSION['lang'];
-  $PmID = $_SESSION['PmID'];
-  $boolean = false;
-  $count = 0;
-  $deptCode = $DATA["deptCode"];
-  $Hotp = $DATA["Hotp"]==null?'':$DATA["Hotp"];
-  $DocNo = $DATA["docno"];
-  $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-  $selecta = $DATA["selecta"];
-  $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+  $lang                 = $_SESSION['lang'];
+  $PmID               = $_SESSION['PmID'];
+  $boolean           = false;
+  $count               = 0;
+  $deptCode         = $DATA["deptCode"];
+  $Hotp                 = $DATA["Hotp"];
+  $DocNo              = $DATA["docno"];
+  $process              = $DATA["process"];
+  $xDocNo             = str_replace(' ', '%', $DATA["xdocno"]);
+  $selecta                = $DATA["selecta"];
+  $datepicker         = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
   //$Datepicker = $DATA["Datepicker"];
-
+$chk=0;
+  if( $process == 'chkpro1'){
+    $onprocess1 = 0;
+    $onprocess2 = 1;
+  }else if($process == 'chkpro2'){
+    $onprocess1 = 3;
+    $onprocess2 = 4;
+  }else if($process == 'chkpro3'){
+    $onprocess1 = 9;
+    $onprocess2 = 9;
+  }
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('$deptCode : $DocNo')";
   //     mysqli_query($conn,$Sql);
 
@@ -446,48 +457,66 @@ function ShowDocument($conn, $DATA)
   // if($DocNo!=null){
   //   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   // }else{
-  if($PmID ==1 || $PmID==6){
-      if ($Hotp != null && $deptCode == null && $datepicker == null) {
-      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
-      if($xDocNo!=null){
-        $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
-      }
-    }else if($Hotp == null && $deptCode != null && $datepicker == null){
-        $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND shelfcount.IsMobile = 1 ";
-    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+  // if($PmID ==1 || $PmID==6){
+      if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process == 'chkpro') {
+        $chk=1;
+        $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
+    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process == 'chkpro'){
+      $chk=2;  
+      $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND shelfcount.IsMobile = 1 ";
+    }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process == 'chkpro'){
+      $chk=3;
       $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    }else if($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process == 'chkpro'){
+      $chk=4;
       $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    }else if($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process == 'chkpro'){
+      $chk=5;
       $Sql .= " WHERE site.HptCode = '$Hotp' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process == 'chkpro'){
+      $chk=6;
       $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    }else if($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null  && $process == 'chkpro'){
+      $chk=7;
       $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-    }
-  }else{
-  if ($Hotp != null && $deptCode == null && $datepicker == null) {
-    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-    if($xDocNo!=null){
-      $Sql .= " OR shelfcount.DocNo LIKE '%$xDocNo%' ";
-    }
-  }else if($Hotp == null && $deptCode != null && $datepicker == null){
-      $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-  }else if ($Hotp == null && $deptCode == null && $datepicker != null){
-    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-  }else if($Hotp != null && $deptCode != null && $datepicker == null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-  }else if($Hotp != null && $deptCode == null && $datepicker != null){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
-  }else if($Hotp == null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
-  }else if($Hotp != null && $deptCode != null && $datepicker != null){
-    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
+    }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process != 'chkpro') {
+      $chk=8;
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro'){
+      $chk=9;
+      $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+  }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $chk=10;
+    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $chk=11;
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $chk=12;
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND shelfcount.DepCode = '$deptCode' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
   }
-  }
+
+  // }else{
+  // if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null) {
+  //   $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+  // }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null){
+  //     $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+  // }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null){
+  //   $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+  // }else if($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null){
+  //   $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+  // }else if($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null){
+  //   $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
+  // }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null){
+  //   $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
+  // }else if($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null){
+  //   $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
+  // }
+  // }
   // }
   $Sql.= " ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
   $return['sql'] = $Sql;
+  $return['chk'] = $chk;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -1750,7 +1779,7 @@ function SaveDraw($conn, $DATA){
     INNER JOIN department ON department.DepCode = par_item_stock.DepCode
     INNER JOIN site ON site.HptCode = department.HptCode
     WHERE par_item_stock.ItemCode = '$ItemCode'
-    AND site.HptCode = '$HptCode' AND department.IsDefault = 1 LIMIT 1";
+    AND par_item_stock.HptCode = '$HptCode' AND department.IsDefault = 1 LIMIT 1";
     $meQuery4 = mysqli_query($conn, $Sql4);
     $rowcount=mysqli_num_rows($meQuery4);
     if($rowcount > 0){

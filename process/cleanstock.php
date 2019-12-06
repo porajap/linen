@@ -248,15 +248,32 @@ function CreateDocument($conn, $DATA)
 
   function ShowDocument($conn, $DATA)
   {
-    $lang = $_SESSION['lang'];
-    $boolean = false;
-    $count = 0;
-    $Hotp = $DATA["Hotp"];
-    $deptCode = $DATA["deptCode"];
-    $DocNo = $DATA["docno"];
-    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-    $selecta = $DATA["selecta"];
+    $lang                             = $_SESSION['lang'];
+    $boolean                      = false;
+    $count                          = 0;
+    $Hotp                           = $DATA["Hotp"];
+    $deptCode                   = $DATA["deptCode"];
+    $DocNo                        = $DATA["docno"];
+    $xDocNo                       = str_replace(' ', '%', $DATA["xdocno"]);
+    $datepicker                   = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+    $selecta                          = $DATA["selecta"];
+    $process                        = $DATA["process"];
+    if( $process == 'chkpro1'){
+      $onprocess1 = 0;
+      $onprocess2 = 0;
+      $onprocess3 = 0;
+      $onprocess4 = 0;
+    }else if($process == 'chkpro2'){
+      $onprocess1 = 1;
+      $onprocess2 = 2;
+      $onprocess3 = 3;
+      $onprocess4 = 4;
+    }else if($process == 'chkpro3'){
+      $onprocess1 = 9;
+      $onprocess2 = 9;
+      $onprocess3 = 9;
+      $onprocess4 = 9;
+    }
     $Sql = "SELECT
      site.HptName,
     department.DepName,
@@ -275,28 +292,38 @@ function CreateDocument($conn, $DATA)
     cleanstock.IsStatus,
     factory.FacName
     FROM cleanstock
-    INNER JOIN factory ON cleanstock.FacCode = factory.FacCode
+    LEFT JOIN factory ON cleanstock.FacCode = factory.FacCode
     INNER JOIN department ON cleanstock.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN users ON cleanstock.Modify_Code = users.ID ";
   // if($DocNo!=null){
   //   $Sql .= " WHERE cleanstock.DocNo = '$DocNo' AND cleanstock.DocNo LIKE '%$xDocNo%'";
   // }else{
-    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+    if ($Hotp != null && $deptCode == null && $datepicker == null && $process == 'chkpro') {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND cleanstock.DocNo LIKE '%$xDocNo%' ";
-    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+    }else if($Hotp == null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
       $Sql .= "  WHERE cleanstock.DocNo LIKE '%$xDocNo%'";
-    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    }else if($Hotp != null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND cleanstock.DepCode = '$deptCode' AND cleanstock.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    }else if($Hotp != null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    }else if($Hotp == null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE cleanstock.DepCode = '$deptCode' AND DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    }else if($Hotp != null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE cleanstock.DepCode = '$deptCode' AND DATE(cleanstock.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND cleanstock.DocNo LIKE '%$xDocNo%'";
-    }
+    }else if ($Hotp != 'chkhpt' && $deptCode =='chkdep' && $datepicker == null && $process != 'chkpro') {
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  cleanstock.DocNo LIKE '%$xDocNo%'  AND ( cleanstock.IsStatus = $onprocess1 OR cleanstock.IsStatus = $onprocess2 OR cleanstock.IsStatus = $onprocess3 OR cleanstock.IsStatus = $onprocess4 ) ";
+    }else if($Hotp == 'chkhpt' && $deptCode !='chkdep' && $datepicker == null && $process != 'chkpro'){
+      $Sql .= " WHERE cleanstock.DepCode = '$deptCode'  AND ( cleanstock.IsStatus = $onprocess1 OR cleanstock.IsStatus = $onprocess2 OR cleanstock.IsStatus = $onprocess3 OR cleanstock.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp == 'chkhpt' && $deptCode =='chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'   AND ( cleanstock.IsStatus = $onprocess1 OR cleanstock.IsStatus = $onprocess2  OR cleanstock.IsStatus = $onprocess3 OR cleanstock.IsStatus = $onprocess4) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode =='chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'  AND ( cleanstock.IsStatus = $onprocess1 OR cleanstock.IsStatus = $onprocess2 OR cleanstock.IsStatus = $onprocess3 OR cleanstock.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode !='chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND cleanstock.DepCode = '$deptCode' AND  DATE(cleanstock.DocDate) = '$datepicker' AND cleanstock.DocNo LIKE '%$xDocNo%'   AND ( cleanstock.IsStatus = $onprocess1 OR cleanstock.IsStatus = $onprocess2 OR cleanstock.IsStatus = $onprocess3 OR cleanstock.IsStatus = $onprocess4 ) ";
+  }
   // }
     $Sql .= "ORDER BY cleanstock.DocNo DESC LIMIT 500";
     $return['qqq'] = $Sql;
@@ -312,7 +339,7 @@ function CreateDocument($conn, $DATA)
         $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
-      $return[$count]['FacName']    = $Result['FacName'];
+      $return[$count]['FacName']    = $Result['FacName']==null?"":$Result['FacName'];
       $return[$count]['HptName']   = $Result['HptName'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];

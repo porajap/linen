@@ -49,7 +49,7 @@ $array2 = json_decode($json2,TRUE);
 
   <!-- Page level plugin CSS-->
   <link href="../template/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
+  <link href="../assets-sign/css/jquery.signature.css" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="../template/css/sb-admin.css" rel="stylesheet">
   <link href="../css/xfont.css" rel="stylesheet">
@@ -406,13 +406,14 @@ $(document).ready(function(e){
         
       }
       function ShowDocument(selecta){
-        var DocNo = $('#docno').val();
-        var Hotp = $('#Hos2 option:selected').attr("value");
-        var searchdocument = $('#searchdocument').val();
+        var DocNo                         = $('#docno').val();
+        var process                        = $('#process').val();
+        var Hotp                            = $('#Hos2 option:selected').attr("value");
+        var searchdocument           = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
-        var deptCode = $('#Dep2 option:selected').attr("value");
-        var datepicker1 = $('#datepicker1').val();
-          var lang = '<?php echo $language; ?>';
+        var deptCode                      = $('#Dep2 option:selected').attr("value");
+        var datepicker1                   = $('#datepicker1').val();
+          var lang                            = '<?php echo $language; ?>';
           if(datepicker1 !=""){
           if(lang =='th'){
           datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
@@ -422,6 +423,17 @@ $(document).ready(function(e){
           }else{
             datepicker1 = "";
           }
+
+          if(process == 0){
+            process = 'chkpro';
+          }else if(process == 1){
+            process = 'chkpro1';
+          }else if(process == 2){
+            process = 'chkpro2';
+          }else if(process == 3){
+            process = 'chkpro3';
+          }
+
         var data = {
           'STATUS'  	: 'ShowDocument',
           'xdocno'	: searchdocument,
@@ -429,7 +441,8 @@ $(document).ready(function(e){
           'deptCode'	: deptCode,
           'Hotp'	: Hotp,
           'datepicker1' : datepicker1,
-          'docno' : DocNo
+          'docno' : DocNo,
+          'process' : process
         };
         senddata(JSON.stringify(data));
       }
@@ -819,7 +832,7 @@ $(document).ready(function(e){
 
       function SaveBill(chk){        
         var docno = $("#docno").val();
-        // var docno2 = $("#RefDocNo").val();
+                // var docno2 = $("#RefDocNo").val();
         var isStatus = $("#IsStatus").val();
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
@@ -871,7 +884,6 @@ $(document).ready(function(e){
                 };
 
           senddata(JSON.stringify(data));
-          $('#profile-tab').tab('show');
           $("#bImport").prop('disabled', true);
           $("#bDelete").prop('disabled', true);
           $("#bSave").prop('disabled', false);
@@ -890,11 +902,14 @@ $(document).ready(function(e){
           $("#timerec").prop('disabled', true);
           $("#total").prop('disabled', true);
           $("#factory1").val('');
-          ShowDocument();
-          Blankinput();
           if(input_chk == 1){
                   $('#alert_percent').modal('toggle');
                 }
+                setTimeout(() => {
+                      $('#ModalSign').modal("show");
+                    }, 1500);
+
+                    $('#ModalSign').modal({backdrop: 'static', keyboard: false})
         } else if (result.dismiss === 'cancel') {
             swal.close();}
           })
@@ -1180,6 +1195,14 @@ $(document).ready(function(e){
               }else if(temp["form"]=='SelectDocument'){
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
+
+
+                var StrTrX3 = "<option value='' selected><?php echo $array['selectCycle'][$language]; ?></option>";
+              for (var i = 0; i <  temp['row3'];  i++) {
+                  StrTrX3 += "<option value="+temp[i]['DepCode2']+">"+temp[i]['DepName2']+"</option>";
+              }
+              $("#department").html(StrTrX3);
+
                 $('#bCreate2').addClass('opacity');
                 $('#home-tab').tab('show')
                 $( "#TableItemDetail tbody" ).empty();
@@ -1843,6 +1866,7 @@ $(document).ready(function(e){
         }
       
     }
+    .kbw-signature { width: 100%; height: 240px; }
         /* ======================================== */
   </style>
 
@@ -1865,7 +1889,7 @@ $(document).ready(function(e){
                 <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['return'][$language]; ?></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
+                <a class="nav-link" id="profile-tab" onclick=" ShowDocument()"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
               </li>
             </ul>
 
@@ -2073,26 +2097,34 @@ $(document).ready(function(e){
                     </div>
                   </div>
                   <div class="col-md-6 mhee">
-                    <div class="row" style="margin-left:2px;">
-                      <input type="text" class="form-control" autocomplete="off" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
-                      <div class="search_custom col-md-2">
-                        <div class="search_1 d-flex justify-content-start">
-                          <button class="btn"  onclick="ShowDocument(1)" >
-                            <i class="fas fa-search mr-2"></i>
-                            <?php echo $array['search'][$language]; ?>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="search_custom col-md-2">
-                        <div class="circle11 d-flex justify-content-start">
-                          <button class="btn"  onclick="SelectDocument()" id="btn_show" >
-                            <i class="fas fa-paste mr-2 pt-1"></i>
-                            <?php echo $array['show'][$language]; ?>
-                          </button>
+                          <div class="row" style="margin-left:2px;">
+
+                          <select class="form-control" autocomplete="off"  style="font-size:24px;width:27%;" name="process" id="process">    
+                                                  <option value="0"><?php echo $array['processchooce'][$language]; ?></option>     
+                                                  <option value="1">on process</option>     
+                                                  <option value="2">completed</option>     
+                                                  <option value="3">cancel      </option>     
+                          </select>
+                          
+                            <input type="text" class="form-control" autocomplete="off"  style="font-size:24px;width:24%;margin-left: 3%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                            <div class="search_custom col-md-2">
+                              <div class="search_1 d-flex justify-content-start">
+                                <button class="btn"  onclick="ShowDocument(1)" >
+                                  <i class="fas fa-search mr-2"></i>
+                                  <?php echo $array['search'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="search_custom col-md-2">
+                          <div class="circle11 d-flex justify-content-start">
+                            <button class="btn"  onclick="SelectDocument()" id="btn_show" >
+                              <i class="fas fa-paste mr-2 pt-1"></i>
+                              <?php echo $array['show'][$language]; ?>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12"> <!-- tag column 1 -->
@@ -2272,10 +2304,27 @@ $(document).ready(function(e){
   </div>
 </div>
 
+<div class="modal fade" id="ModalSign" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(64, 64, 64, 0.75)!important;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top: 50px;background-color:#fff;">
+      <div class="modal-header">
+        <h2 class="modal-title"><?php echo $array['Signature'][$language]; ?></h2>
+      </div>
+      <div class="modal-body">
+        <div id="sig" class="kbw-signature"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" style="width:10%;" class="btn btn-success" id="svg"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:10%;" class="btn btn-danger" id="clear"><?php echo $array['clear'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!-- Modal -->
 <div class="modal fade" id="dialogDepartment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content1">
+    <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['selectfactory'][$language]; ?></h5>
         <button type="button" onclick="unlockfactory();" class="close" data-dismiss="modal" aria-label="Close">
@@ -2309,6 +2358,50 @@ $(document).ready(function(e){
 <!-- Demo scripts for this page-->
 <script src="../template/js/demo/datatables-demo.js"></script>
 <script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+<script src="../assets-sign/js/jquery-ui.min.js"></script>
+<script src="../assets-sign/js/jquery.signature.js"></script>
+<script>
+  $(function() {
+    var sig = $('#sig').signature();
+    $('#clear').click(function() {
+      sig.signature('clear');
+    });
+    $('#svg').click(function() {
+      var SignSVG = sig.signature('toSVG');
+      var DocNo = $('#docno').val();
+
+      $('#chk_sign').val(0);
+      $.ajax({
+        url: '../process/UpdateSign.php',
+        dataType: 'text',
+        cache: false,
+        data: {
+          SignSVG:SignSVG,
+          DocNo :DocNo,
+          Table:"return_doc",
+          Column:"signature_web"
+        },
+        type: 'post',
+        success: function (data) {
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          ShowDocument();
+          Blankinput();
+          $('#profile-tab').tab('show');
+          $('#sig').signature('clear'); ;
+          $('#ModalSign').modal('toggle');
+        }
+      });
+    });
+  });
+  
+</script>
 </body>
 
 </html>

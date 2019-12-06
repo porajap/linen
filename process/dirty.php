@@ -204,14 +204,30 @@
     }
     function ShowDocument($conn, $DATA)
     {
-      $lang = $_SESSION['lang'];
-      $boolean = false;
-      $count = 0;
-      $Hotp = $DATA["Hotp"];
-      $DocNo = $DATA["docno"];
-      $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-      $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-      $selecta = $DATA["selecta"];
+      $lang                               = $_SESSION['lang'];
+      $boolean                        = false;
+      $count                            = 0;
+      $Hotp                            = $DATA["Hotp"];
+      $DocNo                         = $DATA["docno"];
+      $xDocNo                       = str_replace(' ', '%', $DATA["xdocno"]);
+      $datepicker                   = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+      $selecta                         = $DATA["selecta"];
+      $process                        = $DATA["process"];
+
+      if( $process == 'chkpro1'){
+        $onprocess1 = 0;
+        $onprocess3 = 0;
+        $onprocess4 = 0;
+      }else if($process == 'chkpro2'){
+        $onprocess1 = 1;
+        $onprocess3 = 3;
+        $onprocess4 = 4;
+      }else if($process == 'chkpro3'){
+        $onprocess1 = 9;
+        $onprocess3 = 9;
+        $onprocess4 = 9;
+      }
+
       $Sql = "SELECT site.HptName,
       dirty.DocNo,
       DATE(dirty.DocDate) AS DocDate,
@@ -230,21 +246,28 @@
       INNER JOIN site ON dirty.HptCode = site.HptCode
       INNER JOIN users ON dirty.Modify_Code = users.ID ";
 
-      if ($Hotp != null  && $datepicker == null) {
+      if ($Hotp != null  && $datepicker == null && $process == 'chkpro') {
         $Sql .= " WHERE site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%' ";
-      }else if ($Hotp == null  && $datepicker != null){
+      }else if ($Hotp == null  && $datepicker != null && $process == 'chkpro'){
         $Sql .= " WHERE DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'";
-      }else if($Hotp != null  && $datepicker != null){
+      }else if($Hotp != null  && $datepicker != null && $process == 'chkpro'){
         $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'";
-      }else if($Hotp != null  && $datepicker != null){
+      }else if($Hotp != null  && $datepicker != null && $process == 'chkpro'){
         $Sql .= " WHERE  DATE(dirty.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND dirty.DocNo LIKE '%$xDocNo%'";
-      }else if($Hotp == null  && $datepicker == null){
+      }else if($Hotp == null  && $datepicker == null && $process == 'chkpro'){
         $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
-      }
+      }else if ($Hotp != null &&  $datepicker == null && $process != 'chkpro') {
+        $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  dirty.DocNo LIKE '%$xDocNo%'  AND (  dirty.IsStatus = $onprocess1 OR dirty.IsStatus = $onprocess3 OR dirty.IsStatus = $onprocess4) ";
+      }else if ($Hotp == null  && $datepicker != null && $process != 'chkpro'){
+      $Sql .= " WHERE DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'   AND (  dirty.IsStatus = $onprocess1 OR dirty.IsStatus = $onprocess3 OR dirty.IsStatus = $onprocess4) ";
+    }else if ($Hotp != null  && $datepicker != null && $process != 'chkpro'){
+      $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(dirty.DocDate) = '$datepicker' AND dirty.DocNo LIKE '%$xDocNo%'   AND (  dirty.IsStatus = $onprocess1 OR dirty.IsStatus = $onprocess3 OR dirty.IsStatus = $onprocess4)";
+    }
 
     // if($Hotp == null  && $datepicker == null){
     //   $Sql .= "WHERE dirty.DocNo LIKE '%$xDocNo%'";
     // }
+    $return['sql'] = $Sql;
       $Sql .= "ORDER BY dirty.DocNo DESC LIMIT 500";
       $meQuery = mysqli_query($conn, $Sql);
       while ($Result = mysqli_fetch_assoc($meQuery)) {

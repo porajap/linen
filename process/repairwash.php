@@ -214,15 +214,30 @@ function CreateDocument($conn, $DATA)
 
   function ShowDocument($conn, $DATA)
   {
-    $lang = $_SESSION['lang'];
-    $boolean = false;
-    $count = 0;
-    $Hotp = $DATA["Hotp"];
-    $deptCode = $DATA["deptCode"];
-    $DocNo = $DATA["docno"];
-    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-    $selecta = $DATA["selecta"];
+    $lang                                = $_SESSION['lang'];
+    $boolean                         = false;
+    $count                            = 0;
+    $Hotp                             = $DATA["Hotp"];
+    $deptCode                     = $DATA["deptCode"];
+    $DocNo                          = $DATA["docno"];
+    $xDocNo                         = str_replace(' ', '%', $DATA["xdocno"]);
+    $datepicker                     = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+    $selecta                          = $DATA["selecta"];
+    $process                        = $DATA["process"];
+
+    if( $process == 'chkpro1'){
+      $onprocess1 = 0;
+      $onprocess3 = 0;
+      $onprocess4 = 0;
+    }else if($process == 'chkpro2'){
+      $onprocess1 = 1;
+      $onprocess3 = 3;
+      $onprocess4 = 4;
+    }else if($process == 'chkpro3'){
+      $onprocess1 = 9;
+      $onprocess3 = 9;
+      $onprocess4 = 9;
+    }
     $Sql = "SELECT
     site.HptName,
     department.DepName,
@@ -252,19 +267,29 @@ function CreateDocument($conn, $DATA)
       if($xDocNo!=null){
         $Sql .= " OR repair_wash.DocNo LIKE '%$xDocNo%' ";
       }
-    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+    }else if($Hotp == null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
         $Sql .= " WHERE repair_wash.DocNo LIKE '%$xDocNo%' ";
-    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    }else if($Hotp != null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND repair_wash.DepCode = '$deptCode' AND repair_wash.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    }else if($Hotp != null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    }else if($Hotp == null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE repair_wash.DepCode = '$deptCode' AND DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    }else if($Hotp != null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE repair_wash.DepCode = '$deptCode' AND DATE(repair_wash.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND repair_wash.DocNo LIKE '%$xDocNo%'";
-    }
+    }else if ($Hotp !='chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process != 'chkpro') {
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  repair_wash.DocNo LIKE '%$xDocNo%'  AND ( repair_wash.IsStatus = $onprocess1 OR repair_wash.IsStatus = $onprocess3  OR repair_wash.IsStatus = $onprocess4 ) ";
+    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro'){
+      $Sql .= " WHERE repair_wash.DepCode = '$deptCode'  AND ( repair_wash.IsStatus = $onprocess1 OR repair_wash.IsStatus = $onprocess3  OR repair_wash.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'   AND ( repair_wash.IsStatus = $onprocess1 OR repair_wash.IsStatus = $onprocess3  OR repair_wash.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(repair_wash.DocDate) = '$datepicker' AND ( repair_wash.IsStatus = $onprocess1 OR repair_wash.IsStatus = $onprocess3  OR repair_wash.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND repair_wash.DepCode = '$deptCode' AND  DATE(repair_wash.DocDate) = '$datepicker' AND repair_wash.DocNo LIKE '%$xDocNo%'  AND ( repair_wash.IsStatus = $onprocess1 OR repair_wash.IsStatus = $onprocess3  OR repair_wash.IsStatus = $onprocess4 )";
+  }
   // }
     $Sql .= "ORDER BY repair_wash.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);
@@ -1228,8 +1253,8 @@ function CreateDocument($conn, $DATA)
     $Sql =  "SELECT    
                                   clean.DocNo  ,
                                   clean.DocDate  , 
-                                  factory.FacName 
-
+                                  factory.FacName ,
+                                 TIME(clean.Modify_Date) AS Modify_Date
                   FROM      clean
 
                   INNER JOIN factory 
@@ -1242,9 +1267,7 @@ function CreateDocument($conn, $DATA)
                   ON site.HptCode = department.HptCode
 
                   WHERE  clean.IsCancel = 0 
-                  AND clean.IsStatus = 1 
-                  AND clean.IsStatus = 2 
-                  AND clean.IsStatus = 3 
+                  AND  (clean.IsStatus = 1 OR clean.IsStatus = 2 OR clean.IsStatus = 3 ) 
                   AND site.HptCode= '$hptcode'  
                   AND  clean.DocNo LIKE '%$searchitem1%'
                   AND (clean.DocDate LIKE '%$datepicker%')
@@ -1256,6 +1279,7 @@ function CreateDocument($conn, $DATA)
       $return[$count]['RefDocNo'] = $Result['DocNo'];
       $return[$count]['DocDate'] = $Result['DocDate'];
       $return[$count]['FacName'] = $Result['FacName'];
+      $return[$count]['Modify_Date'] = $Result['Modify_Date'];
       $boolean = true;
       $count++;
     }

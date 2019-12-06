@@ -248,15 +248,33 @@ function CreateDocument($conn, $DATA)
 
   function ShowDocument($conn, $DATA)
   {
-    $lang = $_SESSION['lang'];
-    $boolean = false;
-    $count = 0;
-    $Hotp = $DATA["Hotp"];
-    $deptCode = $DATA["deptCode"];
-    $DocNo = $DATA["docno"];
-    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-    $selecta = $DATA["selecta"];
+    $lang                           = $_SESSION['lang'];
+    $boolean                      = false;
+    $count                          = 0;
+    $Hotp                           = $DATA["Hotp"];
+    $deptCode                     = $DATA["deptCode"];
+    $DocNo                         = $DATA["docno"];
+    $xDocNo                       = str_replace(' ', '%', $DATA["xdocno"]);
+    $datepicker                   = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+    $selecta                          = $DATA["selecta"];
+    $process                        = $DATA["process"];
+
+    if( $process == 'chkpro1'){
+      $onprocess1 = 0;
+      $onprocess2 = 0;
+      $onprocess3 = 0;
+      $onprocess4 = 0;
+    }else if($process == 'chkpro2'){
+      $onprocess1 = 1;
+      $onprocess2 = 2;
+      $onprocess3 = 3;
+      $onprocess4 = 4;
+    }else if($process == 'chkpro3'){
+      $onprocess1 = 9;
+      $onprocess2 = 9;
+      $onprocess3 = 9;
+      $onprocess4 = 9;
+    }
     $Sql = "SELECT 
     site.HptName,
     department.DepName,
@@ -277,21 +295,31 @@ function CreateDocument($conn, $DATA)
   // if($DocNo!=null){
   //   $Sql .= " WHERE clean.DocNo = '$DocNo' AND clean.DocNo LIKE '%$xDocNo%'";
   // }else{
-    if ($Hotp != null && $deptCode == null && $datepicker == null) {
+    if ($Hotp != null && $deptCode == null && $datepicker == null  && $process == 'chkpro') {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%' ";
-    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+    }else if($Hotp == null && $deptCode != null && $datepicker == null  && $process == 'chkpro'){
       $Sql .= "  WHERE clean.DocNo LIKE '%$xDocNo%'";
-    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null  && $process == 'chkpro'){
       $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    }else if($Hotp !=null && $deptCode != null && $datepicker == null  && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DepCode = '$deptCode' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    }else if($Hotp != null && $deptCode == null && $datepicker != null  && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    }else if($Hotp == null && $deptCode != null && $datepicker != null  && $process == 'chkpro'){
       $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    }else if($Hotp != null && $deptCode != null && $datepicker != null  && $process == 'chkpro'){
       $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%'";
-    }
+    }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process != 'chkpro') {
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  clean.DocNo LIKE '%$xDocNo%'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2 OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
+    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro'){
+      $Sql .= " WHERE clean.DepCode = '$deptCode'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2  OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
+  }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'   AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2  OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2 OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4 ) ";
+  }else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND clean.DepCode = '$deptCode' AND  DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'   AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2 OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4 ) ";
+  }
   // }
     $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
     $return['qqq'] = $Sql;

@@ -198,6 +198,7 @@
 <report><en>Report</en><th>ออกรายงาน</th></report>
 <pleaseenter><en>Please Enter Number Sticker : 1 Sticker</en><th>กรุณากรอกจำนวนสติกเกอร์ : 1 ดวง</th></pleaseenter>
 <docfirst><en>Please select document.</en><th>กรุณาเลือกเอกสาร</th></docfirst>
+<processchooce><en>Please select Status.</en><th>กรุณาเลือกสถานะ</th></processchooce>
 <datestart><en>Start date</en><th>วันที่เริ่ม</th></datestart>
 <dateend><en>End date</en><th>วันที่สิ้นสุด</th></dateend>
 <percent><en>Percent</en><th>เปอร์เซ็นต์</th></percent>

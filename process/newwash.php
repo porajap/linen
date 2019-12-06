@@ -395,17 +395,29 @@ function ShowDetailDoc($conn, $DATA)
 }
 function ShowDocument($conn, $DATA)
 {
-  $lang = $_SESSION['lang'];
-  $boolean = false;
-  $count = 0;
-  $Hotp = $DATA["Hotp"];
-  $DocNo = $DATA["DocNo"];
-  $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-  $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-  $selecta = $DATA["selecta"];
+  $lang                             = $_SESSION['lang'];
+  $boolean                       = false;
+  $count                           = 0;
+  $Hotp                            = $DATA["Hotp"];
+  $DocNo                         = $DATA["DocNo"];
+  $xDocNo                       = str_replace(' ', '%', $DATA["xdocno"]);
+  $datepicker                    = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+  $selecta                          = $DATA["selecta"];
+  $process                        = $DATA["process"];
 
-  // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
-  // mysqli_query($conn,$Sql);
+  if( $process == 'chkpro1'){
+    $onprocess1 = 0;
+    $onprocess3 = 0;
+    $onprocess4 = 0;
+  }else if($process == 'chkpro2'){
+    $onprocess1 = 1;
+    $onprocess3 = 3;
+    $onprocess4 = 4;
+  }else if($process == 'chkpro3'){
+    $onprocess1 = 9;
+    $onprocess3 = 9;
+    $onprocess4 = 9;
+  }
   $Sql = "SELECT site.HptName,
   newlinentable.DocNo,
   DATE(newlinentable.DocDate) AS DocDate,
@@ -427,17 +439,26 @@ function ShowDocument($conn, $DATA)
   if($DocNo!=null){
     $Sql .= " WHERE newlinentable.DocNo = '$DocNo' AND newlinentable.DocNo LIKE '%$xDocNo%'";
   }else{
-    if ($Hotp != null  && $datepicker == null) {
+    if ($Hotp != null  && $datepicker == null && $process == 'chkpro') {
       $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%' ";
-    }else if ($Hotp == null  && $datepicker != null){
+    }else if ($Hotp == null  && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE  newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null  && $datepicker != null){
+    }else if($Hotp != null  && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND newlinentable.DocDate = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null  && $datepicker != null){
+    }else if($Hotp != null  && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE  newlinentable.DocDate = '$datepicker' AND site.HptCode = '$Hotp' AND newlinentable.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp == null  && $datepicker == null){
+    }else if($Hotp == null  && $datepicker == null && $process == 'chkpro'){
       $Sql .= "WHERE newlinentable.DocNo LIKE '%$xDocNo%'";
-    }
+    }else if ($Hotp != null &&  $datepicker == null && $process != 'chkpro') {
+      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  newlinentable.DocNo LIKE '%$xDocNo%'  AND  (  newlinentable.IsStatus = $onprocess1 OR newlinentable.IsStatus = $onprocess3 OR newlinentable.IsStatus = $onprocess4)  ";
+    }else if ($Hotp == null  && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE DATE(newlinentable.DocDate) = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'   AND  (  newlinentable.IsStatus = $onprocess1 OR newlinentable.IsStatus = $onprocess3 OR newlinentable.IsStatus = $onprocess4) ";
+  }else if ($Hotp != null  && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(newlinentable.DocDate) = '$datepicker' AND newlinentable.DocNo LIKE '%$xDocNo%'   AND (  newlinentable.IsStatus = $onprocess1 OR newlinentable.IsStatus = $onprocess3 OR newlinentable.IsStatus = $onprocess4)";
+  }
+
+
+    
   }
   // if($selecta == null){
   //   $Sql .= " WHERE newlinentable.DocNo = '$DocNo'";

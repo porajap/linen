@@ -152,6 +152,17 @@ function updatepar(row , rowid){
         'rowid'	  : rowid
       };
       senddata(JSON.stringify(data));
+      swal({
+              title: '',
+              text: '<?php echo $array['success'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 1500,
+              // confirmButtonText: 'Ok'
+            })
 }
 function updatetotal(row , rowid){
   var total = $("#qty_"+row).val();
@@ -161,6 +172,17 @@ function updatetotal(row , rowid){
         'rowid'	  : rowid
       };
       senddata(JSON.stringify(data));
+      swal({
+              title: '',
+              text: '<?php echo $array['success'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 1500,
+              // confirmButtonText: 'Ok'
+            })
 }
 
   function ShowDocument(Page){
@@ -264,9 +286,9 @@ function updatetotal(row , rowid){
               if(Qty<Par){
                 textColor = 'text-danger';
               }
-              var inputpar = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='par_"+i+"' value='"+Par+"' onchange='updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+              var inputpar = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='par_"+i+"' value='"+Par+" ' onkeypress='  if(event.keyCode==13) {updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")}'></div>";
 
-              var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty_"+i+"' value='"+Qty+"' onchange='updatetotal(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+              var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty_"+i+"' value='"+Qty+"' onkeypress='   if(event.keyCode==13)  {updatetotal(\""+i+"\",\""+temp[i]['RowID']+"\")}'></div>";
 
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
@@ -495,16 +517,12 @@ function updatetotal(row , rowid){
       <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][5][$language]; ?></li>
     </ol>
   <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
-
   <div id="wrapper">
     <!-- content-wrapper -->
     <div id="content-wrapper">
-
       <div class="row" style="margin-top:-15px;"> <!-- start row tab -->
         <div class="col-md-12"> <!-- tag column 1 -->
           <!-- /.content-wrapper -->
-
-                
                 <div class="row">
                   <div class="col-md-12"> <!-- tag column 1 -->
                     <div class="container-fluid">
@@ -513,16 +531,16 @@ function updatetotal(row , rowid){
                           <div class="col-md-3">
                             <div class='form-group row'>
                               <!-- <label class="col-sm-5 col-form-label text-right" style="margin-left: -22%;font-size:24px;"><?php echo $array['side'][$language]; ?></label> -->
-                              <select class="form-control col-sm-11 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
+                              <select class="form-control col-sm-11 " style="font-size:22px;" <?php if($PmID != 1 && $PmID != 6 ) {echo "disabled='true'" ;} ?> id="hotpital" onchange="getDepartment();" ></select>
                             </div>
                           </div>
 
                           <div class="col-md-3">
                             <div class='form-group row'>
                               <!-- <label class="col-sm-4 col-form-label text-right" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-                              <select  class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select> -->
+                              <select  class="form-control col-sm-7 select2 custom-select" style="font-size:22px;" <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7 && $PmID != 5) {echo "disabled='true'" ;} ?> id="department"></select> -->
                               <!-- <label class="col-sm-5 col-form-label text-right" style="margin-left: -37%;font-size:24px;"><?php echo $array['department'][$language]; ?></label> -->
-                              <select class="form-control select2 custom-select col-sm-11" style="width: 85% !important;font-size:22px;"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7) {echo "disabled='true'" ;} ?> id="department"></select>
+                              <select class="form-control select2 custom-select col-sm-11" style="width: 85% !important;font-size:22px;"  <?php if($PmID != 1 && $PmID != 2 && $PmID != 3 && $PmID != 6 && $PmID != 7 && $PmID != 5) {echo "disabled='true'" ;} ?> id="department"></select>
                             </div>
                           </div>
 

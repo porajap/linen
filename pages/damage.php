@@ -392,11 +392,12 @@ if (e.keyCode == 13) {
  
     }
       function ShowDocument(selecta){
-        var DocNo = $('#docno').val();
-        var Hotp = $('#Hos2 option:selected').attr("value");
-        var searchdocument = $('#searchdocument').val();
+        var DocNo                         = $('#docno').val();
+        var process                        = $('#process').val();
+        var Hotp                            = $('#Hos2 option:selected').attr("value");
+        var searchdocument          = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
-        var deptCode = $('#Dep2 option:selected').attr("value");
+        var deptCode                    = $('#Dep2 option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
         var datepicker1 = $('#datepicker1').val();
           var lang = '<?php echo $language; ?>';
@@ -409,6 +410,17 @@ if (e.keyCode == 13) {
           }else{
             datepicker1 = "";
           }
+
+          if(process == 0){
+            process = 'chkpro';
+          }else if(process == 1){
+            process = 'chkpro1';
+          }else if(process == 2){
+            process = 'chkpro2';
+          }else if(process == 3){
+            process = 'chkpro3';
+          }
+
         var data = {
           'STATUS'  	: 'ShowDocument',
           'xdocno'	: searchdocument,
@@ -416,7 +428,8 @@ if (e.keyCode == 13) {
           'deptCode'	: deptCode,
           'Hotp'	: Hotp,
           'datepicker1' : datepicker1,
-          'docno' : DocNo
+          'docno' : DocNo,
+          'process' : process
 
         };
         senddata(JSON.stringify(data));
@@ -1693,7 +1706,7 @@ if (e.keyCode == 13) {
                     <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titledamage'][$language]; ?></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
+                    <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" onclick=" ShowDocument()"  role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
                   </li>
                   <li class="nav-item" hidden>
                     <a class="nav-link" id="excel-tab"  data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="false">Excel</a>
@@ -1906,7 +1919,15 @@ if (e.keyCode == 13) {
                           </div>
                           <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
-                            <input type="text" autocomplete="off" class="form-control" style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+
+                          <select class="form-control" autocomplete="off"  style="font-size:24px;width:27%;" name="process" id="process">    
+                                                  <option value="0"><?php echo $array['processchooce'][$language]; ?></option>     
+                                                  <option value="1">on process</option>     
+                                                  <option value="2">completed</option>     
+                                                  <option value="3">cancel      </option>     
+                          </select>
+                          
+                            <input type="text" class="form-control" autocomplete="off"  style="font-size:24px;width:24%;margin-left: 3%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                             <div class="search_custom col-md-2">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(1)" >

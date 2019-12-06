@@ -1500,7 +1500,7 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
                                 showConfirmButton: false,
-                                timer: 1000,
+                                timer: 1500,
                                 // confirmButtonText: 'Ok'
                               })
                             }else if(temp['form']=="SelectItemStock"){

@@ -197,15 +197,24 @@ function CreateDocument($conn, $DATA)
 
   function ShowDocument($conn, $DATA)
   {
-    $lang = $_SESSION['lang'];
-    $boolean = false;
-    $count = 0;
-    $Hotp = $DATA["Hotp"];
-    $deptCode = $DATA["deptCode"];
-    $DocNo = $DATA["docno"];
-    $xDocNo = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-    $selecta = $DATA["selecta"];
+    $lang                             = $_SESSION['lang'];
+    $boolean                       = false;
+    $count                            = 0;
+    $Hotp                            = $DATA["Hotp"];
+    $deptCode                     = $DATA["deptCode"];
+    $DocNo                         = $DATA["docno"];
+    $xDocNo                       = str_replace(' ', '%', $DATA["xdocno"]);
+    $datepicker                   = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+    $selecta                         = $DATA["selecta"];
+    $process                        = $DATA["process"];
+
+    if( $process == 'chkpro1'){
+      $onprocess1 = 0;
+    }else if($process == 'chkpro2'){
+      $onprocess1 = 1;
+    }else if($process == 'chkpro3'){
+      $onprocess1 = 9;
+    }
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
     $Sql = "SELECT site.HptName,department.DepName,damagenh.DocNo,DATE(damagenh.DocDate) 
@@ -217,24 +226,32 @@ function CreateDocument($conn, $DATA)
   // if($DocNo!=null){
   //   $Sql .= " WHERE damagenh.DocNo = '$DocNo' AND damagenh.DocNo LIKE '%$xDocNo%'";
   // }else{
-    if ($Hotp != null && $deptCode != null && $datepicker == null) {
+    if ($Hotp != null && $deptCode != null && $datepicker == null && $process == 'chkpro') {
       $Sql .= " WHERE site.HptCode = '$Hotp'  ";
       if($xDocNo!=null){
         $Sql .= " OR damagenh.DocNo LIKE '%$xDocNo%' ";
       }
-    }else if($Hotp == null && $deptCode != null && $datepicker == null){
+    }else if($Hotp == null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
         $Sql .= " WHERE damagenh.DocNo LIKE '%$xDocNo%' ";
-    }else if ($Hotp == null && $deptCode == null && $datepicker != null){
+    }else if ($Hotp == null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker == null){
+    }else if($Hotp != null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND damagenh.DepCode = '$deptCode' AND damagenh.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode == null && $datepicker != null){
+    }else if($Hotp != null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp == null && $deptCode != null && $datepicker != null){
+    }else if($Hotp == null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE damagenh.DepCode = '$deptCode' AND DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker != null){
+    }else if($Hotp != null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
       $Sql .= " WHERE damagenh.DepCode = '$deptCode' AND DATE(damagenh.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND damagenh.DocNo LIKE '%$xDocNo%'";
-    }
+    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro'){
+      $Sql .= " WHERE damagenh.DepCode = '$deptCode'  AND damagenh.IsStatus = $onprocess1  ";
+  }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'   AND  damagenh.IsStatus = $onprocess1  ";
+  }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'  AND  damagenh.IsStatus = $onprocess1  ";
+  }else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro'){
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND damagenh.DepCode = '$deptCode' AND  DATE(damagenh.DocDate) = '$datepicker' AND damagenh.DocNo LIKE '%$xDocNo%'   AND  damagenh.IsStatus = $onprocess1 ";
+  }
   // }
     $Sql .= "ORDER BY damagenh.DocNo DESC LIMIT 500";
     $meQuery = mysqli_query($conn, $Sql);

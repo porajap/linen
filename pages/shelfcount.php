@@ -361,15 +361,28 @@ $array2 = json_decode($json2,TRUE);
       $('#rem3').hide();
     }
     function ShowDocument(selecta){
-      var DocNo = $('#docno').val();
-      var Hotp = $('#side option:selected').attr("value");
+      var DocNo                   = $('#docno').val();
+      var process                 = $('#process').val();
+      var Hotp                      = $('#side option:selected').attr("value");
         var searchdocument = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
         var deptCode = $('#Dep2 option:selected').attr("value");
         var datepicker1 = $('#datepicker1').val();
         var lang = '<?php echo $language; ?>';
           if(Hotp == 'null'){
-            Hotp = 0;
+            Hotp = 'chkhpt';
+          }
+          if(process == 0){
+            process = 'chkpro';
+          }else if(process == 1){
+            process = 'chkpro1';
+          }else if(process == 2){
+            process = 'chkpro2';
+          }else if(process == 3){
+            process = 'chkpro3';
+          }
+          if(deptCode == ''){
+            deptCode = 'chkdep';
           }
           if(datepicker1 !=""){
           if(lang =='th'){
@@ -380,6 +393,7 @@ $array2 = json_decode($json2,TRUE);
           }else{
             datepicker1 = "";
           }
+
           var data = {
           'STATUS'  	: 'ShowDocument',
           'xdocno'	: searchdocument,
@@ -387,7 +401,8 @@ $array2 = json_decode($json2,TRUE);
           'deptCode'	: deptCode,
           'Hotp'	: Hotp,
           'datepicker1' : datepicker1,
-          'docno' : DocNo
+          'docno' : DocNo,
+          'process' : process
         };
       console.log(data);
       senddata(JSON.stringify(data));
@@ -2735,7 +2750,7 @@ $array2 = json_decode($json2,TRUE);
                   <a class="nav-link active" id="home-tab"  data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['titleshelf'][$language]; ?></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="profile-tab"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
+                  <a class="nav-link" id="profile-tab"  onclick=" ShowDocument()"  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
                 </li>
               </ul>
               <div class="tab-content" id="myTabContent">
@@ -3021,9 +3036,17 @@ $array2 = json_decode($json2,TRUE);
                             <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' >
                             </div>
                           </div>
-                          <div class="col-md-6 mhee">
+                        <div class="col-md-6 mhee">
                           <div class="row" style="margin-left:2px;">
-                            <input type="text" class="form-control" autocomplete="off"  style="font-size:24px;width:50%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+
+                          <select class="form-control" autocomplete="off"  style="font-size:24px;width:27%;" name="process" id="process">    
+                                                  <option value="0"><?php echo $array['processchooce'][$language]; ?></option>     
+                                                  <option value="1">on process</option>     
+                                                  <option value="2">completed</option>     
+                                                  <option value="3">cancel      </option>     
+                          </select>
+                          
+                            <input type="text" class="form-control" autocomplete="off"  style="font-size:24px;width:24%;margin-left: 3%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
                             <div class="search_custom col-md-2">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(1)" >
