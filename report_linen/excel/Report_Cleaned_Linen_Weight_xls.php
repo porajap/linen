@@ -317,7 +317,7 @@ $query = "  SELECT
               INNER JOIN item ON clean_detail.ItemCode = item.ItemCode
               INNER JOIN factory ON factory.FacCode = clean.FacCode
               $where
-              AND clean.isStatus <> 9
+              AND clean.isStatus <> 9 AND clean.isStatus <> 0
               AND clean.FacCode = '$FacCode'
               GROUP BY item.ItemName
             ";
@@ -378,18 +378,18 @@ for ($q = 0; $q < $COUNT_item; $q++) {
                     INNER JOIN item ON item.itemcode = clean_detail.itemcode";
     if ($chk == 'one') {
       if ($format == 1) {
-        $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9";
+        $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9 AND clean.isStatus <> 0";
       } elseif ($format = 3) {
         list($year, $month) = explode('-', $date[$day]);
-        $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9";
+        $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9 AND clean.isStatus <> 0";
       }
     } elseif ($chk == 'between') {
-      $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9";
+      $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9 AND clean.isStatus <> 0";
     } elseif ($chk == 'month') {
-      $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9";
+      $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9 AND clean.isStatus <> 0";
     } elseif ($chk == 'monthbetween') {
       list($year, $month) = explode('-', $date[$day]);
-      $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9";
+      $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9 AND clean.isStatus <> 0";
     }
     $data .= "              AND clean.Faccode = '$FacCode'
                             AND item.ItemCode = '$ItemCode[$lek]'
@@ -433,18 +433,18 @@ for ($day = 0; $day < $count; $day++) {
 
   if ($chk == 'one') {
     if ($format == 1) {
-      $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9";
+      $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9 AND clean.isStatus <> 0";
     } elseif ($format = 3) {
       list($year, $month) = explode('-', $date[$day]);
-      $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9";
+      $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9 AND clean.isStatus <> 0";
     }
   } elseif ($chk == 'between') {
-    $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9";
+    $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9 AND clean.isStatus <> 0";
   } elseif ($chk == 'month') {
-    $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9";
+    $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9 AND clean.isStatus <> 0";
   } elseif ($chk == 'monthbetween') {
     list($year, $month) = explode('-', $date[$day]);
-    $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9";
+    $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9 AND clean.isStatus <> 0";
   }
   $data .= " AND clean.Faccode = '$FacCode'
                             AND site.HptCode = '$HptCode' ";

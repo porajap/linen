@@ -317,7 +317,7 @@ $query = "  SELECT
               INNER JOIN item ON repair_wash_detail.ItemCode = item.ItemCode
               INNER JOIN factory ON factory.FacCode = repair_wash.FacCode
               $where
-              AND repair_wash.isStatus <> 9
+              AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0
               AND repair_wash.FacCode = '$FacCode'
               GROUP BY item.ItemCode
             ";
@@ -378,18 +378,18 @@ for ($q = 0; $q < $COUNT_item; $q++) {
                     INNER JOIN item ON item.itemcode = repair_wash_detail.itemcode";
     if ($chk == 'one') {
       if ($format == 1) {
-        $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9";
+        $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
       } elseif ($format = 3) {
         list($year, $month) = explode('-', $date[$day]);
-        $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9";
+        $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
       }
     } elseif ($chk == 'between') {
-      $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9";
+      $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
     } elseif ($chk == 'month') {
-      $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9";
+      $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
     } elseif ($chk == 'monthbetween') {
       list($year, $month) = explode('-', $date[$day]);
-      $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9";
+      $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
     }
     $data .= "              AND repair_wash.Faccode = '$FacCode'
                             AND item.ItemCode = '$ItemCode[$lek]'
@@ -433,18 +433,18 @@ for ($day = 0; $day < $count; $day++) {
 
   if ($chk == 'one') {
     if ($format == 1) {
-      $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9";
+      $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
     } elseif ($format = 3) {
       list($year, $month) = explode('-', $date[$day]);
-      $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9";
+      $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
     }
   } elseif ($chk == 'between') {
-    $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9";
+    $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
   } elseif ($chk == 'month') {
-    $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9";
+    $data .=   " WHERE  DATE(repair_wash.DocDate)  ='$date[$day]'  AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
   } elseif ($chk == 'monthbetween') {
     list($year, $month) = explode('-', $date[$day]);
-    $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9";
+    $data .=   " WHERE  YEAR(repair_wash.DocDate)  ='$year'  AND MONTH(repair_wash.DocDate)  ='$month' AND repair_wash.isStatus <> 9 AND repair_wash.isStatus <> 0";
   }
   $data .= " AND repair_wash.Faccode = '$FacCode'
              AND site.HptCode = '$HptCode' ";

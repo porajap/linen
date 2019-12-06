@@ -109,6 +109,8 @@ function OnLoadPage($conn, $DATA)
   if ($boolean) {
     $return['status'] = "success";
     $return['form'] = "OnLoadPage";
+    $return['alldep29'] = "r30";
+    $return['alldep30'] = "r29";
     echo json_encode($return);
     mysqli_close($conn);
     die;
