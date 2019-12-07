@@ -204,21 +204,18 @@ item.ItemName,
 item_unit.UnitName,
 SUM(clean_detail.Qty) AS Totalqty,
 SUM(clean_detail.Weight) AS Weight,
-(category_price.Price) AS Price,
 clean_detail.itemcode,
-clean_detail.Detail
+clean_detail.Detail,
+clean_detail.RequestName
 FROM
 clean_detail
 LEFT JOIN clean ON clean.DocNo = clean_detail.DocNo
-LEFT JOIN factory ON factory.FacCode = clean.FacCode 
 INNER JOIN department ON clean.DepCode = department.DepCode
-INNER JOIN item ON item.ItemCode = clean_detail.ItemCode
-INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+LEFT JOIN item ON item.ItemCode = clean_detail.ItemCode
 INNER JOIN item_unit ON clean_detail.UnitCode = item_unit.UnitCode
 $where
 AND clean.RefDocNo NOT LIKE '%RPW%'
 AND department.HptCode = '$HptCode'
-AND category_price.HptCode ='$HptCode'
 AND clean.FacCode = '$FacCode'
 AND clean.IsStatus <> 9
 GROUP BY
@@ -251,6 +248,9 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
     $inner_array[$field[1]] = $Result['ItemName'] . "( " . $Result['Detail'] . " )";
   } else {
     $inner_array[$field[1]] = $Result['ItemName'];
+  }
+  if ($Result['RequestName'] <> null) {
+    $inner_array[$field[1]] = $Result['RequestName'];
   }
   $inner_array[$field[2]] = $Result['Totalqty'];
   $inner_array[$field[3]] = $Result['Weight'];
