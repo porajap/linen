@@ -594,7 +594,7 @@ $array2 = json_decode($json2,TRUE);
                                             <?php echo $array['no'][$language]; ?>
                                         </th>
                                         <th style='width: 85%;'>
-                                            <?php echo $array['settimefac'][$language]; ?>
+                                            <?php echo $array['rounddirty'][$language]; ?>
                                         </th>
       
                                     </tr>

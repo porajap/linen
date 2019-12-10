@@ -37,7 +37,7 @@ if($PmID !=1 || $PmID !=6){
   FROM shelfcount
   INNER JOIN department ON department.DepCode = shelfcount.DepCode
   INNER JOIN site ON site.HptCode = department.HptCode
-  WHERE site.HptCode = '$HptCode' AND ( shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1 )  ";
+  WHERE site.HptCode = '$HptCode' AND ( shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1 )  AND IsMobile = 1 ";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['shelfcount_Cnt'] = $Result['Cnt'];
@@ -48,7 +48,7 @@ if($PmID !=1 || $PmID !=6){
   FROM shelfcount
   INNER JOIN department ON department.DepCode = shelfcount.DepCode
   INNER JOIN site ON site.HptCode = department.HptCode
-  WHERE shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1   ";
+  WHERE ( shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1 )   AND IsMobile = 1  ";
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['shelfcount_Cnt'] = $Result['Cnt'];

@@ -39,23 +39,27 @@ for ($row = 2; $row <= $highestRow; ++$row) {
     }
 }
 
+
 foreach ($namedDataArray as $resx) {
  //Insert
-  $query = " INSERT INTO item (ItemCode,CategoryCode,ItemName,UnitCode,SizeCode,CusPrice,FacPrice,Weight,ParQty,IsActive,QtyPerUnit,UnitCode2,itemDate) VALUES
+  $query = " INSERT INTO item (ItemCode,HptCode,CategoryCode,ItemName,UnitCode,SizeCode,Weight,IsActive,QtyPerUnit,UnitCode2,IsDirtyBag,isset,Tdas,IsClean,typeLinen,numPack) VALUES
       (
        '".$resx['ItemCode']."',
+       '".$resx['HptCode']."',
        '".$resx['CategoryCode']."',
        '".$resx['ItemName']."',
        '".$resx['UnitCode']."',
        '".$resx['SizeCode']."',
-       '".$resx['CusPrice']."',
-       '".$resx['FacPrice']."',
        '".$resx['Weight']."',
-       '".$resx['ParQty']."',
        '".$resx['IsActive']."',
        '".$resx['QtyPerUnit']."',
        '".$resx['UnitCode2']."',
-       NOW()
+       '".$resx['IsDirtyBag']."',
+       '".$resx['isset']."',
+       '".$resx['Tdas']."',
+       '".$resx['IsClean']."',
+       '".$resx['typeLinen']."',
+       '".$resx['numPack']."'
       )";
   mysqli_query($conn, $query);
  //

@@ -346,14 +346,6 @@ $array2 = json_decode($json2, TRUE);
       ShowItem();
     }
 
-    function GetmainCat() {
-      var maincatagory = $("#maincatagory").val();
-      var data = {
-        'STATUS': 'GetmainCat',
-      };
-      console.log(JSON.stringify(data));
-      senddata(JSON.stringify(data));
-    }
 
     function getCatagory() {
 
@@ -391,7 +383,7 @@ $array2 = json_decode($json2, TRUE);
       senddata(JSON.stringify(data));
     }
 
-    function ShowItem(column, sort) {
+    function ShowItem(column, sort ,Page) {
       // var count = 0;
       // $(".checkblank66").each(function() {
       //   if ($(this).val() == "" || $(this).val() == undefined) {
@@ -420,7 +412,8 @@ $array2 = json_decode($json2, TRUE);
         'column': column,
         'sort': sort,
         'maincatagory': maincatagory,
-        'HptCode': Hos2
+        'HptCode': Hos2,
+        'Page' : Page,
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -503,8 +496,6 @@ $array2 = json_decode($json2, TRUE);
       var Catagory = $('#catagory2').val();
       var ItemCode = $('#ItemCode').val();
       var ItemName = $('#ItemName').val();
-      var CusPrice = $('#CusPrice').val();
-      var FacPrice = $('#FacPrice').val();
       var hospital = $('#hospital').val();
       var UnitName = $('#UnitName').val();
       var SizeCode = $('#SizeCode').val();
@@ -514,10 +505,8 @@ $array2 = json_decode($json2, TRUE);
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
-      var xItemnew = 0;
       var tdas = 0;
       if ($('#xCenter').is(':checked')) xCenter = 1;
-      if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
       if ($('#masterItem').is(':checked')) {
         masterItem = 1;
@@ -553,15 +542,12 @@ $array2 = json_decode($json2, TRUE);
                 'Catagory': Catagory,
                 'ItemCode': ItemCode,
                 'ItemName': ItemName,
-                'CusPrice': CusPrice,
-                'FacPrice': FacPrice,
                 'UnitName': UnitName,
                 'SizeCode': SizeCode,
                 'Weight': Weight,
                 'qpu': qpu,
                 'sUnit': sUnit,
                 'xCenter': xCenter,
-                'xItemnew': xItemnew,
                 'masterItem': masterItem,
                 'tdas': tdas,
                 'hospital': hospital,
@@ -603,8 +589,6 @@ $array2 = json_decode($json2, TRUE);
       var Catagory = $('#catagory2').val();
       var ItemCode = $('#ItemCode').val();
       var ItemName = $('#ItemName').val();
-      var CusPrice = $('#CusPrice').val();
-      var FacPrice = $('#FacPrice').val();
       var UnitName = $('#UnitName').val();
       var SizeCode = $('#SizeCode').val();
       var Weight = $('#Weight').val();
@@ -677,8 +661,6 @@ $array2 = json_decode($json2, TRUE);
       var Catagory  = $('#catagory2').val();
       var ItemCode  = $('#ItemCode').val();
       var ItemName  = $('#ItemName').val();
-      var CusPrice  = $('#CusPrice').val();
-      var FacPrice  = $('#FacPrice').val();
       var UnitName  = $('#UnitName').val();
       var SizeCode  = $('#SizeCode').val();
       var Weight    = $('#Weight').val();
@@ -691,7 +673,6 @@ $array2 = json_decode($json2, TRUE);
       var tdas      = 0;
       var masterItem = 0;
 
-      alert(Hos2);
       if ($('#masterItem').is(':checked')) masterItem = 1;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       // if ($('#xItemnew').is(':checked')) xItemnew = 1;
@@ -725,8 +706,6 @@ $array2 = json_decode($json2, TRUE);
                   'Catagory'  : Catagory,
                   'ItemCode'  : ItemCode,
                   'ItemName'  : ItemName,
-                  'CusPrice'  : CusPrice,
-                  'FacPrice'  : FacPrice,
                   'UnitName'  : UnitName,
                   'SizeCode'  : SizeCode,
                   'Weight'    : Weight,
@@ -1549,18 +1528,7 @@ $array2 = json_decode($json2, TRUE);
               }
               $("#hospital").append(StrTr1);
               $("#Hos2").append(StrTr1);
-            } else if ((temp["form"] == 'GetmainCat')) {
-              var hotValue0 = '<?php echo $array['Pleasechoosemaincategory'][$language]; ?>';
-              var StrTr1 = "<option value=''>"+hotValue0+"</option>";
-              var Str = "<option value=''>"+hotValue0+"</option>";
-              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                 StrTr1 += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
-                   Str += "<option value = '" + temp[i]['MainCategoryCode'] + "'> " + temp[i]['MainCategoryName'] + " </option>";
-              }
-              $("#maincatagory2").append(Str);
-              $("#maincatagory").append(StrTr1);
-              $("#maincatagoryModal").append(StrTr1);
-            } else if ((temp["form"] == 'getUnit')) {
+            }  else if ((temp["form"] == 'getUnit')) {
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                var StrTr1 = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
                 var StrTr = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
@@ -1616,6 +1584,7 @@ $array2 = json_decode($json2, TRUE);
 // ======================================================================
               $("#TableItem tbody").empty();
               if(temp['countx']>0){
+                $("#pagination").attr("hidden" , false);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
@@ -1643,11 +1612,34 @@ $array2 = json_decode($json2, TRUE);
                 } else {
                   $('#TableItem tbody:last-child').append($StrTR);
                 }
+            StrTr2='<nav aria-label="Page navigation example" style="margin-left: 1%; "> <ul class="pagination"> ';
+              if(temp['Prev_Page'])
+                {
+                  StrTr2+= '<li class="page-item"><a class="page-link" href="#"  onclick="ShowItem('+null+' , '+null+' , '+temp['Prev_Page']+')">Previous</a></li> ';
+                }
+                for(var j=1; j<=temp['Num_Pages'];  j++){
+                  if( j != temp['Page'])
+                  {
+                    StrTr2+='<li class="page-item"><a class="page-link" href="#" onclick="ShowItem('+null+' , '+null+' , '+j+')"> '+ j +'</a></li> ';
+                  }
+                  else
+                  {
+                    StrTr2+='<li class="page-item"><a class="page-link" href="#"> <b>'+ j +'</b></a></li> ';
+                  }
+                }
+                if(temp['Page']!=temp['Num_Pages'])
+                {
+                  StrTr2+= '<li class="page-item"><a class="page-link" href="#"  onclick="ShowItem('+null+' , '+null+' , '+temp['Next_Page']+')">Next</a></li> ';
+                }
+                StrTr2+=    '</ul> </nav>  ';
+                $("#pagination").html( StrTr2 );
               }
+
             }else{
               $('#TableItem tbody').empty();
               var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
               $('#TableItem tbody:last-child').append(Str);
+              $("#pagination").attr("hidden" , true);
             }
               // $('.checkblank').each(function() {
               //   $(this).val("");
@@ -2473,9 +2465,10 @@ $array2 = json_decode($json2, TRUE);
                         <th style='width: 8%;' nowrap><?php echo $array['tdas'][$language]; ?></th>
                       </tr>
                     </thead>
-                    <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
+                    <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:395px;">
                     </tbody>
                   </table>
+                  
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemMaster" width="100%" cellspacing="0" role="grid" hidden>
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">
@@ -2499,6 +2492,9 @@ $array2 = json_decode($json2, TRUE);
                 <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:250px;">
                 </tbody>
               </table>
+
+              <div id="pagination"> </div>
+
             </div>
           </div>
         </div> <!-- tag column 1 -->
@@ -2512,13 +2508,25 @@ $array2 = json_decode($json2, TRUE);
             <div id="memu_tap1">
 
               <div class="row m-1 mt-5 d-flex justify-content-end" >
+              <div class="menu mhee" >
+                            <div class="d-flex justify-content-center">
+                              <div class="circle4 d-flex justify-content-center">
+                                <button class="btn"  onclick="window.location.href='../report/excel/itemexcel.php' ">
+                                <i class="fas fa-download"></i>                                  
+                                <div>
+                                    Export Excel
+                                  </div>       
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                 <div class="menu mhee" >
                             <div class="d-flex justify-content-center">
-                              <div class="circle6 d-flex justify-content-center">
+                              <div class="circle2 d-flex justify-content-center">
                                 <button class="btn"  data-toggle="modal" data-target="#modalExcel">
-                                  <i class="fas fa-plus"></i>
+                                <i class="fas fa-upload"></i>                                  
                                   <div>
-                                    Excel/CSV
+                                    Import Excel
                                   </div>       
                                 </button>
                               </div>
@@ -3029,7 +3037,7 @@ $array2 = json_decode($json2, TRUE);
         </button>
       </div>
       <div class="modal-body upload-doc">
-        <input type="file" class="dropify"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="fileExcel" name="fileExcel" />
+        <input type="file" class="dropify"  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileExcel" name="fileExcel" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary px-2" data-dismiss="modal"><?php echo $array['isno'][$language]; ?></button>

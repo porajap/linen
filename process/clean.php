@@ -954,7 +954,7 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     }
-    ShowDocument($conn, $DATA);
+    // ShowDocument($conn, $DATA);
   }
 
   function UpdateRefDocNo($conn, $DATA)
@@ -1235,22 +1235,23 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
     clean_detail.Id,
     clean_detail.DocNo,
     clean_detail.ItemCode,
+    clean_detail.RequestName,
     item.ItemName,
     item.UnitCode AS UnitCode1,
     item_unit.UnitName,
     clean_detail.UnitCode AS UnitCode2,
     clean_detail.Weight,
     clean_detail.Qty,
-    clean.Detail,
     clean_detail.Detail
     FROM
-    item
-    INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-    INNER JOIN clean_detail ON clean_detail.ItemCode = item.ItemCode
+    clean_detail
+    LEFT JOIN item ON clean_detail.ItemCode = item.ItemCode
+    LEFT JOIN item_category ON item.CategoryCode = item_category.CategoryCode
     INNER JOIN item_unit ON clean_detail.UnitCode = item_unit.UnitCode
     INNER JOIN clean ON clean_detail.DocNo = clean.DocNo
     WHERE clean_detail.DocNo = '$DocNo'
-    ORDER BY clean_detail.Id DESC";
+    ORDER BY clean_detail.Id DESC
+";
     $return['sql']=$Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1260,7 +1261,7 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
 
       $return[$count]['RowID']      = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
-      $return[$count]['ItemName']   = $Result['ItemName'];
+      $return[$count]['ItemName']   = $Result['ItemName']==null?$Result['RequestName']:$Result['ItemName'];
       $return[$count]['UnitCode']   = $Result['UnitCode2'];
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
@@ -1270,53 +1271,6 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
       $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;
 
-      $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-      $MQuery = mysqli_query($conn, $countM);
-      while ($MResult = mysqli_fetch_assoc($MQuery)) {
-        $return['sql'] = $countM;
-        if($MResult['cnt']!=0){
-          $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
-          FROM item_multiple_unit
-          INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
-          WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-          $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) {
-            $m1 = "MpCode_" . $ItemCode . "_" . $count;
-            $m2 = "UnitCode_" . $ItemCode . "_" . $count;
-            $m3 = "UnitName_" . $ItemCode . "_" . $count;
-            $m4 = "Multiply_" . $ItemCode . "_" . $count;
-            $m5 = "Cnt_" . $ItemCode;
-  
-            $return[$m1][$count2] = $xResult['MpCode'];
-            $return[$m2][$count2] = $xResult['UnitCode'];
-            $return[$m3][$count2] = $xResult['UnitName'];
-            $return[$m4][$count2] = $xResult['Multiply'];
-            $count2++;
-          }
-        }else{
-          $xSql = "SELECT 
-            item.UnitCode,
-            item_unit.UnitName
-          FROM item
-          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-          WHERE item.ItemCode = '$ItemCode'";
-          $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) {
-            $m1 = "MpCode_" . $ItemCode . "_" . $count;
-            $m2 = "UnitCode_" . $ItemCode . "_" . $count;
-            $m3 = "UnitName_" . $ItemCode . "_" . $count;
-            $m4 = "Multiply_" . $ItemCode . "_" . $count;
-            $m5 = "Cnt_" . $ItemCode;
-  
-            $return[$m1][$count2] = 1;
-            $return[$m2][$count2] = $xResult['UnitCode'];
-            $return[$m3][$count2] = $xResult['UnitName'];
-            $return[$m4][$count2] = 1;
-            $count2++;
-          }
-        }
-      }
-  $return[$m5][$count] = $count2;
 
       //================================================================
       $Total += $Result['Weight'];
@@ -1324,7 +1278,19 @@ while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
       $count++;
       $boolean = true;
     }
-
+    $cntUnit = 0;
+    $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
+      FROM item_multiple_unit
+      INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
+      WHERE item_unit.IsStatus = 0 GROUP BY item_multiple_unit.UnitCode";
+      $xQuery = mysqli_query($conn, $xSql);
+      while ($xResult = mysqli_fetch_assoc($xQuery)) {
+        $return['Unit'][$cntUnit]['MpCode'] = $xResult['MpCode'];
+        $return['Unit'][$cntUnit]['UnitCode'] = $xResult['UnitCode'];
+        $return['Unit'][$cntUnit]['UnitName'] = $xResult['UnitName'];
+        $return['Unit'][$cntUnit]['Multiply'] = $xResult['Multiply'];
+        $cntUnit++;
+      }
     if ($count == 0) $Total = 0;
 
     $Sql = "UPDATE clean SET Total = $Total WHERE DocNo = '$DocNo'";
@@ -1494,6 +1460,36 @@ $meQuery = mysqli_query($conn, $Sql);
       die;
     }
   }
+  function   showRequest($conn, $DATA){
+        $countx = 0;
+        $Sql = "SELECT item_unit.UnitCode , item_unit.UnitName FROM item_unit";
+        $meQuery = mysqli_query($conn, $Sql);
+        while ($Result = mysqli_fetch_assoc($meQuery)) {
+          $return[$countx]['UnitCode'] = $Result['UnitCode'];
+          $return[$countx]['UnitName'] = $Result['UnitName'];
+          $countx++;
+        }
+        $return['countx'] = $countx;
+        $return['status'] = "success";
+        $return['form'] = "showRequest";
+        echo json_encode($return);
+        mysqli_close($conn);
+  }
+  function   SaveRequest($conn, $DATA){
+    $NameRequest      = $DATA['NameRequest'];
+    $qtyRequest         = $DATA['qtyRequest'];
+    $weightRequest    = $DATA['weightRequest'];
+    $DocNo                = $DATA['DocNo'];
+    $unitrequest         = $DATA['unitrequest'];
+
+    $Insert = "INSERT clean_detail (DocNo, RequestName, UnitCode,  Qty , ItemCode  , Weight )VALUES('$DocNo', '$NameRequest', $unitrequest,  $qtyRequest , 'HDL' , $weightRequest)";
+    mysqli_query($conn, $Insert);
+
+    ShowDetail($conn, $DATA);
+
+}
+
+
   //==========================================================
   //
   //==========================================================
@@ -1547,6 +1543,10 @@ $meQuery = mysqli_query($conn, $Sql);
       getfactory($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'UpdateDetail') {
       UpdateDetail($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'showRequest') {
+      showRequest($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'SaveRequest') {
+      SaveRequest($conn, $DATA);
     }
     
 

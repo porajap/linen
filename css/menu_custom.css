@@ -74,6 +74,17 @@
         background-color:#23C4A5;		
         ;
       }
+      .circle22 i{
+        padding: 7px;
+        color:#ffffff;
+      }
+      .circle22{
+        width: 38px;
+        height: 38px;
+        border-radius:50px;
+        background-color:#23C4A5;		
+        ;
+      }
       .circle2 i{
         padding: 7px;
         color:#ffffff;

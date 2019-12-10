@@ -141,7 +141,7 @@ function ShowItem($conn, $DATA)
           item.ItemName
           FROM
           item
-          WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') AND item.IsActive = 1
+          WHERE   IsActive = 1 AND HptCode = '$HptCode'  AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') AND item.IsActive = 1 AND NOT IsClean = 1 AND NOT IsDirtyBag  =1 
           ORDER BY item.Modify_Date ASC
           ";
   }else{
@@ -149,7 +149,7 @@ function ShowItem($conn, $DATA)
           INNER JOIN item_stock ON item_stock.ItemCode = item.ItemCode
           INNER JOIN site ON site.HptCode = item.HptCode
           INNER JOIN department ON department.DepCode = item_stock.DepCode
-          WHERE site.HptCode = '$HptCode' AND department.IsDefault =1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') 
+          WHERE site.HptCode = '$HptCode' AND department.IsDefault =1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') AND NOT IsClean = 1 AND NOT IsDirtyBag  =1
           GROUP BY ItemCode ";    
   }
   // var_dump($Sql); die;

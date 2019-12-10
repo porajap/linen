@@ -21,26 +21,25 @@ function getSection($conn, $DATA)
         WHERE department.IsStatus = 0 AND department.HptCode ='$HptCode' ORDER BY department.DepCode";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['DepCode']  = $Result['DepCode'];
-    $return[$count]['DepName']  = $Result['DepName'];
+    $return[$count]['DepCode']     = $Result['DepCode'];
+    $return[$count]['DepName']    = $Result['DepName'];
     $return[$count]['Hptpercent']  = $Result['Percent_value'];
-    $DepCode[$count]  = $Result['DepCode'];
+    $DepCode[$count]                   = $Result['DepCode'];
     $count++;
   }
   $return['CountRow'] = $count;
   $limit = $count;
   $count = 0;
-  $Sql = "SELECT item_main_category.MainCategoryName, item.ItemName, item.ItemCode  FROM item 
+  $Sql = "SELECT item_category.CategoryName, item.ItemName, item.ItemCode  FROM item 
     INNER JOIN item_category ON item_category.CategoryCode = item.CategoryCode
-    INNER JOIN item_main_category ON item_main_category.MainCategoryCode = item_category.MainCategoryCode
     LEFT JOIN tdas_change ON tdas_change.ItemCode = item.ItemCode
     WHERE item.Tdas = 1 AND item.HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['mainType']  = $Result['MainCategoryName'];
-    $return[$count]['ItemName']  = $Result['ItemName'];
-    $return[$count]['ItemCode']  = $Result['ItemCode'];
-    $ItemCode[$count]  = $Result['ItemCode'];
+    $return[$count]['mainType']      = $Result['CategoryName'];
+    $return[$count]['ItemName']     = $Result['ItemName'];
+    $return[$count]['ItemCode']      = $Result['ItemCode'];
+    $ItemCode[$count]                    = $Result['ItemCode'];
     $count++;
   }
   $return['RowCount'] = $count;
@@ -490,7 +489,7 @@ function SelectDocument($conn, $DATA){
   #-----------------------------------------------------------------
   $count = 0;
   $Sql = "SELECT
-      item_main_category.MainCategoryName,
+      item_category.CategoryName,
       item.ItemName,
       item.ItemCode,
       tdas_detail_item.Change_value
@@ -498,7 +497,6 @@ function SelectDocument($conn, $DATA){
       tdas_detail_item
     INNER JOIN item ON item.ItemCode = tdas_detail_item.ItemCode
     INNER JOIN item_category ON item_category.CategoryCode = item.CategoryCode
-    INNER JOIN item_main_category ON item_main_category.MainCategoryCode = item_category.MainCategoryCode
     LEFT JOIN tdas_change ON tdas_change.ItemCode = item.ItemCode
     WHERE tdas_detail_item.DocNo = '$DocNo'
     AND item.Tdas = 1
@@ -506,7 +504,7 @@ function SelectDocument($conn, $DATA){
     GROUP BY tdas_detail_item.ItemCode ORDER BY tdas_detail_item.ItemCode DESC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['mainType']  = $Result['MainCategoryName'];
+    $return[$count]['mainType']  = $Result['CategoryName'];
     $return[$count]['ItemName']  = $Result['ItemName'];
     $return[$count]['ItemCode']  = $Result['ItemCode'];
     $return[$count]['change_value']  = $Result['Change_value'];

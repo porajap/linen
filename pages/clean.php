@@ -85,6 +85,9 @@ var xItemcode;
 var RowCnt=0;
 
 $(document).ready(function(e){
+  $('.numonly').on('input', function() {
+    this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+  });
   $('#rem3').hide();
   $('#rem4').hide();
   var PmID = <?php echo $PmID;?>;
@@ -182,6 +185,38 @@ $(document).ready(function(e){
         // }
         // }
         ShowItem();
+      }
+      function SaveRequest(){
+        
+        var unitrequest           = $("#unitrequest").val();
+        var NameRequest        = $("#NameRequest").val();
+        var qtyRequest           = $("#qtyRequest").val();
+        var weightRequest      = $("#weightRequest").val();
+        var docno                  = $("#docno").val();
+          swal({
+            title: " ",
+            text:  " <?php echo $array['save'][$language]; ?>",
+            type: "success",
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 500,
+            closeOnConfirm: false
+          });
+          setTimeout(() => {
+            var data = {
+              'STATUS'              : 'SaveRequest',
+            'NameRequest'	      : NameRequest ,
+            'qtyRequest'	         : qtyRequest,
+            'weightRequest'	     : weightRequest,
+            'unitrequest'	          : unitrequest,
+            'DocNo'	                 : docno
+            }
+            senddata(JSON.stringify(data));
+            $("#NameRequest").val("");
+            $("#qtyRequest").val("");
+            $("#weightRequest").val("");
+            // $('#ModalRequest').modal('toggle');
+          }, 1000);
       }
 
       function OpenDialogUsageCode(itemcode){
@@ -354,7 +389,12 @@ $(document).ready(function(e){
             keyboard: false
         });   
       }
-
+      function showRequest(){          
+          var data = {
+            'STATUS' : 'showRequest'
+          }
+          senddata(JSON.stringify(data));
+        }
       function get_dirty_doc(){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
@@ -1170,6 +1210,14 @@ $(document).ready(function(e){
               // if(PmID != 1){
               //   $("#Dep2").val(temp[0]['DepCode']);
               // }
+              }
+              else if(temp["form"]=='showRequest'){
+              $("#unitrequest").empty();
+              for (var i = 0; i < temp['countx']; i++) {
+                var Str = "<option value="+temp[i]['UnitCode']+">"+temp[i]['UnitName']+"</option>";
+                $("#unitrequest").append(Str);
+              }
+              $('#ModalRequest').modal("show");
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1390,15 +1438,14 @@ $(document).ready(function(e){
                   var rowCount = $('#TableItem >tbody >tr').length;
 
                   var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
-                  var nUnit = temp[i]['UnitName'];
-                  for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                    if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode']){
-                      chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                    }else{
-                      chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                    }
-                  }
-                  chkunit += "</select>";
+                    $.each(temp['Unit'], function(key, val){
+                      if(temp[i]['UnitCode']==val.UnitCode){
+                        chkunit += '<option selected value="'+val.UnitCode+','+val.MpCode+','+val.Multiply+'">'+val.UnitName+'</option>';
+                      }else{
+                        chkunit += '<option value="'+val.UnitCode+','+val.MpCode+','+val.Multiply+'">'+val.UnitName+'</option>';
+                      }
+                    });
+                    chkunit += "</select>";
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
@@ -2243,14 +2290,14 @@ $(document).ready(function(e){
       <div class="modal-body">
         <div class="card-body" style="padding:0px;">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
               <div class='form-group row'>
-                <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+                <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -5%;"><?php echo $array['Searchitem2'][$language]; ?></label>
+                <input type="text" class="form-control col-sm-9" style="margin-left: -5%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
               </div>
             </div>
               <!-- serach----------------------- -->
-              <div class="search_custom col-md-2" style="margin-left: -14%;">
+              <div class="search_custom col-md-2" >
                 <div class="search_1 d-flex justify-content-start">
                   <button class="btn" onclick="ShowItem()" id="bSave">
                     <i class="fas fa-search mr-2"></i>
@@ -2267,6 +2314,15 @@ $(document).ready(function(e){
                   </button>
                 </div>
               </div>
+
+              <div class="search_custom col-md-2">
+                <div class="circle22 d-flex justify-content-start">
+                <button class="btn" onclick="showRequest()">
+                  <i class="fas fa-plus mr-2"></i>
+                  <?php echo $array['addrequest'][$language]; ?>
+                </button>
+              </div>
+            </div>
               <!-- end serach----------------------- -->
           </div>
           <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
@@ -2417,6 +2473,62 @@ $(document).ready(function(e){
     </div>
   </div>
 </div>
+
+
+
+
+<!-- -----------------------------Custome1------------------------------------ -->
+<div class="modal fade" id="ModalRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style=" margin-left: 26%;">
+    <div class="modal-content" style="width: 110% !important;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body" style="padding:0px;">
+          <table class="table table-fixed table-condensed table-striped" id="TableRequest" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
+            <thead style="font-size:24px;">
+              <tr role="row">
+              <input type="text" hidden id="countcheck">
+                <th style='width: 31%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 30%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 23%;padding-left: 8%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 16%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+              </tr>
+
+            </thead>
+            <tbody id="tbody1_modalRequest" class="nicescrolled" style="font-size:23px;height:70px;">
+            <tr>
+                  <td   style='width: 40%;' nowrap><input type="text" autocomplete="off"  class="form-control" style="width: 100%;font-size: 24px;"  id="NameRequest" placeholder="กรุณากรอกชื่อรายการ"></td>
+                  <td   style='width: 27%;' nowrap><select id=unitrequest   style=" width: 100%;font-size: 24px;" class="form-control"> </select> </td>
+                  <td   style='width: 15%;' nowrap><input type="text" autocomplete="off"  class="form-control numonly" style="width: 100%;font-size: 24px;text-align: center;"  id="qtyRequest" placeholder="0"></td>
+                  <td   style='width: 15%;' nowrap><input type="text" autocomplete="off"  class="form-control numonly" style="width: 100%;font-size: 24px;text-align: center;"  id="weightRequest" placeholder="0.00"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" style="width:10%;" class="btn btn-success" id="saverequest" onclick="SaveRequest()"><?php echo $array['confirm'][$language]; ?></button>
+        <button type="button" style="width:10%;" class="btn btn-danger" data-dismiss="modal"><?php echo $array['cancel'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Bootstrap core JavaScript-->
 <script src="../template/vendor/jquery/jquery.min.js"></script>
 <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

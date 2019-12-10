@@ -121,6 +121,7 @@ $array2 = json_decode($json2,TRUE);
   //  console.log(window.parent.location.href);
     OnLoadPage();
     getfactory();
+    timedirty();
     // CreateDocument();
     //==============================
     $('.TagImage').bind('click', {
@@ -171,7 +172,15 @@ $array2 = json_decode($json2,TRUE);
           }
           ShowItem();
         }
-
+        function timedirty(){
+          var Hotp = $('#hotpital option:selected').attr("value");
+          var data = {
+            'STATUS'  : 'timedirty',
+            'Hotp'	: Hotp
+          };
+          senddata(JSON.stringify(data));
+        
+        }
         function OpenDialogUsageCode(itemcode){
           xItemcode = itemcode;
           var docno = $("#docno").val();
@@ -624,7 +633,7 @@ $array2 = json_decode($json2,TRUE);
           var userid = '<?php echo $Userid; ?>';
           var hotpCode = $('#hotpital option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
-
+          var timedirty = $('#timedirty option:selected').attr("value");
           if(FacCode == '' || hotpCode == ''  ){
             checkblank();
             checkblank2();
@@ -657,9 +666,10 @@ $array2 = json_decode($json2,TRUE);
                 if (result.value) {
                 var data = {
                   'STATUS'    : 'CreateDocument',
-                  'hotpCode'  : hotpCode,
-                  'userid'	: userid,
-                  'FacCode'	: FacCode
+                  'hotpCode'    : hotpCode,
+                  'userid'	       : userid,
+                  'FacCode'	     : FacCode,
+                  'timedirty'	   : timedirty
                 };
                 senddata(JSON.stringify(data));
                 var word = '<?php echo $array['save'][$language]; ?>';
@@ -842,6 +852,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#bSave").prop('disabled', true);
                       $("#bCancel").prop('disabled', true);
                       $('#factory').attr('disabled', false);
+                      ShowDocument();
                       // Blankinput();
                     //   setTimeout(() => {
                     // $('#ModalSign').modal("show");
@@ -1273,8 +1284,14 @@ $array2 = json_decode($json2,TRUE);
                           Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                       }
                       $("#factory").append(Str);
-                }
-                else if(temp["form"]=='getDepartment'){
+                      timedirty();
+                }else if(temp["form"]=='timedirty'){
+                      var StrTrX = "<option value='' selected><?php echo $array['selectdirty'][$language]; ?></option>";
+                      for (var i = 0; i <  temp['row'];  i++) {
+                         StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
+                      }
+                      $("#timedirty").html(StrTrX);
+            }else if(temp["form"]=='getDepartment'){
                   $("#department").empty();
                   $("#Dep2").empty();
                   var Str2 = "<option value='' selected><?php echo $array['selectdep'][$language]; ?></option>";
@@ -1312,8 +1329,10 @@ $array2 = json_decode($json2,TRUE);
                   $('#bSave').attr('disabled', false);
                   $('#bImport').attr('disabled', false);
                   $('#factory').attr('disabled', true);
+                  $('#timedirty').attr('disabled', true);
                   $('#docdate').attr('disabled', true);
                   $('#factory').addClass('icon_select');
+                  $('#timedirty').addClass('icon_select');
                   $('#bSave2').removeClass('opacity');
                   $('#bImport2').removeClass('opacity');
                   $('#bCancel2').removeClass('opacity');
@@ -1378,6 +1397,12 @@ $array2 = json_decode($json2,TRUE);
                       }
                       $("#factory").html(Str);
 
+                  var StrTrX = "<option value='' selected><?php echo $array['selectdirty'][$language]; ?></option>";
+                        for (var i = 0; i <  temp['row'];  i++) {
+                          StrTrX += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
+                      }
+                    $("#timedirty").html(StrTrX);
+
                   $('#bCreate').attr('disabled', true);
                   $('#hover1').removeClass('mhee');
                   $('#bCreate2').addClass('opacity');
@@ -1388,6 +1413,7 @@ $array2 = json_decode($json2,TRUE);
                   $('#hotpital').addClass('icon_select');                  
                   $("#docno").val(temp[0]['DocNo']);
                   $("#docdate").val(temp[0]['DocDate']);
+                  $("#timedirty").val(temp[0]['timedirty']);
                   $("#recorder").val(temp[0]['Record']);
                   $("#timerec").val(temp[0]['RecNow']);
                   $("#wTotal").val(temp[0]['Total']);
@@ -1395,6 +1421,8 @@ $array2 = json_decode($json2,TRUE);
                   $('#factory').addClass('icon_select');
                   $("#factory").val(temp[0]['FacCode2']);
                   $('#factory').attr('disabled', true);
+                  $('#timedirty').addClass('icon_select');
+                  $('#timedirty').attr('disabled', true);
                   if(temp[0]['IsStatus']==0){
                     // $('.chk_edit').prop('disabled', false);
                     // $('.').prop('disabled', false);
@@ -2271,8 +2299,15 @@ $array2 = json_decode($json2,TRUE);
                                             <input class='form-control col-sm-7"'  style="font-size:22px;"  id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" OnBlur='UpdateRefDocNo()'>
                                         </div>
                                       </div>
+                                      <div class="col-md-6">
+                                            <div class='form-group row'>
+                                            <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['rounddirty'][$language]; ?></label>
+                                                <select  id="timedirty"  style="font-size:22px;" class="form-control col-sm-7  border "  name="searchitem"
+                                                placeholder="<?php echo $array['rounddirty'][$language]; ?>">  </select>
+                                                <!-- <label id="rem2"   class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label> -->
+                                            </div>
+                                        </div>
                                     </div>
-
                                   </div>
                               </div>
                           </div> <!-- tag column 1 -->

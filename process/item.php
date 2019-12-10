@@ -30,17 +30,12 @@ function ShowItem($conn, $DATA)
           WHEN '7' THEN '3XL' 
           WHEN '8' THEN '6XL' 
           WHEN '9' THEN 'NO SIZE' END AS SizeCode,
-            item.CusPrice,
-            item.FacPrice,
             item.Weight,
-            item.Picture,
             item.IsClean,
-            item.Itemnew,
             item.isset,
             item.Tdas
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '' && $HptCode != '') {
@@ -57,23 +52,55 @@ function ShowItem($conn, $DATA)
     $Sql .= " WHERE item.HptCode = '$HptCode' AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') AND item.IsActive = 1 ";
   }
-  $Sql .= " ORDER BY item.$column $sort";
+
+  $return['sql']    = $Sql;
+  $meQuery       = mysqli_query($conn,$Sql);
+  $Num_Rows   = mysqli_num_rows($meQuery );
+
+  $Per_Page = 100;  
+
+  $Page =  $DATA["Page"];
+  if(! $DATA["Page"])
+  {
+    $Page=1;
+  }
+  $Prev_Page = $Page-1;
+  $Next_Page = $Page+1;
+
+  $Page_Start = (($Per_Page*$Page)-$Per_Page);
+
+if($Num_Rows<=$Per_Page)
+{
+	$Num_Pages =1;
+}
+else if(($Num_Rows % $Per_Page)==0)
+{
+	$Num_Pages =($Num_Rows/$Per_Page) ;
+}
+else
+{
+	$Num_Pages =($Num_Rows/$Per_Page)+1;
+	$Num_Pages = (int)$Num_Pages;
+}
+$return['Num_Rows']     	    = $Num_Rows;
+$return['Num_Pages']     	    = $Num_Pages;
+$return['Prev_Page']      	    = $Prev_Page;
+$return['Next_Page']      	    = $Next_Page;
+$return['Page']      	               = $Page;
+
+  $Sql .= " ORDER BY item.$column $sort   LIMIT $Page_Start , $Per_Page ";
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['ItemCode'] = $Result['ItemCode'];
-    $return[$count]['ItemName'] = $Result['ItemName'];
-    $return[$count]['CategoryName'] = $Result['CategoryName'];
-    $return[$count]['UnitName'] = $Result['UnitName'];
-    $return[$count]['SizeCode'] = $Result['SizeCode'];
-    $return[$count]['CusPrice'] = $Result['CusPrice'];
-    $return[$count]['FacPrice'] = $Result['FacPrice'];
-    $return[$count]['Weight'] = $Result['Weight'];
-    $return[$count]['Picture'] = $Result['Picture'];
-    $return[$count]['IsDirtyBag'] = $Result['IsClean']==null?0:$Result['IsClean'];
-    $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
-    $return[$count]['isset'] = $Result['isset']==null?0:$Result['isset'];
-    $return[$count]['Tdas'] = $Result['Tdas']==null?0:$Result['Tdas'];
+    $return[$count]['ItemCode']           = $Result['ItemCode'];
+    $return[$count]['ItemName']         = $Result['ItemName'];
+    $return[$count]['CategoryName']   = $Result['CategoryName'];
+    $return[$count]['UnitName']           = $Result['UnitName'];
+    $return[$count]['SizeCode']           = $Result['SizeCode'];
+    $return[$count]['Weight']             = $Result['Weight'];
+    $return[$count]['IsDirtyBag']       = $Result['IsClean']==null?0:$Result['IsClean'];
+    $return[$count]['isset']                = $Result['isset']==null?0:$Result['isset'];
+    $return[$count]['Tdas']               = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
   }
   if($column == 'itemDate' && $sort=='ASC'){
@@ -117,23 +144,17 @@ function ShowItem2($conn, $DATA)
           WHEN '4' THEN 'L'
           WHEN '5' THEN 'XL'
           WHEN '6' THEN 'XXL' END AS SizeCode,
-            item.CusPrice,
-            item.FacPrice,
             item.Weight,
-            item.Picture,
             item.IsDirtyBag,
-            item.Itemnew,
             item.isset
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode =$maincatagory ";
+    $Sql .= " WHERE item.CategoryCode = $Catagory  ";
   } else {
-    $Sql .= " WHERE item_main_category.MainCategoryCode =$maincatagory AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
+    $Sql .= " WHERE  item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%'";
   }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -142,12 +163,8 @@ function ShowItem2($conn, $DATA)
     $return[$count]['CategoryName'] = $Result['CategoryName'];
     $return[$count]['UnitName'] = $Result['UnitName'];
     $return[$count]['SizeCode'] = $Result['SizeCode'];
-    $return[$count]['CusPrice'] = $Result['CusPrice'];
-    $return[$count]['FacPrice'] = $Result['FacPrice'];
     $return[$count]['Weight'] = $Result['Weight'];
-    $return[$count]['Picture'] = $Result['Picture'];
     $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['isset'];
-    $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['isset'];
     $return[$count]['isset'] = $Result['isset']==null?0:$Result['isset'];
     $count++;
   }
@@ -186,10 +203,7 @@ function ShowItem_Active_0($conn, $DATA)
           WHEN '4' THEN 'L'
           WHEN '5' THEN 'XL'
           WHEN '6' THEN 'XXL' END AS SizeCode,
-            item.CusPrice,
-            item.FacPrice,
             item.Weight,
-            item.Picture
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
@@ -209,10 +223,7 @@ function ShowItem_Active_0($conn, $DATA)
     $return[$count]['CategoryName'] = $Result['CategoryName'];
     $return[$count]['UnitName'] = $Result['UnitName'];
     $return[$count]['SizeCode'] = $Result['SizeCode'];
-    $return[$count]['CusPrice'] = $Result['CusPrice'];
-    $return[$count]['FacPrice'] = $Result['FacPrice'];
     $return[$count]['Weight'] = $Result['Weight'];
-    $return[$count]['Picture'] = $Result['Picture'];
     $count++;
   }
 
@@ -278,8 +289,7 @@ function getCatagory($conn, $DATA)
             item_category.IsStatus
             FROM
             item_category
-            INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
-            WHERE item_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0 ";
+            WHERE  item_category.IsStatus = 0 ";
     }else{
             $Sql = "SELECT
             item_category.CategoryCode,
@@ -287,7 +297,6 @@ function getCatagory($conn, $DATA)
             item_category.IsStatus
             FROM
             item_category
-            INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
             WHERE item_category.IsStatus = 0 ";
     }
   //var_dump($Sql); die;
@@ -324,8 +333,7 @@ function getCatagory2($conn, $DATA)
           item_category.IsStatus
           FROM
           item_category
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
-          WHERE item_category.MainCategoryCode = $maincatagory AND item_category.IsStatus = 0 ";
+          WHERE item_category.IsStatus = 0 ";
   }else{
           $Sql = "SELECT
           item_category.CategoryCode,
@@ -333,7 +341,6 @@ function getCatagory2($conn, $DATA)
           item_category.IsStatus
           FROM
           item_category
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           WHERE item_category.IsStatus = 0 ";
   }
   //var_dump($Sql); die;
@@ -407,14 +414,10 @@ function getdetail($conn, $DATA)
           item.ItemName,
           item.CategoryCode,
           item_category.Categoryname,
-          item_main_category.MainCategoryCode,
           item.UnitCode,
           item_unit.UnitName,
           item.SizeCode,
-          item.CusPrice,
-          item.FacPrice,
           item.Weight,
-          item.Picture,
           item.typeLinen,
           item.numPack,
           item_multiple_unit.RowID,
@@ -424,13 +427,11 @@ function getdetail($conn, $DATA)
           item.QtyPerUnit,
           item.UnitCode2,
           IsClean,
-          Itemnew,
           Tdas,
           isset,
           HptCode
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
           LEFT JOIN item_unit AS item_unit2 ON item.SizeCode = item_unit2.UnitCode
           LEFT JOIN item_multiple_unit ON item_multiple_unit.ItemCode = item.ItemCode
@@ -446,13 +447,9 @@ function getdetail($conn, $DATA)
     $return[$count]['ItemName']         = $Result['ItemName'];
     $return[$count]['CategoryCode']     = $Result['CategoryCode'];
     $return[$count]['Categoryname']     = $Result['Categoryname'];
-    $return[$count]['MainCategoryCode'] = $Result['MainCategoryCode'];
     $return[$count]['UnitCode']         = $Result['UnitCode'];
     $return[$count]['SizeCode']         = $Result['SizeCode'];
-    $return[$count]['CusPrice']         = $Result['CusPrice'];
-    $return[$count]['FacPrice']         = $Result['FacPrice'];
     $return[$count]['Weight']           = $Result['Weight'];
-    $return[$count]['Picture']          = $Result['Picture'];
     $return[$count]['typeLinen']        = $Result['typeLinen'];
     $return[$count]['numPack']          = $Result['numPack'];
     $return[$count]['RowID']            = $Result['RowID'];
@@ -464,7 +461,6 @@ function getdetail($conn, $DATA)
     $return[$count]['QtyPerUnit']       = $Result['QtyPerUnit'];
     $return[$count]['sUnitName']        = $Result['UnitCode2'];
     $return[0]['IsDirtyBag']            = $Result['IsClean']==null?0:$Result['IsClean'];
-    $return[0]['Itemnew']               = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $return[0]['isset']                 = $Result['isset']==null?0:$Result['isset'];
     $return[0]['tdas']                  = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
@@ -488,39 +484,6 @@ function getdetail($conn, $DATA)
     die;
   }
 }
-function GetmainCat($conn, $DATA)
-{
-  $count = 0;
-  $Sql = "SELECT
-          item_main_category.MainCategoryCode,
-          item_main_category.MainCategoryName,
-          item_main_category.IsStatus
-          FROM
-          item_main_category
-          WHERE item_main_category.IsStatus = 0
-          ";
-  // var_dump($Sql); die;
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['MainCategoryCode'] = $Result['MainCategoryCode'];
-    $return[$count]['MainCategoryName'] = $Result['MainCategoryName'];
-    $count++;
-  }
-  if ($count > 0) {
-    $return['status'] = "success";
-    $return['form'] = "GetmainCat";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  } else {
-    $return['status'] = "notfound";
-    $return['msg'] = "notfound";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-}
-
 function getSection($conn, $DATA)
 {
   $count = 0;
@@ -567,13 +530,10 @@ function AddItem($conn, $DATA)
             ItemName      = '" . $DATA['ItemName'] . "',
             UnitCode      = '" . $DATA['UnitName'] . "',
             SizeCode      = '" . $DATA['SizeCode'] . "',
-            CusPrice      = '" . $DATA['CusPrice'] . "',
-            FacPrice      = '" . $DATA['FacPrice'] . "',
             Weight        = '" . $DATA['Weight'] . "',
             QtyPerUnit    = '" . $DATA['qpu'] . "',
             UnitCode2     = '" . $DATA['sUnit'] . "',
             IsClean       = '" . $DATA['xCenter'] . "',  
-            Itemnew       = '" . $DATA['xItemnew'] . "',
             Tdas          = '" . $DATA['tdas'] . "',
             isset         = ". $DATA['masterItem'].",
             HptCode       = '". $DATA['hospital']."',
@@ -753,14 +713,11 @@ function NewItem($conn, $DATA)
             ItemName,
             UnitCode,
             SizeCode,
-            CusPrice,
-            FacPrice,
             Weight,
             IsActive,
             QtyPerUnit,
             UnitCode2,
             IsClean,
-            Itemnew,
             itemDate,
             Tdas,
             isset,
@@ -777,14 +734,11 @@ function NewItem($conn, $DATA)
               '" . $DATA['ItemName'] . "',
               '" . $DATA['UnitName'] . "',
               '" . $DATA['SizeCode'] . "',
-              '" . $DATA['CusPrice'] . "',
-              '" . $DATA['FacPrice'] . "',
               '" . $DATA['Weight'] . "',
               1,
               '" . $DATA['qpu'] . "',
               '" . $DATA['sUnit'] . "',
               '" . $DATA['xCenter'] . "',
-              '" . $DATA['xItemnew'] . "',
               NOW(),
               '" . $DATA['tdas'] . "',
               '" . $DATA['masterItem'] . "',
@@ -1021,19 +975,14 @@ function ShowItemMaster($conn, $DATA)
           WHEN '4' THEN 'L'
           WHEN '5' THEN 'XL'
           WHEN '6' THEN 'XXL' END AS SizeCode,
-            item.CusPrice,
-            item.FacPrice,
             item.Weight,
-            item.Picture,
-            item.IsDirtyBag,
-            item.Itemnew
+            item.IsDirtyBag
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode = $maincatagory AND item.isset = 1";
+    $Sql .= " WHERE item.CategoryCode = $Catagory  AND item.isset = 1";
   } else {
     $Sql .= " WHERE item_main_category.MainCategoryCode = $maincatagory AND item.isset = 1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
@@ -1046,12 +995,8 @@ function ShowItemMaster($conn, $DATA)
     $return[$count]['CategoryName'] = $Result['CategoryName'];
     $return[$count]['UnitName'] = $Result['UnitName'];
     $return[$count]['SizeCode'] = $Result['SizeCode'];
-    $return[$count]['CusPrice'] = $Result['CusPrice'];
-    $return[$count]['FacPrice'] = $Result['FacPrice'];
     $return[$count]['Weight'] = $Result['Weight'];
-    $return[$count]['Picture'] = $Result['Picture'];
     $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['IsDirtyBag'];
-    $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $count++;
   }
   $return['CountRow'] = $count;
@@ -1078,30 +1023,37 @@ function ShowItemMaster2($conn, $DATA)
   $Keyword = $DATA['Keyword'];
   $Catagory = $DATA['Catagory'];
   $Sql = "SELECT
-            item.ItemCode,
+            item.ItemCode,  
+
             item.ItemName,
+
             item_category.CategoryName,
+
             item_unit.UnitName,
-          CASE item.SizeCode
-          WHEN '1' THEN 'SS'
-          WHEN '2' THEN 'S'
-          WHEN '3' THEN 'M'
-          WHEN '4' THEN 'L'
-          WHEN '5' THEN 'XL'
-          WHEN '6' THEN 'XXL' END AS SizeCode,
-            item.CusPrice,
-            item.FacPrice,
+
+          CASE item.
+          
+              WHEN '1' THEN 'SS'
+              WHEN '2' THEN 'S'
+              WHEN '3' THEN 'M'
+              WHEN '4' THEN 'L'
+              WHEN '5' THEN 'XL'
+              WHEN '6' THEN 'XXL' END AS SizeCode,
+
             item.Weight,
+
             item.Picture,
-            item.IsDirtyBag,
-            item.Itemnew
+
+            item.IsDirtyBag
+
           FROM item
+
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
+
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode = $maincatagory AND item.isset = 1";
+    $Sql .= " WHERE item.CategoryCode = $Catagory  AND item.isset = 1";
   } else {
     $Sql .= " WHERE item_main_category.MainCategoryCode = $maincatagory AND item.isset = 1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
@@ -1113,12 +1065,8 @@ function ShowItemMaster2($conn, $DATA)
     $return[$count]['CategoryName'] = $Result['CategoryName'];
     $return[$count]['UnitName'] = $Result['UnitName'];
     $return[$count]['SizeCode'] = $Result['SizeCode'];
-    $return[$count]['CusPrice'] = $Result['CusPrice'];
-    $return[$count]['FacPrice'] = $Result['FacPrice'];
     $return[$count]['Weight'] = $Result['Weight'];
-    $return[$count]['Picture'] = $Result['Picture'];
     $return[$count]['IsDirtyBag'] = $Result['IsDirtyBag']==null?0:$Result['IsDirtyBag'];
-    $return[$count]['Itemnew'] = $Result['Itemnew']==null?0:$Result['Itemnew'];
     $count++;
   }
   $return['CountRow'] = $count;
@@ -1219,14 +1167,12 @@ function ShowItemModal($conn, $DATA)
             item.ItemName
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
   if ($Keyword == '') {
-    $Sql .= " WHERE item.CategoryCode = $Catagory AND item_main_category.MainCategoryCode = $maincatagory 
-    AND item.isset = 0 AND NOT item.ItemCode = ('$ItemCode') AND ItemCode NOT IN (SELECT ItemCode FROM item_set )";
+    $Sql .= " WHERE item.CategoryCode = $Catagory AND item.isset = 0 AND NOT item.ItemCode = ('$ItemCode') AND ItemCode NOT IN (SELECT ItemCode FROM item_set )";
   } else {
-    $Sql .= " WHERE item_main_category.MainCategoryCode = $maincatagory  AND item.isset = 0 
+    $Sql .= " WHERE item.isset = 0 
     AND NOT item.ItemCode = ('$ItemCode') AND ItemCode NOT IN (SELECT ItemCode FROM item_set ) AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
     OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') ";
   }
@@ -1324,9 +1270,7 @@ if (isset($_POST['DATA'])) {
   
   else if ($DATA['STATUS'] == 'NewItem') {
     NewItem($conn, $DATA);
-  } else if ($DATA['STATUS'] == 'GetmainCat') {
-    GetmainCat($conn, $DATA);
-  } else if ($DATA['STATUS'] == 'ActiveItem') {
+  }else if ($DATA['STATUS'] == 'ActiveItem') {
     ActiveItem($conn, $DATA);
   } else if ($DATA['STATUS'] == 'checkItemCode') {
     checkItemCode($conn, $DATA);

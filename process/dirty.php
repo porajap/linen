@@ -126,6 +126,7 @@
       $hotpCode   = $DATA["hotpCode"];
       $userid     = $DATA["userid"];
       $FacCode    = $DATA["FacCode"];
+      $timedirty    = $DATA["timedirty"];
       $lang       = $_SESSION['lang'];
 
       //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
@@ -151,14 +152,14 @@
         $return[0]['DocDate'] = $newdate;
         $return[0]['RecNow']  = $Result['RecNow'];
         $count = 1;
-        $Sql = "INSERT INTO log ( log ) VALUES ('" . $Result['DocDate'] . " : " . $Result['DocNo'] . " :: $hotpCode :: $deptCode')";
+        $Sql = "INSERT INTO log ( log ) VALUES ('" . $Result['DocDate'] . " : " . $Result['DocNo'] . " :: $hotpCode ')";
         mysqli_query($conn, $Sql);
       }
 
         if ($count == 1) {
           $Sql = "INSERT INTO dirty
-            ( DocNo,DocDate,HptCode,RefDocNo, TaxNo,TaxDate,DiscountPercent,DiscountBath, Total,IsCancel,Detail, dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode )
-            VALUES ( '$DocNo',DATE(NOW()),'$hotpCode','', 0,NOW(),0,0, 0,0,'', $userid,NOW(), $FacCode )";
+            ( DocNo,DocDate,HptCode,RefDocNo, TaxNo,TaxDate,DiscountPercent,DiscountBath, Total,IsCancel,Detail, dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode ,dirty.Time_ID )
+            VALUES ( '$DocNo',DATE(NOW()),'$hotpCode','', 0,NOW(),0,0, 0,0,'', $userid,NOW(), $FacCode ,  $timedirty )";
           mysqli_query($conn,$Sql);
 
             $Sql = "INSERT INTO daily_request
@@ -317,7 +318,20 @@
       $count = 0;
       $DocNo = $DATA["xdocno"];
       $Datepicker = $DATA["Datepicker"];
-        $Sql = "SELECT   site.HptCode,dirty.DocNo,DATE(dirty.DocDate) AS DocDate ,dirty.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,dirty.FacCode,TIME(dirty.Modify_Date) AS xTime,dirty.IsStatus
+        $Sql = "SELECT   site.HptCode,
+        dirty.DocNo,
+        DATE(dirty.DocDate) AS DocDate ,
+        dirty.Total,
+        users.EngName ,
+         users.EngLName ,
+          users.ThName , 
+          users.ThLName , 
+          users.EngPerfix ,
+           users.ThPerfix ,
+           dirty.FacCode,
+           TIME(dirty.Modify_Date) AS xTime,
+           dirty.IsStatus,
+           dirty.Time_ID
         FROM dirty
         INNER JOIN site ON dirty.HptCode = site.HptCode
         INNER JOIN users ON dirty.Modify_Code = users.ID
@@ -344,6 +358,7 @@
         $return[$count]['Total']   = $Result['Total'];
         $return[$count]['IsStatus'] = $Result['IsStatus'];
         $return[$count]['FacCode2'] = $Result['FacCode'];
+        $return[$count]['timedirty'] = $Result['Time_ID'];
 
         $boolean = true;
         $count++;
@@ -364,6 +379,23 @@
       }
       $boolean = true;
       $return['Rowx'] = $countx;
+
+
+      $count2=0;
+      $Sql = "SELECT round_time_dirty.Time_ID,time_dirty.TimeName
+      FROM round_time_dirty
+      INNER JOIN time_dirty ON round_time_dirty.Time_ID = time_dirty.ID
+      WHERE round_time_dirty.HptCode = '$Hotp' ORDER BY time_dirty.TimeName ";
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $return[$count2]['ID'] = $Result['Time_ID'];
+        $return[$count2]['time_value'] = $Result['TimeName'];
+        $count2++;
+      } 
+      $return['row'] = $count2;
+
+
+
 
       if ($boolean) {
         $return['status'] = "success";
@@ -853,7 +885,6 @@
       $Sql = "UPDATE daily_request SET IsStatus = 0 WHERE daily_request.DocNo = '$DocNo'";
       mysqli_query($conn, $Sql);
 
-      ShowDocument($conn, $DATA);
     }
 
     function UpdateRefDocNo($conn, $DATA)
@@ -1313,6 +1344,45 @@
         die;
       }
     }
+    function timedirty($conn, $DATA)
+{
+  $count = 0;
+  $count2 = 0;
+  $boolean = false;
+  $boolean2 = false;
+  $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
+  $Sql = " SELECT round_time_dirty.Time_ID,time_dirty.TimeName
+                FROM round_time_dirty
+                INNER JOIN time_dirty ON round_time_dirty.Time_ID = time_dirty.ID
+                WHERE round_time_dirty.HptCode = '$Hotp' 
+                ORDER BY time_dirty.TimeName ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count2]['ID'] = $Result['Time_ID'];
+    $return[$count2]['time_value'] = $Result['TimeName'];
+    $count2++;
+    $boolean2 = true;
+  } 
+  $return['row'] = $count2;
+
+  if ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return['status'] = "success";
+    $return['form'] = "timedirty";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "success";
+    $return['form'] = "timedirty";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+
+
+
+
+}
     //==========================================================
     //
     //==========================================================
@@ -1374,6 +1444,8 @@
         SavEditRound($conn, $DATA);
       }elseif ($DATA['STATUS'] == 'getfactory') {
         getfactory($conn, $DATA);
+      }elseif ($DATA['STATUS'] == 'timedirty') {
+        timedirty($conn, $DATA);
       }
       
     } else {

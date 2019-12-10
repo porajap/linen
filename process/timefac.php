@@ -47,7 +47,7 @@ function getSection($conn, $DATA)
 function getTime($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $count = 0;
-  $Sql = "SELECT ID, TimeName FROM time_fac WHERE ID  BETWEEN 1 AND 48  ORDER BY ID ASC";
+  $Sql = "SELECT ID, TimeName FROM time_dirty WHERE ID  BETWEEN 1 AND 48  ORDER BY ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ID']  = $Result['ID'];
@@ -66,9 +66,9 @@ function getTime($conn, $DATA){
 function getTime2($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $count = 0;
-  $Sql = "SELECT ts.ID, ts.TimeName FROM time_fac ts
-  LEFT JOIN round_time_fac te ON te.Time_ID = ts.ID
-  WHERE ts.ID NOT IN(SELECT round_time_fac.Time_ID  FROM round_time_fac WHERE round_time_fac.HptCode = '$HptCode') AND ts.ID  BETWEEN 1 AND 48
+  $Sql = "SELECT ts.ID, ts.TimeName FROM time_dirty ts
+  LEFT JOIN round_time_dirty te ON te.Time_ID = ts.ID
+  WHERE ts.ID NOT IN(SELECT round_time_dirty.Time_ID  FROM round_time_dirty WHERE round_time_dirty.HptCode = '$HptCode') AND ts.ID  BETWEEN 1 AND 48
   ORDER BY ts.ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -87,13 +87,13 @@ function ShowItem($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $Keyword = $DATA['Keyword'];
   $count = 0;
-  $Select = "SELECT te.ID, te.HptCode, time_fac.TimeName , site.HptName
-    FROM round_time_fac te
+  $Select = "SELECT te.ID, te.HptCode, time_dirty.TimeName , site.HptName
+    FROM round_time_dirty te
     INNER JOIN site ON site.HptCode = te.HptCode 
-    INNER JOIN time_fac ON time_fac.ID = te.Time_ID  
-    WHERE te.HptCode = '$HptCode' ORDER BY time_fac.ID";
+    INNER JOIN time_dirty ON time_dirty.ID = te.Time_ID  
+    WHERE te.HptCode = '$HptCode' ORDER BY time_dirty.ID";
     if($Keyword != ''){
-      $Select .= "  AND (time_fac.TimeName LIKE  '%$Keyword%')";
+      $Select .= "  AND (time_dirty.TimeName LIKE  '%$Keyword%')";
     }
     $meQuery = mysqli_query($conn, $Select);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -115,14 +115,14 @@ function AddItem($conn, $DATA){
   $Userid = $_SESSION['Userid'];
   $HptCode = $DATA['HptCode'];
   $Time = $DATA['Time'];
-  $Sql = "INSERT INTO round_time_fac (Time_ID, HptCode ,DocDate ,Modify_Code ,Modify_Date)VALUES($Time, '$HptCode',NOW(),$Userid,NOW() )";
+  $Sql = "INSERT INTO round_time_dirty (Time_ID, HptCode ,DocDate ,Modify_Code ,Modify_Date)VALUES($Time, '$HptCode',NOW(),$Userid,NOW() )";
   mysqli_query($conn, $Sql);
   // ShowItem($conn, $DATA);
 }
 function getDetail($conn, $DATA){
   $ID = $DATA['ID'];
   $Sql = "SELECT te.ID, te.HptCode , site.HptName
-  FROM round_time_fac te
+  FROM round_time_dirty te
   INNER JOIN site ON site.HptCode = te.HptCode WHERE te.ID = '$ID'";
   $meQuery = mysqli_query($conn, $Sql);
   $Result = mysqli_fetch_assoc($meQuery);
@@ -139,14 +139,14 @@ function EditItem($conn, $DATA){
   $ID = $DATA['TimeID'];
   $HptCode = $DATA['HptCode'];
   $Time = $DATA['Time'];
-  $Sql = "UPDATE round_time_fac SET time_value = '$Time' , Modify_Date = NOW() , Modify_Code =  $Userid    WHERE ID = $ID";
+  $Sql = "UPDATE round_time_dirty SET time_value = '$Time' , Modify_Date = NOW() , Modify_Code =  $Userid    WHERE ID = $ID";
   mysqli_query($conn, $Sql);
   ShowItem($conn, $DATA);
 }
 function CancelItem($conn, $DATA){
   $HptCode = $DATA['HptCode'];
   $TimeID = $DATA['TimeID'];
-  $Sql = "DELETE FROM round_time_fac WHERE ID = $TimeID";
+  $Sql = "DELETE FROM round_time_dirty WHERE ID = $TimeID";
   mysqli_query($conn, $Sql);
   // ShowItem($conn, $DATA);
 }
