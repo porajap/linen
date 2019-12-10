@@ -310,19 +310,24 @@ $objPHPExcel->getActiveSheet()->mergeCells('A7:B7');
 $query = "  SELECT
               item.ItemCode,
               item.ItemName,
-              factory.$FacName
+              factory.$FacName,
+              clean_detail.RequestName
               FROM
               clean
               INNER JOIN clean_detail ON clean.DocNo = clean_detail.DocNo
-              INNER JOIN item ON clean_detail.ItemCode = item.ItemCode
+              LEFT JOIN item ON clean_detail.ItemCode = item.ItemCode
               INNER JOIN factory ON factory.FacCode = clean.FacCode
               $where
               AND clean.isStatus <> 9 AND clean.isStatus <> 0
               AND clean.FacCode = '$FacCode'
-              GROUP BY item.ItemName
+              GROUP BY clean_detail.ItemCode,clean_detail.RequestName
             ";
+echo $query;
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  if ($Result['RequestName'] <> null) {
+    $Result["ItemName"] = $Result['RequestName'];
+  }
   if ($status_group == 1) {
     $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result[$FacName]);
   }
@@ -331,6 +336,12 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $ItemCode[] =  $Result["ItemCode"];
   $status_group = 0;
 }
+echo "<pre>";
+print_r($ItemName);
+echo "</pre>";
+echo "<pre>";
+print_r($ItemCode);
+echo "</pre>";
 // -----------------------------------------------------------------------------------
 $r = 2;
 $d = 1;
@@ -374,8 +385,7 @@ for ($q = 0; $q < $COUNT_item; $q++) {
                     INNER JOIN clean ON clean.DocNo = clean_detail.DocNo
                     INNER JOIN factory ON factory.Faccode = clean.Faccode
                     INNER JOIN department ON department.DepCode = clean.DepCode
-                    INNER JOIN site ON site.HptCode = department.HptCode
-                    INNER JOIN item ON item.itemcode = clean_detail.itemcode";
+                    INNER JOIN site ON site.HptCode = department.HptCode";
     if ($chk == 'one') {
       if ($format == 1) {
         $data .=   " WHERE  DATE(clean.DocDate)  ='$date[$day]'  AND clean.isStatus <> 9 AND clean.isStatus <> 0";
@@ -391,9 +401,15 @@ for ($q = 0; $q < $COUNT_item; $q++) {
       list($year, $month) = explode('-', $date[$day]);
       $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9 AND clean.isStatus <> 0";
     }
-    $data .= "              AND clean.Faccode = '$FacCode'
-                            AND item.ItemCode = '$ItemCode[$lek]'
-                            AND site.HptCode = '$HptCode' ";
+
+    $data .= " AND clean.Faccode = '$FacCode'
+              AND site.HptCode = '$HptCode' ";
+    if ($ItemCode[$lek] == null || $ItemCode[$lek] == '') {
+      $data .= " AND clean_detail.RequestName = '$ItemName[$lek]' ";
+    } else {
+      $data .= " AND clean_detail.ItemCode = '$ItemCode[$lek]' ";
+    }
+
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Totalqty"]);
@@ -447,7 +463,7 @@ for ($day = 0; $day < $count; $day++) {
     $data .=   " WHERE  YEAR(clean.DocDate)  ='$year'  AND MONTH(clean.DocDate)  ='$month' AND clean.isStatus <> 9 AND clean.isStatus <> 0";
   }
   $data .= " AND clean.Faccode = '$FacCode'
-                            AND site.HptCode = '$HptCode' ";
+             AND site.HptCode = '$HptCode' ";
 
   $meQuery = mysqli_query($conn, $data);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

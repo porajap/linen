@@ -217,9 +217,9 @@ $where
 AND clean.RefDocNo NOT LIKE '%RPW%'
 AND department.HptCode = '$HptCode'
 AND clean.FacCode = '$FacCode'
-AND clean.IsStatus <> 9
+AND clean.IsStatus <> 9 AND clean.isStatus <> 0
 GROUP BY
-clean_detail.ItemCode";
+clean_detail.ItemCode,clean_detail.RequestName ";
 // -- INNER JOIN item_multiple_unit ON item_multiple_unit.MpCode = clean_detail.UnitCode
 // -- AND item_multiple_unit.ItemCode = clean_detail.ItemCode --
 $meQuery = mysqli_query($conn, $query);
