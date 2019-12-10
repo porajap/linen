@@ -257,11 +257,12 @@ item.ItemName,
 item_unit.UnitName,
 sum(clean_detail.Qty) as Qty ,
 sum(clean_detail.Weight) as Weight,
-clean_detail.Detail
+clean_detail.Detail,
+clean_detail.RequestName
 FROM item
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-INNER JOIN clean_detail ON clean_detail.ItemCode = item.ItemCode
+RIGHT JOIN clean_detail ON clean_detail.ItemCode = item.ItemCode
+INNER JOIN item_unit ON clean_detail.UnitCode = item_unit.UnitCode
 WHERE clean_detail.DocNo = '$DocNo'
 GROUP BY item.ItemCode,clean_detail.Detail
 ORDER BY item.ItemName ASC";
@@ -334,6 +335,9 @@ $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
 </tr></thead> ';
 $meQuery = mysqli_query($conn, $data);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  if ($Result['RequestName'] <> null) {
+    $Result['ItemName'] = $Result['RequestName'];
+  }
   $Total_Weight = $Result['Qty'] * $Result['Weight'];
   $html .= '<tr style="font-size: 16 px;" nobr="true">';
   $html .=   '<td width="10 % " align="center">' . $count . '</td>';
