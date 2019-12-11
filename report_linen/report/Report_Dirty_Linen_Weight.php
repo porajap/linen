@@ -318,16 +318,17 @@ $pdf->Ln(3);
 
 $query = "SELECT
 item.ItemName,
-dirty_detail.Weight,
+SUM(dirty_detail.Weight) AS Weight,
 department.DepName,
 SUM(dirty_detail.Qty) AS Qty,
-COALESCE(dirty_detail.RequestName,'-') as RequestName
+dirty_detail.RequestName as RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
 LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
+INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
@@ -351,13 +352,14 @@ $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 $queryy = "SELECT
 item.ItemName,
 SUM(dirty_detail.Qty) AS Qty,
-COALESCE(dirty_detail.RequestName,'-') as RequestName
+dirty_detail.RequestName as RequestName
 FROM
 dirty
 INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
 LEFT  JOIN item ON item.itemcode = dirty_detail.itemcode
+INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
@@ -365,6 +367,7 @@ AND dirty.isStatus <> 9
 GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC
           ";
+          
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   if ($Result['RequestName'] <> null) {

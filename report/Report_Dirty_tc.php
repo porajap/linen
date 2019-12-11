@@ -81,7 +81,7 @@ class MYPDF extends TCPDF
       $this->SetFont('thsarabunnew', '', 9);
       // Title
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 0, 'R');
-    } 
+    }
   }
   // Page footer
   public function Footer()
@@ -105,7 +105,7 @@ class MYPDF extends TCPDF
       dirty
       where dirty.docno =  '$DocNo'
       ";
-      
+
       $meQuery = mysqli_query($conn, $head);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $SignFac = $Result['SignFac'];
@@ -137,10 +137,10 @@ class MYPDF extends TCPDF
       }
       $this->SetFont('thsarabunnew', 'b', 13);
       if ($SignNH != null) {
-      $this->ImageSVG('@' . $SignNH, $x = 38, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        $this->ImageSVG('@' . $SignNH, $x = 38, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
       if ($SignFac != null) {
-      $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
       $this->Cell(100, 8, $array2['comlinen'][$language]  . "...............................................", 0, 0, 'L');
       $this->Cell(90, 8,  $array2['comlaundry'][$language] . "........................................", 0, 1, 'L');
@@ -204,11 +204,13 @@ $head = "SELECT site.$HptName,
         factory.$FacName,
         DATE_FORMAT(dirty.DocDate,'%d-%m-%Y')AS DocDate,
         TIME(dirty.Modify_Date) AS xTime,
-        CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName
+        CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
+        time_dirty.TimeName
         FROM dirty
         INNER JOIN site ON dirty.HptCode = site.HptCode
         INNER JOIN factory ON dirty.FacCode = factory.FacCode
         INNER JOIN users ON dirty.Modify_Code = users.ID
+        LEFT JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
         WHERE dirty.DocNo = '$DocNo'";
 // echo $Sql;
 $meQuery = mysqli_query($conn, $head);
@@ -218,6 +220,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $xTime = $Result['xTime'];
   $FName = $Result['FName'];
   $DocDate = $Result['DocDate'];
+  $TimeName = $Result['TimeName'];
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
@@ -272,6 +275,9 @@ $pdf->Cell(35, 7,   $array2['user'][$language], 0, 0, 'L');
 $pdf->Cell(77, 7,   ": " . $FName, 0, 0, 'L');
 $pdf->Cell(30, 7,   $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $xTime, 0, 0, 'L');
+$pdf->Ln();
+$pdf->Cell(35, 7,   $array['rounddirty'][$language], 0, 0, 'L');
+$pdf->Cell(77, 7,   ": " . $TimeName, 0, 0, 'L');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 14);
 $html = '<table cellspacing="0" cellpadding="2" border="1" >
@@ -297,7 +303,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="15 %" align="center">' . $Result['UnitName'] . '</td>';
   $html .=  '</tr>';
   $totalsum += $Result['Weight'];
-  $totalqty+=$Result['Qty'];
+  $totalqty += $Result['Qty'];
   $count++;
 }
 $html .= '</table>';
@@ -327,7 +333,7 @@ WHERE dirty_detail.DocNo = '$DocNo'
 AND dirty.isStatus <> 9
 GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemCode,dirty_detail.RequestName ASC
-          "; 
+          ";
 $meQuery = mysqli_query($conn, $queryy);
 $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <thead><tr >

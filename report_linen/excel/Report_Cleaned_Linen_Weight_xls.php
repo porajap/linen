@@ -419,8 +419,6 @@ for ($q = 0; $q < $COUNT_item; $q++) {
       $sumdayTotalqty += $Result["Totalqty"];
       $sumdayWeight += $Result["Weight"];
     }
-    $TotaldayTotalqty += $sumdayTotalqty;
-    $TotaldayWeight += $sumdayWeight;
   }
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayTotalqty);
   $r++;
