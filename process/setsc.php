@@ -13,7 +13,7 @@ function getSection($conn, $DATA)
   $lang = $_SESSION['lang'];
   $count = 0;
   if($lang == 'en'){
-    if($PmID == 3 || $PmID == 7){
+    if($PmID == 5 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptName
     FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
     }else{
@@ -21,7 +21,7 @@ function getSection($conn, $DATA)
       FROM site WHERE site.IsStatus = 0";
     }
   }else{
-    if($PmID == 3 || $PmID == 7){
+    if($PmID == 5 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
     FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
     }else{

@@ -1120,6 +1120,7 @@ $(document).ready(function(e){
                 // if(PmID != 1){
                 //   $("#hotpital").val(HptCode);
                 // }
+                      $("#hotpital").val(HptCode);
               }else if(temp["form"]=='getfactory'){
                 $("#factory1").empty();
                 $("#factory2").empty();                        

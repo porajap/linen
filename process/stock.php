@@ -110,11 +110,12 @@ function updatetotal($conn,$DATA){
 }
 
 function ShowDocument($conn,$DATA){
-  $boolean = false;
-  $count = 0;
-  $dept = $DATA["dept"];
-  $hos = $DATA["hos"];
-  $search = $DATA["search"];
+  $boolean    = false;
+  $count        = 0;
+  $dept         = $DATA["dept"];
+  $hos          = $DATA["hos"];
+  $search     = $DATA["search"];
+  $PmID       = $_SESSION['PmID'];
 
   $Sql = "SELECT
   par_item_stock.ItemCode,
@@ -170,6 +171,8 @@ $return['Num_Pages']     	    = $Num_Pages;
 $return['Prev_Page']      	    = $Prev_Page;
 $return['Next_Page']      	    = $Next_Page;
 $return['Page']      	               = $Page;
+$return['PmID']      	               = $PmID;
+
 
   $Sql.="GROUP BY par_item_stock.ItemCode , par_item_stock.DepCode ORDER BY department.DepCode,item.ItemName  LIMIT $Page_Start , $Per_Page ";
   $return['sql'] = $Sql;

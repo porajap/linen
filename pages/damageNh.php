@@ -1024,9 +1024,7 @@ if (e.keyCode == 13) {
                       }
                       $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);
-                // if(PmID != 1){
-                //   $("#hotpital").val(HptCode);
-                // }
+                    $("#hotpital").val(HptCode);
               }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
                 $("#Dep2").empty();

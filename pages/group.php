@@ -886,11 +886,21 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                             })
                         } else if ((temp["form"] == 'getSection')) {
+                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
                             var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                        }else{
+                                var StrTr = "";
+                                $('#hptsel').attr('disabled' , true);
+                                $('#hptsel').addClass('icon_select');
+                                var Str = "";
+                                $('#hptsel2').attr('disabled' , true);
+                                $('#hptsel2').addClass('icon_select');
+                            }
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 var Str = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                             }
+                            
                             $("#hptsel").append(StrTr);
                             $("#hptsel2").append(StrTr);
                         }

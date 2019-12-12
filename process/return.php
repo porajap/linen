@@ -100,14 +100,19 @@ function saveDep($conn, $DATA){
 }
 function getDepartment($conn, $DATA)
 {
-  $count = 0;
-  $boolean = false;
-  $Hotp = $DATA["Hotp"];
+  $count      = 0;
+  $count2    = 0;
+  $boolean  = false;
+  $HptCode = $_SESSION['HptCode'];
+  $Hotp       = $DATA["Hotp"]==null?$HptCode:$DATA["Hotp"];
+
   $Sql = "SELECT department.DepCode,department.DepName
   FROM department
   WHERE department.HptCode = '$Hotp'
-  AND department.IsDefault = 1  AND department.IsActive = 1 
-  AND department.IsStatus = 0 ORDER BY department.DepName ASC";
+  AND department.IsDefault = 1  
+  AND department.IsActive = 1 
+  AND department.IsStatus = 0 
+  ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DepCode'] = $Result['DepCode'];
@@ -116,46 +121,35 @@ function getDepartment($conn, $DATA)
     $boolean = true;
   }
 
-  if ($boolean) {
-    $return['status'] = "success";
-    $return['form'] = "getDepartment";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  } else {
-    $return['status'] = "failed";
-    $return['form'] = "getDepartment";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-}
-function getDepartment2($conn, $DATA)
-{
-  $count = 0;
-  $boolean = false;
-  $Hotp = $DATA["Hotp"];
-  $Sql = "SELECT department.DepCode,department.DepName
+  $return['count']   = $count;
+
+
+
+  $Sql2 = "SELECT department.DepCode AS DepCode1 , department.DepName AS DepName1
   FROM department
-  WHERE department.HptCode = '$Hotp'AND department.IsActive = 1 
-  AND department.IsStatus = 0 ORDER BY department.DepName ASC";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['DepCode'] = $Result['DepCode'];
-    $return[$count]['DepName'] = $Result['DepName'];
-    $count++;
-    $boolean = true;
+  WHERE department.HptCode = '$Hotp'
+  AND department.IsActive = 1 
+  AND department.IsStatus = 0 
+  ORDER BY department.DepName ASC";
+  $meQuery2 = mysqli_query($conn, $Sql2);
+  while ($Result2 = mysqli_fetch_assoc($meQuery2)) {
+    $return[$count2]['DepCode1'] = $Result2['DepCode1'];
+    $return[$count2]['DepName1'] = $Result2['DepName1'];
+    $count2++;
   }
+
+  $return['count2'] = $count2;
+
 
   if ($boolean) {
     $return['status'] = "success";
-    $return['form'] = "getDepartment2";
+    $return['form']   = "getDepartment";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   } else {
-    $return['status'] = "failed";
-    $return['form'] = "getDepartment2";
+    $return['status'] = "success";
+    $return['form'] = "getDepartment";
     echo json_encode($return);
     mysqli_close($conn);
     die;
@@ -1215,8 +1209,6 @@ if (isset($_POST['DATA'])) {
     updateQty($conn, $DATA);
   } elseif ($DATA['STATUS'] == 'saveDep') {
     saveDep($conn, $DATA);
-  }elseif ($DATA['STATUS'] == 'getDepartment2') {
-    getDepartment2($conn, $DATA);
   }
 
 

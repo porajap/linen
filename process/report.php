@@ -90,21 +90,7 @@ function OnLoadPage($conn, $DATA)
   $return['Rowcycle'] = $count_cycle;
   $boolean = true;
 
-  $Sql = "SELECT
-	item_main_category.MainCategoryName,
-	item_main_category.MainCategoryCode
-  FROM
-    item_main_category
-  GROUP BY
-	item_main_category.MainCategoryName ";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count_main]['MainCategoryName'] = trim($Result['MainCategoryName']);
-    $return[$count_main]['MainCategoryCode'] = trim($Result['MainCategoryCode']);
-    $count_main++;
-    $boolean = true;
-  }
-  $return['count_main'] = $count_main;
+
   $boolean = true;
   if ($boolean) {
     $return['status'] = "success";

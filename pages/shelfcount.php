@@ -1021,7 +1021,7 @@ $array2 = json_decode($json2,TRUE);
                 } else if (result.dismiss === 'cancel') {
                   swal.close();}
               })
-            }, 800);
+            }, 500);
             //}
           }
         // }else{
@@ -1740,7 +1740,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['DepName']+"'>"+temp[i]['DepName']+"</td>"+
                 "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
                 "<td style='width: 10%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['RecNow']+"'>"+temp[i]['RecNow']+"</td>"+
-                "<td style='width: 10%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Total']+"'>"+temp[i]['Total']+"</td>"+
+                "<td style='width: 10%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['TimeName']+"'>"+temp[i]['TimeName']+"</td>"+
                 "<td "+Style+"nowrap>"+Status+"</td>"+
                 "</tr>";
 
@@ -1858,12 +1858,28 @@ $array2 = json_decode($json2,TRUE);
               $('#settime').addClass('icon_select');
               $('#setcount').addClass('icon_select');
               if(temp[0]['IsStatus']==0){
+                if(temp[0]['ScTime'] ==0){
+              $('#bpacking').attr('disabled', false);
+              $('#bpacking2').removeClass('opacity');
+              $('#hover9').addClass('mhee');
+
+              $("#bSave").prop('disabled', true);
+              $("#bSave2").addClass('opacity');
+              $("#hover4").removeClass('mhee');
+              }else{
+              $('#bpacking').attr('disabled', true);
+              $('#bpacking2').addClass('opacity');
+              $('#hover9').removeClass('mhee');
+
+              $("#bSave").prop('disabled', false);
+              $("#bSave2").removeClass('opacity');
+              $("#hover4").addClass('mhee');
+              }
                 var word = '<?php echo $array['save'][$language]; ?>';
                 var changeBtn = "<i class='fa fa-save'></i>";
                 changeBtn += "<div>"+word+"</div>";
                 $('#icon_edit').html(changeBtn);
                 $("#bImport").prop('disabled', false);
-                $("#bSave").prop('disabled', false);
                 $("#bCancel").prop('disabled', false);
                 // $("#bdetail").prop('disabled', true);
                 $("#barcode").prop('disabled', false);
@@ -1871,17 +1887,16 @@ $array2 = json_decode($json2,TRUE);
                 $('#bPrint2').removeClass('opacity');
                 $('#hover7').addClass('mhee');
                 $("#hover2").addClass('mhee');
-                $("#hover4").addClass('mhee');
                 $("#hover5").addClass('mhee');
                 $("#settime").prop('disabled', false);
                 $("#setcount").prop('disabled', false);
                 $('#settime').removeClass('icon_select');
                 $('#setcount').removeClass('icon_select');
                 $("#bImport2").removeClass('opacity');
-                $("#bSave2").removeClass('opacity');
                 $("#bCancel2").removeClass('opacity');
                 $("#completed").val('on process');
               }else if(temp[0]['IsStatus']==1  || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
+                
                   if(temp[0]['IsStatus'] !=1){
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
@@ -1892,6 +1907,7 @@ $array2 = json_decode($json2,TRUE);
                     $("#bCancel2").removeClass('opacity');
                   }
                   if(temp[0]['IsStatus']==1 ){
+                    
                     $("#completed").val('on process');
                   }else if (temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
                     $("#completed").val('completed');
@@ -3081,7 +3097,7 @@ $array2 = json_decode($json2,TRUE);
                                         </th>
                                         <th style='width: 15%;' nowrap><?php echo $array['employee'][$language]; ?></th>
                                         <th style='width: 10%;' nowrap><?php echo $array['time'][$language]; ?></th>
-                                        <th style='width: 10%;' nowrap><?php echo $array['order'][$language]; ?></th>
+                                        <th style='width: 10%;' nowrap><?php echo $array['setcount'][$language]; ?></th>
                                         <th style='width: 10%;' nowrap><?php echo $array['status'][$language]; ?></th>
                                     </tr>
                                 </thead>

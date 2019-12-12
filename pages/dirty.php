@@ -1275,6 +1275,7 @@ $array2 = json_decode($json2,TRUE);
                   // if(PmID != 1){
                   //   $("#hotpital").val(HptCode);
                   // }
+                  $("#hotpital").val(HptCode);
                   getDepartment();
 
                 } else if(temp["form"]=='getfactory'){

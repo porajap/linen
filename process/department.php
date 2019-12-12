@@ -138,15 +138,27 @@ function GetGroup($conn , $DATA){
 }
 function getSection($conn, $DATA)
 {
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $lang = $DATA["lang"];
   $count = 0;
   if($lang == 'en'){
+    if($PmID == 5 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptName
-    FROM site WHERE site.IsStatus = 0";
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
   }else{
+    if($PmID == 5 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
-    FROM site WHERE site.IsStatus = 0";
-  } 
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }    
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];
@@ -156,6 +168,7 @@ function getSection($conn, $DATA)
 
   $return['status'] = "success";
   $return['form'] = "getSection";
+  $return[0]['PmID']  = $PmID;
   echo json_encode($return);
   mysqli_close($conn);
   die;

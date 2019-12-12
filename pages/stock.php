@@ -286,9 +286,15 @@ function updatetotal(row , rowid){
               if(Qty<Par){
                 textColor = 'text-danger';
               }
-              var inputpar = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='par_"+i+"' value='"+Par+" ' onkeypress='  if(event.keyCode==13) {updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")}'></div>";
 
-              var inputqty = "<div class='row' style='margin-left:2px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty_"+i+"' value='"+Qty+"' onkeypress='   if(event.keyCode==13)  {updatetotal(\""+i+"\",\""+temp[i]['RowID']+"\")}'></div>";
+              if( temp["PmID"] ==2){
+                    var dis = 'disabled = true  ';
+              }else{
+                    var dis = '  ';
+              }
+              var inputpar = "<div class='row' style='margin-left:2px;'><input  "+dis+"   autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='par_"+i+"' value='"+Par+" ' onkeypress='  if(event.keyCode==13) {updatepar(\""+i+"\",\""+temp[i]['RowID']+"\")}'></div>";
+
+              var inputqty = "<div class='row' style='margin-left:2px;'><input  "+dis+"   autocomplete='off' class='form-control numonly' style='width:87px;height:40px;margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty_"+i+"' value='"+Qty+"' onkeypress='   if(event.keyCode==13)  {updatetotal(\""+i+"\",\""+temp[i]['RowID']+"\")}'></div>";
 
               StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
               "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
