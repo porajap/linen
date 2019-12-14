@@ -80,7 +80,6 @@ function OnLoadPage($conn, $DATA)
   }
   $return['RowDep'] = $countDep;
 
-<<<<<<< HEAD
   $Sql = "SELECT
   item.itemname,
   item.itemcode
@@ -91,7 +90,7 @@ function OnLoadPage($conn, $DATA)
   WHERE
     shelfcount.isStatus <> 9
     AND shelfcount_detail.TotalQty <> 0
-    GROUP BY item.itemcode ORDER BY item.ItemName ";
+    GROUP BY item.itemcode ORDER BY item.ItemName ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count_item_sc]['itemname'] = trim($Result['itemname']);
@@ -100,7 +99,6 @@ function OnLoadPage($conn, $DATA)
     $boolean = true;
   }
   $return['count_item_sc'] = $count_item_sc;
-=======
   $Sql = "SELECT shelfcount.CycleTime FROM shelfcount  Group by shelfcount.CycleTime  ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -112,7 +110,6 @@ function OnLoadPage($conn, $DATA)
   $boolean = true;
 
 
->>>>>>> 84b2d1964e392dec56659ce41f5de2c3c3528d06
   $boolean = true;
   if ($boolean) {
     $return['status'] = "success";
