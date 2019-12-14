@@ -1011,7 +1011,7 @@ $array2 = json_decode($json2,TRUE);
                         }else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
                             $("#hptsel").empty();
-                            if(temp[0]['PmID'] != 3 && temp[0]['PmID'] != 7){
+                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
                             var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             }else{
                                 var StrTr = "";

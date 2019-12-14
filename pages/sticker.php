@@ -76,8 +76,9 @@ $array2 = json_decode($json2,TRUE);
   $(document).ready(function(e){
     $(".select2").select2();
     var PmID = <?php echo $PmID;?>;
-    if(PmID ==2 || PmID ==3 || PmID ==7){
+    if(PmID ==2 || PmID ==3 || PmID ==5 || PmID ==7){
     $('#hotpital').addClass('icon_select');
+    $('#hotpital').attr('disabled' , true);
     // $('#department').addClass('icon_select');
     }
     $('#searchtxt').keyup(function(e){
@@ -472,7 +473,7 @@ $array2 = json_decode($json2,TRUE);
 <body id="page-top">
 <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
-      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][5][$language]; ?></li>
+      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][16][$language]; ?></li>
     </ol>
   <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
 
@@ -495,7 +496,7 @@ $array2 = json_decode($json2,TRUE);
                           </div>
                           <div class="col-md-5">
                             <div class='form-group row'>
-                              <input  type="text" class="form-control col-sm-8" style="margin-left: -4%;font-size:22px;" id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['searchplace'][$language]; ?>" >
+                              <input  type="text" class="form-control col-sm-8" style="margin-left: -4%;font-size:22px;" id="searchtxt" name="searchtxt" value="" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
                               <div class="search_custom col-md-3">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn"  onclick="ShowDocument(0)" >

@@ -1029,9 +1029,7 @@ $(document).ready(function(e){
                     Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                   }
                   $("#factory").append(Str);
-                if(PmID != 1){
                   $("#hotpital").val(HptCode);
-                }
               }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
                 $("#Dep2").empty();

@@ -80,6 +80,7 @@ function OnLoadPage($conn, $DATA)
   }
   $return['RowDep'] = $countDep;
 
+<<<<<<< HEAD
   $Sql = "SELECT
   item.itemname,
   item.itemcode
@@ -99,6 +100,19 @@ function OnLoadPage($conn, $DATA)
     $boolean = true;
   }
   $return['count_item_sc'] = $count_item_sc;
+=======
+  $Sql = "SELECT shelfcount.CycleTime FROM shelfcount  Group by shelfcount.CycleTime  ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count_cycle]['CycleTime'] = trim($Result['CycleTime']);
+    $count_cycle++;
+    $boolean = true;
+  }
+  $return['Rowcycle'] = $count_cycle;
+  $boolean = true;
+
+
+>>>>>>> 84b2d1964e392dec56659ce41f5de2c3c3528d06
   $boolean = true;
   if ($boolean) {
     $return['status'] = "success";

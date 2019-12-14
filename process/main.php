@@ -55,16 +55,16 @@ if($PmID !=1 || $PmID !=6){
 	$boolean = true;
   }
 }
-  $Sql = "SELECT COUNT(*) AS Cnt
-  FROM factory_out
-  INNER JOIN department ON department.DepCode = factory_out.DepCode
-  INNER JOIN site ON site.HptCode = department.HptCode
-  WHERE site.HptCode = '$HptCode' AND IsRequest = 0";
-  $meQuery = mysqli_query($conn,$Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return['fac_out_Cnt'] = $Result['Cnt'];
-	$boolean = true;
-  }
+  // $Sql = "SELECT COUNT(*) AS Cnt
+  // FROM factory_out
+  // INNER JOIN department ON department.DepCode = factory_out.DepCode
+  // INNER JOIN site ON site.HptCode = department.HptCode
+  // WHERE site.HptCode = '$HptCode' AND IsRequest = 0";
+  // $meQuery = mysqli_query($conn,$Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return['fac_out_Cnt'] = $Result['Cnt'];
+	// $boolean = true;
+  // }
 
   $Sql = "SELECT COUNT(*) AS Cnt
   FROM clean

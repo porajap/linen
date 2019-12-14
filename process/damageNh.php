@@ -904,25 +904,6 @@ function CreateDocument($conn, $DATA)
       while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
         $Qtyx = $Resultx['Qty'];
       }
-
-      $SqlsumRe =  "SELECT SUM(Qty) AS Qty FROM repair_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$ItemCode'";
-      $meQuerysumRe = mysqli_query($conn, $SqlsumRe);
-      while ($ResultsumRe = mysqli_fetch_assoc($meQuerysumRe)) {
-        $QtyRePair = $ResultsumRe['Qty']==null?0:$ResultsumRe['Qty'];
-      }
-
-      $Sql55 =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo'  AND ItemCode = '$ItemCode'";
-      $meQuery55 = mysqli_query($conn, $Sql55);
-      while ($Result55 = mysqli_fetch_assoc($meQuery55)) {
-        $Qty = $Result55['Qty1'];
-      }  
-      if($Qtyx > $QtyRePair){
-        $QtySum = $Qty - ($Qtyx + $QtyRePair);
-        }else if ($QtyRePair > $Qtyx ){
-        $QtySum = $Qty - ($QtyRePair + $Qtyx);
-        }else{
-        $QtySum = $Qty - ($Qtyx + $QtyRePair);
-        }
       $return[$count]['RowID']      = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
       $return[$count]['ItemName']   = $Result['ItemName'];
@@ -930,7 +911,6 @@ function CreateDocument($conn, $DATA)
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
       $return[$count]['Qty']        = $Result['Qty']  ==0?'':$Result['Qty'];
-      $return[$count]['QtySum']     = $QtySum;
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;

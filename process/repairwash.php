@@ -292,6 +292,7 @@ function CreateDocument($conn, $DATA)
   }
   // }
     $Sql .= "ORDER BY repair_wash.DocNo DESC LIMIT 500";
+    $return['Sql'] =  $Sql;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       

@@ -1520,8 +1520,17 @@ $array2 = json_decode($json2, TRUE);
               // CreateItemCode();
               // ShowItem();
             } else if ((temp["form"] == 'GetHospital')) {
+              if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
               var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
               var StrTr1 = "<option value=''>"+hotValue0+"</option>";
+            }else{
+                                var StrTr = "";
+                                $('#hospital').attr('disabled' , true);
+                                $('#hospital').addClass('icon_select');
+                                var StrTr1 = "";
+                                $('#Hos2').attr('disabled' , true);
+                                $('#Hos2').addClass('icon_select');
+                            }
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                  StrTr1 += "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
                 var StrTr = "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
@@ -2545,7 +2554,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu mhee" id="NewItem" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
+                <div class="menu mhee" id="NewItem" <?php if($PmID != 6 && $PmID != 1  && $PmID != 5) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="NewItem()" id="bSave">
@@ -2558,7 +2567,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                <div class="menu mhee" id="AddItemBNT" <?php if($PmID != 6 && $PmID != 1) echo 'hidden'; ?>>
+                <div class="menu mhee" id="AddItemBNT" <?php if($PmID != 6 && $PmID != 1 && $PmID != 5) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -2582,7 +2591,7 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee" id="delete1" id="CancelBNT" <?php if($PmID != 6  && $PmID != 1) echo 'hidden'; ?> >
+                          <div class="menu mhee" id="delete1" id="CancelBNT" <?php if($PmID != 6  && $PmID != 1 && $PmID != 5) echo 'hidden'; ?> >
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
@@ -2692,12 +2701,12 @@ $array2 = json_decode($json2, TRUE);
 
                                   <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
                                   <select   class="form-control col-sm-4  numonly" id="numPack" >
-                                    <option value="01">1 PCS</option>
-                                    <option value="05">5 Pc</option>
+                                    <option value="1">1 PCS</option>
+                                    <option value="5">5 Pc</option>
                                     <option value="10">10 Pc</option>
                                     <option value="15">15 Pc</option>
                                     <option value="20">20 Pc</option>
-                                    <option value="00">None</option>
+                                    <option value="0">None</option>
                                   </select>
                                 </div>
                               </div>

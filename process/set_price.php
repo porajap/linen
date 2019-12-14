@@ -32,15 +32,13 @@ function CreateDoc($conn, $DATA)
 
     if($Cnt == 0){
         $Sql = "SELECT item_category.CategoryCode,item_category.Price , DATE(NOW()) as DateNowx
-        FROM item_main_category
-        INNER JOIN item_category ON item_main_category.MainCategoryCode = item_category.MainCategoryCode
+        FROM item_category
         WHERE item_category.IsStatus = 0";
     }else{
         $Sql = "SELECT item_category.CategoryCode,category_price.Price , DATE(NOW()) as DateNowx
         FROM category_price
         INNER JOIN site ON category_price.HptCode = site.HptCode
         INNER JOIN item_category ON category_price.CategoryCode = item_category.CategoryCode
-        INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
         WHERE item_category.IsStatus = 0 
         AND category_price.HptCode = '$HptCode'";
     }
@@ -108,7 +106,7 @@ function ShowDoc($conn, $DATA)
         GROUP BY site.HptCode,category_price_time.xDate,category_price_time.DocNo
         ORDER BY category_price_time.xDate ASC";
     }else{
-      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName , , site.HptNameTH
+      $Sql="SELECT category_price_time.DocNo,category_price_time.xDate,site.HptCode,site.HptName ,  site.HptNameTH
         FROM category_price_time
         INNER JOIN site ON category_price_time.HptCode = site.HptCode
         WHERE category_price_time.`Status` = 0 
@@ -210,17 +208,15 @@ function ShowItem2($conn, $DATA)
         category_price_time.RowID,
         site.HptName,
         site.HptNameTH,
-        item_main_category.MainCategoryName,
         item_category.CategoryName,
         category_price_time.Price,
         category_price_time.CategoryCode,
         category_price_time.xDate
         FROM category_price_time
         INNER JOIN item_category ON category_price_time.CategoryCode = item_category.CategoryCode
-        INNER JOIN item_main_category ON item_category.MainCategoryCode = item_main_category.MainCategoryCode
         INNER JOIN site ON category_price_time.HptCode = site.HptCode 
         WHERE category_price_time.DocNo = '$DocNo' AND item_category.CategoryName LIKE '%$Keyword%'
-        ORDER BY item_main_category.MainCategoryCode DESC, item_category.CategoryCode ASC";
+        ORDER BY item_category.CategoryCode ASC";
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -239,7 +235,6 @@ function ShowItem2($conn, $DATA)
         $return[$count]['RowID'] = $Result['RowID'];
         $return[$count]['HptName'] = $sitePage;
         $return[$count]['CategoryCode'] = $Result['CategoryCode'];
-        $return[$count]['MainCategoryName'] = $Result['MainCategoryName'];
         $return[$count]['CategoryName'] = $Result['CategoryName'];
         $return[$count]['Price'] = $Result['Price']==0?'':$Result['Price'];
         $return[$count]['date'] = $newdate;
@@ -300,15 +295,27 @@ function getdetail($conn, $DATA)
 
 function getHotpital($conn, $DATA)
 {
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
   $lang = $DATA["lang"];
   $count = 0;
   if($lang == 'en'){
+    if($PmID == 5 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptName
-    FROM site WHERE site.IsStatus = 0";
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
   }else{
+    if($PmID == 5 || $PmID == 7){
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
-    FROM site WHERE site.IsStatus = 0";
-  } 
+    FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }else{
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }     
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['HptCode']  = $Result['HptCode'];
@@ -318,6 +325,7 @@ function getHotpital($conn, $DATA)
 
   $return['status'] = "success";
   $return['form'] = "getHotpital";
+  $return[0]['PmID']  = $PmID;
   echo json_encode($return);
   mysqli_close($conn);
   die;

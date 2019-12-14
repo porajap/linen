@@ -88,6 +88,12 @@ var RowCnt=0;
 
 $(document).ready(function(e){
   $(".select2").select2();
+  var PmID = <?php echo $PmID;?>;
+    if(PmID !=6  &&  PmID !=1){
+    $('#hotpital').addClass('icon_select');
+    $('#hotpital').attr('disabled' , true);
+    // $('#department').addClass('icon_select');
+    }
   $('#searchdocument').keyup(function(e) {
             if (e.keyCode == 13) {
               ShowDocument(1);
@@ -109,7 +115,6 @@ $(document).ready(function(e){
       });
   OnLoadPage();
   getDepartment();
-  getDepartment2();
   // CreateDocument();
   //==============================
   $('.TagImage').bind('click', {
@@ -377,12 +382,18 @@ $(document).ready(function(e){
 
       }
 
-      function getDepartment(){
-        var Hotp = $('#Hos2 option:selected').attr("value");
-        if( typeof Hotp == 'undefined' ) 
-        {
-          Hotp = '<?php echo $HptCode; ?>';
+      function getDepartment(chk){
+        if(chk==1){
+          var Hotp = $('#hotpital option:selected').attr("value");
+            $('#Hos2').val(Hotp);
+        }else{
+          var Hotp = $('#Hos2 option:selected').attr("value");
+          $('#hotpital').val(Hotp);
         }
+        // if( typeof Hotp == 'undefined' ) 
+        // {
+        //   Hotp = '<?php echo $HptCode; ?>';
+        // }
         var data = {
           'STATUS'  : 'getDepartment',
           'Hotp'	: Hotp
@@ -391,20 +402,7 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
         
       }
-      function getDepartment2(){
-        var Hotp = $('#Hos2 option:selected').attr("value");
-        if( typeof Hotp == 'undefined' ) 
-        {
-          Hotp = '<?php echo $HptCode; ?>';
-        }
-        var data = {
-          'STATUS'  : 'getDepartment2',
-          'Hotp'	: Hotp
-        };
 
-        senddata(JSON.stringify(data));
-        
-      }
       function ShowDocument(selecta){
         var DocNo                         = $('#docno').val();
         var process                        = $('#process').val();
@@ -1072,39 +1070,36 @@ $(document).ready(function(e){
                 // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7){
-                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
-                      }else{
-                        var Str1 = "";
+                if(temp[0]['PmID'] !=6){
+                      var Str1 = "";
                         $('#Hos2').attr('disabled' , true);
                         $('#Hos2').addClass('icon_select');
                         $('#Dep2').addClass('icon_select');
+                      }else{
+                        var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
                       }                      for (var i = 0; i < temp["Row"]; i++) {
                         var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
                          Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
-                        $("#hotpital").append(Str);
                       }
+                      $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);
-                if(PmID != 1){
                   $("#hotpital").val(HptCode);
-                }
+                
               }else if(temp["form"]=='getDepartment'){
-                $("#departmentName").empty();
-                var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
-                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+
+                for (var i = 0; i < temp['count'];   i++) {
                   var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                  Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                  $("#departmentName").append(Str);
+
+                               $("#departmentName").html(Str);
                 }
-              }else if(temp["form"]=='getDepartment2'){
-                $("#department").empty();
-                $("#Dep2").empty();
-                var Str = "<option value='' selected><?php echo $array['selectdep'][$language]; ?></option>";
-                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                  Str += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+
+                var Strx2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
+                for (var i = 0; i <  temp['count2'];   i++) {
+                  Strx2 += "<option value="+temp[i]['DepCode1']+">"+temp[i]['DepName1']+"</option>";
+
+                              $("#department").html(Strx2);
+                              $("#Dep2").html(Strx2);                
                 }
-                $("#department").html(Str);
-                $("#Dep2").html(Str);
               }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
@@ -1903,7 +1898,7 @@ $(document).ready(function(e){
                           <div class="col-md-6">
                             <div class='form-group row'>
                               <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                              <select  class="form-control col-sm-7 icon_select"  style="font-size:22px;"  id="hotpital" onchange="getDepartment();" disabled="true">
+                              <select  class="form-control col-sm-7 "  style="font-size:22px;"  id="hotpital" onchange="getDepartment(1);" >
                               </select>
                             </div>
                           </div>
@@ -2081,7 +2076,7 @@ $(document).ready(function(e){
                 <div class="row mt-3">
                   <div class="col-md-2">
                     <div class="row" style="font-size:24px;margin-left:2px;">
-                      <select   class="form-control" style='font-size:24px;' id="Hos2" >
+                      <select   class="form-control" style='font-size:24px;' id="Hos2"  onchange="getDepartment(2);" >
                       </select>
                     </div>
                   </div>

@@ -440,20 +440,26 @@ $chk=0;
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('$deptCode : $DocNo')";
   //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT site.HptName,
-  department.DepName,
-  shelfcount.DocNo,
-  DATE (shelfcount.DocDate) AS DocDate,
-  shelfcount.Total,
-  users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
-  TIME(shelfcount.Modify_Date)
-  AS xTime,
-  shelfcount.IsStatus,
-  site.HptCode
+  $Sql = "SELECT  site.HptName,
+                            department.DepName,
+                            shelfcount.DocNo,
+                            DATE (shelfcount.DocDate) AS DocDate,
+                            shelfcount.Total,
+                            users.EngName,
+                            users.EngLName,
+                            users.ThName,
+                            users.ThLName,
+                            users.EngPerfix,
+                            users.ThPerfix ,
+                            TIME(shelfcount.Modify_Date) AS xTime,
+                            shelfcount.IsStatus,
+                            site.HptCode,
+	                          sc_time_2.TimeName
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
-  INNER JOIN users ON shelfcount.Modify_Code = users.ID ";
+  INNER JOIN users ON shelfcount.Modify_Code = users.ID
+  LEFT JOIN sc_time_2 ON shelfcount.ScTime = sc_time_2.ID  ";
   // if($DocNo!=null){
   //   $Sql .= " WHERE shelfcount.DocNo = '$DocNo' AND shelfcount.DocNo LIKE '%$xDocNo%'";
   // }else{
@@ -496,24 +502,6 @@ $chk=0;
     $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND shelfcount.DepCode = '$deptCode' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
   }
 
-  // }else{
-  // if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null) {
-  //   $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-  // }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null){
-  //     $Sql .= " WHERE shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-  // }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null){
-  //   $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-  // }else if($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null){
-  //   $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
-  // }else if($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null){
-  //   $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
-  // }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null){
-  //   $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
-  // }else if($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null){
-  //   $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
-  // }
-  // }
-  // }
   $Sql.= " ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
   $return['sql'] = $Sql;
   $return['chk'] = $chk;
@@ -529,14 +517,15 @@ $chk=0;
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
       $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
     }
-
-    $return[$count]['HptName']   = $Result['HptName'];
-    $return[$count]['DepName']   = $Result['DepName'];
-    $return[$count]['DocNo']   = $Result['DocNo'];
-    $return[$count]['DocDate']   = $newdate;
-    $return[$count]['RecNow']   = $Result['xTime'];
-    $return[$count]['Total']   = $Result['Total'];
-    $return[$count]['IsStatus'] = $Result['IsStatus'];
+    
+    $return[$count]['TimeName']    = $Result['TimeName'];
+    $return[$count]['HptName']      = $Result['HptName'];
+    $return[$count]['DepName']      = $Result['DepName'];
+    $return[$count]['DocNo']           = $Result['DocNo'];
+    $return[$count]['DocDate']        = $newdate;
+    $return[$count]['RecNow']         = $Result['xTime'];
+    $return[$count]['Total']              = $Result['Total'];
+    $return[$count]['IsStatus']         = $Result['IsStatus'];
     $boolean = true;
     $count++;
   }

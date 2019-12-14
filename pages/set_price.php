@@ -990,10 +990,29 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel1").empty();
                             $("#hptsel2").empty();
                             $("#hptselModal").empty();
+                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
+
                             var hotValue1 = '<?php echo $array['selecthospital'][$language]; ?>';
                             var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
                             var StrTr = "<option value=''>"+hotValue0+"</option>";
                             var StrTr2 = "<option value=''>"+hotValue1+"</option>";
+                        }else{
+                                var StrTr = "";
+                                $('#hptselModal').attr('disabled' , true);
+                                $('#hptselModal').addClass('icon_select');
+
+                                $('#hptsel1').attr('disabled' , true);
+                                $('#hptsel1').addClass('icon_select');
+
+                                var StrTr2 = "";
+
+                                $('#hptsel2').attr('disabled' , true);
+                                $('#hptsel2').addClass('icon_select');
+
+                                $('#hptsel').attr('disabled' , true);
+                                $('#hptsel').addClass('icon_select');
+
+                            }
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 StrTr  += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
                                 StrTr2 += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";                           

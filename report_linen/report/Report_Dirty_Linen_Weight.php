@@ -328,7 +328,7 @@ INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
 LEFT JOIN item ON item.itemcode = dirty_detail.itemcode
-INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
+LEFT JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
@@ -359,7 +359,7 @@ INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 INNER JOIN factory ON dirty.FacCode = factory.FacCode
 LEFT  JOIN item ON item.itemcode = dirty_detail.itemcode
-INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
+LEFT JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
 $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
