@@ -705,7 +705,7 @@ $array2 = json_decode($json2,TRUE);
       var setcount = $('#setcount option:selected').attr("value");
       var cycle = $("#cycle").val();
 
-      if(deptCode=='' || settime=='' || hotpCode=='' || setcount=='' ){
+      if(deptCode==''|| deptCode=='null'  || settime=='' || hotpCode=='' || setcount==''  ){
           checkblank2();
           checkblank3();
           checkblank4();

@@ -395,6 +395,7 @@
 <remask><en>Remask</en><th>หมายเหตุ</th></remask>
 <depfrom><en>Department From</en><th>แผนกส่งคืน</th></depfrom>
 <depto><en>Department To</en><th>แผนกรับกลับ</th></depto>
+<Roundfactory><en>Round factory</en><th>รอบเวลาโรงซัก</th></Roundfactory>
 
 <!-- -->
 <r0><en>-</en><th>-</th></r0>

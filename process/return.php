@@ -33,14 +33,14 @@ function OnLoadPage($conn, $DATA)
 
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-    if($PmID ==2 || $PmID ==3){
+    if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
       $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
       }else{
         $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
       }  
   }else{
       $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-      if($PmID ==2 || $PmID ==3){
+      if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
       $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
       }else{
       $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
@@ -302,13 +302,13 @@ return_doc.IsStatus
   }else if ($Hotp == null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
     $Sql .= " WHERE DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode != null && $datepicker == null && $process == 'chkpro'){
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND return_doc.DepCodeFrom = $deptCode AND return_doc.DocNo LIKE '%$xDocNo%'";
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND return_doc.DepCodeFrom = '$deptCode' AND return_doc.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode == null && $datepicker != null && $process == 'chkpro'){
     $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp == null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
-    $Sql .= " WHERE return_doc.DepCodeFrom = $deptCode AND DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'";
+    $Sql .= " WHERE return_doc.DepCodeFrom = '$deptCode' AND DATE(return_doc.DocDate) = '$datepicker' AND return_doc.DocNo LIKE '%$xDocNo%'";
   }else if($Hotp != null && $deptCode != null && $datepicker != null && $process == 'chkpro'){
-    $Sql .= " WHERE return_doc.DepCodeFrom = $deptCode AND DATE(return_doc.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND return_doc.DocNo LIKE '%$xDocNo%'";
+    $Sql .= " WHERE return_doc.DepCodeFrom = '$deptCode' AND DATE(return_doc.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND return_doc.DocNo LIKE '%$xDocNo%'";
   }else if ($Hotp != null && $deptCode ==null && $datepicker == null && $process != 'chkpro') {
       $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  return_doc.DocNo LIKE '%$xDocNo%'  AND ( return_doc.IsStatus = $onprocess1 OR return_doc.IsStatus = $onprocess3  OR return_doc.IsStatus = $onprocess4 ) ";
     }else if($Hotp == null && $deptCode !=null && $datepicker == null && $process != 'chkpro'){
