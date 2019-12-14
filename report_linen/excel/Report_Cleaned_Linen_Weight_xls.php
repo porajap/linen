@@ -336,12 +336,12 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $ItemCode[] =  $Result["ItemCode"];
   $status_group = 0;
 }
-echo "<pre>";
-print_r($ItemName);
-echo "</pre>";
-echo "<pre>";
-print_r($ItemCode);
-echo "</pre>";
+// echo "<pre>";
+// print_r($ItemName);
+// echo "</pre>";
+// echo "<pre>";
+// print_r($ItemCode);
+// echo "</pre>";
 // -----------------------------------------------------------------------------------
 $r = 2;
 $d = 1;
@@ -374,7 +374,7 @@ $start_row = 9;
 $r = 1;
 $j = 3;
 $lek = 0;
-$COUNT_item = SIZEOF($ItemCode);
+$COUNT_item = SIZEOF($ItemName);
 for ($q = 0; $q < $COUNT_item; $q++) {
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ItemName[$lek]);
   $r++;
@@ -443,7 +443,7 @@ for ($day = 0; $day < $count; $day++) {
                     INNER JOIN factory ON factory.Faccode = clean.Faccode
                     INNER JOIN department ON department.DepCode = clean.DepCode
                     INNER JOIN site ON site.HptCode = department.HptCode
-                    INNER JOIN item ON item.itemcode = clean_detail.itemcode";
+                    LEFT JOIN item ON item.itemcode = clean_detail.itemcode";
 
   if ($chk == 'one') {
     if ($format == 1) {
@@ -462,7 +462,6 @@ for ($day = 0; $day < $count; $day++) {
   }
   $data .= " AND clean.Faccode = '$FacCode'
              AND site.HptCode = '$HptCode' ";
-
   $meQuery = mysqli_query($conn, $data);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Totalqty"]);
