@@ -1080,7 +1080,7 @@ $array2 = json_decode($json2, TRUE);
 									var dataRow = "<tr>" +
 										"<td style='width:5%'>" + (i + 1) + "</td>" +
 										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
-										"<td class='text-center pl-4' style='width:35%'>" + department+'( '+grouphpt +' )'+ "</td>" +
+										"<td class='text-center pl-4' style='width:35%'>" + department + '( ' + grouphpt + ' )' + "</td>" +
 										"<td class='text-center' style='width:20%'>" + show_date + "</td>";
 									if (temp['r'] == 'r29' || temp['r'] == 'r30') {
 										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
