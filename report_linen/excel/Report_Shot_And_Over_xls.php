@@ -18,9 +18,6 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 $data = explode(',', $_GET['data']);
-// echo "<pre>";
-// print_r($data);
-// echo "</pre>"; 
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -30,7 +27,6 @@ $betweendate2 = $data[5];
 $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
-$DepCode = [];
 $DepName =  [];
 $where = '';
 $start_row = 8;
@@ -100,6 +96,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
+$datetime = new DatetimeTH();
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
 } else {
@@ -172,22 +169,29 @@ $objPHPExcel->getActiveSheet()
   ->setShowGridlines(true);
 // Setting rows/columns to repeat at the top/left of each page
 
-$Sql = "SELECT 
+if ($DepCode[0] == 0) {
+  $DepCode = explode(',', $_GET['Dep10']);
+}
+$Count_Dep = sizeof($DepCode);
+for ($i = 0; $i < $Count_Dep; $i++) {
+  $Sql = "SELECT 
 department.DepCode, department.DepName 
 FROM department 
 INNER JOIN shelfcount ON department.DepCode = shelfcount.DepCode 
 INNER JOIN shelfcount_detail ON shelfcount_detail.DocNo = shelfcount.DocNo 
 $where 
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
+AND shelfcount.isStatus <> 9
+AND shelfcount.isStatus <> 0
 AND department.HptCode = '$HptCode'
+AND department.DepCode = '$DepCode[$i]'
 GROUP BY department.DepCode
  ";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $DepCode[] = $Result['DepCode'];
-  $DepName[] = $Result['DepName'];
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepName[] = $Result['DepName'];
+  }
 }
-$Count_Dep = sizeof($DepCode);
 $objPHPExcel->getActiveSheet()->mergeCells('A5:D5');
 $objPHPExcel->getActiveSheet()->setCellValue('D1', $array2['printdate'][$language] . $printdate);
 $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r7'][$language]);

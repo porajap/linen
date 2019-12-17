@@ -27,6 +27,7 @@ $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
 $DepCode = array();
+$DepName=[];
 $old_code = '';
 //--------------------------------------------------------------------------
 $where = '';
@@ -137,7 +138,7 @@ class MYPDF extends TCPDF
       $this->SetFont('thsarabunnew', '', 9);
       // Title
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 0, 'R');
-    } 
+    }
   }
   // Page footer
   public function Footer()
@@ -194,22 +195,29 @@ if ($language == 'th') {
 }
 $header = array($array2['no'][$language], $array2['itemname'][$language], $array2['shot'][$language], $array2['over'][$language]);
 // ------------------------------------------------------------------------------
-$Sql = "SELECT 
+if ($DepCode[0] == 0) {
+  $DepCode = explode(',', $_GET['Dep10']);
+}
+$Count_Dep = sizeof($DepCode);
+for ($i = 0; $i < $Count_Dep; $i++) {
+  $Sql = "SELECT 
 department.DepCode, department.DepName 
 FROM department 
 INNER JOIN shelfcount ON department.DepCode = shelfcount.DepCode 
 INNER JOIN shelfcount_detail ON shelfcount_detail.DocNo = shelfcount.DocNo 
 $where 
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
+AND shelfcount.isStatus <> 9
+AND shelfcount.isStatus <> 0
 AND department.HptCode = '$HptCode'
+AND department.DepCode = '$DepCode[$i]'
 GROUP BY department.DepCode
  ";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $DepCode[] = $Result['DepCode'];
-  $DepName[] = $Result['DepName'];
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepName[] = $Result['DepName'];
+  }
 }
-$Count_Dep = sizeof($DepCode);
 // --------------------------------------------------------
 // set font
 // add a page
@@ -236,7 +244,8 @@ INNER JOIN department ON department.DepCode = shelfcount.DepCode
 $where 
 AND  department.DepCode = '$DepCode[$i]'
 AND department.HptCode = '$HptCode'
-AND shelfcount.isStatus<> 9
+AND shelfcount.isStatus <> 9
+AND shelfcount.isStatus <> 0
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
 GROUP BY
 	item.itemName,
@@ -245,7 +254,7 @@ GROUP BY
   if ($old_code <> $DepCode[$i]) {
     $h5 = '<h5 align="left">' . $array2['department'][$language] . ' : ' .  $DepName[$i]  . '</h5>';
     $pdf->writeHTML($h5, true, false, false, false, '');
-      $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead> 
+    $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead> 
     <tr>
     <th width="10 %" align="center">' . $header[0] . '</th>
     <th width="50 %" align="center">' . $header[1] . '</th>

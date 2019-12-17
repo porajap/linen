@@ -92,7 +92,7 @@ $array2 = json_decode($json2, TRUE);
 		var month = '';
 		var many_month = '';
 		var show_year = '';
-		var PmID = <?PHP echo  $PmID ?>;
+		var PmID = '<?PHP echo  $PmID ?>';
 		if (PmID == 1 || PmID == 6) {
 			var tf = false;
 		} else {
@@ -127,6 +127,7 @@ $array2 = json_decode($json2, TRUE);
 			$('#factory').attr('disabled', true);
 			$('#PPU').attr('disabled', true);
 			$('#grouphpt').attr('disabled', true);
+			$('#item').attr('disabled', true);
 			$(".select2").select2();
 			$('#table_Fac').attr('hidden', false);
 			$('#table_Dep').attr('hidden', true);
@@ -163,7 +164,6 @@ $array2 = json_decode($json2, TRUE);
 		});
 
 		//======= function========================================================================================================
-		//console.log(JSON.stringify(data));
 		function OnLoadPage() {
 			var data = {
 				'STATUS': 'OnLoadPage'
@@ -227,8 +227,6 @@ $array2 = json_decode($json2, TRUE);
 				var year = parseInt(year) + 543;
 			}
 			var onemonth = n + '-' + year;
-			// $('#onemonth').attr('value', onemonth);
-
 			m = n;
 		}
 
@@ -269,8 +267,6 @@ $array2 = json_decode($json2, TRUE);
 			if (language == 'th') {
 				var year = parseInt(year) + 543;
 			}
-			// $('#somemonth').attr('value', nowMonth + '/' + year + ' - ' + nextMonth + '/' + year);
-			// $('#somemonth').attr('value', nextMonth + '-' + year);
 		}
 
 		function showdate() {
@@ -280,12 +276,6 @@ $array2 = json_decode($json2, TRUE);
 			var chkyear = $('#chkyear:checked').val();
 			var typeReport = $('#typereport').val();
 			if (chkday == 1) {
-				// if (language == 'th') {
-				// 	var Date = currentDate.split('-');
-				// 	var year = parseInt(Date[0]) + 543;
-				// 	Date = Date[2] + "-" + Date[1] + "-" + year;
-				// }
-				// $('#oneday').attr('value', Date);
 				$('#showday').show();
 				$('#myDay').show();
 				$('#showmonth').hide();
@@ -300,14 +290,6 @@ $array2 = json_decode($json2, TRUE);
 				$('#myMonth').show();
 				$('#showyear').hide();
 			} else if (chkyear == 3) {
-				// var Date = currentDate.split('-');
-				// if (language == 'th') {
-				// 	var Date = currentDate.split('-');
-				// 	var year = parseInt(Date[0]) + 543;
-				// } else {
-				// 	year = Date[0];
-				// }
-				// $('#year').attr('value', year);
 				$('#showday').hide();
 				$('#myDay').hide();
 				$('#showmonth').hide();
@@ -327,30 +309,6 @@ $array2 = json_decode($json2, TRUE);
 				$('#oneday').show();
 				$('#someday').show();
 				$('#textto').show();
-				// var currentDay = currentDate2;
-				// var dateone = currentDate.split('-');
-				// if (language == 'th') {
-				// 	dateone[0] = parseInt(dateone[0]) + 543;
-				// } else if (language == 'en') {
-				// 	dateone[0] = parseInt(dateone[0]);
-				// }
-				// dateone[2] = parseInt(dateone[2]) + 1;
-				// dateone = dateone[2] + "-" + dateone[1] + "-" + dateone[0];
-				// var today = new Date();
-				// var tomorrow = new Date(today);
-				// tomorrow.setDate(today.getDate() + 1);
-				// // tomorrow.toLocaleDateString();
-				// if (language == 'th') {
-				// 	var year = tomorrow.getFullYear() + 543;
-				// } else if (language == 'en') {
-				// 	var year = tomorrow.getFullYear();
-				// }
-				// var month = tomorrow.getMonth() + 1;
-				// var day = tomorrow.getDate();
-				// if (month < 10) month = '0' + month;
-				// if (day < 10) day = '0' + day;
-				// var myDate = day + '-' + month + '-' + year;
-				// $('#someday').val(myDate);
 			}
 		}
 
@@ -489,11 +447,18 @@ $array2 = json_decode($json2, TRUE);
 		function blank_dep() {
 			$('#department').removeClass('border-danger');
 			$('#rem4').hide();
+			var DepCode = $('#department').val();
+			var typereport = $('#typereport').val();
+			if (typereport == '29' || typereport == '30') {
+				if (DepCode == 'ALL') {
+					$('#item').attr('disabled', false);
+				} else {
+					$('#item').attr('disabled', true);
+					$('#item').val('0');
+				}
+			}
 		}
-		// function blank_cycle() {
-		// 	$('#cycle').removeClass('border-danger');
-		// 	$('#rem5').hide();
-		// }
+
 		function blank_report() {
 			$('#typereport').removeClass('border-danger');
 			$('#rem1').hide();
@@ -534,6 +499,15 @@ $array2 = json_decode($json2, TRUE);
 			$('#rem11').hide();
 		}
 
+		function show_item() {
+			var DepCode = $('#department').val();
+			if (DepCode == ALL) {
+				$('#item').attr('disabled', FALSE);
+			} else {
+				$('#item').attr('disabled', TRUE);
+			}
+		}
+
 		function search_fillter() {
 			var factory = $('#factory').val();
 			var HptCode = $('#hotpital').val();
@@ -546,6 +520,7 @@ $array2 = json_decode($json2, TRUE);
 			var onemonth = $('#onemonth').val();
 			var somemonth = $('#somemonth').val();
 			var GroupCode = $('#grouphpt').val();
+			var Item = $('#item').val();
 			var year = $('#year').val();
 			var Format = $("input[name='radioFormat']:checked").val();
 			var FormatDay = $("input[name='formatDay']:checked").val();
@@ -679,22 +654,6 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			// if (typeReport == 4) {
-			// 	if (cycle == '' || cycle == undefined || cycle == 0) {
-			// 		swal({
-			// 			title: '',
-			// 			text: '<?php echo $array['insert_form'][$language]; ?>',
-			// 			type: 'info',
-			// 			showCancelButton: false,
-			// 			confirmButtonColor: '#3085d6',
-			// 			cancelButtonColor: '#d33',
-			// 			showConfirmButton: false,
-			// 			timer: 1000,
-			// 			confirmButtonText: 'Ok'
-			// 		});
-			// 		Blankinput()
-			// 	}
-			// }
 			if (typeReport == 13) {
 				if (ppu == '' || ppu == undefined || ppu == 0) {
 					swal({
@@ -762,7 +721,6 @@ $array2 = json_decode($json2, TRUE);
 				} else {
 					var one = $('#oneday').val();
 					var some = $('#someday').val();
-
 					if (language == 'th') {
 						var day1 = one.split('-');
 						var day2 = some.split('-');
@@ -770,11 +728,6 @@ $array2 = json_decode($json2, TRUE);
 						var year2 = parseInt(day2[2]) - 543;
 						many_day = day1[0] + "/" + day1[1] + "/" + day1[2] + "-" + day2[0] + "/" + day2[1] + "/" + day2[2];
 						date = year1 + "/" + day1[1] + "/" + day1[0] + "-" + year2 + "/" + day2[1] + "/" + day2[0];
-						// var date1 = dmy[0].split('/');
-						// var date2 = dmy[1].split('/');
-						// var year1 = parseInt(date1[2]) - 543;
-						// var year2 = parseInt(date2[2]) - 543;
-						// date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
 					} else {
 						var day1 = one.split('-');
 						var day2 = some.split('-');
@@ -782,13 +735,7 @@ $array2 = json_decode($json2, TRUE);
 						var year2 = parseInt(day2[2]);
 						date = year1 + "/" + day1[1] + "/" + day1[0] + "-" + year2 + "/" + day2[1] + "/" + day2[0];
 						many_day = day1[2] + "/" + day1[1] + "/" + day1[0] + "-" + day2[2] + "/" + day2[1] + "/" + day2[0];
-						// var date1 = dmy[0].split('/');
-						// var date2 = dmy[1].split('/');
-						// var year1 = parseInt(date1[2]);
-						// var year2 = parseInt(date2[2]);
-						// date = year1 + "/" + date1[1] + "/" + date1[0] + "-" + year2 + "/" + date2[1] + "/" + date2[0]
 					}
-
 					var chkDateRang = date.split('-');
 					if (chkDateRang[0] == null || chkDateRang[0] == undefined || chkDateRang[1] == null || chkDateRang[1] == undefined) {
 						swal({
@@ -819,7 +766,8 @@ $array2 = json_decode($json2, TRUE);
 					'cycle': cycle,
 					'ppu': ppu,
 					'date': date,
-					'GroupCode': GroupCode
+					'GroupCode': GroupCode,
+					'Item': Item
 				};
 			} else if (Format == 2) {
 				var language = '<?php echo $language ?>';
@@ -880,7 +828,8 @@ $array2 = json_decode($json2, TRUE);
 					'cycle': cycle,
 					'ppu': ppu,
 					'date': date,
-					'GroupCode': GroupCode
+					'GroupCode': GroupCode,
+					'Item': Item
 				}
 			} else {
 				var language = '<?php echo $language ?>';
@@ -899,7 +848,8 @@ $array2 = json_decode($json2, TRUE);
 					'cycle': cycle,
 					'ppu': ppu,
 					'date': date,
-					'GroupCode': GroupCode
+					'GroupCode': GroupCode,
+					'Item': Item
 				};
 
 			}
@@ -920,9 +870,6 @@ $array2 = json_decode($json2, TRUE);
 			senddata(JSON.stringify(data));
 		}
 
-
-
-
 		function send_data(data) {
 			var dataSend = $('#data').val();
 			var URL = data + '?data=' + dataSend; //your url send_from process process/report.php
@@ -932,6 +879,12 @@ $array2 = json_decode($json2, TRUE);
 		function send_data2(data) {
 			var dataSend = $('#data').val();
 			var URL = data //your url send_from process process/report.php
+			window.open(URL);
+		}
+
+		function send_data3(data) {
+			var dataSend = $('#data').val();
+			var URL = data + '&data=' + dataSend; //your url send_from process process/report.php
 			window.open(URL);
 		}
 		//============================================ Close Function ======================================================
@@ -958,7 +911,7 @@ $array2 = json_decode($json2, TRUE);
 
 					if (temp["status"] == 'success') {
 						if (temp["form"] == 'OnLoadPage') {
-							var PmID = <?php echo $PmID; ?>;
+							var PmID = '<?php echo $PmID; ?>';
 							var HptCode = '<?php echo $HptCode ?>';
 							var FacCode = '<?php echo $FacCode ?>';
 							var DepCode = '<?php echo $DepCode ?>';
@@ -969,6 +922,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#factory").empty();
 							$("#department").empty();
 							$("#hotpital").empty();
+							$("#item").empty();
 							var facValue0 = '-';
 							var fac = "<option value='0'>" + facValue0 + "</option>";
 							for (var i = 0; i < temp['Rowx']; i++) {
@@ -994,9 +948,7 @@ $array2 = json_decode($json2, TRUE);
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 							var dep1 = "<option value='0'>" + depValue0 + "</option>";
-							if (typereport != 29 || typereport != 30) {
-								dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
-							}
+							dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -1010,6 +962,14 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$("#grouphpt").append(grouphpt);
 							$("#grouphpt").val(0);
+
+
+							var itemValue0 = '-';
+							var item = "<option value='0'>" + itemValue0 + "</option>";
+							for (var i = 0; i < temp['count_item_sc']; i++) {
+								item += "<option value=" + temp[i]['itemcode'] + ">" + temp[i]['itemname'] + "</option>";
+							}
+							$("#item").append(item);
 						} else if (temp["form"] == 'departmentWhere') {
 							var typereport = $('#typereport').val();
 							$("#department").empty();
@@ -1017,9 +977,7 @@ $array2 = json_decode($json2, TRUE);
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep2 = "<option value='0'>" + depValue0 + "</option>";
-							if (typereport != 29 && typereport != 30) {
-								dep2 += "<option value='ALL'>" + depValueAlldep + "</option>";
-							}
+							dep2 += "<option value='ALL'>" + depValueAlldep + "</option>";
 							for (var i = 0; i < temp['Row']; i++) {
 								dep2 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -1061,7 +1019,6 @@ $array2 = json_decode($json2, TRUE);
 								show_date = show_year;
 							}
 							$('#type_report').text(temp['typeReport']);
-
 							$('#table_Fac tbody').empty();
 							$('#table_Fac').attr('hidden', false);
 							$('#table_Dep').attr('hidden', true);
@@ -1086,13 +1043,19 @@ $array2 = json_decode($json2, TRUE);
 							$('#data').val(Object.values(temp['data_send']));
 							var hot = $("#hotpital option:selected").text();
 							var department = $("#department option:selected").text();
-							// alert('Dep');
+							if (temp["item"] != '0') {
+								var grouphpt = $("#grouphpt option:selected").text();
+								var grouphpt = '( ' + grouphpt + ' )';
+							} else {
+								var grouphpt = '';
+							}
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var Excel = 'XLS';
 							var Pdf = 'PDF';
 							var show_date = '-';
 							var format = temp['Format'];
 							var chk = temp['chk'];
+							var Dep10 = '';
 							if (format == 1) {
 								if (chk == 'one') {
 									show_date = day;
@@ -1115,21 +1078,83 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_DepDoc').attr('hidden', true);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
-									"<td class='text-center pl-4' style='width:35%'>" + department + "</td>" +
-									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
-								if (temp['r'] == 'r29' || temp['r'] == 'r30') {
-									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
-								} else {
-									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
-										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
-
+							if (temp['statusDep'] == 'somedepartment') {
+								for (var i = 0; i < temp['countRow']; i++) {
+									var dataRow = "<tr>" +
+										"<td style='width:5%'>" + (i + 1) + "</td>" +
+										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
+										"<td class='text-center pl-4' style='width:35%'>" + department + grouphpt + "</td>" +
+										"<td class='text-center' style='width:20%'>" + show_date + "</td>";
+									if (temp['r'] == 'r29' || temp['r'] == 'r30') {
+										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									} else {
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
+											"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									}
+									"</tr>";
+									$("#table_Dep tbody").append(dataRow);
 								}
-								"</tr>";
-								$("#table_Dep tbody").append(dataRow);
+							}
+							if (temp['statusDep'] == 'alldepartment') {
+								var rows = temp['department'].length;
+								var r1 = rows / 10;
+								r1 = parseInt(r1);
+								var r2 = rows % 10;
+								var round = 0;
+								for (var i = 0; i < r1; i++) {
+									var dataRow = "<tr>" +
+										"<td style='width:5%'>" + (i + 1) + "</td>" +
+										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>";
+									dataRow += "<td class='text-center pl-4' style='width:35%'>"
+									for (var j = 1; j < 11; j++) {
+										dataRow += j + '  ' + temp['department'][round]['DepName'] + ' <br> ';
+										Dep10 += temp['department'][round]['DepCode'];
+										if (j != 10) {
+											Dep10 += ',';
+										}
+										round++;
+									}
+									dataRow += "</td>";
+									dataRow += "<td class='text-center' style='width:20%'>" + show_date + "</td>";
+									if (temp['r'] == 'r7') {
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['url'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									} else {
+										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									}
+									dataRow += "</tr>";
+									$("#table_Dep tbody").append(dataRow);
+									Dep10 = '';
+								}
+								round--;
+								if (r2 > 0) {
+									if (round == -1) {
+										round = 0;
+									}
+									var dataRow = "<tr>" +
+										"<td style='width:5%'>" + (i + 1) + "</td>" +
+										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>";
+									dataRow += "<td class='text-center pl-4' style='width:35%'>"
+									for (var j = 1; j <= r2; j++) {
+										dataRow += j + '  ' + temp['department'][round]['DepName'] + ' <br> ';
+										Dep10 += temp['department'][round]['DepCode'];
+										if (j != r2) {
+											Dep10 += ',';
+										}
+										round++;
+									}
+									dataRow += "</td>";
+									dataRow += "<td class='text-center' style='width:20%'>" + show_date + "</td>";
+									if (temp['r'] == 'r7') {
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['url'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									} else {
+										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									}
+									dataRow += "</tr>";
+									$("#table_Dep tbody").append(dataRow);
+									Dep10 = '';
+								}
 							}
 						} else if (temp["form"] == 'DepDoc') {
 							$('#data').val(Object.values(temp['data_send']));
@@ -1341,7 +1366,7 @@ $array2 = json_decode($json2, TRUE);
 		function disabled_fill() {
 			departmentWhere();
 			var typeReport = $('#typereport').val();
-			var PmID = <?PHP echo  $PmID ?>;
+			var PmID = '<?PHP echo  $PmID ?>';
 			if (PmID == 1 || PmID == 6) {
 				var tf = false;
 			} else {
@@ -1353,10 +1378,12 @@ $array2 = json_decode($json2, TRUE);
 				$('#factory').attr('disabled', false);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 				$('#chksomemonth').parent().show();
 				$('#chkyear').parent().show();
 			} else if (typeReport == 14 || typeReport == 16) {
@@ -1365,50 +1392,60 @@ $array2 = json_decode($json2, TRUE);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 			} else if (typeReport == 9) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 			} else if (typeReport == 2) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 			} else if (typeReport == 29 || typeReport == 30) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', false);
-				$('#grouphpt').attr('disabled', true);
+				$('#grouphpt').attr('disabled', false);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 			} else if (typeReport == 28) {
@@ -1417,42 +1454,50 @@ $array2 = json_decode($json2, TRUE);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', false);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
-			} else if (typeReport == 4 || typeReport == 29 || typeReport == 30) {
+			} else if (typeReport == 29 || typeReport == 30) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 			} else if (typeReport == 13) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 			} else if (typeReport == 17) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
+				$('#item').val(0);
 			}
 			if (typeReport == 9) {
 				$('#showday').hide();
@@ -1461,6 +1506,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#showyear').hide();
 				$('#myMonth').hide();
 				$('#chk').hide();
+				$('#grouphpt').attr('disabled', false);
 			}
 			if (typeReport != 9 && typeReport != 20) {
 				$('#showday').hide();
@@ -1489,6 +1535,18 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
 				// $('#oneMonth').attr('value', onemonth);
+			} else if (typeReport == 4 || typeReport == 29 || typeReport == 30) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', false);
+				$('#item').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#item').val(0);
 			}
 			// else if (typeReport == 28) {
 			// 	$('#department').attr('disabled', true);
@@ -1917,14 +1975,13 @@ $array2 = json_decode($json2, TRUE);
 														</select><label id="rem6" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
-												<!-- <div class="col-md-6 ">
+												<div class="col-md-6 ">
 													<div class='form-group row checkblank '>
-														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['department'][$language]; ?></label>
-														<select class="form-control col-sm-8" style="font-size:22px;" id="department" onchange="blank_dep();">
+														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['item'][$language]; ?></label>
+														<select class="form-control col-sm-8" style="font-size:22px;" id="item" onchange="show_item();">
 														</select>
-														<label id="rem4" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
-												</div> -->
+												</div>
 											</div>
 											<div class="row">
 												<div class="col-md-6">

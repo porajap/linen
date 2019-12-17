@@ -299,6 +299,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
               AND grouphpt.HptCode = '$HptCode'
               AND department.HptCode = '$HptCode'
               GROUP BY  department.DepCode 
+              ORDER BY department.DepName ASC
             ";
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -309,9 +310,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     $DepName[] =  $Result["DepName"];
     $DepCode[] =  $Result["DepCode"];
   }
-  
- 
-
   $r = 2;
   $d = 1;
   $rows = 9;

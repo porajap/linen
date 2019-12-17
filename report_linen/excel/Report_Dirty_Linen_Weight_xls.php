@@ -839,6 +839,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 // Rename worksheet
 $objPHPExcel->getActiveSheet()->setTitle('Extra');
 $objPHPExcel->createSheet();
+$objPHPExcel->getActiveSheet(0);
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);

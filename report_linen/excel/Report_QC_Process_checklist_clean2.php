@@ -260,7 +260,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('C' . $r1, 'สรุปข้อ�
 $objPHPExcel->getActiveSheet()->setCellValue('C' . $r2, 'คิดเป็นร้อยละต่อครั้ง');
 $objPHPExcel->getActiveSheet()->setCellValue('C' . $r3, 'คิดเป็นร้อยละต่อเดือน');
 $objPHPExcel->getActiveSheet()->mergeCells('D' . $r3 . ':'.$date_cell[$lastdate] . $r3);
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, $Total_PerCent . '%');
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, $Total_PerCent );
 
 
 
@@ -376,6 +376,8 @@ $objPHPExcel->getActiveSheet()->getStyle('A2:A' . $count)->applyFromArray($A2AH2
 $objPHPExcel->getActiveSheet()->getStyle('D' . $row_question . ':AG' . $r2)->applyFromArray($A2AH2);
 $objPHPExcel->getActiveSheet()->getStyle('A2:'.$date_cell[$lastdate].'3')->applyFromArray($colorfill);
 $objPHPExcel->getActiveSheet()->getStyle('C' . $r1 . ':'.$date_cell[$lastdate] . $r3)->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle("D16")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+
 // $objDrawing = new PHPExcel_Worksheet_Drawing();
 // $objDrawing->setName('test_img');
 // $objDrawing->setDescription('test_img');
