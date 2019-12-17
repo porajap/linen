@@ -760,7 +760,9 @@ $array2 = json_decode($json2,TRUE);
                                 confirmButtonText: 'Ok'
                             }).then(function() {
                                 ShowItem();
-                                Blankinput();
+                                $('#DepCode').val("");
+                                $('#DepName').val("");
+
                             }, function(dismiss) {
                                 $('.checkblank').each(function() {
                                     $(this).css('border-color', '');
@@ -1158,11 +1160,8 @@ $array2 = json_decode($json2,TRUE);
                                 </div>
 
                                 <div class="col-md-8">
-                                    <div class="row" style="margin-left:5px;">
+                                    <div class="row" style="margin-left:15px;">
                                         <input type="text" autocomplete="off"  class="form-control" style="width:35%;margin-left: -18%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchDepartment'][$language]; ?>">
-                                        <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>       -->
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">
@@ -1251,8 +1250,16 @@ $array2 = json_decode($json2,TRUE);
                                 </li>
                             </ul>
    <!-- =================================================================== -->
-                                <div class="row mt-4">
+                            <div class="row mt-4">
                                 <div class="col-md-6">
+                                    <div class='form-group row'>
+                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
+                                      </select>
+                                      <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['Groupcode'][$language]; ?></label>
                                       <input type="text" autocomplete="off" onkeyup="resetinput(2)"  maxlength="6"  class="form-control col-sm-7 checkblank" id="DepCode" placeholder="<?php echo $array['codecode'][$language]; ?>" >
@@ -1260,23 +1267,14 @@ $array2 = json_decode($json2,TRUE);
                                       <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
-                                  
-                                  <div class="col-md-6">
+                                </div> 
+   <!-- =================================================================== -->
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['group'][$language]; ?></label>
                                       <input type="text"  autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="DepName" placeholder="<?php echo $array['group'][$language]; ?>">
                                       <label id="rem2" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
-                                    </div>
-                                  </div>
-                                </div> 
-   <!-- =================================================================== -->
-                                <div class="row">
-                                <div class="col-md-6">
-                                    <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
-                                      </select>
-                                      <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                 </div> 

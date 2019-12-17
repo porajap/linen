@@ -634,7 +634,7 @@ $(document).ready(function(e){
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
         $('#TableDetail tbody').empty();
-        if( deptCode == ''  ){
+        if( deptCode == '' || deptCode == 'null'  ){
             checkblank();
             swal({
               title: '',

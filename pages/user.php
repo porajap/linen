@@ -90,7 +90,6 @@ $array2 = json_decode($json2,TRUE);
                 alert(evt.imgId);
             });
             getHotpital();
-            getEmployee();
             getPermission();
             getFactory();
             getDepartment2();
@@ -134,13 +133,6 @@ $array2 = json_decode($json2,TRUE);
             dialog.dialog("open");
         });
 
-        function getEmployee(){
-          var data2 = {
-              'STATUS': 'getEmployee'
-          };
-          // console.log(JSON.stringify(data2));
-          senddata(JSON.stringify(data2));
-        }
         function getHotpital(){
           var lang = '<?php echo $language; ?>';
           var data2 = {
@@ -280,9 +272,17 @@ $array2 = json_decode($json2,TRUE);
             if(chk==1){
                 var Hotp = $('#hptsel').val();
                 $('#host').val(Hotp);
+                $('#department').css('border-color', '');
+                $('#host').css('border-color', '');
+                $('#rem1').hide();
+                $('#rem2').hide();
             }else if(chk==2){
                 var Hotp = $('#host').val();
                 $('#hptsel').val(Hotp);
+                $('#department').css('border-color', '');
+                $('#host').css('border-color', '');
+                $('#rem1').hide();
+                $('#rem2').hide();
             }
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
@@ -640,7 +640,6 @@ $array2 = json_decode($json2,TRUE);
                 $(".dropify-clear").click(); 
                 // getHotpital();
                 // getDepartment();
-                // getEmployee();
                 // getPermission();
                 // ShowItem();
                 // uncheckAll2();
@@ -1028,18 +1027,16 @@ $array2 = json_decode($json2,TRUE);
                             $("#hptsel").append(StrTr);
                         }else if(temp["form"]=='getDepartment2'){
                                     $("#department").empty();
+                                    if(temp['count'] == 0){
                                     var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
-                                    for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                                    }else{
+                                     var Str2 = "";
+                                    }
+                                    for (var i = 0; i < temp['count'];  i++) {
                                         Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
                                     }
                                     $("#department").append(Str2);
-                        }else if ((temp["form"] == 'getEmployee')) {
-                                    $("#EmpCode").empty();
-                                    for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                        var StrTr = "<option value = '" + temp[i]['EmpCode'] + "'> " + temp[i]['xName'] + " </option>";
-                                        $("#EmpCode").append(StrTr);
-                                    }
-                                } else if ((temp["form"] == 'getPermission')) {
+                        }else if ((temp["form"] == 'getPermission')) {
                                     $("#Permission").empty();
                                     var StrTr = "<option value=''><?php echo $array['selectpermission'][$language]; ?></option>";
                                     for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -1433,7 +1430,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['username'][$language]; ?></label>
-                                    <input type="text" autocomplete="off" class="form-control col-sm-8 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
+                                    <input type="text" onkeyup="resetinput2()"  autocomplete="off" class="form-control col-sm-8 checkblank" id="username"    placeholder="<?php echo $array['username'][$language]; ?>">
                                     <label id="rem3" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
                                     </div>
                                   </div>

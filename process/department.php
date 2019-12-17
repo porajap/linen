@@ -178,8 +178,8 @@ function getSection($conn, $DATA)
 function AddItem($conn, $DATA)
 {
   $count = 0;
+  $chkinsert = 0;
   $shipto = $DATA['shipto'];
-  $IsActive = $DATA['IsActive'];
   $HptCode = $DATA['HptCode'];
   $DepCode1 = trim($DATA['DepCode1']);
   $DepCode = trim($DATA['DepCode']);
@@ -209,7 +209,20 @@ if($DepCode1 == ""){
       die;
       }
   }
-  if($PmID==1 || $PmID==6){
+
+
+// =================================
+  if($PmID ==1 || $PmID ==6){
+    $IsActive = $DATA['IsActive'];
+  }else{
+    $IsActive = 0 ;
+  }
+// เช็ครหัสซํ้า
+$SqlDep = "SELECT department.DepCode AS DepChk FROM department WHERE DepCode = '$DepCode' AND HptCode = '$HptCode' AND department.IsStatus = 0";
+$meQueryDep = mysqli_query($conn, $SqlDep);
+$ResultDep = mysqli_fetch_assoc($meQueryDep);
+
+if($ResultDep['DepChk'] == null ){
   $Sql = "INSERT INTO department
           (
           DepCode,
@@ -239,39 +252,11 @@ if($DepCode1 == ""){
             '$shipto'
           )
   ";
-}else{
-  $Sql = "INSERT INTO department
-          (
-          DepCode,
-          HptCode,
-          DepName,
-          IsStatus,
-		      IsDefault, 
-          DocDate ,
-          Modify_Code ,
-          Modify_Date,
-          IsActive,
-          GroupCode,
-          Ship_To
-          )
-          VALUES
-          (
-            '$DepCode',
-            '$HptCode',
-            '$DepName',
-            0,
-            $xCenter,
-          NOW(),
-          $Userid,
-          NOW(),
-          0,
-          $group2,
-         '$shipto'
-          )
-  ";
+  mysqli_query($conn, $Sql);
+  $chkinsert = 1;
 }
   // var_dump($Sql); die;
-  if(mysqli_query($conn, $Sql)){
+  if($chkinsert ==1){
     $return['status'] = "success";
     $return['form'] = "AddItem";
     $return['msg'] = "addsuccess";
@@ -280,7 +265,7 @@ if($DepCode1 == ""){
     die;
   }else{
     $return['status'] = "failed";
-    $return['msg'] = "editcenterfailedmsg";
+    $return['msg'] = "addfailed";
     echo json_encode($return);
     mysqli_close($conn);
     die;
@@ -301,7 +286,11 @@ if($DepCode1 == ""){
       mysqli_close($conn);
       die;
     }
-    if($PmID==1 || $PmID==6){
+    if($PmID ==1 || $PmID ==6){
+      $IsActive = $DATA['IsActive'];
+    }else{
+      $IsActive = 0 ;
+    }
     $Sql = "UPDATE department SET
     DepCode =  '$DepCode',
     HptCode =  '$HptCode',
@@ -314,19 +303,6 @@ if($DepCode1 == ""){
     Ship_To = '$shipto'
     WHERE DepCode = '".$DATA['DepCode1']."'
 ";
-    }else{
-      $Sql = "UPDATE department SET
-      DepCode =  '$DepCode',
-      HptCode =  '$HptCode',
-      DepName = '$DepName',
-      IsDefault =  $xCenter ,
-      Modify_Date = NOW() ,
-      Modify_Code =  $Userid ,
-      GroupCode = $group2 ,
-      Ship_To = '$shipto' 
-      WHERE DepCode = '".$DATA['DepCode1']."'
-  ";
-    }
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";

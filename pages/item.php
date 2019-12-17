@@ -131,6 +131,9 @@ $array2 = json_decode($json2, TRUE);
         this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
       });
 
+      $('.enonly').on('input', function() {
+        this.value = this.value.replace(/[^a-zA-Z0-9. ]/g, ''); //<-- replace all other than given set of values
+      });
 			$('.activeSort').click(function () {
         $("a").removeClass("white");
         $(this).attr("class", "white");
@@ -1657,7 +1660,7 @@ $array2 = json_decode($json2, TRUE);
               $('#SizeCode').val("1");
               // $('#hospital').val("BHQ");
               $('#typeLinen').val("P");
-              $('#numPack').val("01");
+              $('#numPack').val("1");
 
             } else if ((temp["form"] == 'ShowItem2')) {
               // $('#TableItemMaster').attr("hidden", true);
@@ -1922,7 +1925,7 @@ $array2 = json_decode($json2, TRUE);
                   timer: 2000,
                   confirmButtonText: 'Ok'
               }).then(function() {
-                  ShowItem();
+                  // ShowItem();
                   Blankinput();
               }, function(dismiss) {
                   $('.checkblank').each(function() {
@@ -2631,7 +2634,7 @@ $array2 = json_decode($json2, TRUE);
                           <div class="col-md-6">
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['code'][$language]; ?></label>
-                              <input type="text"autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" >
+                              <input type="text"autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank enonly" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" >
                               <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
