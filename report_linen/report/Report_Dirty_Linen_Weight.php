@@ -367,8 +367,8 @@ AND dirty.isStatus <> 9
 GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC
           ";
-          
 $meQuery = mysqli_query($conn, $queryy);
+$pdf->Cell(70, 20, iconv("UTF-8", "TIS-620", ''), 0, 1, 'L');
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   if ($Result['RequestName'] <> null) {
     $Result['ItemName'] = $Result['RequestName'];

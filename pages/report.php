@@ -448,11 +448,14 @@ $array2 = json_decode($json2, TRUE);
 			$('#department').removeClass('border-danger');
 			$('#rem4').hide();
 			var DepCode = $('#department').val();
-			if (DepCode == 'ALL') {
-				$('#item').attr('disabled', false);
-			} else {
-				$('#item').attr('disabled', true);
-				$('#item').val('0');
+			var typereport = $('#typereport').val();
+			if (typereport == '29' || typereport == '30') {
+				if (DepCode == 'ALL') {
+					$('#item').attr('disabled', false);
+				} else {
+					$('#item').attr('disabled', true);
+					$('#item').val('0');
+				}
 			}
 		}
 
@@ -1038,14 +1041,14 @@ $array2 = json_decode($json2, TRUE);
 							}
 						} else if (temp["form"] == 'Dep') {
 							$('#data').val(Object.values(temp['data_send']));
-							var rows = temp['department'].length;
-							var r1 = rows / 10;
-							r1 = parseInt(r1);
-							var r2 = rows % 10;
-							var round = 0;
 							var hot = $("#hotpital option:selected").text();
 							var department = $("#department option:selected").text();
-							var grouphpt = $("#grouphpt option:selected").text();
+							if (temp["item"] != '0') {
+								var grouphpt = $("#grouphpt option:selected").text();
+								var grouphpt = '( ' + grouphpt + ' )';
+							} else {
+								var grouphpt = '';
+							}
 							var print = '<?php echo $array['prin'][$language]; ?>';
 							var Excel = 'XLS';
 							var Pdf = 'PDF';
@@ -1080,7 +1083,7 @@ $array2 = json_decode($json2, TRUE);
 									var dataRow = "<tr>" +
 										"<td style='width:5%'>" + (i + 1) + "</td>" +
 										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
-										"<td class='text-center pl-4' style='width:35%'>" + department + '( ' + grouphpt + ' )' + "</td>" +
+										"<td class='text-center pl-4' style='width:35%'>" + department + grouphpt + "</td>" +
 										"<td class='text-center' style='width:20%'>" + show_date + "</td>";
 									if (temp['r'] == 'r29' || temp['r'] == 'r30') {
 										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
@@ -1093,6 +1096,11 @@ $array2 = json_decode($json2, TRUE);
 								}
 							}
 							if (temp['statusDep'] == 'alldepartment') {
+								var rows = temp['department'].length;
+								var r1 = rows / 10;
+								r1 = parseInt(r1);
+								var r2 = rows % 10;
+								var round = 0;
 								for (var i = 0; i < r1; i++) {
 									var dataRow = "<tr>" +
 										"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1108,14 +1116,21 @@ $array2 = json_decode($json2, TRUE);
 									}
 									dataRow += "</td>";
 									dataRow += "<td class='text-center' style='width:20%'>" + show_date + "</td>";
-									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									if (temp['r'] == 'r7') {
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['url'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									} else {
+										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									}
 									dataRow += "</tr>";
 									$("#table_Dep tbody").append(dataRow);
 									Dep10 = '';
 								}
-
 								round--;
-								if (r2 != 0) {
+								if (r2 > 0) {
+									if (round == -1) {
+										round = 0;
+									}
 									var dataRow = "<tr>" +
 										"<td style='width:5%'>" + (i + 1) + "</td>" +
 										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>";
@@ -1130,7 +1145,12 @@ $array2 = json_decode($json2, TRUE);
 									}
 									dataRow += "</td>";
 									dataRow += "<td class='text-center' style='width:20%'>" + show_date + "</td>";
-									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									if (temp['r'] == 'r7') {
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['url'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
+										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									} else {
+										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Dep10=" + Dep10 + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									}
 									dataRow += "</tr>";
 									$("#table_Dep tbody").append(dataRow);
 									Dep10 = '';
@@ -1442,7 +1462,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#item').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
-			} else if (typeReport == 4 || typeReport == 29 || typeReport == 30) {
+			} else if (typeReport == 29 || typeReport == 30) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
@@ -1486,6 +1506,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#showyear').hide();
 				$('#myMonth').hide();
 				$('#chk').hide();
+				$('#grouphpt').attr('disabled', false);
 			}
 			if (typeReport != 9 && typeReport != 20) {
 				$('#showday').hide();
@@ -1514,6 +1535,18 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
 				// $('#oneMonth').attr('value', onemonth);
+			} else if (typeReport == 4 || typeReport == 29 || typeReport == 30) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', false);
+				$('#item').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#item').val(0);
 			}
 			// else if (typeReport == 28) {
 			// 	$('#department').attr('disabled', true);

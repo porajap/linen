@@ -99,6 +99,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
+$datetime = new DatetimeTH();
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
 } else {
@@ -195,19 +196,17 @@ $objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['docno'][$language] .
 
 
 $data = "SELECT
-IFNULL(SUM(shelfcount_detail.Over),0) AS OverPar,
-IFNULL(SUM(shelfcount_detail.Short),0) AS Short ,
-item.itemName,
-department.DepName
+item.ItemName,
+IFNULL(shelfcount_detail.Over, 0) AS OverPar,
+IFNULL(shelfcount_detail.Short, 0) AS Short
 FROM
-shelfcount_detail
-INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
-INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
-INNER JOIN department ON department.DepCode = shelfcount.DepCode
-WHERE shelfcount.DocNo = '$docno'
-AND shelfcount.isStatus<> 9
+shelfcount
+INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
+INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
+INNER JOIN department ON shelfcount.DepCode = department.DepCode
+ WHERE shelfcount.DocNo='$docno'
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
-GROUP BY item.itemName";
+ORDER BY item.itemCode ASC ";
 $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['department'][$language] . ' : ' . $DepName);
 $start_row++;
 $first_row = $start_row;
@@ -221,7 +220,7 @@ $head_row = $start_row;
 $meQuery = mysqli_query($conn, $data);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $count);
-  $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $Result["itemName"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $Result["ItemName"]);
   $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["Short"]);
   $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["OverPar"], 2);
   $last_start_row_dep = $start_row;
@@ -289,7 +288,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_Shot_And_Over');
+$objPHPExcel->getActiveSheet()->setTitle('Report_Daily_issue_Request');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
@@ -299,7 +298,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Report_Shot_And_Over_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Daily_issue_Request_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file

@@ -370,6 +370,7 @@ $objPHPExcel->getActiveSheet()->getStyle("E1")->applyFromArray($E1);
 $objPHPExcel->getActiveSheet()->getStyle("A6:AI8")->applyFromArray($A6AI8);
 $objPHPExcel->getActiveSheet()->getStyle("B6:D6")->applyFromArray($A6AI8);
 $objPHPExcel->getActiveSheet()->getStyle("A3")->applyFromArray($A3)->getFont()->setUnderline(true);
+$objPHPExcel->getActiveSheet()->getStyle("E27")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 // $objPHPExcel->getActiveSheet()->getStyle("A9:A" . $i)->applyFromArray($fill1)->getNumberFormat();
 // $objPHPExcel->getActiveSheet()->getStyle("B9:B" . $i)->applyFromArray($fill2)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 // $objPHPExcel->getActiveSheet()->getStyle("C9:C" . $i)->applyFromArray($fill3)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);

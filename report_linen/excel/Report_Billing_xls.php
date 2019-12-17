@@ -310,9 +310,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     $DepName[] =  $Result["DepName"];
     $DepCode[] =  $Result["DepCode"];
   }
-  
- 
-
   $r = 2;
   $d = 1;
   $rows = 9;
