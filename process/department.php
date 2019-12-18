@@ -118,8 +118,14 @@ function getdetail($conn, $DATA)
 
 }
 function GetGroup($conn , $DATA){
-  $HptCode = $DATA["HptCode"];
   $count = 0;
+  $PmID = $_SESSION['PmID'];
+
+  if($PmID == 5 || $PmID == 7){
+    $HptCode = $_SESSION["HptCode"];
+  }else{
+    $HptCode = $DATA["HptCode"];
+  }
   $Sql = "SELECT grouphpt.GroupCode,grouphpt.GroupName
   FROM grouphpt WHERE grouphpt.IsStatus = 0 AND grouphpt.HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);

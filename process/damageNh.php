@@ -60,7 +60,53 @@ function OnLoadPage($conn, $DATA)
     die;
   }
 }
+function getfactory($conn,$DATA){
+  $Hotp = $DATA["Hotp"];
+  $PmID = $_SESSION['PmID'];
+  $lang = $_SESSION['lang'];
+  $countx = 0;
 
+  if($lang == 'en'){
+    $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+    }else{
+    $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+    }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+  
+    $return[$countx]['FacCode'] = $Result['FacCode'];
+    $return[$countx]['FacName'] = $Result['FacName'];
+    $countx  ++;
+  }
+  $boolean = true;
+  $return['Rowx'] = $countx;
+
+  // select หาแผนกหลัก
+  $Sql2 = "SELECT department.DepName 
+                FROM department 
+                WHERE department.HptCode = '$Hotp' 
+                AND department.IsDefault = 1 
+                AND department.IsActive   = 1 
+                AND department.IsStatus   =0";
+  $meQuery2 = mysqli_query($conn, $Sql2);
+  $Result2 = mysqli_fetch_assoc($meQuery2);
+  $return['DepName'] = $Result2['DepName'];
+
+  if ($boolean) {
+    $return['status'] = "success";
+    $return['form'] = "getfactory";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['status'] = "failed";
+    $return['form'] = "getfactory";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+
+}
 function getDepartment($conn, $DATA)
 {
   $count = 0;
@@ -104,6 +150,7 @@ function CreateDocument($conn, $DATA)
   $count = 0;
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
+  $factory   = $DATA["factory"];
   $userid   = $DATA["userid"];
   //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
   //     mysqli_query($conn,$Sql);
@@ -142,12 +189,12 @@ function CreateDocument($conn, $DATA)
     ( DocNo,DocDate,DepCode,RefDocNo,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
-      damagenh.Modify_Code,damagenh.Modify_Date )
+      damagenh.Modify_Code,damagenh.Modify_Date  , FacCode)
       VALUES
       ( '$DocNo',DATE(NOW()),'$deptCode','$RefDocNo',
       0,DATE(NOW()),0,0,
       0,0,'',
-      $userid,NOW() )";
+      $userid,NOW() , '$factory' )";
       mysqli_query($conn, $Sql);
 
       //var_dump($Sql);
@@ -217,12 +264,26 @@ function CreateDocument($conn, $DATA)
     }
     // $Sql = "INSERT INTO log ( log ) VALUES ('$max : $DocNo')";
     // mysqconn,$Sql);
-    $Sql = "SELECT site.HptName,department.DepName,damagenh.DocNo,DATE(damagenh.DocDate) 
-    AS DocDate,damagenh.RefDocNo,damagenh.Total, users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damagenh.Modify_Date) AS xTime,damagenh.IsStatus
-    FROM damagenh
-    INNER JOIN department ON damagenh.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN users ON damagenh.Modify_Code = users.ID ";
+    $Sql = "SELECT
+    site.HptName,
+    department.DepName,
+    damagenh.DocNo,
+    DATE(damagenh.DocDate) AS DocDate,
+    damagenh.RefDocNo,
+    damagenh.Total,
+    users.EngName,
+    users.EngLName,
+    users.ThName,
+    users.ThLName,
+    users.EngPerfix,
+    users.ThPerfix,
+    TIME(damagenh.Modify_Date) AS xTime,
+    damagenh.IsStatus
+  FROM
+    damagenh
+  INNER JOIN department ON damagenh.DepCode = department.DepCode
+  INNER JOIN site ON department.HptCode = site.HptCode
+  INNER JOIN users ON damagenh.Modify_Code = users.ID ";
   // if($DocNo!=null){
   //   $Sql .= " WHERE damagenh.DocNo = '$DocNo' AND damagenh.DocNo LIKE '%$xDocNo%'";
   // }else{
@@ -302,12 +363,27 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $DocNo = $DATA["xdocno"];
     $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT   site.HptCode,department.DepName,damagenh.DocNo,DATE(damagenh.DocDate) 
-    AS DocDate ,damagenh.Total,users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(damagenh.Modify_Date) AS xTime,damagenh.IsStatus,damagenh.RefDocNo
-    FROM damagenh
-    INNER JOIN department ON damagenh.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN users ON damagenh.Modify_Code = users.ID
+    // select  เพื่อไปแสดงหน้า web
+    $Sql = "SELECT   site.HptCode,
+                                department.DepName,
+                                damagenh.DocNo,
+                                DATE(damagenh.DocDate) AS DocDate ,
+                                damagenh.Total,
+                                users.EngName ,
+                                users.EngLName ,
+                                users.ThName , 
+                                users.ThLName , 
+                                users.EngPerfix , 
+                                users.ThPerfix ,
+                                TIME(damagenh.Modify_Date) AS xTime,
+                                damagenh.IsStatus,
+                                damagenh.RefDocNo,
+                                damagenh.FacCode
+              FROM damagenh
+              INNER JOIN department ON damagenh.DepCode = department.DepCode
+              INNER JOIN site ON department.HptCode = site.HptCode
+              INNER JOIN users ON damagenh.Modify_Code = users.ID
+              LEFT JOIN factory ON damagenh.FacCode = factory.FacCode
     WHERE damagenh.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -322,6 +398,7 @@ function CreateDocument($conn, $DATA)
         $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
       }
 
+      $Hotp   = $Result['HptCode'];
       $return[$count]['HptName']   = $Result['HptCode'];
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
@@ -330,11 +407,41 @@ function CreateDocument($conn, $DATA)
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];
       $return[$count]['RefDocNo'] = $Result['RefDocNo'];
+      $return[$count]['FacCode2'] = $Result['FacCode'];
 
       $boolean = true;
       $count++;
     }
+//===============================================
+ // select หาแผนกหลัก
+ $Sql2 = "SELECT department.DepName 
+ FROM department 
+ WHERE department.HptCode = '$Hotp' 
+ AND department.IsDefault = 1 
+ AND department.IsActive   = 1 
+ AND department.IsStatus   =0";
+$meQuery2 = mysqli_query($conn, $Sql2);
+$Result2 = mysqli_fetch_assoc($meQuery2);
+$return['DepName'] = $Result2['DepName'];
+// ===============================================
 
+// select โรงซัก
+    $countx = 0;
+    if($lang == 'en'){
+      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+      }else{
+      $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+      }
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
+      $return[$countx]['FacCode'] = $Result['FacCode'];
+      $return[$countx]['FacName'] = $Result['FacName'];
+      $countx  ++;
+
+    }
+    $return['Rowx'] = $countx;
+// ===============================================
     if ($boolean) {
       $return['status'] = "success";
       $return['form'] = "SelectDocument";
@@ -478,10 +585,6 @@ function CreateDocument($conn, $DATA)
     $count = 0;
     $boolean = false;
     $searchitem = $DATA["xitem"]; //str_replace(' ', '%', $DATA["xitem"]);
-
-    // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
-    // mysqli_query($conn,$Sqlx);
-
     $Sql = "SELECT
     item_stock.RowID,
     site.HptName,
@@ -1134,6 +1237,8 @@ function CreateDocument($conn, $DATA)
       showExcel($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'deleteExcel') {
       deleteExcel($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'getfactory') {
+      getfactory($conn, $DATA);
     }
     
   } else {

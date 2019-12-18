@@ -1043,6 +1043,7 @@ $array2 = json_decode($json2,TRUE);
             DepCodeArray.push($(this).data('depcode'));
           });
           var DepCode = DepCodeArray.join(',') ;
+          var HptCode = $("#hotpital").val();
           swal({
             title: " ",
             text:  " <?php echo $array['save'][$language]; ?>",
@@ -1057,7 +1058,8 @@ $array2 = json_decode($json2,TRUE);
               'STATUS' : 'confirmDep',
               'DocNo' : DocNo,
               'DepCode' : DepCode,
-              'ItemCode' : ItemCode
+              'ItemCode' : ItemCode,
+              'HptCode' : HptCode
             }
             senddata(JSON.stringify(data));
             $('#ModalDepartment').modal('toggle');

@@ -688,7 +688,7 @@ function NewItem($conn, $DATA)
     $DepCode = $Result5['DepCode'];
   }
 
-  $insert ="INSERT INTO par_item_stock( ItemCode , DepCode , ParQty , TotalQty) VALUES ('" . $DATA['ItemCode'] . "', '$DepCode' , 0 , 0)";
+  $insert ="INSERT INTO par_item_stock( ItemCode , DepCode , ParQty , TotalQty , HptCode) VALUES ('" . $DATA['ItemCode'] . "', '$DepCode' , 0 , 0 , '$HptCode2')";
   mysqli_query($conn, $insert);
 
 

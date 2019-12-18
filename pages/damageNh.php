@@ -323,17 +323,38 @@ if (e.keyCode == 13) {
         })
 
       }
-
-      function getDepartment(chk){
-        $('#hotpital').removeClass('border-danger');
-        $('#rem3').hide();
-      var Hotp = $('#hotpital option:selected').attr("value");
-      var Hotp2 = $('#Hos2 option:selected').attr("value");
+      function getfactory(chk){
+        var Hotp = $('#hotpital option:selected').attr("value");
+        var Hotp2 = $('#Hos2 option:selected').attr("value");
           if(chk!=2){
           if(Hotp2 !=""){
             Hotp = Hotp2;
             }
           }
+      if( typeof Hotp == 'undefined' ) 
+      {
+        Hotp = '<?php echo $HptCode; ?>';
+      }
+      var data = {
+        'STATUS'  : 'getfactory',
+        'Hotp'	: Hotp
+      };
+
+      senddata(JSON.stringify(data));
+      }
+      function getDepartment(chk){
+        $('#hotpital').removeClass('border-danger');
+        $('#rem3').hide();
+
+      if(chk==1){
+          var Hotp = $('#hotpital option:selected').attr("value");
+            $('#Hos2').val(Hotp);
+            getfactory();
+        }else{
+          var Hotp = $('#Hos2 option:selected').attr("value");
+          $('#hotpital').val(Hotp);
+          getfactory(2);
+        }
       if( typeof Hotp == 'undefined' ) 
       {
         Hotp = '<?php echo $HptCode; ?>';
@@ -386,7 +407,6 @@ if (e.keyCode == 13) {
           }else{
             datepicker1 = "";
           }
-
           if(process == 0){
             process = 'chkpro';
           }else if(process == 1){
@@ -459,6 +479,9 @@ if (e.keyCode == 13) {
         }
       }
 
+      function remove(){
+        $("#factory").removeClass('border-danger');
+      }
       function ShowDetail() {
         var docno = $("#docno").val();
         var data = {
@@ -610,9 +633,13 @@ if (e.keyCode == 13) {
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
+        var factory = $('#factory option:selected').attr("value");
         $('#TableDetail tbody').empty();
-        if(hotpCode == '' ){
+        if(hotpCode == '' || factory=='' ){
             checkblank3();
+              if(factory ==''){
+                $("#factory").addClass('border-danger');
+              }
             swal({
               title: '',
               text: "<?php echo $array['required'][$language]; ?>",
@@ -643,6 +670,7 @@ if (e.keyCode == 13) {
               'STATUS'    : 'CreateDocument',
               'hotpCode'  : hotpCode,
               'deptCode'  : deptCode,
+              'factory'	: factory,
               'userid'	: userid
             };
             senddata(JSON.stringify(data));
@@ -1025,7 +1053,7 @@ if (e.keyCode == 13) {
                       $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);
                     $("#hotpital").val(HptCode);
-              }else if(temp["form"]=='getDepartment'){
+            }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
                 $("#Dep2").empty();
                 var Str2 = "<option value=''>-</option>";
@@ -1038,7 +1066,15 @@ if (e.keyCode == 13) {
                 if(PmID != 1){
                   $("#Dep2").val(temp[0]['DepCode']);
                 }
-              }else if( (temp["form"]=='CreateDocument') ){
+            } else if(temp["form"]=='getfactory'){
+                      $("#factory").empty();
+                        var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                             Str += "<option value= '0' >"+temp['DepName']+"</option>";
+                        for (var i = 0; i < temp["Rowx"]; i++) {
+                          Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                      }
+                      $("#factory").append(Str);
+            }else if( (temp["form"]=='CreateDocument') ){
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
                   text: temp[0]['DocNo'] + " <?php echo $array['success'][$language]; ?>",
@@ -1076,11 +1112,11 @@ if (e.keyCode == 13) {
                 $('#bSave2').removeClass('opacity');
                 $('#bImport2').removeClass('opacity');
                 $('#bCancel2').removeClass('opacity');
-              }else if(temp["form"]=='ShowDocument'){
+            }else if(temp["form"]=='ShowDocument'){
 
-                setTimeout(function () {
+                  setTimeout(function () {
                   parent.OnLoadPage();
-                }, 500);
+                  }, 500);
 
                 $( "#TableDocument tbody" ).empty();
                 $( "#TableItemDetail tbody" ).empty();
@@ -1117,7 +1153,7 @@ if (e.keyCode == 13) {
                     $('#TableDocument tbody:last-child').append(  $StrTr );
                   }
                 }
-              }else{
+               }else{
                     var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                         swal({
                           title: '',
@@ -1129,7 +1165,17 @@ if (e.keyCode == 13) {
                       });
                       $("#TableDocument tbody").html(Str);
                     }
-              }else if(temp["form"]=='SelectDocument'){
+            }else if(temp["form"]=='SelectDocument'){
+
+                      var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                            Str += "<option value= '0' >"+temp['DepName']+"</option>";
+                        for (var i = 0; i < temp["Rowx"]; i++) {
+                            Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                      }
+                      $("#factory").html(Str);
+
+
+                $("#factory").val(temp[0]['FacCode2']);
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
@@ -1212,7 +1258,7 @@ if (e.keyCode == 13) {
                 }else{
                   $("#RefDocNo").attr('disabled' , false);
                 }                  ShowDetail();
-              }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
+            }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
                 $( "#TableItemDetail tbody" ).empty();
                 if(temp["Row"] > 0)
                 $("#wTotal").val(temp[0]['Total']);
@@ -1295,7 +1341,7 @@ if (e.keyCode == 13) {
                 $('.numonly').on('input', function() {
                         this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                         });
-              }else if( (temp["form"]=='ShowItem') ){
+            }else if( (temp["form"]=='ShowItem') ){
                 var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-size:24px;'";
                 var st2 = "style='font-size: 20px;height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;'"
                 $( "#TableItem tbody" ).empty();
@@ -1340,7 +1386,7 @@ if (e.keyCode == 13) {
                   var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                   $('#TableItem tbody:last-child').append(Str);
                 }
-              }else if( (temp["form"]=='ShowUsageCode') ){
+            }else if( (temp["form"]=='ShowUsageCode') ){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 $( "#TableUsageCode tbody" ).empty();
@@ -1377,7 +1423,7 @@ if (e.keyCode == 13) {
                   }
                 }
 
-              }else if(temp['form']=="get_claim_doc"){
+            }else if(temp['form']=="get_claim_doc"){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 var checkitem = $("#checkitem").val();
@@ -1395,7 +1441,7 @@ if (e.keyCode == 13) {
                     $('#TableRefDocNo tbody:last-child').append( $StrTR );
                   }
                 }
-              }else if( (temp["form"]=='showExcel') ){
+            }else if( (temp["form"]=='showExcel') ){
                 $( "#TableExcel tbody" ).empty();
                 var DataTr = '';
                 if(temp["Row"]>0){
@@ -1660,7 +1706,7 @@ if (e.keyCode == 13) {
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;"  ><?php echo $array['side'][$language]; ?></label>
-                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(2);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
+                                      <select  class="form-control col-sm-7 icon_select checkblank3"  style="font-size:22px;"  id="hotpital" onchange="getDepartment(1);" <?php if($PmID == 2 || $PmID == 3 || $PmID == 4 || $PmID == 5 || $PmID == 7) echo 'disabled="true" '; ?>>
                                       </select>
                                       <label id="rem3"  class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
@@ -1698,12 +1744,12 @@ if (e.keyCode == 13) {
                                       <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
-                                  <!-- <div class="col-md-6">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-4 col-form-label "><?php echo $array['totalweight'][$language]; ?></label>
-                                      <input class="form-control col-sm-7 only1" autocomplete="off" disabled="true"  style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='wTotal' placeholder="0.00">
+                                    <label class="col-sm-4 col-form-label "><?php echo $array['factory'][$language]; ?></label>
+                                      <select class="form-control col-sm-7 only1"  onchange='remove();' autocomplete="off" style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='factory'>  </select>
                                     </div>
-                                  </div> -->
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -1813,7 +1859,7 @@ if (e.keyCode == 13) {
                     <div class="row mt-3">
                         <div class="col-md-2">
                             <div class="row" style="font-size:24px;margin-left:2px;">
-                              <select class="form-control " style='font-size:24px;' id="Hos2" onchange="getDepartment();">
+                              <select class="form-control " style='font-size:24px;' id="Hos2" onchange="getDepartment(2);">
                               </select>
                             </div>
                           </div>

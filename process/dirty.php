@@ -1090,23 +1090,43 @@
     }
     function ShowDetailDoc($conn, $DATA)
     {
-      $count1 = 0;
-      $Total = 0;
-      $boolean = false;
-      $DocNo = $DATA["DocNo"];
+      $count1   = 0;
+      $Total     = 0;
+      $boolean  = false;
+      $DocNo    = $DATA["DocNo"];
+      $HptCode = $DATA["HptCode"];
       //==========================================================
 
-        $SqlItem = "SELECT dirty_detail.Id, dirty_detail.ItemCode, item.ItemName, item.UnitCode AS UnitCode1,
-          item_unit.UnitName, dirty_detail.UnitCode AS UnitCode2, item.UnitCode,
-          department.DepCode, department.DepName, dirty_detail.RequestName,
-          (SELECT Total FROM dirty WHERE DocNo = '$DocNo') AS Total
-          FROM item
-          INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-          RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
-          INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-          INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
-          WHERE dirty_detail.DocNo = '$DocNo'
-          ORDER BY dirty_detail.DepCode, dirty_detail.ItemCode ASC";
+        $SqlItem = "SELECT
+        dirty_detail.Id,
+        dirty_detail.ItemCode,
+        item.ItemName,
+        item.UnitCode AS UnitCode1,
+        item_unit.UnitName,
+        dirty_detail.UnitCode AS UnitCode2,
+        item.UnitCode,
+        department.DepCode,
+        department.DepName,
+        dirty_detail.RequestName,
+        (
+          SELECT
+            Total
+          FROM
+            dirty
+          WHERE
+            DocNo = '$DocNo'
+        ) AS Total
+      FROM
+        item
+      INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+      RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
+      INNER JOIN department ON department.DepCode = dirty_detail.DepCode
+      INNER JOIN item_unit ON dirty_detail.UnitCode = item_unit.UnitCode
+      WHERE
+        dirty_detail.DocNo = '$DocNo' AND department.HptCode = '$HptCode'
+      ORDER BY
+        dirty_detail.DepCode,
+        dirty_detail.ItemCode ASC";
           $return['SqlItem'] = $SqlItem;
           $meQuery = mysqli_query($conn, $SqlItem);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1189,6 +1209,7 @@
       die;
     }
     function confirmDep2($conn, $DATA){
+      $HptCode = $DATA['HptCode'];
       $DocNo = $DATA['DocNo'];
       $RequestName = trim($DATA['RequestName']);
       $DepCode = explode(',', $DATA['DepCode']);

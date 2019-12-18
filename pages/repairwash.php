@@ -876,6 +876,7 @@ $(document).ready(function(e){
         var isStatus = $("#IsStatus").val();
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
+        var factory = $("#factory").val();
         // alert( isStatus );
         if(isStatus==1  || isStatus==2 || isStatus==3 || isStatus==4){
               isStatus=0;}
@@ -886,7 +887,21 @@ $(document).ready(function(e){
         // isStatus=1;
 
         if(isStatus==1){
-          
+          if(factory==""){
+            $("#factory").addClass('border-danger');
+            $('#rem2').show().css("color","red");
+          swal({
+              title: '',
+              text: "<?php echo $array['required'][$language]; ?>",
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+        }else{
           if(docno!=""){
             for(i=0;i<chk_qty.length; i++){
                     var chk = $('#qty1_'+i).val();
@@ -954,6 +969,7 @@ $(document).ready(function(e){
             });
           }
         }
+      }
         }else{
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
