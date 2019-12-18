@@ -42,6 +42,7 @@ if ($language == "en") {
 } else {
   $language = "th";
 }
+
 //--------------------------------------------------------------------------
 //print_r($data);
 //--------------------------------------------------------------------------
@@ -103,6 +104,7 @@ class MYPDF extends TCPDF
       $this->Cell(0, 10,  $array2['printdate'][$language] . $printdate, 0, 1, 'R');
       $this->SetFont(' thsarabunnew', '', 12);
       $this->SetY(21);
+      
     }
   }
   // Page footer
@@ -115,7 +117,103 @@ class MYPDF extends TCPDF
     $json2 = json_encode($xml2);
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
+    $docno = $_GET['Docno'];
+    $packing = '';
+    $passengertime = '';
+    $receiver = '';
     $this->SetFont(' thsarabunnew', '', 8);
+    if ($this->last_page_flag) {
+      require('connect.php');
+      $head = "SELECT
+              shelfcount.signStart AS passenger,
+              shelfcount.signature AS receiver,
+              shelfcount.signature_web AS packing,
+              shelfcount.DvStartTime AS passengertime, 
+              shelfcount.SignEndTime AS receivertime,
+              shelfcount.PTime AS packingtime
+                FROM
+                shelfcount
+                where shelfcount.DocNo ='$docno'
+      ";
+
+      $meQuery = mysqli_query($conn, $head);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $packing = $Result['packing'];
+        $passenger = $Result['passenger'];
+        $receiver = $Result['receiver'];
+        $packingtime = $Result['packingtime'];
+        $passengertime = $Result['passengertime'];
+        $receivertime = $Result['receivertime'];
+      }
+      list($date1, $time1) = explode(' ', $packingtime);
+      list($date2, $time2) = explode(' ', $passengertime);
+      list($date3, $time3) = explode(' ', $receivertime);
+      list($y1, $m1, $d1) = explode('-', $date1);
+      list($y2, $m2, $d2) = explode('-', $date2);
+      list($y3, $m3, $d3) = explode('-', $date3);
+      if ($language == 'th') {
+        $y1 = $y1 + 543;
+        $y2 = $y2 + 543;
+        $y3 = $y3 + 543;
+      } else {
+        $y1 = $y1;
+        $y2 = $y2;
+        $y3 = $y3;
+      }
+      $date1 = $d1 . "-" . $m1 . "-" . $y1;
+      $date2 = $d2 . "-" . $m2 . "-" . $y2;
+      $date3 = $d3 . "-" . $m3 . "-" . $y3;
+      if ($date1 == '--543'|| $date1 == '--') {
+        $date1 = ' ';
+      }
+      if ($date2 == '--543'|| $date2 == '--') {
+        $date2 = ' ';
+      }
+      if ($date3 == '--543' || $date3 == '--') {
+        $date3 = ' ';
+      }
+      $this->SetY(-40);
+      // $this->SetFont('  thsarabunnew', 'b', 8);
+      if ($packing != null) {
+        $this->ImageSVG('@' . $packing, $x = 27, $y = 256, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      }
+      if ($passenger != null) {
+        $this->ImageSVG('@' . $passenger, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      }
+      if ($receiver != null) {
+        $this->ImageSVG('@' . $receiver, $x = 29, $y = 273, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+      }
+     
+      $this->SetFont('  thsarabunnew', 'i', 13);
+      $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['packing'][$language], 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date1 . "                           " . $time1, 0, 0, 'L');
+      $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+
+      $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['passenger'][$language], 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date2 . "                           " . $time2, 0, 0, 'L');
+      $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+
+
+      $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['receiver'][$language], 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date3 . "                           " . $time3, 0, 0, 'L');
+      $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+
+      $image1 = "../images/chb.jpg";
+      $this->Image($image1, $this->GetX(), $this->GetY(), 5);
+      if($packing != null && $passenger != null && $receiver != null)
+      {
+        $image = "../images/chk1.png";
+        $this->Image($image, $this->GetX()+1, $this->GetY()+1, 3);
+      }
+
+      $this->Cell(7);
+      $this->Cell(20, 7,   "Check", 0, 0, 'L');
+      $image2 = "../images/chb.jpg";
+      $this->Image($image2, $this->GetX(), $this->GetY(), 5);
+      $this->Cell(7);
+      $this->Cell(40, 7,   "Not Check", 0, 0, 'L');
+      $this->Ln(7);
+    }
     // Position at 1.5 cm from bottom
     $this->SetY(-20);
     // Page number
@@ -155,82 +253,174 @@ if ($language == 'th') {
   $HptName = HptName;
   $FacName = FacName;
 }
-$header = array($array2['no']['en'], $array2['itemname']['en'], $array2['short']['en'], $array2['over']['en']);
+$header = array($array2['no']['en'], $array2['itemname']['en'], $array2['parqty']['en'], $array2['shelfcount1']['en'], $array2['max']['en'], $array2['issue']['en'], $array2['short']['en'], $array2['over']['en'], $array2['weight']['en'], $array2['price']['en']);
 $count = 1;
 
 // // ------------------------------------------------------------------------------
 $head = "SELECT
+shelfcount.DocNo,
+DATE(shelfcount.DocDate) AS DocDate,
+TIME(shelfcount.DocDate) AS DocTime,
 department.DepName,
-shelfcount.isStatus
+time_sc.TimeName AS CycleTime,
+site.$HptName,
+site.HptCode,
+sc_time_2.TimeName AS TIME , 
+time_sc.timename AS ENDTIME
 FROM
 shelfcount
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
+INNER JOIN site ON site.HptCode = department.HptCode
+LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
+LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
 WHERE shelfcount.DocNo='$docno'
+AND shelfcount.isStatus<> 9
         ";
 
 $meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DeptName = $Result['DepName'];
-  $isStatus = $Result['isStatus'];
+  $DocDate = $Result['DocDate'];
+  $DocTime = $Result['DocTime'];
+  $DocNo = $Result['DocNo'];
+  $TIME = $Result['TIME'];
+  $ENDTIME = $Result['ENDTIME'];
+  $HptName = $Result[$HptName];
+  $HptCode = $Result['HptCode'];
 }
-if ($isStatus == 1) {
-  $Status = 'On Process';
-} elseif ($isStatus == 3 || $isStatus == 4) {
-  $Status = 'Complete';
-}
+
 $data = "SELECT
 item.ItemName,
+item.weight,
+IFNULL(shelfcount_detail.ParQty, 0) AS ParQty,
+IFNULL(shelfcount_detail.CcQty, 0) AS CcQty,
+IFNULL(
+  shelfcount_detail.TotalQty,
+  0
+) AS TotalQty,
 IFNULL(shelfcount_detail.Over, 0) AS OverPar,
-IFNULL(shelfcount_detail.Short, 0) AS Short
+IFNULL(shelfcount_detail.Short, 0) AS Short,
+IFNULL(item.Weight, 0) AS Weight,
+category_price.Price,
+shelfcount_detail.Price as PriceSC
 FROM
 shelfcount
 INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
 INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
+LEFT JOIN category_price ON category_price.CategoryCode = item.CategoryCode
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
- WHERE shelfcount.DocNo='$docno'
-AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
-ORDER BY item.itemCode ASC ";
+          WHERE shelfcount.DocNo='$docno'
+          AND shelfcount_detail.TotalQty <> 0
+            AND shelfcount.isStatus<> 9
+            AND category_price.HptCode = '$HptCode'";
 
+$queryy = "SELECT
+site.private,
+site.government
+FROM
+site
+WHERE site.HptCode = '$HptCode' ";
+$meQuery = mysqli_query($conn, $queryy);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $private = $Result['private'];
+  $government = $Result['government'];
+}
+
+if ($private == 1) {
+  $w = array(5, 35, 10, 10, 10, 10, 10, 10);
+} elseif ($government == 1) {
+  $w = array(5, 35, 12, 12, 12, 12, 12);
+}
 // set some language-dependent strings (optional)
-
+list($y,$m,$d)=explode('-',$DocDate);
+if($language == 'th'){
+$y=$y+543;
+}elseif($language =='en'){
+  $y=$y;
+}
+$DocDate =$d.'-'.$m.'-'.$y;
 // --------------------------------------------------------
 // set font
 // add a page
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('  thsarabunnew', 'b', 20);
-$pdf->Cell(0, 10,  $array2['r4']['th'], 0, 0, 'C');
+$pdf->Cell(0, 10,  $array2['r4'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('  thsarabunnew', 'b', 16);
-$pdf->Cell(30, 7,  $array2['docno']['th'] . " : " . $docno, 0, 1, 'L');
-$pdf->Cell(150, 7,  $array2['ward']['th'] . " : " . $DeptName, 0, 0, 'L');
-$pdf->Cell(30, 7,   "Status : " . $Status, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['docno'][$language] . " : " . $docno, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['hospital'][$language] . " : " . $HptName, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['ward'][$language] . " : " . $DeptName, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['date'][$language] . " : " . $DocDate, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['shelfcounttime'][$language] . " : " . $TIME, 0, 1, 'L');
+$pdf->Cell(30, 7,  $array2['deliverytime'][$language] . " : " . $ENDTIME, 0, 1, 'L');
 $pdf->Ln(3);
 $html = '<table cellspacing="0" cellpadding="1" border="1" > <thead>
 <tr style="font-size: 16px;">
-<th width="' . 20 . '% "  align="center">' . $header[0] . '</th>
-<th width="' . 40 . '% " align="center">' . $header[1] . '</th>
-<th width="' . 20 . '% " align="center">' . $header[2] . '</th>
-<th width="' . 20 . '% " align="center">' . $header[3] . '</th>' .
-  '</tr></thead>';
-$pdf->SetFont('  thsarabunnew', '', 14);
+<th width="' . $w[0] . '% "  align="center">' . $header[0] . '</th>
+<th width="' . $w[1] . '% " align="center">' . $header[1] . '</th>
+<th width="' . $w[2] . '% " align="center">' . $header[2] . '</th>
+<th width="' . $w[3] . '% " align="center">' . $header[3] . '</th>
+<th width="' . $w[4] . '% " align="center">' . $header[4] . '</th>
+<th width="' . $w[5] . '% " align="center">' . $header[5] . '</th>
+<th width="' . $w[6] . '% " align="center">' . $header[8] . '</th>';
+if ($private == 1) {
+  $html .=   '<th width="' . $w[7] . '% " align="center">' . $header[9] . '</th>';
+}
+$html .= '</tr></thead>';
+$pdf->SetFont('  thsarabunnew', '', 12);
 $meQuery = mysqli_query($conn, $data);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $issue = $Result['ParQty'] - $Result['CcQty'];
+  $totalweight = $Result['TotalQty'] * $Result['Weight'];
+  $price = $totalweight * $Result['Price'];
+  $Total_Weight = $Result['Totalqty'] * $Result['Weight'];
   $html .= '<tr cellpadding="3" style="font-size: 15px;" nobr="true">';
-  $html .=   '<td width="' . 20 . '% " align="center">' . $count . '</td>';
-  $html .=   '<td width="' . 40 . '% " align="left"  >' . $Result['ItemName'] . '</td>';
-  $html .=   '<td width="' . 20 . '% " align="center">' . $Result['Short'] . '</td>';
-  $html .=   '<td width="' . 20 . '% " align="center">' . $Result['OverPar'] . '</td>';
+  $html .=   '<td width="' . $w[0] . '% " align="center" height="7">' . $count . '</td>';
+  $html .=   '<td width="' . $w[1] . '% " align="left"  >' . trim($Result['ItemName']) . '</td>';
+  $html .=   '<td width="' . $w[2] . '% " align="center">' . $Result['ParQty'] . '</td>';
+  $html .=   '<td width="' . $w[3] . '% " align="center">' . $Result['CcQty'] . '</td>';
+  $html .=   '<td width="' . $w[4] . '% " align="center">' . $issue  . '</td>';
+  $html .=   '<td width="' . $w[5] . '% " align="center">' .  $Result['TotalQty']  . '</td>';
+  $html .=   '<td width="' . $w[6] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
+  if ($private == 1) {
+    $html .=   '<td width="' . $w[7] . '% " align="center">' . $Result['PriceSC']  . '</td>';
+  }
   $html .=  '</tr>';
+  $totalsum_W += $totalweight;
+  $price_W += $Result['PriceSC'];
   $count++;
 }
 
 $html .= ' </table>';
 $pdf->writeHTML($html);
+
+
+$pdf->SetLineWidth(0.3);
+$pdf->sety($pdf->Gety() - 6.0);
+$pdf->Cell(144, 5, $array2['total_weight'][$language], 1, 0, 'C');
+$pdf->Cell(36, 5, NUMBER_FORMAT($totalsum_W, 2), 1, 1, 'C');
+if ($private == 1) {
+  $pdf->Cell(144, 5, $array2['total_price'][$language], 1, 0, 'C');
+  $pdf->Cell(36, 5, $price_W, 1, 0, 'C');
+}
+// $sum = '<div style="line-height: 100%;">555 </div><table cellspacing="0" cellpadding="1" border="1"    >';
+// $sum .= '<tr>' .
+//   '<td colspan= "7"  align="center">' .  '<strong>' . $array2['total_weight'][$language] . '</strong>' . '</td>' .
+//   '<td colspan= "5" align="center">' . number_format($totalsum_W, 2) . '</td>' .
+//   '</tr>';
+// if ($private == 1) {
+//   $sum .= '<tr>' .
+//     '<td colspan= "7" align="center">' .  $array2['total_price'][$language] . '</td>' .
+//     '<td colspan= "5" align="center">' . number_format($price_W, 2) . '</td>' .
+//     '</tr>';
+// }
+// $sum .= '</table>';
+// $pdf->writeHTML($sum);
 // ---------------------------------------------------------
 
 //Close and output PDF document
 $ddate = date('d_m_Y');
-$pdf->Output('Report_Shelfcount' . $date . '.pdf', 'I');
+$pdf->Output('Report_Daily_Issue_Request_' . $date . '.pdf', 'I');
 
 //============================================================+
 // END OF FILE

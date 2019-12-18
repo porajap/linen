@@ -207,10 +207,10 @@ TIME(repair_wash.Modify_Date)  AS xTime,
 repair_wash.RefDocNo,
 factory.$FacName
 FROM repair_wash
-INNER JOIN department ON repair_wash.DepCode = department.DepCode
-INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN users ON repair_wash.Modify_Code = users.ID
-INNER JOIN factory ON repair_wash.FacCode = factory.FacCode
+LEFT JOIN department ON repair_wash.DepCode = department.DepCode
+LEFT JOIN site ON department.HptCode = site.HptCode
+LEFT JOIN users ON repair_wash.Modify_Code = users.ID
+LEFT JOIN factory ON repair_wash.FacCode = factory.FacCode
 WHERE repair_wash.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn,$head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
