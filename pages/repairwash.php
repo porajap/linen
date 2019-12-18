@@ -684,9 +684,11 @@ $(document).ready(function(e){
         var deptCode = $('#department option:selected').attr("value");
         // var factory = $('#factory option:selected').attr("value");
 
-        if(hotpCode=='' ){
+        if(hotpCode=='' ||  deptCode=='' || deptCode=='null' ){
             // checkblank2();
+            if(hotpCode ==''){
             checkblank3();
+            }
             swal({
               title: '',
               text: "<?php echo $array['required'][$language]; ?>",

@@ -1029,11 +1029,17 @@
     }
 
     function showDep($conn, $DATA){
-      $count = 0;
-      $HptCode  = $_SESSION['HptCode'];
-      $ItemCode =    $DATA['ItemCode'];
-      $ItemName =    $DATA['ItemName'];
-      
+      $count              = 0;
+      $ItemCode       =    $DATA['ItemCode'];
+      $ItemName       =    $DATA['ItemName'];
+      $PmID             = $_SESSION['PmID'];
+
+      if($PmID ==2 || $PmID ==3 || $PmID == 5 || $PmID ==7 ){
+        $HptCode        = $_SESSION['HptCode'];
+      }else{
+        $HptCode        = $DATA['HptCode'];
+
+      }
       if($ItemCode == 'Dirty4' || $ItemCode == 'Dirty5' || $ItemCode == 'Dirty6'){
         $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
         WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1 AND dep.DepName ='linen'

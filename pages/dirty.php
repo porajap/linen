@@ -452,9 +452,11 @@ $array2 = json_decode($json2,TRUE);
 
         function ShowDetail() {
           var docno = $("#docno").val();
+          var HptCode = $("#hotpital").val();
           var data = {
             'STATUS'  : 'ShowDetailDoc',
-            'DocNo'   : docno
+            'DocNo'   : docno,
+            'HptCode'   : HptCode
           };
           senddata(JSON.stringify(data));
         }
@@ -949,10 +951,12 @@ $array2 = json_decode($json2,TRUE);
         }
 
         function showDep(ItemCode, ItemName){
+          var HptCode = $("#hotpital").val();
           var data = {
             'STATUS' : 'showDep',
             'ItemCode' : ItemCode,
-            'ItemName' : ItemName
+            'ItemName' : ItemName,
+            'HptCode' : HptCode
           }
           senddata(JSON.stringify(data));
         }

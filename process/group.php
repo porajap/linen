@@ -67,7 +67,7 @@ function getdetail($conn, $DATA)
           grouphpt.IsStatus
           FROM grouphpt
           WHERE grouphpt.IsStatus = 0
-          AND grouphpt.GroupCode = $DepCode  AND grouphpt.HptCode = '$HptCode'";
+          AND grouphpt.GroupCode = '$DepCode'  AND grouphpt.HptCode = '$HptCode'";
   // var_dump($Sql); die;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -301,7 +301,7 @@ function CancelItem($conn, $DATA)
   if($DATA["DepCode"]!=""){
     $Sql = "UPDATE grouphpt SET
             IsStatus = 1
-            WHERE GroupCode = ".$DATA['DepCode']."
+            WHERE GroupCode = '".$DATA['DepCode']."'
     ";
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){

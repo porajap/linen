@@ -211,25 +211,6 @@ function getdetail($conn, $DATA)
 
 }
 
-function getEmployee($conn, $DATA)
-{
-  $count = 0;
-  $Sql = "SELECT employee.EmpCode,CONCAT(IFNULL(employee.FirstName,''),' ',IFNULL(employee.LastName,'')) AS xName 
-            FROM employee WHERE employee.IsStatus = 1";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['EmpCode']  = $Result['EmpCode'];
-    $return[$count]['xName']  = $Result['xName'];
-    $count++;
-  }
-  $return['status'] = "success";
-  $return['form'] = "getEmployee";
-  echo json_encode($return);
-  mysqli_close($conn);
-  die;
-
-}
-
 function getHotpital($conn, $DATA)
 {
   $lang = $DATA["lang"];
@@ -440,8 +421,8 @@ function getDepartment2($conn, $DATA)
     $count++;
     $boolean = true;
   }
-
   if ($meQuery = mysqli_query($conn, $Sql)) {
+    $return['count'] = $count;
     $return['status'] = "success";
     $return['form'] = "getDepartment2";
     echo json_encode($return);
@@ -562,8 +543,6 @@ if(isset($_POST['DATA']))
 
       if ($DATA['STATUS'] == 'ShowItem') {
         ShowItem($conn, $DATA);
-      }else if ($DATA['STATUS'] == 'getEmployee') {
-        getEmployee($conn, $DATA);
       }else if ($DATA['STATUS'] == 'getHotpital') {
         getHotpital($conn, $DATA);
       }else if ($DATA['STATUS'] == 'getPermission') {

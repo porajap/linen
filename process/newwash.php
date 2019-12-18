@@ -605,6 +605,7 @@ function ShowItem($conn, $DATA)
   WHERE item.UnitCode = item_unit.UnitCode 
   AND item.ItemName LIKE '%$searchitem%' 
   AND item.IsActive = 1
+  AND NOT item.IsClean = 1
   AND item.HptCode = '$Hotp'";
     $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);

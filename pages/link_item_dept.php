@@ -1012,13 +1012,15 @@ $array2 = json_decode($json2,TRUE);
         }else{
           var DepCode = $('#department').val();
         }        
-        var keyword = $('#searchitemstock').val();
+        var keyword    = $('#searchitemstock').val();
+        var HptCode  = $('#hotpital').val();
         var data = {
           'STATUS'  : 'ShowItemStock',
           'Keyword' : keyword,
           'Userid' : userid,
           'Deptid' : DepCode,
-          'xCenter2' : xCenter2
+          'xCenter2' : xCenter2,
+          'HptCode' : HptCode
         };
 
         // console.log(JSON.stringify(data));
@@ -1034,12 +1036,14 @@ $array2 = json_decode($json2,TRUE);
         }else{
           var DepCode = $('#department option:selected').val();
         }
+        var HptCode = $('#hotpital').val();
         var data = {
           'STATUS'      : 'SelectItemStock',
           'DepCode'       : DepCode,
           'ItemCode'   : ItemCode,
           'xCenter2'   : xCenter2,
-          'Number'   : Number
+          'Number'   : Number,
+          'HptCode'   : HptCode
         };
 
         console.log(JSON.stringify(data));
@@ -1138,7 +1142,7 @@ $array2 = json_decode($json2,TRUE);
                                   StrTR = "<tr id='tr"+temp[i]['ItemCode']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                                   "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                                                   "<td style='width: 28%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
-                                                  "<td style='width: 60%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                                                  "<td style='width: 60%;' nowrap title='"+temp[i]['ItemCode']+"'>"+temp[i]['ItemName']+"</td>"+
                                                   "<td style='width: 25%;' nowrap>"+txtno+"</td>"+
                                                   "</tr>";
 
@@ -1423,9 +1427,8 @@ $array2 = json_decode($json2,TRUE);
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
-                                            "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
+                                            "<td style='width: 29%;' nowrap  title='"+temp[i]['ItemCodeX']+"'>"+temp[i]['ItemNameX']+"</td>"+
                                             "<td style='width: 44%;padding-left: 30%;' nowrap>"+parnum+" </td>"+
-                                            // "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
                                           "</tr>";
                                         $('#TableItemStock tbody').append(StrTR);
@@ -1439,9 +1442,8 @@ $array2 = json_decode($json2,TRUE);
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
-                                            "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
+                                            "<td style='width: 29%;' nowrap title='"+temp[i]['ItemCodeX']+"'>"+temp[i]['ItemNameX']+"</td>"+
                                             "<td style='width: 44%;padding-left: 30%;' nowrap>"+parnum+" </td>"+
-                                            // "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
                                           "</tr>";
                                         $('#TableItemStock tbody').append(StrTR);
@@ -1514,7 +1516,7 @@ $array2 = json_decode($json2,TRUE);
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
-                                            "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
+                                            "<td style='width: 29%;' nowrap  title='"+temp[i]['ItemCodeX']+"'>"+temp[i]['ItemNameX']+"</td>"+
                                             "<td style='width: 44%;padding-left: 30%;' nowrap>"+parnum+" </td>"+
                                             // "<td style='width: 60%;' nowrap>"+temp[i]['ItemNameX']+"<span  class='ml-3 mr-2'>"+temp[i]['ParQty']+" <?php echo $array['items'][$language]; ?></span></td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
@@ -1530,7 +1532,7 @@ $array2 = json_decode($json2,TRUE);
                                   StrTR = "<tr id='tr_mom_"+temp[i]['ItemCodeX']+"' data-value='"+chk_row+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                             "<td style='width: 10%;padding-left:26px' nowrap>"+chkHeadItem+"</td>"+
                                             "<td hidden>"+temp[i]['ItemCodeX']+"</td>"+
-                                            "<td style='width: 29%;' nowrap>"+temp[i]['ItemNameX']+"</td>"+
+                                            "<td style='width: 29%;' nowrap   title='"+temp[i]['ItemCodeX']+"'>"+temp[i]['ItemNameX']+"</td>"+
                                             "<td style='width: 44%;padding-left: 30%;' nowrap>"+parnum+" </td>"+
                                             "<td hidden><input id='count_child_"+temp[i]['ItemCodeX']+"' value='"+temp[i]['ParQty']+"'></td>"+
                                           "</tr>";
