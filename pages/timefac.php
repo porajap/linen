@@ -564,13 +564,8 @@ $array2 = json_decode($json2,TRUE);
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-8">
-                                    <div class="row" style="margin-left:-155px;">
-                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchHospital'][$language]; ?>">
-                                        <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>       -->
+                                    <div class="row" style="margin-left:-210px;">
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">

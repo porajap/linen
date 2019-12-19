@@ -75,8 +75,8 @@ function getSection($conn, $DATA)
 }
 function getfactory($conn, $DATA)
 {
-  $HptCode = $DATA['HptCode'];
   $HptCode1 = $_SESSION['HptCode'];
+  $HptCode = $DATA['HptCode']==null?$HptCode1:$DATA['HptCode'];
   $PmID = $_SESSION['PmID'];
   $lang = $_SESSION['lang'];
   $count2 = 0;

@@ -857,8 +857,9 @@ function CreateDocument($conn, $DATA)
     $DocNo = $DATA["xdocno"];
     $DocNo2 = $DATA["xdocno2"];
     $isStatus = $DATA["isStatus"];
+    $factory = $DATA["factory"];
 
-    $Sql = "UPDATE repair_wash SET IsStatus = $isStatus WHERE repair_wash.DocNo = '$DocNo'";
+    $Sql = "UPDATE repair_wash SET IsStatus = $isStatus  , FacCode = $factory  WHERE repair_wash.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
 
     // ================================================================================

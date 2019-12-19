@@ -91,7 +91,7 @@
 <titlerewashreturn><en>Receive rewash return linen</en><th>ผ้าแก้ไขรับกลับ</th></titlerewashreturn>
 <titlerepair><en>Receive repair linen</en><th>รับผ้าที่ถูกซ่อม</th></titlerepair>
 <titledamage><en>Receive claim linen</en><th>รับผ้าส่งเคลมโรงซัก</th></titledamage>
-<titledamage2><en>Receive damage linen</en><th>รับผ้าส่งชำรุด NHealth</th></titledamage2>
+<titledamage2><en>Receive damage linen</en><th>รับผ้าส่งชำรุด</th></titledamage2>
 <titleshelf><en>Shelf Count</en><th>Shelf Count</th></titleshelf>
 <titleclaim><en>Claim</en><th>ใบเคลม</th></titleclaim>
 <titlecus><en>Customer bill records</en><th>บันทึกบิลลูกค้า</th></titlecus>

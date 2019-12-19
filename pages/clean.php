@@ -1456,7 +1456,7 @@ $(document).ready(function(e){
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
-                  var Detail = "<div class='row' style='margin-left:2px;'><input class='form-control ' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='Detail_"+i+"' value='"+temp[i]['Detail']+"' OnBlur='updateDetail(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+                  var Detail = "<div class='row' style='margin-left:2px;'><input class='form-control ' autocomplete='off' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='Detail_"+i+"' value='"+temp[i]['Detail']+"' OnBlur='updateDetail(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 9%;' nowrap>"+chkDoc+"</td>"+
@@ -2363,8 +2363,9 @@ $(document).ready(function(e){
             <div class="col-md-8">
               <div class='form-group row'>
                 <!-- <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label> -->
-                <input type="text" class="form-control col-sm-5" style="margin-left: 3%;font-size: 20px;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
-                <input type="text" class="form-control col-sm-5 datepicker-here" style="margin-left: 1%;font-size: 20px;" name="searchitem1" id="datepicker" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-4" style="margin-left: 3%;font-size: 20px;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-3 datepicker-here" style="margin-left: 1%;font-size: 20px;" name="searchitem1" id="datepicker" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-3 datepicker-here" style="margin-left: 1%;font-size: 20px;" name="searchitem1" id="datepicker" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
               </div>
             </div>
             <div class="search_custom col-md-2" style="margin-left: -8%;">

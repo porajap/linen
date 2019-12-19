@@ -940,7 +940,8 @@ $(document).ready(function(e){
                   'xdocno'      : docno,
                   'xdocno2'      : docno2,
                   'isStatus'    : isStatus,
-                  'deptCode'    : dept
+                  'deptCode'    : dept,
+                  'factory'    : factory
                 };
           senddata(JSON.stringify(data));
           $('#profile-tab').tab('show');

@@ -986,7 +986,8 @@ $return['DepName'] = $Result2['DepName'];
     item_unit.UnitName,
     damagenh_detail.UnitCode AS UnitCode2,
     damagenh_detail.Weight,
-    damagenh_detail.Qty
+    damagenh_detail.Qty,
+    damagenh_detail.Detail
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
@@ -1014,6 +1015,7 @@ $return['DepName'] = $Result2['DepName'];
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
       $return[$count]['Qty']        = $Result['Qty']  ==0?'':$Result['Qty'];
+      $return[$count]['Detail']     = $Result['Detail']==null?'':$Result['Detail'];
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;
@@ -1188,6 +1190,20 @@ $return['DepName'] = $Result2['DepName'];
     mysqli_query($conn, $Sql);
     showExcel($conn, $DATA);
   }
+  function UpdateDetail($conn, $DATA)
+  {
+    $RowID  = $DATA["Rowid"];
+    $Detail  =  $DATA["Detail"];
+    $isStatus = $DATA["isStatus"];
+    //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
+    //	mysqli_query($conn,$Sqlx);
+    $Sql = "UPDATE damagenh_detail
+    SET Detail = '$Detail'
+    WHERE damagenh_detail.Id = $RowID";
+    mysqli_query($conn, $Sql);
+    // ShowDetail($conn, $DATA);
+  }
+
   //==========================================================
   //
   //==========================================================
@@ -1239,6 +1255,8 @@ $return['DepName'] = $Result2['DepName'];
       deleteExcel($conn, $DATA);
     }elseif ($DATA['STATUS'] == 'getfactory') {
       getfactory($conn, $DATA);
+    }elseif ($DATA['STATUS'] == 'UpdateDetail') {
+      UpdateDetail($conn, $DATA);
     }
     
   } else {

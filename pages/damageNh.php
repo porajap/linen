@@ -745,7 +745,22 @@ if (e.keyCode == 13) {
           senddata(JSON.stringify(data));
         }
       }
-
+      function updateDetail(row,rowid) {
+        var docno = $("#docno").val();
+        var Detail = $("#Detail_"+row).val();
+        var isStatus = $("#IsStatus").val();
+        $('#input_chk').val(0);
+        //alert(rowid+" :: "+docno+" :: "+weight);
+        if(isStatus==0){
+          var data = {
+            'STATUS'      : 'UpdateDetail',
+            'Rowid'       : rowid,
+            'DocNo'       : docno,
+            'Detail'      : Detail
+          };
+          senddata(JSON.stringify(data));
+        }
+      }
       function subtractnum1(rowid,cnt,unitcode) {
         var Dep = $("#Dep_").val();
         var docno = $("#docno").val();
@@ -926,7 +941,7 @@ if (e.keyCode == 13) {
             $('#qty1_'+i).prop('disabled', false);
             $('#weight_'+i).prop('disabled', false);
             $('#price_'+i).prop('disabled', false);
-
+            $('#Detail_'+i).prop('disabled', false);
             $('#unit'+i).prop('disabled', false);
           }
         }
@@ -1176,6 +1191,8 @@ if (e.keyCode == 13) {
 
 
                 $("#factory").val(temp[0]['FacCode2']);
+                $('#factory').attr('disabled', true);
+                $('#factory').addClass('icon_select');
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
@@ -1250,7 +1267,7 @@ if (e.keyCode == 13) {
                   $('#qty1_'+i).prop('disabled', true);
                   $('#weight_'+i).prop('disabled', true);
                   $('#price_'+i).prop('disabled', true);
-
+                  $('#Detail_'+i).prop('disabled', true);
                   $('#unit'+i).prop('disabled', true);
                 }
                 if(temp[0]['RefDocNo'] != ''){
@@ -1290,12 +1307,15 @@ if (e.keyCode == 13) {
 
                   var Price = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='price_"+i+"' value='"+temp[i]['Price']+"' OnBlur='updateWeight(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
 
+                  var Detail = "<div class='row' style='margin-left:2px;'><input class='form-control ' autocomplete='off' style='height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='Detail_"+i+"' value='"+temp[i]['Detail']+"' OnBlur='updateDetail(\""+i+"\",\""+temp[i]['RowID']+"\")'></div>";
+
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 9%;' nowrap>"+chkDoc+"</td>"+
                   "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
                   "<td style='text-overflow: ellipsis;overflow: hidden;width: 29%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 29%;font-size:24px;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 15%;font-size:24px;' nowrap>"+chkunit+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
+                  "<td style='width: 12%;' nowrap>"+Detail+"</td>"+
                   "<td style='width: 12%;' nowrap hidden>"+chkDocx+"</td>"+
                   "</tr>";
 
@@ -1321,7 +1341,7 @@ if (e.keyCode == 13) {
                     $('#qty1_'+i).prop('disabled', false);
                     $('#weight_'+i).prop('disabled', false);
                     $('#price_'+i).prop('disabled', false);
-                    $('#price_'+i).prop('disabled', false);
+                    $('#Detail_'+i).prop('disabled', false);
 
                     $('#unit'+i).prop('disabled', false);
                   }else{
@@ -1330,7 +1350,7 @@ if (e.keyCode == 13) {
                     $("#recorder").prop('disabled', true);
                     $("#timerec").prop('disabled', true);
                     $("#total").prop('disabled', true);
-
+                    $('#Detail_'+i).prop('disabled', true);
                     $('#qty1_'+i).prop('disabled', true);
                     $('#weight_'+i).prop('disabled', true);
                     $('#price_'+i).prop('disabled', true);
@@ -1842,9 +1862,10 @@ if (e.keyCode == 13) {
                             <th style="width: 3%;">&nbsp;</th>
                               <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                              <th style='width: 20%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 30%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 23%;' nowrap><center><?php echo $array['qty'][$language]; ?></center></th>
+                              <th style='width: 27%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 14%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 12%;' nowrap><center><?php echo $array['qty'][$language]; ?></center></th>
+                              <th style='width: 20%;padding-right: 2%;' nowrap><center><?php echo $array['detail'][$language]; ?></center></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;">

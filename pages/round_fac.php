@@ -364,17 +364,9 @@ $array2 = json_decode($json2,TRUE);
                             }
                             $("#hptsel").append(StrTr1);
                         }else if ((temp["form"] == 'getfactory')) {
-                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
                                 var StrTr1 = "<option value=''><?php echo $array['selectfactory'][$language]; ?></option>";       
                                 var StrTr = "<option value=''><?php echo $array['selectfactory'][$language]; ?></option>";                                                 
-                            }else{
-                                var StrTr = "";
-                                $('#factory').attr('disabled' , true);
-                                $('#factory').addClass('icon_select');
-                                var StrTr1 = "";
-                                $('#factorysel').attr('disabled' , true);
-                                $('#factorysel').addClass('icon_select');
-                            }
+  
                             for (var i = 0; i < temp[0]['count2']; i++) {
                                 StrTr += "<option value = '" + temp[i]['FacCode'] + "'> " + temp[i]['FacName'] + " </option>";
                                  StrTr1 += "<option value = '" + temp[i]['FacCode'] + "'> " + temp[i]['FacName'] + " </option>";
@@ -572,12 +564,8 @@ $array2 = json_decode($json2,TRUE);
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <div class="row" style="margin-left: 7px;">
-                                        <input type="text" autocomplete="off"  class="form-control" style="width:35%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['SearchHospital'][$language]; ?>">
-                                        <!-- <img src="../img/icon/i_search.png" style="margin-left: 15px;width:36px;"' class='mr-3'>
-                                          <a href='javascript:void(0)' onclick="ShowItem()" id="bSave">
-                                          <?php echo $array['search'][$language]; ?></a>       -->
+                                <div class="col-md-6">
+                                    <div class="row" style="margin-left:-3px;">
                                           <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">
@@ -586,6 +574,7 @@ $array2 = json_decode($json2,TRUE);
                                             </button>
                                           </div>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-2">
