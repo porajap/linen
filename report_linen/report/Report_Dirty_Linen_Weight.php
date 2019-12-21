@@ -31,6 +31,7 @@ $betweendate2 = $data[5];
 $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
+$dirty_time = $data[11];
 $year = $data['year'];
 
 
@@ -116,7 +117,7 @@ class PDF extends FPDF
   function setTable($pdf, $header, $data, $width, $numfield, $field)
   {
     $check = 0;
-    $y = 57;
+    $y = 59;
     $date = '';
     $next_page = 1;
     $fisrt_page = 0;
@@ -267,7 +268,11 @@ $data = new Data();
 $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("P", "A4");
-
+if ($dirty_time == 0) {
+  $dirty_time = '';
+} else {
+  $dirty_time = " AND time_dirty.ID ='$dirty_time'";
+}
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -277,16 +282,19 @@ if ($language == 'th') {
 }
 $Sql = "SELECT
         factory.$FacName,
-        dirty.DocDate
+        dirty.DocDate,
+         time_dirty.TimeName
         FROM
         dirty
         INNER JOIN factory ON factory.FacCode =dirty.FacCode
         INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
         INNER JOIN department ON dirty_detail.DepCode = department.DepCode
         INNER JOIN site ON site.hptcode =department.hptcode
+        LEFT JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
         $where
         AND  factory.FacCode = '$FacCode'
         AND  site.HptCode = '$HptCode'
+        $dirty_time
         AND dirty.isStatus <> 9
         GROUP BY factory.$FacName
         ";
@@ -294,27 +302,32 @@ $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DocDate = $Result['DocDate'];
   $facname = $Result[$FacName];
+  $TimeName = $Result['TimeName'];
 }
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
 } else {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
-
+if ($dirty_time == '') {
+  $TimeName = 'ทุกรอบ';
+}
 $pdf->SetFont('THSarabun', '', 10);
 $image = "../images/Nhealth_linen 4.0.png";
 $pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
-$pdf->Ln(18);
+$pdf->Ln(13);
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['r1'][$language]), 0, 0, 'C');
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Ln(10);
 $pdf->SetFont('THSarabun', 'b', 14);
-$pdf->Cell(120, 5, iconv("UTF-8", "TIS-620",  $array2['factory'][$language] . " : " . $facname), 0, 0, 'L');
+$pdf->Cell(70, 5, iconv("UTF-8", "TIS-620",  $array2['factory'][$language] . " : " . $facname), 0, 0, 'L');
 $pdf->Cell(ุ60, 5, iconv("UTF-8", "TIS-620", $date_header), 0, 1, 'R');
-$pdf->Ln(3);
+$pdf->Cell(60, 5, iconv("UTF-8", "TIS-620",  $array2['Cycle'][$language] . " : " . $TimeName), 0, 1  , 'L');
+$pdf->SetFont('THSarabun', 'b', 14);
+$pdf->Ln(5);
 
 $query = "SELECT
 item.ItemName,
@@ -334,8 +347,10 @@ AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
 AND dirty.isStatus <> 0
+$dirty_time
 GROUP BY item.ItemName,department.DepName,date(dirty.DocDate),dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC"; 
+// echo $query;
 // Number of column
 $numfield = 4;
 // Field data (Must match with Query)
@@ -364,6 +379,7 @@ $where
 AND factory.FacCode = '$FacCode'
 AND department.HptCode = '$HptCode'
 AND dirty.isStatus <> 9
+$dirty_time 
 GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemName , department.DepName ASC
           ";

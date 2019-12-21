@@ -5,10 +5,10 @@ require('Class.php');
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
-$data =explode( ',',$_GET['data']);
-  // echo "<pre>";
-  // print_r($data);
-  // echo "</pre>"; 
+$data = explode(',', $_GET['data']);
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -16,8 +16,11 @@ $date2 = $data[3];
 $betweendate1 = $data[4];
 $betweendate2 = $data[5];
 $format = $data[6];
-$DepCode = array();
+$DepCode[] = $data[7];
 $chk = $data[8];
+$year1 = $data[9];
+$year2 = $data[10];
+$DepCode = array();
 $where = '';
 $language = $_SESSION['lang'];
 if ($language == "en") {
@@ -99,7 +102,8 @@ $array = json_decode($json, TRUE);
 class PDF extends FPDF
 {
   function Header()
-  { }
+  {
+  }
 
   function setTable($pdf, $header, $data, $width, $numfield, $field)
   {
@@ -129,11 +133,25 @@ class PDF extends FPDF
     $totalsum2 = 0;
     $y = 70;
     $old_code = '';
+    $old_dateshow = '';
     $this->SetFont('THSarabun', '', 12);
     if (is_array($data)) {
       foreach ($data as $data => $inner_array) {
         $code =  $inner_array[$field[14]];
         $name =  $inner_array[$field[15]];
+        $dateshow =  $inner_array[$field[16]];
+        list($y, $m, $d) = explode('-', $dateshow);
+        if ($language ==  'th') {
+          $y = $y + 543;
+        }
+        $dateshow = $d . '-' . $m . '-' . $y;
+        if ($dateshow <> $old_dateshow) {
+          $this->SetFont('THSarabun', '', 20);
+          $this->ln(10);
+          $this->Cell(0, 10, iconv("UTF-8", "TIS-620", $dateshow), T, 1, 'C');
+          $this->ln(5);
+          $old_dateshow = $dateshow;
+        }
         if ($inner_array[$field[0]] <> null) {
           if ($code <> $old_code) {
             $this->SetFont('THSarabun', 'b', 14);
@@ -162,6 +180,7 @@ class PDF extends FPDF
             $this->Cell(0, 0, iconv("UTF-8", "TIS-620", ""), 1, 1, 'C');
             $old_code = $code;
           }
+
 
           $txt = getStrLenTH($inner_array[$field[12]]); // 10
           $round = $txt / 35;
@@ -326,19 +345,6 @@ $font = new Font($pdf);
 $data = new Data();
 $pdf->AddPage("L", "A4");
 $pdf->SetAutoPageBreak(true, 20);
-$Sql = "SELECT
-shelfcount.DepCode
-FROM
-shelfcount
-INNER JOIN department ON shelfcount.DepCode = department.DepCode
-INNER JOIN site ON department.HptCode = site.HptCode
-WHERE site.HptCode  = '$HptCode'
- ";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $DepCode[] = $Result['DepCode'];
-}
-$Count_Dep = sizeof($DepCode);
 $datetime = new DatetimeTH();
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
@@ -374,47 +380,49 @@ if ($language == 'th') {
 }
 
 $header = array($array2['docno'][$language], $array2['Cycle'][$language], $array2['shelfcount'][$language], $array2['packing_time'][$language], $array2['delivery_time'][$language], $array2['total'][$language], $array2['user'][$language], $array2['receivecycle'][$language]);
-// width of column table
-
-for ($i = 0; $i <= $Count_Dep; $i++) {
-  $query = "SELECT
-department.DepCode,
-department.DepName,
-shelfcount.docno,
-time_sc.TimeName AS CycleTime,
-COALESCE(TIME(shelfcount.ScStartTime),'-') AS ScStartTime ,
-COALESCE(TIME(shelfcount.ScEndTime),'-') AS ScEndTime ,  
-COALESCE(TIME(shelfcount.PkEndTime),'-') AS PkEndTime ,
-COALESCE(TIME(shelfcount.PkStartTime),'-') AS PkStartTime ,
-COALESCE(TIME(shelfcount.DvStartTime),'-') AS DvStartTime ,
-COALESCE(TIME(shelfcount.DvEndTime),'-') AS DvEndTime ,
-TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
-TIMEDIFF(shelfcount.PkStartTime,shelfcount.PkEndTime)AS PK ,
-TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV,
-CONCAT($Perfix,' ' , $Name,' ' ,$LName)  as USER,
-sc_time_2.TimeName 
-FROM
-shelfcount
-INNER JOIN department on department.DepCode = shelfcount.DepCode
+// for ($i = 0; $i <= $Count_Dep; $i++) {
+$query = "SELECT
+  department.DepCode,
+  department.DepName,
+  shelfcount.docno,
+  time_sc.TimeName AS CycleTime,
+  COALESCE(TIME(shelfcount.ScStartTime),'-') AS ScStartTime ,
+  COALESCE(TIME(shelfcount.ScEndTime),'-') AS ScEndTime ,  
+  COALESCE(TIME(shelfcount.PkEndTime),'-') AS PkEndTime ,
+  COALESCE(TIME(shelfcount.PkStartTime),'-') AS PkStartTime ,
+  COALESCE(TIME(shelfcount.DvStartTime),'-') AS DvStartTime ,
+  COALESCE(TIME(shelfcount.DvEndTime),'-') AS DvEndTime ,
+  TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
+  TIMEDIFF(shelfcount.PkStartTime,shelfcount.PkEndTime)AS PK ,
+  TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV,
+  CONCAT($Perfix,' ' , $Name,' ' ,$LName)  as USER,
+  sc_time_2.TimeName ,
+  shelfcount.DocDate
+  FROM
+	shelfcount
+INNER JOIN department ON department.DepCode = shelfcount.DepCode
 INNER JOIN users ON users.ID = shelfcount.Modify_Code
 LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
 LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
-$where
-AND  department.DepCode = '$DepCode[$i]'
-AND shelfcount.isStatus <> 9 ";
-$field = "docno,CycleTime,ScStartTime,ScEndTime,SC,PkStartTime,PkEndTime,PK,DvStartTime,DvEndTime,DV,,USER,TimeName,DepCode,DepName";
-  // var_dump($query); die;
-  // Number of column
-  $numfield = 6;
-  // Field data (Must match with Query)
-  // Table header
-  $width = array(40, 15, 40, 40, 40, 40, 50, 15);
-  // Get Data and store in Result
-  $result = $data->getdata($conn, $query, $numfield, $field);
-  // Set Table
-  $pdf->SetFont('THSarabun', 'b', 10);
-  $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
-}
+$where 
+AND department.HptCode = '$HptCode'
+AND shelfcount.isStatus <> 9
+GROUP BY shelfcount.DocNo
+ORDER BY shelfcount.DocDate,shelfcount.DepCode ASC ";
+$field = "docno,CycleTime,ScStartTime,ScEndTime,SC,PkStartTime,PkEndTime,PK,DvStartTime,DvEndTime,DV,,USER,TimeName,DepCode,DepName,DocDate";
+// var_dump($query); die;
+// Number of column
+$numfield = 6;
+// Field data (Must match with Query)
+// Table header
+$width = array(40, 15, 40, 40, 40, 40, 50, 15);
+// Get Data and store in Result
+$result = $data->getdata($conn, $query, $numfield, $field);
+// Set Table
+$pdf->SetFont('THSarabun', 'b', 10);
+$pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
+// }
+// }
 // Footer Table
 
 $ddate = date('d_m_Y');

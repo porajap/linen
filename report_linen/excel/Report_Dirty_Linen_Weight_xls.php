@@ -18,9 +18,9 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 $data = explode(',', $_GET['data']);
-// echo "<pre>";
-// print_r($data);
-// echo "</pre>";
+echo "<pre>";
+print_r($data);
+echo "</pre>";
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -32,7 +32,7 @@ $DepCode = $data[7];
 $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
-$GroupCodeCome = $data[11];
+$dirty_time = $data[11];
 $where = '';
 $i = 9;
 $check = '';
@@ -200,9 +200,31 @@ for ($a = 0; $a < $round_AZ1; $a++) {
 $sheet_item = array('', 'Dirty1', 'Dirty2', 'Dirty3', 'Dirty4', 'Dirty5', 'Dirty6');
 $sheet_Name = array('Report_Dirty_Linen_Weight', 'RED BAG', 'GREEN BAG', 'GRAY BAG', 'Square Green', 'Square Blue', 'Square Red');
 $count_sheet = sizeof($sheet_item);
-// echo "<pre>";
-// print_r($count_sheet);
-// echo "</pre>";
+if ($dirty_time == '0') {
+  $dirty_time = '';
+} else {
+  $dirty_time = " AND time_dirty.ID ='$dirty_time'";
+}
+
+$query = "  SELECT
+  time_dirty.TimeName
+  FROM
+  time_dirty
+INNER JOIN dirty ON dirty.Time_ID = time_dirty.ID
+  $where 
+  $dirty_time ";
+$meQuery = mysqli_query($conn, $query);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+  $TimeName =   $Result['TimeName'];
+}
+if ($dirty_time == '') {
+  $TimeName = 'รอบซักทุกรอบ';
+  $Time_DIR =   $TimeName;
+} else {
+  $Time_DIR =  ' รอบที่' . $TimeName . '.น';
+}
+
+
 // -----------------------------------------------------------------------------------
 if ($chk == 'one') {
   if ($format == 1) {
@@ -213,7 +235,8 @@ if ($chk == 'one') {
                 FROM
                 dirty
                 INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
-                $where";
+                $where
+                 $dirty_time ";
     // echo $query;
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -255,8 +278,9 @@ if ($chk == 'one') {
   FROM
   dirty
   INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
-  $where";
-  echo $query;
+  $where
+   $dirty_time ";
+  // echo $query;
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $date[] = $Result['DocDate'];
@@ -277,8 +301,8 @@ if ($chk == 'one') {
   FROM
   dirty
   INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
-  $where";
-  echo $query;
+  $where
+   $dirty_time ";
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $date[] = $Result['DocDate'];
@@ -313,6 +337,9 @@ if ($chk == 'one') {
   }
   $count = sizeof($date);
 }
+echo "<pre>";
+print_r($date);
+echo "</pre>";
 for ($sheet = 0; $sheet < $count_sheet; $sheet++) {
   // -----------------------------------------------------------------------------------
   $objPHPExcel->setActiveSheetIndex($sheet)
@@ -320,9 +347,10 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++) {
     ->setCellValue('B8',  $array2['itemname'][$language]);
   // Write data from MySQL result
   $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
-  $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r1'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('A6', $date_header);
-  $objPHPExcel->getActiveSheet()->setCellValue('A7', 'รายละเอียด');
+  $objPHPExcel->getActiveSheet()->setCellValue('A4', $array2['r1'][$language]);
+  $objPHPExcel->getActiveSheet()->setCellValue('A5', $date_header);
+  $objPHPExcel->getActiveSheet()->setCellValue('A6', $Time_DIR);
+  $objPHPExcel->getActiveSheet()->mergeCells('A4:J4');
   $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
   $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
   $objPHPExcel->getActiveSheet()->mergeCells('A7:B7');
@@ -340,6 +368,7 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++) {
               $where
               AND dirty.isStatus <> 9 AND dirty.isStatus <> 0
               AND dirty.FacCode = '$FacCode'
+               $dirty_time
               GROUP BY dirty_detail.DepCode,department.DepName
             ";
   // echo $query;
@@ -425,7 +454,8 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++) {
       }
       $data .= " AND dirty.Faccode = '$FacCode'
                  AND site.HptCode = '$HptCode'
-                 AND dirty_detail.DepCode = '$DepCode[$q]'";
+                 AND dirty_detail.DepCode = '$DepCode[$q]'
+                  $dirty_time";
 
       if ($sheet <> 0) {
         $data .= " AND dirty_detail.ItemCode = '$sheet_item[$sheet]'";
@@ -486,7 +516,9 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++) {
       $data2 .=   " WHERE  YEAR(dirty.DocDate)  ='$year'  AND MONTH(dirty.DocDate)  ='$month' AND dirty.isStatus <> 9 AND dirty.isStatus <> 0 ";
     }
     $data2 .= " AND dirty.Faccode = '$FacCode'
-               AND site.HptCode = '$HptCode' ";
+               AND site.HptCode = '$HptCode'
+               $dirty_time
+                ";
     if ($sheet <> 0) {
       $data2 .= " AND dirty_detail.ItemCode = '$sheet_item[$sheet]'";
     }
@@ -545,7 +577,7 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++) {
     )
   );
   $r1 = $r - 1;
-  $objPHPExcel->getActiveSheet()->getStyle("A5:A6")->applyFromArray($A5);
+  $objPHPExcel->getActiveSheet()->getStyle("A4:A6")->applyFromArray($A5);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($styleArray);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($fill);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . "8")->applyFromArray($colorfill);
@@ -589,12 +621,13 @@ $objPHPExcel->setActiveSheetIndex(7)
   ->setCellValue('C8',  $array2['department'][$language]);
 // Write data from MySQL result
 $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
-$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r1'][$language]);
-$objPHPExcel->getActiveSheet()->setCellValue('A6', $date_header);
-$objPHPExcel->getActiveSheet()->setCellValue('A7', 'รายละเอียด');
+$objPHPExcel->getActiveSheet()->setCellValue('A4', $array2['r1'][$language]);
+$objPHPExcel->getActiveSheet()->setCellValue('A5', $date_header);
+$objPHPExcel->getActiveSheet()->setCellValue('A6', $Time_DIR);
+$objPHPExcel->getActiveSheet()->mergeCells('A4:J4');
 $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
 $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
-$objPHPExcel->getActiveSheet()->mergeCells('A7:C7');
+$objPHPExcel->getActiveSheet()->mergeCells('A7:B7');
 // -----------------------------------------------------------------------------------
 $query = "  SELECT
               department.DepName,
@@ -700,7 +733,8 @@ for ($q = 0; $q < $COUNT_CODE; $q++) {
     $data .= "   AND dirty.Faccode = '$FacCode'
                  AND site.HptCode = '$HptCode'
                  AND dirty_detail.DepCode = '$DepCode[$q]'
-                 AND dirty_detail.RequestName = '$RequestName[$q]'";
+                 AND dirty_detail.RequestName = '$RequestName[$q]'
+                 $dirty_time";
     // echo "<pre>";
     // print_r($data);
     // echo "</pre>";
@@ -758,7 +792,8 @@ for ($day = 0; $day < $count; $day++) {
   }
   $data2 .= " AND dirty.Faccode = '$FacCode'
               AND site.HptCode = '$HptCode' 
-              AND dirty_detail.RequestName <> '' ";
+              AND dirty_detail.RequestName <> ''
+              $dirty_time ";
   $meQuery = mysqli_query($conn, $data2);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Totalqty"]);
@@ -811,7 +846,7 @@ $colorfill = array(
   )
 );
 $r1 = $r - 1;
-$objPHPExcel->getActiveSheet()->getStyle("A5:A6")->applyFromArray($A5);
+$objPHPExcel->getActiveSheet()->getStyle("A4:A6")->applyFromArray($A5);
 $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($styleArray);
 $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($fill);
 $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . "8")->applyFromArray($colorfill);

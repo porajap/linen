@@ -234,7 +234,7 @@ $pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . 
 $pdf->Ln(18);
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);
-$pdf->Cell(30, 20, iconv("UTF-8", "TIS-620", $array2['r7'][$language]), 0, 0, 'C');
+$pdf->Cell(30, 20, iconv("UTF-8", "TIS-620", $array2['r7']['en']), 0, 0, 'C');
 // Move to the right
 $pdf->Ln(15);
 $pdf->SetFont('THSarabun', 'b', 14);

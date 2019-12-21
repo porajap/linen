@@ -173,7 +173,8 @@ damagenh_detail.ItemCode,
 item.ItemName,
 item_unit.UnitName,
 sum(damagenh_detail.Qty) as Qty ,
-sum(damagenh_detail.Weight) as Weight
+sum(damagenh_detail.Weight) as Weight,
+  damagenh_detail.Detail
 FROM item
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
 INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
@@ -219,6 +220,11 @@ $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
 </tr></thead>';
 $meQuery = mysqli_query($conn, $data);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  if ($Result['Detail'] <> null) {
+    $Result['ItemName'] = $Result['ItemName'] . " ( " . $Result['Detail'] . " )";
+  } else {
+    $Result['ItemName'] = $Result['ItemName'];
+  }
   $Total_Weight = $Result['Qty'] * $Result['Weight'];
   $html .= '<tr nobr="true">';
   $html .=   '<td width="25 %" align="center">' . $count . '</td>';

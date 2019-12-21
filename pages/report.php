@@ -120,6 +120,7 @@ $array2 = json_decode($json2, TRUE);
 			$('#rem9').hide();
 			$('#rem10').hide();
 			$('#rem11').hide();
+			$('#rem12').hide();
 			OnLoadPage();
 			$('#hotpital').attr('disabled', tf);
 			$('#department').attr('disabled', true);
@@ -521,6 +522,7 @@ $array2 = json_decode($json2, TRUE);
 			var somemonth = $('#somemonth').val();
 			var GroupCode = $('#grouphpt').val();
 			var Item = $('#item').val();
+			var time_dirty = $('#time_dirty').val();
 			var year = $('#year').val();
 			var Format = $("input[name='radioFormat']:checked").val();
 			var FormatDay = $("input[name='formatDay']:checked").val();
@@ -767,7 +769,9 @@ $array2 = json_decode($json2, TRUE);
 					'ppu': ppu,
 					'date': date,
 					'GroupCode': GroupCode,
-					'Item': Item
+					'Item': Item,
+					'time_dirty': time_dirty
+
 				};
 			} else if (Format == 2) {
 				var language = '<?php echo $language ?>';
@@ -798,25 +802,8 @@ $array2 = json_decode($json2, TRUE);
 						var m2 = parseInt(month2[1]);
 						date = month1[0] + "/" + m1 + "-" + month2[0] + "/" + m2;
 					}
-					// if (chkDateRang[1] == null || chkDateRang[1] == undefined) {
-					// 	swal({
-					// 		title: '',
-					// 		text: '<?php echo $array['insert_form'][$language]; ?>',
-					// 		type: 'info',
-					// 		showCancelButton: false,
-					// 		confirmButtonColor: '#3085d6',
-					// 		cancelButtonColor: '#d33',
-					// 		showConfirmButton: false,
-					// 		timer: 1000,
-					// 		confirmButtonText: 'Ok'
-					// 	});
-					// 	setTimeout(function() {
-					// 		$('#somemonth').focus();
-					// 	}, 1000);
-					// }
 
 				}
-				// var date = $('#month').val();
 				var data = {
 					'STATUS': 'find_report',
 					'factory': factory,
@@ -829,7 +816,8 @@ $array2 = json_decode($json2, TRUE);
 					'ppu': ppu,
 					'date': date,
 					'GroupCode': GroupCode,
-					'Item': Item
+					'Item': Item,
+					'time_dirty': time_dirty
 				}
 			} else {
 				var language = '<?php echo $language ?>';
@@ -849,7 +837,8 @@ $array2 = json_decode($json2, TRUE);
 					'ppu': ppu,
 					'date': date,
 					'GroupCode': GroupCode,
-					'Item': Item
+					'Item': Item,
+					'time_dirty': time_dirty
 				};
 
 			}
@@ -970,6 +959,14 @@ $array2 = json_decode($json2, TRUE);
 								item += "<option value=" + temp[i]['itemcode'] + ">" + temp[i]['itemname'] + "</option>";
 							}
 							$("#item").append(item);
+
+
+							var time_dirty_Value0 = '-';
+							var time_dirty = "<option value='0'>" + time_dirty_Value0 + "</option>";
+							for (var i = 0; i < temp['count_time_dirty']; i++) {
+								time_dirty += "<option value=" + temp[i]['id'] + ">" + temp[i]['TimeName'] + "</option>";
+							}
+							$("#time_dirty").append(time_dirty);
 						} else if (temp["form"] == 'departmentWhere') {
 							var typereport = $('#typereport').val();
 							$("#department").empty();
@@ -1018,6 +1015,7 @@ $array2 = json_decode($json2, TRUE);
 							} else if (format == 3) {
 								show_date = show_year;
 							}
+
 							$('#type_report').text(temp['typeReport']);
 							$('#table_Fac tbody').empty();
 							$('#table_Fac').attr('hidden', false);
@@ -1025,20 +1023,32 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_DepDoc').attr('hidden', true);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
-
-							for (var i = 0; i < temp['countRow']; i++) {
-								var dataRow = "<tr>" +
-									"<td style='width:5%'>" + (i + 1) + "</td>" +
-									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
-									"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
-									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
-
-								dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
-									"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
-
-								"</tr>";
-								$("#table_Fac tbody").append(dataRow);
+							if (temp['r'] == 'r23') {
+								for (var i = 0; i < temp['countRow']; i++) {
+									var dataRow = "<tr>" +
+										"<td style='width:5%'>" + (i + 1) + "</td>" +
+										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
+										"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
+										"<td class='text-center' style='width:20%'>" + show_date + "</td>";
+									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['url'] + "?Fac=" + temp[i]['FacCode'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
+										"<td class='text-center' style='width:7.5%'><button  onclick='send_data3(\"" + temp['urlxls'] + "?Fac=" + temp[i]['FacCode'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									"</tr>";
+									$("#table_Fac tbody").append(dataRow);
+								}
+							} else {
+								for (var i = 0; i < temp['countRow']; i++) {
+									var dataRow = "<tr>" +
+										"<td style='width:5%'>" + (i + 1) + "</td>" +
+										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
+										"<td class='text-center pl-4' style='width:35%'>" + temp[i]['FacName'] + "</td>" +
+										"<td class='text-center' style='width:20%'>" + show_date + "</td>";
+									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
+										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+									"</tr>";
+									$("#table_Fac tbody").append(dataRow);
+								}
 							}
+
 						} else if (temp["form"] == 'Dep') {
 							$('#data').val(Object.values(temp['data_send']));
 							var hot = $("#hotpital option:selected").text();
@@ -1379,11 +1389,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().show();
 				$('#chkyear').parent().show();
 			} else if (typeReport == 14 || typeReport == 16) {
@@ -1393,11 +1405,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			} else if (typeReport == 9) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
@@ -1405,11 +1419,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
@@ -1417,11 +1433,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			} else if (typeReport == 2) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
@@ -1429,11 +1447,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			} else if (typeReport == 29 || typeReport == 30) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
@@ -1441,11 +1461,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', false);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 			} else if (typeReport == 28) {
@@ -1455,11 +1477,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', false);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 			} else if (typeReport == 29 || typeReport == 30) {
@@ -1469,11 +1493,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			} else if (typeReport == 13) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
@@ -1481,11 +1507,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			} else if (typeReport == 17) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
@@ -1493,11 +1521,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', true);
 				$('#grouphpt').attr('disabled', true);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			}
 			if (typeReport == 9) {
 				$('#showday').hide();
@@ -1542,11 +1572,13 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', false);
 				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
 				$('#department').val(0);
 				$('#cycle').val(0);
 				$('#item').val(0);
+				$('#time_dirty').val(0);
 			}
 			// else if (typeReport == 28) {
 			// 	$('#department').attr('disabled', true);
@@ -1573,6 +1605,23 @@ $array2 = json_decode($json2, TRUE);
 			// 	$('#chkyear').prop('checked', false)
 			// 	find_indexMonth(new Date().getFullYear())
 			// }
+			if (typeReport == 1) {
+				$('#hotpital').attr('disabled', tf);
+				$('#department').attr('disabled', true);
+				$('#factory').attr('disabled', false);
+				$('#cycle').attr('disabled', true);
+				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', false);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#item').val(0);
+				$('#time_dirty').val(0);
+				$('#chksomemonth').parent().show();
+				$('#chkyear').parent().show();
+			}
 			$('#typereport').removeClass('border-danger');
 			$('#factory').removeClass('border-danger');
 			$('#department').removeClass('border-danger');
@@ -1589,6 +1638,7 @@ $array2 = json_decode($json2, TRUE);
 			$('#rem9').hide();
 			$('#rem10').hide();
 			$('#rem11').hide();
+			$('#rem12').hide();
 			// $('#department').attr('disabled', true);
 
 		}
@@ -1899,7 +1949,7 @@ $array2 = json_decode($json2, TRUE);
 															<option value=4><?php echo "3. &nbsp; " . $array['r' . 4][$language]; ?></option>
 															<!-- <option value=5><?php echo "5. " . $array['r' . 5][$language]; ?></option> -->
 															<option value=6><?php echo "4. &nbsp; " . $array['r' . 6][$language]; ?></option>
-															<option value=7><?php echo "5. &nbsp; " . $array['r' . 7][$language]; ?></option>
+															<option value=7><?php echo "5. &nbsp; " . $array['r' . 7]['en']; ?></option>
 															<option value=8><?php echo "6. &nbsp; " . $array['r' . 8][$language]; ?></option>
 															<option value=9><?php echo "7. &nbsp; " . $array['r' . 9][$language]; ?></option>
 															<!-- <option value=10><?php echo "10. " . $array['r' . 10][$language]; ?></option>
@@ -1980,6 +2030,16 @@ $array2 = json_decode($json2, TRUE);
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;"><?php echo $array['item'][$language]; ?></label>
 														<select class="form-control col-sm-8" style="font-size:22px;" id="item" onchange="show_item();">
 														</select>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class='form-group row checkblank'>
+														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;">รอบ</label>
+														<select class="form-control col-sm-8" id="time_dirty" style=" font-size:22px;">
+														</select>
+														<label id="rem12" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
 												</div>
 											</div>

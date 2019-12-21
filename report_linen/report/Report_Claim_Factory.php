@@ -215,7 +215,7 @@ INNER JOIN damage ON damage.DocNo = damage_detail.DocNo
 INNER JOIN department ON damage.DepCode = department.DepCode
 $where
 AND department.HptCode = '$HptCode'
-AND damage.IsStatus <> 9
+AND damage.isStatus <> 9 AND damage.isStatus <> 0
 GROUP BY
 damage_detail.ItemCode";
 // -- INNER JOIN item_multiple_unit ON item_multiple_unit.MpCode = clean_detail.UnitCode

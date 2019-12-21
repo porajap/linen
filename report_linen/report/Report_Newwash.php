@@ -268,8 +268,12 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]], 2)), 1, 0, 'C');
   $pdf->Ln();
   $count++;
-  $totalsum += $inner_array[$field[3]];
+  $totalsum1 += $inner_array[$field[2]];
+  $totalsum2 += $inner_array[$field[3]];
 }
+$pdf->Cell($w[0]+ $w[1], 10, iconv("UTF-8", "TIS-620", $array2['total'][$language]), 1, 0, 'C');
+$pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($totalsum1)), 1, 0, 'C');
+$pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($totalsum2, 2)), 1, 0, 'C');
 // $meQueryy = mysqli_query($conn, $queryy);
 // while ($Result1 = mysqli_fetch_assoc($meQueryy)) {
 //   $inner_arrayy[$field[2]] = $Result1['ItemName'];

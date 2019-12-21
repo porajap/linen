@@ -215,7 +215,7 @@ if ($chk == 'one') {
     (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
     COALESCE(repair_wash.DocDate,0) AS DocDate
     FROM  repair_wash
-    LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+     
     WHERE DATE (repair_wash.Docdate) = '$date'
     AND repair_wash.FacCode = '$FacCode'
     AND repair_wash.HptCode= '$HptCode'
@@ -246,11 +246,12 @@ if ($chk == 'one') {
     (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
     COALESCE(newlinentable.DocDate,0) AS DocDate
     FROM clean
-    LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
     LEFT JOIN department ON department.DepCode = clean.DepCode
 		LEFT JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date'
-    AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'AND clean.IsStatus  <> 9 )
+    AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'AND clean.IsStatus  <> 9 )
     f";
       $meQuery = mysqli_query($conn, $query);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -337,7 +338,7 @@ if ($chk == 'one') {
     for ($i = 0; $i < $count; $i++) {
       $query = "SELECT 
        DIRTY,
-      repair_wash,
+       repair_wash,
        NEWLINEN,
        CLEAN,
        CLEAN_repair_wash,
@@ -360,7 +361,7 @@ if ($chk == 'one') {
       (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
       COALESCE(repair_wash.DocDate,0) AS DocDate
       FROM  repair_wash
-      LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+       
       WHERE DATE (repair_wash.Docdate) = '$date[$i]'
       AND repair_wash.FacCode = '$FacCode' AND repair_wash.HptCode= '$HptCode'
       AND repair_wash.isStatus<>9
@@ -390,11 +391,12 @@ if ($chk == 'one') {
       (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
       COALESCE(newlinentable.DocDate,0) AS DocDate
       FROM clean
-      LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+      LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+      LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
       LEFT JOIN department ON department.DepCode = clean.DepCode
 		  LEFT JOIN site ON department.HptCode = site.HptCode
       WHERE DATE (clean.Docdate) = '$date[$i]'
-      AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
+      AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
       AND clean.IsStatus  <> 9 )
       f";
       $meQuery = mysqli_query($conn, $query);
@@ -503,7 +505,7 @@ if ($chk == 'one') {
     (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
     COALESCE(repair_wash.DocDate,0) AS DocDate
     FROM  repair_wash
-    LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+     
     WHERE DATE (repair_wash.Docdate) = '$date[$i]'
     AND repair_wash.FacCode = '$FacCode' AND repair_wash.HptCode= '$HptCode'
     AND repair_wash.isStatus<>9
@@ -533,11 +535,12 @@ if ($chk == 'one') {
     (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
     COALESCE(newlinentable.DocDate,0) AS DocDate
     FROM clean
-    LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
     LEFT JOIN department ON department.DepCode = clean.DepCode
       LEFT JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date[$i]'
-    AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
+    AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
     AND clean.IsStatus  <> 9)
     f";
     $meQuery = mysqli_query($conn, $query);
@@ -636,7 +639,7 @@ if ($chk == 'one') {
   (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
   COALESCE(repair_wash.DocDate,0) AS DocDate
   FROM  repair_wash
-  LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+   
   WHERE DATE (repair_wash.Docdate) = '$date[$i]' AND repair_wash.HptCode= '$HptCode'
   AND repair_wash.FacCode = '$FacCode'
   AND repair_wash.isStatus<>9
@@ -666,11 +669,12 @@ if ($chk == 'one') {
   (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
   COALESCE(newlinentable.DocDate,0) AS DocDate
   FROM clean
-  LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
   LEFT JOIN department ON department.DepCode = clean.DepCode
 	LEFT JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date[$i]'
-  AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
+  AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
   AND clean.IsStatus  <> 9)
   f";
     $meQuery = mysqli_query($conn, $query);
@@ -777,7 +781,7 @@ if ($chk == 'one') {
   (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
   COALESCE(repair_wash.DocDate,0) AS DocDate
   FROM  repair_wash
-  LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+   
   WHERE DATE (repair_wash.Docdate) = '$date[$i]'
   AND repair_wash.FacCode = '$FacCode' AND repair_wash.HptCode= '$HptCode'
   AND repair_wash.isStatus<>9
@@ -807,11 +811,12 @@ if ($chk == 'one') {
   (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
   COALESCE(newlinentable.DocDate,0) AS DocDate
   FROM clean
-  LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
   LEFT JOIN department ON department.DepCode = clean.DepCode
 		LEFT JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date[$i]'
-  AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
+  AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
   AND clean.IsStatus  <> 9)
   f";
     $meQuery = mysqli_query($conn, $query);

@@ -6,10 +6,10 @@ header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
 // ?รับค่าจาก process
-$data =explode( ',',$_GET['data']);
-  // echo "<pre>";
-  // print_r($data);
-  // echo "</pre>"; 
+$data = explode(',', $_GET['data']);
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>"; 
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -20,6 +20,8 @@ $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
 $where = '';
+$FacCode = $_GET['Fac'];
+
 $language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
@@ -94,7 +96,8 @@ if ($chk == 'one') {
 class PDF extends FPDF
 {
   function Header()
-  { }
+  {
+  }
   // Page footer
   function Footer()
 
@@ -109,7 +112,6 @@ class PDF extends FPDF
       $json2 = json_encode($xml2);
       $array2 = json_decode($json2, TRUE);
       $language = $_SESSION['lang'];
-
     }
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
@@ -131,17 +133,22 @@ $datetime = new DatetimeTH();
 $pdf->AddPage("P", "A4");
 if ($language == 'th') {
   $HptName = HptNameTH;
+  $FacName = FacNameTH;
 } else {
   $HptName = HptName;
+  $FacName = FacName;
 }
 $Sql = "SELECT
 			site.$HptName,
-			department.DepName
+			department.DepName,
+      factory.$FacName
 FROM damagenh
 INNER JOIN department ON damagenh.DepCode=department.DepCode
 INNER JOIN site ON department.HptCode=site.HptCode
+INNER JOIN factory ON factory.faccode = damagenh.faccode  
 $where
 AND department.HptCode = '$HptCode'
+AND factory.faccode = '$FacCode'
  ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -159,7 +166,7 @@ $pdf->SetFont('THSarabun', '', 10);
 $image = "../images/Nhealth_linen 4.0.png";
 $pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
-$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Cell(0, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
 // Title
 // Line break
@@ -171,6 +178,7 @@ $pdf->Cell(80);
 $pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['hosname'][$language] . " : " . $side), 0, 0, 'C');
 $pdf->Ln(7);
 $pdf->SetFont('THSarabun', 'b', 14);
+$pdf->Cell(90, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] . ' : ' . $facname), 0, 0, 'l');
 $pdf->Cell(ุ0, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12);
 $next_page = 1;
@@ -206,7 +214,8 @@ department.DepName,
 sum(damagenh_detail.Qty) AS Qty,
 sum(
   damagenh_detail.Weight
-) AS Weight
+) AS Weight,
+  damagenh_detail.Detail
 FROM
 item
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
@@ -214,13 +223,21 @@ INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
 INNER JOIN damagenh_detail ON damagenh_detail.ItemCode = item.ItemCode
 INNER JOIN damagenh ON damagenh.DocNo = damagenh_detail.DocNo
 INNER JOIN department ON damagenh.DepCode = department.DepCode
+INNER JOIN factory ON factory.faccode = damagenh.faccode  
 $where
 AND department.HptCode = '$HptCode'
 AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0
+AND factory.faccode = '$FacCode'
 GROUP BY
 damagenh_detail.ItemCode";
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
+  if ($Result['Detail'] <> null) {
+    $inner_array[$field[1]] = $Result['ItemName'] . " ( " . $Result['Detail'] . " )";
+  } else {
+    $inner_array[$field[1]] = $Result['ItemName'];
+  }
+
   if ($count > 20) {
     $next_page++;
     if ($status == 0) {
@@ -241,7 +258,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
       $y = 20;
     }
   }
-  $inner_array[$field[1]] = $Result['ItemName'];
+
   $inner_array[$field[2]] = $Result['Qty'];
   $inner_array[$field[3]] = $Result['Weight'];
   $inner_array[$field[4]] = $inner_array[$field[2]] * $inner_array[$field[3]];

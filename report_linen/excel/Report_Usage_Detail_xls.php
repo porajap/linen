@@ -352,10 +352,10 @@ if ($itemfromweb == '0') {
     }
     $start_col = 1;
     $start_row = 9;
-    for ($q = 0; $q < $countitem; $q++) {
+    // for ($q = 0; $q < $countitem; $q++) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $DepName);
-      $start_row++;
-    }
+    //   $start_row++;
+    // }
     $start_row = 9;
     $r = 2;
     for ($q = 0; $q < $countitem; $q++) {
@@ -602,10 +602,10 @@ if ($itemfromweb <> '0') {
     // -----------------------------------------------------------------------------------
     $start_col = 0;
     $start_row = 9;
-    for ($q = 0; $q < $countDep; $q++) {
+    // for ($q = 0; $q < $countDep; $q++) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $iname);
-      $start_row++;
-    }
+    //   $start_row++;
+    // }
     $start_col = 1;
     $start_row = 9;
     for ($q = 0; $q < $countDep; $q++) {

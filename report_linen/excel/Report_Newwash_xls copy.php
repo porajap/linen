@@ -30,21 +30,12 @@ $betweendate2 = $data[5];
 $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
-$date_query1 = $data[2];
-$date_query2 = $data[3];
 $where = '';
 $i = 9;
 $check = '';
 $Qty = 0;
 $Weight = 0;
 $count = 1;
-$start_data = 9;
-$minus = '';
-$time = '';
-$secord = '';
-$hours = '';
-$min = '';
-$secord = '';
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -194,42 +185,31 @@ $objPHPExcel->getActiveSheet()
 // Setting the print area:
 // Add some data
 
-$header = array($array2['docdate'][$language], $array2['receive_time'][$language], $array2['washing_time'][$language], $array2['packing_time'][$language], $array2['distribute_time'][$language], $array2['total'][$language]);
-$objPHPExcel->getActiveSheet()->mergeCells('C8:D8');
-$objPHPExcel->getActiveSheet()->mergeCells('E8:F8');
-$objPHPExcel->getActiveSheet()->mergeCells('G8:H8');
-$objPHPExcel->getActiveSheet()->mergeCells('I8:J8');
-$objPHPExcel->getActiveSheet()->mergeCells('A8:A9');
-$objPHPExcel->getActiveSheet()->mergeCells('B8:B9');
-$objPHPExcel->getActiveSheet()->mergeCells('K8:K9');
-$objPHPExcel->setActiveSheetIndex()
-  ->setCellValue('A8',  $array2['docno'][$language])
-  ->setCellValue('B8',  $array2['docdate'][$language])
-  ->setCellValue('C8',  $array2['receive_time'][$language])
-  ->setCellValue('E8',  $array2['washing_time'][$language])
-  ->setCellValue('G8',  $array2['packing_time'][$language])
-  ->setCellValue('I8',  $array2['distribute_time'][$language])
-  ->setCellValue('K8',  $array2['total'][$language]);
-$objPHPExcel->setActiveSheetIndex()
-  ->setCellValue('C9',  $array2['start'][$language])
-  ->setCellValue('D9',  $array2['finish'][$language])
-  ->setCellValue('E9',  $array2['start'][$language])
-  ->setCellValue('F9',  $array2['finish'][$language])
-  ->setCellValue('G9',  $array2['start'][$language])
-  ->setCellValue('H9',  $array2['finish'][$language])
-  ->setCellValue('I9',  $array2['start'][$language])
-  ->setCellValue('J9',  $array2['finish'][$language]);
+
+$objPHPExcel->setActiveSheetIndex(0)
+  ->setCellValue('A8',  $array['no'][$language])
+  ->setCellValue('B8',  $array['item'][$language])
+  ->setCellValue('C8',  $array['qty'][$language])
+  ->setCellValue('D8',  $array['weight'][$language]);
+
 // Write data from MySQL result
 $Sql = "SELECT
-factory.$FacName
-FROM
-process
-INNER JOIN factory ON factory.FacCode = process.FacCode
-where process.FacCode = $FacCode
-       ";
+			factory.$FacName,
+			site.$HptName,
+			department.DepName
+FROM clean
+INNER JOIN factory ON factory.FacCode = clean.FacCode
+INNER JOIN department ON clean.DepCode=department.DepCode
+INNER JOIN clean_detail ON clean.DocNo=clean_detail.DocNo
+INNER JOIN site ON department.HptCode=site.HptCode
+$where
+AND clean.FacCode = '$FacCode'
+AND department.HptCode = '$HptCode'
+ ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $Facname = $Result[$FacName];
+  $hptname = $Result[$HptName];
+  $facname = $Result[$FacName];
 }
 $datetime = new DatetimeTH();
 if ($language == 'th') {
@@ -237,93 +217,129 @@ if ($language == 'th') {
 } else {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
-$objPHPExcel->getActiveSheet()->setCellValue('K1', $array2['printdate'][$language] . $printdate);
-$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r15'][$language]);
-$objPHPExcel->getActiveSheet()->mergeCells('A5:K5');
-$objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['factory'][$language] . " : " . $Facname);
-$objPHPExcel->getActiveSheet()->setCellValue('K7', $date_header);
-$doc = array('dirty', 'repair_wash', 'newlinentable');
-$j = 0;
-for ($i = 0; $i < 3; $i++) {
-  if ($chk == 'one') {
-    if ($format == 1) {
-      $where =   "WHERE DATE (" . $doc[$i] . ".Docdate) = DATE('$date_query1')";
-    } elseif ($format = 3) {
-      $where = "WHERE  year (" . $doc[$i] . ".Docdate) LIKE '%$date_query1%'";
-    }
-  } elseif ($chk == 'between') {
-    $where =   "WHERE " . $doc[$i] . ".Docdate BETWEEN '$date_query1' AND '$date_query2'";
-  } elseif ($chk == 'month') {
-    $where =   "WHERE month (" . $doc[$i] . ".Docdate) = " . $date_query1;
-  } elseif ($chk == 'monthbetween') {
-    $where =   "WHERE date(" . $doc[$i] . ".Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
-  }
-  $query = "SELECT
-TIME (process.WashStartTime) AS WashStartTime ,
-TIME (process.WashEndTime) AS WashEndTime,
-TIME (process.PackStartTime)AS PackStartTime,
-TIME (process.PackEndTime)AS PackEndTime,
-TIME (process.SendStartTime)AS SendStartTime,
-TIME (process.SendEndTime)AS SendEndTime,
-$doc[$i].FacCode,
-process.DocNo AS  DocNo1 ,
-TIME ($doc[$i].ReceiveDate)AS ReceiveDate1,
-DATE_FORMAT($doc[$i].DocDate,'%d/%m/%Y') AS Date1,
-TIME_FORMAT(TIMEDIFF($doc[$i].ReceiveDate, process.SendEndTime), '%H:%i') AS TIME ,
-TIME_FORMAT(TIMEDIFF(process.WashStartTime ,process.WashEndTime), '%H:%i') AS wash ,
-TIME_FORMAT(TIMEDIFF(process.PackStartTime ,process.PackEndTime), '%H:%i') AS pack ,
-TIME_FORMAT(TIMEDIFF(process.SendStartTime ,process.SendEndTime), '%H:%i') AS send 
+$objPHPExcel->getActiveSheet()->setCellValue('D1', $array2['printdate'][$language] . $printdate);
+$objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r22'][$language]);
+$objPHPExcel->getActiveSheet()->mergeCells('A5:E5');
+$objPHPExcel->getActiveSheet()->mergeCells('A6:E6');
+$objPHPExcel->getActiveSheet()->setCellValue('A6', $array['hosname'][$language] . " : " . $hptname);
+$objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['factory'][$language] . " : " . $facname);
+$objPHPExcel->getActiveSheet()->setCellValue('D7', $date_header);
+$query = "SELECT
+newlinentable_detail.ItemCode,
+item.ItemName,
+item_unit.UnitName,
+department.DepName,
+sum(newlinentable_detail.Qty) AS Qty,
+sum(
+  newlinentable_detail.Weight
+) AS Weight
 FROM
-process
-LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
-$where AND $FacCode in ($doc[$i].FacCode)
-AND process.isStatus <> 9
-"; echo $query;
-  $meQuery = mysqli_qu5ery($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    if ($language == 'th') {
-      $hour_show = " ชั่วโมง";
-      $min_show = " นาที";
-    } else {
-      if ($total_hours <= 1) {
-        $hour_show = " hour ";
-        $min_show = " min ";
-      } else {
-        $hour_show = " hours ";
-        $min_show = " mins ";
-      }
-    }
-    $one = explode(":", $Result["wash"]);
-    $two = explode(":", $Result["pack"]);
-    $three = explode(":", $Result["send"]);
-    $four = explode(":", $Result["TIME"]);
-    $one[0] = str_replace("-", '', $one[0]);
-    $two[0] = str_replace("-", '', $two[0]);
-    $three[0] = str_replace("-", '', $three[0]);
-    $four[0] = str_replace("-", '', $four[0]);
-    $hous = $one[0] + $two[0] + $three[0] + $four[0];
-    $mins = $one[1] + $two[1] + $three[1] + $four[1];
-    if ($mins >= 60) {
-      $Ansmin = $mins / 60;
-      $Ansmin = (int) ($Ansmin);
-      $hous = $hous + $Ansmin;
-      $mins = $mins % 60;
-    }
-    $timeshow = $hous . $hour_show . " " . $mins . $min_show;
-    $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_data, $Result["DocNo1"]);
-    $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_data, $Result["Date1"]);
-    $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_data, substr($Result["ReceiveDate1"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_data, substr($Result["WashStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_data, substr($Result["WashStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_data, substr($Result["WashEndTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_data, substr($Result["PackStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_data, substr($Result["PackEndTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_data, substr($Result["SendStartTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('J' . $start_data, substr($Result["SendEndTime"], 0, 5));
-    $objPHPExcel->getActiveSheet()->setCellValue('K' . $start_data, $timeshow);
-  }
+item
+INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+INNER JOIN newlinentable_detail ON newlinentable_detail.ItemCode = item.ItemCode
+INNER JOIN newlinentable ON newlinentable.DocNo = newlinentable_detail.DocNo
+INNER JOIN department ON newlinentable_detail.DepCode = department.DepCode
+$where_new
+AND department.HptCode = '$HptCode'
+AND newlinentable.FacCode = '$FacCode'
+AND newlinentable.IsStatus <> 9
+GROUP BY
+newlinentable_detail.ItemCode";
+$meQuery = mysqli_query($conn, $query);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+$total = $Result["Totalqty"] + $Result["Weight"];
+  $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $count);
+  $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $Result["ItemName"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $Result["Qty"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $Result["Weight"]);
+  $i++;
+  $count++;
+  $Qty += $Result["Qty"];
+  $Weight += $Result["Weight"];
+  $totalWeight += $total;
 }
+$row_sum = $i;
+$i += 1;
+$count++;
 
+$cols = array('A', 'B', 'C', 'D', 'E');
+$width = array(10, 40, 10, 10, 15);
+for ($j = 0; $j < count($cols); $j++) {
+  $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
+}
+$header = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
+$fill1 = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    // 'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  ),
+  'borders' => array(
+    'borders' => array(
+      'style' => PHPExcel_Style_Border::BORDER_MEDIUM,
+      'color' => array('rgb' => '000000')
+    )
+  )
+);
+$fill2 = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+  ),
+  'font'  => array(
+    // 'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
+$fill3 = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    // 'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
+$Weight = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    // 'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
+$sum = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
 $styleArray = array(
 
   'borders' => array(
@@ -334,40 +350,56 @@ $styleArray = array(
     )
   )
 );
-$objPHPExcel->getActiveSheet()->getStyle('A8:K' . $start_data)->applyFromArray($styleArray);
-
-
-$CENTER = array(
-  'alignment' => array(
-    'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-  ),
-  'font'  => array(
-    'size'  => 8,
-    'name'  => 'THSarabun'
-  )
-);
-$objPHPExcel->getActiveSheet()->getStyle('A8:K' . $start_data)->applyFromArray($CENTER);
-
-
-$r = array(
+$r3 = array(
   'alignment' => array(
     'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
   ),
   'font'  => array(
     'bold'  => true,
     // 'color' => array('rgb' => 'FF0000'),
-    'size'  => 16,
+    'size'  => 20,
     'name'  => 'THSarabun'
   )
 );
-$objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($r);
-$cols = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K');
-$width = array(20, 20, 8, 8, 8, 8, 8, 8, 8, 8, 20);
-for ($j = 0; $j < count($cols); $j++) {
-  $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
-}
+$date = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
+  ),
+  'font'  => array(
+    'bold'  => true,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 10,
+    'name'  => 'THSarabun'
+  )
+);
+$Hos = array(
+  'alignment' => array(
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+  ),
+  'font'  => array(
+    'bold'  => FALSE,
+    // 'color' => array('rgb' => 'FF0000'),
+    'size'  => 14,
+    'name'  => 'THSarabun'
+  )
+);
 
+
+$objPHPExcel->getActiveSheet()->getStyle("A8:D8")->applyFromArray($header)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);;
+$objPHPExcel->getActiveSheet()->getStyle("A9:A" . $i)->applyFromArray($fill1)->getNumberFormat();
+$objPHPExcel->getActiveSheet()->getStyle("B9:B" . $i)->applyFromArray($fill2)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+$objPHPExcel->getActiveSheet()->getStyle("C9:C" . $i)->applyFromArray($fill3)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("D9:D" . $i)->applyFromArray($Weight)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("D9:D" . $i)->applyFromArray($Weight)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("D" . $row_sum)->applyFromArray($sum)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("A" . $row_sum . ":B" . $row_sum)->applyFromArray($sum)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+$i = $i-2;
+$objPHPExcel->getActiveSheet()->getStyle("A5:D5")->applyFromArray($r3)->getNumberFormat();
+$objPHPExcel->getActiveSheet()->getStyle("A6:D6")->applyFromArray($Hos)->getNumberFormat();
+$objPHPExcel->getActiveSheet()->getStyle("D1")->applyFromArray($date)->getNumberFormat();
+$objPHPExcel->getActiveSheet()->getStyle("D7")->applyFromArray($date)->getNumberFormat();
+$objPHPExcel->getActiveSheet()->getStyle('A8:D' . $i)->applyFromArray($styleArray);
+// $objPHPExcel->getActiveSheet()->getColumnDimension("A:D")->setAutoSize(true);
 $objDrawing = new PHPExcel_Worksheet_Drawing();
 $objDrawing->setName('test_img');
 $objDrawing->setDescription('test_img');
@@ -383,7 +415,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_Tracking_status_for_laundry_plant');
+$objPHPExcel->getActiveSheet()->setTitle('Report_Newwash_xls');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
@@ -393,7 +425,8 @@ $objPHPExcel->setActiveSheetIndex(0);
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
-$file_name = "Report_Tracking_status_for_laundry_plant_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Newwash_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
+$file_name = "Report_Newwash_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
 //
 
 // Save Excel 2007 file
@@ -404,5 +437,5 @@ ob_end_clean();
 header('Content-type: application/vnd.ms-excel');
 // It will be called file.xls
 header('Content-Disposition: attachment;filename="' . $file_name . '.xlsx"');
-$objWriter->sa5ve('php://output');
+$objWriter->save('php://output');
 exit();

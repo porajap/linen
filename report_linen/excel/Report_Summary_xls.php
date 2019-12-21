@@ -366,7 +366,7 @@ if ($itemfromweb == '0') {
       $w++;
       $start_row++;
     }
-
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[0] . $start_row, $DepName);
     $r = 5;
     for ($day = 0; $day < $count; $day++) {
       $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE, 
@@ -458,6 +458,12 @@ if ($itemfromweb == '0') {
     $objDrawing->setWidthAndHeight(150, 75);
     $objDrawing->setResizeProportional(true);
     $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+    $start_row = $start_row - 1;
+    foreach (range('9', $start_row) as $column) {
+      $objPHPExcel->getActiveSheet()->getRowDimension($column)->setOutlineLevel(1);
+      $objPHPExcel->getActiveSheet()->getRowDimension($column)->setVisible(false);
+      $objPHPExcel->getActiveSheet()->getRowDimension($column)->setCollapsed(true);
+    }
     // Rename worksheet
     // $objPHPExcel->getActiveSheet()->setTitle('5');
     $objPHPExcel->getActiveSheet()->setTitle($DepCode[$sheet]);
@@ -522,7 +528,7 @@ if ($itemfromweb <> '0') {
 
   // -----------------------------------------------------------------------------------
   // -----------------------------------------------------------------------------------
- $countDep = sizeof($DepCode);
+  $countDep = sizeof($DepCode);
   $start_row = 9;
   $start_col = 5;
   // -----------------------------------------------------------------------------------
@@ -693,6 +699,12 @@ if ($itemfromweb <> '0') {
   $objDrawing->setWidthAndHeight(150, 75);
   $objDrawing->setResizeProportional(true);
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+  $start_row = $start_row - 1;
+  foreach (range('9', $start_row) as $column) {
+    $objPHPExcel->getActiveSheet()->getRowDimension($column)->setOutlineLevel(1);
+    $objPHPExcel->getActiveSheet()->getRowDimension($column)->setVisible(true);
+    $objPHPExcel->getActiveSheet()->getRowDimension($column)->setCollapsed(true);
+  }
   // Rename worksheet
   // $objPHPExcel->getActiveSheet()->setTitle('5');
   $objPHPExcel->getActiveSheet()->setTitle($iname);
