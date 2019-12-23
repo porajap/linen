@@ -61,6 +61,8 @@
 <AllCatmain><en>All CategoryMain</en><th>ทุกหมวดหมู่หลัก</th></AllCatmain>
 <AllCatsub><en>All CategorySub</en><th>ทุกหมวดหมู่รอง</th></AllCatsub>
 <Allgroup><en>All Group</en><th>ทุกกลุ่ม</th></Allgroup>
+<Alldirty><en>All Round</en><th>ทุกรอบ</th></Alldirty>
+
 <DuplicateItemcode><en>Duplicate Itemcode</en><th>รหัสรายการซ้ำ</th></DuplicateItemcode>
 <perunit><en>Per unit</en><th>ขนาดต่อหน่วย</th></perunit>
 <custom><en>Blank ID</en><th>รหัสเปล่า</th></custom>
@@ -186,6 +188,8 @@
 <dirtydoc><en>Dirty linen document </en><th>เอกสารรับผ้าสกปรก</th></dirtydoc>
 <dirtydoc1><en>Please select Dirty clothes Document</en><th>กรุณาเลือกเอกสารรับผ้าสกปรก</th></dirtydoc1>
 <cleandoc><en>Clean linen document </en><th>เอกสารรับผ้าสะอาด</th></cleandoc>
+<newlinendoc><en>Newlinen document </en><th>เอกสารรับผ้าใหม่</th></newlinendoc>
+
 <totalnum><en>Total number</en><th>จำนวนทั้งหมด</th></totalnum>
 <parsc><en>ParQty</en><th>ParQty</th></parsc>
 <pardep><en>Par</en><th>Par</th></pardep>

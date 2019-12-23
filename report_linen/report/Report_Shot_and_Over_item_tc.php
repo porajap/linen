@@ -27,7 +27,7 @@ $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
 $DepCode = array();
-$DepName=[];
+$DepName = [];
 $old_code = '';
 //--------------------------------------------------------------------------
 $where = '';
@@ -203,14 +203,7 @@ for ($i = 0; $i < $Count_Dep; $i++) {
   $Sql = "SELECT 
 department.DepCode, department.DepName 
 FROM department 
-INNER JOIN shelfcount ON department.DepCode = shelfcount.DepCode 
-INNER JOIN shelfcount_detail ON shelfcount_detail.DocNo = shelfcount.DocNo 
-$where 
-AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
-AND shelfcount.isStatus <> 9
-AND shelfcount.isStatus <> 0
-AND department.HptCode = '$HptCode'
-AND department.DepCode = '$DepCode[$i]'
+WHERE department.DepCode = '$DepCode[$i]'
 GROUP BY department.DepCode
  ";
   $meQuery = mysqli_query($conn, $Sql);
@@ -224,7 +217,7 @@ GROUP BY department.DepCode
 $pdf->AddPage();
 $pdf->SetFont('thsarabunnew', 'b', 18);
 $pdf->Ln(10);
-$pdf->Cell(0, 10,  $array2['r7'][$language], 0, 0, 'C');
+$pdf->Cell(0, 10,  $array2['r7']['en'] ,0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 12);
 $pdf->Cell(ุ0, 5,  $date_header, 0, 1, 'R');

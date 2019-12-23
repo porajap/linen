@@ -279,6 +279,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $objPHPExcel->getActiveSheet()->setCellValue('A5', $Result["DepName"]);
     $DepName = $Result["DepName"];
+    $DepName = str_replace("/", " ", $DepName);
   }
   // -----------------------------------------------------------------------------------
   $item = "SELECT
@@ -393,7 +394,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   AND shelfcount.isStatus <> 9
   AND shelfcount.DepCode = '$DepCode[$sheet]'  
           AND   time_sc.TimeName <>'Extra'
-AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
+ AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
 
   ";
     $meQuery = mysqli_query($conn, $data);
@@ -484,7 +485,7 @@ AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
   $objDrawing->setResizeProportional(true);
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
   // Rename worksheet
-  $objPHPExcel->getActiveSheet()->setTitle($DepCode[$sheet]);
+  $objPHPExcel->getActiveSheet()->setTitle($DepName);
   $objPHPExcel->createSheet();
   $itemName = [];
   $itemCode = [];

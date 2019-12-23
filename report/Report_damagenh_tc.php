@@ -242,7 +242,7 @@ $pdf->writeHTML($html, true, false, false, false, '');
 
 //Close and output PDF document
 $ddate = date('d_m_Y');
-$pdf->Output('Report_Dirty_Linen_Weight' . $date . '.pdf', 'I');
+$pdf->Output('Report_Damage_NH_' . $date . '.pdf', 'I');
 
 //============================================================+
 // END OF FILE

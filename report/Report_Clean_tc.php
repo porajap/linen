@@ -409,7 +409,7 @@ if ($Ddirty <> null ||  $Dnewlinentable <> null) {
 
   if ($Dnewlinentable[0] <> null && $Dnewlinentable[0] <> '' ) {
     $pdf->Cell(40, 5,  '', 0, 0, 'C');
-    $pdf->Cell(50, 6 * $count_docno,  $array2['docclean'][$language], 1, 0, 'C');
+    $pdf->Cell(50, 6 * $count_docno,  $array2['newlinendoc'][$language], 1, 0, 'C');
     for ($i = 0; $i < $count_docno; $i++) {
       if ($i > 0) {
         $pdf->Cell(40, 5,  '', 0, 0, 'C');
@@ -431,7 +431,7 @@ if ($Ddirty <> null ||  $Dnewlinentable <> null) {
 
 //Close and output PDF document
 $ddate = date('d_m_Y');
-$pdf->Output('Report_Dirty_Linen_Weight' . $date . '.pdf', 'I');
+$pdf->Output('Report_Clean_' . $date . '.pdf', 'I');
 
 //============================================================+
 // END OF FILE
