@@ -322,7 +322,6 @@ $query = "  SELECT
               AND clean.FacCode = '$FacCode'
               GROUP BY clean_detail.ItemCode,clean_detail.RequestName
             ";
-echo $query;
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   if ($Result['RequestName'] <> null) {

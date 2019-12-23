@@ -116,6 +116,7 @@
 <sign><en>Sign</en><th>ลงชื่อ</th></sign>
 <docclean><en>Doc Clean No</en><th>เลขที่เอกสารสะอาด</th></docclean>
 <docdirty><en>Doc Dirty No</en><th>เลขที่เอกสารสกปรก</th></docdirty>
+<newlinendoc><en>Doc Newlinen No</en><th>เลขที่เอกสารผ้าใหม่</th></newlinendoc>
 <packing><en>Packing</en><th>เจ้าหน้าที่แพ็คของ</th></packing>
 <passenger><en>Passenger</en><th>เจ้าหน้าที่ส่งของ</th></passenger>
 <receiver><en>Receiver</en><th>เจ้าหน้าที่รับของ</th></receiver>

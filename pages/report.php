@@ -961,7 +961,7 @@ $array2 = json_decode($json2, TRUE);
 							$("#item").append(item);
 
 
-							var time_dirty_Value0 = '-';
+							var time_dirty_Value0 = '<?php echo $array['Alldirty'][$language]; ?>';
 							var time_dirty = "<option value='0'>" + time_dirty_Value0 + "</option>";
 							for (var i = 0; i < temp['count_time_dirty']; i++) {
 								time_dirty += "<option value=" + temp[i]['id'] + ">" + temp[i]['TimeName'] + "</option>";
@@ -1204,7 +1204,7 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
 									"<td class='text-center pl-4' style='width:20%'>" + temp[i]['DepName'] + "</td>" +
 									"<td class='text-center pl-4' style='width:15%'>" + temp[i]['DocNo'] + "</td>" +
-									"<td class='text-center' style='width:20%'>" + show_date + "</td>" +
+									"<td class='text-center' style='width:20%'>" + temp[i]['DocDate'] + "</td>" +
 									"<td class='text-center text-center' style='width:7.5%'><button onclick='send_data2(\"" + temp['url'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'; width : 10 px ;><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
 									"<td class='text-center text-center' style='width:7.5%'><button onclick='send_data2(\"" + temp['urlxls'] + "?Docno=" + temp[i]['DocNo'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px; width : 10 px ;'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>" +
 									"</tr>";
@@ -2236,8 +2236,8 @@ $array2 = json_decode($json2, TRUE);
 										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
 										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['facname'][$language]; ?></th>
 										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['docno'][$language]; ?></th>
-										<th style='width: 22%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
-										<th style='width: 13%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
 									</tr>
 								</thead>
 								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">

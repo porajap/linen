@@ -334,7 +334,7 @@ $pdf->Cell(36, 7,   number_format($totalsum, 2), 1, 0, 'C');
 
 //Close and output PDF document
 $ddate = date('d_m_Y');
-$pdf->Output('Report_Dirty_Linen_Weight' . $date . '.pdf', 'I');
+$pdf->Output('Report_Newwash_' . $date . '.pdf', 'I');
 
 //============================================================+
 // END OF FILE

@@ -973,7 +973,6 @@ function r1($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $time_
   } else {
     $time_dirty_value = $time_dirty;
     $time_dirty = " AND time_dirty.ID  = '$time_dirty'";
-
   }
   if ($Format == 1) {
     if ($chk == 'one') {
@@ -1444,6 +1443,13 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['DocNo'] = $Result['DocNo'];
     $return[$count]['DepName'] = $Result['DepName'];
+    list($y, $m, $d) = explode("-", $Result['DocDate']);
+    if ($_SESSION['lang'] == 'th') {
+      $y = $y + 543;
+      $Result['DocDate'] = $d . '-' . $m . '-' . $y;
+    } else {
+      $Result['DocDate'] = $d . '-' . $m . '-' . $y;
+    }
     $return[$count]['DocDate'] = $Result['DocDate'];
     $count++;
     $boolean = true;

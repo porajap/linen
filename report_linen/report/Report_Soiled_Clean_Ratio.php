@@ -361,7 +361,6 @@ if ($chk == 'one') {
       (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
       COALESCE(repair_wash.DocDate,0) AS DocDate
       FROM  repair_wash
-       
       WHERE DATE (repair_wash.Docdate) = '$date[$i]'
       AND repair_wash.FacCode = '$FacCode' AND repair_wash.HptCode= '$HptCode'
       AND repair_wash.isStatus<>9
@@ -558,12 +557,12 @@ if ($chk == 'one') {
       if ($dirty <> 0 ||  $repair_wash <> 0 || $newlinen <> 0 || $clean <> 0 ||  $clean_repair_wash <> 0 ||  $clean_newlinen <> 0) {
 
         list($day, $month, $year) = explode('-', $dateshow[$i]);
-          if ($language == 'th') {
-            $year = $year + 543;
-            $datesh = $day . "-" . $month . "-" . $year;
-          } else {
-            $datesh = $day . "-" . $month . "-" . $year;
-          }
+        if ($language == 'th') {
+          $year = $year + 543;
+          $datesh = $day . "-" . $month . "-" . $year;
+        } else {
+          $datesh = $day . "-" . $month . "-" . $year;
+        }
         $pdf->SetFont('THSarabun', '', 14);
         $total1 = $dirty + $repair_wash + $newlinen;
         $total2 = $clean + $clean_repair_wash + $clean_newlinen;
