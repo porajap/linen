@@ -475,11 +475,10 @@ if ($itemfromweb <> '0') {
   $DepCode = [];
   $Sql = "  SELECT   department.DepName ,department.DepCode
                FROM
-               shelfcount  
-              INNER JOIN department ON department.DepCode = shelfcount.DepCode  
-              INNER JOIN shelfcount_detail ON shelfcount_detail.DocNo = shelfcount.DocNo    
+               shelfcount_detail  
+              INNER JOIN department ON department.DepCode = shelfcount_detail.DepCode  
               $where
-              AND shelfcount.isStatus <> 9
+              AND shelfcount_detail.isStatus <> 9
               AND shelfcount_detail.itemCode = '$itemfromweb'
               GROUP BY department.DepCode ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
@@ -537,20 +536,18 @@ if ($itemfromweb <> '0') {
   for ($i = 0; $i < $countDep; $i++) {
     $item = "SELECT
       shelfcount_detail.ParQty AS  ParQty,
-      item.Weight AS Weight ,
+      shelfcount_detail.WeightPerQty AS Weight ,
       category_price.Price AS Price,
       department.DepName AS DepName,
-      item.itemname AS itemname 
+      shelfcount_detail.itemname AS itemname 
       FROM
       shelfcount_detail
-      INNER JOIN  shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo 
-      INNER JOIN  item ON item.itemcode = shelfcount_detail.itemcode 
-      INNER JOIN department ON department.DepCode = shelfcount.DepCode  
-      LEFT JOIN  category_price ON category_price.CategoryCode = item.CategoryCode
+      INNER JOIN department ON department.DepCode = shelfcount_detail.DepCode  
+      LEFT JOIN  category_price ON category_price.CategoryCode = shelfcount_detail.CategoryCode
                       WHERE
                       shelfcount_detail.itemcode = '$itemfromweb'
-                      AND shelfcount.DepCode = '$DepCode[$i]'
-                      AND shelfcount.isStatus <> 9
+                      AND shelfcount_detail.DepCode = '$DepCode[$i]'
+                      AND shelfcount_detail.isStatus <> 9
                       GROUP BY  shelfcount_detail.itemcode 
                       ";
     // echo "<pre>";
@@ -576,11 +573,10 @@ if ($itemfromweb <> '0') {
     for ($day = 0; $day < $count; $day++) {
       $data = "SELECT  COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE, 
       COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-      FROM shelfcount 
-      INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-      WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-      AND shelfcount.isStatus <> 9
-      AND shelfcount.DepCode = '$DepCode[$q]'  
+      FROM shelfcount_detail 
+      WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+      AND shelfcount_detail.isStatus <> 9
+      AND shelfcount_detail.DepCode = '$DepCode[$q]'  
       AND shelfcount_detail.itemcode = '$itemfromweb'  ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -605,10 +601,9 @@ if ($itemfromweb <> '0') {
   for ($day = 0; $day < $count; $day++) {
     $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE, 
     COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-    FROM shelfcount 
-    INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-    WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-    AND shelfcount.isStatus <> 9
+    FROM shelfcount_detail 
+    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+    AND shelfcount_detail.isStatus <> 9
     AND shelfcount_detail.itemcode = '$itemfromweb'
     ";
     $meQuery = mysqli_query($conn, $data);

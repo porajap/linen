@@ -55,7 +55,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (shelfcount_detail.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -65,7 +65,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (shelfcount_detail.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -74,7 +74,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE shelfcount_detail.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -88,7 +88,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
+  $where =   "WHERE month (shelfcount_detail.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -96,7 +96,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE DATE(shelfcount_detail.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -348,12 +348,11 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     for ($day = 0; $day < $count; $day++) {
       $data = "SELECT COALESCE(SUM(shelfcount_detail.Weight),'0') AS aWeight , 
                     COALESCE(SUM(shelfcount_detail.Price ),'0') AS aPrice 
-                    FROM shelfcount 
-                    INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
-                    INNER JOIN department ON department.DepCode = shelfcount.DepCode
+                    FROM shelfcount_detail 
+                    INNER JOIN department ON department.DepCode = shelfcount_detail.DepCode
                     INNER JOIN site ON site.HptCode = department.HptCode
-                    WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  AND shelfcount.isStatus <> 9
-                    AND shelfcount.DepCode = '$DepCode[$lek]'
+                    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  AND shelfcount_detail.isStatus <> 9
+                    AND shelfcount_detail.DepCode = '$DepCode[$lek]'
                     AND site.HptCode = '$HptCode' ";
                     
       $meQuery = mysqli_query($conn, $data);
@@ -386,14 +385,13 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                 COALESCE(SUM(shelfcount_detail.Weight),'0') AS aWeight,
                 COALESCE(SUM(shelfcount_detail.Price),'0') AS aPrice
                 FROM
-                shelfcount
-                INNER JOIN department ON shelfcount.DepCode = department.DepCode
-                INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
+                shelfcount_detail
+                INNER JOIN department ON shelfcount_detail.DepCode = department.DepCode
                 INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
                 INNER JOIN site ON site.HptCode = department.HptCode
                 WHERE
-                DATE(shelfcount.DocDate) = '$date[$day]'
-                AND shelfcount.isStatus <> 9
+                DATE(shelfcount_detail.DocDate) = '$date[$day]'
+                AND shelfcount_detail.isStatus <> 9
                 AND grouphpt.HptCode = '$HptCode'
                 AND site.HptCode = '$HptCode'
                 AND grouphpt.GroupCode = '$GroupCode[$sheet]'

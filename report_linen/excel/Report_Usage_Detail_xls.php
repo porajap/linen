@@ -72,7 +72,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (shelfcount_detail.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -82,7 +82,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (shelfcount_detail.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -91,7 +91,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE shelfcount_detail.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -105,7 +105,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
+  $where =   "WHERE month (shelfcount_detail.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -113,7 +113,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE DATE(shelfcount_detail.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -286,19 +286,16 @@ if ($itemfromweb == '0') {
     }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
-  item.itemname,
-  item.itemcode
+  shelfcount_detail.itemname,
+  shelfcount_detail.itemcode
   FROM
   shelfcount_detail
-  INNER JOIN item ON item.itemcode = shelfcount_detail.itemcode
-  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
-  INNER JOIN department ON shelfcount.DepCode = department.DepCode
   WHERE
-  shelfcount.isStatus <> 9
-  AND shelfcount.DepCode = '$DepCode[$sheet]'
+  shelfcount_detail.isStatus <> 9
+  AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
   AND shelfcount_detail.TotalQty <> 0 
-  GROUP BY  item.itemcode
-  ORDER BY  item.itemname ";
+  GROUP BY  shelfcount_detail.itemcode
+  ORDER BY  shelfcount_detail.itemname ";
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $itemName[] =  $Result["itemname"];
@@ -363,11 +360,10 @@ if ($itemfromweb == '0') {
         $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
    COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
    COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-    FROM shelfcount 
-    INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-    WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-    AND shelfcount.isStatus <> 9
-    AND shelfcount.DepCode = '$DepCode[$sheet]'  
+    FROM shelfcount_detail 
+    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+    AND shelfcount_detail.isStatus <> 9
+    AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
     AND shelfcount_detail.itemcode = '$itemCode[$q]' 
     AND shelfcount_detail.TotalQty <> 0 ";
         $meQuery = mysqli_query($conn, $data);
@@ -400,11 +396,10 @@ if ($itemfromweb == '0') {
       $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
  COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
  COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-  FROM shelfcount 
-  INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-  WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-  AND shelfcount.isStatus <> 9
-  AND shelfcount.DepCode = '$DepCode[$sheet]'  
+  FROM shelfcount_detail 
+  WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+  AND shelfcount_detail.isStatus <> 9
+  AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
   AND shelfcount_detail.TotalQty <> 0
   ";
       $meQuery = mysqli_query($conn, $data);
@@ -545,10 +540,9 @@ if ($itemfromweb <> '0') {
   department.DepCode
   FROM
   shelfcount_detail
-  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
-  INNER JOIN department ON shelfcount.DepCode = department.DepCode
+  INNER JOIN department ON shelfcount_detail.DepCode = department.DepCode
   WHERE
-  shelfcount.isStatus <> 9
+  shelfcount_detail.isStatus <> 9
   AND shelfcount_detail.itemCode = '$itemfromweb'
   GROUP BY   department.DepCode
   ORDER BY  department.DepName ";
@@ -619,11 +613,10 @@ if ($itemfromweb <> '0') {
         $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
    COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
    COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-    FROM shelfcount 
-    INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-    WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-    AND shelfcount.isStatus <> 9
-    AND shelfcount.DepCode = '$DepCode[$q]'  
+    FROM shelfcount_detail 
+    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+    AND shelfcount_detail.isStatus <> 9
+    AND shelfcount_detail.DepCode = '$DepCode[$q]'  
     AND shelfcount_detail.itemcode = '$itemfromweb' 
     AND shelfcount_detail.TotalQty <> 0 ";
         $meQuery = mysqli_query($conn, $data);
@@ -656,10 +649,9 @@ if ($itemfromweb <> '0') {
       $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
  COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
  COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-  FROM shelfcount 
-  INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-  WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-  AND shelfcount.isStatus <> 9
+  FROM shelfcount_detail 
+  WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+  AND shelfcount_detail.isStatus <> 9
   AND shelfcount_detail.itemcode = '$itemfromweb' 
   AND shelfcount_detail.TotalQty <> 0
   ";
