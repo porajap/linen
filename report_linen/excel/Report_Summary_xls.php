@@ -64,7 +64,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (shelfcount_detail.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -74,7 +74,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (shelfcount_detail.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -83,7 +83,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE shelfcount_detail.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -97,7 +97,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
+  $where =   "WHERE month (shelfcount_detail.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -105,7 +105,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE DATE(shelfcount_detail.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -235,6 +235,15 @@ if ($chk == 'one') {
     $day++;
   }
 }
+$date_cell1 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+$date_cell2 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+$round_AZ1 = sizeof($date_cell1);
+$round_AZ2 = sizeof($date_cell2);
+for ($a = 0; $a < $round_AZ1; $a++) {
+  for ($b = 0; $b < $round_AZ2; $b++) {
+    array_push($date_cell1, $date_cell1[$a] . $date_cell2[$b]);
+  }
+}
 if ($itemfromweb == '0') {
   $sheet_count = sizeof($DepCode);
   for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
@@ -245,15 +254,7 @@ if ($itemfromweb == '0') {
       ->setCellValue('D8',  'ItemWeight')
       ->setCellValue('E8',  'Price');
     // -----------------------------------------------------------------------------------
-    $date_cell1 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-    $date_cell2 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-    $round_AZ1 = sizeof($date_cell1);
-    $round_AZ2 = sizeof($date_cell2);
-    for ($a = 0; $a < $round_AZ1; $a++) {
-      for ($b = 0; $b < $round_AZ2; $b++) {
-        array_push($date_cell1, $date_cell1[$a] . $date_cell2[$b]);
-      }
-    }
+
     // -----------------------------------------------------------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
     $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r29'][$language]);
@@ -270,8 +271,7 @@ if ($itemfromweb == '0') {
     FROM
     department
     WHERE
-    department.DepCode = '$DepCode[$sheet]'
-              ";
+    department.DepCode = '$DepCode[$sheet]'  ";
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["DepName"]);
@@ -279,19 +279,16 @@ if ($itemfromweb == '0') {
     }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
-    item.itemname,
-    item.itemcode
+    shelfcount_detail.itemname,
+    shelfcount_detail.itemcode
     FROM
     shelfcount_detail
-    INNER JOIN item ON item.itemcode = shelfcount_detail.itemcode
-    INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
-    WHERE
-      shelfcount.isStatus <> 9
-      AND shelfcount.isStatus <> 0
-      AND shelfcount.DepCode = '$DepCode[$sheet]'
+    $where
+      AND shelfcount_detail.isStatus <> 9
+      AND shelfcount_detail.isStatus <> 0
+      AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
       AND shelfcount_detail.TotalQty <> 0
-      GROUP BY  item.itemcode ORDER BY item.ItemName ASC
-                ";
+      GROUP BY  shelfcount_detail.itemcode ORDER BY shelfcount_detail.ItemName ASC ";
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $itemName[] =  $Result["itemname"];
@@ -314,17 +311,15 @@ if ($itemfromweb == '0') {
     for ($i = 0; $i < $countitem; $i++) {
       $item = "SELECT
       shelfcount_detail.ParQty AS  ParQty,
-      item.Weight AS Weight ,
+      shelfcount_detail.WeightPerQty AS Weight,
       category_price.Price AS Price
       FROM
       shelfcount_detail
-      INNER JOIN  shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo 
-      INNER JOIN  item ON item.itemcode = shelfcount_detail.itemcode 
-      LEFT JOIN  category_price ON category_price.CategoryCode = item.CategoryCode
-                      WHERE
-                      shelfcount_detail.itemcode = '$itemCode[$i]'
-                      AND shelfcount.DepCode = '$DepCode[$sheet]'
-                      GROUP BY  shelfcount_detail.itemcode  ";
+      LEFT JOIN category_price ON category_price.CategoryCode = shelfcount_detail.CategoryCode
+      $where
+      AND shelfcount_detail.itemcode = '$itemCode[$i]'
+      AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
+      GROUP BY  shelfcount_detail.itemcode  ";
 
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -344,10 +339,9 @@ if ($itemfromweb == '0') {
       for ($day = 0; $day < $count; $day++) {
         $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
        COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-      FROM shelfcount 
-      INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-      WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-      AND shelfcount.DepCode = '$DepCode[$sheet]'  
+      FROM shelfcount_detail 
+      WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+      AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
       AND shelfcount_detail.itemcode = '$itemCode[$q]'  ";
         $meQuery = mysqli_query($conn, $data);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -371,10 +365,9 @@ if ($itemfromweb == '0') {
     for ($day = 0; $day < $count; $day++) {
       $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE, 
                       COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-                      FROM shelfcount 
-              INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-              WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-              AND shelfcount.DepCode = '$DepCode[$sheet]'  
+                      FROM shelfcount_detail 
+              WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+              AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
     ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
