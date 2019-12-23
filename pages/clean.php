@@ -84,6 +84,64 @@ var summary = [];
 var xItemcode;
 var RowCnt=0;
 
+(function ($) {
+            $(document).ready(function () {
+                $("#datepickerRef1").datepicker({
+                    onSelect: function (date, el) {
+                      var lang = '<?php echo $language; ?>';
+                      var datepicker1 = $('#datepickerRef1').val();
+                      var datepicker2 = $('#datepickerRef2').val();
+                      if(lang =='th'){
+                          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+                          datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+                          }else if(lang =='en'){
+                          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+                          datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+                          }
+                      var chk1 = new Date(datepicker1);
+                      var chk2 = new Date(datepicker2);
+                      if(chk1>chk2){
+                        swal({
+                          title: "",
+                          text: "<?php echo $array['invalid'][$language]; ?>",
+                          type: "warning",
+                          showConfirmButton: false,
+                          showCancelButton: false,
+                          timer:2000
+                        });
+                        $('#datepickerRef1').val('');
+                      }
+                    }
+                });
+                $("#datepickerRef2").datepicker({
+                    onSelect: function (date, el) {
+                      var lang = '<?php echo $language; ?>';
+                      var datepicker1 = $('#datepickerRef1').val();
+                      var datepicker2 = $('#datepickerRef2').val();
+                      if(lang =='th'){
+                          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+                          datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+                          }else if(lang =='en'){
+                          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+                          datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+                          }
+                      var chk1 = new Date(datepicker1);
+                      var chk2 = new Date(datepicker2);
+                      if(chk2<chk1){
+                        swal({
+                          title: "",
+                          text: "<?php echo $array['invalid'][$language]; ?>",
+                          type: "warning",
+                          showConfirmButton: false,
+                          showCancelButton: false,
+                          timer:2000
+                        });
+                        $('#datepickerRef2').val('');
+                      }
+                    }
+                });
+            });
+        })(jQuery);
 $(document).ready(function(e){
   $('.numonly').on('input', function() {
     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
@@ -399,22 +457,28 @@ $(document).ready(function(e){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
-        var datepicker = $('#datepicker').val();
+        var datepicker1 = $('#datepickerRef1').val();
+        var datepicker2 = $('#datepickerRef2').val();
         var lang = '<?php echo $language; ?>';
         if(lang =='th'){
-        datepicker = datepicker.substring(6, 10)-543+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	        datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
         }else if(lang =='en'){
-          datepicker = datepicker.substring(6, 10)+"-"+datepicker.substring(3, 5)+"-"+datepicker.substring(0, 2);
+          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	        datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);        }
+        if(datepicker1=="-543--"||datepicker1=="--"){
+          datepicker1 = "";
         }
-        if(datepicker=="-543--"||datepicker=="--"){
-          datepicker = "";
+        if(datepicker2=="-543--"||datepicker2=="--"){
+          datepicker2 = "";
         }
         var data = {
           'STATUS' : 'get_dirty_doc',
           'DocNo'  : docno,
           'hptcode'  : hptcode,
           'searchitem1'  : searchitem1,
-          'datepicker'  : datepicker
+          'datepicker1'  : datepicker1,
+          'datepicker2'  : datepicker2
         };
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
@@ -632,7 +696,6 @@ $(document).ready(function(e){
         var deptCode = $('#department option:selected').attr("value");
 
         // alert("xrow : "+xrow);
-
         $('#TableDetail tbody').empty();
         var data = {
           'STATUS'  		: 'getImport',
@@ -1104,27 +1167,83 @@ $(document).ready(function(e){
       function UpdateRefDocNo(){
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
-        var RefDocNo;
+        var deptCode = $('#Dep2 option:selected').attr("value");
+        var RefDocNoArray           = [];
+        var FacCodeArray              = [];
+        var chk = 0;
+        var chkref = 0;
         //get value from radio button
         $("#checkitemDirty:checked").each(function() {
-          RefDocNo = $(this).val();
+          RefDocNoArray.push($(this).val());
+          FacCodeArray.push($(this).data('fac'));
         });
 
-        var deptCode = $('#Dep2 option:selected').attr("value");
+        var ref = RefDocNoArray[0].substr(0,2);
+
+        var FacCode = FacCodeArray[0];
+        for (var j = 0; j < FacCodeArray.length; j++) {
+            if(FacCode !=FacCodeArray[j]){
+                chk = 1;
+         }
+
+        var ref2 = RefDocNoArray[j].substr(0,2);
+         if(ref2 != ref){
+            chkref = 1;
+         }
+      }
+        if(chk == 1 && chkref != 1){
+        swal({
+            title: " ",
+            text:  " <?php echo $array['facerror'][$language]; ?>",
+            type: "warning",
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1000,
+            closeOnConfirm: false
+          });     
+          $(".chkbox").prop('checked', false);
+          chk = 0;
+      } else if(chk != 1 && chkref == 1){
+        swal({
+            title: " ",
+            text:  " <?php echo $array['referror'][$language]; ?>",
+            type: "warning",
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1000,
+            closeOnConfirm: false
+          });     
+          $(".chkbox").prop('checked', false);
+          chkref = 0;
+      } else if(chk == 1 && chkref == 1){
+        swal({
+            title: " ",
+            text:  " <?php echo $array['ref_and_fac_error'][$language]; ?>",
+            type: "warning",
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1000,
+            closeOnConfirm: false
+          });     
+          $(".chkbox").prop('checked', false);
+          chk = 0;
+          chkref = 0;
+      }else{
         var data = {
           'STATUS'      : 'UpdateRefDocNo',
           'xdocno'      : docno,
-          'RefDocNo'    : RefDocNo,
+          'RefDocNoArray'    : RefDocNoArray,
           'selecta'     : 0,
           'deptCode'	  : deptCode,
-          'hptcode'   : hptcode
-
+          'hptcode'   : hptcode,
+          'FacCode'   : FacCode
         };
         $('#dialogRefDocNo').modal('toggle')
         senddata(JSON.stringify(data));
+      }
         // dialogRefDocNo.dialog( "close" );
 
-      }
+    }
 
       function logoff() {
         swal({
@@ -1262,8 +1381,9 @@ $(document).ready(function(e){
                 }, 500);
                 $( "#TableDocument tbody" ).empty();
                 $( "#TableItemDetail tbody" ).empty();
+                var st1 = "style='font-size:24px;margin-left:3px;width:203px;'";
                 if(temp['Count']>0){
-                for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+                for (var i = 0; i <temp['Count']; i++) {
                   var rowCount = $('#TableDocument >tbody >tr').length;
                   var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
                   var Status = "";
@@ -1279,15 +1399,25 @@ $(document).ready(function(e){
                     Style  = "style='width: 10%;color: #ff0000;'";
                   }
 
+                    
+                  var chkref ="<div class='row' style='margin:auto;'><select "+st1+" class='form-control' ></div>";
+
+                      for(var j = 0; j < temp['Cnt_'+temp[i]['DocNo']][i]; j++){
+
+                        chkref += "<option value=' '>"+temp['RefDocNo_'+temp[i]['DocNo']+'_'+i][j]+"</option>";
+                      }
+                      chkref += "</select>";
+
+                    
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                     "<td style='width: 9%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 13%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                    "<td style='width: 13%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
-                    "<td style='width: 13%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
-                    "<td style='width: 8%; overflow: hidden; text-overflow: ellipsis;' nowrap >"+temp[i]['RecNow']+"</td>"+
-                    "<td style='width: 6%;' nowrap>"+temp[i]['Total']+"</td>"+
-                    "<td style='width: 17%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
+                    "<td style='width: 11%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                    "<td style='width: 16%;' nowrap>"+chkref+"</td>"+
+                    "<td style='width: 14%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['Record']+"'>"+temp[i]['Record']+"</td>"+
+                    "<td style='width: 9%; overflow: hidden; text-overflow: ellipsis;' nowrap >"+temp[i]['RecNow']+"</td>"+
+                    "<td style='width: 9%;' nowrap>"+temp[i]['Total']+"</td>"+
+                    "<td style='width: 12%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
                   "</tr>";
 
@@ -1315,6 +1445,18 @@ $(document).ready(function(e){
                           Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                       }
                       $("#factory1").html(Str);
+
+                $("#RefDocNo").empty();                        
+                  for (var i = 0; i < temp["Rowxx"]; i++) {
+                    var Str  = "<option value='0'>"+temp[i]['RefDocNo']+"</option>";
+                    $("#RefDocNo").append(Str);
+                  } 
+                  if(temp["Rowxx"] != 0){
+                  $("#RefDocNo").attr('disabled' , false);
+                  $("#RefDocNo").removeClass('icon_select');
+                }else{
+                  $("#RefDocNo").attr('disabled' , true);
+                }                
                 $('#bCreate').attr('disabled', true);
                 $('#hover1').removeClass('mhee');
                 $('#bCreate2').addClass('opacity');
@@ -1330,7 +1472,6 @@ $(document).ready(function(e){
                 $("#timerec").val(temp[0]['RecNow']);
                 $("#wTotal").val(temp[0]['Total']);
                 $("#IsStatus").val(temp[0]['IsStatus']);
-                $("#RefDocNo").val(temp[0]['RefDocNo']);
 
                 if(temp[0]['FacCode2'] ==0){
                   $("#factory1").attr('disabled' , false);
@@ -1421,11 +1562,7 @@ $(document).ready(function(e){
 
                   $('#unit'+i).prop('disabled', true);
                 }
-                if(temp[0]['RefDocNo'] != ''){
-                  $("#RefDocNo").attr('disabled' , true);
-                }else{
-                  $("#RefDocNo").attr('disabled' , false);
-                }                
+
                 ShowDetail();
               }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
                 $( "#TableItemDetail tbody" ).empty();
@@ -1602,7 +1739,7 @@ $(document).ready(function(e){
                 $( "#TableRefDocNo tbody" ).empty();
                 for (var i = 0; i < temp["Row"]; i++) {
                   var rowCount = $('#TableRefDocNo >tbody >tr').length;
-                  var chkDoc = "<input type='radio'  onclick='disRef()' name='checkitem' id='checkitemDirty' value='"+temp[i]['RefDocNo']+"'><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
+                  var chkDoc = "<input type='checkbox' class='chkbox'  onclick='disRef()' name='checkitem' id='checkitemDirty'  value='"+temp[i]['RefDocNo']+"'  data-fac='"+temp[i]['FacCode']+"' ><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
                   $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
@@ -1617,7 +1754,7 @@ $(document).ready(function(e){
                 }
                 }else{
                     $( "#TableRefDocNo tbody" ).empty();
-                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                    var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                     $('#TableRefDocNo tbody:last-child').append(Str);
                         }
               }else if(temp['form']=="UpdateDetailWeight"){
@@ -1625,12 +1762,17 @@ $(document).ready(function(e){
 
               }else if(temp['form']=="UpdateRefDocNo"){
                   $('#factory1').val(temp['FacCode']);
-                  $('#RefDocNo').attr('disabled' , true);
-                  $('#RefDocNo').val(temp['DocNoxx']);
-                  if(temp['DocNox'] == null){
+                  $('#RefDocNo').removeClass('icon_select');
+
+                  $("#RefDocNo").empty();                        
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    var Str  = "<option value='0'>"+temp[i]['RefDocNo']+"</option>";
+                    $("#RefDocNo").append(Str);
+                  }
+
+                  if(temp['FacCode'] != null){
                       OpenDialogItem();
                   }
-                        ShowDetail();
               }else if(temp['form']=="savefactory"){
                   $('#factory1').val(temp['FacCode']);
                   $('#factory1').attr('disabled' , true);
@@ -2042,7 +2184,7 @@ $(document).ready(function(e){
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['refdocno'][$language]; ?></label>
-                                      <input class="form-control col-sm-7 " style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' placeholder="<?php echo $array['refdocno'][$language]; ?>" onclick="open_dirty_doc()">
+                                      <select class="form-control col-sm-7 icon_select " style="font-size:22px;" disabled="true" autocomplete="off" id='RefDocNo' > </select>
                                       <label id="rem1" hidden class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
@@ -2253,13 +2395,13 @@ $(document).ready(function(e){
                                 <tr role="row">
                                   <th style='width: 10%;' nowrap>&nbsp;</th>
                                   <th style='width: 9%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                  <th style='width: 13%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
-                                  <th style='width: 13%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
-                                  <th style='width: 13%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
-                                  <th style='width: 8%;'  nowrap><?php echo $array['time'][$language]; ?></th>
-                                  <th style='width: 6%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
-                                  <th style='width: 18%;'  nowrap><?php echo $array['factory'][$language]; ?></th>
-                                  <th style='width: 10%;'  nowrap><?php echo $array['status'][$language]; ?></th>
+                                  <th style='width: 11%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                                  <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th>
+                                  <th style='width: 14%;padding-left: 1%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
+                                  <th style='width: 9%;'  nowrap><?php echo $array['time'][$language]; ?></th>
+                                  <th style='width: 9%;'  nowrap><?php echo $array['weight'][$language]; ?></th>
+                                  <th style='width: 12%;'  nowrap><?php echo $array['factory'][$language]; ?></th>
+                                  <th style='width: 11%;'  nowrap><?php echo $array['status'][$language]; ?></th>
                                 </tr>
                               </thead>
                               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:400px;">
@@ -2364,8 +2506,8 @@ $(document).ready(function(e){
               <div class='form-group row'>
                 <!-- <label class="col-sm-4 col-form-label text-right pr-5" style="margin-left: -6%;"><?php echo $array['serchref'][$language]; ?></label> -->
                 <input type="text" class="form-control col-sm-4" style="margin-left: 3%;font-size: 20px;" name="searchitem1" id="searchitem1" placeholder="<?php echo $array['serchref'][$language]; ?>" >
-                <input type="text" class="form-control col-sm-3 datepicker-here" style="margin-left: 1%;font-size: 20px;" name="searchitem1" id="datepicker" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
-                <input type="text" class="form-control col-sm-3 datepicker-here" style="margin-left: 1%;font-size: 20px;" name="searchitem1" id="datepicker" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-3 datepicker-here" autocomplete="off" style="margin-left: 1%;font-size: 20px;" id="datepickerRef1" name="searchitem1" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-3 datepicker-here" autocomplete="off" style="margin-left: 1%;font-size: 20px;" id="datepickerRef2" name="searchitem2" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>" >
               </div>
             </div>
             <div class="search_custom col-md-2" style="margin-left: -8%;">

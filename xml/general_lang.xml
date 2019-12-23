@@ -111,6 +111,9 @@
 <side><en>Hospital</en><th>โรงพยาบาล</th></side>
 <sidex><en>Hospital</en><th>โรงพยาบาล</th></sidex>
 <invalid><en>Invalid date</en><th>เลือกวันที่ไม่ถูกต้อง</th></invalid>
+<facerror><en>Factory error</en><th>โรงซักไม่ถูกต้อง</th></facerror>
+<referror><en>Reference error</en><th>อ้างอิงเอกสารไม่ถูกต้อง</th></referror>
+<ref_and_fac_error><en>Reference and  Factory error</en><th>การอ้างอิงเอกสาร และ โรงซัก ไม่ถูกต้อง</th></ref_and_fac_error>
 <confac><en>Factory Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงซัก</th></confac>
 <conhos><en>Hospital Expired Date </en><th>กำหนดเวลาหมดสัญญาโรงโรงพยาบาล</th></conhos>
 <selectDep><en>Select Department</en><th>เลือกแผนก</th></selectDep>
