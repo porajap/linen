@@ -331,8 +331,9 @@ function CreateDocument($conn, $DATA)
       $CategoryCode     = $Result['CategoryCode'];
       $Sql = "INSERT INTO shelfcount_detail
         (DocNo,ItemCode,UnitCode,ParQty , ItemName , WeightPerQty , CategoryCode , DepCode , DocDate) VALUES
-        ('$DocNo','$ItemCode', $UnitCode,$ParQty ,'$ItemName' , $Weight , $CategoryCode , $DepCode , DATE(NOW())";
+        ('$DocNo','$ItemCode', $UnitCode,$ParQty ,'$ItemName' , $Weight , $CategoryCode , '$DepCode' , DATE(NOW()) )";
       mysqli_query($conn, $Sql);
+      $return['sql'] = $Sql;
     }
     $boolean = true;
   } else {
@@ -1257,6 +1258,9 @@ function SaveBill($conn, $DATA)
   $Sql = "UPDATE shelfcount SET IsStatus = $isStatus  ,Total = $Sum  , DeliveryTime=$settime , ScTime=$setcount WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
+  $Sql = "UPDATE shelfcount_detail SET IsStatus = $isStatus   WHERE shelfcount_detail.DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+
   $isStatus = $DATA["isStatus"];
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
@@ -1327,6 +1331,9 @@ function SaveBill($conn, $DATA)
   mysqli_query($conn, $Sql);
 
   $Sql = "UPDATE shelfcount SET IsRequest = 1 , IsStatus = 1 WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
+
+  $Sql = "UPDATE shelfcount_detail SET IsStatus = 1 WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   // ShowDetailNew($conn, $DATA);
 
@@ -1575,6 +1582,9 @@ function CancelBill($conn, $DATA)
 
   $Sql = "UPDATE shelfcount SET IsStatus = 9 ,IsRequest = 1, Total = 0 WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
+
+  $Sql = "UPDATE shelfcount_detail SET IsStatus = 9  WHERE DocNo = '$DocNo'";
+  $meQuery = mysqli_query($conn, $Sql);
   ShowDocument($conn, $DATA);
 }
 
@@ -1786,6 +1796,10 @@ function SaveDraw($conn, $DATA)
           // mysqli_query($conn, $delete);
           $UpdateStatus = "UPDATE shelfcount SET IsStatus = 3 ,  jaipar = 1 WHERE DocNo = '$DocNo'";
           mysqli_query($conn, $UpdateStatus);
+
+          $UpdateStatus = "UPDATE shelfcount_detail SET IsStatus = 3  WHERE DocNo = '$DocNo'";
+          mysqli_query($conn, $UpdateStatus);
+
         } else if ($QtyCenter < $Oder || $QtyCenter == 0) {
           $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
           mysqli_query($conn, $Sql);
@@ -1859,6 +1873,9 @@ function SaveQty_SC($conn, $DATA)
   }
 
   $updateSC = "UPDATE shelfcount SET IsStatus = 3 , jaipar = 1 WHERE DocNo = '$DocNo'";
+  mysqli_query($conn, $updateSC);
+
+  $updateSC = "UPDATE shelfcount_detail SET IsStatus = 3  WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $updateSC);
 
   $Sql5 = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
