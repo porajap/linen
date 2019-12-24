@@ -140,7 +140,8 @@ if ($language == 'th') {
   $Name = EngName;
   $LName = EngLName;
 }
-$header = array($array['no'][$language], $array2['itemname'][$language], $array['qty'][$language], $array['unit'][$language]);
+$header = array($array['no'][$language], $array2['itemname'][$language], $array2['detail'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
+
 $count = 1;
 // ------------------------------------------------------------------------------
 $head = "SELECT   site.$HptName,
@@ -167,22 +168,20 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
 }
-
 $data = "SELECT
 damagenh_detail.ItemCode,
 item.ItemName,
 item_unit.UnitName,
 sum(damagenh_detail.Qty) as Qty ,
 sum(damagenh_detail.Weight) as Weight,
-  damagenh_detail.Detail
+damagenh_detail.Detail
 FROM item
 INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-INNER JOIN damagenh_detail ON damagenh_detail.ItemCode = item.ItemCode
+RIGHT JOIN damagenh_detail ON damagenh_detail.ItemCode = item.ItemCode
+INNER JOIN item_unit ON damagenh_detail.UnitCode = item_unit.UnitCode
 WHERE damagenh_detail.DocNo = '$DocNo'
- GROUP BY item.ItemCode
+GROUP BY item.ItemCode,damagenh_detail.Detail
 ORDER BY item.ItemName ASC";
-
 
 // set some language-dependent strings (optional)
 
@@ -190,51 +189,69 @@ ORDER BY item.ItemName ASC";
 // set font
 // add a page
 $pdf->AddPage('P', 'A4');
-$pdf->SetFont('thsarabunnew', 'b', 22);
+$pdf->SetFont('thsarabunnew', 'b', 24);
 $pdf->Cell(0, 10,  $array2['DM'][$language], 0, 0, 'C');
-$pdf->Ln(10);
+$pdf->Ln(15);
 $pdf->SetFont('thsarabunnew', 'b', 16);
 
 $pdf->Cell(35, 7, $array2['hospital'][$language], 0, 0, 'L');
-$pdf->Cell(75, 7, " : " . $HptName, 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $HptName, 0, 0, 'L');
 $pdf->Cell(28, 7, $array['department'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $DepName, 0, 0, 'L');
 $pdf->Ln();
 
 $pdf->Cell(35, 7, $array['docno'][$language], 0, 0, 'L');
-$pdf->Cell(75, 7, " : " . $DocNo, 0, 0, 'L');
-$pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
-$pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
-$pdf->Ln();
-$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
-$pdf->Cell(75, 7, " : " . $FirstName, 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $DocNo, 0, 0, 'L');
 $pdf->Cell(28, 7, $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $xTime, 0, 0, 'L');
 $pdf->Ln();
+
+$pdf->Cell(35, 7, $array['refdocno'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $RefDocNo, 0, 0, 'L');
+$pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
+$pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
+$pdf->Ln();
+
+$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $FirstName, 0, 0, 'L');
+
+
+$pdf->Ln();
 $pdf->Ln(5);
-$html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
-<tr>
-    <th width="25 %" align="center">' . $header[0] . '</th>
-    <th width="50 %" align="center">' . $header[1] . '</th>
-    <th width="25 %"  align="center">' . $header[2] . '</th>
-</tr></thead>';
+$html = '<table cellspacing="0" cellpadding="3" border="1" ><thead> 
+<tr style="font-size: 16 px;" >
+    <th width="10 % " align="center">' . $header[0] . '</th>
+    <th width="35 % " align="center">' . $header[1] . '</th>
+    <th width="20 % "  align="center">' . $header[2] . '</th>
+    <th width="10 % " align="center">' . $header[3] . '</th>
+    <th width="15 % " align="center">' . $header[4] . '</th>
+    <th width="15 % " align="center">' . $header[5] . '</th>
+</tr></thead> ';
 $meQuery = mysqli_query($conn, $data);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($Result['Detail'] <> null) {
-    $Result['ItemName'] = $Result['ItemName'] . " ( " . $Result['Detail'] . " )";
-  } else {
-    $Result['ItemName'] = $Result['ItemName'];
+  if ($Result['RequestName'] <> null) {
+    $Result['ItemName'] = $Result['RequestName'];
   }
   $Total_Weight = $Result['Qty'] * $Result['Weight'];
-  $html .= '<tr nobr="true">';
-  $html .=   '<td width="25 %" align="center">' . $count . '</td>';
-  $html .=   '<td width="50 %" align="left"> ' . $Result['ItemName'] . '</td>';
-  $html .=   '<td width="25 %" align="center">' . $Result['Qty'] . '</td>';
+  $html .= '<tr style="font-size: 16 px;" nobr="true">';
+  $html .=   '<td width="10 % " align="center">' . $count . '</td>';
+  $html .=   '<td width="35 % " align="left"> ' . $Result['ItemName'] . '</td>';
+  $html .=   '<td width="20 % " align="center">' . $Result['Detail'] . '</td>';
+  $html .=   '<td width="10 % " align="center">' . $Result['Qty'] . '</td>';
+  $html .=   '<td width="15 % " align="center">' . $Result['Weight'] . '</td>';
+  $html .=   '<td width="15 % " align="center">' . $Result['UnitName'] . '</td>';
   $html .=  '</tr>';
+  $totalsum += $Result['Weight'];
   $count++;
 }
 $html .= '</table>';
 $pdf->writeHTML($html, true, false, false, false, '');
+$pdf->SetFont('thsarabunnew', 'b', 13);
+$pdf->SetLineWidth(0.3);
+$pdf->sety($pdf->Gety() - 9.0);
+$pdf->Cell(135, 5,  $array2['total'][$language], 1, 0, 'C');
+$pdf->Cell(27, 5,   number_format($totalsum, 2), 1, 1, 'C');
+$pdf->ln();
 
 
 

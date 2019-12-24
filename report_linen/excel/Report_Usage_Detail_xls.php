@@ -53,6 +53,7 @@ $date = [];
 $itemCode = [];
 $itemName = [];
 $DateShow = [];
+$PAR = [];
 $date_header1 = '';
 $date_header2 = '';
 $date_header3 = '';
@@ -304,7 +305,19 @@ if ($itemfromweb == '0') {
       $itemName[] =  $Result["itemname"];
       $itemCode[] =  $Result["itemcode"];
     }
-
+    $countpar = sizeof($itemCode);
+    for ($p = 0; $p < $countpar; $p++) {
+      $paritem = "SELECT
+                par_item_stock.ParQty
+                FROM
+                par_item_stock
+                WHERE par_item_stock.ItemCode   = '$itemCode[$p]'
+                  AND par_item_stock.DepCode = '$DepCode[$sheet]'  ";
+      $meQuery = mysqli_query($conn, $paritem);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $PAR[] = $Result["ParQty"];
+      }
+    }
     // -----------------------------------------------------------------------------------
 
     $countitem = sizeof($itemCode);
@@ -359,7 +372,7 @@ if ($itemfromweb == '0') {
     $start_col = 2;
     $start_row = 9;
     for ($q = 0; $q < $countitem; $q++) {
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $itemName[$q]);
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $PAR[$q]);
       $start_row++;
     }
     $start_row = 9;
@@ -506,6 +519,7 @@ if ($itemfromweb == '0') {
     $objPHPExcel->createSheet();
     $itemName = [];
     $itemCode = [];
+    $PAR = [];
     $TotalISSUE = 0;
     $TotalShort = 0;
     $TotalOver = 0;
