@@ -729,7 +729,7 @@ $return['DepName'] = $Result2['DepName'];
       if ($chkUpdate == 0) {
         if ($Sel == 1) {
           $Sql = " INSERT INTO damagenh_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel , RefDocNo)
-          VALUES('$DocNo', '$ItemCode', $iunit2, $iqty, 0, 0 , '$RefDocNo') ";
+          VALUES('$DocNo', '$ItemCode', $iunit2, $iqty, $iweight , 0 , '$RefDocNo') ";
           mysqli_query($conn, $Sql);
           // $return['sql'] = $Sql;
           // echo json_encode($return);

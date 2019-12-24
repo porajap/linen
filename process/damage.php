@@ -658,7 +658,7 @@ function CreateDocument($conn, $DATA)
       if ($chkUpdate == 0) {
         if ($Sel == 1) {
           $Sql = " INSERT INTO damage_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel , RefDocNo)
-          VALUES('$DocNo', '$ItemCode', $iunit2, $iqty, 0, 0 , '$RefDocNo') ";
+          VALUES('$DocNo', '$ItemCode', $iunit2, $iqty, $iweight  , 0 , '$RefDocNo') ";
           mysqli_query($conn, $Sql);
           // $return['sql'] = $Sql;
           // echo json_encode($return);
@@ -919,7 +919,8 @@ function CreateDocument($conn, $DATA)
     item_unit.UnitName,
     damage_detail.UnitCode AS UnitCode2,
     damage_detail.Weight,
-    damage_detail.Qty
+    damage_detail.Qty,
+    damage_detail.Detail
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
@@ -949,6 +950,7 @@ function CreateDocument($conn, $DATA)
       $return[$count]['UnitName']   = $Result['UnitName'];
       $return[$count]['Weight']     = $Result['Weight'];
       $return[$count]['Qty']     = $Result['Qty'] ==0?'':$Result['Qty'];
+      $return[$count]['Detail']     = $Result['Detail']==null?'':$Result['Detail'];
       $UnitCode           = $Result['UnitCode1'];
       $ItemCode               = $Result['ItemCode'];
       $count2 = 0;
@@ -1159,6 +1161,41 @@ function CreateDocument($conn, $DATA)
       die;
     }
   }
+  function savefactory($conn, $DATA){
+    $DocNo = $DATA["DocNo"];
+    $factory2 = $DATA["factory2"];
+  
+    $Sql ="UPDATE damage SET FacCode = $factory2 WHERE DocNo = '$DocNo'";
+    $meQuery = mysqli_query($conn, $Sql);
+    $return['FacCode'] = $factory2;
+  
+    if (mysqli_query($conn, $Sql)) {
+      $return['status'] = "success";
+      $return['form'] = "savefactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['form'] = "savefactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+  }
+  function UpdateDetail($conn, $DATA)
+  {
+    $RowID  = $DATA["Rowid"];
+    $Detail  =  $DATA["Detail"];
+    $isStatus = $DATA["isStatus"];
+    //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
+    //	mysqli_query($conn,$Sqlx);
+    $Sql = "UPDATE damage_detail
+    SET Detail = '$Detail'
+    WHERE damage_detail.Id = $RowID";
+    mysqli_query($conn, $Sql);
+    // ShowDetail($conn, $DATA);
+  }
   //==========================================================
   //
   //==========================================================
@@ -1210,6 +1247,10 @@ function CreateDocument($conn, $DATA)
       deleteExcel($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'getfactory') {
       getfactory($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'savefactory') {
+      savefactory($conn, $DATA);
+    } elseif ($DATA['STATUS'] == 'UpdateDetail') {
+      UpdateDetail($conn, $DATA);
     }
     
   } else {
