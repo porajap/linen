@@ -276,6 +276,7 @@ if ($itemfromweb == '0') {
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["DepName"]);
       $DepName = $Result["DepName"];
+      $DepName = str_replace("/", " ", $DepName);
     }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
@@ -459,7 +460,7 @@ if ($itemfromweb == '0') {
     }
     // Rename worksheet
     // $objPHPExcel->getActiveSheet()->setTitle('5');
-    $objPHPExcel->getActiveSheet()->setTitle($DepCode[$sheet]);
+    $objPHPExcel->getActiveSheet()->setTitle($DepName);
     $start_row = 9;
     $start_col = 5;
     $itemName = [];
