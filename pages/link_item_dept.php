@@ -362,11 +362,30 @@ $array2 = json_decode($json2,TRUE);
 
       function SavePar( num , row , rowid){
         var mypar = $(".mypar_"+row).val();
+        var xCenter = 0;
+        var xCenter2 = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        if ($('#xCenter2').is(':checked')) xCenter2 = 1;
+        var userid = "<?php echo $_SESSION["Userid"]; ?>"
+        if(xCenter == 1 ){
+          var DepCode = $('#HosCenter').val();
+        }else{
+          var DepCode = $('#department').val();
+        }        
+        var keyword    = $('#searchitemstock').val();
+        var HptCode  = $('#hotpital').val();
+
+
+
         var data = {
           'STATUS' : 'SavePar',
           'mypar' : mypar,
           'RowID' : rowid,
-          'num' : num
+          'num' : num,
+          'HptCode' : HptCode,
+          'DepCode' : DepCode,
+          'xCenter' : xCenter,
+          'xCenter2' : xCenter2
         }
         senddata(JSON.stringify(data));
       }

@@ -968,9 +968,10 @@ function SavePar($conn, $DATA){
   $count = 0;
   $num = $DATA['num'];
   $mypar = $DATA['mypar'];
+  $HptCode = $DATA['HptCode'];
+  $xCenter = $DATA['xCenter'];
   $RowID = $DATA['RowID'];
-
-
+  $Userid = $_SESSION['Userid'];
 
   if($num == 1 ){
     $Sql3 = "SELECT ItemCode , DepCode , ParQty FROM item_stock WHERE RowID = $RowID";
@@ -985,18 +986,24 @@ function SavePar($conn, $DATA){
     if(mysqli_query($conn,$Sql)){
       $count++;
     }
+
+    $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty  , UserID , xDate , HptCode , TotalQty ) VALUES ( '$ItemCode' , '$DepCode' , '$mypar' , $Userid  , NOW() , '$HptCode' , 0 )";
+    mysqli_query($conn,$Sqlparlog);
   }else{
-  $Sql2 = "SELECT ParQty FROM par_item_stock WHERE RowID = $RowID";
+  $Sql2 = "SELECT ParQty , ItemCode , DepCode  FROM par_item_stock WHERE RowID = $RowID";
   $meQuery = mysqli_query($conn,$Sql2);
 
   $Result =  mysqli_fetch_assoc($meQuery);
-  $ParQty  	= $Result['ParQty'] + $mypar;
+  $ParQty  	    = $Result['ParQty'] + $mypar;
+  $ItemCode  	= $Result['ItemCode'] ;
+  $DepCode  	= $Result['DepCode'] ;
   $Sql = "UPDATE par_item_stock SET ParQty = '$mypar' WHERE RowID = $RowID";
   // var_dump($Sql); die;
   if(mysqli_query($conn,$Sql)){
     $count++;
   }
-
+  $Sqlparlog = "INSERT INTO log_par_item_stock (ItemCode , DepCode , ParQty  , UserID , xDate , HptCode , TotalQty ) VALUES ( '$ItemCode' , '$DepCode' , '$mypar' , $Userid  , NOW() , '$HptCode' , 0 )";
+  mysqli_query($conn,$Sqlparlog);
   }
 
   if($count>0){
