@@ -215,7 +215,6 @@ if ($chk == 'one') {
     (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
     COALESCE(repair_wash.DocDate,0) AS DocDate
     FROM  repair_wash
-     
     WHERE DATE (repair_wash.Docdate) = '$date'
     AND repair_wash.FacCode = '$FacCode'
     AND repair_wash.HptCode= '$HptCode'
@@ -312,7 +311,7 @@ if ($chk == 'one') {
     if ($totalsum8 == 0) {
       $totalsum8 = 1;
     }
-    $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+    $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
 
     $pdf->ln(7);
     $pdf->Cell(95, 10, iconv("UTF-8", "TIS-620",  'SCR (Soiled-Clean Ratio)'), 1, 0, 'C');
@@ -457,7 +456,7 @@ if ($chk == 'one') {
     if ($totalsum8 == 0) {
       $totalsum8 = 1;
     }
-    $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+    $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
     $pdf->ln(7);
     $pdf->Cell(95, 10, iconv("UTF-8", "TIS-620",  'SCR (Soiled-Clean Ratio)'), 1, 0, 'C');
     $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620",  number_format(abs($scr), 2) . '%'), 1, 1, 'C');
@@ -597,7 +596,7 @@ if ($chk == 'one') {
   $pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620",  number_format($totalsum6, 2)), 1, 0, 'C');
   $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620",  number_format($totalsum7, 2)), 1, 0, 'C');
   $pdf->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($totalsum8, 2)), 1, 1, 'C');
-  $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+  $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
   $pdf->ln(7);
   $pdf->Cell(95, 10, iconv("UTF-8", "TIS-620",  'SCR (Soiled-Clean Ratio)'), 1, 0, 'C');
   $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620",  number_format(abs($scr), 2) . '%'), 1, 1, 'C');
@@ -732,7 +731,7 @@ if ($chk == 'one') {
   $pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620",  number_format($totalsum6, 2)), 1, 0, 'C');
   $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620",  number_format($totalsum7, 2)), 1, 0, 'C');
   $pdf->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($totalsum8, 2)), 1, 1, 'C');
-  $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+  $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
   $pdf->ln(7);
   $pdf->Cell(95, 10, iconv("UTF-8", "TIS-620",  'SCR (Soiled-Clean Ratio)'), 1, 0, 'C');
   $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620",  number_format(abs($scr), 2) . '%'), 1, 1, 'C');
@@ -874,7 +873,7 @@ if ($chk == 'one') {
   $pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620",  number_format($totalsum6, 2)), 1, 0, 'C');
   $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620",  number_format($totalsum7, 2)), 1, 0, 'C');
   $pdf->Cell($w[4], 10, iconv("UTF-8", "TIS-620", number_format($totalsum8, 2)), 1, 1, 'C');
-  $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+  $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
   $pdf->ln(7);
   $pdf->Cell(95, 10, iconv("UTF-8", "TIS-620",  'SCR (Soiled-Clean Ratio)'), 1, 0, 'C');
   $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620",  number_format(abs($scr), 2) . '%'), 1, 1, 'C');

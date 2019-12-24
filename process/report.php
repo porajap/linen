@@ -114,6 +114,7 @@ function OnLoadPage($conn, $DATA)
 
   $Sql = "SELECT time_dirty.TimeName,time_dirty.id FROM time_dirty 
   INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
+  WHERE round_time_dirty.HptCode = '$HptCode'
   Group by time_dirty.TimeName  ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -167,6 +168,7 @@ function departmentWhere($conn, $DATA)
 
   $count = 0;
   $countfac = 0;
+  $count_time_dirty = 0 ;
   $boolean = false;
   $meQuery = mysqli_query($conn, $Sql1);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -189,6 +191,18 @@ function departmentWhere($conn, $DATA)
     $countfac++;
     $boolean = true;
   }
+  $Sql = "SELECT time_dirty.TimeName,time_dirty.id FROM time_dirty 
+  INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
+  WHERE round_time_dirty.HptCode = '$HptCode'
+  Group by time_dirty.TimeName  ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count_time_dirty]['TimeName'] = trim($Result['TimeName']);
+    $return[$count_time_dirty]['id'] = trim($Result['id']);
+    $count_time_dirty++;
+    $boolean = true;
+  }
+  $return['count_time_dirty'] = $count_time_dirty;
   $return['Row'] = $count;
   $return['Rowfac'] = $countfac;
   $boolean = true;

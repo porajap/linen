@@ -40,6 +40,7 @@ $Weight = 0;
 $count = 1;
 $start_row = 7;
 $old_code = '';
+$old_dateshow = '';
 if ($language == 'th') {
 
   $Perfix = THPerfix;
@@ -201,22 +202,6 @@ $header = array(
 );
 
 
-
-// Write data from MySQL result\\
-$Sql = "SELECT
-department.DepCode
-FROM
-department
-INNER JOIN shelfcount ON shelfcount.DepCode = department.DepCode
-WHERE shelfcount.isStatus <> 9 AND department.HptCode  = '$HptCode'
-GROUP BY shelfcount.DepCode ORDER BY shelfcount.DepCode  ASC
- ";
-$meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $DepCode[] = $Result['DepCode'];
-}
-$Count_Dep = sizeof($DepCode);
-
 $datetime = new DatetimeTH();
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
@@ -227,32 +212,34 @@ $objPHPExcel->getActiveSheet()->setCellValue('J1', $array2['printdate'][$languag
 $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r18'][$language]);
 $objPHPExcel->getActiveSheet()->mergeCells('A5:N5');
 $objPHPExcel->getActiveSheet()->setCellValue('N7', $date_header);
-for ($i = 0; $i <= $Count_Dep; $i++) {
   $query = "SELECT
-department.DepCode,
-department.DepName,
-shelfcount.docno,
-time_sc.TimeName AS CycleTime,
-COALESCE(DATE_FORMAT(shelfcount.ScStartTime,'%H:%i'),'-') AS ScStartTime ,
-COALESCE(DATE_FORMAT(shelfcount.ScEndTime,'%H:%i'),'-') AS ScEndTime ,  
-COALESCE(DATE_FORMAT(shelfcount.PkEndTime,'%H:%i'),'-') AS PkEndTime ,
-COALESCE(DATE_FORMAT(shelfcount.PkStartTime,'%H:%i'),'-') AS PkStartTime ,
-COALESCE(DATE_FORMAT(shelfcount.DvStartTime,'%H:%i'),'-') AS DvStartTime ,
-COALESCE(DATE_FORMAT(shelfcount.DvEndTime,'%H:%i'),'-') AS DvEndTime ,
-TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
-TIMEDIFF(shelfcount.PkStartTime,shelfcount.PkEndTime)AS PK ,
-TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV,
-CONCAT($Perfix,' ' , $Name,' ' ,$LName)  as USER,
-sc_time_2.TimeName 
-FROM
-shelfcount
-INNER JOIN department on department.DepCode = shelfcount.DepCode
+  department.DepCode,
+  department.DepName,
+  shelfcount.docno,
+  time_sc.TimeName AS CycleTime,
+  COALESCE(TIME(shelfcount.ScStartTime),'-') AS ScStartTime ,
+  COALESCE(TIME(shelfcount.ScEndTime),'-') AS ScEndTime ,  
+  COALESCE(TIME(shelfcount.PkEndTime),'-') AS PkEndTime ,
+  COALESCE(TIME(shelfcount.PkStartTime),'-') AS PkStartTime ,
+  COALESCE(TIME(shelfcount.DvStartTime),'-') AS DvStartTime ,
+  COALESCE(TIME(shelfcount.DvEndTime),'-') AS DvEndTime ,
+  TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
+  TIMEDIFF(shelfcount.PkStartTime,shelfcount.PkEndTime)AS PK ,
+  TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV,
+  CONCAT($Perfix,' ' , $Name,' ' ,$LName)  as USER,
+  sc_time_2.TimeName ,
+  shelfcount.DocDate
+  FROM
+	shelfcount
+INNER JOIN department ON department.DepCode = shelfcount.DepCode
 INNER JOIN users ON users.ID = shelfcount.Modify_Code
 LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
 LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
-$where
-AND  department.DepCode = '$DepCode[$i]'
-AND shelfcount.isStatus <> 9 limit 1 ";
+$where 
+AND department.HptCode = '$HptCode'
+AND shelfcount.isStatus <> 9
+GROUP BY shelfcount.DocNo
+ORDER BY shelfcount.DocDate,shelfcount.DepCode ASC "; 
 
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -261,6 +248,18 @@ AND shelfcount.isStatus <> 9 limit 1 ";
     $start_row++;
     $start_row1 = $start_row + 1;
     if ($Result['docno'] <> null) {
+    $dateshow =  $Result['DocDate'];
+    list($y, $m, $d) = explode('-', $dateshow);
+    if ($language ==  'th') {
+      $y = $y + 543;
+    }
+    $dateshow = $d . '-' . $m . '-' . $y;
+    if ($dateshow <> $old_dateshow) {
+      $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row,  $dateshow);
+      $old_dateshow = $dateshow;
+      $start_row++;
+      $start_row++;
+    }
       if ($code <> $old_code) {
         $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['department'][$language] . " : " . $name);
         $start_row++;
@@ -294,9 +293,9 @@ AND shelfcount.isStatus <> 9 limit 1 ";
         $sc1 = substr($Result['ScStartTime'], 0, 5);
         $sc2 = substr($Result['ScEndTime'], 0, 5);
       }
-      // echo "<pre>";
-      // print_r($data);
-      // echo "</pre>"; 
+      echo "<pre>";
+      print_r($query);
+      echo "</pre>"; 
       if ($sc1 <> '-') {
         list($hoursSS, $minSS) = explode(":",  $sc1);
       }
@@ -404,7 +403,7 @@ AND shelfcount.isStatus <> 9 limit 1 ";
     }
     $start_row++;
   }
-}
+
 
 $styleArray = array(
 
