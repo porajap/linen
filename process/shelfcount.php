@@ -1585,6 +1585,7 @@ function CancelBill($conn, $DATA)
 
   $Sql = "UPDATE Shelfcount_detail SET IsStatus = 9  WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
+  
   ShowDocument($conn, $DATA);
 }
 

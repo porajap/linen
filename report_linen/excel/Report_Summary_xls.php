@@ -563,7 +563,6 @@ if ($itemfromweb <> '0') {
       $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);
       $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["Price"]);
       $start_row++;
-      $Weight[] = $Result["Weight"];
       $iname = $Result["itemname"];
     }
   }
