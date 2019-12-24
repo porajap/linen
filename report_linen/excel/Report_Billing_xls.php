@@ -346,13 +346,13 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $DepName[$lek]);
     $r++;
     for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT COALESCE(SUM(shelfcount_detail.Weight),'0') AS aWeight , 
-                    COALESCE(SUM(shelfcount_detail.Price ),'0') AS aPrice 
-                    FROM shelfcount_detail 
-                    INNER JOIN department ON department.DepCode = shelfcount_detail.DepCode
+      $data = "SELECT COALESCE(SUM(shelfcount.Totalw),'0') AS aWeight , 
+                    COALESCE(SUM(shelfcount.Totalp ),'0') AS aPrice 
+                    FROM shelfcount 
+                    INNER JOIN department ON department.DepCode = shelfcount.DepCode
                     INNER JOIN site ON site.HptCode = department.HptCode
-                    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  AND shelfcount_detail.isStatus <> 9
-                    AND shelfcount_detail.DepCode = '$DepCode[$lek]'
+                    WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  AND shelfcount.isStatus <> 9
+                    AND shelfcount.DepCode = '$DepCode[$lek]'
                     AND site.HptCode = '$HptCode' ";
                     
       $meQuery = mysqli_query($conn, $data);
@@ -381,17 +381,17 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 'total');
   $r++;
   for ($day = 0; $day < $count; $day++) {
-    $data =       "SELECT
-                COALESCE(SUM(shelfcount_detail.Weight),'0') AS aWeight,
-                COALESCE(SUM(shelfcount_detail.Price),'0') AS aPrice
+
+    $data =       "SELECT COALESCE(SUM(shelfcount.Totalw),'0') AS aWeight , 
+                   COALESCE(SUM(shelfcount.Totalp ),'0') AS aPrice 
                 FROM
-                shelfcount_detail
-                INNER JOIN department ON shelfcount_detail.DepCode = department.DepCode
+                shelfcount
+                INNER JOIN department ON shelfcount.DepCode = department.DepCode
                 INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
                 INNER JOIN site ON site.HptCode = department.HptCode
                 WHERE
-                DATE(shelfcount_detail.DocDate) = '$date[$day]'
-                AND shelfcount_detail.isStatus <> 9
+                DATE(shelfcount.DocDate) = '$date[$day]'
+                AND shelfcount.isStatus <> 9
                 AND grouphpt.HptCode = '$HptCode'
                 AND site.HptCode = '$HptCode'
                 AND grouphpt.GroupCode = '$GroupCode[$sheet]'

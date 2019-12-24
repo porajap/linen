@@ -283,7 +283,7 @@ if ($itemfromweb == '0') {
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue('A5', $Result["DepName"]);
       $DepName = $Result["DepName"];
-    }
+      $DepName = str_replace("/", " ", $DepName);    }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
   shelfcount_detail.itemname,
@@ -492,8 +492,8 @@ if ($itemfromweb == '0') {
     $objDrawing->setWidthAndHeight(150, 75);
     $objDrawing->setResizeProportional(true);
     $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-    // Rename worksheet
-    $objPHPExcel->getActiveSheet()->setTitle($DepCode[$sheet]);
+    // Rename worksheet4
+    $objPHPExcel->getActiveSheet()->setTitle($DepName);
     $objPHPExcel->createSheet();
     $itemName = [];
     $itemCode = [];

@@ -3842,7 +3842,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
                 AND shelfcount.isStatus <> 9 
                 $GroupCode1
                 GROUP BY Date(shelfcount.DocDate)
-                ORDER BY shelfcount.DocDate ASC";
+                ORDER BY shelfcount.DocDate ASC limit 1 ";
     } else {
       $Sql = "SELECT  shelfcount.DocDate, site.HptName , department.DepName
         FROM
@@ -3855,7 +3855,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
                 AND shelfcount.isStatus <> 9 
                 $GroupCode1
                 GROUP BY MONTH (shelfcount.Docdate)
-                ORDER BY shelfcount.DocDate ASC";
+                ORDER BY shelfcount.DocDate ASC limit 1";
     }
   } else if ($Format == 2) {
     $date = subMonth($date1, $date2);
@@ -3876,7 +3876,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
                 $GroupCode1
                 AND shelfcount.isStatus <> 9 
                 GROUP BY MONTH (shelfcount.Docdate)
-                ORDER BY shelfcount.DocDate ASC";
+                ORDER BY shelfcount.DocDate ASC limit 1 ";
     } else {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
@@ -3906,7 +3906,7 @@ function r28($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $Grou
                $GroupCode1
                AND shelfcount.isStatus <> 9 
                GROUP BY YEAR (shelfcount.Docdate)
-               ORDER BY shelfcount.DocDate ASC";
+               ORDER BY shelfcount.DocDate ASC limit 1";
   }
   $return['sql'] = $Sql;
   $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2, 'GroupCode' => $GroupCode];
