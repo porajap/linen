@@ -546,7 +546,6 @@ if (e.keyCode == 13) {
         var deptCode = $('#department option:selected').attr("value");
 
         // alert("xrow : "+xunit);
-
         $('#TableDetail tbody').empty();
         var data = {
           'STATUS'  		: 'getImport',
@@ -1154,8 +1153,8 @@ if (e.keyCode == 13) {
 
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['DocNo']+"</td>"+
+                    "<td style='width: 25%;' nowrap>"+temp[i]['DocDate']+"</td>"+
+                    "<td style='width: 5%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                     "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
                     "<td style='width: 19%;' nowrap>"+temp[i]['Record']+"</td>"+
                     "<td style='width: 14%;' nowrap>"+temp[i]['RecNow']+"</td>"+
@@ -1312,9 +1311,10 @@ if (e.keyCode == 13) {
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 9%;' nowrap>"+chkDoc+"</td>"+
                   "<td style='text-overflow: ellipsis;overflow: hidden;width: 18%;' nowrap>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 29%;' nowrap>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 15%;font-size:24px;' nowrap>"+chkunit+"</td>"+
-                  "<td style='width: 12%;' nowrap>"+Qty+"</td>"+
+                  "<td style='text-overflow: ellipsis;overflow: hidden;width: 17%;' nowrap>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='width: 18%;font-size:24px;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 13%;' nowrap>"+Qty+"</td>"+
+                  "<td style='width: 10%;' nowrap>"+Weight+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Detail+"</td>"+
                   "<td style='width: 12%;' nowrap hidden>"+chkDocx+"</td>"+
                   "</tr>";
@@ -1379,23 +1379,20 @@ if (e.keyCode == 13) {
                     chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
                   }
                   chkunit += "</select>";
-
-
-
-
-
+                  
                   var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
-                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly ' "+st2+" id='iqty"+i+"' value='0' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input autocomplete='off'  class='form-control numonly ' "+st2+" id='iqty"+i+"' placeholder='0'><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='iweight"+i+"' placeholder='0' ></div>";
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                  "<td style='width: 27%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                  "<td style='width: 24%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='width: 32%;cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 23%;' nowrap>"+chkunit+"</td>"+
-                  "<td style='width: 18%;' nowrap align='center'>"+Qty+"</td>"+
+                  "<td style='width: 26%;cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                  "<td style='width: 17%;' nowrap>"+chkunit+"</td>"+
+                  "<td style='width: 16%;' nowrap align='center'>"+Qty+"</td>"+
+                  "<td style='width: 10%;' nowrap align='center'>"+Weight+"</td>"+
                   "</tr>";
                   if(rowCount == 0){
                     $("#TableItem tbody").append( $StrTR );
@@ -1769,12 +1766,12 @@ if (e.keyCode == 13) {
                                       <input type="text" autocomplete="off" class="form-control col-sm-7 only1" disabled="true"  class="form-control" style="font-size:24px;width:220px;" name="searchitem" id="timerec" placeholder="<?php echo $array['time'][$language]; ?>" >
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                  <!-- <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-4 col-form-label "><?php echo $array['factory'][$language]; ?></label>
                                       <select class="form-control col-sm-7 only1"  onchange='remove();' autocomplete="off" style="font-size:20px;width:220px;height:40px;padding-top:6px;" id='factory'>  </select>
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </div>
                               </div>
                             </div>
@@ -1865,12 +1862,13 @@ if (e.keyCode == 13) {
                           <thead id="theadsum" style="font-size:24px;">
                             <tr role="row">
                             <th style="width: 3%;">&nbsp;</th>
-                              <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
+                            <th style='width: 6%;' nowrap><?php echo $array['sn'][$language]; ?></th>
                               <th style='width: 18%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                              <th style='width: 27%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 14%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                              <th style='width: 12%;' nowrap><center><?php echo $array['qty'][$language]; ?></center></th>
-                              <th style='width: 20%;padding-right: 2%;' nowrap><center><?php echo $array['detail'][$language]; ?></center></th>
+                              <th style='width: 9%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                              <th style='width: 27%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                              <th style='width: 5%;' nowrap><?php echo $array['qty'][$language]; ?></th>
+                              <th style='padding-left: 4%;width: 17%;' nowrap><center><?php echo $array['weight'][$language]; ?></center></th>
+                              <th style='width: 15%;padding-right: 3%;' nowrap><center><?php echo $array['detail'][$language]; ?></center></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;">
@@ -1937,8 +1935,8 @@ if (e.keyCode == 13) {
                             <thead id="theadsum" style="font-size:24px;">
                               <tr role="row">
                                 <th style='width: 10%;' nowrap>&nbsp;</th>
-                                <th style='width: 15%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
-                                <th style='width: 30%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
+                                <th style='width: 25%;'  nowrap><?php echo $array['docdate'][$language]; ?></th>
+                                <th style='width: 20%;'  nowrap><?php echo $array['docno'][$language]; ?></th>
                                 <!-- <th style='width: 15%;'  nowrap><?php echo $array['refdocno'][$language]; ?></th> -->
                                 <th style='width: 18%;'  nowrap><?php echo $array['employee'][$language]; ?></th>
                                 <th style='width: 16%;'  nowrap><?php echo $array['time'][$language]; ?></th>
@@ -2016,7 +2014,7 @@ if (e.keyCode == 13) {
             <div class="col-md-8">
               <div class='form-group row'>
               <label class="col-sm-4 col-form-label text-right pr-5"style="margin-left: -11%;"><?php echo $array['Searchitem2'][$language]; ?></label>
-                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
+                <input type="text" class="form-control col-sm-7" style="margin-left: -3%;"  autocomplete="off"  name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem2'][$language]; ?>" >
               </div>
             </div>
               <!-- serach----------------------- -->
@@ -2044,10 +2042,10 @@ if (e.keyCode == 13) {
               <tr role="row">
                 <input type="text" hidden id="countcheck">
                 <th style='width: 24%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 23%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                <th style='width: 39%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
-                <th style='width: 14%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 12%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 33%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
+                <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
+                <th style='width: 16%;' nowrap><?php echo $array['weight'][$language]; ?></th>
               </tr>
             </thead>
             <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
