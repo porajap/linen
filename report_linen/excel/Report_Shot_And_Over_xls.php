@@ -286,22 +286,20 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   }
   // -----------------------------------------------------------------------------------
   $item = "SELECT
-  item.itemname,
-  item.itemcode,
+  shelfcount_detail.itemname,
+  shelfcount_detail.itemcode,
 	sum(shelfcount_detail.ParQty) as ParQty
   FROM
   shelfcount_detail
-  INNER JOIN item ON item.itemcode = shelfcount_detail.itemcode
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
-  INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
   WHERE
-  shelfcount.isStatus <> 9
-  AND shelfcount.DepCode = '$DepCode[$sheet]'
+  shelfcount_detail.isStatus <> 9
+  AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
   AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
   AND   time_sc.TimeName <>'Extra'
-  GROUP BY  item.itemcode
-  ORDER BY  item.itemname ASC ";
+  GROUP BY  shelfcount_detail.itemcode
+  ORDER BY  shelfcount_detail.itemname ASC ";
   $meQuery = mysqli_query($conn, $item);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $itemName[] =  $Result["itemname"];
@@ -370,9 +368,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     FROM shelfcount 
     INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
     INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
-    WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-    AND shelfcount.isStatus <> 9
-    AND shelfcount.DepCode = '$DepCode[$sheet]'  
+    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+    AND shelfcount_detail.isStatus <> 9
+    AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
     AND time_sc.TimeName <>'Extra'
     AND shelfcount_detail.itemcode = '$itemCode[$q]' ";
       $meQuery = mysqli_query($conn, $data);
@@ -396,16 +394,16 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $r = 3;
   for ($day = 0; $day < $count; $day++) {
     $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
- COALESCE(SUM(shelfcount_detail.Short),'0') as  Short, 
- COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-  FROM shelfcount 
-  INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
-  INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
-  WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  
-  AND shelfcount.isStatus <> 9
-  AND shelfcount.DepCode = '$DepCode[$sheet]'  
-  AND time_sc.TimeName <>'Extra'
-  AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )";
+                    COALESCE(SUM(shelfcount_detail.Short),'0') as  Short, 
+                    COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
+            FROM shelfcount 
+            INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
+            INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
+            WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+            AND shelfcount_detail.isStatus <> 9
+            AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
+            AND time_sc.TimeName <>'Extra'
+            AND (shelfcount_detail.Over <> 0 OR shelfcount_detailS.Short <> 0 )";
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Short"]);

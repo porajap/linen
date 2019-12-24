@@ -260,8 +260,9 @@ if ($itemfromweb == '0') {
   $sheet_count = sizeof($DepCode);
   for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     $objPHPExcel->setActiveSheetIndex($sheet)
-      ->setCellValue('A7',  'ItemName')
-      ->setCellValue('B7',  'Department');
+      ->setCellValue('A7',  'Department')
+      ->setCellValue('B7',  'ItemName')
+      ->setCellValue('C7',  'PAR');
     // -----------------------------------------------------------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
     $objPHPExcel->getActiveSheet()->setCellValue('A4', $array2['r30'][$language]);
@@ -271,6 +272,7 @@ if ($itemfromweb == '0') {
     $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
     $objPHPExcel->getActiveSheet()->mergeCells('A7:A8');
     $objPHPExcel->getActiveSheet()->mergeCells('B7:B8');
+    $objPHPExcel->getActiveSheet()->mergeCells('C7:C8');
     // -----------------------------------------------------------------------------------
 
     $query = "SELECT
@@ -283,7 +285,8 @@ if ($itemfromweb == '0') {
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue('A5', $Result["DepName"]);
       $DepName = $Result["DepName"];
-      $DepName = str_replace("/", " ", $DepName);    }
+      $DepName = str_replace("/", " ", $DepName);
+    }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
   shelfcount_detail.itemname,
@@ -306,7 +309,7 @@ if ($itemfromweb == '0') {
 
     $countitem = sizeof($itemCode);
     $start_row = 9;
-    $start_col = 2;
+    $start_col = 3;
     $start_date = 1;
     $start_itemcode = 1;
     // -----------------------------------------------------------------------------------
@@ -350,11 +353,17 @@ if ($itemfromweb == '0') {
     $start_col = 1;
     $start_row = 9;
     // for ($q = 0; $q < $countitem; $q++) {
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $DepName);
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $DepName);
     //   $start_row++;
     // }
+    $start_col = 2;
     $start_row = 9;
-    $r = 2;
+    for ($q = 0; $q < $countitem; $q++) {
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $itemName[$q]);
+      $start_row++;
+    }
+    $start_row = 9;
+    $r = 3;
     for ($q = 0; $q < $countitem; $q++) {
       for ($day = 0; $day < $count; $day++) {
         $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
@@ -387,11 +396,11 @@ if ($itemfromweb == '0') {
       $ISSUE = 0;
       $Short = 0;
       $Over = 0;
-      $r = 2;
+      $r = 3;
       $start_row++;
     }
 
-    $r = 2;
+    $r = 3;
     for ($day = 0; $day < $count; $day++) {
       $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
  COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
@@ -508,34 +517,34 @@ if ($itemfromweb == '0') {
 }
 if ($itemfromweb <> '0') {
   $DepCode = [];
-    $objPHPExcel->setActiveSheetIndex()
-      ->setCellValue('A7',  'ItemName')
-      ->setCellValue('B7',  'Department');
-    // -----------------------------------------------------------------------------------
-    $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
-    $objPHPExcel->getActiveSheet()->setCellValue('A4', $array2['r30'][$language]);
-    $objPHPExcel->getActiveSheet()->setCellValue('A6', $date_header);
-    $objPHPExcel->getActiveSheet()->mergeCells('A4:J4');
-    $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
-    $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
-    $objPHPExcel->getActiveSheet()->mergeCells('A7:A8');
-    $objPHPExcel->getActiveSheet()->mergeCells('B7:B8');
-    // -----------------------------------------------------------------------------------
+  $objPHPExcel->setActiveSheetIndex()
+    ->setCellValue('A7',  'ItemName')
+    ->setCellValue('B7',  'Department');
+  // -----------------------------------------------------------------------------------
+  $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
+  $objPHPExcel->getActiveSheet()->setCellValue('A4', $array2['r30'][$language]);
+  $objPHPExcel->getActiveSheet()->setCellValue('A6', $date_header);
+  $objPHPExcel->getActiveSheet()->mergeCells('A4:J4');
+  $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
+  $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
+  $objPHPExcel->getActiveSheet()->mergeCells('A7:A8');
+  $objPHPExcel->getActiveSheet()->mergeCells('B7:B8');
+  // -----------------------------------------------------------------------------------
 
-    $query = "SELECT
+  $query = "SELECT
   item.itemname
   FROM
   item
   WHERE
   item.itemCode = '$itemfromweb'";
-  echo $query ;
-    $meQuery = mysqli_query($conn, $query);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $objPHPExcel->getActiveSheet()->setCellValue('A5', $Result["itemname"]);
-      $iname = $Result["itemname"];
-    }
-    // -----------------------------------------------------------------------------------
-    $item = "SELECT
+  echo $query;
+  $meQuery = mysqli_query($conn, $query);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $objPHPExcel->getActiveSheet()->setCellValue('A5', $Result["itemname"]);
+    $iname = $Result["itemname"];
+  }
+  // -----------------------------------------------------------------------------------
+  $item = "SELECT
   department.DepName,
   department.DepCode
   FROM
@@ -547,40 +556,25 @@ if ($itemfromweb <> '0') {
   GROUP BY   department.DepCode
   ORDER BY  department.DepName ";
 
-    $meQuery = mysqli_query($conn, $item);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $DepName[] =  $Result["DepName"];
-      $DepCode[] =  $Result["DepCode"];
-    }
-    echo "<pre>";
-    print_r($DepName);
-    echo "</pre>";
-    // -----------------------------------------------------------------------------------
+  $meQuery = mysqli_query($conn, $item);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $DepName[] =  $Result["DepName"];
+    $DepCode[] =  $Result["DepCode"];
+  }
+  echo "<pre>";
+  print_r($DepName);
+  echo "</pre>";
+  // -----------------------------------------------------------------------------------
 
-    $countDep = sizeof($DepCode);
-    $start_row = 9;
-    $start_col = 2;
-    $start_date = 1;
-    $start_itemcode = 1;
-    // -----------------------------------------------------------------------------------
+  $countDep = sizeof($DepCode);
+  $start_row = 9;
+  $start_col = 2;
+  $start_date = 1;
+  $start_itemcode = 1;
+  // -----------------------------------------------------------------------------------
 
-    for ($j = 0; $j < $count; $j++) {
+  for ($j = 0; $j < $count; $j++) {
 
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'ISSUE QTY');
-      $date_header1 = $date_cell1[$start_col];
-      $start_col++;
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'SHORT QTY');
-      $date_header2 = $date_cell1[$start_col];
-      $start_col++;
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'OVER QTY');
-      $date_header3 = $date_cell1[$start_col];
-      $start_col++;
-      $objPHPExcel->getActiveSheet()->mergeCells($date_header1 . '7:' . $date_header3 . '7');
-      $objPHPExcel->getActiveSheet()->setCellValue($date_header1 . "7", $DateShow[$j]);
-      $date_header1 = '';
-      $date_header2 = '';
-      $date_header3 = '';
-    }
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'ISSUE QTY');
     $date_header1 = $date_cell1[$start_col];
     $start_col++;
@@ -591,26 +585,41 @@ if ($itemfromweb <> '0') {
     $date_header3 = $date_cell1[$start_col];
     $start_col++;
     $objPHPExcel->getActiveSheet()->mergeCells($date_header1 . '7:' . $date_header3 . '7');
-    $objPHPExcel->getActiveSheet()->setCellValue($date_header1 . "7", 'Total');
+    $objPHPExcel->getActiveSheet()->setCellValue($date_header1 . "7", $DateShow[$j]);
+    $date_header1 = '';
+    $date_header2 = '';
+    $date_header3 = '';
+  }
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'ISSUE QTY');
+  $date_header1 = $date_cell1[$start_col];
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'SHORT QTY');
+  $date_header2 = $date_cell1[$start_col];
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'OVER QTY');
+  $date_header3 = $date_cell1[$start_col];
+  $start_col++;
+  $objPHPExcel->getActiveSheet()->mergeCells($date_header1 . '7:' . $date_header3 . '7');
+  $objPHPExcel->getActiveSheet()->setCellValue($date_header1 . "7", 'Total');
 
-    // -----------------------------------------------------------------------------------
-    $start_col = 0;
-    $start_row = 9;
-    // for ($q = 0; $q < $countDep; $q++) {
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $iname);
-    //   $start_row++;
-    // }
-    $start_col = 1;
-    $start_row = 9;
-    for ($q = 0; $q < $countDep; $q++) {
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $DepName[$q]);
-      $start_row++;
-    }
-    $start_row = 9;
-    $r = 2;
-    for ($q = 0; $q < $countDep; $q++) {
-      for ($day = 0; $day < $count; $day++) {
-        $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
+  // -----------------------------------------------------------------------------------
+  $start_col = 0;
+  $start_row = 9;
+  // for ($q = 0; $q < $countDep; $q++) {
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $iname);
+  //   $start_row++;
+  // }
+  $start_col = 1;
+  $start_row = 9;
+  for ($q = 0; $q < $countDep; $q++) {
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $DepName[$q]);
+    $start_row++;
+  }
+  $start_row = 9;
+  $r = 2;
+  for ($q = 0; $q < $countDep; $q++) {
+    for ($day = 0; $day < $count; $day++) {
+      $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
    COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
    COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
     FROM shelfcount_detail 
@@ -619,42 +628,6 @@ if ($itemfromweb <> '0') {
     AND shelfcount_detail.DepCode = '$DepCode[$q]'  
     AND shelfcount_detail.itemcode = '$itemfromweb' 
     AND shelfcount_detail.TotalQty <> 0 ";
-        $meQuery = mysqli_query($conn, $data);
-        while ($Result = mysqli_fetch_assoc($meQuery)) {
-          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
-          $r++;
-          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Short"]);
-          $r++;
-          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Over"]);
-          $r++;
-          $ISSUE += $Result["ISSUE"];
-          $Short += $Result["Short"];
-          $Over += $Result["Over"];
-        }
-      }
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUE);
-      $r++;
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Short);
-      $r++;
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Over);
-      $ISSUE = 0;
-      $Short = 0;
-      $Over = 0;
-      $r = 2;
-      $start_row++;
-    }
-
-    $r = 2;
-    for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
- COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
- COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-  FROM shelfcount_detail 
-  WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-  AND shelfcount_detail.isStatus <> 9
-  AND shelfcount_detail.itemcode = '$itemfromweb' 
-  AND shelfcount_detail.TotalQty <> 0
-  ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
@@ -663,101 +636,137 @@ if ($itemfromweb <> '0') {
         $r++;
         $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Over"]);
         $r++;
-        $TotalISSUE += $Result["ISSUE"];
-        $TotalShort += $Result["Short"];
-        $TotalOver += $Result["Over"];
+        $ISSUE += $Result["ISSUE"];
+        $Short += $Result["Short"];
+        $Over += $Result["Over"];
       }
     }
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUE);
     $r++;
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalShort);
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Short);
     $r++;
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalOver);
-    $rrrr = 0;
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$rrrr] . $start_row, 'Total');
-
-    $styleArray = array(
-
-      'borders' => array(
-
-        'allborders' => array(
-
-          'style' => PHPExcel_Style_Border::BORDER_THIN
-        )
-      )
-    );
-    $CENTER = array(
-      'alignment' => array(
-        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-      ),
-      'font'  => array(
-        'size'  => 8,
-        'name'  => 'THSarabun'
-      )
-    );
-    $HEAD = array(
-      'alignment' => array(
-        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-      ),
-      'font'  => array(
-        'size'  => 16,
-        'name'  => 'THSarabun'
-      )
-    );
-    $colorfill = array(
-      'fill' => array(
-        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-        'color' => array('rgb' => 'B9E3E6')
-      )
-    );
-    $r1 = $r - 2;
-    $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($styleArray);
-    $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . "8")->applyFromArray($colorfill);
-    $objPHPExcel->getActiveSheet()->getStyle("A" . $start_row . ":" . $date_cell1[$r] . $start_row)->applyFromArray($colorfill);
-    $objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r1] . "9:" . $date_cell1[$r] . $start_row)->applyFromArray($colorfill);
-    $objPHPExcel->getActiveSheet()->getStyle("A5:" . $date_cell1[$r] . "8")->applyFromArray($CENTER);
-    $objPHPExcel->getActiveSheet()->getStyle($date_cell1[2] . $start_row . ":" . $date_cell1[$r] . $start_row);
-    $objPHPExcel->getActiveSheet()->getStyle("A4:A6")->applyFromArray($HEAD);
-    $objPHPExcel->getActiveSheet()->getStyle("C9:" . $date_cell1[$r] . $start_row)->getNumberFormat()->setFormatCode('#,##0');
-
-
-    $cols = array('A', 'B');
-    $width = array(40, 40);
-    for ($j = 0; $j < count($cols); $j++) {
-      $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
-    }
-    // foreach(range('A','ZZZ') as $columnID) {
-    //   $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-    //       ->setAutoSize(true);
-    // }
-
-    $objDrawing = new PHPExcel_Worksheet_Drawing();
-    $objDrawing->setName('Nhealth_linen');
-    $objDrawing->setDescription('Nhealth_linen');
-    $objDrawing->setPath('Nhealth_linen 4.0.png');
-    $objDrawing->setCoordinates('A1');
-    //setOffsetX works properly
-    $objDrawing->setOffsetX(0);
-    $objDrawing->setOffsetY(0);
-    //set width, height
-    $objDrawing->setWidthAndHeight(150, 75);
-    $objDrawing->setResizeProportional(true);
-    $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-    // Rename worksheet
-    $objPHPExcel->getActiveSheet()->setTitle($iname);
-    $objPHPExcel->createSheet();
-    $itemName = [];
-    $itemCode = [];
-    $TotalISSUE = 0;
-    $TotalShort = 0;
-    $TotalOver = 0;
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Over);
     $ISSUE = 0;
     $Short = 0;
     $Over = 0;
-    // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+    $r = 2;
+    $start_row++;
   }
+
+  $r = 2;
+  for ($day = 0; $day < $count; $day++) {
+    $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
+ COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
+ COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
+  FROM shelfcount_detail 
+  WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
+  AND shelfcount_detail.isStatus <> 9
+  AND shelfcount_detail.itemcode = '$itemfromweb' 
+  AND shelfcount_detail.TotalQty <> 0
+  ";
+    $meQuery = mysqli_query($conn, $data);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
+      $r++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Short"]);
+      $r++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Over"]);
+      $r++;
+      $TotalISSUE += $Result["ISSUE"];
+      $TotalShort += $Result["Short"];
+      $TotalOver += $Result["Over"];
+    }
+  }
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
+  $r++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalShort);
+  $r++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalOver);
+  $rrrr = 0;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$rrrr] . $start_row, 'Total');
+
+  $styleArray = array(
+
+    'borders' => array(
+
+      'allborders' => array(
+
+        'style' => PHPExcel_Style_Border::BORDER_THIN
+      )
+    )
+  );
+  $CENTER = array(
+    'alignment' => array(
+      'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+      'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+    ),
+    'font'  => array(
+      'size'  => 8,
+      'name'  => 'THSarabun'
+    )
+  );
+  $HEAD = array(
+    'alignment' => array(
+      'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+      'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+    ),
+    'font'  => array(
+      'size'  => 16,
+      'name'  => 'THSarabun'
+    )
+  );
+  $colorfill = array(
+    'fill' => array(
+      'type' => PHPExcel_Style_Fill::FILL_SOLID,
+      'color' => array('rgb' => 'B9E3E6')
+    )
+  );
+  $r1 = $r - 2;
+  $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($styleArray);
+  $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . "8")->applyFromArray($colorfill);
+  $objPHPExcel->getActiveSheet()->getStyle("A" . $start_row . ":" . $date_cell1[$r] . $start_row)->applyFromArray($colorfill);
+  $objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r1] . "9:" . $date_cell1[$r] . $start_row)->applyFromArray($colorfill);
+  $objPHPExcel->getActiveSheet()->getStyle("A5:" . $date_cell1[$r] . "8")->applyFromArray($CENTER);
+  $objPHPExcel->getActiveSheet()->getStyle($date_cell1[2] . $start_row . ":" . $date_cell1[$r] . $start_row);
+  $objPHPExcel->getActiveSheet()->getStyle("A4:A6")->applyFromArray($HEAD);
+  $objPHPExcel->getActiveSheet()->getStyle("C9:" . $date_cell1[$r] . $start_row)->getNumberFormat()->setFormatCode('#,##0');
+
+
+  $cols = array('A', 'B');
+  $width = array(40, 40);
+  for ($j = 0; $j < count($cols); $j++) {
+    $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
+  }
+  // foreach(range('A','ZZZ') as $columnID) {
+  //   $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
+  //       ->setAutoSize(true);
+  // }
+
+  $objDrawing = new PHPExcel_Worksheet_Drawing();
+  $objDrawing->setName('Nhealth_linen');
+  $objDrawing->setDescription('Nhealth_linen');
+  $objDrawing->setPath('Nhealth_linen 4.0.png');
+  $objDrawing->setCoordinates('A1');
+  //setOffsetX works properly
+  $objDrawing->setOffsetX(0);
+  $objDrawing->setOffsetY(0);
+  //set width, height
+  $objDrawing->setWidthAndHeight(150, 75);
+  $objDrawing->setResizeProportional(true);
+  $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+  // Rename worksheet
+  $objPHPExcel->getActiveSheet()->setTitle($iname);
+  $objPHPExcel->createSheet();
+  $itemName = [];
+  $itemCode = [];
+  $TotalISSUE = 0;
+  $TotalShort = 0;
+  $TotalOver = 0;
+  $ISSUE = 0;
+  $Short = 0;
+  $Over = 0;
+  // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+}
 
 $objPHPExcel->removeSheetByIndex(
   $objPHPExcel->getIndex(
