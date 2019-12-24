@@ -971,6 +971,7 @@ $array2 = json_decode($json2, TRUE);
 							var typereport = $('#typereport').val();
 							$("#department").empty();
 							$("#factory").empty();
+							$("#time_dirty").empty();
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep2 = "<option value='0'>" + depValue0 + "</option>";
@@ -980,6 +981,13 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$("#department").html(dep2);
 
+
+							var time_dirty_Value0 = '<?php echo $array['Alldirty'][$language]; ?>';
+							var time_dirty = "<option value='0'>" + time_dirty_Value0 + "</option>";
+							for (var i = 0; i < temp['count_time_dirty']; i++) {
+								time_dirty += "<option value=" + temp[i]['id'] + ">" + temp[i]['TimeName'] + "</option>";
+							}
+							$("#time_dirty").append(time_dirty);
 
 							var facValue0 = '-';
 							var fac = "<option value='0'>" + facValue0 + "</option>";
@@ -1290,11 +1298,9 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center pl-4' style='width:60%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
-								if (temp['r'] == 'r23' || temp['r'] == 'r24' || temp['r'] == 'r7') {
+								if (temp['r'] == 'r23' || temp['r'] == 'r24' || temp['r'] == 'r7' || temp['r'] == 'r18') {
 									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
 										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
-								} else if (temp['r'] == 'r18') {
-									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
 								} else {
 									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
 								}

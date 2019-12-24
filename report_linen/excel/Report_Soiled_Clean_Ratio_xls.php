@@ -18,9 +18,9 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 $data = explode(',', $_GET['data']);
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
 $HptCode = $data[0];
 $FacCode = $data[1];
 $year1 = $data[2];
@@ -256,7 +256,6 @@ if ($chk == 'one') {
       (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
       COALESCE(repair_wash.DocDate,0) AS DocDate
       FROM  repair_wash
-      LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
       WHERE DATE (repair_wash.Docdate) = '$date'
       AND repair_wash.FacCode = '$FacCode'
       AND repair_wash.HptCode= '$HptCode'
@@ -284,15 +283,17 @@ if ($chk == 'one') {
       WHERE DATE (return_wash.Docdate) = '$date' AND return_wash.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
       AND return_wash.IsStatus  <> 9
       )e,
-      (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
-      COALESCE(newlinentable.DocDate,0) AS DocDate
-      FROM clean
-      LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
-      LEFT JOIN department ON department.DepCode = clean.DepCode
-      LEFT JOIN site ON department.HptCode = site.HptCode
-      WHERE DATE (clean.Docdate) = '$date'
-      AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'AND clean.IsStatus  <> 9 )
-      f";
+(SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
+    COALESCE(newlinentable.DocDate,0) AS DocDate
+    FROM clean
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    LEFT JOIN department ON department.DepCode = clean.DepCode
+		LEFT JOIN site ON department.HptCode = site.HptCode
+    WHERE DATE (clean.Docdate) = '$date'
+    AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'AND clean.IsStatus  <> 9 )
+    f";
+      // echo $query;
       $meQuery = mysqli_query($conn, $query);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $docdate = $Result['DocDate'];
@@ -348,7 +349,7 @@ if ($chk == 'one') {
     $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalsum7);
     $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $totalsum8);
     $S2 = $start_row + 2;
-    $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+    $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
     $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
     $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
@@ -397,7 +398,7 @@ if ($chk == 'one') {
       (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
       COALESCE(repair_wash.DocDate,0) AS DocDate
       FROM  repair_wash
-      LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+      
       WHERE DATE (repair_wash.Docdate) = '$date[$i]'
       AND repair_wash.FacCode = '$FacCode' AND repair_wash.HptCode= '$HptCode'
       AND repair_wash.isStatus<>9
@@ -426,10 +427,11 @@ if ($chk == 'one') {
       )e,
       (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
       COALESCE(newlinentable.DocDate,0) AS DocDate
-      FROM clean
-      LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
-      LEFT JOIN department ON department.DepCode = clean.DepCode
-		  LEFT JOIN site ON department.HptCode = site.HptCode
+    FROM clean
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    LEFT JOIN department ON department.DepCode = clean.DepCode
+		LEFT JOIN site ON department.HptCode = site.HptCode
       WHERE DATE (clean.Docdate) = '$date[$i]'
       AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
       AND clean.IsStatus  <> 9 )
@@ -489,7 +491,7 @@ if ($chk == 'one') {
     $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalsum7);
     $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $totalsum8);
     $S2 = $start_row + 2;
-    $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+    $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
     $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
     $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
@@ -537,7 +539,7 @@ if ($chk == 'one') {
     (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
     COALESCE(repair_wash.DocDate,0) AS DocDate
     FROM  repair_wash
-    LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+    
     WHERE DATE (repair_wash.Docdate) = '$date[$i]'
     AND repair_wash.FacCode = '$FacCode' AND repair_wash.HptCode= '$HptCode'
     AND repair_wash.isStatus<>9
@@ -567,9 +569,10 @@ if ($chk == 'one') {
     (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
     COALESCE(newlinentable.DocDate,0) AS DocDate
     FROM clean
-    LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
     LEFT JOIN department ON department.DepCode = clean.DepCode
-      LEFT JOIN site ON department.HptCode = site.HptCode
+		LEFT JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date[$i]'
     AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
     AND clean.IsStatus  <> 9)
@@ -628,7 +631,7 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalsum7);
   $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $totalsum8);
   $S2 = $start_row + 2;
-  $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+  $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
   $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
@@ -670,7 +673,7 @@ if ($chk == 'one') {
   (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
   COALESCE(repair_wash.DocDate,0) AS DocDate
   FROM  repair_wash
-  LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+  
   WHERE DATE (repair_wash.Docdate) = '$date[$i]' AND repair_wash.HptCode= '$HptCode'
   AND repair_wash.FacCode = '$FacCode'
   AND repair_wash.isStatus<>9
@@ -699,10 +702,11 @@ if ($chk == 'one') {
   )e,
   (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
   COALESCE(newlinentable.DocDate,0) AS DocDate
-  FROM clean
-  LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
-  LEFT JOIN department ON department.DepCode = clean.DepCode
-	LEFT JOIN site ON department.HptCode = site.HptCode
+    FROM clean
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    LEFT JOIN department ON department.DepCode = clean.DepCode
+		LEFT JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date[$i]'
   AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
   AND clean.IsStatus  <> 9)
@@ -764,7 +768,7 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalsum7);
   $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $totalsum8);
   $S2 = $start_row + 2;
-  $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+  $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
   $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
@@ -813,7 +817,7 @@ if ($chk == 'one') {
   (SELECT  COALESCE(sum(repair_wash.Total),'0') AS repair_wash,
   COALESCE(repair_wash.DocDate,0) AS DocDate
   FROM  repair_wash
-  LEFT JOIN clean ON repair_wash.DocNo=clean.RefDocNo
+  
   WHERE DATE (repair_wash.Docdate) = '$date[$i]'
   AND repair_wash.FacCode = '$FacCode' AND repair_wash.HptCode= '$HptCode'
   AND repair_wash.isStatus<>9
@@ -842,9 +846,10 @@ if ($chk == 'one') {
   )e,
   (SELECT  COALESCE(SUM(clean.Total),'0') AS CLEAN_NEWLINEN,
   COALESCE(newlinentable.DocDate,0) AS DocDate
-  FROM clean
-  LEFT JOIN newlinentable ON newlinentable.DocNo=clean.RefDocNo
-  LEFT JOIN department ON department.DepCode = clean.DepCode
+    FROM clean
+    LEFT JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
+    LEFT JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    LEFT JOIN department ON department.DepCode = clean.DepCode
 		LEFT JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date[$i]'
   AND newlinentable.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
@@ -905,7 +910,7 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $totalsum7);
   $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $totalsum8);
   $S2 = $start_row + 2;
-  $scr = (($totalsum4 / $totalsum8) - 1) * 100;
+  $scr = (($totalsum4 - $totalsum8) / $totalsum4) * 100;
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $S2 . ':E' . $S2);
   $objPHPExcel->getActiveSheet()->mergeCells('F' . $S2 . ':I' . $S2);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $S2, 'SCR (Soiled-Clean Ratio)');
