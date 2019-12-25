@@ -287,6 +287,7 @@ $array2 = json_decode($json2,TRUE);
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
             var department2 = $('#department').val();
+
             var data = {
                 'STATUS': 'ShowItem',
                 'HptCode': HptCode,
@@ -360,7 +361,10 @@ $array2 = json_decode($json2,TRUE);
             });
                 var UsID = $('#UsID').val();
                 var UserName = $('#username').val();
-                // var Password = $('#Password').val();
+                var Password = $('#Password').val();
+                        if(Password == ""){
+                           Password = 123 ; 
+                        }
                 var host = $('#host').val();
                 var department = $('#department').val();
                 var Permission = $('#Permission').val();
@@ -423,7 +427,7 @@ $array2 = json_decode($json2,TRUE);
                         form_data.append('file', file_data);
                         form_data.append('UsID', UsID);
                         form_data.append('UserName', UserName);
-                        // form_data.append('Password', Password);
+                        form_data.append('Password', Password);
                         form_data.append('host', host);
                         form_data.append('department', department);
                         form_data.append('Permission', Permission);
@@ -621,8 +625,8 @@ $array2 = json_decode($json2,TRUE);
                 $('#factory').attr('disabled' , true);
                 $('#hptsel').val("");
                 $('#host').val("");
-                $('#department2').val("");
-                $('#department').val("");
+                // $('#department2').val("");
+                // $('#department').val("");
                 $('#Permission').val("");
                 $('#factory').val("0");
                 $('#UsID').val("");
@@ -687,14 +691,14 @@ $array2 = json_decode($json2,TRUE);
             $('#checkitem_'+row).removeAttr('checked');
             $('#checkitem_'+row).attr('previousValue', false);
             $('#checkitem_'+row).prop('checked', false);
-            $('#Password').attr('disabled' , false);
-            $('#Password').addClass('checkblank');
+            // $('#Password').attr('disabled' , false);
+            // $('#Password').addClass('checkblank');
             Blankinput2();
             } else {
             $("input[name="+name+"]:radio").attr('previousValue', false);
             $('#checkitem_'+row).attr('previousValue', 'checked');
-            $('#Password').attr('disabled' , true);
-            $('#Password').removeClass('checkblank');
+            // $('#Password').attr('disabled' , true);
+            // $('#Password').removeClass('checkblank');
                 if (ID != "" && ID != undefined) {
                     var data = {
                         'STATUS': 'getdetail',
@@ -1434,19 +1438,13 @@ $array2 = json_decode($json2,TRUE);
                                     <label id="rem3" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
-                                        <div class='form-group row'>
-                                        <label class="col-sm-3 col-form-label "><?php echo $array['remask'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8"  id="remask" >
-                                        </div>
-                                    </div>
-                                  <!-- <div class="col-md-6">
+                                  <div class="col-md-6" >
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['password'][$language]; ?></label>
-                                    <input type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-8 checkblank" id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
+                                    <input <?php if($PmID != 6 && $PmID  != 1){ echo "disabled='true'" ; } ?> type="text" onkeyup="resetinput2()" autocomplete="off" class="form-control col-sm-8 " id="Password"    placeholder="<?php echo $array['password'][$language]; ?>">
                                     <label id="rem4" style="font-size: 180%;margin-top: -1%;padding-left:5px;"> * </label>
                                     </div>
-                                  </div> -->
+                                  </div>
                                 </div>   
 
                                 <div class="row">
@@ -1531,6 +1529,12 @@ $array2 = json_decode($json2,TRUE);
                                             <div class="col-md-8" style="padding:0px;">
                                                 <input type="file" class="dropify"  accept="image/x-png,image/gif,image/jpeg" id="image" name="image" />
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class='form-group row'>
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['remask'][$language]; ?></label>
+                                            <input type="text" class="form-control col-sm-8"  id="remask" >
                                         </div>
                                     </div>
                                 </div>

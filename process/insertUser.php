@@ -9,7 +9,7 @@ if($Userid==""){
     $count = 0;
     $UsID = $_POST['UsID'];
     $UserName = $_POST['UserName'];
-    $Password = md5(123);
+    $Password = md5($_POST['Password']);
     $host = $_POST['host'];
     $department = $_POST['department'];
     $Permission = $_POST['Permission'];
@@ -62,6 +62,7 @@ if($Userid==""){
                 users.ThName='$ThName',
                 users.ThLName='$ThLName',
                 users.PmID=$Permission,
+                users.Password='$Password',
                 users.FacCode=$facID,
                 users.email='$email',
                 users.pic='$filename',
@@ -82,6 +83,7 @@ if($Userid==""){
                 users.ThName='$ThName',
                 users.ThLName='$ThLName',
                 users.PmID=$Permission,
+                users.Password ='$Password',
                 users.FacCode=$facID,
                 users.remask='$remask',
                 users.email='$email',

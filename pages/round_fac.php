@@ -552,21 +552,13 @@ $array2 = json_decode($json2,TRUE);
                     <div class="container-fluid">
                         <div class="card-body" style="padding:0px; margin-top:-12px;">
                             <div class="row">
-                                <div class="col-md-2">
-                                    <div class="row" style="margin-left:5px;width: 160%;">
-                                        <select class="form-control col-md-8 " id="hptsel" onchange="getfactory();">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="row" style="margin-left:5px;width: 160%;">
-                                        <select class="form-control col-md-8 " id="factorysel" onchange="ShowItem(1);">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row" style="margin-left:-3px;">
-                                          <div class="search_custom col-md-2">
+                                <div class="col-md-7 off-set-5">
+                                    <div class="row" style="margin-left:5px;" >
+                                        <select class="form-control col-md-4 " id="hptsel" onchange="getfactory();">    </select>
+
+                                        <select class="form-control col-md-4 ml-3" id="factorysel" onchange="ShowItem(1);"> </select>
+
+                                        <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">
                                               <i class="fas fa-search mr-2"></i>
@@ -574,10 +566,7 @@ $array2 = json_decode($json2,TRUE);
                                             </button>
                                           </div>
                                         </div>
-
                                     </div>
-                                </div>
-                                <div class="col-md-2">
                                 </div>
                             </div>
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">

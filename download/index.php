@@ -84,7 +84,7 @@
 <body class="fix-header card-no-border fix-sidebar">
 
 <div class="row d-flex justify-content-center align-items-center" style="height: 774px">
-            <div class="col-md-3 mr-4">
+            <div class="col-md-8  col-sm-12  mt-sm-5">
                 <div class="card">
                     <div class="card-body">
                         <div  class="d-flex justify-content-center mt-3">
@@ -95,7 +95,7 @@
                         </div>
                         <div  class="d-flex justify-content-center mt-2">
                             <div style="font-size:40px;">
-                                Download for Andriod
+                                Download for Android
                             </div>
                         </div>
                         <div  class="d-flex justify-content-center mt-5">
@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mr-4 mt-4">
+            <div class="col-md-8  col-sm-12 mt-sm-5">
                 <div class="card">
                     <div class="card-body">
                         <div  class="d-flex justify-content-center mt-3">

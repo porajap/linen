@@ -10,7 +10,6 @@ function ShowItem($conn, $DATA)
   $lang = $_SESSION['lang'];
   $count = 0;
   $department2 = $DATA['department2'];
-  $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
   if($PmID ==3 && $PmID ==7){
   $xHptCode = $DATA['HptCode']==null?$_SESSION['HptCode']:$DATA['HptCode'];
@@ -29,7 +28,7 @@ function ShowItem($conn, $DATA)
         LEFT JOIN department ON department.DepCode = users.DepCode
         WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') )";
           if ($department2 != "") {
-            $Sql .= " AND department.DepCode = '$department2' AND site.HptCode ='$xHptCode'  ";
+            $Sql .= " AND  site.HptCode ='$xHptCode'  ";
           }else{
             $Sql .= "AND site.HptCode = '$xHptCode'";
           }
@@ -43,7 +42,7 @@ function ShowItem($conn, $DATA)
       INNER JOIN department ON department.DepCode = users.DepCode
       WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') ) AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
         if ($department2 != "") {
-          $Sql .= " AND department.DepCode = '$department2' AND site.HptCode ='$xHptCode'  ";
+          $Sql .= " AND site.HptCode ='$xHptCode'  ";
         }else{
           $Sql .= "AND site.HptCode = '$xHptCode'";
         }
