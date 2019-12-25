@@ -3594,8 +3594,10 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               damage  
               INNER JOIN department ON department.DepCode = damage.DepCode  
               INNER JOIN site ON site.HptCode = department.HptCode  
+              INNER JOIN factory ON factory.faccode = damage.faccode           
               WHERE DATE(damage.DocDate) = DATE('$date1')
               AND site.HptCode = '$HptCode'
+              AND factory.faccode = '$FacCode'
               AND damage.isStatus <> 9 
               GROUP BY Date(damage.DocDate)
               ORDER BY damage.DocDate ASC LIMIT 1";
@@ -3604,9 +3606,11 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               FROM
               damage  
               INNER JOIN department ON department.DepCode = damage.DepCode  
-              INNER JOIN site ON site.HptCode = department.HptCode  
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN factory ON factory.faccode = damage.faccode   
               WHERE damage.DocDate BETWEEN '$date1' AND '$date2'
               AND site.HptCode = '$HptCode'
+              AND factory.faccode = '$FacCode'
               AND damage.isStatus <> 9 
               GROUP BY MONTH (damage.Docdate)
               ORDER BY damage.DocDate ASC LIMIT 1";
@@ -3623,9 +3627,11 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               FROM
               damage  
               INNER JOIN department ON department.DepCode = damage.DepCode  
-              INNER JOIN site ON site.HptCode = department.HptCode  
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN factory ON factory.faccode = damage.faccode   
               WHERE MONTH(damage.DocDate) = '$date1'
               AND site.HptCode = '$HptCode'
+              AND factory.faccode = '$FacCode'
               AND damage.isStatus <> 9 
               GROUP BY MONTH (damage.Docdate)
               ORDER BY damage.DocDate ASC LIMIT 1";
@@ -3637,10 +3643,12 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
               FROM
               damage  
               INNER JOIN department ON department.DepCode = damage.DepCode  
-              INNER JOIN site ON site.HptCode = department.HptCode  
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN factory ON factory.faccode = damage.faccode 
               WHERE DATE(damage.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
            AND site.HptCode = '$HptCode'
-           AND damage.isStatus <> 9 
+           AND damage.isStatus <> 9
+           AND factory.faccode = '$FacCode' 
            GROUP BY YEAR (damage.Docdate)
            ORDER BY damage.DocDate ASC LIMIT 1";
     }
@@ -3649,9 +3657,11 @@ function r24($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
                FROM
               damage  
               INNER JOIN department ON department.DepCode = damage.DepCode  
-              INNER JOIN site ON site.HptCode = department.HptCode  
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN factory ON factory.faccode = damage.faccode 
               WHERE YEAR(damage.DocDate) = '$date1'
              AND site.HptCode = '$HptCode'
+             AND factory.faccode = '$FacCode'
              AND damage.isStatus <> 9 
              GROUP BY YEAR (damage.Docdate)
              ORDER BY damage.DocDate ASC LIMIT 1";

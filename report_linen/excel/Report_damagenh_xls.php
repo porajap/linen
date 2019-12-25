@@ -32,7 +32,7 @@ $DepCode = $data[7];
 $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
-$FacCode = $_GET['Fac'];
+$GroupCodeCome = $data[11];
 $where = '';
 $i = 9;
 $check = '';
@@ -292,46 +292,39 @@ if ($chk == 'one') {
 // echo "<pre>";
 // print_r($date);
 // echo "</pre>";
-// echo $year1;
 // -----------------------------------------------------------------------------------
 $status_group = 1;
 // -----------------------------------------------------------------------------------
 $objPHPExcel->setActiveSheetIndex()
-  ->setCellValue('A8',  $array2['factory'][$language])
-  ->setCellValue('B8',  $array2['itemname'][$language]);
+  ->setCellValue('A8',  $array2['itemname'][$language]);
 // Write data from MySQL result
 $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
 $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['DM'][$language]);
 $objPHPExcel->getActiveSheet()->setCellValue('A6', $date_header);
 $objPHPExcel->getActiveSheet()->setCellValue('A7', 'รายละเอียด');
+
 $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
 $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
 $objPHPExcel->getActiveSheet()->mergeCells('A7:B7');
+$objPHPExcel->getActiveSheet()->mergeCells('A8:B8');
 // -----------------------------------------------------------------------------------
 $query = "  SELECT
               item.ItemCode,
-              item.ItemName,
-              factory.$FacName
+              item.ItemName
               FROM
               damagenh
               INNER JOIN damagenh_detail ON damagenh.DocNo = damagenh_detail.DocNo
-              INNER JOIN item ON damagenh_detail.ItemCode = item.ItemCode
-              INNER JOIN factory ON factory.FacCode = damagenh.FacCode
+              LEFT JOIN item ON damagenh_detail.ItemCode = item.ItemCode
               $where
               AND damagenh.isStatus <> 9 AND damagenh.isStatus <> 0
-              AND damagenh.FacCode = '$FacCode'
-              GROUP BY item.ItemCode
+              GROUP BY damagenh_detail.ItemCode
             ";
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($status_group == 1) {
-    $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result[$FacName]);
-  }
-  $i++;
   $ItemName[] =  $Result["ItemName"];
   $ItemCode[] =  $Result["ItemCode"];
-  $status_group = 0;
 }
+
 // -----------------------------------------------------------------------------------
 $r = 2;
 $d = 1;
@@ -339,36 +332,43 @@ $rows = 9;
 for ($row = 0; $row < $count; $row++) {
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'จำนวนชิ้น');
   $r++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'นน.(Kg)');
+  $r++;
 }
 $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'จำนวนชิ้น');
 $r++;
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'นน.(Kg)');
+$r++;
 // -----------------------------------------------------------------------------------
 $r = 2;
+$j = 3;
 $d = 1;
 for ($row = 0; $row < $count; $row++) {
+  $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '7', $DateShow[$row]);
-  $r++;
+  $r += 2;
+  $j += 2;
   $d++;
 }
+$objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
 $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '7', "total");
 // -----------------------------------------------------------------------------------
 $start_row = 9;
 $r = 1;
 $j = 3;
 $lek = 0;
-$COUNT_item = SIZEOF($ItemCode);
+$COUNT_item = SIZEOF($ItemName);
 for ($q = 0; $q < $COUNT_item; $q++) {
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ItemName[$lek]);
+  $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[0] . $start_row. ':' . $date_cell1[1] . $start_row);
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[0] . $start_row, $ItemName[$lek]);
   $r++;
   for ($day = 0; $day < $count; $day++) {
     $data = "SELECT   COALESCE(SUM(damagenh_detail.Qty),'0') AS Totalqty,
                       COALESCE(SUM(damagenh_detail.Weight),'0') AS Weight
                     FROM damagenh_detail 
                     INNER JOIN damagenh ON damagenh.DocNo = damagenh_detail.DocNo
-                    INNER JOIN factory ON factory.Faccode = damagenh.Faccode
                     INNER JOIN department ON department.DepCode = damagenh.DepCode
-                    INNER JOIN site ON site.HptCode = department.HptCode
-                    INNER JOIN item ON item.itemcode = damagenh_detail.itemcode";
+                    INNER JOIN site ON site.HptCode = department.HptCode";
     if ($chk == 'one') {
       if ($format == 1) {
         $data .=   " WHERE  DATE(damagenh.DocDate)  ='$date[$day]'  AND damagenh.isStatus <> 9 AND damagenh.isStatus <> 0";
@@ -384,18 +384,22 @@ for ($q = 0; $q < $COUNT_item; $q++) {
       list($year, $month) = explode('-', $date[$day]);
       $data .=   " WHERE  YEAR(damagenh.DocDate)  ='$year'  AND MONTH(damagenh.DocDate)  ='$month' AND damagenh.isStatus <> 9 AND damagenh.isStatus <> 0";
     }
-    $data .= "              AND damagenh.Faccode = '$FacCode'
-                            AND item.ItemCode = '$ItemCode[$lek]'
-                            AND site.HptCode = '$HptCode' ";
+
+    $data .= " AND site.HptCode = '$HptCode' ";
+    $data .= " AND damagenh_detail.ItemCode = '$ItemCode[$lek]' ";
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Totalqty"]);
       $r++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
+      $r++;
       $sumdayTotalqty += $Result["Totalqty"];
+      $sumdayWeight += $Result["Weight"];
     }
-    $TotaldayTotalqty += $sumdayTotalqty;
   }
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayTotalqty);
+  $r++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayWeight);
   $sumdayTotalqty = 0;
   $sumdayWeight = 0;
   $r = 1;
@@ -404,7 +408,8 @@ for ($q = 0; $q < $COUNT_item; $q++) {
 }
 // -----------------------------------------------------------------------------------
 $r = 1;
-$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 'total');
+$objPHPExcel->getActiveSheet()->mergeCells($date_cell1[0] . $start_row . ':' . $date_cell1[1] . $start_row);
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[0] . $start_row, 'total');
 $r++;
 for ($day = 0; $day < $count; $day++) {
   $data =       "SELECT
@@ -413,10 +418,9 @@ for ($day = 0; $day < $count; $day++) {
               FROM
               damagenh_detail
               INNER JOIN damagenh ON damagenh.DocNo = damagenh_detail.DocNo
-                    INNER JOIN factory ON factory.Faccode = damagenh.Faccode
                     INNER JOIN department ON department.DepCode = damagenh.DepCode
                     INNER JOIN site ON site.HptCode = department.HptCode
-                    INNER JOIN item ON item.itemcode = damagenh_detail.itemcode";
+                    LEFT JOIN item ON item.itemcode = damagenh_detail.itemcode";
 
   if ($chk == 'one') {
     if ($format == 1) {
@@ -433,17 +437,20 @@ for ($day = 0; $day < $count; $day++) {
     list($year, $month) = explode('-', $date[$day]);
     $data .=   " WHERE  YEAR(damagenh.DocDate)  ='$year'  AND MONTH(damagenh.DocDate)  ='$month' AND damagenh.isStatus <> 9 AND damagenh.isStatus <> 0";
   }
-  $data .= " AND damagenh.Faccode = '$FacCode'
-             AND site.HptCode = '$HptCode' ";
-
+  $data .= " AND site.HptCode = '$HptCode' ";
   $meQuery = mysqli_query($conn, $data);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Totalqty"]);
     $r++;
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
+    $r++;
     $sumdayTotalqty += $Result["Totalqty"];
+    $sumdayWeight += $Result["Weight"];
   }
 }
 $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayTotalqty);
+$r++;
+$objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayWeight);
 // -----------------------------------------------------------------------------------
 $A5 = array(
   'alignment' => array(
@@ -488,14 +495,11 @@ $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->
 $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($fill);
 $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . "8")->applyFromArray($colorfill);
 $objPHPExcel->getActiveSheet()->getStyle("A" . $start_row . ":" . $date_cell1[$r] . $start_row)->applyFromArray($colorfill);
-$objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r] . "9:" . $date_cell1[$r] . $start_row)->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle($date_cell1[$r1] . "9:" . $date_cell1[$r] . $start_row)->applyFromArray($colorfill);
 $objPHPExcel->getActiveSheet()->getStyle("C9:" . $date_cell1[$r] . $start_row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 $objPHPExcel->getActiveSheet()->getStyle('A1:' . $date_cell1[$r] . $start_row)->getAlignment()->setIndent(1);
 // $objPHPExcel->getActiveSheet()->getColumnDimension("A:D")->setAutoSize(true);
-foreach (range('A', 'B') as $columnID) {
-  $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-    ->setAutoSize(true);
-}
+$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
 $objDrawing = new PHPExcel_Worksheet_Drawing();
 $objDrawing->setName('Nhealth_linen');
 $objDrawing->setDescription('Nhealth_linen');
@@ -512,6 +516,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 $objPHPExcel->getActiveSheet()->setTitle($array2['DM']['en']);
 $objPHPExcel->createSheet();
 //ตั้งชื่อไฟล์
+
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);

@@ -193,7 +193,7 @@ if ($language == 'th') {
   $HptName = HptName;
   $FacName = FacName;
 }
-$header = array($array2['no'][$language], $array2['itemname'][$language], $array2['shot'][$language], $array2['over'][$language]);
+$header = array($array2['no'][$language], $array2['itemname'][$language], 'Par', $array2['shot'][$language], $array2['over'][$language]);
 // ------------------------------------------------------------------------------
 if ($DepCode[0] == 0) {
   $DepCode = explode(',', $_GET['Dep10']);
@@ -204,8 +204,7 @@ for ($i = 0; $i < $Count_Dep; $i++) {
 department.DepCode, department.DepName 
 FROM department 
 WHERE department.DepCode = '$DepCode[$i]'
-GROUP BY department.DepCode
- ";
+GROUP BY department.DepCode";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $DepName[] = $Result['DepName'];
@@ -217,7 +216,7 @@ GROUP BY department.DepCode
 $pdf->AddPage();
 $pdf->SetFont('thsarabunnew', 'b', 18);
 $pdf->Ln(10);
-$pdf->Cell(0, 10,  $array2['r7']['en'] ,0, 0, 'C');
+$pdf->Cell(0, 10,  $array2['r7']['en'], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 12);
 $pdf->Cell(ุ0, 5,  $date_header, 0, 1, 'R');
@@ -227,6 +226,7 @@ for ($i = 0; $i < $Count_Dep; $i++) {
   $data = "SELECT
 IFNULL(SUM(shelfcount_detail.Over),0) AS OverPar,
 IFNULL(SUM(shelfcount_detail.Short),0) AS Short ,
+IFNULL(SUM(shelfcount_detail.ParQty),0) AS ParQty ,
 item.itemName,
 department.DepName
 FROM
@@ -234,12 +234,14 @@ shelfcount_detail
 INNER JOIN shelfcount ON shelfcount.DocNo =  shelfcount_detail.DocNo
 INNER JOIN item ON item.itemCode = shelfcount_detail.ItemCode
 INNER JOIN department ON department.DepCode = shelfcount.DepCode
+  INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
 $where 
 AND  department.DepCode = '$DepCode[$i]'
 AND department.HptCode = '$HptCode'
 AND shelfcount.isStatus <> 9
 AND shelfcount.isStatus <> 0
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
+  AND   time_sc.TimeName <>'Extra'
 GROUP BY
 	item.itemName,
   department.DepCode";
@@ -250,9 +252,10 @@ GROUP BY
     $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead> 
     <tr>
     <th width="10 %" align="center">' . $header[0] . '</th>
-    <th width="50 %" align="center">' . $header[1] . '</th>
+    <th width="30 %" align="center">' . $header[1] . '</th>
     <th width="20 %" align="center">' . $header[2] . '</th>
     <th width="20 %" align="center">' . $header[3] . '</th>
+    <th width="20 %" align="center">' . $header[4] . '</th>
     </tr></thead>';
     $old_code = $DepCode[$i];
     $count = 1;
@@ -261,7 +264,8 @@ GROUP BY
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $html .= '<tr style="font-size: 12px;" nobr="true">';
     $html .=   '<td width="10 %" align="center">' . $count . '</td>';
-    $html .=   '<td width="50 %" align="left"> ' . $Result['itemName'] . '</td>';
+    $html .=   '<td width="30 %" align="left"> ' . $Result['itemName'] . '</td>';
+    $html .=   '<td width="20 %" align="center"> ' . $Result['ParQty'] . '</td>';
     $html .=   '<td width="20 %" align="center"> ' . $Result['Short'] . '</td>';
     $html .=   '<td width="20 %" align="center"> ' . $Result['OverPar'] . '</td>';
     $html .=  '</tr>';

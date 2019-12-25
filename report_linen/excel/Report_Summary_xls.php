@@ -64,7 +64,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount_detail.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (report_sc.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -74,7 +74,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount_detail.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (report_sc.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -83,7 +83,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount_detail.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE report_sc.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -97,7 +97,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount_detail.Docdate) = " . $date1;
+  $where =   "WHERE month (report_sc.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -105,7 +105,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(shelfcount_detail.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE DATE(report_sc.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -280,23 +280,30 @@ if ($itemfromweb == '0') {
     }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
-    shelfcount_detail.itemname,
-    shelfcount_detail.itemcode
+    report_sc.itemname,
+    report_sc.itemcode
     FROM
-    shelfcount_detail
+    report_sc
     $where
-      AND shelfcount_detail.isStatus <> 9
-      AND shelfcount_detail.isStatus <> 0
-      AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
-      AND shelfcount_detail.TotalQty <> 0
-      GROUP BY  shelfcount_detail.itemcode ORDER BY shelfcount_detail.ItemName ASC ";
+      AND report_sc.isStatus <> 9
+      AND report_sc.isStatus <> 0
+      AND report_sc.DepCode = '$DepCode[$sheet]'
+      AND report_sc.TotalQty <> 0
+      GROUP BY  report_sc.itemcode ORDER BY report_sc.ItemName ASC ";
+      echo $item;
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $itemName[] =  $Result["itemname"];
       $itemCode[] =  $Result["itemcode"];
     }
+    echo "<pre>";
+    print_r($itemName);
+    echo "</pre>";
+    echo "<pre>";
+    print_r($itemCode);
+    echo "</pre>";
     // -----------------------------------------------------------------------------------
-    $countitem = sizeof($itemCode);
+    $countitem = size5of($itemCode);
     $start_row = 9;
     $start_col = 5;
     // -----------------------------------------------------------------------------------
@@ -311,16 +318,16 @@ if ($itemfromweb == '0') {
     // -----------------------------------------------------------------------------------
     for ($i = 0; $i < $countitem; $i++) {
       $item = "SELECT
-      shelfcount_detail.ParQty AS  ParQty,
-      shelfcount_detail.WeightPerQty AS Weight,
+      report_sc.ParQty AS  ParQty,
+      report_sc.WeightPerQty AS Weight,
       category_price.Price AS Price
       FROM
-      shelfcount_detail
-      LEFT JOIN category_price ON category_price.CategoryCode = shelfcount_detail.CategoryCode
+      report_sc
+      LEFT JOIN category_price ON category_price.CategoryCode = report_sc.CategoryCode
       $where
-      AND shelfcount_detail.itemcode = '$itemCode[$i]'
-      AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
-      GROUP BY  shelfcount_detail.itemcode  ";
+      AND report_sc.itemcode = '$itemCode[$i]'
+      AND report_sc.DepCode = '$DepCode[$sheet]'
+      GROUP BY  report_sc.itemcode  ";
 
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -338,12 +345,12 @@ if ($itemfromweb == '0') {
     $w = 0;
     for ($q = 0; $q < $countitem; $q++) {
       for ($day = 0; $day < $count; $day++) {
-        $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
-       COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-      FROM shelfcount_detail 
-      WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-      AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
-      AND shelfcount_detail.itemcode = '$itemCode[$q]'  ";
+        $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE,
+       COALESCE(sum(report_sc.Weight),'0') as  Weight
+      FROM report_sc 
+      WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+      AND report_sc.DepCode = '$DepCode[$sheet]'  
+      AND report_sc.itemcode = '$itemCode[$q]'  ";
         $meQuery = mysqli_query($conn, $data);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
@@ -364,11 +371,11 @@ if ($itemfromweb == '0') {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[0] . $start_row, $DepName);
     $r = 5;
     for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE, 
-                      COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-                      FROM shelfcount_detail 
-              WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-              AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
+      $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+                      COALESCE(sum(report_sc.Weight),'0') as  Weight
+                      FROM report_sc 
+              WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+              AND report_sc.DepCode = '$DepCode[$sheet]'  
     ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -476,11 +483,11 @@ if ($itemfromweb <> '0') {
   $DepCode = [];
   $Sql = "  SELECT   department.DepName ,department.DepCode
                FROM
-               shelfcount_detail  
-              INNER JOIN department ON department.DepCode = shelfcount_detail.DepCode  
+               report_sc  
+              INNER JOIN department ON department.DepCode = report_sc.DepCode  
               $where
-              AND shelfcount_detail.isStatus <> 9
-              AND shelfcount_detail.itemCode = '$itemfromweb'
+              AND report_sc.isStatus <> 9
+              AND report_sc.itemCode = '$itemfromweb'
               GROUP BY department.DepCode ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -536,20 +543,20 @@ if ($itemfromweb <> '0') {
   // -----------------------------------------------------------------------------------
   for ($i = 0; $i < $countDep; $i++) {
     $item = "SELECT
-      shelfcount_detail.ParQty AS  ParQty,
-      shelfcount_detail.WeightPerQty AS Weight ,
+      report_sc.ParQty AS  ParQty,
+      report_sc.WeightPerQty AS Weight ,
       category_price.Price AS Price,
       department.DepName AS DepName,
-      shelfcount_detail.itemname AS itemname 
+      report_sc.itemname AS itemname 
       FROM
-      shelfcount_detail
-      INNER JOIN department ON department.DepCode = shelfcount_detail.DepCode  
-      LEFT JOIN  category_price ON category_price.CategoryCode = shelfcount_detail.CategoryCode
+      report_sc
+      INNER JOIN department ON department.DepCode = report_sc.DepCode  
+      LEFT JOIN  category_price ON category_price.CategoryCode = report_sc.CategoryCode
                       WHERE
-                      shelfcount_detail.itemcode = '$itemfromweb'
-                      AND shelfcount_detail.DepCode = '$DepCode[$i]'
-                      AND shelfcount_detail.isStatus <> 9
-                      GROUP BY  shelfcount_detail.itemcode 
+                      report_sc.itemcode = '$itemfromweb'
+                      AND report_sc.DepCode = '$DepCode[$i]'
+                      AND report_sc.isStatus <> 9
+                      GROUP BY  report_sc.itemcode 
                       ";
     // echo "<pre>";
     // ECHO $item;
@@ -571,13 +578,13 @@ if ($itemfromweb <> '0') {
   $w = 0;
   for ($q = 0; $q < $countDep; $q++) {
     for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT  COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE, 
-      COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-      FROM shelfcount_detail 
-      WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-      AND shelfcount_detail.isStatus <> 9
-      AND shelfcount_detail.DepCode = '$DepCode[$q]'  
-      AND shelfcount_detail.itemcode = '$itemfromweb'  ";
+      $data = "SELECT  COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+      COALESCE(sum(report_sc.Weight),'0') as  Weight
+      FROM report_sc 
+      WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+      AND report_sc.isStatus <> 9
+      AND report_sc.DepCode = '$DepCode[$q]'  
+      AND report_sc.itemcode = '$itemfromweb'  ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
@@ -599,12 +606,12 @@ if ($itemfromweb <> '0') {
 
   $r = 5;
   for ($day = 0; $day < $count; $day++) {
-    $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE, 
-    COALESCE(sum(shelfcount_detail.Weight),'0') as  Weight
-    FROM shelfcount_detail 
-    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-    AND shelfcount_detail.isStatus <> 9
-    AND shelfcount_detail.itemcode = '$itemfromweb'
+    $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+    COALESCE(sum(report_sc.Weight),'0') as  Weight
+    FROM report_sc 
+    WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+    AND report_sc.isStatus <> 9
+    AND report_sc.itemcode = '$itemfromweb'
     ";
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

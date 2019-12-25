@@ -1298,9 +1298,11 @@ $array2 = json_decode($json2, TRUE);
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
 									"<td class='text-center pl-4' style='width:60%'>" + hot + "</td>" +
 									"<td class='text-center' style='width:20%'>" + show_date + "</td>";
-								if (temp['r'] == 'r23' || temp['r'] == 'r24' || temp['r'] == 'r7' || temp['r'] == 'r18') {
+								if (temp['r'] == 'r23' || temp['r'] == 'r24' || temp['r'] == 'r7') {
 									dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
 										"<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
+								} else if (temp['r'] == 'r18') {
+									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>";
 								} else {
 									dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
 								}
@@ -1388,7 +1390,7 @@ $array2 = json_decode($json2, TRUE);
 			} else {
 				var tf = true;
 			}
-			if (typeReport == 1 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 15 || typeReport == 8 || typeReport == 22) {
+			if (typeReport == 1 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 15 || typeReport == 8 || typeReport == 22 || typeReport == 24) {
 				$('#hotpital').attr('disabled', tf);
 				$('#department').attr('disabled', true);
 				$('#factory').attr('disabled', false);
@@ -1432,7 +1434,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
-			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 24 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
+			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);

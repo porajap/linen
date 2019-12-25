@@ -19,9 +19,8 @@ $betweendate2 = $data[5];
 $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
+$year = $data['year'];
 $where = '';
-$FacCode = $_GET['Fac'];
-
 $language = $_SESSION['lang'];
 if ($language == "en") {
   $language = "en";
@@ -37,7 +36,8 @@ $array2 = json_decode($json2, TRUE);
 //print_r($data);
 if ($chk == 'one') {
   if ($format == 1) {
-    $where = "WHERE  DATE (damagenh.DocDate) LIKE '%$date1%'";
+    $where =   "WHERE DATE (damagenh.Docdate) = DATE('$date1')";
+    $where_new = "WHERE  DATE (newlinentable.DocDate) LIKE '%$date1%'";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -48,6 +48,7 @@ if ($chk == 'one') {
     }
   } elseif ($format = 3) {
     $where = "WHERE  year (damagenh.DocDate) LIKE '%$date1%'";
+    $where_new = "WHERE  year (newlinentable.DocDate) LIKE '%$date1%'";
 
     if ($language == "th") {
       $date1 = $date1 + 543;
@@ -58,6 +59,7 @@ if ($chk == 'one') {
   }
 } elseif ($chk == 'between') {
   $where = "WHERE damagenh.Docdate BETWEEN '$date1' AND '$date2'";
+  $where_new = "WHERE newlinentable.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -71,7 +73,8 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " .  $year2;
   }
 } elseif ($chk == 'month') {
-  $where = "WHERE month (damagenh.Docdate) = " . $date1;
+  $where =   "WHERE month (damagenh.Docdate) = " . $date1;
+  $where_new = "WHERE month (newlinentable.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -79,7 +82,8 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =  "WHERE date(damagenh.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE date(damagenh.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where_new =  "WHERE date(newlinentable.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -102,21 +106,10 @@ class PDF extends FPDF
   function Footer()
 
   {
-
-    if ($this->isFinished) {
-      $this->SetY(-30);
-      $xml = simplexml_load_file('../xml/general_lang.xml');
-      $xml2 = simplexml_load_file('../xml/report_lang.xml');
-      $json = json_encode($xml);
-      $array = json_decode($json, TRUE);
-      $json2 = json_encode($xml2);
-      $array2 = json_decode($json2, TRUE);
-      $language = $_SESSION['lang'];
-    }
     // Position at 1.5 cm from bottom
     $this->SetY(-15);
     // Arial italic 8
-    $this->SetFont('THSarabun', 'i', 12);
+    $this->SetFont('THSarabun', 'i', 13);
     // Page number
     $this->Cell(0, 10, iconv("UTF-8", "TIS-620", '') . $this->PageNo() . '/{nb}', 0, 0, 'R');
   }
@@ -139,17 +132,16 @@ if ($language == 'th') {
   $FacName = FacName;
 }
 $Sql = "SELECT
+			factory.$FacName,
 			site.$HptName,
-			department.DepName,
-      factory.$FacName
+			department.DepName
 FROM damagenh
+INNER JOIN factory ON factory.FacCode = damagenh.FacCode
 INNER JOIN department ON damagenh.DepCode=department.DepCode
+INNER JOIN damagenh_detail ON damagenh.DocNo=damagenh_detail.DocNo
 INNER JOIN site ON department.HptCode=site.HptCode
-INNER JOIN factory ON factory.faccode = damagenh.faccode  
 $where
-AND department.HptCode = '$HptCode'
-AND factory.faccode = '$FacCode'
- ";
+AND department.HptCode = '$HptCode'";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $side = $Result[$HptName];
@@ -166,21 +158,22 @@ $pdf->SetFont('THSarabun', '', 10);
 $image = "../images/Nhealth_linen 4.0.png";
 $pdf->Image($image, 10, 10, 43, 15);
 $pdf->SetFont('THSarabun', '', 10);
-$pdf->Cell(0, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
+$pdf->Cell(190, 10, iconv("UTF-8", "TIS-620", $array2['printdate'][$language] . $printdate), 0, 0, 'R');
 $pdf->Ln(18);
 // Title
 // Line break
 $pdf->SetFont('THSarabun', 'b', 20);
 $pdf->Cell(80);
-$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array2['r23'][$language]), 0, 1, 'C');
+$pdf->Cell(30, 10, iconv("UTF-8", "TIS-620", $array2['DM'][$language]), 0, 1, 'C');
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(80);
 $pdf->Cell(30, 7, iconv("UTF-8", "TIS-620", $array['hosname'][$language] . " : " . $side), 0, 0, 'C');
 $pdf->Ln(7);
 $pdf->SetFont('THSarabun', 'b', 14);
-$pdf->Cell(90, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] . ' : ' . $facname), 0, 0, 'l');
-$pdf->Cell(ุ0, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
+$pdf->Cell(120, 10, iconv("UTF-8", "TIS-620",  ''), 0, 0, 'L');
+$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12);
+
 $next_page = 1;
 $r = 1;
 $status = 0;
@@ -193,9 +186,9 @@ $p2 = $array['item'][$language];
 $p3 = $array['qty'][$language];
 $p4 = $array['weight'][$language];
 $p5 = $array['Sum'][$language];
-$header = array($array['no'][$language], $array['item'][$language], $array['qty'][$language]);
+$header = array($array['no'][$language], $array['item'][$language], $array['qty'][$language], $array['weight'][$language]);
 // width of column table
-$w = array(30, 110, 50);
+$w = array(25, 90, 30, 45);
 // Get Data and store in Result
 // $result = $data->getdata($conn, $query, $numfield, $field);
 // // Set Table
@@ -207,37 +200,27 @@ for ($i = 0; $i < count($header); $i++)
   $pdf->Cell($w[$i], 10, iconv("UTF-8", "TIS-620", $header[$i]), 1, 0, 'C');
 $pdf->Ln();
 $query = "SELECT
-damagenh_detail.ItemCode,
 item.ItemName,
 item_unit.UnitName,
-department.DepName,
-sum(damagenh_detail.Qty) AS Qty,
-sum(
-  damagenh_detail.Weight
-) AS Weight,
-  damagenh_detail.Detail
+SUM(damagenh_detail.Qty) AS Totalqty,
+SUM(damagenh_detail.Weight) AS Weight,
+damagenh_detail.itemcode,
+damagenh_detail.Detail
 FROM
-item
-INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-INNER JOIN damagenh_detail ON damagenh_detail.ItemCode = item.ItemCode
+damagenh_detail
 INNER JOIN damagenh ON damagenh.DocNo = damagenh_detail.DocNo
 INNER JOIN department ON damagenh.DepCode = department.DepCode
-INNER JOIN factory ON factory.faccode = damagenh.faccode  
+INNER JOIN item ON item.ItemCode = damagenh_detail.ItemCode
+INNER JOIN site ON site.HptCode = department.HptCode
+INNER JOIN item_unit ON damagenh_detail.UnitCode = item_unit.UnitCode
 $where
 AND department.HptCode = '$HptCode'
-AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0
-AND factory.faccode = '$FacCode'
+AND damagenh.IsStatus <> 9 AND damagenh.isStatus <> 0
 GROUP BY
-damagenh_detail.ItemCode";
+damagenh_detail.ItemCode 
+ORDER BY  damagenh_detail.ItemCode ASC";
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($Result['Detail'] <> null) {
-    $inner_array[$field[1]] = $Result['ItemName'] . " ( " . $Result['Detail'] . " )";
-  } else {
-    $inner_array[$field[1]] = $Result['ItemName'];
-  }
-
   if ($count > 20) {
     $next_page++;
     if ($status == 0) {
@@ -258,26 +241,31 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
       $y = 20;
     }
   }
-
-  $inner_array[$field[2]] = $Result['Qty'];
+  if ($Result['Detail'] <> null) {
+    $inner_array[$field[1]] = $Result['ItemName'] . " ( " . $Result['Detail'] . " )";
+  } else {
+    $inner_array[$field[1]] = $Result['ItemName'];
+  }
+  if ($Result['RequestName'] <> null) {
+    $inner_array[$field[1]] = $Result['RequestName'];
+  }
+  $inner_array[$field[2]] = $Result['Totalqty'];
   $inner_array[$field[3]] = $Result['Weight'];
-  $inner_array[$field[4]] = $inner_array[$field[2]] * $inner_array[$field[3]];
 
   $pdf->SetFont('THSarabun', '', 14);
   $pdf->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $count), 1, 0, 'C');
   $pdf->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'L');
   $pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[2]])), 1, 0, 'C');
+  $pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($inner_array[$field[3]], 2)), 1, 0, 'C');
   $pdf->Ln();
   $count++;
+  $total1 += $inner_array[$field[2]];
+  $total2 += $inner_array[$field[3]];
 }
 
-//footer
-
-
-
+$pdf->Cell($w[1] + $w[0], 10, iconv("UTF-8", "TIS-620", $array2['total'][$language]), 1, 0, 'C');
+$pdf->Cell($w[2], 10, iconv("UTF-8", "TIS-620", number_format($total1)), 1, 0, 'C');
+$pdf->Cell($w[3], 10, iconv("UTF-8", "TIS-620", number_format($total2, 2)), 1, 0, 'C');
 $pdf->isFinished = true;
-
-
-
 $ddate = date('d_m_Y');
-$pdf->Output('I', 'Report_Damagenh_' . $ddate . '.pdf');
+$pdf->Output('I', 'Report_damagenhed_Linen_Weight_' . $ddate . '.pdf');
