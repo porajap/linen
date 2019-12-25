@@ -31,10 +31,15 @@ $betweendate2 = $data[5];
 $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
-$dirty_time = $data[11];
 $year = $data['year'];
+$dirty_time = $data[11];
 
 
+if ($dirty_time == 0) {
+  $dirty_time = '';
+} else {
+  $dirty_time = " AND time_dirty.ID ='$dirty_time'";
+}
 
 $where = '';
 $language = $_SESSION['lang'];

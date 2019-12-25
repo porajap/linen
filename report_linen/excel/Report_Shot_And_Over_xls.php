@@ -294,8 +294,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
   WHERE
   shelfcount_detail.isStatus <> 9
+  AND 	shelfcount_detail.isStatus <> 0
   AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
-  AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
+  AND (shelfcount_detail.Over <> 9 OR shelfcount_detail.Short <> 0 )
   AND   time_sc.TimeName <>'Extra'
   GROUP BY  shelfcount_detail.itemcode
   ORDER BY  shelfcount_detail.itemname ASC ";
@@ -379,7 +380,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
     INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
     WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-    AND shelfcount_detail.isStatus <> 9
+  AND shelfcount_detail.isStatus <> 9
+  AND 	shelfcount_detail.isStatus <> 0
     AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
     AND time_sc.TimeName <>'Extra'
     AND shelfcount_detail.itemcode = '$itemCode[$q]' ";
@@ -410,7 +412,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
             INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
             INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
             WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-            AND shelfcount_detail.isStatus <> 9
+  AND shelfcount_detail.isStatus <> 9
+  AND 	shelfcount_detail.isStatus <> 0
             AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
             AND time_sc.TimeName <>'Extra'
             AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )";

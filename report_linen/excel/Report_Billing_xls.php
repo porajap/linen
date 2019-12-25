@@ -20,7 +20,7 @@ $array2 = json_decode($json2, TRUE);
 $data = explode(',', $_GET['data']);
 echo "<pre>";
 print_r($data);
-echo "</pre>"; 
+echo "</pre>";
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -44,7 +44,7 @@ $DepCode = [];
 $DepName = [];
 $GroupCode = [];
 $GroupName = [];
-$DateShow=[];
+$DateShow = [];
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -55,7 +55,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount_detail.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (report_sc.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -65,7 +65,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount_detail.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (report_sc.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -74,7 +74,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount_detail.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE report_sc.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -88,7 +88,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount_detail.Docdate) = " . $date1;
+  $where =   "WHERE month (report_sc.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -96,7 +96,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(shelfcount_detail.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE DATE(report_sc.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -217,16 +217,16 @@ if ($GroupCodeCome == '0') {
     $GroupName[] = $Result["GroupName"];
   }
 }
- // -----------------------------------------------------------------------------------
- if ($chk == 'one') {
+// -----------------------------------------------------------------------------------
+if ($chk == 'one') {
   if ($format == 1) {
     $count = 1;
     $date[] = $date1;
-    list($y,$m,$d)=explode('-',$date1);
-    if($language ==  th ){
-      $y = $y+543;
+    list($y, $m, $d) = explode('-', $date1);
+    if ($language ==  th) {
+      $y = $y + 543;
     }
-    $date1 = $d.'-'.$m.'-'.$y;
+    $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
 } elseif ($chk == 'between') {
@@ -244,28 +244,28 @@ if ($GroupCodeCome == '0') {
     $date[] = $value->format('Y-m-d');
   }
   $count = count($date);
-  for($i =0; $i<$count ; $i++){
-    $date1=$date[$i];
-    list($y,$m,$d)=explode('-',$date1);
-    if($language ==  'th' ){
-      $y = $y+543;
+  for ($i = 0; $i < $count; $i++) {
+    $date1 = $date[$i];
+    list($y, $m, $d) = explode('-', $date1);
+    if ($language ==  'th') {
+      $y = $y + 543;
     }
-    $date1 = $d.'-'.$m.'-'.$y;
+    $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
 } elseif ($chk == 'month') {
   $day = 1;
-  if($language ==  'th' ){
-    $y = $year1+543;
-  }else{
+  if ($language ==  'th') {
+    $y = $year1 + 543;
+  } else {
     $y = $year1;
   }
   $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
   $datequery =  $year1 . '-' . $date1 . '-';
-  $dateshow = '-'.$date1. '-'.$y;
+  $dateshow = '-' . $date1 . '-' . $y;
   for ($i = 0; $i < $count; $i++) {
     $date[] = $datequery . $day;
-    $DateShow[] = $day.$dateshow;
+    $DateShow[] = $day . $dateshow;
     $day++;
   }
 }
@@ -354,7 +354,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                     WHERE  DATE(shelfcount.DocDate)  ='$date[$day]'  AND shelfcount.isStatus <> 9
                     AND shelfcount.DepCode = '$DepCode[$lek]'
                     AND site.HptCode = '$HptCode' ";
-                    
+
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aWeight"]);
@@ -490,7 +490,7 @@ $file_name = "Report_Billing_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")
 //
 $objPHPExcel->removeSheetByIndex(
   $objPHPExcel->getIndex(
-      $objPHPExcel->getSheetByName('Worksheet')
+    $objPHPExcel->getSheetByName('Worksheet')
   )
 );
 // Save Excel 2007 file

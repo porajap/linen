@@ -266,7 +266,8 @@ time_sc.TimeName AS CycleTime,
 site.$HptName,
 site.HptCode,
 sc_time_2.TimeName AS TIME , 
-time_sc.timename AS ENDTIME
+time_sc.timename AS ENDTIME,
+shelfcount.isStatus
 FROM
 shelfcount
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
@@ -287,8 +288,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $ENDTIME = $Result['ENDTIME'];
   $HptName = $Result[$HptName];
   $HptCode = $Result['HptCode'];
+  $isStatus = $Result['isStatus'];
 }
-
+if ($isStatus == 1 || $isStatus == 0) {
+  $isStatus = 'On Process';
+} elseif ($isStatus == 3 || $isStatus == 4) {
+  $isStatus = 'Complete';
+}
 $data = "SELECT
 item.ItemName,
 item.weight,
@@ -302,7 +308,9 @@ IFNULL(shelfcount_detail.Over, 0) AS OverPar,
 IFNULL(shelfcount_detail.Short, 0) AS Short,
 IFNULL(item.Weight, 0) AS Weight,
 category_price.Price,
-shelfcount_detail.Price as PriceSC
+shelfcount_detail.Price as PriceSC,
+shelfcount.Totalw AS W ,
+shelfcount.Totalp AS P
 FROM
 shelfcount
 INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -347,7 +355,8 @@ $pdf->SetFont('  thsarabunnew', 'b', 20);
 $pdf->Cell(0, 10,  $array2['r4'][$language], 0, 0, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('  thsarabunnew', 'b', 16);
-$pdf->Cell(30, 7,  $array2['docno'][$language] . " : " . $docno, 0, 1, 'L');
+$pdf->Cell(135, 10,  $array['docno'][$language] . " : " . $docno, 0, 0, 'L');
+$pdf->Cell(30, 7,  'Status :  ' . $isStatus, 0, 1, 'L');
 $pdf->Cell(30, 7,  $array2['hospital'][$language] . " : " . $HptName, 0, 1, 'L');
 $pdf->Cell(30, 7,  $array2['ward'][$language] . " : " . $DeptName, 0, 1, 'L');
 $pdf->Cell(30, 7,  $array2['date'][$language] . " : " . $DocDate, 0, 1, 'L');
@@ -389,6 +398,8 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $totalsum_W += $totalweight;
   $price_W += $Result['PriceSC'];
   $count++;
+  $W=$Result['W'];
+  $P=$Result['P'];
 }
 
 $html .= ' </table>';
@@ -398,10 +409,10 @@ $pdf->writeHTML($html);
 $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 6.0);
 $pdf->Cell(144, 5, $array2['total_weight'][$language], 1, 0, 'C');
-$pdf->Cell(36, 5, NUMBER_FORMAT($totalsum_W, 2), 1, 1, 'C');
+$pdf->Cell(36, 5, $W, 1, 1, 'C');
 if ($private == 1) {
   $pdf->Cell(144, 5, $array2['total_price'][$language], 1, 0, 'C');
-  $pdf->Cell(36, 5, $price_W, 1, 0, 'C');
+  $pdf->Cell(36, 5, $P, 1, 0, 'C');
 }
 // $sum = '<div style="line-height: 100%;">555 </div><table cellspacing="0" cellpadding="1" border="1"    >';
 // $sum .= '<tr>' .

@@ -73,7 +73,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount_detail.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (report_sc.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -83,7 +83,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount_detail.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (report_sc.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -92,7 +92,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount_detail.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE report_sc.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -106,7 +106,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount_detail.Docdate) = " . $date1;
+  $where =   "WHERE month (report_sc.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -114,7 +114,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(shelfcount_detail.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE DATE(report_sc.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -290,16 +290,16 @@ if ($itemfromweb == '0') {
     }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
-  shelfcount_detail.itemname,
-  shelfcount_detail.itemcode
+  report_sc.itemname,
+  report_sc.itemcode
   FROM
-  shelfcount_detail
+  report_sc
   WHERE
-  shelfcount_detail.isStatus <> 9
-  AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
-  AND shelfcount_detail.TotalQty <> 0 
-  GROUP BY  shelfcount_detail.itemcode
-  ORDER BY  shelfcount_detail.itemname ";
+  report_sc.isStatus <> 9
+  AND report_sc.DepCode = '$DepCode[$sheet]'
+  AND report_sc.TotalQty <> 0 
+  GROUP BY  report_sc.itemcode
+  ORDER BY  report_sc.itemname ";
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $itemName[] =  $Result["itemname"];
@@ -357,13 +357,13 @@ if ($itemfromweb == '0') {
     $objPHPExcel->getActiveSheet()->setCellValue($date_header1 . "7", 'Total');
 
     // -----------------------------------------------------------------------------------
-    $start_col = 0;
+    $start_col = 1;
     $start_row = 9;
     for ($q = 0; $q < $countitem; $q++) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $itemName[$q]);
       $start_row++;
     }
-    $start_col = 1;
+    $start_col = 0;
     $start_row = 9;
     // for ($q = 0; $q < $countitem; $q++) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . $start_row, $DepName);
@@ -379,15 +379,15 @@ if ($itemfromweb == '0') {
     $r = 3;
     for ($q = 0; $q < $countitem; $q++) {
       for ($day = 0; $day < $count; $day++) {
-        $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
-   COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
-   COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-    FROM shelfcount_detail 
-    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-    AND shelfcount_detail.isStatus <> 9
-    AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
-    AND shelfcount_detail.itemcode = '$itemCode[$q]' 
-    AND shelfcount_detail.TotalQty <> 0 ";
+        $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE,
+   COALESCE( SUM(report_sc.Short),'0') as  Short, 
+   COALESCE(SUM(report_sc.Over),'0') as  Over 
+    FROM report_sc 
+    WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+    AND report_sc.isStatus <> 9
+    AND report_sc.DepCode = '$DepCode[$sheet]'  
+    AND report_sc.itemcode = '$itemCode[$q]' 
+    AND report_sc.TotalQty <> 0 ";
         $meQuery = mysqli_query($conn, $data);
         while ($Result = mysqli_fetch_assoc($meQuery)) {
           $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
@@ -415,14 +415,14 @@ if ($itemfromweb == '0') {
 
     $r = 3;
     for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
- COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
- COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-  FROM shelfcount_detail 
-  WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-  AND shelfcount_detail.isStatus <> 9
-  AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
-  AND shelfcount_detail.TotalQty <> 0
+      $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE,
+ COALESCE( SUM(report_sc.Short),'0') as  Short, 
+ COALESCE(SUM(report_sc.Over),'0') as  Over 
+  FROM report_sc 
+  WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+  AND report_sc.isStatus <> 9
+  AND report_sc.DepCode = '$DepCode[$sheet]'  
+  AND report_sc.TotalQty <> 0
   ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -562,11 +562,11 @@ if ($itemfromweb <> '0') {
   department.DepName,
   department.DepCode
   FROM
-  shelfcount_detail
-  INNER JOIN department ON shelfcount_detail.DepCode = department.DepCode
+  report_sc
+  INNER JOIN department ON report_sc.DepCode = department.DepCode
   WHERE
-  shelfcount_detail.isStatus <> 9
-  AND shelfcount_detail.itemCode = '$itemfromweb'
+  report_sc.isStatus <> 9
+  AND report_sc.itemCode = '$itemfromweb'
   GROUP BY   department.DepCode
   ORDER BY  department.DepName ";
 
@@ -633,15 +633,15 @@ if ($itemfromweb <> '0') {
   $r = 2;
   for ($q = 0; $q < $countDep; $q++) {
     for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
-   COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
-   COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-    FROM shelfcount_detail 
-    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-    AND shelfcount_detail.isStatus <> 9
-    AND shelfcount_detail.DepCode = '$DepCode[$q]'  
-    AND shelfcount_detail.itemcode = '$itemfromweb' 
-    AND shelfcount_detail.TotalQty <> 0 ";
+      $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE,
+   COALESCE( SUM(report_sc.Short),'0') as  Short, 
+   COALESCE(SUM(report_sc.Over),'0') as  Over 
+    FROM report_sc 
+    WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+    AND report_sc.isStatus <> 9
+    AND report_sc.DepCode = '$DepCode[$q]'  
+    AND report_sc.itemcode = '$itemfromweb' 
+    AND report_sc.TotalQty <> 0 ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
@@ -669,14 +669,14 @@ if ($itemfromweb <> '0') {
 
   $r = 2;
   for ($day = 0; $day < $count; $day++) {
-    $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
- COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
- COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
-  FROM shelfcount_detail 
-  WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-  AND shelfcount_detail.isStatus <> 9
-  AND shelfcount_detail.itemcode = '$itemfromweb' 
-  AND shelfcount_detail.TotalQty <> 0
+    $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE,
+ COALESCE( SUM(report_sc.Short),'0') as  Short, 
+ COALESCE(SUM(report_sc.Over),'0') as  Over 
+  FROM report_sc 
+  WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+  AND report_sc.isStatus <> 9
+  AND report_sc.itemcode = '$itemfromweb' 
+  AND report_sc.TotalQty <> 0
   ";
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

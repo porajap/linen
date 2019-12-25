@@ -206,13 +206,12 @@ if ($dirty_time == '0') {
   $dirty_time = " AND time_dirty.ID ='$dirty_time'";
 }
 
-$query = "  SELECT
-  time_dirty.TimeName
-  FROM
-  time_dirty
-INNER JOIN dirty ON dirty.Time_ID = time_dirty.ID
-  $where 
-  $dirty_time ";
+$query = "  SELECT time_dirty.TimeName,time_dirty.id 
+            FROM time_dirty 
+            INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
+            WHERE round_time_dirty.HptCode = '$HptCode'
+            $dirty_time
+            Group by time_dirty.TimeName" ;
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $TimeName =   $Result['TimeName'];
@@ -235,9 +234,11 @@ if ($chk == 'one') {
                 FROM
                 dirty
                 INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
+                INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
                 $where
-                 $dirty_time ";
-    // echo $query;
+               AND  round_time_dirty.HptCode = '$HptCode'
+                $dirty_time ";
+    echo $query;
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $date[] = $Result['DocDate'];
@@ -278,7 +279,9 @@ if ($chk == 'one') {
   FROM
   dirty
   INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
+              INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
   $where
+                 AND  round_time_dirty.HptCode = '$HptCode'
    $dirty_time ";
   // echo $query;
   $meQuery = mysqli_query($conn, $query);
@@ -301,7 +304,9 @@ if ($chk == 'one') {
   FROM
   dirty
   INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
+              INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
   $where
+                 AND  round_time_dirty.HptCode = '$HptCode'
    $dirty_time ";
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

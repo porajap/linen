@@ -118,7 +118,8 @@ time_sc.TimeName AS CycleTime,
 site.HptName,
 sc_time_2.TimeName AS TIME , 
 time_sc.timename AS ENDTIME ,
-site.HptCode
+site.HptCode,
+shelfcount.isStatus
 FROM
 shelfcount
 LEFT JOIN department ON shelfcount.DepCode = department.DepCode
@@ -137,6 +138,12 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $ENDTIME = $Result['ENDTIME'];
   $HptName = $Result['HptName'];
   $HptCode = $Result['HptCode'];
+  $isStatus = $Result['isStatus'];
+}
+if ($isStatus == 1 || $isStatus == 0) {
+  $Status = 'On Process';
+} elseif ($isStatus == 3 || $isStatus == 4) {
+  $Status = 'Complete';
 }
 list($year, $month, $day) = explode('-', $DocDate);
 if ($language == 'th') {
@@ -166,6 +173,7 @@ if ($private == 1) {
   $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r4'][$language]);
   $objPHPExcel->getActiveSheet()->mergeCells('A5:E5');
   $objPHPExcel->getActiveSheet()->setCellValue('A6', $array['docno'][$language] . " : " . $docno);
+  $objPHPExcel->getActiveSheet()->setCellValue('G6',  'Status :  ' . $Status);
   $objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['hospital'][$language] . " : " . $HptName);
   $objPHPExcel->getActiveSheet()->setCellValue('A8', $array2['ward'][$language] . " : " . $DeptName);
   $objPHPExcel->getActiveSheet()->setCellValue('A9', $array2['date'][$language] . " : " . $DocDate);
@@ -194,7 +202,9 @@ if ($private == 1) {
   IFNULL(shelfcount_detail.Short, 0) AS Short,
   IFNULL(item.Weight, 0) AS Weight,
   category_price.Price,
-  shelfcount_detail.Price as PriceSC
+  shelfcount_detail.Price as PriceSC,
+  shelfcount.Totalw AS W ,
+  shelfcount.Totalp AS P
   FROM
   shelfcount
   INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -228,14 +238,16 @@ if ($private == 1) {
     $Weight += $totalweight;
     $totalprice += $price;
     $price_W += $Result['PriceSC'];
+    $W = $Result['W'];
+    $P = $Result['P'];
   }
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $start_row . ':G' . $start_row);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total_weight'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $Weight);
+  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $W);
   $start_row++;
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $start_row . ':G' . $start_row);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total_price'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $price_W);
+  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $P);
 
 
 
@@ -315,6 +327,7 @@ if ($government == 1) {
   $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r4'][$language]);
   $objPHPExcel->getActiveSheet()->mergeCells('A5:E5');
   $objPHPExcel->getActiveSheet()->setCellValue('A6', $array['docno'][$language] . " : " . $docno);
+  $objPHPExcel->getActiveSheet()->setCellValue('G6',  'Status :  ' . $Status);
   $objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['hospital'][$language] . " : " . $HptName);
   $objPHPExcel->getActiveSheet()->setCellValue('A8', $array2['ward'][$language] . " : " . $DeptName);
   $objPHPExcel->getActiveSheet()->setCellValue('A9', $array2['date'][$language] . " : " . $DocDate);
@@ -343,7 +356,9 @@ if ($government == 1) {
   IFNULL(shelfcount_detail.Over, 0) AS OverPar,
   IFNULL(shelfcount_detail.Short, 0) AS Short,
   IFNULL(item.Weight, 0) AS Weight,
-  category_price.Price
+  category_price.Price,
+    shelfcount.Totalw AS W ,
+ shelfcount.Totalp AS P
   FROM
   shelfcount
   INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -375,10 +390,12 @@ if ($government == 1) {
     $start_row++;
     $count++;
     $Weight += $totalweight;
+    $W = $Result['W'];
+    $P = $Result['P'];
   }
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $start_row . ':H' . $start_row);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total_weight'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $Weight);
+  $objPHPExcel->getActiveSheet()->setCellValue('I' . $start_row, $W);
 
 
 
