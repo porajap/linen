@@ -18,9 +18,9 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 $data = explode(',', $_GET['data']);
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -35,9 +35,9 @@ $year2 = $data[10];
 $itemfromweb = $data[11];
 if ($DepCode[0] == 0) {
   $DepCode = explode(',', $_GET['Dep10']);
-  echo "<pre>";
-  print_r($DepCode);
-  echo "</pre>";
+  // echo "<pre>";
+  // print_r($DepCode);
+  // echo "</pre>";
 }
 
 
@@ -255,9 +255,9 @@ if ($chk == 'one') {
   }
 }
 if ($itemfromweb == '0') {
-  echo "<pre>";
-  print_r($DepCode);
-  echo "</pre>";
+  // echo "<pre>";
+  // print_r($DepCode);
+  // echo "</pre>";
   $sheet_count = sizeof($DepCode);
   for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     $objPHPExcel->setActiveSheetIndex($sheet)
@@ -551,7 +551,7 @@ if ($itemfromweb <> '0') {
   item
   WHERE
   item.itemCode = '$itemfromweb'";
-  echo $query;
+  // echo $query;
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $objPHPExcel->getActiveSheet()->setCellValue('A5', $Result["itemname"]);
@@ -575,9 +575,9 @@ if ($itemfromweb <> '0') {
     $DepName[] =  $Result["DepName"];
     $DepCode[] =  $Result["DepCode"];
   }
-  echo "<pre>";
-  print_r($DepName);
-  echo "</pre>";
+  // echo "<pre>";
+  // print_r($DepName);
+  // echo "</pre>";
   // -----------------------------------------------------------------------------------
 
   $countDep = sizeof($DepCode);
