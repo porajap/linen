@@ -453,6 +453,7 @@ $array2 = json_decode($json2,TRUE);
         function ShowDetail() {
           var docno = $("#docno").val();
           var HptCode = $("#hotpital").val();
+
           var data = {
             'STATUS'  : 'ShowDetailDoc',
             'DocNo'   : docno,
@@ -1067,6 +1068,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function confirmDep2(){
           var DocNo = $('#DocNoHide2').val();
+          var HptCode = $("#hotpital").val();
           // var ItemCode = $('#ItemCodeHide').val();
           var RequestName = $('#NameRequest').val();
           $('#countcheck2').val(0);
@@ -1091,7 +1093,8 @@ $array2 = json_decode($json2,TRUE);
               'STATUS' : 'confirmDep2',
               'DocNo' : DocNo,
               'DepCode' : DepCode,
-              'RequestName' : RequestName
+              'RequestName' : RequestName,
+              'HptCode' : HptCode
             }
             senddata(JSON.stringify(data));
             $('#ModalRequest').modal('toggle');

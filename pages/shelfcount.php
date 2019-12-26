@@ -1376,15 +1376,19 @@ $array2 = json_decode($json2,TRUE);
       }
 
 
-      var DocNo = $('#docno').val();
+      var DocNo     = $('#docno').val();
+      var hotpCode  =  $('#hotpital').val();
+      var dept      =  $('#department').val();
       var data = {
-        'STATUS':'UpdateNewQty',
-        'DocNo':DocNo,
-        'RowID':RowID,
-        'NewQty':Qty,
-        'chk':chk,
-        'Issue':Issue,
-        'Result':Result
+        'STATUS'  :'UpdateNewQty',
+        'DocNo'   :DocNo,
+        'RowID'   :RowID,
+        'NewQty'  :Qty,
+        'chk'     :chk,
+        'Issue'   :Issue,
+        'Result'  :Result,
+        'hotpCode':hotpCode,
+        'dept'    :dept
       };
       senddata(JSON.stringify(data));
 
@@ -1424,7 +1428,9 @@ $array2 = json_decode($json2,TRUE);
       }
 
 
-      var DocNo = $('#docno').val();
+      var DocNo     = $('#docno').val();
+      var hotpCode  =  $('#hotpital').val();
+      var dept      =  $('#department').val();
       var data = {
         'STATUS':'UpdateNewQty',
         'DocNo':DocNo,
@@ -1432,11 +1438,13 @@ $array2 = json_decode($json2,TRUE);
         'NewQty':Qty,
         'chk':chk,
         'Issue':Issue,
-        'Result':Result
+        'Result':Result,
+        'hotpCode':hotpCode,
+        'dept':dept
       };
       senddata(JSON.stringify(data));
     }
-    function KeyNewCcQty(RowID, i, iMax){
+    function KeyNewCcQty(RowID, i, iMax , itemcode){
       var NewQty = Number($('#qty1_'+i).val());
       var Issue = Number($('#Issue_'+i).val());
       var Max = Number(iMax);
@@ -1472,8 +1480,10 @@ $array2 = json_decode($json2,TRUE);
         $('#Short_'+i).val("");
       }
       
-
-      var DocNo = $('#docno').val();
+      
+      var DocNo     = $('#docno').val();
+      var hotpCode  =  $('#hotpital').val();
+      var dept      =  $('#department').val();
       var data = {
         'STATUS':'UpdateNewQty',
         'DocNo':DocNo,
@@ -1481,11 +1491,14 @@ $array2 = json_decode($json2,TRUE);
         'NewQty':Qty,
         'chk':chk,
         'Issue':Issue,
-        'Result':Result
+        'Result':Result,
+        'hotpCode':hotpCode,
+        'dept':dept,
+        'itemcode':itemcode
       };
       senddata(JSON.stringify(data));
     }
-    function KeyNewTotalQty(RowID, i){
+    function KeyNewTotalQty(RowID, i , itemcode){
       var NewQty      = Number($('#qty1_'+i).val());
       var Max         = Number($('#Max_'+i).val());
       var Issue       = Number($('#Issue_'+i).val());
@@ -1495,7 +1508,6 @@ $array2 = json_decode($json2,TRUE);
       var Weight2     = Number($('#Weight2_'+i).val());
       Weightitem = parseFloat(Weight2 * Issue);
       $('#Weight_'+i).val(Weightitem.toFixed(2));
-
       if(Issue!=0){
         if(Max>=Issue){
           Result = Max-Issue;
@@ -1517,6 +1529,8 @@ $array2 = json_decode($json2,TRUE);
       }
     
       var DocNo = $('#docno').val();
+      var hotpCode  =  $('#hotpital').val();
+      var dept      =  $('#department').val();
       var data = {
         'STATUS'    :'UpdateNewQty',
         'DocNo'     :DocNo,
@@ -1525,7 +1539,10 @@ $array2 = json_decode($json2,TRUE);
         'chk'       :chk,
         'Issue'     :Issue,
         'Result'    :Result,
-        'Weightitem':Weightitem
+        'Weightitem':Weightitem,
+        'hotpCode'    :hotpCode,
+        'dept':dept,
+        'itemcode':itemcode
       };
       senddata(JSON.stringify(data));
     }
@@ -2412,11 +2429,11 @@ $array2 = json_decode($json2,TRUE);
               for (var i = 0; i < temp["Row"]; i++) {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
                 var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee inputDis' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>-</button>"+
-                "<input autocomplete='off' class='form-control numonly QtyItem inputDis' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onchange='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>"+
+                "<input autocomplete='off' class='form-control numonly QtyItem inputDis' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onchange='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\" ,\""+temp[i]['ItemCode']+"\")'>"+
                 "<button class='btn btn_mheesave inputDis' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
                 var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;font-size: 24px!important'>";
                 var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['ParQty']+"'>";
-                var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\")'>";
+                var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\" ,\""+temp[i]['ItemCode']+"\"  )'>";
                 var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
                 var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
                 var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
