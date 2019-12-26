@@ -35,7 +35,7 @@ $year = $data['year'];
 $dirty_time = $data[11];
 
 
-if ($dirty_time == 0) {
+if ($dirty_time == '0') {
   $dirty_time = '';
 } else {
   $dirty_time = " AND time_dirty.ID ='$dirty_time'";
@@ -273,11 +273,6 @@ $data = new Data();
 $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("P", "A4");
-if ($dirty_time == 0) {
-  $dirty_time = '';
-} else {
-  $dirty_time = " AND time_dirty.ID ='$dirty_time'";
-}
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -295,7 +290,7 @@ $Sql = "SELECT
         INNER JOIN dirty_detail ON dirty.DocNo = dirty_detail.DocNo
         INNER JOIN department ON dirty_detail.DepCode = department.DepCode
         INNER JOIN site ON site.hptcode =department.hptcode
-        LEFT JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
+        INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
         $where
         AND  factory.FacCode = '$FacCode'
         AND  site.HptCode = '$HptCode'
@@ -314,6 +309,7 @@ if ($language == 'th') {
 } else {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
+
 if ($dirty_time == '') {
   $TimeName = 'ทุกรอบ';
 }

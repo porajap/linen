@@ -57,6 +57,7 @@ $DateShow = [];
 $ISSUE = 0;
 $TOTAL_LASTWEIGHT = 0;
 $TotalISSUE = 0;
+$status = '1';
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -327,7 +328,10 @@ if ($itemfromweb == '0') {
 
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $DepName);
+        if ($status == '1') {
+          $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $DepName);
+          $status = '9';
+        }
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $itemName[$i]);
         $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
         $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);

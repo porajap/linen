@@ -168,7 +168,7 @@ function departmentWhere($conn, $DATA)
 
   $count = 0;
   $countfac = 0;
-  $count_time_dirty = 0 ;
+  $count_time_dirty = 0;
   $boolean = false;
   $meQuery = mysqli_query($conn, $Sql1);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -3479,28 +3479,26 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $boolean = false;
   if ($Format == 1) {
     if ($chk == 'one') {
-      $Sql = "SELECT  damagenh.DocDate, site.HptName,factory.FacName,factory.FacCode
+      $Sql = "SELECT  damagenh.DocDate, site.HptName
               FROM
               damagenh  
               INNER JOIN department ON department.DepCode = damagenh.DepCode  
               INNER JOIN site ON site.HptCode = department.HptCode  
-              INNER JOIN factory ON factory.faccode = damagenh.faccode  
               WHERE DATE(damagenh.DocDate) = DATE('$date1')
               AND site.HptCode = '$HptCode'
               AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0
-              GROUP BY Date(damagenh.DocDate), factory.faccode
+              GROUP BY Date(damagenh.DocDate)
               ORDER BY damagenh.DocDate ASC";
     } else {
-      $Sql = "SELECT  damagenh.DocDate, site.HptName,factory.FacName,factory.FacCode
+      $Sql = "SELECT  damagenh.DocDate, site.HptName
               FROM
               damagenh  
               INNER JOIN department ON department.DepCode = damagenh.DepCode  
               INNER JOIN site ON site.HptCode = department.HptCode  
-              INNER JOIN factory ON factory.faccode = damagenh.faccode  
               WHERE damagenh.DocDate BETWEEN '$date1' AND '$date2'
               AND site.HptCode = '$HptCode'
               AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0
-              GROUP BY MONTH (damagenh.Docdate), factory.faccode
+              GROUP BY MONTH (damagenh.Docdate)
               ORDER BY damagenh.DocDate ASC";
     }
   } else if ($Format == 2) {
@@ -3511,44 +3509,41 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
     $date2 = $date['date2'];
 
     if ($chk == 'month') {
-      $Sql = "SELECT  damagenh.DocDate, site.HptName,factory.FacName,factory.FacCode
+      $Sql = "SELECT  damagenh.DocDate, site.HptName
               FROM
               damagenh  
               INNER JOIN department ON department.DepCode = damagenh.DepCode  
               INNER JOIN site ON site.HptCode = department.HptCode  
-              INNER JOIN factory ON factory.faccode = damagenh.faccode  
               WHERE MONTH(damagenh.DocDate) = '$date1'
               AND site.HptCode = '$HptCode'
              AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0       
-              GROUP BY MONTH (damagenh.Docdate), factory.faccode
+              GROUP BY MONTH (damagenh.Docdate)
               ORDER BY damagenh.DocDate ASC";
     } else {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
       $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
-      $Sql = " SELECT  damagenh.DocDate, site.HptName,factory.FacName,factory.FacCode
+      $Sql = " SELECT  damagenh.DocDate, site.HptName
               FROM
               damagenh  
               INNER JOIN department ON department.DepCode = damagenh.DepCode  
               INNER JOIN site ON site.HptCode = department.HptCode  
-              INNER JOIN factory ON factory.faccode = damagenh.faccode  
               WHERE DATE(damagenh.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
            AND site.HptCode = '$HptCode'
             AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0 
-           GROUP BY YEAR (damagenh.Docdate), factory.faccode
+           GROUP BY YEAR (damagenh.Docdate)
            ORDER BY damagenh.DocDate ASC ";
     }
   } else if ($Format == 3) {
-    $Sql = "  SELECT  damagenh.DocDate, site.HptName,factory.FacName,factory.FacCode
+    $Sql = "  SELECT  damagenh.DocDate, site.HptName
                FROM
               damagenh  
               INNER JOIN department ON department.DepCode = damagenh.DepCode  
               INNER JOIN site ON site.HptCode = department.HptCode  
-              INNER JOIN factory ON factory.faccode = damagenh.faccode  
               WHERE YEAR(damagenh.DocDate) = '$date1'
              AND site.HptCode = '$HptCode'
              AND damagenh.IsStatus <> 9 AND damagenh.IsStatus <> 0 
-             GROUP BY YEAR (damagenh.Docdate), factory.faccode
+             GROUP BY YEAR (damagenh.Docdate)
              ORDER BY damagenh.DocDate ASC";
   }
   $return['sql'] = $Sql;
@@ -3569,7 +3564,7 @@ function r23($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $return['data_send'] = $data_send;
   if ($boolean == true) {
     $return['status'] = 'success';
-    $return['form'] = 'Fac';
+    $return['form'] = 'NoFacDep';
     $return['countRow'] = $count;
     $return['date1'] = $date1;
     $return['date2'] = $date2;
