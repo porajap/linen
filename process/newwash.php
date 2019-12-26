@@ -1023,7 +1023,6 @@ function SaveBill($conn, $DATA)
   $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
-  ShowDocument($conn,$DATA);
 }
 
 function UpdateRefDocNo($conn, $DATA)

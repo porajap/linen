@@ -859,7 +859,6 @@ function CreateDocument($conn, $DATA)
     $Sql = "UPDATE factory_out SET IsRequest = 1 WHERE DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
 
-    ShowDocument($conn, $DATA);
   }
 
   function UpdateRefDocNo($conn, $DATA)

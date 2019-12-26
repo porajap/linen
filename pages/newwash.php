@@ -895,6 +895,7 @@ $array2 = json_decode($json2,TRUE);
                           $("#bSave").prop('disabled', true);
                           $("#bCancel").prop('disabled', true);
                           Blankinput();
+                          ShowDocument();
                           $('#factory').attr('disabled', false);
                       } else if (result.dismiss === 'cancel') {
                         swal.close();

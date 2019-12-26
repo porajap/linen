@@ -919,7 +919,6 @@ function CreateDocument($conn, $DATA)
       mysqli_close($conn);
       die;
     }
-    ShowDocument($conn, $DATA);
   }
 
   function UpdateRefDocNo($conn, $DATA)
