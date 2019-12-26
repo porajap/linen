@@ -1185,7 +1185,7 @@ function CreateDocument($conn, $DATA)
   {
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
-    $datepicker = $DATA["datepicker"];
+    $datepicker = $DATA["datepicker"]==''?date('Y-m-d'):$DATA["datepicker1"];
     $boolean = false;
     $count = 0;
     $Sql =  "SELECT clean.DocNo  ,clean.DocDate  , factory.FacName FROM clean

@@ -1448,9 +1448,9 @@ if (e.keyCode == 13) {
 
                   var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
 
-                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input autocomplete='off' class='form-control numonly ' "+st2+" id='iqty"+i+"' placeholder='0'  ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input autocomplete='off' class='form-control numonly ' "+st2+" id='iqty"+i+"' value='1'  ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
 
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='iweight"+i+"' placeholder='0' ></div>";
+                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size:20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='iweight"+i+"' value='0' ></div>";
 
 
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
