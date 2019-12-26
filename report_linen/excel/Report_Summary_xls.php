@@ -34,12 +34,12 @@ $year1 = $data[9];
 $year2 = $data[10];
 $itemfromweb = $data[11];
 if ($data[7] == "0") {
-  $ss="$data[7]";
+  $ss = "$data[7]";
   $DepCode = explode(',', $_GET['Dep10']);
   // echo "<pre>";
   // print_r($DepCode);
   // echo "</pre>";
-}else{
+} else {
   $ss = "2";
   $DepCode[0] = $data[7];
 }
@@ -279,6 +279,7 @@ if ($itemfromweb == '0') {
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["DepName"]);
+      $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result["DepName"]);
       $DepName = $Result["DepName"];
       $DepName = str_replace("/", " ", $DepName);
     }
@@ -328,18 +329,16 @@ if ($itemfromweb == '0') {
 
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
-        if ($status == '1') {
-          $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $DepName);
-          $status = '9';
-        }
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $itemName[$i]);
         $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
         $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);
         $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["Price"]);
         $start_row++;
         $Weight[] = $Result["Weight"];
+        
       }
     }
+
     $start_row = 9;
     $r = 5;
     $w = 0;
