@@ -18,9 +18,9 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 $data = explode(',', $_GET['data']);
-echo "<pre>";
-print_r($data);
-echo "</pre>";
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
 $HptCode = $data[0];
 $FacCode = $data[1];
 $date1 = $data[2];
@@ -28,18 +28,21 @@ $date2 = $data[3];
 $betweendate1 = $data[4];
 $betweendate2 = $data[5];
 $format = $data[6];
-$DepCode[] = $data[7];
+// $DepCode[] = $data[7];
 $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
 $itemfromweb = $data[11];
-if ($DepCode[0] == 0) {
+if ($data[7] == "0") {
+  $ss = "$data[7]";
   $DepCode = explode(',', $_GET['Dep10']);
-  echo "<pre>";
-  print_r($DepCode);
-  echo "</pre>";
+  // echo "<pre>";
+  // print_r($DepCode);
+  // echo "</pre>";
+} else {
+  $ss = "2";
+  $DepCode[0] = $data[7];
 }
-
 
 $where = '';
 $i = 9;
@@ -54,6 +57,7 @@ $DateShow = [];
 $ISSUE = 0;
 $TOTAL_LASTWEIGHT = 0;
 $TotalISSUE = 0;
+$status = '1';
 if ($language == 'th') {
   $HptName = HptNameTH;
   $FacName = FacNameTH;
@@ -184,9 +188,9 @@ $objPHPExcel->getActiveSheet()
   ->getHeaderFooter()->setEvenFooter('&R Page &P / &N');
 $objPHPExcel->getActiveSheet()
   ->setShowGridlines(true);
-echo "<pre>";
-print_r($DepCode);
-echo "</pre>";
+// echo "<pre>";
+// print_r($DepCode);
+// echo "</pre>";
 if ($chk == 'one') {
   if ($format == 1) {
     $count = 1;
@@ -275,6 +279,7 @@ if ($itemfromweb == '0') {
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["DepName"]);
+      $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result["DepName"]);
       $DepName = $Result["DepName"];
       $DepName = str_replace("/", " ", $DepName);
     }
@@ -290,20 +295,13 @@ if ($itemfromweb == '0') {
       AND report_sc.DepCode = '$DepCode[$sheet]'
       AND report_sc.TotalQty <> 0
       GROUP BY  report_sc.itemcode ORDER BY report_sc.ItemName ASC ";
-      echo $item;
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $itemName[] =  $Result["itemname"];
       $itemCode[] =  $Result["itemcode"];
     }
-    echo "<pre>";
-    print_r($itemName);
-    echo "</pre>";
-    echo "<pre>";
-    print_r($itemCode);
-    echo "</pre>";
     // -----------------------------------------------------------------------------------
-    $countitem = size5of($itemCode);
+    $countitem = sizeof($itemCode);
     $start_row = 9;
     $start_col = 5;
     // -----------------------------------------------------------------------------------
@@ -331,15 +329,16 @@ if ($itemfromweb == '0') {
 
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $DepName);
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $itemName[$i]);
         $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
         $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);
         $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["Price"]);
         $start_row++;
         $Weight[] = $Result["Weight"];
+        
       }
     }
+
     $start_row = 9;
     $r = 5;
     $w = 0;
@@ -494,10 +493,6 @@ if ($itemfromweb <> '0') {
     $DepCode[] = $Result['DepCode'];
     $DepName[] = $Result['DepName'];
   }
-
-  echo "<pre>";
-  print_r($DepCode);
-  echo "</pre>";
   $objPHPExcel->setActiveSheetIndex(0)
     ->setCellValue('A8',  'CusName')
     ->setCellValue('B8',  'ItemName')

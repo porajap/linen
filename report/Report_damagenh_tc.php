@@ -206,14 +206,13 @@ $pdf->Cell(28, 7, $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $xTime, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35, 7, $array['refdocno'][$language], 0, 0, 'L');
-$pdf->Cell(90, 7, " : " . $RefDocNo, 0, 0, 'L');
+$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
+$pdf->Cell(90, 7, " : " . $FirstName, 0, 0, 'L');
 $pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
 $pdf->Ln();
 
-$pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
-$pdf->Cell(90, 7, " : " . $FirstName, 0, 0, 'L');
+
 
 
 $pdf->Ln();

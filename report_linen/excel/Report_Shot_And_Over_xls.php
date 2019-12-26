@@ -286,20 +286,20 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   }
   // -----------------------------------------------------------------------------------
   $item = "SELECT
-  shelfcount_detail.itemname,
-  shelfcount_detail.itemcode
+  report_sc.itemname,
+  report_sc.itemcode
   FROM
-  shelfcount_detail
-  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  report_sc
+  INNER JOIN shelfcount ON shelfcount.DocNo = report_sc.DocNo
   INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
   WHERE
-  shelfcount_detail.isStatus <> 9
-  AND 	shelfcount_detail.isStatus <> 0
-  AND shelfcount_detail.DepCode = '$DepCode[$sheet]'
-  AND (shelfcount_detail.Over <> 9 OR shelfcount_detail.Short <> 0 )
+  report_sc.isStatus <> 9
+  AND 	report_sc.isStatus <> 0
+  AND report_sc.DepCode = '$DepCode[$sheet]'
+  AND (report_sc.Over <> 9 OR report_sc.Short <> 0 )
   AND   time_sc.TimeName <>'Extra'
-  GROUP BY  shelfcount_detail.itemcode
-  ORDER BY  shelfcount_detail.itemname ASC ";
+  GROUP BY  report_sc.itemcode
+  ORDER BY  report_sc.itemname ASC ";
   $meQuery = mysqli_query($conn, $item);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $itemName[] =  $Result["itemname"];
@@ -374,17 +374,17 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   for ($q = 0; $q < $countitem; $q++) {
     for ($day = 0; $day < $count; $day++) {
       $data = "SELECT 
-   COALESCE( SUM(shelfcount_detail.Short),'0') as  Short, 
-   COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
+   COALESCE( SUM(report_sc.Short),'0') as  Short, 
+   COALESCE(SUM(report_sc.Over),'0') as  Over 
     FROM shelfcount 
-    INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
+    INNER JOIN report_sc ON shelfcount.DocNo = report_sc.DocNo 
     INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
-    WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-  AND shelfcount_detail.isStatus <> 9
-  AND 	shelfcount_detail.isStatus <> 0
-    AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
+    WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+  AND report_sc.isStatus <> 9
+  AND 	report_sc.isStatus <> 0
+    AND report_sc.DepCode = '$DepCode[$sheet]'  
     AND time_sc.TimeName <>'Extra'
-    AND shelfcount_detail.itemcode = '$itemCode[$q]' ";
+    AND report_sc.itemcode = '$itemCode[$q]' ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Short"]);
@@ -405,18 +405,18 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   }
   $r = 3;
   for ($day = 0; $day < $count; $day++) {
-    $data = "SELECT COALESCE(SUM(shelfcount_detail.TotalQty),'0') as  ISSUE,
-                    COALESCE(SUM(shelfcount_detail.Short),'0') as  Short, 
-                    COALESCE(SUM(shelfcount_detail.Over),'0') as  Over 
+    $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE,
+                    COALESCE(SUM(report_sc.Short),'0') as  Short, 
+                    COALESCE(SUM(report_sc.Over),'0') as  Over 
             FROM shelfcount 
-            INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo 
+            INNER JOIN report_sc ON shelfcount.DocNo = report_sc.DocNo 
             INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
-            WHERE  DATE(shelfcount_detail.DocDate)  ='$date[$day]'  
-  AND shelfcount_detail.isStatus <> 9
-  AND 	shelfcount_detail.isStatus <> 0
-            AND shelfcount_detail.DepCode = '$DepCode[$sheet]'  
+            WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+  AND report_sc.isStatus <> 9
+  AND 	report_sc.isStatus <> 0
+            AND report_sc.DepCode = '$DepCode[$sheet]'  
             AND time_sc.TimeName <>'Extra'
-            AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )";
+            AND (report_sc.Over <> 0 OR report_sc.Short <> 0 )";
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Short"]);
