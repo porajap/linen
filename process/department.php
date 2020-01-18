@@ -297,6 +297,7 @@ if($ResultDep['DepChk'] == null ){
     }else{
       $IsActive = 0 ;
     }
+
     $Sql = "UPDATE department SET
     DepCode =  '$DepCode',
     HptCode =  '$HptCode',

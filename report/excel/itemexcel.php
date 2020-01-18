@@ -71,6 +71,7 @@ $objPHPExcel->getActiveSheet()
   ->setShowGridlines(true);
 
 // ==========================================================
+
 $objPHPExcel->setActiveSheetIndex(0)
   ->setCellValue('A1',  'ItemCode')
   ->setCellValue('B1',  'HptCode')
@@ -87,9 +88,7 @@ $objPHPExcel->setActiveSheetIndex(0)
   ->setCellValue('M1',  'Tdas')
   ->setCellValue('N1',  'IsClean')
   ->setCellValue('O1',  'typeLinen')
-  ->setCellValue('P1',  'numPack')
-
-
+  ->setCellValue('P1',  'numPack');
 
   $colorfill = array(
     'fill' => array(
@@ -102,6 +101,8 @@ foreach (range('A', 'P') as $columnID) {
   $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
     ->setAutoSize(true);
 }
+
+
 $objPHPExcel->getActiveSheet()->setTitle('ITEM_MASTER');
 $objPHPExcel->createSheet();
 
@@ -260,19 +261,6 @@ $objPHPExcel->getActiveSheet()->getStyle('A1' . ':B1' )->applyFromArray($colorfi
 $objPHPExcel->getActiveSheet()->setTitle('numPack');
 $objPHPExcel->createSheet();
 // ==========================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 $objPHPExcel->removeSheetByIndex(

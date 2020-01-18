@@ -79,6 +79,14 @@ $array2 = json_decode($json2,TRUE);
       var summary = [];
 
       $(document).ready(function(e){
+        // $("#searchitem").on("keyup", function() 
+        // {
+        // var value = $(this).val().toLowerCase();
+        //     $("#TableItem tbody tr").filter(function() 
+        //     {
+        //         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        //     });
+        // });
         $('#rem1').hide();
         $('#rem2').hide();
         $('#rem3').hide();
@@ -371,6 +379,7 @@ $array2 = json_decode($json2,TRUE);
         var xcenter1      = 0;
         var xcenter2      = 0;
         var Signature     = 0;
+        var stock     = 0;
         if ($('#Signature').is(':checked')) 
         {
           Signature = 1
@@ -383,7 +392,10 @@ $array2 = json_decode($json2,TRUE);
         {          
           xcenter2 = 1
         };
-
+        if ($('#stock').is(':checked')) 
+        {          
+          stock = 1
+        };
         if(count==0 ){
             if(xcenter1 !=0 || xcenter2 !=0){
           if(HptCode!=""){
@@ -416,7 +428,8 @@ $array2 = json_decode($json2,TRUE);
                   'xcenter2' : xcenter2,
                   'sitepath' : sitepath,
                   'PayerCode' : PayerCode,
-                  'Signature' : Signature
+                  'Signature' : Signature,
+                  'stock' : stock
                 };
 
                 console.log(JSON.stringify(data));
@@ -667,6 +680,7 @@ $array2 = json_decode($json2,TRUE);
         $('#xcenter1').prop('checked', false);
         $('#xcenter2').prop('checked', false);
         $('#Signature').prop('checked', false);
+        $('#stock').prop('checked', false);
         $('#hostdetail').attr('hidden', true);
        $('#hostdetail55').attr('hidden', false);
         $('.checkblank').each(function() {
@@ -964,6 +978,11 @@ $array2 = json_decode($json2,TRUE);
                                   $('#Signature').prop('checked', true);
                                 }else{
                                   $('#Signature').prop('checked', false);
+                                }
+                                if (temp['stock'] == 1)  {
+                                  $('#stock').prop('checked', true);
+                                }else{
+                                  $('#stock').prop('checked', false);
                                 }
                                 if (temp['private'] == 1)  {
                                   $('#xcenter1').prop('checked', true);
@@ -1595,35 +1614,37 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7  charonly" id="PayerCode"    placeholder="PayerCode">
                                     </div>
                                   </div>
-                                  <div class="col-md-6">
+                                  <div class="col-md-3">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['Signature'][$language]; ?></label>
                                       <input type="checkbox"  id="Signature" style="margin-top: 1.5%;">
                                     </div>
                                   </div>
-                                </div>  
-
-                                <div class="row" >
-                                <div class="col-md-6">
-                            <div class='form-group row offset-6' style="padding-left: 5%;">
-
-                              <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
-                              <input type="radio"  id="xcenter1" name="xcenter"  >
-                              <span class="checkmark " ></span>
-                              </label>
-                              <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['private'][$language]; ?></label>
-                              <label class="radio" style="margin:0px !important;">
-                              <input type="radio"  id="xcenter2" name="xcenter" >
-                              <span class="checkmark"></span>
-                              </label>
-                              <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['government'][$language]; ?></label>
-
-  
-                            </div>
-                          </div>
-                          
-                                </div>  
+                                  <div class="col-md-3">
+                                    <div class='form-group row'>
+                                      <label class="col-sm-3 col-form-label ">ตัดสต็อค</label>
+                                      <input type="checkbox"  id="stock" style="margin-top: 1.5%;">
+                                    </div>
                               </div>
+                                </div>  
+
+                             <div class="row" >
+                                <div class="col-md-6">
+                                  <div class='form-group row offset-6' style="padding-left: 5%;">
+                                    <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
+                                    <input type="radio"  id="xcenter1" name="xcenter"  >
+                                    <span class="checkmark " ></span>
+                                    </label>
+                                    <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['private'][$language]; ?></label>
+                                    <label class="radio" style="margin:0px !important;">
+                                    <input type="radio"  id="xcenter2" name="xcenter" >
+                                    <span class="checkmark"></span>
+                                    </label>
+                                    <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['government'][$language]; ?></label>
+                              </div>
+                              </div>
+                        </div>  
+                      </div>
 <!-- =============================================================================================== -->
                 </div>
             </div>

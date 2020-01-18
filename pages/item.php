@@ -2520,7 +2520,7 @@ $array2 = json_decode($json2, TRUE);
             <div id="memu_tap1">
 
               <div class="row m-1 mt-5 d-flex justify-content-end" >
-              <div class="menu mhee" >
+              <div class="menu mhee" hidden>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="window.location.href='../report/excel/itemexcel.php' ">
@@ -2532,7 +2532,7 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                             </div>
                           </div>
-                <div class="menu mhee" >
+                <div class="menu mhee" hidden>
                             <div class="d-flex justify-content-center">
                               <div class="circle2 d-flex justify-content-center">
                                 <button class="btn"  data-toggle="modal" data-target="#modalExcel">

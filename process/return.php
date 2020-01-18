@@ -478,7 +478,6 @@ function ShowItem($conn, $DATA)
   INNER JOIN department ON site.HptCode = department.HptCode
   INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
   INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
-  LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
   INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
   WHERE  par_item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%' AND item.IsActive = 1 AND NOT item.IsClean = 1

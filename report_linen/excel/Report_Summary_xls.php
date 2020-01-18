@@ -33,15 +33,19 @@ $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
 $itemfromweb = $data[11];
-if ($data[7] == "0") {
+
+if ($data[7] == "0") 
+{
   $ss = "$data[7]";
   $DepCode = explode(',', $_GET['Dep10']);
   // echo "<pre>";
   // print_r($DepCode);
   // echo "</pre>";
-} else {
+} 
+else 
+{
   $ss = "2";
-  $DepCode[0] = $data[7];
+  $DepCode[0] = $data[7]==null?'0': $data[7];
 }
 
 $where = '';
@@ -58,15 +62,19 @@ $ISSUE = 0;
 $TOTAL_LASTWEIGHT = 0;
 $TotalISSUE = 0;
 $status = '1';
-if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
-} else {
-  $HptName = HptName;
-  $FacName = FacName;
+if ($language == 'th') 
+{
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
+} 
+else 
+{
+  $HptName = 'HptName';
+  $FacName = 'FacName';
 }
 
-if ($chk == 'one') {
+if ($chk == 'one') 
+{
   if ($format == 1) {
     $where =   "WHERE DATE (report_sc.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
@@ -86,7 +94,9 @@ if ($chk == 'one') {
       $date_header = $array['year'][$language] . $date1;
     }
   }
-} elseif ($chk == 'between') {
+} 
+elseif ($chk == 'between') 
+{
   $where =   "WHERE report_sc.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
@@ -100,7 +110,9 @@ if ($chk == 'one') {
     $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
-} elseif ($chk == 'month') {
+} 
+elseif ($chk == 'month') 
+{
   $where =   "WHERE month (report_sc.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
@@ -108,7 +120,9 @@ if ($chk == 'one') {
   } else {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
-} elseif ($chk == 'monthbetween') {
+} 
+elseif ($chk == 'monthbetween') 
+{
   $where =   "WHERE DATE(report_sc.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
@@ -121,9 +135,11 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
-if ($language == 'th') {
+if ($language == 'th') 
+{
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-} else {
+} else 
+{
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 /**
@@ -191,7 +207,8 @@ $objPHPExcel->getActiveSheet()
 // echo "<pre>";
 // print_r($DepCode);
 // echo "</pre>";
-if ($chk == 'one') {
+if ($chk == 'one') 
+{
   if ($format == 1) {
     $count = 1;
     $date[] = $date1;
@@ -204,7 +221,9 @@ if ($chk == 'one') {
     $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
-} elseif ($chk == 'between') {
+} 
+elseif ($chk == 'between') 
+{
   list($year, $month, $day) = explode('-', $date2);
   if ($day <> 31) {
     $day = $day + 1;
@@ -228,12 +247,18 @@ if ($chk == 'one') {
     $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
-} elseif ($chk == 'month') {
+} 
+elseif ($chk == 'month') 
+{
   $day = 1;
   $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
   $datequery =  $year1 . '-' . $date1 . '-';
   $dateshow = '-' . $date1 . '-' . $year1;
   for ($i = 0; $i < $count; $i++) {
+    if($day < 10)
+    {
+      $day = '0'.$day;
+    }
     $date[] = $datequery . $day;
     $DateShow[] = $day . $dateshow;
     $day++;
@@ -248,9 +273,11 @@ for ($a = 0; $a < $round_AZ1; $a++) {
     array_push($date_cell1, $date_cell1[$a] . $date_cell2[$b]);
   }
 }
-if ($itemfromweb == '0') {
+if ($itemfromweb == '0') 
+{
   $sheet_count = sizeof($DepCode);
-  for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
+  for ($sheet = 0; $sheet < $sheet_count; $sheet++) 
+  {
     $objPHPExcel->setActiveSheetIndex($sheet)
       ->setCellValue('A8',  'CusName')
       ->setCellValue('B8',  'ItemName')
@@ -271,13 +298,14 @@ if ($itemfromweb == '0') {
 
     // -----------------------------------------------------------------------------------
     $query = "SELECT
-    department.DepName
-    FROM
-    department
-    WHERE
-    department.DepCode = '$DepCode[$sheet]'  ";
+                    department.DepName
+                    FROM
+                    department
+                    WHERE
+                    department.DepCode = '$DepCode[$sheet]'  ";
     $meQuery = mysqli_query($conn, $query);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery)) 
+    {
       $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["DepName"]);
       $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result["DepName"]);
       $DepName = $Result["DepName"];
@@ -285,18 +313,19 @@ if ($itemfromweb == '0') {
     }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
-    report_sc.itemname,
-    report_sc.itemcode
-    FROM
-    report_sc
-    $where
-      AND report_sc.isStatus <> 9
-      AND report_sc.isStatus <> 0
-      AND report_sc.DepCode = '$DepCode[$sheet]'
-      AND report_sc.TotalQty <> 0
-      GROUP BY  report_sc.itemcode ORDER BY report_sc.ItemName ASC ";
+                  report_sc.itemname,
+                  report_sc.itemcode
+                  FROM
+                  report_sc
+                  $where
+                  AND report_sc.isStatus <> 9
+                  AND report_sc.isStatus <> 0
+                  AND report_sc.DepCode = '$DepCode[$sheet]'
+                  AND report_sc.TotalQty <> 0
+                  GROUP BY  report_sc.itemcode ORDER BY report_sc.ItemName ASC ";
     $meQuery = mysqli_query($conn, $item);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery)) 
+    {
       $itemName[] =  $Result["itemname"];
       $itemCode[] =  $Result["itemcode"];
     }
@@ -306,58 +335,107 @@ if ($itemfromweb == '0') {
     $start_col = 5;
     // -----------------------------------------------------------------------------------
 
-    for ($j = 0; $j < $count; $j++) {
+    for ($j = 0; $j < $count; $j++) 
+    {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", $DateShow[$j]);
       $start_col++;
     }
+
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Qty');
     $start_col++;
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Weight ');
     // -----------------------------------------------------------------------------------
-    for ($i = 0; $i < $countitem; $i++) {
-      $item = "SELECT
-      report_sc.ParQty AS  ParQty,
-      report_sc.WeightPerQty AS Weight,
-      category_price.Price AS Price
-      FROM
-      report_sc
-      LEFT JOIN category_price ON category_price.CategoryCode = report_sc.CategoryCode
-      $where
-      AND report_sc.itemcode = '$itemCode[$i]'
-      AND report_sc.DepCode = '$DepCode[$sheet]'
-      GROUP BY  report_sc.itemcode  ";
 
-      $meQuery = mysqli_query($conn, $item);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $item = "SELECT
+                    report_sc.ParQty AS  ParQty,
+                    report_sc.WeightPerQty AS Weight,
+                    category_price.Price AS Price
+                    FROM
+                    report_sc
+                    LEFT JOIN category_price ON category_price.CategoryCode = report_sc.CategoryCode
+                    $where
+                    AND report_sc.itemcode IN (  ";
+                    for ($i = 0; $i < $countitem; $i++) 
+                      {
+                      $item .= "  '$itemCode[$i]' ,";
+                      }
+                      $item = rtrim($item, ' ,'); 
+                      $item .= " )  AND report_sc.DepCode = '$DepCode[$sheet]'
+                                      AND category_price.HptCode = '$HptCode'
+                                      GROUP BY  report_sc.itemcode  ";
+    
+      for ($i = 0; $i < $countitem; $i++)
+      {
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $itemName[$i]);
+        $start_row++;
+      }
+        
+        $start_row = 9;
+      $meQuery = mysqli_query($conn, $item);
+      while ($Result = mysqli_fetch_assoc($meQuery)) 
+      {
         $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
         $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);
         $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["Price"]);
         $start_row++;
         $Weight[] = $Result["Weight"];
-        
       }
-    }
-
     $start_row = 9;
     $r = 5;
     $w = 0;
-    for ($q = 0; $q < $countitem; $q++) {
-      for ($day = 0; $day < $count; $day++) {
-        $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE,
-       COALESCE(sum(report_sc.Weight),'0') as  Weight
-      FROM report_sc 
-      WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
-      AND report_sc.DepCode = '$DepCode[$sheet]'  
-      AND report_sc.itemcode = '$itemCode[$q]'  ";
-        $meQuery = mysqli_query($conn, $data);
-        while ($Result = mysqli_fetch_assoc($meQuery)) {
-          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
-          $r++;
-          $ISSUE += $Result["ISSUE"];
-          $TOTAL_WEIGHT += $Result["Weight"];
-        }
+    for ($q = 0; $q < $countitem; $q++) 
+    {
+      $cnt = 0;
+      for ($dayx = 0; $dayx < $count; $dayx++) 
+      {
+        $Weight[$dayx] = 0;
+        $ISSUEx[$dayx] = 0;
+        $Date_chk[$dayx] = 0;
       }
+
+      $data = "SELECT  COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+                                    COALESCE(sum(report_sc.Weight),'0') as  Weight ,
+                                    report_sc.DocDate AS Date_chk
+                    FROM report_sc 
+                    WHERE  DATE(report_sc.DocDate) IN (";
+                                    for ($day = 0; $day < $count; $day++) {
+                
+                                      $data .= " '$date[$day]' ,";
+              
+                                    }
+                                    $data = rtrim($data, ' ,'); 
+                      $data .= " )  AND report_sc.isStatus <> 9
+                    AND report_sc.isStatus <> 0
+                    AND report_sc.DepCode = '$DepCode[$sheet]'  
+                    AND report_sc.itemcode = '$itemCode[$q]' 
+                    GROUP BY DATE(report_sc.DocDate) ";
+    
+      $meQuery = mysqli_query($conn, $data);
+      while ($Result = mysqli_fetch_assoc($meQuery)) 
+      {
+        $Weight[$cnt] =  $Result["Weight"];
+        $ISSUEx[$cnt] =  $Result["ISSUE"];
+        $Date_chk[$cnt] =  $Result["Date_chk"];
+        $cnt++;
+      }
+        $ISSUE = 0;
+        $TOTAL_WEIGHT = 0;
+        $x = 0;
+          foreach(  $date as $key => $val ) 
+        {
+            if($Date_chk[$x]  == $val)
+            {
+             $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUEx[$x]);
+              $r++;
+              $ISSUE += $ISSUEx[$x];
+              $TOTAL_WEIGHT +=  $Weight[$x];
+              $x++;
+            }
+            else
+            {
+              $r++;
+            }
+        }
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUE);
       $r++;
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_WEIGHT);
@@ -367,23 +445,31 @@ if ($itemfromweb == '0') {
       $w++;
       $start_row++;
     }
+
+
+
+
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[0] . $start_row, $DepName);
     $r = 5;
-    for ($day = 0; $day < $count; $day++) {
+    for ($day = 0; $day < $count; $day++) 
+    {
       $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
-                      COALESCE(sum(report_sc.Weight),'0') as  Weight
+                                   COALESCE(sum(report_sc.Weight),'0') as  Weight
                       FROM report_sc 
-              WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
-              AND report_sc.DepCode = '$DepCode[$sheet]'  
-    ";
+                      WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+                      AND report_sc.DepCode = '$DepCode[$sheet]'  
+                      AND report_sc.IsStatus <> 9
+                      AND report_sc.IsStatus <> 0 ";
       $meQuery = mysqli_query($conn, $data);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
+      while ($Result = mysqli_fetch_assoc($meQuery)) 
+      {
+        $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
         $r++;
         $TotalISSUE += $Result["ISSUE"];
         $TOTAL_LASTWEIGHT  += $Result["Weight"];
       }
     }
+
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
     $r++;
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_LASTWEIGHT);
@@ -424,6 +510,7 @@ if ($itemfromweb == '0') {
         'color' => array('rgb' => 'B9E3E6')
       )
     );
+
     $r1 = $r - 1;
     $objPHPExcel->getActiveSheet()->getStyle("A8:" . $date_cell1[$r] . $start_row)->applyFromArray($styleArray);
     $objPHPExcel->getActiveSheet()->getStyle("A5:A7")->applyFromArray($HEAD);
@@ -436,16 +523,21 @@ if ($itemfromweb == '0') {
 
     $r2 = $r + 2;
     $countcell = sizeof($date_cell1);
-    for ($i = 0; $i < $r2; $i++) {
+    for ($i = 0; $i < $r2; $i++) 
+    {
 
-      if ($i == 4) {
+      if ($i == 4) 
+      {
         $objPHPExcel->getActiveSheet()->getColumnDimension($date_cell1[$i])
           ->setAutoSize(false);
-      } else {
+      } 
+      else 
+      {
         $objPHPExcel->getActiveSheet()->getColumnDimension($date_cell1[$i])
           ->setAutoSize(true);
       }
     }
+
     $objDrawing = new PHPExcel_Worksheet_Drawing();
     $objDrawing->setName('Nhealth_linen');
     $objDrawing->setDescription('Nhealth_linen');
@@ -459,11 +551,14 @@ if ($itemfromweb == '0') {
     $objDrawing->setResizeProportional(true);
     $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
     $start_row = $start_row - 1;
-    foreach (range('9', $start_row) as $column) {
+
+    foreach (range('9', $start_row) as $column) 
+    {
       $objPHPExcel->getActiveSheet()->getRowDimension($column)->setOutlineLevel(1);
       $objPHPExcel->getActiveSheet()->getRowDimension($column)->setVisible(false);
       $objPHPExcel->getActiveSheet()->getRowDimension($column)->setCollapsed(true);
     }
+
     // Rename worksheet
     // $objPHPExcel->getActiveSheet()->setTitle('5');
     $objPHPExcel->getActiveSheet()->setTitle($DepName);
@@ -478,134 +573,194 @@ if ($itemfromweb == '0') {
     $TotalISSUE = 0;
   }
 }
-if ($itemfromweb <> '0') {
-  $DepCode = [];
-  $Sql = "  SELECT   department.DepName ,department.DepCode
-               FROM
-               report_sc  
-              INNER JOIN department ON department.DepCode = report_sc.DepCode  
-              $where
-              AND report_sc.isStatus <> 9
-              AND report_sc.itemCode = '$itemfromweb'
-              GROUP BY department.DepCode ORDER BY department.DepName ASC";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $DepCode[] = $Result['DepCode'];
-    $DepName[] = $Result['DepName'];
-  }
-  $objPHPExcel->setActiveSheetIndex(0)
-    ->setCellValue('A8',  'CusName')
-    ->setCellValue('B8',  'ItemName')
-    ->setCellValue('C8',  'ParQty')
-    ->setCellValue('D8',  'ItemWeight')
-    ->setCellValue('E8',  'Price');
-  // -----------------------------------------------------------------------------------
-  $date_cell1 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-  $date_cell2 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-  $round_AZ1 = sizeof($date_cell1);
-  $round_AZ2 = sizeof($date_cell2);
-  for ($a = 0; $a < $round_AZ1; $a++) {
-    for ($b = 0; $b < $round_AZ2; $b++) {
-      array_push($date_cell1, $date_cell1[$a] . $date_cell2[$b]);
+
+else if ($itemfromweb <> '0') 
+{
+    if( $DepCode[0] <> 0)
+    {
+      $wheredep = "AND report_sc.DepCode = '$DepCode[0]' ";
     }
-  }
-  // -----------------------------------------------------------------------------------
-  $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
-  $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r29'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('A6', $array2['department'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('A7', $date_header);
-  $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
-  $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
-  $objPHPExcel->getActiveSheet()->mergeCells('A7:J7');
-  // -----------------------------------------------------------------------------------
-
-  // -----------------------------------------------------------------------------------
-
-  // -----------------------------------------------------------------------------------
-  // -----------------------------------------------------------------------------------
-  $countDep = sizeof($DepCode);
-  $start_row = 9;
-  $start_col = 5;
-  // -----------------------------------------------------------------------------------
-
-  for ($j = 0; $j < $count; $j++) {
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", $DateShow[$j]);
-    $start_col++;
-  }
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Qty');
-  $start_col++;
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Weight ');
-  // -----------------------------------------------------------------------------------
-  for ($i = 0; $i < $countDep; $i++) {
-    $item = "SELECT
-      report_sc.ParQty AS  ParQty,
-      report_sc.WeightPerQty AS Weight ,
-      category_price.Price AS Price,
-      department.DepName AS DepName,
-      report_sc.itemname AS itemname 
-      FROM
-      report_sc
-      INNER JOIN department ON department.DepCode = report_sc.DepCode  
-      LEFT JOIN  category_price ON category_price.CategoryCode = report_sc.CategoryCode
-                      WHERE
-                      report_sc.itemcode = '$itemfromweb'
-                      AND report_sc.DepCode = '$DepCode[$i]'
-                      AND report_sc.isStatus <> 9
-                      GROUP BY  report_sc.itemcode 
-                      ";
-    // echo "<pre>";
-    // ECHO $item;
-    // echo "</pre>";
-    $meQuery = mysqli_query($conn, $item);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["itemname"]);
-      $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $Result["DepName"]);
-      $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $Result["itemname"]);
-      $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
-      $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);
-      $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["Price"]);
-      $start_row++;
-      $iname = $Result["itemname"];
+    else
+    {
+      $wheredep = "";
     }
-  }
-  $start_row = 9;
-  $r = 5;
-  $w = 0;
-  for ($q = 0; $q < $countDep; $q++) {
-    for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT  COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
-      COALESCE(sum(report_sc.Weight),'0') as  Weight
-      FROM report_sc 
-      WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
-      AND report_sc.isStatus <> 9
-      AND report_sc.DepCode = '$DepCode[$q]'  
-      AND report_sc.itemcode = '$itemfromweb'  ";
-      $meQuery = mysqli_query($conn, $data);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
-        $r++;
-        $ISSUE += $Result["ISSUE"];
-        $TOTAL_WEIGHT += $Result["Weight"];
+    $DepCode = [];
+      $Sql = "  SELECT   department.DepName ,department.DepCode
+                     FROM      report_sc  
+                    INNER JOIN department ON department.DepCode = report_sc.DepCode  
+                    $where
+                    AND report_sc.isStatus <> 9
+                    AND report_sc.itemCode = '$itemfromweb'
+                    $wheredep
+                    GROUP BY department.DepCode 
+                    ORDER BY department.DepName ASC";
+      $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) 
+    {
+      $DepCode[] = $Result['DepCode'];
+      $DepName[] = $Result['DepName'];
+    }
+
+    $objPHPExcel->setActiveSheetIndex(0)
+      ->setCellValue('A8',  'CusName')
+      ->setCellValue('B8',  'ItemName')
+      ->setCellValue('C8',  'ParQty')
+      ->setCellValue('D8',  'ItemWeight')
+      ->setCellValue('E8',  'Price');
+    // -----------------------------------------------------------------------------------
+    $date_cell1 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+    $date_cell2 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+    $round_AZ1 = sizeof($date_cell1);
+    $round_AZ2 = sizeof($date_cell2);
+
+    for ($a = 0; $a < $round_AZ1; $a++) 
+    {
+      for ($b = 0; $b < $round_AZ2; $b++) 
+      {
+        array_push($date_cell1, $date_cell1[$a] . $date_cell2[$b]);
       }
     }
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUE);
-    $r++;
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_WEIGHT);
-    $TOTAL_LASTWEIGHT += $TOTAL_WEIGHT;
-    $ISSUE = 0;
-    $TOTAL_WEIGHT = 0;
+    // -----------------------------------------------------------------------------------
+    $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
+    $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r29'][$language]);
+    $objPHPExcel->getActiveSheet()->setCellValue('A6', $array2['department'][$language]);
+    $objPHPExcel->getActiveSheet()->setCellValue('A7', $date_header);
+    $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
+    $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
+    $objPHPExcel->getActiveSheet()->mergeCells('A7:J7');
+    // -----------------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------
+    $countDep = sizeof($DepCode);
+    $start_row = 9;
+    $start_col = 5;
+    // -----------------------------------------------------------------------------------
+
+    for ($j = 0; $j < $count; $j++) 
+    {
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", $DateShow[$j]);
+      $start_col++;
+    }
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Qty');
+    $start_col++;
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Weight ');
+    // -----------------------------------------------------------------------------------
+    for ($i = 0; $i < $countDep; $i++) 
+    {
+      $item = "SELECT
+                    report_sc.ParQty AS  ParQty,
+                    report_sc.WeightPerQty AS Weight ,
+                    category_price.Price AS Price,
+                    department.DepName AS DepName,
+                    report_sc.itemname AS itemname 
+                    FROM
+                    report_sc
+                    INNER JOIN department ON department.DepCode = report_sc.DepCode  
+                    LEFT JOIN  category_price ON category_price.CategoryCode = report_sc.CategoryCode
+                                    WHERE
+                                    report_sc.itemcode = '$itemfromweb'
+                                    AND report_sc.DepCode = '$DepCode[$i]'
+                                    AND report_sc.isStatus <> 9
+                                    GROUP BY  report_sc.itemcode ";
+      // echo "<pre>";
+      // ECHO $item;
+      // echo "</pre>";
+      $meQuery = mysqli_query($conn, $item);
+      while ($Result = mysqli_fetch_assoc($meQuery)) 
+      {
+        $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["itemname"]);
+        $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $Result["DepName"]);
+        $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $Result["itemname"]);
+        $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
+        $objPHPExcel->getActiveSheet()->setCellValue('D' . $start_row, $Result["Weight"]);
+        $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $Result["Price"]);
+        $start_row++;
+        $iname = $Result["itemname"];
+      }
+    }
+
+    $start_row = 9;
     $r = 5;
-    $w++;
-    $start_row++;
+    $w = 0;
+    for ($q = 0; $q < $countDep; $q++) 
+    {
+      $cnt = 0;
+      for ($dayx = 0; $dayx < $count; $dayx++) 
+      {
+        $Weight[$dayx] = 0;
+        $ISSUEx[$dayx] = 0;
+        $Date_chk[$dayx] = 0;
+      }
+        $data = "SELECT  COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+                                      COALESCE(sum(report_sc.Weight),'0') as  Weight ,
+                                      report_sc.DocDate AS Date_chk
+                      FROM report_sc 
+                      WHERE  DATE(report_sc.DocDate) IN (";
+                                      for ($day = 0; $day < $count; $day++) 
+                                      {
+                  
+                                        $data .= " '$date[$day]' ,";
+
+                                      }
+                                      $data = rtrim($data, ' ,'); 
+                        $data .= " )  AND report_sc.isStatus <> 9
+                      AND report_sc.isStatus <> 0
+                      AND report_sc.DepCode = '$DepCode[$q]'  
+                      AND report_sc.itemcode = '$itemfromweb'
+                      GROUP BY DATE(report_sc.DocDate) ";
+                        
+        $meQuery = mysqli_query($conn, $data);
+        while ($Result = mysqli_fetch_assoc($meQuery)) 
+        {
+          $Weight[$cnt] =  $Result["Weight"];
+          $ISSUEx[$cnt] =  $Result["ISSUE"];
+          $Date_chk[$cnt] =  $Result["Date_chk"];
+          $cnt++;
+        }
+
+          $ISSUE = 0;
+          $TOTAL_WEIGHT = 0;
+          $x = 0;
+        foreach(  $date as $key => $val ) 
+        {
+            if($Date_chk[$x]  == $val)
+            {
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Weight[$x]);
+              $r++;
+              $ISSUE += $ISSUEx[$x];
+              $TOTAL_WEIGHT +=  $Weight[$x];
+              $x++;
+            }
+            else
+            {
+              $r++;
+            }
+        }
+
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUE);
+      $r++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_WEIGHT);
+      $TOTAL_LASTWEIGHT += $TOTAL_WEIGHT;
+      $ISSUE = 0;
+      $TOTAL_WEIGHT = 0;
+      $r = 5;
+      $w++;
+      $start_row++;
   }
 
   $r = 5;
-  for ($day = 0; $day < $count; $day++) {
+  for ($day = 0; $day < $count; $day++) 
+  {
     $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
     COALESCE(sum(report_sc.Weight),'0') as  Weight
     FROM report_sc 
     WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
     AND report_sc.isStatus <> 9
+    AND report_sc.isStatus <> 0
+    $wheredep
     AND report_sc.itemcode = '$itemfromweb'
     ";
     $meQuery = mysqli_query($conn, $data);
@@ -615,9 +770,10 @@ if ($itemfromweb <> '0') {
       $TotalISSUE += $Result["ISSUE"];
     }
   }
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
-  $r++;
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row,  $TOTAL_LASTWEIGHT);
+
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
+      $r++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row,  $TOTAL_LASTWEIGHT);
 
   $styleArray = array(
 
@@ -667,16 +823,21 @@ if ($itemfromweb <> '0') {
 
   $r2 = $r + 2;
   $countcell = sizeof($date_cell1);
-  for ($i = 0; $i < $r2; $i++) {
+  for ($i = 0; $i < $r2; $i++) 
+  {
 
-    if ($i == 4) {
+    if ($i == 4) 
+    {
       $objPHPExcel->getActiveSheet()->getColumnDimension($date_cell1[$i])
         ->setAutoSize(false);
-    } else {
+    } 
+    else 
+    {
       $objPHPExcel->getActiveSheet()->getColumnDimension($date_cell1[$i])
         ->setAutoSize(true);
     }
   }
+
   $objDrawing = new PHPExcel_Worksheet_Drawing();
   $objDrawing->setName('Nhealth_linen');
   $objDrawing->setDescription('Nhealth_linen');
@@ -690,7 +851,8 @@ if ($itemfromweb <> '0') {
   $objDrawing->setResizeProportional(true);
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
   $start_row = $start_row - 1;
-  foreach (range('9', $start_row) as $column) {
+  foreach (range('9', $start_row) as $column) 
+  {
     $objPHPExcel->getActiveSheet()->getRowDimension($column)->setOutlineLevel(1);
     $objPHPExcel->getActiveSheet()->getRowDimension($column)->setVisible(true);
     $objPHPExcel->getActiveSheet()->getRowDimension($column)->setCollapsed(true);
@@ -708,7 +870,6 @@ if ($itemfromweb <> '0') {
   $TOTAL_LASTWEIGHT = 0;
   $TotalISSUE = 0;
 }
-
 
 //ตั้งชื่อไฟล์
 $time  = date("H:i:s");

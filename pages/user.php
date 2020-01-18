@@ -250,8 +250,7 @@ $array2 = json_decode($json2,TRUE);
             }
         }
         function getSearchDocNo() {
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
 
             $('#TableDocumentSS tbody').empty();
             var str = $('#searchtxt').val();
@@ -581,8 +580,12 @@ $array2 = json_decode($json2,TRUE);
                 
                 $('#remask').val("");
                 $('#factory').attr('disabled' , true);
+
+                var pm = '<?php  echo $PmID;   ?>';
+                if(pm !=3 && pm !=5  && pm !=7) {
                 $('#hptsel').val("");
                 $('#host').val("");
+                }
                 $('#department2').val("");
                 $('#department').val("");
                 $('#Permission').val("");
@@ -693,7 +696,7 @@ $array2 = json_decode($json2,TRUE);
             $('#checkitem_'+row).prop('checked', false);
             // $('#Password').attr('disabled' , false);
             // $('#Password').addClass('checkblank');
-            Blankinput2();
+            Blankinput();
             } else {
             $("input[name="+name+"]:radio").attr('previousValue', false);
             $('#checkitem_'+row).attr('previousValue', 'checked');
@@ -730,10 +733,8 @@ $array2 = json_decode($json2,TRUE);
                 type: 'post',
                 beforeSend: function() {
                     swal({
-                        title: '<?php echo $array['
-                        pleasewait '][$language]; ?>',
-                        text: '<?php echo $array['
-                        processing '][$language]; ?>',
+                        title: '<?php echo $array[' pleasewait '][$language]; ?>',
+                        text: '<?php echo $array['processing '][$language]; ?>',
                         allowOutsideClick: false
                     })
                     swal.showLoading();
@@ -774,7 +775,7 @@ $array2 = json_decode($json2,TRUE);
                                     $('#TableItem tbody:last-child').append(StrTR);
                                 }
                             }
-                        }else{
+                         }else{
                             $('#TableItem tbody').empty();
                                 var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $('#TableItem tbody:last-child').append(Str);
@@ -786,7 +787,7 @@ $array2 = json_decode($json2,TRUE);
                                 //     showConfirmButton: false,
                                 //     timer: 2000,
                                 // });
-                        }
+                            }
                         } else if ((temp["form"] == 'getdetail')) {
                             // uncheckAll2();
                             $('#factory').val(0);
@@ -1014,7 +1015,7 @@ $array2 = json_decode($json2,TRUE);
                         }else if ((temp["form"] == 'getHotpital')) {
                             $("#host").empty();
                             $("#hptsel").empty();
-                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
+                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7 ){
                             var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
                             }else{
                                 var StrTr = "";

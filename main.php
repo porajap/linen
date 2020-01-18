@@ -84,6 +84,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
+        $sys_s20=1;
         break;
     case "2":
         //genneral
@@ -199,6 +200,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
+        $sys_s20=1;
         break;
     case "4":
         //genneral
@@ -309,6 +311,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
+        $sys_s20=1;
         break;
     case "6":
         //genneral
@@ -368,6 +371,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
+        $sys_s20=1;
         break;
         case "7":
         //genneral
@@ -427,6 +431,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
+        $sys_s20=1;
         break;
 }
 
@@ -1522,6 +1527,14 @@ window.addEventListener('offline', updateOnlineStatus);
                        href="pages/round_fac.php?lang=<?php echo $language; ?>" id="act35" class="current_page"
                        onclick="return loadIframe('ifrm', this.href)">
                         <em></em><?php echo $array['menu']['system']['sub'][20][$language]; ?></a>
+                </li>
+            <?php } ?>
+
+            <?php if($sys_s20== 1){ ?>
+                <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+                       href="pages/uploadexcelall.php?lang=<?php echo $language; ?>" id="act35" class="current_page"
+                       onclick="return loadIframe('ifrm', this.href)">
+                        <em></em><?php echo $array['menu']['system']['sub'][21][$language]; ?></a>
                 </li>
             <?php } ?>
 

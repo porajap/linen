@@ -279,7 +279,7 @@ LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
 $where AND $FacCode in ($doc[$i].FacCode)
 AND process.isStatus <> 9
 "; echo $query;
-  $meQuery = mysqli_qu5ery($conn, $query);
+  $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if ($language == 'th') {
       $hour_show = " ชั่วโมง";

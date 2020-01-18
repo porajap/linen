@@ -186,12 +186,12 @@ function CreateDocument($conn, $DATA)
 
   if ($count == 1) {
     $Sql = "INSERT INTO damagenh
-    ( DocNo,DocDate,DepCode,RefDocNo,
+    ( DocNo,DocDate,DepCode,
       TaxNo,TaxDate,DiscountPercent,DiscountBath,
       Total,IsCancel,Detail,
       damagenh.Modify_Code,damagenh.Modify_Date  , FacCode)
       VALUES
-      ( '$DocNo',DATE(NOW()),'$deptCode','$RefDocNo',
+      ( '$DocNo',DATE(NOW()),'$deptCode',
       0,DATE(NOW()),0,0,
       0,0,'',
       $userid,NOW() , '$factory' )";
@@ -199,9 +199,9 @@ function CreateDocument($conn, $DATA)
 
       //var_dump($Sql);
       $Sql = "INSERT INTO daily_request
-      (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
+      (DocNo,DocDate,DepCode,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',DATE(NOW()),'$deptCode','$RefDocNo','damagenh',$userid,DATE(NOW()))";
+      ('$DocNo',DATE(NOW()),'$deptCode','damagenh',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -412,17 +412,17 @@ function CreateDocument($conn, $DATA)
       $boolean = true;
       $count++;
     }
-//===============================================
- // select หาแผนกหลัก
- $Sql2 = "SELECT department.DepName 
- FROM department 
- WHERE department.HptCode = '$Hotp' 
- AND department.IsDefault = 1 
- AND department.IsActive   = 1 
- AND department.IsStatus   =0";
-$meQuery2 = mysqli_query($conn, $Sql2);
-$Result2 = mysqli_fetch_assoc($meQuery2);
-$return['DepName'] = $Result2['DepName'];
+  //===============================================
+  // select หาแผนกหลัก
+  $Sql2 = "SELECT department.DepName 
+  FROM department 
+  WHERE department.HptCode = '$Hotp' 
+  AND department.IsDefault = 1 
+  AND department.IsActive   = 1 
+  AND department.IsStatus   =0";
+  $meQuery2 = mysqli_query($conn, $Sql2);
+  $Result2 = mysqli_fetch_assoc($meQuery2);
+  $return['DepName'] = $Result2['DepName'];
 // ===============================================
 
 // select โรงซัก
@@ -472,33 +472,31 @@ $return['DepName'] = $Result2['DepName'];
     $searchitem = str_replace(' ', '%', $DATA["xitem"]);
     $deptCode = $DATA["deptCode"];
 
-    // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
-    // mysqli_query($conn,$Sqlx);
     $Sql = "SELECT
-    item_stock.RowID,
-    site.HptName,
-    department.DepName,
-    item_category.CategoryName,
-    item_stock.UsageCode,
-    item.ItemCode,
-    item.ItemName,
-    item.UnitCode,
-    item_unit.UnitName,
-    item_stock.ParQty,
-    item_stock.CcQty,
-    item_stock.TotalQty
-      FROM site
-  INNER JOIN department ON site.HptCode = department.HptCode
-  INNER JOIN item_stock ON department.DepCode = item_stock.DepCode
-  INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-  LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
-  INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
-  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%' AND NOT item.IsClean = 1 AND NOT item.IsDirtyBag = 1 AND item.IsActive = 1 
-  GROUP BY item.ItemCode
-  ORDER BY item.ItemName ASC LImit 100";
+                  item.ItemCode,
+                  item.ItemName,
+                  item.UnitCode,
+                  item_unit.UnitName
+                FROM
+                  site
+                INNER JOIN department ON site.HptCode = department.HptCode
+                INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
+                INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+                INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+                WHERE
+                  par_item_stock.DepCode = '$deptCode'
+                AND item.ItemName LIKE '%$searchitem%'
+                AND NOT item.IsClean = 1
+                AND NOT item.IsDirtyBag = 1
+                AND item.IsActive = 1
+                GROUP BY
+                  item.ItemCode
+                ORDER BY
+                  item.ItemName ASC
+                LIMIT 100 ";
     $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery)) 
+    {
       $return[$count]['ItemCode'] = $Result['ItemCode'];
       $return[$count]['ItemName'] = $Result['ItemName'];
       $return[$count]['UnitCode'] = $Result['UnitCode'];
@@ -506,18 +504,20 @@ $return['DepName'] = $Result2['DepName'];
       $ItemCode = $Result['ItemCode'];
       $UnitCode = $Result['UnitCode'];
       $count2 = 0;
-
-      $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+      $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode' ";
       $MQuery = mysqli_query($conn, $countM);
-      while ($MResult = mysqli_fetch_assoc($MQuery)) {
+      while ($MResult = mysqli_fetch_assoc($MQuery)) 
+      {
         $return['sql'] = $countM;
-        if($MResult['cnt']!=0){
+        if($MResult['cnt']!=0)
+        {
           $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
           FROM item_multiple_unit
           INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
           WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
           $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          while ($xResult = mysqli_fetch_assoc($xQuery)) 
+          {
             $m1 = "MpCode_" . $ItemCode . "_" . $count;
             $m2 = "UnitCode_" . $ItemCode . "_" . $count;
             $m3 = "UnitName_" . $ItemCode . "_" . $count;
@@ -530,7 +530,9 @@ $return['DepName'] = $Result2['DepName'];
             $return[$m4][$count2] = $xResult['Multiply'];
             $count2++;
           }
-        }else{
+        }
+        else
+        {
           $xSql = "SELECT 
             item.UnitCode,
             item_unit.UnitName
@@ -538,7 +540,8 @@ $return['DepName'] = $Result2['DepName'];
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
           WHERE item.ItemCode = '$ItemCode'";
           $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          while ($xResult = mysqli_fetch_assoc($xQuery)) 
+          {
             $m1 = "MpCode_" . $ItemCode . "_" . $count;
             $m2 = "UnitCode_" . $ItemCode . "_" . $count;
             $m3 = "UnitName_" . $ItemCode . "_" . $count;
@@ -560,13 +563,16 @@ $return['DepName'] = $Result2['DepName'];
 
     $return['Row'] = $count;
 
-    if ($boolean) {
+    if ($boolean)
+    {
       $return['status'] = "success";
       $return['form'] = "ShowItem";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    } else {
+    } 
+    else 
+    {
       $return['status'] = "success";
       $return['form'] = "ShowItem";
       $return['msg'] = "notfound";
@@ -713,93 +719,26 @@ $return['DepName'] = $Result2['DepName'];
         $chkUpdate = $Result['Cnt'];
       }
 
-      // $iqty2 = $iqty;
-      // if ($iunit1 != $iunit2) {
-      //   $Sql = "SELECT item_multiple_unit.Multiply
-      //   FROM item_multiple_unit
-      //   WHERE item_multiple_unit.UnitCode = $iunit1
-      //   AND item_multiple_unit.MpCode = $iunit2";
-      //   $meQuery = mysqli_query($conn, $Sql);
-      //   while ($Result = mysqli_fetch_assoc($meQuery)) {
-      //     $Multiply = $Result['Multiply'];
-      //     $iqty2 = $iqty / $Multiply;
-      //   }
-      // }
-
       if ($chkUpdate == 0) {
-        if ($Sel == 1) {
+        if ($Sel == 1) 
+        {
           $Sql = " INSERT INTO damagenh_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel , RefDocNo)
           VALUES('$DocNo', '$ItemCode', $iunit2, $iqty, $iweight , 0 , '$RefDocNo') ";
           mysqli_query($conn, $Sql);
-          // $return['sql'] = $Sql;
-          // echo json_encode($return);
-        } else {
-          $Sql = " INSERT INTO damagenh_detail_sub(DocNo, ItemCode, UsageCode)
-          VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
-          mysqli_query($conn, $Sql);
-          $Sql = " UPDATE item_stock SET IsStatus = 0
-          WHERE UsageCode = '$UsageCode' ";
-          mysqli_query($conn, $Sql);
-        }
-      } else {
-        if ($Sel == 1) {
+        } 
+      } 
+      else 
+      {
+        if ($Sel == 1) 
+        {
           $Sql = " UPDATE damagenh_detail
           SET  Qty = (Qty + $iqty)
           WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
           mysqli_query($conn, $Sql);
-        } else {
-          $Sql = " INSERT INTO damagenh_detail_sub(DocNo, ItemCode, UsageCode)
-          VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
-          mysqli_query($conn, $Sql);
-          $Sql = " UPDATE item_stock SET IsStatus = 0
-          WHERE UsageCode = '$UsageCode' ";
-          mysqli_query($conn, $Sql);
         }
+
       }
-      // $Sqlx =  "SELECT SUM(Qty) AS Qty FROM damagenh_detail WHERE RefDocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // mysqli_query($conn, $Sqlx);
-      // while ($Result = mysqli_fetch_assoc($meQuery)) {
-      //   $Qtyx = $Result['Qty'];
-      // }
-      // $Sqlx =  "SELECT Qty1 FROM claim_detail WHERE DocNo = '$RefDocNo' AND ItemCode = '$iItemStockId'";
-      // mysqli_query($conn, $Sqlx);
-      // while ($Result = mysqli_fetch_assoc($meQuery)) {
-      //   $Qty = $Result['Qty1'];
-      // }  
-      // $QtySUM = $Qtyx - $Qty;
-      // if($QtySUM <=0){
-      //    $update = "UPDATE claim SET IsRef = 1 WHERE DocNo = '$RefDocNo'";
-      //    mysqli_query($conn, $update);
-      // }else{
-      //   $update = "UPDATE claim SET IsRef = 0 WHERE DocNo = '$RefDocNo'";
-      //    mysqli_query($conn, $update);
-      // }
-
     }
-
-    // if ($Sel == 2) {
-    //   $n = 0;
-    //   $Sql = "SELECT COUNT(*) AS Qty FROM damagenh_detail_sub WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-    //   $meQuery = mysqli_query($conn, $Sql);
-    //   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    //     $Qty[$n] = $Result['Qty'];
-    //     $n++;
-    //   }
-    //   for ($i = 0; $i < $n; $i++) {
-    //     $xQty = $Qty[$i];
-    //     // $Sqlx = "INSERT INTO log ( log ) VALUES ('$n :: $xQty :: $chkUpdate :: $iweight')";
-    //     // mysqli_query($conn,$Sqlx);
-    //     if ($chkUpdate == 0) {
-    //       $Sql = "INSERT INTO damagenh_detail
-    //       (DocNo,ItemCode,UnitCode,Qty,Weight,IsCancel)
-    //       VALUES
-    //       ('$DocNo','$ItemCode',$iunit2,$xQty,0,0)";
-    //     } else {
-    //       $Sql = "UPDATE damagenh_detail SET Qty = $xQty WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-    //     }
-    //     mysqli_query($conn, $Sql);
-    //   }
-    // }
 
     ShowDetail($conn, $DATA);
   }

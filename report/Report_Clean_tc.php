@@ -260,8 +260,8 @@ $data = "SELECT
 clean_detail.ItemCode,
 item.ItemName,
 item_unit.UnitName,
-sum(clean_detail.Qty) as Qty ,
-sum(clean_detail.Weight) as Weight,
+clean_detail.Qty ,
+clean_detail.Weight,
 clean_detail.Detail,
 clean_detail.RequestName
 FROM item
@@ -269,7 +269,6 @@ INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
 RIGHT JOIN clean_detail ON clean_detail.ItemCode = item.ItemCode
 INNER JOIN item_unit ON clean_detail.UnitCode = item_unit.UnitCode
 WHERE clean_detail.DocNo = '$DocNo'
-GROUP BY item.ItemCode,clean_detail.Detail
 ORDER BY item.ItemName ASC";
 
 $pdf->AddPage('P', 'A4');

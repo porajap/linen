@@ -490,7 +490,7 @@ $array2 = json_decode($json2,TRUE);
             $('#rem2').hide();
             $('#rem3').hide();
             $('#rem4').hide();
-
+            $('#DepCode').attr('disabled' , false);
             $('.checkblank').each(function() {
                 $(this).val("");
             });
@@ -517,12 +517,14 @@ $array2 = json_decode($json2,TRUE);
             var previousValue = $('#checkitem_'+row).attr('previousValue');
             var name = $('#checkitem_'+row).attr('name');
             if (previousValue == 'checked') {
+            $('#DepCode').attr('disabled' , false);
             $('#checkitem_'+row).removeAttr('checked');
             $('#checkitem_'+row).attr('previousValue', false);
             $('#checkitem_'+row).prop('checked', false);
             $("#xCenter").prop('checked', false);
             Blankinput();
             } else {
+            $('#DepCode').attr('disabled' , true);
             $("input[name="+name+"]:radio").attr('previousValue', false);
             $('#checkitem_'+row).attr('previousValue', 'checked');
                 if (DepCode != "" && DepCode != undefined) {
@@ -539,8 +541,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function SavePY() {
             $('#TableDocumentSS tbody').empty();
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
             var datepicker = $('#datepicker').val();
             datepicker = datepicker.substring(6, 10) + "-" + datepicker.substring(3, 5) + "-" + datepicker.substring(0, 2);
 
@@ -549,8 +550,7 @@ $array2 = json_decode($json2,TRUE);
 
             if (DocNo.length > 0) {
                 swal({
-                    title: '<?php echo $array['
-                    savesuccess '][$language]; ?>',
+                    title: '<?php echo $array['savesuccess '][$language]; ?>',
                     text: DocNo,
                     type: 'success',
                     showCancelButton: false,
@@ -665,10 +665,8 @@ $array2 = json_decode($json2,TRUE);
                 type: 'post',
                 beforeSend: function() {
                     swal({
-                        title: '<?php echo $array['
-                        pleasewait '][$language]; ?>',
-                        text: '<?php echo $array['
-                        processing '][$language]; ?>',
+                        title: '<?php echo $array['pleasewait '][$language]; ?>',
+                        text: '<?php echo $array[' processing '][$language]; ?>',
                         allowOutsideClick: false
                     })
                     swal.showLoading();

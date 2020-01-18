@@ -92,11 +92,9 @@ $array2 = json_decode($json2,TRUE);
                 ShowItem();
             }
         });
-
         $('.editable').click(function() {
           alert('hi');
         });
-
         $('.numonly').on('input', function() {
           this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
         });

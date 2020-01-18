@@ -325,10 +325,12 @@ $array2 = json_decode($json2,TRUE);
 
     function getDepartment(){
       var Hotp = $('#hotpital option:selected').attr("value");
+      $("#side").val(Hotp);
       $('#bCreate').attr('disabled', true);
       if(Hotp == '' || Hotp == undefined){
           Hotp = '<?php echo $HptCode; ?>';
         }
+        
         var data = {
           'STATUS'  : 'getDepartment',
           'Hotp'	: Hotp
@@ -1080,6 +1082,7 @@ $array2 = json_decode($json2,TRUE);
     }
 
     function PrintData(){
+      var HptCode = $('#hotpital option:selected').attr("value");
       var settime   = $('#settime option:selected').val();
       var setcount  = $('#setcount option:selected').val();
       var docno     = $('#docno').val();
@@ -1101,13 +1104,15 @@ $array2 = json_decode($json2,TRUE);
           });
       }else{
       if(docno!=""&&docno!=undefined){
-        if(printdata == 1){
-        var url  = "../report/Report_Shelfcount_tc.php?DocNo="+docno+"&lang="+lang;
-        window.open(url);
+        if(printdata == 1)
+        {
+          var url  = "../report/Report_Shelfcount_tc.php?DocNo="+docno+"&lang="+lang+"&HptCode="+HptCode;
+          window.open(url);
         }
-        else if (printdata == 2){
-          var url  = "../report/Report_Shelfcount_tc_2.php?DocNo="+docno+"&lang="+lang;
-        window.open(url);
+        else if (printdata == 2)
+        {
+          var url  = "../report/Report_Shelfcount_tc_2.php?DocNo="+docno+"&lang="+lang+"&HptCode="+HptCode;
+          window.open(url);
         }
       }else{
         swal({
@@ -1231,6 +1236,8 @@ $array2 = json_decode($json2,TRUE);
     }
     function draw(){
       var DocNo = $('#docno').val();
+      var HptCode = $('#hotpital').val();
+
       swal({
         title: "<?php echo $array['confirmjaipar'][$language]; ?>",
         text: "<?php echo $array['adddata8'][$language]; ?>",
@@ -1246,8 +1253,9 @@ $array2 = json_decode($json2,TRUE);
         showCancelButton: true}).then(result => {
           if (result.value) {
             var data = {
-              'STATUS':'SaveDraw',
-              'DocNo':DocNo
+              'STATUS'        :'SaveDraw',
+              'DocNo'           :DocNo,
+              'HptCode'        :HptCode
             };
             senddata(JSON.stringify(data));
           } else if (result.dismiss === 'cancel') {
@@ -1767,17 +1775,34 @@ $array2 = json_decode($json2,TRUE);
                   $('#TableDocument tbody:last-child').append(  $StrTr );
                 }
               }
-              }else{
-                    $("#TableDocument tbody").empty();
-                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+              }
+              else
+              {
+                    if(temp[0]['chkhpt'] =="chkhpt")
+                    {
+                        swal({
+                          title: '',
+                          text: 'กรุณาเลือกโรงพยาบาล',
+                          type: 'warning',
+                          showCancelButton: false,
+                          showConfirmButton: false,
+                          timer: 1200,
+                      });
+
+                    }
+                    else
+                    {
                         swal({
                           title: '',
                           text: '<?php echo $array['notfoundmsg'][$language]; ?>',
                           type: 'warning',
                           showCancelButton: false,
                           showConfirmButton: false,
-                          timer: 700,
+                          timer: 1200,
                       });
+                    }
+                    $("#TableDocument tbody").empty();
+                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                     $("#TableDocument tbody").append(Str);
                     }
             }else if(temp["form"]=='ShowDocument_sub'){

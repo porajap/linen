@@ -427,6 +427,14 @@
         รอบเวลาโรงซัก
       </th>
     </sub>
+    <sub>
+      <en>
+        Upload excel
+      </en>
+      <th>
+        อัพโหลด Excel
+      </th>
+    </sub>
   </system>
     <logout>
       <en>

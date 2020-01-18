@@ -188,24 +188,44 @@ function CreateDocument($conn, $DATA)
       mysqli_query($conn,$Sql);
   }
 
-  if ($count == 1) {
-    $Sql = "INSERT INTO clean
-    ( DocNo,DocDate,DepCode,RefDocNo,
-      TaxNo,TaxDate,DiscountPercent,DiscountBath,
-      Total,IsCancel,Detail,
-      clean.Modify_Code,clean.Modify_Date )
-      VALUES
-      ( '$DocNo',DATE(NOW()),'$deptCode','$RefDocNo',
-      0,DATE(NOW()),0,0,
-      0,0,'',
-      $userid,NOW() )";
+  if ($count == 1) 
+  {
+    $Sql = "INSERT INTO clean (
+                  DocNo,
+                  DocDate,
+                  DepCode,
+                  TaxNo,
+                  TaxDate,
+                  DiscountPercent,
+                  DiscountBath,
+                  Total,
+                  IsCancel,
+                  Detail,
+                  clean.Modify_Code,
+                  clean.Modify_Date
+                )
+                VALUES
+                  (
+                    '$DocNo',
+                    DATE(NOW()),
+                    '$deptCode',
+                    0,
+                    DATE(NOW()),
+                    0,
+                    0,
+                    0,
+                    0,
+                    '',
+                    $userid,
+                    NOW()
+                  ) ";
       mysqli_query($conn, $Sql);
 
       //var_dump($Sql);
       $Sql = "INSERT INTO daily_request
-      (DocNo,DocDate,DepCode,RefDocNo,Detail,Modify_Code,Modify_Date)
+      (DocNo,DocDate,DepCode,Detail,Modify_Code,Modify_Date)
       VALUES
-      ('$DocNo',NOW(),'$deptCode','$RefDocNo','Clean',$userid,DATE(NOW()))";
+      ('$DocNo',NOW(),'$deptCode','Clean',$userid,DATE(NOW()))";
 
       mysqli_query($conn, $Sql);
 
@@ -509,24 +529,30 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     $searchitem = str_replace(' ', '%', $DATA["xitem"]);
     $deptCode = $DATA["deptCode"];
     $hotpital = $DATA["hotpital"];
-    // $Sqlx = "INSERT INTO log ( log ) VALUES ('item : $item')";
-    // mysqli_query($conn,$Sqlx);
 
     $Sql = "SELECT
-    item_category.CategoryName,
-    item.ItemCode,
-    item.ItemName,
-    item.UnitCode,
-    item_unit.UnitName
-      FROM item
-  LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
-  INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
-  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE item.ItemName LIKE '%$searchitem%' AND item.IsClean = 1 AND item.IsActive = 1 AND item.HptCode = '$hotpital'
-  GROUP BY item.ItemCode
-  ORDER BY item.ItemName ASC LImit 100";
+                  item_category.CategoryName,
+                  item.ItemCode,
+                  item.ItemName,
+                  item.UnitCode,
+                  item_unit.UnitName
+                FROM
+                  item
+                INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+                INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+                WHERE
+                  item.ItemName LIKE '%$searchitem%'
+                AND item.IsClean = 1
+                AND item.IsActive = 1
+                AND item.HptCode = '$hotpital'
+                GROUP BY
+                  item.ItemCode
+                ORDER BY
+                  item.ItemName ASC
+                LIMIT 100 ";
     $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery)) 
+    {
       $return[$count]['ItemCode'] = $Result['ItemCode'];
       $return[$count]['ItemName'] = $Result['ItemName'];
       $return[$count]['UnitCode'] = $Result['UnitCode'];
@@ -536,15 +562,18 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
       $count2 = 0;
       $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
       $MQuery = mysqli_query($conn, $countM);
-      while ($MResult = mysqli_fetch_assoc($MQuery)) {
+      while ($MResult = mysqli_fetch_assoc($MQuery)) 
+      {
         $return['sql'] = $countM;
-        if($MResult['cnt']!=0){
+        if($MResult['cnt']!=0)
+        {
           $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
           FROM item_multiple_unit
           INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
           WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
           $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          while ($xResult = mysqli_fetch_assoc($xQuery)) 
+          {
             $m1 = "MpCode_" . $ItemCode . "_" . $count;
             $m2 = "UnitCode_" . $ItemCode . "_" . $count;
             $m3 = "UnitName_" . $ItemCode . "_" . $count;
@@ -557,15 +586,18 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
             $return[$m4][$count2] = $xResult['Multiply'];
             $count2++;
           }
-        }else{
+        }
+        else
+        {
           $xSql = "SELECT 
-            item.UnitCode,
-            item_unit.UnitName
-          FROM item
-          INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-          WHERE item.ItemCode = '$ItemCode'";
+                          item.UnitCode,
+                          item_unit.UnitName
+                        FROM item
+                        INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+                        WHERE item.ItemCode = '$ItemCode' ";
           $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) {
+          while ($xResult = mysqli_fetch_assoc($xQuery)) 
+          {
             $m1 = "MpCode_" . $ItemCode . "_" . $count;
             $m2 = "UnitCode_" . $ItemCode . "_" . $count;
             $m3 = "UnitName_" . $ItemCode . "_" . $count;
@@ -580,6 +612,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
           }
         }
       }
+
       $return[$m5][$count] = $count2;
       $count++;
       $boolean = true;
@@ -587,13 +620,16 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
 
     $return['Row'] = $count;
 
-    if ($boolean) {
+    if ($boolean) 
+    {
       $return['status'] = "success";
       $return['form'] = "ShowItem";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    } else {
+    } 
+    else 
+    {
       $return['status'] = "success";
       $return['form'] = "ShowItem";
       $return['msg'] = "notfound";
@@ -754,34 +790,12 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
         }
       }
 
-      // if ($chkUpdate == 0) {
-        if ($Sel == 1) {
+        if ($Sel == 1) 
+        {
           $Sql = " INSERT INTO clean_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel)
           VALUES('$DocNo', '$ItemCode', $iunit2, $iqty2, $iweight, 0) ";
           mysqli_query($conn, $Sql);
-        } else {
-          $Sql = " INSERT INTO clean_detail_sub(DocNo, ItemCode, UsageCode)
-          VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
-          mysqli_query($conn, $Sql);
-          $Sql = " UPDATE item_stock SET IsStatus = 0
-          WHERE UsageCode = '$UsageCode' ";
-          mysqli_query($conn, $Sql);
         }
-      // } else {
-      //   if ($Sel == 1) {
-      //     $Sql = " UPDATE clean_detail
-      //     SET Weight = (Weight+$iweight), Qty = (Qty + $iqty2)
-      //     WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
-      //     mysqli_query($conn, $Sql);
-      //   } else {
-      //     $Sql = " INSERT INTO clean_detail_sub(DocNo, ItemCode, UsageCode)
-      //     VALUES('$DocNo', '$ItemCode', '$UsageCode') ";
-      //     mysqli_query($conn, $Sql);
-      //     $Sql = " UPDATE item_stock SET IsStatus = 0
-      //     WHERE UsageCode = '$UsageCode' ";
-      //     mysqli_query($conn, $Sql);
-      //   }
-      // }
     }
 
     if ($Sel == 2) {
@@ -1269,7 +1283,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN site ON dirty.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = dirty.FacCode
     INNER JOIN process ON process.DocNo = dirty.DocNo
-    WHERE  dirty.IsCancel = 0 AND (dirty.IsStatus = 3 OR dirty.IsStatus = 4) AND site.HptCode = 'BHQ'  AND  (dirty.DocNo LIKE '%%') AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
+    WHERE  dirty.IsCancel = 0 AND (dirty.IsStatus = 3 OR dirty.IsStatus = 4) AND site.HptCode = '$hptcode'  AND  (dirty.DocNo LIKE '%%') AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
     
     UNION ALL 
     
@@ -1278,7 +1292,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = repair_wash.FacCode
     INNER JOIN process ON process.DocNo = repair_wash.DocNo
-    WHERE repair_wash.IsCancel = 0 AND ( repair_wash.IsStatus = 3 OR repair_wash.IsStatus = 4 ) AND site.HptCode = 'BHQ'  
+    WHERE repair_wash.IsCancel = 0 AND ( repair_wash.IsStatus = 3 OR repair_wash.IsStatus = 4 ) AND site.HptCode = '$hptcode'  
     AND NOT repair_wash.RefDocNo = '' AND  (repair_wash.DocNo LIKE '%%') AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
     
     UNION ALL  
@@ -1288,7 +1302,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN factory ON factory.FacCode = newlinentable.FacCode
     INNER JOIN process ON process.DocNo = newlinentable.DocNo
     WHERE newlinentable.IsCancel = 0 AND ( newlinentable.IsStatus = 3 OR newlinentable.IsStatus = 4 )
-    AND site.HptCode = 'BHQ' 
+    AND site.HptCode = '$hptcode' 
     AND  (newlinentable.DocNo LIKE '%%')  
     AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
     ORDER BY Modify_Date ASC 

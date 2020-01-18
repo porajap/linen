@@ -427,28 +427,27 @@ function CreateDocument($conn, $DATA)
     // mysqli_query($conn,$Sqlx);
 
     $Sql = "SELECT
-    item_stock.RowID,
-    site.HptName,
-    department.DepName,
-    item_category.CategoryName,
-    item_stock.UsageCode,
-    item.ItemCode,
-    item.ItemName,
-    item.UnitCode,
-    item_unit.UnitName,
-    item_stock.ParQty,
-    item_stock.CcQty,
-    item_stock.TotalQty
-      FROM site
-  INNER JOIN department ON site.HptCode = department.HptCode
-  INNER JOIN item_stock ON department.DepCode = item_stock.DepCode
-  INNER JOIN item ON item_stock.ItemCode = item.ItemCode
-  LEFT  JOIN item_stock_detail i_detail ON i_detail.ItemCode = item.ItemCode
-  INNER JOIN item_category ON item.CategoryCode= item_category.CategoryCode
-  INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-  WHERE  item_stock.DepCode = '$deptCode' AND  item.ItemName LIKE '%$searchitem%' AND NOT item.IsClean = 1 AND NOT item.IsDirtyBag = 1 AND item.IsActive = 1 
-  GROUP BY item.ItemCode
-  ORDER BY item.ItemName ASC LImit 100";
+                  item.ItemCode,
+                  item.ItemName,
+                  item.UnitCode,
+                  item_unit.UnitName
+                FROM
+                  site
+                INNER JOIN department ON site.HptCode = department.HptCode
+                INNER JOIN par_item_stock ON department.DepCode = par_item_stock.DepCode
+                INNER JOIN item ON par_item_stock.ItemCode = item.ItemCode
+                INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+                WHERE
+                  par_item_stock.DepCode = '$deptCode'
+                AND item.ItemName LIKE '%$searchitem%'
+                AND NOT item.IsClean = 1
+                AND NOT item.IsDirtyBag = 1
+                AND item.IsActive = 1
+                GROUP BY
+                  item.ItemCode
+                ORDER BY
+                  item.ItemName ASC
+                LIMIT 100 ";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $return[$count]['ItemCode'] = $Result['ItemCode'];

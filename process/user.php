@@ -18,35 +18,23 @@ function ShowItem($conn, $DATA)
   }
 
   $Keyword = str_replace(' ' ,'%' ,$DATA['Keyword']);
-  if($PmID != 3 && $PmID != 7){
-  $Sql="SELECT users.ID, users.EngPerfix, users.EngName, users.EngLName, users.ThPerfix, users.ThName,users.ThLName,
-        users.`Password`,users.UserName,users.email,users.Active_mail,
-        permission.Permission, HptName , DepName
-        FROM users
-        INNER JOIN permission ON users.PmID = permission.PmID
-        INNER JOIN site ON site.HptCode = users.HptCode
-        LEFT JOIN department ON department.DepCode = users.DepCode
-        WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') )";
-          if ($department2 != "") {
-            $Sql .= " AND  site.HptCode ='$xHptCode'  ";
-          }else{
-            $Sql .= "AND site.HptCode = '$xHptCode'";
-          }
-    }else{
-      $Sql="SELECT users.ID, users.EngPerfix, users.EngName, users.EngLName, users.ThPerfix, users.ThName,users.ThLName
-      ,users.Password,users.UserName,users.email,users.Active_mail,
+
+      $Sql="SELECT users.ID, users.EngPerfix, users.EngName, users.EngLName, users.ThPerfix, users.ThName,users.ThLName,
+      users.`Password`,users.UserName,users.email,users.Active_mail,
       permission.Permission, HptName , DepName
       FROM users
       INNER JOIN permission ON users.PmID = permission.PmID
       INNER JOIN site ON site.HptCode = users.HptCode
-      INNER JOIN department ON department.DepCode = users.DepCode
-      WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') ) AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";
+      LEFT JOIN department ON department.DepCode = users.DepCode
+      WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') )";
+      if($PmID == 3 || $PmID == 7 ) {$Sql.=" AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";}
+      if($PmID == 5 ) {$Sql.=" AND  (Permission ='user' || Permission ='Supervisor' )";}
+
         if ($department2 != "") {
-          $Sql .= " AND site.HptCode ='$xHptCode'  ";
+          $Sql .= " AND  site.HptCode ='$xHptCode'  ";
         }else{
           $Sql .= "AND site.HptCode = '$xHptCode'";
         }
-    }
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['ID'] = $Result['ID'];
@@ -79,7 +67,6 @@ function ShowItem($conn, $DATA)
   }
 
 }
-
 function getSection($conn, $DATA)
 {
   $HptCode1 = $_SESSION['HptCode'];
@@ -114,9 +101,6 @@ function getSection($conn, $DATA)
   die;
 
 }
-
-
-
 function getdetail($conn, $DATA)
 {
   $ID = $DATA['ID'];
@@ -209,7 +193,6 @@ function getdetail($conn, $DATA)
   }
 
 }
-
 function getHotpital($conn, $DATA)
 {
   $lang = $DATA["lang"];
@@ -248,8 +231,6 @@ function getHotpital($conn, $DATA)
   die;
 
 }
-
-
 function getHotpital_user($conn, $DATA)
 {
   $lang = $DATA["lang"];
@@ -288,17 +269,15 @@ function getHotpital_user($conn, $DATA)
   die;
 
 }
-
-
 function getPermission($conn, $DATA)
 {
   $PmID = $_SESSION['PmID'];
   $count = 0;
-  if($PmID !=3 && $PmID != 7){
-  $Sql = "SELECT permission.PmID,permission.Permission FROM permission";
-  }else{
-  $Sql = "SELECT permission.PmID,permission.Permission FROM permission WHERE PmID = 2 || PmID = 3 || PmID = 4  || PmID = 7";
-  }
+    $Sql = "SELECT permission.PmID,permission.Permission FROM permission ";
+
+    if($PmID ==3 || $PmID == 7){$Sql .=" WHERE PmID = 2 || PmID = 3 || PmID = 4  || PmID = 7";}
+    if($PmID ==5){$Sql .=" WHERE PmID = 2 || PmID = 5 ";}
+
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[$count]['PmID']  = $Result['PmID'];
@@ -313,7 +292,6 @@ function getPermission($conn, $DATA)
   die;
 
 }
-
 function CancelItem($conn, $DATA)
 {      
 
@@ -328,7 +306,6 @@ function CancelItem($conn, $DATA)
     die;
 
 }
-
 function getFactory($conn, $DATA)
 {
   $Hotp = $DATA['Hotp'];
@@ -401,7 +378,7 @@ function getDepartment2($conn, $DATA)
   $boolean = false;
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
-  if($PmID ==3 || $PmID ==7){
+  if($PmID ==3 || $PmID ==7 || $PmID ==5){
   $Hotp = $DATA["Hotp"]==null?$_SESSION['HptCode']:$DATA["Hotp"];
   }else{
     $Hotp = $DATA["Hotp"];
@@ -437,104 +414,6 @@ function getDepartment2($conn, $DATA)
     die;
   }
 }
-// function AddItem($conn, $DATA)
-// {
-//     $count = 0;
-//     $UsID = $DATA['UsID'];
-//     $UserName = $DATA['UserName'];
-//     $Password = $DATA['Password'];
-//     $host = $DATA['host'];
-//     $FName = $DATA['FName'];
-//     $Permission = $DATA['Permission'];
-//     $facID = $DATA['facID'];
-//     $email = $DATA['email'];
-//     $xemail = $DATA['xemail'];
-
-
-//     $countMail = "SELECT COUNT(*) as cnt FROM users WHERE HptCode = '$host' AND Active_mail = $xemail";
-//     $MQuery = mysqli_query($conn, $countMail);
-//     while ($MResult = mysqli_fetch_assoc($MQuery)) {
-
-//     if ($MResult['cnt'] == 0){
-//       $xxemail = 1;
-//     }else{
-//       $xxemail = 0;
-
-//     }
-//   }
-//     if($UsID != ""){
-//         $Sql = "UPDATE users SET 
-//         users.HptCode='$host',
-//         users.UserName='$UserName',
-//         users.`Password`='$Password',
-//         users.FName='$FName',
-//         users.PmID=$Permission,
-//         users.FacCode=$facID,
-//         users.email='$email',
-//         users.Active_mail='$xxemail',
-//         users.Modify_Date=NOW() 
-//         WHERE users.ID = $UsID";
-
-//     $return['sql']=$Sql;
-//         if(mysqli_query($conn, $Sql)){
-//             $return['status'] = "success";
-//             $return['form'] = "AddItem";
-//             $return['msg'] = "Edit Success";
-//         }else{
-//             $return['status'] = "failed";
-//             $return['msg'] = "Edit Failed";
-//         }
-//     }else{
-//         $Sql = "INSERT INTO users(
-//         users.HptCode,
-//         users.UserName,
-//         users.`Password`,
-//         users.FName,
-//         users.IsCancel,
-//         users.PmID,
-//         users.lang,
-//         users.FacCode,
-//         users.Count,
-//         users.Modify_Date,
-//         users.TimeOut,
-//         users.email,
-//         users.pic,
-//         users.Active_mail
-
-// 		)
-//           VALUES
-//         (
-//             '$host',
-//             '$UserName',
-//             '$Password',
-//             '$FName',
-//             0,
-//             $Permission,
-//             'en',
-//             $facID,
-//             0,
-//             NOW(),
-//             30,
-//             '$email',
-//             '$filename',
-//             $xxemail
-//           )";
-
-
-//   $return['sql']=$Sql;
-//         if(mysqli_query($conn, $Sql)){
-//             $return['status'] = "success";
-//             $return['form'] = "AddItem";
-//             $return['msg'] = "Insert Success";
-//         }else{
-//             $return['status'] = "failed";
-//             $return['msg'] = "Insert Failed";
-//         }
-//     }
-//     echo json_encode($return);
-//     mysqli_close($conn);
-// }
-
 if(isset($_POST['DATA']))
 {
   $data = $_POST['DATA'];

@@ -454,7 +454,7 @@ $(document).ready(function(e){
           senddata(JSON.stringify(data));
         }
       function get_dirty_doc(){
-        var hptcode = '<?php echo $HptCode ?>';
+        var hptcode = $('#hotpital option:selected').attr("value");
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
         var datepicker1 = $('#datepickerRef1').val();
@@ -1300,7 +1300,7 @@ $(document).ready(function(e){
                         $('#Dep2').addClass('icon_select');
                       }                      for (var i = 0; i < temp["Row"]; i++) {
                         var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
-                         Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
+                                Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
                       }
                       $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);

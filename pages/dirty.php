@@ -224,6 +224,7 @@ $array2 = json_decode($json2,TRUE);
         function DeleteItem(){
           var docno = $("#docno").val();
           var xrow = $("#checkrow:checked").val() ;
+          var hotpital = $('#hotpital option:selected').attr("value");
           xrow = xrow.split(",");
           swal({
             title: "<?php echo $array['confirmdelete'][$language]; ?>",
@@ -243,7 +244,8 @@ $array2 = json_decode($json2,TRUE);
               var data = {
                 'STATUS'    : 'DeleteItem',
                 'rowid'  : xrow[0],
-                'DocNo'   : docno
+                'DocNo'   : docno,
+                'HptCode'   : hotpital
               };
               senddata(JSON.stringify(data));
               $('#bDelete').attr('disabled', true);
@@ -962,8 +964,10 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
         }
         function showDepRequest(){
+          var HptCode = $("#hotpital").val();
           var data = {
-            'STATUS' : 'showDepRequest'
+            'STATUS' : 'showDepRequest',
+            'HptCode' : HptCode
           }
           senddata(JSON.stringify(data));
         }
@@ -1167,7 +1171,6 @@ $array2 = json_decode($json2,TRUE);
             }
           }
         }
-        <!-- ================================================================= --!>
         function GetRound(ItemCode, ItemName, RowID, Row){
           var docno = $("#docno").val();
           $('#RoundNumber').val("");
@@ -1240,7 +1243,6 @@ $array2 = json_decode($json2,TRUE);
           $('#countcheck2').val(0);
           $("#ModalDepartment").modal('toggle');
         }
-        <!-- ================================================================= --!>
         function senddata(data){
           var form_data = new FormData();
           form_data.append("DATA",data);

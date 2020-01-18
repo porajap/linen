@@ -822,6 +822,7 @@
     {
       $RowID  = $DATA["rowid"];
       $DocNo = $DATA["DocNo"];
+      $HptCode = $DATA["HptCode"];
       $n = 0;
 
 
@@ -1189,7 +1190,19 @@
 
     function showDepRequest($conn, $DATA){
       $count = 0;
-      $HptCode = $_SESSION['HptCode'];
+      $HptCodePAGE = $DATA['HptCode'];
+      $PmID = $_SESSION['PmID'];
+      $HptCodeSESSION = $_SESSION['HptCode'];
+
+      if($PmID   == 1 || $PmID == 6)
+      {
+        $HptCode = $HptCodePAGE;
+      }
+      else
+      {
+        $HptCode = $HptCodeSESSION;
+      }
+
       $Sql = "SELECT dep.DepCode, dep.DepName FROM department dep 
       WHERE dep.HptCode = '$HptCode' AND dep.IsStatus = 0 AND dep.IsActive = 1
       ORDER BY dep.DepName ASC ";
@@ -1274,12 +1287,15 @@
       $Weight = $DATA['Weight']==null?0:$DATA['Weight'];
       $RequestName = "";
       $count = 0;
-      if($ItemCode=="RequestName"){
-        $RequestName = $DATA['ItemName'];
-      }
+      $RequestName = $DATA['ItemName'];
 
+      $Sql = "SELECT DepCode FROM dirty_detail WHERE Id =$RowID  ";
+      $meQuery = mysqli_query($conn, $Sql);
+      $Result = mysqli_fetch_assoc($meQuery);
+      $DepCodex = $Result['DepCode'];
+// หา DepCode อันข้างบนส่งมาผิดป็น FacCode
       $Sql = "INSERT INTO dirty_detail_round(DocNo, RowID, ItemCode, DepCode, RequestName, Qty, Weight)VALUES
-              ('$DocNo', $RowID, '$ItemCode', '$DepCode', '$RequestName', $Qty, $Weight)";
+              ('$DocNo', $RowID, '$ItemCode', '$DepCodex', '$RequestName', $Qty, $Weight)";
       mysqli_query($conn, $Sql);
 
       $Sql = "SELECT SUM(Weight) AS Total FROM dirty_detail_round WHERE dirty_detail_round.DocNo = '$DocNo' LIMIT 1";

@@ -51,18 +51,38 @@ function getdetail($conn, $DATA)
     $HptCode = $DATA['HptCode'];
     $id = $DATA['id'];
     //---------------HERE------------------//
-    $Sql = "SELECT contractsite.contractName , 
-    contractsite.permission , 
-    contractsite.Number , 
-    contractsite.id , 
-    site.HptCode ,  
-    site.HptName ,
-            CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus , site.HptNameTH , site.private , site.government , site.Site_Path ,  site.PayerCode , site.Signature ,
-            (SELECT COUNT(*) FROM contractsite WHERE HptCode = '$HptCode')  AS cnt 
-            FROM site
-            LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
-            WHERE site.IsStatus = 0
-            AND site.HptCode = '$HptCode' ";
+    $Sql = "SELECT
+                contractsite.contractName,
+                contractsite.permission,
+                contractsite.Number,
+                contractsite.id,
+                site.HptCode,
+                site.HptName,
+                CASE site.IsStatus
+              WHEN 0 THEN '0'
+              WHEN 1 THEN '1'
+              END AS IsStatus,
+              site.HptNameTH,
+              site.private,
+              site.government,
+              site.Site_Path,
+              site.PayerCode,
+              site.Signature,
+              site.stock,
+              (
+                SELECT
+                  COUNT(*)
+                FROM
+                  contractsite
+                WHERE
+                  HptCode = '$HptCode'
+              ) AS cnt
+              FROM
+                site
+              LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode
+              WHERE
+                site.IsStatus = 0
+              AND site.HptCode = '$HptCode' ";
             if ($id != '') {  $Sql .= " AND contractsite.id = $id"; }
             $Sql .= " LIMIT 1";
 
@@ -83,6 +103,7 @@ function getdetail($conn, $DATA)
       $return['Signature']    = $Result['Signature'];
       $PayerCode              = $Result['PayerCode'];
       $return['cnt']          = $Result['cnt'];
+      $return['stock']          = $Result['stock'];
 
       //$return['IsStatus'] = $Result['IsStatus'];
       $count++;
@@ -134,6 +155,7 @@ function AddItem($conn, $DATA)
   {
   // ==============================================
   $Signature    = $DATA['Signature'];
+  $stock        = $DATA['stock'];
   $HptCode1     = $DATA['HptCode1'];
   $HptCode      = $DATA['HptCode'];
   $HptName      = $DATA['HptName'];
@@ -162,18 +184,48 @@ function AddItem($conn, $DATA)
   // ==============================================
   if($HptCode1== ""){
     $count = 0;
-    $Sql="INSERT INTO site 
-    (site.HptCode , site.HptName , site.IsStatus , site.HptNameTH , site.private , site.government , site.DocDate ,site.Modify_Code ,site.Modify_Date,site.Site_Path,site.PayerCode,site.Signature) 
-    VALUE ('$HptCode','$HptName',0 ,'$HptNameTH' ,  $xcenter1 ,  $xcenter2 ,NOW() ,$Userid , NOW() , '$sitepath' , '$PayerCode' , $Signature)";
+    $Sql="INSERT INTO site (
+      site.HptCode,
+      site.HptName,
+      site.IsStatus,
+      site.HptNameTH,
+      site.private,
+      site.government,
+      site.DocDate,
+      site.Modify_Code,
+      site.Modify_Date,
+      site.Site_Path,
+      site.PayerCode,
+      site.Signature,
+      site.stock
+    )
+    VALUE
+      (
+        '$HptCode',
+        '$HptName',
+        0,
+        '$HptNameTH',
+        $xcenter1,
+        $xcenter2,
+        NOW(),
+        $Userid,
+        NOW(),
+        '$sitepath',
+        '$PayerCode',
+        $Signature , 
+        $stock
+      )";
     $return['sss'] = $Sql;
-  if(mysqli_query($conn, $Sql)){
+  if(mysqli_query($conn, $Sql))
+  {
     $return['status'] = "success";
     $return['form'] = "AddItem";
     $return['msg'] = "addsuccess";
     echo json_encode($return);
     mysqli_close($conn);
     die;
-  }else{
+  }else
+  {
     $return['status'] = "failed";
     $return['msg'] = "addfailed";
     echo json_encode($return);
@@ -181,18 +233,20 @@ function AddItem($conn, $DATA)
     die;
   }
   }else{
-      $Sql="UPDATE site 
-      SET site.HptCode      = '$HptCode' ,
-          site.HptName      = '$HptName' ,
-          site.HptNameTH    = '$HptNameTH' ,
-          site.private      = $xcenter1 ,
-          site.government   = $xcenter2 ,
-          site.Modify_Date  = NOW() ,
-          site.Modify_Code  = $Userid ,
-          site.Site_Path    = '$sitepath' ,
-          site.PayerCode    = '$PayerCode' ,
-          site.Signature    = $Signature
-             WHERE site.HptCode = '$HptCode1'";
+      $Sql="UPDATE site
+      SET site.HptCode = '$HptCode',
+       site.HptName = '$HptName',
+       site.HptNameTH = '$HptNameTH',
+       site.private = $xcenter1,
+       site.government = $xcenter2,
+       site.Modify_Date = NOW(),
+       site.Modify_Code = $Userid,
+       site.Site_Path = '$sitepath',
+       site.PayerCode = '$PayerCode',
+       site.Signature = $Signature ,
+       site.stock = $stock
+      WHERE
+        site.HptCode = '$HptCode1'";
       if(mysqli_query($conn, $Sql)){
         $return['status'] = "success";
         $return['form'] = "AddItem";

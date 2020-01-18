@@ -59,7 +59,7 @@
 <Allside><en>All Hospital</en><th>ทุกโรงพยาบาล</th></Allside>
 <Alldep><en>All ward</en><th>ทุกแผนก</th></Alldep>
 <AllCatmain><en>All CategoryMain</en><th>ทุกหมวดหมู่หลัก</th></AllCatmain>
-<AllCatsub><en>All CategorySub</en><th>ทุกหมวดหมู่รอง</th></AllCatsub>
+<AllCatsub><en>All CategorySub</en><th>ทุกหมวดหมู่</th></AllCatsub>
 <Allgroup><en>All Group</en><th>ทุกกลุ่ม</th></Allgroup>
 <Alldirty><en>All Round</en><th>ทุกรอบ</th></Alldirty>
 
@@ -365,7 +365,7 @@
 <onemonth><en>One Month</en><th>หนึ่งเดือน</th></onemonth>
 <manymonth><en>Several Month</en><th>หลายเดือน</th></manymonth>
 <month><en>Month</en><th>เดือน</th></month>
-<serchref><en>Month</en><th>ค้นหาเอกสารอ้างอิง</th></serchref>
+<serchref><en>serchref</en><th>ค้นหาเอกสารอ้างอิง</th></serchref>
 <youlogout><en>Do you want to logout ?</en><th>คุณต้องการออกจากระบบหรือไม่</th></youlogout>
 <formatmonth><en>Format month</en><th>รูปแบบเดือน</th></formatmonth>
 <typereport><en>Type Report</en><th>ประเภทเอกสาร : </th></typereport>
@@ -405,7 +405,7 @@
 <Roundfactory><en>Round factory</en><th>รอบเวลาโรงซัก</th></Roundfactory>
 
 <!-- -->
-<r0><en>-</en><th>-</th></r0>
+<r0><en>Please choose Report</en><th>กรุณาเลือกรายงาน</th></r0>
 <r1><en>Report Dirty linen Weight</en><th>รายงานบันทึกการส่งผ้าเปื้อน</th></r1>
 <r3><en>Report Cleaned Linen Weight</en><th>รายงานบันทึกการรับผ้าสะอาด</th></r3>
 <r2><en>Report Claim</en><th>รายงานบันทึกผ้าส่งเคลม</th></r2>
@@ -436,6 +436,8 @@
 <r28><en>Report_billing</en><th>Report_billing</th></r28>
 <r29><en>Report Summary</en><th>Report Summary</th></r29>
 <r30><en>Report Usage Detail</en><th>Report Usage Detail</th></r30>
+<r31><en>Report_billing_category</en><th>Report_billing_category</th></r31>
+<r32><en>รายงานการรับคืนผ้าจากแผนก</en><th>Report_return_linen</th></r32>
 <DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
 <!--  -->
 <pleaseday><en>-----Please Choose Date------</en><th>-----กรุณาเลือกวันที่-----</th></pleaseday>

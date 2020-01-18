@@ -318,7 +318,7 @@ if (e.keyCode == 13) {
 
       function get_claim_doc(){
         
-        var hptcode = '<?php echo $HptCode ?>';
+        var hptcode = $('#hotpital option:selected').attr("value");
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
         var datepicker = $('#datepicker').val();

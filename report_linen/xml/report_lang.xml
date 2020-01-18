@@ -116,6 +116,8 @@
 <r28><en>Report_Billing</en><th>Report_Billing</th></r28>
 <r29><en>Report Summary</en><th>Report Summary</th></r29>
 <r30><en>Report Usage Detail</en><th>Report Usage Detail</th></r30>
+<r31><en>Report_Billing_Category</en><th>Report_Billing_Category</th></r31>
+<r32><en>รายงานการรับคืนผ้าจากแผนก</en><th>Report_return_linen</th></r32>
 <DM><en>Report Damage NHealth </en><th>รายงานผ้าชำรุด NHealth</th></DM>
 <sign><en>Sign</en><th>ลงชื่อ</th></sign>
 <packing><en>Packing</en><th>เจ้าหน้าที่แพ็คของ</th></packing>

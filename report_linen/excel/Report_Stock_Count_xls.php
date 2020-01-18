@@ -37,11 +37,11 @@ $Qty = 0;
 $Weight = 0;
 $count = 1;
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
 }
 if ($chk == 'one') {
   if ($format == 1) {
@@ -172,35 +172,63 @@ $objPHPExcel->getActiveSheet()
 $objPHPExcel->getActiveSheet()
   ->setShowGridlines(true);
 
-$objPHPExcel->setActiveSheetIndex(0)
-  ->setCellValue('A8',  $array2['no'][$language])
-  ->setCellValue('B8',  $array2['itemname'][$language])
-  ->setCellValue('C8',  $array2['unit'][$language])
-  ->setCellValue('D8',  $array2['par'][$language])
-  ->setCellValue('E8',  $array2['order'][$language]);
+
+
 
 // Write data from MySQL result
-$Sql = "SELECT
-        department.DepName
-        FROM
-        par_item_stock
-        INNER JOIN department ON par_item_stock.Depcode=department.Depcode
-        WHERE par_item_stock.DepCode='$DepCode'
-       ";
+$x = 0;
+if($DepCode =='ALL')
+{
+  $Sql = "SELECT
+    department.DepName,
+    department.DepCode
+  FROM
+    par_item_stock
+  INNER JOIN department ON par_item_stock.Depcode = department.Depcode
+  WHERE par_item_stock.HptCode='$HptCode' 
+  GROUP BY department.DepCode";
+}
+  else
+{
+  $Sql = "SELECT
+          department.DepName,
+          department.DepCode
+          FROM
+          par_item_stock
+          INNER JOIN department ON par_item_stock.Depcode=department.Depcode
+          WHERE par_item_stock.DepCode='$DepCode'
+          GROUP BY department.DepCode ";
+}
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $depname = $Result['DepName'];
+  $depname[$x] = $Result['DepName'];
+  $DepCodeALL[$x] = $Result['DepCode'];
+  $x++;
 }
+
 $datetime = new DatetimeTH();
 if ($language == 'th') {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
 } else {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
+
+$sheet_count = sizeof($DepCodeALL);
+
+for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
+
+  $objPHPExcel->setActiveSheetIndex($sheet)
+  ->setCellValue('A8',  $array2['no'][$language])
+  ->setCellValue('B8',  $array2['itemname'][$language])
+  ->setCellValue('C8',  $array2['unit'][$language])
+  ->setCellValue('D8',  $array2['par'][$language])
+  ->setCellValue('E8',  $array2['order'][$language]);
+
 $objPHPExcel->getActiveSheet()->setCellValue('D1', $array2['printdate'][$language] . $printdate);
 $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r9'][$language]);
 $objPHPExcel->getActiveSheet()->mergeCells('A5:E5');
-$objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['department'][$language] . " : " . $depname);
+$objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['department'][$language] . " : " . $depname[$sheet]);
+
 $Sql = "SELECT
         item.itemName,
         item_unit.unitname,
@@ -211,9 +239,10 @@ $Sql = "SELECT
         INNER JOIN department ON par_item_stock.Depcode=department.Depcode
         INNER JOIN item on item.ItemCode=par_item_stock.ItemCode
         INNER JOIN item_unit on item.unitcode=item_unit.unitcode
-        WHERE par_item_stock.DepCode='$DepCode'
+        WHERE par_item_stock.DepCode= '$DepCodeALL[$sheet]'
         AND par_item_stock.HptCode='$HptCode'
         ORDER BY item.itemName ";
+
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $count);
@@ -224,7 +253,6 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $start_row++;
   $count++;
 }
-
 $cols = array('A', 'B', 'C', 'D', 'E');
 $width = array(10, 40, 10, 10, 15);
 for ($j = 0; $j < count($cols); $j++) {
@@ -297,11 +325,19 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_Stock_Count');
-
+$objPHPExcel->getActiveSheet()->setTitle($depname[$sheet]);
+$objPHPExcel->createSheet();
+$start_row = 9;
+$count = 1;
+}
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-$objPHPExcel->setActiveSheetIndex(0);
 
+$objPHPExcel->removeSheetByIndex(
+  $objPHPExcel->getIndex(
+    $objPHPExcel->getSheetByName('Worksheet')
+  )
+);
+$objPHPExcel->setActiveSheetIndex(0);
 
 //ตั้งชื่อไฟล์
 $time  = date("H:i:s");

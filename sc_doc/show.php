@@ -82,7 +82,7 @@
         $( document ).ready(function() {
             getDataFromDb();
         });
-        <!-- ================================================ --!>
+        // <!-- ================================================ --!>
         setInterval(getDataFromDb, 1000);   // 1000 = 1 second
         function getDataFromDb()
         {
