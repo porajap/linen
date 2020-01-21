@@ -707,24 +707,24 @@ $(document).ready(function(e){
 
       function addnum(cnt, Max) {
         var add = Number($('#iqty'+cnt).val())==null?0+1:(Number($('#iqty'+cnt).val())+1);
-        if(add<=0){
-          $('#iqty'+cnt).val(0);
-        }else if(add>Max){
-          $('#iqty'+cnt).val(Max);
-        }else{
+        // if(add<=0){
+        //   $('#iqty'+cnt).val(0);
+        // }else if(add>Max){
+        //   $('#iqty'+cnt).val(Max);
+        // }else{
           $('#iqty'+cnt).val(add);
-        }
+        // }
       }
 
       function subtractnum(cnt, Max) {
         var sub = Number($('#iqty'+cnt).val())==null?0+1:(Number($('#iqty'+cnt).val())-1);
-        if(sub<=0) {
-          $('#iqty'+cnt).val(0);
-        }else if(sub>Max){
-          $('#iqty'+cnt).val(Max);
-        }else{
+        // if(sub<=0) {
+        //   $('#iqty'+cnt).val(0);
+        // }else if(sub>Max){
+        //   $('#iqty'+cnt).val(Max);
+        // }else{
           $('#iqty'+cnt).val(sub);
-        }
+        // }
       }
 
       function addnum1(rowid,cnt,unitcode) {
@@ -1029,11 +1029,11 @@ $(document).ready(function(e){
 
       function QtyKey(MaxQty, i){
         var Qty = Number($('#iqty'+i).val())==null?0:Number($('#iqty'+i).val());
-        if(Qty>MaxQty){
-          $('#iqty'+i).val(MaxQty);
-        }else{
-          $('#iqty'+i).val(Qty);
-        }
+        // if(Qty>MaxQty){
+        //   $('#iqty'+i).val(MaxQty);
+        // }else{
+        //   $('#iqty'+i).val(Qty);
+        // }
       }
 
       function senddata(data){
@@ -1871,7 +1871,7 @@ $(document).ready(function(e){
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['general']['title'][$language]; ?></a></li>
-      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][2][$language]; ?></li>
+      <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][13][$language]; ?></li>
     </ol>
     <input class='form-control' type="hidden" style="margin-left:-48px;margin-top:10px;font-size:16px;width:100px;height:30px;text-align:right;padding-top: 15px;" id='IsStatus'>
     <input type="hidden" id='input_chk' value='0'>

@@ -138,16 +138,27 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO damage
-    ( DocNo,DocDate,DepCode,
-      TaxNo,TaxDate,DiscountPercent,DiscountBath,
-      Total,IsCancel,Detail,
-      damage.Modify_Code,damage.Modify_Date )
-      VALUES
-      ( '$DocNo',DATE(NOW()),'$deptCode',
-      0,DATE(NOW()),0,0,
-      0,0,'',
-      $userid,NOW() )";
+    $Sql = "INSERT INTO damage (
+              DocNo,
+              DocDate,
+              DepCode,
+              Total,
+              IsCancel,
+              Detail,
+              damage.Modify_Code,
+              damage.Modify_Date
+            )
+            VALUES
+              (
+                '$DocNo',
+                DATE(NOW()),
+                '$deptCode',
+                0,
+                0,
+                '',
+                $userid,
+                NOW()
+              )";
       mysqli_query($conn, $Sql);
 
       //var_dump($Sql);
@@ -1029,6 +1040,7 @@ function CreateDocument($conn, $DATA)
   }
   function get_claim_doc($conn, $DATA)
   {
+    $lang = $_SESSION['lang'];
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
     $datepicker = $DATA["datepicker"]==''?date('Y-m-d'):$DATA["datepicker"];
@@ -1044,8 +1056,18 @@ function CreateDocument($conn, $DATA)
     // var_dump($Sql); die;
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
+      if($lang =='en')
+      {
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      }
+      else if ($lang == 'th')
+      {
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      }
+      $return[$count]['DocDate'] =  $newdate;
       $return[$count]['RefDocNo'] = $Result['DocNo'];
-      $return[$count]['DocDate'] = $Result['DocDate'];
       $return[$count]['FacName'] = $Result['FacName'];      
       $boolean = true;
       $count++;

@@ -10,6 +10,8 @@ $ItemCode = $_GET['ItemCode'];
 $TotalQty = $_GET['TotalQty'];
 $sendQty = $_GET['sendQty'];
 $UserID = $_SESSION['PmID'];
+$og         = $_GET['og'];
+$of         = $_GET['of'];
 $count = 0;
 
 $Sql = "SELECT
@@ -113,13 +115,7 @@ for($i=1;$i<=$loop1;$i++){
   $pdf->write2DBarcode($ItemCode.','.$sendQty, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
   $pdf->SetFont('thsarabunnew', '', 10);
   $pdf->SetY(35);
-  $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(7);
-  $pdf->Cell(36, 1, $EngName , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(7);
-  $pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
-  $pdf->SetX(1);
-  $pdf->Cell(45, 1, '. . . . . . . . ' , 0, 1, 'R', 0, '', 1);
+  $pdf->Cell(0,0, 'ผู้จัด '. $og. '            '.'ผู้ตรวจ '. $of  , 0, 0, 'L', 0, '', 1);
 
 
 // ==================================================================================================
@@ -175,13 +171,7 @@ if($loop2<$TotalQty){
   $pdf->write2DBarcode($ItemCode.','.$totallast, 'QRCODE,L', 12,13, 22, 22, $style, 'L');
   $pdf->SetFont('thsarabunnew', '', 10);
   $pdf->SetY(35);
-  $pdf->Cell(0,0, 'ผู้จัด ' , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(7);
-  $pdf->Cell(36, 1, $EngName , 0, 0, 'L', 0, '', 1);
-  $pdf->SetX(7);
-  $pdf->Cell(25, 0, 'ผู้ตรวจ ' , 0, 0, 'R', 0, '', 0);
-  $pdf->SetX(1);
-  $pdf->Cell(45, 1, '. . . . . . . . ' , 0, 1, 'R', 0, '', 1);
+  $pdf->Cell(0,0, 'ผู้จัด '. $og. '            '.'ผู้ตรวจ '. $of  , 0, 0, 'L', 0, '', 1);
   }
 
 // ---------------------------------------------------------

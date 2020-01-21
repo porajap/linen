@@ -361,7 +361,7 @@ $array = json_decode($json,TRUE);
 
   <div id="wrapper">
     <div id="content-wrapper">
-      <div style="margin-top:5px;margin-left:15px;width=100%"> <!-- start row tab -->
+      <div style="margin-top:5px;margin-left:15px;width :100%"> <!-- start row tab -->
         <div class="row">
           <div class="col-md-12">
             <div class="row" id="CardView"> </div>

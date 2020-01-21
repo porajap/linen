@@ -204,8 +204,8 @@ function CreateDocument($conn, $DATA)
 
   if ($count == 1) {
     $Sql = "INSERT INTO return_doc
-    ( DocNo, DocDate, HptCode, DepCodeFrom, DepCodeTo, RefDocNo, IsCancel, Modify_Code, Modify_Date )VALUES
-    ('$DocNo', NOW(), '$hotpCode', '$deptCode', '$DepCodeDefault','$RefDocNo', 0, $userid, NOW() )";
+    ( DocNo, DocDate, HptCode, DepCodeFrom, DepCodeTo, IsCancel, Modify_Code, Modify_Date )VALUES
+    ('$DocNo', NOW(), '$hotpCode', '$deptCode', '$DepCodeDefault', 0, $userid, NOW() )";
       mysqli_query($conn, $Sql);
 
 
@@ -276,7 +276,6 @@ function ShowDocument($conn, $DATA)
   department.DepName,
   return_doc.DocNo,
   DATE(return_doc.DocDate) AS DocDate ,
-  return_doc.RefDocNo,
   return_doc.Total,
   users.EngName , 
   users.EngLName ,
@@ -946,7 +945,6 @@ function ShowDetail($conn, $DATA)
   item_unit.UnitName,
   return_detail.UnitCode AS UnitCode2,
   return_detail.Weight,
-  return_doc.RefDocNo,
   return_doc.DepCodeFrom,
   return_doc.DepCodeTo,
   return_detail.Qty,
@@ -971,7 +969,6 @@ function ShowDetail($conn, $DATA)
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['Weight']     = $Result['Weightitem'] * $Result['Qty'] ;
     $Weightpro    = $Result['Weightitem'] * $Result['Qty'] ;
-    $return[$count]['RefDocNo']    = $Result['RefDocNo'];
     $return[$count]['DepCodeFrom'] = $Result['DepCodeFrom'];
     $return[$count]['DepCodeTo']  = $Result['DepCodeTo'];
     $return[$count]['TotalQty']   = $Result['TotalQty'];

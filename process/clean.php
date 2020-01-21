@@ -1279,7 +1279,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     $boolean = false;
     $count = 0;
     $count2 = 0;
-    $Sql = "SELECT dirty.DocNo , RefDocNo ,DATE(process.WashEndTime) AS DocDate , factory.FacName , factory.FacCode , dirty.Modify_Date FROM dirty     
+    $Sql = "SELECT dirty.DocNo  ,DATE(process.WashEndTime) AS DocDate , factory.FacName , factory.FacCode , dirty.Modify_Date FROM dirty     
     INNER JOIN site ON dirty.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = dirty.FacCode
     INNER JOIN process ON process.DocNo = dirty.DocNo
@@ -1287,7 +1287,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     
     UNION ALL 
     
-    SELECT repair_wash.DocNo , RefDocNo , DATE(process.WashEndTime) AS DocDate , factory.FacName , factory.FacCode , repair_wash.Modify_Date FROM repair_wash
+    SELECT repair_wash.DocNo  , DATE(process.WashEndTime) AS DocDate , factory.FacName , factory.FacCode , repair_wash.Modify_Date FROM repair_wash
     INNER JOIN department ON repair_wash.DepCode = department.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = repair_wash.FacCode
@@ -1297,7 +1297,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     
     UNION ALL  
     
-    SELECT newlinentable.DocNo , RefDocNo , DATE(process.WashEndTime) AS DocDate , factory.FacName ,factory.FacCode , newlinentable.Modify_Date FROM newlinentable
+    SELECT newlinentable.DocNo  , DATE(process.WashEndTime) AS DocDate , factory.FacName ,factory.FacCode , newlinentable.Modify_Date FROM newlinentable
     INNER JOIN site ON newlinentable.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = newlinentable.FacCode
     INNER JOIN process ON process.DocNo = newlinentable.DocNo

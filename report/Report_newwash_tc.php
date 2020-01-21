@@ -198,17 +198,17 @@ $pdf->SetAutoPageBreak(TRUE, 27);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
-  $Perfix = THPerfix;
-  $Name = THName;
-  $LName = THLName;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
+  $Perfix = 'THPerfix';
+  $Name = 'THName';
+  $LName = 'THLName';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
-  $Perfix = EngPerfix;
-  $Name = EngName;
-  $LName = EngLName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
+  $Perfix = 'EngPerfix';
+  $Name = 'EngName';
+  $LName = 'EngLName';
 }
 $header = array($array['no'][$language],  $array2['itemname'][$language], $array['department'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 
@@ -221,7 +221,6 @@ $head = "SELECT site.$HptName,
         newlinentable.Total,
         CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
         TIME(newlinentable.Modify_Date) AS xTime,
-        newlinentable.RefDocNo,
         factory.facname
         FROM newlinentable
 INNER JOIN newlinentable_detail ON newlinentable.DocNo = newlinentable_detail.DocNo

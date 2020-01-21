@@ -235,32 +235,35 @@ else
   }
 }
 // =============================================================================
+#เงื่อนไขค้นหา
 if ($categoryCodeCome == '0') 
 {
-  $query = "SELECT
-  item_category.CategoryCode,
-  item_category.CategoryName
-  FROM
-  item_category
-   ORDER BY item_category.CategoryCode ASC";
-  $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $CategoryCode[] = $Result["CategoryCode"];
-    $CategoryName[] = $Result["CategoryName"];
-  }
+  // $query = "SELECT
+  // item_category.CategoryCode,
+  // item_category.CategoryName
+  // FROM
+  // item_category
+  //  ORDER BY item_category.CategoryCode ASC";
+  // $meQuery = mysqli_query($conn, $query);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $CategoryCode[] = $Result["CategoryCode"];
+  //   $CategoryName[] = $Result["CategoryName"];
+  // }
+  $categorywhere = "";
 } 
 else 
 {
-  $query = "SELECT
-  item_category.CategoryCode,
-  item_category.CategoryName
-  FROM
-  item_category WHERE  item_category.CategoryCode = '$categoryCodeCome'  ORDER BY item_category.CategoryCode ASC";
-  $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $CategoryCode[] = $Result["CategoryCode"];
-    $CategoryName[] = $Result["CategoryName"];
-  }
+  // $query = "SELECT
+  // item_category.CategoryCode,
+  // item_category.CategoryName
+  // FROM
+  // item_category WHERE  item_category.CategoryCode = '$categoryCodeCome'  ORDER BY item_category.CategoryCode ASC";
+  // $meQuery = mysqli_query($conn, $query);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $CategoryCode[] = $Result["CategoryCode"];
+  //   $CategoryName[] = $Result["CategoryName"];
+  // }
+  $categorywhere = "AND report_sc.CategoryCode = '$categoryCodeCome' ";
 }
 // -----------------------------------------------------------------------------------
 if ($chk == 'one') {
@@ -350,8 +353,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                   INNER JOIN item_category  			ON item_category.CategoryCode = report_sc.CategoryCode
                   INNER JOIN department 					 ON department.DepCode = report_sc.DepCode
                   INNER JOIN grouphpt 					     ON grouphpt.GroupCode = department.GroupCode
-                  WHERE report_sc.CategoryCode = '$categoryCodeCome'
-                AND  grouphpt.GroupCode = '$GroupCode[$sheet]'
+                  WHERE grouphpt.GroupCode = '$GroupCode[$sheet]'
+                  $categorywhere
                   AND report_sc.isStatus <> 9
                   AND report_sc.isStatus <> 0
                   AND report_sc.Weight  >  0
@@ -416,6 +419,31 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     $Date_chk[$dayx] = 0;
     }
 
+    if ($categoryCodeCome == '0') 
+    {
+      $data = "SELECT
+                COALESCE (SUM(shelfcount.Totalw), '0') AS aWeight,
+                COALESCE (SUM(shelfcount.Totalp), '0') AS aPrice,
+                DATE(shelfcount.Modify_Date) AS Date_chk
+              FROM
+                shelfcount
+              INNER JOIN department ON department.DepCode = shelfcount.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              WHERE  DATE(shelfcount.Modify_Date)  IN ( ";
+              for ($day = 0; $day < $count; $day++) {
+
+                $data .= " '$date[$day]' ,";
+
+              }
+              $data = rtrim($data, ' ,'); 
+      $data .= " )  AND shelfcount.isStatus <> 9
+              AND shelfcount.isStatus <> 0
+              AND shelfcount.DepCode = '$DepCode[$lek]'
+              AND site.HptCode = '$HptCode' 
+              GROUP BY  DATE(shelfcount.Modify_Date)";
+    }
+    else
+    {
       $data = " SELECT
                         COALESCE (SUM(report_sc.Weight), '0') AS aWeight,
                         COALESCE(SUM(report_sc.Price ),'0') AS aPrice ,
@@ -435,13 +463,13 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                       AND report_sc.isStatus <> 0
                       AND report_sc.DepCode = '$DepCode[$lek]'
                       AND site.HptCode = '$HptCode'
-                      AND report_sc.CategoryCode =  '$categoryCodeCome' 
+                      $categorywhere 
                       GROUP BY report_sc.DocDate  ";
-
-
+    }
                
       $meQuery = mysqli_query($conn, $data);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
+      while ($Result = mysqli_fetch_assoc($meQuery)) 
+      {
           $aWeight[$cnt] =  $Result["aWeight"];
           $aPrice[$cnt] =  $Result["aPrice"];
           $Date_chk[$cnt] =  $Result["Date_chk"];
@@ -494,10 +522,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
   $Date_chk[$dayx] = 0;
 
   }
-
-
-
-
     $data =       "SELECT
                             COALESCE (SUM(report_sc.Weight), '0') AS aWeight,
                             COALESCE (SUM(report_sc.Price), '0') AS aPrice,
@@ -517,7 +541,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     $data .=       " ) AND report_sc.isStatus <> 9
                             AND report_sc.isStatus <> 0
                             AND site.HptCode = '$HptCode'
-                            AND report_sc.CategoryCode =  '$categoryCodeCome'
+                            $categorywhere
                             AND grouphpt.GroupCode =  '$GroupCode[$sheet]'
                             AND grouphpt.HptCode = '$HptCode' 
                             GROUP BY DATE(report_sc.DocDate)";

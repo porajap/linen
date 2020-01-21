@@ -119,8 +119,7 @@ $array2 = json_decode($json2,TRUE);
         function logoff() {
             swal({
                 title: '',
-                text: '<?php echo $array['
-                logout '][$language]; ?>',
+                text: '<?php echo $array['logout '][$language]; ?>',
                 type: 'success',
                 showCancelButton: false,
                 confirmButtonColor: '#3085d6',

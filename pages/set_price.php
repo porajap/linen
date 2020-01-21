@@ -754,10 +754,8 @@ $array2 = json_decode($json2,TRUE);
                 type: 'post',
                 beforeSend: function() {
                     swal({
-                        title: '<?php echo $array['
-                        pleasewait '][$language]; ?>',
-                        text: '<?php echo $array['
-                        processing '][$language]; ?>',
+                        title: '<?php echo $array['pleasewait '][$language]; ?>',
+                        text: '<?php echo $array['processing '][$language]; ?>',
                         allowOutsideClick: false
                     })
                     swal.showLoading();
@@ -1352,7 +1350,7 @@ $array2 = json_decode($json2,TRUE);
 
  <!-- /.content-wrapper -->
  <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                        <div class="menu" id="delete1" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                        <div class="menu" id="delete1" <?php if($PmID == 3 || $PmID == 7 || $PmID == 5 ) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn"  onclick="SavePrice()" id="bSave" disabled="true">

@@ -221,10 +221,8 @@ $array2 = json_decode($json2, TRUE);
         type: 'post',
         beforeSend: function() {
           swal({
-            title: '<?php echo $array['
-                        pleasewait '][$language]; ?>',
-            text: '<?php echo $array['
-                        processing '][$language]; ?>',
+            title: '<?php echo $array['pleasewait '][$language]; ?>',
+            text: '<?php echo $array['processing '][$language]; ?>',
             allowOutsideClick: false
           })
           swal.showLoading();

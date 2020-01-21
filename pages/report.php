@@ -98,7 +98,8 @@ $array2 = json_decode($json2, TRUE);
 		} else {
 			var tf = true;
 		}
-		$(document).ready(function(e) {
+		$(document).ready(function(e) 
+		{
 			$('#showday').hide();
 			$('#showmonth').hide();
 			$('#showyear').hide();
@@ -142,7 +143,8 @@ $array2 = json_decode($json2, TRUE);
 			parent.afk();
 		});
 
-		jqui(document).ready(function($) {
+		jqui(document).ready(function($) 
+		{
 			$('.only').on('input', function() {
 				this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
 			});
@@ -168,12 +170,14 @@ $array2 = json_decode($json2, TRUE);
 		//======= function========================================================================================================
 		function OnLoadPage() 
 		{
-			var data = {
+			var data = 
+			{
 				'STATUS': 'OnLoadPage'
 			};
 			senddata(JSON.stringify(data));
 			$('#isStatus').val(0)
 		}
+
 		function logoff() 
 		{
 			swal({
@@ -186,18 +190,23 @@ $array2 = json_decode($json2, TRUE);
 				showConfirmButton: false,
 				timer: 1000,
 				confirmButtonText: 'Ok'
-			}).then(function() {
+			}).then(function() 
+			{
 				window.location.href = "../logoff.php";
-			}, function(dismiss) {
+			}, 
+			function(dismiss) 
+			{
 				window.location.href = "../logoff.php";
 				if (dismiss === 'cancel') {}
 			})
 		}
+
 		function find_indexMonth(year) 
 		{
 			var monthArray = new Array();
 			var language = '<?php echo $language ?>';
-			if (language == 'en') {
+			if (language == 'en') 
+			{
 				monthArray[0] = "January";
 				monthArray[1] = "February";
 				monthArray[2] = "March";
@@ -210,7 +219,9 @@ $array2 = json_decode($json2, TRUE);
 				monthArray[9] = "October";
 				monthArray[10] = "November";
 				monthArray[11] = "December";
-			} else {
+			}
+			else
+			{
 				monthArray[0] = "มกราคม";
 				monthArray[1] = "กุมภาพันธ์";
 				monthArray[2] = "มีนาคม";
@@ -226,17 +237,20 @@ $array2 = json_decode($json2, TRUE);
 			}
 			var d = new Date();
 			var n = monthArray[d.getMonth()];
-			if (language == 'th') {
+			if (language == 'th') 
+			{
 				var year = parseInt(year) + 543;
 			}
 			var onemonth = n + '-' + year;
 			m = n;
 		}
+
 		function find_indexMonth2(year) 
 		{
 			var monthArray = new Array();
 			var language = '<?php echo $language ?>';
-			if (language == 'en') {
+			if (language == 'en') 
+			{
 				monthArray[0] = "January";
 				monthArray[1] = "February";
 				monthArray[2] = "March";
@@ -249,7 +263,9 @@ $array2 = json_decode($json2, TRUE);
 				monthArray[9] = "October";
 				monthArray[10] = "November";
 				monthArray[11] = "December";
-			} else {
+			}
+			else
+			{
 				monthArray[0] = "มกราคม";
 				monthArray[1] = "กุมภาพันธ์";
 				monthArray[2] = "มีนาคม";
@@ -263,14 +279,15 @@ $array2 = json_decode($json2, TRUE);
 				monthArray[10] = "พฤศจิกายน";
 				monthArray[11] = "ธันวาคม";
 			}
-
 			var date = new Date();
 			var nowMonth = monthArray[date.getMonth()];
 			var nextMonth = monthArray[date.getMonth() + 1];
-			if (language == 'th') {
+			if (language == 'th') 
+			{
 				var year = parseInt(year) + 543;
 			}
 		}
+
 		function showdate() 
 		{
 			var language = '<?php echo $language ?>';
@@ -278,13 +295,16 @@ $array2 = json_decode($json2, TRUE);
 			var chkmonth = $('#chkmonth:checked').val();
 			var chkyear = $('#chkyear:checked').val();
 			var typeReport = $('#typereport').val();
-			if (chkday == 1) {
+			if (chkday == 1) 
+			{
 				$('#showday').show();
 				$('#myDay').show();
 				$('#showmonth').hide();
 				$('#showyear').hide();
 				$('#myMonth').hide();
-			} else if (chkmonth == 2) {
+			}
+			else if (chkmonth == 2)
+			{
 				var Date = currentDate.split('-');
 				find_indexMonth(Date[0]);
 				$('#showday').hide();
@@ -292,48 +312,59 @@ $array2 = json_decode($json2, TRUE);
 				$('#showmonth').show();
 				$('#myMonth').show();
 				$('#showyear').hide();
-			} else if (chkyear == 3) {
+			}
+			else if (chkyear == 3)
+			{
 				$('#showday').hide();
 				$('#myDay').hide();
 				$('#showmonth').hide();
 				$('#myMonth').hide();
 				$('#showyear').show();
 			}
-
 		}
+
 		function formatdate(chk) 
 		{
 			var language = '<?php echo $language ?>';
-			if (chk == 1) {
+			if (chk == 1) 
+			{
 				$('#oneday').show();
 				$('#someday').hide();
 				$('#textto').hide();
-			} else if (chk == 2) {
+			}
+			else if (chk == 2)
+			{
 				$('#oneday').show();
 				$('#someday').show();
 				$('#textto').show();
 			}
 		}
+
 		function formatmonth(chk) 
 		{
-			if (chk == 1) {
+			if (chk == 1) 
+			{
 				$('#onemonth').show();
 				$('#somemonth').hide();
 				$('#textto2').hide();
-			} else if (chk == 2) {
+			}
+			else if (chk == 2)
+			{
 				$('#onemonth').show();
 				$('#somemonth').show();
 				$('#textto2').show();
-
 				var date = currentDate.split('-');
 				find_indexMonth2(date[0]);
 			}
 		}
+
 		function Blankinput() 
 		{
-			$('.checkblank').each(function() {
+			$('.checkblank').each(function() 
+			{
 				$(this).val("");
 			});
+
 			var typeReport = $('#typereport').val();
 			var factory = $('#factory').val();
 			var department = $('#department').val();
@@ -349,20 +380,27 @@ $array2 = json_decode($json2, TRUE);
 			var FormatDay = $("input[name='formatDay']:checked").val();
 			var FormatMonth = $("input[name='formatMonth']:checked").val();
 			var chkday = $('#chkday:checked').val();
-			if (Format == 1) {
-				if (FormatDay == 1) {
-					if (oneday == null || oneday == '' || oneday == undefined) {
+			if (Format == 1)
+			{
+				if (FormatDay == 1) 
+				{
+					if (oneday == null || oneday == '' || oneday == undefined) 
+					{
 						$('#oneday').addClass('border-danger');
 						$('#rem7').show();
 						$('#rem7').css('color', 'red');
 					}
-				} else if (FormatDay == 2) {
-					if (oneday == null || oneday == '' || oneday == undefined) {
+				}
+				else if (FormatDay == 2)
+				{
+					if (oneday == null || oneday == '' || oneday == undefined)
+					{
 						$('#oneday').addClass('border-danger');
 						$('#rem7').show();
 						$('#rem7').css('color', 'red');
 					}
-					if (someday == '' || someday == undefined || someday == undefined) {
+					if (someday == '' || someday == undefined || someday == undefined)
+					{
 						$('#someday').addClass('border-danger');
 						$('#rem8').show();
 						$('#rem8').css('color', 'red');
@@ -370,21 +408,28 @@ $array2 = json_decode($json2, TRUE);
 					}
 				}
 			}
-			if (Format == 2) {
-				if (FormatMonth == 1) {
-					if (onemonth == null || onemonth == '' || onemonth == undefined) {
+			if (Format == 2)
+			{
+				if (FormatMonth == 1)
+				{
+					if (onemonth == null || onemonth == '' || onemonth == undefined)
+					{
 						$('#onemonth').addClass('border-danger');
 						$('#rem9').show();
 						$('#rem9').css('color', 'red');
 
 					}
-				} else if (FormatMonth == 2) {
-					if (onemonth == null || onemonth == '' || onemonth == undefined) {
+				}
+				else if (FormatMonth == 2)
+				{
+					if (onemonth == null || onemonth == '' || onemonth == undefined)
+					{
 						$('#onemonth').addClass('border-danger');
 						$('#rem9').show();
 						$('#rem9').css('color', 'red');
 					}
-					if (somemonth == '' || someday == undefined || someday == undefined) {
+					if (somemonth == '' || someday == undefined || someday == undefined)
+					{
 						$('#somemonth').addClass('border-danger');
 						$('#rem10').show();
 						$('#rem10').css('color', 'red');
@@ -392,55 +437,70 @@ $array2 = json_decode($json2, TRUE);
 					}
 				}
 			}
-			if (Format == 3) {
-				if (year == null || year == '' || year == undefined) {
+			if (Format == 3)
+			{
+				if (year == null || year == '' || year == undefined)
+				{
 					$('#year').addClass('border-danger');
 					$('#rem11').show();
 					$('#rem11').css('color', 'red');
 
 				}
 			}
-			if (typeReport == 4) {
-				if (cycle == '0') {
+			if (typeReport == 4)
+			{
+				if (cycle == '0')
+				{
 					$('#cycle').addClass('border-danger');
 					$('#rem5').show();
 					$('#rem5').css('color', 'red');
 				}
 			}
-			if (typeReport == 13) {
-				if (cycle == '0') {
+			if (typeReport == 13)
+			{
+				if (cycle == '0')
+				{
 					$('#PPU').addClass('border-danger');
 					$('#rem6').show();
 					$('#rem6').css('color', 'red');
 				}
 			}
-			if (typeReport == '0') {
+			if (typeReport == '0')
+			{
 				$('#typereport').addClass('border-danger');
 				$('#rem1').show();
 				$('#rem1').css('color', 'red');
 			}
-			if (typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
-				if (factory == '' || factory == undefined || factory == '0') {
+
+			if (typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) 
+			{
+				if (factory == '' || factory == undefined || factory == '0')
+				{
 					$('#factory').addClass('border-danger');
 					$('#rem2').show();
 					$('#rem2').css('color', 'red');
 				}
 			}
-			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29 || typeReport == 30) {
-				if (department == '' || department == undefined || department == '0') {
+			if (typeReport == 4 || typeReport == 9 || typeReport == 14 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29 || typeReport == 30)
+			{
+				if (department == '' || department == undefined || department == '0') 
+				{
 					$('#department').addClass('border-danger');
 					$('#rem4').show();
 					$('#rem4').css('color', 'red');
 				}
 			}
-			if (typeReport == '0' || typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29 || typeReport == 30) {
-				if (hotpital == '' || hotpital == undefined || hotpital == '0') {
+			if (typeReport == '0' || typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29 || typeReport == 30)
+			{
+				if (hotpital == '' || hotpital == undefined || hotpital == '0')
+				{
 					$('#hotpital').addClass('border-danger');
 					$('#rem3').show();
 					$('#rem3').css('color', 'red');
 				}
 			}
 		}
+		
 		function blank_fac() 
 		{
 			$('#factory').removeClass('border-danger');
@@ -531,9 +591,12 @@ $array2 = json_decode($json2, TRUE);
 			var FormatDay = $("input[name='formatDay']:checked").val();
 			var FormatMonth = $("input[name='formatMonth']:checked").val();
 			var chkday = $('#chkday:checked').val();
-			if (Format == 1) {
-				if (FormatDay == 1) {
-					if (oneday == null || oneday == '' || oneday == undefined) {
+			if (Format == 1) 
+			{
+				if (FormatDay == 1) 
+				{
+					if (oneday == null || oneday == '' || oneday == undefined) 
+					{
 						swal({
 							title: '',
 							text: '<?php echo $array['insert_date'][$language]; ?>',
@@ -547,7 +610,9 @@ $array2 = json_decode($json2, TRUE);
 						});
 						Blankinput()
 					}
-				} else if (FormatDay == 2) {
+				} 
+				else if (FormatDay == 2) 
+				{
 					if (oneday == null || oneday == '' || oneday == undefined || someday == '' || someday == undefined || someday == undefined) {
 						swal({
 							title: '',
@@ -564,9 +629,12 @@ $array2 = json_decode($json2, TRUE);
 					}
 				}
 			}
-			if (Format == 2) {
-				if (FormatMonth == 1) {
-					if (onemonth == null || onemonth == '' || onemonth == undefined) {
+			if (Format == 2) 
+			{
+				if (FormatMonth == 1) 
+				{
+					if (onemonth == null || onemonth == '' || onemonth == undefined) 
+					{
 						swal({
 							title: '',
 							text: '<?php echo $array['insert_date'][$language]; ?>',
@@ -580,8 +648,10 @@ $array2 = json_decode($json2, TRUE);
 						});
 						Blankinput()
 					}
-				} else if (FormatMonth == 2) {
-					if (onemonth == null || onemonth == '' || onemonth == undefined || somemonth == '' || someday == undefined || someday == undefined) {
+				} else if (FormatMonth == 2) 
+				{
+					if (onemonth == null || onemonth == '' || onemonth == undefined || somemonth == '' || someday == undefined || someday == undefined) 
+					{
 						swal({
 							title: '',
 							text: '<?php echo $array['insert_date'][$language]; ?>',
@@ -597,8 +667,10 @@ $array2 = json_decode($json2, TRUE);
 					}
 				}
 			}
-			if (Format == 3) {
-				if (year == null || year == '' || year == undefined) {
+			if (Format == 3) 
+			{
+				if (year == null || year == '' || year == undefined) 
+				{
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_date'][$language]; ?>',
@@ -613,8 +685,10 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport != 9 && typeReport != 20) {
-				if (Format == '' || Format == undefined) {
+			if (typeReport != 9 && typeReport != 20) 
+			{
+				if (Format == '' || Format == undefined) 
+				{
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_date'][$language]; ?>',
@@ -629,7 +703,8 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 0) {
+			if (typeReport == 0) 
+			{
 				swal({
 					title: '',
 					text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -643,8 +718,10 @@ $array2 = json_decode($json2, TRUE);
 				});
 
 			}
-			if (typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) {
-				if (factory == '' || factory == undefined || factory == 0) {
+			if (typeReport == 1 || typeReport == 2 || typeReport == 3 || typeReport == 6 || typeReport == 8 || typeReport == 13 || typeReport == 15) 
+			{
+				if (factory == '' || factory == undefined || factory == 0) 
+				{
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -659,8 +736,10 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 13) {
-				if (ppu == '' || ppu == undefined || ppu == 0) {
+			if (typeReport == 13) 
+			{
+				if (ppu == '' || ppu == undefined || ppu == 0) 
+				{
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -675,8 +754,10 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 4 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29 || typeReport == 30) {
-				if (DepCode == '' || DepCode == undefined || DepCode == 0) {
+			if (typeReport == 4 || typeReport == 14 || typeReport == 9 || typeReport == 16 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 29 || typeReport == 30) 
+			{
+				if (DepCode == '' || DepCode == undefined || DepCode == 0) 
+				{
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -691,8 +772,10 @@ $array2 = json_decode($json2, TRUE);
 					Blankinput()
 				}
 			}
-			if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29 || typeReport == 30) {
-				if (HptCode == '' || HptCode == undefined) {
+			if (typeReport == 2 || typeReport == 3 || typeReport == 4 || typeReport == 5 || typeReport == 7 || typeReport == 9 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 13 || typeReport == 14 || typeReport == 16 || typeReport == 29 || typeReport == 30) 
+			{
+				if (HptCode == '' || HptCode == undefined) 
+				{
 					swal({
 						title: '',
 						text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -708,32 +791,42 @@ $array2 = json_decode($json2, TRUE);
 				}
 			}
 
-			if (Format == 1) {
+			if (Format == 1) 
+			{
 				var FormatDay = $("input[name='formatDay']:checked").val();
 				var language = '<?php echo $language ?>';
 
-				if (FormatDay == 1) {
+				if (FormatDay == 1) 
+				{
 					var date = $('#oneday').val();
 					day = date;
 					var dmy = date.split('-');
-					if (language == 'th') {
+					if (language == 'th') 
+					{
 						var year1 = parseInt(dmy[2]) - 543;
 						date = year1 + "-" + dmy[1] + "-" + dmy[0];
-					} else {
+					} 
+					else 
+					{
 						date = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
 					}
 
-				} else {
+				} 
+				else 
+				{
 					var one = $('#oneday').val();
 					var some = $('#someday').val();
-					if (language == 'th') {
+					if (language == 'th') 
+					{
 						var day1 = one.split('-');
 						var day2 = some.split('-');
 						var year1 = parseInt(day1[2]) - 543;
 						var year2 = parseInt(day2[2]) - 543;
 						many_day = day1[0] + "/" + day1[1] + "/" + day1[2] + "-" + day2[0] + "/" + day2[1] + "/" + day2[2];
 						date = year1 + "/" + day1[1] + "/" + day1[0] + "-" + year2 + "/" + day2[1] + "/" + day2[0];
-					} else {
+					} 
+					else 
+					{
 						var day1 = one.split('-');
 						var day2 = some.split('-');
 						var year1 = parseInt(day1[2]);
@@ -742,7 +835,8 @@ $array2 = json_decode($json2, TRUE);
 						many_day = day1[2] + "/" + day1[1] + "/" + day1[0] + "-" + day2[2] + "/" + day2[1] + "/" + day2[0];
 					}
 					var chkDateRang = date.split('-');
-					if (chkDateRang[0] == null || chkDateRang[0] == undefined || chkDateRang[1] == null || chkDateRang[1] == undefined) {
+					if (chkDateRang[0] == null || chkDateRang[0] == undefined || chkDateRang[1] == null || chkDateRang[1] == undefined) 
+					{
 						swal({
 							title: '',
 							text: '<?php echo $array['insert_form'][$language]; ?>',
@@ -760,6 +854,7 @@ $array2 = json_decode($json2, TRUE);
 					}
 
 				}
+				
 				var data = {
 					'STATUS': 'find_report',
 					'factory': factory,
@@ -777,29 +872,37 @@ $array2 = json_decode($json2, TRUE);
 					'time_dirty': time_dirty
 
 				};
-			} else if (Format == 2) {
+			} 
+			else if (Format == 2) 
+			{
 				var language = '<?php echo $language ?>';
 				var FormatMonth = $("input[name='formatMonth']:checked").val();
-				if (FormatMonth == 1) {
+				if (FormatMonth == 1) 
+				{
 					var date = $('#onemonth').val();
 					month = date;
 					var date1 = date.split('-');
-					if (language == "th") {
+					if (language == "th") 
+					{
 						var year = parseInt(date1[1]) - 543;
 						date = date1[0] + "-" + year;
 					}
-
-				} else {
+				}
+				else 
+				{
 					var one = $('#onemonth').val();
 					var some = $('#somemonth').val();
 					many_month = one + "/" + some;
-					if (language == "th") {
+					if (language == "th") 
+					{
 						var month1 = one.split('-');
 						var month2 = some.split('-');
 						var m1 = parseInt(month1[1]) - 543;
 						var m2 = parseInt(month2[1]) - 543;
 						date = month1[0] + "/" + m1 + "-" + month2[0] + "/" + m2;
-					} else {
+					}
+					else
+					{
 						var month1 = one.split('-');
 						var month2 = some.split('-');
 						var m1 = parseInt(month1[1]);
@@ -808,7 +911,9 @@ $array2 = json_decode($json2, TRUE);
 					}
 
 				}
-				var data = {
+
+				var data = 
+				{
 					'STATUS': 'find_report',
 					'factory': factory,
 					'HptCode': HptCode,
@@ -824,14 +929,18 @@ $array2 = json_decode($json2, TRUE);
 					'Item': Item,
 					'time_dirty': time_dirty
 				}
-			} else {
+			} 
+			else 
+			{
 				var language = '<?php echo $language ?>';
 				var date = $('#year').val();
 				show_year = date;
-				if (language == 'th') {
+				if (language == 'th') 
+				{
 					date = Number(date) - 543;
 				}
-				var data = {
+				var data = 
+				{
 					'STATUS': 'find_report',
 					'factory': factory,
 					'HptCode': HptCode,
@@ -846,7 +955,6 @@ $array2 = json_decode($json2, TRUE);
 					'Item': Item,
 					'time_dirty': time_dirty
 				};
-
 			}
 
 			senddata(JSON.stringify(data));
@@ -965,8 +1073,8 @@ $array2 = json_decode($json2, TRUE);
 								time_dirty += "<option value=" + temp[i]['id'] + ">" + temp[i]['TimeName'] + "</option>";
 							}
 							$("#time_dirty").append(time_dirty);
-
-							var categoryx = 'กรุณาเลือกหมวดหมู่';
+							
+							var categoryx = '<?php echo $array['AllCatsub'][$language]; ?>';
 							var category_value = "<option value='0'>" + categoryx + "</option>";
 							for (var i = 0; i < temp['count_category']; i++) {
 								category_value += "<option value=" + temp[i]['CategoryCode'] + ">" + temp[i]['CategoryName'] + "</option>";

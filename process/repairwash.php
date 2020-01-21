@@ -155,16 +155,33 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO repair_wash
-    ( DocNo,HptCode,FacCode , DocDate,DepCode,RefDocNo,
-      TaxNo,TaxDate,DiscountPercent,DiscountBath,
-      Total,IsCancel,Detail,
-      repair_wash.Modify_Code,repair_wash.Modify_Date )
-      VALUES
-      ( '$DocNo','$hotpCode','',DATE(NOW()),'$deptCode','',
-      0,DATE(NOW()),0,0,
-      0,0,'',
-      $userid,NOW() )";
+    $Sql = "INSERT INTO repair_wash (
+              DocNo,
+              HptCode,
+              FacCode,
+              DocDate,
+              DepCode,
+              RefDocNo,
+              Total,
+              IsCancel,
+              Detail,
+              repair_wash.Modify_Code,
+              repair_wash.Modify_Date
+            )
+            VALUES
+              (
+                '$DocNo',
+                '$hotpCode',
+                '',
+                DATE(NOW()),
+                '$deptCode',
+                '',
+                0,
+                0,
+                '',
+                $userid,
+                NOW()
+              ) ";
       mysqli_query($conn, $Sql);
 
       //var_dump($Sql);
@@ -1217,7 +1234,8 @@ function CreateDocument($conn, $DATA)
     ShowDocument($conn, $DATA);
   }
 
-  function updateQty($conn, $DATA){
+  function updateQty($conn, $DATA)
+  {
     $newQty = $DATA['newQty'];
     $RowID = $DATA['RowID'];
 
@@ -1232,6 +1250,7 @@ function CreateDocument($conn, $DATA)
 
   function get_dirty_doc($conn, $DATA)
   {
+    $lang = $_SESSION['lang'];
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
     $datepicker = $DATA["datepicker"]==''?date('Y-m-d'):$DATA["datepicker"];
@@ -1262,14 +1281,26 @@ function CreateDocument($conn, $DATA)
                   ORDER BY  clean.Modify_Date ASC ";
 
     $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery)) 
+    {
+      if($lang =='en')
+      {
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      }
+      else if ($lang == 'th')
+      {
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      }
+      $return[$count]['DocDate'] =  $newdate;
       $return[$count]['RefDocNo'] = $Result['DocNo'];
-      $return[$count]['DocDate'] = $Result['DocDate'];
       $return[$count]['FacName'] = $Result['FacName'];
       $return[$count]['Modify_Date'] = $Result['Modify_Date'];
       $boolean = true;
       $count++;
     }
+    
     $return['Row'] = $count;
     // echo json_encode($return);
     // mysqli_close($conn);

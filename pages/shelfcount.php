@@ -1337,7 +1337,9 @@ $array2 = json_decode($json2,TRUE);
       var ItemCode = $('#ItemCode').val();
       var TotalQty =  $('#maxNumSticker').val();
       var sendQty = $('#numberSticker').val();
-      var url  = "../report/Sticker_Shelfcount.php?DocNo="+DocNo+"&ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang;
+      var og        = $('#og').val();
+      var of        = $('#of').val();
+      var url  = "../report/Sticker_Shelfcount.php?DocNo="+DocNo+"&ItemCode="+ItemCode+"&TotalQty="+TotalQty+"&sendQty="+sendQty+"&lang="+lang+"&og="+og+"&of="+of;
       window.open(url);
     }
     function ShowItemAll(){
@@ -3053,7 +3055,7 @@ $array2 = json_decode($json2,TRUE);
                         <div class="col-md-12 pl-1 pr-4">
                             <!-- tag column 1 -->
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped"
-                                id="TableItemDetail" width="98%" cellspacing="0" role="grid" style="">
+                                id="TableItemDetail" width="98%" cellspacing="0" role="grid" >
                                 <thead id="theadsum" style="font-size:24px;">
                                     <tr role="row" id='tr_1'>
                                       <th style='width: 5%;' nowrap><?php echo $array['sn'][$language]; ?></th>
@@ -3196,8 +3198,8 @@ $array2 = json_decode($json2,TRUE);
               </div>
               <!-- end serach----------------------- -->
                 </div>
-                <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;'">
-                  <thead style="font-size:24px;">
+                <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px">
+                  <thead style="font-size:24px">
                     <tr role="row">
                     <input type="hidden"  id="countcheck">
                       <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
@@ -3208,7 +3210,7 @@ $array2 = json_decode($json2,TRUE);
                       <!-- <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th> -->
                     </tr>
                   </thead>
-                  <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
+                  <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px">
                   </tbody>
                 </table>
               </div>
@@ -3392,6 +3394,22 @@ $array2 = json_decode($json2,TRUE);
                   <input type="hidden" id="maxNumSticker">
                   <input type="hidden" id="ItemCode">
                   <input type="text" class="form-control numonly_dot" id="numberSticker" autocomplete="off" onkeyup="chk_numbrtSticker(this.value);" style="font-size: 22px;">
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-3">
+                  <?php echo $array['Organizer'][$language]; ?>: 
+                </div>
+                <div class="col-9">
+                  <input type="text" class="form-control " id="og" autocomplete="off" style="font-size: 22px;">
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-3">
+                  <?php echo $array['officer'][$language]; ?>: 
+                </div>
+                <div class="col-9">
+                  <input type="text" class="form-control " id="of" autocomplete="off"  style="font-size: 22px;">
                 </div>
               </div>
             </div>

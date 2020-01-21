@@ -1273,7 +1273,8 @@ if (e.keyCode == 13) {
                   $("#RefDocNo").attr('disabled' , true);
                 }else{
                   $("#RefDocNo").attr('disabled' , false);
-                }                  ShowDetail();
+                }                  
+                ShowDetail();
             }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
                 $( "#TableItemDetail tbody" ).empty();
                 if(temp["Row"] > 0)

@@ -201,16 +201,29 @@ function CreateDocument($conn, $DATA)
   }
   if ($count == 1) 
   {
-    $Sql = "INSERT INTO newlinentable
-      ( DocNo,DocDate,HptCode,RefDocNo,
-    TaxNo,TaxDate,DiscountPercent,DiscountBath,
-    Total,IsCancel,Detail,
-    newlinentable.Modify_Code,newlinentable.Modify_Date,newlinentable.FacCode )
-      VALUES
-      ( '$DocNo',DATE(NOW()),'$hotpCode','',
-    0,NOW(),0,0,
-    0,0,'',
-    $userid,NOW(),$FacCode )";
+    $Sql = "INSERT INTO newlinentable (
+              DocNo,
+              DocDate,
+              HptCode,
+              Total,
+              IsCancel,
+              Detail,
+              newlinentable.Modify_Code,
+              newlinentable.Modify_Date,
+              newlinentable.FacCode
+            )
+            VALUES
+              (
+                '$DocNo',
+                DATE(NOW()),
+                '$hotpCode',
+                0,
+                0,
+                '',
+                $userid,
+                NOW(),
+                $FacCode
+              )";
     mysqli_query($conn,$Sql);
 
     $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix

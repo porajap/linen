@@ -923,12 +923,10 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function Blankinput() {
-      $('#hospital').attr('disabled', false);
       $('#maincatagory2').attr('disabled', false);
       $('#typeLinen').attr('disabled', false);
       $('#numPack').attr('disabled', false);
       $('#catagory2').attr('disabled', false);
-      $('#hospital').removeClass('icon_select');
       $('#catagory2').removeClass('icon_select');
         $('#rem1').hide();
         $('#rem2').hide();
@@ -956,8 +954,14 @@ $array2 = json_decode($json2, TRUE);
       $('#catagory2').val("");
       $('#UnitName').val("");
       $('#SizeCode').val("1");
-      $('#hospital').val("");
-      $('#Hos2').val("");
+      var pm = '<?php  echo $PmID;   ?>';
+      if(pm !=3 && pm !=5  && pm !=7) 
+      {
+        $('#hospital').val("");
+        $('#Hos2').val("");
+        $('#hospital').attr('disabled', false);
+        $('#hospital').removeClass('icon_select');
+      }
       $('#maincatagory').val("");
       $('#catagory1').val("");
       $('#typeLinen').val("P");
@@ -2679,7 +2683,7 @@ $array2 = json_decode($json2, TRUE);
                             <div class="col-md-6">
                               <div class='form-group row'>
                                 <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                <select   class="form-control col-sm-7 checkblank" id="hospital"  ></select>
+                                <select   class="form-control col-sm-7 " id="hospital"  ></select>
                               </div>
                           </div>
                         <!-- </div> -->

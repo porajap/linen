@@ -263,16 +263,43 @@ function CreateDocument($conn, $DATA)
 
   if ($count == 1) {
 
-    $Sql = "INSERT INTO shelfcount
-    ( DocNo,DocDate,DepCode,RefDocNo,
-      TaxNo,TaxDate,DiscountPercent,DiscountBath,
-      Total,IsCancel,Detail, 
-      shelfcount.Modify_Code,shelfcount.Modify_Date,shelfcount.IsRef , LabNumber , CycleTime ,ScStartTime , DeliveryTime , ScTime , ScEndTime , IsMobile )
-      VALUES
-      ( '$DocNo',DATE(NOW()),'$deptCode','',
-      0,DATE(NOW()),0,0,
-      0,0,'',
-      $userid,NOW(),0 , CONCAT(SUBSTR('$DocNo',3,3),YEAR(DATE(NOW())),LPAD(MONTH(DATE(NOW())),2,0),SUBSTR('$DocNo',11,6)) , $cycle ,NOW() ,  '$settime' , '$setcount' , NOW() , 1 )";
+    $Sql = "INSERT INTO shelfcount (
+              DocNo,
+              DocDate,
+              DepCode,
+              Total,
+              IsCancel,
+              Detail,
+              shelfcount.Modify_Code,
+              shelfcount.Modify_Date,
+              shelfcount.IsRef,
+              LabNumber,
+              CycleTime,
+              ScStartTime,
+              DeliveryTime,
+              ScTime,
+              ScEndTime,
+              IsMobile
+            )
+            VALUES
+              (
+                '$DocNo',
+                DATE(NOW()),
+                '$deptCode',
+                0,
+                0,
+                '',
+                $userid,
+                NOW(),
+                0,
+                CONCAT(SUBSTR('$DocNo', 3, 3),YEAR (DATE(NOW())),LPAD(MONTH(DATE(NOW())), 2, 0),SUBSTR('$DocNo', 11, 6)),
+                $cycle,
+                NOW(),
+                '$settime',
+                '$setcount',
+                NOW(),
+                1
+              )";
     mysqli_query($conn, $Sql);
 
     $Sql = "INSERT INTO daily_request
@@ -482,10 +509,10 @@ if($Hotp <> "chkhpt")
     $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
   } else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process == 'chkpro') {
     $chk = 4;
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE  site.HptCode = '$Hotp'  AND LabNumber LIKE '%$Hotp%' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
   } else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process == 'chkpro') {
     $chk = 5;
-    $Sql .= " WHERE site.HptCode = '$Hotp' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE site.HptCode = '$Hotp'  AND LabNumber LIKE '%$Hotp%' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
   } else if ($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process == 'chkpro') {
     $chk = 6;
     $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
@@ -2130,12 +2157,6 @@ function ShowDetailNew($conn, $DATA)
   item.ItemName,
   item_unit.UnitName,
   item_unit.UnitCode,
-  (
-      SELECT item_stock_detail.Qty 
-      FROM item_stock_detail 
-      WHERE item_stock_detail.ItemCode = shelfcount_detail.ItemCode 
-      AND item_stock_detail.DepCode =  '$DepCode' 
-  ) AS ParQty,
   shelfcount_detail.ParQty,
   shelfcount_detail.CcQty,
   shelfcount_detail.TotalQty,
@@ -2149,7 +2170,7 @@ function ShowDetailNew($conn, $DATA)
   INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
   WHERE shelfcount_detail.DocNo = '$DocNo'
-  ORDER BY item.ItemName ASC";
+  ORDER BY item.ItemName ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 

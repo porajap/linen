@@ -188,9 +188,7 @@ $array2 = json_decode($json2,TRUE);
             }
         }
         function getSearchDocNo() {
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
-
+            var dept = '<?php echo $_SESSION[' Deptid ']; ?>';
             $('#TableDocumentSS tbody').empty();
             var str = $('#searchtxt').val();
             var datepicker = $('#datepicker').val();
@@ -208,8 +206,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function CreateSentSterile() {
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
             /* declare an checkbox array */
             var chkArray1 = [];
 
@@ -255,8 +252,7 @@ $array2 = json_decode($json2,TRUE);
             /* we join the array separated by the comma */
             var UsageCode = chkArray.join(',');
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION[' Deptid ']; ?>';
             var data = {
                 'STATUS': 'SSDTag',
                 'DEPT': dept,
@@ -270,8 +266,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function CreatePayout() {
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION[' Deptid ']; ?>';
             var data = {
                 'STATUS': 'CreatePayout',
                 'DEPT': dept,
@@ -283,8 +278,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function AddPayoutDetail() {
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION[' Deptid ']; ?>';
             var data = {
                 'STATUS': 'CreatePayout',
                 'DEPT': dept,
@@ -510,8 +504,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function SavePY() {
             $('#TableDocumentSS tbody').empty();
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
             var datepicker = $('#datepicker').val();
             datepicker = datepicker.substring(6, 10) + "-" + datepicker.substring(3, 5) + "-" + datepicker.substring(0, 2);
 
@@ -520,8 +513,7 @@ $array2 = json_decode($json2,TRUE);
 
             if (DocNo.length > 0) {
                 swal({
-                    title: '<?php echo $array['
-                    savesuccess '][$language]; ?>',
+                    title: '<?php echo $array['savesuccess '][$language]; ?>',
                     text: DocNo,
                     type: 'success',
                     showCancelButton: false,
@@ -604,8 +596,7 @@ $array2 = json_decode($json2,TRUE);
         function logoff() {
             swal({
                 title: '',
-                text: '<?php echo $array['
-                logout '][$language]; ?>',
+                text: '<?php echo $array['logout '][$language]; ?>',
                 type: 'success',
                 showCancelButton: false,
                 confirmButtonColor: '#3085d6',
@@ -636,10 +627,8 @@ $array2 = json_decode($json2,TRUE);
                 type: 'post',
                 beforeSend: function() {
                     swal({
-                        title: '<?php echo $array['
-                        pleasewait '][$language]; ?>',
-                        text: '<?php echo $array['
-                        processing '][$language]; ?>',
+                        title: '<?php echo $array[' pleasewait '][$language]; ?>',
+                        text: '<?php echo $array['processing '][$language]; ?>',
                         allowOutsideClick: false
                     })
                     swal.showLoading();
@@ -1200,7 +1189,7 @@ $array2 = json_decode($json2,TRUE);
             </div>
             <!-- /.content-wrapper -->
             <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                          <div class="menu mhee" >
+                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7 || $PmID == 5 ) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -1212,7 +1201,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee">
+                          <div class="menu mhee" >
                             <div class="d-flex justify-content-center">
                               <div class="circle6 d-flex justify-content-center">
                                 <button class="btn" onclick="Blankinput()" id="bDelete">
@@ -1224,7 +1213,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee" id="delete1" >
+                          <div class="menu mhee" id="delete1" <?php if($PmID == 3 || $PmID == 7 || $PmID == 5) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center" >
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">

@@ -128,17 +128,17 @@ $pdf->SetAutoPageBreak(TRUE, 27);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
-  $Perfix = THPerfix;
-  $Name = THName;
-  $LName = THLName;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
+  $Perfix = 'THPerfix';
+  $Name = 'THName';
+  $LName = 'THLName';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
-  $Perfix = EngPerfix;
-  $Name = EngName;
-  $LName = EngLName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
+  $Perfix = 'EngPerfix';
+  $Name = 'EngName';
+  $LName = 'EngLName';
 }
 $header = array($array['no'][$language], $array2['itemname'][$language], $array2['detail'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 
@@ -168,6 +168,14 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
 }
+list($d, $m, $y) = explode('-', $DocDate);
+if ($language == 'th') {
+  $y = $y + 543;
+} else {
+  $y = $y;
+}
+$DocDate = $d . "-" . $m . "-" . $y;
+
 $data = "SELECT
 damagenh_detail.ItemCode,
 item.ItemName,

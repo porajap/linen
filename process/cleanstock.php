@@ -189,16 +189,27 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO cleanstock
-    ( DocNo,DocDate,DepCode,RefDocNo,
-      TaxNo,TaxDate,DiscountPercent,DiscountBath,
-      Total,IsCancel,Detail,
-      cleanstock.Modify_Code,cleanstock.Modify_Date )
-      VALUES
-      ( '$DocNo',DATE(NOW()),'$deptCode','$RefDocNo',
-      0,DATE(NOW()),0,0,
-      0,0,'',
-      $userid,NOW() )";
+    $Sql = "INSERT INTO cleanstock (
+              DocNo,
+              DocDate,
+              DepCode,
+              Total,
+              IsCancel,
+              Detail,
+              cleanstock.Modify_Code,
+              cleanstock.Modify_Date
+            )
+            VALUES
+              (
+                '$DocNo',
+                DATE(NOW()),
+                '$deptCode',
+                0,
+                0,
+                '',
+                $userid,
+                NOW()
+              )";
       mysqli_query($conn, $Sql);
 
       //var_dump($Sql);
@@ -1367,6 +1378,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
 
   function get_dirty_doc($conn, $DATA)
   {
+    $lang = $_SESSION['lang'];
     $hptcode = $DATA["hptcode"];
     $searchitem1 = $DATA["searchitem1"];
     $datepicker = $DATA["datepicker"]==''?date('Y-m-d'):$DATA["datepicker"];
@@ -1381,11 +1393,23 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     ORDER BY  clean.Modify_Date ASC ";
     $meQuery = mysqli_query($conn, $Sql);
     $return['sql'] = $Sql;
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-  
+
+
+    while ($Result = mysqli_fetch_assoc($meQuery)) 
+    {
+      if($lang =='en')
+      {
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      }
+      else if ($lang == 'th')
+      {
+        $date2 = explode("-", $Result['DocDate']);
+        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      }
+      $return[$count]['DocDate'] =  $newdate;
       $return[$count]['RefDocNo'] = $Result['DocNo'];
-      $return[$count]['DocDate'] = $Result['DocDate'];
-      $return[$count]['FacName'] = $Result['FacName'];
+      $return[$count]['FacName'] =  $Result['FacName'];
 
         
       $boolean = true;

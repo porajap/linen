@@ -1504,7 +1504,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?> id="addhot">
+                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7 || $PmID == 5) echo 'hidden'; ?> id="addhot">
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="AddItem()" id="bSave">
@@ -1516,7 +1516,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?> id="adduser" >
+                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7 || $PmID == 5) echo 'hidden'; ?> id="adduser" >
                             <div class="d-flex justify-content-center">
                               <div class="circle4 d-flex justify-content-center">
                                 <button class="btn"  onclick="Adduser()" id="bSave">
@@ -1540,7 +1540,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu" id="delete1" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="menu" id="delete1" <?php if($PmID == 3 || $PmID == 7 || $PmID == 5) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle3 d-flex justify-content-center" id="delete_icon">
                                 <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">

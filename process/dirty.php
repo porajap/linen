@@ -157,9 +157,31 @@
       }
 
         if ($count == 1) {
-          $Sql = "INSERT INTO dirty
-            ( DocNo,DocDate,HptCode,RefDocNo, TaxNo,TaxDate,DiscountPercent,DiscountBath, Total,IsCancel,Detail, dirty.Modify_Code,dirty.Modify_Date,dirty.FacCode ,dirty.Time_ID )
-            VALUES ( '$DocNo',DATE(NOW()),'$hotpCode','', 0,NOW(),0,0, 0,0,'', $userid,NOW(), $FacCode ,  $timedirty )";
+          $Sql = "INSERT INTO dirty (
+                    DocNo,
+                    DocDate,
+                    HptCode,
+                    Total,
+                    IsCancel,
+                    Detail,
+                    dirty.Modify_Code,
+                    dirty.Modify_Date,
+                    dirty.FacCode,
+                    dirty.Time_ID
+                  )
+                  VALUES
+                    (
+                      '$DocNo',
+                      DATE(NOW()),
+                      '$hotpCode',
+                      0,
+                      0,
+                      '',
+                      $userid,
+                      NOW(),
+                      $FacCode,
+                      $timedirty
+                    )";
           mysqli_query($conn,$Sql);
 
             $Sql = "INSERT INTO daily_request

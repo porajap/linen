@@ -264,8 +264,12 @@ $array2 = json_decode($json2,TRUE);
             $('input:checked').each(function() {
                 $(this).prop("checked", false);
             });
-            $('#hptsel').val("");
-            $('#hptsel2').val("");
+            var pm = '<?php  echo $PmID;   ?>';
+            if(pm !=3 && pm !=5  && pm !=7) 
+            {
+                $('#hptsel').val("");
+                $('#hptsel2').val("");
+            }
             $('#settime').val("");
             $('#idTime').val("");
             $('#bCancel').attr('disabled', true);
@@ -276,8 +280,7 @@ $array2 = json_decode($json2,TRUE);
         function logoff() {
             swal({
                 title: '',
-                text: '<?php echo $array['
-                logout '][$language]; ?>',
+                text: '<?php echo $array['logout '][$language]; ?>',
                 type: 'success',
                 showCancelButton: false,
                 confirmButtonColor: '#3085d6',
@@ -330,10 +333,8 @@ $array2 = json_decode($json2,TRUE);
                 type: 'post',
                 beforeSend: function() {
                     swal({
-                        title: '<?php echo $array['
-                        pleasewait '][$language]; ?>',
-                        text: '<?php echo $array['
-                        processing '][$language]; ?>',
+                        title: '<?php echo $array[' pleasewait '][$language]; ?>',
+                        text: '<?php echo $array[' processing '][$language]; ?>',
                         allowOutsideClick: false
                     })
                     swal.showLoading();

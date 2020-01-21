@@ -195,8 +195,7 @@ $array2 = json_decode($json2,TRUE);
             }
         }
         function getSearchDocNo() {
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
 
             $('#TableDocumentSS tbody').empty();
             var str = $('#searchtxt').val();
@@ -215,8 +214,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function CreateSentSterile() {
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
             /* declare an checkbox array */
             var chkArray1 = [];
 
@@ -262,8 +260,7 @@ $array2 = json_decode($json2,TRUE);
             /* we join the array separated by the comma */
             var UsageCode = chkArray.join(',');
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
             var data = {
                 'STATUS': 'SSDTag',
                 'DEPT': dept,
@@ -277,8 +274,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function CreatePayout() {
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
             var data = {
                 'STATUS': 'CreatePayout',
                 'DEPT': dept,
@@ -290,8 +286,7 @@ $array2 = json_decode($json2,TRUE);
         }
         function AddPayoutDetail() {
             var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['
-            Deptid ']; ?>';
+            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
             var data = {
                 'STATUS': 'CreatePayout',
                 'DEPT': dept,
@@ -501,9 +496,12 @@ $array2 = json_decode($json2,TRUE);
               $(this).css('border-color', '');
             }
           });
-                $('#shipto').val("");
+            $('#shipto').val("");
             $('#DepCode').val("");
-            $('#hptsel2').val("");
+            var pm = '<?php  echo $PmID;   ?>';
+                if(pm !=3 && pm !=5  && pm !=7) {
+                $('#hptsel2').val("");
+                }
             $('#IsActive').val("1");
              $('#DepCodeReal').val("");
              $("#xCenter").prop('checked', false);
@@ -633,8 +631,7 @@ $array2 = json_decode($json2,TRUE);
         function logoff() {
             swal({
                 title: '',
-                text: '<?php echo $array['
-                logout '][$language]; ?>',
+                text: '<?php echo $array['logout '][$language]; ?>',
                 type: 'success',
                 showCancelButton: false,
                 confirmButtonColor: '#3085d6',
@@ -1333,7 +1330,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
+                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 " id="hptsel2" >
                                       </select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
