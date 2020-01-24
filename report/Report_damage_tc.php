@@ -198,17 +198,17 @@ $pdf->SetAutoPageBreak(TRUE, 35);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
-  $Perfix = THPerfix;
-  $Name = THName;
-  $LName = THLName;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
+  $Perfix = 'THPerfix';
+  $Name = 'THName';
+  $LName = 'THLName';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
-  $Perfix = EngPerfix;
-  $Name = EngName;
-  $LName = EngLName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
+  $Perfix = 'EngPerfix';
+  $Name = 'EngName';
+  $LName = 'EngLName';
 }
 $header = array($array['no'][$language], $array2['itemname'][$language], $array2['detail'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 
@@ -222,7 +222,7 @@ damage.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
 TIME(damage.Modify_Date) AS xTime,
 damage.RefDocNo,
-factory.facname
+factory.$FacName
 FROM damage
 INNER JOIN department ON damage.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
@@ -239,7 +239,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
-  $facname = $Result['facname'];
+  $facname = $Result[$FacName];
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {

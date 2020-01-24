@@ -563,8 +563,9 @@ $array2 = json_decode($json2,TRUE);
                                     "<td style='width: 25%;'>"+temp[i]['FacName']+"</td>"+
                                     "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
                                     "<td style='width: 8%;'>"+temp[i]['EndDate2']+"</td>"+
-                                    "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
-                                    "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
+                                    "<td style='width: 15%; text-align: center;'>"+daytext+"</td>"+
+                                    "<td style='width: 15%;'>"+temp[i]['Detail']+"</td>"+
+                                    "<td style='width: 9%;'>"+temp[i]['HptNameTH']+"</td>"+
                                   "</tr>";
 
                                 if(rowCount == 0){
@@ -862,10 +863,11 @@ body{
                               <th style='width: 3%;' nowrap>&nbsp;</th>
                               <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
                               <th style='width: 25%;'><?php echo $array['factory'][$language]; ?></th>
-                              <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                              <th style='width: 10%;'><?php echo $array['dateendcontract'][$language]; ?></th>
-                              <th style='width: 26%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                              <th style='width: 18%;'><?php echo $array['detail'][$language]; ?></th>
+                              <th style='width: 12%;'><?php echo $array['datestartcontract'][$language]; ?></th>
+                              <th style='width: 8%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                              <th style='width: 15%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
+                              <th style='width: 15%;'><?php echo $array['detail'][$language]; ?></th>
+                              <th style='width: 17%;'><?php echo $array['side'][$language]; ?></th>
                             </tr>
                           </thead>
                           <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">

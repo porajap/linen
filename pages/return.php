@@ -532,6 +532,7 @@ $(document).ready(function(e){
       function getImport(Sel) {
         var docno = $("#docno").val();
         var RefDocNo = $("#RefDocNo").val();
+        var hotpCode  =  $('#hotpital').val();
         /* declare an checkbox array */
         var iArray = [];
         var qtyArray = [];
@@ -582,8 +583,11 @@ $(document).ready(function(e){
           'xunit'		  	: xunit,
           'DocNo'   		: docno,
           'Sel'       	: Sel,
-          'deptCode'    	: deptCode
+          'deptCode'    	: deptCode,
+          'hotpCode'    	: hotpCode
         };
+
+        
         senddata(JSON.stringify(data));
         ShowItem();
         // dialogItemCode.dialog( "close" );
@@ -947,11 +951,12 @@ $(document).ready(function(e){
                   $(btn_show).attr('disabled',false);
               }
       }
-      function updateQty(RowID, i, Max){
+      function updateQty(RowID, i, Max , itemcode){
         var docno = $("#docno").val();
         var newQty = Number($('#qty1_'+i).val());
         var weight = Number($('#weight_'+i).val());
         var deptCode = $('#department option:selected').val();
+        var hotpCode  =  $('#hotpital').val();
 
         if(newQty<=0){
           $('#qty1_'+i).val(0);
@@ -969,8 +974,9 @@ $(document).ready(function(e){
           'newQty' : Qty,
           'DocNo' : docno,
           'deptCode' : deptCode,
-          'weight' : weight
-          
+          'weight' : weight ,
+          'itemcode' : itemcode,
+          'hotpCode' : hotpCode
         }
         $('#input_chk').val(0);
         senddata(JSON.stringify(data));
@@ -1333,7 +1339,7 @@ $(document).ready(function(e){
 
                   var chkDoc = "<div class='form-inline'><label class='radio'style='margin:0px!important;'><input type='radio' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><span class='checkmark'></span><label style='margin-left:27px;'> "+(i+1)+"</label></label></div>";
 
-                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onchange='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['TotalQty']+"\");'  value='"+temp[i]['Qty']+"' ></div>";
+                  var Qty = "<div class='row' style='margin-left:0px;'><input autocomplete='off' class='form-control numonly' style='width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='qty1_"+i+"' onchange='updateQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['TotalQty']+"\"  , \""+temp[i]['ItemCode']+"\" );'  value='"+temp[i]['Qty']+"' ></div>";
                 
                   var Weight = "<div class='row' style='margin-left:2px;'><input disabled='true' autocomplete='off' class='form-control numonly' style=' width:87px;height:40px; margin-left:3px; margin-right:3px; text-align:center;font-size:24px;' id='weight_"+i+"' value='"+temp[i]['Weight']+"' ></div>";
 

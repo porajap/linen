@@ -45,71 +45,99 @@ $secord = '';
 $hours = '';
 $min = '';
 $secord = '';
-if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
-} else {
-  $HptName = HptName;
-  $FacName = FacName;
+if ($language == 'th')
+{
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
 }
-if ($chk == 'one') {
-  if ($format == 1) {
+else
+{
+  $HptName = 'HptName';
+  $FacName = 'FacName';
+}
+if ($chk == 'one')
+{
+  if ($format == 1)
+  {
     $where =   "WHERE DATE (clean.Docdate) = DATE('$date1')";
     $where_new = "WHERE  DATE (newlinentable.DocDate) LIKE '%$date1%'";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
-    if ($language == 'th') {
+    if ($language == 'th')
+    {
       $year = $year + 543;
       $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year;
-    } else {
+    }
+    else
+    {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
-  } elseif ($format = 3) {
+  }
+  elseif ($format = 3)
+  {
     $where = "WHERE  year (clean.DocDate) LIKE '%$date1%'";
     $where_new = "WHERE  year (newlinentable.DocDate) LIKE '%$date1%'";
 
-    if ($language == "th") {
+    if ($language == "th")
+    {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
-    } else {
+    }
+    else
+    {
       $date_header = $array['year'][$language] . $date1;
     }
   }
-} elseif ($chk == 'between') {
+}
+elseif ($chk == 'between')
+{
   $where = "WHERE clean.Docdate BETWEEN '$date1' AND '$date2'";
   $where_new = "WHERE newlinentable.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $year2 = $year2 + 543;
     $year = $year + 543;
     $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . " " . $array['to'][$language] . " " .
       $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
-  } else {
+  }
+  else
+  {
     $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " .  $year2;
   }
-} elseif ($chk == 'month') {
+}
+elseif ($chk == 'month')
+{
   $where =   "WHERE month (clean.Docdate) = " . $date1;
   $where_new = "WHERE month (newlinentable.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
-  } else {
+  }
+  else
+  {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
-} elseif ($chk == 'monthbetween') {
+}
+elseif ($chk == 'monthbetween')
+{
   $where =   "WHERE date(clean.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   $where_new =  "WHERE date(newlinentable.Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $year = $year + 543;
     $year2 = $year2 + 543;
     $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
-  } else {
+  }
+  else
+  {
     $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
@@ -221,22 +249,26 @@ $objPHPExcel->setActiveSheetIndex()
   ->setCellValue('J9',  $array2['finish'][$language]);
 // Write data from MySQL result
 $Sql = "SELECT
-factory.$FacName
-FROM
-process
-INNER JOIN factory ON factory.FacCode = process.FacCode
-where process.FacCode = $FacCode
-       ";
+          factory.$FacName
+        FROM
+          process
+        INNER JOIN factory ON factory.FacCode = process.FacCode
+        WHERE  process.FacCode = $FacCode ";
 $meQuery = mysqli_query($conn, $Sql);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
+while ($Result = mysqli_fetch_assoc($meQuery))
+{
   $Facname = $Result[$FacName];
 }
 $datetime = new DatetimeTH();
-if ($language == 'th') {
+if ($language == 'th')
+{
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-} else {
+}
+else
+{
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
+
 $objPHPExcel->getActiveSheet()->setCellValue('K1', $array2['printdate'][$language] . $printdate);
 $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r15'][$language]);
 $objPHPExcel->getActiveSheet()->mergeCells('A5:K5');
@@ -244,51 +276,73 @@ $objPHPExcel->getActiveSheet()->setCellValue('A7', $array2['factory'][$language]
 $objPHPExcel->getActiveSheet()->setCellValue('K7', $date_header);
 $doc = array('dirty', 'repair_wash', 'newlinentable');
 $j = 0;
-for ($i = 0; $i < 3; $i++) {
-  if ($chk == 'one') {
-    if ($format == 1) {
+
+for ($i = 0; $i < 3; $i++)
+{
+  if ($chk == 'one')
+  {
+    if ($format == 1)
+    {
       $where =   "WHERE DATE (" . $doc[$i] . ".Docdate) = DATE('$date_query1')";
-    } elseif ($format = 3) {
+    }
+    elseif ($format = 3)
+    {
       $where = "WHERE  year (" . $doc[$i] . ".Docdate) LIKE '%$date_query1%'";
     }
-  } elseif ($chk == 'between') {
+  }
+  elseif ($chk == 'between')
+  {
     $where =   "WHERE " . $doc[$i] . ".Docdate BETWEEN '$date_query1' AND '$date_query2'";
-  } elseif ($chk == 'month') {
+  }
+  elseif ($chk == 'month')
+  {
     $where =   "WHERE month (" . $doc[$i] . ".Docdate) = " . $date_query1;
-  } elseif ($chk == 'monthbetween') {
+  }
+  elseif ($chk == 'monthbetween')
+  {
     $where =   "WHERE date(" . $doc[$i] . ".Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   }
+
   $query = "SELECT
-TIME (process.WashStartTime) AS WashStartTime ,
-TIME (process.WashEndTime) AS WashEndTime,
-TIME (process.PackStartTime)AS PackStartTime,
-TIME (process.PackEndTime)AS PackEndTime,
-TIME (process.SendStartTime)AS SendStartTime,
-TIME (process.SendEndTime)AS SendEndTime,
-$doc[$i].FacCode,
-process.DocNo AS  DocNo1 ,
-TIME ($doc[$i].ReceiveDate)AS ReceiveDate1,
-DATE_FORMAT($doc[$i].DocDate,'%d/%m/%Y') AS Date1,
-TIME_FORMAT(TIMEDIFF($doc[$i].ReceiveDate, process.SendEndTime), '%H:%i') AS TIME ,
-TIME_FORMAT(TIMEDIFF(process.WashStartTime ,process.WashEndTime), '%H:%i') AS wash ,
-TIME_FORMAT(TIMEDIFF(process.PackStartTime ,process.PackEndTime), '%H:%i') AS pack ,
-TIME_FORMAT(TIMEDIFF(process.SendStartTime ,process.SendEndTime), '%H:%i') AS send 
-FROM
-process
-LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
-$where AND $FacCode in ($doc[$i].FacCode)
-AND process.isStatus <> 9
-"; echo $query;
+                TIME (process.WashStartTime) AS WashStartTime ,
+                TIME (process.WashEndTime) AS WashEndTime,
+                TIME (process.PackStartTime)AS PackStartTime,
+                TIME (process.PackEndTime)AS PackEndTime,
+                TIME (process.SendStartTime)AS SendStartTime,
+                TIME (process.SendEndTime)AS SendEndTime,
+                $doc[$i].FacCode,
+                process.DocNo AS  DocNo1 ,
+                TIME ($doc[$i].ReceiveDate)AS ReceiveDate1,
+                DATE_FORMAT($doc[$i].DocDate,'%d/%m/%Y') AS Date1,
+                TIME_FORMAT(TIMEDIFF($doc[$i].ReceiveDate, process.SendEndTime), '%H:%i') AS TIME ,
+                TIME_FORMAT(TIMEDIFF(process.WashStartTime ,process.WashEndTime), '%H:%i') AS wash ,
+                TIME_FORMAT(TIMEDIFF(process.PackStartTime ,process.PackEndTime), '%H:%i') AS pack ,
+                TIME_FORMAT(TIMEDIFF(process.SendStartTime ,process.SendEndTime), '%H:%i') AS send 
+              FROM
+              process
+              LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
+              $where 
+              AND $FacCode in ($doc[$i].FacCode)
+              AND process.isStatus <> 9 "; 
+
   $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    if ($language == 'th') {
+  while ($Result = mysqli_fetch_assoc($meQuery)) 
+  {
+    $start_data++;
+    if ($language == 'th')
+    {
       $hour_show = " ชั่วโมง";
       $min_show = " นาที";
-    } else {
-      if ($total_hours <= 1) {
+    }
+    else
+    {
+      if ($total_hours <= 1)
+      {
         $hour_show = " hour ";
         $min_show = " min ";
-      } else {
+      }
+      else
+      {
         $hour_show = " hours ";
         $min_show = " mins ";
       }
@@ -303,12 +357,14 @@ AND process.isStatus <> 9
     $four[0] = str_replace("-", '', $four[0]);
     $hous = $one[0] + $two[0] + $three[0] + $four[0];
     $mins = $one[1] + $two[1] + $three[1] + $four[1];
-    if ($mins >= 60) {
+    if ($mins >= 60)
+    {
       $Ansmin = $mins / 60;
       $Ansmin = (int) ($Ansmin);
       $hous = $hous + $Ansmin;
       $mins = $mins % 60;
     }
+
     $timeshow = $hous . $hour_show . " " . $mins . $min_show;
     $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_data, $Result["DocNo1"]);
     $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_data, $Result["Date1"]);
@@ -325,7 +381,6 @@ AND process.isStatus <> 9
 }
 
 $styleArray = array(
-
   'borders' => array(
 
     'allborders' => array(
@@ -335,8 +390,6 @@ $styleArray = array(
   )
 );
 $objPHPExcel->getActiveSheet()->getStyle('A8:K' . $start_data)->applyFromArray($styleArray);
-
-
 $CENTER = array(
   'alignment' => array(
     'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
@@ -348,8 +401,6 @@ $CENTER = array(
   )
 );
 $objPHPExcel->getActiveSheet()->getStyle('A8:K' . $start_data)->applyFromArray($CENTER);
-
-
 $r = array(
   'alignment' => array(
     'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
@@ -367,7 +418,6 @@ $width = array(20, 20, 8, 8, 8, 8, 8, 8, 8, 8, 20);
 for ($j = 0; $j < count($cols); $j++) {
   $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
 }
-
 $objDrawing = new PHPExcel_Worksheet_Drawing();
 $objDrawing->setName('test_img');
 $objDrawing->setDescription('test_img');
@@ -380,22 +430,15 @@ $objDrawing->setOffsetY(0);
 $objDrawing->setWidthAndHeight(150, 75);
 $objDrawing->setResizeProportional(true);
 $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-
-
 // Rename worksheet
 $objPHPExcel->getActiveSheet()->setTitle('Report_Tracking_status_for_laundry_plant');
-
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);
-
-
 //ตั้งชื่อไฟล์
 $time  = date("H:i:s");
 $date  = date("Y-m-d");
 list($h, $i, $s) = explode(":", $time);
 $file_name = "Report_Tracking_status_for_laundry_plant_xls_" . $date . "_" . $h . "_" . $i . "_" . $s . ")";
-//
-
 // Save Excel 2007 file
 #echo date('H:i:s') . " Write to Excel2007 format\n";
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
@@ -404,5 +447,5 @@ ob_end_clean();
 header('Content-type: application/vnd.ms-excel');
 // It will be called file.xls
 header('Content-Disposition: attachment;filename="' . $file_name . '.xlsx"');
-$objWriter->sa5ve('php://output');
+$objWriter->save('php://output');
 exit();

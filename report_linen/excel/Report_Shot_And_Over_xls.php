@@ -73,7 +73,7 @@ if ($language == 'th') {
 
 if ($chk == 'one') {
   if ($format == 1) {
-    $where =   "WHERE DATE (shelfcount.Docdate) = DATE('$date1')";
+    $where =   "WHERE DATE (report_sc.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
     if ($language == 'th') {
@@ -83,7 +83,7 @@ if ($chk == 'one') {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
   } elseif ($format = 3) {
-    $where = "WHERE  year (shelfcount.DocDate) LIKE '%$date1%'";
+    $where = "WHERE  year (report_sc.DocDate) LIKE '%$date1%'";
     if ($language == "th") {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
@@ -92,7 +92,7 @@ if ($chk == 'one') {
     }
   }
 } elseif ($chk == 'between') {
-  $where =   "WHERE shelfcount.Docdate BETWEEN '$date1' AND '$date2'";
+  $where =   "WHERE report_sc.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
@@ -106,7 +106,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (shelfcount.Docdate) = " . $date1;
+  $where =   "WHERE month (report_sc.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
@@ -114,7 +114,7 @@ if ($chk == 'one') {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } elseif ($chk == 'monthbetween') {
-  $where =   "WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
+  $where =   "WHERE DATE(report_sc.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
@@ -292,11 +292,11 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   report_sc
   INNER JOIN shelfcount ON shelfcount.DocNo = report_sc.DocNo
   INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
-  WHERE
-  report_sc.isStatus <> 9
+  $where
+  AND report_sc.isStatus <> 9
   AND 	report_sc.isStatus <> 0
   AND report_sc.DepCode = '$DepCode[$sheet]'
-  AND (report_sc.Over <> 9 OR report_sc.Short <> 0 )
+  AND (report_sc.Over <> 0 OR report_sc.Short <> 0 )
   AND   time_sc.TimeName <>'Extra'
   GROUP BY  report_sc.itemcode
   ORDER BY  report_sc.itemname ASC ";

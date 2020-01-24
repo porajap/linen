@@ -213,6 +213,8 @@ INNER JOIN users ON return_wash.Modify_Code = users.ID
 INNER JOIN factory ON return_wash.faccode = factory.faccode
 WHERE return_wash.DocNo = '$DocNo'";
 $meQuery = mysqli_query($conn, $head);
+
+
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptName = $Result[$HptName];
   $DepName = $Result['DepName'];
@@ -224,6 +226,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $RefDocNo = $Result['RefDocNo'];
   $facname = $Result[$FacName];
 }
+list($d, $m, $y) = explode('-', $DocDate);
+if ($language == 'th') {
+  $y = $y + 543;
+} else {
+  $y = $y;
+}
+$DocDate = $d . "-" . $m . "-" . $y;
 
 $data = "SELECT
 return_wash_detail.ItemCode,

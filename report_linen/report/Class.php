@@ -1,17 +1,17 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 
-// Class Font
-// {
-//   public function __construct($pdf)
-//   {
-//     $pdf->AddFont('THSarabun','','THSarabun.php');//ธรรมดา
-//     $pdf->AddFont('THSarabun','b','THSarabun_Bold.php');//หนา
-//     $pdf->AddFont('THSarabun','i','THSarabun_Italic.php');//อียง
-//     $pdf->AddFont('THSarabun','bi','THSarabun_Bold_Italic.php');//หนาเอียง
-//     $pdf->AliasNbPages();
-//   }
-// }
+Class Font
+{
+  public function __construct($pdf)
+  {
+    $pdf->AddFont('THSarabun','','THSarabun.php');//ธรรมดา
+    $pdf->AddFont('THSarabun','b','THSarabun_Bold.php');//หนา
+    $pdf->AddFont('THSarabun','i','THSarabun_Italic.php');//อียง
+    $pdf->AddFont('THSarabun','bi','THSarabun_Bold_Italic.php');//หนาเอียง
+    $pdf->AliasNbPages();
+  }
+}
 
 Class Data {
   public function getdata($conn,$query,$numfield,$field) {

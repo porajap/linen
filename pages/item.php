@@ -509,8 +509,10 @@ $array2 = json_decode($json2, TRUE);
       var sUnit = $('#sUnitName').val();
       var xCenter = 0;
       var tdas = 0;
+      var SAP = 0;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
+      if ($('#SAP').is(':checked')) SAP = 1;
       if ($('#masterItem').is(':checked')) {
         masterItem = 1;
       }else{
@@ -555,7 +557,8 @@ $array2 = json_decode($json2, TRUE);
                 'tdas': tdas,
                 'hospital': hospital,
                 'typeLinen': typeLinen,
-                'numPack': numPack
+                'numPack': numPack ,
+                'SAP': SAP
               };
               // console.log(JSON.stringify(data));
               senddata(JSON.stringify(data));
@@ -675,11 +678,14 @@ $array2 = json_decode($json2, TRUE);
       var xItemnew  = 0;
       var tdas      = 0;
       var masterItem = 0;
+      var SAP = 1;
 
       if ($('#masterItem').is(':checked')) masterItem = 1;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       // if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
+      if ($('#SAP').is(':checked')) SAP = 1;
+
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -720,8 +726,8 @@ $array2 = json_decode($json2, TRUE);
                   'masterItem': masterItem,
                   'HptCode'   : Hos2 ,
                   'typeLinen' : typeLinen,
-                  'numPack'   : numPack 
-                  
+                  'numPack'   : numPack ,
+                  'SAP'       : SAP 
                 };
                 senddata(JSON.stringify(data));
               } else if (result.dismiss == 'cancel') {
@@ -1826,6 +1832,12 @@ $array2 = json_decode($json2, TRUE);
                   $('#masterItem').prop('checked', false);
                 }
 
+                if(temp[0]['isSAP'] == 1){
+                  $('#SAP').prop('checked', true);
+                }else{
+                  $('#SAP').prop('checked', false);
+                }
+
                 if (temp['RowCountMP']!=0) {
                   for (var i = 0; i < temp['RowCount']; i++) {
                     // var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
@@ -2829,23 +2841,23 @@ $array2 = json_decode($json2, TRUE);
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['spacial'][$language]; ?></label>
                               <label class="radio" style="margin:0px !important;">
                               
-                              <input type="checkbox"  id="xItemnew">
+                              <input type="checkbox"  id="SAP">
                               <span class="checkmark"></span>
                               </label>
-
-                              <!-- <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['newitem'][$language]; ?></label>
-
+                              <label style="top: -9px;" class="col col-form-label text-left">SAP</label>
                               <label class="radio" style="margin:0px !important;">
-                              <input type="checkbox"  id="masterItem" >
+
+                              <!-- <input type="checkbox"  id="masterItem" >
                               <span class="checkmark"></span>
-                              </label> -->
+                              </label> 
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['itemmas'][$language]; ?></label>
+                              <label class="radio" style="margin:0px !important;"> -->
 
-                              <label class="radio" style="margin:0px !important;">
                               <input type="checkbox"  id="tdas" >
                               <span class="checkmark"></span>
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['tdas'][$language]; ?></label>
+
                             </div>
                           </div>
                           

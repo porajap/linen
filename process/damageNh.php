@@ -269,7 +269,6 @@ function CreateDocument($conn, $DATA)
     department.DepName,
     damagenh.DocNo,
     DATE(damagenh.DocDate) AS DocDate,
-    damagenh.RefDocNo,
     damagenh.Total,
     users.EngName,
     users.EngLName,
@@ -332,7 +331,6 @@ function CreateDocument($conn, $DATA)
       $return[$count]['DepName']   = $Result['DepName'];
       $return[$count]['DocNo']   = $Result['DocNo'];
       $return[$count]['DocDate']   = $newdate;
-      $return[$count]['RefDocNo']   = $Result['RefDocNo'];
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];

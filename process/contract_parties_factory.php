@@ -94,12 +94,23 @@ function ShowDocument($conn,$DATA){
 //	 $Sql = "INSERT INTO log ( log ) VALUES ('$sl1  :  $sl2')";
 //     mysqli_query($conn,$Sql);
 
-  $Sql = "SELECT RowID,FacName,FacNameTH,StartDate,EndDate,IFNULL(Detail,'') AS Detail,(EndDate-DATE(NOW())) AS LeftDay ,
-   DATEDIFF(EndDate, DATE(NOW())) AS dateDiff 
-
-  FROM contract_parties_factory
-  INNER JOIN factory ON contract_parties_factory.FacCode = factory.FacCode
-  WHERE contract_parties_factory.IsStatus = 0 AND factory.HptCode = '$HptCode'";
+  $Sql = "SELECT
+            RowID,
+            FacName,
+            HptNameTH,
+            FacNameTH,
+            StartDate,
+            EndDate,
+            IFNULL(Detail, '') AS Detail,
+            (EndDate - DATE(NOW())) AS LeftDay,
+            DATEDIFF(EndDate, DATE(NOW())) AS dateDiff
+          FROM
+            contract_parties_factory
+          INNER JOIN factory ON contract_parties_factory.FacCode = factory.FacCode
+          INNER JOIN site ON site.HptCode = factory.HptCode
+          WHERE
+            contract_parties_factory.IsStatus = 0
+          AND factory.HptCode = '$HptCode' ";
   if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate BETWEEN '$sDate' AND  '$eDate' ";
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $meQuery = mysqli_query($conn,$Sql);
@@ -127,6 +138,7 @@ function ShowDocument($conn,$DATA){
 	$return[$count]['StartDate'] 	= $newdate;
   $return[$count]['EndDate2'] 		= $newdate2;    
   $return[$count]['EndDate'] 		= $Result['EndDate'];
+  $return[$count]['HptNameTH'] 		= $Result['HptNameTH'];
     $return[$count]['Detail'] 		= $Result['Detail'];
 	$return[$count]['LeftDay'] 		= $Result['dateDiff'];
     $boolean = true;
@@ -134,6 +146,7 @@ function ShowDocument($conn,$DATA){
   }
   $return['Count'] = $count;
   if($boolean){
+    $return['sql'] = $Sql;
     $return['status'] = "success";
     $return['form'] = "ShowDocument";
     echo json_encode($return);

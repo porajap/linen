@@ -13,7 +13,6 @@ $array = json_decode($json, TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
 //--------------------------------------------------------------------------
-
 $DocNo = $_GET['DocNo'];
 //--------------------------------------------------------------------------
 $where = '';
@@ -201,17 +200,17 @@ $pdf->SetAutoPageBreak(TRUE, 35);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
-  $Perfix = THPerfix;
-  $Name = THName;
-  $LName = THLName;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
+  $Perfix = 'THPerfix';
+  $Name = 'THName';
+  $LName = 'THLName';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
-  $Perfix = EngPerfix;
-  $Name = EngName;
-  $LName = EngLName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
+  $Perfix = 'EngPerfix';
+  $Name = 'EngName';
+  $LName = 'EngLName';
 }
 $header = array($array['no'][$language], $array2['itemname'][$language], $array2['detail'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 $count = 1;
@@ -224,7 +223,7 @@ clean.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
 TIME(clean.Modify_Date) AS xTime,
 clean_ref.RefDocNo,
-factory.facname
+factory.$FacName
 FROM clean
 LEFT JOIN department ON clean.DepCode = department.DepCode
 LEFT JOIN site ON department.HptCode = site.HptCode
@@ -244,7 +243,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo[] = $Result['RefDocNo'];
-  $facname = $Result['facname'];
+  $facname = $Result[$FacName];
 }
 
 

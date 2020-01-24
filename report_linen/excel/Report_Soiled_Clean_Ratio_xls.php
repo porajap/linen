@@ -287,7 +287,7 @@ if ($chk == 'one') {
     COALESCE(newlinentable.DocDate,0) AS DocDate
     FROM clean
     INNER JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
-    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.DocNo
     INNER JOIN department ON department.DepCode = clean.DepCode
 		INNER JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date'

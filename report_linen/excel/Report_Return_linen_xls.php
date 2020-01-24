@@ -33,6 +33,7 @@ $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
 $GroupCodeCome = $data[11];
+$categoryCodeCome = $data[12];
 $where = '';
 $i = 9;
 $check = '';
@@ -45,71 +46,102 @@ $DepName = [];
 $CategoryCode = [];
 $CategoryName = [];
 $DateShow = [];
-if ($language == 'th') {
+if ($language == 'th')
+{
   $HptName = 'HptNameTH';
   $FacName = 'FacNameTH';
-} else {
+}
+else
+{
   $HptName = 'HptName';
   $FacName = 'FacName';
 }
-if ($chk == 'one') {
-  if ($format == 1) {
+if ($chk == 'one')
+{
+  if ($format == 1)
+  {
     $where =   "WHERE DATE (return_doc.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
-    if ($language == 'th') {
+    if ($language == 'th')
+    {
       $year = $year + 543;
       $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year;
-    } else {
+    }
+    else
+    {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
-  } elseif ($format = 3) {
+  }
+  elseif ($format = 3)
+  {
     $where = "WHERE  year (return_doc.DocDate) LIKE '%$date1%'";
-    if ($language == "th") {
+    if ($language == "th")
+    {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
-    } else {
+    }
+    else
+    {
       $date_header = $array['year'][$language] . $date1;
     }
   }
-} elseif ($chk == 'between') {
+}
+elseif ($chk == 'between')
+{
   $where =   "WHERE return_doc.Docdate BETWEEN '$date1' AND '$date2'";
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $year2 = $year2 + 543;
     $year = $year + 543;
     $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . $array['to'][$language] .
       $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
-  } else {
+  }
+  else
+  {
     $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
-} elseif ($chk == 'month') {
+}
+elseif ($chk == 'month')
+{
   $where =   "WHERE month (return_doc.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
-  } else {
+  }
+  else
+  {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
-} elseif ($chk == 'monthbetween') {
+}
+elseif ($chk == 'monthbetween')
+{
   $where =   "WHERE DATE(return_doc.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'";
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $year = $year + 543;
     $year2 = $year2 + 543;
     $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
-  } else {
+  }
+  else
+  {
     $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
-if ($language == 'th') {
+if ($language == 'th')
+{
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-} else {
+}
+else
+{
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 /**
@@ -183,15 +215,18 @@ $date_cell1 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 
 $date_cell2 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 $round_AZ1 = sizeof($date_cell1);
 $round_AZ2 = sizeof($date_cell2);
-for ($a = 0; $a < $round_AZ1; $a++) {
-  for ($b = 0; $b < $round_AZ2; $b++) {
+for ($a = 0; $a < $round_AZ1; $a++)
+{
+  for ($b = 0; $b < $round_AZ2; $b++)
+  {
     array_push($date_cell1, $date_cell1[$a] . $date_cell2[$b]);
   }
 }
 // echo "<pre>";
 // print_r($date_cell1);
 // echo "</pre>"; 
-if ($GroupCodeCome == '0') {
+if ($GroupCodeCome == '0')
+{
   $query = "SELECT
   grouphpt.GroupCode,
   grouphpt.GroupName
@@ -199,11 +234,14 @@ if ($GroupCodeCome == '0') {
   grouphpt
   WHERE grouphpt.HptCode = '$HptCode' ORDER BY grouphpt.HptCode ASC";
   $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $GroupCode[] = $Result["GroupCode"];
     $GroupName[] = $Result["GroupName"];
   }
-} else {
+}
+else
+{
   $query = "SELECT
   grouphpt.GroupCode,
   grouphpt.GroupName
@@ -211,14 +249,48 @@ if ($GroupCodeCome == '0') {
   grouphpt
   WHERE grouphpt.HptCode = '$HptCode' AND  grouphpt.GroupCode = '$GroupCodeCome'  ORDER BY grouphpt.HptCode ASC";
   $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $GroupCode[] = $Result["GroupCode"];
     $GroupName[] = $Result["GroupName"];
   }
 }
+
+#เงื่อนไขค้นหา
+if ($categoryCodeCome == '0') 
+{
+  // $query = "SELECT
+  // item_category.CategoryCode,
+  // item_category.CategoryName
+  // FROM
+  // item_category
+  //  ORDER BY item_category.CategoryCode ASC";
+  // $meQuery = mysqli_query($conn, $query);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $CategoryCode[] = $Result["CategoryCode"];
+  //   $CategoryName[] = $Result["CategoryName"];
+  // }
+  $categorywhere = "";
+} 
+else 
+{
+  // $query = "SELECT
+  // item_category.CategoryCode,
+  // item_category.CategoryName
+  // FROM
+  // item_category WHERE  item_category.CategoryCode = '$categoryCodeCome'  ORDER BY item_category.CategoryCode ASC";
+  // $meQuery = mysqli_query($conn, $query);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $CategoryCode[] = $Result["CategoryCode"];
+  //   $CategoryName[] = $Result["CategoryName"];
+  // }
+  $categorywhere = "AND item.CategoryCode = '$categoryCodeCome' ";
+}
 // -----------------------------------------------------------------------------------
-if ($chk == 'one') {
-  if ($format == 1) {
+if ($chk == 'one')
+{
+  if ($format == 1)
+  {
     $count = 1;
     $date[] = $date1;
     list($y, $m, $d) = explode('-', $date1);
@@ -228,9 +300,12 @@ if ($chk == 'one') {
     $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
-} elseif ($chk == 'between') {
+}
+elseif ($chk == 'between')
+{
   list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31) {
+  if ($day <> 31)
+  {
     $day = $day + 1;
   }
   $date2 = $year . "-" . $month . "-" . $day;
@@ -239,38 +314,47 @@ if ($chk == 'one') {
     new DateInterval('P1D'),
     new DateTime($date2)
   );
-  foreach ($period as $key => $value) {
+  foreach ($period as $key => $value)
+  {
     $date[] = $value->format('Y-m-d');
   }
   $count = count($date);
-  for ($i = 0; $i < $count; $i++) {
+  for ($i = 0; $i < $count; $i++)
+  {
     $date1 = $date[$i];
     list($y, $m, $d) = explode('-', $date1);
-    if ($language ==  'th') {
+    if ($language ==  'th')
+    {
       $y = $y + 543;
     }
     $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
-} elseif ($chk == 'month') {
+}
+elseif ($chk == 'month')
+{
   $day = 1;
-  if ($language ==  'th') {
+  if ($language ==  'th')
+  {
     $y = $year1 + 543;
-  } else {
+  }
+  else
+  {
     $y = $year1;
   }
   $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
   $datequery =  $year1 . '-' . $date1 . '-';
   $dateshow = '-' . $date1 . '-' . $y;
-  for ($i = 0; $i < $count; $i++) {
+  for ($i = 0; $i < $count; $i++)
+  {
     $date[] = $datequery . $day;
     $DateShow[] = $day . $dateshow;
     $day++;
   }
 }
-
 $sheet_count = sizeof($GroupCode);
-for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
+for ($sheet = 0; $sheet < $sheet_count; $sheet++)
+{
   $status_group == 0;
   // -----------------------------------------------------------------------------------
   $objPHPExcel->setActiveSheetIndex($sheet)
@@ -295,43 +379,57 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   grouphpt
   INNER JOIN department ON grouphpt.GroupCode = department.GroupCode
   INNER JOIN return_doc ON return_doc.DepCodeFrom = department.DepCode
+  INNER JOIN return_detail ON return_detail.DocNo = return_doc.DocNo
+  INNER JOIN item ON item.ItemCode = return_detail.ItemCode
   WHERE
   grouphpt.GroupCode = '$GroupCode[$sheet]'
   AND return_doc.isStatus <> 9
   AND return_doc.isStatus <> 0
   AND return_doc.Total 		<> 0
+  $categorywhere
   AND grouphpt.HptCode = '$HptCode'
   AND department.HptCode = '$HptCode'
   GROUP BY  department.DepCode 
   ORDER BY department.DepName ASC";
   $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    if ($status_group == 1) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    if ($status_group == 1)
+    {
       $sheetExcel->setCellValue('A9', $Result["GroupName"]);
     }
     $i++;
     $DepName[] =  $Result["DepName"];
     $DepCode[] =  $Result["DepCode"];
   }
+
   $r = 2;
   $d = 1;
   $rows = 9;
-  for ($row = 0; $row < $count; $row++) {
+  for ($row = 0; $row < $count; $row++)
+  {
     $sheetExcel->setCellValue($date_cell1[$r] . '8', 'นน.(Kg)');
+    $r++;
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'มูล่ค่า(บาท)');
     $r++;
   }
   $sheetExcel->setCellValue($date_cell1[$r] . '8', 'นน.(Kg)');
   $r++;
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'มูล่ค่า(บาท)');
+  $r++;
   // -----------------------------------------------------------------------------------
   $r = 2;
   $j = 3;
-  $d = 0;
-  for ($row = 0; $row < $count; $row++) {
-    $sheetExcel->setCellValue($date_cell1[$r] . '7', $DateShow[$row]);
-    $r += 1;
+  $d = 1;
+  for ($row = 0; $row < $count; $row++)
+  {
+    $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
+    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '7', $DateShow[$row]);
+    $r += 2;
     $j += 2;
     $d++;
   }
+  $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
   $sheetExcel->setCellValue($date_cell1[$r] . '7', "total");
   // -----------------------------------------------------------------------------------
   $start_row = 9;
@@ -340,71 +438,93 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $lek = 0;
   
   $COUNT_DEP = SIZEOF($DepCode);
-  for ($q = 0; $q < $COUNT_DEP; $q++) {
+  for ($q = 0; $q < $COUNT_DEP; $q++)
+  {
+    $sumdayweight = 0;
+    $sumdayprice = 0;
     $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $DepName[$lek]);
     $r++;
       // หาผลรวม ตามแผนก ===================================
-    for ($day = 0; $day < $count; $day++) {
-      $data = "SELECT
-                      COALESCE (SUM(return_doc.Total), '0') AS aWeight
+    for ($day = 0; $day < $count; $day++)
+    {
+      $data = "     SELECT
+                      COALESCE (SUM(return_detail.Weight), '0') AS aWeight,
+                      COALESCE (SUM(return_detail.Price), '0') AS aPrice
                     FROM
-                      return_doc
+                      return_detail
+                    INNER JOIN return_doc ON return_doc.DocNo = return_detail.DocNo
                     INNER JOIN department ON department.DepCode = return_doc.DepCodeFrom
                     INNER JOIN site ON site.HptCode = department.HptCode
+                    INNER JOIN item ON item.ItemCode = return_detail.ItemCode
                     WHERE
                       DATE(return_doc.DocDate) = '$date[$day]'
                     AND return_doc.isStatus <> 9
                     AND return_doc.isStatus <> 0
+                    $categorywhere
                     AND return_doc.DepCodeFrom = '$DepCode[$lek]'
                     AND site.HptCode = '$HptCode'";
 
       $meQuery = mysqli_query($conn, $data);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
         $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $Result["aWeight"]);
         $r++;
+        $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $Result["aPrice"]);
+        $r++;
         $sumdayweight += $Result["aWeight"];
+        $sumdayprice += $Result["aPrice"];
       }
     }
+
     $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $sumdayweight);
     $r++;
+    $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $sumdayprice);
+    $r++;
     $sumdayweight = 0;
+    $sumdayprice = 0;
     $r = 1;
     $start_row++;
     $lek++;
   }
-
   $r = 1;
   $sheetExcel->setCellValue($date_cell1[$r] . $start_row, 'total');
   $r++;
-
   // หาผลรวม TOTAL ===================================
-  for ($day = 0; $day < $count; $day++) {
-
+  for ($day = 0; $day < $count; $day++)
+  {
     $data =       "SELECT
-    COALESCE (SUM(return_doc.Total), '0') AS aWeight
+                COALESCE (SUM(return_doc.Total), '0') AS aWeight,
+                COALESCE (SUM(return_doc.Totalp), '0') AS aPrice
             FROM
-              return_doc
-            INNER JOIN department ON return_doc.DepCodeFrom = department.DepCode
-            INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
-            INNER JOIN site ON site.HptCode = department.HptCode
+              return_detail
+              INNER JOIN return_doc ON return_doc.DocNo = return_detail.DocNo
+              INNER JOIN department ON department.DepCode = return_doc.DepCodeFrom
+              INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
+              INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN item ON item.ItemCode = return_detail.ItemCode
             WHERE
               DATE(return_doc.DocDate) = '$date[$day]'
             AND return_doc.isStatus <> 9
             AND return_doc.isStatus <> 0
+            $categorywhere
             AND grouphpt.HptCode = '$HptCode'
             AND site.HptCode = '$HptCode'
             AND grouphpt.GroupCode = '$GroupCode[$sheet]'";
                     
     $meQuery = mysqli_query($conn, $data);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $Result["aWeight"]);
       $r++;
+      $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $Result["aPrice"]);
+      $r++;
       $sumdayweight += $Result["aWeight"];
+      $sumdayprice += $Result["aPrice"];
     }
   }
-
   $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $sumdayweight);
+  $r++;
+  $sheetExcel->setCellValue($date_cell1[$r] . $start_row, $sumdayprice);
   $A5 = array(
     'alignment' => array(
       'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
@@ -477,6 +597,11 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $sumdayweight = 0;
   $sumdayprice = 0;
 }
+
+
+
+
+
 //ตั้งชื่อไฟล์
 $time  = date("H:i:s");
 $date  = date("Y-m-d");

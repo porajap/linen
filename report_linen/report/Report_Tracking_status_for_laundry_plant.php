@@ -241,11 +241,11 @@ $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("L", "A4");
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
 }
 $Sql = "SELECT
 factory.$FacName
@@ -280,10 +280,10 @@ $pdf->Ln(10);
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(1);
 $pdf->Cell(165, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] . " : " . $Facname), 0, 0, 'L');
-$pdf->Cell(ุ60, 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
+$pdf->Cell(ุ60 , 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12);
 $HptCode = substr($HptCode, 0, 3);
-$doc = array(dirty, repair_wash, newlinentable);
+$doc = array('dirty', 'repair_wash', 'newlinentable');
 $j = 0;
 for ($i = 0; $i < 3; $i++) {
   if ($chk == 'one') {
@@ -300,7 +300,7 @@ for ($i = 0; $i < 3; $i++) {
     $where =   "WHERE date(" . $doc[$i] . ".Docdate) BETWEEN '$betweendate1' AND '$betweendate2'";
   }
   $query = "SELECT
-TIME (process.WashStartTime) AS WashStartTime ,
+TIME (process.WashStartTime) AS WashStartTime,
 TIME (process.WashEndTime) AS WashEndTime,
 TIME (process.PackStartTime)AS PackStartTime,
 TIME (process.PackEndTime)AS PackEndTime,
@@ -318,8 +318,7 @@ FROM
 process
 LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
 $where AND $FacCode in ($doc[$i].FacCode)
-AND process.isStatus <> 9
-";
+AND process.isStatus <> 9 ";
   // Number of column
   $numfield = 6;
   // Field data (Must match with Query)

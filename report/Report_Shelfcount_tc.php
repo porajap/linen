@@ -171,16 +171,16 @@ class MYPDF extends TCPDF
 
       $this->SetFont('  thsarabunnew', 'i', 13);
       $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['packing'][$language], 0, 0, 'L');
-      $this->Cell(1, 9,  "             " . $date1 . "                      " . $time1, 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date1 . "                           " . $time1, 0, 0, 'L');
       $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
 
       $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['passenger'][$language], 0, 0, 'L');
-      $this->Cell(1, 9,  "             " . $date2 . "                      " . $time2, 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date2 . "                           " . $time2, 0, 0, 'L');
       $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
 
 
       $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['receiver'][$language], 0, 0, 'L');
-      $this->Cell(1, 9,  "             " . $date3 . "                      " . $time3, 0, 0, 'L');
+      $this->Cell(1, 9,  "             " . $date3 . "                           " . $time3, 0, 0, 'L');
       $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
 
       $image1 = "../report_linen/images/chb.jpg";

@@ -84,10 +84,13 @@ var summary = [];
 var xItemcode;
 var RowCnt=0;
 
-(function ($) {
-            $(document).ready(function () {
+(function ($) 
+{
+            $(document).ready(function () 
+            {
                 $("#datepickerRef1").datepicker({
-                    onSelect: function (date, el) {
+                    onSelect: function (date, el) 
+                    {
                       var lang = '<?php echo $language; ?>';
                       var datepicker1 = $('#datepickerRef1').val();
                       var datepicker2 = $('#datepickerRef2').val();
@@ -100,7 +103,8 @@ var RowCnt=0;
                           }
                       var chk1 = new Date(datepicker1);
                       var chk2 = new Date(datepicker2);
-                      if(chk1>chk2){
+                      if(chk1>chk2)
+                      {
                         swal({
                           title: "",
                           text: "<?php echo $array['invalid'][$language]; ?>",
@@ -114,7 +118,8 @@ var RowCnt=0;
                     }
                 });
                 $("#datepickerRef2").datepicker({
-                    onSelect: function (date, el) {
+                    onSelect: function (date, el) 
+                    {
                       var lang = '<?php echo $language; ?>';
                       var datepicker1 = $('#datepickerRef1').val();
                       var datepicker2 = $('#datepickerRef2').val();
@@ -127,7 +132,8 @@ var RowCnt=0;
                           }
                       var chk1 = new Date(datepicker1);
                       var chk2 = new Date(datepicker2);
-                      if(chk2<chk1){
+                      if(chk2<chk1)
+                      {
                         swal({
                           title: "",
                           text: "<?php echo $array['invalid'][$language]; ?>",
@@ -141,110 +147,113 @@ var RowCnt=0;
                     }
                 });
             });
-        })(jQuery);
-$(document).ready(function(e){
-  $('.numonly').on('input', function() {
+})(jQuery);
+
+
+$(document).ready(function(e)
+{
+  $('.numonly').on('input', function()
+  {
     this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
   });
+
   $('#rem3').hide();
   $('#rem4').hide();
+
   var PmID = <?php echo $PmID;?>;
-    if(PmID ==1 || PmID==6){
+    if(PmID ==1 || PmID==6)
+    {
       $('#hotpital').removeClass('icon_select');
     }
-  $('#searchdocument').keyup(function(e) {
+
+  $('#searchdocument').keyup(function(e)
+  {
             if (e.keyCode == 13) {
               ShowDocument(1);
             }
-        });
-  $('#searchitem').keyup(function(e) {
-    if (e.keyCode == 13) {
+  });
+
+  $('#searchitem').keyup(function(e)
+  {
+    if (e.keyCode == 13)
+    {
       ShowItem();
     }
-      });
-      $('#searchitem1').keyup(function(e) {
-    if (e.keyCode == 13) {
+  });
+
+  $('#searchitem1').keyup(function(e)
+  {
+    if (e.keyCode == 13)
+    {
       get_dirty_doc();
     }
-      });
+  });
+
   $('#Dep2').addClass('icon_select');
-  $('.only').on('input', function() {
+  $('.only').on('input', function()
+  {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
-      });
+  });
+
   OnLoadPage();
   getDepartment();
   getfactory();
   // CreateDocument();
   //==============================
-  $('.TagImage').bind('click', {
-    imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
-    //On create
-    var userid = '<?php echo $Userid; ?>';
-    if(userid!="" && userid!=null && userid!=undefined){
-      var dept = '<?php echo $_SESSION['Deptid']; ?>';
-      var data = {
-        'STATUS'  : 'getDocument',
-        'DEPT'    : dept
-      };
+  $('.TagImage').bind('click',{
+  imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
+  //On create
+  var userid = '<?php echo $Userid; ?>';
+  if(userid!="" && userid!=null && userid!=undefined)
+  {
+    var dept = '<?php echo $_SESSION['Deptid']; ?>';
+    var data =
+    {
+      'STATUS'  : 'getDocument',
+      'DEPT'    : dept
+    };
+    senddata(JSON.stringify(data));
+  }
+}).click(function(e)
+{ 
+  parent.afk();
+}).keyup(function(e)
+{ 
+  parent.afk();
+});
 
-      // console.log(JSON.stringify(data));
-      senddata(JSON.stringify(data));
-    }
-  }).click(function(e) { parent.afk();
-      }).keyup(function(e) { parent.afk();
-      });
 
-
-  jqui(document).ready(function($){
-
-
-
+  jqui(document).ready(function($)
+  {
     dialogUsageCode = jqui( "#dialogUsageCode" ).dialog({
       autoOpen: false,
       height: 670,
       width: 1200,
       modal: true,
-      buttons: {
-        "<?php echo $array['close'][$language]; ?>": function() {
+      buttons:
+      {
+        "<?php echo $array['close'][$language]; ?>": function() 
+        {
           dialogUsageCode.dialog( "close" );
         }
       },
-      close: function() {
+      close: function()
+      {
         console.log("close");
       }
     });
   });
 
-      function OpenDialogItem(){
-        // var docno = $("#docno").val();
-        // var RefDocNo = $("#RefDocNo").val();
-        // if( docno != "" ) dialogItemCode.dialog( "open" );
-        // if(RefDocNo==""){
-        //   swal({
-        //     title: '',
-        //     text: "<?php echo $array['required'][$language]; ?>",
-        //     type: 'info',
-        //     showCancelButton: false,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     showConfirmButton: false,
-        //     timer: 2000,
-        //     confirmButtonText: 'Ok'
-        //   });
-        //   $('#rem1').attr('hidden', false);
-        //   $('#RefDocNo').addClass('border border-danger');
-        // }else{
-        // if(docno != ""){
+      function OpenDialogItem()
+      {
           setTimeout(() => {
             $('#dialogItemCode').modal('show');
           }, 700);
-        //   $('#rem1').attr('hidden', true);
-        //   $('#RefDocNo').removeClass('border border-danger');
-        // }
-        // }
         ShowItem();
       }
-      function SaveRequest(){
+
+      function SaveRequest()
+      {
         
         var unitrequest           = $("#unitrequest").val();
         var NameRequest        = $("#NameRequest").val();
@@ -260,7 +269,8 @@ $(document).ready(function(e){
             timer: 500,
             closeOnConfirm: false
           });
-          setTimeout(() => {
+          setTimeout(() =>
+          {
             var data = {
               'STATUS'              : 'SaveRequest',
             'NameRequest'	      : NameRequest ,
@@ -277,16 +287,20 @@ $(document).ready(function(e){
           }, 1000);
       }
 
-      function OpenDialogUsageCode(itemcode){
+      function OpenDialogUsageCode(itemcode)
+      {
         xItemcode = itemcode;
         var docno = $("#docno").val();
-        if( docno != "" ){
+        if( docno != "" )
+        {
           dialogItemCode.dialog( "close" );
           dialogUsageCode.dialog( "open" );
           ShowUsageCode();
         }
       }
-      function Blankinput() {
+
+      function Blankinput()
+      {
             $('#docno').val("");
             $('#docdate').val("");
             $('#recorder').val("");
@@ -295,9 +309,10 @@ $(document).ready(function(e){
             $('#RefDocNo').val("");
             $('#RefDocNo').attr('disabled' , true);
             // OnLoadPage();
-    }
-      function resetradio(row){
+      }
 
+      function resetradio(row)
+      {
         var previousValue = $('.checkrow_'+row).attr('previousValue');
           var name = $('.checkrow_'+row).attr('name');
           if (previousValue == 'checked') {
@@ -308,15 +323,19 @@ $(document).ready(function(e){
             $('.checkrow_'+row).attr('previousValue', false);
             $('.checkrow_'+row).prop('checked', false);
             // Blankinput();
-          } else {
+          }
+          else
+          {
             $('#hover3').addClass('mhee');
             $('#bDelete').attr('disabled', false);
             $('#bDelete2').removeClass('opacity');
             $("input[name="+name+"]:radio").attr('previousValue', false);
             $('.checkrow_'+row).attr('previousValue', 'checked');
           }
-        }
-      function DeleteItem(){
+      }
+
+      function DeleteItem()
+      {
         var docno = $("#docno").val();
         var xrow = $("#checkrow:checked").val() ;
         xrow = xrow.split(",");
@@ -333,37 +352,46 @@ $(document).ready(function(e){
           cancelButtonColor: '#3085d6',
           closeOnConfirm: false,
           closeOnCancel: false,
-          showCancelButton: true}).then(result => {
-            if (result.value) {
-            var data = {
-              'STATUS'    : 'DeleteItem',
-              'rowid'  : xrow[0],
-              'DocNo'   : docno
-            };
+          showCancelButton: true}).then(result =>
+          {
+            if (result.value)
+            {
+              var data =
+              {
+                'STATUS'    : 'DeleteItem',
+                'rowid'  : xrow[0],
+                'DocNo'   : docno
+              };
             senddata(JSON.stringify(data));
               $('#bDelete').attr('disabled', true);
               $('#bDelete2').addClass('opacity');
               $('#hover3').removeClass('mhee');
-          } else if (result.dismiss === 'cancel') {
-          swal.close();
-          }
+            }
+            else if (result.dismiss === 'cancel')
+            {
+              swal.close();
+            }
           })
-          
-        } 
+      } 
 
-        function dis(){
-              $('.dis').attr('disabled', false);
-            }
-            function disRef(){
-              $('#bsaveRef').attr('disabled', false);
-              $("#bsaveRef").removeClass('opacity');
-            }
+      function dis()
+      {
+        $('.dis').attr('disabled', false);
+      }
+
+      function disRef()
+      {
+        $('#bsaveRef').attr('disabled', false);
+        $("#bsaveRef").removeClass('opacity');
+      }
             
-      function CancelDocument(){
+      function CancelDocument()
+      {
         var docno = $("#docno").val();
         var RefDocNo = $('#RefDocNo').val();
-        if(docno!= ""){
-        swal({
+        if(docno!= "")
+        {
+          swal({
           title: "<?php echo $array['confirmcancel'][$language]; ?>",
           text: " "+docno+" ",
           type: "warning",
@@ -375,19 +403,25 @@ $(document).ready(function(e){
           cancelButtonColor: '#3085d6',
           closeOnConfirm: false,
           closeOnCancel: false,
-          showCancelButton: true}).then(result => {
-            if (result.value) {
-                var data = {
-                      'STATUS'  : 'CancelBill',
-                      'DocNo'   : docno,
-                      'RefDocNo'   : RefDocNo
-                    };
-                    senddata(JSON.stringify(data));
-                    $('#profile-tab').tab('show');
-                    ShowDocument();
-                    Blankinput();
-            } else if (result.dismiss === 'cancel') {
-            swal.close();}
+          showCancelButton: true}).then(result =>
+          {
+            if (result.value)
+            {
+                var data =
+                {
+                  'STATUS'  : 'CancelBill',
+                  'DocNo'   : docno,
+                  'RefDocNo'   : RefDocNo
+                };
+                senddata(JSON.stringify(data));
+                $('#profile-tab').tab('show');
+                ShowDocument();
+                Blankinput();
+            }
+            else if (result.dismiss === 'cancel')
+            {
+              swal.close();
+            }
 
           })
         }
@@ -395,34 +429,41 @@ $(document).ready(function(e){
 
       //======= On create =======
       //console.log(JSON.stringify(data));
-      function getfactory(){
-        $('#hotpital').removeClass('border-danger');
-        $('#rem3').hide();
+      function getfactory()
+      {
+          $('#hotpital').removeClass('border-danger');
+          $('#rem3').hide();
           var lang = '<?php echo $language; ?>';
           var hotpital = $('#hotpital').val();
-          var data = {
+          var data =
+          {
             'STATUS'    : 'getfactory',
             'hotpital'	: hotpital ,
             'lang'	    : lang
           };
           getDepartment(1);
           senddata(JSON.stringify(data));
-        }
-      function OnLoadPage(){
+      }
+
+      function OnLoadPage()
+      {
         var lang = '<?php echo $language; ?>';
         var docno = $("#docno").val();
-        var data = {
+        var data =
+        {
           'STATUS'  : 'OnLoadPage' ,
           'lang'	: lang 
         };
-
         senddata(JSON.stringify(data));
         $('#isStatus').val(0)
       }
-      function savefactory(){
+
+      function savefactory()
+      {
         var docno = $("#docno").val();
         var factory2 = $("#factory2").val();
-        var data = {
+        var data =
+        {
           'STATUS' : 'savefactory',
           'DocNo'  : docno,
           'factory2'  : factory2,
@@ -431,8 +472,8 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
       }
 
-      function open_dirty_doc(){
-        // dialogRefDocNo.dialog( "open" );
+      function open_dirty_doc()
+      {
         $("#dialogRefDocNo").modal({
             backdrop: 'static',
             keyboard: false
@@ -441,38 +482,51 @@ $(document).ready(function(e){
 
       }
 
-      function get_factory(){
+      function get_factory()
+      {
         $("#dialogfactory").modal({
             backdrop: 'static',
             keyboard: false
         });   
       }
-      function showRequest(){          
-          var data = {
+
+      function showRequest()
+      {          
+          var data =
+          {
             'STATUS' : 'showRequest'
           }
           senddata(JSON.stringify(data));
-        }
-      function get_dirty_doc(){
+      }
+
+      function get_dirty_doc()
+      {
         var hptcode = $('#hotpital option:selected').attr("value");
         var docno = $("#docno").val();
         var searchitem1 = $('#searchitem1').val();
         var datepicker1 = $('#datepickerRef1').val();
         var datepicker2 = $('#datepickerRef2').val();
         var lang = '<?php echo $language; ?>';
-        if(lang =='th'){
+        if(lang =='th')
+        {
           datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
 	        datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
-        }else if(lang =='en'){
+        }
+        else if(lang =='en')
+        {
           datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	        datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);        }
-        if(datepicker1=="-543--"||datepicker1=="--"){
+	        datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);        
+        }
+        if(datepicker1=="-543--"||datepicker1=="--")
+        {
           datepicker1 = "";
         }
-        if(datepicker2=="-543--"||datepicker2=="--"){
+        if(datepicker2=="-543--"||datepicker2=="--")
+        {
           datepicker2 = "";
         }
-        var data = {
+        var data =
+        {
           'STATUS' : 'get_dirty_doc',
           'DocNo'  : docno,
           'hptcode'  : hptcode,
@@ -484,7 +538,8 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
       }
 
-      const dirtydoc = async function(dept,cart) {
+      const dirtydoc = async function(dept,cart)
+      {
         const dirty = await swal({
           title: '<?php echo $array['dirtydocs'][$language]; ?>',
           input: 'select',
@@ -492,25 +547,37 @@ $(document).ready(function(e){
           inputPlaceholder: '<?php echo $array['dirtydoc1'][$language]; ?>',
           showCancelButton: true,
           allowOutsideClick: false
-        }).then(function (docno) {
-          if(docno==""){
+        }).then(function (docno)
+        {
+          if(docno=="")
+          {
             dirtydoc(dept,cart);
-          }else{
+          }
+          else
+          {
             // console.log(occid);
             $('#RefDocNo').val(docno);
           }
-        }, function (dismiss) {
-          if (dismiss === 'cancel') {
+        },
+        function (dismiss)
+        {
+          if (dismiss === 'cancel')
+          {
 
           }
         })
 
       }
-      function getDepartment(chk){
-        if(chk==1){
+
+      function getDepartment(chk)
+      {
+        if(chk==1)
+        {
           var Hotp = $('#hotpital option:selected').attr("value");
             $('#Hos2').val(Hotp);
-        }else{
+        }
+        else
+        {
           var Hotp = $('#Hos2 option:selected').attr("value");
           $('#hotpital').val(Hotp);
         }
@@ -518,45 +585,59 @@ $(document).ready(function(e){
         {
           Hotp = '<?php echo $HptCode; ?>';
         }
-        var data = {
+        var data =
+        {
           'STATUS'  : 'getDepartment',
           'Hotp'	: Hotp
         };
-
         senddata(JSON.stringify(data));
         
       }
 
-      function ShowDocument(selecta){
-        var DocNo                         = $('#docno').val();
-        var process                        = $('#process').val();
-        var Hotp                            = $('#Hos2 option:selected').attr("value");
-        var searchdocument          = $('#searchdocument').val();
+      function ShowDocument(selecta)
+      {
+        var DocNo = $('#docno').val();
+        var process = $('#process').val();
+        var Hotp = $('#Hos2 option:selected').attr("value");
+        var searchdocument = $('#searchdocument').val();
         if( typeof searchdocument == 'undefined' ) searchdocument = "";
-        var deptCode                     = $('#Dep2 option:selected').attr("value");
-        var datepicker1                   = $('#datepicker1').val();
+        var deptCode = $('#Dep2 option:selected').attr("value");
+        var datepicker1 = $('#datepicker1').val();
           var lang = '<?php echo $language; ?>';
-          if(datepicker1 !=""){
-          if(lang =='th'){
-          datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-          }else if(lang =='en'){
-          datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+          if(datepicker1 !="")
+          {
+            if(lang =='th')
+            {
+              datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+            }
+            else if(lang =='en')
+            {
+              datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+            }
           }
-          }else{
+          else
+          {
             datepicker1 = "";
           }
-
-          if(process == 0){
+          if(process == 0)
+          {
             process = 'chkpro';
-          }else if(process == 1){
+          }
+          else if(process == 1)
+          {
             process = 'chkpro1';
-          }else if(process == 2){
+          }
+          else if(process == 2)
+          {
             process = 'chkpro2';
-          }else if(process == 3){
+          }
+          else if(process == 3)
+          {
             process = 'chkpro3';
           }
 
-        var data = {
+        var data =
+        {
           'STATUS'  	: 'ShowDocument',
           'xdocno'	: searchdocument,
           'selecta' : selecta,
@@ -569,12 +650,14 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
       }
 
-      function ShowItem(){
+      function ShowItem()
+      {
         var hotpital = $('#hotpital').val();
         var deptCode = $('#department option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
         var searchitem = $('#searchitem').val();
-        var data = {
+        var data =
+        {
           'STATUS'    : 'ShowItem',
           'xitem'	    : searchitem,
           'deptCode'	: deptCode,
@@ -583,22 +666,26 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
       }
 
-    function chk_percent(){
-      var RefDocNo = $('#RefDocNo').val();
-      var DocNo = $('#docno').val();
-      var wTotal = $('#wTotal').val();
-      var data = {
-        'STATUS'      : 'chk_percent',
-        'wTotal'      : wTotal,
-        'DocNo'    : DocNo,
-        'RefDocNo'    : RefDocNo
-      };
-        senddata(JSON.stringify(data));
-    }
-      function ShowUsageCode(){
-        // var searchitem = $('#searchitem1').val();
+      function chk_percent()
+      {
+        var RefDocNo = $('#RefDocNo').val();
+        var DocNo = $('#docno').val();
+        var wTotal = $('#wTotal').val();
+        var data =
+        {
+          'STATUS'      : 'chk_percent',
+          'wTotal'      : wTotal,
+          'DocNo'    : DocNo,
+          'RefDocNo'    : RefDocNo
+        };
+          senddata(JSON.stringify(data));
+      }
+
+      function ShowUsageCode()
+      {
         var docno = $("#docno").val();
-        var data = {
+        var data =
+        {
           'STATUS'  : 'ShowUsageCode',
           'docno'	: docno,
           'xitem'	: xItemcode
@@ -606,54 +693,49 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
       }
 
-      function SelectDocument(){
-
+      function SelectDocument()
+      {
         var selectdocument = "";
-        $("#checkdocno:checked").each(function() {
+        $("#checkdocno:checked").each(function()
+        {
           selectdocument = $(this).val();
         });
         var deptCode = $('#Dep2 option:selected').attr("value");
         if( typeof deptCode == 'undefined' ) deptCode = "1";
 
-        var data = {
+        var data =
+        {
           'STATUS'  	: 'SelectDocument',
           'xdocno'	: selectdocument
         };
         senddata(JSON.stringify(data));
       }
 
-      function unCheckDocDetail(){
-        // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-        if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length){
+      function unCheckDocDetail()
+      {
+        if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length)
+        {
           $('input[name="checkAllDetail').prop('checked',true);
-        }else {
+        }
+        else
+        {
           $('input[name="checkAllDetail').prop('checked',false);
         }
       }
 
-
-
-      function ShowDetail() {
+      function ShowDetail()
+      {
         var docno = $("#docno").val();
-        var data = {
+        var data =
+        {
           'STATUS'  : 'ShowDetail',
           'DocNo'   : docno
         };
         senddata(JSON.stringify(data));
       }
 
-      // function CancelBill() {
-      //   var docno = $("#docno").val();
-      //   var data = {
-      //     'STATUS'  : 'CancelBill',
-      //     'DocNo'   : docno
-      //   };
-      //   senddata(JSON.stringify(data));
-      //   $('#profile-tab').tab('show');
-      //   ShowDocument();
-      // }
-
-      function getImport(Sel) {
+      function getImport(Sel) 
+      {
         var docno = $("#docno").val();
         var RefDocNo = $("#RefDocNo").val();
         /* declare an checkbox array */
@@ -664,20 +746,22 @@ $(document).ready(function(e){
         var unitArray = [];
 
         var i=0;
-        //  alert("Sel : "+Sel);
-        if(Sel==1){
-          $(".checkitem:checked").each(function() {
-            iArray.push($(this).val());
-          });
-        }else{
-          $("#checkitemSub:checked").each(function() {
+        if(Sel==1)
+        {
+          $(".checkitem:checked").each(function()
+          {
             iArray.push($(this).val());
           });
         }
-
-        /* we join the array separated by the comma */
-
-        for(var j=0;j<iArray.length; j++){
+        else
+        {
+          $("#checkitemSub:checked").each(function()
+          {
+            iArray.push($(this).val());
+          });
+        }
+        for(var j=0;j<iArray.length; j++)
+        {
           if(Sel==1)
           chkArray.push( $("#RowID"+iArray[j]).val() );
           else
@@ -695,9 +779,9 @@ $(document).ready(function(e){
 
         var deptCode = $('#department option:selected').attr("value");
 
-        // alert("xrow : "+xrow);
         $('#TableDetail tbody').empty();
-        var data = {
+        var data =
+        {
           'STATUS'  		: 'getImport',
           'xrow'		  	: xrow,
           'xqty'		  	: xqty,
@@ -707,32 +791,14 @@ $(document).ready(function(e){
           'Sel'       	: Sel,
           'deptCode'    	: deptCode
         };
+
         senddata(JSON.stringify(data));
         ShowItem();
-        // dialogItemCode.dialog( "close" );
-        // $('#dialogItemCode').modal('toggle');
-
         dialogUsageCode.dialog( "close" );
       }
-    
-      var isChecked1 = false;
-      var isChecked2 = false;
-      function getCheckAll(sel){
-        if(sel==0){
-          isChecked1 = !isChecked1;
-          $('input[name="checkdocno"]').each(function(){
-            this.checked = isChecked1;
-          });
-          getDocDetail();
-        }else{
-          isChecked2 = !isChecked2;
-          $('input[name="checkdocdetail"]').each(function(){
-            this.checked = isChecked2;
-          });
-        }
-      }
-
-      function convertUnit(rowid,selectObject){
+      
+      function convertUnit(rowid,selectObject)
+      {
         var docno = $("#docno").val();
         var data = selectObject.value;
         var chkArray = data.split(",");
@@ -742,7 +808,8 @@ $(document).ready(function(e){
         qty = oleqty*chkArray[2];
         $('#qty1_'+chkArray[0]).val(qty);
         // console.log( chkArray[1] );
-        var data = {
+        var data =
+        {
           'STATUS'  	: 'updataDetail',
           'Rowid'     : rowid,
           'DocNo'   	: docno,
@@ -751,50 +818,66 @@ $(document).ready(function(e){
         };
         senddata(JSON.stringify(data));
       }
-      function checkblank3(){
-          $('.checkblank3').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-              $('#rem3').show().css("color","red");
-            }else{
-              $(this).removeClass('border-danger');
-              $('#rem3').hide();
-            }
-          });
-        }
-        function checkblank2(){
-          $('.checkblank2').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-              $('#rem4').show().css("color","red");
-            }else{
-              $(this).removeClass('border-danger');
-              $('#rem4').hide();
-            }
-          });
-        }
 
-      function CreateDocument(){
+      function checkblank3()
+      {
+        $('.checkblank3').each(function()
+        {
+          if($(this).val()==""||$(this).val()==undefined)
+          {
+            $(this).addClass('border-danger');
+            $('#rem3').show().css("color","red");
+          }
+          else
+          {
+            $(this).removeClass('border-danger');
+            $('#rem3').hide();
+          }
+        });
+      }
+
+      function checkblank2()
+      {
+        $('.checkblank2').each(function()
+        {
+          if($(this).val()==""||$(this).val()==undefined)
+          {
+            $(this).addClass('border-danger');
+            $('#rem4').show().css("color","red");
+          }
+          else
+          {
+            $(this).removeClass('border-danger');
+            $('#rem4').hide();
+          }
+        });
+      }
+
+      function CreateDocument()
+      {
         var userid = '<?php echo $Userid; ?>';
         var hotpCode = $('#hotpital option:selected').attr("value");
         var deptCode = $('#department option:selected').attr("value");
 
         $('#TableDetail tbody').empty();
-        if(hotpCode == '' ){
-            checkblank3();
-            swal({
-              title: '',
-              text: "<?php echo $array['required'][$language]; ?>",
-              type: 'info',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 2000,
-              confirmButtonText: 'Ok'
-            });
-          }else{
-        swal({
+        if(hotpCode == '' )
+        {
+          checkblank3();
+          swal({
+          title: '',
+          text: "<?php echo $array['required'][$language]; ?>",
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          showConfirmButton: false,
+          timer: 2000,
+          confirmButtonText: 'Ok'
+          });
+        }
+        else
+        {
+          swal({
           title: "<?php echo $array['confirmdoc'][$language]; ?>",
           text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text()+ " <?php echo $array['department'][$language]; ?> : " +$('#department option:selected').text(),
           type: "warning",
@@ -806,28 +889,35 @@ $(document).ready(function(e){
           cancelButtonColor: '#d33',
           closeOnConfirm: false,
           closeOnCancel: false,
-          showCancelButton: true}).then(result => {
-            if (result.value) {
-            var data = {
-              'STATUS'    : 'CreateDocument',
-              'hotpCode'  : hotpCode,
-              'deptCode'  : deptCode,
-              'userid'	: userid
-            };
-            senddata(JSON.stringify(data));
-            $('#RefDocNo').attr('disabled', false);
-            $('#input_chk').val(0);
-            var word = '<?php echo $array['save'][$language]; ?>';
-            var changeBtn = "<i class='fa fa-save'></i>";
-            changeBtn += "<div>"+word+"</div>";
-          $('#icon_edit').html(changeBtn); 
-          } else if (result.dismiss === 'cancel') {
+          showCancelButton: true}).then(result =>
+          {
+          if (result.value)
+          {
+              var data =
+              {
+                'STATUS'    : 'CreateDocument',
+                'hotpCode'  : hotpCode,
+                'deptCode'  : deptCode,
+                'userid'	: userid
+              };
+              senddata(JSON.stringify(data));
+              $('#RefDocNo').attr('disabled', false);
+              $('#input_chk').val(0);
+              var word = '<?php echo $array['save'][$language]; ?>';
+              var changeBtn = "<i class='fa fa-save'></i>";
+              changeBtn += "<div>"+word+"</div>";
+              $('#icon_edit').html(changeBtn); 
+          }
+          else if (result.dismiss === 'cancel')
+          {
             swal.close();
           } 
           })
         }
-    }
-      function canceldocno(docno) {
+      }
+
+      function canceldocno(docno)
+      {
         swal({
           title: "<?php echo $array['confirmdelete'][$language]; ?>",
           text: "<?php echo $array['confirmdelete1'][$language]; ?>" +docno+ "<?php echo $array['confirmdelete2'][$language]; ?>",
@@ -840,8 +930,10 @@ $(document).ready(function(e){
           cancelButtonColor: '#3085d6',
           closeOnConfirm: false,
           closeOnCancel: false,
-          showCancelButton: true}).then(result => {
-            var data = {
+          showCancelButton: true}).then(result =>
+          {
+            var data =
+            {
               'STATUS'      : 'CancelDocNo',
               'DocNo'       : docno
             };
@@ -850,32 +942,40 @@ $(document).ready(function(e){
           })
       }
 
-      function addnum(cnt) {
+      function addnum(cnt)
+      {
         var add = parseInt($('#iqty'+cnt).val())+1;
-        if((add>0) && (add<=500)){
+        if((add>0) && (add<=500))
+        {
           $('#iqty'+cnt).val(add);
         }
       }
 
-      function subtractnum(cnt) {
+      function subtractnum(cnt)
+      {
         var sub = parseInt($('#iqty'+cnt).val())-1;
-        if((sub>0) && (sub<=500)) {
+        if((sub>0) && (sub<=500))
+        {
           $('#iqty'+cnt).val(sub);
         }
       }
 
-      function addnum1(rowid,cnt,unitcode) {
+      function addnum1(rowid,cnt,unitcode)
+      {
         var Dep = $("#Dep_").val();
         var docno = $("#docno").val();
         var add = parseInt($('#qty1_'+cnt).val())+1;
         var newQty = parseInt($('#OleQty_'+cnt).val())+1;
         var isStatus = $("#IsStatus").val();
-        if(isStatus==0){
-          if((add>=0) && (add<=500)){
+        if(isStatus==0)
+        {
+          if((add>=0) && (add<=500))
+          {
             $('#qty1_'+cnt).val(add);
             $('#OleQty_'+cnt).val(newQty);
           }
-          var data = {
+          var data =
+          {
             'STATUS'      : 'UpdateDetailQty',
             'Rowid'       : rowid,
             'DocNo'       : docno,
@@ -887,18 +987,22 @@ $(document).ready(function(e){
         }
       }
 
-      function subtractnum1(rowid,cnt,unitcode) {
+      function subtractnum1(rowid,cnt,unitcode)
+      {
         var Dep = $("#Dep_").val();
         var docno = $("#docno").val();
         var sub = parseInt($('#qty1_'+cnt).val())-1;
         var newQty = parseInt($('#OleQty_'+cnt).val())-1;
         var isStatus = $("#IsStatus").val();
-        if(isStatus==0){
-          if((sub>=0) && (sub<=500)) {
+        if(isStatus==0)
+        {
+          if((sub>=0) && (sub<=500))
+          {
             $('#qty1_'+cnt).val(sub);
             $('#OleQty_'+cnt).val(newQty);
           }
-          var data = {
+          var data =
+          {
             'STATUS'      : 'UpdateDetailQty',
             'Rowid'       : rowid,
             'DocNo'       : docno,
@@ -910,14 +1014,17 @@ $(document).ready(function(e){
         }
       }
       
-      function updateDetail(row,rowid) {
+      function updateDetail(row,rowid)
+      {
         var docno = $("#docno").val();
         var Detail = $("#Detail_"+row).val();
         var isStatus = $("#IsStatus").val();
         $('#input_chk').val(0);
         //alert(rowid+" :: "+docno+" :: "+weight);
-        if(isStatus==0){
-          var data = {
+        if(isStatus==0)
+        {
+          var data =
+          {
             'STATUS'      : 'UpdateDetail',
             'Rowid'       : rowid,
             'DocNo'       : docno,
@@ -927,7 +1034,8 @@ $(document).ready(function(e){
         }
       }
 
-      function updateWeight(row,rowid) {
+      function updateWeight(row,rowid)
+      {
         $('#weight_'+row).removeClass('border border-danger');
         var docno = $("#docno").val();
         var wTotal = $("#wTotal").val();
@@ -935,11 +1043,10 @@ $(document).ready(function(e){
         var price = 0; //$("#price_"+row).val();
         var isStatus = $("#IsStatus").val();
         $('#input_chk').val(0);
-
-
-        //alert(rowid+" :: "+docno+" :: "+weight);
-        if(isStatus==0){
-          var data = {
+        if(isStatus==0)
+        {
+          var data =
+          {
             'STATUS'      : 'UpdateDetailWeight',
             'Rowid'       : rowid,
             'DocNo'       : docno,
@@ -949,44 +1056,56 @@ $(document).ready(function(e){
           senddata(JSON.stringify(data));
         }
       }
-      function dis2(row){
-      if($('#checkrow_'+row).prop("checked") == true){
+
+      function dis2(row)
+      {
+        if($('#checkrow_'+row).prop("checked") == true)
+        {
           var countcheck2 = Number($("#countcheck").val())+1;
           $("#countcheck").val(countcheck2);
           $('#bSaveadd').attr('disabled', false);
           $('#bSaveadd2').removeClass('opacity');
-          // $('#checkrow_'+row).prop('checked', true);
           $('#checkrow_'+row).attr('previousValue', 'checked');
-        }else if($('#checkrow_'+row).prop("checked") == false){
+        }
+        else if($('#checkrow_'+row).prop("checked") == false)
+        {
           var countcheck3 = Number($("#countcheck").val())-1;
           $("#countcheck").val(countcheck3);
-          if(countcheck3 == 0 ){
-          $('#bSaveadd').attr('disabled', true);
-          $('#bSaveadd2').addClass('opacity');
-          $('.checkrow_'+row).removeAttr('checked');
-          // $('#checkrow_'+row).prop('checked', false);
-          $("#countcheck").val(countcheck3);
+          if(countcheck3 == 0 )
+          {
+            $('#bSaveadd').attr('disabled', true);
+            $('#bSaveadd2').addClass('opacity');
+            $('.checkrow_'+row).removeAttr('checked');
+            $("#countcheck").val(countcheck3);
           }
         }
-    }
-    function removeClassBorder2(){
-          $('#factory1').removeClass('border-danger');
-          $('#rem2').attr('hidden' , true);
-        }
+      }
 
-    function checkblank(){
-          $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-              $('#rem2').attr('hidden' , false).css("color","red");
-            }else{
-              $(this).removeClass('border-danger');
-              $('#rem2').attr('hidden' , true);
-            }
-          });
-        }
+      function removeClassBorder2()
+      {
+        $('#factory1').removeClass('border-danger');
+        $('#rem2').attr('hidden' , true);
+      }
 
-      function SaveBill(chk){ 
+      function checkblank()
+      {
+        $('.checkblank').each(function()
+        {
+          if($(this).val()==""||$(this).val()==undefined)
+          {
+            $(this).addClass('border-danger');
+            $('#rem2').attr('hidden' , false).css("color","red");
+          }
+          else
+          {
+            $(this).removeClass('border-danger');
+            $('#rem2').attr('hidden' , true);
+          }
+        });
+      }
+
+      function SaveBill(chk)
+      { 
         var count = 0;
         var count2 = 0;
         var chk_qty = document.getElementsByClassName("chk_qty"); //checkbox items       
@@ -998,122 +1117,145 @@ $(document).ready(function(e){
         var dept = $("#Dep2").val();
         var input_chk = $('#input_chk').val();
         // alert( isStatus );
-        if(isStatus==1  || isStatus==2 || isStatus==3 || isStatus==4){
-        isStatus=0;
-        }else{
-        isStatus=1;
+        if(isStatus==1  || isStatus==2 || isStatus==3 || isStatus==4)
+        {
+          isStatus=0;
         }
-        if(isStatus==1){
-        if(factory1 ==""){
-          checkblank();
-          swal({
-              title: '',
-              text: "<?php echo $array['required'][$language]; ?>",
-              type: 'info',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 2000,
-              confirmButtonText: 'Ok'
-            });
-        }else{
-          if(docno!=""){
-            for(i=0;i<chk_qty.length; i++){
-                    var chk = $('#qty1_'+i).val();
-                    var chk2 = $('#weight_'+i).val();
-                    if(chk == 0 || chk == ''){
-                      $('#qty1_'+i).addClass('border border-danger');
-                      count++;
-                    }
-                    if(chk2 == 0 || chk2 == ''){
-                      $('#weight_'+i).addClass('border border-danger');
-                      count2++;
-                    }
-                  }
-            if(count==0 && count2==0){
-            if(chk == '' || chk == undefined){
-            chk_percent();
-            }else{
-          swal({
-              title: "<?php echo $array['confirmsave'][$language]; ?>",
-              text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonClass: "btn-danger",
-              confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-              confirmButtonColor: '#d33',
-              cancelButtonColor: '#3085d6',
-              closeOnConfirm: false,
-              closeOnCancel: false,
-              allowOutsideClick: false,
-              allowEscapeKey : false ,
-              showCancelButton: true}).then(result => {
-                swal({
-                      title: '',
-                      text: '<?php echo $array['savesuccess'][$language]; ?>',
-                      type: 'success',
-                      showCancelButton: false,
-                      showConfirmButton: false,
-                      timer: 1500,
-                      });
-                if (result.value) {
-                var data = {
-                  'STATUS'      : 'SaveBill',
-                  'xdocno'      : docno,
-                  'xdocno2'      : docno2,
-                  'isStatus'    : isStatus,
-                  'deptCode'    : dept ,
-                  'factory1'    : factory1
-                };
-
-          senddata(JSON.stringify(data));
-          $('#profile-tab').tab('show');
-          $("#bImport").prop('disabled', true);
-          $("#bDelete").prop('disabled', true);
-          $("#bSave").prop('disabled', false);
-          $("#bCancel").prop('disabled', true);
-          $("#bImport2").addClass('opacity');
-          $("#bDelete2").addClass('opacity');
-          $("#bSave2").addClass('opacity');
-          $("#bCancel2").addClass('opacity');
-          $('#hover2').removeClass('mhee');
-          $('#hover4').removeClass('mhee');
-          $('#hover5').removeClass('mhee');
-          $('#hover3').removeClass('mhee');
-          $("#docno").prop('disabled', true);
-          $("#docdate").prop('disabled', true);
-          $("#recorder").prop('disabled', true);
-          $("#timerec").prop('disabled', true);
-          $("#total").prop('disabled', true);
-          $("#factory1").val('');
-          ShowDocument();
-          // Blankinput();
-          // setTimeout(() => {
-          //   $('#ModalSign').modal("show");
-          // }, 1500);
-          if(input_chk == 1){
-                  $('#alert_percent').modal('toggle');
-                }
-        } else if (result.dismiss === 'cancel') {
-          swal.close();}
-        })
-      }
-      }else{
+        else
+        {
+          isStatus=1;
+        }
+        if(isStatus==1)
+        {
+          if(factory1 =="")
+          {
+            checkblank();
             swal({
-              title: " ",
-              text:  " <?php echo $array['insert_form'][$language]; ?>",
-              type: "warning",
-              showCancelButton: false,
-              showConfirmButton: false,
-              timer: 1000,
-              closeOnConfirm: true
-            });
+                title: '',
+                text: "<?php echo $array['required'][$language]; ?>",
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
+              });
           }
-     }
-    }
-        }else{
+          else
+          {
+            if(docno!="")
+            {
+              for(i=0;i<chk_qty.length; i++)
+              {
+                var chk = $('#qty1_'+i).val();
+                var chk2 = $('#weight_'+i).val();
+                if(chk == 0 || chk == '')
+                {
+                  $('#qty1_'+i).addClass('border border-danger');
+                  count++;
+                }
+                if(chk2 == 0 || chk2 == '')
+                {
+                  $('#weight_'+i).addClass('border border-danger');
+                  count2++;
+                }
+              }
+              if(count==0 && count2==0)
+              {
+                if(chk == '' || chk == undefined)
+                {
+                  chk_percent();
+                }
+                else
+                {
+                  swal({
+                  title: "<?php echo $array['confirmsave'][$language]; ?>",
+                  text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                  cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6',
+                  closeOnConfirm: false,
+                  closeOnCancel: false,
+                  allowOutsideClick: false,
+                  allowEscapeKey : false ,
+                  showCancelButton: true}).then(result =>
+                  {
+                    swal({
+                          title: '',
+                          text: '<?php echo $array['savesuccess'][$language]; ?>',
+                          type: 'success',
+                          showCancelButton: false,
+                          showConfirmButton: false,
+                          timer: 1500,
+                          });
+                    if (result.value)
+                    {
+                      var data =
+                      {
+                        'STATUS'      : 'SaveBill',
+                        'xdocno'      : docno,
+                        'xdocno2'      : docno2,
+                        'isStatus'    : isStatus,
+                        'deptCode'    : dept ,
+                        'factory1'    : factory1
+                      };
+
+                      senddata(JSON.stringify(data));
+                      $('#profile-tab').tab('show');
+                      $("#bImport").prop('disabled', true);
+                      $("#bDelete").prop('disabled', true);
+                      $("#bSave").prop('disabled', false);
+                      $("#bCancel").prop('disabled', true);
+                      $("#bImport2").addClass('opacity');
+                      $("#bDelete2").addClass('opacity');
+                      $("#bSave2").addClass('opacity');
+                      $("#bCancel2").addClass('opacity');
+                      $('#hover2').removeClass('mhee');
+                      $('#hover4').removeClass('mhee');
+                      $('#hover5').removeClass('mhee');
+                      $('#hover3').removeClass('mhee');
+                      $("#docno").prop('disabled', true);
+                      $("#docdate").prop('disabled', true);
+                      $("#recorder").prop('disabled', true);
+                      $("#timerec").prop('disabled', true);
+                      $("#total").prop('disabled', true);
+                      $("#factory1").val('');
+                      ShowDocument();
+                      if(input_chk == 1)
+                      {
+                        $('#alert_percent').modal('toggle');
+                      }
+
+                    }
+                    else if (result.dismiss === 'cancel')
+                    {
+                      swal.close();
+                    }
+                  })
+                }
+              }
+              else
+              {
+                swal({
+                title: " ",
+                text:  " <?php echo $array['insert_form'][$language]; ?>",
+                type: "warning",
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1000,
+                closeOnConfirm: true
+                });
+              }
+            }
+          }
+        }
+        else
+        {
           $("#bImport2").removeClass('opacity');
           $("#bSave2").removeClass('opacity');
           // $("#bCancel2").removeClass('opacity');
@@ -1132,8 +1274,8 @@ $(document).ready(function(e){
           $("#timerec").prop('disabled', false);
           $("#total").prop('disabled', false);
           var rowCount = $('#TableItemDetail >tbody >tr').length;
-          for (var i = 0; i < rowCount; i++) {
-
+          for (var i = 0; i < rowCount; i++)
+          {
             $('#qty1_'+i).prop('disabled', false);
             $('#weight_'+i).prop('disabled', false);
             $('#price_'+i).prop('disabled', false);
@@ -1142,15 +1284,21 @@ $(document).ready(function(e){
           }
         }
       }
-      function show_btn(DocNo){
-              if(DocNo != undefined || DocNo != ''){
-                  $(btn_show).attr('disabled',false);
-              }
+
+      function show_btn(DocNo)
+      {
+        if(DocNo != undefined || DocNo != '')
+        {
+            $(btn_show).attr('disabled',false);
+        }
       }
-      function updateQty(RowID, i){
+
+      function updateQty(RowID, i)
+      {
         $('#qty1_'+i).removeClass('border border-danger');
         var newQty = $('#qty1_'+i).val();
-        var data = {
+        var data =
+        {
           'STATUS' : 'updateQty',
           'RowID' : RowID,
           'newQty' : newQty
@@ -1159,12 +1307,14 @@ $(document).ready(function(e){
         senddata(JSON.stringify(data));
       }
 
-      function unlockfactory() {
+      function unlockfactory()
+      {
         $('#factory1').attr('disabled' , false);
         $('#factory1').removeClass('icon_select');
       }
 
-      function UpdateRefDocNo(){
+      function UpdateRefDocNo()
+      {
         var hptcode = '<?php echo $HptCode ?>';
         var docno = $("#docno").val();
         var deptCode = $('#Dep2 option:selected').attr("value");
@@ -1173,26 +1323,28 @@ $(document).ready(function(e){
         var chk = 0;
         var chkref = 0;
         //get value from radio button
-        $("#checkitemDirty:checked").each(function() {
+        $("#checkitemDirty:checked").each(function()
+        {
           RefDocNoArray.push($(this).val());
           FacCodeArray.push($(this).data('fac'));
         });
-
         var ref = RefDocNoArray[0].substr(0,2);
-
         var FacCode = FacCodeArray[0];
-        for (var j = 0; j < FacCodeArray.length; j++) {
-            if(FacCode !=FacCodeArray[j]){
-                chk = 1;
-         }
-
-        var ref2 = RefDocNoArray[j].substr(0,2);
-         if(ref2 != ref){
-            chkref = 1;
-         }
-      }
-        if(chk == 1 && chkref != 1){
-        swal({
+        for (var j = 0; j < FacCodeArray.length; j++)
+        {
+            if(FacCode !=FacCodeArray[j])
+            {
+              chk = 1;
+            }
+            var ref2 = RefDocNoArray[j].substr(0,2);
+            if(ref2 != ref)
+            {
+              chkref = 1;
+            }
+        }
+        if(chk == 1 && chkref != 1)
+        {
+          swal({
             title: " ",
             text:  " <?php echo $array['facerror'][$language]; ?>",
             type: "warning",
@@ -1203,8 +1355,10 @@ $(document).ready(function(e){
           });     
           $(".chkbox").prop('checked', false);
           chk = 0;
-      } else if(chk != 1 && chkref == 1){
-        swal({
+        }
+        else if(chk != 1 && chkref == 1)
+        {
+          swal({
             title: " ",
             text:  " <?php echo $array['referror'][$language]; ?>",
             type: "warning",
@@ -1212,11 +1366,13 @@ $(document).ready(function(e){
             showConfirmButton: false,
             timer: 1000,
             closeOnConfirm: false
-          });     
-          $(".chkbox").prop('checked', false);
-          chkref = 0;
-      } else if(chk == 1 && chkref == 1){
-        swal({
+            });     
+            $(".chkbox").prop('checked', false);
+            chkref = 0;
+        }
+        else if(chk == 1 && chkref == 1)
+        {
+          swal({
             title: " ",
             text:  " <?php echo $array['ref_and_fac_error'][$language]; ?>",
             type: "warning",
@@ -1228,24 +1384,26 @@ $(document).ready(function(e){
           $(".chkbox").prop('checked', false);
           chk = 0;
           chkref = 0;
-      }else{
-        var data = {
-          'STATUS'      : 'UpdateRefDocNo',
-          'xdocno'      : docno,
-          'RefDocNoArray'    : RefDocNoArray,
-          'selecta'     : 0,
-          'deptCode'	  : deptCode,
-          'hptcode'   : hptcode,
-          'FacCode'   : FacCode
-        };
-        $('#dialogRefDocNo').modal('toggle')
-        senddata(JSON.stringify(data));
+        }
+        else
+        {
+          var data =
+          {
+            'STATUS'      : 'UpdateRefDocNo',
+            'xdocno'      : docno,
+            'RefDocNoArray'    : RefDocNoArray,
+            'selecta'     : 0,
+            'deptCode'	  : deptCode,
+            'hptcode'   : hptcode,
+            'FacCode'   : FacCode
+          };
+          $('#dialogRefDocNo').modal('toggle')
+          senddata(JSON.stringify(data));
+        }
       }
-        // dialogRefDocNo.dialog( "close" );
 
-    }
-
-      function logoff() {
+      function logoff()
+      {
         swal({
           title: '',
           text: '<?php echo $array['logout'][$language]; ?>',
@@ -1256,17 +1414,21 @@ $(document).ready(function(e){
           showConfirmButton: false,
           timer: 1000,
           confirmButtonText: 'Ok'
-        }).then(function () {
+        }).then(function ()
+        {
           window.location.href="../logoff.php";
-        }, function (dismiss) {
+        }, function (dismiss)
+        {
           window.location.href="../logoff.php";
-          if (dismiss === 'cancel') {
+          if (dismiss === 'cancel')
+          {
 
           }
         })
       }
 
-      function senddata(data){
+      function senddata(data)
+      {
         var form_data = new FormData();
         form_data.append("DATA",data);
         var URL = '../process/clean.php';
@@ -1278,67 +1440,83 @@ $(document).ready(function(e){
           processData: false,
           data: form_data,
           type: 'post',
-          success: function (result) {
-            try {
+          success: function (result)
+          {
+            try
+            {
               var temp = $.parseJSON(result);
-            } catch (e) {
+            }
+            catch (e)
+            {
               console.log('Error#542-decode error');
             }
-
-            if(temp["status"]=='success'){
-              if(temp["form"]=='OnLoadPage'){
+            if(temp["status"]=='success')
+            {
+              if(temp["form"]=='OnLoadPage')
+              {
                 $("#Hos2").empty();
-                // $("button").css("color", "red");
                 var PmID = <?php echo $PmID;?>;
                 var HptCode = '<?php echo $HptCode;?>';
-                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7 && temp[0]['PmID'] !=5){
-                      var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
-                      }else{
-                        var Str1 = "";
-                        $('#Hos2').attr('disabled' , true);
-                        $('#Hos2').addClass('icon_select');
-                        $('#Dep2').addClass('icon_select');
-                      }                      for (var i = 0; i < temp["Row"]; i++) {
-                        var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
-                                Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
-                      }
-                      $("#hotpital").append(Str1);
-                      $("#Hos2").append(Str1);
-                // if(PmID != 1){
-                //   $("#hotpital").val(HptCode);
-                // }
-                      $("#hotpital").val(HptCode);
-              }else if(temp["form"]=='getfactory'){
+                if(temp[0]['PmID'] !=2 && temp[0]['PmID'] !=3 && temp[0]['PmID'] !=7 && temp[0]['PmID'] !=5)
+                {
+                  var Str1 = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                }
+                else
+                {
+                  var Str1 = "";
+                  $('#Hos2').attr('disabled' , true);
+                  $('#Hos2').addClass('icon_select');
+                  $('#Dep2').addClass('icon_select');
+                }                      
+                for (var i = 0; i < temp["Row"]; i++)
+                {
+                  var Str = "<option value="+temp[i]['HptCode']+" id='getHot_"+i+"'>"+temp[i]['HptName']+"</option>";
+                    Str1 +=  "<option value="+temp[i]['HptCode1']+">"+temp[i]['HptName1']+"</option>";
+                }
+                $("#hotpital").append(Str1);
+                $("#Hos2").append(Str1);
+                $("#hotpital").val(HptCode);
+              }
+
+              else if(temp["form"]=='getfactory')
+              {
                 $("#factory1").empty();
                 $("#factory2").empty();                        
                 var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
-                  for (var i = 0; i < temp["Rowx"]; i++) {
+                  for (var i = 0; i < temp["Rowx"]; i++)
+                  {
                     Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                   }
                   $("#factory1").append(Str);
                   $("#factory2").append(Str);
-              }else if(temp["form"]=='getDepartment'){
-              $("#department").empty();
-              $("#Dep2").empty();
-              var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
-              for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-                var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-                $("#department").append(Str);
-                $("#Dep2").append(Str);
               }
-              // if(PmID != 1){
-              //   $("#Dep2").val(temp[0]['DepCode']);
-              // }
+
+              else if(temp["form"]=='getDepartment')
+              {
+                $("#department").empty();
+                $("#Dep2").empty();
+                var Str2 = "<option value=''><?php echo $array['selectdep'][$language]; ?></option>";
+                for (var i = 0; i < (Object.keys(temp).length-2); i++)
+                {
+                  var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                  Str2 += "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
+                  $("#department").append(Str);
+                  $("#Dep2").append(Str);
+                }
               }
-              else if(temp["form"]=='showRequest'){
-              $("#unitrequest").empty();
-              for (var i = 0; i < temp['countx']; i++) {
-                var Str = "<option value="+temp[i]['UnitCode']+">"+temp[i]['UnitName']+"</option>";
-                $("#unitrequest").append(Str);
+
+              else if(temp["form"]=='showRequest')
+              {
+                $("#unitrequest").empty();
+                for (var i = 0; i < temp['countx']; i++)
+                {
+                  var Str = "<option value="+temp[i]['UnitCode']+">"+temp[i]['UnitName']+"</option>";
+                  $("#unitrequest").append(Str);
+                }
+                $('#ModalRequest').modal("show");
               }
-              $('#ModalRequest').modal("show");
-              }else if( (temp["form"]=='CreateDocument') ){
+              else if( (temp["form"]=='CreateDocument') )
+              {
                 swal({
                   title: "<?php echo $array['createdocno'][$language]; ?>",
                   text: temp[0]['DocNo'] + " <?php echo $array['success'][$language]; ?>",
@@ -1348,7 +1526,8 @@ $(document).ready(function(e){
                   confirmButtonText: 'Ok',
                   showConfirmButton: false
                   });
-                setTimeout(function () {
+                setTimeout(function ()
+                {
                   open_dirty_doc()                  
                   parent.OnLoadPage();
                 }, 1000);
@@ -1374,42 +1553,49 @@ $(document).ready(function(e){
                 $('#bSave2').removeClass('opacity');
                 $('#bImport2').removeClass('opacity');
                 $('#bCancel2').removeClass('opacity');
-              }else if(temp["form"]=='ShowDocument'){
+              }
 
-                setTimeout(function () {
+              else if(temp["form"]=='ShowDocument')
+              {
+                setTimeout(function ()
+                {
                   parent.OnLoadPage();
                 }, 500);
                 $( "#TableDocument tbody" ).empty();
                 $( "#TableItemDetail tbody" ).empty();
                 var st1 = "style='font-size:24px;margin-left:3px;width:203px;'";
-                if(temp['Count']>0){
-                for (var i = 0; i <temp['Count']; i++) {
-                  var rowCount = $('#TableDocument >tbody >tr').length;
-                  var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
-                  var Status = "";
-                  var Style  = "";
-                  if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==2 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4){
-                    Status = "completed";
-                    Style  = "style='width: 10%;color: #20B80E;'";
-                  }else{
-                    Status = "on process";
-                    Style  = "style='width: 10%;color: #3399ff;'";
-                  }if(temp[i]['IsStatus']==9){
-                    Status = "cancel";
-                    Style  = "style='width: 10%;color: #ff0000;'";
-                  }
-
-                    
-                  var chkref ="<div class='row' style='margin:auto;'><select "+st1+" class='form-control' ></div>";
-
-                      for(var j = 0; j < temp['Cnt_'+temp[i]['DocNo']][i]; j++){
-
+                if(temp['Count']>0)
+                {
+                  for (var i = 0; i <temp['Count']; i++)
+                  {
+                    var rowCount = $('#TableDocument >tbody >tr').length;
+                    var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'onclick='show_btn(\""+temp[i]['DocNo']+"\");' value='"+temp[i]['DocNo']+"' ><span class='checkmark'></span></label>";
+                    var Status = "";
+                    var Style  = "";
+                    if(temp[i]['IsStatus']==1 || temp[i]['IsStatus']==2 || temp[i]['IsStatus']==3 || temp[i]['IsStatus']==4)
+                    {
+                      Status = "completed";
+                      Style  = "style='width: 10%;color: #20B80E;'";
+                    }
+                    else
+                    {
+                      Status = "on process";
+                      Style  = "style='width: 10%;color: #3399ff;'";
+                    }
+                    if(temp[i]['IsStatus']==9)
+                    {
+                      Status = "cancel";
+                      Style  = "style='width: 10%;color: #ff0000;'";
+                    }
+                    var chkref ="<div class='row' style='margin:auto;'><select "+st1+" class='form-control' ></div>";
+                      for(var j = 0; j < temp['Cnt_'+temp[i]['DocNo']][i]; j++)
+                      {
                         chkref += "<option value=' '>"+temp['RefDocNo_'+temp[i]['DocNo']+'_'+i][j]+"</option>";
                       }
-                      chkref += "</select>";
+                        chkref += "</select>";
 
                     
-                  $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
+                    $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                     "<td style='width: 9%;' nowrap>"+temp[i]['DocDate']+"</td>"+
                     "<td style='width: 11%;' nowrap>"+temp[i]['DocNo']+"</td>"+
@@ -1419,16 +1605,20 @@ $(document).ready(function(e){
                     "<td style='width: 9%;' nowrap>"+temp[i]['Total']+"</td>"+
                     "<td style='width: 12%; overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['FacName']+"'>"+temp[i]['FacName']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
-                  "</tr>";
-
-                  if(rowCount == 0){
-                    $("#TableDocument tbody").append( $StrTr );
-                  }else{
-                    $('#TableDocument tbody:last-child').append(  $StrTr );
+                    "</tr>";
+                    if(rowCount == 0)
+                    {
+                      $("#TableDocument tbody").append( $StrTr );
+                    }
+                    else
+                    {
+                      $('#TableDocument tbody:last-child').append(  $StrTr );
+                    }
                   }
                 }
-              }else{
-                    var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                else
+                {
+                      var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                         swal({
                           title: '',
                           text: '<?php echo $array['notfoundmsg'][$language]; ?>',
@@ -1438,52 +1628,61 @@ $(document).ready(function(e){
                           timer: 700,
                       });
                       $("#TableDocument tbody").html(Str);
-                    }
-              }else if(temp["form"]=='SelectDocument'){
+                }
+              }
+              else if(temp["form"]=='SelectDocument')
+              {
                 var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
-                        for (var i = 0; i < temp["Rowx"]; i++) {
-                          Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
-                      }
-                      $("#factory1").html(Str);
-
+                    for (var i = 0; i < temp["Rowx"]; i++)
+                    {
+                      Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                    }
+                    $("#factory1").html(Str);
                 $("#RefDocNo").empty();                        
-                  for (var i = 0; i < temp["Rowxx"]; i++) {
+                  for (var i = 0; i < temp["Rowxx"]; i++)
+                  {
                     var Str  = "<option value='0'>"+temp[i]['RefDocNo']+"</option>";
                     $("#RefDocNo").append(Str);
                   } 
-                  if(temp["Rowxx"] != 0){
-                  $("#RefDocNo").attr('disabled' , false);
-                  $("#RefDocNo").removeClass('icon_select');
-                }else{
-                  $("#RefDocNo").attr('disabled' , true);
-                }                
-                $('#bCreate').attr('disabled', true);
-                $('#hover1').removeClass('mhee');
-                $('#bCreate2').addClass('opacity');
-                $('#home-tab').tab('show')
-                $("#hotpital").val(temp[0]['HptName']);
-                $("#hotpital").prop('disabled', true);
-                $('#hotpital').addClass('icon_select');
+                  if(temp["Rowxx"] != 0)
+                  {
+                    $("#RefDocNo").attr('disabled' , false);
+                    $("#RefDocNo").removeClass('icon_select');
+                  }
+                  else
+                  {
+                    $("#RefDocNo").attr('disabled' , true);
+                  }                
+                  $('#bCreate').attr('disabled', true);
+                  $('#hover1').removeClass('mhee');
+                  $('#bCreate2').addClass('opacity');
+                  $('#home-tab').tab('show')
+                  $("#hotpital").val(temp[0]['HptName']);
+                  $("#hotpital").prop('disabled', true);
+                  $('#hotpital').addClass('icon_select');
 
-                $( "#TableItemDetail tbody" ).empty();
-                $("#docno").val(temp[0]['DocNo']);
-                $("#docdate").val(temp[0]['DocDate']);
-                $("#recorder").val(temp[0]['Record']);
-                $("#timerec").val(temp[0]['RecNow']);
-                $("#wTotal").val(temp[0]['Total']);
-                $("#IsStatus").val(temp[0]['IsStatus']);
+                  $( "#TableItemDetail tbody" ).empty();
+                  $("#docno").val(temp[0]['DocNo']);
+                  $("#docdate").val(temp[0]['DocDate']);
+                  $("#recorder").val(temp[0]['Record']);
+                  $("#timerec").val(temp[0]['RecNow']);
+                  $("#wTotal").val(temp[0]['Total']);
+                  $("#IsStatus").val(temp[0]['IsStatus']);
+                  if(temp[0]['FacCode2'] ==0)
+                  {
+                    $("#factory1").attr('disabled' , false);
+                    $("#factory1").removeClass('icon_select');
+                    $("#factory1").val('');
+                  }
+                  else
+                  {
+                    $("#factory1").attr('disabled' , true);
+                    $("#factory1").addClass('icon_select');
+                    $("#factory1").val(temp[0]['FacCode2']);
+                  }
 
-                if(temp[0]['FacCode2'] ==0){
-                  $("#factory1").attr('disabled' , false);
-                  $("#factory1").removeClass('icon_select');
-                  $("#factory1").val('');
-                }else{
-                  $("#factory1").attr('disabled' , true);
-                  $("#factory1").addClass('icon_select');
-                  $("#factory1").val(temp[0]['FacCode2']);
-                }
-
-                if(temp[0]['IsStatus']==0){
+                if(temp[0]['IsStatus']==0)
+                {
                   var word = '<?php echo $array['save'][$language]; ?>';
                   var changeBtn = "<i class='fa fa-save'></i>";
                   changeBtn += "<div>"+word+"</div>";
@@ -1504,16 +1703,21 @@ $(document).ready(function(e){
                   $('#bPrintnew').attr('disabled', true);
                   $('#bPrintnew2').addClass('opacity');
                   $('#hover7').removeClass('mhee');
-                }else if(temp[0]['IsStatus']==1|| temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4 || temp[0]['IsStatus']==5){
+                }
+                else if(temp[0]['IsStatus']==1|| temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4 || temp[0]['IsStatus']==5)
+                {
                   var word = '<?php echo $array['edit'][$language]; ?>';
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
                   $('#icon_edit').html(changeBtn);
-                  if(temp[0]['IsStatus'] !=1){
+                  if(temp[0]['IsStatus'] !=1)
+                  {
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
                     $("#bCancel2").addClass('opacity');
-                  }else{
+                  }
+                  else
+                  {
                     $("#hover5").addClass('mhee');
                     $("#bCancel").prop('disabled', false);
                     $("#bCancel2").removeClass('opacity');
@@ -1526,11 +1730,12 @@ $(document).ready(function(e){
                   $('#bPrint').attr('disabled', false);
                   $('#bPrint2').removeClass('opacity');
                   $('#hover6').addClass('mhee');
-
                   $('#bPrintnew').attr('disabled', false);
                   $('#bPrintnew2').removeClass('opacity');
                   $('#hover7').addClass('mhee');
-                }else{
+                }
+                else
+                {
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', true);
@@ -1551,20 +1756,19 @@ $(document).ready(function(e){
                   $('#bPrint').attr('disabled', true);
                   $('#bPrint2').addClass('opacity');
                   $('#hover6').removeClass('mhee');
-
                   $('#bPrintnew').attr('disabled', true);
                   $('#bPrintnew2').addClass('opacity');
                   $('#hover7').removeClass('mhee');
-                  
                   $('#qty1_'+i).prop('disabled', true);
                   $('#weight_'+i).prop('disabled', true);
                   $('#price_'+i).prop('disabled', true);
 
                   $('#unit'+i).prop('disabled', true);
                 }
-
                 ShowDetail();
-              }else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail'){
+              }
+              else if(temp["form"]=='getImport'  || temp["form"]=='ShowDetail')
+              {
                 $( "#TableItemDetail tbody" ).empty();
                 if(temp["Row"] > 0)
                 $("#wTotal").val(temp[0]['Total']);
@@ -1572,14 +1776,18 @@ $(document).ready(function(e){
                 $("#wTotal").val(0);
                 var st1 = "style='font-size:24px;margin-left:3px;width:153px;'";
                 var isStatus = $("#IsStatus").val();
-                for (var i = 0; i < temp["Row"]; i++) {
+                for (var i = 0; i < temp["Row"]; i++)
+                {
                   var rowCount = $('#TableItem >tbody >tr').length;
-
                   var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:24px;' id='Unit_"+i+"'>";
-                    $.each(temp['Unit'], function(key, val){
-                      if(temp[i]['UnitCode']==val.UnitCode){
+                    $.each(temp['Unit'], function(key, val)
+                    {
+                      if(temp[i]['UnitCode']==val.UnitCode)
+                      {
                         chkunit += '<option selected value="'+val.UnitCode+','+val.MpCode+','+val.Multiply+'">'+val.UnitName+'</option>';
-                      }else{
+                      }
+                      else
+                      {
                         chkunit += '<option value="'+val.UnitCode+','+val.MpCode+','+val.Multiply+'">'+val.UnitName+'</option>';
                       }
                     });
@@ -1604,33 +1812,31 @@ $(document).ready(function(e){
                   "<td style='width: 12%;' nowrap>"+Weight+"</td>"+
                   "<td style='width: 12%;' nowrap>"+Detail+"</td>"+
                   "</tr>";
-
-
-                  if(rowCount == 0){
+                  if(rowCount == 0)
+                  {
                     $('#bSaveadd').attr('disabled', true);
                     $('#bSaveadd2').addClass('opacity');
                     $("#countcheck").val("0");
                     $("#TableItemDetail tbody").append( $StrTR );
-                  }else{
+                  }
+                  else
+                  {
                     $('#bSaveadd').attr('disabled', true);
                     $('#bSaveadd2').addClass('opacity');
                     $("#countcheck").val("0");
                     $('#TableItemDetail tbody:last-child').append( $StrTR );
                   }
-                  if(isStatus==0){
-                    // $("#docno").prop('disabled', false);
-                    // $("#docdate").prop('disabled', false);
-                    // $("#recorder").prop('disabled', false);
-                    // $("#timerec").prop('disabled', false);
-                    // $("#total").prop('disabled', false);
+                  if(isStatus==0)
+                  {
                     $('#Detail_'+i).prop('disabled', false);
                     $('#qty1_'+i).prop('disabled', false);
                     $('#weight_'+i).prop('disabled', false);
                     $('#price_'+i).prop('disabled', false);
                     $('#price_'+i).prop('disabled', false);
-
                     $('#unit'+i).prop('disabled', false);
-                  }else{
+                  }
+                  else
+                  {
                     $("#docno").prop('disabled', true);
                     $("#docdate").prop('disabled', true);
                     $("#recorder").prop('disabled', true);
@@ -1640,83 +1846,87 @@ $(document).ready(function(e){
                     $('#qty1_'+i).prop('disabled', true);
                     $('#weight_'+i).prop('disabled', true);
                     $('#price_'+i).prop('disabled', true);
-
                     $('#unit'+i).prop('disabled', true);
                   }
                 }
-                $('.numonly').on('input', function() {
-                        this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
-                        });
-              }else if( (temp["form"]=='ShowItem') ){
 
+                $('.numonly').on('input', function()
+                {
+                  this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+                });
+              }
+              else if( (temp["form"]=='ShowItem') )
+              {
                 var st1 = "style='font-size:24px;margin-left:-10px; width:150px;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; font-size: 20px;margin-left:3px; margin-right:3px; text-align:center;'"
                 $( "#TableItem tbody" ).empty();
-                if(temp["Row"]>0){
-                for (var i = 0; i < temp["Row"]; i++) {
-                  var rowCount = $('#TableItem >tbody >tr').length;
+                if(temp["Row"]>0)
+                {
+                  for (var i = 0; i < temp["Row"]; i++) 
+                  {
+                    var rowCount = $('#TableItem >tbody >tr').length;
+                    var chkunit ="<div class='row' style='margin:auto;'><select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' id='iUnit_"+i+"'></div>";
+                    for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++)
+                    {
+                      if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode'])
+                      chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                      else
+                      chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                    }
+                    chkunit += "</select>";
 
-                  var chkunit ="<div class='row' style='margin:auto;'><select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' id='iUnit_"+i+"'></div>";
+                    var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
+                    var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
+                    var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0'></div>";
 
-                  for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                    if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode'])
-                    chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+
+                    $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
+                    "<td style='width: 12%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                    "<td style='width: 43%; overflow-x:auto; text-overflow: ellipsis;overflow: hidden; cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
+                    "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
+                    "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
+                    "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
+                    "</tr>";
+
+                    if(rowCount == 0)
+                    {
+                      $("#TableItem tbody").append( $StrTR );
+                    }
                     else
-                    chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
+                    {
+                      $('#TableItem tbody:last-child').append( $StrTR );
+                    }
                   }
-                  chkunit += "</select>";
-
-                  var chkDoc = "<input type='checkbox' id='checkrow_"+i+"'  name='checkitem' onclick='dis2(\""+i+"\")' class='checkitem' value='"+i+"'><input type='hidden' id='RowID"+i+"' value='"+temp[i]['ItemCode']+"'>";
-
-                  var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger numonly' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control numonly' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-
-                  var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control numonly' autocomplete='off' style='font-size: 20px;height:40px;width:110px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' placeholder='0'></div>";
-
-                  $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                  "<td style='width: 25%;' nowrap>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                  // "<td style='width: 20%;cursor: pointer;' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemCode']+"</td>"+
-                  "<td style='width: 30%;cursor: pointer;' title='"+temp[i]['ItemCode']+"' nowrap onclick='OpenDialogUsageCode(\""+temp[i]['ItemCode']+"\")''>"+temp[i]['ItemName']+"</td>"+
-                  "<td style='width: 15%;' nowrap>"+chkunit+"</td>"+
-                  "<td style='width: 15%;' nowrap align='center'>"+Qty+"</td>"+
-                  "<td style='width: 15%;' nowrap align='center'>"+Weight+"</td>"+
-                  "</tr>";
-                  if(rowCount == 0){
-                    $("#TableItem tbody").append( $StrTR );
-                  }else{
-                    $('#TableItem tbody:last-child').append( $StrTR );
-                  }
-                }
-                $('.numonly').on('input', function() {
+                  $('.numonly').on('input', function() {
                   this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
                   });
-              }else{
-                $('#TableItem tbody').empty();
-                var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
-                $('#TableItem tbody:last-child').append(Str);
+                }
+                else
+                {
+                  $('#TableItem tbody').empty();
+                  var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                  $('#TableItem tbody:last-child').append(Str);
+                }
               }
-              }else if( (temp["form"]=='ShowUsageCode') ){
+              else if( (temp["form"]=='ShowUsageCode') )
+              {
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
                 var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
                 $( "#TableUsageCode tbody" ).empty();
-                for (var i = 0; i < temp["Row"]; i++) {
+                for (var i = 0; i < temp["Row"]; i++)
+                {
                   var rowCount = $('#TableUsageCode >tbody >tr').length;
-
                   var chkunit ="<select "+st1+" onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control' style='font-size:32px;' id='iUnit_"+i+"'>";
-
-                  for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
+                  for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++)
+                  {
                     if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode'])
                     chkunit += "<option selected value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
                     else
                     chkunit += "<option value="+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
                   }
                   chkunit += "</select>";
-
                   var chkDoc = "<input type='checkbox' name='checkitemSub' id='checkitemSub' value='"+i+"'><input type='hidden' id='RowIDSub"+i+"' value='"+temp[i]['RowID']+"'>";
-
-                  //var Qty = "<div class='row' style='margin-left:2px;'><button class='btn btn-danger' style='height:40px;width:32px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' "+st2+" id='iqty"+i+"' value='1' ><button class='btn btn-success' style='height:40px;width:32px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-
                   var Weight = "<div class='row' style='margin-left:2px;'><input class='form-control' style='height:40px;width:134px; margin-left:3px; margin-right:3px; text-align:center;' id='iweight"+i+"' value='0' ></div>";
-
                   $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                   "<td style='width: 10%;'>"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
                   "<td style='width: 20%;'>"+temp[i]['UsageCode']+"</td>"+
@@ -1724,129 +1934,153 @@ $(document).ready(function(e){
                   "<td style='width: 15%;'>"+chkunit+"</td>"+
                   "<td style='width: 13%;' align='center'>1</td>"+
                   "</tr>";
-                  if(rowCount == 0){
+                  if(rowCount == 0)
+                  {
                     $("#TableUsageCode tbody").append( $StrTR );
-                  }else{
+                  }
+                  else
+                  {
                     $('#TableUsageCode tbody:last-child').append( $StrTR );
                   }
                 }
+              }
 
-              }else if(temp['form']=="get_dirty_doc"){
-                if(temp["count2"] > 0){
-                var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
-                var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
-                var checkitem = $("#checkitem").val();
-                $( "#TableRefDocNo tbody" ).empty();
-                for (var i = 0; i < temp["Row"]; i++) {
-                  var rowCount = $('#TableRefDocNo >tbody >tr').length;
-                  var chkDoc = "<input type='checkbox' class='chkbox'  onclick='disRef()' name='checkitem' id='checkitemDirty'  value='"+temp[i]['RefDocNo']+"'  data-fac='"+temp[i]['FacCode']+"' ><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
-                  $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
-                  "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
-                  "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
-                  "<td style='width: 33%;'>"+temp[i]['DocDate']+"</td>"+
-                  "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
-                  "</tr>";
-                  if(rowCount == 0){
-                    $("#TableRefDocNo tbody").append( $StrTR );
-                  }else{
-                    $('#TableRefDocNo tbody:last-child').append( $StrTR );
+              else if(temp['form']=="get_dirty_doc")
+              {
+                if(temp["count2"] > 0)
+                {
+                  var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
+                  var st2 = "style='height:40px;width:60px; margin-left:0px; text-align:center;font-size:32px;'"
+                  var checkitem = $("#checkitem").val();
+                  $( "#TableRefDocNo tbody" ).empty();
+                  for (var i = 0; i < temp["Row"]; i++)
+                  {
+                    var rowCount = $('#TableRefDocNo >tbody >tr').length;
+                    var chkDoc = "<input type='checkbox' class='chkbox'  onclick='disRef()' name='checkitem' id='checkitemDirty'  value='"+temp[i]['RefDocNo']+"'  data-fac='"+temp[i]['FacCode']+"' ><input type='hidden' id='RowId"+i+"' value='"+temp[i]['RefDocNo']+"'>";
+                    $StrTR = "<tr id='tr"+temp[i]['RefDocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
+                    "<td style='width: 15%;' >"+chkDoc+" <label style='margin-left:10px;'> "+(i+1)+"</label></td>"+
+                    "<td style='width: 27%;'>"+temp[i]['RefDocNo']+"</td>"+
+                    "<td style='width: 33%;'>"+temp[i]['DocDate']+"</td>"+
+                    "<td style='width: -4%;'>"+temp[i]['FacName']+"</td>"+
+                    "</tr>";
+                    if(rowCount == 0)
+                    {
+                      $("#TableRefDocNo tbody").append( $StrTR );
+                    }
+                    else
+                    {
+                      $('#TableRefDocNo tbody:last-child').append( $StrTR );
+                    }
                   }
                 }
-                }else{
-                    $( "#TableRefDocNo tbody" ).empty();
-                    var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
-                    $('#TableRefDocNo tbody:last-child').append(Str);
-                        }
-              }else if(temp['form']=="UpdateDetailWeight"){
+                else
+                {
+                  $( "#TableRefDocNo tbody" ).empty();
+                  var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                  $('#TableRefDocNo tbody:last-child').append(Str);
+                }
+              }
+              else if(temp['form']=="UpdateDetailWeight")
+              {
                 $('#wTotal').val(temp['Weight2']);
 
-              }else if(temp['form']=="UpdateRefDocNo"){
+              }
+              else if(temp['form']=="UpdateRefDocNo")
+              {
                   $('#factory1').val(temp['FacCode']);
                   $('#RefDocNo').removeClass('icon_select');
 
                   $("#RefDocNo").empty();                        
-                  for (var i = 0; i < temp["Rowx"]; i++) {
+                  for (var i = 0; i < temp["Rowx"]; i++)
+                  {
                     var Str  = "<option value='0'>"+temp[i]['RefDocNo']+"</option>";
                     $("#RefDocNo").append(Str);
                   }
-
-                  if(temp['FacCode'] != null){
+                  if(temp['FacCode'] != null)
+                  {
                       OpenDialogItem();
                   }
-              }else if(temp['form']=="savefactory"){
+              }
+
+              else if(temp['form']=="savefactory")
+              {
                   $('#factory1').val(temp['FacCode']);
                   $('#factory1').attr('disabled' , true);
                   $('#factory1').addClass('icon_select');
-                  // swal({
-                  //     title: '',
-                  //     text: '<?php echo $array['savesuccess'][$language]; ?>',
-                  //     type: 'success',
-                  //     showCancelButton: false,
-                  //     showConfirmButton: false,
-                  //     timer: 1000,
-                  //     });
                   $('#dialogfactory').modal('toggle');
                   OpenDialogItem();
-
-              }else if(temp['form']=="SaveBill"){
-                if(temp['countpercent']>0){
-                  for (var i = 0; i < temp['countpercent']; i++) {
-                if(temp[i]['countMailpercent']>0){
-                  for(var j = 0; j < temp[i]['countMailpercent']; j++){
-                    var HptName =   temp[0]['HptName'];
-                    var HptNameTH = temp[0]['HptNameTH'];
-                    var Total1 =    temp[0]['Total1'];
-                    var Total2 =    temp[0]['Total2'];
-                    var DocNoC =    temp[0]['DocNo1'];
-                    var DocNoD =    temp[0]['DocNo2'];
-                    var Percent =   temp[0]['Percent'];
-                    var email =     temp[j]['email'];
-
-                    var URL = '../process/sendMail_percent.php';
-                      $.ajax({
-                        url: URL,
-                        method:"POST",
-                        data: 
-                        {
-                          HptName:HptName,
-                          Total1:Total1,
-                          Total2:Total2,
-                          Precent:Percent,
-                          email:email,
-                          DocNoC:DocNoC,
-                          DocNoD:DocNoD,
-                          HptNameTH:HptNameTH
-                        },
-                        success:function(data)
-                        {
-                          console.log['success'];
-                        }
-                      });
               }
-          }
-        }
-      }
-              }else if(temp['form']=="chk_percent"){
+
+              else if(temp['form']=="SaveBill")
+              {
+                if(temp['countpercent']>0)
+                {
+                  for (var i = 0; i < temp['countpercent']; i++)
+                  {
+                    if(temp[i]['countMailpercent']>0)
+                    {
+                      for(var j = 0; j < temp[i]['countMailpercent']; j++)
+                      {
+                        var HptName =   temp[0]['HptName'];
+                        var HptNameTH = temp[0]['HptNameTH'];
+                        var Total1 =    temp[0]['Total1'];
+                        var Total2 =    temp[0]['Total2'];
+                        var DocNoC =    temp[0]['DocNo1'];
+                        var DocNoD =    temp[0]['DocNo2'];
+                        var Percent =   temp[0]['Percent'];
+                        var email =     temp[j]['email'];
+                        var URL = '../process/sendMail_percent.php';
+                        $.ajax({
+                          url: URL,
+                          method:"POST",
+                          data: 
+                          {
+                            HptName:HptName,
+                            Total1:Total1,
+                            Total2:Total2,
+                            Precent:Percent,
+                            email:email,
+                            DocNoC:DocNoC,
+                            DocNoD:DocNoD,
+                            HptNameTH:HptNameTH
+                          },
+                          success:function(data)
+                          {
+                            console.log['success'];
+                          }
+                        });
+                      }
+                    }
+                  }
+                }
+              }
+              else if(temp['form']=="chk_percent")
+              {
                 result = '';
-                if(temp["Row"]>0){
-                for(var i = 0; i < temp['Row']; i++){
-                  result += "<tr>"+
-                    '<td nowrap style="width: 30%;" class="text-left">'+temp[0]['DocNo']+'</td>'+
-                    '<td nowrap style="width: 35%;" class="text-left">'+temp[0]['Percent']+'%'+'</td>'+
-                    '<td nowrap style="width: 32%;" class="text-right">'+temp[0]['over']+'%'+'</td>'+
-                  "</tr>";
+                if(temp["Row"]>0)
+                {
+                  for(var i = 0; i < temp['Row']; i++)
+                  {
+                    result += "<tr>"+
+                      '<td nowrap style="width: 30%;" class="text-left">'+temp[0]['DocNo']+'</td>'+
+                      '<td nowrap style="width: 35%;" class="text-left">'+temp[0]['Percent']+'%'+'</td>'+
+                      '<td nowrap style="width: 32%;" class="text-right">'+temp[0]['over']+'%'+'</td>'+
+                    "</tr>";
                   }
                   $("#detail_percent").html(result);
                   $('#alert_percent').modal('show');
                   $('#input_chk').val(1);
-                }else if(temp["Row"]=="No"){
-                  SaveBill(1);
-                  }
-          
                 }
+                else if(temp["Row"]=="No")
+                {
+                  SaveBill(1);
+                }
+              }
 
-            }else if (temp['status']=="failed") {
-              switch (temp['msg']) {
+            }
+            else if (temp['status']=="failed")
+            {
+                switch (temp['msg']) {
                 case "notchosen":
                 temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
                 break;
@@ -1898,14 +2132,18 @@ $(document).ready(function(e){
               $( "#TableSendSterileDetail tbody" ).empty();
               $( "#TableUsageCode tbody" ).empty();
               $( "#TableItem tbody" ).empty();
-            }else{
+            }
+            else
+            {
               console.log(temp['msg']);
             }
           },
-          failure: function (result) {
+          failure: function (result)
+          {
             alert(result);
           },
-          error: function (xhr, status, p3, p4) {
+          error: function (xhr, status, p3, p4)
+          {
             var err = "Error " + " " + status + " " + p3 + " " + p4;
             if (xhr.responseText && xhr.responseText[0] == "{")
             err = JSON.parse(xhr.responseText).Message;
@@ -1916,25 +2154,32 @@ $(document).ready(function(e){
       }
 
       //===============================================
-      function switch_tap1(){
+      function switch_tap1()
+      {
         $('#tab2').attr('hidden',false);
         $('#switch_col').removeClass('col-md-12');
         $('#switch_col').addClass('col-md-10');
       }
 
-      function switch_tap2(){
+      function switch_tap2()
+      {
         $('#tab2').attr('hidden',true);
         $('#switch_col').removeClass('col-md-10');
         $('#switch_col').addClass('col-md-12');
       }
+
       //===============================================
-    function PrintData(){
+    function PrintData()
+    {
       var docno = $('#docno').val();
       var lang = '<?php echo $language; ?>';
-      if(docno!=""&&docno!=undefined){
+      if(docno!=""&&docno!=undefined)
+      {
         var url  = "../report/Report_Clean_tc.php?DocNo="+docno+"&lang="+lang;
         window.open(url);
-      }else{
+      }
+      else
+      {
         swal({
           title: '',
           text: '<?php echo $array['docfirst'][$language]; ?>',
@@ -1948,13 +2193,18 @@ $(document).ready(function(e){
         })
       }
     }
-    function PrintData2(){
+
+    function PrintData2()
+    {
       var docno = $('#docno').val();
       var lang = '<?php echo $language; ?>';
-      if(docno!=""&&docno!=undefined){
+      if(docno!=""&&docno!=undefined)
+      {
         var url  = "../report/Report_Clean2.php?DocNo="+docno+"&lang="+lang;
         window.open(url);
-      }else{
+      }
+      else
+      {
         swal({
           title: '',
           text: '<?php echo $array['docfirst'][$language]; ?>',
@@ -1968,6 +2218,7 @@ $(document).ready(function(e){
         })
       }
     }
+    
     </script>
     <style media="screen">
      /* ======================================== */
@@ -2472,9 +2723,8 @@ $(document).ready(function(e){
             <thead style="font-size:24px;">
               <tr role="row">
               <input type="text" hidden id="countcheck">
-                <th style='width: 26%;' nowrap><?php echo $array['no'][$language]; ?></th>
-                <!-- <th style='width: 20%;' nowrap><?php echo $array['code'][$language]; ?></th> -->
-                <th style='width: 24%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                <th style='width: 12%;' nowrap><?php echo $array['no'][$language]; ?></th>
+                <th style='width: 38%;' nowrap><?php echo $array['item'][$language]; ?></th>
                 <th style='width: 23%;' nowrap><center><?php echo $array['unit'][$language]; ?></center></th>
                 <th style='width: 15%;' nowrap><?php echo $array['numofpiece'][$language]; ?></th>
                 <th style='width: 12%;' nowrap><?php echo $array['weight'][$language]; ?></th>

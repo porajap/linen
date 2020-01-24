@@ -442,7 +442,8 @@ function getdetail($conn, $DATA)
           IsClean,
           Tdas,
           isset,
-          HptCode
+          HptCode,
+          isSAP
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
@@ -476,6 +477,7 @@ function getdetail($conn, $DATA)
     $return[0]['IsDirtyBag']            = $Result['IsClean']==null?0:$Result['IsClean'];
     $return[0]['isset']                 = $Result['isset']==null?0:$Result['isset'];
     $return[0]['tdas']                  = $Result['Tdas']==null?0:$Result['Tdas'];
+    $return[0]['isSAP']                  = $Result['isSAP']==null?0:$Result['isSAP'];
     $count++;
     if($Result['UnitName2'] != null){
       $countMP = 1 ;
@@ -553,7 +555,8 @@ function AddItem($conn, $DATA)
             Modify_Date   = NOW(),
             Modify_Code   =  $Userid,
             typeLinen     = '". $DATA['typeLinen']."',
-            numPack       = '". $DATA['numPack']."'
+            numPack       = '". $DATA['numPack']."' ,
+            isSAP       = '". $DATA['SAP']."'
             WHERE ItemCode = '" . $DATA['ItemCode'] . "' ";
             $return['1'] = $Sql;
             $Select = "SELECT MpCode FROM item_multiple_unit WHERE ItemCode = '" . $DATA['ItemCode'] . "'";
@@ -738,7 +741,8 @@ function NewItem($conn, $DATA)
             Modify_Date,
             Modify_Code,
             typeLinen,
-            numPack
+            numPack ,
+            isSAP
            )
             VALUES
             (
@@ -759,9 +763,8 @@ function NewItem($conn, $DATA)
               NOW(),
               $Userid ,        
               '" . $DATA['typeLinen'] . "',
-              '" . $DATA['numPack'] . "'
-
-
+              '" . $DATA['numPack'] . "' ,
+              '" . $DATA['SAP'] . "'
             )
     ";
 

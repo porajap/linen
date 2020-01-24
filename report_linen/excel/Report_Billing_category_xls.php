@@ -364,8 +364,10 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                   ORDER BY department.DepName ASC  ";
 
   $meQuery = mysqli_query($conn, $query);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    if ($status_group == 1) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    if ($status_group == 1)
+    {
       $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result["GroupName"]);
     }
     $i++;
@@ -522,6 +524,42 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
   $Date_chk[$dayx] = 0;
 
   }
+
+  if ($categoryCodeCome == '0') 
+  {
+    for ($day = 0; $day < $count; $day++) {
+
+
+
+      $data =       "SELECT COALESCE(SUM(shelfcount.Totalw),'0') AS aWeight , 
+                     COALESCE(SUM(shelfcount.Totalp ),'0') AS aPrice 
+                  FROM
+                  shelfcount
+                  INNER JOIN department ON shelfcount.DepCode = department.DepCode
+                  INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
+                  INNER JOIN site ON site.HptCode = department.HptCode
+                  WHERE
+                  DATE(shelfcount.Modify_Date) = '$date[$day]'
+                  AND shelfcount.isStatus <> 9
+                  AND shelfcount.isStatus <> 0
+                  AND grouphpt.HptCode = '$HptCode'
+                  AND site.HptCode = '$HptCode'
+                  AND grouphpt.GroupCode = '$GroupCode[$sheet]'
+                                ";
+      $meQuery = mysqli_query($conn, $data);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aWeight"]);
+        $r++;
+        $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aPrice"]);
+        $r++;
+        $sumdayweight += $Result["aWeight"];
+        $sumdayprice += $Result["aPrice"];
+      }
+  
+    }
+  }
+  else
+  {
     $data =       "SELECT
                             COALESCE (SUM(report_sc.Weight), '0') AS aWeight,
                             COALESCE (SUM(report_sc.Price), '0') AS aPrice,
@@ -546,36 +584,41 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                             AND grouphpt.HptCode = '$HptCode' 
                             GROUP BY DATE(report_sc.DocDate)";
 
-    $meQuery = mysqli_query($conn, $data);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+                            $meQuery = mysqli_query($conn, $data);
+                            while ($Result = mysqli_fetch_assoc($meQuery)) {
+                        
+                              $aWeight[$cnt] =  $Result["aWeight"];
+                              $aPrice[$cnt] =  $Result["aPrice"];
+                              $Date_chk[$cnt] =  $Result["Date_chk"];
+                              $cnt++;
+                        
+                            }
+                            $x = 0;
+                        
+                            foreach(  $date as $key => $val ) 
+                            {
+                        
+                                if($Date_chk[$x]  == $val)
+                                {
+                                  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $aWeight[$x]);
+                                  $r++;
+                                  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $aPrice[$x]) ;
+                                  $r++;
+                                  $sumdayweight += $aWeight[$x];
+                                  $sumdayprice +=  $aPrice[$x];
+                                  $x++;
+                                }
+                                else
+                                {
+                                  $r++;
+                                  $r++;
+                                }
+                            }
+  }
 
-      $aWeight[$cnt] =  $Result["aWeight"];
-      $aPrice[$cnt] =  $Result["aPrice"];
-      $Date_chk[$cnt] =  $Result["Date_chk"];
-      $cnt++;
 
-    }
-    $x = 0;
+    
 
-    foreach(  $date as $key => $val ) 
-    {
-
-        if($Date_chk[$x]  == $val)
-        {
-          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $aWeight[$x]);
-          $r++;
-          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $aPrice[$x]) ;
-          $r++;
-          $sumdayweight += $aWeight[$x];
-          $sumdayprice +=  $aPrice[$x];
-          $x++;
-        }
-        else
-        {
-          $r++;
-          $r++;
-        }
-    }
 
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayweight);
   $r++;

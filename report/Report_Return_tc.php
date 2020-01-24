@@ -241,13 +241,13 @@ return_doc.DocNo,
 DATE_FORMAT(return_doc.DocDate,'%d-%m-%Y')AS DocDate,
 return_doc.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
-TIME(return_doc.Modify_Date)  AS xTime,
-return_doc.RefDocNo
+TIME(return_doc.Modify_Date)  AS xTime
 FROM return_doc
 INNER JOIN department ON return_doc.DepCodeTo = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
 INNER JOIN users ON return_doc.Modify_Code = users.ID
 WHERE return_doc.DocNo = '$DocNo'";
+
 $meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptName = $Result[$HptName];
@@ -260,6 +260,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $RefDocNo = $Result['RefDocNo'];
   $facname = $Result[$FacName];
 }
+list($d, $m, $y) = explode('-', $DocDate);
+if ($language == 'th') {
+  $y = $y + 543;
+} else {
+  $y = $y;
+}
+$DocDate = $d . "-" . $m . "-" . $y;
 
 $data = "SELECT
 return_detail.ItemCode,

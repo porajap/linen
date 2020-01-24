@@ -230,6 +230,7 @@ $where_new
 AND department.HptCode = '$HptCode'
 AND newlinentable.FacCode = '$FacCode'
 AND newlinentable.IsStatus <> 9
+AND newlinentable.IsStatus <> 0
 GROUP BY
 newlinentable_detail.ItemCode";
 // -- INNER JOIN item_multiple_unit ON item_multiple_unit.MpCode = clean_detail.UnitCode

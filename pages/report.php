@@ -1663,7 +1663,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
-			} else if (typeReport == 28 || typeReport == 32) {
+			} else if (typeReport == 28 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#category').attr('disabled', true);
@@ -1680,7 +1680,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
-			}  else if (typeReport == 31) {
+			}  else if (typeReport == 31 || typeReport == 32) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);

@@ -28,7 +28,7 @@ $date2 = $data[3];
 $betweendate1 = $data[4];
 $betweendate2 = $data[5];
 $format = $data[6];
-$DepCode = $data[7];
+$DepCode = $data[5];
 $chk = $data[8];
 $where = '';
 $start_row = 9;
@@ -36,6 +36,7 @@ $check = '';
 $Qty = 0;
 $Weight = 0;
 $count = 1;
+
 if ($language == 'th') {
   $HptName = 'HptNameTH';
   $FacName = 'FacNameTH';

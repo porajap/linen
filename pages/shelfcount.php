@@ -1708,10 +1708,8 @@ $array2 = json_decode($json2,TRUE);
                 confirmButtonText: 'Ok',
                 showConfirmButton: false
               });
-              setTimeout(function () {
                 ShowDetailNew();
                 parent.OnLoadPage();
-              }, 1000);
             }else if(temp["form"]=='ShowDocument'){
                 setTimeout(function () {
                 parent.OnLoadPage();
@@ -1865,8 +1863,37 @@ $array2 = json_decode($json2,TRUE);
               }
               $("#department").html(StrTrX3);
 
+            // ===========DATE ITEM =======
+            var PmID = <?php echo $PmID;?>;
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+            var output = d.getFullYear() + '-' +
+                ((''+month).length<2 ? '0' : '') + month + '-' +
+                ((''+day).length<2 ? '0' : '') + day;
 
-
+            if(( PmID != 1 && PmID != 6 ))
+            {
+              if( output == temp[0]['DocDateChk'] )
+                {
+                  $("#hover5").addClass('mhee');
+                  $("#bCancel").prop('disabled', false);
+                  $("#bCancel2").removeClass('opacity');
+                }
+                else
+                {
+                  $("#hover5").removeClass('mhee');
+                  $("#bCancel").prop('disabled', true);
+                  $("#bCancel2").addClass('opacity');
+                }
+            }
+            else
+            {
+              $("#hover5").addClass('mhee');
+              $("#bCancel").prop('disabled', false);
+              $("#bCancel2").removeClass('opacity');
+            }
+          // =========================================================
               $('#bCreate').attr('disabled', true);
               $('#hover1').removeClass('mhee');
               $('#bCreate2').addClass('opacity');
@@ -1941,15 +1968,16 @@ $array2 = json_decode($json2,TRUE);
                 $("#completed").val('on process');
               }else if(temp[0]['IsStatus']==1  || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
                 
-                  if(temp[0]['IsStatus'] !=1){
-                    $("#hover5").removeClass('mhee');
-                    $("#bCancel").prop('disabled', true);
-                    $("#bCancel2").addClass('opacity');
-                  }else{
-                    $("#hover5").addClass('mhee');
-                    $("#bCancel").prop('disabled', false);
-                    $("#bCancel2").removeClass('opacity');
-                  }
+                  // if(temp[0]['IsStatus'] >=3){
+                  //   $("#hover5").removeClass('mhee');
+                  //   $("#bCancel").prop('disabled', true);
+                  //   $("#bCancel2").addClass('opacity');
+                  // }else{
+                  //   $("#hover5").addClass('mhee');
+                  //   $("#bCancel").prop('disabled', false);
+                  //   $("#bCancel2").removeClass('opacity');
+                  // }
+
                   if(temp[0]['IsStatus']==1 ){
                     
                     $("#completed").val('on process');
@@ -1966,9 +1994,6 @@ $array2 = json_decode($json2,TRUE);
                 $('#bPrint').attr('disabled', false);
                 $('#bPrint2').removeClass('opacity');
                 $('#hover7').addClass('mhee');
-                $("#bCancel2").removeClass('opacity');
-                $("#hover5").addClass('mhee');
-                $("#bCancel").prop('disabled', false);
                 $('#bPrintsticker').attr('disabled', false);
                 $('#bPrintsticker2').removeClass('opacity');
                 $('#hover8').addClass('mhee');

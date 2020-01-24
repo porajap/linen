@@ -165,7 +165,13 @@ $FirstName = $Result['FName'];
 $xTime = $Result['xTime'];
 $RefDocNo = $Result['RefDocNo'];
 }
-
+list($d, $m, $y) = explode('-', $DocDate);
+if ($language == 'th') {
+  $y = $y + 543;
+} else {
+  $y = $y;
+}
+$DocDate = $d . "-" . $m . "-" . $y;
 $data = "SELECT
 cleanstock_detail.ItemCode,
 item.ItemName,

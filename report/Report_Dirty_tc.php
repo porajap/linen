@@ -184,17 +184,17 @@ $pdf->SetAutoPageBreak(TRUE, 38);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
-  $Perfix = THPerfix;
-  $Name = THName;
-  $LName = THLName;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
+  $Perfix = 'THPerfix';
+  $Name = 'THName';
+  $LName = 'THLName';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
-  $Perfix = EngPerfix;
-  $Name = EngName;
-  $LName = EngLName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
+  $Perfix = 'EngPerfix';
+  $Name = 'EngName';
+  $LName = 'EngLName';
 }
 $header = array($array['no'][$language],  $array2['itemname'][$language], $array['department'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 

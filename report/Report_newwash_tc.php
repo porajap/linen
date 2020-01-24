@@ -221,7 +221,7 @@ $head = "SELECT site.$HptName,
         newlinentable.Total,
         CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
         TIME(newlinentable.Modify_Date) AS xTime,
-        factory.facname
+        factory.$FacName
         FROM newlinentable
 INNER JOIN newlinentable_detail ON newlinentable.DocNo = newlinentable_detail.DocNo
 INNER JOIN department ON newlinentable_detail.DepCode = department.DepCode
@@ -239,7 +239,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
-  $facname = $Result['facname'];
+  $facname = $Result[$FacName];
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {

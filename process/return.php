@@ -204,10 +204,9 @@ function CreateDocument($conn, $DATA)
 
   if ($count == 1) {
     $Sql = "INSERT INTO return_doc
-    ( DocNo, DocDate, HptCode, DepCodeFrom, DepCodeTo, IsCancel, Modify_Code, Modify_Date )VALUES
-    ('$DocNo', NOW(), '$hotpCode', '$deptCode', '$DepCodeDefault', 0, $userid, NOW() )";
+    ( DocNo, DocDate, HptCode, DepCodeFrom, DepCodeTo, IsCancel, Modify_Code, Modify_Date ,Totalp )VALUES
+    ('$DocNo', NOW(), '$hotpCode', '$deptCode', '$DepCodeDefault', 0, $userid, NOW() , 0 )";
       mysqli_query($conn, $Sql);
-
 
       $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
       FROM users
@@ -386,8 +385,7 @@ function SelectDocument($conn, $DATA)
   users.EngPerfix , 
   users.ThPerfix ,
   TIME(return_doc.Modify_Date) AS xTime,
-  return_doc.IsStatus,
-  return_doc.RefDocNo
+  return_doc.IsStatus
   FROM return_doc
   INNER JOIN department ON return_doc.DepCodeFrom = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -413,7 +411,6 @@ function SelectDocument($conn, $DATA)
     $return[$count]['RecNow']         = $Result['xTime'];
     $return[$count]['Total']                = $Result['Total'];
     $return[$count]['IsStatus']              = $Result['IsStatus'];
-    $return[$count]['RefDocNo']          = $Result['RefDocNo'];
     $return[$count]['DepCodeFrom']    = $Result['DepCodeFrom'];
     $return[$count]['DepCodeTo']        = $Result['DepCodeTo'];
 
@@ -659,6 +656,7 @@ function getImport($conn, $DATA)
   $boolean = false;
   $Sel = $DATA["Sel"];
   $DeptCode = $DATA["deptCode"];
+  $hotpCode = $DATA["hotpCode"];
   $DocNo = $DATA["DocNo"];
   $xItemStockId = $DATA["xrow"];
   $ItemStockId = explode(",", $xItemStockId);
@@ -677,6 +675,7 @@ function getImport($conn, $DATA)
     $iweight = $nweight[$i]==null?0:$nweight[$i];
     $iunit1 = 0;
     $iunit2 = $nunit[$i];
+
 
 
     $Sql = "SELECT item.ItemCode,item.UnitCode
@@ -718,14 +717,13 @@ function getImport($conn, $DATA)
         mysqli_query($conn, $Sql);
 
     } else {
-
         $Sql = " UPDATE return_detail
         SET Weight = (Weight+$iweight), Qty = (Qty + $iqty2)
         WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
         mysqli_query($conn, $Sql);
-
     }
     // $return[$i]['asdasd'] = $Sql;
+  
   }
 
   if ($Sel == 2) {
@@ -936,6 +934,7 @@ function ShowDetail($conn, $DATA)
   $DepCode = $DATA["deptCode"];
   //==========================================================
   $Sql = "SELECT
+  category_price.Price,
   return_detail.Id,
   return_detail.DocNo,
   return_detail.ItemCode,
@@ -953,6 +952,7 @@ function ShowDetail($conn, $DATA)
   item
   INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
   INNER JOIN return_detail ON return_detail.ItemCode = item.ItemCode
+  INNER JOIN category_price    ON item.CategoryCode = category_price.CategoryCode
   INNER JOIN item_unit ON return_detail.UnitCode = item_unit.UnitCode
   INNER JOIN return_doc ON return_detail.DocNo = return_doc.DocNo
   INNER JOIN par_item_stock ON par_item_stock.ItemCode = item.ItemCode
@@ -974,11 +974,12 @@ function ShowDetail($conn, $DATA)
     $return[$count]['TotalQty']   = $Result['TotalQty'];
     $return[$count]['Qty']        = $Result['Qty'];
     $Weight2                      = $Result['Weightitem'] * $Result['Qty'] ;
-    $UnitCode           = $Result['UnitCode1'];
-    $ItemCode               = $Result['ItemCode'];
+    $totalp                       = $Result['Price'] * $Weightpro ;
+    $UnitCode                     = $Result['UnitCode1'];
+    $ItemCode                     = $Result['ItemCode'];
     $count2 = 0;
 
-    $Sql5 = "UPDATE return_detail SET Weight = $Weightpro WHERE Id = $RowID";
+    $Sql5 = "UPDATE return_detail SET Weight = $Weightpro , Price = $totalp  WHERE Id = $RowID";
     mysqli_query($conn, $Sql5);
 
     $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
@@ -1031,6 +1032,7 @@ function ShowDetail($conn, $DATA)
 
     //================================================================
     $Total += $Weight2 ;
+    $totalpsum += $totalp;
     //================================================================
     $count++;
     $boolean = true;
@@ -1038,7 +1040,7 @@ function ShowDetail($conn, $DATA)
 
   if ($count == 0) $Total = 0;
 
-  $Sql = "UPDATE return_doc SET Total = $Total WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE return_doc SET Total = $Total , Totalp = $totalpsum WHERE DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
   $return[0]['Total']    = round($Total, 2);
 
@@ -1098,8 +1100,13 @@ function updateQty($conn, $DATA){
   $newQty = $DATA['newQty'];
   $RowID = $DATA['RowID'];
   $weight = $DATA['weight'];
+  $DocNo = $DATA['DocNo'];
+  $itemcode = $DATA['itemcode'];
+  $hotpCode = $DATA['hotpCode'];
+
   $Sql = "UPDATE return_detail SET Qty = $newQty , Weight = $weight WHERE Id = $RowID";
   mysqli_query($conn, $Sql);
+
   ShowDetail($conn, $DATA);
 }
 

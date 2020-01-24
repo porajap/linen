@@ -640,6 +640,7 @@ function SelectDocument($conn, $DATA)
     $return[$count]['DocNo']        = $Result['DocNo'];
     $return[$count]['ScTime']       = $Result['ScTime'];
     $return[$count]['DocDate']      = $newdate;
+    $return[$count]['DocDateChk']      =  $Result['DocDate'];
     $return[$count]['RecNow']       = $Result['xTime'];
     $return[$count]['Total']        = $Result['Total'];
     $return[$count]['IsStatus']     = $Result['IsStatus'];

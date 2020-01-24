@@ -125,27 +125,25 @@ $datetime = new DatetimeTH();
 // Using Coding
 $pdf->AddPage("P", "A4");
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
 }
 $Sql = "SELECT
-			factory.$FacName,
 			site.$HptName,
 			department.DepName
 FROM damagenh
-INNER JOIN factory ON factory.FacCode = damagenh.FacCode
 INNER JOIN department ON damagenh.DepCode=department.DepCode
 INNER JOIN damagenh_detail ON damagenh.DocNo=damagenh_detail.DocNo
 INNER JOIN site ON department.HptCode=site.HptCode
 $where
 AND department.HptCode = '$HptCode'";
 $meQuery = mysqli_query($conn, $Sql);
+
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $side = $Result[$HptName];
-  $facname = $Result[$FacName];
 }
 $datetime = new DatetimeTH();
 if ($language == 'th') {

@@ -1154,8 +1154,7 @@ if (e.keyCode == 13) {
                   $StrTr="<tr id='tr"+temp[i]['DocNo']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                     "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                     "<td style='width: 25%;' nowrap>"+temp[i]['DocDate']+"</td>"+
-                    "<td style='width: 5%;' nowrap>"+temp[i]['DocNo']+"</td>"+
-                    "<td style='width: 15%;' nowrap>"+temp[i]['RefDocNo']+"</td>"+
+                    "<td style='width: 20%;' nowrap>"+temp[i]['DocNo']+"</td>"+
                     "<td style='width: 19%;' nowrap>"+temp[i]['Record']+"</td>"+
                     "<td style='width: 14%;' nowrap>"+temp[i]['RecNow']+"</td>"+
                     "<td " +Style+ "nowrap>"+Status+"</td>"+ 
@@ -2040,8 +2039,8 @@ if (e.keyCode == 13) {
               </div>
               <!-- end serach----------------------- -->
           </div>
-          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;'">
-            <thead style="font-size:24px;">
+          <table class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px'">
+            <thead style="font-size:24px">
               <tr role="row">
                 <input type="text" hidden id="countcheck">
                 <th style='width: 24%;' nowrap><?php echo $array['no'][$language]; ?></th>

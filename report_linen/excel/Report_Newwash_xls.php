@@ -50,11 +50,11 @@ $sumdayWeight = 0;
 $TotaldayTotalqty = 0;
 $TotaldayWeight = 0;
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
 }
 
 if ($chk == 'one') {

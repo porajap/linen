@@ -311,7 +311,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
-        $sys_s20=1;
+        $sys_s20=0;
         break;
     case "6":
         //genneral

@@ -1362,7 +1362,7 @@ $array2 = json_decode($json2,TRUE);
                               </div>
                             </div>
                           </div>
-                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7 ) echo 'hidden'; ?>>
+                          <div class="menu mhee" <?php if($PmID == 3 || $PmID == 7 || $PmID == 5 ) echo 'hidden'; ?>>
                             <div class="d-flex justify-content-center">
                               <div class="circle10 d-flex justify-content-center">
                                 <button class="btn"  onclick="OpenDialog(2)" id="bDelete" >
