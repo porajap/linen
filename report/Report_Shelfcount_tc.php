@@ -231,11 +231,11 @@ $pdf->SetAutoPageBreak(TRUE, 35);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
 }
 $header = array($array2['no']['en'], $array2['itemname']['en'], $array2['parqty']['en'], $array2['shelfcount1']['en'], $array2['max']['en'], $array2['issue']['en'], $array2['short']['en'], $array2['over']['en'], $array2['weight']['en'], $array2['price']['en']);
 $count = 1;
@@ -309,19 +309,20 @@ if ($isStatus == 1 || $isStatus == 0) {
       ORDER BY item.ItemName ";
 
   $queryy = "SELECT
-  site.private,
-  site.government
+  site.money
   FROM
   site
   WHERE site.HptCode = '$HptCode' ";
   $meQuery = mysqli_query($conn, $queryy);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $private = $Result['private'];
-    $government = $Result['government'];
+    $money = $Result['money'];
   }
-  if ($private == 1) {
+  if ($money == 1)
+  {
     $w = array(5, 35, 10, 10, 10, 10, 10, 10);
-  } elseif ($government == 1) {
+  }
+  else
+  {
     $w = array(5, 35, 12, 12, 12, 12, 12);
   }
   // set some language-dependent strings (optional)
@@ -357,7 +358,8 @@ $html = '<table cellspacing="0" cellpadding="1" border="1" > <thead>
 <th width="' . $w[4] . '% " align="center">' . $header[4] . '</th>
 <th width="' . $w[5] . '% " align="center">' . $header[5] . '</th>
 <th width="' . $w[6] . '% " align="center">' . $header[8] . '</th>';
-if ($private == 1) {
+if ($money == 1)
+{
   $html .=   '<th width="' . $w[7] . '% " align="center">' . $header[9] . '</th>';
 }
 $html .= '</tr></thead>';
@@ -376,7 +378,8 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="' . $w[4] . '% " align="center">' . $issue  . '</td>';
   $html .=   '<td width="' . $w[5] . '% " align="center">' .  $Result['TotalQty']  . '</td>';
   $html .=   '<td width="' . $w[6] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
-  if ($private == 1) {
+  if ($money == 1)
+  {
     $html .=   '<td width="' . $w[7] . '% " align="center">' . NUMBER_FORMAT($price, 2)  . '</td>';
   }
   $html .=  '</tr>';
@@ -389,10 +392,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 $html .= ' </table>';
 $pdf->writeHTML($html);
 
-if ($private == 1) {
+if ($money == 1)
+{
   $width = 144;
   $width1 = 36;
-} elseif ($government == 1) {
+}
+else
+{
   $width = 158.5;
   $width1 = 21.5;
 }
@@ -400,23 +406,11 @@ $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 6.0);
 $pdf->Cell($width, 5, $array2['total_weight']['en'], 1, 0, 'C');
 $pdf->Cell($width1, 5, NUMBER_FORMAT($totalsum_W, 2), 1, 1, 'C');
-if ($private == 1) {
+if($money == 1)
+{
   $pdf->Cell($width, 5, $array2['total_price']['en'], 1, 0, 'C');
   $pdf->Cell($width1, 5, $TOTAL, 1, 0, 'C');
 }
-// $sum = '<div style="line-height: 100%;">555 </div><table cellspacing="0" cellpadding="1" border="1"    >';
-// $sum .= '<tr>' .
-//   '<td colspan= "7"  align="center">' .  '<strong>' . $array2['total_weight'][$language] . '</strong>' . '</td>' .
-//   '<td colspan= "5" align="center">' . number_format($totalsum_W, 2) . '</td>' .
-//   '</tr>';
-// if ($private == 1) {
-//   $sum .= '<tr>' .
-//     '<td colspan= "7" align="center">' .  $array2['total_price'][$language] . '</td>' .
-//     '<td colspan= "5" align="center">' . number_format($price_W, 2) . '</td>' .
-//     '</tr>';
-// }
-// $sum .= '</table>';
-// $pdf->writeHTML($sum);
 // ---------------------------------------------------------
 
 //Close and output PDF document

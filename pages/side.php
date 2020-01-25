@@ -101,11 +101,6 @@ $array2 = json_decode($json2,TRUE);
         //On create
         Blankinput();
         $('.TagImage').bind('click', { imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
-        //On create
-        // var userid = '<?php echo $Userid; ?>';
-        // if(userid!="" && userid!=null && userid!=undefined){
-
-          //var dept = $('#Deptsel').val();
           var keyword = $('#searchitem').val();
           var data = {
             'STATUS'  : 'ShowItem',
@@ -114,27 +109,34 @@ $array2 = json_decode($json2,TRUE);
 
           console.log(JSON.stringify(data));
           senddata(JSON.stringify(data));
-        $('#searchitem').keyup(function(e){
-
+        $('#searchitem').keyup(function(e)
+        {
             if(e.keyCode == 13)
             {
                 ShowItem();
             }
         });
 
-        $('.editable').click(function() {
+        $('.editable').click(function()
+        {
           alert('hi');
         });
 
-        $('.numonly').on('input', function() {
+        $('.numonly').on('input', function()
+        {
           this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
         });
-        $('.charonly').on('input', function() {
+
+        $('.charonly').on('input', function()
+        {
           this.value = this.value.replace(/[^a-zA-Z0-9. ]/g, ''); //<-- replace all other than given set of values
         });
-        $('.charonlyTH').on('input', function() {
+
+        $('.charonlyTH').on('input', function()
+        {
           this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
         });
+
       }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
@@ -145,58 +147,63 @@ $array2 = json_decode($json2,TRUE);
         width: 1200,
         modal: true,
         buttons: {
-          "ปิด": function() {
+          "ปิด": function()
+          {
             dialog.dialog( "close" );
           }
         },
-        close: function() {
+        close: function()
+        {
           console.log("close");
         }
       });
 
-      jqui( "#dialogreq" ).button().on( "click", function() {
+      jqui( "#dialogreq" ).button().on( "click", function()
+      {
         dialog.dialog( "open" );
       });
 
-      function unCheckDocDetail(){
-          // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-          if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length){
+      function unCheckDocDetail()
+      {
+          if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length)
+          {
               $('input[name="checkAllDetail').prop('checked',true);
-          }else {
+          }
+          else
+          {
               $('input[name="checkAllDetail').prop('checked',false);
           }
       }
 
-      function getHotpital(){
-          var data2 = {
+      function getHotpital()
+      {
+          var data2 =
+          {
               'STATUS': 'getHotpital'
           };
-          // console.log(JSON.stringify(data2));
           senddata(JSON.stringify(data2));
-        }
+      }
 
-      function getDocDetail() {
-          // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-            if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length){
+      function getDocDetail()
+      {
+            if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length)
+            {
               $('input[name="checkAllDoc').prop('checked',true);
-            }else {
+            }
+            else
+            {
               $('input[name="checkAllDoc').prop('checked',false);
             }
-
-        /* declare an checkbox array */
         var chkArray = [];
-
-        /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-        $("#checkdocno:checked").each(function() {
+        $("#checkdocno:checked").each(function()
+        {
           chkArray.push($(this).val());
         });
-
-        /* we join the array separated by the comma */
         var DocNo = chkArray.join(',') ;
-        // alert( DocNo );
         $('#TableDetail tbody').empty();
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
-        var data = {
+        var data =
+        {
           'STATUS'  : 'getDocDetail',
           'DEPT'    : dept,
           'DocNo'   : DocNo
@@ -207,34 +214,41 @@ $array2 = json_decode($json2,TRUE);
 
   var isChecked1 = false;
   var isChecked2 = false;
-      function getCheckAll(sel){
-          if(sel==0){
+      function getCheckAll(sel)
+      {
+          if(sel==0)
+          {
             isChecked1 = !isChecked1;
             // $( "div #aa" )
             //   .text( "For this isChecked " + isChecked1 + "." )
             //   .css( "color", "red" );
 
-              $('input[name="checkdocno"]').each(function(){
+              $('input[name="checkdocno"]').each(function()
+              {
                   this.checked = isChecked1;
               });
               getDocDetail();
-          }else{
+          }
+          else
+          {
               isChecked2 = !isChecked2;
-              $('input[name="checkdocdetail"]').each(function(){
+              $('input[name="checkdocdetail"]').each(function()
+              {
                     this.checked = isChecked2;
               });
           }
       }
 
-      function getSearchDocNo() {
+      function getSearchDocNo()
+      {
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
-
           $('#TableDocumentSS tbody').empty();
           var str = $('#searchtxt').val();
           var datepicker = $('#datepicker').val();
           datepicker = datepicker.substring(6,10)+"-"+datepicker.substring(3,5)+"-"+datepicker.substring(0,2);
 
-          var data = {
+          var data =
+          {
             'STATUS'      : 'getSearchDocNo',
             'DEPT'        : dept,
             'DocNo'       : str,
@@ -244,39 +258,40 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-      function checkblank2(){
-          $('.checkblank2').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
+
+      function checkblank2()
+      {
+          $('.checkblank2').each(function()
+          {
+            if($(this).val()==""||$(this).val()==undefined)
+            {
               $(this).addClass('border-danger');
-            }else{
+            }
+            else
+            {
               $(this).removeClass('border-danger');
             }
           });
-        }
-        function removeClassBorder1(){
-          $('#host').removeClass('border-danger');
-        
-        }
+      }
 
-      function CreateSentSterile() {
+      function removeClassBorder1()
+      {
+        $('#host').removeClass('border-danger');
+      }
+
+      function CreateSentSterile()
+      {
         var userid = '<?php echo $Userid; ?>';
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
-        /* declare an checkbox array */
         var chkArray1 = [];
-
-        /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-        $("#checkdocno:checked").each(function() {
+        $("#checkdocno:checked").each(function()
+        {
           chkArray1.push($(this).val());
         });
-
-        /* we join the array separated by the comma */
         var DocNo = chkArray1.join(',') ;
-
-        /* declare an checkbox array */
         var chkArray2 = [];
-
-        /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-        $("#checkdocdetail:checked").each(function() {
+        $("#checkdocdetail:checked").each(function()
+        {
           chkArray2.push($(this).val());
         });
 
@@ -376,28 +391,22 @@ $array2 = json_decode($json2,TRUE);
         var HptCode       = $('#HptCode').val();
         var HptName       = $('#HptName').val();
         var HptNameTH     = $('#HptNameTH').val();
-        var xcenter1      = 0;
-        var xcenter2      = 0;
         var Signature     = 0;
         var stock     = 0;
+        var money     = 0;
         if ($('#Signature').is(':checked')) 
         {
           Signature = 1
         }
-        if ($('#xcenter1').is(':checked')) 
-        {
-          xcenter1 = 1
-        }
-        if ($('#xcenter2').is(':checked')) 
-        {          
-          xcenter2 = 1
-        };
         if ($('#stock').is(':checked')) 
         {          
           stock = 1
         };
+        if ($('#money').is(':checked')) 
+        {          
+          money = 1
+        };
         if(count==0 ){
-            if(xcenter1 !=0 || xcenter2 !=0){
           if(HptCode!=""){
             swal({
               title: "<?php echo $array['addoredit'][$language]; ?>",
@@ -424,8 +433,7 @@ $array2 = json_decode($json2,TRUE);
                   'HptName' : HptName,
                   'idcontract' : idcontract,
                   'HptNameTH' : HptNameTH,
-                  'xcenter1' : xcenter1,
-                  'xcenter2' : xcenter2,
+                  'money' : money,
                   'sitepath' : sitepath,
                   'PayerCode' : PayerCode,
                   'Signature' : Signature,
@@ -438,20 +446,7 @@ $array2 = json_decode($json2,TRUE);
             swal.close();
           }
               })
-          }
-            }else{
-              swal({
-            title: '',
-            text: "<?php echo $array['required'][$language]; ?>",
-            type: 'info',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            showConfirmButton: false,
-            timer: 2000,
-            confirmButtonText: 'Ok'
-          });
-            }          
+          }       
         }else{
           swal({
             title: '',
@@ -677,8 +672,7 @@ $array2 = json_decode($json2,TRUE);
         $('#form1').addClass('form-group');
         $('#form2').addClass('form-group');
         $('#form3').addClass('form-group');
-        $('#xcenter1').prop('checked', false);
-        $('#xcenter2').prop('checked', false);
+        $('#money').prop('checked', false);
         $('#Signature').prop('checked', false);
         $('#stock').prop('checked', false);
         $('#hostdetail').attr('hidden', true);
@@ -984,16 +978,12 @@ $array2 = json_decode($json2,TRUE);
                                 }else{
                                   $('#stock').prop('checked', false);
                                 }
-                                if (temp['private'] == 1)  {
-                                  $('#xcenter1').prop('checked', true);
-                                  $('#xcenter2').prop('checked', false);
-                                }else if(temp['government'] == 1){
-                                  $('#xcenter1').prop('checked', false);
-                                  $('#xcenter2').prop('checked', true);
+                                if (temp['money'] == 1)  {
+                                  $('#money').prop('checked', true);
                                 }else{
-                                  $('#xcenter1').prop('checked', false);
-                                  $('#xcenter2').prop('checked', false);
+                                  $('#money').prop('checked', false);
                                 }
+
                             
                                 $('#chk_user').val(temp['cnt']);
                                 
@@ -1614,42 +1604,30 @@ $array2 = json_decode($json2,TRUE);
                                       <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7  charonly" id="PayerCode"    placeholder="PayerCode">
                                     </div>
                                   </div>
-                                  <div class="col-md-3">
+                                  <div class="col-md-6">
                                     <div class='form-group row'>
-                                    <label class="col-sm-3 col-form-label "><?php echo $array['Signature'][$language]; ?></label>
                                       <input type="checkbox"  id="Signature" style="margin-top: 1.5%;">
+                                      <label class="col-sm-3 col-form-label "><?php echo $array['Signature'][$language]; ?></label>
+                                      <input type="checkbox"  id="stock" style="margin-top: 1.5%;">
+                                      <label class="col-sm-3 col-form-label ">ตัดสต็อค</label>
+                                      <input type="checkbox"  id="money" style="margin-top: 1.5%;">
+                                      <label class="col-sm-3 col-form-label ">แสดงเงิน</label>
                                     </div>
                                   </div>
-                                  <div class="col-md-3">
+                                  <!-- <div class="col-md-3">
                                     <div class='form-group row'>
                                       <label class="col-sm-3 col-form-label ">ตัดสต็อค</label>
                                       <input type="checkbox"  id="stock" style="margin-top: 1.5%;">
+                                      
                                     </div>
+                                  </div> -->
+                                </div>   
                               </div>
-                                </div>  
-
-                             <div class="row" >
-                                <div class="col-md-6">
-                                  <div class='form-group row offset-6' style="padding-left: 5%;">
-                                    <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
-                                    <input type="radio"  id="xcenter1" name="xcenter"  >
-                                    <span class="checkmark " ></span>
-                                    </label>
-                                    <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['private'][$language]; ?></label>
-                                    <label class="radio" style="margin:0px !important;">
-                                    <input type="radio"  id="xcenter2" name="xcenter" >
-                                    <span class="checkmark"></span>
-                                    </label>
-                                    <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['government'][$language]; ?></label>
-                              </div>
-                              </div>
-                        </div>  
-                      </div>
 <!-- =============================================================================================== -->
-                </div>
-            </div>
-        </div> <!-- tag column 2 -->
-    </div>
+                      </div>
+                  </div>
+              </div> <!-- tag column 2 -->
+          </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="home-tab">
     <!-- /.content-wrapper -->

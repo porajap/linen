@@ -529,8 +529,6 @@ $id_h=$_SESSION['id_h'];
         $("#"+id_h).attr("class", "active_li"); 
        }
 
-
-
     }).keyup(function (e) {
       last_move = afk();
     }).click(function (e) {

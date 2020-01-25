@@ -63,8 +63,7 @@ function getdetail($conn, $DATA)
               WHEN 1 THEN '1'
               END AS IsStatus,
               site.HptNameTH,
-              site.private,
-              site.government,
+              site.money,
               site.Site_Path,
               site.PayerCode,
               site.Signature,
@@ -97,13 +96,12 @@ function getdetail($conn, $DATA)
       $return['permission']   = $Result['permission'];
       $return['Number']       = $Result['Number'];
       $return['HptNameTH']    = $Result['HptNameTH'];
-      $return['private']      = $Result['private'];
-      $return['government']   = $Result['government'];
+      $return['money']        = $Result['money'];
       $return['PayerCode']    = $Result['PayerCode'];
       $return['Signature']    = $Result['Signature'];
       $PayerCode              = $Result['PayerCode'];
       $return['cnt']          = $Result['cnt'];
-      $return['stock']          = $Result['stock'];
+      $return['stock']        = $Result['stock'];
 
       //$return['IsStatus'] = $Result['IsStatus'];
       $count++;
@@ -117,6 +115,7 @@ function getdetail($conn, $DATA)
       mysqli_close($conn);
       die;
     }else{
+      $return['sql'] = $Sql;
       $return['status'] = "notfound";
       $return['msg'] = "notfound";
       echo json_encode($return);
@@ -152,10 +151,11 @@ function getSection($conn, $DATA)
 }
 
 function AddItem($conn, $DATA)
-  {
+{
   // ==============================================
   $Signature    = $DATA['Signature'];
   $stock        = $DATA['stock'];
+  $money        = $DATA['money'];
   $HptCode1     = $DATA['HptCode1'];
   $HptCode      = $DATA['HptCode'];
   $HptName      = $DATA['HptName'];
@@ -166,8 +166,6 @@ function AddItem($conn, $DATA)
   $idcontract   = $DATA['idcontract'];
   $sitepath     = $DATA['sitepath'];
   $PayerCode    = $DATA['PayerCode'];
-  $xcenter1     = $DATA['xcenter1']==null?0:$DATA['xcenter1'];
-  $xcenter2     = $DATA['xcenter2']==null?0:$DATA['xcenter2'];
   $Userid       = $_SESSION['Userid'];
 
   $Sql2="UPDATE department SET Ship_To = '$PayerCode' WHERE HptCode = '$HptCode' ";
@@ -189,8 +187,7 @@ function AddItem($conn, $DATA)
       site.HptName,
       site.IsStatus,
       site.HptNameTH,
-      site.private,
-      site.government,
+      site.money,
       site.DocDate,
       site.Modify_Code,
       site.Modify_Date,
@@ -205,8 +202,7 @@ function AddItem($conn, $DATA)
         '$HptName',
         0,
         '$HptNameTH',
-        $xcenter1,
-        $xcenter2,
+        $money,
         NOW(),
         $Userid,
         NOW(),
@@ -237,8 +233,7 @@ function AddItem($conn, $DATA)
       SET site.HptCode = '$HptCode',
        site.HptName = '$HptName',
        site.HptNameTH = '$HptNameTH',
-       site.private = $xcenter1,
-       site.government = $xcenter2,
+       site.money = $money,
        site.Modify_Date = NOW(),
        site.Modify_Code = $Userid,
        site.Site_Path = '$sitepath',

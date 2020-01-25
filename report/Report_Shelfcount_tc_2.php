@@ -62,19 +62,20 @@ class MYPDF extends TCPDF
     $HptCode = $_SESSION['HptCode'];
     require('connect.php');
     $queryy = "SELECT
-              site.private,
-              site.government
+              site.money
               FROM
               site
               WHERE site.HptCode = '$HptCode' ";
     $meQuery = mysqli_query($conn, $queryy);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $private = $Result['private'];
-      $government = $Result['government'];
+      $money = $Result['money'];
     }
-    if ($private == 1) {
+    if ($money == 1)
+    {
       $w = array(5, 35, 10, 10, 10, 10, 10, 10);
-    } elseif ($government == 1) {
+    }
+    else
+    {
       $w = array(5, 35, 12, 12, 12, 12, 12);
     }
     $datetime = new DatetimeTH();
@@ -245,11 +246,11 @@ $pdf->SetAutoPageBreak(TRUE, 35);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
 if ($language == 'th') {
-  $HptName = HptNameTH;
-  $FacName = FacNameTH;
+  $HptName = 'HptNameTH';
+  $FacName = 'FacNameTH';
 } else {
-  $HptName = HptName;
-  $FacName = FacName;
+  $HptName = 'HptName';
+  $FacName = 'FacName';
 }
 $header = array(
   $array2['no']['en'], $array2['itemname']['en'], $array2['parqty']['en'],
@@ -323,19 +324,20 @@ $data = "     SELECT
               ORDER BY item.ItemName";
 
 $queryy = "SELECT
-          site.private,
-          site.government
+          site.money
           FROM
           site
           WHERE site.HptCode = '$HptCode' ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $private = $Result['private'];
-  $government = $Result['government'];
+  $money = $Result['money'];
 }
-if ($private == 1) {
+if ($money == 1)
+{
   $w = array(5, 25, 8, 11, 8, 8, 8, 9, 9, 9);
-} elseif ($government == 1) {
+}
+else
+{
   $w = array(5, 25, 9, 11, 10, 10, 10, 10, 10);
 }
 // set some language-dependent strings (optional)
@@ -373,7 +375,8 @@ $html = '<table cellspacing="0" cellpadding="1" border="1" > <thead>
 <th width="' . $w[6] . '% " align="center">' . $header[6] . '</th>
 <th width="' . $w[7] . '% " align="center">' . $header[7] . '</th>
 <th width="' . $w[8] . '% " align="center">' . $header[8] . '</th>';
-if ($private == 1) {
+if ($money == 1)
+{
   $html .=   '<th width="' . $w[9] . '% " align="center">' . $header[9] . '</th>';
 }
 $html .= '</tr></thead>';
@@ -394,7 +397,8 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="' . $w[6] . '% " align="center">' .  $Result['Short']  . '</td>';
   $html .=   '<td width="' . $w[7] . '% " align="center">' .  $Result['OverPar']  . '</td>';
   $html .=   '<td width="' . $w[8] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
-  if ($private == 1) {
+  if ($money == 1)
+  {
     $html .=   '<td width="' . $w[9] . '% " align="center">' . NUMBER_FORMAT($price, 2)  . '</td>';
   }
   $html .=  '</tr>';
@@ -406,10 +410,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
 
 $html .= ' </table>';
 $pdf->writeHTML($html);
-if ($private == 1) {
+if ($money == 1)
+{
   $width = 147.5;
   $width1 = 32.5;
-} elseif ($government == 1) {
+}
+else
+{
   $width = 162;
   $width1 = 18;
 }
@@ -417,24 +424,12 @@ $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 6.0);
 $pdf->Cell($width, 5, $array2['total_weight']['en'], 1, 0, 'C');
 $pdf->Cell($width1, 5, NUMBER_FORMAT($totalsum_W, 2), 1, 1, 'C');
-if ($private == 1) {
+if ($money == 1)
+{
   $pdf->Cell($width, 5, $array2['total_price']['en'], 1, 0, 'C');
   $pdf->Cell($width1, 5, $TOTAL, 1, 0, 'C');
 }
-// $sum = '<div style="line-height: 100%;">555 </div><table cellspacing="0" cellpadding="1" border="1"    >';
-// $sum .= '<tr>' .
-//   '<td colspan= "7"  align="center">' .  '<strong>' . $array2['total_weight'][$language] . '</strong>' . '</td>' .
-//   '<td colspan= "5" align="center">' . number_format($totalsum_W, 2) . '</td>' .
-//   '</tr>';
-// if ($private == 1) {
-//   $sum .= '<tr>' .
-//     '<td colspan= "7" align="center">' .  $array2['total_price'][$language] . '</td>' .
-//     '<td colspan= "5" align="center">' . number_format($price_W, 2) . '</td>' .
-//     '</tr>';
-// }
-// $sum .= '</table>';
-// $pdf->writeHTML($sum);
-// ---------------------------------------------------------
+
 
 //Close and output PDF document
 $ddate = date('d_m_Y');
