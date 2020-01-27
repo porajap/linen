@@ -268,11 +268,8 @@ function CreateDocument($conn, $DATA)
               DocDate,
               DepCode,
               Total,
-              IsCancel,
-              Detail,
               shelfcount.Modify_Code,
               shelfcount.Modify_Date,
-              shelfcount.IsRef,
               LabNumber,
               CycleTime,
               ScStartTime,
@@ -287,11 +284,8 @@ function CreateDocument($conn, $DATA)
                 DATE(NOW()),
                 '$deptCode',
                 0,
-                0,
-                '',
                 $userid,
                 NOW(),
-                0,
                 CONCAT(SUBSTR('$DocNo', 3, 3),YEAR (DATE(NOW())),LPAD(MONTH(DATE(NOW())), 2, 0),SUBSTR('$DocNo', 11, 6)),
                 $cycle,
                 NOW(),
@@ -300,6 +294,7 @@ function CreateDocument($conn, $DATA)
                 NOW(),
                 1
               )";
+
     mysqli_query($conn, $Sql);
 
     $Sql = "INSERT INTO daily_request

@@ -185,16 +185,24 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO damagenh
-    ( DocNo,DocDate,DepCode,
-      TaxNo,TaxDate,DiscountPercent,DiscountBath,
-      Total,IsCancel,Detail,
-      damagenh.Modify_Code,damagenh.Modify_Date  , FacCode)
-      VALUES
-      ( '$DocNo',DATE(NOW()),'$deptCode',
-      0,DATE(NOW()),0,0,
-      0,0,'',
-      $userid,NOW() , '$factory' )";
+    $Sql = "INSERT INTO damagenh (
+              DocNo,
+              DocDate,
+              DepCode,
+              Total,
+              damagenh.Modify_Code,
+              damagenh.Modify_Date,
+              FacCode
+            )
+            VALUES
+              (
+                '$DocNo',
+                DATE(NOW()),
+                '$deptCode',
+                0,
+                $userid,
+                NOW(),
+                '$factory' )";
       mysqli_query($conn, $Sql);
 
       //var_dump($Sql);
@@ -922,8 +930,7 @@ function CreateDocument($conn, $DATA)
     item_unit.UnitName,
     damagenh_detail.UnitCode AS UnitCode2,
     damagenh_detail.Weight,
-    damagenh_detail.Qty,
-    damagenh_detail.Detail
+    damagenh_detail.Qty
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode

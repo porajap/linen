@@ -155,10 +155,6 @@ function CreateDocument($conn, $DATA)
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
-
-  //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
-  //     mysqli_query($conn,$Sql);
-
   $Sql = "SELECT CONCAT('CK',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
   CURRENT_TIME() AS RecNow
@@ -194,8 +190,6 @@ function CreateDocument($conn, $DATA)
               DocDate,
               DepCode,
               Total,
-              IsCancel,
-              Detail,
               cleanstock.Modify_Code,
               cleanstock.Modify_Date
             )
@@ -205,8 +199,6 @@ function CreateDocument($conn, $DATA)
                 DATE(NOW()),
                 '$deptCode',
                 0,
-                0,
-                '',
                 $userid,
                 NOW()
               )";
@@ -822,27 +814,6 @@ function CreateDocument($conn, $DATA)
     $RowID  = $DATA["rowid"];
     $DocNo = $DATA["DocNo"];
     $n = 0;
-    // $Sql = "SELECT cleanstock_detail_sub.UsageCode,cleanstock_detail.ItemCode
-    // FROM cleanstock_detail
-    // INNER JOIN cleanstock_detail_sub ON cleanstock_detail.DocNo = cleanstock_detail_sub.DocNo
-    // WHERE  cleanstock_detail.Id = $RowID";
-    // $meQuery = mysqli_query($conn, $Sql);
-    // while ($Result = mysqli_fetch_assoc($meQuery)) {
-    //   $ItemCode = $Result['ItemCode'];
-    //   $UsageCode[$n] = $Result['UsageCode'];
-    //   $n++;
-    // }
-
-    // for ($i = 0; $i < $n; $i++) {
-    //   $xUsageCode = $UsageCode[$i];
-    //   $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
-    //   mysqli_query($conn, $Sql);
-    // }
-
-    // $Sql = "DELETE FROM cleanstock_detail_sub
-    // WHERE DocNo = '$DocNo' AND ItemCode = '$ItemCode'";
-    // mysqli_query($conn, $Sql);
-
     $Sql = "DELETE FROM cleanstock_detail
     WHERE cleanstock_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
@@ -1228,8 +1199,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     item_unit.UnitName,
     cleanstock_detail.UnitCode AS UnitCode2,
     cleanstock_detail.Weight,
-    cleanstock_detail.Qty,
-    cleanstock.Detail
+    cleanstock_detail.Qty
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode

@@ -203,9 +203,27 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO return_doc
-    ( DocNo, DocDate, HptCode, DepCodeFrom, DepCodeTo, IsCancel, Modify_Code, Modify_Date ,Totalp )VALUES
-    ('$DocNo', NOW(), '$hotpCode', '$deptCode', '$DepCodeDefault', 0, $userid, NOW() , 0 )";
+    $Sql = "INSERT INTO return_doc (
+            DocNo,
+            DocDate,
+            HptCode,
+            DepCodeFrom,
+            DepCodeTo,
+            Modify_Code,
+            Modify_Date,
+            Totalp
+          )
+          VALUES
+            (
+              '$DocNo',
+              NOW(),
+              '$hotpCode',
+              '$deptCode',
+              '$DepCodeDefault',
+              $userid,
+              NOW(),
+              0
+      )";
       mysqli_query($conn, $Sql);
 
       $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
@@ -651,6 +669,7 @@ function ShowUsageCode($conn, $DATA)
 
 function getImport($conn, $DATA)
 {
+  $n=0;
   $count = 0;
   $count2 = 0;
   $boolean = false;

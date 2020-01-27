@@ -25,6 +25,7 @@ $DepCode = $data['DepCode'];
 $betweendate1 = $data['betweendate1'];
 $betweendate2 = $data['betweendate2'];
 $DocNo = $_GET['DocNo'];
+$HptCode = $_GET['HptCode'];
 //--------------------------------------------------------------------------
 $where = '';
 $w = array(70, 25, 60, 35);
@@ -37,9 +38,12 @@ $r = 1;
 $status = 0;
 //--------------------------------------------------------------------------
 $language = $_SESSION['lang'];
-if ($language == "en") {
+if ($language == "en")
+{
   $language = "en";
-} else {
+}
+else
+{
   $language = "th";
 }
 //--------------------------------------------------------------------------
@@ -183,13 +187,16 @@ $pdf->SetAutoPageBreak(TRUE, 38);
 // set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
-if ($language == 'th') {
+if ($language == 'th')
+{
   $HptName = 'HptNameTH';
   $FacName = 'FacNameTH';
   $Perfix = 'THPerfix';
   $Name = 'THName';
   $LName = 'THLName';
-} else {
+}
+else
+{
   $HptName = 'HptName';
   $FacName = 'FacName';
   $Perfix = 'EngPerfix';
@@ -214,7 +221,8 @@ $head = "SELECT site.$HptName,
         WHERE dirty.DocNo = '$DocNo'";
 // echo $Sql;
 $meQuery = mysqli_query($conn, $head);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
+while ($Result = mysqli_fetch_assoc($meQuery))
+{
   $HptName = $Result[$HptName];
   $FacName = $Result[$FacName];
   $xTime = $Result['xTime'];
@@ -223,13 +231,15 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $TimeName = $Result['TimeName'];
 }
 list($d, $m, $y) = explode('-', $DocDate);
-if ($language == 'th') {
+if ($language == 'th')
+{
   $y = $y + 543;
-} else {
+}
+else
+{
   $y = $y;
 }
 $DocDate = $d . "-" . $m . "-" . $y;
-
 
 $data = "SELECT
 dirty_detail.ItemCode,
@@ -244,9 +254,10 @@ INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
 RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
 INNER JOIN department ON dirty_detail.DepCode = department.DepCode
 WHERE dirty_detail.DocNo = '$DocNo'
+AND department.HptCode = '$HptCode'
 GROUP BY item.ItemCode,department.depname,item_unit.UnitName,dirty_detail.RequestName
 ORDER BY
-department.Depcode,item.ItemCode ASC";
+department.Depcode,item.ItemCode ASC ";
 
 
 // set some language-dependent strings (optional)
@@ -290,8 +301,10 @@ $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <th width="15 %"  align="center">' . $header[5] . '</th>
 </tr> </thead>';
 $meQuery = mysqli_query($conn, $data);
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($Result['RequestName'] <> null) {
+while ($Result = mysqli_fetch_assoc($meQuery))
+{
+  if ($Result['RequestName'] <> null)
+  {
     $Result['ItemName'] = $Result['RequestName'];
   }
   $html .= '<tr nobr="true">';
@@ -306,14 +319,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $totalqty += $Result['Qty'];
   $count++;
 }
+
 $html .= '</table>';
 $pdf->writeHTML($html, true, false, false, false, '');
-
 $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 7.0);
 $pdf->Cell(99, 7,  $array2['total'][$language], 1, 0, 'C');
 $pdf->Cell(27, 7,   number_format($totalqty, 2), 1, 0, 'C');
-
 $pdf->Cell(27, 7,   number_format($totalsum, 2), 1, 0, 'C');
 $pdf->Cell(27, 7,   '', 1, 1, 'C');
 $pdf->Cell(0, 7,   '', 0, 1, 'C');
@@ -342,8 +354,10 @@ $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <th width="15 %" align="center">' . $header[4] . '</th>
 <th width="15 %"  align="center">' . $header[5] . '</th>
 </tr> </thead>';
-while ($Result = mysqli_fetch_assoc($meQuery)) {
-  if ($Result['RequestName'] <> null) {
+while ($Result = mysqli_fetch_assoc($meQuery))
+{
+  if ($Result['RequestName'] <> null)
+  {
     $Result['ItemName'] = $Result['RequestName'];
   }
   $html .= '<tr nobr="true">';
@@ -355,6 +369,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $totalsum += $Result['Weight'];
   $count++;
 }
+
 $html .= '</table >';
 $pdf->writeHTML($html, true, false, false, false, '');
 //Close and output PDF document

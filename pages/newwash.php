@@ -5,12 +5,16 @@ $TimeOut = $_SESSION['TimeOut'];
 $PmID = $_SESSION['PmID'];
 $HptCode = $_SESSION['HptCode'];
 $HptName = $_SESSION['HptName'];
-if($Userid==""){
+if($Userid=="")
+{
   header("location:../index.html");
 }
-if(empty($_SESSION['lang'])){
+if(empty($_SESSION['lang']))
+{
   $language ='th';
-}else{
+}
+else
+{
   $language =$_SESSION['lang'];
 
 }
@@ -85,28 +89,37 @@ $array2 = json_decode($json2,TRUE);
   var xItemcode;
   var RowCnt=0;
 
-  $(document).ready(function(e){
+  $(document).ready(function(e)
+  {
     var PmID = <?php echo $PmID;?>;
     if(PmID ==1 || PmID==6){
       $('#hotpital').removeClass('icon_select');
     }
 
-    $('#searchdocument').keyup(function(e) {
-            if (e.keyCode == 13) {
+    $('#searchdocument').keyup(function(e)
+    {
+            if (e.keyCode == 13)
+            {
               ShowDocument(1);
             }
-        });
-    $('#searchitem').keyup(function(e) {
-    if (e.keyCode == 13) {
-      ShowItem();
-    }
-      });
+    });
+
+    $('#searchitem').keyup(function(e)
+    {
+      if (e.keyCode == 13)
+      {
+        ShowItem();
+      }
+    });
+
     $('#rem1').hide();
     $('#rem2').hide();
     $('#rem3').hide();
-    $('.only').on('input', function() {
+
+    $('.only').on('input', function()
+    {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
-      });
+    });
   //  console.log(window.parent.location.href);
     OnLoadPage();
     getfactory();
@@ -132,27 +145,35 @@ $array2 = json_decode($json2,TRUE);
       }).keyup(function(e) { parent.afk();
       });
 
-    jqui(document).ready(function($){
+    jqui(document).ready(function($)
+    {
       dialogUsageCode = jqui( "#dialogUsageCode" ).dialog({
         autoOpen: false,
         height: 680,
         width: 1200,
         modal: true,
-        buttons: {
-          "<?php echo $array['close'][$language]; ?>": function() {
+        buttons:
+        {
+          "<?php echo $array['close'][$language]; ?>": function()
+          {
             dialogUsageCode.dialog( "close" );
           }
         },
-        close: function() {
+
+        close: function()
+        {
           console.log("close");
         }
       });
 
     });
 
-            function OpenDialogItem(){
+        //function 
+            function OpenDialogItem()
+            {
               var docno = $("#docno").val();
-              if( docno != "" ){
+              if( docno != "" )
+              {
                 $( "#TableItem tbody" ).empty();
                 // dialogItemCode.dialog( "open" );
                 $('#dialogItemCode').modal('show');
@@ -160,39 +181,47 @@ $array2 = json_decode($json2,TRUE);
               }
               ShowItem();
             }
-            function OpenDialogUsageCode(itemcode){
+
+            function OpenDialogUsageCode(itemcode)
+            {
               xItemcode = itemcode;
               var docno = $("#docno").val();
-              if( docno != "" ){
+              if( docno != "" )
+              {
                 dialogItemCode.dialog( "close" );
                 dialogUsageCode.dialog( "open" );
                 $( "#TableItem tbody" ).empty();
                 ShowUsageCode();
               }
             }
-            function ShowUsageCode(){
-              // var searchitem = $('#searchitem1').val();
+
+            function ShowUsageCode()
+            {
               var docno = $("#docno").val();
-              var data = {
+              var data =
+              {
                 'STATUS'  : 'ShowUsageCode',
                 'docno'	: docno,
                 'xitem'	: xItemcode
               };
               senddata(JSON.stringify(data));
             }
-            function resetradio(row){
 
+            function resetradio(row)
+            {
               var previousValue = $('.checkrow_'+row).attr('previousValue');
                 var name = $('.checkrow_'+row).attr('name');
-                if (previousValue == 'checked') {
+                if (previousValue == 'checked')
+                {
                   $('#bDelete').attr('disabled', true);
                   $('#bDelete2').addClass('opacity');
                   $('#hover3').removeClass('mhee');
                   $('.checkrow_'+row).removeAttr('checked');
                   $('.checkrow_'+row).attr('previousValue', false);
                   $('.checkrow_'+row).prop('checked', false);
-                  // Blankinput();
-                } else {
+                }
+                else
+                {
                   $('#bDelete').attr('disabled', false);
                   $('#hover3').addClass('mhee');
                   $('#bDelete2').removeClass('opacity');
@@ -200,28 +229,35 @@ $array2 = json_decode($json2,TRUE);
                   $('.checkrow_'+row).attr('previousValue', 'checked');
                 }
             }
-            function dis2(row){
-              if($('#checkrow_'+row).prop("checked") == true){
+
+            function dis2(row)
+            {
+              if($('#checkrow_'+row).prop("checked") == true)
+              {
                   var countcheck2 = Number($("#countcheck").val())+1;
                   $("#countcheck").val(countcheck2);
                   $('#bSaveadd').attr('disabled', false);
                   $('#bSaveadd2').removeClass('opacity');
                   // $('#checkrow_'+row).prop('checked', true);
                   $('#checkrow_'+row).attr('previousValue', 'checked');
-                }else if($('#checkrow_'+row).prop("checked") == false){
+                }
+                else if($('#checkrow_'+row).prop("checked") == false)
+                {
                   var countcheck3 = Number($("#countcheck").val())-1;
                   $("#countcheck").val(countcheck3);
-                  if(countcheck3 == 0 ){
-                  $('#bSaveadd').attr('disabled', true);
-                  $('#bSaveadd2').addClass('opacity');
-                  $('.checkrow_'+row).removeAttr('checked');
-                  // $('#checkrow_'+row).prop('checked', false);
-                  $("#countcheck").val(countcheck3);
+                  if(countcheck3 == 0 )
+                  {
+                    $('#bSaveadd').attr('disabled', true);
+                    $('#bSaveadd2').addClass('opacity');
+                    $('.checkrow_'+row).removeAttr('checked');
+                    $("#countcheck").val(countcheck3);
                   }
                 }
         
             }
-            function DeleteItem(){
+
+            function DeleteItem()
+            {
               var docno = $("#docno").val();
               var xrow = $("#checkrow:checked").val() ;
               xrow = xrow.split(",");
@@ -238,57 +274,67 @@ $array2 = json_decode($json2,TRUE);
                 cancelButtonColor: '#3085d6',
                 closeOnConfirm: false,
                 closeOnCancel: false,
-                showCancelButton: true}).then(result => {
-                  if (result.value) {
-                  var data = {
-                    'STATUS'    : 'DeleteItem',
-                    'rowid'  : xrow[0],
-                    'DocNo'   : docno
-                  };
-                  senddata(JSON.stringify(data));
-                  $('#bDelete').attr('disabled', true);
-                  $('#bDelete2').addClass('opacity');
-                  $('#hover3').removeClass('mhee');
-                } else if (result.dismiss === 'cancel') {
-                  swal.close();
+                showCancelButton: true}).then(result =>
+                {
+                  if (result.value)
+                  {
+                    var data =
+                    {
+                      'STATUS'    : 'DeleteItem',
+                      'rowid'  : xrow[0],
+                      'DocNo'   : docno
+                    };
+                    senddata(JSON.stringify(data));
+                    $('#bDelete').attr('disabled', true);
+                    $('#bDelete2').addClass('opacity');
+                    $('#hover3').removeClass('mhee');
+                  }
+                  else if (result.dismiss === 'cancel')
+                  {
+                    swal.close();
                   }
                 })
             }
-            function selectAll(){
-                  var select_all = document.getElementById('selectAll'); //select all checkbox
-                  var checkboxes = document.getElementsByClassName("myDepName"); //checkbox items
 
-                  //select all checkboxes
-                  select_all.addEventListener("change", function(e){
-                    for (i = 0; i < checkboxes.length; i++) { 
-                      checkboxes[i].checked = select_all.checked;
-                      $('#btn_confirm').attr('disabled', false);
+            function selectAll()
+            {
+                var select_all = document.getElementById('selectAll'); //select all checkbox
+                var checkboxes = document.getElementsByClassName("myDepName"); //checkbox items
+                select_all.addEventListener("change", function(e){
+                for (i = 0; i < checkboxes.length; i++)
+                { 
+                  checkboxes[i].checked = select_all.checked;
+                  $('#btn_confirm').attr('disabled', false);
+                }
+                });
+                for (var i = 0; i < checkboxes.length; i++)
+                {
+                  checkboxes[i].addEventListener('change', function(e)
+                  { //".checkbox" change 
+                    if(this.checked == false)
+                    {
+                      select_all.checked = false;
+                    }
+                    if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+                      select_all.checked = true;
                     }
                   });
-
-
-                  for (var i = 0; i < checkboxes.length; i++) {
-                    checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
-                      //uncheck "select all", if one of the listed checkbox item is unchecked
-                      if(this.checked == false){
-                        select_all.checked = false;
-                      }
-                      //check "select all" if all checkbox items are checked
-                      if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
-                        select_all.checked = true;
-                      }
-                    });
-                  }
-                  var numRow = $("#countcheck").val();
-                  if(numRow == i){
-                    $("#countcheck").val(0);
-                    $('#btn_confirm').attr('disabled', true);
-                  }else{
-                    $("#countcheck").val(i);
-                    $('#btn_confirm').attr('disabled', false);
-                  }
+                }
+                var numRow = $("#countcheck").val();
+                if(numRow == i)
+                {
+                  $("#countcheck").val(0);
+                  $('#btn_confirm').attr('disabled', true);
+                }
+                else
+                {
+                  $("#countcheck").val(i);
+                  $('#btn_confirm').attr('disabled', false);
+                }
             }
-            function Blankinput() {
+
+            function Blankinput()
+            {
                     $('#docno').val("");
                     $('#docdate').val("");
                     $('#recorder').val("");
@@ -297,10 +343,13 @@ $array2 = json_decode($json2,TRUE);
                     getDepartment();
                     OnLoadPage();
             }
-            function CancelDocument(){
+
+            function CancelDocument()
+            {
               var docno = $("#docno").val();
-              if(docno!= ""){
-              swal({
+              if(docno!= "")
+              {
+                swal({
                 title: "<?php echo $array['confirmcancel'][$language]; ?>",
                 text: " "+docno+" ",
                 type: "warning",
@@ -312,32 +361,42 @@ $array2 = json_decode($json2,TRUE);
                 cancelButtonColor: '#3085d6',
                 closeOnConfirm: false,
                 closeOnCancel: false,
-                showCancelButton: true}).then(result => {
-                  if (result.value) {
-                  CancelBill();
-                } else if (result.dismiss === 'cancel') {
-                  swal.close();}
+                showCancelButton: true}).then(result =>
+                {
+                  if (result.value)
+                  {
+                    CancelBill();
+                  }
+                  else if (result.dismiss === 'cancel')
+                  {
+                    swal.close();
+                  }
                 })
               }
             }
+
         //======= On create =======
-        //console.log(JSON.stringify(data));
-            function getfactory(){
+            function getfactory()
+            {
               $('#hotpital').removeClass('border-danger');
               $('#rem3').hide();
               var lang = '<?php echo $language; ?>';
               var hotpital = $('#hotpital').val();
-              var data = {
+              var data =
+              {
                 'STATUS'    : 'getfactory',
                 'hotpital'	: hotpital ,
                 'lang'	    : lang
               };
               senddata(JSON.stringify(data));
             }
-            function OnLoadPage(){
+
+            function OnLoadPage()
+            {
               var lang = '<?php echo $language; ?>';
               Hotp = "<?php echo $HptCode; ?>";
-              var data = {
+              var data =
+              {
                 'STATUS'  : 'OnLoadPage',
                 'Hotp'	: Hotp ,
                 'lang'	: lang ,
@@ -346,30 +405,30 @@ $array2 = json_decode($json2,TRUE);
               senddata(JSON.stringify(data));
               $('#isStatus').val(0)
             }
-            function getDepartment(){
+
+            function getDepartment()
+            {
               $('#hotpital').removeClass('border-danger');
               $('#rem3').hide();
               var Hotp = $('#Hos2 option:selected').attr("value");
-              if(Hotp == '' || Hotp == undefined){
+              if(Hotp == '' || Hotp == undefined)
+              {
                 Hotp = $('#getHot').val();
               };
-                var data = {
+                var data =
+                {
                   'STATUS'  : 'getDepartment',
                   'Hotp'	: Hotp
                 };
 
                 senddata(JSON.stringify(data));
             }
-            function confirmDep(ItemCode, ItemName){
+
+            function confirmDep(ItemCode, ItemName)
+            {
               var DocNo =    $('#docno').val();
-              // var ItemCode = $('#ItemCodeHide').val();
               var HptCode =  $('#hotpital').val();
-              // var DepCodeArray = [];
-              // $(".myDepName:checked").each(function() {
-              //   DepCodeArray.push($(this).data('depcode'));
-              // });
-              // var DepCode = DepCodeArray.join(',') ;
-              swal({
+                swal({
                 title: " ",
                 text:  " <?php echo $array['save'][$language]; ?>",
                 type: "success",
@@ -377,9 +436,11 @@ $array2 = json_decode($json2,TRUE);
                 showConfirmButton: false,
                 timer: 500,
                 closeOnConfirm: false
-              });
-              setTimeout(() => {
-                var data = {
+                });
+              setTimeout(() =>
+              {
+                var data =
+                {
                   'STATUS' : 'confirmDep',
                   'DocNo' : DocNo,
                   'HptCode' : HptCode,
@@ -389,34 +450,49 @@ $array2 = json_decode($json2,TRUE);
                 // $('#ModalDepartment').modal('toggle');
               }, 500);
             }
-            function ShowDocument(selecta){
-              var DocNo                  = $('#docno').val();
-              var process                 = $('#process').val();
-              var Hotp                     = $('#Hos2 option:selected').attr("value");
+
+            function ShowDocument(selecta)
+            {
+              var DocNo  = $('#docno').val();
+              var process  = $('#process').val();
+              var Hotp    = $('#Hos2 option:selected').attr("value");
               var searchdocument  = $('#searchdocument').val();
-              var datepicker1          = $('#datepicker1').val();
-              var lang                      = '<?php echo $language; ?>';
-              if(datepicker1 !=""){
-              if(lang =='th'){
-              datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-              }else if(lang =='en'){
-              datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+              var datepicker1 = $('#datepicker1').val();
+              var lang  = '<?php echo $language; ?>';
+              if(datepicker1 !="")
+              {
+                if(lang =='th')
+                {
+                  datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+                }
+                else if(lang =='en')
+                {
+                  datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+                }
               }
-              }else{
+              else
+              {
                 datepicker1 = "";
               }
-
-              if(process == 0){
-            process = 'chkpro';
-          }else if(process == 1){
-            process = 'chkpro1';
-          }else if(process == 2){
-            process = 'chkpro2';
-          }else if(process == 3){
-            process = 'chkpro3';
-          }
+              if(process == 0)
+              {
+                process = 'chkpro';
+              }
+              else if(process == 1)
+              {
+                process = 'chkpro1';
+              }
+              else if(process == 2)
+              {
+                process = 'chkpro2';
+              }
+              else if(process == 3)
+              {
+                process = 'chkpro3';
+              }
               if( typeof searchdocument == 'undefined' ) searchdocument = "";
-              var data = {
+              var data =
+              {
                 'STATUS'  	      : 'ShowDocument',
                 'xdocno'	        : searchdocument,
                 'selecta'           : selecta,
@@ -427,24 +503,30 @@ $array2 = json_decode($json2,TRUE);
               };
               senddata(JSON.stringify(data));
             }
-            function ShowDocument_sub(){
+
+            function ShowDocument_sub()
+            {
               var searchdocument = $('#searchdocument').val();
               if( typeof searchdocument == 'undefined' ) searchdocument = "";
               var deptCode = $('#Dep2 option:selected').attr("value");
               if( typeof deptCode == 'undefined' ) deptCode = "1";
-              var data = {
+              var data =
+              {
                 'STATUS'  	: 'ShowDocument',
                 'xdocno'	: searchdocument,
                 'deptCode'	: deptCode
               };
               senddata(JSON.stringify(data));
             }
-            function ShowItem(){
+
+            function ShowItem()
+            {
               var Hotp = $('#hotpital option:selected').attr("value");
               var deptCode = $('#department option:selected').attr("value");
               if( typeof deptCode == 'undefined' ) deptCode = "1";
               var searchitem = $('#searchitem').val();
-              var data = {
+              var data =
+              {
                 'STATUS'    : 'ShowItem',
                 'xitem'	    : searchitem,
                 'deptCode'	: deptCode,
@@ -452,41 +534,52 @@ $array2 = json_decode($json2,TRUE);
               };
               senddata(JSON.stringify(data));
             }
-            function SelectDocument(){
-      
 
+            function SelectDocument()
+            {
               var selectdocument = "";
-              $("#checkdocno:checked").each(function() {
+              $("#checkdocno:checked").each(function()
+              {
                 selectdocument = $(this).val();
               });
               var deptCode = $('#Dep2 option:selected').attr("value");
               if( typeof deptCode == 'undefined' ) deptCode = "1";
-
-              var data = {
+              var data =
+              {
                 'STATUS'  	: 'SelectDocument',
                 'xdocno'		: selectdocument
               };
               senddata(JSON.stringify(data));
             }
-            function unCheckDocDetail(){
-              // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-              if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length){
+
+            function unCheckDocDetail()
+            {
+              if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length)
+              {
                 $('input[name="checkAllDetail').prop('checked',true);
-              }else {
+              }
+              else
+              {
                 $('input[name="checkAllDetail').prop('checked',false);
               }
             }
-            function ShowDetail() {
+
+            function ShowDetail()
+            {
               var docno = $("#docno").val();
-              var data = {
+              var data =
+              {
                 'STATUS'  : 'ShowDetailDoc',
                 'DocNo'   : docno
               };
               senddata(JSON.stringify(data));
             }
-            function CancelBill() {
+
+            function CancelBill()
+            {
               var docno = $("#docno").val();
-              var data = {
+              var data =
+              {
                 'STATUS'  : 'CancelBill',
                 'DocNo'   : docno,
                 'selecta' : '0'
@@ -497,99 +590,104 @@ $array2 = json_decode($json2,TRUE);
               Blankinput();
               $('#factory').attr('disabled', false);
             }
-            function swithChecked(i){
+
+            function swithChecked(i)
+            {
               $('#btn_confirm').attr('disabled', false);
-              $("#selectAll").change(function(){
+              $("#selectAll").change(function()
+              {
                 var status = this.checked;
-                $('.myDepName').each(function(){ 
+                $('.myDepName').each(function()
+                { 
                   this.checked = status;
                 });
               });
-              $('.unchk').change(function(){ 
-                if(this.checked == false){ 
+              $('.unchk').change(function()
+              { 
+                if(this.checked == false)
+                { 
                   $("#selectAll")[0].checked = false; 
                 }
-                if ($('.myDepName:checked').length == $('.myDepName').length ){ 
+                if ($('.myDepName:checked').length == $('.myDepName').length )
+                { 
                   $("#selectAll")[0].checked = true; 
                   $('#btn_confirm').attr('disabled', false);
                 }
               });
 
-              if($('#checkDep_'+i).prop("checked") == true){
+              if($('#checkDep_'+i).prop("checked") == true)
+              {
                 var countcheck2 = Number($("#countcheck").val())+1;
                 $("#countcheck").val(countcheck2);
                 $('#btn_confirm').attr('disabled', false);
                 $('#checkDep_'+i).attr('previousValue', 'checked');
-              }else if($('#checkDep_'+i).prop("checked") == false){
+              }
+              else if($('#checkDep_'+i).prop("checked") == false)
+              {
                 var countcheck3 = Number($("#countcheck").val())-1;
                 $("#countcheck").val(countcheck3);
-                if(countcheck3 == 0 ){
+                if(countcheck3 == 0 )
+                {
                   $('#btn_confirm').attr('disabled', true);
                   $('.checkDep_'+i).removeAttr('checked');
                   $("#countcheck").val(countcheck3);
                 }
               }
             }
-            function showDep(ItemCode, ItemName){
-              var data = {
+
+            function showDep(ItemCode, ItemName)
+            {
+              var data =
+              {
                 'STATUS' : 'showDep',
                 'ItemCode' : ItemCode,
                 'ItemName' : ItemName
               }
               senddata(JSON.stringify(data));
             }
-            function getImport(Sel) {
-              //alert(Sel);
+
+            function getImport(Sel)
+            {
               var docno = $("#docno").val();
-              /* declare an checkbox array */
               var iArray = [];
               var qtyArray = [];
               var chkArray = [];
               var weightArray = [];
               var unitArray = [];
               var i=0;
-
-
-              if(Sel==1){
-                $(".checkitem:checked").each(function() {
-                  iArray.push($(this).val());
-                });
-              }else{
-                $("#checkitemSub:checked").each(function() {
+              if(Sel==1)
+              {
+                $(".checkitem:checked").each(function()
+                {
                   iArray.push($(this).val());
                 });
               }
-
-              /* we join the array separated by the comma */
-
-              for(var j=0;j<iArray.length; j++){
+              else
+              {
+                $("#checkitemSub:checked").each(function()
+                {
+                  iArray.push($(this).val());
+                });
+              }
+              for(var j=0;j<iArray.length; j++)
+              {
                 if(Sel==1)
                 chkArray.push( $("#RowID"+iArray[j]).val() );
                 else
                 chkArray.push( $("#RowIDSub"+iArray[j]).val() );
-
                 qtyArray.push( $("#iqty"+iArray[j]).val() );
                 weightArray.push( $("#iweight"+iArray[j]).val() );
                 unitArray.push( $("#iUnit_"+iArray[j]).val() );
               }
-
               var xrow = chkArray.join(',') ;
               var xqty = qtyArray.join(',') ;
               var xweight = weightArray.join(',') ;
               var xunit = unitArray.join(',') ;
-
-
-
               var Hotp = $('#hotpital option:selected').attr("value");
               if( typeof Hotp == 'undefined' ) Hotp = "<?php echo $HptCode; ?>";
-
-              // alert("xrow : "+xrow);
-              //	  alert("xqty : "+xqty);
-              //	  alert("xweight : "+xweight);
-              //	  alert("xunit : "+xunit);
-
               $('#TableDetail tbody').empty();
-              var data = {
+              var data =
+              {
                 'STATUS'  	: 'getImport',
                 'xrow'		: xrow,
                 'xqty'		: xqty,
@@ -602,26 +700,31 @@ $array2 = json_decode($json2,TRUE);
               console.log(data);
               senddata(JSON.stringify(data));
               ShowItem();
-              // $('#dialogItemCode').modal('toggle')
-              // dialogUsageCode.dialog( "close" );
             }
+
             var isChecked1 = false;
             var isChecked2 = false;
-            function getCheckAll(sel){
-              if(sel==0){
+            function getCheckAll(sel)
+            {
+              if(sel==0)
+              {
                 isChecked1 = !isChecked1;
                 $('input[name="checkdocno"]').each(function(){
                   this.checked = isChecked1;
                 });
                 getDocDetail();
-              }else{
+              }
+              else
+              {
                 isChecked2 = !isChecked2;
                 $('input[name="checkdocdetail"]').each(function(){
                   this.checked = isChecked2;
                 });
               }
             }
-            function convertUnit(rowid,selectObject){
+
+            function convertUnit(rowid,selectObject)
+            {
               var docno = $("#docno").val();
               var data = selectObject.value;
               var chkArray = data.split(",");
@@ -630,8 +733,8 @@ $array2 = json_decode($json2,TRUE);
               var oleqty = $('#OleQty_'+chkArray[0]).val();
               qty = oleqty*chkArray[2];
               $('#qty1_'+chkArray[0]).val(qty);
-              // console.log( "UnitCode : "+chkArray[1] );
-              var data = {
+              var data =
+              {
                 'STATUS'  	: 'updataDetail',
                 'Rowid'     : rowid,
                 'DocNo'   	: docno,
@@ -640,53 +743,77 @@ $array2 = json_decode($json2,TRUE);
               };
               senddata(JSON.stringify(data));
             }
-            function checkblank(){
-              $('.checkblank').each(function() {
-                if($(this).val()==""||$(this).val()==undefined){
+
+            function checkblank()
+            {
+              $('.checkblank').each(function()
+              {
+                if($(this).val()==""||$(this).val()==undefined)
+                {
                   $(this).addClass('border-danger');
                   $('#rem1').show().css("color","red");
-                }else{
+                }
+                else
+                {
                   $(this).removeClass('border-danger');
                   $('#rem1').hide();
                 }
               });
             }
-            function checkblank2(){
-              $('.checkblank2').each(function() {
-                if($(this).val()==""||$(this).val()==undefined){
+
+            function checkblank2()
+            {
+              $('.checkblank2').each(function()
+              {
+                if($(this).val()==""||$(this).val()==undefined)
+                {
                   $(this).addClass('border-danger');
                   $('#rem2').show().css("color","red");
-                }else{
+                }
+                else
+                {
                   $(this).removeClass('border-danger');
                   $('#rem2').hide();
                 }
               });
             }
-            function checkblank3(){
-              $('.checkblank3').each(function() {
-                if($(this).val()==""||$(this).val()==undefined){
+
+            function checkblank3()
+            {
+              $('.checkblank3').each(function()
+              {
+                if($(this).val()==""||$(this).val()==undefined)
+                {
                   $(this).addClass('border-danger');
                   $('#rem3').show().css("color","red");
-                }else{
+                }
+                else
+                {
                   $(this).removeClass('border-danger');
                   $('#rem3').hide();
                 }
               });
             }
-            function removeClassBorder1(){
+
+            function removeClassBorder1()
+            {
               $('#department').removeClass('border-danger');
               $('#rem1').hide();
-
             }
-            function removeClassBorder2(){
+
+            function removeClassBorder2()
+            {
               $('#factory').removeClass('border-danger');
               $('#rem2').hide();
             }
-            function CreateDocument(){
+
+            function CreateDocument()
+            {
               var userid = '<?php echo $Userid; ?>';
               var hotpCode = $('#hotpital option:selected').attr("value");
               var FacCode = $('#factory option:selected').attr("value");
-              if(FacCode == '' || hotpCode=='' ){
+              if(FacCode == '' || hotpCode=='' )
+              {
                 checkblank2();
                 checkblank3();
                 swal({
@@ -699,8 +826,10 @@ $array2 = json_decode($json2,TRUE);
                 showConfirmButton: false,
                 timer: 2000,
                 confirmButtonText: 'Ok'
-              });
-              }else{
+                });
+              }
+              else
+              {
                 swal({
                   title: "<?php echo $array['confirmdoc'][$language]; ?>",
                   text: "<?php echo $array['side'][$language]; ?> : " +$('#hotpital option:selected').text(),
@@ -713,26 +842,33 @@ $array2 = json_decode($json2,TRUE);
                   cancelButtonColor: '#d33',
                   closeOnConfirm: false,
                   closeOnCancel: false,
-                  showCancelButton: true}).then(result => {
-                    if (result.value) {
-                    var data = {
-                      'STATUS'    : 'CreateDocument',
-                      'hotpCode'  : hotpCode,
-                      'userid'	: userid,
-                      'FacCode'	: FacCode
-                    };
-                    senddata(JSON.stringify(data));
-                    var word = '<?php echo $array['save'][$language]; ?>';
-                    var changeBtn = "<i class='fa fa-save'></i>";
-                    changeBtn += "<div>"+word+"</div>";
-                    $('#icon_edit').html(changeBtn); 
-                  } else if (result.dismiss === 'cancel') {
-                    swal.close();
+                  showCancelButton: true}).then(result =>
+                  {
+                    if (result.value)
+                    {
+                      var data =
+                      {
+                        'STATUS'    : 'CreateDocument',
+                        'hotpCode'  : hotpCode,
+                        'userid'	: userid,
+                        'FacCode'	: FacCode
+                      };
+                      senddata(JSON.stringify(data));
+                      var word = '<?php echo $array['save'][$language]; ?>';
+                      var changeBtn = "<i class='fa fa-save'></i>";
+                      changeBtn += "<div>"+word+"</div>";
+                      $('#icon_edit').html(changeBtn); 
+                    }
+                    else if (result.dismiss === 'cancel')
+                    {
+                      swal.close();
                     }
                   })
               }
             }
-            function canceldocno(docno) {
+
+            function canceldocno(docno)
+            {
               swal({
                 title: "<?php echo $array['confirmdelete'][$language]; ?>",
                 text: "<?php echo $array['confirmdelete1'][$language]; ?>" +docno+ "<?php echo $array['confirmdelete2'][$language]; ?>",
@@ -746,7 +882,8 @@ $array2 = json_decode($json2,TRUE);
                 closeOnConfirm: false,
                 closeOnCancel: false,
                 showCancelButton: true}).then(result => {
-                  var data = {
+                  var data =
+                  {
                     'STATUS'      : 'CancelDocNo',
                     'DocNo'       : docno
                   };
@@ -754,30 +891,41 @@ $array2 = json_decode($json2,TRUE);
                   getSearchDocNo();
                 })
             }
-            function addnum(cnt) {
+
+            function addnum(cnt)
+            {
               var add = parseInt($('#iqty'+cnt).val())+1;
-              if((add>0) && (add<=500)){
+              if((add>0) && (add<=500))
+              {
                 $('#iqty'+cnt).val(add);
               }
             }
-            function subtractnum(cnt) {
+
+            function subtractnum(cnt)
+            {
               var sub = parseInt($('#iqty'+cnt).val())-1;
-              if((sub>0) && (sub<=500)) {
+              if((sub>0) && (sub<=500))
+              {
                 $('#iqty'+cnt).val(sub);
               }
             }
-            function addnum1(rowid,cnt,unitcode) {
+
+            function addnum1(rowid,cnt,unitcode)
+            {
               var Dep = $("#Dep_").val();
               var docno = $("#docno").val();
               var add = parseInt($('#qty1_'+cnt).val())+1;
               var newQty = parseInt($('#OleQty_'+cnt).val())+1;
               var isStatus = $("#IsStatus").val();
-              if(isStatus==0){
-                if((add>=0) && (add<=500)){
+              if(isStatus==0)
+              {
+                if((add>=0) && (add<=500))
+                {
                   $('#qty1_'+cnt).val(add);
                   $('#OleQty_'+cnt).val(newQty);
                 }
-                var data = {
+                var data =
+                {
                   'STATUS'      : 'UpdateDetailQty',
                   'Rowid'       : rowid,
                   'DocNo'       : docno,
@@ -788,18 +936,23 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
               }
             }
-            function subtractnum1(rowid,cnt,unitcode) {
+
+            function subtractnum1(rowid,cnt,unitcode)
+            {
               var Dep = $("#Dep_").val();
               var docno = $("#docno").val();
               var sub = parseInt($('#qty1_'+cnt).val())-1;
               var newQty = parseInt($('#OleQty_'+cnt).val())-1;
               var isStatus = $("#IsStatus").val();
-              if(isStatus==0){
-                if((sub>=0) && (sub<=500)) {
+              if(isStatus==0)
+              {
+                if((sub>=0) && (sub<=500))
+                {
                   $('#qty1_'+cnt).val(sub);
                   $('#OleQty_'+cnt).val(newQty);
                 }
-                var data = {
+                var data =
+                {
                   'STATUS'      : 'UpdateDetailQty',
                   'Rowid'       : rowid,
                   'DocNo'       : docno,
@@ -810,14 +963,18 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
               }
             }
-            function updateWeight(row,rowid) {
+
+            function updateWeight(row,rowid)
+            {
               var docno = $("#docno").val();
               var weight = $("#myweight_"+row).val();
               var price = 0; 
               var isStatus = $("#IsStatus").val();
               $('#myweight_'+row).removeClass('border border-danger');
-              if(isStatus==0){
-                var data = {
+              if(isStatus==0)
+              {
+                var data =
+                {
                   'STATUS'      : 'UpdateDetailWeight',
                   'Rowid'       : rowid,
                   'DocNo'       : docno,
@@ -827,7 +984,9 @@ $array2 = json_decode($json2,TRUE);
                 senddata(JSON.stringify(data));
               }
             }
-            function SaveBill(){
+
+            function SaveBill()
+            {
               var count = 0;
               var chk_weight = document.getElementsByClassName("chk_weight"); //checkbox items
               var docno = $("#docno").val();
@@ -837,24 +996,29 @@ $array2 = json_decode($json2,TRUE);
               var FacCode = $("#factory").val();
 
               // alert( isStatus );
-              if(isStatus==1 || isStatus==3 || isStatus==4){
-              isStatus=0;}
-              else{
-              isStatus=1;
+              if(isStatus==1 || isStatus==3 || isStatus==4)
+              {
+                isStatus=0;
               }
-              // if(isStatus ==0){
-              //   isStatus=1;
-              // }
-              if(isStatus==1){
-                if(docno!=""){
-                  for(i=0;i<chk_weight.length; i++){
+              else
+              {
+                isStatus=1;
+              }
+              if(isStatus==1)
+              {
+                if(docno!="")
+                {
+                  for(i=0;i<chk_weight.length; i++)
+                  {
                     var chk = $('#myweight_'+i).val();
-                    if(chk == "" || chk==0){
+                    if(chk == "" || chk==0)
+                    {
                       $('#myweight_'+i).addClass('border border-danger');
                       count++;
                     }
                   }
-                  if(count==0){
+                  if(count==0)
+                  {
                     swal({
                       title: "<?php echo $array['confirmsave'][$language]; ?>",
                       text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -870,7 +1034,8 @@ $array2 = json_decode($json2,TRUE);
                       showCancelButton: true,
                       allowOutsideClick: false,
                       allowEscapeKey : false
-                    }).then(result => {
+                    }).then(result =>
+                    {
                       swal({
                       title: '',
                       text: '<?php echo $array['savesuccess'][$language]; ?>',
@@ -879,8 +1044,10 @@ $array2 = json_decode($json2,TRUE);
                       showConfirmButton: false,
                       timer: 1500,
                       });
-                      if (result.value) {
-                          var data = {
+                      if (result.value)
+                      {
+                          var data =
+                          {
                             'STATUS'      : 'SaveBill',
                             'DocNo'      : docno,
                             'isStatus'    : isStatus,
@@ -897,11 +1064,15 @@ $array2 = json_decode($json2,TRUE);
                           Blankinput();
                           ShowDocument();
                           $('#factory').attr('disabled', false);
-                      } else if (result.dismiss === 'cancel') {
+                      }
+                      else if (result.dismiss === 'cancel')
+                      {
                         swal.close();
                       }
                     })
-                  }else{
+                  }
+                  else
+                  {
                     swal({
                       title: " ",
                       text:  " <?php echo $array['insert_form'][$language]; ?>",
@@ -913,7 +1084,9 @@ $array2 = json_decode($json2,TRUE);
                     });
                   }
                 }
-              }else{
+              }
+              else
+              {
                 $("#bImport").prop('disabled', false);
                 $("#bSave").prop('disabled', false);
                 // $("#bCancel").prop('disabled', false);
@@ -933,15 +1106,11 @@ $array2 = json_decode($json2,TRUE);
                   $('.chk_edit').attr('disabled', false);
               }
             }
-            function UpdateRefDocNo(){
+
+            function UpdateRefDocNo()
+            {
               var docno = $("#docno").val();
               var RefDocNo = $("#RefDocNo").val();
-              // alert( isStatus );
-              //	  if(isStatus==1)
-              //	  		isStatus=0;
-              //	  else
-              //	  		isStatus=1;
-
               var data = {
                 'STATUS'      : 'UpdateRefDocNo',
                 'xdocno'      : docno,
@@ -949,12 +1118,17 @@ $array2 = json_decode($json2,TRUE);
               };
               senddata(JSON.stringify(data));
             }
-            function show_btn(DocNo){
-              if(DocNo != undefined || DocNo != ''){
+
+            function show_btn(DocNo)
+            {
+              if(DocNo != undefined || DocNo != '')
+              {
                   $(btn_show).attr('disabled',false);
               }
             }
-            function logoff() {
+
+            function logoff()
+            {
               swal({
                 title: '',
                 text: '<?php echo $array['logout'][$language]; ?>',
@@ -969,24 +1143,26 @@ $array2 = json_decode($json2,TRUE);
                 window.location.href="../logoff.php";
               }, function (dismiss) {
                 window.location.href="../logoff.php";
-                if (dismiss === 'cancel') {
-
+                if (dismiss === 'cancel')
+                {
                 }
               })
             }
 
-            function updateQty(RowID, i, Weight){
+            function updateQty(RowID, i, Weight)
+            {
               var newQty = $('#qty1_'+i).val();
               var DocNo = $('#docno').val();
 
-              if(newQty == '' || newQty <= 0){
+              if(newQty == '' || newQty <= 0)
+              {
                 $('#qty1_'+i).val(1);
               } 
 
               var totalweight = parseFloat(newQty*Weight).toFixed(2);
-              // $('#myweight_'+i).val(totalweight);
 
-              var data = {
+              var data =
+              {
                 'STATUS' : 'updateQty',
                 'RowID' : RowID,
                 'newQty' : newQty,
@@ -995,10 +1171,15 @@ $array2 = json_decode($json2,TRUE);
               senddata(JSON.stringify(data));
             }
 
-            function dis(){
+            function dis()
+            {
               $('.dis').attr('disabled', false);
             }
-            function senddata(data){
+            //end function 
+
+
+            function senddata(data)
+            {
               var form_data = new FormData();
               form_data.append("DATA",data);
               var URL = '../process/newwash.php';
@@ -1629,6 +1810,7 @@ $array2 = json_decode($json2,TRUE);
                 }
               });
             }
+
             //===============================================
             function switch_tap1(){
               $('#tab2').attr('hidden',false);

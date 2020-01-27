@@ -17,46 +17,56 @@
       $countx = 0;
 
       $boolean = false;
-      if($lang == 'en'){
+      if($lang == 'en')
+      {
         $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 ";
-        }else{
+      }
+      else
+      {
         $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 ";
-        }  
+      }  
       $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-
-      $return[$countx]['FacCode'] = $Result['FacCode'];
-      $return[$countx]['FacName'] = $Result['FacName'];
-
-      $countx  ++;
-
-    }
-    $return['Rowx'] = $countx;
-
-
-    if($lang == 'en'){
-      $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
-      if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
-      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-      }else{
-        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
+        $return[$countx]['FacCode'] = $Result['FacCode'];
+        $return[$countx]['FacName'] = $Result['FacName'];
+        $countx  ++;
       }
-    }else{
-      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
-      if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
-      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
-      }else{
-        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      $return['Rowx'] = $countx;
+      if($lang == 'en')
+      {
+        $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
+        if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7)
+        {
+          $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+        }
+        else
+        {
+          $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+        }
       }
-    }
+      else
+      {
+        $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$Hotp'";
+        if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7)
+        {
+          $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+        }
+        else
+        {
+          $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+        }
+      }
         $meQuery = mysqli_query($conn, $Sql);
-        while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $return[$count]['HptCode'] = $Result['HptCode'];
-        $return[$count]['HptName'] = $Result['HptName'];
-        $boolean = true;
-      }
+        while ($Result = mysqli_fetch_assoc($meQuery))
+        {
+          $return[$count]['HptCode'] = $Result['HptCode'];
+          $return[$count]['HptName'] = $Result['HptName'];
+          $boolean = true;
+        }
       $meQuery1 = mysqli_query($conn, $Sql1);
-      while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+      while ($Result1 = mysqli_fetch_assoc($meQuery1))
+      {
         $return[$count]['HptCode1'] = $Result1['HptCode1'];
         $return[$count]['HptName1'] = $Result1['HptName1'];
         $return[0]['PmID'] = $PmID;
@@ -65,13 +75,16 @@
       }
       $return['Row'] = $count;
       $boolean = true;
-      if ($boolean) {
+      if ($boolean)
+      {
         $return['status'] = "success";
         $return['form'] = "OnLoadPage";
         echo json_encode($return);
         mysqli_close($conn);
         die;
-      } else {
+      }
+      else
+      {
         $return['status'] = "failed";
         $return['form'] = "OnLoadPage";
         echo json_encode($return);
@@ -79,7 +92,6 @@
         die;
       }
     }
-
     /**
      * @param $conn
      * @param $DATA
@@ -116,8 +128,6 @@
         die;
       }
     }
-    // $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
-    // mysqli_query($conn,$Sqlx);
 
     function CreateDocument($conn, $DATA)
     {
@@ -162,8 +172,6 @@
                     DocDate,
                     HptCode,
                     Total,
-                    IsCancel,
-                    Detail,
                     dirty.Modify_Code,
                     dirty.Modify_Date,
                     dirty.FacCode,
@@ -175,8 +183,6 @@
                       DATE(NOW()),
                       '$hotpCode',
                       0,
-                      0,
-                      '',
                       $userid,
                       NOW(),
                       $FacCode,

@@ -7,6 +7,7 @@ $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
 }
+
 function getfactory($conn, $DATA)
 {
   $lang     = $DATA["lang"];
@@ -39,7 +40,7 @@ function getfactory($conn, $DATA)
     die;
   } 
   else
-   {
+  {
     $return['status'] = "failed";
     $return['form'] = "getfactory";
     echo json_encode($return);
@@ -119,7 +120,6 @@ function OnLoadPage($conn, $DATA)
       die;
     }
 }
-
 /**
  * @param $conn
  * @param $DATA
@@ -206,8 +206,6 @@ function CreateDocument($conn, $DATA)
               DocDate,
               HptCode,
               Total,
-              IsCancel,
-              Detail,
               newlinentable.Modify_Code,
               newlinentable.Modify_Date,
               newlinentable.FacCode
@@ -218,8 +216,6 @@ function CreateDocument($conn, $DATA)
                 DATE(NOW()),
                 '$hotpCode',
                 0,
-                0,
-                '',
                 $userid,
                 NOW(),
                 $FacCode
@@ -444,15 +440,15 @@ function ShowDetailDoc($conn, $DATA)
 
 function ShowDocument($conn, $DATA)
 {
-  $lang                             = $_SESSION['lang'];
-  $boolean                       = false;
-  $count                           = 0;
-  $Hotp                            = $DATA["Hotp"];
-  $DocNo                         = $DATA["DocNo"];
-  $xDocNo                       = str_replace(' ', '%', $DATA["xdocno"]);
-  $datepicker                    = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-  $selecta                          = $DATA["selecta"];
-  $process                        = $DATA["process"];
+  $lang  = $_SESSION['lang'];
+  $boolean  = false;
+  $count = 0;
+  $Hotp = $DATA["Hotp"];
+  $DocNo  = $DATA["DocNo"];
+  $xDocNo  = str_replace(' ', '%', $DATA["xdocno"]);
+  $datepicker  = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+  $selecta  = $DATA["selecta"];
+  $process = $DATA["process"];
 
   if( $process == 'chkpro1')
   {

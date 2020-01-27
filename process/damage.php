@@ -143,8 +143,6 @@ function CreateDocument($conn, $DATA)
               DocDate,
               DepCode,
               Total,
-              IsCancel,
-              Detail,
               damage.Modify_Code,
               damage.Modify_Date
             )
@@ -154,8 +152,6 @@ function CreateDocument($conn, $DATA)
                 DATE(NOW()),
                 '$deptCode',
                 0,
-                0,
-                '',
                 $userid,
                 NOW()
               )";
@@ -913,8 +909,7 @@ function CreateDocument($conn, $DATA)
     item_unit.UnitName,
     damage_detail.UnitCode AS UnitCode2,
     damage_detail.Weight,
-    damage_detail.Qty,
-    damage_detail.Detail
+    damage_detail.Qty
     FROM
     item
     INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
