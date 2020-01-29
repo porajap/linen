@@ -31,7 +31,7 @@ function CreateDoc($conn, $DATA)
     }
 
     if($Cnt == 0){
-        $Sql = "SELECT item_category.CategoryCode,item_category.Price , DATE(NOW()) as DateNowx
+        $Sql = "SELECT item_category.CategoryCode, DATE(NOW()) as DateNowx
         FROM item_category
         WHERE item_category.IsStatus = 0";
     }else{
@@ -45,7 +45,7 @@ function CreateDoc($conn, $DATA)
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $CategoryCode[$count] = $Result['CategoryCode'];
-        $Price[$count] = $Result['Price'];
+        $Price[$count] = $Result['Price']==null?'0':$Result['Price'];
         $DateNowx      = $Result['DateNowx'];
         $count++;
     }

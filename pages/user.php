@@ -369,7 +369,6 @@ $array2 = json_decode($json2,TRUE);
                 var Permission = $('#Permission').val();
                 var facID = $('#factory').val();
                 var email = $('#email').val();
-                var xemail = 0;
 
                 var EngPerfix = $('#EnPerfix').val();
                 var ThPerfix = $('#ThPerfix').val();
@@ -432,7 +431,6 @@ $array2 = json_decode($json2,TRUE);
                         form_data.append('Permission', Permission);
                         form_data.append('facID', facID);
                         form_data.append('email', email);
-                        form_data.append('xemail', xemail);
                         form_data.append('EngPerfix', EngPerfix);
                         form_data.append('ThPerfix', ThPerfix);
                         form_data.append('EngName', EngName);
@@ -580,12 +578,6 @@ $array2 = json_decode($json2,TRUE);
                 
                 $('#remask').val("");
                 $('#factory').attr('disabled' , true);
-
-                var pm = '<?php  echo $PmID;   ?>';
-                if(pm !=3 && pm !=5  && pm !=7) {
-                $('#hptsel').val("");
-                $('#host').val("");
-                }
                 $('#department2').val("");
                 $('#department').val("");
                 $('#Permission').val("");
@@ -596,7 +588,6 @@ $array2 = json_decode($json2,TRUE);
                 $('#delete_icon').addClass('opacity');
                 $('#delete1').removeClass('mhee');
                 $(".dropify-clear").click(); 
-                $("#xemail").prop('checked', false);
                 $(".dropify-clear").click();
                 $('#Enfname').val("");
                 $('#Enlname').val("");
@@ -814,15 +805,6 @@ $array2 = json_decode($json2,TRUE);
                                 $('#Thlname').val(temp['ThLName']);
                                 $('#remask').val(temp['remask']);
 
-                                if (temp['xemail'] == 1)  {
-                                    $('input[type=checkbox]').each(function(){   
-                                        this.checked = true; 
-                                    });                                
-                                }else{
-                                    $('input[type=checkbox]').each(function(){   
-                                        this.checked = false; 
-                                    });                               
-                                    }
                                 if(temp['PmID']==4){
                                     $('#factory').attr('disabled',false);
                                     $('#factory').val(temp['FacCode']);
@@ -1517,25 +1499,18 @@ $array2 = json_decode($json2,TRUE);
                                     </div>
                                     <div class="col-md-6">
                                         <div class='form-group row'>
-                                        <label class="col-sm-3 col-form-label "><?php echo $array['activemail'][$language]; ?></label>
-                                            <input type="checkbox"  id="xemail" class="xemail"style="margin-top: 1.5%;">
+                                        <label class="col-sm-3 col-form-label "><?php echo $array['remask'][$language]; ?></label>
+                                            <input type="text" class="form-control col-sm-8"  id="remask" >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-
                                     <div class="col-md-6">
                                         <div class='form-group row'>
                                         <label class="col-sm-3 col-form-label "><?php echo $array['img'][$language]; ?></label>
                                             <div class="col-md-8" style="padding:0px;">
                                                 <input type="file" class="dropify"  accept="image/x-png,image/gif,image/jpeg" id="image" name="image" />
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class='form-group row'>
-                                        <label class="col-sm-3 col-form-label "><?php echo $array['remask'][$language]; ?></label>
-                                            <input type="text" class="form-control col-sm-8"  id="remask" >
                                         </div>
                                     </div>
                                 </div>

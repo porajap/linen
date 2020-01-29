@@ -20,7 +20,7 @@ function ShowItem($conn, $DATA)
   $Keyword = str_replace(' ' ,'%' ,$DATA['Keyword']);
 
       $Sql="SELECT users.ID, users.EngPerfix, users.EngName, users.EngLName, users.ThPerfix, users.ThName,users.ThLName,
-      users.`Password`,users.UserName,users.email,users.Active_mail,
+      users.`Password`,users.UserName,users.email,
       permission.Permission, HptName , DepName
       FROM users
       INNER JOIN permission ON users.PmID = permission.PmID
@@ -48,7 +48,6 @@ function ShowItem($conn, $DATA)
     $return[$count]['email'] = $Result['email'];
 	  $return[$count]['Permission'] = $Result['Permission'];
 	  $return[$count]['HptName'] = $Result['DepName'];
-	  $return[$count]['Active_mail'] = $Result['Active_mail'];
     $count++;
   }
   $return['Count'] = $count;
@@ -108,18 +107,35 @@ function getdetail($conn, $DATA)
   //    $Sqlx = "INSERT INTO log ( log ) VALUES ('ID : $ID')";
   //    mysqli_query($conn,$Sqlx);
 
-  $Sql = "SELECT users.ID,users.UserName,users.`Password`,
-      site.HptName, site.HptCode, permission.Permission,
-      permission.PmID, factory.FacCode , users.email , 
-      users.Active_mail, users.pic , users.DepCode , department.DepName,
-      users.EngPerfix, users.EngName, users.EngLName,
-      users.ThPerfix, users.ThName, users.ThLName,users.remask
-        FROM users
-        INNER JOIN permission ON users.PmID = permission.PmID
-        INNER JOIN site ON users.HptCode = site.HptCode
-        INNER JOIN department ON department.DepCode = department.DepCode
-        LEFT JOIN factory ON factory.FacCode = users.FacCode  
-        WHERE users.ID = $ID AND users.IsCancel = 0";
+  $Sql = "SELECT
+          users.ID,
+          users.UserName,
+          users.`Password`,
+          site.HptName,
+          site.HptCode,
+          permission.Permission,
+          permission.PmID,
+          factory.FacCode,
+          users.email,
+          users.pic,
+          users.DepCode,
+          department.DepName,
+          users.EngPerfix,
+          users.EngName,
+          users.EngLName,
+          users.ThPerfix,
+          users.ThName,
+          users.ThLName,
+          users.remask 
+        FROM
+          users
+          INNER JOIN permission ON users.PmID = permission.PmID
+          INNER JOIN site ON users.HptCode = site.HptCode
+          INNER JOIN department ON department.DepCode = department.DepCode
+          LEFT JOIN factory ON factory.FacCode = users.FacCode 
+        WHERE
+          users.ID = $ID 
+          AND users.IsCancel = 0 ";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -134,7 +150,6 @@ function getdetail($conn, $DATA)
       $return['HptCode'] = $Result['HptCode'];
       $return['FacCode'] = $Result['FacCode'];
       $return['email'] = $Result['email'];
-      $return['xemail'] = $Result['Active_mail'];
       $return['pic'] = $Result['pic']==null?'default_img.png':$Result['pic'];
 
       $return['EngPerfix'] = $Result['EngPerfix'];

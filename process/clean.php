@@ -31,19 +31,6 @@ function OnLoadPage($conn, $DATA)
 }
 $return['Rowx'] = $countx;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
     if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
@@ -194,13 +181,7 @@ function CreateDocument($conn, $DATA)
                   DocNo,
                   DocDate,
                   DepCode,
-                  TaxNo,
-                  TaxDate,
-                  DiscountPercent,
-                  DiscountBath,
                   Total,
-                  IsCancel,
-                  Detail,
                   clean.Modify_Code,
                   clean.Modify_Date
                 )
@@ -210,12 +191,6 @@ function CreateDocument($conn, $DATA)
                     DATE(NOW()),
                     '$deptCode',
                     0,
-                    DATE(NOW()),
-                    0,
-                    0,
-                    0,
-                    0,
-                    '',
                     $userid,
                     NOW()
                   ) ";
@@ -1284,7 +1259,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN site ON dirty.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = dirty.FacCode
     INNER JOIN process ON process.DocNo = dirty.DocNo
-    WHERE  dirty.IsCancel = 0 AND (dirty.IsStatus = 3 OR dirty.IsStatus = 4) AND site.HptCode = '$hptcode'  AND  (dirty.DocNo LIKE '%%') AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
+    WHERE   (dirty.IsStatus = 3 OR dirty.IsStatus = 4) AND site.HptCode = '$hptcode'  AND  (dirty.DocNo LIKE '%%') AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
     
     UNION ALL 
     
@@ -1293,7 +1268,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN site ON department.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = repair_wash.FacCode
     INNER JOIN process ON process.DocNo = repair_wash.DocNo
-    WHERE repair_wash.IsCancel = 0 AND ( repair_wash.IsStatus = 3 OR repair_wash.IsStatus = 4 ) AND site.HptCode = '$hptcode'  
+    WHERE  ( repair_wash.IsStatus = 3 OR repair_wash.IsStatus = 4 ) AND site.HptCode = '$hptcode'  
     AND NOT repair_wash.RefDocNo = '' AND  (repair_wash.DocNo LIKE '%%') AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
     
     UNION ALL  
@@ -1302,7 +1277,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN site ON newlinentable.HptCode = site.HptCode
     INNER JOIN factory ON factory.FacCode = newlinentable.FacCode
     INNER JOIN process ON process.DocNo = newlinentable.DocNo
-    WHERE newlinentable.IsCancel = 0 AND ( newlinentable.IsStatus = 3 OR newlinentable.IsStatus = 4 )
+    WHERE  ( newlinentable.IsStatus = 3 OR newlinentable.IsStatus = 4 )
     AND site.HptCode = '$hptcode' 
     AND  (newlinentable.DocNo LIKE '%%')  
     AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')

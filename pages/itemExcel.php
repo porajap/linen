@@ -19,7 +19,7 @@ $objReader = PHPExcel_IOFactory::createReader($inputFileType);
 $objReader->setReadDataOnly(true);  
 $objPHPExcel = $objReader->load($inputFileName);  
 
-for($chk = 0; $chk < 13; $chk++){
+for($chk = 0; $chk <= 12; $chk++){
 $objWorksheet = $objPHPExcel->setActiveSheetIndex($chk);
 $highestRow = $objWorksheet->getHighestRow();
 $highestColumn = $objWorksheet->getHighestColumn();
@@ -41,7 +41,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
         }
     }
 }
-
 
     if ($chk == 0) 
     {
@@ -81,7 +80,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx[' SiteTest ']."' ,
                     '".$resx[' stock ']."' 
                 ) ";
-                echo $query;
             mysqli_query($conn, $query);
             //
         }
@@ -152,7 +150,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx['Modify_Date']."',
                     '".$resx['Modify_Code']."'
                 )";
-
             mysqli_query($conn, $query);
             //
         }
@@ -470,7 +467,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx['CategoryCode']."',
                     '".$resx['Price']."'
                 )";
-
             mysqli_query($conn, $query);
             //
         }

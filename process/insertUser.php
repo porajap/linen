@@ -15,11 +15,9 @@ if($Userid==""){
     $Permission = $_POST['Permission'];
     $facID = $_POST['facID'];
     $email = $_POST['email'];
-    $xemail = $_POST['xemail'];
     $Userid = $_SESSION['Userid'];
     $boolean = false ;
     $UserID = $_POST['UsID'];
-
     $EngPerfix = $_POST['EngPerfix'];
     $ThPerfix = $_POST['ThPerfix'];
     $EngName = $_POST['EngName'];
@@ -67,7 +65,6 @@ if($Userid==""){
                 users.email='$email',
                 users.pic='$filename',
                 users.remask='$remask',
-                users.Active_mail='$xemail',
                 users.Modify_Date=NOW(),
                 Modify_Code =  $Userid   
                 WHERE users.ID = $UsID";
@@ -87,7 +84,6 @@ if($Userid==""){
                 users.FacCode=$facID,
                 users.remask='$remask',
                 users.email='$email',
-                users.Active_mail='$xemail',
                 users.Modify_Date=NOW() ,
                 Modify_Code =  $Userid   
                 WHERE users.ID = $UsID";
@@ -122,7 +118,6 @@ if($Userid==""){
                 users.email,
                 users.remask,
                 users.pic,
-                users.Active_mail,
                 users.DocDate,
                 users.Modify_Code 
                 )
@@ -148,7 +143,6 @@ if($Userid==""){
                     '$email',
                     '$remask',
                     '$filename',
-                    $xemail ,
                     NOW(),
                     $Userid
                 )";
@@ -174,7 +168,6 @@ if($Userid==""){
                 users.TimeOut,
                 users.email,
                 users.remask,
-                users.Active_mail,
                 users.DocDate,
                 users.Modify_Code 
         
@@ -200,7 +193,6 @@ if($Userid==""){
                     30,
                     '$email',
                     '$remask',
-                    $xemail,
                     NOW(),
                     $Userid
                 )";

@@ -5,15 +5,18 @@ $TimeOut = $_SESSION['TimeOut'];
 $PmID = $_SESSION['PmID'];
 $HptCode = $_SESSION['HptCode'];
 
-if($Userid==""){
+if($Userid=="")
+{
   header("location:../index.html");
 }
 
-if(empty($_SESSION['lang'])){
+if(empty($_SESSION['lang']))
+{
   $language ='th';
-}else{
+}
+else
+{
   $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');
@@ -23,7 +26,6 @@ $json = json_encode($xml);
 $array = json_decode($json,TRUE);
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2,TRUE);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,9 +71,9 @@ $array2 = json_decode($json2,TRUE);
 <!-- =================================== -->
 <?php if ($language =='th'){ ?>
       <script src="../datepicker/dist/js/datepicker.js"></script>
-    <?php }else if($language =='en'){ ?>
-        <script src="../datepicker/dist/js/datepicker-en.js"></script>
-    <?php } ?>
+<?php }else if($language =='en'){ ?>
+      <script src="../datepicker/dist/js/datepicker-en.js"></script>
+<?php } ?>
 <!-- =================================== -->
 
     <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
@@ -84,117 +86,113 @@ var summary = [];
 var xItemcode;
 var RowCnt=0;
 
-$(document).ready(function(e){
+$(document).ready(function(e)
+{
   $('#rem3').hide();
   $('#rem4').hide();
   var PmID = <?php echo $PmID;?>;
-    if(PmID ==1 || PmID==6){
+    if(PmID ==1 || PmID==6)
+    {
       $('#hotpital').removeClass('icon_select');
     }
-  $('#searchdocument').keyup(function(e) {
-        if (e.keyCode == 13) {
-          ShowDocument(1);
-        }
-        });
-  $('#searchitem').keyup(function(e) {
-        if (e.keyCode == 13) {
+  $('#searchdocument').keyup(function(e)
+  {
+    if (e.keyCode == 13)
+    {
+      ShowDocument(1);
+    }
+  });
+  $('#searchitem').keyup(function(e)
+  {
+        if (e.keyCode == 13)
+        {
           ShowItem();
         }
-          });
-  $('#searchitem1').keyup(function(e) {
-    if (e.keyCode == 13) {
+  });
+  $('#searchitem1').keyup(function(e)
+  {
+    if (e.keyCode == 13)
+    {
       get_dirty_doc();
     }
-      });
+  });
   $('#rem2').hide();    
   $('#Dep2').addClass('icon_select');
-  $('.only').on('input', function() {
-        this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
-      });
+  $('.only').on('input', function()
+  {
+    this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
+  });
   OnLoadPage();
   getDepartment();
-  // CreateDocument();
   //==============================
-  $('.TagImage').bind('click', {
+  $('.TagImage').bind('click',{
     imgId: $(this).attr('id') }, function (evt) { alert(evt.imgId); });
     //On create
     var userid = '<?php echo $Userid; ?>';
-    if(userid!="" && userid!=null && userid!=undefined){
+    if(userid!="" && userid!=null && userid!=undefined)
+    {
       var dept = '<?php echo $_SESSION['Deptid']; ?>';
-      var data = {
+      var data =
+      {
         'STATUS'  : 'getDocument',
         'DEPT'    : dept
       };
-
-      // console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
     }
+
   }).click(function(e) { parent.afk();
-      }).keyup(function(e) { parent.afk();
-      });
+  }).keyup(function(e) { parent.afk();
+  });
 
-
-  jqui(document).ready(function($){
-
-
-
+  jqui(document).ready(function($)
+  {
     dialogUsageCode = jqui( "#dialogUsageCode" ).dialog({
       autoOpen: false,
       height: 670,
       width: 1200,
       modal: true,
-      buttons: {
-        "<?php echo $array['close'][$language]; ?>": function() {
+      buttons:
+      {
+        "<?php echo $array['close'][$language]; ?>": function()
+        {
           dialogUsageCode.dialog( "close" );
         }
       },
-      close: function() {
+      close: function()
+      {
         console.log("close");
       }
     });
   });
 
-      function OpenDialogItem(){
-        // var docno = $("#docno").val();
-        // var RefDocNo = $("#RefDocNo").val();
-        // if( docno != "" ) dialogItemCode.dialog( "open" );
-        // if(RefDocNo==""){
-        //   swal({
-        //     title: '',
-        //     text: "<?php echo $array['required'][$language]; ?>",
-        //     type: 'info',
-        //     showCancelButton: false,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     showConfirmButton: false,
-        //     timer: 2000,
-        //     confirmButtonText: 'Ok'
-        //   });
-        //   $('#rem1').attr('hidden', false);
-        //   $('#RefDocNo').addClass('border border-danger');
-        // }else{
-        // if(docno != ""){
-          setTimeout(() => {
-            $('#dialogItemCode').modal('show');
-          }, 700);
-        //   $('#rem1').attr('hidden', true);
-        //   $('#RefDocNo').removeClass('border border-danger');
-        // }
-        // }
-        ShowItem();
-      }
+  function get_factory()
+  {
+    $("#dialogfactory").modal({
+        backdrop: 'static',
+        keyboard: false
+    });   
+  }
 
-      function OpenDialogUsageCode(itemcode){
-        xItemcode = itemcode;
-        var docno = $("#docno").val();
-        if( docno != "" ){
-          dialogItemCode.dialog( "close" );
-          dialogUsageCode.dialog( "open" );
-          ShowUsageCode();
-        }
-      }
+  function OpenDialogItem()
+  {
+    setTimeout(() => {
+      $('#dialogItemCode').modal('show');
+    }, 700);
+    ShowItem();
+  }
+
+  function OpenDialogUsageCode(itemcode)
+  {
+    xItemcode = itemcode;
+    var docno = $("#docno").val();
+    if( docno != "" )
+    {
+      dialogItemCode.dialog( "close" );
+      dialogUsageCode.dialog( "open" );
+      ShowUsageCode();
+    }
+  }
       function resetradio(row){
-
         var previousValue = $('.checkrow_'+row).attr('previousValue');
           var name = $('.checkrow_'+row).attr('name');
           if (previousValue == 'checked') {
@@ -296,9 +294,11 @@ $(document).ready(function(e){
       function OnLoadPage(){
         var lang = '<?php echo $language; ?>';
         var docno = $("#docno").val();
+        var HptCode = $("#hotpital").val();
         var data = {
           'STATUS'  : 'OnLoadPage' ,
-          'lang'	: lang 
+          'lang'	: lang ,
+          'HptCode'	: HptCode 
         };
 
         senddata(JSON.stringify(data));
@@ -310,7 +310,17 @@ $(document).ready(function(e){
         $('#dialogRefDocNo').modal('show');
         get_dirty_doc();
       }
-
+      function savefactory(){
+          var docno = $("#docno").val();
+          var factory2 = $("#factory2").val();
+          var data = {
+            'STATUS' : 'savefactory',
+            'DocNo'  : docno,
+            'factory2'  : factory2,
+          };
+          console.log(JSON.stringify(data));
+          senddata(JSON.stringify(data));
+      }
       function get_dirty_doc(){
         var hptcode = $('#hotpital option:selected').attr("value");
         var docno = $("#docno").val();
@@ -1026,11 +1036,13 @@ $(document).ready(function(e){
                       $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);
                       $("#factory").empty();
+                      $("#factory2").empty();                        
                   var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
                   for (var i = 0; i < temp["Rowx"]; i++) {
                     Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
                   }
                   $("#factory").append(Str);
+                  $("#factory2").append(Str);
                   $("#hotpital").val(HptCode);
               }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
@@ -1405,6 +1417,13 @@ $(document).ready(function(e){
                   }
                 }
 
+              }else if(temp['form']=="savefactory"){
+                  $('#factory').val(temp['FacCode']);
+                  $('#factory').attr('disabled' , true);
+                  $('#factory').addClass('icon_select');
+                  $('#dialogfactory').modal('toggle');
+                  OpenDialogItem();
+
               }else if(temp['form']=="get_dirty_doc"){
                 if(temp["Row"] > 0){
                 var st1 = "style='font-size:18px;margin-left:3px; width:100px;font-size:24px;'";
@@ -1554,6 +1573,22 @@ $(document).ready(function(e){
     }
     </script>
     <style media="screen">
+           .modal-content1{
+        width: 72% !important;
+        right: -15% !important;
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+        outline: 0;
+      }
      /* ======================================== */
       a.nav-link{
         width:auto!important;
@@ -2104,9 +2139,36 @@ $(document).ready(function(e){
               <button type="button" onclick="SaveBill(1)" class="btn btn-success" style="width: 15%;"><?php echo $array['wantsave'][$language]; ?></button>
               <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 10%;"><?php echo $array['cancel'][$language]; ?></button>
             </div>
-          </div>
         </div>
       </div>
+  </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="dialogfactory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content1">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['selectfactory'][$language]; ?></h5>
+        <button type="button" onclick="unlockfactory();" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <select  class="form-control col-sm-12 "  style="font-size:22px;"  id="factory2">         
+      </select>
+      </div>
+      <div class="modal-footer">
+      <button type="button" onclick="savefactory();" class="btn btn-success" style="width: 50%;"><?php echo $array['wantsave'][$language]; ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <!-- Bootstrap core JavaScript-->
 <script src="../template/vendor/jquery/jquery.min.js"></script>
 <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

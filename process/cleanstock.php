@@ -31,19 +31,6 @@ function OnLoadPage($conn, $DATA)
 }
 $return['Rowx'] = $countx;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
     if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
@@ -1359,7 +1346,7 @@ while ($Result6 = mysqli_fetch_assoc($meQuery6)) {
     INNER JOIN factory ON factory.FacCode = clean.FacCode
     INNER JOIN department ON department.DepCode = clean.DepCode
     INNER JOIN site ON site.HptCode = department.HptCode
-    WHERE  clean.IsCancel = 0 AND clean.IsStatus = 1  AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%' AND (clean.DocDate LIKE '%$datepicker%')
+    WHERE   clean.IsStatus = 1  AND site.HptCode= '$hptcode'  AND  clean.DocNo LIKE '%$searchitem1%' AND (clean.DocDate LIKE '%$datepicker%')
     ORDER BY  clean.Modify_Date ASC ";
     $meQuery = mysqli_query($conn, $Sql);
     $return['sql'] = $Sql;

@@ -6,9 +6,12 @@ header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
 session_start();
 $language = $_SESSION['lang'];
-if ($language == "en") {
+if ($language == "en")
+{
   $language = "en";
-} else {
+}
+else
+{
   $language = "th";
 }
 $xml = simplexml_load_file('../xml/general_lang.xml');
@@ -75,7 +78,8 @@ else
 
 if ($chk == 'one') 
 {
-  if ($format == 1) {
+  if ($format == 1)
+  {
     $where =   "WHERE DATE (report_sc.Docdate) = DATE('$date1')";
     list($year, $mouth, $day) = explode("-", $date1);
     $datetime = new DatetimeTH();
@@ -85,12 +89,17 @@ if ($chk == 'one')
     } else {
       $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year;
     }
-  } elseif ($format = 3) {
+  }
+  elseif ($format = 3)
+  {
     $where = "WHERE  year (report_sc.DocDate) LIKE '%$date1%'";
-    if ($language == "th") {
+    if ($language == "th")
+    {
       $date1 = $date1 + 543;
       $date_header = $array['year'][$language] . " " . $date1;
-    } else {
+    }
+    else
+    {
       $date_header = $array['year'][$language] . $date1;
     }
   }
@@ -101,12 +110,15 @@ elseif ($chk == 'between')
   list($year, $mouth, $day) = explode("-", $date1);
   list($year2, $mouth2, $day2) = explode("-", $date2);
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $year2 = $year2 + 543;
     $year = $year + 543;
     $date_header = $array['date'][$language] . $day . " " . $datetime->getTHmonthFromnum($mouth) . " พ.ศ. " . $year . $array['to'][$language] .
       $array['date'][$language] . $day2 . " " . $datetime->getTHmonthFromnum($mouth2) . " พ.ศ. " . $year2;
-  } else {
+  }
+  else
+  {
     $date_header = $array['date'][$language] . $day . " " . $datetime->getmonthFromnum($mouth) . " " . $year . " " . $array['to'][$language] . " " .
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " . $year2;
   }
@@ -115,9 +127,12 @@ elseif ($chk == 'month')
 {
   $where =   "WHERE month (report_sc.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $date_header = $array['month'][$language]  . " " . $datetime->getTHmonthFromnum($date1);
-  } else {
+  }
+  else
+  {
     $date_header = $array['month'][$language] . " " . $datetime->getmonthFromnum($date1);
   }
 } 
@@ -127,18 +142,22 @@ elseif ($chk == 'monthbetween')
   list($year, $mouth, $day) = explode("-", $betweendate1);
   list($year2, $mouth2, $day2) = explode("-", $betweendate2);
   $datetime = new DatetimeTH();
-  if ($language == 'th') {
+  if ($language == 'th')
+  {
     $year = $year + 543;
     $year2 = $year2 + 543;
     $date_header = $array['month'][$language] . $datetime->getTHmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getTHmonthFromnum($date2) . " $year2 ";
-  } else {
+  }
+  else
+  {
     $date_header = $array['month'][$language] . $datetime->getmonthFromnum($date1) . " $year " . $array['to'][$language] . " " . $datetime->getmonthFromnum($date2) . " $year2 ";
   }
 }
 if ($language == 'th') 
 {
   $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-} else 
+}
+else 
 {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
@@ -209,13 +228,17 @@ $objPHPExcel->getActiveSheet()
 // echo "</pre>";
 if ($chk == 'one') 
 {
-  if ($format == 1) {
+  if ($format == 1)
+  {
     $count = 1;
     $date[] = $date1;
     list($y, $m, $d) = explode('-', $date1);
-    if ($language ==  'th') {
+    if ($language ==  'th')
+    {
       $y = $y + 543;
-    } else {
+    }
+    else
+    {
       $y = $y;
     }
     $date1 = $d . '-' . $m . '-' . $y;
@@ -225,7 +248,8 @@ if ($chk == 'one')
 elseif ($chk == 'between') 
 {
   list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31) {
+  if ($day <> 31)
+  {
     $day = $day + 1;
   }
   $date2 = $year . "-" . $month . "-" . $day;
@@ -234,11 +258,13 @@ elseif ($chk == 'between')
     new DateInterval('P1D'),
     new DateTime($date2)
   );
-  foreach ($period as $key => $value) {
+  foreach ($period as $key => $value)
+  {
     $date[] = $value->format('Y-m-d');
   }
   $count = count($date);
-  for ($i = 0; $i < $count; $i++) {
+  for ($i = 0; $i < $count; $i++)
+  {
     $date1 = $date[$i];
     list($y, $m, $d) = explode('-', $date1);
     if ($language ==  'th') {
@@ -254,7 +280,8 @@ elseif ($chk == 'month')
   $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
   $datequery =  $year1 . '-' . $date1 . '-';
   $dateshow = '-' . $date1 . '-' . $year1;
-  for ($i = 0; $i < $count; $i++) {
+  for ($i = 0; $i < $count; $i++)
+  {
     if($day < 10)
     {
       $day = '0'.$day;
@@ -268,8 +295,10 @@ $date_cell1 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 
 $date_cell2 = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 $round_AZ1 = sizeof($date_cell1);
 $round_AZ2 = sizeof($date_cell2);
-for ($a = 0; $a < $round_AZ1; $a++) {
-  for ($b = 0; $b < $round_AZ2; $b++) {
+for ($a = 0; $a < $round_AZ1; $a++)
+{
+  for ($b = 0; $b < $round_AZ2; $b++)
+  {
     array_push($date_cell1, $date_cell1[$a] . $date_cell2[$b]);
   }
 }
@@ -322,7 +351,7 @@ if ($itemfromweb == '0')
                   AND report_sc.isStatus <> 0
                   AND report_sc.DepCode = '$DepCode[$sheet]'
                   AND report_sc.TotalQty <> 0
-                  GROUP BY  report_sc.itemcode ORDER BY report_sc.ItemName ASC ";
+                  GROUP BY  report_sc.itemcode ORDER BY report_sc.itemname ASC ";
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) 
     {
@@ -340,12 +369,10 @@ if ($itemfromweb == '0')
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", $DateShow[$j]);
       $start_col++;
     }
-
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Qty');
     $start_col++;
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$start_col] . "8", 'Total Weight ');
     // -----------------------------------------------------------------------------------
-
       $item = "SELECT
                     report_sc.ParQty AS  ParQty,
                     report_sc.WeightPerQty AS Weight,
@@ -361,16 +388,16 @@ if ($itemfromweb == '0')
                       }
                       $item = rtrim($item, ' ,'); 
                       $item .= " )  AND report_sc.DepCode = '$DepCode[$sheet]'
-                                      AND category_price.HptCode = '$HptCode'
-                                      GROUP BY  report_sc.itemcode  ";
-    
+                                    AND category_price.HptCode = '$HptCode'
+                                    GROUP BY  report_sc.itemcode  ORDER BY report_sc.itemname ASC";
+           
       for ($i = 0; $i < $countitem; $i++)
       {
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $itemName[$i]);
         $start_row++;
       }
         
-        $start_row = 9;
+      $start_row = 9;
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) 
       {
@@ -398,10 +425,9 @@ if ($itemfromweb == '0')
                                     report_sc.DocDate AS Date_chk
                     FROM report_sc 
                     WHERE  DATE(report_sc.DocDate) IN (";
-                                    for ($day = 0; $day < $count; $day++) {
-                
+                                    for ($day = 0; $day < $count; $day++)
+                                    {
                                       $data .= " '$date[$day]' ,";
-              
                                     }
                                     $data = rtrim($data, ' ,'); 
                       $data .= " )  AND report_sc.isStatus <> 9
@@ -418,6 +444,7 @@ if ($itemfromweb == '0')
         $Date_chk[$cnt] =  $Result["Date_chk"];
         $cnt++;
       }
+
         $ISSUE = 0;
         $TOTAL_WEIGHT = 0;
         $x = 0;
@@ -436,6 +463,7 @@ if ($itemfromweb == '0')
               $r++;
             }
         }
+
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUE);
       $r++;
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_WEIGHT);
@@ -447,13 +475,11 @@ if ($itemfromweb == '0')
     }
 
 
-
-
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[0] . $start_row, $DepName);
     $r = 5;
     for ($day = 0; $day < $count; $day++) 
     {
-      $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+                            $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
                                    COALESCE(sum(report_sc.Weight),'0') as  Weight
                       FROM report_sc 
                       WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
@@ -574,6 +600,8 @@ if ($itemfromweb == '0')
   }
 }
 
+
+// ========================================
 else if ($itemfromweb <> '0') 
 {
     if( $DepCode[0] <> 0)

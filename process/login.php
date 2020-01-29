@@ -280,7 +280,7 @@ function SetActive($conn,$DATA){
       $update = "UPDATE users SET IsActive = 0 WHERE UserName = '$Username' AND Password = '$Password' LIMIT 1";
       mysqli_query($conn, $update);
 
-      $mailSelect = "SELECT email FROM users WHERE HptCode = '$HptCode' AND Active_mail = 1 LIMIT 1";
+      $mailSelect = "SELECT email FROM users WHERE HptCode = '$HptCode'  LIMIT 1";
       $mailQuery = mysqli_query($conn, $mailSelect);
       while ($MResult = mysqli_fetch_assoc($mailQuery)) {
         $Email = $MResult['email'];

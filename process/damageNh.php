@@ -383,7 +383,6 @@ function CreateDocument($conn, $DATA)
                                 users.ThPerfix ,
                                 TIME(damagenh.Modify_Date) AS xTime,
                                 damagenh.IsStatus,
-                                damagenh.RefDocNo,
                                 damagenh.FacCode
               FROM damagenh
               INNER JOIN department ON damagenh.DepCode = department.DepCode
@@ -412,7 +411,6 @@ function CreateDocument($conn, $DATA)
       $return[$count]['RecNow']   = $Result['xTime'];
       $return[$count]['Total']   = $Result['Total'];
       $return[$count]['IsStatus'] = $Result['IsStatus'];
-      $return[$count]['RefDocNo'] = $Result['RefDocNo'];
       $return[$count]['FacCode2'] = $Result['FacCode'];
 
       $boolean = true;

@@ -10,15 +10,19 @@ if($Userid==""){
 function OnLoadPage($conn, $DATA)
 {
   $lang = $DATA["lang"];
-  $HptCode = $_SESSION['HptCode'];
+  $HptCodex = $_SESSION['HptCode'];
+  $HptCode = $DATA["HptCode"]==null?$HptCodex:$DATA["HptCode"];
   $PmID = $_SESSION['PmID'];
   $count = 0; 
   $countx = 0;
   $boolean = false;
-  if($lang == 'en'){
-    $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 ";
-    }else{
-    $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 ";
+  if($lang == 'en')
+    {
+      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode = '$HptCode' ";
+    }
+    else
+    {
+      $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode = '$HptCode' ";
     }  
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -1160,8 +1164,7 @@ function CreateDocument($conn, $DATA)
             INNER JOIN department ON department.DepCode = clean.DepCode
             INNER JOIN site ON site.HptCode = department.HptCode
             WHERE
-              clean.IsCancel = 0
-            AND clean.IsStatus = 1
+              clean.IsStatus = 1
             AND site.HptCode = '$hptcode'
             AND clean.DocNo LIKE '%$searchitem1%'
             AND clean.DocDate = '$datepicker'
@@ -1201,6 +1204,31 @@ function CreateDocument($conn, $DATA)
     {
       $return['status'] = "success";
       $return['form'] = "get_dirty_doc";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+  }
+  function savefactory($conn, $DATA){
+    $DocNo = $DATA["DocNo"];
+    $factory2 = $DATA["factory2"];
+  
+    $Sql ="UPDATE return_wash 
+              SET FacCode = $factory2 
+              WHERE DocNo = '$DocNo'";
+    $meQuery = mysqli_query($conn, $Sql);
+    $return['FacCode'] = $factory2;
+  
+    if (mysqli_query($conn, $Sql)) {
+      $return['status2'] = $Sql;
+      $return['status'] = "success";
+      $return['form'] = "savefactory";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['form'] = "savefactory";
       echo json_encode($return);
       mysqli_close($conn);
       die;
@@ -1253,10 +1281,12 @@ function CreateDocument($conn, $DATA)
       chk_percent($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'updateQty') {
     updateQty($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'savefactory') {
+    savefactory($conn, $DATA);
   }
 
 
-
+  
     
   } else {
     $return['status'] = "error";

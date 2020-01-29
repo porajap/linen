@@ -1267,8 +1267,7 @@ function CreateDocument($conn, $DATA)
                   INNER JOIN site 
                   ON site.HptCode = department.HptCode
 
-                  WHERE  clean.IsCancel = 0 
-                  AND  (clean.IsStatus = 1 OR clean.IsStatus = 2 OR clean.IsStatus = 3 ) 
+                  WHERE (clean.IsStatus = 1 OR clean.IsStatus = 2 OR clean.IsStatus = 3 ) 
                   AND site.HptCode= '$hptcode'  
                   AND  clean.DocNo LIKE '%$searchitem1%'
                   AND (clean.DocDate LIKE '%$datepicker%')

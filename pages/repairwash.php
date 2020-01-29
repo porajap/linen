@@ -8,12 +8,10 @@ $HptCode = $_SESSION['HptCode'];
 if($Userid==""){
   header("location:../index.html");
 }
-
 if(empty($_SESSION['lang'])){
   $language ='th';
 }else{
   $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');

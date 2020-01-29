@@ -2423,18 +2423,24 @@ $array2 = json_decode($json2,TRUE);
             }else if( (temp["form"]=='find_item') ){
                 ShowDetailNew();
                 // KeyNewTotalQty();
-            }else if( (temp["form"]=='ShowItemAll') ){
+            }
+            else if( (temp["form"]=='ShowItemAll') )
+            {
               $( "#TableItemDetail tbody" ).empty();
               var isStatus = $("#IsStatus").val();
               var st1 = "style='font-size:24px;margin-left:20px; width:130px;'";
-              for (var i = 0; i < temp["Row"]; i++) {
+              for (var i = 0; i < temp["Row"]; i++)
+              {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
-                // var chkDoc = "<input type='checkbox' name='checkrow' id='checkrow' class='checkrow_"+i+"' value='"+temp[i]['RowID']+","+temp[i]['ItemName']+"'  onclick='resetradio(\""+i+"\")'><label style='margin-left:27px; '> "+(i+1)+"</label>";
                 var chkunit ="<select onchange='convertUnit(\""+temp[i]['RowID']+"\",this)' class='form-control selectCenter' style='font-size:24px;' id='unit"+i+"'>";
-                for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++){
-                  if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode2']){
+                for(var j = 0; j < temp['Cnt_'+temp[i]['ItemCode']][i]; j++)
+                {
+                  if(temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]==temp[i]['UnitCode2'])
+                  {
                     chkunit += "<option selected value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
-                  }else{
+                  }
+                  else
+                  {
                     chkunit += "<option value="+i+","+temp['MpCode_'+temp[i]['ItemCode']+'_'+i][j]+","+temp['Multiply_'+temp[i]['ItemCode']+'_'+i][j]+">"+temp['UnitName_'+temp[i]['ItemCode']+'_'+i][j]+"</option>";
                   }
                 }
@@ -2461,41 +2467,54 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width: 9%;'nowrap>"+Weight+"</td>"+
                 "</tr>";
 
-                if(rowCount == 0){
+                if(rowCount == 0)
+                {
                   $('#bSaveadd').attr('disabled', true);
                   $('#bSaveadd2').addClass('opacity');
                   $("#countcheck").val("0");
-                  
                   $("#TableItemDetail tbody").append( $StrTR );
-                }else{
+                }
+                else
+                {
                   $('#TableItemDetail tbody:last-child').append( $StrTR );
                 }
               }
               $('.numonly').on('input', function() {
                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
               });
-            }else if( (temp["form"]=='ShowDetailNew') ){
+            }
+            else if( (temp["form"]=='ShowDetailNew') )
+            {
               $( "#TableItemDetail tbody" ).empty();
               var isStatus = $("#IsStatus").val();
               var st1 = "style='font-size:24px;margin-left:20px; width:130px;'";
-              for (var i = 0; i < temp["Row"]; i++) {
+              for (var i = 0; i < temp["Row"]; i++)
+              {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
                 var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee inputDis' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>-</button>"+
                 "<input autocomplete='off' class='form-control numonly QtyItem inputDis' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onchange='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\" ,\""+temp[i]['ItemCode']+"\")'>"+
                 "<button class='btn btn_mheesave inputDis' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
                 var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;font-size: 24px!important'>";
+                
                 var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['ParQty']+"'>";
+                
                 var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\" ,\""+temp[i]['ItemCode']+"\"  )'>";
+                
                 var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
+                
                 var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
+                
                 var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
+                
                 var Weight = "<input autocomplete='off' class='form-control WeightItem'  id='Weight_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weight']+"'>";
+                
                 var Weight2 = "<input  autocomplete='off' class='form-control WeightItem'  id='Weight2_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weightitem']+"'>";
+                
                 var Price = "";
+
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
                 "<td style='width: 21%;'>"+temp[i]['ItemName']+"</td>"+
-                // "<td style='width: 12%;'nowrap>"+chkunit+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Par+"</td>"+
                 "<td style='width: 11%;'nowrap>"+Sc+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Max+"</td>"+
@@ -2507,29 +2526,28 @@ $array2 = json_decode($json2,TRUE);
                 "<td><input type='hidden' id='item_array"+temp[i]['ItemCode']+"' value='"+temp[i]['ItemCode']+"' class='item_array'></input></td>"+
                 "</tr>";
 
-                if(rowCount == 0){
+                if(rowCount == 0)
+                {
                   $('#bSaveadd').attr('disabled', true);
                   $('#bSaveadd2').addClass('opacity');
                   $("#countcheck").val("0");
                   
                   $("#TableItemDetail tbody").append( $StrTR );
-                }else{
+                }
+                else
+                {
                   $('#TableItemDetail tbody:last-child').append( $StrTR );
                 }
               }
               Calculate(temp['Row']);
-              $('.numonly').on('input', function() {
-                this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
+              $('.numonly').on('input', function()
+              {
+                this.value = this.value.replace(/[^0-9.]/g, ''); 
               });
-              if(isStatus==1){
+              if(isStatus != 0 )
+              {
                 $(".inputDis").attr('disabled', true);
               }
-              var chk_sign = $('#chk_sign').val();
-              // if(chk_sign == 1){
-              //   if(temp['chk_sign']==0){
-              //     $('#ModalSign').modal('show');
-              //   }
-              // }
             }
           }else if (temp['status']=="failed") {
             switch (temp['msg']) {

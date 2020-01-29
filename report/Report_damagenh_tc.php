@@ -150,8 +150,7 @@ damagenh.DocNo,
 DATE_FORMAT(damagenh.DocDate,'%d-%m-%Y')AS DocDate,
 damagenh.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
-TIME(damagenh.Modify_Date)  AS xTime,
-damagenh.RefDocNo
+TIME(damagenh.Modify_Date)  AS xTime
 FROM damagenh
 INNER JOIN department ON damagenh.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
@@ -166,7 +165,6 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $Total = $Result['Total'];
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
-  $RefDocNo = $Result['RefDocNo'];
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
