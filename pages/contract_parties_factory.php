@@ -12,7 +12,6 @@ if(empty($_SESSION['lang'])){
   $language ='th';
 }else{
   $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');
@@ -79,142 +78,171 @@ $array2 = json_decode($json2,TRUE);
 
     <script type="text/javascript">
       var summary = [];
-      function twoDigit(s){
+      function twoDigit(s)
+      {
           var sNum = s.toString();
           if(sNum.length==1) sNum = "0"+s;
           return sNum;
       }
         // ---------------------------------------------------
-        (function ($) {
-            $(document).ready(function () {
+        (function ($)
+        {
+            $(document).ready(function ()
+            {
                 $("#datepicker3").datepicker({
-                    onSelect: function (date, el) {
+                    onSelect: function (date, el)
+                    {
                         resetinput();
                     }
                 });
                 $("#datepicker4").datepicker({
-                    onSelect: function (date, el) {
+                    onSelect: function (date, el)
+                    {
                         resetinput();
                     }
                 });
             });
         })(jQuery);
         // ---------------------------------------------------
-    $(document).ready(function(e){
+    $(document).ready(function(e)
+    {
       $('#rem1').hide();
       $('#rem2').hide();
       $('#rem3').hide();
       ShowDocument();
-      $('.only').on('input', function() {
+      $('.only').on('input', function()
+      {
         this.value = this.value.replace(/[^]/g, ''); //<-- replace all other than given set of values
       });
-      $('.numonly').on('input', function() {
+      $('.numonly').on('input', function()
+      {
         this.value = this.value.replace(/[^0-9./]/g, ''); //<-- replace all other than given set of values
       });
-      $('.charonly').on('input', function() {
+      $('.charonly').on('input', function()
+      {
         this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
       });
-    $("#IsStatus").val('0');
-		OnLoadPage();
-    // ShowDocument();
-    // getDepartment();
+      $("#IsStatus").val('0');
+      OnLoadPage();
+      // ShowDocument();
+      // getDepartment();
 
-  }).click(function(e) { parent.afk();
-      }).keyup(function(e) { parent.afk();
-      });
+    }).click(function(e) { parent.afk();
+    }).keyup(function(e) { parent.afk();
+    });
 
-    jqui(document).ready(function($){
-
-		dialog = jqui( "#dialog" ).dialog({
+    jqui(document).ready(function($)
+    {
+		  dialog = jqui( "#dialog" ).dialog({
 		  autoOpen: false,
 		  height: 650,
 		  width: 1200,
 		  modal: true,
-		  buttons: {
-			"ปิด": function() {
-			  dialog.dialog( "close" );
-			}
+		  buttons:
+      {
+        "ปิด": function()
+        {
+          dialog.dialog( "close" );
+        }
 		  },
-		  close: function() {
-			console.log("close");
+		  close: function()
+      {
+			  console.log("close");
 		  }
-		});
+		  });
 
     });
 
-
 	//======= On create =======
 	//console.log(JSON.stringify(data));
-	function OnLoadPage(){
-      var data = {
+	function OnLoadPage()
+  {
+      var data =
+      {
         'STATUS'  : 'OnLoadPage'
       };
       senddata(JSON.stringify(data));
-	  $('#IsStatus').val(0)
+	    $('#IsStatus').val(0)
 	}
-  function checkblank2(){
+
+  function checkblank2()
+  {
     var factory = $('#factory').val();
     var datepicker1 = $('#datepicker3').val();
     var datepicker2 = $('#datepicker4').val();
-          $('.checkblank2').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).addClass('border-danger');
-
-              if(factory ==""||factory==undefined){
-                  $('#rem1').show().css("color","red");
-                }
-                if(datepicker1 ==""||datepicker1==undefined){
-                  $('#rem2').show().css("color","red");
-                }
-                if(datepicker2 ==""||datepicker2==undefined){
-                  $('#rem3').show().css("color","red");
-                }
-
-
-
-
-            }else{
-              $(this).removeClass('border-danger');
-            }
-          });
+      $('.checkblank2').each(function()
+      {
+        if($(this).val()==""||$(this).val()==undefined)
+        {
+          $(this).addClass('border-danger');
+              if(factory ==""||factory==undefined)
+              {
+                $('#rem1').show().css("color","red");
+              }
+              if(datepicker1 ==""||datepicker1==undefined)
+              {
+                $('#rem2').show().css("color","red");
+              }
+              if(datepicker2 ==""||datepicker2==undefined)
+              {
+                $('#rem3').show().css("color","red");
+              }
         }
-        function removeClassBorder1(){
-          $('#factory').removeClass('border-danger');
+        else
+        {
+          $(this).removeClass('border-danger');
         }
-	function getDepartment(){
+      });
+  }
+
+  function removeClassBorder1()
+  {
+    $('#factory').removeClass('border-danger');
+  }
+
+	function getDepartment()
+  {
 	  var Hotp = $('#factory option:selected').attr("value");
 	  if( typeof Hotp == 'undefined' ) Hotp = "BHQ";
-      var data = {
+      var data =
+      {
         'STATUS'  : 'getDepartment',
 		    'Hotp'	: Hotp
       };
       senddata(JSON.stringify(data));
 	}
 
-	function CreateDocument(){
+	function CreateDocument()
+  {
 		 dialog.dialog( "open" );
-    }
+  }
 
-	function getRow(id , row){
+	function getRow(id , row)
+  {
     var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
-        if (previousValue == 'checked') {
+        if (previousValue == 'checked')
+        {
           $('#checkitem_'+row).removeAttr('checked');
           $('#checkitem_'+row).attr('previousValue', false);
           $('#checkitem_'+row).prop('checked', false);
           ClearRow();
-        } else {
+        }
+        else
+        {
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
-		 var data = {
-        'STATUS'  : 'getRow',
-		'RowID'	: id
-      };
-      senddata(JSON.stringify(data));
+		        var data =
+            {
+              'STATUS'  : 'getRow',
+		          'RowID'	: id
+            };
+          senddata(JSON.stringify(data));
         }
-    }
+  }
 
-	function ClearRow(){
+	function ClearRow()
+  {
     $('#rem1').hide();
     $('#rem2').hide();
     $('#rem3').hide();
@@ -223,10 +251,14 @@ $array2 = json_decode($json2,TRUE);
 		$("#datepicker4").val('');
 		$("#xDetail").val('');
     $("#factory").val('');
-    $('.checkblank2').each(function() {
-      if($(this).val()==""||$(this).val()==undefined){
+    $('.checkblank2').each(function()
+    {
+      if($(this).val()==""||$(this).val()==undefined)
+      {
         $(this).removeClass('border-danger');
-      }else{
+      }
+      else
+      {
         $(this).removeClass('border-color', '');
       }
     });
@@ -238,26 +270,29 @@ $array2 = json_decode($json2,TRUE);
     });
 	}
 
-	function CancelRow(){
-		var id = $("#xRowID").val();
-    setTimeout(function () {
-      parent.OnLoadPage();
-    }, 1000);
-		swal({
-          title: "<?php echo $array['canceldata'][$language]; ?>",
-          text: "<?php echo $array['factory'][$language]; ?> : " +$('#factory option:selected').text(),
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          closeOnConfirm: false,
-          closeOnCancel: false,
-          showCancelButton: true}).then(result => {
-            
-        if (result.value) {
+	function CancelRow()
+  {
+      var id = $("#xRowID").val();
+      setTimeout(function ()
+      {
+        parent.OnLoadPage();
+      }, 1000);
+      swal({
+      title: "<?php echo $array['canceldata'][$language]; ?>",
+      text: "<?php echo $array['factory'][$language]; ?> : " +$('#factory option:selected').text(),
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonClass: "btn-danger",
+      confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+      cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      closeOnConfirm: false,
+      closeOnCancel: false,
+      showCancelButton: true}).then(result =>
+      {
+        if (result.value)
+        {
           swal({
             title: '',
             text: "<?php echo $array['cancelsuccessmsg'][$language]; ?>",
@@ -269,7 +304,7 @@ $array2 = json_decode($json2,TRUE);
             timer: 2000,
             confirmButtonText: 'Ok'
           });
-          setTimeout(() => {
+          setTimeout(() =>{
           var data = {
             'STATUS'  : 'CancelRow',
             'RowID'	: id
@@ -277,172 +312,199 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
           ClearRow();
           ShowDocument();
-        }, 2000);
-        }else if (result.dismiss === 'cancel') {
+          }, 2000);
+        }
+        else if(result.dismiss === 'cancel')
+        {
           swal.close();
         } 
-		})
-    }
-    function resetinput(){
+      })
+  }
+
+  function resetinput()
+  {
     var facid = $('#factory option:selected').attr("value");
     var datepicker3 = $('#datepicker3').val();
     var datepicker4 = $('#datepicker4').val();
-
-                if(facid !="" && facid!=undefined){
-                  $('#rem1').hide();
-                  $('#factory').removeClass('border border-danger');
-                }
-                if(datepicker3 !="" && datepicker3!=undefined){
-                  $('#rem2').hide();
-                  $('#datepicker3').removeClass('border border-danger');
-                }
-                if(datepicker4 !="" && datepicker4 !=undefined){
-                  $('#rem3').hide();
-                  $('#datepicker4').removeClass('border border-danger');
-                  }
-
-
+    if(facid !="" && facid!=undefined)
+    {
+      $('#rem1').hide();
+      $('#factory').removeClass('border border-danger');
     }
-	function SaveRow(){
-		var isStatus = $("#IsStatus").val();
-		var id = $("#xRowID").val();
-		var facid = $('#factory option:selected').attr("value");
-		var datepicker3 = $('#datepicker3').val();
-    var datepicker4 = $('#datepicker4').val();
-		var datepicker1 = $('#datepicker3').val();
-    var datepicker2 = $('#datepicker4').val();
-    var lang = '<?php echo $language; ?>';
-    if(lang =='th'){
-	  datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	  datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
-    }else if(lang =='en'){
-    datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    if(datepicker3 !="" && datepicker3!=undefined)
+    {
+      $('#rem2').hide();
+      $('#datepicker3').removeClass('border border-danger');
     }
-    var chk1 = new Date(datepicker1);
-    var chk2 = new Date(datepicker2);
-
-    if(chk1>chk2){
-      swal({
-        title: "",
-        text: "<?php echo $array['invalid'][$language]; ?>",
-        type: "warning",
-        showConfirmButton: false,
-        showCancelButton: false,
-        timer:2000
-      });
-      setTimeout(() => {
-        $('#datepicker4').addClass('border border-danger');
-      }, 2000);
-    }else{
+    if(datepicker4 !="" && datepicker4 !=undefined)
+    {
+      $('#rem3').hide();
       $('#datepicker4').removeClass('border border-danger');
-      var xDetail = $("#xDetail").val();
-      if(facid=='' || datepicker3=='' || datepicker4==''){
+    }
+  }
+
+  function SaveRow()
+  {
+      var isStatus = $("#IsStatus").val();
+      var id = $("#xRowID").val();
+      var facid = $('#factory option:selected').attr("value");
+      var datepicker3 = $('#datepicker3').val();
+      var datepicker4 = $('#datepicker4').val();
+      var datepicker1 = $('#datepicker3').val();
+      var datepicker2 = $('#datepicker4').val();
+      var lang = '<?php echo $language; ?>';
+      if(lang =='th')
+      {
+        datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+        datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+      }
+      else if(lang =='en')
+      {
+        datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+        datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+      }
+      var chk1 = new Date(datepicker1);
+      var chk2 = new Date(datepicker2);
+
+      if(chk1>chk2)
+      {
+        swal({
+          title: "",
+          text: "<?php echo $array['invalid'][$language]; ?>",
+          type: "warning",
+          showConfirmButton: false,
+          showCancelButton: false,
+          timer:2000
+        });
+        setTimeout(() =>
+        {
+          $('#datepicker4').addClass('border border-danger');
+        }, 2000);
+      }
+      else
+      {
+        $('#datepicker4').removeClass('border border-danger');
+        var xDetail = $("#xDetail").val();
+        if(facid=='' || datepicker3=='' || datepicker4=='')
+        {
             checkblank2();
             swal({
-              title: '',
-              text: "<?php echo $array['required'][$language]; ?>",
-              type: 'info',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 2000,
-              confirmButtonText: 'Ok'
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
             });
-        }else{
-      swal({
-          title: "<?php echo $array['save'][$language]; ?>",
-          text: "",
-          type: "question",
-          showCancelButton: true,
-          confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
-          closeOnConfirm: false,
-          closeOnCancel: false,
-          showCancelButton: true
-      }).then(result => {
-          if (result.value) {
+        }
+        else
+        {
             swal({
-              title: '',
-              text: "<?php echo $array['savesuccess'][$language]; ?>",
-              type: 'success',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 2000,
-              confirmButtonText: 'Ok'
-            });
-            setTimeout(() => {
-              var data = {
-                'STATUS'  	: 'SaveRow',
-                'isStatus'	: isStatus,
-                'RowID'		: id,
-                'facid'		: facid,
-                'sDate'		: datepicker1,
-                'eDate'		: datepicker2,
-                'Detail'	: xDetail
-              };
-              ClearRow();
-              senddata(JSON.stringify(data));
-            }, 2000);
-          } else if (result.dismiss === 'cancel') {
-              swal.close();
-          }     
-      })
-    }
-    
-		
+            title: "<?php echo $array['save'][$language]; ?>",
+            text: "",
+            type: "question",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true
+            }).then(result =>
+          {
+            if (result.value)
+            {
+                swal({
+                title: '',
+                text: "<?php echo $array['savesuccess'][$language]; ?>",
+                type: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
+                });
+              setTimeout(() =>
+              {
+                var data =
+                {
+                  'STATUS'  	: 'SaveRow',
+                  'isStatus'	: isStatus,
+                  'RowID'		: id,
+                  'facid'		: facid,
+                  'sDate'		: datepicker1,
+                  'eDate'		: datepicker2,
+                  'Detail'	: xDetail
+                };
+                ClearRow();
+                senddata(JSON.stringify(data));
+              }, 2000);
+            }
+            else if (result.dismiss === 'cancel')
+            {
+                swal.close();
+            }     
+          })
+        }	
+      }
   }
-}
 
-	function ShowDocument(){
+	function ShowDocument()
+  {
 	  var datepicker1 = $('#datepicker1').val();
     var datepicker2 = $('#datepicker2').val();
     var lang = '<?php echo $language; ?>';
-    if(lang =='th'){
-	  datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	  datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
-    }else if(lang =='en'){
-    datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
-	  datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    if(lang =='th')
+    {
+	    datepicker1 = datepicker1.substring(6, 10)-543+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	    datepicker2 = datepicker2.substring(6, 10)-543+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
+    }
+    else if(lang =='en')
+    {
+      datepicker1 = datepicker1.substring(6, 10)+"-"+datepicker1.substring(3, 5)+"-"+datepicker1.substring(0, 2);
+	    datepicker2 = datepicker2.substring(6, 10)+"-"+datepicker2.substring(3, 5)+"-"+datepicker2.substring(0, 2);
     }
 	  var deptCode = $('#department option:selected').attr("value");
 	  if( typeof deptCode == 'undefined' ) deptCode = "1";
 	  //alert( deptCode );
-      var data = {
+      var data =
+      {
         'STATUS'  	: 'ShowDocument',
-		'deptCode'	: deptCode,
-		'sDate'	: datepicker1,
-		'eDate'	: datepicker2
+        'deptCode'	: deptCode,
+        'sDate'	: datepicker1,
+        'eDate'	: datepicker2
       };
       senddata(JSON.stringify(data));
 	}
 
-    function logoff() {
-      swal({
-        title: '',
-        text: '<?php echo $array['logout'][$language]; ?>',
-        type: 'success',
-        showCancelButton: false,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        showConfirmButton: false,
-        timer: 1000,
-        confirmButtonText: 'Ok'
-      }).then(function () {
-        window.location.href="../logoff.php";
-      }, function (dismiss) {
-        window.location.href="../logoff.php";
-        if (dismiss === 'cancel') {
+  function logoff()
+  {
+    swal({
+      title: '',
+      text: '<?php echo $array['logout'][$language]; ?>',
+      type: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      showConfirmButton: false,
+      timer: 1000,
+      confirmButtonText: 'Ok'
+    }).then(function () {
+      window.location.href="../logoff.php";
+    }, function (dismiss) {
+      window.location.href="../logoff.php";
+      if (dismiss === 'cancel')
+      {
 
-        }
-      })
-    }
+      }
+    })
+  }
 
     function senddata(data){
        var form_data = new FormData();

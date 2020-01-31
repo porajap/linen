@@ -44,16 +44,19 @@ function getSection($conn, $DATA)
   die;
 
 }
-function getTime($conn, $DATA){
+function getTime($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $Sql = "SELECT ID, TimeName FROM sc_time_2 WHERE ID  BETWEEN 1 AND 48  ORDER BY ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $return[$count]['ID']  = $Result['ID'];
     $return[$count]['TimeName']  = $Result['TimeName'];
     $count++;
   }
+
   $return['Count'] = $count;
   $return['Sql'] = $Sql;
   $return['HptCode'] = $HptCode;
@@ -63,7 +66,9 @@ function getTime($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-function getTime2($conn, $DATA){
+
+function getTime2($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $Sql = "SELECT ts.ID, ts.TimeName FROM sc_time_2 ts
@@ -71,11 +76,13 @@ function getTime2($conn, $DATA){
   WHERE ts.ID NOT IN(SELECT sc_express.Time_ID  FROM sc_express WHERE sc_express.HptCode = '$HptCode') AND ts.ID  BETWEEN 1 AND 48
   ORDER BY ts.ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $return[$count]['ID']  = $Result['ID'];
     $return[$count]['TimeName']  = $Result['TimeName'];
     $count++;
   }
+
   $return['Count'] = $count;
   $return['status'] = "success";
   $return['form'] = "getTime2";
@@ -83,7 +90,9 @@ function getTime2($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-function ShowItem($conn, $DATA){
+
+function ShowItem($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $Keyword = $DATA['Keyword'];
   $count = 0;
@@ -92,17 +101,21 @@ function ShowItem($conn, $DATA){
     INNER JOIN site ON site.HptCode = te.HptCode 
     INNER JOIN sc_time_2 ON sc_time_2.ID = te.Time_ID  
     WHERE te.HptCode = '$HptCode' ORDER BY sc_time_2.ID";
-    if($Keyword != ''){
+    if($Keyword != '')
+    {
       $Select .= "  AND (sc_time_2.TimeName LIKE  '%$Keyword%')";
     }
+
     $meQuery = mysqli_query($conn, $Select);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $return[$count]['ID']  = $Result['ID'];
       $return[$count]['HptName']  = $Result['HptName'];
       $return[0]['HptCode']  = $Result['HptCode'];
       $return[$count]['TimeName']  = $Result['TimeName'];
       $count++;
     }
+
     $return['Count'] = $count;
     $return['status'] = "success";
     $return['form'] = 'ShowItem';
@@ -111,15 +124,19 @@ function ShowItem($conn, $DATA){
     die;
     
 }
-function AddItem($conn, $DATA){
+
+function AddItem($conn, $DATA)
+{
   $Userid = $_SESSION['Userid'];
   $HptCode = $DATA['HptCode'];
   $Time = $DATA['Time'];
   $Sql = "INSERT INTO sc_express (Time_ID, HptCode ,DocDate ,Modify_Code ,Modify_Date)VALUES($Time, '$HptCode',NOW(),$Userid,NOW() )";
   mysqli_query($conn, $Sql);
-  // ShowItem($conn, $DATA);
+  ShowItem($conn, $DATA);
 }
-function getDetail($conn, $DATA){
+
+function getDetail($conn, $DATA)
+{
   $ID = $DATA['ID'];
   $Sql = "SELECT te.ID, te.HptCode , site.HptName
   FROM sc_express te
@@ -134,7 +151,9 @@ function getDetail($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-function EditItem($conn, $DATA){
+
+function EditItem($conn, $DATA)
+{
   $Userid = $_SESSION['Userid'];
   $ID = $DATA['TimeID'];
   $HptCode = $DATA['HptCode'];
@@ -143,12 +162,14 @@ function EditItem($conn, $DATA){
   mysqli_query($conn, $Sql);
   ShowItem($conn, $DATA);
 }
-function CancelItem($conn, $DATA){
+
+function CancelItem($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $TimeID = $DATA['TimeID'];
   $Sql = "DELETE FROM sc_express WHERE ID = $TimeID";
   mysqli_query($conn, $Sql);
-  // ShowItem($conn, $DATA);
+  ShowItem($conn, $DATA);
 }
 
 

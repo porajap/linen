@@ -181,7 +181,6 @@ $array2 = json_decode($json2,TRUE);
                                 'HptCode':HptCode,
                                 'Time':Time
                             };
-                            Blankinput();
                             senddata(JSON.stringify(data));
                         }, 1500);
                     } else if (result.dismiss === 'cancel') {
@@ -251,7 +250,6 @@ $array2 = json_decode($json2,TRUE);
                         }
                         senddata(JSON.stringify(data));
                     }, 1500);
-                    Blankinput();               
                 } else if (result.dismiss === 'cancel') {
                     swal.close();
                 }
@@ -474,6 +472,7 @@ $array2 = json_decode($json2,TRUE);
                 }
             });
         }
+        
     </script>
      <style media="screen">
         @font-face {

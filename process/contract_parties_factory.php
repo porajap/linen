@@ -7,41 +7,48 @@ $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
 }
-function OnLoadPage($conn,$DATA){
+function OnLoadPage($conn,$DATA)
+{
   $count = 0;
   $boolean = false;
   $lang = $_SESSION['lang'];
   $HptCode = $_SESSION['HptCode'];
 
-  if($lang == 'en'){
+  if($lang == 'en')
+  {
     $Sql = "SELECT factory.FacCode,factory.FacName
     FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode= '$HptCode'";
-  }else{
+  }
+  else
+  {
     $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName
     FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode= '$HptCode'";
   }
-
   $meQuery = mysqli_query($conn,$Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $return[$count]['FacCode'] = $Result['FacCode'];
     $return[$count]['FacName'] = $Result['FacName'];
     $count++;
-	$boolean = true;
+	  $boolean = true;
   }
-$boolean = true;
-  if($boolean){
-    $return['status'] = "success";
-    $return['form'] = "OnLoadPage";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "failed";
-    $return['form'] = "OnLoadPage";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
+    $boolean = true;
+    if($boolean)
+    {
+      $return['status'] = "success";
+      $return['form'] = "OnLoadPage";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+    else
+    {
+      $return['status'] = "failed";
+      $return['form'] = "OnLoadPage";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
 }
 
 function getDepartment($conn,$DATA){
@@ -91,9 +98,6 @@ function ShowDocument($conn,$DATA){
   $sl1 = strlen($sDate);
   $sl2 = strlen($eDate);
 
-//	 $Sql = "INSERT INTO log ( log ) VALUES ('$sl1  :  $sl2')";
-//     mysqli_query($conn,$Sql);
-
   $Sql = "SELECT
             RowID,
             FacName,
@@ -109,8 +113,7 @@ function ShowDocument($conn,$DATA){
           INNER JOIN factory ON contract_parties_factory.FacCode = factory.FacCode
           INNER JOIN site ON site.HptCode = factory.HptCode
           WHERE
-            contract_parties_factory.IsStatus = 0
-          AND factory.HptCode = '$HptCode' ";
+            contract_parties_factory.IsStatus = 0 AND factory.IsCancel = 0  AND factory.HptCode = '$HptCode' ";
   if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate BETWEEN '$sDate' AND  '$eDate' ";
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $meQuery = mysqli_query($conn,$Sql);

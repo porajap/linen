@@ -246,12 +246,13 @@ if ($chk == 'one') {
     COALESCE(newlinentable.DocDate,0) AS DocDate
     FROM clean
     INNER JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
-    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.DocNo
     INNER JOIN department ON department.DepCode = clean.DepCode
 		INNER JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date'
     AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'AND clean.IsStatus  <> 9 )
     f";
+    
       $meQuery = mysqli_query($conn, $query);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $docdate = $Result['DocDate'];
@@ -390,7 +391,7 @@ if ($chk == 'one') {
       COALESCE(newlinentable.DocDate,0) AS DocDate
       FROM clean
       INNER JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
-      INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+      INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.DocNo
       INNER JOIN department ON department.DepCode = clean.DepCode
 		  INNER JOIN site ON department.HptCode = site.HptCode
       WHERE DATE (clean.Docdate) = '$date[$i]'
@@ -534,7 +535,7 @@ if ($chk == 'one') {
     COALESCE(newlinentable.DocDate,0) AS DocDate
     FROM clean
     INNER JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
-    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.DocNo
     INNER JOIN department ON department.DepCode = clean.DepCode
     INNER JOIN site ON department.HptCode = site.HptCode
     WHERE DATE (clean.Docdate) = '$date[$i]'
@@ -611,7 +612,7 @@ if ($chk == 'one') {
     $DateShow[] = $day . $dateshow;
     $day++;
   }
-  for ($i = 1; $i <= $count; $i++) {
+  for ($i = 0; $i <= $count; $i++) {
     $query = "SELECT 
    DIRTY,
    repair_wash,
@@ -653,8 +654,7 @@ if ($chk == 'one') {
   FROM clean
   INNER JOIN department ON department.DepCode = clean.DepCode
 		INNER JOIN site ON department.HptCode = site.HptCode
-  WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR  clean.RefDocNo LIKE '%DT%')
-      AND clean.IsStatus <>9 AND site.HptCode= '$HptCode' AND clean.FacCode = '$FacCode'
+  WHERE DATE (clean.Docdate) = '$date[$i]' AND clean.IsStatus <>9 AND site.HptCode= '$HptCode' AND clean.FacCode = '$FacCode'
   )d,
   (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
   COALESCE(return_wash.DocDate,0) AS DocDate
@@ -674,7 +674,8 @@ if ($chk == 'one') {
   WHERE DATE (clean.Docdate) = '$date[$i]'
   AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
   AND clean.IsStatus  <> 9)
-f";
+  f";
+   
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $docdate = $Result['DocDate'];
@@ -810,7 +811,7 @@ f";
   COALESCE(newlinentable.DocDate,0) AS DocDate
   FROM clean
     INNER JOIN clean_ref ON clean_ref.DocNo = clean.DocNo
-    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.RefDocNo
+    INNER JOIN newlinentable ON clean_ref.RefDocNo = newlinentable.DocNo
   INNER JOIN department ON department.DepCode = clean.DepCode
 		INNER JOIN site ON department.HptCode = site.HptCode
   WHERE DATE (clean.Docdate) = '$date[$i]'

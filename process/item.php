@@ -32,7 +32,7 @@ function ShowItem($conn, $DATA)
           WHEN '9' THEN 'NO SIZE' END AS SizeCode,
             item.Weight,
             item.IsClean,
-            item.isset,
+            item.isSAP,
             item.Tdas
           FROM item
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
@@ -99,7 +99,7 @@ $return['Page']      	               = $Page;
     $return[$count]['SizeCode']           = $Result['SizeCode'];
     $return[$count]['Weight']             = $Result['Weight'];
     $return[$count]['IsDirtyBag']       = $Result['IsClean']==null?0:$Result['IsClean'];
-    $return[$count]['isset']                = $Result['isset']==null?0:$Result['isset'];
+    $return[$count]['isset']                = $Result['isSAP']==null?0:$Result['isSAP'];
     $return[$count]['Tdas']               = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
   }
@@ -441,7 +441,6 @@ function getdetail($conn, $DATA)
           item.UnitCode2,
           IsClean,
           Tdas,
-          isset,
           HptCode,
           isSAP
           FROM item
@@ -475,7 +474,6 @@ function getdetail($conn, $DATA)
     $return[$count]['QtyPerUnit']       = $Result['QtyPerUnit'];
     $return[$count]['sUnitName']        = $Result['UnitCode2'];
     $return[0]['IsDirtyBag']            = $Result['IsClean']==null?0:$Result['IsClean'];
-    $return[0]['isset']                 = $Result['isset']==null?0:$Result['isset'];
     $return[0]['tdas']                  = $Result['Tdas']==null?0:$Result['Tdas'];
     $return[0]['isSAP']                  = $Result['isSAP']==null?0:$Result['isSAP'];
     $count++;
@@ -550,7 +548,6 @@ function AddItem($conn, $DATA)
             UnitCode2     = '" . $DATA['sUnit'] . "',
             IsClean       = '" . $DATA['xCenter'] . "',  
             Tdas          = '" . $DATA['tdas'] . "',
-            isset         = ". $DATA['masterItem'].",
             HptCode       = '". $DATA['hospital']."',
             Modify_Date   = NOW(),
             Modify_Code   =  $Userid,
@@ -736,7 +733,6 @@ function NewItem($conn, $DATA)
             IsClean,
             itemDate,
             Tdas,
-            isset,
             HptCode,
             Modify_Date,
             Modify_Code,
@@ -758,7 +754,6 @@ function NewItem($conn, $DATA)
               '" . $DATA['xCenter'] . "',
               NOW(),
               '" . $DATA['tdas'] . "',
-              '" . $DATA['masterItem'] . "',
               '" . $DATA['HptCode'] . "',
               NOW(),
               $Userid ,        

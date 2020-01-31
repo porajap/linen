@@ -62,19 +62,20 @@ class MYPDF extends TCPDF
     $HptCode = $_SESSION['HptCode'];
     require('connect.php');
     $queryy = "SELECT
-              site.private,
-              site.government
+              site.money
               FROM
               site
               WHERE site.HptCode = '$HptCode' ";
     $meQuery = mysqli_query($conn, $queryy);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $private = $Result['private'];
-      $government = $Result['government'];
+      $money = $Result['money'];
     }
-    if ($private == 1) {
+    if ($money == 1)
+    {
       $w = array(5, 35, 10, 10, 10, 10, 10, 10);
-    } elseif ($government == 1) {
+    }
+    else
+    {
       $w = array(5, 35, 12, 12, 12, 12, 12);
     }
     $datetime = new DatetimeTH();
@@ -257,6 +258,7 @@ $header = array($array2['no']['en'], $array2['itemname']['en'], $array2['parqty'
 $count = 1;
 
 // // ------------------------------------------------------------------------------
+$HptCodex = substr($docno , 2 , 3) ;
 $head = "SELECT
 shelfcount.DocNo,
 DATE(shelfcount.DocDate) AS DocDate,
@@ -276,7 +278,7 @@ LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
 LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
 WHERE shelfcount.DocNo='$docno'
 AND shelfcount.isStatus<> 9
-        ";
+AND site.HptCode ='$HptCodex'  ";
 
 $meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -320,23 +322,25 @@ INNER JOIN department ON shelfcount.DepCode = department.DepCode
           WHERE shelfcount.DocNo='$docno'
           AND shelfcount_detail.TotalQty <> 0
             AND shelfcount.isStatus<> 9
-            AND category_price.HptCode = '$HptCode'";
+            AND category_price.HptCode = '$HptCode' 
+            AND department.HptCode ='$HptCodex' ";
 
 $queryy = "SELECT
-site.private,
-site.government
+site.money
 FROM
 site
 WHERE site.HptCode = '$HptCode' ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $private = $Result['private'];
-  $government = $Result['government'];
+  $money = $Result['money'];
 }
 
-if ($private == 1) {
+if ($money == 1)
+{
   $w = array(5, 35, 10, 10, 10, 10, 10, 10);
-} elseif ($government == 1) {
+}
+else
+{
   $w = array(5, 35, 12, 12, 12, 12, 12);
 }
 // set some language-dependent strings (optional)
@@ -372,7 +376,7 @@ $html = '<table cellspacing="0" cellpadding="1" border="1" > <thead>
 <th width="' . $w[4] . '% " align="center">' . $header[4] . '</th>
 <th width="' . $w[5] . '% " align="center">' . $header[5] . '</th>
 <th width="' . $w[6] . '% " align="center">' . $header[8] . '</th>';
-if ($private == 1) {
+if ($money == 1) {
   $html .=   '<th width="' . $w[7] . '% " align="center">' . $header[9] . '</th>';
 }
 $html .= '</tr></thead>';
@@ -391,7 +395,7 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="' . $w[4] . '% " align="center">' . $issue  . '</td>';
   $html .=   '<td width="' . $w[5] . '% " align="center">' .  $Result['TotalQty']  . '</td>';
   $html .=   '<td width="' . $w[6] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
-  if ($private == 1) {
+  if ($money == 1) {
     $html .=   '<td width="' . $w[7] . '% " align="center">' . $Result['PriceSC']  . '</td>';
   }
   $html .=  '</tr>';
@@ -410,7 +414,7 @@ $pdf->SetLineWidth(0.3);
 $pdf->sety($pdf->Gety() - 6.0);
 $pdf->Cell(144, 5, $array2['total_weight'][$language], 1, 0, 'C');
 $pdf->Cell(36, 5, $W, 1, 1, 'C');
-if ($private == 1) {
+if ($money == 1) {
   $pdf->Cell(144, 5, $array2['total_price'][$language], 1, 0, 'C');
   $pdf->Cell(36, 5, $P, 1, 0, 'C');
 }

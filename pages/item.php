@@ -495,7 +495,6 @@ $array2 = json_decode($json2, TRUE);
         }
       });
       console.log(count);
-
       var Catagory = $('#catagory2').val();
       var ItemCode = $('#ItemCode').val();
       var ItemName = $('#ItemName').val();
@@ -513,11 +512,6 @@ $array2 = json_decode($json2, TRUE);
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
       if ($('#SAP').is(':checked')) SAP = 1;
-      if ($('#masterItem').is(':checked')) {
-        masterItem = 1;
-      }else{
-        masterItem = 0;
-      }
       if (count == 0) {
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
@@ -553,7 +547,6 @@ $array2 = json_decode($json2, TRUE);
                 'qpu': qpu,
                 'sUnit': sUnit,
                 'xCenter': xCenter,
-                'masterItem': masterItem,
                 'tdas': tdas,
                 'hospital': hospital,
                 'typeLinen': typeLinen,
@@ -677,12 +670,8 @@ $array2 = json_decode($json2, TRUE);
       var xCenter   = 0;
       var xItemnew  = 0;
       var tdas      = 0;
-      var masterItem = 0;
       var SAP = 1;
-
-      if ($('#masterItem').is(':checked')) masterItem = 1;
       if ($('#xCenter').is(':checked')) xCenter = 1;
-      // if ($('#xItemnew').is(':checked')) xItemnew = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
       if ($('#SAP').is(':checked')) SAP = 1;
 
@@ -723,7 +712,6 @@ $array2 = json_decode($json2, TRUE);
                   'xCenter'   : xCenter,
                   'xItemnew'  : xItemnew,
                   'tdas'      : tdas ,
-                  'masterItem': masterItem,
                   'HptCode'   : Hos2 ,
                   'typeLinen' : typeLinen,
                   'numPack'   : numPack ,
@@ -1625,7 +1613,6 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='width: 10%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                   "<td style='width: 11%;'nowrap>" + temp[i]['Weight'] + "</td>" +
                   "<td style='width: 8%;' nowrap>" + IsDirtyBag + "</td>" +
-                  "<td style='width: 9%;' nowrap>" + isset + "</td>" +
                   "<td style='width: 6%;' align='center'nowrap>" + Tdas + "</td>" +
                   "</tr>";
 
@@ -1824,12 +1811,6 @@ $array2 = json_decode($json2, TRUE);
                   $('#tdas').prop('checked', true);
                 }else{
                   $('#tdas').prop('checked', false);
-                }
-
-                if(temp[0]['isset'] == 1){
-                  $('#masterItem').prop('checked', true);
-                }else{
-                  $('#masterItem').prop('checked', false);
                 }
 
                 if(temp[0]['isSAP'] == 1){
@@ -2489,7 +2470,7 @@ $array2 = json_decode($json2, TRUE);
                         <th style='padding-left: 2%;width: 11.5%;' nowrap><?php echo $array['size'][$language]; ?></th>
                         <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                         <th style='width: 9%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
-                        <th style='width: 9%;' nowrap><?php echo $array['itemmas'][$language]; ?></th>
+                        <th style='width: 9%;' nowrap>IsSAP</th>
                         <th style='width: 8%;' nowrap><?php echo $array['tdas'][$language]; ?></th>
                       </tr>
                     </thead>

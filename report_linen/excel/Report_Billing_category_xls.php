@@ -238,48 +238,33 @@ else
 #เงื่อนไขค้นหา
 if ($categoryCodeCome == '0') 
 {
-  // $query = "SELECT
-  // item_category.CategoryCode,
-  // item_category.CategoryName
-  // FROM
-  // item_category
-  //  ORDER BY item_category.CategoryCode ASC";
-  // $meQuery = mysqli_query($conn, $query);
-  // while ($Result = mysqli_fetch_assoc($meQuery)) {
-  //   $CategoryCode[] = $Result["CategoryCode"];
-  //   $CategoryName[] = $Result["CategoryName"];
-  // }
   $categorywhere = "";
 } 
 else 
 {
-  // $query = "SELECT
-  // item_category.CategoryCode,
-  // item_category.CategoryName
-  // FROM
-  // item_category WHERE  item_category.CategoryCode = '$categoryCodeCome'  ORDER BY item_category.CategoryCode ASC";
-  // $meQuery = mysqli_query($conn, $query);
-  // while ($Result = mysqli_fetch_assoc($meQuery)) {
-  //   $CategoryCode[] = $Result["CategoryCode"];
-  //   $CategoryName[] = $Result["CategoryName"];
-  // }
   $categorywhere = "AND report_sc.CategoryCode = '$categoryCodeCome' ";
 }
 // -----------------------------------------------------------------------------------
-if ($chk == 'one') {
-  if ($format == 1) {
+if ($chk == 'one')
+{
+  if ($format == 1)
+  {
     $count = 1;
     $date[] = $date1;
     list($y, $m, $d) = explode('-', $date1);
-    if ($language ==  'th') {
+    if ($language ==  'th')
+    {
       $y = $y + 543;
     }
     $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
-} elseif ($chk == 'between') {
+}
+elseif ($chk == 'between')
+{
   list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31) {
+  if ($day <> 31)
+  {
     $day = $day + 1;
   }
   $date2 = $year . "-" . $month . "-" . $day;
@@ -288,24 +273,32 @@ if ($chk == 'one') {
     new DateInterval('P1D'),
     new DateTime($date2)
   );
-  foreach ($period as $key => $value) {
+  foreach ($period as $key => $value)
+  {
     $date[] = $value->format('Y-m-d');
   }
   $count = count($date);
-  for ($i = 0; $i < $count; $i++) {
+  for ($i = 0; $i < $count; $i++)
+  {
     $date1 = $date[$i];
     list($y, $m, $d) = explode('-', $date1);
-    if ($language ==  'th') {
+    if ($language ==  'th')
+    {
       $y = $y + 543;
     }
     $date1 = $d . '-' . $m . '-' . $y;
     $DateShow[] = $date1;
   }
-} elseif ($chk == 'month') {
+}
+elseif ($chk == 'month')
+{
   $day = 1;
-  if ($language ==  'th') {
+  if ($language ==  'th')
+  {
     $y = $year1 + 543;
-  } else {
+  }
+  else
+  {
     $y = $year1;
   }
   $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
@@ -324,7 +317,6 @@ if ($chk == 'one') {
   }
   
 }
-
 $sheet_count = sizeof($GroupCode);
 for ($sheet = 0; $sheet < $sheet_count; $sheet++) 
 {
@@ -384,6 +376,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'มูล่ค่า(บาท)');
     $r++;
   }
+
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'นน.(Kg)');
   $r++;
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '8', 'มูล่ค่า(บาท)');
@@ -392,6 +385,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
   $r = 2;
   $j = 3;
   $d = 1;
+
+  // นำวันที่ใส่ช่อง Excel
   for ($row = 0; $row < $count; $row++) 
   {
     $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
@@ -400,6 +395,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     $j += 2;
     $d++;
   }
+  // นำหัวตารางใส่ช่อง Excel
   $objPHPExcel->getActiveSheet()->mergeCells($date_cell1[$r] . '7:' . $date_cell1[$j] . '7');
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . '7', "total");
   // -----------------------------------------------------------------------------------
@@ -407,20 +403,24 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
   $r = 1;
   $j = 3;
   $lek = 0;
+
+  // loop ตามแผนกที่ select เจอ
   $COUNT_DEP = SIZEOF($DepCode);
   for ($q = 0; $q < $COUNT_DEP; $q++) 
   {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $DepName[$lek]);
     $r++;
-
     $cnt = 0;
 
-    for ($dayx = 0; $dayx < $count; $dayx++) {
-    $aWeight[$dayx] = 0;
-    $aPrice[$dayx] = 0;
-    $Date_chk[$dayx] = 0;
+    // ทำค่าให้เป็น 0 ตามวันที่
+    for ($dayx = 0; $dayx < $count; $dayx++)
+    {
+      $aWeight[$dayx] = 0;
+      $aPrice[$dayx] = 0;
+      $Date_chk[$dayx] = 0;
     }
 
+    // กรณีเลือกทุกหมวดหมู่
     if ($categoryCodeCome == '0') 
     {
       $data = "SELECT
@@ -444,6 +444,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
               AND site.HptCode = '$HptCode' 
               GROUP BY  DATE(shelfcount.Modify_Date)";
     }
+
+    // เลือกแยกทีละหมวดหมู่
     else
     {
       $data = " SELECT
@@ -468,7 +470,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                       $categorywhere 
                       GROUP BY report_sc.DocDate  ";
     }
-               
+      
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) 
       {
@@ -481,7 +483,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
       $sumdayweight = 0;
       $sumdayprice = 0;
       $x = 0;
-        foreach(  $date as $key => $val ) 
+
+      // loop เช็ควันที่
+      foreach(  $date as $key => $val ) 
       {
           if($Date_chk[$x]  == $val)
           {
@@ -495,7 +499,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
           }
           else
           {
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
             $r++;
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
             $r++;
           }
       }
@@ -510,24 +516,28 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     $lek++;
   }
 
+
+  // ผลรวมแถบข้างล่างสุด
   $r = 1;
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 'total');
   $r++;
   $sumdayweight = 0;
   $sumdayprice = 0;
-
   $cnt = 0;
-  for ($dayx = 0; $dayx < $count; $dayx++) {
 
-  $aWeight[$dayx] = 0;
-  $aPrice[$dayx] = 0;
-  $Date_chk[$dayx] = 0;
-
+  // ทำค่าให้เป็น 0 ตามวันที่
+  for ($dayx = 0; $dayx < $count; $dayx++)
+  {
+    $aWeight[$dayx] = 0;
+    $aPrice[$dayx] = 0;
+    $Date_chk[$dayx] = 0;
   }
 
+  // กรณีเลือกทุกหมวดหมู่
   if ($categoryCodeCome == '0') 
   {
-    for ($day = 0; $day < $count; $day++) {
+    for ($day = 0; $day < $count; $day++)
+    {
 
 
 
@@ -558,6 +568,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
   
     }
   }
+
+  // เลือกแยกทีละหมวดหมู่
   else
   {
     $data =       "SELECT
@@ -610,15 +622,13 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                                 }
                                 else
                                 {
+                                  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
                                   $r++;
+                                  $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
                                   $r++;
                                 }
                             }
   }
-
-
-    
-
 
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayweight);
   $r++;

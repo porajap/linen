@@ -11,12 +11,22 @@ function OnLoadPage($conn,$DATA){
   $count = 0;
   $boolean = false;
   $lang = $DATA["lang"];
+  $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+  if($PmID == 7 )
+  {
+    $hpt = "AND site.HptCode ='$HptCode' ";
+  }
+  else
+  {
+    $hpt = '';
+  }
   if($lang == 'en'){
     $Sql = "SELECT site.HptCode,site.HptName
-    FROM site WHERE site.IsStatus = 0";
+    FROM site WHERE site.IsStatus = 0 $hpt";
   }else{
     $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
-    FROM site WHERE site.IsStatus = 0";
+    FROM site WHERE site.IsStatus = 0 $hpt";
   }
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -25,7 +35,7 @@ function OnLoadPage($conn,$DATA){
     $count++;
 	$boolean = true;
   }
-$boolean = true;
+  $boolean = true;
   if($boolean){
     $return['status'] = "success";
     $return['form'] = "OnLoadPage";
@@ -82,7 +92,16 @@ function ShowDocument($conn,$DATA){
   $lang = $_SESSION['lang'];
   $sDate = $DATA["sDate"];
   $eDate = $DATA["eDate"];
-
+  $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+  if($PmID == 5 )
+  {
+    $hpt = "AND site.HptCode ='$HptCode' ";
+  }
+  else
+  {
+    $hpt = '';
+  }
   $sl1 = strlen($sDate);
   $sl2 = strlen($eDate);
 
@@ -97,7 +116,7 @@ function ShowDocument($conn,$DATA){
     site.HptNameTH
   FROM  contract_parties_hospital 
   INNER JOIN site ON contract_parties_hospital.HptCode = site.HptCode
-  WHERE contract_parties_hospital.IsStatus = 0 ";
+  WHERE contract_parties_hospital.IsStatus = 0 AND site.IsStatus = 0 $hpt";
   if(($sl1 > 9) && ($sl2 > 9)) $Sql .= "AND StartDate BETWEEN '$sDate' AND  '$eDate' ";
   $Sql .= "ORDER BY (EndDate-DATE(NOW())) ASC";
   $return['sql'] = $Sql;

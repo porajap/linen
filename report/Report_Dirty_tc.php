@@ -72,12 +72,16 @@ class MYPDF extends TCPDF
     $language = $_SESSION['lang'];
     $header = array($array['no'][$language],  $array2['itemname'][$language], $array['department'][$language], $array['qty'][$language], $array['weight'][$language], $array['unit'][$language]);
 
-    if ($language == 'th') {
+    if ($language == 'th')
+    {
       $printdate = date('d') . " " . $datetime->getTHmonth(date('F')) . " พ.ศ. " . $datetime->getTHyear(date('Y'));
-    } else {
+    }
+    else
+    {
       $printdate = date('d') . " " . date('F') . " " . date('Y');
     }
-    if ($this->page == 1) {
+    if ($this->page == 1)
+    {
       // Logo
       $image_file = "../report_linen/images/Nhealth_linen 4.0.png";
       $this->Image($image_file, 10, 10, 33, 12, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
@@ -111,7 +115,8 @@ class MYPDF extends TCPDF
       ";
 
       $meQuery = mysqli_query($conn, $head);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
         $SignFac = $Result['SignFac'];
         $SignNH = $Result['SignNH'];
         $SignFacTime = $Result['SignFacTime'];
@@ -122,30 +127,38 @@ class MYPDF extends TCPDF
       list($date2, $time2) = explode(' ', $SignNHTime);
       list($y1, $m1, $d1) = explode('-', $date1);
       list($y2, $m2, $d2) = explode('-', $date2);
-      if ($language == 'th') {
+      if ($language == 'th')
+      {
         $y1 = $y1 + 543;
         $y2 = $y2 + 543;
         $y3 = $y3 + 543;
-      } else {
+      }
+      else
+      {
         $y1 = $y1;
         $y2 = $y2;
         $y3 = $y3;
       }
       $date1 = $d1 . "-" . $m1 . "-" . $y1;
       $date2 = $d2 . "-" . $m2 . "-" . $y2;
-      if ($date1 == '--543') {
+      if ($date1 == '--543')
+      {
         $date1 = ' ';
       }
-      if ($date2 == '--543') {
+      if ($date2 == '--543')
+      {
         $date2 = ' ';
       }
       $this->SetFont('thsarabunnew', 'b', 13);
-      if ($SignNH != null) {
+      if ($SignNH != null)
+      {
         $this->ImageSVG('@' . $SignNH, $x = 38, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
-      if ($SignFac != null) {
+      if ($SignFac != null)
+      {
         $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
+      
       $this->Cell(100, 8, $array2['comlinen'][$language]  . "...............................................", 0, 0, 'L');
       $this->Cell(90, 8,  $array2['comlaundry'][$language] . "........................................", 0, 1, 'L');
       $this->Cell(0.1, 7,  "                  $date2", 0, 0, 'L');
@@ -331,6 +344,7 @@ $pdf->Cell(27, 7,   '', 1, 1, 'C');
 $pdf->Cell(0, 7,   '', 0, 1, 'C');
 $pdf->Cell(0, 7,   '', 0, 1, 'C');
 // ---------------------------------------------------------
+  $pdf->AddPage('P', 'A4');
 $queryy = "SELECT
 item.ItemName,
 SUM(dirty_detail.Qty) AS Qty,
@@ -344,8 +358,7 @@ INNER JOIN dirty ON dirty.DocNo = dirty_detail.DocNo
 WHERE dirty_detail.DocNo = '$DocNo'
 AND dirty.isStatus <> 9
 GROUP BY item.ItemName,dirty_detail.RequestName
-ORDER BY item.ItemCode,dirty_detail.RequestName ASC
-          ";
+ORDER BY item.ItemCode,dirty_detail.RequestName ASC ";
 $meQuery = mysqli_query($conn, $queryy);
 $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <thead><tr >
@@ -354,6 +367,7 @@ $html = '<table cellspacing="0" cellpadding="2" border="1" >
 <th width="15 %" align="center">' . $header[4] . '</th>
 <th width="15 %"  align="center">' . $header[5] . '</th>
 </tr> </thead>';
+
 while ($Result = mysqli_fetch_assoc($meQuery))
 {
   if ($Result['RequestName'] <> null)

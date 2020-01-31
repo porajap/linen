@@ -108,7 +108,7 @@ $objPHPExcel->getActiveSheet()->setShowGridlines(true);
 // Setting the print area:
 // Add some data
 // Write data from MySQL result
-
+$HptCodex = substr($docno , 2 , 3) ;
 $Sql = "SELECT
 shelfcount.DocNo,
 DATE(shelfcount.DocDate) AS DocDate,
@@ -126,8 +126,7 @@ LEFT JOIN department ON shelfcount.DepCode = department.DepCode
 LEFT JOIN site ON site.HptCode = department.HptCode
 LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
 LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
-WHERE shelfcount.DocNo='$docno' AND shelfcount.isStatus<> 9
-        ";
+WHERE shelfcount.DocNo='$docno' AND shelfcount.isStatus<> 9 AND site.HptCode ='$HptCodex' ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $DeptName = $Result['DepName'];
@@ -157,18 +156,16 @@ if ($language == 'th') {
   $printdate = date('d') . " " . date('F') . " " . date('Y');
 }
 $queryy = "SELECT
-site.private,
-site.government
+site.money
 FROM
 site
 WHERE site.HptCode = '$HptCode' ";
 $meQuery = mysqli_query($conn, $queryy);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $private = $Result['private'];
-  $government = $Result['government'];
+  $money = $Result['money'];
 }
 
-if ($private == 1) {
+if ($money == 1) {
   $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
   $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r4'][$language]);
   $objPHPExcel->getActiveSheet()->mergeCells('A5:E5');
@@ -215,7 +212,7 @@ if ($private == 1) {
             AND shelfcount_detail.TotalQty <> 0
             AND shelfcount.isStatus<> 9
             AND category_price.HptCode = '$HptCode'
-  ";
+            AND department.HptCode ='$HptCodex' ";
   $issue = $Result['ParQty'] - $Result['CcQty'];
   $totalweight = $Result['TotalQty'] * $Result['Weight'];
   $price = $totalweight * $Result['Price'];

@@ -136,7 +136,7 @@ function AddItem($conn, $DATA)
   $Time       = $DATA['Time'];
   $Sql = "INSERT INTO delivery_fac_nhealth (HptCode, FacCode ,SendTime )VALUES('$HptCode',$factory,'$Time' )";
   mysqli_query($conn, $Sql);
-  // ShowItem($conn, $DATA);
+  ShowItem($conn, $DATA);
 }
 function getDetail($conn, $DATA)
 {
@@ -169,7 +169,7 @@ function CancelItem($conn, $DATA)
   $TimeID = $DATA['TimeID'];
   $Sql = "DELETE FROM delivery_fac_nhealth WHERE ID = $TimeID";
   mysqli_query($conn, $Sql);
-  // ShowItem($conn, $DATA);
+  ShowItem($conn, $DATA);
 }
 if(isset($_POST['DATA']))
 {

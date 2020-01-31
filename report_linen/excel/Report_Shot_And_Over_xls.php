@@ -277,7 +277,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   FROM
   department
   WHERE
-  department.DepCode = '$DepCode[$sheet]'";
+  department.DepCode = '$DepCode[$sheet]' AND department.HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $objPHPExcel->getActiveSheet()->setCellValue('A5', $Result["DepName"]);
@@ -295,6 +295,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
   $where
   AND report_sc.isStatus <> 9
   AND 	report_sc.isStatus <> 0
+  AND report_sc.DocNo LIKE '%$HptCode%'
   AND report_sc.DepCode = '$DepCode[$sheet]'
   AND (report_sc.Over <> 0 OR report_sc.Short <> 0 )
   AND   time_sc.TimeName <>'Extra'
@@ -382,6 +383,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
     WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
   AND report_sc.isStatus <> 9
   AND 	report_sc.isStatus <> 0
+  AND report_sc.DocNo LIKE '%$HptCode%'
     AND report_sc.DepCode = '$DepCode[$sheet]'  
     AND time_sc.TimeName <>'Extra'
     AND report_sc.itemcode = '$itemCode[$q]' ";
@@ -414,9 +416,12 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
             WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
   AND report_sc.isStatus <> 9
   AND 	report_sc.isStatus <> 0
+  AND report_sc.DocNo LIKE '%$HptCode%'
             AND report_sc.DepCode = '$DepCode[$sheet]'  
             AND time_sc.TimeName <>'Extra'
             AND (report_sc.Over <> 0 OR report_sc.Short <> 0 )";
+
+      
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Short"]);

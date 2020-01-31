@@ -197,7 +197,7 @@ if($DepCode =='ALL')
           FROM
           par_item_stock
           INNER JOIN department ON par_item_stock.Depcode=department.Depcode
-          WHERE par_item_stock.DepCode='$DepCode'
+          WHERE par_item_stock.DepCode='$DepCode' AND department.HptCode='$HptCode'
           GROUP BY department.DepCode ";
 }
 $meQuery = mysqli_query($conn, $Sql);
@@ -241,7 +241,7 @@ $Sql = "SELECT
         INNER JOIN item on item.ItemCode=par_item_stock.ItemCode
         INNER JOIN item_unit on item.unitcode=item_unit.unitcode
         WHERE par_item_stock.DepCode= '$DepCodeALL[$sheet]'
-        AND par_item_stock.HptCode='$HptCode'
+        AND department.HptCode='$HptCode'
         ORDER BY item.itemName ";
 
 $meQuery = mysqli_query($conn, $Sql);

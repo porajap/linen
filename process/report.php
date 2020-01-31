@@ -1489,8 +1489,10 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
   }
   $count = 0;
   $boolean = false;
-  if ($Format == 1) {
-    if ($chk == 'one') {
+  if ($Format == 1)
+  {
+    if ($chk == 'one')
+    {
       $Sql = "SELECT shelfcount.DocNo,
       DATE(shelfcount.DocDate) AS DocDate,
       TIME(shelfcount.DocDate) AS DocTime,
@@ -1498,10 +1500,13 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       WHERE DATE(shelfcount.DocDate) = '$date1' 
+      AND department.HptCode = '$HptCode'
       $DepCode1
        AND shelfcount.isStatus <> 9 
       ";
-    } else {
+    }
+    else
+    {
       $Sql = "SELECT shelfcount.DocNo,
       DATE(shelfcount.DocDate) AS DocDate,
       TIME(shelfcount.DocDate) AS DocTime,
@@ -1509,28 +1514,34 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       WHERE shelfcount.DocDate BETWEEN '$date1' AND '$date2'
+      AND department.HptCode = '$HptCode'
       $DepCode1
-      AND shelfcount.isStatus <> 9 
-    ";
+      AND shelfcount.isStatus <> 9  ";
     }
-  } else if ($Format == 2) {
+  }
+  else if ($Format == 2)
+  {
     $date = subMonth($date1, $date2);
     $year1 = $date['year1'];
     $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
 
-    if ($chk == 'month') {
+    if ($chk == 'month')
+    {
       $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate,
       TIME(shelfcount.DocDate) AS DocTime,
       department.DepName
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       WHERE MONTH(shelfcount.DocDate) = '$date1'
+      AND department.HptCode = '$HptCode'
       $DepCode1
       AND shelfcount.isStatus <> 9 
      ";
-    } else {
+    }
+    else
+    {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
       $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
@@ -1538,15 +1549,18 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
       WHERE DATE(shelfcount.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
+      AND department.HptCode = '$HptCode'
       $DepCode1
-      AND shelfcount.isStatus <> 9 
-      ";
+      AND shelfcount.isStatus <> 9  ";
     }
-  } else if ($Format == 3) {
+  }
+  else if ($Format == 3)
+  {
     $Sql = "SELECT shelfcount.DocNo, DATE(shelfcount.DocDate) AS DocDate, TIME(shelfcount.DocDate) AS DocTime, department.DepName
               FROM shelfcount
               INNER JOIN department ON shelfcount.DepCode = department.DepCode
               WHERE YEAR(shelfcount.DocDate) = '$date1'
+              AND department.HptCode = '$HptCode'
               $DepCode1
               AND shelfcount.isStatus <> 9 
              ";
@@ -1919,7 +1933,8 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
   $count = 0;
   $boolean = false;
   if ($Format == 1) {
-    if ($chk == 'one') {
+    if ($chk == 'one')
+    {
       $Sql = "SELECT factory.FacName, 
               DATE(clean.DocDate) AS DocDate,
                site.HptName,
@@ -1927,47 +1942,51 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
             FROM clean
             INNER JOIN department ON department.DepCode = clean.DepCode
             INNER JOIN site ON site.HptCode = department.HptCode
-            INNER JOIN dirty ON clean.refdocno = dirty.docno
-            INNER JOIN factory ON dirty.FacCode = factory.FacCode
+            INNER JOIN factory ON clean.FacCode = factory.FacCode
             WHERE DATE(clean.DocDate) = '$date1'  
-            AND dirty.FacCode = $FacCode
+            AND clean.FacCode = $FacCode
             AND department.HptCode = '$HptCode'
             GROUP BY DATE(clean.DocDate)";
-    } else {
+    }
+    else
+    {
       $Sql = "SELECT factory.FacName, 
-      DATE(clean.DocDate) AS DocDate,
-       site.HptName,
-      department.DepName
-    FROM clean
-    INNER JOIN department ON department.DepCode = clean.DepCode
-    INNER JOIN site ON site.HptCode = department.HptCode
-    INNER JOIN dirty ON clean.refdocno = dirty.docno
-    INNER JOIN factory ON dirty.FacCode = factory.FacCode
+              DATE(clean.DocDate) AS DocDate,
+              site.HptName,
+              department.DepName
+            FROM clean
+            INNER JOIN department ON department.DepCode = clean.DepCode
+            INNER JOIN site ON site.HptCode = department.HptCode
+            INNER JOIN factory ON clean.FacCode = factory.FacCode
             WHERE clean.DocDate BETWEEN '$date1' AND '$date2'
-            AND dirty.FacCode = $FacCode
+            AND clean.FacCode = $FacCode
             AND department.HptCode = '$HptCode'
             GROUP BY MONTH(clean.DocDate)";
     }
-  } else if ($Format == 2) {
+  }
+  else if ($Format == 2)
+  {
     $date = subMonth($date1, $date2);
     $year1 = $date['year1'];
     $year2 = $date['year2'];
     $date1 = $date['date1'];
     $date2 = $date['date2'];
-    if ($chk == 'month') {
+    if ($chk == 'month')
+    {
       $Sql = "SELECT factory.FacName, 
       DATE(clean.DocDate) AS DocDate,
        site.HptName,
       department.DepName
-    FROM clean
-    INNER JOIN department ON department.DepCode = clean.DepCode
-    INNER JOIN site ON site.HptCode = department.HptCode
-    INNER JOIN dirty ON clean.refdocno = dirty.docno
-    INNER JOIN factory ON dirty.FacCode = factory.FacCode
-      WHERE MONTH(clean.DocDate) = '$date1'  AND dirty.FacCode = $FacCode
+      FROM clean
+      INNER JOIN department ON department.DepCode = clean.DepCode
+      INNER JOIN site ON site.HptCode = department.HptCode
+      INNER JOIN factory ON clean.FacCode = factory.FacCode
+      WHERE MONTH(clean.DocDate) = '$date1'  AND clean.FacCode = $FacCode
       AND department.HptCode = '$HptCode'
       GROUP BY MONTH(clean.DocDate)";
-    } else {
+    }
+    else
+    {
       $lastday = cal_days_in_month(CAL_GREGORIAN, $date2, $year2);
       $betweendate1 = $year1 . '-' . $date1 . '-1';
       $betweendate2 = $year2 . '-' . $date2 . '-' . $lastday;
@@ -1975,29 +1994,29 @@ function r8($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
       DATE(clean.DocDate) AS DocDate,
        site.HptName,
       department.DepName
-    FROM clean
-    INNER JOIN department ON department.DepCode = clean.DepCode
-    INNER JOIN site ON site.HptCode = department.HptCode
-    INNER JOIN dirty ON clean.refdocno = dirty.docno
-    INNER JOIN factory ON dirty.FacCode = factory.FacCode
-    WHERE DATE(clean.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
+      FROM clean
+      INNER JOIN department ON department.DepCode = clean.DepCode
+      INNER JOIN site ON site.HptCode = department.HptCode
+      INNER JOIN factory ON clean.FacCode = factory.FacCode
+      WHERE DATE(clean.DocDate) BETWEEN '$betweendate1' AND '$betweendate2'
       AND department.HptCode = '$HptCode'
-      AND dirty.FacCode = $FacCode
+      AND clean.FacCode = $FacCode
       GROUP BY YEAR(clean.DocDate) LIMIT 1";
     }
-  } else if ($Format == 3) {
+  }
+  else if ($Format == 3)
+  {
     $Sql = "SELECT factory.FacName, 
-    DATE(clean.DocDate) AS DocDate,
-     site.HptName,
-    department.DepName
-  FROM clean
-  INNER JOIN department ON department.DepCode = clean.DepCode
-  INNER JOIN site ON site.HptCode = department.HptCode
-  INNER JOIN dirty ON clean.refdocno = dirty.docno
-  INNER JOIN factory ON dirty.FacCode = factory.FacCode
+            DATE(clean.DocDate) AS DocDate,
+            site.HptName,
+            department.DepName
+            FROM clean
+            INNER JOIN department ON department.DepCode = clean.DepCode
+            INNER JOIN site ON site.HptCode = department.HptCode
+            INNER JOIN factory ON clean.FacCode = factory.FacCode
             WHERE YEAR(clean.DocDate) = '$date1'
             AND department.HptCode = '$HptCode'
-            AND dirty.FacCode = $FacCode
+            AND clean.FacCode = $FacCode
             GROUP BY YEAR(clean.DocDate)";
   }
   $return['ql'] = $Sql;
@@ -3565,7 +3584,7 @@ function r22($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $chk)
              ORDER BY newlinentable.DocDate ASC";
   }
   $return['sql'] = $Sql;
-  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk];
+  $data_send = ['HptCode' => $HptCode, 'FacCode' => $FacCode, 'date1' => $date1, 'date2' => $date2, 'betweendate1' => $betweendate1, 'betweendate2' => $betweendate2, 'Format' => $Format, 'DepCode' => $DepCode, 'chk' => $chk, 'year1' => $year1, 'year2' => $year2];
   //$_SESSION['data_send'] = $data_send;
   $return['url'] = '../report_linen/report/Report_Newwash.php';
   $return['urlxls'] = '../report_linen/excel/Report_Newwash_xls.php';

@@ -173,7 +173,7 @@ $Sql = "SELECT
         FROM
         par_item_stock
         INNER JOIN department ON par_item_stock.Depcode=department.Depcode
-        WHERE par_item_stock.DepCode='$DepCode'
+        WHERE par_item_stock.DepCode='$DepCode' AND department.HptCode='$HptCode'
        ";
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -202,7 +202,6 @@ if ($language == 'th') {
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(30, 10, iconv("UTF-8", "TIS-620",$array2['department'][$language]." : ".$depname), 0, 1, 'L');
 $pdf->Ln(2);
-
 $pdf->Cell(15, 10, iconv("UTF-8", "TIS-620", $array2['no'][$language]), 1, 0, 'C');
 $pdf->Cell(70, 10, iconv("UTF-8", "TIS-620", $array2['itemname'][$language]), 1, 0, 'C');
 $pdf->Cell(20, 10, iconv("UTF-8", "TIS-620", $array2['unit'][$language]), 1, 0, 'C');
@@ -226,7 +225,7 @@ $Sql = "SELECT
         INNER JOIN item on item.ItemCode=par_item_stock.ItemCode
         INNER JOIN item_unit on item.unitcode=item_unit.unitcode
         WHERE par_item_stock.DepCode='$DepCode'
-        AND par_item_stock.HptCode='$HptCode'
+        AND department.HptCode='$HptCode'
         ORDER BY item.itemName ";
 
 $meQuery = mysqli_query($conn, $Sql);

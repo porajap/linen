@@ -75,43 +75,47 @@ $array2 = json_decode($json2,TRUE);
     <script type="text/javascript">
         var summary = [];
 
-        $(document).ready(function(e) {
+        $(document).ready(function(e)
+        {
             $(".select2").select2();
-
-            // $(".select2").select2();
             $('#rem1').hide();
             $('#rem2').hide();
             $('#rem3').hide();
             $('#rem4').hide();
-            // Blankinput();
             getSection();
             GetGroup();
             //On create
-            $('.TagImage').bind('click', {
+            $('.TagImage').bind('click',
+            {
                 imgId: $(this).attr('id')
-            }, function(evt) {
+            }, function(evt)
+            {
                 alert(evt.imgId);
             });
-            $('#searchitem').keyup(function(e) {
+            $('#searchitem').keyup(function(e)
+            {
                 if (e.keyCode == 13) {
                     ShowItem();
                 }
             });
-            $('.editable').click(function() {
+            $('.editable').click(function()
+            {
                 alert('hi');
             });
-
-            $('.numonly').on('input', function() {
+            $('.numonly').on('input', function()
+            {
                 this.value = this.value.replace(/[^0-9.]/g, ''); //<-- replace all other than given set of values
             });
-            $('.charonly').on('input', function() {
+            $('.charonly').on('input', function()
+            {
                 this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
             });
 
         }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
-      });
-        function getSection(){
+        });
+        function getSection()
+        {
             var lang = '<?php echo $language; ?>';
             var data2 = {
                 'STATUS': 'getSection',
@@ -120,219 +124,75 @@ $array2 = json_decode($json2,TRUE);
             console.log(JSON.stringify(data2));
             senddata(JSON.stringify(data2));
         }
+
         dialog = jqui("#dialog").dialog({
             autoOpen: false,
             height: 650,
             width: 1200,
             modal: true,
-            buttons: {
-                "<?php echo $array['close'][$language]; ?>": function() {
+            buttons:
+            {
+                "<?php echo $array['close'][$language]; ?>": function()
+                {
                     dialog.dialog("close");
                 }
             },
-            close: function() {
+            close: function()
+            {
                 console.log("close");
             }
         });
         jqui("#dialogreq").button().on("click", function() {
             dialog.dialog("open");
         });
-        function unCheckDocDetail() {
-            // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-            if ($('input[name="checkdocdetail"]:checked').length == $('input[name="checkdocdetail"]').length) {
-                $('input[name="checkAllDetail').prop('checked', true);
-            } else {
-                $('input[name="checkAllDetail').prop('checked', false);
-            }
-        }
-        function getDocDetail() {
-            // alert( $('input[name="checkdocno"]:checked').length + " :: " + $('input[name="checkdocno"]').length );
-            if ($('input[name="checkdocno"]:checked').length == $('input[name="checkdocno"]').length) {
-                $('input[name="checkAllDoc').prop('checked', true);
-            } else {
-                $('input[name="checkAllDoc').prop('checked', false);
-            }
 
-            /* declare an checkbox array */
-            var chkArray = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkdocno:checked").each(function() {
-                chkArray.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var DocNo = chkArray.join(',');
-            // alert( DocNo );
-            $('#TableDetail tbody').empty();
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
-            var data = {
-                'STATUS': 'getDocDetail',
-                'HptCode': HptCode,
-                'DocNo': DepCode
-            };
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-        var isChecked1 = false;
-        var isChecked2 = false;
-        function getCheckAll(sel) {
-            if (sel == 0) {
-                isChecked1 = !isChecked1;
-                // $( "div #aa" )
-                //   .text( "For this isChecked " + isChecked1 + "." )
-                //   .css( "color", "red" );
-
-                $('input[name="checkdocno"]').each(function() {
-                    this.checked = isChecked1;
-                });
-                getDocDetail();
-            } else {
-                isChecked2 = !isChecked2;
-                $('input[name="checkdocdetail"]').each(function() {
-                    this.checked = isChecked2;
-                });
-            }
-        }
-        function getSearchDocNo() {
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
-
-            $('#TableDocumentSS tbody').empty();
-            var str = $('#searchtxt').val();
-            var datepicker = $('#datepicker').val();
-            datepicker = datepicker.substring(6, 10) + "-" + datepicker.substring(3, 5) + "-" + datepicker.substring(0, 2);
-
-            var data = {
-                'STATUS': 'getSearchDocNo',
-                'DEPT': dept,
-                'DocNo': str,
-                'Datepicker': datepicker
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-        function CreateSentSterile() {
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
-            /* declare an checkbox array */
-            var chkArray1 = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkdocno:checked").each(function() {
-                chkArray1.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var DocNo = chkArray1.join(',');
-
-            /* declare an checkbox array */
-            var chkArray2 = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkdocdetail:checked").each(function() {
-                chkArray2.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var UsageCode = chkArray2.join(',');
-            var data = {
-                'STATUS': 'CreateSentSterile',
-                'DEPT': dept,
-                'DocNo': DocNo,
-                'UsageCode': UsageCode,
-                'userid': userid
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-        function setTag() {
-            var DocNo = $("#docnofield").val();
-            /* declare an checkbox array */
-            var chkArray = [];
-
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#IsTag:checked").each(function() {
-                chkArray.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var UsageCode = chkArray.join(',');
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
-            var data = {
-                'STATUS': 'SSDTag',
-                'DEPT': dept,
-                'userid': userid,
-                'DocNo': DocNo,
-                'UsageCode': UsageCode
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-        function CreatePayout() {
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
-            var data = {
-                'STATUS': 'CreatePayout',
-                'DEPT': dept,
-                'userid': userid
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-        function AddPayoutDetail() {
-            var userid = '<?php echo $Userid; ?>';
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
-            var data = {
-                'STATUS': 'CreatePayout',
-                'DEPT': dept,
-                'userid': userid
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-        function GetGroup(){
+        function GetGroup()
+        {
             Blankinput();
             ShowItem();
             var hptsel = $('#hptsel').val();
             $('#hptsel').css('border-color', '');
             $('#hptsel2').val(hptsel);
 
-            var data = {
+            var data =
+            {
                 'STATUS': 'GetGroup',
                 'HptCode': hptsel
             };
-            // Blankinput();
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-        function ShowItem(chk) {
-            if(chk==1){
+
+        function ShowItem(chk)
+        {
+            if(chk==1)
+            {
                 var group = $('#group').val();
                 $('#group2').val(group);
-            }else if(chk==2){
+            }
+            else if(chk==2)
+            {
                 var group = $('#group2').val();
                 $('#group').val(group);
+                $('#group2').css('border-color', '');
+                $('#rem4').hide();
             }
             var group = $('#group').val();
             var HptCode = $('#hptsel').val();
             var keyword = $('#searchitem').val();
-            var data = {
+            var data =
+            {
                 'STATUS': 'ShowItem',
                 'HptCode': HptCode,
                 'Keyword': keyword,
                 'group': group
             };
-            // Blankinput();
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
         }
-        function resetinputuser(){
+
+        function resetinputuser()
+        {
             var hptsel = $('#hptsel2').val();
             $('#hptsel').val(hptsel);
             GetGroup();
@@ -343,29 +203,39 @@ $array2 = json_decode($json2,TRUE);
             $('#hptsel2').css('border-color', '');
             $('#hptsel').css('border-color', '');
         }
-        function resetinput(chk){
-            if(chk ==2){
+
+        function resetinput(chk)
+        {
+            if(chk ==2)
+            {
                 var DepCode = $('#DepCode').val();
-            if(DepCode !="" && DepCode!=undefined){
-            $('#rem3').hide();
-            $('#DepCode').css('border-color', '');
+                if(DepCode !="" && DepCode!=undefined)
+                {
+                    $('#rem3').hide();
+                    $('#DepCode').css('border-color', '');
+                }
             }
-            }
+
             var DepName = $('#DepName').val();
-            if(DepName !="" && DepName!=undefined){
-            $('#rem2').hide();
-            $('#DepName').css('border-color', '');
+
+            if(DepName !="" && DepName!=undefined)
+            {
+                $('#rem2').hide();
+                $('#DepName').css('border-color', '');
             }
         }
-        function AddItem() {
+
+        function AddItem()
+        {
             var count = 0;
-            $(".checkblank").each(function() {
-                if ($(this).val() == "" || $(this).val() == undefined) {
+            $(".checkblank").each(function()
+            {
+                if ($(this).val() == "" || $(this).val() == undefined)
+                {
                     count++;
                 }
             });
             console.log(count);
-            
             var shipto = $('#shipto').val();
             var DepCode1 = $('#DepCodeReal').val();
             var DepCode = $('#DepCode').val();
@@ -374,16 +244,19 @@ $array2 = json_decode($json2,TRUE);
             var IsActive = $('#IsActive').val();
             var group2 = $('#group2').val();
             var xCenter = 0;
-
             if ($('#xCenter').is(':checked')) xCenter = 1;
-
-            if (count == 0) {
-                $('.checkblank').each(function() {
-                    if ($(this).val() == "" || $(this).val() == undefined) {
+            if (count == 0)
+            {
+                $('.checkblank').each(function()
+                {
+                    if ($(this).val() == "" || $(this).val() == undefined)
+                    {
                         $(this).css('border-color', 'red');
                     }
                 });
-                if (DepCode != "") {
+
+                if (DepCode != "")
+                {
                     swal({
                         title: "<?php echo $array['addoredit'][$language]; ?>",
                         // text: "<?php echo $array['adddata1'][$language]; ?>",
@@ -397,30 +270,35 @@ $array2 = json_decode($json2,TRUE);
                         closeOnConfirm: false,
                         closeOnCancel: false,
                         showCancelButton: true
-                    }).then(result => {
-                        if (result.value) {
-
-                        var data = {
-                            'STATUS': 'AddItem',
-                            'HptCode': HptCode,
-                            'DepName': DepName,
-                            'DepCode': DepCode,
-                            'DepCode1': DepCode1,
-                            'xCenter': xCenter,
-                            'IsActive': IsActive,
-                            'group2': group2,
-                            'shipto': shipto
-                        };
-
-                        console.log(JSON.stringify(data));
-                        senddata(JSON.stringify(data));
-                    } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }  
+                    }).then(result =>
+                    {
+                        if (result.value)
+                        {
+                            var data =
+                            {
+                                'STATUS': 'AddItem',
+                                'HptCode': HptCode,
+                                'DepName': DepName,
+                                'DepCode': DepCode,
+                                'DepCode1': DepCode1,
+                                'xCenter': xCenter,
+                                'IsActive': IsActive,
+                                'group2': group2,
+                                'shipto': shipto
+                            };
+                            console.log(JSON.stringify(data));
+                            senddata(JSON.stringify(data));
+                        }
+                        else if (result.dismiss === 'cancel')
+                        {
+                            swal.close();
+                        }  
                     })
 
                 } 
-            } else {
+            }
+            else
+            {
                 swal({
                     title: '',
                     text: "<?php echo $array['required'][$language]; ?>",
@@ -432,26 +310,34 @@ $array2 = json_decode($json2,TRUE);
                     timer: 2000,
                     confirmButtonText: 'Ok'
                 })
-                $('.checkblank').each(function() {
-                    if ($(this).val() == "" || $(this).val() == undefined) {
+                $('.checkblank').each(function()
+                {
+                    if ($(this).val() == "" || $(this).val() == undefined)
+                    {
                         $(this).css('border-color', 'red');
-                        if(HptCode ==""||HptCode==undefined){
-                        $('#rem1').show().css("color","red");
+                        if(HptCode ==""||HptCode==undefined)
+                        {
+                            $('#rem1').show().css("color","red");
                         }
-                        if(DepName ==""||DepName==undefined){
-                        $('#rem2').show().css("color","red");
+                        if(DepName ==""||DepName==undefined)
+                        {
+                            $('#rem2').show().css("color","red");
                         }
-                        if(DepCode ==""||DepCode==undefined){
-                        $('#rem3').show().css("color","red");
+                        if(DepCode ==""||DepCode==undefined)
+                        {
+                            $('#rem3').show().css("color","red");
                         }
-                        if(group2 ==""||group2==undefined){
-                        $('#rem4').show().css("color","red");
+                        if(group2 ==""||group2==undefined)
+                        {
+                            $('#rem4').show().css("color","red");
                         }
                     }
                 });
             }
         }
-        function CancelItem() {
+
+        function CancelItem()
+        {
             swal({
                 title: "<?php echo $array['canceldata'][$language]; ?>",
                 text: "<?php echo $array['canceldata1'][$language]; ?>",
@@ -465,42 +351,56 @@ $array2 = json_decode($json2,TRUE);
                 closeOnConfirm: false,
                 closeOnCancel: false,
                 showCancelButton: true
-            }).then(result => {
-                if (result.value) {
-                    
-                var DepCode = $('#DepCode').val();
-                var data = {
-                    'STATUS': 'CancelItem',
-                    'DepCode': DepCode
+            }).then(result =>
+            {
+                if (result.value)
+                {
+                    var HptCode = $('#hptsel').val();
+                    var DepCode = $('#DepCode').val();
+                    var data =
+                    {
+                        'STATUS': 'CancelItem',
+                        'DepCode': DepCode ,
+                        'HptCode': HptCode
+                    }
+                    console.log(JSON.stringify(data));
+                    senddata(JSON.stringify(data));
                 }
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-            } else if (result.dismiss === 'cancel') {
-            swal.close();
-          }
+                else if (result.dismiss === 'cancel')
+                {
+                    swal.close();
+                }
             })
         }
-        function Blankinput() {
+
+        function Blankinput()
+        {
             $('#rem1').hide();
             $('#rem2').hide();
             $('#rem3').hide();
             $('#rem4').hide();
             $('#DepCode').attr('disabled' , false);
-            $('.checkblank').each(function() {
+            $('.checkblank').each(function()
+            {
                 $(this).val("");
             });
-            $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
+            $('.checkblank').each(function()
+            {
+            if($(this).val()==""||$(this).val()==undefined)
+            {
               $(this).css('border-color', '');
-            }else{
+            }
+            else
+            {
               $(this).css('border-color', '');
             }
           });
             $('#shipto').val("");
             $('#DepCode').val("");
             var pm = '<?php  echo $PmID;   ?>';
-                if(pm !=3 && pm !=5  && pm !=7) {
-                $('#hptsel2').val("");
+                if(pm !=3 && pm !=5  && pm !=7)
+                {
+                    $('#hptsel2').val("");
                 }
             $('#IsActive').val("1");
              $('#DepCodeReal').val("");
@@ -510,26 +410,35 @@ $array2 = json_decode($json2,TRUE);
             $('#delete_icon').addClass('opacity');
             $('#delete1').removeClass('mhee');
         }
-        function getdetail(DepCode, row) {
+
+        function getdetail(DepCode, row)
+        {
+            var HptCode = $('#hptsel').val();
             var number = parseInt(row)+1;
             var previousValue = $('#checkitem_'+row).attr('previousValue');
             var name = $('#checkitem_'+row).attr('name');
-            if (previousValue == 'checked') {
-            $('#DepCode').attr('disabled' , false);
-            $('#checkitem_'+row).removeAttr('checked');
-            $('#checkitem_'+row).attr('previousValue', false);
-            $('#checkitem_'+row).prop('checked', false);
-            $("#xCenter").prop('checked', false);
-            Blankinput();
-            } else {
-            $('#DepCode').attr('disabled' , true);
-            $("input[name="+name+"]:radio").attr('previousValue', false);
-            $('#checkitem_'+row).attr('previousValue', 'checked');
-                if (DepCode != "" && DepCode != undefined) {
-                    var data = {
+            if (previousValue == 'checked')
+            {
+                $('#DepCode').attr('disabled' , false);
+                $('#checkitem_'+row).removeAttr('checked');
+                $('#checkitem_'+row).attr('previousValue', false);
+                $('#checkitem_'+row).prop('checked', false);
+                $("#xCenter").prop('checked', false);
+                Blankinput();
+            }
+            else
+            {
+                $('#DepCode').attr('disabled' , true);
+                $("input[name="+name+"]:radio").attr('previousValue', false);
+                $('#checkitem_'+row).attr('previousValue', 'checked');
+                if (DepCode != "" && DepCode != undefined)
+                {
+                    var data =
+                    {
                         'STATUS': 'getdetail',
                         'DepCode': DepCode ,
-                        'number' : number 
+                        'number' : number ,
+                        'HptCode' : HptCode 
                     };
 
                     console.log(JSON.stringify(data));
@@ -537,98 +446,9 @@ $array2 = json_decode($json2,TRUE);
                 }
             }
         }
-        function SavePY() {
-            $('#TableDocumentSS tbody').empty();
-            var dept = '<?php echo $_SESSION['Deptid ']; ?>';
-            var datepicker = $('#datepicker').val();
-            datepicker = datepicker.substring(6, 10) + "-" + datepicker.substring(3, 5) + "-" + datepicker.substring(0, 2);
 
-            var DocNo = $("#docno").val();
-            $("#searchtxt").val(DocNo);
-
-            if (DocNo.length > 0) {
-                swal({
-                    title: '<?php echo $array['savesuccess '][$language]; ?>',
-                    text: DocNo,
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    confirmButtonText: 'Ok'
-                })
-                var data = {
-                    'STATUS': 'SavePY',
-                    'DocNo': DocNo,
-                    'DEPT': dept,
-                    'Datepicker': datepicker
-                };
-
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-            }
-        }
-        function DelItem() {
-            var DocNo = $("#docno").val();
-            /* declare an checkbox array */
-            var chkArray = [];
-            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-            $("#checkitemdetail:checked").each(function() {
-                chkArray.push($(this).val());
-            });
-
-            /* we join the array separated by the comma */
-            var UsageCode = chkArray.join(',');
-
-            // alert(DocNo + " : " + UsageCode);
-            var data = {
-                'STATUS': 'DelItem',
-                'DocNo': DocNo,
-                'UsageCode': UsageCode
-            };
-
-            console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
-        }
-        function canceldocno(docno) {
-            swal({
-                title: "<?php echo $array['canceldata'][$language]; ?>",
-                text: "<?php echo $array['canceldata2'][$language]; ?>" + docno + "<?php echo $array['canceldata3'][$language]; ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "<?php echo $array['confirm'][$language]; ?>",
-                cancelButtonText: "<?php echo $array['cancel'][$language]; ?>",
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                closeOnConfirm: false,
-                closeOnCancel: false,
-                showCancelButton: true
-            }).then(result => {
-                var data = {
-                    'STATUS': 'CancelDocNo',
-                    'DocNo': docno
-                };
-
-                console.log(JSON.stringify(data));
-                senddata(JSON.stringify(data));
-                getSearchDocNo();
-            })
-        }
-        function addnum(cnt) {
-            var add = parseInt($('#qty' + cnt).val()) + 1;
-            if ((add >= 0) && (add <= 500)) {
-                $('#qty' + cnt).val(add);
-            }
-        }
-        function subtractnum(cnt) {
-            var sub = parseInt($('#qty' + cnt).val()) - 1;
-            if ((sub >= 0) && (sub <= 500)) {
-                $('#qty' + cnt).val(sub);
-            }
-        }
-        function logoff() {
+        function logoff()
+        {
             swal({
                 title: '',
                 text: '<?php echo $array['logout '][$language]; ?>',
@@ -648,7 +468,9 @@ $array2 = json_decode($json2,TRUE);
                 }
             })
         }
-        function senddata(data) {
+
+        function senddata(data)
+        {
             var form_data = new FormData();
             form_data.append("DATA", data);
             var URL = '../process/department.php';
@@ -660,7 +482,8 @@ $array2 = json_decode($json2,TRUE);
                 processData: false,
                 data: form_data,
                 type: 'post',
-                beforeSend: function() {
+                beforeSend: function()
+                {
                     swal({
                         title: '<?php echo $array['pleasewait '][$language]; ?>',
                         text: '<?php echo $array[' processing '][$language]; ?>',
@@ -668,74 +491,87 @@ $array2 = json_decode($json2,TRUE);
                     })
                     swal.showLoading();
                 },
-                success: function(result) {
-                    try {
+                success: function(result)
+                {
+                    try
+                    {
                         var temp = $.parseJSON(result);
-                    } catch (e) {
+                    }
+                    catch (e)
+                    {
                         console.log('Error#542-decode error');
                     }
                     swal.close();
-                    if (temp["status"] == 'success') {
-                        if ((temp["form"] == 'ShowItem')) {
+                    if (temp["status"] == 'success')
+                    {
+                        if ((temp["form"] == 'ShowItem'))
+                        {
                             $("#TableItem tbody").empty();
                             console.log(temp);
-                            if(temp['Count']>0){
+                            if(temp['Count']>0)
+                            {
                                 var Active ;
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                if(temp[i]['IsActive'] == 1){
-                                  Active = 'active';
-                                }else{
-                                  Active = 'inactive';
-                                }
-                                if(temp[i]['cnt'] > 0){
-                                    cnt = 'tied';
-                                }else{
-                                    cnt = 'Not tied';
-                                }
-                                var rowCount = $('#TableItem >tbody >tr').length;
-                                var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                                var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                                // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
-                                StrTR = "<tr id='tr" + temp[i]['DepCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
-                                    "<td style='width: 5%;'>" + chkDoc + "</td>" +
-                                    "<td style='width: 10%;'>" + (i + 1) + "</td>" +
-                                    "<td style='width: 11%;'>" + temp[i]['DepCode'] + "</td>" +
-                                    "<td style='width: 16.5%;'>" +  DefaultName+ "</td>" +
-									"<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
-                                    "<td style='width: 20%;'>" +  Active  + "</td>" +
-                                    "<td style='width: 10%;'>" +  cnt  + "</td>" +
-                                    "</tr>";
+                                for (var i = 0; i < (Object.keys(temp).length - 2); i++)
+                                {
+                                    if(temp[i]['IsActive'] == 1)
+                                    {
+                                    Active = 'active';
+                                    }
+                                    else
+                                    {
+                                    Active = 'inactive';
+                                    }
+                                    if(temp[i]['cnt'] > 0)
+                                    {
+                                        cnt = 'tied';
+                                    }
+                                    else
+                                    {
+                                        cnt = 'Not tied';
+                                    }
+                                    var rowCount = $('#TableItem >tbody >tr').length;
+                                    var DefaultName = temp[i]['DefaultName'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                                    var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                                    StrTR = "<tr id='tr" + temp[i]['DepCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
+                                        "<td style='width: 5%;'>" + chkDoc + "</td>" +
+                                        "<td style='width: 10%;'>" + (i + 1) + "</td>" +
+                                        "<td style='width: 11%;'>" + temp[i]['DepCode'] + "</td>" +
+                                        "<td style='width: 16.5%;'>" +  DefaultName+ "</td>" +
+                                        "<td style='width: 26%;'>" +  temp[i]['DepName']  + "</td>" +
+                                        "<td style='width: 20%;'>" +  Active  + "</td>" +
+                                        "<td style='width: 10%;'>" +  cnt  + "</td>" +
+                                        "</tr>";
 
-                                if (rowCount == 0) {
-                                    // Blankinput();
-                                    $("#TableItem tbody").append(StrTR);
-                                } else {
-                                    // Blankinput();
-                                    $('#TableItem tbody:last-child').append(StrTR);
+                                    if (rowCount == 0)
+                                    {
+                                        $("#TableItem tbody").append(StrTR);
+                                    }
+                                    else
+                                    {
+                                        $('#TableItem tbody:last-child').append(StrTR);
+                                    }
                                 }
                             }
-                        }else{
+                            else
+                            {
                                 $('#TableItem tbody').empty();
                                 var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                                 $('#TableItem tbody:last-child').append(Str);
-                                // swal({
-                                //     title: '',
-                                //     text: '<?php echo $array['notfoundmsg'][$language]; ?>',
-                                //     type: 'warning',
-                                //     showCancelButton: false,
-                                //     showConfirmButton: false,
-                                //     timer: 2000,
-                                // });
+
                             }
-                        } else if ((temp["form"] == 'getdetail')) {
-                            if ((Object.keys(temp).length - 2) > 0) {
+                        }
+                        else if ((temp["form"] == 'getdetail'))
+                        {
+                            if ((Object.keys(temp).length - 2) > 0)
+                            {
                                 console.log(temp);
                                 $('#DepCodeReal').val(temp['DepCodeReal']);
                                 $('#DepCode').val(temp['DepCodeReal']);
                                 $('#DepName').val(temp['DepName']);
                                 $('#hptsel2').val(temp['HptCode']);
-                                if(temp['GroupCode'] != ''){
-                                $('#group2').val(temp['GroupCode']);
+                                if(temp['GroupCode'] != '')
+                                {
+                                    $('#group2').val(temp['GroupCode']);
                                 }
                                 $('#IsActive').val(temp['IsActive']);
                                 $('#shipto').val(temp['shipto']);
@@ -748,8 +584,12 @@ $array2 = json_decode($json2,TRUE);
                                 $('#delete_icon').removeClass('opacity');
                                 $('#delete1').addClass('mhee');
 
-                        } else if ((temp["form"] == 'AddItem')) {
-                            switch (temp['msg']) {
+                        }
+
+                        else if ((temp["form"] == 'AddItem'))
+                        {
+                            switch (temp['msg'])
+                            {
                                 case "notchosen":
                                     temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
                                     break;
@@ -806,8 +646,12 @@ $array2 = json_decode($json2,TRUE);
 
                                 ShowItem();
                             })
-                        } else if ((temp["form"] == 'EditItem')) {
-                            switch (temp['msg']) {
+                        }
+
+                        else if ((temp["form"] == 'EditItem'))
+                        {
+                            switch (temp['msg'])
+                            {
                                 case "notchosen":
                                     temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
                                     break;
@@ -864,8 +708,12 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hptsel2').val("BHQ");
                                 ShowItem();
                             })
-                        } else if ((temp["form"] == 'CancelItem')) {
-                            switch (temp['msg']) {
+                        }
+                        
+                        else if ((temp["form"] == 'CancelItem'))
+                        {
+                            switch (temp['msg'])
+                            {
                                 case "notchosen":
                                     temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
                                     break;
@@ -923,10 +771,15 @@ $array2 = json_decode($json2,TRUE);
                                 ShowItem();
                             })
                         } 
-                        else if ((temp["form"] == 'getSection')) {
-                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
-                            var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
-                        }else{
+
+                        else if ((temp["form"] == 'getSection'))
+                        {
+                            if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7)
+                            {
+                                var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                            }
+                            else
+                            {
                                 var StrTr = "";
                                 $('#hptsel').attr('disabled' , true);
                                 $('#hptsel').addClass('icon_select');
@@ -934,26 +787,73 @@ $array2 = json_decode($json2,TRUE);
                                 $('#hptsel2').attr('disabled' , true);
                                 $('#hptsel2').addClass('icon_select');
                             }
-                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                            for (var i = 0; i < (Object.keys(temp).length - 2); i++)
+                            {
                                  StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                                 var Str = "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
                             }
                             $("#hptsel").append(StrTr);
                             $("#hptsel2").append(StrTr);
                         } 
-                        else if ((temp["form"] == 'GetGroup')) {
+
+                        else if ((temp["form"] == 'GetGroup'))
+                        {
                             $("#group").empty();
                             $("#group2").empty();
                             var StrTr = "<option value=''><?php echo $array['selectgroup'][$language]; ?></option>";
-                            for (var i = 0; i < temp['row']; i++) {
+                            for (var i = 0; i < temp['row']; i++)
+                            {
                                  StrTr += "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupName'] + " </option>";
                                 var Str = "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupName'] + " </option>";
                             }
                             $("#group").append(StrTr);
                             $("#group2").append(StrTr);
                         }
-                    } else if (temp['status'] == "failed") {
-                        switch (temp['msg']) {
+
+                        else if ((temp["form"] == 'confirmdep'))
+                        {
+                            swal({
+                            title: "ยืนยันการบันทึก",
+                            text: "รหัสแผนกซํ้า : " + temp['DepCode'] + "  ",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                            confirmButtonColor: '#6fc864',
+                            cancelButtonColor: '#3085d6',
+                            closeOnConfirm: false,
+                            closeOnCancel: false,
+                            showCancelButton: true
+                            }).then(result =>
+                            {
+                                if (result.value)
+                                {
+                                    var data =
+                                    {
+                                        'STATUS': 'AddItemConfirm',
+                                        'HptCode': temp['HptCode'],
+                                        'DepName': temp['DepName'],
+                                        'DepCode': temp['DepCode'],
+                                        'IsActive': temp['IsActive'],
+                                        'group2': temp['group2'],
+                                        'shipto': temp['shipto']
+
+                                    };
+                                    senddata(JSON.stringify(data));
+                                }
+                                else if (result.dismiss === 'cancel')
+                                {
+                                    swal.close();
+                                }  
+                            })
+                        }
+
+                    }
+                    else if (temp['status'] == "failed")
+                    {
+                        switch (temp['msg'])
+                        {
                             case "notchosen":
                                 temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
                                 break;
@@ -1003,18 +903,10 @@ $array2 = json_decode($json2,TRUE);
                             confirmButtonText: 'Ok'
                         })
 
-                    } else if (temp['status'] == "notfound") {
-                        // swal({
-                        //   title: '',
-                        //   text: temp['msg'],
-                        //   type: 'info',
-                        //   showCancelButton: false,
-                        //   confirmButtonColor: '#3085d6',
-                        //   cancelButtonColor: '#d33',
-                        //   showConfirmButton: false,
-                        //   timer: 2000,
-                        //   confirmButtonText: 'Ok'
-                        // })
+                    }
+                    else if (temp['status'] == "notfound")
+                    {
+
                         $("#TableItem tbody").empty();
                     }
                 },
@@ -1330,7 +1222,7 @@ $array2 = json_decode($json2,TRUE);
                                 <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 " id="hptsel2" >
+                                      <select onchange="resetinputuser()"  class="form-control col-sm-7 checkblank" id="hptsel2" >
                                       </select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>

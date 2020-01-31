@@ -423,7 +423,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
           }
           else
           {
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
             $r++;
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
             $r++;
           }
       }

@@ -16,45 +16,60 @@ function OnLoadPage($conn, $DATA)
   $countx = 0;
   $boolean = false;
 
-
-  if($lang == 'en'){
+  //========================
+  if($lang == 'en')
+  {
     $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 ";
-    }else{
+  }
+  else
+  {
     $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 ";
-    }  
+  }  
   $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    $return[$countx]['FacCode'] = $Result['FacCode'];
+    $return[$countx]['FacName'] = $Result['FacName'];
+    $countx  ++;
+  }
+  $return['Rowx'] = $countx;
+  //========================
 
-  $return[$countx]['FacCode'] = $Result['FacCode'];
-  $return[$countx]['FacName'] = $Result['FacName'];
-  $countx  ++;
-}
-$return['Rowx'] = $countx;
-
-  if($lang == 'en'){
+  //========================
+  if($lang == 'en')
+  {
     $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-    if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
+    if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7)
+    {
       $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-      }else{
-        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
-      }  
-    }else{
-        $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-        if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
-        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
-        }else{
-        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
-      }  
     }
+    else
+    {
+      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+    }  
+  }
+  else
+  {
+    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+    if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7)
+    {
+      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+    }
+    else
+    {
+      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+    }  
+  }
   $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $return[$count]['HptCode'] = $Result['HptCode'];
     $return[$count]['HptName'] = $Result['HptName'];
-    // $count++;
     $boolean = true;
   }
   $meQuery1 = mysqli_query($conn, $Sql1);
-  while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+  while ($Result1 = mysqli_fetch_assoc($meQuery1))
+  {
     $return[$count]['HptCode1'] = $Result1['HptCode1'];
     $return[$count]['HptName1'] = $Result1['HptName1'];
     $return[0]['PmID'] = $PmID;
@@ -63,13 +78,19 @@ $return['Rowx'] = $countx;
   }
   $return['Row'] = $count;
   $boolean = true;
-  if ($boolean) {
+  //========================
+
+
+  if ($boolean)
+  {
     $return['status'] = "success";
     $return['form'] = "OnLoadPage";
     echo json_encode($return);
     mysqli_close($conn);
     die;
-  } else {
+  }
+  else
+  {
     $return['status'] = "failed";
     $return['form'] = "OnLoadPage";
     echo json_encode($return);
@@ -77,21 +98,25 @@ $return['Rowx'] = $countx;
     die;
   }
 }
-function savefactory($conn, $DATA){
+
+function savefactory($conn, $DATA)
+{
   $DocNo = $DATA["DocNo"];
   $factory2 = $DATA["factory2"];
-
   $Sql ="UPDATE clean SET FacCode = $factory2 WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
   $return['FacCode'] = $factory2;
 
-  if (mysqli_query($conn, $Sql)) {
+  if (mysqli_query($conn, $Sql))
+  {
     $return['status'] = "success";
     $return['form'] = "savefactory";
     echo json_encode($return);
     mysqli_close($conn);
     die;
-  } else {
+  }
+  else
+  {
     $return['status'] = "failed";
     $return['form'] = "savefactory";
     echo json_encode($return);
@@ -99,6 +124,7 @@ function savefactory($conn, $DATA){
     die;
   }
 }
+
 function getDepartment($conn, $DATA)
 {
   $count = 0;
@@ -110,20 +136,24 @@ function getDepartment($conn, $DATA)
   AND department.IsDefault = 1
   AND department.IsStatus = 0";
   $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $return[$count]['DepCode'] = $Result['DepCode'];
     $return[$count]['DepName'] = $Result['DepName'];
     $count++;
     $boolean = true;
   }
 
-  if ($boolean) {
+  if ($boolean)
+  {
     $return['status'] = "success";
     $return['form'] = "getDepartment";
     echo json_encode($return);
     mysqli_close($conn);
     die;
-  } else {
+  }
+  else
+  {
     $return['status'] = "failed";
     $return['form'] = "getDepartment";
     echo json_encode($return);
@@ -131,8 +161,6 @@ function getDepartment($conn, $DATA)
     die;
   }
 }
-// $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
-// mysqli_query($conn,$Sqlx);
 
 function CreateDocument($conn, $DATA)
 {
@@ -142,9 +170,6 @@ function CreateDocument($conn, $DATA)
   $hotpCode = $DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
   $userid   = $DATA["userid"];
-
-  //	 $Sql = "INSERT INTO log ( log ) VALUES ('userid : $userid')";
-  //     mysqli_query($conn,$Sql);
 
   $Sql = "SELECT CONCAT('CN',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
@@ -156,16 +181,18 @@ function CreateDocument($conn, $DATA)
   ORDER BY DocNo DESC LIMIT 1";
 
   $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-
-    if($lang =='en'){
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    if($lang =='en')
+    {
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-    }else if ($lang == 'th'){
+    }
+    else if ($lang == 'th')
+    {
       $date2 = explode("-", $Result['DocDate']);
       $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
     }
-
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
     $return[0]['DocDate'] = $newdate;
@@ -174,7 +201,6 @@ function CreateDocument($conn, $DATA)
     $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";
       mysqli_query($conn,$Sql);
   }
-
   if ($count == 1) 
   {
     $Sql = "INSERT INTO clean (
@@ -196,7 +222,6 @@ function CreateDocument($conn, $DATA)
                   ) ";
       mysqli_query($conn, $Sql);
 
-      //var_dump($Sql);
       $Sql = "INSERT INTO daily_request
       (DocNo,DocDate,DepCode,Detail,Modify_Code,Modify_Date)
       VALUES
@@ -210,413 +235,444 @@ function CreateDocument($conn, $DATA)
       WHERE users.ID = $userid";
 
       $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
         $DocNo = $Result['DocNo'];
         $return[0]['Record']   = $Result['FName'];
-        if($lang == "en"){
+        if($lang == "en")
+        {
           $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
-        }else if($lang == "th"){
+        }
+        else if($lang == "th")
+        {
           $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
         }
       }
-
       $boolean = true;
-    } else {
-      $boolean = false;
-    }
+  }
+  else
+  {
+    $boolean = false;
+  }
+  if ($boolean)
+  {
+    $return['status'] = "success";
+    $return['form'] = "CreateDocument";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+  else
+  {
+    $return['status'] = "failed";
+    $return['form'] = "CreateDocument";
+    $return['msg'] = 'cantcreate';
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 
-    if ($boolean) {
-      $return['status'] = "success";
-      $return['form'] = "CreateDocument";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    } else {
-      $return['status'] = "failed";
-      $return['form'] = "CreateDocument";
-      $return['msg'] = 'cantcreate';
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }
+function ShowDocument($conn, $DATA)
+{
+  $lang = $_SESSION['lang'];
+  $boolean = false;
+  $count = 0;
+  $Hotp   = $DATA["Hotp"];
+  $deptCode  = $DATA["deptCode"];
+  $DocNo    = $DATA["docno"];
+  $xDocNo  = str_replace(' ', '%', $DATA["xdocno"]);
+  $datepicker = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
+  $selecta = $DATA["selecta"];
+  $process  = $DATA["process"];
+
+  if( $process == 'chkpro1')
+  {
+    $onprocess1 = 0;
+    $onprocess2 = 0;
+    $onprocess3 = 0;
+    $onprocess4 = 0;
+  }
+  else if($process == 'chkpro2')
+  {
+    $onprocess1 = 1;
+    $onprocess2 = 2;
+    $onprocess3 = 3;
+    $onprocess4 = 4;
+  }
+  else if($process == 'chkpro3')
+  {
+    $onprocess1 = 9;
+    $onprocess2 = 9;
+    $onprocess3 = 9;
+    $onprocess4 = 9;
   }
 
-  function ShowDocument($conn, $DATA)
-  {
-    $lang                           = $_SESSION['lang'];
-    $boolean                      = false;
-    $count                          = 0;
-    $Hotp                           = $DATA["Hotp"];
-    $deptCode                     = $DATA["deptCode"];
-    $DocNo                         = $DATA["docno"];
-    $xDocNo                       = str_replace(' ', '%', $DATA["xdocno"]);
-    $datepicker                   = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];
-    $selecta                          = $DATA["selecta"];
-    $process                        = $DATA["process"];
+  $Sql = "SELECT
+          site.HptName,
+          department.DepName,
+          clean.DocNo,
+          DATE(clean.DocDate) AS DocDate,
+          clean.Total,
+          users.EngName,
+          users.EngLName,
+          users.ThName,
+          users.ThLName,
+          users.EngPerfix,
+          users.ThPerfix,
+          TIME(clean.Modify_Date) AS xTime,
+          clean.IsStatus,
+          factory.FacName
+        FROM
+          clean
+        LEFT JOIN factory ON clean.FacCode = factory.FacCode
+        INNER JOIN department ON clean.DepCode = department.DepCode
+        INNER JOIN site ON department.HptCode = site.HptCode
+        INNER JOIN users ON clean.Modify_Code = users.ID  ";
 
-    if( $process == 'chkpro1'){
-      $onprocess1 = 0;
-      $onprocess2 = 0;
-      $onprocess3 = 0;
-      $onprocess4 = 0;
-    }else if($process == 'chkpro2'){
-      $onprocess1 = 1;
-      $onprocess2 = 2;
-      $onprocess3 = 3;
-      $onprocess4 = 4;
-    }else if($process == 'chkpro3'){
-      $onprocess1 = 9;
-      $onprocess2 = 9;
-      $onprocess3 = 9;
-      $onprocess4 = 9;
-    }
-    $Sql = "SELECT
-	site.HptName,
-	department.DepName,
-	clean.DocNo,
-	DATE(clean.DocDate) AS DocDate,
-	clean.Total,
-	users.EngName,
-	users.EngLName,
-	users.ThName,
-	users.ThLName,
-	users.EngPerfix,
-	users.ThPerfix,
-	TIME(clean.Modify_Date) AS xTime,
-	clean.IsStatus,
-	factory.FacName
-FROM
-	clean
-LEFT JOIN factory ON clean.FacCode = factory.FacCode
-INNER JOIN department ON clean.DepCode = department.DepCode
-INNER JOIN site ON department.HptCode = site.HptCode
-INNER JOIN users ON clean.Modify_Code = users.ID  ";
-  // if($DocNo!=null){
-  //   $Sql .= " WHERE clean.DocNo = '$DocNo' AND clean.DocNo LIKE '%$xDocNo%'";
-  // }else{
-    if ($Hotp != null && $deptCode == null && $datepicker == null  && $process == 'chkpro') {
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%' ";
-    }else if($Hotp == null && $deptCode != null && $datepicker == null  && $process == 'chkpro'){
-      $Sql .= "  WHERE clean.DocNo LIKE '%$xDocNo%'";
-    }else if ($Hotp == null && $deptCode == null && $datepicker != null  && $process == 'chkpro'){
-      $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp !=null && $deptCode != null && $datepicker == null  && $process == 'chkpro'){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DepCode = '$deptCode' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode == null && $datepicker != null  && $process == 'chkpro'){
-      $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp == null && $deptCode != null && $datepicker != null  && $process == 'chkpro'){
-      $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if($Hotp != null && $deptCode != null && $datepicker != null  && $process == 'chkpro'){
-      $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%'";
-    }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process != 'chkpro') {
-      $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  clean.DocNo LIKE '%$xDocNo%'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2 OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
-    }else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro'){
-      $Sql .= " WHERE clean.DepCode = '$deptCode'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2  OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
-  }else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+  if ($Hotp != null && $deptCode == null && $datepicker == null  && $process == 'chkpro')
+  {
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%' ";
+  }
+  else if($Hotp == null && $deptCode != null && $datepicker == null  && $process == 'chkpro')
+  {
+    $Sql .= "  WHERE clean.DocNo LIKE '%$xDocNo%'";
+  }
+  else if ($Hotp == null && $deptCode == null && $datepicker != null  && $process == 'chkpro')
+  {
+    $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
+  }
+  else if($Hotp !=null && $deptCode != null && $datepicker == null  && $process == 'chkpro')
+  {
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND clean.DepCode = '$deptCode' AND clean.DocNo LIKE '%$xDocNo%'";
+  }
+  else if($Hotp != null && $deptCode == null && $datepicker != null  && $process == 'chkpro')
+  {
+    $Sql .= " WHERE site.HptCode = '$Hotp' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
+  }
+  else if($Hotp == null && $deptCode != null && $datepicker != null  && $process == 'chkpro')
+  {
+    $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'";
+  }
+  else if($Hotp != null && $deptCode != null && $datepicker != null  && $process == 'chkpro')
+  {
+    $Sql .= " WHERE clean.DepCode = '$deptCode' AND DATE(clean.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND clean.DocNo LIKE '%$xDocNo%'";
+  }
+  else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process != 'chkpro')
+  {
+    $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  clean.DocNo LIKE '%$xDocNo%'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2 OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
+  }
+  else if($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro')
+  {
+    $Sql .= " WHERE clean.DepCode = '$deptCode'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2  OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
+  }
+  else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro')
+  {
     $Sql .= " WHERE DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'   AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2  OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4) ";
-  }else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro'){
+  }
+  else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro')
+  {
     $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'  AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2 OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4 ) ";
-  }else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro'){
+  }
+  else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro')
+  {
     $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND clean.DepCode = '$deptCode' AND  DATE(clean.DocDate) = '$datepicker' AND clean.DocNo LIKE '%$xDocNo%'   AND ( clean.IsStatus = $onprocess1 OR clean.IsStatus = $onprocess2 OR clean.IsStatus = $onprocess3 OR clean.IsStatus = $onprocess4 ) ";
   }
-  // }
-    $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
-    $return['qqq'] = $Sql;
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      
-      if($lang =='en'){
-        $date2 = explode("-", $Result['DocDate']);
-        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
-      }else if ($lang == 'th'){
-        $date2 = explode("-", $Result['DocDate']);
-        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
-      }
-      $return[$count]['FacName']    = $Result['FacName']==null?'':$Result['FacName'];
-      $return[$count]['HptName']   = $Result['HptName'];
-      $return[$count]['DepName']   = $Result['DepName'];
-      $return[$count]['DocNo']        = $Result['DocNo'];
-      $DocNo                                 = $Result['DocNo'];
-      $return[$count]['DocDate']      = $newdate;
-      $return[$count]['RefDocNo']     = $Result['RefDocNo'];
-      $return[$count]['RecNow']       = $Result['xTime'];
-      $return[$count]['Total']           = $Result['Total'];
-      $return[$count]['IsStatus']       = $Result['IsStatus'];
-      $count2 = 0;
-      $countM = "SELECT COUNT(*) AS cnt FROM clean_ref  WHERE  clean_ref.DocNo  = '$DocNo'  ";
-      $MQuery = mysqli_query($conn, $countM);
-      while ($MResult = mysqli_fetch_assoc($MQuery)) {
-        $return['sql'] = $countM;
-        if($MResult['cnt']!=0){
-          $xSql = "SELECT clean_ref.RefDocNo , clean_ref.DocNo FROM clean_ref WHERE clean_ref.DocNo = '$DocNo'  ";
-          $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) {
-            $m1 = "RefDocNo_" . $DocNo . "_" . $count;
-            $m5 = "Cnt_" . $DocNo;
-            $return[$m1][$count2] = $xResult['RefDocNo'];
-            $count2++;
-          }
-        }else{
-        
-            $m1 = "RefDocNo_" . $DocNo . "_" . $count;
-            $m5 = "Cnt_" . $DocNo;
-            $return[$m1][$count2] = ' No reference' ;
-            $count2++;
-          
-        }
-      }
-
-
-
-      $return[$m5][$count] = $count2;
-      $boolean = true;
-      $count++;
-
-  }
-    $return['Count'] = $count;
-
-//     foreach ($DocNo2 as $key => $value)
-// {
-//     $countRef = 0 ; 
-//     $Sql3 = "SELECT RefDocNo , DocNo FROM clean_ref WHERE DocNo = '$value' ";
-//     $meQuery = mysqli_query($conn,$Sql3);
-//     while ($Result = mysqli_fetch_assoc($meQuery)) {
-//       $return['Ref'][$countRef]['RefDocNo'] = $Result['RefDocNo'];
-//       $return['Ref'][$countRef]['DocNo'] = $Result['DocNo'];
-//       $countRef ++ ;
-//     }
-//   }
-    if ($boolean) {
-      $return['status'] = "success";
-      $return['form'] = "ShowDocument";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    } else {
-      $return['status'] = "success";
-      $return['form'] = "ShowDocument";
-      $return['msg'] = "notfound";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }
-  }
-
-  function SelectDocument($conn, $DATA)
-  {
-    $lang = $_SESSION['lang'];
-    $boolean = false;
-    $count = 0;
-    $DocNo = $DATA["xdocno"];
-    $Datepicker = $DATA["Datepicker"];
-    $Sql = "SELECT site.HptCode,department.DepName,clean.DocNo,DATE(clean.DocDate) 
-    AS DocDate ,clean.Total,users.EngName , users.EngLName ,clean.FacCode ,  users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
-    FROM clean
-    INNER JOIN department ON clean.DepCode = department.DepCode
-    INNER JOIN site ON department.HptCode = site.HptCode
-    INNER JOIN users ON clean.Modify_Code = users.ID
-    WHERE clean.DocNo = '$DocNo'";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-
-      if($lang =='en'){
-        $date2 = explode("-", $Result['DocDate']);
-        $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-        $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
-      }else if ($lang == 'th'){
-        $date2 = explode("-", $Result['DocDate']);
-        $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-        $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
-      }
-      $DocNo   = $Result['DocNo'];
-      $Hotp   = $Result['HptCode'];
-      $return[$count]['HptName']    = $Result['HptCode'];
-      $return[$count]['DepName']    = $Result['DepName'];
-      $return[$count]['DocNo']      = $Result['DocNo'];
-      $return[$count]['FacCode2']   = $Result['FacCode']==null?0:$Result['FacCode'];
-      $return[$count]['DocDate']    = $newdate;
-      $return[$count]['RecNow']     = $Result['xTime'];
-      $return[$count]['Total']      = $Result['Total'];
-      $return[$count]['IsStatus']   = $Result['IsStatus'];
-
-      $boolean = true;
-      $count++;
-    }
-
-
-    $countRef = 0 ; 
-    $Sql3 = "SELECT RefDocNo FROM clean_ref WHERE DocNo = '$DocNo' ";
-    $meQuery = mysqli_query($conn,$Sql3);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$countRef]['RefDocNo'] = $Result['RefDocNo'];
-      $countRef ++ ;
-    }
-    $return['Rowxx'] = $countRef ;
-
-
-
-    
-    $countx = 0;
-    if($lang == 'en'){
-      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
-      }else{
-      $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
-      }
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-    
-      $return[$countx]['FacCode'] = $Result['FacCode'];
-      $return[$countx]['FacName'] = $Result['FacName'];
-      $countx  ++;
-    }
-    $boolean = true;
-    $return['Rowx'] = $countx;
-
-    if ($boolean) {
-      $return['status'] = "success";
-      $return['form'] = "SelectDocument";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    } else {
-      $return[$count]['HptName']   = "";
-      $return[$count]['DepName']   = "";
-      $return[$count]['DocNo']   = "";
-      $return[$count]['DocDate']   = "";
-      $return[$count]['Record']   = "";
-      $return[$count]['RecNow']   = "";
-      $return[$count]['Total']   = "0.00";
-      $return['status'] = "failed";
-      $return['form'] = "SelectDocument";
-      $return['msg'] = "notchosen";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }
-  }
-
-  function ShowItem($conn, $DATA)
-  {
-    $count = 0;
-    $boolean = false;
-    $searchitem = str_replace(' ', '%', $DATA["xitem"]);
-    $deptCode = $DATA["deptCode"];
-    $hotpital = $DATA["hotpital"];
-
-    $Sql = "SELECT
-                  item_category.CategoryName,
-                  item.ItemCode,
-                  item.ItemName,
-                  item.UnitCode,
-                  item_unit.UnitName
-                FROM
-                  item
-                INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
-                INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-                WHERE
-                  item.ItemName LIKE '%$searchitem%'
-                AND item.IsClean = 1
-                AND item.IsActive = 1
-                AND item.HptCode = '$hotpital'
-                GROUP BY
-                  item.ItemCode
-                ORDER BY
-                  item.ItemName ASC
-                LIMIT 100 ";
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) 
+  $Sql .= "ORDER BY clean.DocNo DESC LIMIT 500";
+  $return['qqq'] = $Sql;
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {  
+    if($lang =='en')
     {
-      $return[$count]['ItemCode'] = $Result['ItemCode'];
-      $return[$count]['ItemName'] = $Result['ItemName'];
-      $return[$count]['UnitCode'] = $Result['UnitCode'];
-      $return[$count]['UnitName'] = $Result['UnitName'];
-      $ItemCode = $Result['ItemCode'];
-      $UnitCode = $Result['UnitCode'];
-      $count2 = 0;
-      $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-      $MQuery = mysqli_query($conn, $countM);
-      while ($MResult = mysqli_fetch_assoc($MQuery)) 
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+    }
+    else if ($lang == 'th')
+    {
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+    }
+    $return[$count]['FacName']    = $Result['FacName']==null?'':$Result['FacName'];
+    $return[$count]['HptName']   = $Result['HptName'];
+    $return[$count]['DepName']   = $Result['DepName'];
+    $return[$count]['DocNo']        = $Result['DocNo'];
+    $DocNo                                 = $Result['DocNo'];
+    $return[$count]['DocDate']      = $newdate;
+    $return[$count]['RefDocNo']     = $Result['RefDocNo'];
+    $return[$count]['RecNow']       = $Result['xTime'];
+    $return[$count]['Total']           = $Result['Total'];
+    $return[$count]['IsStatus']       = $Result['IsStatus'];
+    $count2 = 0;
+    $countM = "SELECT COUNT(*) AS cnt FROM clean_ref  WHERE  clean_ref.DocNo  = '$DocNo'  ";
+    $MQuery = mysqli_query($conn, $countM);
+    while ($MResult = mysqli_fetch_assoc($MQuery))
+    {
+      $return['sql'] = $countM;
+      if($MResult['cnt']!=0)
       {
-        $return['sql'] = $countM;
-        if($MResult['cnt']!=0)
+        $xSql = "SELECT clean_ref.RefDocNo , clean_ref.DocNo FROM clean_ref WHERE clean_ref.DocNo = '$DocNo'  ";
+        $xQuery = mysqli_query($conn, $xSql);
+        while ($xResult = mysqli_fetch_assoc($xQuery))
         {
-          $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
-          FROM item_multiple_unit
-          INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
-          WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
-          $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) 
-          {
-            $m1 = "MpCode_" . $ItemCode . "_" . $count;
-            $m2 = "UnitCode_" . $ItemCode . "_" . $count;
-            $m3 = "UnitName_" . $ItemCode . "_" . $count;
-            $m4 = "Multiply_" . $ItemCode . "_" . $count;
-            $m5 = "Cnt_" . $ItemCode;
-  
-            $return[$m1][$count2] = $xResult['MpCode'];
-            $return[$m2][$count2] = $xResult['UnitCode'];
-            $return[$m3][$count2] = $xResult['UnitName'];
-            $return[$m4][$count2] = $xResult['Multiply'];
-            $count2++;
-          }
-        }
-        else
-        {
-          $xSql = "SELECT 
-                          item.UnitCode,
-                          item_unit.UnitName
-                        FROM item
-                        INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
-                        WHERE item.ItemCode = '$ItemCode' ";
-          $xQuery = mysqli_query($conn, $xSql);
-          while ($xResult = mysqli_fetch_assoc($xQuery)) 
-          {
-            $m1 = "MpCode_" . $ItemCode . "_" . $count;
-            $m2 = "UnitCode_" . $ItemCode . "_" . $count;
-            $m3 = "UnitName_" . $ItemCode . "_" . $count;
-            $m4 = "Multiply_" . $ItemCode . "_" . $count;
-            $m5 = "Cnt_" . $ItemCode;
-  
-            $return[$m1][$count2] = 1;
-            $return[$m2][$count2] = $xResult['UnitCode'];
-            $return[$m3][$count2] = $xResult['UnitName'];
-            $return[$m4][$count2] = 1;
-            $count2++;
-          }
+          $m1 = "RefDocNo_" . $DocNo . "_" . $count;
+          $m5 = "Cnt_" . $DocNo;
+          $return[$m1][$count2] = $xResult['RefDocNo'];
+          $count2++;
         }
       }
-
-      $return[$m5][$count] = $count2;
-      $count++;
-      $boolean = true;
+      else
+      {
+          $m1 = "RefDocNo_" . $DocNo . "_" . $count;
+          $m5 = "Cnt_" . $DocNo;
+          $return[$m1][$count2] = ' No reference' ;
+          $count2++;
+        
+      }
     }
-
-    $return['Row'] = $count;
-
-    if ($boolean) 
-    {
-      $return['status'] = "success";
-      $return['form'] = "ShowItem";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    } 
-    else 
-    {
-      $return['status'] = "success";
-      $return['form'] = "ShowItem";
-      $return['msg'] = "notfound";
-      $return[$count]['RowID'] = "";
-      $return[$count]['UsageCode'] = "";
-      $return[$count]['itemname'] = "";
-      $return[$count]['UnitName'] = "";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }
+    $return[$m5][$count] = $count2;
+    $boolean = true;
+    $count++;
   }
+  $return['Count'] = $count;
+  if ($boolean)
+  {
+    $return['status'] = "success";
+    $return['form'] = "ShowDocument";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+  else
+  {
+    $return['status'] = "success";
+    $return['form'] = "ShowDocument";
+    $return['msg'] = "notfound";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
+function SelectDocument($conn, $DATA)
+{
+  $lang = $_SESSION['lang'];
+  $boolean = false;
+  $count = 0;
+  $DocNo = $DATA["xdocno"];
+  $Datepicker = $DATA["Datepicker"];
+  $Sql = "SELECT site.HptCode,department.DepName,clean.DocNo,DATE(clean.DocDate) 
+  AS DocDate ,clean.Total,users.EngName , users.EngLName ,clean.FacCode ,  users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,TIME(clean.Modify_Date) AS xTime,clean.IsStatus
+  FROM clean
+  INNER JOIN department ON clean.DepCode = department.DepCode
+  INNER JOIN site ON department.HptCode = site.HptCode
+  INNER JOIN users ON clean.Modify_Code = users.ID
+  WHERE clean.DocNo = '$DocNo'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+
+    if($lang =='en')
+    {
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+      $return[$count]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+    }
+    else if ($lang == 'th')
+    {
+      $date2 = explode("-", $Result['DocDate']);
+      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+      $return[$count]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+    }
+
+    $DocNo   = $Result['DocNo'];
+    $Hotp   = $Result['HptCode'];
+    $return[$count]['HptName']    = $Result['HptCode'];
+    $return[$count]['DepName']    = $Result['DepName'];
+    $return[$count]['DocNo']      = $Result['DocNo'];
+    $return[$count]['FacCode2']   = $Result['FacCode']==null?0:$Result['FacCode'];
+    $return[$count]['DocDate']    = $newdate;
+    $return[$count]['RecNow']     = $Result['xTime'];
+    $return[$count]['Total']      = $Result['Total'];
+    $return[$count]['IsStatus']   = $Result['IsStatus'];
+    $boolean = true;
+    $count++;
+  }
+  $countRef = 0 ; 
+  $Sql3 = "SELECT RefDocNo FROM clean_ref WHERE DocNo = '$DocNo' ";
+  $meQuery = mysqli_query($conn,$Sql3);
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    $return[$countRef]['RefDocNo'] = $Result['RefDocNo'];
+    $countRef ++ ;
+  }
+  $return['Rowxx'] = $countRef ;
+  $countx = 0;
+  if($lang == 'en')
+  {
+    $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+  }
+  else
+  {
+    $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$Hotp'";
+  }
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    $return[$countx]['FacCode'] = $Result['FacCode'];
+    $return[$countx]['FacName'] = $Result['FacName'];
+    $countx  ++;
+  }
+  $boolean = true;
+  $return['Rowx'] = $countx;
+  if ($boolean)
+  {
+    $return['status'] = "success";
+    $return['form'] = "SelectDocument";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+  else
+  {
+    $return[$count]['HptName']   = "";
+    $return[$count]['DepName']   = "";
+    $return[$count]['DocNo']   = "";
+    $return[$count]['DocDate']   = "";
+    $return[$count]['Record']   = "";
+    $return[$count]['RecNow']   = "";
+    $return[$count]['Total']   = "0.00";
+    $return['status'] = "failed";
+    $return['form'] = "SelectDocument";
+    $return['msg'] = "notchosen";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
+
+function ShowItem($conn, $DATA)
+{
+  $count = 0;
+  $boolean = false;
+  $searchitem = str_replace(' ', '%', $DATA["xitem"]);
+  $deptCode = $DATA["deptCode"];
+  $hotpital = $DATA["hotpital"];
+
+  $Sql = "SELECT
+                item_category.CategoryName,
+                item.ItemCode,
+                item.ItemName,
+                item.UnitCode,
+                item_unit.UnitName
+              FROM
+                item
+              INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+              INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+              WHERE
+                item.ItemName LIKE '%$searchitem%'
+              AND item.IsClean = 1
+              AND item.IsActive = 1
+              AND item.HptCode = '$hotpital'
+              GROUP BY
+                item.ItemCode
+              ORDER BY
+                item.ItemName ASC
+              LIMIT 100 ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) 
+  {
+    $return[$count]['ItemCode'] = $Result['ItemCode'];
+    $return[$count]['ItemName'] = $Result['ItemName'];
+    $return[$count]['UnitCode'] = $Result['UnitCode'];
+    $return[$count]['UnitName'] = $Result['UnitName'];
+    $ItemCode = $Result['ItemCode'];
+    $UnitCode = $Result['UnitCode'];
+    $count2 = 0;
+    $countM = "SELECT COUNT(*) AS cnt FROM item_multiple_unit  WHERE  item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+    $MQuery = mysqli_query($conn, $countM);
+    while ($MResult = mysqli_fetch_assoc($MQuery)) 
+    {
+      $return['sql'] = $countM;
+      if($MResult['cnt']!=0)
+      {
+        $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
+        FROM item_multiple_unit
+        INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
+        WHERE item_multiple_unit.UnitCode  = $UnitCode AND item_multiple_unit.ItemCode = '$ItemCode'";
+        $xQuery = mysqli_query($conn, $xSql);
+        while ($xResult = mysqli_fetch_assoc($xQuery)) 
+        {
+          $m1 = "MpCode_" . $ItemCode . "_" . $count;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m5 = "Cnt_" . $ItemCode;
+
+          $return[$m1][$count2] = $xResult['MpCode'];
+          $return[$m2][$count2] = $xResult['UnitCode'];
+          $return[$m3][$count2] = $xResult['UnitName'];
+          $return[$m4][$count2] = $xResult['Multiply'];
+          $count2++;
+        }
+      }
+      else
+      {
+        $xSql = "SELECT 
+                        item.UnitCode,
+                        item_unit.UnitName
+                      FROM item
+                      INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
+                      WHERE item.ItemCode = '$ItemCode' ";
+        $xQuery = mysqli_query($conn, $xSql);
+        while ($xResult = mysqli_fetch_assoc($xQuery)) 
+        {
+          $m1 = "MpCode_" . $ItemCode . "_" . $count;
+          $m2 = "UnitCode_" . $ItemCode . "_" . $count;
+          $m3 = "UnitName_" . $ItemCode . "_" . $count;
+          $m4 = "Multiply_" . $ItemCode . "_" . $count;
+          $m5 = "Cnt_" . $ItemCode;
+
+          $return[$m1][$count2] = 1;
+          $return[$m2][$count2] = $xResult['UnitCode'];
+          $return[$m3][$count2] = $xResult['UnitName'];
+          $return[$m4][$count2] = 1;
+          $count2++;
+        }
+      }
+    }
+
+    $return[$m5][$count] = $count2;
+    $count++;
+    $boolean = true;
+  }
+
+  $return['Row'] = $count;
+
+  if ($boolean) 
+  {
+    $return['status'] = "success";
+    $return['form'] = "ShowItem";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } 
+  else 
+  {
+    $return['status'] = "success";
+    $return['form'] = "ShowItem";
+    $return['msg'] = "notfound";
+    $return[$count]['RowID'] = "";
+    $return[$count]['UsageCode'] = "";
+    $return[$count]['itemname'] = "";
+    $return[$count]['UnitName'] = "";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 
   function ShowUsageCode($conn, $DATA)
   {
@@ -821,9 +877,6 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     $isStatus = $DATA["isStatus"];
     $DocNo = $DATA["DocNo"];
 
-    //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
-    //	mysqli_query($conn,$Sqlx);
-
     $Sql = "UPDATE clean_detail
     SET Weight = $Weight
     WHERE clean_detail.Id = $RowID";
@@ -831,16 +884,13 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
 
     $Sql = "SELECT SUM(Weight) AS Weight2 FROM clean_detail WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $Weight2 = $Result['Weight2'];
       $return['Weight2'] = $Result['Weight2'];
     }
-
-  $Sql="UPDATE clean SET Total = $Weight2 WHERE DocNo = '$DocNo'";
-  mysqli_query($conn, $Sql);
-    // ShowDetail($conn, $DATA);
-
-
+    $Sql="UPDATE clean SET Total = $Weight2 WHERE DocNo = '$DocNo'";
+    mysqli_query($conn, $Sql);
     $return['status'] = "success";
     $return['form'] = "UpdateDetailWeight";
     echo json_encode($return);
@@ -848,21 +898,17 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
 
   }
 
-
   function UpdateDetail($conn, $DATA)
   {
     $RowID  = $DATA["Rowid"];
     $Detail  =  $DATA["Detail"];
     $isStatus = $DATA["isStatus"];
-    //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$RowID / $Weight')";
-    //	mysqli_query($conn,$Sqlx);
     $Sql = "UPDATE clean_detail
     SET Detail = '$Detail'
     WHERE clean_detail.Id = $RowID";
     mysqli_query($conn, $Sql);
     ShowDetail($conn, $DATA);
   }
-
 
   function updataDetail($conn, $DATA)
   {
@@ -886,13 +932,15 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN clean_detail_sub ON clean_detail.DocNo = clean_detail_sub.DocNo
     WHERE  clean_detail.Id = $RowID";
     $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $ItemCode = $Result['ItemCode'];
       $UsageCode[$n] = $Result['UsageCode'];
       $n++;
     }
 
-    for ($i = 0; $i < $n; $i++) {
+    for ($i = 0; $i < $n; $i++)
+    {
       $xUsageCode = $UsageCode[$i];
       $Sql = "UPDATE item_stock SET IsStatus = 6 WHERE UsageCode = '$xUsageCode'";
       mysqli_query($conn, $Sql);
@@ -923,28 +971,33 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     // ================================================================================
     $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$DocNo2' ";
     $meQuery = mysqli_query($conn, $Sqlx);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $DocNoDirty = $Result['DocNo'];
     }
-    if($DocNoDirty != "" ){
-    $Sql = "UPDATE dirty SET IsRef = 1 , IsStatus = 4 WHERE dirty.DocNo = '$DocNo2'";
-    mysqli_query($conn, $Sql);
-    $Sql = "SELECT clean.Total , clean.sendmail
-    FROM clean WHERE clean.DocNo = '$DocNo'";
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $cTotal	= $Result['Total']==null?0:$Result['Total'];
-      $sendmail	= $Result['sendmail'];
-    }
-    $Sql = "SELECT dirty.Total
-    FROM dirty WHERE dirty.DocNo = '$DocNo2'";
-    $return['sql'] = $Sql;
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $dTotal	= $Result['Total']==null?0:$Result['Total'];
-    }
+    if($DocNoDirty != "" )
+    {
+      $Sql = "UPDATE dirty SET IsRef = 1 , IsStatus = 4 WHERE dirty.DocNo = '$DocNo2'";
+      mysqli_query($conn, $Sql);
+      $Sql = "SELECT clean.Total , clean.sendmail
+      FROM clean WHERE clean.DocNo = '$DocNo'";
+      $meQuery = mysqli_query($conn,$Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
+        $cTotal	= $Result['Total']==null?0:$Result['Total'];
+        $sendmail	= $Result['sendmail'];
+      }
+      $Sql = "SELECT dirty.Total
+      FROM dirty WHERE dirty.DocNo = '$DocNo2'";
+      $return['sql'] = $Sql;
+      $meQuery = mysqli_query($conn,$Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
+        $dTotal	= $Result['Total']==null?0:$Result['Total'];
+      }
       $percent =  ROUND( ((($dTotal - $cTotal )/$dTotal)*100) , 2)  ;
-      if($percent > 8 && $sendmail ==0){
+      if($percent > 8 && $sendmail ==0)
+      {
         $return[0]['Percent'] = $percent;
         $return[0]['DocNo1'] 	= $DocNo;
         $return[0]['DocNo2'] 	= $DocNo2;
@@ -953,7 +1006,8 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
         $SqlUp="UPDATE clean SET sendmail = 1 WHERE DocNo = '$DocNo'";
         $meQuery = mysqli_query($conn,$SqlUp);
         $i = 0;
-        if($meQuery = mysqli_query($conn,$SqlUp)){
+        if($meQuery = mysqli_query($conn,$SqlUp))
+        {
           $SelectMail1 = "SELECT users.email, 	site.HptName , site.HptNameTH
               FROM users
               INNER JOIN site ON site.HptCode = users.HptCode
@@ -961,7 +1015,8 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
               AND users.PmID = 1
               AND email IS NOT NULL AND NOT email = ''";
               $SQuery1 = mysqli_query($conn,$SelectMail1);
-              while ($SResult1 = mysqli_fetch_assoc($SQuery1)) {
+              while ($SResult1 = mysqli_fetch_assoc($SQuery1))
+              {
                 $return[$i]['email'] = $SResult1['email'];
                 $return[0]['HptName'] = $SResult1['HptName'];
                 $return[0]['HptNameTH'] = $SResult1['HptNameTH'];
@@ -972,19 +1027,23 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
         }
         $return['countpercent'] = $count4;
       }
-    }else{
-    $Sql = "UPDATE repair_wash SET IsRef = 1 , IsStatus = 4 WHERE repair_wash.DocNo = '$DocNo2'";
-    mysqli_query($conn, $Sql);
+    }
+    else
+    {
+      $Sql = "UPDATE repair_wash SET IsRef = 1 , IsStatus = 4 WHERE repair_wash.DocNo = '$DocNo2'";
+      mysqli_query($conn, $Sql);
     }
     $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$DocNo2' ";
     $meQuery = mysqli_query($conn, $Sqlx);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $DocNonewlinentable = $Result['DocNo'];
     }
-    if($DocNonewlinentable != "" ){
+    if($DocNonewlinentable != "" )
+    {
       $Sql = "UPDATE newlinentable SET IsRef = 1 , IsStatus = 4 WHERE newlinentable.DocNo = '$DocNo2'";
       mysqli_query($conn, $Sql);
-      }
+    }
     // ================================================================================
     $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
@@ -992,17 +1051,15 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     $Sql = "UPDATE factory_out SET IsRequest = 1 WHERE DocNo = '$DocNo2'";
     mysqli_query($conn, $Sql);
 
-// ==============================================================================
-
-
-    if($percent > 8){
+    // ==============================================================================
+    if($percent > 8)
+    {
       $return['status'] = "success";
       $return['form'] = "SaveBill";
       echo json_encode($return);
       mysqli_close($conn);
       die;
     }
-    // ShowDocument($conn, $DATA);
   }
 
   function UpdateRefDocNo($conn, $DATA)
@@ -1017,32 +1074,32 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
       $Sql1 = "INSERT clean_ref SET DocNo = '$DocNo'  , RefDocNo = '$value' "; 
         mysqli_query($conn, $Sql1);
         $boolean = true;
-  }
-      if($boolean = true ){
-        $Sql2 = "UPDATE FacCode SET FacCode = $FacCode WHERE DocNo = '$DocNo'";
-        mysqli_query($conn, $Sql2);
-
-
-        $count = 0 ; 
-        $Sql3 = "SELECT RefDocNo FROM clean_ref WHERE DocNo = '$DocNo' ";
-        $meQuery = mysqli_query($conn,$Sql3);
-        while ($Result = mysqli_fetch_assoc($meQuery)) {
-          $return[$count]['RefDocNo'] = $Result['RefDocNo'];
-          $count ++ ;
-        }
-        $return['Rowx'] = $count ;
-        
+    }
+    if($boolean = true )
+    {
+      $Sql2 = "UPDATE FacCode SET FacCode = $FacCode WHERE DocNo = '$DocNo'";
+      mysqli_query($conn, $Sql2);
+      $count = 0 ; 
+      $Sql3 = "SELECT RefDocNo FROM clean_ref WHERE DocNo = '$DocNo' ";
+      $meQuery = mysqli_query($conn,$Sql3);
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
+        $return[$count]['RefDocNo'] = $Result['RefDocNo'];
+        $count ++ ;
       }
-
-
-    if($boolean = true){
+      $return['Rowx'] = $count ;
+    }
+    if($boolean = true)
+    {
       $return['status'] = "success";
       $return['form'] = "UpdateRefDocNo";
       $return['FacCode'] = $FacCode;
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    }else{
+    }
+    else
+    {
       $return['status'] = "success";
       $return['form'] = "UpdateRefDocNo";
       echo json_encode($return);
@@ -1051,7 +1108,8 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     }
   }
 
-  function chk_percent($conn, $DATA){
+  function chk_percent($conn, $DATA)
+  {
     $Total = 0;
     $count=0;
     $boolean = false;
@@ -1060,36 +1118,46 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     $Sql = "SELECT clean.Total
     FROM clean WHERE clean.DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $cTotal	= $Result['Total']==null?0:$Result['Total'];
     }
+
     $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $DocNoDirty = $Result['DocNo'];
     }
-      if($DocNoDirty != ''){
-    $Sql = "SELECT dirty.Total
-    FROM dirty WHERE dirty.DocNo = '$RefDocNo'";
-    $return['sql'] = $Sql;
-    $meQuery = mysqli_query($conn,$Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $dTotal	= $Result['Total']==null?0:$Result['Total'];
-      $boolean = true;
-      $count++;
-    }
-  }
-    if($dTotal !=0){
-      $Total =  ROUND( ((($dTotal - $cTotal )/$dTotal)*100) , 2)  ;
-      }else{
-        $Total = 0;
+    if($DocNoDirty != '')
+    {
+      $Sql = "SELECT dirty.Total
+      FROM dirty WHERE dirty.DocNo = '$RefDocNo'";
+      $return['sql'] = $Sql;
+      $meQuery = mysqli_query($conn,$Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery))
+      {
+        $dTotal	= $Result['Total']==null?0:$Result['Total'];
+        $boolean = true;
+        $count++;
       }
+    }
+
+    if($dTotal !=0)
+    {
+      $Total =  ROUND( ((($dTotal - $cTotal )/$dTotal)*100) , 2)  ;
+    }
+    else
+    {
+      $Total = 0;
+    }
       $return['xxx'] = $Total;
       $return[0]['Percent'] 	= $Total;
       $return[0]['DocNo'] 	= $DocNo;
       $return['Row'] = $count;
 
-    if($Total > 8){
+    if($Total > 8)
+    {
       $over = $Total - 8 ;
       $return[0]['over'] 	= abs($over);
       $return['status'] = "success";
@@ -1097,7 +1165,9 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    }else{
+    }
+    else
+    {
       $return['Row'] = 'No';
       $return['status'] = "success";
       $return['form'] = "chk_percent";
@@ -1105,13 +1175,7 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
       mysqli_close($conn);
       die;
     }
-
-
-
   }
-
-
-
 
   function ShowDetail($conn, $DATA)
   {
@@ -1139,15 +1203,11 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     INNER JOIN item_unit ON clean_detail.UnitCode = item_unit.UnitCode
     INNER JOIN clean ON clean_detail.DocNo = clean.DocNo
     WHERE clean_detail.DocNo = '$DocNo'
-    ORDER BY clean_detail.Id DESC
-";
+    ORDER BY clean_detail.Id DESC ";
     $return['sql']=$Sql;
     $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-
-      //	$Sqlx = "INSERT INTO log ( log ) VALUES ('$count :: ".$Result['Id']." / ".$Result['Weight']."')";
-      //	mysqli_query($conn,$Sqlx);
-
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $return[$count]['RowID']      = $Result['Id'];
       $return[$count]['ItemCode']   = $Result['ItemCode'];
       $return[$count]['ItemName']   = $Result['ItemName']==null?$Result['RequestName']:$Result['ItemName'];
@@ -1159,44 +1219,45 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
       $count2 = 0;
-
-
       //================================================================
       $Total += $Result['Weight'];
       //================================================================
       $count++;
       $boolean = true;
     }
+
     $cntUnit = 0;
     $xSql = "SELECT item_multiple_unit.MpCode,item_multiple_unit.UnitCode,item_unit.UnitName,item_multiple_unit.Multiply
       FROM item_multiple_unit
       INNER JOIN item_unit ON item_multiple_unit.MpCode = item_unit.UnitCode
       WHERE item_unit.IsStatus = 0 GROUP BY item_multiple_unit.UnitCode";
       $xQuery = mysqli_query($conn, $xSql);
-      while ($xResult = mysqli_fetch_assoc($xQuery)) {
+      while ($xResult = mysqli_fetch_assoc($xQuery))
+      {
         $return['Unit'][$cntUnit]['MpCode'] = $xResult['MpCode'];
         $return['Unit'][$cntUnit]['UnitCode'] = $xResult['UnitCode'];
         $return['Unit'][$cntUnit]['UnitName'] = $xResult['UnitName'];
         $return['Unit'][$cntUnit]['Multiply'] = $xResult['Multiply'];
         $cntUnit++;
       }
-    if ($count == 0) $Total = 0;
 
+    if ($count == 0) $Total = 0;
     $Sql = "UPDATE clean SET Total = $Total WHERE DocNo = '$DocNo'";
     mysqli_query($conn, $Sql);
     $return[0]['Total']    = round($Total, 2);
-
     $return['Row'] = $count;
     //==========================================================
-
     $boolean = true;
-    if ($boolean) {
+    if ($boolean)
+    {
       $return['status'] = "success";
       $return['form'] = "ShowDetail";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    } else {
+    }
+    else
+    {
       $return['status'] = "failed";
       $return['form'] = "ShowDetail";
       echo json_encode($return);
@@ -1209,36 +1270,40 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
   {
     $DocNo = $DATA["DocNo"];
     $RefDocNo = $DATA["RefDocNo"];
-    // $Sql = "INSERT INTO log ( log ) VALUES ('DocNo : $DocNo')";
-    // mysqli_query($conn,$Sql);
     $Sql = "UPDATE clean SET IsStatus = 9  WHERE DocNo = '$DocNo'";
     $meQuery = mysqli_query($conn, $Sql);
-
     $Sqlx = "SELECT dirty.DocNo FROM dirty WHERE dirty.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $DocNoDirty = $Result['DocNo'];
     }
-    if($DocNoDirty != "" ){
-    $Sql = "UPDATE dirty SET IsRef = 0 , IsStatus = 3 WHERE dirty.DocNo = '$RefDocNo'";
-    mysqli_query($conn, $Sql);
-    }else{
-    $Sql = "UPDATE repair_wash SET IsRef = 0 , IsStatus = 3 WHERE repair_wash.DocNo = '$RefDocNo'";
-    mysqli_query($conn, $Sql);
+    if($DocNoDirty != "" )
+    {
+      $Sql = "UPDATE dirty SET IsRef = 0 , IsStatus = 3 WHERE dirty.DocNo = '$RefDocNo'";
+      mysqli_query($conn, $Sql);
+    }
+    else
+    {
+      $Sql = "UPDATE repair_wash SET IsRef = 0 , IsStatus = 3 WHERE repair_wash.DocNo = '$RefDocNo'";
+      mysqli_query($conn, $Sql);
     }
     $Sqlx = "SELECT newlinentable.DocNo FROM newlinentable WHERE newlinentable.DocNo = '$RefDocNo' ";
     $meQuery = mysqli_query($conn, $Sqlx);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $DocNonewlinentable = $Result['DocNo'];
     }
-    if($DocNonewlinentable != "" ){
+    if($DocNonewlinentable != "" )
+    {
       $Sql = "UPDATE newlinentable SET IsRef = 0 , IsStatus = 3 WHERE newlinentable.DocNo = '$RefDocNo'";
       mysqli_query($conn, $Sql);
-      }
+    }
       ShowDocument($conn, $DATA);
   }
 
-  function updateQty($conn, $DATA){
+  function updateQty($conn, $DATA)
+  {
     $newQty = $DATA['newQty'];
     $RowID = $DATA['RowID'];
     $Sql = "UPDATE clean_detail SET Qty = $newQty WHERE Id = $RowID";
@@ -1281,13 +1346,12 @@ INNER JOIN users ON clean.Modify_Code = users.ID  ";
     AND site.HptCode = '$hptcode' 
     AND  (newlinentable.DocNo LIKE '%%')  
     AND (process.WashEndTime  >=  '$datepicker1' AND process.WashEndTime <='$datepicker2' OR process.WashEndTime LIKE '%$datepicker2%')
-    ORDER BY Modify_Date ASC 
-";
+    ORDER BY Modify_Date ASC  ";
 
-
-$return['sql'] = $Sql;
-$meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return['sql'] = $Sql;
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       if($lang =='en')
       {
         $date2 = explode("-", $Result['DocDate']);
@@ -1310,17 +1374,16 @@ $meQuery = mysqli_query($conn, $Sql);
     }
     $return['Row'] = $count;
     $return['count2'] = $count2;
-    // $return['form'] = "get_dirty_doc";
-    // echo json_encode($return);
-    // mysqli_close($conn);
-    // die;
-    if ($boolean) {
+    if ($boolean)
+    {
       $return['status'] = "success";
       $return['form'] = "get_dirty_doc";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    } else {
+    }
+    else
+    {
       $return['status'] = "success";
       $return['form'] = "get_dirty_doc";
       echo json_encode($return);
@@ -1328,33 +1391,41 @@ $meQuery = mysqli_query($conn, $Sql);
       die;
     }
   }
-  function getfactory($conn, $DATA){
+
+  function getfactory($conn, $DATA)
+  {
     $lang     = $DATA["lang"];
     $hotpital = $DATA["hotpital"]==null?$_SESSION['HptCode']:$DATA["hotpital"];
     $boolean  = false;
     $countx = 0;
-    if($lang == 'en'){
+    if($lang == 'en')
+    {
       $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
-      }else{
+    }
+    else
+    {
       $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
-      }
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-    
+    }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $return[$countx]['FacCode'] = $Result['FacCode'];
       $return[$countx]['FacName'] = $Result['FacName'];
       $countx  ++;
     }
+
     $boolean = true;
     $return['Rowx'] = $countx;
-  
-    if ($boolean) {
+    if ($boolean)
+    {
       $return['status'] = "success";
       $return['form'] = "getfactory";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    } else {
+    }
+    else
+    {
       $return['status'] = "failed";
       $return['form'] = "getfactory";
       echo json_encode($return);
@@ -1362,11 +1433,14 @@ $meQuery = mysqli_query($conn, $Sql);
       die;
     }
   }
-  function   showRequest($conn, $DATA){
+
+  function showRequest($conn, $DATA)
+  {
         $countx = 0;
         $Sql = "SELECT item_unit.UnitCode , item_unit.UnitName FROM item_unit";
         $meQuery = mysqli_query($conn, $Sql);
-        while ($Result = mysqli_fetch_assoc($meQuery)) {
+        while ($Result = mysqli_fetch_assoc($meQuery))
+        {
           $return[$countx]['UnitCode'] = $Result['UnitCode'];
           $return[$countx]['UnitName'] = $Result['UnitName'];
           $countx++;
@@ -1377,28 +1451,25 @@ $meQuery = mysqli_query($conn, $Sql);
         echo json_encode($return);
         mysqli_close($conn);
   }
-  function   SaveRequest($conn, $DATA){
+
+  function   SaveRequest($conn, $DATA)
+  {
     $NameRequest      = $DATA['NameRequest'];
     $qtyRequest         = $DATA['qtyRequest'];
     $weightRequest    = $DATA['weightRequest'];
     $DocNo                = $DATA['DocNo'];
     $unitrequest         = $DATA['unitrequest'];
-
     $Insert = "INSERT clean_detail (DocNo, RequestName, UnitCode,  Qty , ItemCode  , Weight )VALUES('$DocNo', '$NameRequest', $unitrequest,  $qtyRequest , 'HDL' , $weightRequest)";
     mysqli_query($conn, $Insert);
-
     ShowDetail($conn, $DATA);
 
-}
-
-
+  }
   //==========================================================
   //
   //==========================================================
   if (isset($_POST['DATA'])) {
     $data = $_POST['DATA'];
     $DATA = json_decode(str_replace('\"', '"', $data), true);
-
     if ($DATA['STATUS'] == 'OnLoadPage') {
       OnLoadPage($conn, $DATA);
     } elseif ($DATA['STATUS'] == 'getDepartment') {

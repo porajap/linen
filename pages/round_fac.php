@@ -203,7 +203,6 @@ $array2 = json_decode($json2,TRUE);
                                 'Time':Time,
                                 'factory':factory
                             };
-                            Blankinput();
                             senddata(JSON.stringify(data));
                         }, 1500);
                     } else if (result.dismiss === 'cancel') {
@@ -253,7 +252,6 @@ $array2 = json_decode($json2,TRUE);
                             'TimeID': TimeID
                         }
                         senddata(JSON.stringify(data));
-                    Blankinput();               
                 } else if (result.dismiss === 'cancel') {
                     swal.close();
                 }

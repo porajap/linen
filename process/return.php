@@ -387,6 +387,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["DocNo"];
   $Datepicker = $DATA["Datepicker"];
+  $HptCode = substr($DocNo , 2 , 3) ;
   $Sql = "SELECT
   site.HptName,
   site.HptCode,
@@ -408,7 +409,7 @@ function SelectDocument($conn, $DATA)
   INNER JOIN department ON return_doc.DepCodeFrom = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON return_doc.Modify_Code = users.ID
-  WHERE return_doc.DocNo = '$DocNo'";
+  WHERE return_doc.DocNo = '$DocNo' AND site.HptCode ='$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -696,12 +697,12 @@ function getImport($conn, $DATA)
     $iunit2 = $nunit[$i];
 
 
-
     $Sql = "SELECT item.ItemCode,item.UnitCode
     FROM item
     WHERE ItemCode = '$iItemStockId'";
     $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    while ($Result = mysqli_fetch_assoc($meQuery))
+    {
       $ItemCode = $Result['ItemCode'];
       $iunit1 = $Result['UnitCode'];
     }
@@ -717,7 +718,8 @@ function getImport($conn, $DATA)
       $chkUpdate = $Result['Cnt'];
     }
     $iqty2 = $iqty;
-    if ($iunit1 != $iunit2) {
+    if ($iunit1 != $iunit2)
+    {
       $Sql = "SELECT item_multiple_unit.Multiply
       FROM item_multiple_unit
       WHERE item_multiple_unit.UnitCode = $iunit1
@@ -729,13 +731,15 @@ function getImport($conn, $DATA)
       }
     }
 
-    if ($chkUpdate == 0) {
+    if ($chkUpdate == 0)
+    {
    
         $Sql = " INSERT INTO return_detail(DocNo, ItemCode, UnitCode, Qty, Weight, IsCancel)
         VALUES('$DocNo', '$ItemCode', $iunit2, $iqty2, $iweight, 0) ";
         mysqli_query($conn, $Sql);
-
-    } else {
+    }
+    else
+    {
         $Sql = " UPDATE return_detail
         SET Weight = (Weight+$iweight), Qty = (Qty + $iqty2)
         WHERE DocNo = '$DocNo' and ItemCode = '$ItemCode' ";
@@ -979,9 +983,10 @@ function ShowDetail($conn, $DATA)
   ORDER BY return_detail.Id DESC";
   $return['sqlss']=$Sql;
   $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
     $RowID   = $Result['Id'];
-    $return[$count]['RowID']    = $Result['Id'];
+    $return[$count]['RowID']      = $Result['Id'];
     $return[$count]['ItemCode']   = $Result['ItemCode'];
     $return[$count]['ItemName']   = $Result['ItemName'];
     $return[$count]['UnitCode']   = $Result['UnitCode2'];
@@ -989,13 +994,13 @@ function ShowDetail($conn, $DATA)
     $return[$count]['Weight']     = $Result['Weightitem'] * $Result['Qty'] ;
     $Weightpro    = $Result['Weightitem'] * $Result['Qty'] ;
     $return[$count]['DepCodeFrom'] = $Result['DepCodeFrom'];
-    $return[$count]['DepCodeTo']  = $Result['DepCodeTo'];
-    $return[$count]['TotalQty']   = $Result['TotalQty'];
-    $return[$count]['Qty']        = $Result['Qty'];
-    $Weight2                      = $Result['Weightitem'] * $Result['Qty'] ;
-    $totalp                       = $Result['Price'] * $Weightpro ;
-    $UnitCode                     = $Result['UnitCode1'];
-    $ItemCode                     = $Result['ItemCode'];
+    $return[$count]['DepCodeTo']   = $Result['DepCodeTo'];
+    $return[$count]['TotalQty']    = $Result['TotalQty'];
+    $return[$count]['Qty']         = $Result['Qty'];
+    $Weight2                       = $Result['Weightitem'] * $Result['Qty'] ;
+    $totalp                        = $Result['Price'] * $Weightpro ;
+    $UnitCode                      = $Result['UnitCode1'];
+    $ItemCode                      = $Result['ItemCode'];
     $count2 = 0;
 
     $Sql5 = "UPDATE return_detail SET Weight = $Weightpro , Price = $totalp  WHERE Id = $RowID";

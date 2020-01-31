@@ -19,7 +19,7 @@ $objReader = PHPExcel_IOFactory::createReader($inputFileType);
 $objReader->setReadDataOnly(true);  
 $objPHPExcel = $objReader->load($inputFileName);  
 
-for($chk = 0; $chk < 13; $chk++){
+for($chk = 1; $chk < 13; $chk++){
 $objWorksheet = $objPHPExcel->setActiveSheetIndex($chk);
 $highestRow = $objWorksheet->getHighestRow();
 $highestColumn = $objWorksheet->getHighestColumn();

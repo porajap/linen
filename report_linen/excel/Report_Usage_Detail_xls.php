@@ -304,7 +304,7 @@ if ($itemfromweb == '0')
                     FROM
                     department
                     WHERE
-                    department.DepCode = '$DepCode[$sheet]' ";
+                    department.DepCode = '$DepCode[$sheet]' AND HptCode = '$HptCode' ";
 
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) 
@@ -319,8 +319,10 @@ if ($itemfromweb == '0')
                   report_sc.itemcode
                   FROM
                   report_sc
+                  INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                   WHERE
                   report_sc.isStatus <> 9
+                  AND dpm.HptCode = '$HptCode' 
                   AND report_sc.DepCode = '$DepCode[$sheet]'
                   AND report_sc.TotalQty <> 0 
                   GROUP BY  report_sc.itemcode
@@ -339,7 +341,8 @@ if ($itemfromweb == '0')
                           FROM
                             par_item_stock
                           WHERE par_item_stock.ItemCode   = '$itemCode[$p]'
-                          AND par_item_stock.DepCode = '$DepCode[$sheet]'  ";
+                          AND par_item_stock.DepCode = '$DepCode[$sheet]' 
+                          AND par_item_stock.HptCode = '$HptCode'  ";
       $meQuery = mysqli_query($conn, $paritem);
       while ($Result = mysqli_fetch_assoc($meQuery)) 
       {
@@ -422,6 +425,7 @@ if ($itemfromweb == '0')
                                      COALESCE(SUM(report_sc.Over),'0') as  Over ,
                                      report_sc.DocDate AS Date_chk
                       FROM report_sc 
+                      INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                       WHERE  DATE(report_sc.DocDate) IN (";
                                     for ($day = 0; $day < $count; $day++) 
                                     {
@@ -429,7 +433,8 @@ if ($itemfromweb == '0')
                                     }
                                       $data = rtrim($data, ' ,'); 
                       $data .= " )  AND report_sc.isStatus <> 9
-                      AND report_sc.DepCode = '$DepCode[$sheet]'  
+                      AND dpm.HptCode = '$HptCode' 
+                      AND report_sc.DepCode = '$DepCode[$sheet]'
                       AND report_sc.itemcode = '$itemCode[$q]' 
                       AND report_sc.TotalQty <> 0 
                       GROUP BY DATE(report_sc.DocDate) ";
@@ -467,8 +472,11 @@ if ($itemfromweb == '0')
             }
             else
             {
+              $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
               $r++;
+              $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
               $r++;
+              $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
               $r++;
             }
         }
@@ -501,6 +509,7 @@ if ($itemfromweb == '0')
                                    COALESCE(SUM(report_sc.Over),'0') as  Over ,
                                    report_sc.DocDate AS Date_chk
                     FROM report_sc 
+                    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                     WHERE  DATE(report_sc.DocDate) IN (";
                                     for ($day = 0; $day < $count; $day++) {
                 
@@ -509,6 +518,7 @@ if ($itemfromweb == '0')
                                     }
                                     $data = rtrim($data, ' ,'); 
                     $data .= " )  AND report_sc.isStatus <> 9
+                    AND dpm.HptCode = '$HptCode' 
                     AND report_sc.DepCode = '$DepCode[$sheet]'  
                     AND report_sc.TotalQty <> 0 
                    GROUP BY DATE(report_sc.DocDate)";
@@ -545,8 +555,11 @@ if ($itemfromweb == '0')
                     }
                     else
                     {
+                      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
                       $r++;
+                      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
                       $r++;
+                      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
                       $r++;
                     }
                 }
@@ -698,6 +711,7 @@ else if ($itemfromweb <> '0')
                   report_sc.isStatus <> 9
                 AND report_sc.itemCode = '$itemfromweb'
                 $wheredep
+                AND department.HptCode = '$HptCode' 
                 GROUP BY   department.DepCode
                 ORDER BY  department.DepName ASC";
 
@@ -783,6 +797,7 @@ else if ($itemfromweb <> '0')
                                    COALESCE( SUM(report_sc.Short),'0') as  Short, 
                                    COALESCE(SUM(report_sc.Over),'0') as  Over ,
                                    report_sc.DocDate AS Date_chk
+                    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                     FROM report_sc 
                     WHERE  DATE(report_sc.DocDate)  IN ( ";
                         for ($day = 0; $day < $count; $day++) 
@@ -792,6 +807,7 @@ else if ($itemfromweb <> '0')
                         $data = rtrim($data, ' ,'); 
       $data .= " ) AND report_sc.isStatus <> 9
                         AND report_sc.isStatus <> 0
+                        AND dpm.HptCode = '$HptCode' 
                         AND report_sc.DepCode = '$DepCode[$q]'  
                         AND report_sc.itemcode = '$itemfromweb' 
                         AND report_sc.TotalQty <> 0 
@@ -830,8 +846,11 @@ else if ($itemfromweb <> '0')
           }
           else
           {
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
             $r++;
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
             $r++;
+            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
             $r++;
           }
       }
@@ -864,6 +883,7 @@ else if ($itemfromweb <> '0')
                                   COALESCE( SUM(report_sc.Short),'0') as  Short, 
                                   COALESCE(SUM(report_sc.Over),'0') as  Over ,
                                    report_sc.DocDate AS Date_chk
+                  INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                   FROM report_sc 
                   WHERE  DATE(report_sc.DocDate)  IN ( ";
                         for ($day = 0; $day < $count; $day++) 
@@ -874,6 +894,7 @@ else if ($itemfromweb <> '0')
       $data .= " ) AND report_sc.isStatus <> 9
                         AND report_sc.isStatus <> 0
                         AND report_sc.itemcode = '$itemfromweb' 
+                        AND dpm.HptCode = '$HptCode' 
                         $wheredep
                         AND report_sc.TotalQty <> 0 
                         GROUP BY report_sc.DocDate ";
@@ -912,8 +933,11 @@ else if ($itemfromweb <> '0')
         }
         else
         {
+          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
           $r++;
+          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
           $r++;
+          $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
           $r++;
         }
     }

@@ -331,7 +331,7 @@ if ($itemfromweb == '0')
                     FROM
                     department
                     WHERE
-                    department.DepCode = '$DepCode[$sheet]'  ";
+                    department.DepCode = '$DepCode[$sheet]' AND HptCode = '$HptCode' ";
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) 
     {
@@ -346,7 +346,9 @@ if ($itemfromweb == '0')
                   report_sc.itemcode
                   FROM
                   report_sc
+                  INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                   $where
+                  AND dpm.HptCode = '$HptCode' 
                   AND report_sc.isStatus <> 9
                   AND report_sc.isStatus <> 0
                   AND report_sc.DepCode = '$DepCode[$sheet]'
@@ -379,6 +381,7 @@ if ($itemfromweb == '0')
                     category_price.Price AS Price
                     FROM
                     report_sc
+                    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                     LEFT JOIN category_price ON category_price.CategoryCode = report_sc.CategoryCode
                     $where
                     AND report_sc.itemcode IN (  ";
@@ -389,6 +392,7 @@ if ($itemfromweb == '0')
                       $item = rtrim($item, ' ,'); 
                       $item .= " )  AND report_sc.DepCode = '$DepCode[$sheet]'
                                     AND category_price.HptCode = '$HptCode'
+                                    AND dpm.HptCode = '$HptCode' 
                                     GROUP BY  report_sc.itemcode  ORDER BY report_sc.itemname ASC";
            
       for ($i = 0; $i < $countitem; $i++)
@@ -424,6 +428,7 @@ if ($itemfromweb == '0')
                                     COALESCE(sum(report_sc.Weight),'0') as  Weight ,
                                     report_sc.DocDate AS Date_chk
                     FROM report_sc 
+                    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                     WHERE  DATE(report_sc.DocDate) IN (";
                                     for ($day = 0; $day < $count; $day++)
                                     {
@@ -432,6 +437,7 @@ if ($itemfromweb == '0')
                                     $data = rtrim($data, ' ,'); 
                       $data .= " )  AND report_sc.isStatus <> 9
                     AND report_sc.isStatus <> 0
+                    AND dpm.HptCode = '$HptCode' 
                     AND report_sc.DepCode = '$DepCode[$sheet]'  
                     AND report_sc.itemcode = '$itemCode[$q]' 
                     GROUP BY DATE(report_sc.DocDate) ";
@@ -460,6 +466,7 @@ if ($itemfromweb == '0')
             }
             else
             {
+              $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
               $r++;
             }
         }
@@ -617,6 +624,7 @@ else if ($itemfromweb <> '0')
                      FROM      report_sc  
                     INNER JOIN department ON department.DepCode = report_sc.DepCode  
                     $where
+                    AND department.HptCode = '$HptCode' 
                     AND report_sc.isStatus <> 9
                     AND report_sc.itemCode = '$itemfromweb'
                     $wheredep
@@ -690,6 +698,7 @@ else if ($itemfromweb <> '0')
                     LEFT JOIN  category_price ON category_price.CategoryCode = report_sc.CategoryCode
                                     WHERE
                                     report_sc.itemcode = '$itemfromweb'
+                                    AND department.HptCode = '$HptCode' 
                                     AND report_sc.DepCode = '$DepCode[$i]'
                                     AND report_sc.isStatus <> 9
                                     GROUP BY  report_sc.itemcode ";
@@ -725,6 +734,7 @@ else if ($itemfromweb <> '0')
         $data = "SELECT  COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
                                       COALESCE(sum(report_sc.Weight),'0') as  Weight ,
                                       report_sc.DocDate AS Date_chk
+                      INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                       FROM report_sc 
                       WHERE  DATE(report_sc.DocDate) IN (";
                                       for ($day = 0; $day < $count; $day++) 
@@ -736,6 +746,7 @@ else if ($itemfromweb <> '0')
                                       $data = rtrim($data, ' ,'); 
                         $data .= " )  AND report_sc.isStatus <> 9
                       AND report_sc.isStatus <> 0
+                      AND dpm.HptCode = '$HptCode' 
                       AND report_sc.DepCode = '$DepCode[$q]'  
                       AND report_sc.itemcode = '$itemfromweb'
                       GROUP BY DATE(report_sc.DocDate) ";
@@ -764,6 +775,7 @@ else if ($itemfromweb <> '0')
             }
             else
             {
+              $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
               $r++;
             }
         }
@@ -785,8 +797,10 @@ else if ($itemfromweb <> '0')
     $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
     COALESCE(sum(report_sc.Weight),'0') as  Weight
     FROM report_sc 
+    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
     WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
     AND report_sc.isStatus <> 9
+    AND dpm.HptCode = '$HptCode' 
     AND report_sc.isStatus <> 0
     $wheredep
     AND report_sc.itemcode = '$itemfromweb'

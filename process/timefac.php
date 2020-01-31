@@ -117,7 +117,7 @@ function AddItem($conn, $DATA){
   $Time = $DATA['Time'];
   $Sql = "INSERT INTO round_time_dirty (Time_ID, HptCode ,DocDate ,Modify_Code ,Modify_Date)VALUES($Time, '$HptCode',NOW(),$Userid,NOW() )";
   mysqli_query($conn, $Sql);
-  // ShowItem($conn, $DATA);
+  ShowItem($conn, $DATA);
 }
 function getDetail($conn, $DATA){
   $ID = $DATA['ID'];
@@ -148,7 +148,7 @@ function CancelItem($conn, $DATA){
   $TimeID = $DATA['TimeID'];
   $Sql = "DELETE FROM round_time_dirty WHERE ID = $TimeID";
   mysqli_query($conn, $Sql);
-  // ShowItem($conn, $DATA);
+  ShowItem($conn, $DATA);
 }
 
 

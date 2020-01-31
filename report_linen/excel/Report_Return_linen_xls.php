@@ -259,31 +259,10 @@ else
 #เงื่อนไขค้นหา
 if ($categoryCodeCome == '0') 
 {
-  // $query = "SELECT
-  // item_category.CategoryCode,
-  // item_category.CategoryName
-  // FROM
-  // item_category
-  //  ORDER BY item_category.CategoryCode ASC";
-  // $meQuery = mysqli_query($conn, $query);
-  // while ($Result = mysqli_fetch_assoc($meQuery)) {
-  //   $CategoryCode[] = $Result["CategoryCode"];
-  //   $CategoryName[] = $Result["CategoryName"];
-  // }
   $categorywhere = "";
 } 
 else 
 {
-  // $query = "SELECT
-  // item_category.CategoryCode,
-  // item_category.CategoryName
-  // FROM
-  // item_category WHERE  item_category.CategoryCode = '$categoryCodeCome'  ORDER BY item_category.CategoryCode ASC";
-  // $meQuery = mysqli_query($conn, $query);
-  // while ($Result = mysqli_fetch_assoc($meQuery)) {
-  //   $CategoryCode[] = $Result["CategoryCode"];
-  //   $CategoryName[] = $Result["CategoryName"];
-  // }
   $categorywhere = "AND item.CategoryCode = '$categoryCodeCome' ";
 }
 // -----------------------------------------------------------------------------------
@@ -496,12 +475,10 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                 COALESCE (SUM(return_doc.Total), '0') AS aWeight,
                 COALESCE (SUM(return_doc.Totalp), '0') AS aPrice
             FROM
-              return_detail
-              INNER JOIN return_doc ON return_doc.DocNo = return_detail.DocNo
+            return_doc
               INNER JOIN department ON department.DepCode = return_doc.DepCodeFrom
               INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
               INNER JOIN site ON site.HptCode = department.HptCode
-              INNER JOIN item ON item.ItemCode = return_detail.ItemCode
             WHERE
               DATE(return_doc.DocDate) = '$date[$day]'
             AND return_doc.isStatus <> 9

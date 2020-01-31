@@ -253,10 +253,11 @@ $detail = "SELECT
             item.ItemName,
             clean.DocNo,
             sum(clean_detail.Qty) as Qty ,
-            sum(clean_detail.Weight) as Weight
+            sum(clean_detail.Weight) as Weight,
+            clean_detail.RequestName
           FROM
           clean_detail
-          INNER JOIN item ON clean_detail.ItemCode = item.ItemCode
+          LEFT JOIN item ON clean_detail.ItemCode = item.ItemCode
           INNER JOIN clean ON clean.DocNo = clean_detail.DocNo
           INNER JOIN department ON department.depcode = clean.depcode
           $where
@@ -264,7 +265,7 @@ $detail = "SELECT
           AND department.HptCode = '$HptCode'
           AND clean.isStatus<> 9
           AND clean.isStatus<> 0
-          GROUP BY  item.ItemCode
+          GROUP BY  item.ItemCode,clean_detail.RequestName
           ORDER BY clean.DocNo ASC ";
 
 // ==============================================================================================
@@ -304,6 +305,9 @@ $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
 $meQuery = mysqli_query($conn, $detail);
 while ($Result = mysqli_fetch_assoc($meQuery))
 {
+  if ($Result['RequestName'] <> null) {
+    $Result["ItemName"] = $Result['RequestName'];
+  }
   $Total_Weight = $Result['Qty'] * $Result['Weight'];
   $html .= '<tr nobr="true">';
   $html .=   '<td width="15 %" align="center">' . $count . '</td>';

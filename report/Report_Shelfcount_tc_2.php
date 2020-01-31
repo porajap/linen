@@ -25,6 +25,7 @@ $DepCode = $data['DepCode'];
 $betweendate1 = $data['betweendate1'];
 $betweendate2 = $data['betweendate2'];
 $docno = $_GET['DocNo'];
+$HptCode_page = $_GET['HptCode'];
 //--------------------------------------------------------------------------
 $where = '';
 $w = array(70, 25, 60, 35);
@@ -277,8 +278,8 @@ INNER JOIN site ON site.HptCode = department.HptCode
 INNER JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
 INNER JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
 WHERE shelfcount.DocNo='$docno'
-AND shelfcount.isStatus <> 9
-        ";
+AND site.HptCode = '$HptCode_page'
+AND shelfcount.isStatus <> 9 ";
 
 $meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -317,10 +318,12 @@ $data = "     SELECT
               INNER JOIN item ON shelfcount_detail.ItemCode = item.ItemCode
               LEFT JOIN category_price ON category_price.CategoryCode = item.CategoryCode
               INNER JOIN department ON shelfcount.DepCode = department.DepCode
+              INNER JOIN site ON site.HptCode = department.HptCode
               WHERE shelfcount.DocNo='$docno'
               AND shelfcount_detail.TotalQty <> 0
               AND shelfcount.isStatus<> 9 
               AND category_price.HptCode = '$HptCode'
+              AND site.HptCode = '$HptCode'
               ORDER BY item.ItemName";
 
 $queryy = "SELECT

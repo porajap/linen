@@ -590,6 +590,7 @@ function SelectDocument($conn, $DATA)
   $count = 0;
   $DocNo = $DATA["DocNo"];
   $Datepicker = $DATA["Datepicker"];
+  $HptCode = substr($DocNo , 2 , 3) ;
   $Sql = "SELECT   site.HptCode,
     department.DepName,
     shelfcount.DocNo,
@@ -609,7 +610,7 @@ function SelectDocument($conn, $DATA)
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON shelfcount.Modify_Code = users.ID
-  WHERE shelfcount.DocNo = '$DocNo'";
+  WHERE shelfcount.DocNo = '$DocNo' AND site.HptCode ='$HptCode' ";
   $meQuery = mysqli_query($conn, $Sql);
 
 

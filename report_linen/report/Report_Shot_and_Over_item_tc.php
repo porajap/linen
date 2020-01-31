@@ -203,7 +203,7 @@ for ($i = 0; $i < $Count_Dep; $i++) {
   $Sql = "SELECT 
 department.DepCode, department.DepName 
 FROM department 
-WHERE department.DepCode = '$DepCode[$i]'
+WHERE department.DepCode = '$DepCode[$i]' AND department.HptCode = '$HptCode'
 GROUP BY department.DepCode";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -226,7 +226,7 @@ for ($i = 0; $i < $Count_Dep; $i++) {
   $data = "SELECT
 IFNULL(SUM(shelfcount_detail.Over),0) AS OverPar,
 IFNULL(SUM(shelfcount_detail.Short),0) AS Short ,
-IFNULL(SUM(shelfcount_detail.ParQty),0) AS ParQty ,
+IFNULL(shelfcount_detail.ParQty,0) AS ParQty ,
 item.itemName,
 department.DepName
 FROM
@@ -237,7 +237,7 @@ INNER JOIN department ON department.DepCode = shelfcount.DepCode
   INNER JOIN time_sc  ON shelfcount.sctime = time_sc.id
 $where 
 AND  department.DepCode = '$DepCode[$i]'
-AND department.HptCode = '$HptCode'
+AND shelfcount.DocNo LIKE '%$HptCode%'
 AND shelfcount.isStatus <> 9
 AND shelfcount.isStatus <> 0
 AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
@@ -245,7 +245,7 @@ AND (shelfcount_detail.Over <> 0 OR shelfcount_detail.Short <> 0 )
 GROUP BY
 	item.itemName,
   department.DepCode";
-
+  
   if ($old_code <> $DepCode[$i]) {
     $h5 = '<h5 align="left">' . $array2['department'][$language] . ' : ' .  $DepName[$i]  . '</h5>';
     $pdf->writeHTML($h5, true, false, false, false, '');
