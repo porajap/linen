@@ -65,8 +65,8 @@
         <button class="btn btn_black" id="black_reset" onclick="back();">
             Back <i class="fas fa-undo-alt" id="black_save"></i>
         </button>
-        <button class="btn btn_save" onclick="passwordUpdate();">
-            Save  <i class="fas fa-arrow-right" id="arrow_save"></i>
+        <button class="btn btn_save" onclick="passwordUpdate();" id="btn_savePass" disabled='true'>
+            Save  <i class="fas fa-arrow-right" id="arrow_save" ></i>
         </button>
     </div>
 </div>
@@ -78,26 +78,53 @@
 <script src="validate/additional-methods.js"></script>
 <script>
     $(document).ready(function() {
-        $.validator.addMethod("hasUppercase", function(value, element) {
-            if (this.optional(element)) {
+        $.validator.addMethod("hasLowercase", function(value, element) {
+            if (this.optional(element))
+            {
                 return true;
+            }
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
+            }
+            return /[a-z]/.test(value);
+        }, "Must have atleast 1 lower case character");
+
+        $.validator.addMethod("hasUppercase", function(value, element) {
+            if (this.optional(element))
+            {
+                return true;
+            }
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
             }
             return /[A-Z]/.test(value);
         }, "Must have atleast 1 upper case character");
 
-        $.validator.addMethod("hasLowercase", function(value, element) {
-            if (this.optional(element)) {
+        $.validator.addMethod("checklower", function(value, element) {
+            if (this.optional(element))
+            {
                 return true;
             }
-            return /[a-z]/.test(value);
-        }, "Must have atleast 1 lower case character");
-        
-        $.validator.addMethod("hasLowercase", function(value, element) {
-            if (this.optional(element)) {
-                return true;
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
             }
             return /[0-9]/.test(value);
         }, "Must have atleast 1 numeric character");
+
+        $.validator.addMethod("pwcheck", function(value, element) {
+            if (this.optional(element))
+            {
+                return true;
+            }
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
+            }
+            return /[=!\-@._*#!$%^&]/.test(value) ;
+        }, "Must have atleast 1 special character"); 
 
         $('#test').validate({
             errorPlacement: function(error, element) {
@@ -113,7 +140,9 @@
                 {
                     rangelength: [8, 16],
                     hasUppercase: true,
-                    hasLowercase: true
+                    hasLowercase: true,
+                    checklower: true ,
+                    pwcheck: true
                 },
                 confirmpassword:
                 {
@@ -131,10 +160,10 @@
                     equalTo: "Passwords do not match"
                 }
             }
-            // ,
-            // success: function(label) {
-            //     label.addClass("valid").text("Ok!")
-            // }
-        });
-    });
+            ,
+            success: function(label) {
+                $("#btn_savePass").attr('disabled' ,  false);
+            }
+});
+});
 </script>

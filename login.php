@@ -143,7 +143,7 @@ $language = $_SESSION['lang'];
                     <div id="confirmCh">
                         <div class="form-group bmd-form-group">
                             <label for="confirmpassword" id="label_confirm" class="bmd-label-floating">Confirm Password</label>
-                            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" name="confirmpassword">
+                            <input type="password" autocomplete="off" class="form-control" onkeyup="make_char()" id="confirmpassword" name="confirmpassword" >
                             <div id="see2">
                                 <a href="javascript:void(0)" onclick="ShowPassword2()" id="ShowPassword2"><i class="fas fa-eye"></i></a>
                                 <a href="javascript:void(0)" onclick="HidePassword2()" id="HidePassword2" hidden><i class="fas fa-eye-slash"></i></a>
@@ -158,7 +158,7 @@ $language = $_SESSION['lang'];
                     <button class="btn btn_black" id="black_reset" onclick="back();">
                         Back <i class="fas fa-undo-alt" id="black_save"></i>
                     </button>
-                    <button class="btn btn_save" onclick="passwordUpdate();" id="btn_savePass" >
+                    <button class="btn btn_save" onclick="passwordUpdate();" id="btn_savePass" disabled="true">
                         Save  <i class="fas fa-arrow-right" id="arrow_save"></i>
                     </button>
                 </div>
@@ -696,26 +696,54 @@ $language = $_SESSION['lang'];
 </script>
 <script>
     $(document).ready(function() {
-        $.validator.addMethod("hasUppercase", function(value, element) {
-            if (this.optional(element)) {
+
+        $.validator.addMethod("hasLowercase", function(value, element) {
+            if (this.optional(element))
+            {
                 return true;
+            }
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
+            }
+            return /[a-z]/.test(value);
+        }, "Must have atleast 1 lower case character");
+
+        $.validator.addMethod("hasUppercase", function(value, element) {
+            if (this.optional(element))
+            {
+                return true;
+            }
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
             }
             return /[A-Z]/.test(value);
         }, "Must have atleast 1 upper case character");
 
-        $.validator.addMethod("hasLowercase", function(value, element) {
-            if (this.optional(element)) {
+        $.validator.addMethod("checklower", function(value, element) {
+            if (this.optional(element))
+            {
                 return true;
             }
-            return /[a-z]/.test(value);
-        }, "Must have atleast 1 lower case character");
-        
-        $.validator.addMethod("hasLowercase", function(value, element) {
-            if (this.optional(element)) {
-                return true;
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
             }
             return /[0-9]/.test(value);
         }, "Must have atleast 1 numeric character");
+
+        $.validator.addMethod("pwcheck", function(value, element) {
+            if (this.optional(element))
+            {
+                return true;
+            }
+            else
+            {
+                $("#btn_savePass").attr('disabled' ,  true);
+            }
+            return /[=!\-@._*#!$%^&]/.test(value) ;
+        }, "Must have atleast 1 special character"); 
 
         $('#test').validate({
             errorPlacement: function(error, element) {
@@ -731,7 +759,9 @@ $language = $_SESSION['lang'];
                 {
                     rangelength: [8, 16],
                     hasUppercase: true,
-                    hasLowercase: true
+                    hasLowercase: true,
+                    checklower: true ,
+                    pwcheck: true
                 },
                 confirmpassword:
                 {
@@ -749,10 +779,10 @@ $language = $_SESSION['lang'];
                     equalTo: "Passwords do not match"
                 }
             }
-            // ,
-            // success: function(label) {
-            //     label.addClass("valid").text("Ok!")
-            // }
+            ,
+            success: function(label) {
+                $("#btn_savePass").attr('disabled' ,  false);
+            }
         });
     });
 </script>

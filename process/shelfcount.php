@@ -591,6 +591,8 @@ function SelectDocument($conn, $DATA)
   $DocNo = $DATA["DocNo"];
   $Datepicker = $DATA["Datepicker"];
   $HptCode = substr($DocNo , 2 , 3) ;
+  $HptCodeth = substr($DocNo , 2 , 9) ;
+
   $Sql = "SELECT   site.HptCode,
     department.DepName,
     shelfcount.DocNo,
@@ -610,10 +612,8 @@ function SelectDocument($conn, $DATA)
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
   INNER JOIN users ON shelfcount.Modify_Code = users.ID
-  WHERE shelfcount.DocNo = '$DocNo' AND site.HptCode ='$HptCode' ";
+  WHERE shelfcount.DocNo = '$DocNo' AND ( site.HptCode ='$HptCode' OR site.HptCode ='$HptCodeth' )";
   $meQuery = mysqli_query($conn, $Sql);
-
-
 
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -2304,10 +2304,14 @@ function UpdateNewQty($conn, $DATA)
   WHERE item.ItemCode = '$itemcode' AND shelfcount_detail.DocNo = '$DocNo' AND category_price.HptCode = '$hotpCode'";
   $result2  = mysqli_query($conn, $Sql2);
   $row2     = mysqli_fetch_assoc($result2);
-  $Price    = $row2['Price'] * $row2['Weight'];
-  $Update   = "UPDATE shelfcount_detail SET  Price = $Price WHERE ItemCode = '$itemcode' AND DocNo = '$DocNo'";
+  $Price    = $row2['Price'] * $row2['Weight'] ;
+  $ex = explode('.',$Price);
+  $s = substr($ex[1],0,2);
+  $Pricex =  $ex[0].".".$s;
+
+  $Update   = "UPDATE shelfcount_detail SET  Price = $Pricex WHERE ItemCode = '$itemcode' AND DocNo = '$DocNo'";
   mysqli_query($conn, $Update);
-  $Updatereport   = "UPDATE report_sc SET  Price = $Price WHERE ItemCode = '$itemcode' AND DocNo = '$DocNo'";
+  $Updatereport   = "UPDATE report_sc SET  Price = $Pricex WHERE ItemCode = '$itemcode' AND DocNo = '$DocNo'";
   mysqli_query($conn, $Updatereport);
   $Sql3     = "SELECT SUM(Weight) AS Weight2 , SUM(Price) AS Price2 FROM shelfcount_detail WHERE DocNo = '$DocNo'";
   $result3  = mysqli_query($conn, $Sql3);

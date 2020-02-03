@@ -111,8 +111,7 @@ class MYPDF extends TCPDF
       dirty.SignNHTime
       FROM
       dirty
-      where dirty.docno =  '$DocNo'
-      ";
+      where dirty.docno =  '$DocNo' ";
 
       $meQuery = mysqli_query($conn, $head);
       while ($Result = mysqli_fetch_assoc($meQuery))
@@ -158,7 +157,6 @@ class MYPDF extends TCPDF
       {
         $this->ImageSVG('@' . $SignFac, $x = 134, $y = 257, $w = '30', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
       }
-      
       $this->Cell(100, 8, $array2['comlinen'][$language]  . "...............................................", 0, 0, 'L');
       $this->Cell(90, 8,  $array2['comlaundry'][$language] . "........................................", 0, 1, 'L');
       $this->Cell(0.1, 7,  "                  $date2", 0, 0, 'L');
@@ -252,8 +250,9 @@ else
 {
   $y = $y;
 }
-$DocDate = $d . "-" . $m . "-" . $y;
 
+$counthead = 0;
+$DocDate = $d . "-" . $m . "-" . $y;
 $data = "SELECT
 dirty_detail.ItemCode,
 item.ItemName,
@@ -305,7 +304,7 @@ $pdf->Cell(77, 7,   ": " . $TimeName, 0, 0, 'L');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 14);
 $html = '<table cellspacing="0" cellpadding="2" border="1" >
-<thead><tr >
+<thead><tr>
 <th width="10 %" align="center">' . $header[0] . '</th>
 <th width="15 %" align="center">' . $header[1] . '</th>
 <th width="30 %" align="center">' . $header[2] . '</th>
@@ -331,6 +330,7 @@ while ($Result = mysqli_fetch_assoc($meQuery))
   $totalsum += $Result['Weight'];
   $totalqty += $Result['Qty'];
   $count++;
+  $counthead ++;
 }
 
 $html .= '</table>';
@@ -344,7 +344,8 @@ $pdf->Cell(27, 7,   '', 1, 1, 'C');
 $pdf->Cell(0, 7,   '', 0, 1, 'C');
 $pdf->Cell(0, 7,   '', 0, 1, 'C');
 // ---------------------------------------------------------
-  $pdf->AddPage('P', 'A4');
+// $pdf->AddPage('P', 'A4');
+$countFooter = 0;
 $queryy = "SELECT
 item.ItemName,
 SUM(dirty_detail.Qty) AS Qty,
@@ -382,10 +383,17 @@ while ($Result = mysqli_fetch_assoc($meQuery))
   $html .=  '</tr>';
   $totalsum += $Result['Weight'];
   $count++;
+  $countFooter ++;
 }
-
 $html .= '</table >';
 $pdf->writeHTML($html, true, false, false, false, '');
+
+$countsum = ( $counthead + $countFooter );
+
+if($countsum >20)
+{
+  $pdf->AddPage('P', 'A4');
+}
 //Close and output PDF document
 $ddate = date('d_m_Y');
 $pdf->Output('Report_Dirty_Linen_Weight' . $date . '.pdf', 'I');
