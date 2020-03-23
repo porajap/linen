@@ -194,7 +194,7 @@ $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 // set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, 38);
+$pdf->SetAutoPageBreak(TRUE, 30);
 // set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // ------------------------------------------------------------------------------
@@ -223,7 +223,8 @@ $head = "SELECT site.$HptName,
         DATE_FORMAT(dirty.DocDate,'%d-%m-%Y')AS DocDate,
         TIME(dirty.Modify_Date) AS xTime,
         CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
-        time_dirty.TimeName
+        time_dirty.TimeName ,
+        dirty.IsStatus
         FROM dirty
         INNER JOIN site ON dirty.HptCode = site.HptCode
         INNER JOIN factory ON dirty.FacCode = factory.FacCode
@@ -240,6 +241,19 @@ while ($Result = mysqli_fetch_assoc($meQuery))
   $FName = $Result['FName'];
   $DocDate = $Result['DocDate'];
   $TimeName = $Result['TimeName'];
+  $isStatus = $Result['IsStatus'];
+}
+if ($isStatus == 0)
+{
+  $Status = 'On Process';
+}
+elseif ( $isStatus == 1 || $isStatus == 2 || $isStatus == 3)
+{
+  $Status = 'Complete';
+}
+elseif ($isStatus == 9)
+{
+  $Status = 'Cancel';
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th')
@@ -301,6 +315,10 @@ $pdf->Cell(30, 7,   ": " . $xTime, 0, 0, 'L');
 $pdf->Ln();
 $pdf->Cell(35, 7,   $array['rounddirty'][$language], 0, 0, 'L');
 $pdf->Cell(77, 7,   ": " . $TimeName, 0, 0, 'L');
+$pdf->Ln();
+
+$pdf->Cell(35, 7,   $array['status'][$language], 0, 0, 'L');
+$pdf->Cell(65, 7,   ": " . $Status, 0, 0, 'L');
 $pdf->Ln(10);
 $pdf->SetFont('thsarabunnew', 'b', 14);
 $html = '<table cellspacing="0" cellpadding="2" border="1" >
@@ -357,7 +375,6 @@ INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
 RIGHT JOIN dirty_detail ON dirty_detail.ItemCode = item.ItemCode
 INNER JOIN dirty ON dirty.DocNo = dirty_detail.DocNo
 WHERE dirty_detail.DocNo = '$DocNo'
-AND dirty.isStatus <> 9
 GROUP BY item.ItemName,dirty_detail.RequestName
 ORDER BY item.ItemCode,dirty_detail.RequestName ASC ";
 $meQuery = mysqli_query($conn, $queryy);
@@ -386,14 +403,14 @@ while ($Result = mysqli_fetch_assoc($meQuery))
   $countFooter ++;
 }
 $html .= '</table >';
+
 $pdf->writeHTML($html, true, false, false, false, '');
+// $countsum = ( $counthead + $countFooter );
 
-$countsum = ( $counthead + $countFooter );
-
-if($countsum >20)
-{
-  $pdf->AddPage('P', 'A4');
-}
+// if($countsum >20)
+// {
+//   $pdf->AddPage('P', 'A4');
+// }
 //Close and output PDF document
 $ddate = date('d_m_Y');
 $pdf->Output('Report_Dirty_Linen_Weight' . $date . '.pdf', 'I');

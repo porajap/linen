@@ -231,7 +231,7 @@ if ($chk == 'one') {
     FROM clean
     INNER JOIN department ON department.DepCode = clean.DepCode
 		INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (clean.Docdate) = '$date' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
+    WHERE DATE (clean.Docdate) = '$date' 
       AND clean.IsStatus <>9 AND site.HptCode= '$HptCode' AND clean.FacCode = '$FacCode'
     )d,
     (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
@@ -376,7 +376,7 @@ if ($chk == 'one') {
       FROM clean
       INNER JOIN department ON department.DepCode = clean.DepCode
 		  INNER JOIN site ON department.HptCode = site.HptCode
-      WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
+      WHERE DATE (clean.Docdate) = '$date[$i]' 
       AND clean.IsStatus <>9 AND site.HptCode= '$HptCode' AND clean.FacCode = '$FacCode'
       )d,
       (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
@@ -463,21 +463,18 @@ if ($chk == 'one') {
     $pdf->Cell(100, 10, iconv("UTF-8", "TIS-620",  number_format(abs($scr), 2) . '%'), 1, 1, 'C');
   }
 } elseif ($chk == 'between') {
-  list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31) {
-    $day = $day + 1;
-  }
-  $date2 = $year . "-" . $month . "-" . $day;
-  $period = new DatePeriod(
-    new DateTime($date1),
-    new DateInterval('P1D'),
-    new DateTime($date2)
-  );
+  $begin = new DateTime( $date1 );
+  $end = new DateTime( $date2 );
+  $end = $end->modify( '1 day' );
+
+  $interval = new DateInterval('P1D');
+  $period = new DatePeriod($begin, $interval ,$end);
   foreach ($period as $key => $value) {
     $date[] = $value->format('Y-m-d');
     $dateshow[] = $value->format('d-m-Y');
   }
   $count = sizeof($date);
+  
   for ($i = 0; $i < $count; $i++) {
     $query = "SELECT 
     DIRTY,
@@ -520,7 +517,7 @@ if ($chk == 'one') {
     FROM clean
     INNER JOIN department ON department.DepCode = clean.DepCode
       INNER JOIN site ON department.HptCode = site.HptCode
-    WHERE DATE (clean.Docdate) = '$date[$i]' AND (clean.RefDocNo = '' OR clean.RefDocNo LIKE '%DT%')
+    WHERE DATE (clean.Docdate) = '$date[$i]' 
         AND clean.IsStatus <>9 AND site.HptCode= '$HptCode' AND clean.FacCode = '$FacCode'
     )d,
     (SELECT  COALESCE(SUM(return_wash.Total),'0') AS CLEAN_repair_wash,
@@ -542,6 +539,8 @@ if ($chk == 'one') {
     AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'
     AND clean.IsStatus  <> 9)
     f";
+
+   
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $docdate = $Result['DocDate'];

@@ -562,6 +562,15 @@ $array2 = json_decode($json2,TRUE);
                         }
                         else if ((temp["form"] == 'getdetail'))
                         {
+                            $("#group").empty();
+                            var StrTr = "<option value=''><?php echo $array['selectgroup'][$language]; ?></option>";
+                            for (var i = 0; i < temp['row']; i++)
+                            {
+                                 StrTr += "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupName'] + " </option>";
+                                var Str = "<option value = '" + temp[i]['GroupCode'] + "'> " + temp[i]['GroupName'] + " </option>";
+                            }
+                            $("#group").append(StrTr);
+                            
                             if ((Object.keys(temp).length - 2) > 0)
                             {
                                 console.log(temp);

@@ -572,6 +572,13 @@ $array2 = json_decode($json2, TRUE);
 		}
 		function search_fillter() 
 		{
+			swal({
+								title: '<?php echo $array['pleasewait'][$language]; ?>',
+								text: '<?php echo $array['processing'][$language]; ?>',
+								allowOutsideClick: false
+							})
+							swal.showLoading();
+			var time_express = $('#time_express').val();
 			var factory = $('#factory').val();
 			var HptCode = $('#hotpital').val();
 			var typeReport = $('#typereport').val();
@@ -855,7 +862,8 @@ $array2 = json_decode($json2, TRUE);
 
 				}
 				
-				var data = {
+				var data =
+				{
 					'STATUS': 'find_report',
 					'factory': factory,
 					'HptCode': HptCode,
@@ -869,8 +877,8 @@ $array2 = json_decode($json2, TRUE);
 					'date': date,
 					'GroupCode': GroupCode,
 					'Item': Item,
-					'time_dirty': time_dirty
-
+					'time_dirty': time_dirty,
+					'time_express': time_express
 				};
 			} 
 			else if (Format == 2) 
@@ -927,7 +935,8 @@ $array2 = json_decode($json2, TRUE);
 					'date': date,
 					'GroupCode': GroupCode,
 					'Item': Item,
-					'time_dirty': time_dirty
+					'time_dirty': time_dirty,
+					'time_express': time_express
 				}
 			} 
 			else 
@@ -953,7 +962,8 @@ $array2 = json_decode($json2, TRUE);
 					'date': date,
 					'GroupCode': GroupCode,
 					'Item': Item,
-					'time_dirty': time_dirty
+					'time_dirty': time_dirty,
+					'time_express': time_express
 				};
 			}
 
@@ -1027,6 +1037,9 @@ $array2 = json_decode($json2, TRUE);
 							$("#category").empty();
 							$("#hotpital").empty();
 							$("#item").empty();
+
+
+
 							var facValue0 = '-';
 							var fac = "<option value='0'>" + facValue0 + "</option>";
 							for (var i = 0; i < temp['Rowx']; i++) {
@@ -1085,6 +1098,15 @@ $array2 = json_decode($json2, TRUE);
 							$("#department").empty();
 							$("#factory").empty();
 							$("#time_dirty").empty();
+							$("#time_express").empty();
+							
+							var time_ex = "<option value='ALL' selected>ทุกรอบ</option>";
+                      for (var i = 0; i <  temp['Rowtimeex'];  i++) {
+												time_ex += "<option value="+temp[i]['ID']+">"+temp[i]['time_value']+"</option>";
+                      }
+                      time_ex += "<option value='0' >Extra</option>";
+                      $("#time_express").append(time_ex);
+
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var dep2 = "<option value='0'>" + depValue0 + "</option>";
@@ -1111,8 +1133,8 @@ $array2 = json_decode($json2, TRUE);
 							var DocDate = temp[i]['DocDate'];
 
 						} else if (temp["form"] == 'Fac') {
+							swal.close();
 							var hot = $("#hotpital option:selected").text();
-
 							$('#data').val(Object.values(temp['data_send']));
 							// alert('fac');
 							var print = '<?php echo $array['prin'][$language]; ?>';
@@ -1172,6 +1194,7 @@ $array2 = json_decode($json2, TRUE);
 							}
 
 						} else if (temp["form"] == 'Dep') {
+							swal.close();
 							$('#data').val(Object.values(temp['data_send']));
 							var hot = $("#hotpital option:selected").text();
 							var department = $("#department option:selected").text();
@@ -1230,10 +1253,15 @@ $array2 = json_decode($json2, TRUE);
 							}
 							if (temp['statusDep'] == 'alldepartment') {
 								var rows = temp['department'].length;
+
 								var r1 = rows / 10;
 								r1 = parseInt(r1);
 								var r2 = rows % 10;
 								var round = 0;
+								// console.log(rows);
+								// console.log(r1);
+								// console.log(r2);
+
 								for (var i = 0; i < r1; i++) {
 									var dataRow = "<tr>" +
 										"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1246,7 +1274,9 @@ $array2 = json_decode($json2, TRUE);
 											Dep10 += ',';
 										}
 										round++;
+
 									}
+
 									dataRow += "</td>";
 									dataRow += "<td class='text-center' style='width:20%'>" + show_date + "</td>";
 									if (temp['r'] == 'r7') {
@@ -1259,11 +1289,14 @@ $array2 = json_decode($json2, TRUE);
 									$("#table_Dep tbody").append(dataRow);
 									Dep10 = '';
 								}
-								round--;
+								// round--;
+								console.log(round);
 								if (r2 > 0) {
 									if (round == -1) {
 										round = 0;
 									}
+									console.log(r2);
+
 									var dataRow = "<tr>" +
 										"<td style='width:5%'>" + (i + 1) + "</td>" +
 										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>";
@@ -1290,6 +1323,7 @@ $array2 = json_decode($json2, TRUE);
 								}
 							}
 						} else if (temp["form"] == 'DepDoc') {
+							swal.close();
 							$('#data').val(Object.values(temp['data_send']));
 							var hot = $("#hotpital option:selected").text();
 							// alert('DepDoc');
@@ -1335,6 +1369,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_DepDoc tbody").append(dataRow);
 							}
 						} else if (temp["form"] == 'Group') {
+							swal.close();
 							$('#data').val(Object.values(temp['data_send']));
 							var hot = $("#hotpital option:selected").text();
 							var Group = $("#grouphpt option:selected").text();
@@ -1379,6 +1414,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_Group tbody").append(dataRow);
 							}
 						}  else if (temp["form"] == 'category') {
+							swal.close();
 							$('#data').val(Object.values(temp['data_send']));
 							var hot = $("#hotpital option:selected").text();
 							var category = $("#category option:selected").text();
@@ -1422,6 +1458,7 @@ $array2 = json_decode($json2, TRUE);
 								$("#table_category tbody").html(dataRow);
 							}
 						} else if (temp["form"] == 'NoFacDep') {
+							swal.close();
 							$('#data').val(Object.values(temp['data_send']));
 							// alert('NoFacDep');
 							var hot = $("#hotpital option:selected").text();
@@ -1482,6 +1519,17 @@ $array2 = json_decode($json2, TRUE);
 					} else if (temp['status'] == "notfound") {
 						$('#type_report').text(temp['typeReport']);
 						if (temp["form"] == 'Fac') {
+								swal({
+										title: '',
+										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',
+										type: 'warning',
+										showCancelButton: false,
+										confirmButtonColor: '#3085d6',
+										cancelButtonColor: '#d33',
+										showConfirmButton: false,
+										timer: 2000,
+										confirmButtonText: 'Ok'
+									});
 							$('#table_Fac tbody').empty();
 							$('#table_category').attr('hidden', true);
 							$('#table_Fac').attr('hidden', false);
@@ -1492,6 +1540,17 @@ $array2 = json_decode($json2, TRUE);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_Fac tbody").append(dataRow);
 						} else if (temp["form"] == 'Dep') {
+							swal({
+										title: '',
+										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',
+										type: 'warning',
+										showCancelButton: false,
+										confirmButtonColor: '#3085d6',
+										cancelButtonColor: '#d33',
+										showConfirmButton: false,
+										timer: 2000,
+										confirmButtonText: 'Ok'
+									});
 							$('#table_Dep tbody').empty();
 							$('#table_category').attr('hidden', true);
 							$('#table_Fac').attr('hidden', true);
@@ -1502,6 +1561,17 @@ $array2 = json_decode($json2, TRUE);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_Dep tbody").append(dataRow);
 						} else if (temp["form"] == 'Depdoc') {
+							swal({
+										title: '',
+										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',
+										type: 'warning',
+										showCancelButton: false,
+										confirmButtonColor: '#3085d6',
+										cancelButtonColor: '#d33',
+										showConfirmButton: false,
+										timer: 2000,
+										confirmButtonText: 'Ok'
+									});
 							$('#table_DepDoc tbody').empty();
 							$('#table_category').attr('hidden', true);
 							$('#table_Fac').attr('hidden', true);
@@ -1512,6 +1582,17 @@ $array2 = json_decode($json2, TRUE);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_DepDoc tbody").append(dataRow);
 						} else if (temp["form"] == 'Group') {
+							swal({
+										title: '',
+										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',
+										type: 'warning',
+										showCancelButton: false,
+										confirmButtonColor: '#3085d6',
+										cancelButtonColor: '#d33',
+										showConfirmButton: false,
+										timer: 2000,
+										confirmButtonText: 'Ok'
+									});
 							$('#table_Group tbody').empty();
 							$('#table_Fac').attr('hidden', true);
 							$('#table_Dep').attr('hidden', true);
@@ -1522,6 +1603,17 @@ $array2 = json_decode($json2, TRUE);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_Group tbody").append(dataRow);
 						} else if (temp["form"] == 'category') {
+							swal({
+										title: '',
+										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',
+										type: 'warning',
+										showCancelButton: false,
+										confirmButtonColor: '#3085d6',
+										cancelButtonColor: '#d33',
+										showConfirmButton: false,
+										timer: 2000,
+										confirmButtonText: 'Ok'
+									});
 							$('#table_category tbody').empty();
 							$('#table_Fac').attr('hidden', true);
 							$('#table_Dep').attr('hidden', true);
@@ -1532,6 +1624,17 @@ $array2 = json_decode($json2, TRUE);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_category tbody").append(dataRow);
 						}  else if (temp["form"] == 'NoFacDep') {
+							swal({
+										title: '',
+										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',
+										type: 'warning',
+										showCancelButton: false,
+										confirmButtonColor: '#3085d6',
+										cancelButtonColor: '#d33',
+										showConfirmButton: false,
+										timer: 2000,
+										confirmButtonText: 'Ok'
+									});
 							$('#table_NoFacDep tbody').empty();
 							$('#table_Fac').attr('hidden', true);
 							$('#table_Dep').attr('hidden', true);
@@ -1586,6 +1689,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().show();
 				$('#chkyear').parent().show();
+				$('#time_express').attr('disabled', true);
 			} else if (typeReport == 14 || typeReport == 16) {
 				$('#department').attr('disabled', false);
 				$('#factory').attr('disabled', true);
@@ -1601,6 +1705,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
+				$('#time_express').attr('disabled', true);
 			} else if (typeReport == 9) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
@@ -1616,6 +1721,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
+				$('#time_express').attr('disabled', true);
 			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
@@ -1631,6 +1737,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
+				$('#time_express').attr('disabled', true);
 			} else if (typeReport == 2) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
@@ -1646,7 +1753,8 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
-			} else if (typeReport == 29 || typeReport == 30) {
+				$('#time_express').attr('disabled', true);
+			}else if (typeReport == 29 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#category').attr('disabled', true);
@@ -1663,6 +1771,25 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
+				$('#time_express').attr('disabled', false);
+			} else if ( typeReport == 30) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#category').attr('disabled', true);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', false);
+				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#item').val(0);
+				$('#time_dirty').val(0);
+				$('#chksomemonth').parent().hide();
+				$('#chkyear').parent().hide();
+				$('#time_express').attr('disabled', true);
 			} else if (typeReport == 28 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
@@ -1680,7 +1807,26 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
-			}  else if (typeReport == 31 || typeReport == 32) {
+				$('#time_express').attr('disabled', true);
+			} else if (typeReport == 33 ) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', true);
+				$('#category').attr('disabled', true);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', true);
+				$('#time_dirty').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#item').val(0);
+				$('#time_dirty').val(0);
+				$('#chksomemonth').parent().hide();
+				$('#chkyear').parent().hide();
+				$('#time_express').attr('disabled', true);
+			}   else if (typeReport == 31 || typeReport == 32) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
@@ -1697,22 +1843,8 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
-			} else if (typeReport == 29 || typeReport == 30) {
-				$('#factory').attr('disabled', true);
-				$('#department').attr('disabled', false);
-				$('#hotpital').attr('disabled', tf);
-				$('#category').attr('disabled', true);
-				$('#cycle').attr('disabled', false);
-				$('#grouphpt').attr('disabled', true);
-				$('#item').attr('disabled', true);
-				$('#time_dirty').attr('disabled', true);
-				$('#grouphpt').val(0);
-				$('#factory').val(0);
-				$('#department').val(0);
-				$('#cycle').val(0);
-				$('#item').val(0);
-				$('#time_dirty').val(0);
-			} else if (typeReport == 13) {
+				$('#time_express').attr('disabled', true);
+			}else if (typeReport == 13) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
 				$('#category').attr('disabled', true);
@@ -1727,6 +1859,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
+				$('#time_express').attr('disabled', true);
 			} else if (typeReport == 17) {
 				$('#factory').attr('disabled', true);
 				$('#category').attr('disabled', true);
@@ -1742,6 +1875,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
+				$('#time_express').attr('disabled', true);
 			}
 			if (typeReport == 9) {
 				$('#showday').hide();
@@ -2179,6 +2313,7 @@ $array2 = json_decode($json2, TRUE);
 															<option value=29><?php echo "18. " . $array['r' . 29][$language]; ?></option>
 															<option value=30><?php echo "19. " . $array['r' . 30][$language]; ?></option>
 															<option value=32><?php echo "20. " . $array['r' . 32][$language]; ?></option>
+															<option value=33><?php echo "21. " . 'Monitoring SAP' 		        ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -2257,6 +2392,17 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 												</div>
 											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class='form-group row checkblank'>
+														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;">รอบส่งผ้า</label>
+														<select class="form-control col-sm-8" id="time_express" style=" font-size:22px;" disabled="true">
+														</select>
+													</div>
+												</div>
+											</div>
+
+
 											<div class="row">
 												<div class="col-md-6">
 													<div class='form-group row' id="chk">
@@ -2338,8 +2484,6 @@ $array2 = json_decode($json2, TRUE);
 														<label class="col-sm-3 col-form-label text-left" id="textto2"><?php echo $array['to'][$language]; ?></label>
 														<input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM-yyyy" value="" autocomplete="off" data-language='<?php echo $language ?>' placeholder="<?php echo $array['pleasemonth'][$language]; ?>">
 														<label id="rem10" style="margin-top: -6.5%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
-														<!-- <input type="text" class="form-control col-sm-8 datepicker-here only" id="somemonth" data-min-view="months" data-view="months" data-date-format="MM/yyyy" data-language='<?php echo $language ?>' data-range="true" data-multiple-dates-separator=" - "> -->
-
 													</div>
 												</div>
 

@@ -370,6 +370,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
   AND department.HptCode = '$HptCode'
   GROUP BY  department.DepCode 
   ORDER BY department.DepName ASC";
+
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery))
   {
@@ -472,13 +473,15 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
   for ($day = 0; $day < $count; $day++)
   {
     $data =       "SELECT
-                COALESCE (SUM(return_doc.Total), '0') AS aWeight,
-                COALESCE (SUM(return_doc.Totalp), '0') AS aPrice
+                COALESCE 	( SUM( return_detail.Weight ), '0' ) AS aWeight,
+	              COALESCE ( SUM( return_detail.Price ), '0' ) AS aPrice 
             FROM
             return_doc
               INNER JOIN department ON department.DepCode = return_doc.DepCodeFrom
               INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
               INNER JOIN site ON site.HptCode = department.HptCode
+              INNER JOIN return_detail ON return_detail.DocNo = return_doc.DocNo
+							INNER JOIN item ON item.ItemCode = return_detail.ItemCode
             WHERE
               DATE(return_doc.DocDate) = '$date[$day]'
             AND return_doc.isStatus <> 9
@@ -487,7 +490,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
             AND grouphpt.HptCode = '$HptCode'
             AND site.HptCode = '$HptCode'
             AND grouphpt.GroupCode = '$GroupCode[$sheet]'";
-                    
+                
+                
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery))
     {

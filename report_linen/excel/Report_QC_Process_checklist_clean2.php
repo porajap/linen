@@ -34,9 +34,9 @@ $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
 $where = '';
-$i = 4;
+$i = 9;
 $check = '';
-$row_question = 4;
+$row_question = 9;
 $Qty = 0;
 $Weight = 0;
 $count = 1;
@@ -174,36 +174,47 @@ $objPHPExcel->getActiveSheet()
   ->getHeaderFooter()->setEvenFooter('&R Page &P / &N');
 $objPHPExcel->getActiveSheet()
   ->setShowGridlines(true);
-$date_cell = array('D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH');
+
+$date_cell = array('E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI');
 $count_date = sizeof($date_cell);
 
 // Write data from MySQL result
 // $objPHPExcel->getActiveSheet()->mergeCells('A1:D1');
-$objPHPExcel->getActiveSheet()->mergeCells('A2:A3');
-$objPHPExcel->getActiveSheet()->mergeCells('B2:B3');
-$objPHPExcel->getActiveSheet()->mergeCells('C2:C3');
-$objPHPExcel->getActiveSheet()->mergeCells('A1:H1');
-$objPHPExcel->getActiveSheet()->setCellValue('A1', 'แบบประเมินคุณภาพและขั้นตอนการปฎิบัติงาน');
-$objPHPExcel->getActiveSheet()->setCellValue('I1', $array2['printdate'][$language] . $printdate);
+$objPHPExcel->getActiveSheet()->mergeCells('A2:D2');
+$objPHPExcel->getActiveSheet()->mergeCells('A4:B4');
+$objPHPExcel->getActiveSheet()->mergeCells('C4:D4');
+$objPHPExcel->getActiveSheet()->mergeCells('A5:B5');
+$objPHPExcel->getActiveSheet()->mergeCells('C5:D5');
+$objPHPExcel->getActiveSheet()->setCellValue('D1', 'แบบประเมินคุณภาพและขั้นตอนการปฎิบัติงาน');
+$objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
+// $objPHPExcel->getActiveSheet()->setCellValue('A2', 'SITE BHH  auditor 1 jannapa Khangeta');
+$objPHPExcel->getActiveSheet()->setCellValue('A3', 'Scoring');
+$objPHPExcel->getActiveSheet()->setCellValue('A4', 'Yes');
+$objPHPExcel->getActiveSheet()->setCellValue('C4', 'The answer is "YES" or "Always" to the specific requirements of the questionaire ( ตอบได้ครบถ้วน ครอบคลุม เนื้อหาทั้งหมด ตอบได้ทุกคนที่ถาม)  ');
+$objPHPExcel->getActiveSheet()->setCellValue('A5', 'No');
+$objPHPExcel->getActiveSheet()->setCellValue('C5', 'The answer is "Rarely" or "Never" to the specific requirements of the questionaire ( ตอบได้น้อยกว่า 50%  หรือตอบไม่ได้เลย) ');
+$objPHPExcel->getActiveSheet()->mergeCells('A6:A8');
+$objPHPExcel->getActiveSheet()->mergeCells('B6:B8');
+$objPHPExcel->getActiveSheet()->mergeCells('C6:C8');
+$objPHPExcel->getActiveSheet()->mergeCells('D6:D8');
 $objPHPExcel->setActiveSheetIndex(0)
-  ->setCellValue('A2',  'No')
-  ->setCellValue('B2',  'ชนิดผ้าที่สุ่ม')
-  ->setCellValue('C2',  'วิธีการตรวจสอบ');
-
-
+  ->setCellValue('A6',  'JCI Standard')
+  ->setCellValue('B6',  'No.')
+  ->setCellValue('C6',  'ชนิดผ้าที่สุ่ม')
+  ->setCellValue('D6',  'Question');
 
 $query = "SELECT
-  kpi_clean2_question.Question,
-  kpi_clean2_question.Type
-  FROM
-  kpi_clean2_question
-  order by kpi_clean2_question.ID
-  ";
+kpi_clean2_question.Question,
+kpi_clean2_question.Type
+FROM
+kpi_clean2_question
+order by kpi_clean2_question.ID
+";
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $count);
-  $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $Result["Type"]);
-  $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $Result["Question"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('B' . $i, $count);
+  $objPHPExcel->getActiveSheet()->setCellValue('C' . $i, $Result["Type"]);
+  $objPHPExcel->getActiveSheet()->setCellValue('D' . $i, $Result["Question"]);
   $i++;
   $count++;
 }
@@ -213,10 +224,10 @@ $r2 = $i + 1;
 $r3 = $i + 2;
 $now =  $year1 . '-' . $date1 . '-';
 $count = cal_days_in_month(CAL_GREGORIAN, $date1, $year1);
-$count = 28;
 for ($r = 0; $r < $count; $r++) {
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '2',  $date);
-  $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '3',  '1');
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '6',  $date);
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '7',  'YES');
+  $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . '8',  '1');
   $query = "SELECT
   coalesce(kpi_clean2_detail.IsCheck,'-') AS  IsCheck
   FROM
@@ -246,33 +257,22 @@ for ($r = 0; $r < $count; $r++) {
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . $r1, '0');
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell[$r] . $r2, $percent . ' %');
   }
-  $row_question = 4;
+  $row_question = 9;
   $row1 = 0;
   $row2 = 0;
   $percent = 0;
   $Check_Sum = 0;
   $Qty = 0;
 }
-
-$lastdate = $count - 1;
 $Total_PerCent = $sum_percent / $count_date;
-$objPHPExcel->getActiveSheet()->setCellValue('C' . $r1, 'สรุปข้อที่ทำได้ตามมาตรฐาน');
-$objPHPExcel->getActiveSheet()->setCellValue('C' . $r2, 'คิดเป็นร้อยละต่อครั้ง');
-$objPHPExcel->getActiveSheet()->setCellValue('C' . $r3, 'คิดเป็นร้อยละต่อเดือน');
-$objPHPExcel->getActiveSheet()->mergeCells('D' . $r3 . ':'.$date_cell[$lastdate] . $r3);
-$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, $Total_PerCent );
-
-
-
-
-
-
-
-
-
-
+$lastdate = $count - 1;
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r1, 'สรุปข้อที่ทำได้ตามมาตรฐาน');
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r2, 'คิดเป็นร้อยละต่อครั้ง');
+$objPHPExcel->getActiveSheet()->setCellValue('D' . $r3, 'คิดเป็นร้อยละต่อเดือน');
+$objPHPExcel->getActiveSheet()->mergeCells('E' . $r3 . ':' . $date_cell[$lastdate] . $r3);
+$objPHPExcel->getActiveSheet()->setCellValue('E' . $r3, $Total_PerCent);
 $cols = array('A', 'B', 'C', 'D');
-$width = array(20, 40, 10, 10);
+$width = array(10, 40, 10, 10);
 for ($j = 0; $j < count($cols); $j++) {
   $objPHPExcel->getActiveSheet()->getColumnDimension($cols[$j])->setWidth($width[$j]);
 }
@@ -320,7 +320,7 @@ $E1 = array(
     'name'  => 'THSarabun'
   )
 );
-$A2AH2 = array(
+$A6AI8 = array(
   'alignment' => array(
     'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
     'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
@@ -329,29 +329,12 @@ $A2AH2 = array(
     'size'  => 11,
     'name'  => 'THSarabun'
   )
-);
-$A2HEAD = array(
-  'alignment' => array(
-    'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-  ),
-  'font'  => array(
-    'size'  => 11,
-    'name'  => 'THSarabun'
-  )
-
 );
 $styleArray = array(
   'borders' => array(
     'allborders' => array(
       'style' => PHPExcel_Style_Border::BORDER_THIN
     )
-  )
-);
-$colorfill = array(
-  'fill' => array(
-    'type' => PHPExcel_Style_Fill::FILL_SOLID,
-    'color' => array('rgb' => 'B9E3E6')
   )
 );
 $CENTER = array(
@@ -364,20 +347,39 @@ $CENTER = array(
     'name'  => 'THSarabun'
   )
 );
-$count = $count + 2;
-$i = $i - 1;
+$colorfill = array(
+  'fill' => array(
+    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+    'color' => array('rgb' => 'B9E3E6')
+  )
+);
+$objPHPExcel->getActiveSheet()->getStyle("B9:C" . $i)->applyFromArray($CENTER);
+$objPHPExcel->getActiveSheet()->getStyle("E" . $r1 . ":".$date_cell[$lastdate] . $r3)->applyFromArray($CENTER);
+$objPHPExcel->getActiveSheet()->getStyle("A6:".$date_cell[$lastdate]."21")->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle("D" . $r1 . ":".$date_cell[$lastdate] . $r3)->applyFromArray($styleArray);
+$objPHPExcel->getActiveSheet()->getStyle("A6:".$date_cell[$lastdate]."8")->applyFromArray($colorfill);
+$objPHPExcel->getActiveSheet()->getStyle("A1:H1")->applyFromArray($A1H1)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("A2:H2")->applyFromArray($A2H2)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+$objPHPExcel->getActiveSheet()->getStyle("E1")->applyFromArray($E1);
+$objPHPExcel->getActiveSheet()->getStyle("A6:".$date_cell[$lastdate]."8")->applyFromArray($A6AI8);
+$objPHPExcel->getActiveSheet()->getStyle("B6:D6")->applyFromArray($A6AI8);
+$objPHPExcel->getActiveSheet()->getStyle("A3")->applyFromArray($A3)->getFont()->setUnderline(true);
+$objPHPExcel->getActiveSheet()->getStyle("E21")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+// $objPHPExcel->getActiveSheet()->getStyle("A9:A" . $i)->applyFromArray($fill1)->getNumberFormat();
+// $objPHPExcel->getActiveSheet()->getStyle("B9:B" . $i)->applyFromArray($fill2)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+// $objPHPExcel->getActiveSheet()->getStyle("C9:C" . $i)->applyFromArray($fill3)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+// $objPHPExcel->getActiveSheet()->getStyle("D9:D" . $i)->applyFromArray($Weight)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+// $objPHPExcel->getActiveSheet()->getStyle("E9:E" . $i)->applyFromArray($Weight)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+// $objPHPExcel->getActiveSheet()->getStyle("D" . $row_sum)->applyFromArray($sum)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+// $objPHPExcel->getActiveSheet()->getStyle("A" . $row_sum . ":B" . $row_sum)->applyFromArray($sum)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
-
-$objPHPExcel->getActiveSheet()->getStyle('A2:'.$date_cell[$lastdate] . $i)->applyFromArray($styleArray);
-$objPHPExcel->getActiveSheet()->getStyle('C' . $r1 . ':'.$date_cell[$lastdate] . $r3)->applyFromArray($styleArray);
-$objPHPExcel->getActiveSheet()->getStyle('A1:'.$date_cell[$lastdate].'3')->applyFromArray($A2AH2);
-$objPHPExcel->getActiveSheet()->getStyle('D' . $r3)->applyFromArray($A2AH2);
-$objPHPExcel->getActiveSheet()->getStyle('A2:A' . $count)->applyFromArray($A2AH2);
-$objPHPExcel->getActiveSheet()->getStyle('D' . $row_question . ':AG' . $r2)->applyFromArray($A2AH2);
-$objPHPExcel->getActiveSheet()->getStyle('A2:'.$date_cell[$lastdate].'3')->applyFromArray($colorfill);
-$objPHPExcel->getActiveSheet()->getStyle('C' . $r1 . ':'.$date_cell[$lastdate] . $r3)->applyFromArray($colorfill);
-$objPHPExcel->getActiveSheet()->getStyle("D16")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-
+// $i--;
+// $objPHPExcel->getActiveSheet()->getStyle("A5:E5")->applyFromArray($r3)->getNumberFormat();
+// $objPHPExcel->getActiveSheet()->getStyle("A6:E6")->applyFromArray($Hos)->getNumberFormat();
+// $objPHPExcel->getActiveSheet()->getStyle("E1")->applyFromArray($date)->getNumberFormat();
+// $objPHPExcel->getActiveSheet()->getStyle("E7")->applyFromArray($date)->getNumberFormat();
+// $objPHPExcel->getActiveSheet()->getStyle('A8:E' . $i)->applyFromArray($styleArray);
+// $objPHPExcel->getActiveSheet()->getColumnDimension("A:D")->setAutoSize(true);
 // $objDrawing = new PHPExcel_Worksheet_Drawing();
 // $objDrawing->setName('test_img');
 // $objDrawing->setDescription('test_img');
@@ -398,8 +400,10 @@ $objPHPExcel->getActiveSheet()->getColumnDimension("B")
   ->setAutoSize(true);
 $objPHPExcel->getActiveSheet()->getColumnDimension("C")
   ->setAutoSize(true);
+$objPHPExcel->getActiveSheet()->getColumnDimension("D")
+  ->setAutoSize(true);
 // Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Report_QC_Process_checklist_clean2');
+$objPHPExcel->getActiveSheet()->setTitle('Report_QC_Process_checklist_clean1');
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->setActiveSheetIndex(0);

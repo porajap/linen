@@ -208,23 +208,23 @@ $array = json_decode($json,TRUE);
 
         if(temp["status"]=='success'){ 
           if(temp["form"]=='OnLoadPage'){
-            $( "#CardView" ).empty();
-            $( "#dd" ).empty();
-            var Status = "";
+            // $( "#CardView" ).empty();
+            // $( "#dd" ).empty();
+            // var Status = "";
 
-            for (var i = 0; i < temp["Row"]; i++) {
-              if(temp[i]['IsStatus']==1){
-                  Status = "<?php echo $array['savesuccess'][$language]; ?>";
-                }else{
-                  Status = "<?php echo $array['draft'][$language]; ?>";
-                }
-                if(temp[i]['IsStatus']==3){
-                  Status = "<?php echo $array['Delivery'][$language]; ?>";
-                }
+            // for (var i = 0; i < temp["Row"]; i++) {
+            //   if(temp[i]['IsStatus']==1){
+            //       Status = "<?php echo $array['savesuccess'][$language]; ?>";
+            //     }else{
+            //       Status = "<?php echo $array['draft'][$language]; ?>";
+            //     }
+            //     if(temp[i]['IsStatus']==3){
+            //       Status = "<?php echo $array['Delivery'][$language]; ?>";
+            //     }
 
-              $StrTr=setCard(temp[i]['DepName'],temp[i]['DocNo'],temp[i]['DocDate'],Status);
-              $("#CardView").append( $StrTr );
-            }
+            //   $StrTr=setCard(temp[i]['DepName'],temp[i]['DocNo'],temp[i]['DocDate'],Status);
+            //   $("#CardView").append( $StrTr );
+            // }
           } else if(temp["form"]=='alert_SetPrice'){
             $('#countRow').val(temp['countSetprice']);
             var PmID = <?php echo $PmID; ?>;

@@ -71,6 +71,14 @@ $array2 = json_decode($json2, TRUE);
   <script type="text/javascript">
     var summary = [];
     $(document).ready(function(e) {
+
+
+
+      var pm = '<?php  echo $PmID;   ?>';
+      if(pm ==3 || pm ==5  || pm ==7) 
+      {
+        $('#hospital').removeClass('checkblank');
+      }
       $('#delete_icon').addClass('opacity');
       $('#delete1').removeClass('mhee');
         $('#rem1').hide();
@@ -79,7 +87,8 @@ $array2 = json_decode($json2, TRUE);
         $('#rem4').hide();
         $('#rem5').hide();
         $('#rem6').hide();
-        
+        $('#rem7').hide();
+
       $('#NewItem').show();
       $('#BlankItemBNT').show();
       $('#ActiveBNT').hide();
@@ -595,7 +604,8 @@ $array2 = json_decode($json2, TRUE);
       var sUnit = $('#sUnitName').val();
       var numPack = $('#numPack').val();
       var typeLinen = $('#typeLinen').val();
-  
+      var hospital = $('#hospital').val();
+
       if(ItemCode !="" && ItemCode!=undefined){
         $('#rem1').hide();
         $('#ItemCode').css('border-color', '');
@@ -630,6 +640,10 @@ $array2 = json_decode($json2, TRUE);
       if(typeLinen !="" && typeLinen!=undefined){
         // $('#rem6').hide();
         $('#typeLinen').css('border-color', '');
+      }
+      if(hospital !="" && hospital!=undefined){
+        $('#rem7').hide();
+        $('#hospital').css('border-color', '');
       }
     }
 
@@ -771,6 +785,9 @@ $array2 = json_decode($json2, TRUE);
                 }
                 if(qpu ==""||qpu==undefined){
                   $('#rem6').show().css("color","red");
+                }
+                if(Hos2 ==""||Hos2==undefined){
+                  $('#rem7').show().css("color","red");
                 }
           }
         });
@@ -946,7 +963,7 @@ $array2 = json_decode($json2, TRUE);
       $('#ItemCode').val("");
       $('#maincatagory2').val("");
       $('#catagory2').val("");
-      $('#UnitName').val("");
+      // $('#UnitName').val("");
       $('#SizeCode').val("1");
       var pm = '<?php  echo $PmID;   ?>';
       if(pm !=3 && pm !=5  && pm !=7) 
@@ -959,7 +976,7 @@ $array2 = json_decode($json2, TRUE);
       $('#maincatagory').val("");
       $('#catagory1').val("");
       $('#typeLinen').val("P");
-      $('#numPack').val("01");
+      $('#numPack').val("1");
       $('#sUnitName').val("1");
       getCatagory();
       $('#bCancel').attr('disabled', true);
@@ -968,7 +985,7 @@ $array2 = json_decode($json2, TRUE);
       $('#NewItem').show();
       $('#AddItemBNT').hide();
       // CreateItemCode();
-      uncheckAll2();
+      // uncheckAll2();
       ShowItem();
       $('#btn_importMaster').attr('disabled', true);
       $('#btn_del').attr('disabled', true);
@@ -1017,11 +1034,7 @@ $array2 = json_decode($json2, TRUE);
         var name = $('#checkitem_'+row).attr('name');
         if (previousValue == 'checked') {
           $('#hospital').attr('disabled', false);
-          $('#catagory2').attr('disabled', false);
-          // $('#typeLinen').attr('disabled', false);
-          // $('#numPack').attr('disabled', false);
           $('#hospital').removeClass('icon_select');
-          $('#catagory2').removeClass('icon_select');
           $('#typeLinen').removeClass('icon_select');
           $('#numPack').removeClass('icon_select');
           $('#checkitem_'+row).removeAttr('checked');
@@ -1030,15 +1043,7 @@ $array2 = json_decode($json2, TRUE);
           Blankinput2();
         } else {
           $('#hospital').addClass('icon_select');
-          $('#catagory2').addClass('icon_select');
-          // $('#typeLinen').addClass('icon_select');
-          // $('#numPack').addClass('icon_select');
-
           $('#hospital').attr('disabled', true);
-          $('#catagory2').attr('disabled', true);
-          // $('#typeLinen').attr('disabled', true);
-          // $('#numPack').attr('disabled', true);
-
           $("input[name="+name+"]:radio").attr('previousValue', false);
           $('#checkitem_'+row).attr('previousValue', 'checked');
       if (ItemCode != "" && ItemCode != undefined) {
@@ -1438,14 +1443,14 @@ $array2 = json_decode($json2, TRUE);
         processData: false,
         data: form_data,
         type: 'post',
-        beforeSend: function() {
-          swal({
-            title: '<?php echo $array['pleasewait'][$language]; ?>',
-            text: '<?php echo $array['processing'][$language]; ?>',
-            allowOutsideClick: false
-          })
-          swal.showLoading();
-        },
+        // beforeSend: function() {
+        //   swal({
+        //     title: '<?php echo $array['pleasewait'][$language]; ?>',
+        //     text: '<?php echo $array['processing'][$language]; ?>',
+        //     allowOutsideClick: false
+        //   })
+        //   swal.showLoading();
+        // },
         success: function(result) {
           try {
             var temp = $.parseJSON(result);
@@ -1580,7 +1585,7 @@ $array2 = json_decode($json2, TRUE);
               $('#TableItemMaster').attr("hidden", true);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
-// ======================================================================
+              // ======================================================================
               for (var j = 0; j < temp["countx"]; j++) {
                "+ (j + 1) +"
               }
@@ -1591,14 +1596,14 @@ $array2 = json_decode($json2, TRUE);
                 var top     = "";
                 var down     = "hidden";
               }
-// ======================================================================
+                // ======================================================================
               $("#TableItem tbody").empty();
               if(temp['countx']>0){
                 $("#pagination").attr("hidden" , false);
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                 var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                var isset = temp[i]['isset'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                var isSAP = temp[i]['isSAP'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var Tdas = temp[i]['Tdas'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
                 var rowCount = $('#TableItem >tbody >tr').length;
   
@@ -1611,8 +1616,9 @@ $array2 = json_decode($json2, TRUE);
                   "<td style='text-overflow: ellipsis;overflow: hidden; width: 15%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 9%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                   "<td style='width: 10%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
-                  "<td style='width: 11%;'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 13%;'nowrap>" + temp[i]['Weight'] + "</td>" +
                   "<td style='width: 8%;' nowrap>" + IsDirtyBag + "</td>" +
+                  "<td style='width: 8%;' nowrap>" + isSAP + "</td>" +
                   "<td style='width: 6%;' align='center'nowrap>" + Tdas + "</td>" +
                   "</tr>";
 
@@ -1621,7 +1627,7 @@ $array2 = json_decode($json2, TRUE);
                 } else {
                   $('#TableItem tbody:last-child').append($StrTR);
                 }
-            StrTr2='<nav aria-label="Page navigation example" style="margin-left: 1%; "> <ul class="pagination"> ';
+               StrTr2='<nav aria-label="Page navigation example" style="margin-left: 1%; "> <ul class="pagination"> ';
               if(temp['Prev_Page'])
                 {
                   StrTr2+= '<li class="page-item"><a class="page-link" href="#"  onclick="ShowItem('+null+' , '+null+' , '+temp['Prev_Page']+')">Previous</a></li> ';
@@ -1644,12 +1650,12 @@ $array2 = json_decode($json2, TRUE);
                 $("#pagination").html( StrTr2 );
               }
 
-            }else{
+              }else{
               $('#TableItem tbody').empty();
               var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
               $('#TableItem tbody:last-child').append(Str);
               $("#pagination").attr("hidden" , true);
-            }
+              }
               // $('.checkblank').each(function() {
               //   $(this).val("");
               // });
@@ -1781,8 +1787,6 @@ $array2 = json_decode($json2, TRUE);
                 console.log($('#ItemCode').val());
                 $('#hospital').val(temp[0]['HptCode']);
                 $('#ItemName').val(temp[0]['ItemName']);
-                $('#CusPrice').val(temp[0]['CusPrice']);
-                $('#FacPrice').val(temp[0]['FacPrice']);
                 $('#numPack').val(temp[0]['numPack']);
                 $('#typeLinen').val(temp[0]['typeLinen']);
                 $('#UnitName').val(temp[0]['UnitCode']);
@@ -2411,23 +2415,18 @@ $array2 = json_decode($json2, TRUE);
             <div class="card-body" style="padding:0px; margin-top:-12px;">
               <div class="row">
               <div class="col-md-3">
-                  <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control checkblank66" style="font-size:24px;width: 80%;" id="Hos2" onchange="changeHptCode()"></select>
+                  <div class="row" style="font-size:24px;">
+                    <select class="form-control checkblank66" style="font-size:24px;" id="Hos2" onchange="changeHptCode()"></select>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;margin-left: -23%;width: 80%;" id="catagory1" onchange="shownow();"></select>
+                <div class="col-md-3 ml-3">
+                  <div class="row" style="font-size:24px;">
+                    <select class="form-control" style="font-size:24px;" id="catagory1" onchange="shownow();"></select>
                   </div>
                 </div>
-                <!-- <div class="col-md-3">
-                  <div class="row" style="font-size:24px;margin-left:2px;">
-                    <select class="form-control" style="font-size:24px;width: 80%;margin-left: -46%;" id="catagory1" onchange="shownow()"> </select>
-                  </div>
-                </div> -->
                 <div class="col-md-3">
                   <div class="row " style="margin-left:2px;">
-                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;margin-left: -46%;width: 155%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
+                    <input type="text" autocomplete="off" class="form-control" style="font-size:24px;" name="searchitem" id="searchitem" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
                   </div>
                 </div>
                 <div class="col-md-1" style="margin-left: -1%;">
@@ -2676,7 +2675,8 @@ $array2 = json_decode($json2, TRUE);
                             <div class="col-md-6">
                               <div class='form-group row'>
                                 <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                <select   class="form-control col-sm-7 " id="hospital"  ></select>
+                                <select   class="form-control col-sm-7 checkblank" id="hospital"   onchange="resetinput()"></select>
+                                <label id="rem7" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                               </div>
                           </div>
                         <!-- </div> -->

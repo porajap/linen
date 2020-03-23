@@ -149,7 +149,7 @@ function ShowItem($conn, $DATA)
           INNER JOIN par_item_stock ON par_item_stock.ItemCode = item.ItemCode
           INNER JOIN site ON site.HptCode = item.HptCode
           INNER JOIN department ON department.DepCode = par_item_stock.DepCode
-          WHERE site.HptCode = '$HptCode' AND department.IsDefault =1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') AND NOT IsClean = 1 AND NOT IsDirtyBag  =1
+          WHERE item.IsActive = 1 AND site.HptCode = '$HptCode' AND department.IsDefault =1 AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%') AND NOT IsClean = 1 AND NOT IsDirtyBag  =1
           GROUP BY ItemCode ";    
   }
   

@@ -216,7 +216,7 @@ AND department.HptCode = '$HptCode'
 AND damagenh.IsStatus <> 9 AND damagenh.isStatus <> 0
 GROUP BY
 damagenh_detail.ItemCode 
-ORDER BY  damagenh_detail.ItemCode ASC";
+ORDER BY  damagenh_detail.ItemCode ASC ";
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   if ($count > 20) {

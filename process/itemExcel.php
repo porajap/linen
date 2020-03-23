@@ -19,31 +19,32 @@ $objReader = PHPExcel_IOFactory::createReader($inputFileType);
 $objReader->setReadDataOnly(true);  
 $objPHPExcel = $objReader->load($inputFileName);  
 
-for($chk = 1; $chk < 13; $chk++){
-$objWorksheet = $objPHPExcel->setActiveSheetIndex($chk);
-$highestRow = $objWorksheet->getHighestRow();
-$highestColumn = $objWorksheet->getHighestColumn();
-
-$headingsArray = $objWorksheet->rangeToArray('A1:'.$highestColumn.'1',null, true, true, true);
-$headingsArray = $headingsArray[1];
-
-$r = -1;
-$namedDataArray = array();
-for ($row = 9; $row <= $highestRow; ++$row)
+for($chk = 1; $chk <= 13; $chk++)
 {
-    $dataRow = $objWorksheet->rangeToArray('A'.$row.':'.$highestColumn.$row,null, true, true, true);
-    if ((isset($dataRow[$row]['A'])) && ($dataRow[$row]['A'] > ''))
+    $objWorksheet = $objPHPExcel->setActiveSheetIndex($chk);
+    $highestRow = $objWorksheet->getHighestRow();
+    $highestColumn = $objWorksheet->getHighestColumn();
+
+    $headingsArray = $objWorksheet->rangeToArray('A1:'.$highestColumn.'1',null, true, true, true);
+    $headingsArray = $headingsArray[1];
+
+    $r = -1;
+    $namedDataArray = array();
+    for ($row = 9; $row <= $highestRow; ++$row)
     {
-        ++$r;
-        foreach($headingsArray as $columnKey => $columnHeading)
+        $dataRow = $objWorksheet->rangeToArray('A'.$row.':'.$highestColumn.$row,null, true, true, true);
+        if ((isset($dataRow[$row]['A'])) && ($dataRow[$row]['A'] > ''))
         {
-            $namedDataArray[$r][$columnHeading] = $dataRow[$row][$columnKey];
+            ++$r;
+            foreach($headingsArray as $columnKey => $columnHeading)
+            {
+                $namedDataArray[$r][$columnHeading] = $dataRow[$row][$columnKey];
+            }
         }
     }
-}
 
 
-    if ($chk == 0) 
+    if ($chk == 1) 
     {
         foreach ($namedDataArray as $resx)
         {
@@ -52,7 +53,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                 HptCode,
                 HptName,
                 HptNameTH,
-                IsStatus,
                 money,
                 DocDate,
                 Modify_Date,
@@ -69,7 +69,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx['HptCode']."',
                     '".$resx['HptName']."',
                     '".$resx['HptNameTH']."',
-                    '".$resx['IsStatus']."',
                     '".$resx['money']."',
                     '".$resx['DocDate']."',
                     '".$resx['Modify_Date']."',
@@ -81,22 +80,19 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx[' SiteTest ']."' ,
                     '".$resx[' stock ']."' 
                 ) ";
-                echo $query;
             mysqli_query($conn, $query);
             //
         }
     } 
-    else if($chk ==1)
+    else if($chk ==2)
     {
         foreach ($namedDataArray as $resx)
         {
             //Insert factory
             $query_test = "INSERT INTO factory (
-                FacCode,
                 FacName,
                 DiscountPercent,
                 Price,
-                IsCancel,
                 Address,
                 Post,
                 Tel,
@@ -109,11 +105,9 @@ for ($row = 9; $row <= $highestRow; ++$row)
             )
             VALUES
                 (
-                    '".$resx['FacCode']."',
                     '".$resx['FacName']."',
                     '".$resx['DiscountPercent']."',
                     '".$resx['Price']."',
-                    '".$resx['IsCancel']."',
                     '".$resx['Address']."',
                     '".$resx['Post']."',
                     '".$resx['Tel']."',
@@ -128,7 +122,7 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==2)
+    else if($chk ==3)
     {
         foreach ($namedDataArray as $resx)
         {
@@ -137,7 +131,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                 GroupCode,
                 HptCode,
                 GroupName,
-                IsStatus,
                 DocDate,
                 Modify_Date,
                 Modify_Code
@@ -147,7 +140,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx['GroupCode']."',
                     '".$resx['HptCode']."',
                     '".$resx['GroupName']."',
-                    '".$resx['IsStatus']."',
                     '".$resx['DocDate']."',
                     '".$resx['Modify_Date']."',
                     '".$resx['Modify_Code']."'
@@ -157,7 +149,7 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==3)
+    else if($chk ==4)
     {
         foreach ($namedDataArray as $resx)
         {
@@ -166,7 +158,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                 DepCode,
                 HptCode,
                 DepName,
-                IsStatus,
                 IsDefault,
                 DocDate,
                 Modify_Date,
@@ -180,7 +171,6 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx['DepCode']."',
                     '".$resx['HptCode']."',
                     '".$resx['DepName']."',
-                    '".$resx['IsStatus']."',
                     '".$resx['IsDefault']."',
                     '".$resx['DocDate']."',
                     '".$resx['Modify_Date']."',
@@ -195,7 +185,7 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==4)
+    else if($chk ==5)
     {
         foreach ($namedDataArray as $resx)
         {
@@ -207,13 +197,9 @@ for ($row = 9; $row <= $highestRow; ++$row)
                 UnitCode,
                 SizeCode,
                 Weight,
-                IsActive,
                 QtyPerUnit,
                 UnitCode2,
-                IsDirtyBag,
-                isset,
                 itemDate,
-                Tdas,
                 HptCode,
                 Modify_Date,
                 DocDate,
@@ -231,13 +217,9 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx['UnitCode']."',
                     '".$resx['SizeCode']."',
                     '".$resx['Weight']."',
-                    '".$resx['IsActive']."',
                     '".$resx['QtyPerUnit']."',
                     '".$resx['UnitCode2']."',
-                    '".$resx['IsDirtyBag']."',
-                    '".$resx['isset']."',
                     '".$resx['itemDate']."',
-                    '".$resx['Tdas']."',
                     '".$resx['HptCode']."',
                     '".$resx['Modify_Date']."',
                     '".$resx['DocDate']."',
@@ -251,7 +233,7 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==5)
+    else if($chk ==6)
     {
         foreach ($namedDataArray as $resx)
         {
@@ -259,23 +241,19 @@ for ($row = 9; $row <= $highestRow; ++$row)
             $query = "INSERT INTO item_multiple_unit (
                 MpCode,
                 UnitCode,
-                Multiply,
-                PriceUnit,
                 ItemCode
             )
             VALUES
                 (
                     '".$resx['MpCode']."',
                     '".$resx['UnitCode']."',
-                    '".$resx['Multiply']."',
-                    '".$resx['PriceUnit']."',
                     '".$resx['ItemCode']."'
                 )";
             mysqli_query($conn, $query);
             //
         }
     }
-    else if($chk ==6)
+    else if($chk ==7)
     {
         foreach ($namedDataArray as $resx)
         {
@@ -299,7 +277,7 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==7)
+    else if($chk ==8)
     {
         foreach ($namedDataArray as $resx)
         {
@@ -309,16 +287,12 @@ for ($row = 9; $row <= $highestRow; ++$row)
                 FacCode,
                 UserName,
                 Password,
-                IsCancel,
                 PmID,
-                Count,
                 Modify_Date,
                 TimeOut,
                 lang,
                 email,
-                chk_logoff,
                 pic,
-                Active_mail,
                 DepCode,
                 DocDate,
                 Modify_Code,
@@ -337,15 +311,11 @@ for ($row = 9; $row <= $highestRow; ++$row)
                     '".$resx['FacCode']."',
                     '".$resx['UserName']."',
                     '".$resx['Password']."',
-                    '".$resx['IsCancel']."',
                     '".$resx['PmID']."',
-                    '".$resx['Count']."',
                     '".$resx['Modify_Date']."',
                     '".$resx['TimeOut']."',
                     '".$resx['lang']."',
                     '".$resx['email']."',
-                    '".$resx['IsActive']."',
-                    '".$resx['chk_logoff']."',
                     '".$resx['pic']."',
                     '".$resx['DepCode']."',
                     '".$resx['DocDate']."',
@@ -362,7 +332,7 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==8)
+    else if($chk ==9)
     {
         foreach ($namedDataArray as $resx)
         {
@@ -386,36 +356,12 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==9)
-    {
-        foreach ($namedDataArray as $resx)
-        {
-            //Insert item
-            $query = "INSERT INTO sc_express (
-                HptCode,
-                Time_ID,
-                DocDate,
-                Modify_Date,
-                Modify_Code
-            )
-            VALUES
-                (
-                '".$resx['HptCode']."',
-                '".$resx['Time_ID']."',
-                '".$resx['DocDate']."',
-                '".$resx['Modify_Date']."',
-                '".$resx['Modify_Code']."'
-                )";
-            mysqli_query($conn, $query);
-            //
-        }
-    }
     else if($chk ==10)
     {
         foreach ($namedDataArray as $resx)
         {
             //Insert item
-            $query = "INSERT INTO round_time_dirty (
+            $query = "INSERT INTO sc_express (
                 HptCode,
                 Time_ID,
                 DocDate,
@@ -440,6 +386,30 @@ for ($row = 9; $row <= $highestRow; ++$row)
         {
             //Insert item
             $query = "INSERT INTO round_time_dirty (
+                HptCode,
+                Time_ID,
+                DocDate,
+                Modify_Date,
+                Modify_Code
+            )
+            VALUES
+                (
+                '".$resx['HptCode']."',
+                '".$resx['Time_ID']."',
+                '".$resx['DocDate']."',
+                '".$resx['Modify_Date']."',
+                '".$resx['Modify_Code']."'
+                )";
+            mysqli_query($conn, $query);
+            //
+        }
+    }
+    else if($chk ==12)
+    {
+        foreach ($namedDataArray as $resx)
+        {
+            //Insert item
+            $query = "INSERT INTO round_time_dirty (
                             HptCode,
                             FacCode,
                             SendTime
@@ -454,7 +424,7 @@ for ($row = 9; $row <= $highestRow; ++$row)
             //
         }
     }
-    else if($chk ==12)
+    else if($chk ==13)
     {
         foreach ($namedDataArray as $resx)
         {

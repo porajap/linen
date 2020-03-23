@@ -44,7 +44,8 @@ function getSection($conn, $DATA)
   die;
 
 }
-function getTime($conn, $DATA){
+function getTime($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $Sql = "SELECT ID, TimeName FROM time_sc WHERE ID  BETWEEN 1 AND 48  ORDER BY ID ASC";
@@ -63,11 +64,12 @@ function getTime($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-function getTime2($conn, $DATA){
+
+function getTime2($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $Sql = "SELECT ts.ID, ts.TimeName FROM time_sc ts
-  LEFT JOIN time_express te ON te.Time_ID = ts.ID
   WHERE ts.ID NOT IN(SELECT time_express.Time_ID  FROM time_express WHERE time_express.HptCode = '$HptCode') AND ts.ID  BETWEEN 1 AND 48
   ORDER BY ts.ID ASC";
   $meQuery = mysqli_query($conn, $Sql);
@@ -83,7 +85,9 @@ function getTime2($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-function ShowItem($conn, $DATA){
+
+function ShowItem($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $Keyword = $DATA['Keyword'];
   $count = 0;
@@ -111,7 +115,9 @@ function ShowItem($conn, $DATA){
     die;
     
 }
-function AddItem($conn, $DATA){
+
+function AddItem($conn, $DATA)
+{
   $Userid = $_SESSION['Userid'];
   $HptCode = $DATA['HptCode'];
   $Time = $DATA['Time'];
@@ -119,7 +125,9 @@ function AddItem($conn, $DATA){
   mysqli_query($conn, $Sql);
   ShowItem($conn, $DATA);
 }
-function getDetail($conn, $DATA){
+
+function getDetail($conn, $DATA)
+{
   $ID = $DATA['ID'];
   $Sql = "SELECT te.ID, te.HptCode , site.HptName
   FROM time_express te
@@ -134,7 +142,9 @@ function getDetail($conn, $DATA){
   mysqli_close($conn);
   die;
 }
-function EditItem($conn, $DATA){
+
+function EditItem($conn, $DATA)
+{
   $Userid = $_SESSION['Userid'];
   $ID = $DATA['TimeID'];
   $HptCode = $DATA['HptCode'];
@@ -143,7 +153,9 @@ function EditItem($conn, $DATA){
   mysqli_query($conn, $Sql);
   ShowItem($conn, $DATA);
 }
-function CancelItem($conn, $DATA){
+
+function CancelItem($conn, $DATA)
+{
   $HptCode = $DATA['HptCode'];
   $TimeID = $DATA['TimeID'];
   $Sql = "DELETE FROM time_express WHERE ID = $TimeID";

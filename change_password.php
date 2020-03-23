@@ -42,6 +42,7 @@
                 <div id="see1">
                     <a href="javascript:void(0)" onclick="ShowPassword1()" id="ShowPassword1"><i class="fas fa-eye"></i></a>
                     <a href="javascript:void(0)" onclick="HidePassword1()" id="HidePassword1" hidden><i class="fas fa-eye-slash"></i></a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#policy" ><i class="fas fa-globe"></i></a>
                 </div>
                 <small for="newpassword" class="text-danger m-l-6 m-b-6"></small>
             </div>
@@ -69,6 +70,27 @@
             Save  <i class="fas fa-arrow-right" id="arrow_save" ></i>
         </button>
     </div>
+</div>
+
+<div class="modal fade" id="policy" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> <b> Password policy </b> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>- password จะต้องมีความยาว 8digit ขึ้นไป</p>
+        <p>- password จะต้องมีตัวเลข , ตัวอักษรตัวเล็ก ,  ตัวอักษรตัวใหญ่ , &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; อักขระพิเศษ อย่างน้อยอย่างละ 1 digit </p>
+        <small>( เช่น Sap1234. )</small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="dist/js/jquery-3.3.1.min.js"></script>
@@ -146,7 +168,12 @@
                 },
                 confirmpassword:
                 {
-                    equalTo: "#newpassword"
+                    equalTo: "#newpassword" ,
+                    rangelength: [8, 16],
+                    hasUppercase: true,
+                    hasLowercase: true,
+                    checklower: true ,
+                    pwcheck: true
                 }
             },
             messages:

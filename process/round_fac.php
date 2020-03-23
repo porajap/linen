@@ -123,6 +123,7 @@ function ShowItem($conn, $DATA)
     $return['Count'] = $count;
     $return['status'] = "success";
     $return['form'] = 'ShowItem';
+    $return['sql'] = $Select;
     echo json_encode($return);
     mysqli_close($conn);
     die;

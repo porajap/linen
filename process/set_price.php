@@ -24,7 +24,7 @@ function CreateDoc($conn, $DATA)
         $return['DocNo'] = $DocNo;
     }
 
-    $Sql = "SELECT COUNT(*) AS Cnt FROM category_price WHERE category_price.HptCode = '$HptCode'";
+    $Sql = "SELECT COUNT(*) AS Cnt FROM category_price WHERE category_price.HptCode = '$HptCode' AND Price > 0";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
         $Cnt = $Result['Cnt'];
@@ -238,6 +238,7 @@ function ShowItem2($conn, $DATA)
         $return[$count]['CategoryName'] = $Result['CategoryName'];
         $return[$count]['Price'] = $Result['Price']==0?'':$Result['Price'];
         $return[$count]['date'] = $newdate;
+        $return[$count]['xDate'] = $Result['xDate'];
         $count++;
     }
     if($count>0){

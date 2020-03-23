@@ -51,48 +51,15 @@ function OnLoadPage($conn,$DATA){
   }
 }
 
-function getDepartment($conn,$DATA){
-  $count = 0;
-  $boolean = false;
-  $Hotp = $DATA["Hotp"];
-  $Sql = "SELECT department.DepCode,department.DepName
-		  FROM department
-		  WHERE department.HptCode = '$Hotp'
-		  AND department.IsStatus = 0";
-  $meQuery = mysqli_query($conn,$Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['DepCode'] = $Result['DepCode'];
-    $return[$count]['DepName'] = $Result['DepName'];
-    $count++;
-	$boolean = true;
-  }
-
-  if($boolean){
-    $return['status'] = "success";
-    $return['form'] = "getDepartment";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "failed";
-    $return['form'] = "getDepartment";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-}
-// $Sqlx = "INSERT INTO log ( log ) VALUES ('$DocNo : ".$xUsageCode[$i]."')";
-// mysqli_query($conn,$Sqlx);
-
 function ShowDocument($conn,$DATA){
   $boolean = false;
   $count = 0;
-  $deptCode = $DATA["deptCode"];
+  $HptCode = $DATA["HptCode"]==NULL?'':$DATA["HptCode"];
   $DocNo = str_replace(' ', '%', $DATA["xdocno"]);
   $lang = $_SESSION['lang'];
   $sDate = $DATA["sDate"];
   $eDate = $DATA["eDate"];
-  $HptCode = $_SESSION['HptCode'];
+  $HptCode_permission = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
   if($PmID == 5 )
   {
@@ -100,7 +67,7 @@ function ShowDocument($conn,$DATA){
   }
   else
   {
-    $hpt = '';
+    $hpt = "AND site.HptCode ='$HptCode' ";
   }
   $sl1 = strlen($sDate);
   $sl2 = strlen($eDate);
@@ -152,12 +119,14 @@ function ShowDocument($conn,$DATA){
   }
   $return['Count'] = $count;
   if($boolean){
+    $return['HptCode'] = $HptCode;
     $return['status'] = "success";
     $return['form'] = "ShowDocument";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   }else{
+    $return['HptCode'] = $HptCode;
     $return[$count]['DocNo'] = "";
     $return[$count]['DocDate'] = "";
     $return[$count]['Qty'] = "";
@@ -267,7 +236,8 @@ function SaveRow($conn,$DATA){
   $sDate 	= $DATA["sDate"];
   $eDate 	= $DATA["eDate"];
   $Detail 	= $DATA["Detail"];
-
+  $HptCode = $DATA["HptCode"];
+  
   if($isStatus==0){
   	  $Sql = "INSERT INTO contract_parties_hospital
       ( StartDate,EndDate,HptCode,Detail,IsStatus )
@@ -316,9 +286,7 @@ if(isset($_POST['DATA']))
 
       if($DATA['STATUS']=='OnLoadPage'){
         OnLoadPage($conn,$DATA);
-	  }elseif ($DATA['STATUS']=='getDepartment') {
-        getDepartment($conn, $DATA);
-	  }elseif($DATA['STATUS']=='ShowDocument'){
+	    }elseif($DATA['STATUS']=='ShowDocument'){
         ShowDocument($conn,$DATA);
       }elseif($DATA['STATUS']=='getRow'){
         getRow($conn,$DATA);

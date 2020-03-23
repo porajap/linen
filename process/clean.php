@@ -629,7 +629,7 @@ function ShowItem($conn, $DATA)
         $xQuery = mysqli_query($conn, $xSql);
         while ($xResult = mysqli_fetch_assoc($xQuery)) 
         {
-          $m1 = "MpCode_" . $ItemCode . "_" . $count;
+          $m1 = "MpCode_" . $ItemCode   . "_" . $count;
           $m2 = "UnitCode_" . $ItemCode . "_" . $count;
           $m3 = "UnitName_" . $ItemCode . "_" . $count;
           $m4 = "Multiply_" . $ItemCode . "_" . $count;

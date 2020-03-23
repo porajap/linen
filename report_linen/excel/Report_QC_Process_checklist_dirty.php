@@ -186,7 +186,6 @@ $objPHPExcel->getActiveSheet()->mergeCells('A5:B5');
 $objPHPExcel->getActiveSheet()->mergeCells('C5:D5');
 $objPHPExcel->getActiveSheet()->setCellValue('D1', 'แบบประเมินคุณภาพและขั้นตอนการปฎิบัติงาน');
 $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
-$objPHPExcel->getActiveSheet()->setCellValue('A2', 'SITE BHH  auditor 1 jannapa Khangeta');
 $objPHPExcel->getActiveSheet()->setCellValue('A3', 'Scoring');
 $objPHPExcel->getActiveSheet()->setCellValue('A4', 'Yes');
 $objPHPExcel->getActiveSheet()->setCellValue('C4', 'The answer is "YES" or "Always" to the specific requirements of the questionaire ( ตอบได้ครบถ้วน ครอบคลุม เนื้อหาทั้งหมด ตอบได้ทุกคนที่ถาม)  ');

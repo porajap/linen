@@ -262,17 +262,12 @@ if ($chk == 'one')
 }
 elseif ($chk == 'between')
 {
-  list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31)
-  {
-    $day = $day + 1;
-  }
-  $date2 = $year . "-" . $month . "-" . $day;
-  $period = new DatePeriod(
-    new DateTime($date1),
-    new DateInterval('P1D'),
-    new DateTime($date2)
-  );
+  $begin = new DateTime( $date1 );
+  $end = new DateTime( $date2 );
+  $end = $end->modify( '1 day' );
+
+  $interval = new DateInterval('P1D');
+  $period = new DatePeriod($begin, $interval ,$end);
   foreach ($period as $key => $value)
   {
     $date[] = $value->format('Y-m-d');
@@ -426,12 +421,12 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
       $data = "SELECT
                 COALESCE (SUM(shelfcount.Totalw), '0') AS aWeight,
                 COALESCE (SUM(shelfcount.Totalp), '0') AS aPrice,
-                DATE(shelfcount.Modify_Date) AS Date_chk
+                DATE(shelfcount.complete_date) AS Date_chk
               FROM
                 shelfcount
               INNER JOIN department ON department.DepCode = shelfcount.DepCode
               INNER JOIN site ON site.HptCode = department.HptCode
-              WHERE  DATE(shelfcount.Modify_Date)  IN ( ";
+              WHERE  DATE(shelfcount.complete_date)  IN ( ";
               for ($day = 0; $day < $count; $day++) {
 
                 $data .= " '$date[$day]' ,";
@@ -442,6 +437,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
               AND shelfcount.isStatus <> 0
               AND shelfcount.DepCode = '$DepCode[$lek]'
               AND site.HptCode = '$HptCode' 
+              AND shelfcount.DocNo LIKE '%$HptCode%'
               GROUP BY  DATE(shelfcount.Modify_Date)";
     }
 
@@ -451,12 +447,13 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
       $data = " SELECT
                         COALESCE (SUM(report_sc.Weight), '0') AS aWeight,
                         COALESCE(SUM(report_sc.Price ),'0') AS aPrice ,
-	                      report_sc.DocDate AS Date_chk
+	                      DATE(shelfcount.complete_date) AS Date_chk
                       FROM
                         report_sc
                       INNER JOIN department ON department.DepCode = report_sc.DepCode
                       INNER JOIN site ON site.HptCode = department.HptCode
-                      WHERE  DATE(report_sc.DocDate) IN (";
+                      INNER JOIN shelfcount ON shelfcount.DocNo = report_sc.DocNo
+                      WHERE  DATE(shelfcount.complete_date) IN (";
                       for ($day = 0; $day < $count; $day++) {
    
                         $data .= " '$date[$day]' ,";
@@ -466,9 +463,11 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
         $data .= " )  AND report_sc.isStatus <> 9
                       AND report_sc.isStatus <> 0
                       AND report_sc.DepCode = '$DepCode[$lek]'
+                      AND shelfcount.SiteCode = '$HptCode'
                       AND site.HptCode = '$HptCode'
                       $categorywhere 
-                      GROUP BY report_sc.DocDate  ";
+                      GROUP BY DATE(shelfcount.complete_date)  ";
+
     }
       
       $meQuery = mysqli_query($conn, $data);
@@ -549,9 +548,10 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                   INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
                   INNER JOIN site ON site.HptCode = department.HptCode
                   WHERE
-                  DATE(shelfcount.Modify_Date) = '$date[$day]'
+                  DATE(shelfcount.complete_date) = '$date[$day]'
                   AND shelfcount.isStatus <> 9
                   AND shelfcount.isStatus <> 0
+                  AND shelfcount.DocNo LIKE '%$HptCode%'
                   AND grouphpt.HptCode = '$HptCode'
                   AND site.HptCode = '$HptCode'
                   AND grouphpt.GroupCode = '$GroupCode[$sheet]'
@@ -575,13 +575,14 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     $data =       "SELECT
                             COALESCE (SUM(report_sc.Weight), '0') AS aWeight,
                             COALESCE (SUM(report_sc.Price), '0') AS aPrice,
-                            DATE(report_sc.DocDate) AS Date_chk
+                            DATE(shelfcount.complete_date) AS Date_chk
                           FROM
                             report_sc
                           INNER JOIN department ON department.DepCode = report_sc.DepCode
                           INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
                           INNER JOIN site ON site.HptCode = department.HptCode
-                          WHERE DATE(report_sc.DocDate) IN (  "; 
+                          INNER JOIN shelfcount ON shelfcount.DocNo = report_sc.DocNo
+                          WHERE DATE(shelfcount.complete_date) IN (  "; 
                                       for ($day = 0; $day < $count; $day++) {
 
                                         $data .=  " '$date[$day]' , ";
@@ -594,7 +595,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                             $categorywhere
                             AND grouphpt.GroupCode =  '$GroupCode[$sheet]'
                             AND grouphpt.HptCode = '$HptCode' 
-                            GROUP BY DATE(report_sc.DocDate)";
+                            AND shelfcount.SiteCode = '$HptCode'
+                            GROUP BY DATE(shelfcount.complete_date)";
 
                             $meQuery = mysqli_query($conn, $data);
                             while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -629,12 +631,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                                 }
                             }
   }
-
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayweight);
   $r++;
   $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayprice);
-
-
 
   $A5 = array(
     'alignment' => array(

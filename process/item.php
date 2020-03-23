@@ -38,7 +38,7 @@ function ShowItem($conn, $DATA)
           INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
           INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode";
 
-  if ($Keyword == '' && $HptCode != '') {
+  if ($Keyword == '' ) {
       if($HptCode != ''  && $Catagory=='' ){
         $Sql .= " WHERE  HptCode = '$HptCode' AND NOT (item.ItemCode = '00001' AND item.ItemCode = '00002' AND item.ItemCode = '00003') AND item.IsActive =1";
       }else if($HptCode != ''  && $Catagory !=''){
@@ -50,7 +50,7 @@ function ShowItem($conn, $DATA)
       }
   } else {
     $Sql .= " WHERE item.HptCode = '$HptCode' AND (item.ItemCode LIKE '%$Keyword%' OR item.ItemName LIKE '%$Keyword%' 
-    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') AND item.IsActive = 1 ";
+    OR item.Weight LIKE '%$Keyword%' OR item_unit.UnitName LIKE '%$Keyword%') AND item.IsActive = 1  AND item.CategoryCode LIKE '%$Catagory%' ";
   }
 
   $return['sql']    = $Sql;
@@ -84,9 +84,9 @@ else
 }
 $return['Num_Rows']     	    = $Num_Rows;
 $return['Num_Pages']     	    = $Num_Pages;
-$return['Prev_Page']      	    = $Prev_Page;
-$return['Next_Page']      	    = $Next_Page;
-$return['Page']      	               = $Page;
+$return['Prev_Page']      	  = $Prev_Page;
+$return['Next_Page']      	  = $Next_Page;
+$return['Page']      	        = $Page;
 
   $Sql .= " ORDER BY item.$column $sort   LIMIT $Page_Start , $Per_Page ";
   $return['sql'] = $Sql;
@@ -99,7 +99,7 @@ $return['Page']      	               = $Page;
     $return[$count]['SizeCode']           = $Result['SizeCode'];
     $return[$count]['Weight']             = $Result['Weight'];
     $return[$count]['IsDirtyBag']       = $Result['IsClean']==null?0:$Result['IsClean'];
-    $return[$count]['isset']                = $Result['isSAP']==null?0:$Result['isSAP'];
+    $return[$count]['isSAP']                = $Result['isSAP']==null?0:$Result['isSAP'];
     $return[$count]['Tdas']               = $Result['Tdas']==null?0:$Result['Tdas'];
     $count++;
   }
@@ -463,8 +463,8 @@ function getdetail($conn, $DATA)
     $return[$count]['UnitCode']         = $Result['UnitCode'];
     $return[$count]['SizeCode']         = $Result['SizeCode'];
     $return[$count]['Weight']           = $Result['Weight'];
-    $return[$count]['typeLinen']        = $Result['typeLinen'];
-    $return[$count]['numPack']          = $Result['numPack'];
+    $return[$count]['typeLinen']        = $Result['typeLinen']==null?'P':$Result['typeLinen'];
+    $return[$count]['numPack']          = $Result['numPack']==null?'1':$Result['numPack'];
     $return[$count]['RowID']            = $Result['RowID'];
     $return[$count]['HptCode']          = $Result['HptCode'];
     $return[$count]['MpCode']           = $Result['MpCode'];
@@ -688,7 +688,7 @@ function NewItem($conn, $DATA)
     $DepCode = $Result5['DepCode'];
   }
 
-  $insert ="INSERT INTO par_item_stock( ItemCode , DepCode , ParQty , TotalQty , HptCode) VALUES ('" . $DATA['ItemCode'] . "', '$DepCode' , 0 , 0 , '$HptCode2')";
+  $insert ="INSERT INTO par_item_stock( ItemCode , DepCode , ParQty , TotalQty , HptCode) VALUES ('" . trim($DATA['ItemCode']) . "', '$DepCode' , 0 , 0 , '$HptCode2')";
   mysqli_query($conn, $insert);
 
 
@@ -742,7 +742,7 @@ function NewItem($conn, $DATA)
            )
             VALUES
             (
-              '" . $DATA['ItemCode'] . "',
+              '" . trim($DATA['ItemCode']) . "',
               '" . $DATA['Catagory'] . "',
               '" . $DATA['ItemName'] . "',
               '" . $DATA['UnitName'] . "',

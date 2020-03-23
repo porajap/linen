@@ -1292,9 +1292,9 @@ $(document).ready(function(e){
                   $("#recorder").prop('disabled', true);
                   $("#timerec").prop('disabled', true);
                   $("#total").prop('disabled', true);
-                  $('#bPrint').attr('disabled', true);
-                  $('#bPrint2').addClass('opacity');
-                  $('#hover6').removeClass('mhee');
+                  $('#bPrint').attr('disabled', false);
+                  $('#bPrint2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
 
                   $('#bPrintnew').attr('disabled', true);
                   $('#bPrintnew2').addClass('opacity');

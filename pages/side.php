@@ -95,6 +95,8 @@ $array2 = json_decode($json2,TRUE);
         $('#rem6').hide();
         $('#rem7').hide();
         $('#rem8').hide();
+        $('#rem9').hide();
+        $('#rem10').hide();
         getHotpital();
         $('#addhot').show();
       $('#adduser').hide();
@@ -391,6 +393,7 @@ $array2 = json_decode($json2,TRUE);
         var HptCode       = $('#HptCode').val();
         var HptName       = $('#HptName').val();
         var HptNameTH     = $('#HptNameTH').val();
+        var LabSiteCode     = $('#LabSiteCode').val();
         var Signature     = 0;
         var stock     = 0;
         var money     = 0;
@@ -437,7 +440,8 @@ $array2 = json_decode($json2,TRUE);
                   'sitepath' : sitepath,
                   'PayerCode' : PayerCode,
                   'Signature' : Signature,
-                  'stock' : stock
+                  'stock' : stock,
+                  'LabSiteCode' : LabSiteCode
                 };
 
                 console.log(JSON.stringify(data));
@@ -478,6 +482,16 @@ $array2 = json_decode($json2,TRUE);
                   $('#rem8').show().css("color","red");
                   // $('#form8').removeClass('form-group');
                 }
+
+                if(PayerCode ==""||PayerCode==undefined){
+                  $('#rem9').show().css("color","red");
+                  // $('#form8').removeClass('form-group');
+                }
+
+                if(LabSiteCode ==""||LabSiteCode==undefined){
+                  $('#rem10').show().css("color","red");
+                  // $('#form8').removeClass('form-group');
+                }
                 
             }
           });
@@ -494,8 +508,21 @@ $array2 = json_decode($json2,TRUE);
         var HptName = $('#HptName').val();
         var HptNameTH = $('#HptNameTH').val();
         var host = $('#host').val();
+        var LabSiteCode = $('#LabSiteCode').val();
+        var PayerCode = $('#PayerCode').val();
 
+        if(PayerCode !="" && PayerCode!=undefined){
+          $('#rem9').hide();
+          $('#PayerCode').css('border-color', '');
+          $('#form8').addClass('form-group');
+        }
 
+        if(LabSiteCode !="" && LabSiteCode!=undefined){
+          $('#rem10').hide();
+          $('#LabSiteCode').css('border-color', '');
+          $('#form8').addClass('form-group');
+        }
+        
         if(sitepath !="" && sitepath!=undefined){
           $('#rem8').hide();
           $('#sitepath').css('border-color', '');
@@ -697,6 +724,7 @@ $array2 = json_decode($json2,TRUE);
         $('#idcontract').val("");
         $('#PayerCode').val("");
         $('#ContractName').val("");
+        $('#LabSiteCode').val("");
         $('#Position').val("");
         $('#phone').val("");
         $('#host').val("");
@@ -954,6 +982,7 @@ $array2 = json_decode($json2,TRUE);
                                 console.log(temp);
                                 $('#PayerCode').val(temp['PayerCode']);
                                 $('#sitepath').val(temp['Site_Path']);
+                                $('#LabSiteCode').val(temp['LabSiteCode']);
                                 $('#HptCode1').val(temp['HptCode']);
                                 $('#HptCode').val(temp['HptCode']);
                                 $('#HptNameTH').val(temp['HptNameTH']);
@@ -1566,7 +1595,7 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row' id="form1">
                                     <label class="col-sm-4 col-form-label "><?php echo $array['hoscode'][$language]; ?></label>
-                                      <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"    placeholder="<?php echo $array['hoscode'][$language]; ?>">
+                                      <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="HptCode"  maxlength="3"   placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <input type="text"  autocomplete="off" class="form-control col-sm-7 " id="HptCode1"  hidden  placeholder="<?php echo $array['hoscode'][$language]; ?>">
                                       <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
@@ -1601,7 +1630,8 @@ $array2 = json_decode($json2,TRUE);
                                   <div class="col-md-6">
                                     <div class='form-group row' id="form2">
                                     <label class="col-sm-4 col-form-label ">PayerCode</label>
-                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7  charonly" id="PayerCode"    placeholder="PayerCode">
+                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7  charonly checkblank" id="PayerCode"    placeholder="PayerCode">
+                                      <label id="rem9" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -1614,13 +1644,16 @@ $array2 = json_decode($json2,TRUE);
                                       <label class="col-sm-3 col-form-label ">แสดงเงิน</label>
                                     </div>
                                   </div>
-                                  <!-- <div class="col-md-3">
-                                    <div class='form-group row'>
-                                      <label class="col-sm-3 col-form-label ">ตัดสต็อค</label>
-                                      <input type="checkbox"  id="stock" style="margin-top: 1.5%;">
-                                      
+                                </div>
+
+                              <div class="row" >
+                                  <div class="col-md-6">
+                                    <div class='form-group row' id="form2">
+                                    <label class="col-sm-4 col-form-label ">LabSiteCode</label>
+                                      <input type="text" onkeyup="resetinput()"  autocomplete="off" class="form-control col-sm-7  charonly checkblank" id="LabSiteCode"    placeholder="LabSiteCode">
+                                      <label id="rem10" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
-                                  </div> -->
+                                  </div>
                                 </div>   
                               </div>
 <!-- =============================================================================================== -->

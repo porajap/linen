@@ -1298,15 +1298,20 @@ $(document).ready(function(e){
                   var changeBtn = "<i class='fas fa-edit'></i>";
                   changeBtn += "<div>"+word+"</div>";
                   $('#icon_edit').html(changeBtn);
-                  if(temp[0]['IsStatus'] !=1){
+
+                  if(temp[0]['IsStatus'] !=1)
+                  {
                     $("#hover5").removeClass('mhee');
                     $("#bCancel").prop('disabled', true);
                     $("#bCancel2").addClass('opacity');
-                  }else{
+                  }
+                  else
+                  {
                     $("#hover5").addClass('mhee');
                     $("#bCancel").prop('disabled', false);
                     $("#bCancel2").removeClass('opacity');
                   }
+
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);
@@ -1337,9 +1342,9 @@ $(document).ready(function(e){
                   $("#recorder").prop('disabled', true);
                   $("#timerec").prop('disabled', true);
                   $("#total").prop('disabled', true);
-                  $('#bPrint').attr('disabled', true);
-                  $('#bPrint2').addClass('opacity');
-                  $('#hover6').removeClass('mhee');
+                  $('#bPrint').attr('disabled', false);
+                  $('#bPrint2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
 
                   $('#bPrintnew').attr('disabled', true);
                   $('#bPrintnew2').addClass('opacity');

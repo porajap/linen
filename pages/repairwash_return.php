@@ -1220,9 +1220,9 @@ $(document).ready(function(e)
                   $('#bPrint2').removeClass('opacity');
                   $('#hover6').addClass('mhee');
                 }else{
-                  $('#bPrint').attr('disabled', true);
-                  $('#bPrint2').addClass('opacity');
-                  $('#hover6').removeClass('mhee');
+                  $('#bPrint').attr('disabled', false);
+                  $('#bPrint2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
                   $("#bImport").prop('disabled', true);
                   $("#bDelete").prop('disabled', true);
                   $("#bSave").prop('disabled', false);

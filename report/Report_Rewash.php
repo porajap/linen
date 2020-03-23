@@ -208,7 +208,8 @@ $Sql = "SELECT   site.$HptName,
         repair_wash.Total,
         CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
         TIME(repair_wash.Modify_Date) AS xTime,
-        repair_wash.RefDocNo
+        repair_wash.RefDocNo ,
+        repair_wash.IsStatus
         FROM repair_wash
         INNER JOIN department ON repair_wash.DepCode = department.DepCode
         INNER JOIN site ON department.HptCode = site.HptCode
@@ -224,8 +225,20 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
+  $isStatus = $Result['IsStatus'];
 }
-
+if ($isStatus == 0)
+{
+  $Status = 'On Process';
+}
+elseif ( $isStatus == 1)
+{
+  $Status = 'Complete';
+}
+elseif ($isStatus == 9)
+{
+  $Status = 'Cancel';
+}
 $pdf->SetFont('THSarabun', 'b', 16);
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['hospital'][$language]), 0, 0, 'L');
@@ -248,7 +261,8 @@ $pdf->Ln();
 $pdf->Cell(15);
 $pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['user'][$language]), 0, 0, 'L');
 $pdf->Cell(78, 10, iconv("UTF-8", "TIS-620", " : " . $FirstName), 0, 0, 'L');
-
+$pdf->Cell(22, 10, iconv("UTF-8", "TIS-620", $array['status'][$language]), 0, 0, 'L');
+$pdf->Cell(40, 10, iconv("UTF-8", "TIS-620", " : " . $Status), 0, 0, 'L');
 $pdf->Ln();
 $pdf->Ln(5);
 $query = "SELECT

@@ -129,13 +129,16 @@ $array2 = json_decode($json2,TRUE);
         }
         function ShowItem(chk){
             if(chk ==1)
-            {var factory  = $('#factorysel').val();
-                                    $('#factory').val(factory);
-            }else if(chk ==2)
-            {var factory     = $('#factory').val();
-                                      $('#factorysel').val(factory);
-                                      $('#rem1').hide();
-                                      $('#factory').removeClass('border border-danger');
+            {
+                var factory  = $('#factorysel').val();
+                               $('#factory').val(factory);
+            }
+            else
+            {
+                var factory      =  $('#factory').val();
+                                    $('#factorysel').val(factory);
+                                    $('#rem1').hide();
+                                    $('#factory').removeClass('border border-danger');
             }
             $('.checkblank66').each(function() {
             if($(this).val()==""||$(this).val()==undefined){

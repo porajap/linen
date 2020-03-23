@@ -1150,19 +1150,19 @@ $(document).ready(function(e)
               {
                 var chk = $('#qty1_'+i).val();
                 var chk2 = $('#weight_'+i).val();
-                if(chk == 0 || chk == '')
-                {
-                  $('#qty1_'+i).addClass('border border-danger');
-                  count++;
-                }
-                if(chk2 == 0 || chk2 == '')
-                {
-                  $('#weight_'+i).addClass('border border-danger');
-                  count2++;
-                }
+                // if(chk == 0 || chk == '')
+                // {
+                //   $('#qty1_'+i).addClass('border border-danger');
+                //   count++;
+                // }
+                // if(chk2 == 0 || chk2 == '')
+                // {
+                //   $('#weight_'+i).addClass('border border-danger');
+                //   count2++;
+                // }
               }
-              if(count==0 && count2==0)
-              {
+              // if(count==0 && count2==0)
+              // {
                 if(chk == '' || chk == undefined)
                 {
                   chk_percent();
@@ -1238,19 +1238,19 @@ $(document).ready(function(e)
                     }
                   })
                 }
-              }
-              else
-              {
-                swal({
-                title: " ",
-                text:  " <?php echo $array['insert_form'][$language]; ?>",
-                type: "warning",
-                showCancelButton: false,
-                showConfirmButton: false,
-                timer: 1000,
-                closeOnConfirm: true
-                });
-              }
+              // }
+              // else
+              // {
+              //   swal({
+              //   title: " ",
+              //   text:  " <?php echo $array['insert_form'][$language]; ?>",
+              //   type: "warning",
+              //   showCancelButton: false,
+              //   showConfirmButton: false,
+              //   timer: 1000,
+              //   closeOnConfirm: true
+              //   });
+              // }
             }
           }
         }
@@ -1753,9 +1753,9 @@ $(document).ready(function(e)
                   $("#recorder").prop('disabled', true);
                   $("#timerec").prop('disabled', true);
                   $("#total").prop('disabled', true);
-                  $('#bPrint').attr('disabled', true);
-                  $('#bPrint2').addClass('opacity');
-                  $('#hover6').removeClass('mhee');
+                  $('#bPrint').attr('disabled', false);
+                  $('#bPrint2').removeClass('opacity');
+                  $('#hover6').addClass('mhee');
                   $('#bPrintnew').attr('disabled', true);
                   $('#bPrintnew2').addClass('opacity');
                   $('#hover7').removeClass('mhee');

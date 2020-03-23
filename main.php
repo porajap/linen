@@ -200,7 +200,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
-        $sys_s20=1;
+        $sys_s20=0;
         break;
     case "4":
         //genneral
@@ -431,7 +431,7 @@ switch ($PmID) {
         $sys_s17=1;
         $sys_s18=1;
         $sys_s19=1;
-        $sys_s20=1;
+        $sys_s20=0;
         break;
 }
 
@@ -492,13 +492,17 @@ $id_h=$_SESSION['id_h'];
     var redirect_url = 'http://poseintelligence.dyndns.biz:8181/linen-test/login.php'; // กำหนด url ที่ต้องการเมื่อครบเวลาที่กำหนด
 
 
-    $(document).ready(function (e) {
+    $(document).ready(function (e)
+    {    
       checkFileLength();
-      $('.upload-doc input[type="file"]').on('change', function () {
+      $('.upload-doc input[type="file"]').on('change', function ()
+      {
           checkFileLength();
       });
+
       checksession();
-      if(chk_logoff == 1 ){
+      if(chk_logoff == 1 )
+      {
         setActive();
       }
       OnLoadPage();
@@ -509,7 +513,8 @@ $id_h=$_SESSION['id_h'];
         
        
       //li active
-      $('.current_page').click(function () {
+      $('.current_page').click(function ()
+      {
         $("a").removeClass("active_li");
         $(this).attr("class", "active_li");
         var href = $(this).attr('href');
@@ -525,17 +530,21 @@ $id_h=$_SESSION['id_h'];
        
       });
 
-      if(act=="active_li"){
+      if(act=="active_li")
+      {
         $("#"+id_h).attr("class", "active_li"); 
-       }
+      }
 
-    }).keyup(function (e) {
+    }).keyup(function (e)
+    {
       last_move = afk();
-    }).click(function (e) {
+    }).click(function (e)
+    {
       last_move = afk();
     });
 
-    function afk() {
+    function afk()
+    {
       $("#ShowTime").attr('hidden',true);
       last_move = new Date();
       if(redirectInSecond>=60)
@@ -546,9 +555,11 @@ $id_h=$_SESSION['id_h'];
       return last_move;
     }
 
-    function chk_last_move(){
+    function chk_last_move()
+    {
       cur_date = new Date(); // อ่านเวลาปัจจุบันไว้ใน cur_date
-      if( cur_date>last_move){ // ตรวจสอบเวลา
+      if( cur_date>last_move)
+      { // ตรวจสอบเวลา
         var micro = parseInt(cur_date.getTime() - last_move.getTime());
         var differ = target-micro;
         var ms = differ % 1000;
@@ -565,26 +576,34 @@ $id_h=$_SESSION['id_h'];
         
         $('#ShowTime').val( 'Timeout : ' + hms );
 
-        if( micro > target ) {
+        if( micro > target )
+        {
           update_logoff();
           setActive();
-        }else {
+        }
+        else
+        {
             $("#ShowTime").attr('hidden',false);
             var new_time = target - micro;
             setTimeout('chk_last_move()', 1000 ); //new_time
         }
-      }else{
+      }
+      else
+      {
         setTimeout('chk_last_move()', 1000 );
       }
     }
 
-    function checkTime(i) {
+    function checkTime(i)
+    {
         if (i < 10) {
             i = "0" + i;
         }
         return i;
     }
-    function OnLoadPage() {
+
+    function OnLoadPage()
+    {
       var data = {
         'STATUS': 'OnLoadPage'
       };
@@ -592,44 +611,51 @@ $id_h=$_SESSION['id_h'];
 
     }
 
-    function checksession(){
+    function checksession()
+    {
       var data = {
         'STATUS': 'checksession'
       };
       senddata(JSON.stringify(data));
     }
+
   //==========================================================
-  window.addEventListener("beforeunload", function (e) {
-        var data = {
-          'STATUS': 'UpdateActive'
-        };
-        senddata(JSON.stringify(data));
-    });
-  //==========================================================
-  // window.addEventListener('offline', function(e) { 
-  //   $.post("clearSession.php",function(data,status){
-  //     window.location.assign("index.html");
+  function beforeunload(event)
+  {
+    // if(event.returnValue = "Write something clever here.."  )
+    // {
+          $.ajax({
+            url: "process/updateactive.php",
+            cache: false,
+            contentType: false,
+            processData: false,
+          });
+    // }
+  }
+  window.addEventListener('beforeunload', beforeunload);
+
+
+  // $(function() {
+  //   $(document).on("keydown", function(e) {
+  //     if (e.which === 116)
+  //     {
+  //       window.removeEventListener("beforeunload",beforeunload);
+  //     }
   //   });
-    
   // });
-  function updateOnlineStatus(event) {
 
-window.location.assign("index.html");
 
-}
-
-window.addEventListener('offline', updateOnlineStatus);
   //==========================================================
-  window.addEventListener("unload", function (e) {
-        var data = {
-          'STATUS': 'UpdateActive'
-        };
-        senddata(JSON.stringify(data));
-    });
+  function updateOnlineStatus(event)
+  {
+    window.location.assign("index.html");
+  }
+  window.addEventListener('offline', updateOnlineStatus);
   //==========================================================
-
-    function logoff(chk) {
-      if(chk == 1){
+    function logoff(chk)
+    {
+      if(chk == 1)
+      {
         swal({
           text: '<?php echo $array2['youlogout'][$language]; ?>',
           type: 'info',
@@ -637,13 +663,15 @@ window.addEventListener('offline', updateOnlineStatus);
           confirmButtonText: '<?php echo $array2['yes'][$language]; ?>',
           cancelButtonText: '<?php echo $array2['isno'][$language]; ?>'
         })
-        .then(function (result) {
-          if (result.value) {
-            swal({
+        .then(function (result)
+        {
+          if (result.value)
+          {
+            window.removeEventListener("beforeunload",beforeunload);
+            swal({ 
               text: '<?php echo $array2['logout'][$language]; ?>',
               type: 'success',
               showCancelButton: false,
-
               showConfirmButton: false,
               timer: 2000
             })
@@ -656,11 +684,16 @@ window.addEventListener('offline', updateOnlineStatus);
               senddata(JSON.stringify(data));
               window.location.href = "index.html";
             }, 2000);
-          } else if (result.dismiss === 'cancel') {
+          }
+          else if (result.dismiss === 'cancel')
+          {
             swal.close();
           }
         })
-      }else{
+
+      }
+      else
+      {
         swal({
           text: '<?php echo $array2['logout'][$language]; ?>',
           type: 'info',
@@ -697,7 +730,8 @@ window.addEventListener('offline', updateOnlineStatus);
       }
     }
 
-    function update_logoff(){
+    function update_logoff()
+    {
         var Userid = <?= $Userid ?>;
         var data = {
             'STATUS' : 'update_logoff',
@@ -706,7 +740,8 @@ window.addEventListener('offline', updateOnlineStatus);
         senddata(JSON.stringify(data));
     }
 
-    function setActive(){
+    function setActive()
+    {
       $.ajax({
         url: "alert_login.php",
         success: function (data) {
@@ -724,7 +759,8 @@ window.addEventListener('offline', updateOnlineStatus);
       $('#password').val('');
     }
 
-    function login_again(){
+    function login_again()
+    {
       var Userid = <?= $Userid ?>;
       var username = $('#username').val();
       var password = $('#password').val();
@@ -737,7 +773,8 @@ window.addEventListener('offline', updateOnlineStatus);
       senddata(JSON.stringify(data));
     }
 
-    function showPopup(messageid, subject) {
+    function showPopup(messageid, subject)
+    {
 
       var mypicture = 'https://www.thaicreate.com/upload/icon-topic/communication.jpg';
       var titletext = 'You have new messages.';
@@ -755,7 +792,8 @@ window.addEventListener('offline', updateOnlineStatus);
 
     }
 
-    function setlang(){
+    function setlang()
+    {
       var data = {
           'STATUS' : 'SETLANG',
           'lang':'th'
@@ -763,7 +801,8 @@ window.addEventListener('offline', updateOnlineStatus);
         senddata(JSON.stringify(data));
     }
 
-    function switchlang(lang) {
+    function switchlang(lang)
+    {
       if (document.URL.indexOf('#') >= 0) {
         var data = {
           'STATUS' : 'SETLANG',
@@ -790,7 +829,8 @@ window.addEventListener('offline', updateOnlineStatus);
 
     }
 
-    function senddata(data) {
+    function senddata(data)
+    {
       var form_data = new FormData();
       form_data.append("DATA", data);
       var URL = 'process/main.php';
@@ -893,12 +933,14 @@ window.addEventListener('offline', updateOnlineStatus);
       });
     }
 
-    function showprofile(){
+    function showprofile()
+    {
       // alert(UserID);
       $('#editProfile').modal('show');
     }
 // 
-    function checkFileLength() {
+    function checkFileLength()
+    {
       let $upload_file_elem = $('.upload-doc input[type="file"]');
       let file_length = $upload_file_elem.length;
       let validation = 0;
@@ -914,7 +956,8 @@ window.addEventListener('offline', updateOnlineStatus);
       }
     }
 
-    function confirmPic(){
+    function confirmPic()
+    {
       if($('#image').val() !=''){
         var UserID = <?php echo $Userid;?>;
         var file_data = $('#image').prop('files')[0];   
@@ -1596,6 +1639,8 @@ window.addEventListener('offline', updateOnlineStatus);
       $(document).ready(function(e) {
           $('.dropify').dropify();
       });
+
+
   </script>
 </body>
 

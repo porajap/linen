@@ -36,6 +36,7 @@ $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
 $itemfromweb = $data[11];
+$time_express = $data[12];
 
 if ($data[7] == "0") 
 {
@@ -247,17 +248,12 @@ if ($chk == 'one')
 } 
 elseif ($chk == 'between') 
 {
-  list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31)
-  {
-    $day = $day + 1;
-  }
-  $date2 = $year . "-" . $month . "-" . $day;
-  $period = new DatePeriod(
-    new DateTime($date1),
-    new DateInterval('P1D'),
-    new DateTime($date2)
-  );
+  $begin = new DateTime( $date1 );
+  $end = new DateTime( $date2 );
+  $end = $end->modify( '1 day' );
+
+  $interval = new DateInterval('P1D');
+  $period = new DatePeriod($begin, $interval ,$end);
   foreach ($period as $key => $value)
   {
     $date[] = $value->format('Y-m-d');
@@ -304,6 +300,27 @@ for ($a = 0; $a < $round_AZ1; $a++)
 }
 if ($itemfromweb == '0') 
 {
+      // ==== SELCT รอบส่งผ้า
+      if($time_express == 'ALL')
+      {
+        $TimeName = 'ทุกรอบ';
+        $where_time_express = '';
+      }
+      else
+      {
+        $timeex = "SELECT
+                    time_sc.TimeName 
+                  FROM
+                    time_sc
+                    LEFT JOIN time_express ON time_express.Time_ID = time_sc.ID 
+                  WHERE
+                    time_sc.ID =  '$time_express' ";
+                    $meQuery = mysqli_query($conn, $timeex);
+                    $Result  = mysqli_fetch_assoc($meQuery);
+                    $TimeName = $Result['TimeName'];
+                    $where_time_express = " AND sc.DeliveryTime = '$time_express' ";
+      }
+      // =====
   $sheet_count = sizeof($DepCode);
   for ($sheet = 0; $sheet < $sheet_count; $sheet++) 
   {
@@ -335,7 +352,7 @@ if ($itemfromweb == '0')
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) 
     {
-      $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["DepName"]);
+      $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["DepName"] . ' '. 'รอบส่งผ้า' . ' ' . $TimeName);
       $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result["DepName"]);
       $DepName = $Result["DepName"];
       $DepName = str_replace("/", " ", $DepName);
@@ -347,13 +364,16 @@ if ($itemfromweb == '0')
                   FROM
                   report_sc
                   INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
+                  INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
                   $where
+                  $where_time_express
                   AND dpm.HptCode = '$HptCode' 
                   AND report_sc.isStatus <> 9
                   AND report_sc.isStatus <> 0
                   AND report_sc.DepCode = '$DepCode[$sheet]'
                   AND report_sc.TotalQty <> 0
                   GROUP BY  report_sc.itemcode ORDER BY report_sc.itemname ASC ";
+                  
     $meQuery = mysqli_query($conn, $item);
     while ($Result = mysqli_fetch_assoc($meQuery)) 
     {
@@ -383,6 +403,7 @@ if ($itemfromweb == '0')
                     report_sc
                     INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                     LEFT JOIN category_price ON category_price.CategoryCode = report_sc.CategoryCode
+                    INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
                     $where
                     AND report_sc.itemcode IN (  ";
                     for ($i = 0; $i < $countitem; $i++) 
@@ -392,7 +413,8 @@ if ($itemfromweb == '0')
                       $item = rtrim($item, ' ,'); 
                       $item .= " )  AND report_sc.DepCode = '$DepCode[$sheet]'
                                     AND category_price.HptCode = '$HptCode'
-                                    AND dpm.HptCode = '$HptCode' 
+                                    AND dpm.HptCode = '$HptCode'
+                                    $where_time_express
                                     GROUP BY  report_sc.itemcode  ORDER BY report_sc.itemname ASC";
            
       for ($i = 0; $i < $countitem; $i++)
@@ -414,6 +436,7 @@ if ($itemfromweb == '0')
     $start_row = 9;
     $r = 5;
     $w = 0;
+    
     for ($q = 0; $q < $countitem; $q++) 
     {
       $cnt = 0;
@@ -429,6 +452,7 @@ if ($itemfromweb == '0')
                                     report_sc.DocDate AS Date_chk
                     FROM report_sc 
                     INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
+                    INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
                     WHERE  DATE(report_sc.DocDate) IN (";
                                     for ($day = 0; $day < $count; $day++)
                                     {
@@ -440,8 +464,9 @@ if ($itemfromweb == '0')
                     AND dpm.HptCode = '$HptCode' 
                     AND report_sc.DepCode = '$DepCode[$sheet]'  
                     AND report_sc.itemcode = '$itemCode[$q]' 
+                    $where_time_express
                     GROUP BY DATE(report_sc.DocDate) ";
-    
+
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) 
       {
@@ -489,9 +514,11 @@ if ($itemfromweb == '0')
                             $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
                                    COALESCE(sum(report_sc.Weight),'0') as  Weight
                       FROM report_sc 
+                      INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
                       WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
                       AND report_sc.DepCode = '$DepCode[$sheet]'  
                       AND report_sc.IsStatus <> 9
+                      $where_time_express
                       AND report_sc.IsStatus <> 0 ";
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) 
@@ -608,9 +635,32 @@ if ($itemfromweb == '0')
 }
 
 
-// ========================================
 else if ($itemfromweb <> '0') 
 {
+    // ==== SELCT รอบส่งผ้า
+      // ==== SELCT รอบส่งผ้า
+      if($time_express == 'ALL')
+      {
+        $TimeName = 'ทุกรอบ';
+        $where_time_express = '';
+      }
+      else
+      {
+        $timeex = "SELECT
+                    time_sc.TimeName 
+                  FROM
+                    time_sc
+                    LEFT JOIN time_express ON time_express.Time_ID = time_sc.ID 
+                  WHERE
+                    time_sc.ID =  '$time_express' ";
+                    $meQuery = mysqli_query($conn, $timeex);
+                    $Result  = mysqli_fetch_assoc($meQuery);
+                    $TimeName = $Result['TimeName'];
+                    $where_time_express = " AND sc.DeliveryTime = '$time_express' ";
+      }
+    // =====
+
+    // SELECT แผนก
     if( $DepCode[0] <> 0)
     {
       $wheredep = "AND report_sc.DepCode = '$DepCode[0]' ";
@@ -659,7 +709,7 @@ else if ($itemfromweb <> '0')
     // -----------------------------------------------------------------------------------
     $objPHPExcel->getActiveSheet()->setCellValue('E1', $array2['printdate'][$language] . $printdate);
     $objPHPExcel->getActiveSheet()->setCellValue('A5', $array2['r29'][$language]);
-    $objPHPExcel->getActiveSheet()->setCellValue('A6', $array2['department'][$language]);
+    $objPHPExcel->getActiveSheet()->setCellValue('A6', $array2['department'][$language] );
     $objPHPExcel->getActiveSheet()->setCellValue('A7', $date_header);
     $objPHPExcel->getActiveSheet()->mergeCells('A5:J5');
     $objPHPExcel->getActiveSheet()->mergeCells('A6:J6');
@@ -696,11 +746,13 @@ else if ($itemfromweb <> '0')
                     report_sc
                     INNER JOIN department ON department.DepCode = report_sc.DepCode  
                     LEFT JOIN  category_price ON category_price.CategoryCode = report_sc.CategoryCode
+                    INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
                                     WHERE
                                     report_sc.itemcode = '$itemfromweb'
                                     AND department.HptCode = '$HptCode' 
                                     AND report_sc.DepCode = '$DepCode[$i]'
                                     AND report_sc.isStatus <> 9
+                                    $where_time_express
                                     GROUP BY  report_sc.itemcode ";
       // echo "<pre>";
       // ECHO $item;
@@ -708,7 +760,7 @@ else if ($itemfromweb <> '0')
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) 
       {
-        $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["itemname"]);
+        $objPHPExcel->getActiveSheet()->setCellValue('A6', $Result["itemname"] . ' '. 'รอบส่งผ้า' . ' ' . $TimeName);
         $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $Result["DepName"]);
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $Result["itemname"]);
         $objPHPExcel->getActiveSheet()->setCellValue('C' . $start_row, $Result["ParQty"]);
@@ -734,8 +786,9 @@ else if ($itemfromweb <> '0')
         $data = "SELECT  COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
                                       COALESCE(sum(report_sc.Weight),'0') as  Weight ,
                                       report_sc.DocDate AS Date_chk
-                      INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                       FROM report_sc 
+                      INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
+                      INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
                       WHERE  DATE(report_sc.DocDate) IN (";
                                       for ($day = 0; $day < $count; $day++) 
                                       {
@@ -749,6 +802,7 @@ else if ($itemfromweb <> '0')
                       AND dpm.HptCode = '$HptCode' 
                       AND report_sc.DepCode = '$DepCode[$q]'  
                       AND report_sc.itemcode = '$itemfromweb'
+                      $where_time_express
                       GROUP BY DATE(report_sc.DocDate) ";
                         
         $meQuery = mysqli_query($conn, $data);
@@ -798,10 +852,12 @@ else if ($itemfromweb <> '0')
     COALESCE(sum(report_sc.Weight),'0') as  Weight
     FROM report_sc 
     INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
+    INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
     WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
     AND report_sc.isStatus <> 9
     AND dpm.HptCode = '$HptCode' 
     AND report_sc.isStatus <> 0
+    $where_time_express
     $wheredep
     AND report_sc.itemcode = '$itemfromweb'
     ";

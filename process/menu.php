@@ -9,58 +9,54 @@ if($Userid==""){
   header("location:../index.html");
 }
 function OnLoadPage($conn,$DATA){
-  $hptcode = $DATA['hptcode'];
-  $lang = $_SESSION['lang'];
-  $count = 0;
-  $boolean = false;
-  $Sql = "SELECT
-  shelfcount.DocNo,
-  shelfcount.DocDate,
-  department.DepName,
-  site.HptName,
-  shelfcount.IsStatus,
-  shelfcount.RefDocNo,
-  shelfcount.Detail
-  FROM shelfcount
-  INNER JOIN department ON shelfcount.DepCode = department.DepCode
-  INNER JOIN site ON department.HptCode = site.HptCode
-  WHERE  site.HptCode = '$hptcode' AND  shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1 OR shelfcount.IsStatus = 3
-  ORDER BY shelfcount.DocNo DESC";
-  $return['sql'] =$Sql;
-  $meQuery = mysqli_query($conn,$Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    if($lang =='en'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
-    }else if ($lang == 'th'){
-      $date2 = explode("-", $Result['DocDate']);
-      $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
-    }
-    $return[$count]['DocNo'] = $Result['DocNo'];
-    $return[$count]['RefDocNo'] = $Result['RefDocNo'];
-    $return[$count]['Detail'] = $Result['Detail'];
-    $return[$count]['DepName'] = $Result['DepName'];
-    $return[$count]['HptName'] = $Result['HptName'];
-    $return[$count]['DocDate'] = $newdate;
-    $return[$count]['IsStatus'] = $Result['IsStatus'];
-    $count++;
-    $boolean = true;
-  }
-  $return['Row'] = $count;
-  $boolean = true;
-  if($boolean){
-    $return['status'] = "success";
-    $return['form'] = "OnLoadPage";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else{
-    $return['status'] = "failed";
-    $return['form'] = "OnLoadPage";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
+  // $hptcode = $DATA['hptcode'];
+  // $lang = $_SESSION['lang'];
+  // $count = 0;
+  // $boolean = false;
+  // $Sql = "SELECT
+  // shelfcount.DocNo,
+  // shelfcount.DocDate,
+  // department.DepName,
+  // site.HptName,
+  // shelfcount.IsStatus
+  // FROM shelfcount
+  // INNER JOIN department ON shelfcount.DepCode = department.DepCode
+  // INNER JOIN site ON department.HptCode = site.HptCode
+  // WHERE  site.HptCode = '$hptcode' AND  shelfcount.IsStatus = 0 OR shelfcount.IsStatus = 1 OR shelfcount.IsStatus = 3
+  // ORDER BY shelfcount.DocNo DESC";
+  // $return['sql'] =$Sql;
+  // $meQuery = mysqli_query($conn,$Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   if($lang =='en'){
+  //     $date2 = explode("-", $Result['DocDate']);
+  //     $newdate = $date2[2].'-'.$date2[1].'-'.$date2[0];
+  //   }else if ($lang == 'th'){
+  //     $date2 = explode("-", $Result['DocDate']);
+  //     $newdate = $date2[2].'-'.$date2[1].'-'.($date2[0]+543);
+  //   }
+  //   $return[$count]['DocNo'] = $Result['DocNo'];
+  //   $return[$count]['DepName'] = $Result['DepName'];
+  //   $return[$count]['HptName'] = $Result['HptName'];
+  //   $return[$count]['DocDate'] = $newdate;
+  //   $return[$count]['IsStatus'] = $Result['IsStatus'];
+  //   $count++;
+  //   $boolean = true;
+  // }
+  // $return['Row'] = $count;
+  // $boolean = true;
+  // if($boolean){
+  //   $return['status'] = "success";
+  //   $return['form'] = "OnLoadPage";
+  //   echo json_encode($return);
+  //   mysqli_close($conn);
+  //   die;
+  // }else{
+  //   $return['status'] = "failed";
+  //   $return['form'] = "OnLoadPage";
+  //   echo json_encode($return);
+  //   mysqli_close($conn);
+  //   die;
+  // }
 }
 
 function getnotification($conn,$DATA){

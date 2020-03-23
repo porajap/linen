@@ -770,21 +770,26 @@ $array2 = json_decode($json2,TRUE);
                     if (temp["status"] == 'success') {
 
                         if ((temp["form"] == 'CreateDoc')) {
-                            if(temp["checkdis"] == 1){
+                            if(temp["checkdis"] == 1)
+                            {
+                                $("#btn_saveDoc").attr('hidden', false);
                                 $("#updateprice").attr('disabled', true);    
                                 $("#delete_icon2").addClass('opacity');    
-                            }else{
+                            }
+                            else
+                            {
+                                $("#btn_saveDoc").attr('hidden', true);              
                                 $("#updateprice").attr('disabled', false);              
                                 $("#delete_icon2").removeClass('opacity');                  
                             }
                             $("#datepicker").attr('disabled' , true);
                             $("#hptselModal").attr('disabled' , true);
-                            
                             $("#docno").val( temp["DocNo"] );
                             $("#create1").hide(300);
-                            setTimeout(function () {
+                            setTimeout(function ()
+                            {
                                 $("#btn_save").attr('hidden', false);
-                                $("#btn_saveDoc").attr('hidden', false);
+                                // $("#btn_saveDoc").attr('hidden', false);
                             }, 200);
                             
                             ShowItem2();
@@ -867,6 +872,8 @@ $array2 = json_decode($json2,TRUE);
                             }
                         }else if ((temp["form"] == 'ShowItem2')) {
                             $("#TableItemPrice tbody").empty();
+
+
 
                             for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
                                 $("#datepicker").val(temp[i]['date']);

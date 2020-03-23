@@ -111,8 +111,8 @@ $objPHPExcel->getActiveSheet()->setShowGridlines(true);
 $HptCodex = substr($docno , 2 , 3) ;
 $Sql = "SELECT
 shelfcount.DocNo,
-DATE(shelfcount.DocDate) AS DocDate,
-TIME(shelfcount.DocDate) AS DocTime,
+DATE(shelfcount.complete_date) AS DocDate,
+TIME(shelfcount.complete_date) AS DocTime,
 department.DepName,
 time_sc.TimeName AS CycleTime,
 site.HptName,

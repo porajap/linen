@@ -366,7 +366,7 @@ function ShowDetailDoc($conn, $DATA)
       $return[$count1]['DepName']   = $Result['DepName'];
       $return[$count1]['Weight']    = $Result['Weight'];
       $return[$count1]['Weight2']   = $Result['Weight2'];
-      $return[$count1]['Qty']       = $Result['Qty']==0?'':$Result['Qty'];
+      $return[$count1]['Qty']       = $Result['Qty'];
       $UnitCode                     = $Result['UnitCode1'];
       $ItemCode                     = $Result['ItemCode'];
 

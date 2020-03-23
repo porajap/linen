@@ -118,6 +118,7 @@ function ShowDocument($conn,$DATA){
   WHERE DATE(dirty.DocDate) BETWEEN '$sDate' AND '$eDate'
   AND department.DepCode = $deptCode
   AND site.HptCode = '$Hotp'
+  AND clean.IsStatus = '1'
   ORDER BY clean.DocNo DESC LIMIT 100";
   // $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn,$Sql);

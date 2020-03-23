@@ -277,7 +277,7 @@
 <nodetailmsg><en>No detail in both department.</en><th>ไม่มีข้อมูลในแผนกที่ค้นหา</th></nodetailmsg>
 <cantcreatemsg><en>Cannot Create Document</en><th>ไม่สามารถสร้างเอกสารได้</th></cantcreatemsg>
 <noinputmsg><en>No input</en><th>ไม่มีข้อมูลนำเข้า</th></noinputmsg>
-<ndc><en>No detail Contract</en><th>ไม่มีคู่สัญญา</th></ndc>
+<ndc><en>Hasn't created a contract yet.</en><th>ยังไม่ได้สร้างคู่สัญญา</th></ndc>
 <notfoundmsg><en>Not found</en><th>ไม่พบข้อมูล</th></notfoundmsg>
 <addsuccessmsg><en>Add detail success</en><th>เพิ่มข้อมูลสำเร็จ</th></addsuccessmsg>
 <addfailmsg><en>Add detail failed</en><th>เพิ่มข้อมูลล้มเหลว</th></addfailmsg>

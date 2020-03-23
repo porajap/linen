@@ -135,7 +135,28 @@ function AddItem($conn, $DATA)
   ";
   // var_dump($Sql); die;
   $return['aaa'] = $Sql;
+  // =================================================================
+  $Select_Cat = "SELECT
+                  CategoryCode
+                FROM
+                item_category
+                ORDER BY  item_category.CategoryCode DESC LIMIT 1 ";
+  $meQuery = mysqli_query($conn, $Select_Cat);
+  $Result = mysqli_fetch_assoc($meQuery);
+  $CategoryCode = $Result['CategoryCode'];
 
+  $Select_hot = "SELECT
+                  site.HptCode 
+                FROM
+                  site ";
+  $meQuery = mysqli_query($conn, $Select_hot);
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    $HptCode = $Result['HptCode'];
+    $INSERT_CAT = "INSERT INTO category_price SET HptCode = '$HptCode' , Price  = '0' , CategoryCode = '$CategoryCode' ";
+    mysqli_query($conn, $INSERT_CAT);
+  }
+  // =================================================================
   if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";
     $return['form'] = "AddItem";

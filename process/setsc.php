@@ -72,7 +72,6 @@ function getTime2($conn, $DATA)
   $HptCode = $DATA['HptCode'];
   $count = 0;
   $Sql = "SELECT ts.ID, ts.TimeName FROM sc_time_2 ts
-  LEFT JOIN sc_express te ON te.Time_ID = ts.ID
   WHERE ts.ID NOT IN(SELECT sc_express.Time_ID  FROM sc_express WHERE sc_express.HptCode = '$HptCode') AND ts.ID  BETWEEN 1 AND 48
   ORDER BY ts.ID ASC";
   $meQuery = mysqli_query($conn, $Sql);

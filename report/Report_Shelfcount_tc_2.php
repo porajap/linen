@@ -275,11 +275,10 @@ FROM
 shelfcount
 INNER JOIN department ON shelfcount.DepCode = department.DepCode
 INNER JOIN site ON site.HptCode = department.HptCode
-INNER JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
-INNER JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
+LEFT JOIN time_sc ON time_sc.id = shelfcount.DeliveryTime
+LEFT JOIN sc_time_2 ON sc_time_2.id = shelfcount.ScTime
 WHERE shelfcount.DocNo='$docno'
-AND site.HptCode = '$HptCode_page'
-AND shelfcount.isStatus <> 9 ";
+AND site.HptCode = '$HptCode_page' ";
 
 $meQuery = mysqli_query($conn, $head);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -293,10 +292,17 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $HptCode = $Result['HptCode'];
   $isStatus = $Result['isStatus'];
 }
-if ($isStatus == 1 || $isStatus == 0) {
+if ($isStatus == 1 || $isStatus == 0)
+{
   $Status = 'On Process';
-} elseif ($isStatus == 3 || $isStatus == 4) {
+}
+elseif ($isStatus == 3 || $isStatus == 4)
+{
   $Status = 'Complete';
+}
+elseif ($isStatus == 9)
+{
+  $Status = 'Cancel';
 }
 $data = "     SELECT
               item.ItemName,
@@ -311,7 +317,8 @@ $data = "     SELECT
               IFNULL(shelfcount_detail.Short, 0) AS Short,
               IFNULL(item.Weight, 0) AS Weight,
               category_price.Price,
-              shelfcount_detail.Price as PriceSC
+              shelfcount_detail.Price as PriceSC,
+              shelfcount_detail.Weight as WeightTOTAL
               FROM
               shelfcount
               INNER JOIN shelfcount_detail ON shelfcount.DocNo = shelfcount_detail.DocNo
@@ -321,7 +328,6 @@ $data = "     SELECT
               INNER JOIN site ON site.HptCode = department.HptCode
               WHERE shelfcount.DocNo='$docno'
               AND shelfcount_detail.TotalQty <> 0
-              AND shelfcount.isStatus<> 9 
               AND category_price.HptCode = '$HptCode'
               AND site.HptCode = '$HptCode'
               ORDER BY item.ItemName";
@@ -399,13 +405,13 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $html .=   '<td width="' . $w[5] . '% " align="center">' .  $Result['TotalQty']  . '</td>';
   $html .=   '<td width="' . $w[6] . '% " align="center">' .  $Result['Short']  . '</td>';
   $html .=   '<td width="' . $w[7] . '% " align="center">' .  $Result['OverPar']  . '</td>';
-  $html .=   '<td width="' . $w[8] . '% " align="center">' . NUMBER_FORMAT($totalweight, 2)  . '</td>';
+  $html .=   '<td width="' . $w[8] . '% " align="center">' . NUMBER_FORMAT($Result['WeightTOTAL'], 2)  . '</td>';
   if ($money == 1)
   {
-    $html .=   '<td width="' . $w[9] . '% " align="center">' . NUMBER_FORMAT($price, 2)  . '</td>';
+    $html .=   '<td width="' . $w[9] . '% " align="center">' . NUMBER_FORMAT($Result['PriceSC'], 2)  . '</td>';
   }
   $html .=  '</tr>';
-  $totalsum_W += $totalweight;
+  $totalsum_W += $Result['WeightTOTAL'];
   $price_W += NUMBER_FORMAT($price, 2);
   $count++;
   $TOTAL += $Result['PriceSC'];

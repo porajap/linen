@@ -233,16 +233,12 @@ if ($chk == 'one') {
   echo 1;
 
 } elseif ($chk == 'between') {
-  list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31) {
-    $day = $day + 1;
-  }
-  $date2 = $year . "-" . $month . "-" . $day;
-  $period = new DatePeriod(
-    new DateTime($date1),
-    new DateInterval('P1D'),
-    new DateTime($date2)
-  );
+  $begin = new DateTime( $date1 );
+  $end = new DateTime( $date2 );
+  $end = $end->modify( '1 day' );
+
+  $interval = new DateInterval('P1D');
+  $period = new DatePeriod($begin, $interval ,$end);
   foreach ($period as $key => $value) {
     $date[] = $value->format('Y-m-d');
   }
@@ -373,12 +369,12 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
         $data = "SELECT
                         COALESCE (SUM(shelfcount.Totalw), '0') AS aWeight,
                         COALESCE (SUM(shelfcount.Totalp), '0') AS aPrice,
-                        DATE(shelfcount.Modify_Date) AS Date_chk
+                        DATE(shelfcount.complete_date) AS Date_chk
                       FROM
                         shelfcount
                       INNER JOIN department ON department.DepCode = shelfcount.DepCode
                       INNER JOIN site ON site.HptCode = department.HptCode
-                      WHERE  DATE(shelfcount.Modify_Date)  IN ( ";
+                      WHERE  DATE(shelfcount.complete_date)  IN ( ";
                       for ($day = 0; $day < $count; $day++) {
    
                         $data .= " '$date[$day]' ,";
@@ -388,8 +384,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
         $data .= " )  AND shelfcount.isStatus <> 9
                       AND shelfcount.isStatus <> 0
                       AND shelfcount.DepCode = '$DepCode[$lek]'
+                      AND shelfcount.DocNo LIKE '%$HptCode%'
                       AND site.HptCode = '$HptCode' 
-                      GROUP BY  DATE(shelfcount.Modify_Date)";
+                      GROUP BY  DATE(shelfcount.complete_date)";
 
 
                     
@@ -455,13 +452,13 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                 INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
                 INNER JOIN site ON site.HptCode = department.HptCode
                 WHERE
-                DATE(shelfcount.Modify_Date) = '$date[$day]'
+                DATE(shelfcount.complete_date) = '$date[$day]'
                 AND shelfcount.isStatus <> 9
                 AND shelfcount.isStatus <> 0
                 AND grouphpt.HptCode = '$HptCode'
                 AND site.HptCode = '$HptCode'
-                AND grouphpt.GroupCode = '$GroupCode[$sheet]'
-                              ";
+                AND shelfcount.DocNo LIKE '%$HptCode%'
+                AND grouphpt.GroupCode = '$GroupCode[$sheet]' ";
     $meQuery = mysqli_query($conn, $data);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["aWeight"]);

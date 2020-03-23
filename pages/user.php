@@ -73,6 +73,15 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
+            $("#searchitem").on("keyup", function() 
+            {
+            var value = $(this).val().toLowerCase();
+                $("#TableItem tbody tr").filter(function() 
+                {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        // 
             $('#rem1').hide();
             $('#rem2').hide();
             $('#rem3').hide();
@@ -722,14 +731,14 @@ $array2 = json_decode($json2,TRUE);
                 processData: false,
                 data: form_data,
                 type: 'post',
-                beforeSend: function() {
-                    swal({
-                        title: '<?php echo $array[' pleasewait '][$language]; ?>',
-                        text: '<?php echo $array['processing '][$language]; ?>',
-                        allowOutsideClick: false
-                    })
-                    swal.showLoading();
-                },
+                // beforeSend: function() {
+                //     swal({
+                //         title: '<?php echo $array[' pleasewait '][$language]; ?>',
+                //         text: '<?php echo $array['processing '][$language]; ?>',
+                //         allowOutsideClick: false
+                //     })
+                //     swal.showLoading();
+                // },
                 success: function(result) {
                     try {
                         var temp = $.parseJSON(result);
@@ -1287,7 +1296,7 @@ $array2 = json_decode($json2,TRUE);
                             </div>
                                 <div class="col-md-5">
                                     <div class="row" style="margin-left:5px;margin-left: -64px;">
-                                        <input type="text" autocomplete="off" class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchuser'][$language]; ?>">
+                                        <input type="text" autocomplete="off"   class="form-control" style="width:70%;" name="searchitem" id="searchitem" placeholder="<?php echo $array['searchuser'][$language]; ?>">
                                         <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
                                             <button class="btn" onclick="ShowItem()" id="bSave">

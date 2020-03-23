@@ -296,6 +296,14 @@ $array2 = json_decode($json2,TRUE);
                           processData: false,
                           data:  form_data,
                           type: 'post',
+                          beforeSend: function() {
+                        swal({
+                            title: 'Please wait..',
+                            text: 'Processing',
+                            allowOutsideClick: false
+                        })
+                        swal.showLoading()
+                    },
                           success: function(result){
                             swal({
                               title: '',

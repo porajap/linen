@@ -180,23 +180,6 @@ $array2 = json_decode($json2,TRUE);
         function removeClassBorder1(){
           $('#side').removeClass('border-danger');
         }
-	function getDepartment(){
-	  var Hotp = $('#side option:selected').attr("value");
-	  if( typeof Hotp == 'undefined' ) Hotp = "1";
-      var data = {
-        'STATUS'  : 'getDepartment',
-		'Hotp'	: Hotp
-      };
-      senddata(JSON.stringify(data));
-	}
-
-	function CreateDocument(){
-		 dialog.dialog( "open" );
-    }
-
-
-
-
 	function getRow(id , row){
     var previousValue = $('#checkitem_'+row).attr('previousValue');
         var name = $('#checkitem_'+row).attr('name');
@@ -307,7 +290,7 @@ $array2 = json_decode($json2,TRUE);
 	function SaveRow(){
 		var isStatus = $("#IsStatus").val();
 		var id = $("#xRowID").val();
-
+    var HptCode = $('#ShowSite').val();
 		var hotid = $('#side option:selected').attr("value");
    
     if( typeof hotid == 'undefined' ) hotid = "BHQ";
@@ -392,7 +375,8 @@ $array2 = json_decode($json2,TRUE);
                 'depid'		: depid,
                 'sDate'		: datepicker1,
                 'eDate'		: datepicker2,
-                'Detail'	: xDetail
+                'Detail'	: xDetail,
+                'HptCode'	: HptCode
               };
               ClearRow();
               senddata(JSON.stringify(data));
@@ -404,7 +388,21 @@ $array2 = json_decode($json2,TRUE);
 	    }
     }
   }
-	function ShowDocument(){
+	function ShowDocument(chkhpt){
+    
+    var side = $('#side').val();
+    var HptCode = $('#ShowSite').val();
+
+      if(chkhpt == 1)
+      {
+        $('#side').val(HptCode);
+        var HptCodex =   $('#side').val();
+      }
+      else if (chkhpt == 2)
+      {
+        $('#ShowSite').val(side);
+        var HptCodex =   $('#ShowSite').val();
+      }
 	  var datepicker1 = $('#datepicker1').val();
 	  var datepicker2 = $('#datepicker2').val();
     var lang = '<?php echo $language; ?>';
@@ -423,7 +421,8 @@ $array2 = json_decode($json2,TRUE);
         'STATUS'  	: 'ShowDocument',
 		'deptCode'	: deptCode,
 		'sDate'	: datepicker1,
-		'eDate'	: datepicker2
+		'eDate'	: datepicker2,
+		'HptCode'	: HptCodex
       };
       senddata(JSON.stringify(data));
 	}
@@ -467,73 +466,101 @@ $array2 = json_decode($json2,TRUE);
 							} catch (e) {
 								console.log('Error#542-decode error');
 							}
-                        	if(temp["status"]=='success'){
-										  if(temp["form"]=='OnLoadPage'){
+                if(temp["status"]=='success')
+                {
+								 if(temp["form"]=='OnLoadPage')
+                 {
                         var Str = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
-											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
+											for (var i = 0; i < (Object.keys(temp).length-2); i++)
+                      {
 												 Str += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";
 											}
                       $("#side").append(Str);
-										  }else if(temp["form"]=='getDepartment'){
-											$("#department").empty();
-											for (var i = 0; i < (Object.keys(temp).length-2); i++) {
-												var Str = "<option value="+temp[i]['DepCode']+">"+temp[i]['DepName']+"</option>";
-												$("#department").append(Str);
-											}
-										  }else if(temp["form"]=='ShowDocument'){
-                        $( "#TableDocument tbody" ).empty();
-                        setTimeout(function () {
-                          parent.OnLoadPage();
-                        }, 1000);
-                        if(temp['Count']>0){
-											  var Style  = "";
-				                              for (var i = 0; i < temp['Count']; i++) {
-												   var rowCount = $('#TableDocument >tbody >tr').length;
-												   var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
+                      $("#ShowSite").append(Str);
+								 }
+                 else if(temp["form"]=='ShowDocument')
+                 {
+                    $( "#TableDocument tbody" ).empty();
+                    setTimeout(function ()
+                    {
+                      parent.OnLoadPage();
+                    }, 1000);
+                    if(temp['Count']>0)
+                    {
+                        var Style  = "";
+                                  for (var i = 0; i < temp['Count']; i++) {
+                        var rowCount = $('#TableDocument >tbody >tr').length;
+                        var chkDoc = "<input type='radio' name='checkdocno' id='checkdocno' value='"+temp[i]['DocNo']+"' >";
 
-                           var sDate = new Date();
-                          var eDate = new Date( temp[i]['EndDate'] );
-                          var diff  = new Date(eDate - sDate);
-                          var chkDetail = "<label class='radio'style='margin-top: 27%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
-                          // var days = Math.round(diff/1000/60/60/24);
-                          var days = temp[i]['LeftDay'];
-												  if(days <= 30){
-													   Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
-												   }else{
-                            Style  = "style='font-weight: bold;color: #000000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
-												   }
-                           var daytext = days <= 0 ? "หมดสัญญา" : days ;
-												   $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"'>"+
-															  "<td style='width: 3%;'>"+chkDetail+"</td>"+
-															  "<td style='width: 5%;'>"+(i+1)+"</td>"+
-															  "<td style='width: 25%;'>"+temp[i]['HptName']+"</td>"+
-															  "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
-															  "<td style='width: 9%;'>"+temp[i]['EndDate2']+"</td>"+
-															  "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
-															  "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
-														  "</tr>";
+                        var sDate = new Date();
+                      var eDate = new Date( temp[i]['EndDate'] );
+                      var diff  = new Date(eDate - sDate);
+                      var chkDetail = "<label class='radio'style='margin-top: 27%;'><input type='radio' name='checkitem' class='checkitem' id='checkitem_"+i+"' value='" + temp[i]['RowID'] + "' onclick='getRow(\"" + temp[i]["RowID"] + "\",\""+i+"\")'><span class='checkmark'></span></label>";
+                      // var days = Math.round(diff/1000/60/60/24);
+                      var days = temp[i]['LeftDay'];
+                      if(days <= 30)
+                      {
+                          Style  = "style='font-weight: bold;color: #000000	;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
+                      }
+                      else
+                      {
+                        Style  = "style='font-weight: bold;color: #000000;border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;''";
+                      }
+                        var daytext = days <= 0 ? "หมดสัญญา" : days ;
+                        $StrTr="<tr "+Style+" id='tr"+temp[i]['RowID']+"'>"+
+                            "<td style='width: 3%;'>"+chkDetail+"</td>"+
+                            "<td style='width: 5%;'>"+(i+1)+"</td>"+
+                            "<td style='width: 25%;'>"+temp[i]['HptName']+"</td>"+
+                            "<td style='width: 13%;'>"+temp[i]['StartDate']+"</td>"+
+                            "<td style='width: 9%;'>"+temp[i]['EndDate2']+"</td>"+
+                            "<td style='width: 30%; text-align: center;'>"+daytext+"</td>"+
+                            "<td style='width: 9%;'>"+temp[i]['Detail']+"</td>"+
+                          "</tr>";
 
-                              if(rowCount == 0){
-                                $("#TableDocument tbody").append( $StrTr );
-                              }else{
-                                $('#TableDocument tbody:last-child').append(  $StrTr );
-                              }
-												  }
-												}else{
-                          swal({
-                            title: '',
-                            text: "<?php echo $array['ndc'][$language]; ?>",
-                            type: 'warning',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            showConfirmButton: false,
-                            timer: 2000,
-                            confirmButtonText: 'Ok'
-                          })
-                        }
-
-										  }else if(temp["form"]=='getRow'){
+                          if(rowCount == 0)
+                          {
+                            $("#TableDocument tbody").append( $StrTr );
+                          }
+                          else
+                          {
+                            $('#TableDocument tbody:last-child').append(  $StrTr );
+                          }
+                      }
+                    }
+                    else
+                    {
+                      if(temp['HptCode'] == "")
+                            {
+                              swal({
+                                title: '',
+                                text: 'กรุณาเลือกโรงพยาบาล',
+                                type: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                confirmButtonText: 'Ok'
+                              })
+                            }
+                            else
+                            {
+                              swal({
+                                title: '',
+                                text: "<?php echo $array['ndc'][$language]; ?>" + " " + temp['HptCode']  ,
+                                type: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                confirmButtonText: 'Ok'
+                              })
+                            }
+                    }
+								 }
+                 else if(temp["form"]=='getRow')
+                 {
                           $("#IsStatus").val('1');
                           $("#xRowID").val(temp[0]['RowID']);
                           $("#datepicker3").val(temp[0]['StartDate']);
@@ -558,9 +585,11 @@ $array2 = json_decode($json2,TRUE);
                         $('#bCancel').attr('disabled', false);
                         $('#delete_icon').removeClass('opacity');
 
-										  }
+								 }
 
-                        	}else if (temp['status']=="failed") {
+                }
+                else if (temp['status']=="failed")
+                {
                             switch (temp['msg']) {
                               case "notchosen":
                                 temp['msg'] = "<?php echo $array['choosemsg'][$language]; ?>";
@@ -612,9 +641,11 @@ $array2 = json_decode($json2,TRUE);
 								  $( "#TableDocumentSS tbody" ).empty();
 								  $( "#TableSendSterileDetail tbody" ).empty();
 
-							}else{
-							  console.log(temp['msg']);
-							}
+							  }
+                else
+                {
+							    console.log(temp['msg']);
+							  }
                      },
                      failure: function (result) {
                           alert(result);
@@ -766,108 +797,100 @@ body{
       <!-- content-wrapper -->
       <div id="content-wrapper">
 
-    <div class="row m-2" style="margin-top:-15px;"> <!-- start row tab -->
+    <div class="row" style="margin-top:-15px;"> <!-- start row tab -->
 <div class="col-md-12"> <!-- tag column 1 -->
 <!-- /.content-wrapper -->
-                          <div class="row mt-3">
-                            <div class="col-md-11"> <!-- tag column 1 -->
-                              <div class="container-fluid">
-                                <div class="card-body">
-                                  <div class="row col-12">        
-                                    <div class="col-md-4">
-                                                <div class='form-group row'>
-                                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['datestart'][$language]; ?></label>
-                                                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
-                                                </div>
-                                              </div>
-
-                                              <div class="col-md-4">
-                                                <div class='form-group row'>
-                                                  <label class="col-sm-4 col-form-label text-right"><?php echo $array['dateend'][$language]; ?></label>
-                                                  <input type="text"  autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 datepicker-here only"  id="datepicker2" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="<?php echo $array['ddmmyyyy'][$language]; ?>">
-                                                </div>
-                                              </div>
-                                              
-                                        <div class="search_custom col-md-2">
-                                          <div class="search_1 d-flex justify-content-start">
-                                            <button class="btn" onclick="ShowDocument()" id="bSave">
-                                              <i class="fas fa-search mr-2"></i>
-                                              <?php echo $array['search'][$language]; ?>
-                                            </button>
-                                          </div>
-                                        </div>
-                                    </div>
-
-
-
-
-                              
-                              </div>
+<div class="row mt-3">
+                  <div class="container-fluid">
+                    <div class="card-body">
+                      <div class="row col-12">
+                       <div class="col-md-3 ml-3">
+                         <div class='form-group row'>
+                          <select  style="font-size:22px;" class="form-control " id="ShowSite" onchange="ShowDocument(1)"> </select>
+                        </div>
+                       </div>    
+                        <div class="col-md-3 ml-3" hidden>
+                            <div class='form-group row'>
+                              <input type="text" autocomplete="off" style="font-size:22px;" class="form-control  datepicker-here numonly charonly" id="datepicker1" data-language=<?php echo $language ?>  data-date-format='dd-mm-yyyy' placeholder="วันที่ทำสัญญา">
                             </div>
+                          </div>
+                        <div class="col-md-3 ml-3" hidden>
+                          <div class='form-group row'>
+                            <input type="text" autocomplete="off" style="font-size:22px;" class="form-control c datepicker-here numonly charonly" id="datepicker2" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy' placeholder="วันที่สิ้นสุดสัญญา">
+                          </div>
+                        </div>
+                      <div class="search_custom col-md-2" hidden>
+                        <div class="search_1 d-flex justify-content-start">
+                          <button class="btn" onclick="ShowDocument()" id="bSave">
+                            <i class="fas fa-search mr-2"></i><?php echo $array['search'][$language]; ?>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+           </div>
+              <div class="row">
+                            <div style='width: 98%;margin-top: -25px;'> <!-- tag column 1 -->
+                                <table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
+                                        <thead id="theadsum" style="font-size:24px;">
+                                          <tr role="row">
+                                            <th style='width: 3%;' nowrap>&nbsp;</th>
+                                            <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
+                                            <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
+                                            <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
+                                            <th style='width: 11%;'><?php echo $array['dateendcontract'][$language]; ?></th>
+                                            <th style='width: 26%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
+                                            <th style='width: 17%;'><?php echo $array['detail'][$language]; ?></th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
+                                        </tbody>
+                        </table>
                             </div> <!-- tag column 1 -->
-                          </div>
+                  </div>
 
-                          <div class="row">
-                                        <div style='width: 98%;margin-top: -25px;'> <!-- tag column 1 -->
-                                            <table style="margin-top:10px;margin-left:15px;" class="table table-fixed table-condensed table-striped" id="TableDocument" width="100%" cellspacing="0" role="grid" style="">
-                                                    <thead id="theadsum" style="font-size:24px;">
-                                                      <tr role="row">
-                                                        <th style='width: 3%;' nowrap>&nbsp;</th>
-                                                        <th style='width: 5%;'><?php echo $array['no'][$language]; ?></th>
-                                                        <th style='width: 25%;'><?php echo $array['side'][$language]; ?></th>
-                                                        <th style='width: 13%;'><?php echo $array['datestartcontract'][$language]; ?></th>
-                                                        <th style='width: 11%;'><?php echo $array['dateendcontract'][$language]; ?></th>
-                                                        <th style='width: 26%;'><center><?php echo $array['numbercontract'][$language]; ?></center></th>
-                                                        <th style='width: 17%;'><?php echo $array['detail'][$language]; ?></th>
-                                                      </tr>
-                                                    </thead>
-                                                    <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:360px;">
-                                                    </tbody>
-                                    </table>
-                                        </div> <!-- tag column 1 -->
-                              </div>
+              </div>
 
-                          </div>
-
-                          <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" >
-                          
-                            <div class="menu" <?php if($PmID == 2) echo 'hidden'; ?>>
-                              <div class="d-flex justify-content-center">
-                                <div class="circle4 d-flex justify-content-center">
-                                  <button class="btn"  onclick="SaveRow()" id="bSave">
-                                    <i class="fas fa-save"></i>
-                                    <div>
-                                      <?php echo $array['save'][$language]; ?>
-                                    </div>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="menu">
-                              <div class="d-flex justify-content-center">
-                                <div class="circle6 d-flex justify-content-center">
-                                  <button class="btn" onclick="ClearRow()" id="bDelete">
-                                    <i class="fas fa-redo-alt"></i>
-                                    <div>
-                                      <?php echo $array['clear'][$language]; ?>
-                                    </div>       
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="menu" <?php if($PmID == 2) echo 'hidden'; ?>>
-                              <div class="d-flex justify-content-center">
-                                <div class="circle3 d-flex justify-content-center opacity" id="delete_icon">
-                                  <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
-                                    <i class="fas fa-trash-alt"></i>
-                                    <div>
-                                      <?php echo $array['cancel'][$language]; ?>
-                                    </div>  
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+              <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end" >
+              
+                <div class="menu" <?php if($PmID == 2) echo 'hidden'; ?>>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex justify-content-center">
+                      <button class="btn"  onclick="SaveRow()" id="bSave">
+                        <i class="fas fa-save"></i>
+                        <div>
+                          <?php echo $array['save'][$language]; ?>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle6 d-flex justify-content-center">
+                      <button class="btn" onclick="ClearRow()" id="bDelete">
+                        <i class="fas fa-redo-alt"></i>
+                        <div>
+                          <?php echo $array['clear'][$language]; ?>
+                        </div>       
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu" <?php if($PmID == 2) echo 'hidden'; ?>>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle3 d-flex justify-content-center opacity" id="delete_icon">
+                      <button class="btn" onclick="CancelRow()" id="bCancel" disabled="true">
+                        <i class="fas fa-trash-alt"></i>
+                        <div>
+                          <?php echo $array['cancel'][$language]; ?>
+                        </div>  
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div class=" col-md-12 p-5">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -880,7 +903,7 @@ body{
                                   <div class="col-md-6">
                                     <div class='form-group row'>
                                     <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                      <select  style="font-size:22px;" onchange="resetinput()" class="form-control col-sm-7 checkblank2 border" id="side" onchange="removeClassBorder1();" ></select>
+                                      <select  style="font-size:22px;" onchange="resetinput() ,  ShowDocument(2)" class="form-control col-sm-7 checkblank2 border" id="side"  ></select>
                                       <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                     </div>
                                   </div>

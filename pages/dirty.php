@@ -120,6 +120,7 @@ $array2 = json_decode($json2,TRUE);
       });
   //  console.log(window.parent.location.href);
     OnLoadPage();
+    parent.OnLoadPage();
     getfactory();
     timedirty();
     // CreateDocument();
@@ -608,9 +609,19 @@ $array2 = json_decode($json2,TRUE);
 
 
 
-        function removeClassBorder2(){
-          $('#factory').removeClass('border-danger');
-          $('#rem2').hide();
+        function removeClassBorder2(chk){
+
+          if(chk ==1)
+          {
+            $('#factory').removeClass('border-danger');
+            $('#rem2').hide();
+          }
+
+          if(chk ==2)
+          {
+            $('#timedirty').removeClass('border-danger');
+            $('#rem4').hide();
+          }
         }
         function checkblank3(){
           $('.checkblank3').each(function() {
@@ -639,10 +650,11 @@ $array2 = json_decode($json2,TRUE);
           var hotpCode = $('#hotpital option:selected').attr("value");
           var FacCode = $('#factory option:selected').attr("value");
           var timedirty = $('#timedirty option:selected').attr("value");
-          if(FacCode == '' || hotpCode == ''  ){
+          if(FacCode == '' || hotpCode == '' || timedirty == '' ){
             checkblank();
             checkblank2();
             checkblank3();
+            checkblank4();
             swal({
               title: '',
               text: "<?php echo $array['required'][$language]; ?>",
@@ -1459,9 +1471,6 @@ $array2 = json_decode($json2,TRUE);
                     $('#bPrintnew2').addClass('opacity');
                     $('#hover7').removeClass('mhee');
                   }else if(temp[0]['IsStatus']==1 || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3 || temp[0]['IsStatus']==4){
-                    // $('.chk_edit').attr('disabled', true);
-                    // $('#').attr('disabled', true);
-                    // $('.chk_edit').attr('disabled', true);
                     $('.chk_edit1').attr('disabled', true);
                     if(temp[0]['IsStatus'] !=1){
                     $("#hover5").removeClass('mhee');
@@ -1472,16 +1481,16 @@ $array2 = json_decode($json2,TRUE);
                         $("#bCancel").prop('disabled', false);
                         $("#bCancel2").removeClass('opacity');
                     }
-                  
+                
                     var word = '<?php echo $array['edit'][$language]; ?>';
                     var changeBtn = "<i class='fas fa-edit'></i>";
                     changeBtn += "<div>"+word+"</div>";
                     $('#icon_edit').html(changeBtn);
                     $("#bImport").prop('disabled', true);
                     $("#bDelete").prop('disabled', true);
-                    $("#bSave").prop('disabled', false);
-                    $('#hover4').addClass('mhee');
-                    $("#bSave2").removeClass('opacity');
+                    $("#bSave").prop('disabled', true);
+                    $('#hover4').removeClass('mhee');
+                    $("#bSave2").addClass('opacity');
                     $('#bPrint').attr('disabled', false);
                     $('#bPrint2').removeClass('opacity');
                     $('#hover6').addClass('mhee');
@@ -1490,9 +1499,9 @@ $array2 = json_decode($json2,TRUE);
                     $('#bPrintnew2').removeClass('opacity');
                     $('#hover7').addClass('mhee');
                   }else{
-                    $('#bPrint').attr('disabled', true);
-                    $('#bPrint2').addClass('opacity');
-                    $('#hover6').removeClass('mhee');
+                    $('#bPrint').attr('disabled', false);
+                    $('#bPrint2').removeClass('opacity');
+                    $('#hover6').addClass('mhee');
 
                     $('#bPrintnew').attr('disabled', true);
                     $('#bPrintnew2').addClass('opacity');
@@ -2260,7 +2269,7 @@ $array2 = json_decode($json2,TRUE);
                                     <div class="col-md-6">
                                       <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['factory'][$language]; ?></label>
-                                          <select  class="form-control form-control col-sm-7 checkblank2"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder2();"> </select>
+                                          <select  class="form-control form-control col-sm-7 checkblank2"  style="font-size:22px;"  id="factory"  onchange="removeClassBorder2(1);"> </select>
                                           <label id="rem2"  class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                       </div>
                                     </div>
@@ -2270,9 +2279,7 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                         <div class='form-group row'>
                                           <label class="col-sm-4 col-form-label "  style="font-size:24px;" ><?php echo $array['docdate'][$language]; ?></label>
-                                          <!-- <input type="text" autocomplete="off"  style="font-size:22px;"  class="form-control col-sm-7 only only1" disabled="true" name="searchitem" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>" > -->
                                           <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 numonly charonly only only1 " disabled="true" id="docdate" placeholder="<?php echo $array['docdate'][$language]; ?>">
-                                          <label id="rem4"  class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                         </div>
                                       </div>
                                       <div class="col-md-6">
@@ -2315,9 +2322,8 @@ $array2 = json_decode($json2,TRUE);
                                       <div class="col-md-6">
                                             <div class='form-group row'>
                                             <label class="col-sm-4 col-form-label " style="font-size:24px;"><?php echo $array['rounddirty'][$language]; ?></label>
-                                                <select  id="timedirty"  style="font-size:22px;" class="form-control col-sm-7  border "  name="searchitem"
-                                                placeholder="<?php echo $array['rounddirty'][$language]; ?>">  </select>
-                                                <!-- <label id="rem2"   class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label> -->
+                                                <select  onchange="removeClassBorder2(2);"  id="timedirty"  style="font-size:22px;" class="form-control col-sm-7  border checkblank4"  name="searchitem" placeholder="<?php echo $array['rounddirty'][$language]; ?>" >  </select>
+                                              <label id="rem4" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                                             </div>
                                         </div>
                                     </div>

@@ -221,7 +221,8 @@ $head = "SELECT site.$HptName,
         newlinentable.Total,
         CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
         TIME(newlinentable.Modify_Date) AS xTime,
-        factory.$FacName
+        factory.$FacName ,
+        newlinentable.IsStatus
         FROM newlinentable
 INNER JOIN newlinentable_detail ON newlinentable.DocNo = newlinentable_detail.DocNo
 INNER JOIN department ON newlinentable_detail.DepCode = department.DepCode
@@ -239,8 +240,21 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $FName = $Result['FName'];
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
+  $isStatus = $Result['IsStatus'];
   $facname = $Result[$FacName];
 }
+  if ($isStatus == 0)
+  {
+    $Status = 'On Process';
+  }
+  elseif ( $isStatus == 1 || $isStatus == 2 || $isStatus == 3)
+  {
+    $Status = 'Complete';
+  }
+  elseif ($isStatus == 9)
+  {
+    $Status = 'Cancel';
+  }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
   $y = $y + 543;
@@ -298,6 +312,10 @@ $pdf->Cell(35, 7,   $array2['user'][$language], 0, 0, 'L');
 $pdf->Cell(65, 7,   ": " . $FName, 0, 0, 'L');
 $pdf->Cell(30, 7,   $array['time'][$language], 0, 0, 'L');
 $pdf->Cell(30, 7,   ": " . $xTime, 0, 0, 'L');
+$pdf->Ln();
+
+$pdf->Cell(35, 7,   $array['status'][$language], 0, 0, 'L');
+$pdf->Cell(65, 7,   ": " . $Status, 0, 0, 'L');
 $pdf->Ln(10);
 
 

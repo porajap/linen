@@ -136,48 +136,7 @@ $array2 = json_decode($json2,TRUE);
 
         }
 
-      function chkbox(ItemCode){
-        var par = $('#parnum').val();
-        var xCenter = 0;
-        if ($('#xCenter').is(':checked')) xCenter = 1;
-        if(xCenter == 1 ){
-          var department = $('#HosCenter').val();
-        }else{
-          var department = $('#department').val();
-        }
-        if(par=='' || department==''){
-          checkblank2();
-          $('#checkitem_'+ItemCode).prop('checked', false);
-          // $('#parnum').focus();
-          swal({
-            title: '',
-            text: "<?php echo $array['required'][$language]; ?>",
-            type: 'info',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            showConfirmButton: false,
-            timer: 2000,
-            confirmButtonText: 'Ok'
-          });
-        }else{
-          $('#bSave').attr('disabled', false);
-          $('#hover1').removeClass('opacity');
-          $('#hover1').addClass('mhee1');
-          console.log($('#checkitem_'+ItemCode));
-          if($('#checkitem_'+ItemCode).is(":checked")){
-            $('#checkitem_'+ItemCode).prop('checked', true);
-            $('#txtno_'+ItemCode).val("");
-            $('#txtno_'+ItemCode).focus();
-            $('#txtno_'+ItemCode).val(par);
-          }else{
-            $('#checkitem_'+ItemCode).prop('checked', false);
-            $('#txtno_'+ItemCode).val("");
-          }
-        }
-        
 
-      }
       function checkblank2(){
         var par = $('#parnum').val();
         var xCenter = 0;
@@ -232,6 +191,8 @@ $array2 = json_decode($json2,TRUE);
 
 
         }
+      
+      
       function getDepartment(){
         $('#TableItemStock tbody').empty();
         $('#parnum').val("");
@@ -340,7 +301,6 @@ $array2 = json_decode($json2,TRUE);
               });
           }
       }
-
       function getSearchDocNo() {
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
 
@@ -359,7 +319,6 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
       function SavePar( num , row , rowid){
         var mypar = $(".mypar_"+row).val();
         var xCenter = 0;
@@ -389,9 +348,95 @@ $array2 = json_decode($json2,TRUE);
         }
         senddata(JSON.stringify(data));
       }
+      function allitem()
+      {
+        var par = $('#parnum').val();
+        var select_all = document.getElementById('selectAll'); //select all checkbox
+        var checkboxes = document.getElementsByClassName("checkall"); //checkbox items
+        var selectAll = 0;
+        if ($('#selectAll').is(':checked')) selectAll = 1;
+          //select all checkboxes
+          if(selectAll ==1)
+          {
+            select_all.addEventListener("change", function(e){
+              for (i = 0; i < checkboxes.length; i++)
+              { 
+                checkboxes[i].checked = select_all.checked
+                  $('.checktxt').val(par);
+                  $('#bSave').attr('disabled', false);
+                  $('#hover1').removeClass('opacity');
+                  $('#hover1').addClass('mhee1');
+              }
+            });
+          }
+          else
+          {
+            select_all.addEventListener("change", function(e){
+              for (i = 0; i < checkboxes.length; i++)
+              { 
+                checkboxes[i].checked = select_all.checked
+                  $('.checktxt').val('');
+                  $('#bSave').attr('disabled', true);
+                  $('#hover1').addClass('opacity');
+                  $('#hover1').removeClass('mhee1');
+              }
+            });
+          }
 
+          for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+              //uncheck "select all", if one of the listed checkbox item is unchecked
+              if(this.checked == false){
+                select_all.checked = false;
+              }
 
+            });
+          }
 
+      }
+
+      function chkbox(ItemCode){
+        var par = $('#parnum').val();
+        var xCenter = 0;
+        if ($('#xCenter').is(':checked')) xCenter = 1;
+        if(xCenter == 1 ){
+          var department = $('#HosCenter').val();
+        }else{
+          var department = $('#department').val();
+        }
+        if(par=='' || department==''){
+          checkblank2();
+          $('#checkitem_'+ItemCode).prop('checked', false);
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          });
+        }else{
+          $('#bSave').attr('disabled', false);
+          $('#hover1').removeClass('opacity');
+          $('#hover1').addClass('mhee1');
+          console.log($('#checkitem_'+ItemCode));
+
+          if($('#checkitem_'+ItemCode).is(":checked")){
+            $('#checkitem_'+ItemCode).prop('checked', true);
+            $('#txtno_'+ItemCode).val("");
+            $('#txtno_'+ItemCode).focus();
+            $('#txtno_'+ItemCode).val(par);
+          }else{
+            $('#checkitem_'+ItemCode).prop('checked', false);
+            $('#txtno_'+ItemCode).val("");
+          }
+        }
+        
+
+      }
       function CreateSentSterile() {
         var userid = '<?php echo $Userid; ?>';
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
@@ -427,7 +472,6 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
       function setTag(){
         var DocNo = $("#docnofield").val();
         /* declare an checkbox array */
@@ -453,7 +497,6 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
       function CreatePayout(){
         var userid = '<?php echo $Userid; ?>';
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
@@ -466,7 +509,6 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
       function AddPayoutDetail(){
         var userid = '<?php echo $Userid; ?>';
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
@@ -521,9 +563,6 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
-
-
       function AddItem(){
         var count = 0;
         $(".checkblank").each(function() {
@@ -614,7 +653,6 @@ $array2 = json_decode($json2,TRUE);
           });
         }
       }
-
       function CancelItem() {
         swal({
           title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -638,7 +676,6 @@ $array2 = json_decode($json2,TRUE);
             senddata(JSON.stringify(data));
           })
       }
-
       function Blankinput() {
         $('.checkblank').each(function() {
           $(this).val("");
@@ -648,7 +685,6 @@ $array2 = json_decode($json2,TRUE);
         //$('#Dept').val("1");
         ShowItem();
       }
-
       function getdetail(UnitCode) {
         if(UnitCode!=""&&UnitCode!=undefined){
           var data = {
@@ -660,7 +696,6 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
         }
       }
-
       function SavePY(){
         $('#TableDocumentSS tbody').empty();
         var dept = '<?php echo $_SESSION['Deptid']; ?>';
@@ -693,7 +728,6 @@ $array2 = json_decode($json2,TRUE);
           senddata(JSON.stringify(data));
         }
       }
-
       function DelItem(){
         var DocNo = $("#docno").val();
         /* declare an checkbox array */
@@ -716,7 +750,6 @@ $array2 = json_decode($json2,TRUE);
         console.log(JSON.stringify(data));
         senddata(JSON.stringify(data));
       }
-
       function canceldocno(docno) {
           swal({
             title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -873,6 +906,11 @@ $array2 = json_decode($json2,TRUE);
         }
         }
 
+      
+      
+      
+      
+      
       function Setdate(){
         var date = $('#datepickermodal').val();
         var row = $('#txtrow').val();
@@ -885,7 +923,6 @@ $array2 = json_decode($json2,TRUE);
         }
         senddata(JSON.stringify(data));
       }
-
       function DeleteItem(){
         var length =  $('#TableItemStock >tbody >tr').length;
         var xCenter = 0;
@@ -957,22 +994,18 @@ $array2 = json_decode($json2,TRUE);
             })
         }
       }
-
-
       function addnum(cnt) {
         var add = parseInt($('#qty'+cnt).val())+1;
         if((add>=0) && (add<=500)){
           $('#qty'+cnt).val(add);
         }
       }
-
       function subtractnum(cnt) {
         var sub = parseInt($('#qty'+cnt).val())-1;
         if((sub>=0) && (sub<=500)) {
           $('#qty'+cnt).val(sub);
         }
       }
-
       function logoff() {
         swal({
           title: '',
@@ -1154,10 +1187,10 @@ $array2 = json_decode($json2,TRUE);
                               if(temp['count']>0){
                                 for (var i = 0; i < temp['count']; i++) {
                                   var rowCount = $('#TableItem >tbody >tr').length;
-                                  var chkDoc = "<input type='checkbox' class='mainchk' name='checkitem' id='checkitem_"+temp[i]['ItemCode']+"'  value='"+temp[i]['ItemCode']+"' onclick='chkbox(\""+temp[i]['ItemCode']+"\");'>";
+                                  var chkDoc = "<input type='checkbox' class='mainchk checkall' name='checkitem' id='checkitem_"+temp[i]['ItemCode']+"'  value='"+temp[i]['ItemCode']+"' onclick='chkbox(\""+temp[i]['ItemCode']+"\");'>";
                                   // var Qty = "<div class='row' style='margin-left:5px;'><button class='btn btn-danger' style='width:35px;' onclick='subtractnum(\""+i+"\")'>-</button><input class='form-control' style='width:50px; margin-left:3px; margin-right:3px; text-align:center;' id='qty"+i+"' value='0' disabled><button class='btn btn-success' style='width:35px;' onclick='addnum(\""+i+"\")'>+</button></div>";
                                   var btn = "<center><button class='btn btn-primary' onclick=''>สร้างรายการ</button></center>";
-                                  var txtno = "<input type='text' style='text-align:center;' class='form-control numonly' onkeyup='chkpar(\""+temp[i]['ItemCode']+"\")' name='txtno' id='txtno_"+temp[i]['ItemCode']+"' placeholder='0' maxlength='3' min='0'>";
+                                  var txtno = "<input type='text' style='text-align:center;' class='form-control numonly checktxt' onkeyup='chkpar(\""+temp[i]['ItemCode']+"\")' name='txtno' id='txtno_"+temp[i]['ItemCode']+"' placeholder='0' maxlength='3' min='0'>";
                                   StrTR = "<tr id='tr"+temp[i]['ItemCode']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                                                   "<td style='width: 10%;' nowrap>"+chkDoc+"</td>"+
                                                   "<td style='width: 28%;' nowrap hidden>"+temp[i]['ItemCode']+"</td>"+
@@ -1917,7 +1950,7 @@ $array2 = json_decode($json2,TRUE);
                     </div>
                   </div>
                 </div>
-                </div>
+               </div>
               </div>
             </div>
           </div>
@@ -1928,9 +1961,9 @@ $array2 = json_decode($json2,TRUE);
             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem"  cellspacing="0" role="grid">
               <thead id="theadsum" style="font-size:11px;">
                 <tr role="row">
-                  <th style='width: 10%;' nowrap>&nbsp;</th>
+                <th style='padding-left: 12px;'><input onclick="allitem();" id='selectAll' type="checkbox"></th>
                   <th style='width: 28%;' nowrap hidden><?php echo $array['nono'][$language]; ?></th>
-                  <th style='width: 64%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                  <th style='width: 49%;' nowrap><?php echo $array['item'][$language]; ?></th>
                   <th style='width: 26%;' nowrap><?php echo $array['total'][$language]; ?></th>
                 </tr>
               </thead>

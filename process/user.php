@@ -26,7 +26,7 @@ function ShowItem($conn, $DATA)
       INNER JOIN permission ON users.PmID = permission.PmID
       INNER JOIN site ON site.HptCode = users.HptCode
       LEFT JOIN department ON department.DepCode = users.DepCode
-      WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') )";
+      WHERE users.IsCancel = 0 AND ( ( users.EngName  LIKE '%$Keyword%') OR ( users.ThName  LIKE '%$Keyword%') OR ( users.EngLName  LIKE '%$Keyword%') OR ( users.ThLName  LIKE '%$Keyword%') )";
       if($PmID == 3 || $PmID == 7 ) {$Sql.=" AND  (Permission ='user' || Permission ='manager' || Permission ='Laundry')";}
       if($PmID == 5 ) {$Sql.=" AND  (Permission ='user' || Permission ='Supervisor' )";}
 

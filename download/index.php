@@ -76,7 +76,11 @@
             margin-left: 0 !important;
         }
 
-
+        @media only screen and (max-width: 500px) {
+            .buttom1 {
+                margin-bottom: 6%;
+            }
+}
     
     </style>
 </head>
@@ -84,7 +88,7 @@
 <body class="fix-header card-no-border fix-sidebar">
 
 <div class="row d-flex justify-content-center align-items-center" style="height: 774px">
-            <div class="col-md-8  col-sm-12  mt-sm-5">
+            <div class="col-md-8  col-sm-12  mt-sm-5 buttom1">
                 <div class="card">
                     <div class="card-body">
                         <div  class="d-flex justify-content-center mt-3">
@@ -99,7 +103,7 @@
                             </div>
                         </div>
                         <div  class="d-flex justify-content-center mt-5">
-                            <button class="btn btn_customer" onclick="window.location.href='http://poseintelligence.dyndns.biz:8181/linen/linen_nhealth-asia.apk'"'"><i class="fas fa-download"></i></button>
+                            <button class="btn btn_customer" onclick="window.location.href='file/linen_nhealth-asia.apk'"'"><i class="fas fa-download"></i></button>
                         </div>
                     </div>
                 </div>

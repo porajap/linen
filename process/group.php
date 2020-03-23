@@ -191,8 +191,7 @@ if($DepCode1 == ""){
     GroupName = '$DepName',
     Modify_Date = NOW() ,
     Modify_Code =  $Userid
-    WHERE GroupCode = ".$DATA['DepCode1']."
-";
+    WHERE GroupCode = ".$DATA['DepCode1']." AND HptCode =  '$HptCode'       ";
     // var_dump($Sql); die;
     if(mysqli_query($conn, $Sql)){
     $return['status'] = "success";

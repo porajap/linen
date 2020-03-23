@@ -223,7 +223,8 @@ clean.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
 TIME(clean.Modify_Date) AS xTime,
 clean_ref.RefDocNo,
-factory.$FacName
+factory.$FacName ,
+clean.IsStatus
 FROM clean
 LEFT JOIN department ON clean.DepCode = department.DepCode
 LEFT JOIN site ON department.HptCode = site.HptCode
@@ -244,8 +245,20 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $xTime = $Result['xTime'];
   $RefDocNo[] = $Result['RefDocNo'];
   $facname = $Result[$FacName];
+  $isStatus = $Result['IsStatus'];
 }
-
+if ($isStatus == 0)
+{
+  $Status = 'On Process';
+}
+elseif ( $isStatus == 1)
+{
+  $Status = 'Complete';
+}
+elseif ($isStatus == 9)
+{
+  $Status = 'Cancel';
+}
 
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
@@ -297,6 +310,9 @@ $pdf->Cell(35, 7, $array2['user'][$language], 0, 0, 'L');
 $pdf->Cell(75, 7, " : " . $FirstName, 0, 0, 'L');
 $pdf->Cell(28, 7, $array2['refdocno'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $RefDocNo[$rowss], 0, 0, 'L');
+$pdf->Ln();
+$pdf->Cell(35, 7,   $array['status'][$language], 0, 0, 'L');
+$pdf->Cell(75, 7,   " : " . $Status, 0, 0, 'L');
 $rowss++;
 $pdf->Ln();
 $count_docno = sizeof($RefDocNo);

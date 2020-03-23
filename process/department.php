@@ -82,6 +82,7 @@ function ShowItem($conn, $DATA)
 function getdetail($conn, $DATA)
 {
   $count = 0;
+  $countgroup =0;
   $HptCode = $DATA['HptCode'];
   $DepCode = $DATA['DepCode'];
   $number = $DATA['number'];
@@ -111,9 +112,22 @@ function getdetail($conn, $DATA)
     $return['IsStatus'] 	    = $Result['IsStatus'];
     $return['IsDefault'] 	    = $Result['IsDefault'];
     $return['shipto'] 	      = $Result['Ship_To'];
+    $HptCode		              = $Result['HptCode'];
     $count++;
   }
 
+  $Sql = "SELECT grouphpt.GroupCode,grouphpt.GroupName
+  FROM grouphpt WHERE grouphpt.IsStatus = 0 AND grouphpt.HptCode = '$HptCode'";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    $return[$countgroup]['GroupCode']  = $Result['GroupCode'];
+    $return[$countgroup]['GroupName']  = $Result['GroupName'];
+    $countgroup++;
+  }
+
+  $return['row'] = $countgroup ;
+  
   if($count>0)
   {
     $return['status'] = "success";
@@ -292,7 +306,7 @@ function AddItem($conn, $DATA)
                 $Userid,
                 NOW(),
                 $IsActive,
-                $group2,
+                '$group2',
                 '$shipto'
               )
       ";
@@ -353,7 +367,7 @@ function AddItem($conn, $DATA)
       Modify_Date = NOW() ,
       Modify_Code =  $Userid ,
       IsActive = $IsActive,
-      GroupCode = $group2,
+      GroupCode = '$group2',
       Ship_To = '$shipto'
       WHERE DepCode = '".$DATA['DepCode1']."' AND HptCode = '$HptCode' ";
 
@@ -378,17 +392,16 @@ function AddItem($conn, $DATA)
 }
 function AddItemConfirm($conn, $DATA)
 {
-  $count = 0;
-  $chkinsert = 0;
-  $shipto = $DATA['shipto'];
-  $HptCode = $DATA['HptCode'];
-  $DepCode = trim($DATA['DepCode']);
-  $DepName = trim($DATA['DepName']);
-  $group2 = trim($DATA['group2']);
-  $Userid = $_SESSION['Userid'];
-  $PmID = $_SESSION['PmID'];
 
-  
+    $count = 0;
+    $chkinsert = 0;
+    $shipto = $DATA['shipto'];
+    $HptCode = $DATA['HptCode'];
+    $DepCode = trim($DATA['DepCode']);
+    $DepName = trim($DATA['DepName']);
+    $group2 = trim($DATA['group2']);
+    $Userid = $_SESSION['Userid'];
+    $PmID = $_SESSION['PmID'];
     // =================================
     if($PmID ==1 || $PmID ==6)
     {
@@ -422,7 +435,7 @@ function AddItemConfirm($conn, $DATA)
                 $Userid,
                 NOW(),
                 $IsActive,
-                $group2,
+                '$group2',
                 '$shipto'
               )
       ";
@@ -445,7 +458,8 @@ function AddItemConfirm($conn, $DATA)
       mysqli_close($conn);
       die;
     }
-  }
+}
+
 function EditItem($conn, $DATA)
 {
   $count = 0;

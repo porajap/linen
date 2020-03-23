@@ -150,7 +150,8 @@ damagenh.DocNo,
 DATE_FORMAT(damagenh.DocDate,'%d-%m-%Y')AS DocDate,
 damagenh.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
-TIME(damagenh.Modify_Date)  AS xTime
+TIME(damagenh.Modify_Date)  AS xTime ,
+damagenh.IsStatus
 FROM damagenh
 INNER JOIN department ON damagenh.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
@@ -165,6 +166,19 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $Total = $Result['Total'];
   $FirstName = $Result['FName'];
   $xTime = $Result['xTime'];
+  $isStatus = $Result['IsStatus'];
+}
+if ($isStatus == 0)
+{
+  $Status = 'On Process';
+}
+elseif ( $isStatus == 1)
+{
+  $Status = 'Complete';
+}
+elseif ($isStatus == 9)
+{
+  $Status = 'Cancel';
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
@@ -218,11 +232,9 @@ $pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
 $pdf->Ln();
 
-
-
-
-$pdf->Ln();
-$pdf->Ln(5);
+$pdf->Cell(35, 7,   $array['status'][$language], 0, 0, 'L');
+$pdf->Cell(65, 7,   " : " . $Status, 0, 0, 'L');
+$pdf->Ln(10);
 $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead> 
 <tr style="font-size: 16 px;" >
     <th width="10 % " align="center">' . $header[0] . '</th>

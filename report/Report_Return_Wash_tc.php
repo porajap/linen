@@ -205,7 +205,8 @@ return_wash.Total,
 CONCAT($Perfix,' ' , $Name,' ' ,$LName)  AS FName,
 TIME(return_wash.Modify_Date)  AS xTime,
 return_wash.RefDocNo,
-factory.$FacName
+factory.$FacName ,
+return_wash.IsStatus
 FROM return_wash
 INNER JOIN department ON return_wash.DepCode = department.DepCode
 INNER JOIN site ON department.HptCode = site.HptCode
@@ -225,6 +226,19 @@ while ($Result = mysqli_fetch_assoc($meQuery)) {
   $xTime = $Result['xTime'];
   $RefDocNo = $Result['RefDocNo'];
   $facname = $Result[$FacName];
+  $isStatus = $Result['IsStatus'];
+}
+if ($isStatus == 0)
+{
+  $Status = 'On Process';
+}
+elseif ( $isStatus == 1)
+{
+  $Status = 'Complete';
+}
+elseif ($isStatus == 9)
+{
+  $Status = 'Cancel';
 }
 list($d, $m, $y) = explode('-', $DocDate);
 if ($language == 'th') {
@@ -283,7 +297,10 @@ $pdf->Cell(28, 7, $array['docdate'][$language], 0, 0, 'L');
 $pdf->Cell(55, 7, " : " . $DocDate, 0, 0, 'L');
 
 $pdf->Ln();
-$pdf->Ln(5);
+
+$pdf->Cell(35, 7,   $array['status'][$language], 0, 0, 'L');
+$pdf->Cell(65, 7,   " : " . $Status, 0, 0, 'L');
+$pdf->Ln(10);
 $html = '<table cellspacing="0" cellpadding="3" border="1" ><thead>
 <tr>
     <th width="15 %" align="center">' . $header[0] . '</th>

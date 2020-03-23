@@ -14,7 +14,6 @@ if(empty($_SESSION['lang'])){
   $language ='th';
 }else{
   $language =$_SESSION['lang'];
-
 }
 
 header ('Content-type: text/html; charset=utf-8');
@@ -1106,13 +1105,32 @@ $array2 = json_decode($json2,TRUE);
       if(docno!=""&&docno!=undefined){
         if(printdata == 1)
         {
-          var url  = "../report/Report_Shelfcount_tc.php?DocNo="+docno+"&lang="+lang+"&HptCode="+HptCode;
-          window.open(url);
+          swal({
+            title: '<?php echo $array['pleasewait'][$language]; ?>',
+            text: '<?php echo $array['processing'][$language]; ?>',
+            timer: 4000,
+            allowOutsideClick: false
+          })
+          swal.showLoading();
+          setTimeout(() => {
+            var url  = "../report/Report_Shelfcount_tc.php?DocNo="+docno+"&lang="+lang+"&HptCode="+HptCode;
+            window.open(url);
+          }, 4000);
+
         }
         else if (printdata == 2)
         {
+          swal({
+              title: '<?php echo $array['pleasewait'][$language]; ?>',
+              text: '<?php echo $array['processing'][$language]; ?>',
+              timer: 4000,
+              allowOutsideClick: false
+            })
+            swal.showLoading();
+          setTimeout(() => {
           var url  = "../report/Report_Shelfcount_tc_2.php?DocNo="+docno+"&lang="+lang+"&HptCode="+HptCode;
           window.open(url);
+          }, 4000);
         }
       }else{
         swal({
@@ -1516,23 +1534,38 @@ $array2 = json_decode($json2,TRUE);
       var Result      = 0;
       var Weightitem  = 0;
       var Weight2     = Number($('#Weight2_'+i).val());
-      Weightitem = parseFloat(Weight2 * Issue);
-      $('#Weight_'+i).val(Weightitem.toFixed(2));
+
+      // ================================================
+      Weightitem = parseFloat(Weight2 * Issue).toFixed(5);
+      
+      var weight_test = Weightitem.toString();
+
+      var ex = weight_test.split('.');
+
+      var res = ex[1].substr(0,2);
+
+      var Weightitemx =  ex[0]+ "." + res;
+
+      $('#Weight_'+i).val(Weightitemx);
+
+
+      // ================================================
       if(Issue!=0){
         if(Max>=Issue){
           Result = Max-Issue;
-          $('#Short_'+i).val(Result);
+          $('#Short_'+i).val(Result.toFixed(2));
           $('#Over_'+i).val("");
           var chk = "Short";
         }else if(Issue>Max){
           Result = Issue-Max;
-          $('#Over_'+i).val(Result);
+          $('#Over_'+i).val(Result.toFixed(2));
           $('#Short_'+i).val("");
           var chk = "Over";
         }else if(Issue==0||Issue==null||Issue==""){
           $('#Short_'+i).val("");
           $('#Over_'+i).val("");
         }
+
       }else if(Issue==0){
         $('#Over_'+i).val("");
         $('#Short_'+i).val("");
@@ -1552,7 +1585,8 @@ $array2 = json_decode($json2,TRUE);
         'Weightitem':Weightitem,
         'hotpCode'    :hotpCode,
         'dept':dept,
-        'itemcode':itemcode
+        'itemcode':itemcode ,
+        'i':i
       };
       senddata(JSON.stringify(data));
     }
@@ -1653,63 +1687,82 @@ $array2 = json_decode($json2,TRUE);
                 $('#bCreate').attr('disabled', true);
               }
             }else if( (temp["form"]=='CreateDocument') ){
-              $('#bCreate').attr('disabled', true);
-              $('#hover1').removeClass('mhee');
-              $('#bCreate2').addClass('opacity');
-              $( "#TableItemDetail tbody" ).empty();
-              $("#docno").val(temp[0]['DocNo']);
-              $("#docdate").val(temp[0]['DocDate']);
-              $("#recorder").val(temp[0]['Record']);
-              $("#timerec").val(temp[0]['RecNow']);
-              $("#Signature").val(temp[0]['Signature']);
-              $("#completed").val('on process');
-              $('#bCancel').attr('disabled', false);
-              $('#bSave').attr('disabled', false);
-              $('#bImport').attr('disabled', false);
-              $('#bPrint').attr('disabled', false);
-              $('#bPrint2').removeClass('opacity');
-              $('#hover7').addClass('mhee');
-              $('#barcode').attr('disabled', false);
-              $('#department').attr('disabled', true);
-              $('#settime').attr('disabled', true);
-              $('#department').addClass('icon_select');
-              $('#settime').addClass('icon_select');
-              $('#setcount').attr('disabled', true);
-              $('#setcount').addClass('icon_select');
 
-              if(temp[0]['settime'] ==0){
-              $('#bpacking').attr('disabled', false);
-              $('#bpacking2').removeClass('opacity');
-              $('#hover9').addClass('mhee');
-
-              $("#bSave").prop('disabled', true);
-              $("#bSave2").addClass('opacity');
-              $("#hover4").removeClass('mhee');
-              }else{
-              $('#bpacking').attr('disabled', true);
-              $('#bpacking2').addClass('opacity');
-              $('#hover9').removeClass('mhee');
-
-              $("#bSave").prop('disabled', false);
-              $("#bSave2").removeClass('opacity');
-              $("#hover4").addClass('mhee');
+              // check depcode null
+              if(temp['DepCodeNULL'] == 'NULL')
+              {
+                swal({
+                          title: '',
+                          text: 'เกิดข้อผิดพลาดของระบบ กรุณาสร้างเอกสารใหม่อีกครั้ง',
+                          type: 'warning',
+                          showCancelButton: false,
+                          showConfirmButton: false,
+                          timer: 1200,
+                    });
               }
+              else
+              {
+                $('#bCreate').attr('disabled', true);
+                $('#hover1').removeClass('mhee');
+                $('#bCreate2').addClass('opacity');
+                $( "#TableItemDetail tbody" ).empty();
+                $("#docno").val(temp[0]['DocNo']);
+                $("#docdate").val(temp[0]['DocDate']);
+                $("#recorder").val(temp[0]['Record']);
+                $("#timerec").val(temp[0]['RecNow']);
+                $("#Signature").val(temp[0]['Signature']);
+                $("#completed").val('on process');
+                $('#bCancel').attr('disabled', false);
+                $('#bSave').attr('disabled', false);
+                $('#bImport').attr('disabled', false);
+                $('#bPrint').attr('disabled', false);
+                $('#bPrint2').removeClass('opacity');
+                $('#hover7').addClass('mhee');
+                $('#barcode').attr('disabled', false);
+                $('#department').attr('disabled', true);
+                $('#settime').attr('disabled', true);
+                $('#department').addClass('icon_select');
+                $('#settime').addClass('icon_select');
+                $('#setcount').attr('disabled', true);
+                $('#setcount').addClass('icon_select');
 
-              $('#hover2').addClass('mhee');
-              $('#hover5').addClass('mhee');
-              $('#bImport2').removeClass('opacity');
-              $('#bCancel2').removeClass('opacity');
-              swal({
-                title: "<?php echo $array['createdocno'][$language]; ?>",
-                text: temp[0]['DocNo'] + " <?php echo $array['success'][$language]; ?>",
-                type: "success",
-                showCancelButton: false,
-                timer: 1000,
-                confirmButtonText: 'Ok',
-                showConfirmButton: false
-              });
-                ShowDetailNew();
-                parent.OnLoadPage();
+                if(temp[0]['settime'] ==0)
+                {
+                  $('#bpacking').attr('disabled', false);
+                  $('#bpacking2').removeClass('opacity');
+                  $('#hover9').addClass('mhee');
+
+                  $("#bSave").prop('disabled', true);
+                  $("#bSave2").addClass('opacity');
+                  $("#hover4").removeClass('mhee');
+                }
+                else
+                {
+                  $('#bpacking').attr('disabled', true);
+                  $('#bpacking2').addClass('opacity');
+                  $('#hover9').removeClass('mhee');
+
+                  $("#bSave").prop('disabled', false);
+                  $("#bSave2").removeClass('opacity');
+                  $("#hover4").addClass('mhee');
+                }
+
+                  $('#hover2').addClass('mhee');
+                  $('#hover5').addClass('mhee');
+                  $('#bImport2').removeClass('opacity');
+                  $('#bCancel2').removeClass('opacity');
+                swal({
+                  title: "<?php echo $array['createdocno'][$language]; ?>",
+                  text: temp[0]['DocNo'] + " <?php echo $array['success'][$language]; ?>",
+                  type: "success",
+                  showCancelButton: false,
+                  timer: 1000,
+                  confirmButtonText: 'Ok',
+                  showConfirmButton: false
+                });
+                  ShowDetailNew();
+                  parent.OnLoadPage();
+              }
             }else if(temp["form"]=='ShowDocument'){
                 setTimeout(function () {
                 parent.OnLoadPage();
@@ -1898,11 +1951,18 @@ $array2 = json_decode($json2,TRUE);
               $('#hover1').removeClass('mhee');
               $('#bCreate2').addClass('opacity');
 
-              if(temp[0]['IsStatus'] ==4 || temp[0]['IsStatus'] ==3){
+              if(temp[0]['IsStatus'] ==4 || temp[0]['IsStatus'] ==3)
+              {
                   $("#completed").val('completed');
-                  }else{
+              }
+              else if (temp[0]['IsStatus'] ==0 || temp[0]['IsStatus'] ==1)
+              {
                   $("#completed").val('on process');
-                  }
+              }
+              else if (temp[0]['IsStatus'] ==9)
+              {
+                  $("#completed").val('cancel');
+              }
               $("#hotpital").val(temp[0]['HptName']);
               $("#hotpital").prop('disabled', true);
               $('#hotpital').addClass('icon_select');
@@ -1968,16 +2028,6 @@ $array2 = json_decode($json2,TRUE);
                 $("#completed").val('on process');
               }else if(temp[0]['IsStatus']==1  || temp[0]['IsStatus']==2 || temp[0]['IsStatus']==3  || temp[0]['IsStatus']==4){
                 
-                  // if(temp[0]['IsStatus'] >=3){
-                  //   $("#hover5").removeClass('mhee');
-                  //   $("#bCancel").prop('disabled', true);
-                  //   $("#bCancel2").addClass('opacity');
-                  // }else{
-                  //   $("#hover5").addClass('mhee');
-                  //   $("#bCancel").prop('disabled', false);
-                  //   $("#bCancel2").removeClass('opacity');
-                  // }
-
                   if(temp[0]['IsStatus']==1 ){
                     
                     $("#completed").val('on process');
@@ -2007,35 +2057,10 @@ $array2 = json_decode($json2,TRUE);
                     $("#hover6").addClass('mhee');
                   }
 
-                // if(temp[0]['ScTime'] == 0){
-                //   if(temp[0]['jaipar'] == 1){
-                //     $('#bpacking').attr('disabled', true);
-                //     $('#bpacking2').addClass('opacity');
-                //     $('#hover9').removeClass('mhee');
-                //   }else if(temp[0]['jaipar'] == 0){
-                //     $('#bpacking').attr('disabled', false);
-                //     $('#bpacking2').removeClass('opacity');
-                //     $('#hover9').addClass('mhee');
-                //   }
-                // }else{
-                //     $('#bpacking').attr('disabled', true);
-                //     $('#bpacking2').addClass('opacity');
-                //     $('#hover9').removeClass('mhee');
-                //   if(temp[0]['jaipar'] == 1){
-                //     $('#bdetail').attr('disabled' , true);
-                //     $("#bdetail2").addClass('opacity');
-                //     $("#hover6").removeClass('mhee');
-                //   }else if(temp[0]['jaipar'] == 0){
-                //     $('#bdetail').attr('disabled' , false);
-                //     $("#bdetail2").removeClass('opacity');
-                //     $("#hover6").addClass('mhee');
-                //   }
-                // }
-
               }else{
-                $('#bPrint').attr('disabled', true);
-                $('#bPrint2').addClass('opacity');
-                $('#hover7').removeClass('mhee');
+                $('#bPrint').attr('disabled', false);
+                $('#bPrint2').removeClass('opacity');
+                $('#hover6').addClass('mhee');
 
                 $('#bPrintsticker').attr('disabled', true);
                 $('#bPrintsticker2').addClass('opacity');
@@ -2044,6 +2069,10 @@ $array2 = json_decode($json2,TRUE);
                 $('#bpacking').attr('disabled', true);
                 $('#bpacking2').addClass('opacity');
                 $('#hover9').removeClass('mhee');
+
+                $('#bdetail').attr('disabled' , true);
+                $("#bdetail2").addClass('opacity');
+                $("#hover6").removeClass('mhee');
 
                 $("#bImport").prop('disabled', true);
                 $("#bDelete").prop('disabled', true);
@@ -2399,6 +2428,16 @@ $array2 = json_decode($json2,TRUE);
               $('#SaveDrawModal').modal('toggle');
               $('#profile-tab').tab('show');
               ShowDocument();
+            }else if( (temp["form"]=='UpdateNewQty') ){
+
+              if(temp['Issue'] == 0 && temp['Weightitemx'] == 0)
+              {
+                $('#Issue_'+temp['i']).removeClass('border border-success');
+              }
+              else if(temp['Issue'] != 0 && temp['Weightitemx'] != 0)
+              {
+                $('#Issue_'+temp['i']).addClass('border border-success');
+              }
             }else if( (temp["form"]=='PrintstickerModal') ){
               result = '';
               if(temp["RowCount"]>0){
@@ -2498,7 +2537,7 @@ $array2 = json_decode($json2,TRUE);
                 
                 var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['ParQty']+"'>";
                 
-                var Issue = "<input autocomplete='off' class='form-control inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onkeyup='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\" ,\""+temp[i]['ItemCode']+"\"  )'>";
+                var Issue = "<input autocomplete='off' class='form-control decimal numonly inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onchange='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\" ,\""+temp[i]['ItemCode']+"\"  )'>";
                 
                 var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
                 
@@ -2539,6 +2578,20 @@ $array2 = json_decode($json2,TRUE);
                   $('#TableItemDetail tbody:last-child').append( $StrTR );
                 }
               }
+              
+              $('.decimal').keypress(function (e) {
+                                    var character = String.fromCharCode(e.keyCode)
+                                    var newValue = this.value + character;
+                                    if (isNaN(newValue) || hasDecimalPlace(newValue, 3)) {
+                                        e.preventDefault();
+                                        return false;
+                                    }
+                                });
+                                 
+                                function hasDecimalPlace(value, x) {
+                                    var pointIndex = value.indexOf('.');
+                                    return  pointIndex >= 0 && pointIndex < value.length - x;
+                                }
               Calculate(temp['Row']);
               $('.numonly').on('input', function()
               {

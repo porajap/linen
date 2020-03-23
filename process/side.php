@@ -68,6 +68,7 @@ function getdetail($conn, $DATA)
               site.PayerCode,
               site.Signature,
               site.stock,
+              site.LabSiteCode,
               (
                 SELECT
                   COUNT(*)
@@ -102,6 +103,7 @@ function getdetail($conn, $DATA)
       $PayerCode              = $Result['PayerCode'];
       $return['cnt']          = $Result['cnt'];
       $return['stock']        = $Result['stock'];
+      $return['LabSiteCode']        = $Result['LabSiteCode'];
 
       //$return['IsStatus'] = $Result['IsStatus'];
       $count++;
@@ -167,7 +169,8 @@ function AddItem($conn, $DATA)
   $sitepath     = $DATA['sitepath'];
   $PayerCode    = $DATA['PayerCode'];
   $Userid       = $_SESSION['Userid'];
-
+  $LabSiteCode    = $DATA['LabSiteCode'];
+  
   $Sql2="UPDATE department SET Ship_To = '$PayerCode' WHERE HptCode = '$HptCode' ";
   mysqli_query($conn, $Sql2);
   // ==============================================
@@ -194,7 +197,8 @@ function AddItem($conn, $DATA)
       site.Site_Path,
       site.PayerCode,
       site.Signature,
-      site.stock
+      site.stock,
+      site.LabSiteCode
     )
     VALUE
       (
@@ -209,7 +213,8 @@ function AddItem($conn, $DATA)
         '$sitepath',
         '$PayerCode',
         $Signature , 
-        $stock
+        $stock ,
+        '$LabSiteCode'
       )";
     $return['sss'] = $Sql;
   if(mysqli_query($conn, $Sql))
@@ -239,7 +244,8 @@ function AddItem($conn, $DATA)
        site.Site_Path = '$sitepath',
        site.PayerCode = '$PayerCode',
        site.Signature = $Signature ,
-       site.stock = $stock
+       site.stock = $stock ,
+       site.LabSiteCode = '$LabSiteCode'
       WHERE
         site.HptCode = '$HptCode1'";
       if(mysqli_query($conn, $Sql)){
