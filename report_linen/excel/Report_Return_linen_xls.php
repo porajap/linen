@@ -282,28 +282,20 @@ if ($chk == 'one')
 }
 elseif ($chk == 'between')
 {
-  list($year, $month, $day) = explode('-', $date2);
-  if ($day <> 31)
-  {
-    $day = $day + 1;
-  }
-  $date2 = $year . "-" . $month . "-" . $day;
-  $period = new DatePeriod(
-    new DateTime($date1),
-    new DateInterval('P1D'),
-    new DateTime($date2)
-  );
-  foreach ($period as $key => $value)
-  {
+  $begin = new DateTime( $date1 );
+  $end = new DateTime( $date2 );
+  $end = $end->modify( '1 day' );
+
+  $interval = new DateInterval('P1D');
+  $period = new DatePeriod($begin, $interval ,$end);
+  foreach ($period as $key => $value) {
     $date[] = $value->format('Y-m-d');
   }
   $count = count($date);
-  for ($i = 0; $i < $count; $i++)
-  {
+  for ($i = 0; $i < $count; $i++) {
     $date1 = $date[$i];
     list($y, $m, $d) = explode('-', $date1);
-    if ($language ==  'th')
-    {
+    if ($language ==  'th') {
       $y = $y + 543;
     }
     $date1 = $d . '-' . $m . '-' . $y;

@@ -30,6 +30,167 @@ function ShowItem($conn, $DATA)
     $count++;
   }
   $return['Count'] = $count;
+
+
+
+
+
+  // $total = "SELECT
+  //           SUM(shelfcount_detail.Weight) AS  totalw,
+  //           SUM(shelfcount_detail.Price) AS totalp,
+  //           shelfcount.DocNo
+  //           FROM
+  //           shelfcount_detail
+  //           INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  //           WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+  //           and  shelfcount.IsStatus <> 0 
+  //           and  shelfcount.IsStatus <> 9 
+  //           and shelfcount.SiteCode = 'GRI'
+  //           GROUP BY shelfcount.DocNo ";
+  // $meQuery = mysqli_query($conn, $total);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  //   $totalw = $Result['totalw'];
+  //   $totalp = $Result['totalp'];
+  //   $DocNo = $Result['DocNo'];
+  //   $UPDATE_sapGRI = "UPDATE shelfcount SET Totalw = $totalw , Totalp = $totalp WHERE DocNo = '$DocNo' ";
+  //   mysqli_query($conn, $UPDATE_sapGRI);
+  // }
+
+
+  // $total = "SELECT
+  //           SUM(shelfcount_detail.Weight) AS  totalw,
+  //           SUM(shelfcount_detail.Price) AS totalp,
+  //           shelfcount.DocNo
+  //           FROM
+  //           shelfcount_detail
+  //           INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  //           WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+  //           and  shelfcount.IsStatus <> 0 
+  //           and  shelfcount.IsStatus <> 9 
+  //           and shelfcount.SiteCode = 'BCH'
+  //           GROUP BY shelfcount.DocNo ";
+  // $meQuery = mysqli_query($conn, $total);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  //   $totalw = $Result['totalw'];
+  //   $totalp = $Result['totalp'];
+  //   $DocNo = $Result['DocNo'];
+  //   $UPDATE_sapGRI = "UPDATE shelfcount SET Totalw = $totalw , Totalp = $totalp WHERE DocNo = '$DocNo' ";
+  //   mysqli_query($conn, $UPDATE_sapGRI);
+  // }
+
+  // $total = "SELECT
+  //           SUM(shelfcount_detail.Weight) AS  totalw,
+  //           SUM(shelfcount_detail.Price) AS totalp,
+  //           shelfcount.DocNo
+  //           FROM
+  //           shelfcount_detail
+  //           INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  //           WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+  //           and  shelfcount.IsStatus <> 0 
+  //           and  shelfcount.IsStatus <> 9 
+  //           and shelfcount.SiteCode = 'BHQ'
+  //           GROUP BY shelfcount.DocNo ";
+  // $meQuery = mysqli_query($conn, $total);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  //   $totalw = $Result['totalw'];
+  //   $totalp = $Result['totalp'];
+  //   $DocNo = $Result['DocNo'];
+  //   $UPDATE_sapGRI = "UPDATE shelfcount SET Totalw = $totalw , Totalp = $totalp WHERE DocNo = '$DocNo' ";
+  //   mysqli_query($conn, $UPDATE_sapGRI);
+  // }
+
+
+  // $total = "SELECT
+  //           SUM(shelfcount_detail.Weight) AS  totalw,
+  //           SUM(shelfcount_detail.Price) AS totalp,
+  //           shelfcount.DocNo
+  //           FROM
+  //           shelfcount_detail
+  //           INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  //           WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+  //           and  shelfcount.IsStatus <> 0 
+  //           and  shelfcount.IsStatus <> 9 
+  //           and shelfcount.SiteCode = 'LCB'
+  //           GROUP BY shelfcount.DocNo ";
+  // $meQuery = mysqli_query($conn, $total);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  //   $totalw = $Result['totalw'];
+  //   $totalp = $Result['totalp'];
+  //   $DocNo = $Result['DocNo'];
+  //   $UPDATE_sapGRI = "UPDATE shelfcount SET Totalw = $totalw , Totalp = $totalp WHERE DocNo = '$DocNo' ";
+  //   mysqli_query($conn, $UPDATE_sapGRI);
+  // }
+
+  // $total = "SELECT
+  //           SUM(shelfcount_detail.Weight) AS  totalw,
+  //           SUM(shelfcount_detail.Price) AS totalp,
+  //           shelfcount.DocNo
+  //           FROM
+  //           shelfcount_detail
+  //           INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  //           WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+  //           and  shelfcount.IsStatus <> 0 
+  //           and  shelfcount.IsStatus <> 9 
+  //           and shelfcount.SiteCode = 'SRH'
+  //           GROUP BY shelfcount.DocNo ";
+  // $meQuery = mysqli_query($conn, $total);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  //   $totalw = $Result['totalw'];
+  //   $totalp = $Result['totalp'];
+  //   $DocNo = $Result['DocNo'];
+  //   $UPDATE_sapGRI = "UPDATE shelfcount SET Totalw = $totalw , Totalp = $totalp WHERE DocNo = '$DocNo' ";
+  //   mysqli_query($conn, $UPDATE_sapGRI);
+  // }
+
+  // $total = "SELECT
+  //           SUM(shelfcount_detail.Weight) AS  totalw,
+  //           SUM(shelfcount_detail.Price) AS totalp,
+  //           shelfcount.DocNo
+  //           FROM
+  //           shelfcount_detail
+  //           INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  //           WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+  //           and  shelfcount.IsStatus <> 0 
+  //           and  shelfcount.IsStatus <> 9 
+  //           and shelfcount.SiteCode = 'VGH'
+  //           GROUP BY shelfcount.DocNo ";
+  // $meQuery = mysqli_query($conn, $total);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+  //   $totalw = $Result['totalw'];
+  //   $totalp = $Result['totalp'];
+  //   $DocNo = $Result['DocNo'];
+  //   $UPDATE_sapGRI = "UPDATE shelfcount SET Totalw = $totalw , Totalp = $totalp WHERE DocNo = '$DocNo' ";
+  //   mysqli_query($conn, $UPDATE_sapGRI);
+  // }
+
+  $total = "SELECT
+  SUM(shelfcount_detail.Weight) AS  totalw,
+  SUM(shelfcount_detail.Price) AS totalp,
+  shelfcount.DocNo
+  FROM
+  shelfcount_detail
+  INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+  WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+  and  shelfcount.IsStatus <> 0 
+  and  shelfcount.IsStatus <> 9 
+  and shelfcount.SiteCode = 'RPH'
+  GROUP BY shelfcount.DocNo ";
+$meQuery = mysqli_query($conn, $total);
+while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+$totalw = $Result['totalw'];
+$totalp = $Result['totalp'];
+$DocNo = $Result['DocNo'];
+$UPDATE_sapGRI = "UPDATE shelfcount SET Totalw = $totalw , Totalp = $totalp WHERE DocNo = '$DocNo' ";
+mysqli_query($conn, $UPDATE_sapGRI);
+}
+
   if($count>0){
     $return['status'] = "success";
     $return['form'] = "ShowItem";

@@ -450,8 +450,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
 	                      DATE(shelfcount.complete_date) AS Date_chk
                       FROM
                         report_sc
-                      INNER JOIN department ON department.DepCode = report_sc.DepCode
-                      INNER JOIN site ON site.HptCode = department.HptCode
                       INNER JOIN shelfcount ON shelfcount.DocNo = report_sc.DocNo
                       WHERE  DATE(shelfcount.complete_date) IN (";
                       for ($day = 0; $day < $count; $day++) {
@@ -464,7 +462,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                       AND report_sc.isStatus <> 0
                       AND report_sc.DepCode = '$DepCode[$lek]'
                       AND shelfcount.SiteCode = '$HptCode'
-                      AND site.HptCode = '$HptCode'
                       $categorywhere 
                       GROUP BY DATE(shelfcount.complete_date)  ";
 
@@ -580,7 +577,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                             report_sc
                           INNER JOIN department ON department.DepCode = report_sc.DepCode
                           INNER JOIN grouphpt ON grouphpt.GroupCode = department.GroupCode
-                          INNER JOIN site ON site.HptCode = department.HptCode
                           INNER JOIN shelfcount ON shelfcount.DocNo = report_sc.DocNo
                           WHERE DATE(shelfcount.complete_date) IN (  "; 
                                       for ($day = 0; $day < $count; $day++) {
@@ -591,7 +587,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                                       $data = rtrim($data, ' ,'); 
     $data .=       " ) AND report_sc.isStatus <> 9
                             AND report_sc.isStatus <> 0
-                            AND site.HptCode = '$HptCode'
                             $categorywhere
                             AND grouphpt.GroupCode =  '$GroupCode[$sheet]'
                             AND grouphpt.HptCode = '$HptCode' 
@@ -673,7 +668,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     )
   );
   $r1 = $r - 1;
-  $objPHPExcel->getActiveSheet()->getStyle("A5:A6")->applyFromArray($A5);
+  $objPHPExcel->getActiveSheet()->getStyle("A4:A6")->applyFromArray($A5);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($styleArray);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . $start_row)->applyFromArray($fill);
   $objPHPExcel->getActiveSheet()->getStyle("A7:" . $date_cell1[$r] . "8")->applyFromArray($colorfill);

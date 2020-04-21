@@ -268,6 +268,12 @@ function CreateDocument($conn, $DATA)
     mysqli_query($conn, $Sql);
   }
 
+  $sitepath = "SELECT Site_Path FROM site WHERE HptCode = '$hotpCode' " ;
+  $meQuery = mysqli_query($conn, $sitepath);
+  while ($Result = mysqli_fetch_assoc($meQuery)) 
+  {
+    $sitepath = $Result['Site_Path'];
+  }
 
   if ($count == 1) {
 
@@ -285,7 +291,8 @@ function CreateDocument($conn, $DATA)
               ScTime,
               ScEndTime,
               IsMobile,
-              SiteCode
+              SiteCode,
+              SitePath
             )
             VALUES
               (
@@ -302,7 +309,8 @@ function CreateDocument($conn, $DATA)
                 '$setcount',
                 NOW(),
                 1,
-                '$hotpCode'
+                '$hotpCode',
+                '$sitepath'
               )";
 
     mysqli_query($conn, $Sql);
@@ -1234,6 +1242,17 @@ function SaveBill($conn, $DATA)
   $ItemCode       = explode(",", $ItemCodeArray);
   $QtyArray       = explode(",", $DATA['Qty']);
   $Weight         = explode(",", $DATA['Weight']);
+
+
+  $sc           = explode(",", $DATA['sc']);
+  $issue        = explode(",", $DATA['issue']);
+  $short        = explode(",", $DATA['short']);
+  $over         = explode(",", $DATA['over']);
+  $weight_sum   = explode(",", $DATA['weight_sum']);
+  $price        = explode(",", $DATA['price']);
+
+
+
   // $limit          = sizeof($ItemCode, 0);
 
   #-------------------------------------------------------------------------------
@@ -1268,17 +1287,53 @@ function SaveBill($conn, $DATA)
         mysqli_query($conn, $updateStock);
  }
  
+ foreach ($ItemCode as $key => $value)
+  {
+    if($issue[$key] > 0)
+    {
+      $price_sum = number_format($weight_sum[$key] * $price[$key] , 2) ;
 
-  $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ , SUM(Weight) AS Weight2 , SUM(Price) AS Price2
-  FROM shelfcount_detail WHERE shelfcount_detail.DocNo = '$DocNo'";
-  $meQ = mysqli_query($conn, $Sql);
-  while ($Res = mysqli_fetch_assoc($meQ)) {
-    $Sum = $Res['Summ'];
-    $Weight2  = $Res['Weight2'];
-    $Price2   = $Res['Price2'];
+      $update_sc = " UPDATE shelfcount_detail,report_sc 
+                      SET 
+                      shelfcount_detail.Weight   = $weight_sum[$key],
+                      shelfcount_detail.CcQty    = $sc[$key],
+                      shelfcount_detail.TotalQty = $issue[$key],
+                      shelfcount_detail.Over     = $over[$key],
+                      shelfcount_detail.Short    = $short[$key],
+                      shelfcount_detail.Price    = $price_sum,
+  
+                      report_sc.Weight           = $weight_sum[$key],
+                      report_sc.CcQty            = $sc[$key],
+                      report_sc.TotalQty         = $issue[$key],
+                      report_sc.Over             = $over[$key],
+                      report_sc.Short            = $short[$key],
+                      report_sc.Price            = $price_sum
+  
+                      WHERE
+                        shelfcount_detail.DocNo = '$DocNo' 
+                        AND shelfcount_detail.ItemCode = '$value' 
+                        AND report_sc.DocNo = '$DocNo' 
+                        AND report_sc.ItemCode = '$value'   " ;
+  
+        mysqli_query($conn, $update_sc);
+
+        // echo $update_sc ;
+    }
+
+
   }
+
+  // $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ , SUM(Weight) AS Weight2 , SUM(Price) AS Price2
+  // FROM shelfcount_detail WHERE shelfcount_detail.DocNo = '$DocNo'";
+  // $meQ = mysqli_query($conn, $Sql);
+  // while ($Res = mysqli_fetch_assoc($meQ)) {
+  //   $Sum = $Res['Summ'];
+  //   $Weight2  = $Res['Weight2'];
+  //   $Price2   = $Res['Price2'];
+  // }
+
   $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus  ,Total = $Sum  , DeliveryTime=$settime , ScTime=$setcount , Totalw = $Weight2 , Totalp = $Price2 WHERE shelfcount.DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , DeliveryTime=$settime , ScTime=$setcount  WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
 
@@ -1723,7 +1778,8 @@ function SaveDraw($conn, $DATA)
   $StockRes = mysqli_fetch_assoc($StockQ);
   $stock = $StockRes['stock'];
 
-  if($stock == 1){
+  if($stock == 1)
+{
   $loopitem = 0;
   $Sql3 = "SELECT
   report_sc.ItemName,
@@ -1831,7 +1887,18 @@ function SaveDraw($conn, $DATA)
   }
 
 
+  $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ , SUM(Weight) AS Weight2 , SUM(Price) AS Price2
+  FROM shelfcount_detail WHERE shelfcount_detail.DocNo = '$DocNo'";
+  $meQ = mysqli_query($conn, $Sql);
+  while ($Res = mysqli_fetch_assoc($meQ))
+  {
+    $Sum = $Res['Summ'];
+    $Weight2  = $Res['Weight2'];
+    $Price2   = $Res['Price2'];
+  }
 
+  $Sql = "UPDATE shelfcount SET Total = $Sum , Totalw = $Weight2 , Totalp = $Price2 WHERE shelfcount.DocNo = '$DocNo'";
+  mysqli_query($conn, $Sql);
 
 
 
@@ -2145,6 +2212,7 @@ function ShowDetailNew($conn, $DATA)
   $Total = 0;
   $boolean = false;
   $DocNo = $DATA["DocNo"];
+  $HptCode = $DATA["HptCode"];
 
 
   //==========================================================
@@ -2179,13 +2247,15 @@ function ShowDetailNew($conn, $DATA)
   shelfcount_detail.Short,
   item.Weight,
   shelfcount_detail.Weight AS WeightShow ,
+	category_price.Price  ,
   (SELECT chk_sign FROM shelfcount WHERE DocNo = '$DocNo') AS chk_sign
   FROM item
-  INNER JOIN item_category ON item.CategoryCode = item_category.CategoryCode
+  INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
   INNER JOIN item_unit ON item.UnitCode = item_unit.UnitCode
   INNER JOIN shelfcount_detail ON shelfcount_detail.ItemCode = item.ItemCode
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
   WHERE shelfcount_detail.DocNo = '$DocNo'
+	AND category_price.HptCode = '$HptCode'
   ORDER BY item.ItemName ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -2194,6 +2264,7 @@ function ShowDetailNew($conn, $DATA)
     $return[$count]['ItemCode']   = $Result['ItemCode'];
     $return[$count]['ItemName']   = $Result['ItemName'];
     $return[$count]['UnitName']   = $Result['UnitName'];
+    $return[$count]['Price']      = $Result['Price'];
     $return[$count]['ParQty']     = $Result['ParQty'];
     $return[$count]['CcQty']       = $Result['CcQty'];
     $return[$count]['Over']       = $Result['Over'] == 0 ? "" : $Result['Over'];
@@ -2383,6 +2454,7 @@ function UpdateNewQty($conn, $DATA)
               AND shelfcount_detail.ItemCode = '$itemcode' 
               AND report_sc.DocNo = '$DocNo' 
               AND report_sc.ItemCode = '$itemcode' ";
+
   }
   mysqli_query($conn, $Sql);
 

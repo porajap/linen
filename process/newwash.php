@@ -443,7 +443,8 @@ function ShowDocument($conn, $DATA)
   $lang  = $_SESSION['lang'];
   $boolean  = false;
   $count = 0;
-  $Hotp = $DATA["Hotp"];
+  $HptCode = $_SESSION['HptCode'];
+  $Hotp = $DATA["Hotp"]==NULL?$HptCode:$DATA["Hotp"];
   $DocNo  = $DATA["DocNo"];
   $xDocNo  = str_replace(' ', '%', $DATA["xdocno"]);
   $datepicker  = $DATA["datepicker1"]==''?date('Y-m-d'):$DATA["datepicker1"];

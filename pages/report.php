@@ -135,6 +135,7 @@ $array2 = json_decode($json2, TRUE);
 			$('#table_Dep').attr('hidden', true);
 			$('#table_DepDoc').attr('hidden', true);
 			$('#table_Group').attr('hidden', true);
+			$('#table_usage_detail').attr('hidden', true);
 			$('#table_category').attr('hidden', true);
 			$('#table_NoFacDep').attr('hidden', true);
 		}).mousemove(function(e) {
@@ -511,13 +512,19 @@ $array2 = json_decode($json2, TRUE);
 			$('#department').removeClass('border-danger');
 			$('#rem4').hide();
 			var DepCode = $('#department').val();
+			var hotpital = $('#hotpital').val();
 			var typereport = $('#typereport').val();
-			if (typereport == '29' || typereport == '30') {
+			if (typereport == '29' || typereport == '30'|| typereport == '34') {
 					$('#item').attr('disabled', false);
+			}
+			if(DepCode == null)
+			{
+				DepCode = 'ALL';
 			}
 			var data = {
 					'STATUS': 'find_item',
-					'DepCode': DepCode
+					'DepCode': DepCode,
+					'hotpital': hotpital
 				};
 			senddata(JSON.stringify(data));
 		}
@@ -589,6 +596,7 @@ $array2 = json_decode($json2, TRUE);
 			var oneday = $('#oneday').val();
 			var someday = $('#someday').val();
 			var onemonth = $('#onemonth').val();
+			var type_usage_detail = $('#type_usage_detail').val();
 			var somemonth = $('#somemonth').val();
 			var GroupCode = $('#grouphpt').val();
 			var Item = $('#item').val();
@@ -878,7 +886,10 @@ $array2 = json_decode($json2, TRUE);
 					'GroupCode': GroupCode,
 					'Item': Item,
 					'time_dirty': time_dirty,
-					'time_express': time_express
+					'time_express': time_express,
+					'type_usage_detail': type_usage_detail
+
+					
 				};
 			} 
 			else if (Format == 2) 
@@ -936,7 +947,8 @@ $array2 = json_decode($json2, TRUE);
 					'GroupCode': GroupCode,
 					'Item': Item,
 					'time_dirty': time_dirty,
-					'time_express': time_express
+					'time_express': time_express,
+					'type_usage_detail': type_usage_detail
 				}
 			} 
 			else 
@@ -963,7 +975,8 @@ $array2 = json_decode($json2, TRUE);
 					'GroupCode': GroupCode,
 					'Item': Item,
 					'time_dirty': time_dirty,
-					'time_express': time_express
+					'time_express': time_express,
+					'type_usage_detail': type_usage_detail
 				};
 			}
 
@@ -1064,8 +1077,7 @@ $array2 = json_decode($json2, TRUE);
 							// dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
-							var dep1 = "<option value='0'>" + depValue0 + "</option>";
-							dep1 += "<option value='ALL'>" + depValueAlldep + "</option>";
+							var dep1 = "<option value='ALL'>" + depValueAlldep + "</option>";
 							for (var i = 0; i < temp['RowDep']; i++) {
 								dep1 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -1108,9 +1120,9 @@ $array2 = json_decode($json2, TRUE);
                       $("#time_express").append(time_ex);
 
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
-							var depValue0 = '<?php echo $array['department'][$language]; ?>';
-							var dep2 = "<option value='0'>" + depValue0 + "</option>";
-							dep2 += "<option value='ALL'>" + depValueAlldep + "</option>";
+							// var depValue0 = '<?php echo $array['department'][$language]; ?>';
+							// var dep2 = "<option value='0'>" + depValue0 + "</option>";
+							var dep2 = "<option value='ALL'>" + depValueAlldep + "</option>";
 							for (var i = 0; i < temp['Row']; i++) {
 								dep2 += "<option value=" + temp[i]['DepCode'] + " id='select_" + i + "'>" + temp[i]['DepName'] + "</option>";
 							}
@@ -1131,7 +1143,7 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$("#factory").append(fac);
 							var DocDate = temp[i]['DocDate'];
-
+							blank_dep() ;
 						} else if (temp["form"] == 'Fac') {
 							swal.close();
 							var hot = $("#hotpital option:selected").text();
@@ -1158,7 +1170,6 @@ $array2 = json_decode($json2, TRUE);
 							} else if (format == 3) {
 								show_date = show_year;
 							}
-
 							$('#type_report').text(temp['typeReport']);
 							$('#table_Fac tbody').empty();
 							$('#table_Fac').attr('hidden', false);
@@ -1167,6 +1178,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', true);
 							$('#table_category').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							if (temp['r'] == 'r23') {
 								for (var i = 0; i < temp['countRow']; i++) {
 									var dataRow = "<tr>" +
@@ -1234,6 +1246,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', true);
 							$('#table_category').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							if (temp['statusDep'] == 'somedepartment') {
 								for (var i = 0; i < temp['countRow']; i++) {
 									var dataRow = "<tr>" +
@@ -1241,7 +1254,7 @@ $array2 = json_decode($json2, TRUE);
 										"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
 										"<td class='text-center pl-4' style='width:35%'>" + department + grouphpt + "</td>" +
 										"<td class='text-center' style='width:20%'>" + show_date + "</td>";
-									if (temp['r'] == 'r29' || temp['r'] == 'r30') {
+									if (temp['r'] == 'r29' || temp['r'] == 'r30' || temp['r'] == '9') {
 										dataRow += "<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>";
 									} else {
 										dataRow += "<td class='text-center' style='width:7.5%'><button  onclick='send_data(\"" + temp['url'] + "\");'  class='btn btn-info btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Pdf + "</button></td>" +
@@ -1356,6 +1369,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', true);
 							$('#table_category').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1403,6 +1417,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', false);
 							$('#table_category').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1412,6 +1427,52 @@ $array2 = json_decode($json2, TRUE);
 									"<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>" +
 									"</tr>";
 								$("#table_Group tbody").append(dataRow);
+							}
+						} else if (temp["form"] == 'usage_detail') {
+							swal.close();
+							$('#data').val(Object.values(temp['data_send']));
+							var hot = $("#hotpital option:selected").text();
+							var department = $("#department option:selected").text();
+							// alert('Group');
+							var print = '<?php echo $array['prin'][$language]; ?>';
+							var show_date = '';
+							var format = temp['Format'];
+							var Excel = 'XLS';
+							var Pdf = 'PDF';
+							var chk = temp['chk'];
+							if (format == 1) {
+								if (chk == 'one') {
+									show_date = day;
+								} else {
+									show_date = many_day;
+								}
+							} else if (format == 2) {
+								if (chk == 'month') {
+									show_date = month;
+								} else {
+									show_date = many_month;
+								}
+							} else if (format == 3) {
+								show_date = show_year;
+							}
+							$('#type_report').text(temp['typeReport']);
+							$('#table_usage_detail tbody').empty();
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', false);
+							$('#table_Group').attr('hidden', true);
+							$('#table_category').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
+							for (var i = 0; i < temp['countRow']; i++) {
+								var dataRow = "<tr>" +
+									"<td style='width:5%'>" + (i + 1) + "</td>" +
+									"<td class='text-center pl-4' style='width:25%'>" + hot + "</td>" +
+									"<td class='text-center pl-4' style='width:35%'>" + department + "</td>" +
+									"<td class='text-center' style='width:20%'>" + show_date + "</td>" +
+									"<td class='text-center' style='width:15%'><button  onclick='send_data(\"" + temp['urlxls'] + "\");'  class='btn btn-success btn-sm' style='font-size:20px!important;padding : 4px'><i class='fas fa-print mr-2'></i>" + Excel + "</button></td>" +
+									"</tr>";
+								$("#table_usage_detail tbody").append(dataRow);
 							}
 						}  else if (temp["form"] == 'category') {
 							swal.close();
@@ -1447,6 +1508,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', true);
 							$('#table_category').attr('hidden', false);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1491,6 +1553,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', false);
 							$('#table_category').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							for (var i = 0; i < temp['countRow']; i++) {
 								var dataRow = "<tr>" +
 									"<td style='width:5%'>" + (i + 1) + "</td>" +
@@ -1537,6 +1600,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_DepDoc').attr('hidden', true);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_Fac tbody").append(dataRow);
 						} else if (temp["form"] == 'Dep') {
@@ -1558,6 +1622,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_DepDoc').attr('hidden', true);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_Dep tbody").append(dataRow);
 						} else if (temp["form"] == 'Depdoc') {
@@ -1579,6 +1644,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_DepDoc').attr('hidden', false);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_DepDoc tbody").append(dataRow);
 						} else if (temp["form"] == 'Group') {
@@ -1600,6 +1666,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', false);
 							$('#table_NoFacDep').attr('hidden', true);
 							$('#table_category').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_Group tbody").append(dataRow);
 						} else if (temp["form"] == 'category') {
@@ -1621,6 +1688,7 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', true);
 							$('#table_category').attr('hidden', false);
+							$('#table_usage_detail').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_category tbody").append(dataRow);
 						}  else if (temp["form"] == 'NoFacDep') {
@@ -1642,6 +1710,29 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_Group').attr('hidden', true);
 							$('#table_NoFacDep').attr('hidden', false);
 							$('#table_category').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', true);
+							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
+							$("#table_NoFacDep tbody").append(dataRow);
+						} else if (temp["form"] == 'usage_detail') {
+							swal({
+										title: '',
+										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',
+										type: 'warning',
+										showCancelButton: false,
+										confirmButtonColor: '#3085d6',
+										cancelButtonColor: '#d33',
+										showConfirmButton: false,
+										timer: 2000,
+										confirmButtonText: 'Ok'
+									});
+							$('#table_NoFacDep tbody').empty();
+							$('#table_Fac').attr('hidden', true);
+							$('#table_Dep').attr('hidden', true);
+							$('#table_DepDoc').attr('hidden', true);
+							$('#table_Group').attr('hidden', true);
+							$('#table_NoFacDep').attr('hidden', true);
+							$('#table_category').attr('hidden', true);
+							$('#table_usage_detail').attr('hidden', false);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_NoFacDep tbody").append(dataRow);
 						}
@@ -1690,6 +1781,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chksomemonth').parent().show();
 				$('#chkyear').parent().show();
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			} else if (typeReport == 14 || typeReport == 16) {
 				$('#department').attr('disabled', false);
 				$('#factory').attr('disabled', true);
@@ -1705,6 +1797,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#cycle').val(0);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
+				$('#hidden_usage_detail').attr('hidden', true);
 				$('#time_express').attr('disabled', true);
 			} else if (typeReport == 9) {
 				$('#factory').attr('disabled', true);
@@ -1722,6 +1815,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			} else if (typeReport == 7 || typeReport == 10 || typeReport == 11 || typeReport == 12 || typeReport == 19 || typeReport == 18 || typeReport == 20 || typeReport == 21 || typeReport == 23 || typeReport == 25 || typeReport == 26 || typeReport == 27) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
@@ -1738,6 +1832,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			} else if (typeReport == 2) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
@@ -1754,6 +1849,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			}else if (typeReport == 29 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
@@ -1761,7 +1857,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', false);
-				$('#item').attr('disabled', true);
+				$('#item').attr('disabled', false);
 				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
@@ -1772,6 +1868,8 @@ $array2 = json_decode($json2, TRUE);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 				$('#time_express').attr('disabled', false);
+				$('#hidden_usage_detail').attr('hidden', true);
+				blank_dep();
 			} else if ( typeReport == 30) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
@@ -1779,7 +1877,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#hotpital').attr('disabled', tf);
 				$('#cycle').attr('disabled', false);
 				$('#grouphpt').attr('disabled', false);
-				$('#item').attr('disabled', true);
+				$('#item').attr('disabled', false);
 				$('#time_dirty').attr('disabled', true);
 				$('#grouphpt').val(0);
 				$('#factory').val(0);
@@ -1790,7 +1888,29 @@ $array2 = json_decode($json2, TRUE);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 				$('#time_express').attr('disabled', true);
-			} else if (typeReport == 28 ) {
+				$('#hidden_usage_detail').attr('hidden', true);
+				blank_dep();
+			} else if ( typeReport == 34) {
+				$('#factory').attr('disabled', true);
+				$('#department').attr('disabled', false);
+				$('#category').attr('disabled', true);
+				$('#hotpital').attr('disabled', tf);
+				$('#cycle').attr('disabled', false);
+				$('#grouphpt').attr('disabled', true);
+				$('#item').attr('disabled', false);
+				$('#time_dirty').attr('disabled', true);
+				$('#grouphpt').val(0);
+				$('#factory').val(0);
+				$('#department').val(0);
+				$('#cycle').val(0);
+				$('#item').val(0);
+				$('#time_dirty').val(0);
+				$('#chksomemonth').parent().hide();
+				$('#chkyear').parent().hide();
+				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', false);
+				blank_dep();
+			}  else if (typeReport == 28 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#category').attr('disabled', true);
@@ -1808,6 +1928,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			} else if (typeReport == 33 ) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
@@ -1826,6 +1947,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			}   else if (typeReport == 31 || typeReport == 32) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
@@ -1844,6 +1966,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chksomemonth').parent().hide();
 				$('#chkyear').parent().hide();
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			}else if (typeReport == 13) {
 				$('#factory').attr('disabled', false);
 				$('#department').attr('disabled', true);
@@ -1860,6 +1983,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			} else if (typeReport == 17) {
 				$('#factory').attr('disabled', true);
 				$('#category').attr('disabled', true);
@@ -1876,6 +2000,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#item').val(0);
 				$('#time_dirty').val(0);
 				$('#time_express').attr('disabled', true);
+				$('#hidden_usage_detail').attr('hidden', true);
 			}
 			if (typeReport == 9) {
 				$('#showday').hide();
@@ -1914,7 +2039,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkyear').prop('checked', false)
 				find_indexMonth(new Date().getFullYear())
 				// $('#oneMonth').attr('value', onemonth);
-			} else if (typeReport == 4 || typeReport == 29 || typeReport == 30) {
+			} else if (typeReport == 4) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#hotpital').attr('disabled', tf);
@@ -2311,9 +2436,10 @@ $array2 = json_decode($json2, TRUE);
 															<option value=28><?php echo "16. " . $array['r' . 28][$language]; ?></option>
 															<option value=31><?php echo "17. " . $array['r' . 31][$language]; ?></option>
 															<option value=29><?php echo "18. " . $array['r' . 29][$language]; ?></option>
-															<option value=30><?php echo "19. " . $array['r' . 30][$language]; ?></option>
+															<!-- <option value=30><?php echo "19. " . $array['r' . 30][$language]; ?></option> -->
 															<option value=32><?php echo "20. " . $array['r' . 32][$language]; ?></option>
 															<option value=33><?php echo "21. " . 'Monitoring SAP' 		        ?></option>
+															<option value=34><?php echo "22. " . 'Usage Detail New' 		        ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -2397,6 +2523,15 @@ $array2 = json_decode($json2, TRUE);
 													<div class='form-group row checkblank'>
 														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;">รอบส่งผ้า</label>
 														<select class="form-control col-sm-8" id="time_express" style=" font-size:22px;" disabled="true">
+														</select>
+													</div>
+												</div>
+												<div class="col-md-6" id= 'hidden_usage_detail' hidden>
+													<div class='form-group row checkblank'>
+														<label class="col-sm-3 col-form-label text-left" style="font-size:24px;">Report type</label>
+														<select class="form-control col-sm-8" id="type_usage_detail" style=" font-size:22px;">
+															<option value="1">Usage Existing</option>
+															<option value="2">Usage Detail</option>
 														</select>
 													</div>
 												</div>
@@ -2616,6 +2751,21 @@ $array2 = json_decode($json2, TRUE);
 								</tbody>
 							</table>
 							<!-- ---------------------------------CATEGORY--------------------------------------- -->
+							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_usage_detail" width="100%" cellspacing="0" role="grid" style="">
+								<thead id="theadsum" style="font-size:24px;">
+									<tr role="row" id='tr_1'>
+										<th style='width: 5%;' nowrap class='text-center'><?php echo $array['no'][$language]; ?></th>
+										<th style='width: 25%;' nowrap class='text-center'><?php echo $array['side'][$language]; ?></th>
+										<th style='width: 35%;' nowrap class='text-center'><?php echo $array['department'][$language]; ?></th>
+										<th style='width: 20%;' nowrap class='text-center'><?php echo $array['docdate'][$language]; ?></th>
+										<th style='width: 15%;' nowrap class='text-center'><?php echo $array['show'][$language]; ?></th>
+									</tr>
+								</thead>
+								<tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+								</tbody>
+							</table>
+							<!-- ---------------------------------CATEGORY--------------------------------------- -->
+
 							<table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="table_category" width="100%" cellspacing="0" role="grid" style="">
 								<thead id="theadsum" style="font-size:24px;">
 									<tr role="row" id='tr_1'>

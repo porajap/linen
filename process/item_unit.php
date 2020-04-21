@@ -27,6 +27,296 @@ function ShowItem($conn, $DATA)
     $return[$count]['IsStatus'] = $Result['IsStatus'];
     $count++;
   }
+    $updatebhq = "SELECT
+                    SUM(Weight) AS weight,
+                    SUM(Price) AS price,
+                    shelfcount.DocNo 
+                  FROM
+                    shelfcount_detail
+                    INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo 
+                  WHERE
+                    DATE(shelfcount.complete_date) BETWEEN '2020-04-12' AND '2020-04-13' 
+                  AND shelfcount.IsStatus <> 0
+                  AND shelfcount.IsStatus <> 9
+                  AND shelfcount_detail.TotalQty <> 0
+                  GROUP BY shelfcount.DocNo ";
+     $meQuery = mysqli_query($conn, $updatebhq);
+       while ($Result = mysqli_fetch_assoc($meQuery))
+       {
+        $weight     =  $Result['weight'];
+        $price      =  $Result['price'];
+        $DocNo      =  $Result['DocNo'];
+        $UPDATE_bhq = "UPDATE shelfcount SET Totalw = $weight , Totalp = $price  WHERE DocNo = '$DocNo' ";
+        mysqli_query($conn, $UPDATE_bhq);
+       }
+
+//   $sapGRI = "SELECT
+//             shelfcount_detail.DocNo,
+//             shelfcount_detail.ItemCode,
+//             shelfcount_detail.TotalQty,
+//             item.Weight,
+//             item.CategoryCode ,
+//             category_price.Price
+            
+//             FROM
+//             shelfcount_detail
+//             INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+//             INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+//             INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+//             WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+//             and  shelfcount_detail.TotalQty > 0 
+//             and  shelfcount_detail.Weight  = 0
+//             and  shelfcount.IsStatus <> 0 
+//             and  shelfcount.IsStatus <> 9 
+//             and  category_price.HptCode = 'GRI'
+//             and shelfcount.SiteCode = 'GRI' ";
+//   $meQuery = mysqli_query($conn, $sapGRI);
+//   while ($Result = mysqli_fetch_assoc($meQuery))
+//   {
+//     $DocNo_GRI        =  $Result['DocNo'];
+//     $ItemCodeGRI      =  $Result['ItemCode'];
+//     $TOTAL            =  $Result['TotalQty'];
+//     $Priceitem         =  $Result['Price'];
+//     $WeightItem       =  $Result['Weight'];
+//     $Weight_gri        = ($TOTAL * $WeightItem) ;
+//     $Price_gri        = ($Weight_gri * $Priceitem) ;
+//     $UPDATE_sapGRI = "UPDATE shelfcount_detail SET Weight = $Weight_gri , Price = $Price_gri , UPSAP = 1 WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//     mysqli_query($conn, $UPDATE_sapGRI);
+//     $UPDATE_sapGRI_report = "UPDATE report_sc SET Weight = $Weight_gri , Price = $Price_gri  WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//     mysqli_query($conn, $UPDATE_sapGRI_report);
+//   }
+
+//   $sapGRI = "SELECT
+//             shelfcount_detail.DocNo,
+//             shelfcount_detail.ItemCode,
+//             shelfcount_detail.TotalQty,
+//             item.Weight,
+//             item.CategoryCode ,
+//             category_price.Price
+            
+//             FROM
+//             shelfcount_detail
+//             INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+//             INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+//             INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+//             WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+//             and  shelfcount_detail.TotalQty > 0 
+//             and  shelfcount_detail.Weight  = 0
+//             and  shelfcount.IsStatus <> 0 
+//             and  shelfcount.IsStatus <> 9 
+//             and  category_price.HptCode = 'BCH'
+//             and shelfcount.SiteCode = 'BCH' ";
+//   $meQuery = mysqli_query($conn, $sapGRI);
+//   while ($Result = mysqli_fetch_assoc($meQuery))
+//   {
+//     $DocNo_GRI        =  $Result['DocNo'];
+//     $ItemCodeGRI      =  $Result['ItemCode'];
+//     $TOTAL            =  $Result['TotalQty'];
+//     $Priceitem         =  $Result['Price'];
+//     $WeightItem       =  $Result['Weight'];
+//     $Weight_gri        = ($TOTAL * $WeightItem) ;
+//     $Price_gri        = ($Weight_gri * $Priceitem) ;
+//     $UPDATE_sapGRI = "UPDATE shelfcount_detail SET Weight = $Weight_gri , Price = $Price_gri , UPSAP = 1 WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//     mysqli_query($conn, $UPDATE_sapGRI);
+//     $UPDATE_sapGRI_report = "UPDATE report_sc SET Weight = $Weight_gri , Price = $Price_gri  WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//     mysqli_query($conn, $UPDATE_sapGRI_report);
+//   }
+
+//   $sapGRI = "SELECT
+//             shelfcount_detail.DocNo,
+//             shelfcount_detail.ItemCode,
+//             shelfcount_detail.TotalQty,
+//             item.Weight,
+//             item.CategoryCode ,
+//             category_price.Price
+            
+//             FROM
+//             shelfcount_detail
+//             INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+//             INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+//             INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+//             WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+//             and  shelfcount_detail.TotalQty > 0 
+//             and  shelfcount_detail.Weight  = 0
+//             and  shelfcount.IsStatus <> 0 
+//             and  shelfcount.IsStatus <> 9 
+//             and  category_price.HptCode = 'BHQ'
+//             and shelfcount.SiteCode = 'BHQ' ";
+//   $meQuery = mysqli_query($conn, $sapGRI);
+//   while ($Result = mysqli_fetch_assoc($meQuery))
+//   {
+//     $DocNo_GRI        =  $Result['DocNo'];
+//     $ItemCodeGRI      =  $Result['ItemCode'];
+//     $TOTAL            =  $Result['TotalQty'];
+//     $Priceitem         =  $Result['Price'];
+//     $WeightItem       =  $Result['Weight'];
+//     $Weight_gri        = ($TOTAL * $WeightItem) ;
+//     $Price_gri        = ($Weight_gri * $Priceitem) ;
+//     $UPDATE_sapGRI = "UPDATE shelfcount_detail SET Weight = $Weight_gri , Price = $Price_gri , UPSAP = 1 WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//     mysqli_query($conn, $UPDATE_sapGRI);
+//     $UPDATE_sapGRI_report = "UPDATE report_sc SET Weight = $Weight_gri , Price = $Price_gri  WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//     mysqli_query($conn, $UPDATE_sapGRI_report);
+//   }
+
+//   $sapGRI = "SELECT
+//   shelfcount_detail.DocNo,
+//   shelfcount_detail.ItemCode,
+//   shelfcount_detail.TotalQty,
+//   item.Weight,
+//   item.CategoryCode ,
+//   category_price.Price
+  
+//   FROM
+//   shelfcount_detail
+//   INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+//   INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+//   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+//   WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+//   and  shelfcount_detail.TotalQty > 0 
+//   and  shelfcount_detail.Weight  = 0
+//   and  shelfcount.IsStatus <> 0 
+//   and  shelfcount.IsStatus <> 9 
+//   and  category_price.HptCode = 'LCB'
+//   and shelfcount.SiteCode = 'LCB' ";
+// $meQuery = mysqli_query($conn, $sapGRI);
+// while ($Result = mysqli_fetch_assoc($meQuery))
+// {
+//   $DocNo_GRI        =  $Result['DocNo'];
+//   $ItemCodeGRI      =  $Result['ItemCode'];
+//   $TOTAL            =  $Result['TotalQty'];
+//   $Priceitem         =  $Result['Price'];
+//   $WeightItem       =  $Result['Weight'];
+//   $Weight_gri        = ($TOTAL * $WeightItem) ;
+//   $Price_gri        = ($Weight_gri * $Priceitem) ;
+//   $UPDATE_sapGRI = "UPDATE shelfcount_detail SET Weight = $Weight_gri , Price = $Price_gri , UPSAP = 1 WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//   mysqli_query($conn, $UPDATE_sapGRI);
+//   $UPDATE_sapGRI_report = "UPDATE report_sc SET Weight = $Weight_gri , Price = $Price_gri  WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//   mysqli_query($conn, $UPDATE_sapGRI_report);
+// }
+
+// $sapGRI = "SELECT
+// shelfcount_detail.DocNo,
+// shelfcount_detail.ItemCode,
+// shelfcount_detail.TotalQty,
+// item.Weight,
+// item.CategoryCode ,
+// category_price.Price
+
+// FROM
+// shelfcount_detail
+// INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+// INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+// INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+// WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+// and  shelfcount_detail.TotalQty > 0 
+// and  shelfcount_detail.Weight  = 0
+// and  shelfcount.IsStatus <> 0 
+// and  shelfcount.IsStatus <> 9 
+// and  category_price.HptCode = 'SRH'
+// and shelfcount.SiteCode = 'SRH' ";
+// $meQuery = mysqli_query($conn, $sapGRI);
+// while ($Result = mysqli_fetch_assoc($meQuery))
+// {
+//   $DocNo_GRI        =  $Result['DocNo'];
+//   $ItemCodeGRI      =  $Result['ItemCode'];
+//   $TOTAL            =  $Result['TotalQty'];
+//   $Priceitem         =  $Result['Price'];
+//   $WeightItem       =  $Result['Weight'];
+//   $Weight_gri        = ($TOTAL * $WeightItem) ;
+//   $Price_gri        = ($Weight_gri * $Priceitem) ;
+//   $UPDATE_sapGRI = "UPDATE shelfcount_detail SET Weight = $Weight_gri , Price = $Price_gri , UPSAP = 1 WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//   mysqli_query($conn, $UPDATE_sapGRI);
+//   $UPDATE_sapGRI_report = "UPDATE report_sc SET Weight = $Weight_gri , Price = $Price_gri  WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//   mysqli_query($conn, $UPDATE_sapGRI_report);
+// }
+
+
+// $sapGRI = "SELECT
+// shelfcount_detail.DocNo,
+// shelfcount_detail.ItemCode,
+// shelfcount_detail.TotalQty,
+// item.Weight,
+// item.CategoryCode ,
+// category_price.Price
+
+// FROM
+// shelfcount_detail
+// INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+// INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+// INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+// WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+// and  shelfcount_detail.TotalQty > 0 
+// and  shelfcount_detail.Weight  = 0
+// and  shelfcount.IsStatus <> 0 
+// and  shelfcount.IsStatus <> 9 
+// and  category_price.HptCode = 'VGH'
+// and shelfcount.SiteCode = 'VGH' ";
+// $meQuery = mysqli_query($conn, $sapGRI);
+// while ($Result = mysqli_fetch_assoc($meQuery))
+// {
+//   $DocNo_GRI        =  $Result['DocNo'];
+//   $ItemCodeGRI      =  $Result['ItemCode'];
+//   $TOTAL            =  $Result['TotalQty'];
+//   $Priceitem         =  $Result['Price'];
+//   $WeightItem       =  $Result['Weight'];
+//   $Weight_gri        = ($TOTAL * $WeightItem) ;
+//   $Price_gri        = ($Weight_gri * $Priceitem) ;
+//   $UPDATE_sapGRI = "UPDATE shelfcount_detail SET Weight = $Weight_gri , Price = $Price_gri , UPSAP = 1 WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//   mysqli_query($conn, $UPDATE_sapGRI);
+//   $UPDATE_sapGRI_report = "UPDATE report_sc SET Weight = $Weight_gri , Price = $Price_gri  WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+//   mysqli_query($conn, $UPDATE_sapGRI_report);
+// }
+
+$sapGRI = "SELECT
+shelfcount_detail.DocNo,
+shelfcount_detail.ItemCode,
+shelfcount_detail.TotalQty,
+item.Weight,
+item.CategoryCode ,
+category_price.Price
+
+FROM
+shelfcount_detail
+INNER JOIN item ON item.ItemCode = shelfcount_detail.ItemCode
+INNER JOIN category_price ON category_price.CategoryCode = item.CategoryCode
+INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
+WHERE shelfcount.DocDate BETWEEN '2020-02-26' AND '2020-03-24'
+and  shelfcount_detail.TotalQty > 0 
+and  shelfcount_detail.Weight  = 0
+and  shelfcount.IsStatus <> 0 
+and  shelfcount.IsStatus <> 9 
+and  category_price.HptCode = 'RPH'
+and shelfcount.SiteCode = 'RPH' ";
+$meQuery = mysqli_query($conn, $sapGRI);
+while ($Result = mysqli_fetch_assoc($meQuery))
+{
+  $DocNo_GRI        =  $Result['DocNo'];
+  $ItemCodeGRI      =  $Result['ItemCode'];
+  $TOTAL            =  $Result['TotalQty'];
+  $Priceitem         =  $Result['Price'];
+  $WeightItem       =  $Result['Weight'];
+  $Weight_gri        = ($TOTAL * $WeightItem) ;
+  $Price_gri        = ($Weight_gri * $Priceitem) ;
+  $UPDATE_sapGRI = "UPDATE shelfcount_detail SET Weight = $Weight_gri , Price = $Price_gri , UPSAP = 1 WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+  mysqli_query($conn, $UPDATE_sapGRI);
+  $UPDATE_sapGRI_report = "UPDATE report_sc SET Weight = $Weight_gri , Price = $Price_gri  WHERE DocNo = '$DocNo_GRI' AND ItemCode = '$ItemCodeGRI' ";
+  mysqli_query($conn, $UPDATE_sapGRI_report);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   if($count>0){
     $return['status'] = "success";

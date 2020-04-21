@@ -1155,7 +1155,7 @@ $array2 = json_decode($json2,TRUE);
                                       </div>
                                
                         </div>
-                        <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
+                        <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped " id="TableItem" width="100%" cellspacing="0" role="grid">
                           <thead id="theadsum" style="font-size:11px;">
                             <tr role="row">
                               <th style='width: 5%;'>&nbsp;</th>

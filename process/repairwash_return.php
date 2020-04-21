@@ -9,78 +9,111 @@ if($Userid==""){
 }
 function OnLoadPage($conn, $DATA)
 {
-  $lang = $DATA["lang"];
-  $HptCodex = $_SESSION['HptCode'];
-  $HptCode = $DATA["HptCode"]==null?$HptCodex:$DATA["HptCode"];
-  $PmID = $_SESSION['PmID'];
-  $count = 0; 
-  $countx = 0;
-  $boolean = false;
-  if($lang == 'en')
-    {
-      $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode = '$HptCode' ";
-    }
-    else
-    {
-      $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode = '$HptCode' ";
-    }  
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $lang = $DATA["lang"];
+    $HptCodex = $_SESSION['HptCode'];
+    $HptCode = $DATA["HptCode"]==null?$HptCodex:$DATA["HptCode"];
+    $PmID = $_SESSION['PmID'];
+    $count = 0; 
+    $countx = 0;
+    $boolean = false;
+    if($lang == 'en')
+      {
+        $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode = '$HptCode' ";
+      }
+      else
+      {
+        $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode = '$HptCode' ";
+      }  
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
 
-  $return[$countx]['FacCode'] = $Result['FacCode'];
-  $return[$countx]['FacName'] = $Result['FacName'];
+    $return[$countx]['FacCode'] = $Result['FacCode'];
+    $return[$countx]['FacName'] = $Result['FacName'];
 
-  $countx  ++;
+    $countx  ++;
 
-}
-$return['Rowx'] = $countx;
-if($lang == 'en'){
-  $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-  if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
-    $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-    }else{
-      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
-    }  
-  }else{
-      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
-      if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
-      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+  }
+  $return['Rowx'] = $countx;
+  if($lang == 'en'){
+    $Sql = "SELECT site.HptCode,site.HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+    if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
+      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
       }else{
-      $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
-    }  
-  }
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['HptCode'] = $Result['HptCode'];
-    $return[$count]['HptName'] = $Result['HptName'];
-    // $count++;
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptName AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      }  
+    }else{
+        $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName FROM site  WHERE site.IsStatus = 0  AND site.HptCode = '$HptCode'";
+        if($PmID ==2 || $PmID ==3 || $PmID ==5  || $PmID ==7){
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 AND site.HptCode = '$HptCode'";
+        }else{
+        $Sql1 = "SELECT site.HptCode AS HptCode1,site.HptNameTH AS HptName1 FROM site  WHERE site.IsStatus = 0 ";
+      }  
+    }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[$count]['HptCode'] = $Result['HptCode'];
+      $return[$count]['HptName'] = $Result['HptName'];
+      // $count++;
+      $boolean = true;
+    }
+    $meQuery1 = mysqli_query($conn, $Sql1);
+    while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
+      $return[$count]['HptCode1'] = $Result1['HptCode1'];
+      $return[$count]['HptName1'] = $Result1['HptName1'];
+      $return[0]['PmID'] = $PmID;
+      $count++;
+      $boolean = true;
+    }
+    $return['Row'] = $count;
     $boolean = true;
+    if ($boolean) {
+      $return['status'] = "success";
+      $return['form'] = "OnLoadPage";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['form'] = "OnLoadPage";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+}
+function getfactory($conn, $DATA){
+  $lang     = $DATA["lang"];
+  $hotpital = $DATA["hotpital"]==null?$_SESSION['HptCode']:$DATA["hotpital"];
+  $boolean  = false;
+  $countx   = 0;
+  if($lang == 'en'){
+    $Sql = "SELECT factory.FacCode,factory.FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+    }else{
+    $Sql = "SELECT factory.FacCode,factory.FacNameTH AS FacName FROM factory WHERE factory.IsCancel = 0 AND HptCode ='$hotpital'";
+    }
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+  
+    $return[$countx]['FacCode'] = $Result['FacCode'];
+    $return[$countx]['FacName'] = $Result['FacName'];
+    $countx  ++;
   }
-  $meQuery1 = mysqli_query($conn, $Sql1);
-  while ($Result1 = mysqli_fetch_assoc($meQuery1)) {
-    $return[$count]['HptCode1'] = $Result1['HptCode1'];
-    $return[$count]['HptName1'] = $Result1['HptName1'];
-    $return[0]['PmID'] = $PmID;
-    $count++;
-    $boolean = true;
-  }
-  $return['Row'] = $count;
   $boolean = true;
+  $return['Rowx'] = $countx;
+
   if ($boolean) {
     $return['status'] = "success";
-    $return['form'] = "OnLoadPage";
+    $return['form'] = "getfactory";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   } else {
     $return['status'] = "failed";
-    $return['form'] = "OnLoadPage";
+    $return['form'] = "getfactory";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   }
 }
-
 function getDepartment($conn, $DATA)
 {
   $count = 0;
@@ -1283,9 +1316,11 @@ function CreateDocument($conn, $DATA)
     updateQty($conn, $DATA);
   }elseif ($DATA['STATUS'] == 'savefactory') {
     savefactory($conn, $DATA);
+  }elseif ($DATA['STATUS'] == 'getfactory') {
+    getfactory($conn, $DATA);
   }
 
-
+  
   
     
   } else {

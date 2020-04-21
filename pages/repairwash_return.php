@@ -368,7 +368,18 @@ $(document).ready(function(e)
         })
 
       }
-
+      function getfactory(){
+        $('#hotpital').removeClass('border-danger');
+        $('#rem3').hide();
+          var lang = '<?php echo $language; ?>';
+          var hotpital = $('#hotpital').val();
+          var data = {
+            'STATUS'    : 'getfactory',
+            'hotpital'	: hotpital ,
+            'lang'	    : lang
+          };
+          senddata(JSON.stringify(data));
+        }
       function getDepartment(chk){
         $('#hotpital').removeClass('border-danger');
         $('#rem3').hide();
@@ -389,7 +400,7 @@ $(document).ready(function(e)
       };
 
       senddata(JSON.stringify(data));
-      
+      getfactory();
     }
       
 
@@ -1044,6 +1055,15 @@ $(document).ready(function(e)
                   $("#factory").append(Str);
                   $("#factory2").append(Str);
                   $("#hotpital").val(HptCode);
+              }else if(temp["form"]=='getfactory'){
+                $("#factory").empty();
+                $("#factory2").empty();
+                var Str = "<option value='' selected><?php echo $array['selectfactory'][$language]; ?></option>";
+                  for (var i = 0; i < temp["Rowx"]; i++) {
+                    Str += "<option value="+temp[i]['FacCode']+">"+temp[i]['FacName']+"</option>";
+                  }
+                  $("#factory").append(Str);
+                  $("#factory2").append(Str);
               }else if(temp["form"]=='getDepartment'){
                 $("#department").empty();
                 $("#Dep2").empty();

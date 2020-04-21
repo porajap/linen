@@ -553,9 +553,12 @@ $array2 = json_decode($json2,TRUE);
 
     function ShowDetailNew() {
       var docno = $("#docno").val();
+      var hotpCode = $("#hotpital").val();
+
       var data = {
         'STATUS'  : 'ShowDetailNew',
-        'DocNo'   : docno
+        'DocNo'   : docno ,
+        'HptCode'   : hotpCode
       };
       senddata(JSON.stringify(data));
     }
@@ -934,10 +937,107 @@ $array2 = json_decode($json2,TRUE);
           if(docno!=""){
             setTimeout(() => {
 
-              var ItemCodeArray = [];
               var Item = [];
               var QtyItemArray = [];
               var WeightItemArray = [];
+              var ItemCodeArray = [];
+
+
+
+              var ScArray      = [];
+              var IssueArray    = [];
+              var ShortArray    = [];
+              var OverArray     = [];
+              var WeightArray   = [];
+              var PriceArray   = [];
+
+              
+              $('input[name="Price_save"]').each(function() 
+              {
+                if($(this).val()!="")
+                {
+                  PriceArray.push($(this).val());
+                }
+                else
+                {
+                  PriceArray.push('0');
+                }
+              });
+
+              $('input[name="Sc_save"]').each(function() 
+              {
+                if($(this).val()!="")
+                {
+                  ScArray.push($(this).val());
+                }
+                else
+                {
+                  ScArray.push('0');
+                }
+              });
+
+              $('input[name="Issue_save"]').each(function() 
+              {
+                if($(this).val()!="")
+                {
+                  IssueArray.push($(this).val());
+                }
+                else
+                {
+                  IssueArray.push('0');
+                }
+              });
+
+              $('input[name="Short_save"]').each(function() 
+              {
+                if($(this).val()!="")
+                {
+                  ShortArray.push($(this).val());
+                }
+                else
+                {
+                  ShortArray.push('0');
+                }
+              });
+
+              $('input[name="Over_save"]').each(function() 
+              {
+                if($(this).val()!="")
+                {
+                  OverArray.push($(this).val());
+                }
+                else
+                {
+                  OverArray.push('0');
+                }
+              });
+
+              $('input[name="Weight_save"]').each(function() 
+              {
+                if($(this).val()!="")
+                {
+                  WeightArray.push($(this).val());
+                }
+                else
+                {
+                  WeightArray.push('0');
+                }
+              });
+              var sc = ScArray.join(',') ;
+              var issue = IssueArray.join(',') ;
+              var short = ShortArray.join(',') ;
+              var over = OverArray.join(',') ;
+              var weight_sum = WeightArray.join(',') ;
+              var price = PriceArray.join(',') ;
+
+              
+              
+              // alert(price);
+              // alert(issue);
+              // alert(short);
+              // alert(over);
+              // alert(weight_sum);
+
 
               $(".item_array").each(function() {
                 ItemCodeArray.push($(this).val());
@@ -959,7 +1059,7 @@ $array2 = json_decode($json2,TRUE);
                 var Weight = WeightItemArray.join(',') ;
  
                   ////////////////////////////////////
-
+         
               swal({
                 title: "<?php echo $array['confirmsave'][$language]; ?>",
                 text: "<?php echo $array['docno'][$language]; ?>: "+docno+"",
@@ -995,7 +1095,13 @@ $array2 = json_decode($json2,TRUE);
                     'settime'     : settime,
                     'setcount'    : setcount,
                     'Weight'      : Weight,
-                    'hotpCode'    : hotpCode
+                    'hotpCode'    : hotpCode,
+                    'sc'          : sc,
+                    'issue'       : issue,
+                    'short'       : short,
+                    'over'        : over,
+                    'weight_sum'  : weight_sum,
+                    'price'       : price
                   };
                   senddata(JSON.stringify(data));
                   // $('#profile-tab').tab('show');
@@ -1369,12 +1475,24 @@ $array2 = json_decode($json2,TRUE);
       };
       senddata(JSON.stringify(data));
     }
-    function addTotalQty(RowID, i, iMax){
+    function addTotalQty(RowID, i, iMax , itemcode){
       var NewQty = Number($('#qty1_'+i).val())+1;
       var Max = Number(iMax);
       var Issue = Number($('#Issue_'+i).val());
       var Result = 0;
+      var Weightitem  = 0;
+      var Weight2     = Number($('#Weight2_'+i).val());
 
+      // ================================================
+      Weightitem = parseFloat(Weight2 * Issue).toFixed(5);
+      
+      var weight_test = Weightitem.toString();
+
+      var ex = weight_test.split('.');
+
+      var res = ex[1].substr(0,2);
+
+      var Weightitemx =  ex[0]+ "." + res;
       if(NewQty<=0){
         var Qty = 1 ; 
       }else if(NewQty>Max){
@@ -1415,17 +1533,32 @@ $array2 = json_decode($json2,TRUE);
         'chk'     :chk,
         'Issue'   :Issue,
         'Result'  :Result,
+        'Weightitem':Weightitem,
         'hotpCode':hotpCode,
-        'dept'    :dept
+        'dept'    :dept,
+        'itemcode':itemcode
       };
       senddata(JSON.stringify(data));
 
     }
-    function DelTotalQty(RowID, i, iMax){
+    function DelTotalQty(RowID, i, iMax , itemcode){
       var NewQty = Number($('#qty1_'+i).val())-1;
       var Issue = Number($('#Issue_'+i).val());
       var Max = Number(iMax);
       var Result = 0;
+      var Weightitem  = 0;
+      var Weight2     = Number($('#Weight2_'+i).val());
+
+      // ================================================
+      Weightitem = parseFloat(Weight2 * Issue).toFixed(5);
+      
+      var weight_test = Weightitem.toString();
+
+      var ex = weight_test.split('.');
+
+      var res = ex[1].substr(0,2);
+
+      var Weightitemx =  ex[0]+ "." + res;
 
       if(NewQty<=0){
         var Qty = 0 ; 
@@ -1467,8 +1600,10 @@ $array2 = json_decode($json2,TRUE);
         'chk':chk,
         'Issue':Issue,
         'Result':Result,
+        'Weightitem':Weightitem,
         'hotpCode':hotpCode,
-        'dept':dept
+        'dept':dept,
+        'itemcode':itemcode
       };
       senddata(JSON.stringify(data));
     }
@@ -1477,6 +1612,20 @@ $array2 = json_decode($json2,TRUE);
       var Issue = Number($('#Issue_'+i).val());
       var Max = Number(iMax);
       var Result = 0;
+      var Weightitem  = 0;
+      var Weight2     = Number($('#Weight2_'+i).val());
+
+      // ================================================
+      Weightitem = parseFloat(Weight2 * Issue).toFixed(5);
+      
+      var weight_test = Weightitem.toString();
+
+      var ex = weight_test.split('.');
+
+      var res = ex[1].substr(0,2);
+
+      var Weightitemx =  ex[0]+ "." + res;
+
 
       if(NewQty<=0){
         var Qty =  0 ;
@@ -1520,6 +1669,7 @@ $array2 = json_decode($json2,TRUE);
         'chk':chk,
         'Issue':Issue,
         'Result':Result,
+        'Weightitem':Weightitem,
         'hotpCode':hotpCode,
         'dept':dept,
         'itemcode':itemcode
@@ -2530,26 +2680,26 @@ $array2 = json_decode($json2,TRUE);
               for (var i = 0; i < temp["Row"]; i++)
               {
                 var rowCount = $('#TableItemDetail >tbody >tr').length;
-                var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee inputDis' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>-</button>"+
-                "<input autocomplete='off' class='form-control numonly QtyItem inputDis' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onchange='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\" ,\""+temp[i]['ItemCode']+"\")'>"+
-                "<button class='btn btn_mheesave inputDis' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\")'>+</button></div>";
+                var Sc = "<div class='row' style='margin-left:2px;'><button class='btn btn_mhee inputDis' style='height:40px;width:32px;' onclick='DelTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\",\""+temp[i]['ItemCode']+"\")'>-</button>"+
+                "<input name='Sc_save' autocomplete='off' class='form-control numonly QtyItem inputDis' style='height:40px;width:60px; margin-left:3px; margin-right:3px; text-align:center;' id='qty1_"+i+"' value='"+temp[i]['CcQty']+"' onchange='KeyNewCcQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\" ,\""+temp[i]['ItemCode']+"\")'>"+
+                "<button class='btn btn_mheesave inputDis' style='height:40px;width:32px;' onclick='addTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\",\""+temp[i]['ParQty']+"\",\""+temp[i]['ItemCode']+"\")'>+</button></div>";
                 var Order = "<input autocomplete='off' class='form-control numonly' id='order"+i+"' type='text' style='text-align:center;font-size: 24px!important'>";
                 
                 var Par = "<input autocomplete='off' class='form-control' id='Par_"+i+"' type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['ParQty']+"'>";
                 
-                var Issue = "<input autocomplete='off' class='form-control decimal numonly inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onchange='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\" ,\""+temp[i]['ItemCode']+"\"  )'>";
+                var Issue = "<input name='Issue_save' autocomplete='off' class='form-control decimal numonly inputDis' id='Issue_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' placeholder='0' value='"+temp[i]['TotalQty']+"' onchange='KeyNewTotalQty(\""+temp[i]['RowID']+"\",\""+i+"\" ,\""+temp[i]['ItemCode']+"\"  )'>";
                 
                 var Max = "<input autocomplete='off' class='form-control' id='Max_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled>";
                 
-                var Short = "<input autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
+                var Short = "<input name='Short_save'  autocomplete='off' class='form-control' id='Short_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Short']+"'>";
                 
-                var Over = "<input autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
+                var Over = "<input name='Over_save' autocomplete='off' class='form-control' id='Over_"+i+"'  type='text' style='text-align:center;font-size: 24px!important' disabled value='"+temp[i]['Over']+"'>";
                 
-                var Weight = "<input autocomplete='off' class='form-control WeightItem'  id='Weight_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weight']+"'>";
+                var Weight = "<input name='Weight_save' autocomplete='off' class='form-control WeightItem'  id='Weight_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weight']+"'>";
                 
                 var Weight2 = "<input  autocomplete='off' class='form-control WeightItem'  id='Weight2_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Weightitem']+"'>";
                 
-                var Price = "";
+                var Price = "<input hidden name='Price_save'  autocomplete='off' class='form-control PriceItem'  id='Price2_"+i+"' type='text' style='text-align:center;font-size: 24px!important'  disabled value='"+temp[i]['Price']+"'>";
 
                 $StrTR = "<tr id='tr"+temp[i]['RowID']+"' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>"+
                 "<td style='width: 5%;'nowrap>"+(i+1)+"</td>"+
@@ -2561,6 +2711,7 @@ $array2 = json_decode($json2,TRUE);
                 "<td style='width: 10%;'nowrap>"+Short+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Over+"</td>"+
                 "<td style='width: 10%;'nowrap>"+Weight+"</td>"+
+                "<td style='width: 10%;'nowrap hidden>"+Price+"</td>"+
                 "<td hidden style='width: 10%;'nowrap>"+Weight2+"</td>"+
                 "<td><input type='hidden' id='item_array"+temp[i]['ItemCode']+"' value='"+temp[i]['ItemCode']+"' class='item_array'></input></td>"+
                 "</tr>";

@@ -265,6 +265,7 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->setCellValue('J7', 'CATEGORY_PRICE');
   $objPHPExcel->getActiveSheet()->setCellValue('K7', 'QUANTITY');
   $objPHPExcel->getActiveSheet()->setCellValue('L7', 'AMOUNT');
+  $objPHPExcel->getActiveSheet()->setCellValue('M7', 'ISSAP');
 
   // ----------------------------------------------------------------------------------------
     $r = 0;
@@ -281,11 +282,13 @@ if ($chk == 'one') {
                 report_sc.TotalQty AS ISSUE,
                 cp.Price,
                 report_sc.Weight AS QUANTITY,
-                report_sc.Price AS AMOUNT 
+                report_sc.Price AS AMOUNT,
+                item.isSAP AS isSAP 
               FROM
                 report_sc
                 INNER JOIN department dp ON dp.DepCode = report_sc.DepCode
                 INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo
+                INNER JOIN item  ON item.ItemCode = report_sc.ItemCode
                 INNER JOIN category_price cp ON cp.CategoryCode = report_sc.CategoryCode 
                 WHERE  DATE(sc.complete_date)  IN ( ";
                         for ($day = 0; $day < $count; $day++) {
@@ -330,7 +333,8 @@ if ($chk == 'one') {
       $r++;
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["AMOUNT"]);
       $r++;
-
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["isSAP"]);
+      $r++;
       $start_row ++;
       $r = 0;
     }
@@ -389,9 +393,9 @@ if ($chk == 'one') {
   );
 
   $objPHPExcel->getActiveSheet()->getStyle("A5:A6")->applyFromArray($A5);
-  $objPHPExcel->getActiveSheet()->getStyle("A7:L7")->applyFromArray($colorfill);
-  $objPHPExcel->getActiveSheet()->getStyle("A7:" . "L" . $start_row)->applyFromArray($fill);
-  $objPHPExcel->getActiveSheet()->getStyle("A7:L7")->applyFromArray($A7);
+  $objPHPExcel->getActiveSheet()->getStyle("A7:M7")->applyFromArray($colorfill);
+  $objPHPExcel->getActiveSheet()->getStyle("A7:" . "M" . $start_row)->applyFromArray($fill);
+  $objPHPExcel->getActiveSheet()->getStyle("A7:M7")->applyFromArray($A7);
   $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
   $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(50);
   $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
@@ -404,6 +408,7 @@ if ($chk == 'one') {
   $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
   $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(10);
   $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(10);
+  $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(10);
 
 
 

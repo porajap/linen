@@ -117,7 +117,7 @@ function CreateDocument($conn, $DATA)
   $lang = $_SESSION['lang'];
   $boolean = false;
   $count = 0;
-  $hotpCode = $DATA["hotpCode"];
+  $hotpCode = $DATA["hotpCode"]==null?' ':$DATA["hotpCode"];
   $deptCode = $DATA["deptCode"];
   $factory =  $DATA["factory"];
   $userid   = $DATA["userid"];
@@ -158,7 +158,6 @@ function CreateDocument($conn, $DATA)
     $Sql = "INSERT INTO repair_wash (
               DocNo,
               HptCode,
-              FacCode,
               DocDate,
               DepCode,
               RefDocNo,
@@ -170,7 +169,6 @@ function CreateDocument($conn, $DATA)
               (
                 '$DocNo',
                 '$hotpCode',
-                '',
                 DATE(NOW()),
                 '$deptCode',
                 '',

@@ -416,7 +416,6 @@ if ($itemfromweb == '0')
                                     AND dpm.HptCode = '$HptCode'
                                     $where_time_express
                                     GROUP BY  report_sc.itemcode  ORDER BY report_sc.itemname ASC";
-           
       for ($i = 0; $i < $countitem; $i++)
       {
         $objPHPExcel->getActiveSheet()->setCellValue('B' . $start_row, $itemName[$i]);
@@ -507,32 +506,123 @@ if ($itemfromweb == '0')
     }
 
 
+
+
     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[0] . $start_row, $DepName);
     $r = 5;
-    for ($day = 0; $day < $count; $day++) 
+    $cnt = 0;
+
+    for ($dayx = 0; $dayx < $count; $dayx++) 
     {
-                            $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
-                                   COALESCE(sum(report_sc.Weight),'0') as  Weight
-                      FROM report_sc 
-                      INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
-                      WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
-                      AND report_sc.DepCode = '$DepCode[$sheet]'  
-                      AND report_sc.IsStatus <> 9
-                      $where_time_express
-                      AND report_sc.IsStatus <> 0 ";
-      $meQuery = mysqli_query($conn, $data);
-      while ($Result = mysqli_fetch_assoc($meQuery)) 
-      {
-        $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
-        $r++;
-        $TotalISSUE += $Result["ISSUE"];
-        $TOTAL_LASTWEIGHT  += $Result["Weight"];
-      }
+      $Weight[$dayx] = 0;
+      $ISSUEx[$dayx] = 0;
+      $Date_chk[$dayx] = 0;
     }
 
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
-    $r++;
-    $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_LASTWEIGHT);
+
+    $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+                    COALESCE(SUM(report_sc.Weight),'0') as  Weight,
+                     report_sc.DocDate AS Date_chk
+            FROM report_sc 
+            INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
+            WHERE  DATE(report_sc.DocDate) IN (";
+                for ($day = 0; $day < $count; $day++)
+                {
+                  $data .= " '$date[$day]' ,";
+                }
+                $data = rtrim($data, ' ,'); 
+            $data .= " )  AND report_sc.DepCode = '$DepCode[$sheet]'  
+                          AND report_sc.IsStatus <> 9
+                          $where_time_express
+                          AND report_sc.IsStatus <> 0
+                          GROUP BY DATE(report_sc.DocDate) ";
+      $meQuery = mysqli_query($conn, $data);
+
+      while ($Result = mysqli_fetch_assoc($meQuery)) 
+      {
+        $Weight[$cnt] =  $Result["Weight"];
+        $ISSUEx[$cnt] =  $Result["ISSUE"];
+        $Date_chk[$cnt] =  $Result["Date_chk"];
+        $cnt++;
+      }
+
+        $TotalISSUE = 0;
+        $TOTAL_LASTWEIGHT = 0;
+        $x = 0;
+          foreach(  $date as $key => $val ) 
+        {
+            if($Date_chk[$x]  == $val)
+            {
+             $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $ISSUEx[$x]);
+              $r++;
+              $TotalISSUE += $ISSUEx[$x];
+              $TOTAL_LASTWEIGHT +=  $Weight[$x];
+              $x++;
+            }
+            else
+            {
+              $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, 0);
+              $r++;
+            }
+        }
+
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
+      $r++;
+      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_LASTWEIGHT);
+      $TotalISSUE = 0;
+      $TOTAL_LASTWEIGHT = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // for ($day = 0; $day < $count; $day++) 
+    // {
+    //                         $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+    //                                COALESCE(SUM(report_sc.Weight),'0') as  Weight
+    //                   FROM report_sc 
+    //                   INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
+    //                   WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+    //                   AND report_sc.DepCode = '$DepCode[$sheet]'  
+    //                   AND report_sc.IsStatus <> 9
+    //                   $where_time_express
+    //                   AND report_sc.IsStatus <> 0 ";
+    //   $meQuery = mysqli_query($conn, $data);
+
+
+      
+    //   while ($Result = mysqli_fetch_assoc($meQuery)) 
+    //   {
+    //     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["ISSUE"]);
+    //     $r++;
+    //     $TotalISSUE += $Result["ISSUE"];
+    //     $TOTAL_LASTWEIGHT  += $Result["Weight"];
+    //   }
+    // }
+
+    // $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
+    // $r++;
+    // $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TOTAL_LASTWEIGHT);
 
     $styleArray = array(
 

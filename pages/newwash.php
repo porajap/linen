@@ -1234,7 +1234,7 @@ $array2 = json_decode($json2,TRUE);
                       $("#hotpital").append(Str1);
                       $("#Hos2").append(Str1);
                       $("#hotpital").val(HptCode);
-                      getDepartment();
+                      // getDepartment();
                     }
 
                     else if(temp["form"]=='getfactory')
@@ -1334,7 +1334,7 @@ $array2 = json_decode($json2,TRUE);
                           "<td style='width: 15%; overflow: hidden; text-overflow: ellipsis;' nowrap>"+temp[i]['Record']+"</td>"+
                           "<td style='width: 10%;' nowrap>"+temp[i]['RecNow']+"</td>"+
                           "<td style='width: 8%;' nowrap>"+temp[i]['Total']+"</td>"+
-                          "<td style='width: 16%;' nowrap>"+temp[i]['FacName']+"</td>"+
+                          "<td  style='width: 16%;overflow: hidden; text-overflow: ellipsis;' nowrap title='"+temp[i]['FacName']+"' nowrap>"+temp[i]['FacName']+"</td>"+
                           "<td "+Style+" nowrap>"+Status+"</td>"+
                           "</tr>";
                           if(rowCount == 0)

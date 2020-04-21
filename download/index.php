@@ -103,12 +103,12 @@
                             </div>
                         </div>
                         <div  class="d-flex justify-content-center mt-5">
-                            <button class="btn btn_customer" onclick="window.location.href='file/linen_nhealth-asia.apk'"'"><i class="fas fa-download"></i></button>
+                            <button class="btn btn_customer" onclick="window.location.href='file/linen0204.apk'"'"><i class="fas fa-download"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8  col-sm-12 mt-sm-5">
+            <!-- <div class="col-md-8  col-sm-12 mt-sm-5">
                 <div class="card">
                     <div class="card-body">
                         <div  class="d-flex justify-content-center mt-3">
@@ -128,7 +128,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
 

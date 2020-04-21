@@ -43,7 +43,7 @@
 <afternoon><en>Afternoon</en><th>รอบบ่าย</th></afternoon>
 <Mainstock><en>Mainstock</en><th>คลังหลัก</th></Mainstock>
 <Jaipar><en>Payout</en><th>จ่ายผ้า</th></Jaipar>
-<newwash><en>newwash</en><th>รับผ้าใหม่ส่งซัก</th></newwash>
+<newwash><en>newwash</en><th>ผ้าใหม่ส่งซัก</th></newwash>
 <setting><en>Setting</en><th>ตั้งค่า</th></setting>
 <notfoundDoc><en>Not found Document</en><th>ไม่พบเอกสาร</th></notfoundDoc>
 <time2><en>Time</en><th>เวลา</th></time2>

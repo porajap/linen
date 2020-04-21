@@ -678,11 +678,11 @@ $(document).ready(function(e){
 
       function CreateDocument(){
         var userid = '<?php echo $Userid; ?>';
-        var hotpCode = $('#hotpital option:selected').attr("value");
-        var deptCode = $('#department option:selected').attr("value");
+        var hotpCode = $("#hotpital").val();
+        var deptCode = $("#department").val();
         // var factory = $('#factory option:selected').attr("value");
 
-        if(hotpCode=='' ||  deptCode=='' || deptCode=='null' ){
+        if(hotpCode=='' ||  deptCode=='' || deptCode=='NULL' ||  hotpCode=='NULL'){
             // checkblank2();
             if(hotpCode ==''){
             checkblank3();

@@ -619,7 +619,7 @@ if ($itemfromweb == '0')
     $objPHPExcel->getActiveSheet()->getStyle("A5:" . $date_cell1[$r] . "8")->applyFromArray($CENTER);
     $objPHPExcel->getActiveSheet()->getStyle($date_cell1[2] . $start_row . ":" . $date_cell1[$r] . $start_row);
     $objPHPExcel->getActiveSheet()->getStyle("A4:A6")->applyFromArray($HEAD);
-    $objPHPExcel->getActiveSheet()->getStyle("C9:" . $date_cell1[$r] . $start_row)->getNumberFormat()->setFormatCode('#,##0');
+    // $objPHPExcel->getActiveSheet()->getStyle("C9:" . $date_cell1[$r] . $start_row)->getNumberFormat()->setFormatCode('#,##0');
 
 
     $cols = array('A', 'B');
@@ -797,8 +797,8 @@ else if ($itemfromweb <> '0')
                                    COALESCE( SUM(report_sc.Short),'0') as  Short, 
                                    COALESCE(SUM(report_sc.Over),'0') as  Over ,
                                    report_sc.DocDate AS Date_chk
-                    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                     FROM report_sc 
+                    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                     WHERE  DATE(report_sc.DocDate)  IN ( ";
                         for ($day = 0; $day < $count; $day++) 
                         {
@@ -883,8 +883,8 @@ else if ($itemfromweb <> '0')
                                   COALESCE( SUM(report_sc.Short),'0') as  Short, 
                                   COALESCE(SUM(report_sc.Over),'0') as  Over ,
                                    report_sc.DocDate AS Date_chk
-                  INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                   FROM report_sc 
+                  INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
                   WHERE  DATE(report_sc.DocDate)  IN ( ";
                         for ($day = 0; $day < $count; $day++) 
                         {
@@ -995,7 +995,7 @@ else if ($itemfromweb <> '0')
   $objPHPExcel->getActiveSheet()->getStyle("A5:" . $date_cell1[$r] . "8")->applyFromArray($CENTER);
   $objPHPExcel->getActiveSheet()->getStyle($date_cell1[2] . $start_row . ":" . $date_cell1[$r] . $start_row);
   $objPHPExcel->getActiveSheet()->getStyle("A4:A6")->applyFromArray($HEAD);
-  $objPHPExcel->getActiveSheet()->getStyle("C9:" . $date_cell1[$r] . $start_row)->getNumberFormat()->setFormatCode('#,##0');
+  // $objPHPExcel->getActiveSheet()->getStyle("C9:" . $date_cell1[$r] . $start_row)->getNumberFormat()->setFormatCode('#,##0');
 
 
   $cols = array('A', 'B');
