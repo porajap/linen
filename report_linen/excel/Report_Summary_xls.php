@@ -356,6 +356,8 @@ if ($itemfromweb == '0')
       $objPHPExcel->getActiveSheet()->setCellValue('A9', $Result["DepName"]);
       $DepName = $Result["DepName"];
       $DepName = str_replace("/", " ", $DepName);
+      $DepName = str_replace(":", " ", $DepName);
+
     }
     // -----------------------------------------------------------------------------------
     $item = "SELECT
@@ -370,6 +372,7 @@ if ($itemfromweb == '0')
                   AND dpm.HptCode = '$HptCode' 
                   AND report_sc.isStatus <> 9
                   AND report_sc.isStatus <> 0
+                  AND report_sc.isStatus <> 1
                   AND report_sc.DepCode = '$DepCode[$sheet]'
                   AND report_sc.TotalQty <> 0
                   GROUP BY  report_sc.itemcode ORDER BY report_sc.itemname ASC ";
@@ -460,6 +463,7 @@ if ($itemfromweb == '0')
                                     $data = rtrim($data, ' ,'); 
                       $data .= " )  AND report_sc.isStatus <> 9
                     AND report_sc.isStatus <> 0
+                    AND report_sc.isStatus <> 1
                     AND dpm.HptCode = '$HptCode' 
                     AND report_sc.DepCode = '$DepCode[$sheet]'  
                     AND report_sc.itemcode = '$itemCode[$q]' 
@@ -533,6 +537,7 @@ if ($itemfromweb == '0')
                 $data = rtrim($data, ' ,'); 
             $data .= " )  AND report_sc.DepCode = '$DepCode[$sheet]'  
                           AND report_sc.IsStatus <> 9
+                          AND report_sc.IsStatus <> 1
                           $where_time_express
                           AND report_sc.IsStatus <> 0
                           GROUP BY DATE(report_sc.DocDate) ";
@@ -842,6 +847,7 @@ else if ($itemfromweb <> '0')
                                     AND department.HptCode = '$HptCode' 
                                     AND report_sc.DepCode = '$DepCode[$i]'
                                     AND report_sc.isStatus <> 9
+                                    AND report_sc.isStatus <> 1
                                     $where_time_express
                                     GROUP BY  report_sc.itemcode ";
       // echo "<pre>";
@@ -889,6 +895,7 @@ else if ($itemfromweb <> '0')
                                       $data = rtrim($data, ' ,'); 
                         $data .= " )  AND report_sc.isStatus <> 9
                       AND report_sc.isStatus <> 0
+                      AND report_sc.isStatus <> 1
                       AND dpm.HptCode = '$HptCode' 
                       AND report_sc.DepCode = '$DepCode[$q]'  
                       AND report_sc.itemcode = '$itemfromweb'
@@ -945,6 +952,7 @@ else if ($itemfromweb <> '0')
     INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
     WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
     AND report_sc.isStatus <> 9
+    AND report_sc.isStatus <> 1
     AND dpm.HptCode = '$HptCode' 
     AND report_sc.isStatus <> 0
     $where_time_express

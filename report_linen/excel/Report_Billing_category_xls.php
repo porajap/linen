@@ -340,10 +340,12 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                   INNER JOIN item_category  			ON item_category.CategoryCode = report_sc.CategoryCode
                   INNER JOIN department 					 ON department.DepCode = report_sc.DepCode
                   INNER JOIN grouphpt 					     ON grouphpt.GroupCode = department.GroupCode
+                  INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo
                   WHERE grouphpt.GroupCode = '$GroupCode[$sheet]'
                   $categorywhere
-                  AND report_sc.isStatus <> 9
-                  AND report_sc.isStatus <> 0
+                  AND sc.isStatus <> 9 
+                  AND sc.isStatus <> 1 
+                  AND sc.isStatus <> 0
                   AND report_sc.Weight  >  0
                   AND report_sc.Price  >  0
                   AND department.HptCode = '$HptCode'
@@ -433,7 +435,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
 
               }
               $data = rtrim($data, ' ,'); 
-      $data .= " )  AND shelfcount.isStatus <> 9
+      $data .= " )  AND shelfcount.isStatus <> 9 
+              AND shelfcount.isStatus <> 1 
               AND shelfcount.isStatus <> 0
               AND shelfcount.DepCode = '$DepCode[$lek]'
               AND site.HptCode = '$HptCode' 
@@ -458,8 +461,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
 
                       }
                       $data = rtrim($data, ' ,'); 
-        $data .= " )  AND report_sc.isStatus <> 9
-                      AND report_sc.isStatus <> 0
+        $data .= " )  AND shelfcount.isStatus <> 9 
+                      AND shelfcount.isStatus <> 1 
+                      AND shelfcount.isStatus <> 0
                       AND report_sc.DepCode = '$DepCode[$lek]'
                       AND shelfcount.SiteCode = '$HptCode'
                       $categorywhere 
@@ -535,8 +539,6 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
     for ($day = 0; $day < $count; $day++)
     {
 
-
-
       $data =       "SELECT COALESCE(SUM(shelfcount.Totalw),'0') AS aWeight , 
                      COALESCE(SUM(shelfcount.Totalp ),'0') AS aPrice 
                   FROM
@@ -548,6 +550,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                   DATE(shelfcount.complete_date) = '$date[$day]'
                   AND shelfcount.isStatus <> 9
                   AND shelfcount.isStatus <> 0
+                  AND shelfcount.isStatus <> 1
                   AND shelfcount.DocNo LIKE '%$HptCode%'
                   AND grouphpt.HptCode = '$HptCode'
                   AND site.HptCode = '$HptCode'
@@ -585,8 +588,9 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
 
                                       }
                                       $data = rtrim($data, ' ,'); 
-    $data .=       " ) AND report_sc.isStatus <> 9
-                            AND report_sc.isStatus <> 0
+    $data .=       " )      AND shelfcount.isStatus <> 9 
+                            AND shelfcount.isStatus <> 1 
+                            AND shelfcount.isStatus <> 0
                             $categorywhere
                             AND grouphpt.GroupCode =  '$GroupCode[$sheet]'
                             AND grouphpt.HptCode = '$HptCode' 

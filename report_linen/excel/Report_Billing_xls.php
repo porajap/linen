@@ -383,6 +383,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                       $data = rtrim($data, ' ,'); 
         $data .= " )  AND shelfcount.isStatus <> 9
                       AND shelfcount.isStatus <> 0
+                      AND shelfcount.isStatus <> 1
                       AND shelfcount.DepCode = '$DepCode[$lek]'
                       AND shelfcount.DocNo LIKE '%$HptCode%'
                       AND site.HptCode = '$HptCode' 
@@ -455,6 +456,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
                 DATE(shelfcount.complete_date) = '$date[$day]'
                 AND shelfcount.isStatus <> 9
                 AND shelfcount.isStatus <> 0
+                AND shelfcount.isStatus <> 1
                 AND grouphpt.HptCode = '$HptCode'
                 AND site.HptCode = '$HptCode'
                 AND shelfcount.DocNo LIKE '%$HptCode%'

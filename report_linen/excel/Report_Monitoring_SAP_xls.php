@@ -299,6 +299,7 @@ if ($chk == 'one') {
                         $query = rtrim($query, ' ,');  
     $query .= " )AND sc.isStatus <> 9
                 AND sc.isStatus <> 0
+                AND sc.isStatus <> 1
                 AND report_sc.TotalQty <> 0
                 AND dp.HptCode = '$HptCode'
                 AND cp.HptCode = '$HptCode'

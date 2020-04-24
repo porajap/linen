@@ -375,7 +375,6 @@ if($type == 'Existing')
               AND item.IsActive = 1 
               GROUP BY item.ItemCode
               ORDER BY ItemName ";
-                    echo $item;
       $meQuery = mysqli_query($conn, $item);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $itemName[] =  $Result["ItemName"];
@@ -453,13 +452,17 @@ if($type == 'Existing')
                                         $data .= " '$date[$day]' ,";
                                       }
                                         $data = rtrim($data, ' ,'); 
-                        $data .= " )  AND report_sc.isStatus <> 9
+                        $data .= " )
+                        AND sc.isStatus <> 9 
+                        AND sc.isStatus <> 1 
+                        AND sc.isStatus <> 0
                         AND dpm.HptCode = '$HptCode' 
                         AND sc.SiteCode = '$HptCode' 
                         $search_dep
                         AND report_sc.itemcode = '$itemCode[$q]' 
                         AND report_sc.TotalQty <> 0 
                         GROUP BY DATE(sc.complete_date) ";
+
           $meQuery = mysqli_query($conn, $data);
 
           while ($Result = mysqli_fetch_assoc($meQuery)) 
@@ -516,7 +519,10 @@ if($type == 'Existing')
                 
                                       }
                                       $data = rtrim($data, ' ,'); 
-                      $data .= " )  AND report_sc.isStatus <> 9
+                      $data .= " )
+                      AND sc.isStatus <> 9 
+                      AND sc.isStatus <> 1 
+                      AND sc.isStatus <> 0
                       AND dpm.HptCode = '$HptCode' 
                       AND sc.SiteCode = '$HptCode' 
                       $search_dep 
@@ -835,7 +841,10 @@ else if($type == 'Detail')
                                               $data .= " '$date[$day]' ,";
                                             }
                                               $data = rtrim($data, ' ,'); 
-                              $data .= " )  AND report_sc.isStatus <> 9
+                              $data .= " )
+                              AND sc.isStatus <> 9 
+                              AND sc.isStatus <> 1 
+                              AND sc.isStatus <> 0
                               AND sc.SiteCode = '$HptCode' 
                               AND dpm.HptCode = '$HptCode' 
                               AND report_sc.DepCode = '$DepCode_show'
@@ -921,7 +930,10 @@ else if($type == 'Detail')
                             $data_total .= " '$date[$day]' ,";
                           }
                             $data_total = rtrim($data_total, ' ,'); 
-                  $data_total .= " )  AND report_sc.isStatus <> 9
+                  $data_total .= " )
+                  AND sc.isStatus <> 9 
+                  AND sc.isStatus <> 1 
+                  AND sc.isStatus <> 0
                   AND sc.SiteCode = '$HptCode' 
                   AND dpm.HptCode = '$HptCode' 
                   $search_dep
@@ -1034,7 +1046,10 @@ else if($type == 'Detail')
                       $data_total .= " '$date[$day]' ,";
                     }
                       $data_total = rtrim($data_total, ' ,'); 
-            $data_total .= " )  AND report_sc.isStatus <> 9
+            $data_total .= " )
+            AND sc.isStatus <> 9 
+            AND sc.isStatus <> 1 
+            AND sc.isStatus <> 0
             AND sc.SiteCode = '$HptCode' 
             AND dpm.HptCode = '$HptCode' 
             $search_dep
