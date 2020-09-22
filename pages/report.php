@@ -17,6 +17,7 @@ if ($Userid == "") {
 
 $language = $_SESSION['lang'];
 
+require 'updatemouse.php';
 
 header('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/general_lang.xml');
@@ -2433,13 +2434,13 @@ $array2 = json_decode($json2, TRUE);
 															<option value=25><?php echo "12. " . $array['r' . 25][$language]; ?></option>
 															<option value=26><?php echo "13. " . $array['r' . 26][$language]; ?></option>
 															<option value=27><?php echo "14. " . $array['r' . 27][$language]; ?></option>
-															<option value=28><?php echo "15. " . $array['r' . 28][$language]; ?></option>
-															<option value=31><?php echo "16. " . $array['r' . 31][$language]; ?></option>
-															<option value=29><?php echo "17. " . $array['r' . 29][$language]; ?></option>
-															<!-- <option value=30><?php echo "18. " . $array['r' . 30][$language]; ?></option> -->
-															<option value=32><?php echo "19. " . $array['r' . 32][$language]; ?></option>
-															<option value=33><?php echo "20. " . 'Monitoring SAP' 		        ?></option>
-															<option value=34><?php echo "21. " . 'Usage Detail New' 		        ?></option>
+															<!-- <option value=28><?php echo "15. " . $array['r' . 28][$language]; ?></option> -->
+															<option value=31><?php echo "15. " . $array['r' . 31][$language]; ?></option>
+															<option value=29><?php echo "16. " . $array['r' . 29][$language]; ?></option>
+															<!-- <option value=30><?php echo "17. " . $array['r' . 30][$language]; ?></option> -->
+															<option value=32><?php echo "18. " . $array['r' . 32][$language]; ?></option>
+															<option value=33><?php echo "19. " . 'Monitoring SAP' 		        ?></option>
+															<option value=34><?php echo "20. " . 'Usage Detail New' 		        ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>

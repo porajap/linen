@@ -252,8 +252,9 @@ factory.$FacName
 FROM
 process
 INNER JOIN factory ON factory.FacCode = process.FacCode
-where process.FacCode = $FacCode
-       ";
+where process.FacCode = $FacCode ";
+
+
 $meQuery = mysqli_query($conn, $Sql);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $Facname = $Result[$FacName];
@@ -280,7 +281,7 @@ $pdf->Ln(10);
 $pdf->SetFont('THSarabun', 'b', 14);
 $pdf->Cell(1);
 $pdf->Cell(165, 10, iconv("UTF-8", "TIS-620", $array2['factory'][$language] . " : " . $Facname), 0, 0, 'L');
-$pdf->Cell(ุ60 , 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
+$pdf->Cell(60 , 10, iconv("UTF-8", "TIS-620", $date_header), 0, 0, 'R');
 $pdf->Ln(12);
 $HptCode = substr($HptCode, 0, 3);
 $doc = array('dirty', 'repair_wash', 'newlinentable');
@@ -319,6 +320,11 @@ process
 LEFT JOIN $doc[$i] ON process.DocNo = $doc[$i].DocNo
 $where AND $FacCode in ($doc[$i].FacCode)
 AND process.isStatus <> 9 ";
+
+// echo "<pre>";
+// echo $query;
+// echo "</pre>";
+
   // Number of column
   $numfield = 6;
   // Field data (Must match with Query)

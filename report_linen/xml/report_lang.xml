@@ -22,16 +22,16 @@
 <rejectpercent><en>Reject (%)</en><th>ผ้าใหม่ส่งซัก (%)</th></rejectpercent>
 <repairpercent><en>Repair (%)</en><th>ผ้าส่งซ่อม (%)</th></repairpercent>
 <dirty><en>Dirty</en><th>ผ้าเปื้อน</th></dirty>
-<soild><en>Soild</en><th>รายการผ้าเปื้อน</th></soild>
+<soild><en>Soiled</en><th>รายการผ้าเปื้อน</th></soild>
 <clean1><en>Clean</en><th>รายการผ้าสะอาด</th></clean1>
 <hospital><en>Hospital</en><th>โรงพยาบาล</th></hospital>
 <shelfcounttime><en>Shelf Count Time</en><th>เวลานับผ้า</th></shelfcounttime>
 <deliverytime><en>Delivery Time</en><th>รอบส่งผ้า</th></deliverytime>
-<repair_dirty><en>Repair (Dirty)</en><th>ผ้าส่งแก้ไข</th></repair_dirty>
+<repair_dirty><en>Rewash</en><th>ผ้าส่งแก้ไข</th></repair_dirty>
 <newlinen><en>Newlinen</en><th>ผ้าใหม่ส่งซัก</th></newlinen>
 <Totaldirty><en>Total dirty</en><th>รวมผ้าเปื้อน</th></Totaldirty>
 <clean><en>Clean</en><th>ผ้าสะอาด</th></clean>
-<receive_dirty><en>Receive Dirty</en><th>ผ้าแก้ไขรับกลับ</th></receive_dirty>
+<receive_dirty><en>Rewash Return</en><th>ผ้าแก้ไขรับกลับ</th></receive_dirty>
 <receive_newlinen><en>Receive Newlinen</en><th>ผ้าใหม่รับกลับ</th></receive_newlinen>
 <Totalclean><en>Total Clean</en><th>รวมผ้าสะอาด</th></Totalclean>
 <damaged><en>Damaged (Qty)</en><th>ผ้าสูญหาย (จำนวน)</th></damaged>

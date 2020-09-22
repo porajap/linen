@@ -109,13 +109,16 @@
                             var EngNamePkEnd        = '';
                             var EngPerfixPkEnd      = '';
 
-                            if(val.PkStartTime !=''){
-                            var EngNamePkStart      = val.EngName;
-                            var EngPerfixPkStart    = val.EngPerfix;
+                            if(val.PkStartTime !='')
+                            {
+                                var EngNamePkStart      = val.EngName;
+                                var EngPerfixPkStart    = val.EngPerfix;
                             }
-                            if(val.PkEndTime !=''){
-                            var EngNamePkEnd        = val.EngName;
-                            var EngPerfixPkEnd      = val.EngPerfix;
+
+                            if(val.PkEndTime !='')
+                            {
+                                var EngNamePkEnd        = val.EngName;
+                                var EngPerfixPkEnd      = val.EngPerfix;
                             }
 
                             var EngNameDvStart      = '';
@@ -123,20 +126,25 @@
                             var EngNameDvEnd        = '';
                             var EngPerfixDvEnd      = '';
 
-                            if(val.DvStartTime !=''){
-                            var EngNameDvStart      = val.EngName2;
-                            var EngPerfixDvStart    = val.EngPerfix2;
-                            }
-                            if(val.DvEndTime !=''){
-                            var EngNameDvEnd        = val.EngName2;
-                            var EngPerfixDvEnd      = val.EngPerfix2;
+                            if(val.DvStartTime !='')
+                            {
+                                var EngNameDvStart      = val.EngName2;
+                                var EngPerfixDvStart    = val.EngPerfix2;
                             }
 
+                            if(val.DvEndTime !='')
+                            {
+                                var EngNameDvEnd        = val.EngName3;
+                                var EngPerfixDvEnd      = val.EngPerfix3;
+                            }
 
 
-                            if( val.IsStatus ==4){
-                                Style  = "style='color: #009900;' ";
-                                }
+
+                            if( val.IsStatus ==4)
+                            {
+                              Style  = "style='color: #009900;' ";
+                            }
+                            
                             row += '<tr '+Style+'>'+
                                     '<td class="text-center">'+(key+1)+'        </td>'+
                                     '<td class="text-left">'+val.DocNo+'       </td>'+
@@ -146,7 +154,7 @@
                                     '<td class="text-left">'+val.PkStartTime+'<br>'+EngPerfixPkStart+EngNamePkStart+'   </td>'+
                                     '<td class="text-left">'+val.PkEndTime+'<br>'+EngPerfixPkEnd+EngNamePkEnd+'     </td>'+
                                     '<td class="text-left">'+val.DvStartTime+'<br>'+val.EngPerfix2+val.EngName2+'   </td>'+
-                                    '<td class="text-left">'+val.DvEndTime+'<br>'+val.EngPerfix2+val.EngName2+'      </td>'+
+                                    '<td class="text-left">'+val.DvEndTime+'<br>'+val.EngPerfix3+val.EngName3+'      </td>'+
                                     // '<td class="text-left">'+val.ScStartTime+'|'+val.ScEndTime+'</td>'+
                                     // '<td class="text-left">'+val.PkStartTime+'|'+val.PkEndTime+'</td>'+
                                     // '<td class="text-left">'+val.DvStartTime+'|'+val.DvEndTime+'</td>'+

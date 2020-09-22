@@ -35,7 +35,7 @@ function ShowItem($conn, $DATA)
                     shelfcount_detail
                     INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo 
                   WHERE
-                    DATE(shelfcount.complete_date) BETWEEN '2020-03-01' AND '2020-03-31' 
+                    DATE(shelfcount.complete_date) BETWEEN '2020-03-26' AND '2020-04-24' 
                   AND shelfcount.IsStatus <> 0
                   AND shelfcount.IsStatus <> 9
                   AND shelfcount_detail.TotalQty <> 0

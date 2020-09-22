@@ -13,6 +13,7 @@ if(empty($_SESSION['lang'])){
     $language =$_SESSION['lang'];
 
 }
+require 'updatemouse.php';
 
 header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/general_lang.xml');
@@ -77,21 +78,24 @@ $array2 = json_decode($json2,TRUE);
         var summary = [];
 
         $(document).ready(function(e) {
-
-            var HptCode = $('#hptsel').val();
-
-            var data = {
-                'STATUS': 'getSection',
-                'HptCode': HptCode
-            };
-            // console.log(JSON.stringify(data));
-            senddata(JSON.stringify(data));
+            GetSite();
+            getSection();
 
         }).click(function(e) { parent.afk();
         }).keyup(function(e) { parent.afk();
         });
 
         // funtion --------------------------------------------
+
+        function getSection(){
+            var HptCode = $('#Site').val();
+            var data = {
+                'STATUS': 'getSection',
+                'HptCode': HptCode
+            };
+            // console.log(JSON.stringify(data));
+            senddata(JSON.stringify(data));
+        }
         function getdetail(DepCode, row) {
                 var number = parseInt(row)+1;
                 var previousValue = $('#checkitem_'+row).attr('previousValue');
@@ -687,6 +691,16 @@ $array2 = json_decode($json2,TRUE);
             $('.ClearInput').val('').attr("placeholder","0");
             // $('#DocNo').val("");
         }
+        function GetSite()
+        {
+            var lang = '<?php echo $language; ?>';
+            var data2 = {
+                'STATUS': 'GetSite',
+                'lang': lang
+            };
+            console.log(JSON.stringify(data2));
+            senddata(JSON.stringify(data2));
+        }
         // End Function ----------------------------------------
         function senddata(data) {
             var form_data = new FormData();
@@ -1049,6 +1063,18 @@ $array2 = json_decode($json2,TRUE);
                             $('#RowChg').val(RowChg);
                             TotalQty();
                             Calculate();
+                        } else if ((temp["form"] == 'GetSite')) {
+                            if (temp[0]['PmID'] == 1) {
+                                var StrTr = "<option value=''><?php echo $array['selecthospital'][$language]; ?></option>";
+                            } else {
+                                var StrTr = "";
+                                $('#Site').attr('disabled', true);
+                                $('#Site').addClass('icon_select');
+                            }
+                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                StrTr += "<option value = '" + temp[i]['HptCode'] + "'> " + temp[i]['HptName'] + " </option>";
+                            }
+                            $("#Site").append(StrTr);
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -1292,6 +1318,7 @@ $array2 = json_decode($json2,TRUE);
                 </div>
                 <div class="row">
                     <input type="text" id="DocNo" class="form-control ml-4" style="font-size:24px;width:25%;" placeholder="<?php echo $array['docno'][$language]; ?>" disabled> 
+                    <select id="Site" onchange="getSection()" class="form-control ml-4" style="font-size:24px;width:25%;"> </select>
 
                 </div>
                 <table style="margin-top:10px;" class="table mt-2 " id="TableItem" cellspacing="0" role="grid" >

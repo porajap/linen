@@ -35,7 +35,7 @@ switch ($PmID) {
         $gen_s3=1;
         $gen_s4=1;
         $gen_s5=1;
-        $gen_s6=1;
+        $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -47,6 +47,7 @@ switch ($PmID) {
         $gen_s15=1;
         $gen_s16=1;
         $gen_s17=1;
+        $gen_s18=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -95,7 +96,7 @@ switch ($PmID) {
         $gen_s3=1;
         $gen_s4=1;
         $gen_s5=1;
-        $gen_s6=1;
+        $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -107,6 +108,7 @@ switch ($PmID) {
         $gen_s15=1;
         $gen_s16=1;
         $gen_s17=1;
+        $gen_s18=1;
         //account
         $ac_head=0;
         $ac_s1=0;
@@ -151,7 +153,7 @@ switch ($PmID) {
         $gen_s3=1;
         $gen_s4=1;
         $gen_s5=1;
-        $gen_s6=1;
+        $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -163,6 +165,7 @@ switch ($PmID) {
         $gen_s15=1;
         $gen_s16=1;
         $gen_s17=1;
+        $gen_s18=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -219,6 +222,7 @@ switch ($PmID) {
         $gen_s11=0;
         $gen_s12=0;
         $gen_s13=0;
+        $gen_s18=0;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -262,7 +266,7 @@ switch ($PmID) {
         $gen_s3=1;
         $gen_s4=1;
         $gen_s5=1;
-        $gen_s6=1;
+        $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -274,6 +278,7 @@ switch ($PmID) {
         $gen_s15=1;
         $gen_s16=1;
         $gen_s17=1;
+        $gen_s18=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -322,7 +327,7 @@ switch ($PmID) {
         $gen_s3=1;
         $gen_s4=1;
         $gen_s5=1;
-        $gen_s6=1;
+        $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -334,6 +339,7 @@ switch ($PmID) {
         $gen_s15=1;
         $gen_s16=1;
         $gen_s17=1;
+        $gen_s18=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -382,7 +388,7 @@ switch ($PmID) {
         $gen_s3=1;
         $gen_s4=1;
         $gen_s5=1;
-        $gen_s6=1;
+        $gen_s6=0;
         $gen_s7=0;
         $gen_s8=0;
         $gen_s9=0;
@@ -394,6 +400,7 @@ switch ($PmID) {
         $gen_s15=1;
         $gen_s16=1;
         $gen_s17=1;
+        $gen_s18=1;
         //account
         $ac_head=1;
         $ac_s1=0;
@@ -491,7 +498,7 @@ $id_h=$_SESSION['id_h'];
     var chk_logoff = '<?php echo $logoff ?>;'; 
     var redirect_url = 'http://poseintelligence.dyndns.biz:8181/linen-test/login.php'; // กำหนด url ที่ต้องการเมื่อครบเวลาที่กำหนด
 
-
+    
     $(document).ready(function (e)
     {    
       checkFileLength();
@@ -552,6 +559,7 @@ $id_h=$_SESSION['id_h'];
       else
           hms = "00:00";
               $('#ShowTime').val( redirectInSecond + ' / Timeout : ' + hms );
+              // alert(1);
       return last_move;
     }
 
@@ -1322,6 +1330,13 @@ $id_h=$_SESSION['id_h'];
               href="pages/draw.php?lang=<?php echo $language; ?>" id="act12" class="current_page"
               onclick="return loadIframe('ifrm', this.href)">
               <em></em><?php echo $array['menu']['general']['sub'][8][$language]; ?></a>
+          </li>
+          <?php } ?>
+          <?php if($gen_s18== 1){ ?>
+          <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;"
+              href="pages/calexcel.php?lang=<?php echo $language; ?>" id="act13" class="current_page"
+              onclick="return loadIframe('ifrm', this.href)">
+              <em></em><?php echo $array['menu']['general']['sub'][18][$language]; ?></a>
           </li>
           <?php } ?>
 

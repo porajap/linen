@@ -4,6 +4,7 @@ $Userid = $_SESSION['Userid'];
 if($Userid==""){
   // header("location:../index.html");
 }
+require 'updatemouse.php';
 
 if(empty($_SESSION['lang'])){
   $language ='th';

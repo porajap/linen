@@ -1242,7 +1242,7 @@ function SaveBill($conn, $DATA)
   $ItemCode       = explode(",", $ItemCodeArray);
   $QtyArray       = explode(",", $DATA['Qty']);
   $Weight         = explode(",", $DATA['Weight']);
-
+  $count = 0;
 
   $sc           = explode(",", $DATA['sc']);
   $issue        = explode(",", $DATA['issue']);
@@ -1251,11 +1251,47 @@ function SaveBill($conn, $DATA)
   $weight_sum   = explode(",", $DATA['weight_sum']);
   $price        = explode(",", $DATA['price']);
 
+  //  foreach ($sc as $key => $value)
+  //  {
+  //     if($value == 0)
+  //     {
+  //       $ItemCode[$key] = "";
+  //       $sc[$key] = "";
+  //     }
+  //  }
 
+
+  //  echo "<pre>";
+  // print_r($sc);
+  //  echo "</pre>";
+
+  //  echo "<pre>";
+  // print_r($ItemCode);
+  //  echo "</pre>";
+
+  //  echo "<pre>";
+  // print_r($issue);
+  //  echo "</pre>";
+
+  //  echo "<pre>";
+  // print_r($short);
+  //  echo "</pre>";
+
+  //  echo "<pre>";
+  // print_r($over);
+  //  echo "</pre>";
+
+  //  echo "<pre>";
+  // print_r($weight_sum);
+  //  echo "</pre>";
+
+  //  echo "<pre>";
+  // print_r($price);
+  //  echo "</pre>";
 
   // $limit          = sizeof($ItemCode, 0);
 
-  #-------------------------------------------------------------------------------
+//   #-------------------------------------------------------------------------------
         $Stock = "SELECT
                         site.stock
                         FROM
@@ -1264,7 +1300,7 @@ function SaveBill($conn, $DATA)
        $StockQ =   mysqli_query($conn, $Stock);
        $StockRes = mysqli_fetch_assoc($StockQ);
        $stock = $StockRes['stock'];
- #-------------------------------------------------------------------------------
+//  #-------------------------------------------------------------------------------
 
  if($stock == 1)
  {
@@ -1323,28 +1359,38 @@ function SaveBill($conn, $DATA)
 
   }
 
-  // $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ , SUM(Weight) AS Weight2 , SUM(Price) AS Price2
-  // FROM shelfcount_detail WHERE shelfcount_detail.DocNo = '$DocNo'";
-  // $meQ = mysqli_query($conn, $Sql);
-  // while ($Res = mysqli_fetch_assoc($meQ)) {
-  //   $Sum = $Res['Summ'];
-  //   $Weight2  = $Res['Weight2'];
-  //   $Price2   = $Res['Price2'];
-  // }
+
+  $Sql = "SELECT SUM(shelfcount_detail.TotalQty) AS Summ , SUM(Weight) AS Weight2 , SUM(Price) AS Price2
+  FROM shelfcount_detail WHERE shelfcount_detail.DocNo = '$DocNo'";
+  $meQ = mysqli_query($conn, $Sql);
+  while ($Res = mysqli_fetch_assoc($meQ)) {
+    $Sum = $Res['Summ'];
+    $Weight2  = $Res['Weight2'];
+    $Price2   = $Res['Price2'];
+  }
 
   $isStatus = $DATA["isStatus"];
-  $Sql = "UPDATE shelfcount SET IsStatus = $isStatus , DeliveryTime=$settime , ScTime=$setcount  WHERE shelfcount.DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount,
+  report_sc 
+  SET report_sc.IsStatus = $isStatus,
+  shelfcount.IsStatus = $isStatus,
+  shelfcount.DeliveryTime = $settime,
+  shelfcount.ScTime = $setcount 
+  WHERE
+    shelfcount.DocNo = '$DocNo' 
+    AND report_sc.DocNo = '$DocNo' 
+    AND report_sc.DepCode = '$DepCode' ";
   mysqli_query($conn, $Sql);
 
 
   
-  $Sql = "  UPDATE report_sc SET IsStatus =   (CASE WHEN DocNo = '$DocNo' THEN $isStatus end)
-    WHERE  DocNo in('$DocNo') AND DepCode = '$DepCode' ";
-  mysqli_query($conn, $Sql);
+  // $Sql = "  UPDATE report_sc SET IsStatus =   (CASE WHEN DocNo = '$DocNo' THEN $isStatus end)
+  //   WHERE  DocNo in('$DocNo') AND DepCode = '$DepCode' ";
+  // mysqli_query($conn, $Sql);
 
 
-  $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
-  mysqli_query($conn, $Sql);
+  // $Sql = "UPDATE daily_request SET IsStatus = $isStatus WHERE daily_request.DocNo = '$DocNo'";
+  // mysqli_query($conn, $Sql);
   $DATA['xdocno'] = "";
   $n = 0;
 
@@ -1768,7 +1814,6 @@ function SaveDraw($conn, $DATA)
   {
     $DepCode = $Result2['DepCode'];
   }
-
   $Stock = "SELECT
   site.stock
   FROM
@@ -1779,111 +1824,113 @@ function SaveDraw($conn, $DATA)
   $stock = $StockRes['stock'];
 
   if($stock == 1)
-{
-  $loopitem = 0;
-  $Sql3 = "SELECT
-  report_sc.ItemName,
-  report_sc.ItemCode,
-  report_sc.ParQty,
-  report_sc.CcQty,
-  report_sc.TotalQty
-  FROM report_sc
-  WHERE report_sc.DocNo = '$DocNo' ";
-
-  $meQuery3 = mysqli_query($conn, $Sql3);
-  while ($Result3 = mysqli_fetch_assoc($meQuery3)) {
-    $ItemCode[$loopitem] = $Result3['ItemCode'];
-    $Oder[$loopitem]        = $Result3['TotalQty'];
-
-    $loopitem++;
-  }
-
-  // ==================================================================
-
-
-  foreach ($ItemCode as $key => $value)
   {
-    $Sql4 = "SELECT
-                    par_item_stock.TotalQty
-                  FROM
-                    par_item_stock
-                  INNER JOIN department ON department.DepCode = par_item_stock.DepCode
-                  INNER JOIN site ON site.HptCode = department.HptCode
-                  WHERE
-                    par_item_stock.ItemCode = '$value'
-                  AND par_item_stock.HptCode = '$HptCode'
-                  AND department.IsDefault = 1
-                  LIMIT 1";
+    $loopitem = 0;
+    $Sql3 = "SELECT
+    report_sc.ItemName,
+    report_sc.ItemCode,
+    report_sc.ParQty,
+    report_sc.CcQty,
+    report_sc.TotalQty
+    FROM report_sc
+    WHERE report_sc.DocNo = '$DocNo' ";
 
-    $meQuery4 = mysqli_query($conn, $Sql4);
-    $rowcount = mysqli_num_rows($meQuery4);
-    if ($rowcount > 0) {
-      while ($Result4 = mysqli_fetch_assoc($meQuery4)) {
+    $meQuery3 = mysqli_query($conn, $Sql3);
+    while ($Result3 = mysqli_fetch_assoc($meQuery3))
+    {
+      $ItemCode[$loopitem] = $Result3['ItemCode'];
+      $Oder[$loopitem]        = $Result3['TotalQty'];
+      $loopitem++;
+    }
 
-        $QtyCenter = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
+    // ==================================================================
 
-        if ($QtyCenter >= $Oder[$key]) {
 
-          //===========================================================================================
-          $Sql = " UPDATE shelfcount,
-                          par_item_stock ,
-                          report_sc
-                        SET shelfcount.PkEndTime = NOW(),
-                          shelfcount.IsStatus = 3,
-                          shelfcount.jaipar = 1 ,  par_item_stock.TotalQty = TotalQty - $Oder[$key] ,
-                          shelfcount.complete_user = $Userid ,
-                          shelfcount.complete_date =  NOW() ,
-                          shelfcount.Modify_Date =  NOW() ,
-                          report_sc .IsStatus = 3
-                        WHERE
-                          shelfcount.DocNo = '$DocNo'
-                        AND  report_sc.DocNo = '$DocNo'
-                        AND par_item_stock.ItemCode = '$value'
-                        AND par_item_stock.DepCode = '$DepCode'  ";
-          mysqli_query($conn, $Sql);
+    foreach ($ItemCode as $key => $value)
+    {
+      $Sql4 = "SELECT
+                      par_item_stock.TotalQty
+                    FROM
+                      par_item_stock
+                    INNER JOIN department ON department.DepCode = par_item_stock.DepCode
+                    INNER JOIN site ON site.HptCode = department.HptCode
+                    WHERE
+                      par_item_stock.ItemCode = '$value'
+                    AND par_item_stock.HptCode = '$HptCode'
+                    AND department.IsDefault = 1
+                    LIMIT 1";
 
-          //===========================================================================================
+      $meQuery4 = mysqli_query($conn, $Sql4);
+      $rowcount = mysqli_num_rows($meQuery4);
+      if ($rowcount > 0) {
+        while ($Result4 = mysqli_fetch_assoc($meQuery4)) {
 
-        } else if ($QtyCenter < $Oder[$key] || $QtyCenter == 0) {
-          $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
-          mysqli_query($conn, $Sql);
-          $return[$count]['ItemCode']  = $Result3['ItemCode'];
-          $return[$count]['ItemName']  = $Result3['ItemName'];
-          $return[$count]['ParQty']    = $Result3['ParQty'];
-          $return[$count]['CcQty']     = $Result3['CcQty'];
-          $return[$count]['TotalQty']  = $Result3['TotalQty'] == null ? 0 : $Result3['TotalQty'];
-          $return[$count]['QtyCenter']   = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
-          $chk = 1;
-          $count++;
+          $QtyCenter = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
+
+          if ($QtyCenter >= $Oder[$key]) {
+
+            //===========================================================================================
+            $Sql = " UPDATE shelfcount,
+                            par_item_stock ,
+                            report_sc
+                          SET shelfcount.PkEndTime = NOW(),
+                            shelfcount.IsStatus = 3,
+                            shelfcount.jaipar = 1 ,  par_item_stock.TotalQty = TotalQty - $Oder[$key] ,
+                            shelfcount.complete_user = $Userid ,
+                            shelfcount.complete_date =  NOW() ,
+                            shelfcount.Modify_Date =  NOW() ,
+                            report_sc .IsStatus = 3
+                          WHERE
+                            shelfcount.DocNo = '$DocNo'
+                          AND  report_sc.DocNo = '$DocNo'
+                          AND par_item_stock.ItemCode = '$value'
+                          AND par_item_stock.DepCode = '$DepCode'  ";
+            mysqli_query($conn, $Sql);
+
+            //===========================================================================================
+
+          } else if ($QtyCenter < $Oder[$key] || $QtyCenter == 0) {
+            $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
+            mysqli_query($conn, $Sql);
+            $return[$count]['ItemCode']  = $Result3['ItemCode'];
+            $return[$count]['ItemName']  = $Result3['ItemName'];
+            $return[$count]['ParQty']    = $Result3['ParQty'];
+            $return[$count]['CcQty']     = $Result3['CcQty'];
+            $return[$count]['TotalQty']  = $Result3['TotalQty'] == null ? 0 : $Result3['TotalQty'];
+            $return[$count]['QtyCenter']   = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
+            $chk = 1;
+            $count++;
+          }
         }
+        } else {
+        $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
+        mysqli_query($conn, $Sql);
+        $return[$count]['ItemCode']  = $Result3['ItemCode'];
+        $return[$count]['ItemName']  = $Result3['ItemName'];
+        $return[$count]['ParQty']    = $Result3['ParQty'];
+        $return[$count]['CcQty']     = $Result3['CcQty'];
+        $return[$count]['TotalQty']  = $Result3['TotalQty'] == null ? 0 : $Result3['TotalQty'];
+        $return[$count]['QtyCenter']   = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
+        $chk = 1;
+        $count++;
       }
-    } else {
-      $Sql = "UPDATE shelfcount SET PkEndTime = NOW() WHERE DocNo = '$DocNo'";
-      mysqli_query($conn, $Sql);
-      $return[$count]['ItemCode']  = $Result3['ItemCode'];
-      $return[$count]['ItemName']  = $Result3['ItemName'];
-      $return[$count]['ParQty']    = $Result3['ParQty'];
-      $return[$count]['CcQty']     = $Result3['CcQty'];
-      $return[$count]['TotalQty']  = $Result3['TotalQty'] == null ? 0 : $Result3['TotalQty'];
-      $return[$count]['QtyCenter']   = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
-      $chk = 1;
-      $count++;
     }
   }
-  }else{
-  $Sql = " UPDATE shelfcount , report_sc
-                SET 
-                      shelfcount.PkEndTime = NOW(),
-                      shelfcount.IsStatus = 3,
-                      shelfcount.jaipar = 1 ,  
-                      shelfcount.complete_user = $Userid ,
-                      shelfcount.complete_date =  NOW() ,
-                      shelfcount.Modify_Date =  NOW() ,
-                      report_sc .IsStatus = 3
-              WHERE
-                      shelfcount.DocNo = '$DocNo'
-                      AND  report_sc.DocNo = '$DocNo'  ";
-  mysqli_query($conn, $Sql);
+  else
+  {
+      $Sql = " UPDATE shelfcount , report_sc
+                  SET 
+                        shelfcount.PkEndTime = NOW(),
+                        shelfcount.IsStatus = 3,
+                        shelfcount.jaipar = 1 ,  
+                        shelfcount.complete_user = $Userid ,
+                        shelfcount.complete_date =  NOW() ,
+                        shelfcount.Modify_Date =  NOW() ,
+                        report_sc .IsStatus = 3
+                WHERE
+                        shelfcount.DocNo = '$DocNo'
+                        AND  report_sc.DocNo = '$DocNo'  ";
+      mysqli_query($conn, $Sql);
   }
 
 
@@ -1900,32 +1947,28 @@ function SaveDraw($conn, $DATA)
   $Sql = "UPDATE shelfcount SET Total = $Sum , Totalw = $Weight2 , Totalp = $Price2 WHERE shelfcount.DocNo = '$DocNo'";
   mysqli_query($conn, $Sql);
 
-
-
-
-
-
-
-
-
   // ==================================================================
 
   $Sql5 = "SELECT jaipar FROM shelfcount WHERE DocNo = '$DocNo'";
   $meQuery5 = mysqli_query($conn, $Sql5);
-  while ($Result5 = mysqli_fetch_assoc($meQuery5)) {
+  while ($Result5 = mysqli_fetch_assoc($meQuery5))
+  {
     $jaipar = $Result5['jaipar'];
   }
 
   $return['jaipar'] = $jaipar;
   $return['CountRow'] = $count;
-  if ($chk == 0) {
+  if ($chk == 0)
+  {
     $return['status'] = "success";
     $return['form'] = "SaveDraw";
     $return['chk'] = "OK";
     echo json_encode($return);
     mysqli_close($conn);
     die;
-  } else if ($chk == 1) {
+  }
+  else if ($chk == 1)
+  {
     $return['status'] = "success";
     $return['form'] = "SaveDraw";
     $return['chk'] = "Lassthan";
@@ -2256,10 +2299,34 @@ function ShowDetailNew($conn, $DATA)
   INNER JOIN shelfcount ON shelfcount.DocNo = shelfcount_detail.DocNo
   WHERE shelfcount_detail.DocNo = '$DocNo'
 	AND category_price.HptCode = '$HptCode'
+  GROUP BY item.ItemName
   ORDER BY item.ItemName ASC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
+    $itemcode_cnt = $Result['ItemCode'];
+
+    $Sql_cnt = "SELECT
+                  COUNT( shelfcount_detail.ItemCode ) AS cnt,
+                  ( SELECT COUNT( report_sc.ItemCode ) FROM report_sc WHERE report_sc.DocNo = '$DocNo' AND ItemCode = '$itemcode_cnt' )  AS cnt_report
+                FROM
+                  shelfcount_detail 
+                WHERE
+                  shelfcount_detail.DocNo = '$DocNo' 
+                  AND shelfcount_detail.ItemCode = '$itemcode_cnt' ";
+     $meQuery_cnt = mysqli_query($conn, $Sql_cnt);
+     $Result_cnt = mysqli_fetch_assoc($meQuery_cnt);
+     $cnt = $Result_cnt['cnt'];
+     $cnt_report = $Result_cnt['cnt_report'];
+
+     if($cnt > '1'){
+       $Sql_del1 = "DELETE FROM shelfcount_detail WHERE shelfcount_detail.DocNo = '$DocNo' AND shelfcount_detail.ItemCode = '$itemcode_cnt' LIMIT 1";
+       mysqli_query($conn, $Sql_del1);
+     }
+     if($cnt > '1'){
+      $Sql_del2 = "DELETE FROM report_sc WHERE report_sc.DocNo = '$DocNo' AND report_sc.ItemCode = '$itemcode_cnt' LIMIT 1";
+      mysqli_query($conn, $Sql_del2);
+    }
     $return[$count]['RowID']      = $Result['Id'];
     $return[$count]['ItemCode']   = $Result['ItemCode'];
     $return[$count]['ItemName']   = $Result['ItemName'];

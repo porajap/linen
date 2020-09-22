@@ -6,11 +6,64 @@ $Userid = $_SESSION['Userid'];
 if($Userid==""){
   header("location:../index.html");
 }
+function GetSite($conn, $DATA)
+{
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+  $lang = $DATA["lang"];
+  $count = 0;
+  if($lang == 'en')
+  {
+    if($PmID != 1)
+    {
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }
+    else
+    {
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }
+  else
+  {
+    if($PmID != 1)
+    {
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }
+    else
+    {
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }    
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery))
+  {
+    $return[$count]['HptCode']  = $Result['HptCode'];
+    $return[$count]['HptName']  = $Result['HptName'];
+    $count++;
+  }
 
+  $return['status'] = "success";
+  $return['form'] = "GetSite";
+  $return[0]['PmID']  = $PmID;
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+
+}
 
 function getSection($conn, $DATA)
 {
-  $HptCode = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
+
+  if($PmID ==1){
+    $HptCode = $DATA['HptCode'];
+  }else{
+    $HptCode = $_SESSION['HptCode'];
+  }
   $count = 0;
   $Sql = "SELECT
           department.DepCode,
@@ -556,8 +609,10 @@ if(isset($_POST['DATA']))
         SelectDocument($conn, $DATA);
       }else if($DATA['STATUS'] == 'UpdateQty'){
         UpdateQty($conn, $DATA);
+      }else if($DATA['STATUS'] == 'GetSite'){
+        GetSite($conn, $DATA);
       }
-
+      
 
 }else{
 	$return['status'] = "error";

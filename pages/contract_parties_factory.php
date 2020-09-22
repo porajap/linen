@@ -13,6 +13,7 @@ if(empty($_SESSION['lang'])){
 }else{
   $language =$_SESSION['lang'];
 }
+require 'updatemouse.php';
 
 header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/general_lang.xml');
@@ -533,7 +534,13 @@ $array2 = json_decode($json2,TRUE);
 										if(temp["form"]=='OnLoadPage')
                     {
                       $("#ShowSite").empty();
-                      var Str = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                      if (temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7) {
+                        var Str = "<option value='' selected><?php echo $array['selecthospital'][$language]; ?></option>";
+                      }else{
+                        var Str = "";
+                        $('#ShowSite').attr('disabled', true);
+                        $('#ShowSite').addClass('icon_select');
+                      }
 											for (var i = 0; i < temp['count']; i++)
                       {
 												 Str += "<option value="+temp[i]['HptCode']+">"+temp[i]['HptName']+"</option>";

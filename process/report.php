@@ -1595,7 +1595,7 @@ function r4($conn, $HptCode, $FacCode, $date1, $date2, $Format, $DepCode, $cycle
       department.DepName
       FROM shelfcount
       INNER JOIN department ON shelfcount.DepCode = department.DepCode
-      WHERE shelfcount.complete_date BETWEEN '$date1' AND '$date2'
+      WHERE  DATE(shelfcount.complete_date) BETWEEN '$date1' AND '$date2'
       AND department.HptCode = '$HptCode'
       $DepCode1
       AND shelfcount.DocNo LIKE '%$HptCode%'

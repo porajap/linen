@@ -311,6 +311,7 @@ elseif ($isStatus == 9)
       AND shelfcount_detail.TotalQty <> 0
       AND category_price.HptCode = '$HptCode'
       AND site.HptCode = '$HptCode'
+      GROUP BY item.ItemName
       ORDER BY item.ItemName ";
 
   $queryy = "SELECT

@@ -242,7 +242,8 @@ if ($chk == 'one')
                 INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
                 $where
                AND  round_time_dirty.HptCode = '$HptCode'
-                $dirty_time ";
+                $dirty_time 
+              ORDER BY dirty.Time_ID ASC ";
     echo $query;
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -291,7 +292,8 @@ elseif ($chk == 'between')
   INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
   $where
   AND  round_time_dirty.HptCode = '$HptCode'
-   $dirty_time ";
+   $dirty_time
+   ORDER BY dirty.Time_ID ASC ";
   // echo $query;
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery))
@@ -320,7 +322,8 @@ elseif ($chk == 'month')
   INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
   $where
   AND  round_time_dirty.HptCode = '$HptCode'
-   $dirty_time ";
+   $dirty_time 
+   ORDER BY dirty.Time_ID ASC ";
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $date[] = $Result['DocDate'];
@@ -359,9 +362,9 @@ elseif ($chk == 'monthbetween')
 }
 
 
-echo "<pre>";
-print_r($date);
-echo "</pre>";
+// echo "<pre>";
+// print_r($date);
+// echo "</pre>";
 
 
 for ($sheet = 0; $sheet < $count_sheet; $sheet++)
@@ -390,13 +393,17 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++)
               INNER JOIN factory ON factory.FacCode = dirty.FacCode
               INNER JOIN department ON department.DepCode = dirty_detail.DepCode
               INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID
+              INNER JOIN site ON site.HptCode = department.HptCode
               $where
               AND dirty.isStatus <> 9 AND dirty.isStatus <> 0
               AND dirty.FacCode = '$FacCode'
+              AND site.HptCode = '$HptCode' 
                $dirty_time
               GROUP BY dirty_detail.DepCode,department.DepName
             ";
+  // echo "<pre>";
   // echo $query;
+  // echo "</pre>";
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery))
   {

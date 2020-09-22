@@ -12,18 +12,35 @@ function OnLoadPage($conn,$DATA)
   $count = 0;
   $boolean = false;
   $lang = $_SESSION['lang'];
-  $HptCode = $_SESSION['HptCode'];
+  $HptCode1 = $_SESSION['HptCode'];
+  $PmID = $_SESSION['PmID'];
 
   if($lang == 'en')
   {
-    $Sql = "SELECT site.HptCode,site.HptName
-    FROM site WHERE site.IsStatus = 0 ";
+    if($PmID == 5 || $PmID == 7)
+    {
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }
+    else
+    {
+      $Sql = "SELECT site.HptCode,site.HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
   }
   else
   {
-    $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
-    FROM site WHERE site.IsStatus = 0  ";
-  }
+    if($PmID == 5 || $PmID == 7)
+    {
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0 AND HptCode = '$HptCode1'";
+    }
+    else
+    {
+      $Sql = "SELECT site.HptCode,site.HptNameTH AS HptName
+      FROM site WHERE site.IsStatus = 0";
+    }
+  }  
   $meQuery = mysqli_query($conn,$Sql);
   while ($Result = mysqli_fetch_assoc($meQuery))
   {
@@ -35,6 +52,7 @@ function OnLoadPage($conn,$DATA)
     $return['count'] = $count;
     if($boolean)
     {
+      $return[0]['PmID']  = $PmID;
       $return['status'] = "success";
       $return['form'] = "OnLoadPage";
       echo json_encode($return);
@@ -43,6 +61,7 @@ function OnLoadPage($conn,$DATA)
     }
     else
     {
+      $return[0]['PmID']  = $PmID;
       $return['status'] = "failed";
       $return['form'] = "OnLoadPage";
       echo json_encode($return);

@@ -12,6 +12,7 @@ if(empty($_SESSION['lang'])){
 }else{
     $language =$_SESSION['lang'];
 }
+require 'updatemouse.php';
 
 header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/general_lang.xml');
@@ -430,6 +431,7 @@ $array2 = json_decode($json2,TRUE);
                 showCancelButton: true}).then(result => {
             if (result.value) {
                         var file_data = $('#image').prop('files')[0];   
+
                         var form_data = new FormData();                  
                         form_data.append('file', file_data);
                         form_data.append('UsID', UsID);

@@ -836,14 +836,15 @@ else if ($itemfromweb <> '0')
                     report_sc.WeightPerQty AS Weight ,
                     category_price.Price AS Price,
                     department.DepName AS DepName,
-                    report_sc.itemname AS itemname 
+                    item.itemname AS itemname 
                     FROM
                     report_sc
+                    INNER JOIN item ON item.ItemCode = report_sc.ItemCode
                     INNER JOIN department ON department.DepCode = report_sc.DepCode  
                     LEFT JOIN  category_price ON category_price.CategoryCode = report_sc.CategoryCode
                     INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
                                     WHERE
-                                    report_sc.itemcode = '$itemfromweb'
+                                    item.itemcode = '$itemfromweb'
                                     AND department.HptCode = '$HptCode' 
                                     AND report_sc.DepCode = '$DepCode[$i]'
                                     AND report_sc.isStatus <> 9
@@ -866,7 +867,6 @@ else if ($itemfromweb <> '0')
         $iname = $Result["itemname"];
       }
     }
-
     $start_row = 9;
     $r = 5;
     $w = 0;
@@ -918,7 +918,7 @@ else if ($itemfromweb <> '0')
         {
             if($Date_chk[$x]  == $val)
             {
-            $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Weight[$x]);
+              $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Weight[$x]);
               $r++;
               $ISSUE += $ISSUEx[$x];
               $TOTAL_WEIGHT +=  $Weight[$x];
@@ -940,32 +940,32 @@ else if ($itemfromweb <> '0')
       $r = 5;
       $w++;
       $start_row++;
-  }
-
-  $r = 5;
-  for ($day = 0; $day < $count; $day++) 
-  {
-    $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
-    COALESCE(sum(report_sc.Weight),'0') as  Weight
-    FROM report_sc 
-    INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
-    INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
-    WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
-    AND report_sc.isStatus <> 9
-    AND report_sc.isStatus <> 1
-    AND dpm.HptCode = '$HptCode' 
-    AND report_sc.isStatus <> 0
-    $where_time_express
-    $wheredep
-    AND report_sc.itemcode = '$itemfromweb'
-    ";
-    $meQuery = mysqli_query($conn, $data);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
-      $r++;
-      $TotalISSUE += $Result["ISSUE"];
     }
-  }
+
+    $r = 5;
+    for ($day = 0; $day < $count; $day++) 
+    {
+      $data = "SELECT COALESCE(SUM(report_sc.TotalQty),'0') as  ISSUE, 
+      COALESCE(sum(report_sc.Weight),'0') as  Weight
+      FROM report_sc 
+      INNER JOIN department dpm ON dpm.DepCode = report_sc.DepCode
+      INNER JOIN shelfcount sc ON sc.DocNo = report_sc.DocNo 
+      WHERE  DATE(report_sc.DocDate)  ='$date[$day]'  
+      AND report_sc.isStatus <> 9
+      AND report_sc.isStatus <> 1
+      AND dpm.HptCode = '$HptCode' 
+      AND report_sc.isStatus <> 0
+      $where_time_express
+      $wheredep
+      AND report_sc.itemcode = '$itemfromweb'
+      ";
+      $meQuery = mysqli_query($conn, $data);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+        $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
+        $r++;
+        $TotalISSUE += $Result["ISSUE"];
+      }
+    }
 
       $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $TotalISSUE);
       $r++;

@@ -239,7 +239,8 @@ if ($chk == 'one') {
 
   $interval = new DateInterval('P1D');
   $period = new DatePeriod($begin, $interval ,$end);
-  foreach ($period as $key => $value) {
+  foreach ($period as $key => $value)
+  {
     $date[] = $value->format('Y-m-d');
   }
   $count = count($date);
@@ -307,8 +308,8 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
               AND grouphpt.HptCode = '$HptCode'
               AND department.HptCode = '$HptCode'
               GROUP BY  department.DepCode 
-              ORDER BY department.DepName ASC
-            ";
+              ORDER BY department.DepName ASC ";
+
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     if ($status_group == 1) {

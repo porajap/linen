@@ -5,6 +5,8 @@ $TimeOut = $_SESSION['TimeOut'];
 if($Userid==""){
    header("location:../index.html");
 }
+require 'updatemouse.php';
+
  ?>
 
 <!DOCTYPE html>

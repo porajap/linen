@@ -3,8 +3,10 @@
   session_start();
   $Id = $_SESSION['Userid'];
   $TimeOut = $_SESSION['TimeOut'];
+  $Userid = $_SESSION['Userid'];
 
 
+  require 'updatemouse.php';
 
 $language = $_SESSION['lang'];
 
@@ -353,7 +355,7 @@ $array2 = json_decode($json2,TRUE);
                         </div>
                         <div  class="d-flex justify-content-center mt-5">
                             <div class="input-group">
-                                <input type="text" class="form-control text-center numonly" id="timeout"  value="<?= $TimeOut ?>" maxlength="10" required onkeyup='if(this.value > 30){this.value=30}'>
+                                <input type="text" class="form-control text-center numonly" id="timeout"  value="<?= $TimeOut ?>" maxlength="10" required onkeyup='if(this.value > 60){this.value=60}'>
                             </div>
                             <div id="label1">
                                 <label for="timeout"><?php echo $array['minute'][$language]; ?></label>

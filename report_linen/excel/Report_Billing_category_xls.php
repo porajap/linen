@@ -593,6 +593,7 @@ for ($sheet = 0; $sheet < $sheet_count; $sheet++)
                             AND shelfcount.isStatus <> 0
                             $categorywhere
                             AND grouphpt.GroupCode =  '$GroupCode[$sheet]'
+                            AND department.HptCode = '$HptCode' 
                             AND grouphpt.HptCode = '$HptCode' 
                             AND shelfcount.SiteCode = '$HptCode'
                             GROUP BY DATE(shelfcount.complete_date)";

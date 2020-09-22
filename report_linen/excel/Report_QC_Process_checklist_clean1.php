@@ -232,7 +232,7 @@ for ($r = 0; $r < $count; $r++) {
   FROM
   kpi_clean1_detail
   INNER JOIN kpi_clean1 ON kpi_clean1_detail.DocNo = kpi_clean1.DocNo
-  WHERE date(kpi_clean1.DocDate) = '$now$date' AND kpi_clean1.IsStatus = 1
+  WHERE date(kpi_clean1.DocDate) = '$now$date' AND kpi_clean1.IsStatus = 1 	AND kpi_clean1.HptCode = '$HptCode'
   ORDER BY kpi_clean1_detail.ID";
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

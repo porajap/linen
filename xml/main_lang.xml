@@ -100,10 +100,10 @@
       </sub>
       <sub>
         <en>
-          Claim
+          Claim(FACTORY)
         </en>
         <th>
-          บันทึกส่งเคลมโรงซัก
+          บันทึกส่งเคลมโรงซัก(โรงซัก)
         </th>
       </sub>
         <sub>
@@ -116,10 +116,10 @@
       </sub>
         <sub>
         <en>
-          Return
+          Return(Hospital)
         </en>
         <th>
-          บันทึกรับการคืนผ้า
+          บันทึกรับการคืนผ้า(โรงพยาบาล)
         </th>
       </sub>
         <sub>
@@ -132,10 +132,10 @@
       </sub>
         <sub>
         <en>
-          Damage
+          Damage(Hospital)
         </en>
         <th>
-          บันทึกผ้าชำรุด
+          บันทึกผ้าชำรุด(โรงพยาบาล)
         </th>
       </sub>
         <sub>
@@ -152,6 +152,14 @@
         </en>
         <th>
           บันทึกผ้าแก้ไขรับกลับ
+        </th>
+      </sub>
+        <sub>
+        <en>
+          Excel
+        </en>
+        <th>
+          Excel
         </th>
       </sub>
     </general>

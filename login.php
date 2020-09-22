@@ -34,10 +34,10 @@ $language = $_SESSION['lang'];
     <link rel="stylesheet" href="dist/css/sweetalert2.min.css">
     <style>
         #password,#email:read-only {
-            background-color:transparent; !important;
+            background-color:transparent !important;
         }
         #password,#email:-moz-read-only { /* For Firefox */
-            background-color:transparent; !important;
+            background-color:transparent !important;
         }
         .glyphicon-remove {
             color: red;

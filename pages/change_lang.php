@@ -8,6 +8,7 @@
 
 $language = $_SESSION['lang'];
 
+require 'updatemouse.php';
 
 header ('Content-type: text/html; charset=utf-8');
 $xml = simplexml_load_file('../xml/general_lang.xml');

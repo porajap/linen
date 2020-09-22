@@ -5,6 +5,9 @@ $TimeOut = $_SESSION['TimeOut'];
 $PmID = $_SESSION['PmID'];
 $HptCode = $_SESSION['HptCode'];
 $HptName = $_SESSION['HptName'];
+
+require 'updatemouse.php';
+
 if($Userid=="")
 {
   header("location:../index.html");
