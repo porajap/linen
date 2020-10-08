@@ -1235,6 +1235,7 @@ $array2 = json_decode($json2, TRUE);
             swal.showLoading();
             setTimeout(() => {
               var url = "../report/Report_Shelfcount_tc.php?DocNo=" + docno + "&lang=" + lang + "&HptCode=" + HptCode;
+              $('#dialogprint').modal('toggle');
               window.open(url);
             }, 4000);
 
@@ -1248,6 +1249,7 @@ $array2 = json_decode($json2, TRUE);
             swal.showLoading();
             setTimeout(() => {
               var url = "../report/Report_Shelfcount_tc_2.php?DocNo=" + docno + "&lang=" + lang + "&HptCode=" + HptCode;
+              $('#dialogprint').modal('toggle');
               window.open(url);
             }, 4000);
           }

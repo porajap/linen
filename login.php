@@ -113,7 +113,7 @@ $language = $_SESSION['lang'];
                 <img src="img/frame1.png">
             </div>
             <div id="logo_change">
-                <img src="img/logo.png">
+                <img src="img/logo.png" style="width: 16%;">
             </div>
             <div id="form_inputChange">
                 <div id="usernameCh_input">

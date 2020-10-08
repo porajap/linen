@@ -86,7 +86,7 @@ $array2 = json_decode($json2, TRUE);
 
     (function($) {
       $(document).ready(function() {
-        $("#bCreate").attr('disabled' , true);
+        $("#bCreate").attr('disabled', true);
         $("#datepickerRef1").datepicker({
           onSelect: function(date, el) {
             var lang = '<?php echo $language; ?>';
@@ -2256,7 +2256,7 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-12">
                   <!-- tag column 1 -->
-                  <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" style="">
+                  <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" >
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row">
                         <th style="width: 3%;">&nbsp;</th>

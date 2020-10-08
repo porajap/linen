@@ -131,10 +131,13 @@ class MYPDF extends TCPDF
               shelfcount.signature_web AS packing,
               shelfcount.DvStartTime AS passengertime, 
               shelfcount.SignEndTime AS receivertime,
-              shelfcount.PTime AS packingtime
+              shelfcount.PTime AS packingtime,
+			        site.Signature_Clean
                 FROM
                 shelfcount
-                where shelfcount.DocNo ='$docno'
+                LEFT JOIN department ON shelfcount.DepCode = department.DepCode
+                LEFT JOIN site ON site.HptCode = department.HptCode
+                where shelfcount.DocNo ='$docno' AND site.Signature = '1'
       ";
 
       $meQuery = mysqli_query($conn, $head);
@@ -145,6 +148,7 @@ class MYPDF extends TCPDF
         $packingtime = $Result['packingtime'];
         $passengertime = $Result['passengertime'];
         $receivertime = $Result['receivertime'];
+        $Signature_Clean = $Result['Signature_Clean'];
       }
       list($date1, $time1) = explode(' ', $packingtime);
       list($date2, $time2) = explode(' ', $passengertime);
@@ -173,16 +177,31 @@ class MYPDF extends TCPDF
       if ($date3 == '--543' || $date3 == '--') {
         $date3 = ' ';
       }
-      $this->SetY(-40);
-      // $this->SetFont('  thsarabunnew', 'b', 8);
-      if ($packing != null) {
-        $this->ImageSVG('@' . $packing, $x = 27, $y = 256, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
-      }
-      if ($passenger != null) {
-        $this->ImageSVG('@' . $passenger, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
-      }
-      if ($receiver != null) {
-        $this->ImageSVG('@' . $receiver, $x = 29, $y = 273, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+
+      if($Signature_Clean ==1){
+        $this->SetY(-50);
+        // $this->SetFont('  thsarabunnew', 'b', 8);
+        if ($packing != null) {
+          $this->ImageSVG('@' . $packing, $x = 27, $y = 246, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        }
+        if ($passenger != null) {
+          $this->ImageSVG('@' . $passenger, $x = 29, $y = 253, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        }
+        if ($receiver != null) {
+          $this->ImageSVG('@' . $receiver, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        }
+      }else{
+        $this->SetY(-40);
+        // $this->SetFont('  thsarabunnew', 'b', 8);
+        if ($packing != null) {
+          $this->ImageSVG('@' . $packing, $x = 27, $y = 256, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        }
+        if ($passenger != null) {
+          $this->ImageSVG('@' . $passenger, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        }
+        if ($receiver != null) {
+          $this->ImageSVG('@' . $receiver, $x = 29, $y = 273, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        }
       }
 
       $this->SetFont('  thsarabunnew', 'i', 13);
@@ -198,6 +217,13 @@ class MYPDF extends TCPDF
       $this->Cell(90, 10,   $array2['sign'][$language] . "..................................................." . $array2['receiver'][$language], 0, 0, 'L');
       $this->Cell(1, 9,  "             " . $date3 . "                           " . $time3, 0, 0, 'L');
       $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+
+      
+      if($Signature_Clean ==1){
+        $this->Cell(90, 10,   $array2['receiverclean'][$language] . "....................................." . $array2['authorities'][$language], 0, 0, 'L');
+        $this->Cell(1, 9,  "                                         " , 0, 0, 'L');
+        $this->Cell(50, 10,   $array2['date'][$language] . "........................................" . $array2['time'][$language] . ".............................", 0, 1, 'L');
+      }
 
       $image1 = "../report_linen/images/chb.jpg";
       $this->Image($image1, $this->GetX(), $this->GetY(), 5);

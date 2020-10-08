@@ -243,7 +243,7 @@ if ($chk == 'one')
                 $where
                AND  round_time_dirty.HptCode = '$HptCode'
                 $dirty_time 
-              ORDER BY dirty.Time_ID ASC ";
+              ORDER BY dirty.DocDate ASC , dirty.Time_ID ASC ";
     echo $query;
     $meQuery = mysqli_query($conn, $query);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -293,7 +293,7 @@ elseif ($chk == 'between')
   $where
   AND  round_time_dirty.HptCode = '$HptCode'
    $dirty_time
-   ORDER BY dirty.Time_ID ASC ";
+   ORDER BY dirty.DocDate ASC , dirty.Time_ID ASC ";
   // echo $query;
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery))
@@ -323,7 +323,9 @@ elseif ($chk == 'month')
   $where
   AND  round_time_dirty.HptCode = '$HptCode'
    $dirty_time 
-   ORDER BY dirty.Time_ID ASC ";
+   ORDER BY  dirty.DocDate ASC ,  dirty.Time_ID ASC ";
+
+   echo $query;
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $date[] = $Result['DocDate'];

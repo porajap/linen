@@ -1626,7 +1626,8 @@ $array2 = json_decode($json2, TRUE);
 							$('#table_usage_detail').attr('hidden', true);
 							var dataRow = "<tr><td style='width:100%' class='text-center'><?php echo $array['notfoundDoc'][$language]; ?></td></tr>";
 							$("#table_Dep tbody").append(dataRow);
-						} else if (temp["form"] == 'Depdoc') {
+						} else if (temp["form"] == 'DepDoc') {
+
 							swal({
 										title: '',
 										text: 'ไม่พบข้อมูล : '+ temp['typeReport'] +' ',

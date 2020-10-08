@@ -195,7 +195,6 @@ function CreateDocument($conn, $DATA)
     }
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']   = $Result['DocNo'];
-    $return[0]['DocDate'] = $newdate;
     $return[0]['RecNow']  = $Result['RecNow'];
     $count = 1;
     $Sql = "INSERT INTO log ( log ) VALUES ('".$Result['DocDate']." : ".$Result['DocNo']." :: $hotpCode :: $deptCode')";

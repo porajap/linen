@@ -120,6 +120,8 @@
 <packing><en>Packing</en><th>เจ้าหน้าที่แพ็คของ</th></packing>
 <passenger><en>Passenger</en><th>เจ้าหน้าที่ส่งของ</th></passenger>
 <receiver><en>Receiver</en><th>เจ้าหน้าที่รับของ</th></receiver>
+<receiverclean><en>receiverclean</en><th>ผู้รับผ้าสะอาด</th></receiverclean>
+<authorities><en>authorities/institution</en><th>(เจ้าหน้าที่/สถาบัน)</th></authorities>
 <rfid_dirty><en>Report RFID Dirty</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าเปื้อน</th></rfid_dirty>
 <rfid_clean><en>Report RFID Clean</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าสะอาด</th></rfid_clean>
 <rfid_amount><en>Report RFID Clean</en><th>รายงานบันทึกการส่ง จำนวน RFID ของ ผ้าสะอาด</th></rfid_amount>

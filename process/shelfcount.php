@@ -239,7 +239,7 @@ function CreateDocument($conn, $DATA)
 
   $Sql = "SELECT CONCAT('SC',lpad('$hotpCode', 3, 0),SUBSTRING(YEAR(DATE(NOW())),3,4),LPAD(MONTH(DATE(NOW())),2,0),'-',
   LPAD( (COALESCE(MAX(CONVERT(SUBSTRING(DocNo,12,5),UNSIGNED INTEGER)),0)+1) ,5,0)) AS DocNo,DATE(NOW()) AS DocDate,
-  CURRENT_TIME() AS RecNow , site.Signature
+  CURRENT_TIME() AS RecNow 
   FROM shelfcount
   LEFT JOIN department on shelfcount.DepCode = department.DepCode
   LEFT JOIN site on department.HptCode = site.HptCode
@@ -248,6 +248,12 @@ function CreateDocument($conn, $DATA)
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+
+    $Sql_hpt = "SELECT site.Signature FROM site WHERE HptCode = '$hotpCode' ";
+    $meQuery_hpt = mysqli_query($conn, $Sql_hpt);
+    $Result_hpt = mysqli_fetch_assoc($meQuery_hpt);
+
+    $return[0]['Signature']   = $Result_hpt['Signature'];
 
     if ($lang == 'en') {
       $date2 = explode("-", $Result['DocDate']);
@@ -259,7 +265,6 @@ function CreateDocument($conn, $DATA)
 
     $DocNo = $Result['DocNo'];
     $return[0]['DocNo']       = $Result['DocNo'];
-    $return[0]['Signature']   = $Result['Signature'];
     $return[0]['DocDate']     = $newdate;
     $return[0]['RecNow']      = $Result['RecNow'];
     $return[0]['settime']     = $settime;
