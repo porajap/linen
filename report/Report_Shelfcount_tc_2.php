@@ -182,7 +182,7 @@ class MYPDF extends TCPDF
         $this->SetY(-50);
         // $this->SetFont('  thsarabunnew', 'b', 8);
         if ($packing != null) {
-          $this->ImageSVG('@' . $packing, $x = 27, $y = 246, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          $this->ImageSVG('@' . $packing, $x = 27, $y = 242, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
         }
         if ($passenger != null) {
           $this->ImageSVG('@' . $passenger, $x = 29, $y = 253, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
@@ -194,7 +194,7 @@ class MYPDF extends TCPDF
         $this->SetY(-40);
         // $this->SetFont('  thsarabunnew', 'b', 8);
         if ($packing != null) {
-          $this->ImageSVG('@' . $packing, $x = 27, $y = 256, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          $this->ImageSVG('@' . $packing, $x = 27, $y = 250, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
         }
         if ($passenger != null) {
           $this->ImageSVG('@' . $passenger, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);

@@ -111,7 +111,7 @@ $array = json_decode($json, TRUE);
               option += `<option value="${value.HptCode}">${value.HptName}</option>`;
             });
           } else {
-            option = `<option value="0">Data not found</option>`;
+              option = `<option value="0">Data not found</option>`;
           }
 
           $("#Site").html(option);
@@ -1300,6 +1300,14 @@ $array = json_decode($json, TRUE);
             });
 
             swal({
+              title: '<?php echo $array['pleasewait'][$language]; ?>',
+              text: '<?php echo $array['processing'][$language]; ?>',
+              allowOutsideClick: false
+            })
+            swal.showLoading();
+
+            setTimeout(() => {
+              swal({
               title: '',
               text: '<?php echo $array['savesuccess'][$language]; ?>',
               type: 'success',
@@ -1307,6 +1315,8 @@ $array = json_decode($json, TRUE);
               showConfirmButton: false,
               timer: 1500,
             });
+            }, 10000);
+
 
           } else if (result.dismiss === 'cancel') {
             swal.close();
