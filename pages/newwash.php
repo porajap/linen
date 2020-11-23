@@ -1906,10 +1906,11 @@ $array2 = json_decode($json2,TRUE);
             function PrintData()
             {
               var docno = $('#docno').val();
+              var HptCode = $("#hotpital").val();
               var lang = '<?php echo $language; ?>';
               if(docno!=""&&docno!=undefined)
               {
-                var url  = "../report/Report_newwash_tc.php?DocNo="+docno+"&lang="+lang;
+                var url  = "../report/Report_newwash_tc.php?DocNo="+docno+"&lang="+lang+"&HptCode="+HptCode;
                 window.open(url);
               }
               else

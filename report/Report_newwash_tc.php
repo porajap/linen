@@ -109,6 +109,7 @@ class MYPDF extends TCPDF
       $language = "th";
     }
     $DocNo = $_GET['DocNo'];
+    $HptCode = $_GET['HptCode'];
     if ($this->last_page_flag) {
       require('connect.php');
       $head = "SELECT
@@ -127,6 +128,21 @@ class MYPDF extends TCPDF
         $SignFacTime = $Result['SignFacTime'];
         $SignNHTime = $Result['SignNHTime'];
       }
+
+      $menu = "SELECT
+                  numberstandard.textLeft, 
+                  numberstandard.textRight
+                FROM
+                  numberstandard WHERE SiteCode = '$HptCode' AND menuCode = 2 ";
+            $meQuery = mysqli_query($conn, $menu);
+            while ($Result = mysqli_fetch_assoc($meQuery))
+            {
+              $textLeft = $Result['textLeft'];
+              $textRight = $Result['textRight'];
+            }
+
+
+
       list($date1, $time1) = explode(' ', $SignFacTime);
       list($date2, $time2) = explode(' ', $SignNHTime);
       list($y1, $m1, $d1) = explode('-', $date1);
@@ -162,7 +178,12 @@ class MYPDF extends TCPDF
       $this->Cell(120, 7, $array2['date'][$language] . "......................................................................", 0, 0, 'L');
       $this->Cell(1, 6,  "                 " . $date1, 0, 0, 'L');
       $this->Cell(40, 7,  $array2['date'][$language] . "..........................................................", 0, 0, 'L');
+
     }
+
+    $this->SetY(-10);
+    $this->Cell(145, 8, $textLeft , 0, 0, 'L');
+    $this->Cell(90, 8,  $textRight , 0, 1, 'L');
     // Position at 1.5 cm from bottom
     $this->SetY(-20);
     // Arial italic 8

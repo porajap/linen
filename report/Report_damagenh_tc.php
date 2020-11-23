@@ -92,7 +92,26 @@ class MYPDF extends TCPDF
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
     $DocNo = $_GET['DocNo'];
+    $HptCode = $_GET['HptCode'];
+    require('connect.php');
 
+    $menu = "SELECT
+                numberstandard.textLeft, 
+                numberstandard.textRight
+              FROM
+                numberstandard WHERE SiteCode = '$HptCode' AND menuCode = 4 ";
+            $meQuery = mysqli_query($conn, $menu);
+            while ($Result = mysqli_fetch_assoc($meQuery))
+            {
+              $textLeft = $Result['textLeft'];
+              $textRight = $Result['textRight'];
+            }
+
+            
+    $this->SetFont('thsarabunnew', 'b', 13);
+    $this->SetY(-10);
+    $this->Cell(145, 8, $textLeft , 0, 0, 'L');
+    $this->Cell(90, 8,  $textRight , 0, 1, 'L');
     // Position at 1.5 cm from bottom
     $this->SetY(-20);
     // Arial italic 8

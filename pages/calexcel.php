@@ -115,6 +115,8 @@ $array = json_decode($json, TRUE);
           }
 
           $("#Site").html(option);
+          $("#SiteSearch").html(option);
+          
         }
       });
     }
@@ -122,11 +124,13 @@ $array = json_decode($json, TRUE);
 
     function ShowDocument() {
 
+      let SiteSearch = $("#SiteSearch").val();
       $.ajax({
         url: "../process/calexcel.php",
         type: 'POST',
         data: {
           'FUNC_NAME': 'ShowDocument',
+          'SiteSearch': SiteSearch
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
@@ -169,7 +173,7 @@ $array = json_decode($json, TRUE);
 
     function getitemExcel() {
 
-
+      var DocNo = $("#DocNo").val();
       var Site = $("#Site").val();
 
       $.ajax({
@@ -177,7 +181,9 @@ $array = json_decode($json, TRUE);
         type: 'POST',
         data: {
           'FUNC_NAME': 'getitemExcel',
-          'Site': Site,
+          'Site': Site,          
+          'DocNo': DocNo,
+
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
@@ -1209,6 +1215,10 @@ $array = json_decode($json, TRUE);
     function SaveDocument() {
       var DocNo = $("#DocNo").val();
       var i = 0;
+      var insert_head = "INSERT INTO calexcel_detail (ItemCode , DocNo , Input1 , Input2,Input3, Input4, Input5, Input6, Input7, Input8, Input9, Input10, Input11, Input12, Input13, Input15, Input14, Input16, Input17, Input18, Input19, Input20, Input21, Input22, Input23, Input24, Input25, Input26, Input27, Input28, Input29, Input30,  Input31) VALUES ";
+      var wong1 = " (";
+      var wong2 = ")";
+      var update_head = "";
 
       if (DocNo == '') {
         swal({
@@ -1255,67 +1265,165 @@ $array = json_decode($json, TRUE);
 
               objItem.itemQty.push(qtyArray);
 
+              var stringsql = " '" + objItem.itemcode + "' , "+
+              " '" + DocNo + "' ,  "  +
+              " '" + objItem.itemQty[0][0] + "' , " + 
+              " '" + objItem.itemQty[0][1] + "' , " + 
+              " '" + objItem.itemQty[0][2] + "' , " + 
+              " '" + objItem.itemQty[0][3] + "' , " + 
+              " '" + objItem.itemQty[0][4] + "' , " + 
+              " '" + objItem.itemQty[0][5] + "' , " + 
+              " '" + objItem.itemQty[0][6] + "' , " + 
+              " '" + objItem.itemQty[0][7] + "' , " + 
+              " '" + objItem.itemQty[0][8] + "' , " + 
+              " '" + objItem.itemQty[0][9] + "' , " + 
+              " '" + objItem.itemQty[0][10] + "' , " + 
+              " '" + objItem.itemQty[0][11] + "' , " + 
+              " '" + objItem.itemQty[0][12] + "' , " + 
+              " '" + objItem.itemQty[0][13] + "' , " + 
+              " '" + objItem.itemQty[0][14] + "' , " + 
+              " '" + objItem.itemQty[0][15] + "' , " + 
+              " '" + objItem.itemQty[0][16] + "' , " + 
+              " '" + objItem.itemQty[0][17] + "' , " + 
+              " '" + objItem.itemQty[0][18] + "' , " + 
+              " '" + objItem.itemQty[0][19] + "' , " + 
+              " '" + objItem.itemQty[0][20] + "' , " + 
+              " '" + objItem.itemQty[0][21] + "' , " + 
+              " '" + objItem.itemQty[0][22] + "' , " + 
+              " '" + objItem.itemQty[0][23] + "' , " + 
+              " '" + objItem.itemQty[0][24] + "' , " + 
+              " '" + objItem.itemQty[0][25] + "' , " + 
+              " '" + objItem.itemQty[0][26] + "' , " + 
+              " '" + objItem.itemQty[0][27] + "' , " + 
+              " '" + objItem.itemQty[0][28] + "' , " + 
+              " '" + objItem.itemQty[0][29] + "' , " + 
+              " '" + objItem.itemQty[0][30] + "'   " ;
+              // $.ajax({
+              //   url: "../process/calexcel.php",
+              //   type: 'POST',
+              //   dataType: 'JSON',
+              //   cache: false,
+              //   data: {
+              //     'FUNC_NAME': 'SaveDocument',
+              //     'DocNo': DocNo,
+              //     'itemcode': objItem.itemcode,
+              //     'itemQty': objItem.itemQty,
+              //     'itemname': objItem.itemname,
+              //   },
+              //   success: function(result) {
 
-              $.ajax({
-                url: "../process/calexcel.php",
-                type: 'POST',
-                dataType: 'JSON',
-                cache: false,
-                data: {
-                  'FUNC_NAME': 'SaveDocument',
-                  'DocNo': DocNo,
-                  'itemcode': objItem.itemcode,
-                  'itemQty': objItem.itemQty,
-                  'itemname': objItem.itemname,
-                },
-                success: function(result) {
+              //   }
+              // });
 
+                if(key == 0){
+                  var comma = "";
+                }else{
+                  var comma = ",";
                 }
-              });
+                
+                insert_head = insert_head+comma+wong1;
+
+                insert_head = insert_head+stringsql;
+
+                insert_head = insert_head+wong2 ;
 
 
 
+                // update 
+                var update_sub = "UPDATE  calexcel_detail SET  Input1 = '" + objItem.itemQty[0][0] + "',"+
+                                                              "Input2 = '" + objItem.itemQty[0][1] + "',"+
+                                                              "Input3 = '" + objItem.itemQty[0][2] + "',"+
+                                                              "Input4 = '" + objItem.itemQty[0][3] + "',"+
+                                                              "Input5 = '" + objItem.itemQty[0][4] + "',"+
+                                                              "Input6 = '" + objItem.itemQty[0][5] + "',"+
+                                                              "Input7 = '" + objItem.itemQty[0][6] + "',"+
+                                                              "Input8 = '" + objItem.itemQty[0][7] + "',"+
+                                                              "Input9 = '" + objItem.itemQty[0][8] + "',"+
+                                                              "Input10 = '" + objItem.itemQty[0][9] + "',"+
+                                                              "Input11 = '" + objItem.itemQty[0][10] + "',"+
+                                                              "Input12 = '" + objItem.itemQty[0][11] + "',"+
+                                                              "Input13 = '" + objItem.itemQty[0][12] + "',"+
+                                                              "Input14 = '" + objItem.itemQty[0][13] + "',"+
+                                                              "Input15 = '" + objItem.itemQty[0][14] + "',"+
+                                                              "Input16 = '" + objItem.itemQty[0][15] + "',"+
+                                                              "Input17 = '" + objItem.itemQty[0][16] + "',"+
+                                                              "Input18 = '" + objItem.itemQty[0][17] + "',"+
+                                                              "Input19 = '" + objItem.itemQty[0][18] + "',"+
+                                                              "Input20 = '" + objItem.itemQty[0][19] + "',"+
+                                                              "Input21 = '" + objItem.itemQty[0][20] + "',"+
+                                                              "Input22 = '" + objItem.itemQty[0][21] + "',"+
+                                                              "Input23 = '" + objItem.itemQty[0][22] + "',"+
+                                                              "Input24 = '" + objItem.itemQty[0][23] + "',"+
+                                                              "Input25 = '" + objItem.itemQty[0][24] + "',"+
+                                                              "Input26 = '" + objItem.itemQty[0][25] + "',"+
+                                                              "Input27 = '" + objItem.itemQty[0][26] + "',"+
+                                                              "Input28 = '" + objItem.itemQty[0][27] + "',"+
+                                                              "Input29 = '" + objItem.itemQty[0][28] + "',"+
+                                                              "Input30 = '" + objItem.itemQty[0][29] + "',"+
+                                                              "Input31 = '" + objItem.itemQty[0][30] + "' "+
+                                                              "WHERE ItemCode = '" + objItem.itemname + "' AND  DocNo = '" + DocNo + "' ;";
+
+                                 
+
+
+                update_head = update_head+update_sub ;
 
 
 
               i++;
 
 
-
-              // var qtyArray = [];
-
-              // objItem.itemcode.push($(this).val());
-
-
-              // for(var x=1; x<=31;x++){
-
-              //   qtyArray.push($('#input'+ x +'_'+ i).val());
-
-              // }
-
-              // objItem.itemQty[key] = qtyArray;
-
-              // i++;
-
             });
 
-            swal({
+          swal({
               title: '<?php echo $array['pleasewait'][$language]; ?>',
               text: '<?php echo $array['processing'][$language]; ?>',
               allowOutsideClick: false
             })
             swal.showLoading();
+               $.ajax({
+                url: "../process/calexcel.php",
+                type: 'POST',
+                dataType: 'JSON',
+                cache: false,
+                data: {
+                  'FUNC_NAME': 'SaveDocumentNew',
+                  'insert_head': insert_head,
+                  'update_head': update_head,
+                  'DocNo': DocNo
+                },
+                success: function(result) {
+                      swal({
+                        title: '',
+                        text: '<?php echo $array['savesuccess'][$language]; ?>',
+                        type: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                }
+              });
 
-            setTimeout(() => {
-              swal({
-              title: '',
-              text: '<?php echo $array['savesuccess'][$language]; ?>',
-              type: 'success',
-              showCancelButton: false,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            }, 10000);
+            console.log(update_head);
+
+
+            // swal({
+            //   title: '<?php echo $array['pleasewait'][$language]; ?>',
+            //   text: '<?php echo $array['processing'][$language]; ?>',
+            //   allowOutsideClick: false
+            // })
+            // swal.showLoading();
+
+            // setTimeout(() => {
+            //   swal({
+            //   title: '',
+            //   text: '<?php echo $array['savesuccess'][$language]; ?>',
+            //   type: 'success',
+            //   showCancelButton: false,
+            //   showConfirmButton: false,
+            //   timer: 1500,
+            // });
+            // }, 30000);
 
 
           } else if (result.dismiss === 'cancel') {
@@ -1532,6 +1640,25 @@ $array = json_decode($json, TRUE);
       }
 
     }
+
+    function CreateExcel(){
+      var Site = $("#Site").val();
+      var DocNo = $("#DocNo").val();
+      if (DocNo == '') {
+        swal({
+          title: '',
+          text: 'กรุณาระบุเอกสารที่ต้องการยกเลิก',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }else{
+        var url  = "../report_linen/excel/Report_Excel.php?HptCode="+Site+"&DocNo="+DocNo;
+              window.open(url);
+      }
+
+    }
   </script>
 
   <style media="screen">
@@ -1602,7 +1729,7 @@ $array = json_decode($json, TRUE);
 <body id="page-top" style="  overflow-x: auto;">
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['tdas'][$language]; ?></a>
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['excel'][$language]; ?></a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
@@ -1757,7 +1884,8 @@ $array = json_decode($json, TRUE);
     </div>
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       <div class="row mt-4 mb-2" style="width: 80%;margin-left:2px;">
-        <input type="text" class="form-control" style="font-size:24px;width:29%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+        <select id="SiteSearch" class="form-control " style="font-size:24px;width:25%;"> </select>
+        <input type="text" class="form-control ml-3" style="font-size:24px;width:29%;" name="searchdocument" id="searchdocument" placeholder="<?php echo $array['searchplace'][$language]; ?>">
         <div class="search_custom ml-3">
           <div class="search_1 d-flex justify-content-start">
             <button class="btn" onclick="ShowDocument()">

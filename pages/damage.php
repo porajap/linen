@@ -812,9 +812,10 @@ if (e.keyCode == 13) {
       }
       function PrintData(){
       var docno = $('#docno').val();
+      var HptCode = $("#hotpital").val();
       var lang = '<?php echo $language; ?>';
       if(docno!=""&&docno!=undefined){
-        var url  = "../report/Report_damage_tc.php?DocNo="+docno+"&lang="+lang;
+        var url  = "../report/Report_damage_tc.php?DocNo="+docno+"&lang="+lang+"&HptCode="+HptCode;
         window.open(url);
       }else{
         swal({

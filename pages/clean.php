@@ -1837,9 +1837,10 @@ $array2 = json_decode($json2, TRUE);
     //===============================================
     function PrintData() {
       var docno = $('#docno').val();
+      var HptCode = $("#hotpital").val();
       var lang = '<?php echo $language; ?>';
       if (docno != "" && docno != undefined) {
-        var url = "../report/Report_Clean_tc.php?DocNo=" + docno + "&lang=" + lang;
+        var url = "../report/Report_Clean_tc.php?DocNo=" + docno + "&lang=" + lang + "&HptCode=" + HptCode;
         window.open(url);
       } else {
         swal({
@@ -2256,7 +2257,7 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-12">
                   <!-- tag column 1 -->
-                  <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid" >
+                  <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemDetail" width="100%" cellspacing="0" role="grid">
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row">
                         <th style="width: 3%;">&nbsp;</th>

@@ -18,13 +18,16 @@ if (!empty($_POST['FUNC_NAME'])) {
       SelectDocument($conn);
     }  else if ($_POST['FUNC_NAME'] == 'DeleteDocument') {
       DeleteDocument($conn);
+    }  else if ($_POST['FUNC_NAME'] == 'SaveDocumentNew') {
+      SaveDocumentNew($conn);
     } 
 }
 
 function getitemExcel($conn)
 {
     $Site = $_POST['Site'];
-
+    $DocNo = $_POST['DocNo'];
+    
     $return = array();
 
     $Sql = "SELECT
@@ -38,6 +41,9 @@ function getitemExcel($conn)
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($row = mysqli_fetch_assoc($meQuery)) {
+       $itemcode =   $row['ItemCode'];
+        // $insert = "INSERT INTO calexcel_detail SET ItemCode = '$itemcode' , DocNo = '$DocNo'  ";
+        // mysqli_query($conn, $insert);
         $return[] = $row;
     }
 
@@ -141,6 +147,46 @@ function CreateDocument($conn)
   mysqli_close($conn);
   die;
 
+}
+
+function SaveDocumentNew($conn)
+{
+  $insert_head = $_POST['insert_head'];
+  $update_head = $_POST['update_head'];
+  $DocNo = $_POST['DocNo'];
+
+  $Sql_cnt  = "SELECT
+                COUNT(ItemCode) as cnt
+              FROM
+                calexcel_detail
+              WHERE   DocNo = '$DocNo' ";
+  $meQuery_cnt = mysqli_query($conn, $Sql_cnt);
+  $row_cnt = mysqli_fetch_assoc($meQuery_cnt);
+  $cnt = $row_cnt["cnt"];
+
+
+  if($cnt > 0){
+    $Sql = $update_head;
+    $text = "update success";
+  }else{
+    $Sql = $insert_head;
+    $text = "insert success";
+  }
+
+  
+
+                    
+    if(mysqli_multi_query($conn, $Sql)){
+      echo "1";
+    }else{
+      echo "2";
+    }
+
+
+
+  exit();
+  mysqli_close($conn);
+  die;
 }
 
 function SaveDocument($conn)
@@ -317,7 +363,7 @@ function SaveDocument($conn)
 
 function ShowDocument($conn)
 {
-
+  $SiteSearch = $_POST['SiteSearch'];
   $return = array();
 
   $Sql = "SELECT
@@ -325,7 +371,8 @@ function ShowDocument($conn)
             DATE(calexcel.DocDate) AS DocDate,
             calexcel.HptCode
           FROM
-            calexcel ";
+            calexcel
+          WHERE calexcel.HptCode = '$SiteSearch' ";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {

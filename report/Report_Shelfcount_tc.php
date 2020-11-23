@@ -101,6 +101,7 @@ class MYPDF extends TCPDF
     $array2 = json_decode($json2, TRUE);
     $language = $_SESSION['lang'];
     $docno = $_GET['DocNo'];
+    $HptCode = $_GET['HptCode'];
     $packing = '';
     $passengertime = '';
     $receiver = '';
@@ -132,6 +133,23 @@ class MYPDF extends TCPDF
         $Signature_Clean = $Result['Signature_Clean'];
 
       }
+
+
+      $menu = "SELECT
+                  numberstandard.textLeft, 
+                  numberstandard.textRight
+                FROM
+                  numberstandard WHERE SiteCode = '$HptCode' AND menuCode = 6 ";
+            $meQuery = mysqli_query($conn, $menu);
+            while ($Result = mysqli_fetch_assoc($meQuery))
+            {
+              $textLeft = $Result['textLeft'];
+              $textRight = $Result['textRight'];
+            }
+
+
+
+
       list($date1, $time1) = explode(' ', $packingtime);
       list($date2, $time2) = explode(' ', $passengertime);
       list($date3, $time3) = explode(' ', $receivertime);
@@ -161,29 +179,61 @@ class MYPDF extends TCPDF
       }
 
       if($Signature_Clean ==1){
-        $this->SetY(-50);
-        // $this->SetFont('  thsarabunnew', 'b', 8);
-        if ($packing != null) {
-          $this->ImageSVG('@' . $packing, $x = 27, $y = 242, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+
+        if($textLeft == "" && $textRight == ""){
+          $this->SetY(-60);
+          // $this->SetFont('  thsarabunnew', 'b', 8);
+          if ($packing != null) {
+            $this->ImageSVG('@' . $packing, $x = 27, $y = 233, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($passenger != null) {
+            $this->ImageSVG('@' . $passenger, $x = 29, $y = 243, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($receiver != null) {
+            $this->ImageSVG('@' . $receiver, $x = 29, $y = 253, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+        }else{
+          $this->SetY(-60);
+          // $this->SetFont('  thsarabunnew', 'b', 8);
+          if ($packing != null) {
+            $this->ImageSVG('@' . $packing, $x = 27, $y = 233, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($passenger != null) {
+            $this->ImageSVG('@' . $passenger, $x = 29, $y = 243, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($receiver != null) {
+            $this->ImageSVG('@' . $receiver, $x = 29, $y = 253, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
         }
-        if ($passenger != null) {
-          $this->ImageSVG('@' . $passenger, $x = 29, $y = 253, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
-        }
-        if ($receiver != null) {
-          $this->ImageSVG('@' . $receiver, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
-        }
+
       }else{
-        $this->SetY(-40);
-        // $this->SetFont('  thsarabunnew', 'b', 8);
-        if ($packing != null) {
-          $this->ImageSVG('@' . $packing, $x = 27, $y = 250, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        if($textLeft == "" && $textRight == ""){
+          $this->SetY(-50);
+          // $this->SetFont('  thsarabunnew', 'b', 8);
+          if ($packing != null) {
+            $this->ImageSVG('@' . $packing, $x = 27, $y = 243, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($passenger != null) {
+            $this->ImageSVG('@' . $passenger, $x = 29, $y = 253, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($receiver != null) {
+            $this->ImageSVG('@' . $receiver, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
         }
-        if ($passenger != null) {
-          $this->ImageSVG('@' . $passenger, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+        else{
+          $this->SetY(-50);
+          // $this->SetFont('  thsarabunnew', 'b', 8);
+          if ($packing != null) {
+            $this->ImageSVG('@' . $packing, $x = 27, $y = 243, $w = '25', $h = '13', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($passenger != null) {
+            $this->ImageSVG('@' . $passenger, $x = 29, $y = 253, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
+          if ($receiver != null) {
+            $this->ImageSVG('@' . $receiver, $x = 29, $y = 263, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
+          }
         }
-        if ($receiver != null) {
-          $this->ImageSVG('@' . $receiver, $x = 29, $y = 273, $w = '18', $h = '10', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false);
-        }
+
       }
 
 
@@ -223,6 +273,10 @@ class MYPDF extends TCPDF
       $this->Cell(40, 7,   "Not Check", 0, 0, 'L');
       $this->Ln(7);
     }
+    $this->SetFont('  thsarabunnew', 'i', 13);
+    $this->SetY(-10);
+    $this->Cell(145, 8, $textLeft , 0, 0, 'L');
+    $this->Cell(90, 8,  $textRight , 0, 1, 'L');
     // Position at 1.5 cm from bottom
     $this->SetY(-20);
     // Page number
