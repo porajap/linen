@@ -156,10 +156,10 @@
       </sub>
         <sub>
         <en>
-          Excel
+          Linen Stock Count
         </en>
         <th>
-          Excel
+          แบบฟอร์มการนับสต๊อก
         </th>
       </sub>
     </general>
@@ -445,10 +445,10 @@
     </sub>
         <sub>
       <en>
-        Number of quantity control
+        Document Control
       </en>
       <th>
-        เลขควบคุมมาตรฐาน
+        Document Control
       </th>
     </sub>
   </system>

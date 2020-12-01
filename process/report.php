@@ -34,97 +34,179 @@ function OnLoadPage($conn, $DATA)
     $HptName = 'HptName';
     $FacName = 'FacName';
   }
-  $Sqlx = "SELECT factory.FacCode,factory.$FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode =  '$HptCode' ";
-  $meQueryx = mysqli_query($conn, $Sqlx);
-  while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
-    $return[$countx]['FacCode'] = trim($Resultx['FacCode']);
-    $return[$countx]['FacName'] = trim($Resultx[$FacName]);
-    $countx++;
-  }
-  $return['Rowx'] = $countx;
-
-  $Sql = "SELECT site.HptCode,site.$HptName FROM site WHERE site.IsStatus = 0";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count]['HptCode'] = trim($Result['HptCode']);
-    $return[$count]['HptName'] = trim($Result[$HptName]);
-    $count++;
-    $boolean = true;
-  }
-  $return['Row'] = $count;
-
-  $SqlG = "SELECT grouphpt.GroupName,grouphpt.GroupCode FROM grouphpt WHERE grouphpt.HptCode = '$HptCode' ";
-  $meQuery = mysqli_query($conn, $SqlG);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$countG]['GroupCode'] = trim($Result['GroupCode']);
-    $return[$countG]['GroupName'] = trim($Result['GroupName']);
-    $countG++;
-    $boolean = true;
-  }
-  $return['RowG'] = $countG;
-  $return['SqlG'] = $SqlG;
-
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 1  order by department.DepName asc";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$countDep]['DepCode'] = trim($Result['DepCode']);
-    $return[$countDep]['DepName'] = trim($Result['DepName']);
-    $countDep++;
-    $boolean = true;
-  }
-
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$countDep]['DepCode'] = trim($Result['DepCode']);
-    $return[$countDep]['DepName'] = trim($Result['DepName']);
-    $countDep++;
-    $boolean = true;
-  }
-  $return['RowDep'] = $countDep;
 
 
+  $sql = "   SELECT factory.FacCode,factory.$FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode =  '$HptCode'; ";
+  $sql .= "  SELECT site.HptCode,site.$HptName FROM site WHERE site.IsStatus = 0;";
+  $sql .= "  SELECT grouphpt.GroupName,grouphpt.GroupCode FROM grouphpt WHERE grouphpt.HptCode = '$HptCode';";
+  $sql .= "  SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc;";
+  $sql .= "  SELECT shelfcount.CycleTime FROM shelfcount  Group by shelfcount.CycleTime;";
+  $sql .= "  SELECT time_dirty.TimeName,time_dirty.id FROM time_dirty INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  WHERE round_time_dirty.HptCode = '$HptCode' Group by time_dirty.TimeName;";
+  $sql .= "  SELECT item_category.CategoryCode,item_category.CategoryName FROM item_category";
+
+  if (mysqli_multi_query($conn, $sql)) {
+    do {
+        /* store first result set */
+        if ($result = mysqli_store_result($conn)) {
+            while ($row = mysqli_fetch_array($result)) 
+            {     
+                  if(!empty($row['FacCode'])){
+                    $return[$countx]['FacCode'] = trim($row['FacCode']);
+                    $return[$countx]['FacName'] = trim($row[$FacName]);
+                    $countx++;
+                  }
+
+                  if(!empty($row['HptCode'])){
+                    $return[$count]['HptCode'] = trim($row['HptCode']);
+                    $return[$count]['HptName'] = trim($row[$HptName]);
+                    $count++;
+                  }
+
+                  if(!empty($row['GroupCode'])){
+                    $return[$countG]['GroupCode'] = trim($row['GroupCode']);
+                    $return[$countG]['GroupName'] = trim($row['GroupName']);
+                    $countG++;
+                  }
+
+                  if(!empty($row['DepCode'])){
+                    $return[$countDep]['DepCode'] = trim($row['DepCode']);
+                    $return[$countDep]['DepName'] = trim($row['DepName']);
+                    $countDep++;
+                  }
+
+                  if(!empty($row['CycleTime'])){
+                    $return[$count_cycle]['CycleTime'] = trim($row['CycleTime']);
+                    $count_cycle++;
+                  }
+
+                  if(!empty($row['id'])){
+                    $return[$count_time_dirty]['TimeName'] = trim($row['TimeName']);
+                    $return[$count_time_dirty]['id'] = trim($row['id']);
+                    $count_time_dirty++;
+                  }
+
+                  if(!empty($row['CategoryCode'])){
+                    $return[$count_category]['CategoryCode'] = trim($row['CategoryCode']);
+                    $return[$count_category]['CategoryName'] = trim($row['CategoryName']);
+                    $count_category++;
+                  }
 
 
-  $Sql = "SELECT shelfcount.CycleTime FROM shelfcount  Group by shelfcount.CycleTime  ";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count_cycle]['CycleTime'] = trim($Result['CycleTime']);
-    $count_cycle++;
-    $boolean = true;
-  }
-  $return['Rowcycle'] = $count_cycle;
-  $boolean = true;
 
 
-  $Sql = "SELECT time_dirty.TimeName,time_dirty.id FROM time_dirty 
-  INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
-  WHERE round_time_dirty.HptCode = '$HptCode'
-  Group by time_dirty.TimeName  ";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count_time_dirty]['TimeName'] = trim($Result['TimeName']);
-    $return[$count_time_dirty]['id'] = trim($Result['id']);
-    $count_time_dirty++;
-    $boolean = true;
-  }
-  $return['count_time_dirty'] = $count_time_dirty;
-  $boolean = true;
+
+            }
+          mysqli_free_result($result);
+        }   
+      } while (mysqli_next_result($conn));
+    }
+    $return['Rowx'] = $countx;
+    $return['Row'] = $count;
+    $return['RowG'] = $countG;
+    $return['RowDep'] = $countDep;
+    $return['Rowcycle'] = $count_cycle;
+    $return['count_time_dirty'] = $count_time_dirty;
+    $return['count_category'] = $count_category;
+
+    // $meQuery = mysqli_multi_query($conn, $sql);
+    // while ($Result = mysqli_fetch_assoc($meQuery[0])) {
+    //   $return[$countx]['FacCode'] = trim($Result['FacCode']);
+    //   $return[$countx]['FacName'] = trim($Result[$FacName]);
+    //   $countx++;
+    // }
+  
+
+  // $Sqlx = "SELECT factory.FacCode,factory.$FacName FROM factory WHERE factory.IsCancel = 0 AND factory.HptCode =  '$HptCode' ";
+  // $meQueryx = mysqli_query($conn, $Sqlx);
+  // while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
+  //   $return[$countx]['FacCode'] = trim($Resultx['FacCode']);
+  //   $return[$countx]['FacName'] = trim($Resultx[$FacName]);
+  //   $countx++;
+  // }
+  // $return['Rowx'] = $countx;
+
+  // $Sql = "SELECT site.HptCode,site.$HptName FROM site WHERE site.IsStatus = 0";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[$count]['HptCode'] = trim($Result['HptCode']);
+  //   $return[$count]['HptName'] = trim($Result[$HptName]);
+  //   $count++;
+  //   $boolean = true;
+  // }
+  // $return['Row'] = $count;
+
+  // $SqlG = "SELECT grouphpt.GroupName,grouphpt.GroupCode FROM grouphpt WHERE grouphpt.HptCode = '$HptCode' ";
+  // $meQuery = mysqli_query($conn, $SqlG);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[$countG]['GroupCode'] = trim($Result['GroupCode']);
+  //   $return[$countG]['GroupName'] = trim($Result['GroupName']);
+  //   $countG++;
+  //   $boolean = true;
+  // }
+  // $return['RowG'] = $countG;
+  // $return['SqlG'] = $SqlG;
+
+  // $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 1  order by department.DepName asc";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[$countDep]['DepCode'] = trim($Result['DepCode']);
+  //   $return[$countDep]['DepName'] = trim($Result['DepName']);
+  //   $countDep++;
+  //   $boolean = true;
+  // }
+
+  // $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE department.HptCode = '$HptCode' and department.isDefault= 0 and department.isActive= 1  order by department.DepName asc";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[$countDep]['DepCode'] = trim($Result['DepCode']);
+  //   $return[$countDep]['DepName'] = trim($Result['DepName']);
+  //   $countDep++;
+  //   $boolean = true;
+  // }
+  // $return['RowDep'] = $countDep;
 
 
-  $Sql = "SELECT
-                item_category.CategoryCode,
-                item_category.CategoryName
-            FROM
-                item_category ";
-  $meQuery = mysqli_query($conn, $Sql);
-  while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[$count_category]['CategoryCode']                  = trim($Result['CategoryCode']);
-    $return[$count_category]['CategoryName']                 = trim($Result['CategoryName']);
-    $count_category++;
-    $boolean = true;
-  }
-  $return['count_category'] = $count_category;
+
+
+  // $Sql = "SELECT shelfcount.CycleTime FROM shelfcount  Group by shelfcount.CycleTime  ";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[$count_cycle]['CycleTime'] = trim($Result['CycleTime']);
+  //   $count_cycle++;
+  //   $boolean = true;
+  // }
+  // $return['Rowcycle'] = $count_cycle;
+  // $boolean = true;
+
+
+  // $Sql = "SELECT time_dirty.TimeName,time_dirty.id FROM time_dirty 
+  // INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
+  // WHERE round_time_dirty.HptCode = '$HptCode'
+  // Group by time_dirty.TimeName  ";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[$count_time_dirty]['TimeName'] = trim($Result['TimeName']);
+  //   $return[$count_time_dirty]['id'] = trim($Result['id']);
+  //   $count_time_dirty++;
+  //   $boolean = true;
+  // }
+  // $return['count_time_dirty'] = $count_time_dirty;
+  // $boolean = true;
+
+
+  // $Sql = "SELECT
+  //               item_category.CategoryCode,
+  //               item_category.CategoryName
+  //           FROM
+  //               item_category ";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // while ($Result = mysqli_fetch_assoc($meQuery)) {
+  //   $return[$count_category]['CategoryCode']                  = trim($Result['CategoryCode']);
+  //   $return[$count_category]['CategoryName']                 = trim($Result['CategoryName']);
+  //   $count_category++;
+  //   $boolean = true;
+  // }
+  // $return['count_category'] = $count_category;
 
   $boolean = true;
   if ($boolean) {

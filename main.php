@@ -648,14 +648,7 @@ $id_h=$_SESSION['id_h'];
   window.addEventListener('beforeunload', beforeunload);
 
 
-  // $(function() {
-  //   $(document).on("keydown", function(e) {
-  //     if (e.which === 116)
-  //     {
-  //       window.removeEventListener("beforeunload",beforeunload);
-  //     }
-  //   });
-  // });
+
 
 
   //==========================================================

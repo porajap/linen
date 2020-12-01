@@ -77,6 +77,8 @@ function checklogin($conn,$DATA)
           }
           $Sql = "UPDATE users SET users.IsActive = 1 , users.chk_logoff = 0 WHERE users.ID = $ID";
           mysqli_query($conn,$Sql);
+
+     
           $_SESSION['chk_logoff']  = 0;
         }else if($IsActive == 1){
           $return['status'] = "failed";
@@ -109,6 +111,7 @@ function cPassword($conn,$DATA)
   if (isset($DATA)) {
     $Cnt1 = 0;
     $Cnt2 = 0;
+    $Count = 0;
     $oldpassword = md5($DATA['oldpassword']);
     $newpassword = md5($DATA['newpassword']);
     $confirmpassword = md5($DATA['confirmpassword']);

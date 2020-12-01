@@ -396,7 +396,7 @@
 <settimefac><en>Cycle time Factory</en><th>รอบส่งผ้าโรงซัก</th></settimefac>
 <setcount><en>ShelfCount time</en><th>รอบนับผ้า</th></setcount>
 <dte><en>Deleted</en><th>ลบสำเร็จ</th></dte>
-<excel><en>Create File Excel</en><th>สร้างไฟล์ Excel</th></excel>
+<excel><en>Linen Stock Count</en><th>แบบฟอร์มการนับสต๊อก</th></excel>
 <updatesuccess><en>Update Success</en><th>อัพเดทคลังสำเร็จ</th></updatesuccess>
 <searchexcel><en>Search For Date</en><th>ค้นหาตามวันที่</th></searchexcel>
 <upload><en>Upload File</en><th>อัพโหลดไฟล์</th></upload>

@@ -296,6 +296,7 @@ elseif ($chk == 'between')
    ORDER BY dirty.DocDate ASC , dirty.Time_ID ASC ";
   // echo $query;
   $meQuery = mysqli_query($conn, $query);
+
   while ($Result = mysqli_fetch_assoc($meQuery))
   {
     $date[] = $Result['DocDate'];
@@ -401,11 +402,12 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++)
               AND dirty.FacCode = '$FacCode'
               AND site.HptCode = '$HptCode' 
                $dirty_time
-              GROUP BY dirty_detail.DepCode,department.DepName
-            ";
-  // echo "<pre>";
-  // echo $query;
-  // echo "</pre>";
+              GROUP BY dirty_detail.DepCode,department.DepName ";
+
+// echo "<pre>";
+// echo $query;
+// echo "</pre>";
+// die();
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery))
   {
@@ -480,12 +482,11 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++)
     {
       $data = "SELECT   COALESCE(SUM(dirty_detail.Qty),'0') AS Totalqty,
                         COALESCE(SUM(dirty_detail.Weight),'0') AS Weight
-                    FROM dirty_detail 
-                    INNER JOIN dirty ON dirty.DocNo = dirty_detail.DocNo
-                    INNER JOIN factory ON factory.Faccode = dirty.Faccode
-                    INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-                    INNER JOIN site ON site.HptCode = department.HptCode
-                    INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID ";
+               FROM         ( SELECT DocNo, DepCode, Qty,ItemCode , Weight FROM dirty_detail ) AS dirty_detail
+              INNER JOIN ( SELECT DocNo, IsStatus, FacCode, Time_ID, DocDate FROM dirty ) AS dirty ON dirty.DocNo = dirty_detail.DocNo
+              INNER JOIN ( SELECT FacCode FROM factory ) AS factory ON factory.FacCode = dirty.FacCode
+              INNER JOIN ( SELECT DepCode, HptCode FROM department ) AS department ON department.DepCode = dirty_detail.DepCode
+              INNER JOIN ( SELECT HptCode FROM site ) AS site ON site.HptCode = department.HptCode ";
       if ($chk == 'one')
       {
         if ($format == 1)
@@ -523,6 +524,7 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++)
       // echo "<pre>";
       // print_r($data);
       // echo "</pre>";
+      // die();
       $meQuery = mysqli_query($conn, $data);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Totalqty"]);
@@ -570,12 +572,11 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++)
 	                  DATE( dirty.DocDate ) AS Date_chk ,
 	                  dirty.Time_ID AS Time_IDs
               FROM
-              dirty_detail
-              INNER JOIN dirty ON dirty.DocNo = dirty_detail.DocNo
-              INNER JOIN factory ON factory.Faccode = dirty.Faccode
-              INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-              INNER JOIN site ON site.HptCode = department.HptCode
-              INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID  
+              ( SELECT DocNo, DepCode, Qty, ItemCode ,  Weight FROM dirty_detail ) AS dirty_detail
+              INNER JOIN ( SELECT DocNo, IsStatus, FacCode, Time_ID, DocDate FROM dirty ) AS dirty ON dirty.DocNo = dirty_detail.DocNo
+              INNER JOIN ( SELECT FacCode FROM factory ) AS factory ON factory.FacCode = dirty.FacCode
+              INNER JOIN ( SELECT DepCode, HptCode FROM department ) AS department ON department.DepCode = dirty_detail.DepCode
+              INNER JOIN ( SELECT HptCode FROM site ) AS site ON site.HptCode = department.HptCode
               WHERE  DATE(dirty.DocDate)  IN ( ";
               for ($day = 0; $day < $count; $day++)
               {
@@ -618,7 +619,7 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++)
         $Date_chk[$cnt] =  $Result["Date_chk"];
         $Time_IDs[$cnt] =  $Result["Time_IDs"];
         $cnt++;
-      }
+       }
 
       $sumdayTotalqty = 0;
       $sumdayWeight = 0;
@@ -650,92 +651,6 @@ for ($sheet = 0; $sheet < $count_sheet; $sheet++)
             $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayWeight);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // for ($day = 0; $day < $count; $day++)
-  // {
-  //   $data2 =       "SELECT
-  //                   COALESCE(SUM(dirty_detail.Qty),'0') AS Totalqty,
-  //                   COALESCE(SUM(dirty_detail.Weight),'0') AS Weight
-  //             FROM
-  //             dirty_detail
-  //             INNER JOIN dirty ON dirty.DocNo = dirty_detail.DocNo
-  //             INNER JOIN factory ON factory.Faccode = dirty.Faccode
-  //             INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-  //             INNER JOIN site ON site.HptCode = department.HptCode
-  //             INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID";
-
-  //   if ($chk == 'one')
-  //   {
-  //     if ($format == 1)
-  //     {
-  //       $data2 .=   " WHERE  DATE(dirty.DocDate)  ='$date[$day]'  AND dirty.isStatus <> 9 AND dirty.isStatus <> 0 AND dirty.Time_ID = '$Time_ID[$day]'  ";
-  //     }
-  //     elseif ($format = 3)
-  //     {
-  //       list($year, $month) = explode('-', $date[$day]);
-  //       $data2 .=   " WHERE  YEAR(dirty.DocDate)  ='$year'  AND MONTH(dirty.DocDate)  ='$month' AND dirty.isStatus <> 9 AND dirty.isStatus <> 0";
-  //     }
-  //   }
-  //   elseif ($chk == 'between')
-  //   {
-  //     $data2 .=   " WHERE  DATE(dirty.DocDate)  ='$date[$day]'  AND dirty.isStatus <> 9 AND dirty.isStatus <> 0 AND dirty.Time_ID = '$Time_ID[$day]'  ";
-  //   }
-  //   elseif ($chk == 'month')
-  //   {
-  //     $data2 .=   " WHERE  DATE(dirty.DocDate)  ='$date[$day]'  AND dirty.isStatus <> 9 AND dirty.isStatus <> 0 AND dirty.Time_ID = '$Time_ID[$day]'  ";
-  //   }
-  //   elseif ($chk == 'monthbetween')
-  //   {
-  //     list($year, $month) = explode('-', $date[$day]);
-  //     $data2 .=   " WHERE  YEAR(dirty.DocDate)  ='$year'  AND MONTH(dirty.DocDate)  ='$month' AND dirty.isStatus <> 9 AND dirty.isStatus <> 0 ";
-  //   }
-  //   $data2 .= " AND dirty.Faccode = '$FacCode'
-  //              AND site.HptCode = '$HptCode'
-  //              $dirty_time
-  //               ";
-  //   if ($sheet <> 0)
-  //   {
-  //     $data2 .= " AND dirty_detail.ItemCode = '$sheet_item[$sheet]'";
-  //   }
-  //   // echo "<pre>";
-  //   // print_r($data2);
-  //   // echo "</pre>";
-  //   $meQuery = mysqli_query($conn, $data2);
-  //   while ($Result = mysqli_fetch_assoc($meQuery))
-  //   {
-  //     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Totalqty"]);
-  //     $r++;
-  //     $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $Result["Weight"]);
-  //     $r++;
-  //     $sumdayTotalqty += $Result["Totalqty"];
-  //     $sumdayWeight += $Result["Weight"];
-  //   }
-  // }
-
-
-
-
-
-  // $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayTotalqty);
-  // $r++;
-  // $objPHPExcel->getActiveSheet()->setCellValue($date_cell1[$r] . $start_row, $sumdayWeight);
   // -----------------------------------------------------------------------------------
   $A5 = array(
     'alignment' => array(
@@ -937,8 +852,7 @@ $Depquery = "SELECT
                           INNER JOIN dirty ON dirty.DocNo = dirty_detail.DocNo
                           INNER JOIN factory ON factory.Faccode = dirty.Faccode
                           INNER JOIN department ON department.DepCode = dirty_detail.DepCode
-                          INNER JOIN site ON site.HptCode = department.HptCode
-                          INNER JOIN time_dirty ON dirty.Time_ID = time_dirty.ID ";
+                          INNER JOIN site ON site.HptCode = department.HptCode ";
           if ($chk == 'one')
           {
             if ($format == 1)
