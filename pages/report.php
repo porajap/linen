@@ -1653,7 +1653,7 @@ $array2 = json_decode($json2, TRUE);
 			} else {
 				var tf = true;
 			}
-			if (typeReport == 1 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 15 || typeReport == 8 || typeReport == 22 || typeReport == 24) {
+			if ( typeReport == 37 || typeReport == 36 ||  typeReport == 1 || typeReport == 3 || typeReport == 5 || typeReport == 6 || typeReport == 15 || typeReport == 8 || typeReport == 22 || typeReport == 24) {
 				$('#hotpital').attr('disabled', tf);
 				$('#department').attr('disabled', true);
 				$('#factory').attr('disabled', false);
@@ -1780,7 +1780,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_express').attr('disabled', true);
 				$('#hidden_usage_detail').attr('hidden', true);
 				blank_dep();
-			} else if (typeReport == 34) {
+			} else if (typeReport == 34 || typeReport == 38) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#category').attr('disabled', true);
@@ -1838,7 +1838,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#chkyear').parent().hide();
 				$('#time_express').attr('disabled', true);
 				$('#hidden_usage_detail').attr('hidden', true);
-			} else if (typeReport == 31 || typeReport == 32) {
+			} else if (typeReport == 31 || typeReport == 32 || typeReport == 35) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', true);
 				$('#hotpital').attr('disabled', tf);
@@ -2326,9 +2326,14 @@ $array2 = json_decode($json2, TRUE);
 															<option value=31><?php echo "15. " . $array['r' . 31][$language]; ?></option>
 															<option value=29><?php echo "16. " . $array['r' . 29][$language]; ?></option>
 															<!-- <option value=30><?php echo "17. " . $array['r' . 30][$language]; ?></option> -->
-															<option value=32><?php echo "18. " . $array['r' . 32][$language]; ?></option>
-															<option value=33><?php echo "19. " . 'Monitoring SAP' 		        ?></option>
-															<option value=34><?php echo "20. " . 'Usage Detail New' 		        ?></option>
+															<option value=32><?php echo "17. " . $array['r' . 32][$language]; ?></option>
+															<option value=33><?php echo "18. " . 'Monitoring SAP' 		        ?></option>
+															<option value=34><?php echo "19. " . 'Usage Detail New' 		        ?></option>
+															
+															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=35><?php echo "20. " . $array['r' . 31][$language]; ?></option>
+															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=36><?php echo "21. " . $array['r' . 1][$language]; ?></option>
+															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=37><?php echo "22. " . $array['r' . 3][$language]; ?></option>
+															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=38><?php echo "23. " . 'Usage Detail New' 		        ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -2457,7 +2462,7 @@ $array2 = json_decode($json2, TRUE);
 																<input type="radio" id="chkonemonth" name="formatMonth" value='1' onclick="formatmonth(1)" class="custom-control-input formatDay" checked>
 																<label class="custom-control-label" for="chkonemonth"><?php echo $array['onemonth'][$language]; ?></label>
 															</div>
-															<div class="custom-control custom-radio custom-control-inline">
+															<div class="custom-control custom-radio custom-control-inline" hidden>
 																<input type="radio" id="chksomemonth" name="formatMonth" value='2' onclick="formatmonth(2)" class="custom-control-input formatDay">
 																<label class="custom-control-label" for="chksomemonth"><?php echo $array['manymonth'][$language]; ?></label>
 															</div>
