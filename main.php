@@ -450,10 +450,6 @@ switch ($PmID) {
     
     $dp_head = 1;
     $dp_s1 = 1;
-    $dp_s2 = 1;
-    $dp_s3 = 1;
-    $dp_s4 = 1;
-    $dp_s5 = 1;
 
     $dp2_head = 1;
     $dp2_s1 = 1;
@@ -461,7 +457,6 @@ switch ($PmID) {
     $dp2_s3 = 1;
     $dp2_s4 = 1;
     $dp2_s5 = 1;
-
 
     $gen_head = 0;
     $gen_s0 = 0;
@@ -526,7 +521,11 @@ switch ($PmID) {
 }
 
 if (empty($_SESSION['href'])) {
-  $src = "pages/menu.php?lang=<?php echo $language; ?>";
+  if($PmID == 8){
+    $src = "pages/revealDep.php?lang=<?php echo $language; ?>";
+  }else{
+    $src = "pages/menu.php?lang=<?php echo $language; ?>";
+  }
 } else {
   $src = $_SESSION['href'];
   $active_li = $_SESSION['active_li'];
@@ -977,16 +976,6 @@ if (empty($_SESSION['href'])) {
           } else {
             console.log(temp['msg']);
           }
-        },
-        failure: function(result) {
-          alert(result);
-        },
-        error: function(xhr, status, p3, p4) {
-          var err = "Error " + " " + status + " " + p3 + " " + p4;
-          if (xhr.responseText && xhr.responseText[0] == "{")
-            err = JSON.parse(xhr.responseText).Message;
-          console.log(err);
-          alert(err);
         }
       });
     }
@@ -1363,7 +1352,7 @@ if (empty($_SESSION['href'])) {
 
           <ul class="sub-menu">
             <?php if ($dp_s1 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/revealDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>เบิกผ้าด่วน</a>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" id="act41"  href="pages/revealDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>เบิกผ้าด่วน</a>
               </li>
             <?php } ?>
           </ul>
@@ -1378,7 +1367,23 @@ if (empty($_SESSION['href'])) {
 
           <ul class="sub-menu">
             <?php if ($dp2_s1 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/parDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>Par Department</a>
+              <li><a id="act42" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/parDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>Par Department</a>
+              </li>
+            <?php } ?>
+            <?php if ($dp2_s2 == 1) { ?>
+              <li><a id="act43" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/callDirtyDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>เรียกเก็บผ้าเปื้อน</a>
+              </li>
+            <?php } ?>
+            <?php if ($dp2_s3 == 1) { ?>
+              <li><a id="act44" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/moveDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>ย้ายแผนก</a>
+              </li>
+            <?php } ?>
+            <?php if ($dp2_s4 == 1) { ?>
+              <li><a id="act45" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/otherDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>การร้องขออื่นๆ</a>
+              </li>
+            <?php } ?>
+            <?php if ($dp2_s5 == 1) { ?>
+              <li><a id="act46" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/traceDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>ติดตามเอกสาร</a>
               </li>
             <?php } ?>
           </ul>

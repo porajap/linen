@@ -215,7 +215,7 @@ if ($money == 1) {
             AND department.HptCode ='$HptCodex' ";
   $issue = $Result['ParQty'] - $Result['CcQty'];
   $totalweight = $Result['TotalQty'] * $Result['Weight'];
-  $price = $totalweight * $Result['Price'];
+  $price = number_format( $totalweight * $Result['Price'] , 2);
 
   $meQuery = mysqli_query($conn, $query);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -229,7 +229,7 @@ if ($money == 1) {
     $objPHPExcel->getActiveSheet()->setCellValue('E' . $start_row, $issue);
     $objPHPExcel->getActiveSheet()->setCellValue('F' . $start_row, $Result["TotalQty"]);
     $objPHPExcel->getActiveSheet()->setCellValue('G' . $start_row, $totalweight);
-    $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $price);
+    $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $Result['PriceSC']);
     $start_row++;
     $count++;
     $Weight += $totalweight;
@@ -244,7 +244,7 @@ if ($money == 1) {
   $start_row++;
   $objPHPExcel->getActiveSheet()->mergeCells('A' . $start_row . ':G' . $start_row);
   $objPHPExcel->getActiveSheet()->setCellValue('A' . $start_row, $array2['total_price'][$language]);
-  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $P);
+  $objPHPExcel->getActiveSheet()->setCellValue('H' . $start_row, $price_W);
 
 
 

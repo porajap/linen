@@ -32,7 +32,7 @@ $DepCode = $data[7];
 $chk = $data[8];
 $year1 = $data[9];
 $year2 = $data[10];
-$dirty_time = $data[11];
+$dirty_time1 = $data[11];
 $where = '';
 $i = 9;
 $check = '';
@@ -200,27 +200,31 @@ for ($a = 0; $a < $round_AZ1; $a++) {
 $sheet_item = array('', 'Dirty1', 'Dirty2', 'Dirty3', 'Dirty4', 'Dirty5', 'Dirty6');
 $sheet_Name = array('Report_Dirty_Linen_Weight', 'RED BAG', 'GREEN BAG', 'GRAY BAG', 'Square Green', 'Square Blue', 'Square Red');
 $count_sheet = sizeof($sheet_item);
-if ($dirty_time == '0') {
+if ($dirty_time1 == '0') {
   $dirty_time = '';
 } else {
-  $dirty_time = " AND time_dirty.ID ='$dirty_time'";
+  $dirty_time_head = "AND time_dirty.ID = '$dirty_time1'";
+  $dirty_time = " AND dirty.Time_ID ='$dirty_time1'";
 }
 
 $query = "  SELECT time_dirty.TimeName,time_dirty.id 
             FROM time_dirty 
             INNER JOIN round_time_dirty ON round_time_dirty.Time_ID = time_dirty.id  
             WHERE round_time_dirty.HptCode = '$HptCode'
-            $dirty_time
+            $dirty_time_head
             Group by time_dirty.TimeName";
+
+  
+
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
-  $TimeName =   $Result['TimeName'];
+  $TimeName_head =   $Result['TimeName'];
 }
 if ($dirty_time == '') {
   $TimeName = 'รอบซักทุกรอบ';
   $Time_DIR =   $TimeName;
 } else {
-  $Time_DIR =  ' รอบที่' . $TimeName . '.น';
+  $Time_DIR =  ' รอบที่' . $TimeName_head . '.น';
 }
 
 
@@ -285,7 +289,7 @@ if ($chk == 'one') {
   AND  round_time_dirty.HptCode = '$HptCode'
    $dirty_time
    ORDER BY dirty.DocDate ASC , dirty.Time_ID ASC ";
-  // echo $query;
+ 
   $meQuery = mysqli_query($conn, $query);
 
   while ($Result = mysqli_fetch_assoc($meQuery)) {
