@@ -34,6 +34,9 @@ $array2 = json_decode($json2, TRUE);
   <meta name="description" content="">
   <meta name="author" content="">
 
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
+
+  
   <title>
     color
   </title>
@@ -57,30 +60,22 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-8 off-set-10">
                   <div class="row" style="margin-left:5px;">
-                    <select class="form-control col-md-4 " id="selectSite" style="font-size:22px;" onchange="changeSite('top')">
+                    <select class="form-control col-md-4 " id="select_color_master" style="font-size:22px;" onchange="showDataColor();">
                     </select>
-                    <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;">
-                    <div class="search_custom col-md-2">
-                      <div class="search_1 d-flex justify-content-start">
-                        <button class="btn" onclick="showData()" id="bSave">
-                          <i class="fas fa-search mr-2"></i>
-                          <?php echo $array['search'][$language]; ?>
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
 
               <div class="row mt-2">
                 <div class="col-12">
-                  <table class="table table-fixed table-condensed table-striped mt-3" id="tableDocument" width="100%" cellspacing="0" role="grid">
+                  <table class="table table-fixed table-condensed table-striped mt-3" id="table_color" width="100%" cellspacing="0" role="grid">
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row" id='tr_1'>
-                        <th nowrap ><br></th>
-                        <th nowrap >ลำดับ</th>
-                        <th nowrap >แม่สี</th>
-                        <th nowrap >โค๊ดสี</th>
+                        <th  style="width:8%"><br></th>
+                        <th  style="width:20%">ลำดับสี</th>
+                        <th  style="width:22%">กลุ่มสี</th>
+                        <th  style="width:20%;text-align: center;">สี</th>
+                        <th  style="width:30%">รหัสสี</th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -93,7 +88,7 @@ $array2 = json_decode($json2, TRUE);
                 <div class="menu mhee">
                   <div class="d-flex justify-content-center">
                     <div class="circle4 d-flex justify-content-center">
-                      <button class="btn" onclick="saveData()" id="bSave">
+                      <button class="btn" onclick="save_add_color();" id="bSave">
                         <i class="fas fa-save"></i>
                         <div>
                           <?php echo $array['save'][$language]; ?>
@@ -138,28 +133,20 @@ $array2 = json_decode($json2, TRUE);
               <div class="row mt-4">
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">ลำดับ</label>
-                    <input id="txtNumber" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
+                    <label class="col-sm-2 col-form-label ">กลุ่มสี</label>
+                    <select class="form-control col-md-7 " id="select_color_master2" style="font-size:22px;"  onchange="chk_color_master();">
+                    </select>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">แม่สี</label>
-                    <input id="txtColor" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
+                    <label class="col-sm-2 col-form-label ">รหัสสี</label>
+                    <input  class='form-control mt-2 ' id="color-picker" style="font-size:22px;" />
                     <label id="alert_txtColor" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
               </div>
-
-              <div class="row ">
-                <div class="col-md-6">
-                  <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">โค้ดสี</label>
-                    <input id="txtCodeColor" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
-                    <label id="alert_txtCodeColor" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
-                  </div>
-                </div>
-              </div>
+            
             </div>
           </div>
         </div>
@@ -171,27 +158,19 @@ $array2 = json_decode($json2, TRUE);
 
 
   <?php include_once('../assets/import/js.php'); ?>
+  <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(e) {
-
-      $("#alert_txtColor").hide();
-      $("#alert_txtCodeColor").hide();
-
-
-
-      $("#txtColor").change(function() {
-        $("#txtColor").removeClass("border-danger");
-        $("#alert_txtColor").hide();
-      });
-
-      $("#txtCodeColor").change(function() {
-        $("#txtCodeColor").removeClass("border-danger");
-        $("#alert_txtCodeColor").hide();
+    
+      $('#color-picker').spectrum({
+                type: "component"
       });
 
 
+
+      get_color_master();
       setTimeout(() => {
-        showData();
+        showDataColor();
       }, 200);
 
 
@@ -208,6 +187,7 @@ $array2 = json_decode($json2, TRUE);
       });
 
 
+
     }).click(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -215,105 +195,41 @@ $array2 = json_decode($json2, TRUE);
     });
 
 
-    function saveData() {
-      var txtNumber = $("#txtNumber").val();
-      var selectSiteLow = $("#selectSiteLow").val();
-      var txtNameEn = $("#txtNameEn").val();
-      var txtNameTh = $("#txtNameTh").val();
-      var txtAddress = $("#txtAddress").val();
-      var txtPhoneNumber = $("#txtPhoneNumber").val();
+    function save_add_color() {
+      var color_master = $("#select_color_master2").val();
+      var color_code = $("#color-picker").val();
 
-      if (selectSiteLow == "0") {
+   
+      if (color_master == "0") {
         swal({
           title: '',
-          text: 'กรุณาเลือกโรงพยาบาล',
+          text: 'กรุณาเลือกกลุ่มสี',
           type: 'warning',
           showCancelButton: false,
           showConfirmButton: false,
           timer: 1500,
         });
-        $("#selectSiteLow").addClass("border-danger");
-        $("#alert_selectSiteLow").show();
-        return;
-      }
 
-      if (txtNameEn == "") {
-        swal({
-          title: '',
-          text: 'กรุณากรอกชื่อบริษัทภาษาอังกฤษ',
-          type: 'warning',
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        $("#txtNameEn").addClass("border-danger");
-        $("#alert_txtNameEn").show();
-        return;
-      }
-
-      if (txtAddress == "") {
-        swal({
-          title: '',
-          text: 'กรุณากรอกที่อยู่',
-          type: 'warning',
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        $("#txtAddress").addClass("border-danger");
-        $("#alert_txtAddress").show();
-        return;
-      }
-
-      if (txtNameTh == "") {
-        swal({
-          title: '',
-          text: 'กรุณากรอกชื่อบริษัทภาษาไทย',
-          type: 'warning',
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        $("#txtNameTh").addClass("border-danger");
-        $("#alert_txtNameTh").show();
-        return;
-      }
-
-      if (txtPhoneNumber == "") {
-        swal({
-          title: '',
-          text: 'กรุณากรอกเบอร์โทรศัพท์',
-          type: 'warning',
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        $("#txtPhoneNumber").addClass("border-danger");
-        $("#alert_txtPhoneNumber").show();
         return;
       }
 
 
 
       $.ajax({
-        url: "../process/supplier.php",
+        url: "../process/color.php",
         type: 'POST',
         data: {
-          'FUNC_NAME': 'saveData',
-          'txtNumber': txtNumber,
-          'selectSiteLow': selectSiteLow,
-          'txtNameEn': txtNameEn,
-          'txtNameTh': txtNameTh,
-          'txtAddress': txtAddress,
-          'txtPhoneNumber': txtPhoneNumber,
+          'FUNC_NAME': 'save_add_color',
+          'color_master': color_master,
+          'color_code': color_code
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
-          $("#txtNumber").val("");
-          $("#txtNameEn").val("");
-          $("#txtNameTh").val("");
-          $("#txtAddress").val("");
-          $("#txtPhoneNumber").val("");
+          $("#select_color_master2").val("0");
+          $("#color-picker").spectrum({
+              color: "transparent"
+          });
+
           $('#bCancel').attr('disabled', true);
           $('#cancelIcon').addClass('opacity');
 
@@ -327,8 +243,8 @@ $array2 = json_decode($json2, TRUE);
           });
 
           setTimeout(() => {
-            showData();
-          }, 1700);
+            showDataColor();
+          }, 500);
 
 
         }
@@ -337,25 +253,24 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function cleartxt() {
-      $("#txtNumber").val("");
-      $("#txtNameEn").val("");
-      $("#txtNameTh").val("");
-      $("#txtAddress").val("");
-      $("#txtPhoneNumber").val("");
+      $("#select_color_master2").val("0");
+      $("#color-picker").spectrum({
+              color: "transparent"
+      });
       $(".classSupplier").prop("checked", false);
       $('#bCancel').attr('disabled', true);
       $('#cancelIcon').addClass('opacity');
     }
 
-    function showData() {
-      var txtSearch = $("#txtSearch").val();
+    function showDataColor() {
+      var color_master = $("#select_color_master").val();
 
       $.ajax({
         url: "../process/color.php",
         type: 'POST',
         data: {
-          'FUNC_NAME': 'showData',
-          'txtSearch': txtSearch,
+          'FUNC_NAME': 'showDataColor',
+          'color_master': color_master,
 
         },
         success: function(result) {
@@ -364,16 +279,17 @@ $array2 = json_decode($json2, TRUE);
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(key, value) {
 
-              var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classSupplier' name='idSupplier' id='idSupplier_" + key + "' value='" + value.id + "' onclick='showDetail(\"" + value.id + "\" , \"" + key + "\")' ><span class='checkmark'></span></label>";
+              var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classSupplier' name='idSupplier' id='idcolor_detail_" + key + "' value='" + value.ID + "'  ><span class='checkmark'></span></label>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
-                "<td>" + chkDoc + "</td>" +
-                "<td>" + (key + 1) + "</td>" +
-                "<td>" + value.colorName + "</td>" +
-                "<td> " + value.colorCode + " </td>" +
+                "<td style='width:8%'>" + chkDoc + "</td>" +
+                "<td style='width:20%'>" + (key + 1) + "</td>" +
+                "<td style='width:22%'>" + value.color_master_name + "</td>" +
+                "<td style='width:20%;'><center><div style='width:50%;background-color:"+value.color_code_detail+";padding:20px;margin:0px;'> </div></center></td>" +
+                "<td style='width:30%'> " + value.color_code_detail + " </td>" +
                 "</tr>";
             });
           }
-          $('#tableDocument tbody').html(StrTR);
+          $('#table_color tbody').html(StrTR);
         }
       });
     }
@@ -484,6 +400,67 @@ $array2 = json_decode($json2, TRUE);
           }
         });
       }
+    }
+
+    function get_color_master(){
+      $.ajax({
+            url: "../process/color.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'get_color_master'
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              var StrTR = "";
+
+
+              if (!$.isEmptyObject(ObjData)) {
+                var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+                $.each(ObjData, function(key, value) {
+                  Str += "<option value=" + value.ID + " >" + value.color_master_name + "</option>";
+                });
+              }
+
+              $("#select_color_master").append(Str);
+              $("#select_color_master2").append(Str);
+
+            }
+          });
+    }
+
+    function chk_color_master(){
+      var id_color_master = $('#select_color_master2').val();
+      $.ajax({
+            url: "../process/color.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'chk_color_master',
+              'id_color_master': id_color_master
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              var StrTR = "";
+
+
+              if (!$.isEmptyObject(ObjData)) {
+                var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+                $.each(ObjData, function(key, value) {
+                  // $('#color-picker').val(value.color_master_code);
+                  $("#color-picker").spectrum({
+                        color: value.color_master_code,
+                        palette: [
+                              [value.color_master_code]
+                          ]
+                    });
+                });
+              }
+
+              
+
+            }
+          });
     }
   </script>
 

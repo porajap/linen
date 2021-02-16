@@ -1685,7 +1685,7 @@ if (empty($_SESSION['href'])) {
             <?php } ?>
 
             
-            <?php if ($sys_s23 == 0) { ?>
+            <?php if ($sys_s23 == 1) { ?>
               <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/color.php?lang=<?php echo $language; ?>" id="act39" class="current_page" onclick="return loadIframe('ifrm', this.href)">
                   <em></em>color</a>
               </li>
