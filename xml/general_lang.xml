@@ -186,6 +186,7 @@
 <import><en>Add</en><th>เพิ่ม</th></import>
 <delitem><en>Delete items</en><th>ลบรายการ</th></delitem>
 <save><en>Save</en><th>บันทึก</th></save>
+<save_edit><en>Save Edit</en><th>บันทึกการแก้ไข</th></save_edit>
 <cancel><en>Cancel</en><th>ลบ</th></cancel>
 <searchplace><en>Search document</en><th>ค้นหาเลขที่เอกสาร</th></searchplace>
 <show><en>Show items</en><th>แสดงรายการ</th></show>

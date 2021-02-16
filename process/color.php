@@ -18,6 +18,10 @@ if (!empty($_POST['FUNC_NAME'])) {
     chk_color_master($conn);
   }else  if ($_POST['FUNC_NAME'] == 'save_add_color') {
     save_add_color($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'getDetail_color') {
+    getDetail_color($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'save_edit_color') {
+    save_edit_color($conn);
   }
 }
 
@@ -109,10 +113,10 @@ function showDataColor($conn)
 
 function deleteData($conn)
 {
-  $id = $_POST["txtNumber"];
+  $id = $_POST["text_id_color_detail"];
   $return = array();
 
-  $Sql = "DELETE FROM color WHERE color.id = $id ";
+  $Sql = "DELETE FROM color_detail WHERE color_detail.ID = $id ";
 
   mysqli_query($conn, $Sql);
   echo json_encode($return);
@@ -172,6 +176,56 @@ function save_add_color($conn)
           ";
 
      mysqli_query($conn, $Sql);
+   
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function save_edit_color($conn)
+{
+  $color_master = $_POST["color_master"];
+  $color_code = $_POST["color_code"];
+  $text_id_color_detail = $_POST["text_id_color_detail"];
+
+
+  $Sql = "UPDATE color_detail SET color_detail.ID_color_master = '$color_master' , 
+          color_detail.color_code_detail= '$color_code'
+          WHERE color_detail.ID = '$text_id_color_detail'
+          ";
+
+     mysqli_query($conn, $Sql);
+   
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function getDetail_color($conn)
+{
+  $id_color_detail = $_POST["id_color_detail"];
+
+
+  $Sql = "SELECT
+            color_detail.ID,
+            color_detail.ID_color_master,  
+            color_detail.color_code_detail, 
+            color_master.color_master_name, 
+	          color_master.color_master_code
+          FROM
+            color_detail
+            INNER JOIN
+            color_master
+            ON 
+              color_detail.ID_color_master = color_master.ID
+          WHERE
+            color_detail.ID = '$id_color_detail'
+          ";
+
+      $meQuery = mysqli_query($conn, $Sql);
+      while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $return[] = $Result;
+      }
    
   echo json_encode($return);
   mysqli_close($conn);

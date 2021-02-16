@@ -85,13 +85,25 @@ $array2 = json_decode($json2, TRUE);
               </div>
 
               <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
-                <div class="menu mhee">
+                <div class="menu mhee" id="div_bt_add">
                   <div class="d-flex justify-content-center">
                     <div class="circle4 d-flex justify-content-center">
                       <button class="btn" onclick="save_add_color();" id="bSave">
                         <i class="fas fa-save"></i>
                         <div>
                           <?php echo $array['save'][$language]; ?>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu mhee"  id="div_bt_edit">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex justify-content-center">
+                      <button class="btn" onclick="save_edit_color();" id="bSave">
+                        <i class="fas fa-save"></i>
+                        <div>
+                          <?php echo $array['save_edit'][$language]; ?>
                         </div>
                       </button>
                     </div>
@@ -142,6 +154,7 @@ $array2 = json_decode($json2, TRUE);
                   <div class='form-group row'>
                     <label class="col-sm-2 col-form-label ">รหัสสี</label>
                     <input  class='form-control mt-2 ' id="color-picker" style="font-size:22px;" />
+                    <input  class='form-control mt-2 ' id="text_id_color_detail" style="font-size:22px;" hidden />
                     <label id="alert_txtColor" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
@@ -166,6 +179,7 @@ $array2 = json_decode($json2, TRUE);
                 type: "component"
       });
 
+      $('#div_bt_edit').hide();
 
 
       get_color_master();
@@ -198,6 +212,7 @@ $array2 = json_decode($json2, TRUE);
     function save_add_color() {
       var color_master = $("#select_color_master2").val();
       var color_code = $("#color-picker").val();
+      
 
    
       if (color_master == "0") {
@@ -245,8 +260,72 @@ $array2 = json_decode($json2, TRUE);
           setTimeout(() => {
             showDataColor();
           }, 500);
+          $('#bCancel').attr('disabled', true);
+          $('#text_id_color_detail').val("");
+          $('#cancelIcon').addClass('opacity');
+          $('#div_bt_edit').hide();
+          $('#div_bt_add').show();
+        }
+      });
+
+    }
+
+    function save_edit_color() {
+      var color_master = $("#select_color_master2").val();
+      var color_code = $("#color-picker").val();
+      var text_id_color_detail = $('#text_id_color_detail').val();
+      
+      if (color_master == "0") {
+        swal({
+          title: '',
+          text: 'กรุณาเลือกกลุ่มสี',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        return;
+      }
 
 
+
+      $.ajax({
+        url: "../process/color.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'save_edit_color',
+          'color_master': color_master,
+          'color_code': color_code,
+          'text_id_color_detail':text_id_color_detail
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          $("#select_color_master2").val("0");
+          $("#color-picker").spectrum({
+              color: "transparent"
+          });
+
+          $('#bCancel').attr('disabled', true);
+          $('#cancelIcon').addClass('opacity');
+
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            showDataColor();
+          }, 500);
+          $('#bCancel').attr('disabled', true);
+          $('#text_id_color_detail').val("");
+          $('#cancelIcon').addClass('opacity');
+          $('#div_bt_edit').hide();
+          $('#div_bt_add').show();
         }
       });
 
@@ -260,6 +339,9 @@ $array2 = json_decode($json2, TRUE);
       $(".classSupplier").prop("checked", false);
       $('#bCancel').attr('disabled', true);
       $('#cancelIcon').addClass('opacity');
+      $('#text_id_color_detail').val("");
+      $('#div_bt_edit').hide();
+      $('#div_bt_add').show();
     }
 
     function showDataColor() {
@@ -279,7 +361,7 @@ $array2 = json_decode($json2, TRUE);
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(key, value) {
 
-              var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classSupplier' name='idSupplier' id='idcolor_detail_" + key + "' value='" + value.ID + "'  ><span class='checkmark'></span></label>";
+              var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classSupplier' name='idSupplier' id='idcolor_detail_" + key + "' value='" + value.ID + "' onclick='getDetail_color(\"" + value.ID + "\");' ><span class='checkmark'></span></label>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td style='width:8%'>" + chkDoc + "</td>" +
                 "<td style='width:20%'>" + (key + 1) + "</td>" +
@@ -290,12 +372,22 @@ $array2 = json_decode($json2, TRUE);
             });
           }
           $('#table_color tbody').html(StrTR);
+
+          $("#select_color_master2").val("0");
+          $("#color-picker").spectrum({
+                  color: "transparent"
+          });
+          $('#bCancel').attr('disabled', true);
+          $('#text_id_color_detail').val("");
+          $('#cancelIcon').addClass('opacity');
+          $('#div_bt_edit').hide();
+          $('#div_bt_add').show();
         }
       });
     }
 
     function deleteData() {
-      var txtNumber = $("#txtNumber").val();
+      var text_id_color_detail = $("#text_id_color_detail").val();
 
       swal({
         title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -318,7 +410,7 @@ $array2 = json_decode($json2, TRUE);
             type: 'POST',
             data: {
               'FUNC_NAME': 'deleteData',
-              'txtNumber': txtNumber,
+              'text_id_color_detail': text_id_color_detail,
             },
             success: function(result) {
 
@@ -335,9 +427,9 @@ $array2 = json_decode($json2, TRUE);
               })
 
               setTimeout(() => {
-                showData();
+                showDataColor();
                 cleartxt();
-              }, 1700);
+              }, 800);
 
             }
           });
@@ -459,6 +551,42 @@ $array2 = json_decode($json2, TRUE);
 
               
 
+            }
+          });
+    }
+
+    function getDetail_color(id){
+      $.ajax({
+            url: "../process/color.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'getDetail_color',
+              'id_color_detail': id
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              var StrTR = "";
+
+
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(key, value) {
+                  $('#select_color_master2').val(value.ID_color_master);
+                  $('#text_id_color_detail').val(value.ID);
+                  
+                  $("#color-picker").spectrum({
+                        color: value.color_code_detail,
+                        palette: [
+                              [value.color_master_code]
+                          ]
+                    });
+                });
+              }
+              $('#bCancel').attr('disabled', false);
+              // $("#bCancel").removeClass('opacity');
+              $('#cancelIcon').removeClass('opacity');
+              $('#div_bt_edit').show();
+              $('#div_bt_add').hide();
             }
           });
     }
