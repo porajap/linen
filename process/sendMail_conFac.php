@@ -45,6 +45,8 @@ $strSubject = "Notification of laundry contract expiration";
 $strHeader = "From: poseinttelligence@gmail.com";
 $strMessage = $body;
 $flgSend = @mail($strTo,$strSubject,$strMessage,$strHeader);  // @ = No Show Error //
+
+echo $flgSend;
 ?>
 </body>
 </html>

@@ -1689,7 +1689,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#hidden_usage_detail').attr('hidden', true);
 				$('#time_express').attr('disabled', true);
-			} else if (typeReport == 9) {
+			} else if (typeReport == 9 || typeReport == 39) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#category').attr('disabled', true);
@@ -2334,6 +2334,7 @@ $array2 = json_decode($json2, TRUE);
 															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=36><?php echo "21. " . $array['r' . 1][$language]; ?></option>
 															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=37><?php echo "22. " . $array['r' . 3][$language]; ?></option>
 															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=38><?php echo "23. " . 'Usage Detail New' 		        ?></option>
+															<option value=39><?php echo "20. " . 'Extra Delivery Report' 		        ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>

@@ -15,6 +15,31 @@
 <return><en>Return</en><th>บันทึกรับคืนผ้า</th></return>
 <addrequest><en>Add request</en><th>เพิ่มรายการ</th></addrequest>
 <additem><en>Additem</en><th>เพิ่มรายการ</th></additem>
+<creation><en>Document creation date</en><th>วันที่สร้างเอกสาร</th></creation>
+
+
+
+
+<partotal><en>Par totals</en><th>ดูยอด Par</th></partotal>
+<paredit><en>Par edit Request</en><th>ร้องขอแก้ไขยอด Par</th></paredit>
+<Recallstain><en>Recall stain rays</en><th>เรียกเก็บผ้าสกปรก</th></Recallstain>
+<userdep><en>User department</en><th>ผู้เรียกเก็บผ้า</th></userdep>
+<dep><en>department</en><th>แผนกต้นทาง</th></dep>
+<Destinationdep><en>Destination departmen</en><th>แผนกปลายทาง</th></Destinationdep>
+<timedep><en>time</en><th>เวลาเรียกเก็บ</th></timedep>
+<userReply><en>user Reply</en><th>ผู้ตอบรับ</th></userReply>
+<userLinen><en>user Linen</en><th>ห้องผ้าตอบรับ</th></userLinen>
+<depRequest><en>Request</en><th>คำร้องขอ</th></depRequest>
+<depchat><en>Chat topic</en><th>หัวข้อแชท</th></depchat>
+<deprequester><en>Requester</en><th>ลงชื่อผู้ขอเบิก</th></deprequester>
+<depapprover><en>Approver</en><th>ลงชื่อผู้อนุมัติ</th></depapprover>
+<depremessage><en>Request messages</en><th>ข้อความที่ต้องการร้องขอ</th></depremessage>
+<plsdepremessage><en>Please fill in Request messages</en><th>กรุณากรอกข้อความที่ต้องการขอ</th></plsdepremessage>
+<movedep><en>Move department</en><th>ย้ายแผนก</th></movedep>
+<plsmovedep><en>Please enter the destination department</en><th>กรุณากรอกแผนกปลายทาง</th></plsmovedep>
+<signdep><en>sign</en><th>ลงชื่อ</th></signdep>
+
+
 <!--============================================================================== -->
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
@@ -204,7 +229,7 @@
 <leftsc><en>ShelfCount</en><th>ShelfCount</th></leftsc>
 <qty><en>QTY</en><th>จำนวน</th></qty>
 <total><en>Number</en><th>จำนวน</th></total>
-<Packing><en>Packing</en><th>เรึ่มจัดเตรียมผ้า</th></Packing>
+<Packing><en>Packing</en><th>เริ่มจัดเตรียมผ้า</th></Packing>
 <order><en>Order</en><th>Order</th></order>
 <detail><en>Description</en><th>รายละเอียด</th></detail>
 <print><en>Print Report</en><th>พิมพ์รายงาน</th></print>
@@ -353,6 +378,7 @@
 <adduserfailed><en>Cannot add more than 2 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 2 คน</th></adduserfailed>
 <adduserfacfailed><en>Cannot add more than 1 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 1 คน</th></adduserfacfailed>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
+<editfailDueedmsg><en>Cannot add information Due to the duplicate department</en><th>ไม่สามารถเพิ่มข้อมูลได้ เนื่องจากแผนกซ้ำ</th></editfailDueedmsg>
 <editcenterfailedmsg><en>There are 1 central department</en><th>แผนกศูนย์กลางมีได้เพียง 1 แผนก</th></editcenterfailedmsg>
 <Repeatmsg><en>Repeat code number</en><th>เลขรหัสซํ้า</th></Repeatmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>

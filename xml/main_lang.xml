@@ -162,7 +162,50 @@
           แบบฟอร์มการนับสต๊อก
         </th>
       </sub>
+        <sub>
+        <en>
+          Urgent rays
+        </en>
+        <th>
+          เบิกผ้าด่วน
+        </th>
+      </sub>
+        <sub>
+        <en>
+          Recall stain rays
+        </en>
+        <th>
+          เรียกเก็บผ้าเปื้อน
+        </th>
+      </sub>
+        <sub>
+        <en>
+          Change Department
+        </en>
+        <th>
+          ย้ายแผนก
+        </th>
+      </sub>
+        <sub>
+        <en>
+          Requisition
+        </en>
+        <th>
+          การร้องขออื่นๆ
+        </th>
+      </sub>
+        <sub>
+        <en>
+          tracking
+        </en>
+        <th>
+          ติดตามเอกสาร
+        </th>
+      </sub>
     </general>
+
+
+
     <account>
       <title>
         <en>

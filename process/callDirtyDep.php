@@ -14,6 +14,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     showDocument($conn);
   } else  if ($_POST['FUNC_NAME'] == 'saveComment') {
     saveComment($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'saveDocument') {
+    saveDocument($conn);
   }
 }
 
@@ -64,7 +66,6 @@ function GetDep($conn)
       FROM department WHERE department.IsStatus = 0 AND department.DepCode = '$DepCode' AND department.HptCode = '$HptCode1' ";
 
 
-
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
     $return[] = $row;
@@ -84,6 +85,9 @@ function createDocument($conn)
   $userid   = $_SESSION["Userid"];
   $Site = $_POST['Site'];
   $txtName = $_POST['txtName'];
+  $txtPhoneNumber = $_POST["txtPhoneNumber"];
+  $txtRemark = $_POST["txtRemark"];
+
   $return = array();
 
   if ($PmID == 1) {
@@ -142,7 +146,9 @@ function createDocument($conn)
       call_dirty.Modify_Date,
       call_dirty.revealDate,
       call_dirty.SiteCode,
-      call_dirty.revealName
+      call_dirty.revealName,
+      call_dirty.phoneNumber,
+      call_dirty.remark
     )
     VALUES
       (
@@ -153,8 +159,11 @@ function createDocument($conn)
         NOW(),
         NOW(),
         '$hotpCode',
-        '$txtName'
+        '$txtName',
+        '$txtPhoneNumber',
+        '$txtRemark'
       )";
+
 
 
     mysqli_query($conn, $Sql);
@@ -179,11 +188,24 @@ function showDocument($conn)
 {
   $sDate = $_POST['sDate'];
   $eDate = $_POST['eDate'];
+  $txtSearchDoc = $_POST['txtSearchDoc'];
+  $PmID = $_SESSION['PmID'];
+  $DepCode = $_SESSION['DepCode'];
+  $lang = $_SESSION['lang'];
+  $Site = $_SESSION['HptCode'];
   $return = array();
   $whereDate= "";
 
-  if($sDate != "-543--"){
-    $whereDate = "WHERE call_dirty.DocDate BETWEEN '$sDate' AND '$eDate' ";
+  if($PmID == 1  || $PmID == 5 || $PmID == 6 || $PmID == 2){
+    $whereDep = "";
+  }else{
+    $whereDep = "AND call_dirty.DepCode = '$DepCode' AND department.DepCode = '$DepCode' ";
+  }
+
+  if($sDate != "-543--" && $sDate != "--" ){
+    $whereDate = "AND call_dirty.DocDate BETWEEN '$sDate' AND '$eDate' ";
+  }else{
+    $whereDate = "AND call_dirty.DocDate BETWEEN DATE(NOW()) AND DATE(NOW())  ";
   }
   $Sql = "SELECT
             call_dirty.DocNo, 
@@ -192,17 +214,26 @@ function showDocument($conn)
             department.DepName, 
             TIME(call_dirty.revealDate) AS revealDate, 
             call_dirty.IsStatus, 
-            call_dirty.approveName, 
-            call_dirty.approveDate, 
-            call_dirty.commentDelete
+            users.ThName AS approveName ,
+            TIME( call_dirty.approveDate) AS approveDate, 
+            call_dirty.commentDelete,
+            call_dirty.phoneNumber,
+            call_dirty.remark
           FROM
             call_dirty
             INNER JOIN  department  ON  call_dirty.DepCode = department.DepCode 
-            
-             $whereDate ";
-
+            LEFT JOIN users ON call_dirty.approveName = users.ID
+            WHERE call_dirty.SiteCode = '$Site' AND call_dirty.DocNo LIKE '%$txtSearchDoc%' AND department.HptCode = '$Site'  $whereDate  $whereDep  ORDER BY call_dirty.DocNo DESC ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
+    if ($lang == 'en') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+    } else if ($lang == 'th') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . ($date2[0] + 543);
+    }
     $return[] = $Result;
   }
   echo json_encode($return);
@@ -214,7 +245,17 @@ function saveComment($conn){
   $DocNo = $_POST['DocNo'];
   $comment = $_POST['comment'];
 
-  $Sql = "UPDATE call_dirty SET IsStatus = 9 , commentDelete = '$comment'  WHERE DocNo = '$DocNo' ";
+  $Sql = "UPDATE call_dirty SET IsStatus = 9 , commentDelete = '$comment' , Modify_Date = NOW()  WHERE DocNo = '$DocNo' ";
+
+  if(mysqli_query($conn, $Sql)){
+    echo '1';
+  }
+}
+
+function saveDocument($conn){
+  $DocNo = $_POST['DocNo'];
+
+  $Sql = "UPDATE call_dirty SET IsStatus = 2 , Modify_Date = NOW()  WHERE DocNo = '$DocNo' ";
 
   if(mysqli_query($conn, $Sql)){
     echo '1';

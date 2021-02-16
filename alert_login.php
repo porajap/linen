@@ -14,7 +14,8 @@
             <div class="form-group has-danger"> 
                 <label class="sr-only" for="username">Username</label> 
                 <div class="input-group mr-sm-2 mb-sm-0"> 
-                <input type="text" name="username" class="form-control" id="username" value="<?php echo $Username;?>" required disabled="true"> 
+                <!-- <input type="text" name="username" class="form-control" id="username" value="<?php echo $Username;?>" required disabled="true">  -->
+                <input type="text" name="username" class="form-control" id="username" required  placeholder="Username"> 
                 </div> 
             </div> 
         </div> 

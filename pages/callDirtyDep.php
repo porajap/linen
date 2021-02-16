@@ -43,7 +43,7 @@ $array2 = json_decode($json2, TRUE);
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="javascript:void(0)">Create status</a></li>
-    <li class="breadcrumb-item active">เรียกเก็บผ้าสกปรก</li>
+    <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][20][$language]; ?></li>
   </ol>
 
   <div class="col-12">
@@ -75,10 +75,31 @@ $array2 = json_decode($json2, TRUE);
               <div class="col-md-12">
                 <div class='form-group row'>
                   <label class="col-sm-4 col-form-label">
-                    เรียกเก็บผ้าสกปรก
+                    <?php echo $array['Recallstain'][$language]; ?>
                   </label>
-                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only1 " id="txtName" placeholder="กรุณากรอกชื่อ">
+                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7  " id="txtName" placeholder="<?php echo $array['Recallstain'][$language]; ?>">
                   <label id="alert_txtName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class='form-group row'>
+                  <label class="col-sm-4 col-form-label">
+                    <?php echo $array['phone'][$language]; ?>
+                  </label>
+                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 numonly " id="txtPhoneNumber" placeholder="<?php echo $array['phone'][$language]; ?>" maxlength="10">
+                  <label id="alert_txtPhoneNumber" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class='form-group row'>
+                  <label class="col-sm-4 col-form-label">
+                    <?php echo $array['remask'][$language]; ?>
+                  </label>
+                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7" id="txtRemark" placeholder="<?php echo $array['remask'][$language]; ?>">
                 </div>
               </div>
             </div>
@@ -107,7 +128,7 @@ $array2 = json_decode($json2, TRUE);
               <div class="col-md-12">
                 <div class='form-group row'>
                   <label class="col-sm-4 col-form-label">
-                    วันที่เริ่มต้น
+                    <?php echo $array['datestart'][$language]; ?>
                   </label>
                   <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here col-sm-7" id="txtsDate" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy'>
                 </div>
@@ -117,7 +138,7 @@ $array2 = json_decode($json2, TRUE);
               <div class="col-md-12">
                 <div class='form-group row'>
                   <label class="col-sm-4 col-form-label">
-                    วันที่สิ้นสุด
+                    <?php echo $array['dateend'][$language]; ?>
                   </label>
                   <input type="text" autocomplete="off" style="font-size:22px;" placeholder="<?php echo $array['selectdate'][$language]; ?>" class="form-control datepicker-here col-sm-7" id="txteDate" data-language=<?php echo $language ?> data-date-format='dd-mm-yyyy'>
                 </div>
@@ -127,9 +148,9 @@ $array2 = json_decode($json2, TRUE);
               <div class="col-md-12">
                 <div class='form-group row'>
                   <label class="col-sm-4 col-form-label">
-                    ค้นหาเลขที่เอกสาร
+                    <?php echo $array['searchplace'][$language]; ?>
                   </label>
-                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only1 " id="txtDocDate" placeholder="ค้นหาเลขที่เอกสาร">
+                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7 only1 " id="txtSearchDoc" placeholder="<?php echo $array['searchplace'][$language]; ?>">
                 </div>
               </div>
             </div>
@@ -157,15 +178,16 @@ $array2 = json_decode($json2, TRUE);
         <table class="table table-fixed table-condensed table-striped mt-3" id="tableDocument" width="100%" cellspacing="0" role="grid">
           <thead id="theadsum" style="font-size:24px;">
             <tr role="row" id='tr_1'>
-              <th nowrap style="width:15%;">วันที่สร้างเอกสาร</th>
-              <th nowrap style="width:15%;">เลขที่เอกสาร</th>
-              <th nowrap style="width:10%;">ผู้เรียกเก็บผ้า</th>
-              <th nowrap style="width:10%;">แผนกต้นทาง</th>
-              <th nowrap style="width:10%;">เวลาเรียกเก็บ</th>
-              <th nowrap style="width:10%;">ผู้ตอบรับ</th>
-              <th nowrap style="width:10%;">ห้องผ้าตอบรับ</th>
-              <th nowrap style="width:10%;">สถานะ</th>
-              <th nowrap style="width:10%;">ยกเลิก</th>
+              <th nowrap style="width:15%;"><?php echo $array['creation'][$language]; ?></th>
+              <th nowrap style="width:15%;"><?php echo $array['docno'][$language]; ?></th>
+              <th nowrap style="width:10%;"><?php echo $array['userdep'][$language]; ?></th>
+              <th nowrap style="width:10%;"><?php echo $array['dep'][$language]; ?></th>
+              <th nowrap style="width:10%;"><?php echo $array['timedep'][$language]; ?></th>
+              <th nowrap style="width:10%;"><?php echo $array['userReply'][$language]; ?></th>
+              <th nowrap style="width:10%;"><?php echo $array['userLinen'][$language]; ?></th>
+              <th nowrap style="width:10%;"><?php echo $array['status'][$language]; ?></th>
+              <th nowrap style="width:5%;"><?php echo $array['save'][$language]; ?></th>
+              <th nowrap style="width:5%;"><?php echo $array['isno'][$language]; ?></th>
 
             </tr>
           </thead>
@@ -194,9 +216,45 @@ $array2 = json_decode($json2, TRUE);
             <input type="text" class="form-control" style="font-size:22px;" id="txtDocNoHidden" hidden>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" id="row_btn_comment">
           <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">ปิด</button>
           <button type="button" id="btnCancelComment" class="btn btn-danger w-100" onclick="saveComment();">ยกเลิกเอกสาร</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_phone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">เบอร์โทรศัพท์</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtModalPhone" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_remark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">หมายเหตุ</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtModalRemark" disabled>
+          </div>
         </div>
       </div>
     </div>
@@ -206,16 +264,33 @@ $array2 = json_decode($json2, TRUE);
   <?php include_once('../assets/import/js.php'); ?>
   <script type="text/javascript">
     $(document).ready(function(e) {
+
+      var PmID = '<?php echo $PmID; ?>';
+      if (PmID != 8) {
+        $("#txtPhoneNumber").attr('disabled', true);
+        $("#txtName").attr('disabled', true);
+        $("#txtRemark").attr('disabled', true);
+      }
+
       GetSite();
       GetDep();
+      showDocument();
       $("#alert_txtName").hide();
+      $("#alert_txtPhoneNumber").hide();
+
+      $("#txtPhoneNumber").change(function() {
+        $("#txtPhoneNumber").removeClass("border-danger");
+        $("#alert_txtPhoneNumber").hide();
+      });
 
       $("#txtName").change(function() {
         $("#txtName").removeClass("border-danger");
         $("#alert_txtName").hide();
       });
 
-
+      $('.numonly').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+      });
     }).click(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -297,6 +372,10 @@ $array2 = json_decode($json2, TRUE);
       var PmID = '<?php echo $PmID; ?>';
       var Site = $("#selectSite").val();
       var txtName = $("#txtName").val();
+      var txtPhoneNumber = $("#txtPhoneNumber").val();
+      var txtRemark = $("#txtRemark").val();
+
+
       if (txtName == "") {
         swal({
           title: '',
@@ -308,6 +387,19 @@ $array2 = json_decode($json2, TRUE);
         });
         $("#txtName").addClass("border-danger");
         $("#alert_txtName").show();
+        return;
+      }
+      if (txtPhoneNumber == "") {
+        swal({
+          title: '',
+          text: 'กรุณากรอกเบอร์โทรศัพท์',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#txtPhoneNumber").addClass("border-danger");
+        $("#alert_txtPhoneNumber").show();
         return;
       }
       if (Site == 0) {
@@ -344,6 +436,8 @@ $array2 = json_decode($json2, TRUE);
                 'PmID': PmID,
                 'Site': Site,
                 'txtName': txtName,
+                'txtPhoneNumber': txtPhoneNumber,
+                'txtRemark': txtRemark,
               },
               success: function(result) {
 
@@ -356,6 +450,8 @@ $array2 = json_decode($json2, TRUE);
                   timer: 1500,
                 });
                 $("#txtName").val("");
+                $("#txtPhoneNumber").val("");
+                $("#txtRemark").val("");
                 showDocument();
 
 
@@ -371,6 +467,8 @@ $array2 = json_decode($json2, TRUE);
     function showDocument() {
       var sDate = $("#txtsDate").val();
       var eDate = $("#txteDate").val();
+      var txtSearchDoc = $("#txtSearchDoc").val();
+
       var lang = '<?php echo $language; ?>';
 
       if (lang == 'th') {
@@ -378,7 +476,7 @@ $array2 = json_decode($json2, TRUE);
         eDate = eDate.substring(6, 10) - 543 + "-" + eDate.substring(3, 5) + "-" + eDate.substring(0, 2);
       } else if (lang == 'en') {
         sDate = sDate.substring(6, 10) + "-" + sDate.substring(3, 5) + "-" + sDate.substring(0, 2);
-        eDate = eDate.substring(6, 10) - 543 + "-" + eDate.substring(3, 5) + "-" + eDate.substring(0, 2);
+        eDate = eDate.substring(6, 10) + "-" + eDate.substring(3, 5) + "-" + eDate.substring(0, 2);
       }
 
       $.ajax({
@@ -388,6 +486,7 @@ $array2 = json_decode($json2, TRUE);
           'FUNC_NAME': 'showDocument',
           'sDate': sDate,
           'eDate': eDate,
+          'txtSearchDoc': txtSearchDoc,
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
@@ -402,26 +501,51 @@ $array2 = json_decode($json2, TRUE);
               if (value.approveDate == null) {
                 value.approveDate = "";
               }
-              var btn = "<button class='btn btn-danger btn-block' onclick='cancelDocument(\"" + value.DocNo + "\",\"" + value.commentDelete + "\",\"" + value.IsStatus + "\")'><i class='fas fa-trash-alt mt-2'></i></button>";
 
+              var disabled = "";
+              var btnhidden = "";
               if (value.IsStatus == 0) {
+                var txtStyle = 'color: #3399ff;';
+                value.IsStatus = "Department Save";
+                var btn_color = "btn-danger";
+                var btnhidden = "hidden";
+              }else if (value.IsStatus == 1) {
+                var txtStyle = 'color: #3399ff;';
                 value.IsStatus = "on process";
-              } else if(value.IsStatus == 9) {
-                value.IsStatus = "cancel";
-              }else{
+                var btn_color = "btn-danger";
+              } else if (value.IsStatus == 2) {
+                var txtStyle = 'color: #20B80E;';
                 value.IsStatus = "completed";
+                var btn_color = "btn-danger";
+                var btnhidden = "hidden";
+              } else if (value.IsStatus == 9) {
+                var txtStyle = 'color: #ff0000;';
+                value.IsStatus = "cancel";
+                var btn_color = "btn-danger";
+                var btnhidden = "hidden";
+              }
+
+              var btn = "<button   class='btn " + btn_color + "  btn-block' onclick='cancelDocument(\"" + value.DocNo + "\",\"" + value.commentDelete + "\",\"" + value.IsStatus + "\")'><i class='fas fa-trash-alt mt-2'></i></button>";
+              var btnSave = "<button "+btnhidden+"  class='btn btn-success  btn-block' onclick='saveDocument(\"" + value.DocNo + "\")'><i class='fas fa-save mt-2'></i></button>";
+
+
+              if (value.approveDate == '0000-00-00 00:00:00') {
+                value.approveDate = "";
               }
 
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
-                "<td  style='width:15%;'>" + value.DocDate + "</td>" +
-                "<td   style='width:15%;'>" + value.DocNo + "</td>" +
-                "<td  style='width:10%;'>" + value.revealName + "</td>" +
-                "<td  style='width:10%;'>" + value.DepName + "</td>" +
-                "<td style='width:10%;'>" + value.revealDate + "</td>" +
-                "<td  style='width:10%;'>" + value.approveName + "</td>" +
-                "<td  style='width:10%;'>" + value.approveDate + "</td>" +
-                "<td  style='width:10%;'>" + value.IsStatus + "</td>" +
-                "<td  style='width:10%;'>" + btn + "</td>" +
+                "<td  style='width:15%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DocDate + "'>" + value.DocDate + "</td>" +
+                "<td class='text-center'  style='width:2%;'> <i class='fas fa-envelope text-left' style='cursor: pointer;'onclick='showRemark(\"" + value.remark + "\")'></i></td>" +
+                "<td   style='width:13%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DocDate + "'>" + value.DocNo + "</td>" +
+                "<td class='text-center'  style='width:2%;'> <i class='fas fa-phone-square text-left' style='cursor: pointer;'onclick='showPhone(\"" + value.phoneNumber + "\")'></i></td>" +
+                "<td  style='width:8%;overflow: hidden; text-overflow: ellipsis;'  nowrap title='" + value.revealName + "'> " + value.revealName + " </td>" +
+                "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DepName + "'>" + value.DepName + "</td>" +
+                "<td style='width:10%;overflow: hidden; text-overflow: ellipsis;'  nowrap title='" + value.revealDate + "'>" + value.revealDate + "</td>" +
+                "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.approveName + "'>" + value.approveName + "</td>" +
+                "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.approveDate + "'>" + value.approveDate + "</td>" +
+                "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;"+ txtStyle + "' nowrap title='" + value.IsStatus + "'>" + value.IsStatus + "</td>" +
+                "<td  style='width:5%;overflow: hidden; text-overflow: ellipsis;'  nowrap  >" + btnSave + "</td>" +
+                "<td  style='width:5%;overflow: hidden; text-overflow: ellipsis;'  nowrap  >" + btn + "</td>" +
                 "</tr>";
             });
             $('#tableDocument tbody').html(StrTR);
@@ -431,23 +555,90 @@ $array2 = json_decode($json2, TRUE);
       });
     }
 
-    function cancelDocument(DocNo,commentDelete,IsStatus) {
-      if(commentDelete == "null"){
+    function cancelDocument(DocNo, commentDelete, IsStatus) {
+      if (commentDelete == "null") {
         commentDelete = "";
       }
+      if (IsStatus == "cancel") {
 
-      if(IsStatus == 9){
-        $('#btnCancelComment').attr('disabled', true);
-      }else{
-        $('#btnCancelComment').attr('disabled', false);
+        $('#row_btn_comment').attr('hidden', true)
+        $('#txtComment').attr('disabled', true);
+
+      } else {
+        $('#row_btn_comment').attr('hidden', false);
+        $('#txtComment').attr('disabled', false);
       }
 
       $('#txtComment').val(commentDelete);
-      $('#txtDocNoHidden').val(DocNo);     
+      $('#txtDocNoHidden').val(DocNo);
       $('#modal_comment').modal('show');
     }
 
-    function saveComment(){
+    function showPhone(phone) {
+
+      $('#txtModalPhone').val(phone);
+      $('#modal_phone').modal('show');
+
+
+    }
+
+    function showRemark(remark){
+      if(remark == 'null'){
+        remark  = "";
+      }
+      $('#txtModalRemark').val(remark);
+      $('#modal_remark').modal('show');
+    }
+
+    function saveDocument(DocNo){
+      swal({
+        title: "<?php echo $array['confirmsave'][$language]; ?>",
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+      }).then(result => {
+        if (result.value) {
+
+          $.ajax({
+            url: "../process/callDirtyDep.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'saveDocument',
+              'DocNo': DocNo,
+            },
+            success: function(result) {
+
+              swal({
+                title: '',
+                text: 'บันทึกเอกสารสำเร็จ',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+              setTimeout(() => {
+                showDocument();
+              }, 1000);
+
+
+            }
+          });
+        } else if (result.dismiss === 'cancel') {
+          swal.close();
+        }
+      })
+    }
+
+    function saveComment() {
       var DocNo = $("#txtDocNoHidden").val();
       var comment = $("#txtComment").val();
       swal({
@@ -477,20 +668,20 @@ $array2 = json_decode($json2, TRUE);
             success: function(result) {
 
               swal({
-                  title: '',
-                  text: 'ยกเลิกเอกสารสำเร็จ',
-                  type: 'success',
-                  showCancelButton: false,
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
+                title: '',
+                text: 'ยกเลิกเอกสารสำเร็จ',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
 
               setTimeout(() => {
                 $('#modal_comment').modal('toggle');
                 showDocument();
               }, 1000);
 
-    
+
             }
           });
         } else if (result.dismiss === 'cancel') {
@@ -498,7 +689,6 @@ $array2 = json_decode($json2, TRUE);
         }
       })
     }
-
   </script>
 </body>
 

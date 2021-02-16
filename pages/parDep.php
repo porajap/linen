@@ -4,6 +4,8 @@ $Userid = $_SESSION['Userid'];
 $TimeOut = $_SESSION['TimeOut'];
 $PmID = $_SESSION['PmID'];
 $HptCode = $_SESSION['HptCode'];
+$Docnomenu = "";
+$Docnomenu = $_GET['DocNo'];
 
 if ($Userid == "") {
   header("location:../index.html");
@@ -48,13 +50,13 @@ $array2 = json_decode($json2, TRUE);
   <div class="col-12">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="tab_head1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab_head1" aria-selected="true">ดูยอด par</a>
+        <a class="nav-link active" id="tab_head1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab_head1" aria-selected="true"><?php echo $array['partotal'][$language]; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="tab_head2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab_head2" aria-selected="false">ร้องขอแก้ไขยอด par</a>
+        <a class="nav-link" id="tab_head2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab_head2" aria-selected="false"><?php echo $array['paredit'][$language]; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="tab_head3" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab_head3" aria-selected="false">ค้นหา</a>
+        <a class="nav-link" id="tab_head3" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab_head3" aria-selected="false" onclick="showDocument()"><?php echo $array['search'][$language]; ?></a>
       </li>
     </ul>
 
@@ -139,8 +141,6 @@ $array2 = json_decode($json2, TRUE);
               </div>
               <div class="row">
                 <div class="col-md-6">
-                </div>
-                <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-4 col-form-label">
                       Process
@@ -148,23 +148,33 @@ $array2 = json_decode($json2, TRUE);
                     <input type="text" id="txtStatus" style="font-size:22px;" class="form-control col-sm-7   only1" disabled="true">
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <div class='form-group row'>
+                    <label class="col-sm-4 col-form-label">
+                    <?php echo $array['phone'][$language]; ?>
+                    </label>
+                    <input type="text" autocomplete="off" id="txtPhoneNumber" style="font-size:22px;" class="form-control col-sm-7  numonly" placeholder="<?php echo $array['phone'][$language]; ?>" maxlength="10">
+                    <label id="alert_txtPhoneNumber" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-4 col-form-label">
-                      ลงชื่อผู้ขอเบิก
+                    <?php echo $array['deprequester'][$language]; ?>
                     </label>
-                    <input type="text" autocomplete="off" id="txtName" style="font-size:22px;" class="form-control col-sm-7 " placeholder="ลงชื่อผู้ขอเบิก">
+                    <input type="text" autocomplete="off" id="txtName" style="font-size:22px;" class="form-control col-sm-7 " placeholder="<?php echo $array['deprequester'][$language]; ?>">
                     <label id="alert_txtName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-4 col-form-label">
-                      ลงชื่อผู้อนุมัติ
+                    <?php echo $array['depapprover'][$language]; ?>
                     </label>
-                    <input type="text" autocomplete="off" id="txtNamePass" style="font-size:22px;" class="form-control col-sm-7 " placeholder="ลงชื่อผู้อนุมัติ">
+                    <input disabled="true" type="text" autocomplete="off" id="txtNamePass" style="font-size:22px;" class="form-control col-sm-7 " placeholder="<?php echo $array['depapprover'][$language]; ?>">
+                    <label id="alert_txtNamePass" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
               </div>
@@ -174,10 +184,10 @@ $array2 = json_decode($json2, TRUE);
 
 
         <div class=" mt-3  d-flex justify-content-end col-12">
-          <div class="mhee">
+          <div class="mhee" id="hover_create">
             <div class="d-flex justify-content-center" style="margin-right: 6rem!important;">
-              <div class="circle1 d-flex justify-content-center" id="bCreate2">
-                <button class="btn" onclick="createDocument()" id="bCreate">
+              <div class="circle1 d-flex justify-content-center" id="opacity_create">
+                <button class="btn" onclick="createDocument()" id="btn_create">
                   <i class="fas fa-file-medical"></i>
                   <div>
                     <?php echo $array['createdocno'][$language]; ?>
@@ -188,7 +198,7 @@ $array2 = json_decode($json2, TRUE);
           </div>
           <div class="" id="hover_save">
             <div class="d-flex justify-content-center " style="margin-right: 6rem!important;">
-              <div class="circle4 d-flex justify-content-center ">
+              <div class="circle4 d-flex justify-content-center opacity" id="opacity_save">
                 <button class="btn" id="btn_save" disabled="true" onclick="saveDocument();">
                   <i class="fas fa-save"></i>
                   <div>
@@ -202,7 +212,7 @@ $array2 = json_decode($json2, TRUE);
 
           <div class="" id="hover_cancel">
             <div class="d-flex justify-content-center " style="margin-right: 6rem!important;">
-              <div class="circle5 d-flex justify-content-center ">
+              <div class="circle5 d-flex justify-content-center opacity" id="opacity_cancel">
                 <button class="btn" id="btn_cancel" disabled="true" onclick="cancelDocment()">
                   <i class="fas fa-times"></i>
                   <div>
@@ -264,7 +274,7 @@ $array2 = json_decode($json2, TRUE);
               <select class="form-control" style="font-size:22px;" id="selectSearchStatus">
                 <option value="0"><?php echo $array['processchooce'][$language]; ?></option>
                 <option value="1">on process</option>
-                <option value="2">completed</option>
+                <option value="2">Department Save</option>
                 <option value="3">cancel </option>
               </select>
             </div>
@@ -303,7 +313,7 @@ $array2 = json_decode($json2, TRUE);
             <table class="table table-fixed table-condensed table-striped mt-3" id="tableDocument" width="100%" cellspacing="0" role="grid">
               <thead id="theadsum" style="font-size:24px;">
                 <tr role="row" id='tr_1'>
-                <th nowrap style="width:2%;">
+                  <th nowrap style="width:2%;">
                     <br>
                   </th>
                   <th nowrap style="width:10%;">
@@ -351,21 +361,130 @@ $array2 = json_decode($json2, TRUE);
   </div>
 
 
+
+  <div class="modal fade" id="modal_comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">comment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtComment">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtDocNoHidden" hidden>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">ปิด</button>
+          <button type="button" id="btnCancelComment" class="btn btn-danger w-100" onclick="saveComment();">ยกเลิกเอกสาร</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_phone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">เบอร์โทรศัพท์</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtModalPhone" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="modal_remark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Remark</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" style="font-size:22px;" disabled id="txtRemark">
+              <input type="text" class="form-control" style="font-size:22px;" id="txtDocNoHidden" hidden>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   <?php include_once('../assets/import/js.php'); ?>
   <script type="text/javascript">
     $(document).ready(function(e) {
+      lockPar();
+      var PmID = '<?php echo $PmID; ?>';
+      if(PmID == 2){
+        $("#btn_create").attr('disabled', true);
+        $('#hover_create').removeClass("mhee");
+        $('#opacity_create').addClass("opacity");
+      }
+
       GetSite();
       GetDep();
       showParItemStock();
-
+      showDocument();
       $("#alert_txtName").hide();
+      $("#alert_txtNamePass").hide();
+      $("#alert_txtPhoneNumber").hide();
+
+      $("#txtPhoneNumber").change(function() {
+        $("#txtPhoneNumber").removeClass("border-danger");
+        $("#alert_txtPhoneNumber").hide();
+      });
 
       $("#txtName").change(function() {
         $("#txtName").removeClass("border-danger");
         $("#alert_txtName").hide();
       });
 
+      $("#txtNamePass").change(function() {
+        $("#txtNamePass").removeClass("border-danger");
+        $("#alert_txtNamePass").hide();
+      });
 
+      var Docnomenu = "<?php echo $Docnomenu ?>";
+      if (Docnomenu != "") {
+        parent.requestParClick();
+        $('#tab_head2').tab('show');
+
+        $("#btn_create").attr('disabled', true);
+        $('#hover_create').removeClass("mhee");
+        $('#opacity_create').addClass("opacity");
+
+        $("#btn_save").attr('disabled', false);
+        $('#hover_save').addClass("mhee");
+        $('#opacity_save').removeClass("opacity");
+
+        $("#btn_cancel").attr('disabled', false);
+        $('#hover_cancel').addClass("mhee");
+        $('#opacity_cancel').removeClass("opacity");
+
+        $("#txtName").attr("disabled", true);
+        $("#txtNamePass").attr("disabled", false);
+
+        $("#txtDocNo").val(Docnomenu);
+
+        setTimeout(() => {
+          selectDocument();
+        }, 300);
+      }
+      $('.numonly').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+      });
     }).click(function(e) {
       parent.afk();
     }).keyup(function(e) {
@@ -403,6 +522,8 @@ $array2 = json_decode($json2, TRUE);
       var PmID = '<?php echo $PmID; ?>';
       var Site = $("#selectSite").val();
       var txtName = $("#txtName").val();
+      var txtPhoneNumber = $("#txtPhoneNumber").val();
+
       if (txtName == "") {
         swal({
           title: '',
@@ -414,6 +535,19 @@ $array2 = json_decode($json2, TRUE);
         });
         $("#txtName").addClass("border-danger");
         $("#alert_txtName").show();
+        return;
+      }
+      if (txtPhoneNumber == "") {
+        swal({
+          title: '',
+          text: 'กรุณากรอกเบอร์โทรศัพท์',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#txtPhoneNumber").addClass("border-danger");
+        $("#alert_txtPhoneNumber").show();
         return;
       }
       if (Site == 0) {
@@ -450,20 +584,36 @@ $array2 = json_decode($json2, TRUE);
                 'PmID': PmID,
                 'Site': Site,
                 'txtName': txtName,
+                'txtPhoneNumber': txtPhoneNumber,
               },
               success: function(result) {
 
-                swal({
-                  title: '',
-                  text: '<?php echo $array['savesuccess'][$language]; ?>',
-                  type: 'success',
-                  showCancelButton: false,
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
+
+
+
+                // swal({
+                //   title: '',
+                //   text: '<?php echo $array['savesuccess'][$language]; ?>',
+                //   type: 'success',
+                //   showCancelButton: false,
+                //   showConfirmButton: false,
+                //   timer: 1500,
+                // });
 
                 var ObjData = JSON.parse(result);
                 ObjData = ObjData[0];
+
+                swal({
+                title: "<?php echo $array['createdocno'][$language]; ?>",
+                text: ObjData.txtDocNo + " <?php echo $array['success'][$language]; ?>",
+                type: "success",
+                showCancelButton: false,
+                timer: 1000,
+                confirmButtonText: 'Ok',
+                showConfirmButton: false
+              });
+
+
                 $('#txtDocNo').val(ObjData.txtDocNo);
                 $('#txtDocDate').val(ObjData.txtDocDate);
                 $('#txtCreate').val(ObjData.txtCreate);
@@ -472,10 +622,14 @@ $array2 = json_decode($json2, TRUE);
 
                 $("#btn_save").attr('disabled', false);
                 $('#hover_save').addClass("mhee");
+                $('#opacity_save').removeClass("opacity");
+
                 $("#btn_cancel").attr('disabled', false);
                 $('#hover_cancel').addClass("mhee");
+                $('#opacity_cancel').removeClass("opacity");
 
                 setTimeout(() => {
+                  showDocument();
                   insertDocDetail();
                 }, 1000);
               }
@@ -507,7 +661,7 @@ $array2 = json_decode($json2, TRUE);
             $.each(ObjData, function(key, value) {
 
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
-              var inputissu = "<input type='number' autocomplete='off' style='font-size:22px;' placeholder='0' class='form-control text-right w-50' id='TotalQty_" + key + "'>";
+              var inputissu = "<input type='text' autocomplete='off' style='font-size:22px;'  placeholder='0' class='numonly form-control text-right w-50' id='TotalQty_" + key + "'>";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td  >" + (key + 1) + "</td>" +
@@ -520,6 +674,10 @@ $array2 = json_decode($json2, TRUE);
             $('#tableItem tbody').html(StrTR);
           }
           $('#tableItem tbody').html(StrTR);
+
+          $('.numonly').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+          });
         }
       });
     }
@@ -553,25 +711,47 @@ $array2 = json_decode($json2, TRUE);
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(key, value) {
               var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'  value='" + value.DocNo + "' ><span class='checkmark'></span></label>";
-
               if (value.isStatus == 3) {
                 var txtStatus = 'completed';
+                var txtStyle = 'color: #20B80E;';
+              } else if (value.isStatus == 1 || value.isStatus == 2) {
+                var txtStatus = 'Department Save';
+                var txtStyle = 'color: #3399ff;';
               } else if (value.isStatus == 9) {
                 var txtStatus = 'cancel';
+                var txtStyle = 'color: #ff0000;';
               } else {
                 var txtStatus = 'on Process';
+                var txtStyle = 'color: #3399ff;';
+              }
+
+              if (value.approveName == null) {
+                value.approveName = "";
+              }
+              if (value.approveDate == null) {
+                value.approveDate = "";
+              }
+              if (value.commentDelete == null) {
+                value.commentDelete = "";
+              }
+
+              var btn_Remark = "";
+              if(value.commentDelete != ""){
+                var btn_Remark = "<button class='btn btn-info btn-block ' onclick='showRemark(\"" + value.commentDelete + "\")'>Remark</button>";
               }
 
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td class='text-center'   style='width:2%;'>" + chkDoc + "</td>" +
-                "<td class='text-center'  style='width:10%;'>" + value.DocDate + "</td>" +
-                "<td class='text-center'  style='width:14%;'>" + value.DocNo + "</td>" +
-                "<td class='text-center'  style='width:14%;'>" + value.DepName + "</td>" +
-                "<td class='text-center'  style='width:10%;'>" + value.ThName + "</td>" +
-                "<td class='text-center'  style='width:10%;'>" + value.xTime + "</td>" +
-                "<td class='text-center'  style='width:10%;'></td>" +
-                "<td class='text-center'  style='width:10%;'></td>" +
-                "<td class='text-center'  style='width:10%;'>" + txtStatus + "</td>" +
+                "<td class='text-center'  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DocDate + "'>" + value.DocDate + "</td>" +
+                "<td class='text-center'  style='width:14%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DocNo + "'>" + value.DocNo + "</td>" +
+                "<td class='text-center'  style='width:14%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DepName + "'>" + value.DepName + "</td>" +
+                "<td class='text-center'  style='width:2%;'> <i class='fas fa-phone-square text-left' style='cursor: pointer;'onclick='showPhone(\"" + value.phoneNumber + "\")'></i></td>" +
+                "<td class='text-center'  style='width:8%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.ThName + "'>  " + value.ThName + "  </td>" +
+                "<td class='text-center'  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.xTime + "'>" + value.xTime + "</td>" +
+                "<td class='text-center'  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.approveName + "'>" + value.approveName + "</td>" +
+                "<td class='text-center'  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.approveDate + "'>" + value.approveDate + "</td>" +
+                "<td class='text-center'  style='width:10%;overflow: hidden; text-overflow: ellipsis; " + txtStyle + "' nowrap title='" + txtStatus + "'>" + txtStatus + "</td>" +
+                "<td class='text-center'  style='width:10%;text-overflow: ellipsis;overflow: hidden;' nowrap title='" + value.commentDelete + "'>"+btn_Remark+"</td>" +
                 "</tr>";
             });
             $('#tableDocument tbody').html(StrTR);
@@ -581,11 +761,35 @@ $array2 = json_decode($json2, TRUE);
       });
     }
 
+    function showRemark(remark){
+      if(remark == "null"){
+        remark = "";
+      }
+      $('#txtRemark').val(remark);
+      $('#modal_remark').modal('toggle');
+      
+    }
+
+    function showPhone(phone) {
+
+      $('#txtModalPhone').val(phone);
+      $('#modal_phone').modal('show');
+
+
+    }
+
     function selectDocument() {
       var DocNo = "";
+      var PmID = '<?php echo $PmID; ?>';
       $("#checkdocno:checked").each(function() {
         DocNo = $(this).val();
       });
+
+      var Docnomenu = "<?php echo $Docnomenu ?>";
+
+      if (Docnomenu != "") {
+        DocNo = Docnomenu;
+      }
 
       $.ajax({
         url: "../process/parDep.php",
@@ -604,9 +808,13 @@ $array2 = json_decode($json2, TRUE);
               $('#txtCreate').val(value.FName);
               $('#txtTime').val(value.xTime);
               $('#txtName').val(value.revealName);
-
+              $('#txtNamePass').val(value.approveName);
+              $("#txtPhoneNumber").val(value.phoneNumber);
+              option = `<option value="${value.DepCode}">${value.DepName}</option>`;
+              $("#selectDep").html(option);
+              $("#selectSearchDep").html(option);
               if (value.IsStatus == 3) {
-                $('#txtStatus').val("completed");
+                $('#txtStatus').val("compelted");
                 // ปิดปุ่ม
                 $("#btn_save").attr('disabled', true);
                 $('#hover_save').removeClass("mhee");
@@ -620,13 +828,40 @@ $array2 = json_decode($json2, TRUE);
                 $('#hover_save').removeClass("mhee");
                 $("#btn_cancel").attr('disabled', true);
                 $('#hover_cancel').removeClass("mhee");
+              } else if (value.IsStatus == 1 || value.IsStatus == 2) {
+                $('#txtStatus').val("Department Save");
+                // เปิดปุ่ม
+                $("#btn_save").attr('disabled', false);
+                $('#hover_save').addClass("mhee");
+                $('#opacity_save').removeClass("opacity");
+
+                if(PmID != 8){
+                  if(value.approveName == null){
+                    $("#txtNamePass").attr('disabled', false);
+                  }else{
+                    $("#txtNamePass").attr('disabled', true);
+                  }
+                }else{
+                  $("#txtNamePass").attr('disabled', true);
+                }
+
+
+                $("#btn_cancel").attr('disabled', false);
+                $('#hover_cancel').addClass("mhee");
+                $('#opacity_cancel').removeClass("opacity");
+
               } else {
                 $('#txtStatus').val("on Process");
                 // เปิดปุ่ม
                 $("#btn_save").attr('disabled', false);
                 $('#hover_save').addClass("mhee");
+                $('#opacity_save').removeClass("opacity");
                 $("#btn_cancel").attr('disabled', false);
                 $('#hover_cancel').addClass("mhee");
+                $('#opacity_cancel').removeClass("opacity");
+
+
+                $("#txtNamePass").attr('disabled', false);
               }
 
               $('#tab_head2').tab('show');
@@ -638,6 +873,33 @@ $array2 = json_decode($json2, TRUE);
           }
 
 
+        }
+      });
+
+    }
+
+    function lockPar() {
+      $.ajax({
+        url: "../process/parDep.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'lockPar',
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          var StrTR = "";
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(key, value) {
+              if(value.par == 1){
+                $("#tab_head2").show();
+                $("#tab_head3").show();
+              }else{
+                $("#tab_head2").hide();
+                $("#tab_head3").hide();
+              }
+              // $('#txtDocNo').val(value.par);
+            });
+          }
         }
       });
 
@@ -658,7 +920,7 @@ $array2 = json_decode($json2, TRUE);
             $.each(ObjData, function(key, value) {
 
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
-              var inputissu = "<input type='number' autocomplete='off' style='font-size:22px;' value='" + value.Qty + "' class='form-control text-right w-50'  id='TotalQty_" + key + "' >";
+              var inputissu = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.Qty + "' class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td  >" + (key + 1) + "</td>" +
@@ -672,16 +934,42 @@ $array2 = json_decode($json2, TRUE);
           }
 
           $('#tableItem tbody').html(StrTR);
+
+          $('.numonly').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+          });
         }
       });
     }
 
     function saveDocument() {
       var i = 0;
+      var Docnomenu = "<?php echo $Docnomenu ?>";
       var itemcode = "";
       var itemQty = "";
       var queryUpdate = "";
+      var txtNamePass = $("#txtNamePass").val();
       var DocNo = $("#txtDocNo").val();
+      var DepCode = $("#selectDep").val();
+      var Site = $("#selectSite").val();
+      var PmID = '<?php echo $PmID; ?>';
+
+      if (PmID == 2 || PmID == 6 || PmID == 1 || PmID == 5) {
+        if (txtNamePass == "") {
+          swal({
+            title: '',
+            text: 'กรุณากรอกชื่อผู้อนุมัติ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txtNamePass").addClass("border-danger");
+          $("#alert_txtNamePass").show();
+          return;
+        }
+      }
+
       swal({
         title: "<?php echo $array['confirmsave'][$language]; ?>",
         text: "",
@@ -697,17 +985,44 @@ $array2 = json_decode($json2, TRUE);
         showCancelButton: true
       }).then(result => {
         if (result.value) {
+
           $(".loopitemcode").each(function(key, value) {
 
 
             itemcode = ($('#ItemCode_' + i).val());
             itemQty = ($('#TotalQty_' + i).val());
 
+            if (Docnomenu != "")
+            {
+              queryUpdate += "UPDATE request_par SET isStatus = '3' , approveDate = NOW() , approveName = '" + txtNamePass + "'  WHERE  DocNo = '" + DocNo + "'; ";
+              if(itemQty != 0 || itemQty != ""){
+                queryUpdate += "UPDATE par_item_stock SET ParQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DepCode = '" + DepCode + "' AND HptCode= '" + Site + "' ; ";
+                queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
+              }
+            }
+            else
+            {
+              if(PmID == 2 || PmID == 1 || PmID == 6)
+              {
+                queryUpdate += "UPDATE request_par SET isStatus = '3' , approveDate = NOW() , approveName = '" + txtNamePass + "'  WHERE  DocNo = '" + DocNo + "'; ";
+                if(itemQty != 0 || itemQty != ""){
+                  queryUpdate += "UPDATE par_item_stock SET ParQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DepCode = '" + DepCode + "' AND HptCode= '" + Site + "' ; ";
+                  queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
+                }
+              }
+              else
+              {
+                if(itemQty != 0 || itemQty != ""){
+                  queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
+                }
+                queryUpdate += "UPDATE request_par SET isStatus = '1' WHERE  DocNo = '" + DocNo + "'; ";
+              }
+              
+            }
+
             i++;
 
-            queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
           });
-          queryUpdate += "UPDATE request_par SET isStatus = '1' WHERE  DocNo = '" + DocNo + "'; ";
 
           $.ajax({
             url: "../process/parDep.php",
@@ -732,7 +1047,12 @@ $array2 = json_decode($json2, TRUE);
               $('#txtCreate').val("");
               $('#txtTime').val("");
               $('#txtName').val("");
-              showDocument();
+              $('#txtPhoneNumber').val("");
+              $('#tableItem tbody').empty();
+              showParItemStock();
+              setTimeout(() => {
+                showDocument();
+              }, 300);
               $('#tab_head3').tab('show');
             }
           });
@@ -762,28 +1082,39 @@ $array2 = json_decode($json2, TRUE);
       }).then(result => {
         if (result.value) {
 
-          $.ajax({
-            url: "../process/parDep.php",
-            type: 'POST',
-            data: {
-              'FUNC_NAME': 'cancelDocment',
-              'DocNo': DocNo,
-            },
-            success: function(result) {
-              $('#txtDocNo').val("");
-              $('#txtDocDate').val("");
-              $('#txtCreate').val("");
-              $('#txtTime').val("");
-              $('#txtName').val("");
-              showDocument();
-              $('#tab_head3').tab('show');
 
-            }
-          });
+          $('#modal_comment').modal('show');
+
         } else if (result.dismiss === 'cancel') {
           swal.close();
         }
       })
+    }
+
+    function saveComment() {
+      $('#tableItem tbody').empty();
+      $('#modal_comment').modal('toggle');
+      var comment = $("#txtComment").val();
+      var DocNo = $("#txtDocNo").val();
+      $.ajax({
+        url: "../process/parDep.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'cancelDocment',
+          'DocNo': DocNo,
+          'comment': comment,
+        },
+        success: function(result) {
+          $('#txtDocNo').val("");
+          $('#txtDocDate').val("");
+          $('#txtCreate').val("");
+          $('#txtTime').val("");
+          $('#txtName').val("");
+          showDocument();
+          $('#tab_head3').tab('show');
+
+        }
+      });
     }
 
     function GetSite() {
@@ -792,7 +1123,7 @@ $array2 = json_decode($json2, TRUE);
       var PmID = '<?php echo $PmID; ?>';
 
       $.ajax({
-        url: "../process/ParDep.php",
+        url: "../process/parDep.php",
         type: 'POST',
         data: {
           'FUNC_NAME': 'GetSite',

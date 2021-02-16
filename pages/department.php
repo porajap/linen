@@ -54,7 +54,7 @@ $array2 = json_decode($json2, TRUE);
     <!-- Custom styles for this template-->
     <link href="../template/css/sb-admin.css" rel="stylesheet">
     <link href="../css/xfont.css" rel="stylesheet">
-
+    <link href="../css/menu_custom.css" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="../jQuery-ui/jquery-1.12.4.js"></script>
     <script src="../jQuery-ui/jquery-ui.js"></script>
@@ -107,7 +107,10 @@ $array2 = json_decode($json2, TRUE);
             $('.charonly').on('input', function() {
                 this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
             });
-
+            $('.activeSort').click(function() {
+                $("a").removeClass("white");
+                $(this).attr("class", "white");
+            });
         }).click(function(e) {
             parent.afk();
         }).keyup(function(e) {
@@ -157,7 +160,7 @@ $array2 = json_decode($json2, TRUE);
             senddata(JSON.stringify(data));
         }
 
-        function ShowItem(chk) {
+        function ShowItem(chk, column, sort) {
             if (chk == 1) {
                 var group = $('#group').val();
                 $('#group2').val(group);
@@ -174,7 +177,9 @@ $array2 = json_decode($json2, TRUE);
                 'STATUS': 'ShowItem',
                 'HptCode': HptCode,
                 'Keyword': keyword,
-                'group': group
+                'group': group,
+                'column': column,
+                'sort': sort
             };
             console.log(JSON.stringify(data));
             senddata(JSON.stringify(data));
@@ -243,7 +248,7 @@ $array2 = json_decode($json2, TRUE);
             var group2 = $('#group2').val();
             var xCenter = 0;
             if ($('#xCenter').is(':checked')) xCenter = 1;
-            if (count == 0 && countpm == 0 ) {
+            if (count == 0 && countpm == 0) {
                 // $('.checkblank').each(function() {
                 //     if ($(this).val() == "" || $(this).val() == undefined) {
                 //         $(this).css('border-color', 'red');
@@ -474,6 +479,16 @@ $array2 = json_decode($json2, TRUE);
                         if ((temp["form"] == 'ShowItem')) {
                             $("#TableItem tbody").empty();
                             console.log(temp);
+                            for (var j = 0; j < (Object.keys(temp).length - 2); j++) {
+                            "+ (j + 1) +"
+                            }
+                            if( temp['down'] ==1){
+                                var top     = "hidden";
+                                var down     = "";
+                            }else{
+                                var top     = "";
+                                var down     = "hidden";
+                            }
                             if (temp['Count'] > 0) {
                                 var Active;
                                 for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
@@ -492,7 +507,8 @@ $array2 = json_decode($json2, TRUE);
                                     var chkDoc = "<label class='radio'style='margin-top: 20%;'><input type='radio' name='checkitem' id='checkitem_" + i + "' value='" + temp[i]['DepCode'] + "' onclick='getdetail(\"" + temp[i]["DepCode"] + "\", \"" + i + "\")'><span class='checkmark'></span></label>";
                                     StrTR = "<tr id='tr" + temp[i]['DepCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                                         "<td style='width: 5%;'>" + chkDoc + "</td>" +
-                                        "<td style='width: 10%;'>" + (i + 1) + "</td>" +
+                                        "<td style='width: 10%;'  "+top+" >" + (i + 1) + "</td>" +
+                                        "<td style='width: 10%;' "+down+">" + j-- + "</td>" +
                                         "<td style='width: 11%;'>" + temp[i]['DepCode'] + "</td>" +
                                         "<td style='width: 16.5%;'>" + DefaultName + "</td>" +
                                         "<td style='width: 26%;'>" + temp[i]['DepName'] + "</td>" +
@@ -1085,19 +1101,25 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                             <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped " id="TableItem" width="100%" cellspacing="0" role="grid">
                                 <thead id="theadsum" style="font-size:11px;">
-                                    <tr role="row">
+                                    <tr role="row" id="tableSort">
                                         <th style='width: 5%;'>&nbsp;</th>
                                         <th style='width: 10%;'>
                                             <?php echo $array['no'][$language]; ?>
+                                            <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white" onclick="ShowItem(1,'RowID','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                                            <a href="javascript:void(0)" class="activeSort " onclick="ShowItem(1,'RowID','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                                         </th>
                                         <th style='width: 10%;'>
                                             <?php echo $array['departmentcode'][$language]; ?>
+                                            <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort" onclick="ShowItem(1,'DepCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                                            <a href="javascript:void(0)" class="activeSort " onclick="ShowItem(1,'DepCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                                         </th>
                                         <th style='width: 17%;'>
                                             <?php echo $array['xcenter'][$language]; ?>
                                         </th>
                                         <th style='width: 26%; '>
                                             <?php echo $array['department'][$language]; ?>
+                                            <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort " onclick="ShowItem(1,'DepName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                                            <a href="javascript:void(0)" class="activeSort " onclick="ShowItem(1,'DepName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                                         </th>
                                         <th style='width: 20%; '>
                                             <?php echo $array['status'][$language]; ?>

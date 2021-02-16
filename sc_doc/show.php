@@ -138,6 +138,10 @@
                                 var EngPerfixDvEnd      = val.EngPerfix3;
                             }
 
+                            if(val.revealName != '')
+                            {
+                              Style  = "style='color: #F19D19;' ";
+                            }
 
 
                             if( val.IsStatus ==4)

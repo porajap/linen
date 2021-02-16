@@ -25,6 +25,7 @@ $array2 = json_decode($json2, TRUE);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,7 +57,7 @@ $array2 = json_decode($json2, TRUE);
   <script type="text/javascript">
     jqui = jQuery.noConflict(true);
   </script>
-
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
   <link href="../dist/css/sweetalert2.css" rel="stylesheet">
   <script src="../dist/js/sweetalert2.min.js"></script>
   <script src="../dist/js/jquery-3.3.1.min.js"></script>
@@ -72,35 +73,30 @@ $array2 = json_decode($json2, TRUE);
   <script type="text/javascript">
     var summary = [];
     $(document).ready(function(e) {
-
-
-
-      var pm = '<?php  echo $PmID;   ?>';
-      if(pm ==3 || pm ==5  || pm ==7) 
-      {
+      var pm = '<?php echo $PmID;   ?>';
+      if (pm == 3 || pm == 5 || pm == 7) {
         $('#hospital').removeClass('checkblank');
       }
       $('#delete_icon').addClass('opacity');
       $('#delete1').removeClass('mhee');
-        $('#rem1').hide();
-        $('#rem2').hide();
-        $('#rem3').hide();
-        $('#rem4').hide();
-        $('#rem5').hide();
-        $('#rem6').hide();
-        $('#rem7').hide();
+      $('#rem1').hide();
+      $('#rem2').hide();
+      $('#rem3').hide();
+      $('#rem4').hide();
+      $('#rem5').hide();
+      $('#rem6').hide();
+      $('#rem7').hide();
 
       $('#NewItem').show();
       $('#BlankItemBNT').show();
       $('#ActiveBNT').hide();
       $('#AddItemBNT').hide();
       $('#xPrice').hide();
-      $('#searchitem').keyup(function(e){
-            if(e.keyCode == 13)
-            {
-                ShowItem();
-            }
-        });
+      $('#searchitem').keyup(function(e) {
+        if (e.keyCode == 13) {
+          ShowItem();
+        }
+      });
       // ShowItem();
       GetHospital();
       getCatagory();
@@ -144,7 +140,7 @@ $array2 = json_decode($json2, TRUE);
       $('.enonly').on('input', function() {
         this.value = this.value.replace(/[^a-zA-Z0-9. ]/g, ''); //<-- replace all other than given set of values
       });
-			$('.activeSort').click(function () {
+      $('.activeSort').click(function() {
         $("a").removeClass("white");
         $(this).attr("class", "white");
       });
@@ -154,8 +150,8 @@ $array2 = json_decode($json2, TRUE);
     }).keyup(function(e) {
       parent.afk();
     });
-   
-		//<!-- --------------------Function--------------------- --!>
+
+    //<!-- --------------------Function--------------------- --!>
     dialog = jqui("#dialog").dialog({
       autoOpen: false,
       height: 650,
@@ -175,13 +171,14 @@ $array2 = json_decode($json2, TRUE);
       dialog.dialog("open");
     });
 
-    function changeHptCode(){
+    function changeHptCode() {
       // Blankinput();
       ShowItem();
+      GetDep();
       $('#Hos2').css('border-color', '');
       var Hos2 = $('#Hos2').val();
       $('#hospital').val(Hos2);
-        //  CreateItemCode();
+      //  CreateItemCode();
 
     }
 
@@ -353,7 +350,7 @@ $array2 = json_decode($json2, TRUE);
       senddata(JSON.stringify(data));
     }
 
-    function shownow(){
+    function shownow() {
       var catagory1 = $("#catagory1").val();
       $("#catagory2").val(catagory1);
       ShowItem();
@@ -374,7 +371,7 @@ $array2 = json_decode($json2, TRUE);
       var lang = '<?php echo $language; ?>';
       var data = {
         'STATUS': 'GetHospital',
-        'lang'	: lang
+        'lang': lang
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -396,7 +393,7 @@ $array2 = json_decode($json2, TRUE);
       senddata(JSON.stringify(data));
     }
 
-    function ShowItem(column, sort ,Page) {
+    function ShowItem(column, sort, Page) {
       // var count = 0;
       // $(".checkblank66").each(function() {
       //   if ($(this).val() == "" || $(this).val() == undefined) {
@@ -426,7 +423,7 @@ $array2 = json_decode($json2, TRUE);
         'sort': sort,
         'maincatagory': maincatagory,
         'HptCode': Hos2,
-        'Page' : Page,
+        'Page': Page,
       };
       console.log(JSON.stringify(data));
       senddata(JSON.stringify(data));
@@ -512,7 +509,7 @@ $array2 = json_decode($json2, TRUE);
       var UnitName = $('#UnitName').val();
       var SizeCode = $('#SizeCode').val();
       var typeLinen = $('#typeLinen').val();
-      var numPack   = $('#numPack').val();
+      var numPack = $('#numPack').val();
       var Weight = $('#Weight').val();
       var qpu = $('#QtyPerUnit').val();
       var sUnit = $('#sUnitName').val();
@@ -560,7 +557,7 @@ $array2 = json_decode($json2, TRUE);
                 'tdas': tdas,
                 'hospital': hospital,
                 'typeLinen': typeLinen,
-                'numPack': numPack ,
+                'numPack': numPack,
                 'SAP': SAP
               };
               // console.log(JSON.stringify(data));
@@ -592,7 +589,7 @@ $array2 = json_decode($json2, TRUE);
       }
     }
 
-    function resetinput(){
+    function resetinput() {
 
       var mainCatagory = $('#maincatagory2').val();
       var Catagory = $('#catagory2').val();
@@ -607,59 +604,60 @@ $array2 = json_decode($json2, TRUE);
       var typeLinen = $('#typeLinen').val();
       var hospital = $('#hospital').val();
 
-      if(ItemCode !="" && ItemCode!=undefined){
+      if (ItemCode != "" && ItemCode != undefined) {
         $('#rem1').hide();
         $('#ItemCode').css('border-color', '');
-      }  if(mainCatagory !="" && mainCatagory!=undefined){
+      }
+      if (mainCatagory != "" && mainCatagory != undefined) {
         $('#rem2').hide();
         $('#maincatagory2').css('border-color', '');
       }
-      if(Catagory !="" && Catagory!=undefined){
+      if (Catagory != "" && Catagory != undefined) {
         $('#rem3').hide();
         $('#catagory2').css('border-color', '');
       }
-      if(ItemName !="" && ItemName!=undefined){
+      if (ItemName != "" && ItemName != undefined) {
         $('#rem4').hide();
         $('#ItemName').css('border-color', '');
       }
-      if(Weight !="" && Weight!=undefined){
+      if (Weight != "" && Weight != undefined) {
         $('#rem5').hide();
         $('#Weight').css('border-color', '');
       }
-      if(qpu !="" && qpu!=undefined){
+      if (qpu != "" && qpu != undefined) {
         $('#rem6').hide();
         $('#QtyPerUnit').css('border-color', '');
       }
-      if(SizeCode !="" && SizeCode!=undefined){
+      if (SizeCode != "" && SizeCode != undefined) {
         // $('#rem6').hide();
         $('#SizeCode').css('border-color', '');
       }
-      if(numPack !="" && numPack!=undefined){
+      if (numPack != "" && numPack != undefined) {
         // $('#rem6').hide();
         $('#numPack').css('border-color', '');
       }
-      if(typeLinen !="" && typeLinen!=undefined){
+      if (typeLinen != "" && typeLinen != undefined) {
         // $('#rem6').hide();
         $('#typeLinen').css('border-color', '');
       }
-      if(hospital !="" && hospital!=undefined){
+      if (hospital != "" && hospital != undefined) {
         $('#rem7').hide();
         $('#hospital').css('border-color', '');
       }
     }
 
-    function resetinput5(){
+    function resetinput5() {
       var Catagory = $('#catagory2').val();
       $('#catagory1').val(Catagory);
       ShowItem();
-      if(Catagory !="" && Catagory!=undefined){
+      if (Catagory != "" && Catagory != undefined) {
         $('#rem3').hide();
         $('#catagory2').css('border-color', '');
         // CreateItemCode();
       }
 
-    
-    
+
+
     }
 
     function NewItem() {
@@ -671,20 +669,20 @@ $array2 = json_decode($json2, TRUE);
       });
       console.log(count);
       var mainCatagory = $('#maincatagory2').val();
-      var Hos2      = $('#hospital').val();
-      var Catagory  = $('#catagory2').val();
-      var ItemCode  = $('#ItemCode').val();
-      var ItemName  = $('#ItemName').val();
-      var UnitName  = $('#UnitName').val();
-      var SizeCode  = $('#SizeCode').val();
-      var Weight    = $('#Weight').val();
-      var qpu       = $('#QtyPerUnit').val();
-      var sUnit     = $('#sUnitName').val();
+      var Hos2 = $('#hospital').val();
+      var Catagory = $('#catagory2').val();
+      var ItemCode = $('#ItemCode').val();
+      var ItemName = $('#ItemName').val();
+      var UnitName = $('#UnitName').val();
+      var SizeCode = $('#SizeCode').val();
+      var Weight = $('#Weight').val();
+      var qpu = $('#QtyPerUnit').val();
+      var sUnit = $('#sUnitName').val();
       var typeLinen = $('#typeLinen').val();
-      var numPack   = $('#numPack').val();
-      var xCenter   = 0;
-      var xItemnew  = 0;
-      var tdas      = 0;
+      var numPack = $('#numPack').val();
+      var xCenter = 0;
+      var xItemnew = 0;
+      var tdas = 0;
       var SAP = 1;
       if ($('#xCenter').is(':checked')) xCenter = 1;
       if ($('#tdas').is(':checked')) tdas = 1;
@@ -716,21 +714,21 @@ $array2 = json_decode($json2, TRUE);
               if (result.value) {
                 var data = {
                   'STATUS': 'NewItem',
-                  'Catagory'  : Catagory,
-                  'ItemCode'  : ItemCode,
-                  'ItemName'  : ItemName,
-                  'UnitName'  : UnitName,
-                  'SizeCode'  : SizeCode,
-                  'Weight'    : Weight,
-                  'qpu'       : qpu,
-                  'sUnit'     : sUnit,
-                  'xCenter'   : xCenter,
-                  'xItemnew'  : xItemnew,
-                  'tdas'      : tdas ,
-                  'HptCode'   : Hos2 ,
-                  'typeLinen' : typeLinen,
-                  'numPack'   : numPack ,
-                  'SAP'       : SAP 
+                  'Catagory': Catagory,
+                  'ItemCode': ItemCode,
+                  'ItemName': ItemName,
+                  'UnitName': UnitName,
+                  'SizeCode': SizeCode,
+                  'Weight': Weight,
+                  'qpu': qpu,
+                  'sUnit': sUnit,
+                  'xCenter': xCenter,
+                  'xItemnew': xItemnew,
+                  'tdas': tdas,
+                  'HptCode': Hos2,
+                  'typeLinen': typeLinen,
+                  'numPack': numPack,
+                  'SAP': SAP
                 };
                 senddata(JSON.stringify(data));
               } else if (result.dismiss == 'cancel') {
@@ -769,27 +767,27 @@ $array2 = json_decode($json2, TRUE);
         $('.checkblank').each(function() {
           if ($(this).val() == "" || $(this).val() == undefined) {
             $(this).css('border-color', 'red');
-            if(ItemCode ==""||ItemCode==undefined){
-                  $('#rem1').show().css("color","red");
-                }
-                if(mainCatagory ==""||mainCatagory==undefined){
-                  $('#rem2').show().css("color","red");
-                }
-                if(Catagory ==""||Catagory==undefined){
-                  $('#rem3').show().css("color","red");
-                }
-                if(ItemName ==""||ItemName==undefined){
-                  $('#rem4').show().css("color","red");
-                }
-                if(Weight ==""||Weight==undefined){
-                  $('#rem5').show().css("color","red");
-                }
-                if(qpu ==""||qpu==undefined){
-                  $('#rem6').show().css("color","red");
-                }
-                if(Hos2 ==""||Hos2==undefined){
-                  $('#rem7').show().css("color","red");
-                }
+            if (ItemCode == "" || ItemCode == undefined) {
+              $('#rem1').show().css("color", "red");
+            }
+            if (mainCatagory == "" || mainCatagory == undefined) {
+              $('#rem2').show().css("color", "red");
+            }
+            if (Catagory == "" || Catagory == undefined) {
+              $('#rem3').show().css("color", "red");
+            }
+            if (ItemName == "" || ItemName == undefined) {
+              $('#rem4').show().css("color", "red");
+            }
+            if (Weight == "" || Weight == undefined) {
+              $('#rem5').show().css("color", "red");
+            }
+            if (qpu == "" || qpu == undefined) {
+              $('#rem6').show().css("color", "red");
+            }
+            if (Hos2 == "" || Hos2 == undefined) {
+              $('#rem7').show().css("color", "red");
+            }
           }
         });
       }
@@ -913,8 +911,8 @@ $array2 = json_decode($json2, TRUE);
 
         if (result.value) {
           var data = {
-          'STATUS': 'CancelItem',
-          'ItemCode': itemcode
+            'STATUS': 'CancelItem',
+            'ItemCode': itemcode
           };
           senddata(JSON.stringify(data));
         } else if (result.dismiss == 'cancel') {
@@ -928,10 +926,9 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function uncheckAll2() {
-      $('input[type=radio]').each(function() 
-          { 
-                  this.checked = false; 
-          });
+      $('input[type=radio]').each(function() {
+        this.checked = false;
+      });
     }
 
     function Blankinput() {
@@ -940,12 +937,12 @@ $array2 = json_decode($json2, TRUE);
       $('#numPack').attr('disabled', false);
       $('#catagory2').attr('disabled', false);
       $('#catagory2').removeClass('icon_select');
-        $('#rem1').hide();
-        $('#rem2').hide();
-        $('#rem3').hide();
-        $('#rem4').hide();
-        $('#rem5').hide();
-        $('#rem6').hide();
+      $('#rem1').hide();
+      $('#rem2').hide();
+      $('#rem3').hide();
+      $('#rem4').hide();
+      $('#rem5').hide();
+      $('#rem6').hide();
       $(".radio-c :input").attr("disabled", false);
       $("input[name=formatitem][value=3]").prop('checked', true);
       $('#oldCodetype').hide();
@@ -953,12 +950,12 @@ $array2 = json_decode($json2, TRUE);
         $(this).val("");
       });
       $('.checkblank').each(function() {
-            if($(this).val()==""||$(this).val()==undefined){
-              $(this).css('border-color', '');
-            }else{
-              $(this).css('border-color', '');
-            }
-          });
+        if ($(this).val() == "" || $(this).val() == undefined) {
+          $(this).css('border-color', '');
+        } else {
+          $(this).css('border-color', '');
+        }
+      });
       $('#bSave_chk').attr('disabled', false);
       $('#ItemCode').attr('disabled', false);
       $('#ItemCode').val("");
@@ -966,9 +963,8 @@ $array2 = json_decode($json2, TRUE);
       $('#catagory2').val("");
       // $('#UnitName').val("");
       $('#SizeCode').val("1");
-      var pm = '<?php  echo $PmID;   ?>';
-      if(pm !=3 && pm !=5  && pm !=7) 
-      {
+      var pm = '<?php echo $PmID;   ?>';
+      if (pm != 3 && pm != 5 && pm != 7) {
         $('#hospital').val("");
         $('#Hos2').val("");
         $('#hospital').attr('disabled', false);
@@ -1016,8 +1012,13 @@ $array2 = json_decode($json2, TRUE);
       $('#btn_del').attr('disabled', true);
 
     }
-    
-    function getdetail(ItemCode,row) {
+
+    function getdetail(ItemCode, row) {
+
+      showColor(ItemCode, 0);
+      showSupplier(ItemCode, 0);
+      showImagesCatalog(ItemCode);
+      showDiscription(ItemCode);
       $('#bSave_chk').attr('disabled', false);
       $('#btn_importMaster').attr('disabled', false);
       if (ItemCode.length > 9) {
@@ -1031,38 +1032,38 @@ $array2 = json_decode($json2, TRUE);
         $('#oldCodetype').hide();
       }
       $('#ItemCode').attr("disabled", true);
-      var previousValue = $('#checkitem_'+row).attr('previousValue');
-        var name = $('#checkitem_'+row).attr('name');
-        if (previousValue == 'checked') {
-          $('#hospital').attr('disabled', false);
-          $('#hospital').removeClass('icon_select');
-          $('#typeLinen').removeClass('icon_select');
-          $('#numPack').removeClass('icon_select');
-          $('#checkitem_'+row).removeAttr('checked');
-          $('#checkitem_'+row).attr('previousValue', false);
-          $('#checkitem_'+row).prop('checked', false);
-          Blankinput2();
-        } else {
-          $('#hospital').addClass('icon_select');
-          $('#hospital').attr('disabled', true);
-          $("input[name="+name+"]:radio").attr('previousValue', false);
-          $('#checkitem_'+row).attr('previousValue', 'checked');
-      if (ItemCode != "" && ItemCode != undefined) {
-        var data = {
-          'STATUS': 'getdetail',
-          'ItemCode': ItemCode
-        };
+      var previousValue = $('#checkitem_' + row).attr('previousValue');
+      var name = $('#checkitem_' + row).attr('name');
+      if (previousValue == 'checked') {
+        $('#hospital').attr('disabled', false);
+        $('#hospital').removeClass('icon_select');
+        $('#typeLinen').removeClass('icon_select');
+        $('#numPack').removeClass('icon_select');
+        $('#checkitem_' + row).removeAttr('checked');
+        $('#checkitem_' + row).attr('previousValue', false);
+        $('#checkitem_' + row).prop('checked', false);
+        Blankinput2();
+      } else {
+        $('#hospital').addClass('icon_select');
+        $('#hospital').attr('disabled', true);
+        $("input[name=" + name + "]:radio").attr('previousValue', false);
+        $('#checkitem_' + row).attr('previousValue', 'checked');
+        if (ItemCode != "" && ItemCode != undefined) {
+          var data = {
+            'STATUS': 'getdetail',
+            'ItemCode': ItemCode
+          };
 
-        console.log(JSON.stringify(data));
-        senddata(JSON.stringify(data));
-      }
-      $('#NewItem').hide();
-      $('#AddItemBNT').show();
-      $(".radio-c :input").attr("disabled", true);
+          console.log(JSON.stringify(data));
+          senddata(JSON.stringify(data));
+        }
+        $('#NewItem').hide();
+        $('#AddItemBNT').show();
+        $(".radio-c :input").attr("disabled", true);
       }
     }
 
-    function getdetailMaster(ItemCode,row) {
+    function getdetailMaster(ItemCode, row) {
       $('#btn_importMaster').attr('disabled', false);
       if (ItemCode != "" && ItemCode != undefined) {
         var data = {
@@ -1088,11 +1089,10 @@ $array2 = json_decode($json2, TRUE);
 
     function uncheckAll2() {
 
-                $('input[type=checkbox]').each(function() 
-                    { 
-                            this.checked = false; 
-                    });
-   }
+      $('input[type=checkbox]').each(function() {
+        this.checked = false;
+      });
+    }
 
     function DeleteUnit() {
       var RowID = $("#checkitem2:checked").val();
@@ -1114,11 +1114,11 @@ $array2 = json_decode($json2, TRUE);
         $('#btn_del').attr('disabled', true);
         if (result.value) {
           var data = {
-          'STATUS': 'DeleteUnit',
-          'RowID': RowID
+            'STATUS': 'DeleteUnit',
+            'RowID': RowID
           }
           senddata(JSON.stringify(data));
-          
+
         } else if (result.dismiss == 'cancel') {
           swal.close();
         }
@@ -1242,7 +1242,7 @@ $array2 = json_decode($json2, TRUE);
       })
     }
 
-    function menu_tapShow(){
+    function menu_tapShow() {
       $('#TableItem').attr("hidden", false);
       $('#TableItemMaster').attr("hidden", true);
       $('#memu_tap1').attr('hidden', false);
@@ -1252,8 +1252,8 @@ $array2 = json_decode($json2, TRUE);
       $('#scroll555').addClass('table-scroll');
     }
 
-    function menu_tapHide(chk){
-      if(chk != 2){
+    function menu_tapHide(chk) {
+      if (chk != 2) {
         $('#scroll555').addClass('table-scroll');
         $('#TableItem').attr("hidden", false);
         $('#TableItemMaster').attr("hidden", true);
@@ -1262,7 +1262,7 @@ $array2 = json_decode($json2, TRUE);
         $('#searchItem_1').attr('hidden', false);
         $('#searchItem_2').attr('hidden', true);
 
-      }else if(chk == 2){
+      } else if (chk == 2) {
         $('#scroll555').removeClass('table-scroll');
         $('#TableItem').attr("hidden", true);
         $('#TableItemMaster').attr("hidden", false);
@@ -1273,26 +1273,28 @@ $array2 = json_decode($json2, TRUE);
       }
 
     }
-    
-		function getplaceholder(){
-			var sUnitName = $('#sUnitName option:selected').attr("value");
 
-			if(sUnitName ==2){
-				$('#QtyPerUnit').removeAttr("placeholder");     
-				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Weightitem'][$language]; ?>");      
-			}else if(sUnitName ==4){
-				$('#QtyPerUnit').removeAttr("placeholder");     
-				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Sizeitem'][$language]; ?>");    
-			}else{
-				$('#QtyPerUnit').removeAttr("placeholder");     
-				$('#QtyPerUnit').attr("placeholder" , "<?php echo $array['Quality'][$language]; ?>");    
-			}
-		}
-    function undisableDel(){
+    function getplaceholder() {
+      var sUnitName = $('#sUnitName option:selected').attr("value");
+
+      if (sUnitName == 2) {
+        $('#QtyPerUnit').removeAttr("placeholder");
+        $('#QtyPerUnit').attr("placeholder", "<?php echo $array['Weightitem'][$language]; ?>");
+      } else if (sUnitName == 4) {
+        $('#QtyPerUnit').removeAttr("placeholder");
+        $('#QtyPerUnit').attr("placeholder", "<?php echo $array['Sizeitem'][$language]; ?>");
+      } else {
+        $('#QtyPerUnit').removeAttr("placeholder");
+        $('#QtyPerUnit').attr("placeholder", "<?php echo $array['Quality'][$language]; ?>");
+      }
+    }
+
+    function undisableDel() {
       $('#btn_deleteMaster').attr('disabled', false);
     }
-    function deleteMaster(){
-      var chkArrayRow=[];
+
+    function deleteMaster() {
+      var chkArrayRow = [];
       var maincatagory = $("#maincatagory").val();
       var item = $("#searchitem").val();
       var catagory = $("#catagory1").val();
@@ -1319,15 +1321,15 @@ $array2 = json_decode($json2, TRUE);
         $('#btn_deleteMaster').attr('disabled', true);
         if (result.value) {
           for (i = 0; i < chkArrayRow.length; ++i) {
-                  $('#tr'+chkArrayRow[i]).remove();
-              }
+            $('#tr' + chkArrayRow[i]).remove();
+          }
           var data = {
-            'STATUS' : 'deleteMaster',
-            'ArraychkArrayRow' : ArraychkArrayRow,
-            'ItemCode' : ItemCode,
-            'maincatagory' : maincatagory,
-            'item' : item,
-            'Catagory' : catagory
+            'STATUS': 'deleteMaster',
+            'ArraychkArrayRow': ArraychkArrayRow,
+            'ItemCode': ItemCode,
+            'maincatagory': maincatagory,
+            'item': item,
+            'Catagory': catagory
           };
           senddata(JSON.stringify(data));
         } else if (result.dismiss == 'cancel') {
@@ -1336,24 +1338,27 @@ $array2 = json_decode($json2, TRUE);
         }
       })
     }
-    function SaveQtyMaster(RowID, row){
+
+    function SaveQtyMaster(RowID, row) {
       swal({
         title: '<?php echo $array['pleasewait'][$language]; ?>',
         text: '<?php echo $array['processing'][$language]; ?>',
         allowOutsideClick: false
       });
       swal.showLoading();
-      var NewQty = $('#masterQty_'+row).val();
+      var NewQty = $('#masterQty_' + row).val();
       var data = {
-        'STATUS':'SaveQtyMaster',
-        'RowID':RowID,
-        'Qty':NewQty
+        'STATUS': 'SaveQtyMaster',
+        'RowID': RowID,
+        'Qty': NewQty
       };
       senddata(JSON.stringify(data));
     }
-    function openModal(){
+
+    function openModal() {
       $('#masterModal').modal('show');
     }
+
     function ShowItemModal() {
       var maincatagory = $("#maincatagoryModal").val();
       var catagory = $("#catagoryModal").val();
@@ -1368,7 +1373,8 @@ $array2 = json_decode($json2, TRUE);
       };
       senddata(JSON.stringify(data));
     }
-    function AddItemMaster(){
+
+    function AddItemMaster() {
       var chkArrayRow = [];
       var ItemCodeArray = [];
       var QtyArray = [];
@@ -1377,8 +1383,8 @@ $array2 = json_decode($json2, TRUE);
         chkArrayRow.push($(this).val());
       });
       for (var i = 0; i < chkArrayRow.length; i++) {
-        ItemCodeArray.push($('#addItemCodeM_'+chkArrayRow[i]).data('value'));
-        QtyArray.push($('#addMaster_'+chkArrayRow[i]).val());
+        ItemCodeArray.push($('#addItemCodeM_' + chkArrayRow[i]).data('value'));
+        QtyArray.push($('#addMaster_' + chkArrayRow[i]).val());
       }
       var ArrayItemCode = ItemCodeArray.join(',');
       var Qty = QtyArray.join(',');
@@ -1399,39 +1405,40 @@ $array2 = json_decode($json2, TRUE);
         if (result.value) {
           var sv = "<?php echo $array['addsuccessmsg'][$language]; ?>";
           swal({
-              title: sv,
-              text: '',
-              type: 'success',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              showConfirmButton: false,
-              timer: 1000
+            title: sv,
+            text: '',
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 1000
           });
           setTimeout(() => {
             var data = {
-              'STATUS' : 'AddItemMaster',
-              'ItemCode' : ItemCode,
-              'ArrayItemCode' : ArrayItemCode,
-              'ArrayQty' : Qty
+              'STATUS': 'AddItemMaster',
+              'ItemCode': ItemCode,
+              'ArrayItemCode': ArrayItemCode,
+              'ArrayQty': Qty
             };
             $('#masterModal').modal('toggle');
             $('#tbody_modal').empty();
             senddata(JSON.stringify(data));
           }, 1000);
-          
+
         } else if (result.dismiss == 'cancel') {
           swal.close();
         }
       })
     }
-    function disabledDel(){
+
+    function disabledDel() {
       $('#btn_del').attr('disabled', false);
     }
 
-  
-		//<!-- --------------------Function--------------------- --!>
-		//<!-- --------------------desplay--------------------- --!>
+
+    //<!-- --------------------Function--------------------- --!>
+    //<!-- --------------------desplay--------------------- --!>
     function senddata(data) {
       var form_data = new FormData();
       form_data.append("DATA", data);
@@ -1514,12 +1521,12 @@ $array2 = json_decode($json2, TRUE);
               $("#catagoryModal").empty();
               $("#catagory2").empty();
               var hotValue0 = '<?php echo $array['Pleaseselectasubcategory'][$language]; ?>';
-              var StrTr = "<option value=''>"+hotValue0+"</option>";
-              var Str = "<option value=''>"+hotValue0+"</option>";
+              var StrTr = "<option value=''>" + hotValue0 + "</option>";
+              var Str = "<option value=''>" + hotValue0 + "</option>";
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
- 
-                 StrTr += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
-                 Str += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
+
+                StrTr += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
+                Str += "<option value = '" + temp[i]['CategoryCode'] + "'> " + temp[i]['CategoryName'] + " </option>";
               }
               $("#catagory2").append(Str);
               $("#catagory1").append(StrTr);
@@ -1527,32 +1534,32 @@ $array2 = json_decode($json2, TRUE);
               // CreateItemCode();
               // ShowItem();
             } else if ((temp["form"] == 'GetHospital')) {
-              if(temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7){
-              var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
-              var StrTr1 = "<option value=''>"+hotValue0+"</option>";
-            }else{
-                                var StrTr = "";
-                                $('#hospital').attr('disabled' , true);
-                                $('#hospital').addClass('icon_select');
-                                var StrTr1 = "";
-                                $('#Hos2').attr('disabled' , true);
-                                $('#Hos2').addClass('icon_select');
-                            }
+              if (temp[0]['PmID'] != 5 && temp[0]['PmID'] != 7) {
+                var hotValue0 = '<?php echo $array['selecthospital'][$language]; ?>';
+                var StrTr1 = "<option value=''>" + hotValue0 + "</option>";
+              } else {
+                var StrTr = "";
+                $('#hospital').attr('disabled', true);
+                $('#hospital').addClass('icon_select');
+                var StrTr1 = "";
+                $('#Hos2').attr('disabled', true);
+                $('#Hos2').addClass('icon_select');
+              }
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                 StrTr1 += "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
+                StrTr1 += "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
                 var StrTr = "<option value = '" + temp[i]['HospitalCode'] + "'> " + temp[i]['HospitalName'] + " </option>";
               }
               $("#hospital").append(StrTr1);
               $("#Hos2").append(StrTr1);
-            }  else if ((temp["form"] == 'getUnit')) {
+            } else if ((temp["form"] == 'getUnit')) {
               for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-               var StrTr1 = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
+                var StrTr1 = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
                 var StrTr = "<option value = '" + temp[i]['UnitCode'] + "'> " + temp[i]['UnitName'] + " </option>";
 
                 $("#subUnit").append(StrTr);
                 $("#Unitshows").append(StrTr);
                 $("#UnitName").append(StrTr1);
-              $("#sUnitName").append(StrTr1);
+                $("#sUnitName").append(StrTr1);
               }
 
 
@@ -1588,74 +1595,69 @@ $array2 = json_decode($json2, TRUE);
               $("#TableUnit tbody").empty();
               // ======================================================================
               for (var j = 0; j < temp["countx"]; j++) {
-               "+ (j + 1) +"
+                "+ (j + 1) +"
               }
-              if( temp['down'] ==1){
-                var top     = "hidden";
-                var down     = "";
-              }else{
-                var top     = "";
-                var down     = "hidden";
+              if (temp['down'] == 1) {
+                var top = "hidden";
+                var down = "";
+              } else {
+                var top = "";
+                var down = "hidden";
               }
-                // ======================================================================
+              // ======================================================================
               $("#TableItem tbody").empty();
-              if(temp['countx']>0){
-                $("#pagination").attr("hidden" , false);
-              for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                var isSAP = temp[i]['isSAP'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                var Tdas = temp[i]['Tdas'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                var rowCount = $('#TableItem >tbody >tr').length;
-  
-                var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
-                  "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
-                  "<td style='width: 8%;padding-right: 5%;' "+top+"   align='center'nowrap><label> " + (i+1) + "</label></td>" +
-                  "<td style='width: 8%;padding-right: 5%;' "+down+"  align='center'nowrap><label> " + j-- + "</label></td>" +
-                  "<td style='width: 16%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='text-overflow: ellipsis;overflow: hidden; width: 15%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
-                  "<td style='width: 9%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
-                  "<td style='width: 10%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
-                  "<td style='width: 13%;'nowrap>" + temp[i]['Weight'] + "</td>" +
-                  "<td style='width: 8%;' nowrap>" + IsDirtyBag + "</td>" +
-                  "<td style='width: 8%;' nowrap>" + isSAP + "</td>" +
-                  "<td style='width: 6%;' align='center'nowrap>" + Tdas + "</td>" +
-                  "</tr>";
+              if (temp['countx'] > 0) {
+                $("#pagination").attr("hidden", false);
+                for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                  var ItemNew = temp[i]['Itemnew'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                  var isSAP = temp[i]['isSAP'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                  var Tdas = temp[i]['Tdas'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                  var rowCount = $('#TableItem >tbody >tr').length;
 
-                if (rowCount == 0) {
-                  $("#TableItem tbody").append($StrTR);
-                } else {
-                  $('#TableItem tbody:last-child').append($StrTR);
-                }
-               StrTr2='<nav aria-label="Page navigation example" style="margin-left: 1%; "> <ul class="pagination"> ';
-              if(temp['Prev_Page'])
-                {
-                  StrTr2+= '<li class="page-item"><a class="page-link" href="#"  onclick="ShowItem('+null+' , '+null+' , '+temp['Prev_Page']+')">Previous</a></li> ';
-                }
-                for(var j=1; j<=temp['Num_Pages'];  j++){
-                  if( j != temp['Page'])
-                  {
-                    StrTr2+='<li class="page-item"><a class="page-link" href="#" onclick="ShowItem('+null+' , '+null+' , '+j+')"> '+ j +'</a></li> ';
-                  }
-                  else
-                  {
-                    StrTr2+='<li class="page-item"><a class="page-link" href="#"> <b>'+ j +'</b></a></li> ';
-                  }
-                }
-                if(temp['Page']!=temp['Num_Pages'])
-                {
-                  StrTr2+= '<li class="page-item"><a class="page-link" href="#"  onclick="ShowItem('+null+' , '+null+' , '+temp['Next_Page']+')">Next</a></li> ';
-                }
-                StrTr2+=    '</ul> </nav>  ';
-                $("#pagination").html( StrTr2 );
-              }
+                  var chkDoc = "<label class='radio' title='" + temp[i]['ItemName'] + "' style='margin-top: 20%;'><input type='radio'  name='checkitem' id='checkitem_" + i + "' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \"" + i + "\")'><span class='checkmark'></span></label>";
+                  $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
+                    "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
+                    "<td style='width: 8%;padding-right: 5%;' " + top + "   align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                    "<td style='width: 8%;padding-right: 5%;' " + down + "  align='center'nowrap><label> " + j-- + "</label></td>" +
+                    "<td style='width: 16%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
+                    "<td style='text-overflow: ellipsis;overflow: hidden; width: 15%;' align='left' title='" + temp[i]['ItemName'] + "' nowrap>" + temp[i]['ItemName'] + "</td>" +
+                    "<td style='width: 9%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                    "<td style='width: 10%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                    "<td style='width: 13%;'nowrap>" + temp[i]['Weight'] + "</td>" +
+                    "<td style='width: 8%;' nowrap>" + IsDirtyBag + "</td>" +
+                    "<td style='width: 8%;' nowrap>" + isSAP + "</td>" +
+                    "<td style='width: 6%;' align='center'nowrap>" + Tdas + "</td>" +
+                    "</tr>";
 
-              }else{
-              $('#TableItem tbody').empty();
-              var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
-              $('#TableItem tbody:last-child').append(Str);
-              $("#pagination").attr("hidden" , true);
+                  if (rowCount == 0) {
+                    $("#TableItem tbody").append($StrTR);
+                  } else {
+                    $('#TableItem tbody:last-child').append($StrTR);
+                  }
+                  StrTr2 = '<nav aria-label="Page navigation example" style="margin-left: 1%; "> <ul class="pagination"> ';
+                  if (temp['Prev_Page']) {
+                    StrTr2 += '<li class="page-item"><a class="page-link" href="#"  onclick="ShowItem(' + null + ' , ' + null + ' , ' + temp['Prev_Page'] + ')">Previous</a></li> ';
+                  }
+                  for (var j = 1; j <= temp['Num_Pages']; j++) {
+                    if (j != temp['Page']) {
+                      StrTr2 += '<li class="page-item"><a class="page-link" href="#" onclick="ShowItem(' + null + ' , ' + null + ' , ' + j + ')"> ' + j + '</a></li> ';
+                    } else {
+                      StrTr2 += '<li class="page-item"><a class="page-link" href="#"> <b>' + j + '</b></a></li> ';
+                    }
+                  }
+                  if (temp['Page'] != temp['Num_Pages']) {
+                    StrTr2 += '<li class="page-item"><a class="page-link" href="#"  onclick="ShowItem(' + null + ' , ' + null + ' , ' + temp['Next_Page'] + ')">Next</a></li> ';
+                  }
+                  StrTr2 += '</ul> </nav>  ';
+                  $("#pagination").html(StrTr2);
+                }
+
+              } else {
+                $('#TableItem tbody').empty();
+                var Str = "<tr width='100%' style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
+                $('#TableItem tbody:last-child').append(Str);
+                $("#pagination").attr("hidden", true);
               }
               // $('.checkblank').each(function() {
               //   $(this).val("");
@@ -1671,21 +1673,21 @@ $array2 = json_decode($json2, TRUE);
               $("#TableItem tbody").empty();
               $("#TableUnit tbody").empty();
               for (var i = 0; i < temp['RowCount']; i++) {
-                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                var isset = temp[i]['isset'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                var ItemNew = temp[i]['Itemnew'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                var isset = temp[i]['isset'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
                 var rowCount = $('#TableItem >tbody >tr').length;
-                if(temp['mItemCode'] == temp[i]['ItemCode']){
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input checked='true' type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                if (temp['mItemCode'] == temp[i]['ItemCode']) {
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input checked='true' type='radio' name='checkitem' id='checkitem_" + i + "' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \"" + i + "\")'><span class='checkmark'></span></label>";
                   getdetail(temp['mItemCode'], i);
-                }else{
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitem' id='checkitem_"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                } else {
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitem' id='checkitem_" + i + "' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetail(\"" + temp[i]['ItemCode'] + "\", \"" + i + "\")'><span class='checkmark'></span></label>";
                 }
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                   "<td style='width: 5%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                   "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                  "<td style='width: 12%;text-overflow: ellipsis;overflow: hidden;' title='"+temp[i]['ItemName']+"' align='left' nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 12%;text-overflow: ellipsis;overflow: hidden;' title='" + temp[i]['ItemName'] + "' align='left' nowrap>" + temp[i]['ItemName'] + "</td>" +
                   "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                   "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                   "<td style='width: 10%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
@@ -1712,20 +1714,20 @@ $array2 = json_decode($json2, TRUE);
               $('#numPack').val("01");
 
             } else if ((temp["form"] == 'ShowItemMaster')) {
-              if(temp['CountRow']>0){
+              if (temp['CountRow'] > 0) {
                 $('#TableItem').attr("hidden", true);
                 $('#TableItemMaster').attr("hidden", false);
                 $("#TableItemMaster tbody").empty();
                 for (var i = 0; i < temp['CountRow']; i++) {
-                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                  var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
+                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                  var ItemNew = temp[i]['Itemnew'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
                   var rowCount = $('#TableItemMaster >tbody >tr').length;
-                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitemM' id='checkitem_M" + i + "' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \"" + i + "\")'><span class='checkmark'></span></label>";
                   $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                     "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
                     "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
                     "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                    "<td style='width: 15%;text-overflow: ellipsis;overflow: hidden;' title='"+temp[i]['ItemName']+"' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                    "<td style='width: 15%;text-overflow: ellipsis;overflow: hidden;' title='" + temp[i]['ItemName'] + "' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
                     "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
                     "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
                     "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
@@ -1739,44 +1741,44 @@ $array2 = json_decode($json2, TRUE);
                     $('#TableItemMaster tbody:last-child').append($StrTR);
                   }
                 }
-              }else{
+              } else {
                 $("#TableItemMaster tbody").empty();
                 StrTR = "<tr><td style='width: 100%;' align='center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                 $("#TableItemMaster tbody").append(StrTR);
               }
-                
-            } else if ((temp["form"] == 'ShowItemMaster2')) {
-                $('#TableItem').attr("hidden", true);
-                $('#TableItemMaster').attr("hidden", false);
-                $("#TableItemMaster tbody").empty();
-                for (var i = 0; i < temp['CountRow']; i++) {
-                  var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                  var ItemNew = temp[i]['Itemnew'] == 1 ?'<i class="fas fa-check fa-sm"></i>':'';
-                  var rowCount = $('#TableItemMaster >tbody >tr').length;
-                  if(temp['mItemCode'] == temp[i]['ItemCode']){
-                    var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' checked='true' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                  }else{
-                    var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitemM' id='checkitem_M"+i+"' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \""+i+"\")'><span class='checkmark'></span></label>";
-                  }
-                  $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
-                    "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
-                    "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
-                    "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
-                    "<td style='width: 15%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
-                    "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
-                    "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
-                    "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
-                    "<td style='width: 11%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
-                    "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
-                    "</tr>";
 
-                  if (rowCount == 0) {
-                    $("#TableItemMaster tbody").append($StrTR);
-                  } else {
-                    $('#TableItemMaster tbody:last-child').append($StrTR);
-                  }
+            } else if ((temp["form"] == 'ShowItemMaster2')) {
+              $('#TableItem').attr("hidden", true);
+              $('#TableItemMaster').attr("hidden", false);
+              $("#TableItemMaster tbody").empty();
+              for (var i = 0; i < temp['CountRow']; i++) {
+                var IsDirtyBag = temp[i]['IsDirtyBag'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                var ItemNew = temp[i]['Itemnew'] == 1 ? '<i class="fas fa-check fa-sm"></i>' : '';
+                var rowCount = $('#TableItemMaster >tbody >tr').length;
+                if (temp['mItemCode'] == temp[i]['ItemCode']) {
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' checked='true' name='checkitemM' id='checkitem_M" + i + "' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \"" + i + "\")'><span class='checkmark'></span></label>";
+                } else {
+                  var chkDoc = "<label class='radio'style='margin-top: 20%;' title='" + temp[i]['ItemName'] + "'><input type='radio' name='checkitemM' id='checkitem_M" + i + "' value='" + i + ":" + temp[i]['ItemCode'] + "' onclick='getdetailMaster(\"" + temp[i]['ItemCode'] + "\", \"" + i + "\")'><span class='checkmark'></span></label>";
                 }
-                ShowItem2(temp['mItemCode']);
+                $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
+                  "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
+                  "<td style='width: 6%;' align='center'nowrap><label> " + (i + 1) + "</label></td>" +
+                  "<td style='width: 19%;' align='left'nowrap>" + temp[i]['ItemCode'] + "</td>" +
+                  "<td style='width: 15%;' align='left'nowrap>" + temp[i]['ItemName'] + "</td>" +
+                  "<td style='width: 11%;' align='left'nowrap>" + temp[i]['UnitName'] + "</td>" +
+                  "<td style='width: 9%;' align='left'nowrap>&nbsp;&nbsp;" + temp[i]['SizeCode'] + "</td>" +
+                  "<td style='width: 14%;' align='center'nowrap>" + temp[i]['Weight'] + "</td>" +
+                  "<td style='width: 11%;' align='center'nowrap>" + IsDirtyBag + "</td>" +
+                  "<td style='width: 10%;' align='center'nowrap>" + ItemNew + "</td>" +
+                  "</tr>";
+
+                if (rowCount == 0) {
+                  $("#TableItemMaster tbody").append($StrTR);
+                } else {
+                  $('#TableItemMaster tbody:last-child').append($StrTR);
+                }
+              }
+              ShowItem2(temp['mItemCode']);
             } else if ((temp["form"] == 'getdetail')) {
               if ((Object.keys(temp).length - 2) > 0) {
                 $("#TableUnit tbody").empty();
@@ -1800,31 +1802,31 @@ $array2 = json_decode($json2, TRUE);
                 $('#delete_icon').removeClass('opacity');
                 $('#delete1').addClass('mhee');
 
-                if (temp[0]['IsDirtyBag'] == 1)  {
+                if (temp[0]['IsDirtyBag'] == 1) {
                   $('#xCenter').prop('checked', true);
-                }else{
+                } else {
                   $('#xCenter').prop('checked', false);
                 }
 
-                if(temp[0]['Itemnew'] == 1){
+                if (temp[0]['Itemnew'] == 1) {
                   $('#xItemnew').prop('checked', true);
-                }else{
+                } else {
                   $('#xItemnew').prop('checked', false);
                 }
 
-                if(temp[0]['tdas'] == 1){
+                if (temp[0]['tdas'] == 1) {
                   $('#tdas').prop('checked', true);
-                }else{
+                } else {
                   $('#tdas').prop('checked', false);
                 }
 
-                if(temp[0]['isSAP'] == 1){
+                if (temp[0]['isSAP'] == 1) {
                   $('#SAP').prop('checked', true);
-                }else{
+                } else {
                   $('#SAP').prop('checked', false);
                 }
 
-                if (temp['RowCountMP']!=0) {
+                if (temp['RowCountMP'] != 0) {
                   for (var i = 0; i < temp['RowCount']; i++) {
                     // var PriceUnit = temp[i]['PriceUnit'] == null ? '' : temp[i]['PriceUnit'];
                     var rowCount = $('#TableUnit >tbody >tr').length;
@@ -1845,7 +1847,7 @@ $array2 = json_decode($json2, TRUE);
                       $('#TableUnit tbody:last-child').append(StrTR);
                     }
                   }
-                }else{
+                } else {
                   $('#TableUnit tbody').empty();
                   var Str = "<tr width='100%'><td style='width:100%' class='text-center'><?php echo $array['notfoundmsg'][$language]; ?></td></tr>";
                   $('#TableUnit tbody:last-child').append(Str);
@@ -1859,8 +1861,8 @@ $array2 = json_decode($json2, TRUE);
                 var StrTR = "";
                 for (var i = 0; i < temp['RowMaster']; i++) {
                   var rowCount = $('#TableMaster >tbody >tr').length;
-                  var chkItem = "<label class='radio' style='margin-top: 20%;'><input type='checkbox' value='" + temp[i]['RowID'] + "' name='masterChk' class='masterChk' id='masterRow_"+i+"' onclick='undisableDel();'><span class='checkmark'></span></label>";
-                  var QtyInput = "<input class='form-control text-center' style='width:200px;' id='masterQty_"+i+"' value='"+temp[i]['Qty']+"' onKeyPress='if(event.keyCode==13){SaveQtyMaster(\""+temp[i]['RowID']+"\",\""+i+"\")}'>"
+                  var chkItem = "<label class='radio' style='margin-top: 20%;'><input type='checkbox' value='" + temp[i]['RowID'] + "' name='masterChk' class='masterChk' id='masterRow_" + i + "' onclick='undisableDel();'><span class='checkmark'></span></label>";
+                  var QtyInput = "<input class='form-control text-center' style='width:200px;' id='masterQty_" + i + "' value='" + temp[i]['Qty'] + "' onKeyPress='if(event.keyCode==13){SaveQtyMaster(\"" + temp[i]['RowID'] + "\",\"" + i + "\")}'>"
                   StrTR += "<tr id='tr" + temp[i]['RowID'] + "'>" +
                     "<td style='width: 5%;' align='center' nowrap>" + chkItem + "</td>" +
                     "<td style='width: 5%;' nowrap><label> " + (i + 1) + "</label></td>" +
@@ -1870,7 +1872,7 @@ $array2 = json_decode($json2, TRUE);
                 }
                 $("#TableMaster tbody").html(StrTR);
 
-              }else{
+              } else {
                 $("#TableMaster tbody").empty();
                 StrTR = "<td id='empty_data' style='width: 100%;text-align:center;'><?php echo $array['notfoundmsg'][$language]; ?></td>"
                 $("#TableMaster tbody").append(StrTR);
@@ -1916,23 +1918,23 @@ $array2 = json_decode($json2, TRUE);
                   temp['msg'] = "<?php echo $array['nodetail'][$language]; ?>";
                   break;
               }
-                swal({
-                  title: '',
-                  text: temp['msg'],
-                  type: 'success',
-                  showCancelButton: false,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  showConfirmButton: false,
-                  timer: 2000,
-                  confirmButtonText: 'Ok'
+              swal({
+                title: '',
+                text: temp['msg'],
+                type: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                showConfirmButton: false,
+                timer: 2000,
+                confirmButtonText: 'Ok'
               }).then(function() {
-                  // ShowItem();
-                  Blankinput();
+                // ShowItem();
+                Blankinput();
               }, function(dismiss) {
-                  $('.checkblank').each(function() {
-                      $(this).css('border-color', '');
-                  });
+                $('.checkblank').each(function() {
+                  $(this).css('border-color', '');
+                });
               })
 
             } else if ((temp["form"] == 'AddUnit')) {
@@ -2097,11 +2099,11 @@ $array2 = json_decode($json2, TRUE);
                 Blankinput();
                 ShowItem();
               }, 2000);
-            } 
+            }
             // else if (temp['form'] == 'CreateItemCode') {
             //   $('#ItemCode').val(temp['ItemCode']);
             // }
-             else if (temp['form'] == 'ActiveItem') {
+            else if (temp['form'] == 'ActiveItem') {
               temp['msg'] = "<?php echo $array['addsuccessmsg'][$language]; ?>";
               swal({
                 title: '',
@@ -2117,15 +2119,15 @@ $array2 = json_decode($json2, TRUE);
             } else if ((temp["form"] == 'ShowItemModal')) {
               $('#TableItemModal tbody').empty();
               for (var i = 0; i < temp['RowMaster']; i++) {
-                var chkDoc = "<input type='checkbox' name='addMasterChk' class='addMasterChk' value='"+i+ "'>";
-                var Qty = "<input type='text' class='text-center numberonly' value='1' id='addMaster_"+i+"' >";
+                var chkDoc = "<input type='checkbox' name='addMasterChk' class='addMasterChk' value='" + i + "'>";
+                var Qty = "<input type='text' class='text-center numberonly' value='1' id='addMaster_" + i + "' >";
                 $StrTR = "<tr id='tr" + temp[i]['ItemCode'] + "'>" +
                   "<td style='width: 5%;' align='center'nowrap>" + chkDoc + "</td>" +
-                  "<td style='width: 31%;' align='left'nowrap id='addItemCodeM_"+i+"' data-value='"+temp[i]['ItemCode']+"'>" + temp[i]['ItemCode'] + "</td>" +
+                  "<td style='width: 31%;' align='left'nowrap id='addItemCodeM_" + i + "' data-value='" + temp[i]['ItemCode'] + "'>" + temp[i]['ItemCode'] + "</td>" +
                   "<td style='width: 31%;' align='ledt'nowrap>" + temp[i]['ItemName'] + "</td>" +
-                  "<td style='width: 31%;text-align:center;' align='center'nowrap>"+Qty+"</td>" +
+                  "<td style='width: 31%;text-align:center;' align='center'nowrap>" + Qty + "</td>" +
                   "</tr>";
-                  $("#TableItemModal tbody").append($StrTR);
+                $("#TableItemModal tbody").append($StrTR);
               }
               $('.numberonly').on('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
@@ -2133,7 +2135,7 @@ $array2 = json_decode($json2, TRUE);
             } else if ((temp["form"] == 'AddItemMaster')) {
               getdetailMaster(temp['ItemCodeMaster']);
               ShowItemMaster2(temp['ItemCodeMaster']);
-            } 
+            }
           } else if (temp['status'] == "failed") {
             $("#TableItem tbody").empty();
             $("#TableUnit tbody").empty();
@@ -2382,12 +2384,12 @@ $array2 = json_decode($json2, TRUE);
 
       }
     }
-    .table-scroll {
-      overflow:auto;  
-      height:355px;
-      margin-top:5px;
-    }
 
+    .table-scroll {
+      overflow: auto;
+      height: 355px;
+      margin-top: 5px;
+    }
   </style>
 
 </head>
@@ -2395,19 +2397,19 @@ $array2 = json_decode($json2, TRUE);
 <body id="page-top">
   <!-- iii -->
   <!-- Scroll to Top Button-->
- 
+
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
     <li class="breadcrumb-item active"><?php echo $array2['menu']['system']['sub'][3][$language]; ?></li>
   </ol>
-   
+
   <div id="wrapper">
     <a class="scroll-to-down rounded" id="pageDown" href="#page-down">
       <i class="fas fa-angle-down"></i>
     </a>
     <!-- content-wrapper -->
-    <div id="content-wrapper" >
-  <input type="hidden" id="ItemCodeM_chk">
+    <div id="content-wrapper">
+      <input type="hidden" id="ItemCodeM_chk">
 
       <div class="row">
         <div class="col-md-12">
@@ -2415,7 +2417,7 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div class="card-body" style="padding:0px; margin-top:-12px;">
               <div class="row">
-              <div class="col-md-3">
+                <div class="col-md-3">
                   <div class="row" style="font-size:24px;">
                     <select class="form-control checkblank66" style="font-size:24px;" id="Hos2" onchange="changeHptCode()"></select>
                   </div>
@@ -2432,67 +2434,67 @@ $array2 = json_decode($json2, TRUE);
                 </div>
                 <div class="col-md-1" style="margin-left: -1%;">
                   <div class="search_custom col-md-2" id="searchItem_1">
-										<div class="search_1 d-flex justify-content-start">
-											<button class="btn" onclick="ShowItem()">
-												<i class="fas fa-search mr-2"></i>
-												<?php echo $array['search'][$language]; ?>
-											</button>
-										</div>
+                    <div class="search_1 d-flex justify-content-start">
+                      <button class="btn" onclick="ShowItem()">
+                        <i class="fas fa-search mr-2"></i>
+                        <?php echo $array['search'][$language]; ?>
+                      </button>
+                    </div>
                   </div>
                   <div class="search_custom col-md-2" id="searchItem_2" hidden>
-										<div class="search_1 d-flex justify-content-start">
-											<button class="btn" onclick="ShowItemMaster()">
-												<i class="fas fa-search mr-2"></i>
-												<?php echo $array['search'][$language]; ?>
-											</button>
-										</div>
-									</div>
+                    <div class="search_1 d-flex justify-content-start">
+                      <button class="btn" onclick="ShowItemMaster()">
+                        <i class="fas fa-search mr-2"></i>
+                        <?php echo $array['search'][$language]; ?>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-                  <table style="margin-top:10px;" class="table table-condensed table-striped table-fixed" id="TableItem"  cellspacing="0" role="grid">
-                    <thead id="theadsum">
-                      <tr role="row" id="tableSort">
-                        <th style='width: 5%; font-size:13px;'>&nbsp;</th>
-                        <th style='width: 8%;' nowrap><?php echo $array['sn'][$language]; ?>
-                        <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white"  onclick="ShowItem('itemDate','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                        <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('itemDate','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-                        </th>
-                        <th style='width: 16%;' nowrap><?php echo $array['code'][$language]; ?>
-                          <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                          <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-                        </th>
-                        <th style='width: 12%;' nowrap><?php echo $array['item'][$language]; ?>
-                        <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                          <a href="javascript:void(0)" class="activeSort "  onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-                        </th>
-                        <th style='padding-left: 4%;width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
-                        <th style='padding-left: 2%;width: 11.5%;' nowrap><?php echo $array['size'][$language]; ?></th>
-                        <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
-                        <th style='width: 9%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
-                        <th style='width: 9%;' nowrap>IsSAP</th>
-                        <th style='width: 8%;' nowrap><?php echo $array['tdas'][$language]; ?></th>
-                      </tr>
-                    </thead>
-                    <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:395px;">
-                    </tbody>
-                  </table>
-                  
+              <table style="margin-top:10px;" class="table table-condensed table-striped table-fixed" id="TableItem" cellspacing="0" role="grid">
+                <thead id="theadsum">
+                  <tr role="row" id="tableSort">
+                    <th style='width: 5%; font-size:13px;'>&nbsp;</th>
+                    <th style='width: 8%;' nowrap><?php echo $array['sn'][$language]; ?>
+                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort white" onclick="ShowItem('itemDate','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                      <a href="javascript:void(0)" class="activeSort " onclick="ShowItem('itemDate','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                    </th>
+                    <th style='width: 16%;' nowrap><?php echo $array['code'][$language]; ?>
+                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort " onclick="ShowItem('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                      <a href="javascript:void(0)" class="activeSort " onclick="ShowItem('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                    </th>
+                    <th style='width: 12%;' nowrap><?php echo $array['item'][$language]; ?>
+                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort " onclick="ShowItem('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                      <a href="javascript:void(0)" class="activeSort " onclick="ShowItem('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                    </th>
+                    <th style='padding-left: 4%;width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+                    <th style='padding-left: 2%;width: 11.5%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                    <th style='width: 10%;' nowrap><?php echo $array['weight'][$language]; ?></th>
+                    <th style='width: 9%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
+                    <th style='width: 9%;' nowrap>IsSAP</th>
+                    <th style='width: 8%;' nowrap><?php echo $array['tdas'][$language]; ?></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:395px;">
+                </tbody>
+              </table>
+
               <table style="margin-top:10px;" class="table table-fixed table-condensed table-striped" id="TableItemMaster" width="100%" cellspacing="0" role="grid" hidden>
                 <thead id="theadsum">
                   <tr role="row" id="tableSort">
                     <th style='width: 5%; font-size:13px;'>&nbsp;</th>
                     <th style='width: 6%;' nowrap><?php echo $array['no'][$language]; ?></th>
                     <th style='width: 19%;' nowrap><?php echo $array['codecode'][$language]; ?>
-                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItemMaster('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)" class="activeSort white"  onclick="ShowItemMaster('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort " onclick="ShowItemMaster('ItemCode','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                      <a href="javascript:void(0)" class="activeSort white" onclick="ShowItemMaster('ItemCode','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
                     </th>
                     <th style='width: 15%;' nowrap><?php echo $array['item'][$language]; ?>
-                    <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort "  onclick="ShowItemMaster('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>  
-                      <a href="javascript:void(0)" class="activeSort "  onclick="ShowItemMaster('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
-                     </th>
-										<th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
-										<th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
+                      <a href="javascript:void(0)" style="padding-left: 5px;" class="activeSort " onclick="ShowItemMaster('ItemName','ASC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-up"></i></a>
+                      <a href="javascript:void(0)" class="activeSort " onclick="ShowItemMaster('ItemName','DESC')"><i style="font-size: 15px;" class="fas fa-long-arrow-alt-down"></i></a>
+                    </th>
+                    <th style='width: 11%;' nowrap><?php echo $array['unit2'][$language]; ?></th>
+                    <th style='width: 9%;' nowrap><?php echo $array['size'][$language]; ?></th>
                     <th style='width: 14%;' nowrap><?php echo $array['weight'][$language]; ?></th>
                     <th style='width: 11%;' nowrap><?php echo $array['spacial'][$language]; ?></th>
                     <th style='width: 10%;' nowrap><?php echo $array['newitem'][$language]; ?></th>
@@ -2516,105 +2518,108 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div id="memu_tap1">
 
-              <div class="row m-1 mt-5 d-flex justify-content-end" >
-              <div class="menu mhee" hidden>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
-                                <button class="btn"  onclick="window.location.href='../report/excel/itemexcel.php' ">
-                                <i class="fas fa-download"></i>                                  
-                                <div>
-                                    Export Excel
-                                  </div>       
-                                </button>
-                              </div>
-                            </div>
-                          </div>
+              <div class="row m-1 mt-5 d-flex justify-content-end">
                 <div class="menu mhee" hidden>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle2 d-flex justify-content-center">
-                                <button class="btn"  data-toggle="modal" data-target="#modalExcel">
-                                <i class="fas fa-upload"></i>                                  
-                                  <div>
-                                    Import Excel
-                                  </div>       
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                <div class="menu mhee" id="ActiveBNT" <?php if($PmID != 6) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
-                                <button class="btn"  onclick="NewItem()" id="bSave">
-                                <i class="fas fa-check"></i>
-                                  <div>
-                                    <?php echo $array['activeItem'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                <div class="menu mhee" id="NewItem" <?php if($PmID != 6 && $PmID != 1  && $PmID != 5) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
-                                <button class="btn"  onclick="NewItem()" id="bSave">
-                                <i class="fas fa-plus"></i>                    
-                                  <div>
-                                    <?php echo $array['itemnew'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                <div class="menu mhee" id="AddItemBNT" <?php if($PmID != 6 && $PmID != 1 && $PmID != 5) echo 'hidden'; ?>>
-                            <div class="d-flex justify-content-center">
-                              <div class="circle4 d-flex justify-content-center">
-                                <button class="btn"  onclick="AddItem()" id="bSave">
-                                  <i class="fas fa-save"></i>
-                                  <div>
-                                    <?php echo $array['save'][$language]; ?>
-                                  </div>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="menu mhee" id="BlankItemBNT">
-                            <div class="d-flex justify-content-center">
-                              <div class="circle6 d-flex justify-content-center">
-                                <button class="btn" onclick="Blankinput()" id="bDelete">
-                                  <i class="fas fa-redo-alt"></i>
-                                  <div>
-                                    <?php echo $array['clear'][$language]; ?>
-                                  </div>       
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="menu mhee" id="delete1" id="CancelBNT" <?php if($PmID != 6  && $PmID != 1 && $PmID != 5) echo 'hidden'; ?> >
-                            <div class="d-flex justify-content-center" >
-                              <div class="circle3 d-flex justify-content-center" id="delete_icon">
-                                <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
-                                  <i class="fas fa-trash-alt"></i>
-                                  <div>
-                                    <?php echo $array['cancel'][$language]; ?>
-                                  </div>  
-                                </button>
-                              </div>
-                            </div>
-                          </div>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex justify-content-center">
+                      <button class="btn" onclick="window.location.href='../report/excel/itemexcel.php' ">
+                        <i class="fas fa-download"></i>
+                        <div>
+                          Export Excel
                         </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu mhee" hidden>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle2 d-flex justify-content-center">
+                      <button class="btn" data-toggle="modal" data-target="#modalExcel">
+                        <i class="fas fa-upload"></i>
+                        <div>
+                          Import Excel
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu mhee" id="ActiveBNT" <?php if ($PmID != 6) echo 'hidden'; ?>>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex justify-content-center">
+                      <button class="btn" onclick="NewItem()" id="bSave">
+                        <i class="fas fa-check"></i>
+                        <div>
+                          <?php echo $array['activeItem'][$language]; ?>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="menu mhee" id="NewItem" <?php if ($PmID != 6 && $PmID != 1  && $PmID != 5) echo 'hidden'; ?>>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex justify-content-center">
+                      <button class="btn" onclick="NewItem()" id="bSave">
+                        <i class="fas fa-plus"></i>
+                        <div>
+                          <?php echo $array['itemnew'][$language]; ?>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="menu mhee" id="AddItemBNT" <?php if ($PmID != 6 && $PmID != 1 && $PmID != 5) echo 'hidden'; ?>>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle4 d-flex justify-content-center">
+                      <button class="btn" onclick="AddItem()" id="bSave">
+                        <i class="fas fa-save"></i>
+                        <div>
+                          <?php echo $array['save'][$language]; ?>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu mhee" id="BlankItemBNT">
+                  <div class="d-flex justify-content-center">
+                    <div class="circle6 d-flex justify-content-center">
+                      <button class="btn" onclick="Blankinput()" id="bDelete">
+                        <i class="fas fa-redo-alt"></i>
+                        <div>
+                          <?php echo $array['clear'][$language]; ?>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="menu mhee" id="delete1" id="CancelBNT" <?php if ($PmID != 6  && $PmID != 1 && $PmID != 5) echo 'hidden'; ?>>
+                  <div class="d-flex justify-content-center">
+                    <div class="circle3 d-flex justify-content-center" id="delete_icon">
+                      <button class="btn" onclick="CancelItem()" id="bCancel" disabled="true">
+                        <i class="fas fa-trash-alt"></i>
+                        <div>
+                          <?php echo $array['cancel'][$language]; ?>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-              
+
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" onclick="menu_tapShow();" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><?php echo $array['detail'][$language]; ?></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="profile-tab"  onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['mulmultiply'][$language]; ?></a>
+                <a class="nav-link" id="catalog" onclick="menu_tapHide();" data-toggle="tab" href="#catalogtab" role="tab" aria-controls="catalog" aria-selected="false">catalog</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="itemset-tab"  onclick="menu_tapHide(2);" data-toggle="tab" href="#itemset" role="tab" aria-controls="itemset" aria-selected="false"><?php echo $array['itemset'][$language]; ?></a>
+                <a class="nav-link" id="profile-tab" onclick="menu_tapHide();" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['mulmultiply'][$language]; ?></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="itemset-tab" onclick="menu_tapHide(2);" data-toggle="tab" href="#itemset" role="tab" aria-controls="itemset" aria-selected="false"><?php echo $array['itemset'][$language]; ?></a>
               </li>
             </ul>
 
@@ -2630,15 +2635,15 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row mt-4">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['code'][$language]; ?></label>
-                              <input type="text"autocomplete="off"  onkeyup="resetinput()" class="form-control col-sm-7 checkblank enonly" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>" >
+                              <label class="col-sm-3 col-form-label "><?php echo $array['code'][$language]; ?></label>
+                              <input type="text" autocomplete="off" onkeyup="resetinput()" class="form-control col-sm-7 checkblank enonly" id="ItemCode" data-status="true" placeholder="<?php echo $array['code'][$language]; ?>">
                               <label id="rem1" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
                           <!-- <div class="col-md-0">
                           </div>
                           <div class="col-md-5"> -->
-                            <!-- <div class="row ">
+                          <!-- <div class="row ">
                               <div class="col-md-4">
                                 <div class='form-group row'>
                                   <div class='radio-c'>
@@ -2673,25 +2678,25 @@ $array2 = json_decode($json2, TRUE);
                                 </div>
                               </div>
                             </div> -->
-                            <div class="col-md-6">
-                              <div class='form-group row'>
-                                <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                                <select   class="form-control col-sm-7 checkblank" id="hospital"   onchange="resetinput()"></select>
-                                <label id="rem7" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
-                              </div>
+                          <div class="col-md-6">
+                            <div class='form-group row'>
+                              <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                              <select class="form-control col-sm-7 checkblank" id="hospital" onchange="resetinput()"></select>
+                              <label id="rem7" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
+                            </div>
                           </div>
-                        <!-- </div> -->
-                      </div>
+                          <!-- </div> -->
+                        </div>
                         <!-- =================================================================== -->
                         <!-- id="oldCodetype" -->
-                        <div class="row" >
-              
+                        <div class="row">
+
                           <div class="col-md-6">
                             <div class="row">
-                            <label class="col-sm-3 col-form-label "><?php echo $array['type'][$language]; ?></label>
+                              <label class="col-sm-3 col-form-label "><?php echo $array['type'][$language]; ?></label>
                               <div class="col-md-8">
                                 <div class='form-group row'>
-                                  <select   class="form-control col-sm-4 " id="typeLinen" >
+                                  <select class="form-control col-sm-4 " id="typeLinen">
                                     <option value="P">Patient Shirt</option>
                                     <option value="S">Staff Uniform</option>
                                     <option value="F">Flat Sheet</option>
@@ -2701,7 +2706,7 @@ $array2 = json_decode($json2, TRUE);
                                   </select>
 
                                   <label class="col-sm-3 col-form-label text-right" style="margin-left: -22px;"><?php echo $array['pack'][$language]; ?></label>
-                                  <select   class="form-control col-sm-4  numonly" id="numPack" >
+                                  <select class="form-control col-sm-4  numonly" id="numPack">
                                     <option value="1">1 PCS</option>
                                     <option value="5">5 Pc</option>
                                     <option value="10">10 Pc</option>
@@ -2715,7 +2720,7 @@ $array2 = json_decode($json2, TRUE);
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['sizeunit'][$language]; ?></label>
+                              <label class="col-sm-3 col-form-label "><?php echo $array['sizeunit'][$language]; ?></label>
                               <select onchange="resetinput()" class="form-control col-sm-7 checkblank numonly" id="SizeCode">
                                 <option value="1">SS</option>
                                 <option value="2">S</option>
@@ -2728,13 +2733,13 @@ $array2 = json_decode($json2, TRUE);
                                 <option value="9">NO SIZE</option>
 
                               </select>
-                              
+
                             </div>
                           </div>
                         </div>
                         <!-- =================================================================== -->
                         <div class="row">
-<!-- 
+                          <!-- 
                           <div class="col-md-6" >
                             <div class='form-group row'>
                             <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
@@ -2745,17 +2750,17 @@ $array2 = json_decode($json2, TRUE);
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
-                              <select  onchange="resetinput5()"  class="form-control col-sm-7 checkblank" id="catagory2"  ></select>
+                              <label class="col-sm-3 col-form-label "><?php echo $array['categorymain'][$language]; ?></label>
+                              <select onchange="resetinput5()" class="form-control col-sm-7 checkblank" id="catagory2"></select>
                               <label id="rem3" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['widthunit'][$language]; ?></label>
+                              <label class="col-sm-3 col-form-label "><?php echo $array['widthunit'][$language]; ?></label>
                               <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-3 checkblank numonly" id="QtyPerUnit" placeholder="<?php echo $array['Quality'][$language]; ?>">
-                              <select class="form-control col-sm-4"   id="sUnitName" onchange="getplaceholder();"></select>
+                              <select class="form-control col-sm-4" id="sUnitName" onchange="getplaceholder();"></select>
                               <label id="rem6" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
@@ -2770,15 +2775,15 @@ $array2 = json_decode($json2, TRUE);
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['pricecus'][$language]; ?></label>
-                              <input onkeyup="resetinput()"  type="text" autocomplete="off" class="form-control col-sm-7 numonly" id="CusPrice" placeholder="<?php echo $array['pricecus'][$language]; ?>">
+                              <label class="col-sm-3 col-form-label "><?php echo $array['pricecus'][$language]; ?></label>
+                              <input onkeyup="resetinput()" type="text" autocomplete="off" class="form-control col-sm-7 numonly" id="CusPrice" placeholder="<?php echo $array['pricecus'][$language]; ?>">
                             </div>
                           </div>
 
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['pricefac'][$language]; ?></label>
-                              <input onkeyup="resetinput()"  type="text" autocomplete="off" class="form-control col-sm-7 numonly" id="FacPrice" placeholder="<?php echo $array['pricefac'][$language]; ?>">
+                              <label class="col-sm-3 col-form-label "><?php echo $array['pricefac'][$language]; ?></label>
+                              <input onkeyup="resetinput()" type="text" autocomplete="off" class="form-control col-sm-7 numonly" id="FacPrice" placeholder="<?php echo $array['pricefac'][$language]; ?>">
                             </div>
                           </div>
 
@@ -2787,15 +2792,15 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['item'][$language]; ?></label>
-                              <input onkeyup="resetinput()"  autocomplete="off" type="text" class="form-control col-sm-7 checkblank" id="ItemName" placeholder="<?php echo $array['item'][$language]; ?>">
+                              <label class="col-sm-3 col-form-label "><?php echo $array['item'][$language]; ?></label>
+                              <input onkeyup="resetinput()" autocomplete="off" type="text" class="form-control col-sm-7 checkblank" id="ItemName" placeholder="<?php echo $array['item'][$language]; ?>">
                               <label id="rem4" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['weight'][$language]; ?></label>
-                              <input onkeyup="resetinput()"  autocomplete="off" type="text" class="form-control col-sm-7 checkblank numonly" id="Weight" placeholder="<?php echo $array['weight'][$language]; ?>">
+                              <label class="col-sm-3 col-form-label "><?php echo $array['weight'][$language]; ?></label>
+                              <input onkeyup="resetinput()" autocomplete="off" type="text" class="form-control col-sm-7 checkblank numonly" id="Weight" placeholder="<?php echo $array['weight'][$language]; ?>">
                               <label id="rem5" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                             </div>
                           </div>
@@ -2804,51 +2809,149 @@ $array2 = json_decode($json2, TRUE);
                         <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['unit'][$language]; ?></label>
-                              <select onchange="resetinput()"  class="form-control col-sm-7" id="UnitName"></select>
+                              <label class="col-sm-3 col-form-label "><?php echo $array['unit'][$language]; ?></label>
+                              <select onchange="resetinput()" class="form-control col-sm-7" id="UnitName"></select>
                             </div>
                           </div>
-      
+
                         </div>
                         <!-- =================================================================== -->
-                        
+
                         <div class="row">
                           <div class="col-md-6">
                             <div class='form-group row offset-3'>
 
                               <label class="radio " style="margin-top:2px !important; margin-left:-87px;">
-                              <input type="checkbox"  id="xCenter">
-                              <span class="checkmark"></span>
+                                <input type="checkbox" id="xCenter">
+                                <span class="checkmark"></span>
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['spacial'][$language]; ?></label>
                               <label class="radio" style="margin:0px !important;">
-                              
-                              <input type="checkbox"  id="SAP">
-                              <span class="checkmark"></span>
+
+                                <input type="checkbox" id="SAP">
+                                <span class="checkmark"></span>
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left">SAP</label>
                               <label class="radio" style="margin:0px !important;">
 
-                              <!-- <input type="checkbox"  id="masterItem" >
+                                <!-- <input type="checkbox"  id="masterItem" >
                               <span class="checkmark"></span>
                               </label> 
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['itemmas'][$language]; ?></label>
                               <label class="radio" style="margin:0px !important;"> -->
 
-                              <input type="checkbox"  id="tdas" >
-                              <span class="checkmark"></span>
+                                <input type="checkbox" id="tdas">
+                                <span class="checkmark"></span>
                               </label>
                               <label style="top: -9px;" class="col col-form-label text-left"><?php echo $array['tdas'][$language]; ?></label>
 
                             </div>
                           </div>
-                          
+
 
                         </div>
                         <!-- =================================================================== -->
                       </div>
                     </div>
                   </div> <!-- tag column 1 -->
+                </div>
+              </div>
+
+              <div class="tab-pane show " id="catalogtab" role="tabpanel" aria-labelledby="home-tab">
+                <div class="card-body" style="padding:0px; margin-top:10px;">
+
+                  <div class="row d-flex justify-content-end">
+                    <div class="menu mhee">
+                      <div class="d-flex justify-content-center">
+                        <div class="circle4 d-flex justify-content-center">
+                          <button class="btn" onclick="saveCatalog()">
+                            <i class="fas fa-save"></i>
+                            <div>
+                              <?php echo $array['save'][$language]; ?>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                  <div class="row mt-5">
+                    <div class="col-4">
+                      <input type="file" id="imageOne" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                    </div>
+                    <div class="col-4">
+                      <input type="file" id="imageTwo" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                    </div>
+                    <div class="col-4">
+                      <input type="file" id="imageThree" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                    </div>
+                  </div>
+
+                  <div class="row mt-3">
+                    <div class="col-4">
+                      <div class="row">
+                        <div class="col-10">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Color</label>
+                            <button style="background: none;border: none;" onclick="plusColor()"><i class="fas fa-plus-square text-info"></i></button>
+                            <div id="formColor">
+
+                            </div>
+                            <!-- <input class="color-picker form-control mt-2 " value=''  onchange="insertColor()" /> -->
+                          </div>
+                        </div>
+                        <div class="col-2">
+                          <div class="form-group ">
+                            <label for="exampleInputEmail1"></label>
+                            <div id="formDeleteColor">
+
+                            </div>
+                            <!-- <button class="form-control mt-3" style="background: none;border: none;" onclick="plusColor()"><i class="fas fa-times text-danger"></i></button> -->
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-4">
+                      <div class="row">
+                        <div class="col-10">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Supplier</label>
+                            <button style="background: none;border: none;" onclick="plusSup()"><i class="fas fa-plus-square text-info"></i></button>
+                            <div id="formSup">
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-2">
+                          <div class="form-group ">
+                            <label for="exampleInputEmail1"></label>
+                            <div id="formDeleteSupplier">
+
+                            </div>
+                            <!-- <button class="form-control mt-3" style="background: none;border: none;" onclick="plusColor()"><i class="fas fa-times text-danger"></i></button> -->
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-4">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Discription</label>
+                            <textarea class="form-control" id="txtDiscription" rows="3" style="font-size: 22px;"></textarea>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                  </div>
                 </div>
               </div>
 
@@ -2883,19 +2986,19 @@ $array2 = json_decode($json2, TRUE);
                           <label><?php echo $array['multiply_price'][$language]; ?></label>
                         </div>
                         <input type="text" autocomplete="off" class="form-control numonly" style="font-size:24px;width:59px;" name="priceunit" id="priceunit" placeholder="0.00">
-                       
-                        <div class="search_custom  col-md-1" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
-                              <div class="circle4 d-flex justify-content-start">
-                                <button class="btn"  onclick="AddUnit()" id="bSave_chk" disabled>
-                                <i class="fas fa-save mr-3"></i><?php echo $array['save'][$language]; ?>
-                                </button>
-                              </div>
+
+                        <div class="search_custom  col-md-1" <?php if ($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                          <div class="circle4 d-flex justify-content-start">
+                            <button class="btn" onclick="AddUnit()" id="bSave_chk" disabled>
+                              <i class="fas fa-save mr-3"></i><?php echo $array['save'][$language]; ?>
+                            </button>
+                          </div>
                         </div>
 
-                        <div class="search_custom  col-md-2" <?php if($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
+                        <div class="search_custom  col-md-2" <?php if ($PmID == 3 || $PmID == 7) echo 'hidden'; ?>>
                           <div class="circle3 d-flex justify-content-start">
-                            <button class="btn"  onclick="DeleteUnit()" disabled id="btn_del">
-                                <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
+                            <button class="btn" onclick="DeleteUnit()" disabled id="btn_del">
+                              <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
                             </button>
                           </div>
                         </div>
@@ -2915,7 +3018,7 @@ $array2 = json_decode($json2, TRUE);
                         <th align='center' style='width: 19%;'><?php echo $array['secunit'][$language]; ?></th>
                         <th align='center' style='width: 14%;'><?php echo $array['multiply_unit'][$language]; ?></th>
                         <th align='center' style='width: 17%;'><?php echo $array['multiply_price'][$language]; ?></th>
-                        
+
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:11px;height:200px;">
@@ -2933,15 +3036,15 @@ $array2 = json_decode($json2, TRUE);
                           <div class="row d-flex justify-content-end">
                             <div class="search_custom  col-3">
                               <div class="circle4 d-flex justify-content-start">
-                                <button class="btn" id="btn_importMaster" onclick="openModal()"  disabled>
-                                <i class="fas fa-file-import mr-3"></i><?php echo $array['import'][$language]; ?>
+                                <button class="btn" id="btn_importMaster" onclick="openModal()" disabled>
+                                  <i class="fas fa-file-import mr-3"></i><?php echo $array['import'][$language]; ?>
                                 </button>
                               </div>
                             </div>
                             <div class="search_custom  col-3">
                               <div class="circle3 d-flex justify-content-start">
                                 <button class="btn" id="btn_deleteMaster" onclick="deleteMaster()" disabled>
-                                    <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
+                                  <i class="fas fa-trash-alt mr-3"></i><?php echo $array['delete'][$language]; ?>
                                 </button>
                               </div>
                             </div>
@@ -2974,223 +3077,859 @@ $array2 = json_decode($json2, TRUE);
         </div>
       </div>
 
-<div class="modal" id="masterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
+      <div class="modal" id="masterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true">&times;</span>
               </button>
-          </div>
-          <div class="modal-body">
-                  <div class="card-body" style="padding:0px;">
-                    <div class="row">
-                      <label class="col-sm-4 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
-                      <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagoryModal" onchange="getCatagory();"></select>
-                    </div>
-                    <div class="row">
-                      <label class="col-sm-4 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
-                      <select class="col-sm-7 form-control" style="font-size:24px;" id="catagoryModal"></select>
-                    </div>
-                    <div class="row">
-                      <label class="col-sm-4 col-form-label"><?php echo $array['search'][$language]; ?></label>
-                      <input type="text" autocomplete="off" class="form-control col-sm-7" style="font-size:24px;" name="searchitem" id="searchitemModal" placeholder="<?php echo $array['searchplace'][$language]; ?>">
-                    </div>
-                    <div class="row my-2 d-flex justify-content-end">
-                      <div class="col-md-2">
-                        <div class="search_custom col-md-2" id="searchItem_1">
-                          <div class="search_1 d-flex justify-content-start">
-                            <button class="btn" onclick="ShowItemModal()">
-                              <i class="fas fa-search mr-2"></i>
-                              <?php echo $array['search'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="search_custom col-md-2" id="searchItem_1">
-                          <div class="circle6 d-flex justify-content-start">
-                            <button class="btn" onclick="AddItemMaster()">
-                              <i class="fas fa-file-import mr-2"></i>
-                              <?php echo $array['import'][$language]; ?>
-                            </button>
-                          </div>
-                        </div>
+            </div>
+            <div class="modal-body">
+              <div class="card-body" style="padding:0px;">
+                <div class="row">
+                  <label class="col-sm-4 col-form-label"><?php echo $array['categorymain'][$language]; ?></label>
+                  <select class="col-sm-7 form-control" style="font-size:24px;" id="maincatagoryModal" onchange="getCatagory();"></select>
+                </div>
+                <div class="row">
+                  <label class="col-sm-4 col-form-label"><?php echo $array['categorysub'][$language]; ?></label>
+                  <select class="col-sm-7 form-control" style="font-size:24px;" id="catagoryModal"></select>
+                </div>
+                <div class="row">
+                  <label class="col-sm-4 col-form-label"><?php echo $array['search'][$language]; ?></label>
+                  <input type="text" autocomplete="off" class="form-control col-sm-7" style="font-size:24px;" name="searchitem" id="searchitemModal" placeholder="<?php echo $array['searchplace'][$language]; ?>">
+                </div>
+                <div class="row my-2 d-flex justify-content-end">
+                  <div class="col-md-2">
+                    <div class="search_custom col-md-2" id="searchItem_1">
+                      <div class="search_1 d-flex justify-content-start">
+                        <button class="btn" onclick="ShowItemModal()">
+                          <i class="fas fa-search mr-2"></i>
+                          <?php echo $array['search'][$language]; ?>
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <table class="table table-fixed table-condensed table-striped" id="TableItemModal" width="100%" cellspacing="0" role="grid" style="font-size:24px;font-family: 'THSarabunNew'">
-                      <thead style="font-size:24px;">
-                          <tr role="row">
-                          <th style='width: 5%;'>&nbsp;</th>
-                              <th style='width: 31%;' nowrap><?php echo $array['code'][$language]; ?></th>
-                              <th style='width: 31%;' nowrap><?php echo $array['item'][$language]; ?></th>
-                              <th style='width: 31%;text-align:center' nowrap><?php echo $array['qty'][$language]; ?></th>
-                          </tr>
-                      </thead>
-                      <tbody id="tbody_modal" class="nicescrolled" style="font-size:23px;height:300px;">
-                      </tbody>
-                  </table>
+                  <div class="col-md-2">
+                    <div class="search_custom col-md-2" id="searchItem_1">
+                      <div class="circle6 d-flex justify-content-start">
+                        <button class="btn" onclick="AddItemMaster()">
+                          <i class="fas fa-file-import mr-2"></i>
+                          <?php echo $array['import'][$language]; ?>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+              <table class="table table-fixed table-condensed table-striped" id="TableItemModal" width="100%" cellspacing="0" role="grid" style="font-size:24px;font-family: 'THSarabunNew'">
+                <thead style="font-size:24px;">
+                  <tr role="row">
+                    <th style='width: 5%;'>&nbsp;</th>
+                    <th style='width: 31%;' nowrap><?php echo $array['code'][$language]; ?></th>
+                    <th style='width: 31%;' nowrap><?php echo $array['item'][$language]; ?></th>
+                    <th style='width: 31%;text-align:center' nowrap><?php echo $array['qty'][$language]; ?></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody_modal" class="nicescrolled" style="font-size:23px;height:300px;">
+                </tbody>
+              </table>
+            </div>
           </div>
+        </div>
       </div>
-</div>
 
 
-<div class="modal fade" id="modalExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['upload'][$language]; ?></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body upload-doc">
-        <input type="file" class="dropify"  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileExcel" name="fileExcel" />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary px-2" data-dismiss="modal"><?php echo $array['isno'][$language]; ?></button>
-        <button type="button" class="btn btn-primary  px-2" id='comfirm_submit' disabled onclick='uploadExcel()'><?php echo $array['yes'][$language]; ?></button>
+      <div class="modal fade" id="modalExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"><?php echo $array['upload'][$language]; ?></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body upload-doc">
+              <input type="file" class="dropify" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileExcel" name="fileExcel" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary px-2" data-dismiss="modal"><?php echo $array['isno'][$language]; ?></button>
+              <button type="button" class="btn btn-primary  px-2" id='comfirm_submit' disabled onclick='uploadExcel()'><?php echo $array['yes'][$language]; ?></button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-</div>
-      <div id="page-down">
-      </div>
-      <!-- /#wrapper -->
-      <!-- Scroll to Top Button-->
-      <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-      </a>
+    <div id="page-down">
+    </div>
+    <!-- /#wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
 
 
-      <!-- Bootstrap core JavaScript-->
-      <script src="../template/vendor/jquery/jquery.min.js"></script>
-      <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../template/vendor/jquery/jquery.min.js"></script>
+    <script src="../template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-      <!-- Core plugin JavaScript-->
-      <script src="../template/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="../template/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-      <!-- Page level plugin JavaScript-->
-      <script src="../template/vendor/datatables/jquery.dataTables.js"></script>
-      <script src="../template/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="../template/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="../template/vendor/datatables/dataTables.bootstrap4.js"></script>
 
-      <!-- Custom scripts for all pages-->
-      <script src="../template/js/sb-admin.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="../template/js/sb-admin.min.js"></script>
 
-      <!-- Demo scripts for this page-->
-      <script src="../template/js/demo/datatables-demo.js"></script>
-      <script src="../dropify/dist/js/dropify.min.js"></script>
-      <script>
-        $(document).ready(function(e) {
-          $('.dropify').dropify();
+    <!-- Demo scripts for this page-->
+    <script src="../template/js/demo/datatables-demo.js"></script>
+    <script src="../dropify/dist/js/dropify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+    <script>
+      var chk_supplier = 0;
+      var chk_color = 0;
+      $('.color-picker').spectrum({
+        type: "component"
+      });
+      $(document).ready(function(e) {
+        plusColor();
+        plusSup();
+        $('.dropify').dropify();
 
-          // Used events
-          var drEvent = $('#input-file-events').dropify();
+        $('#txtDiscription').keyup(function(e) {
+        if (e.keyCode == 13) {
+          insertDiscription();
+        }
+      });
 
-          drEvent.on('dropify.beforeClear', function(event, element) {
-              return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+
+      });
+      var drEvent = $('#imageOne').dropify();
+      var drEventTwo = $('#imageTwo').dropify();
+      var drEventThree = $('#imageThree').dropify();
+
+      drEvent.on('dropify.afterClear ', function(event, element) {
+         $('#imageOne').data("value", "default");
+      });
+
+      drEventTwo.on('dropify.afterClear ', function(event, element) {
+         $('#imageTwo').data("value", "default");
+      });
+
+      drEventThree.on('dropify.afterClear ', function(event, element) {
+         $('#imageThree').data("value", "default");
+      });
+
+      function insertDiscription(){
+        var txtDiscription = $('#txtDiscription').val();
+        var ItemCode = $('#ItemCode').val();
+
+        
+        if (ItemCode == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการที่ต้องการแก้ไข',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
           });
-
-          drEvent.on('dropify.afterClear', function(event, element) {
-              alert('File deleted');
-          });
-
-          drEvent.on('dropify.errors', function(event, element) {
-              console.log('Has Errors');
-          });
-          checkFileLength();
-          $('.upload-doc input[type="file"]').on('change', function () {
-              checkFileLength();
-          });
-        });
-        function checkFileLength() {
-          let $upload_file_elem = $('.upload-doc input[type="file"]');
-          let file_length = $upload_file_elem.length;
-          let validation = 0;
-
-          for (i = 0; i < file_length; i++) {
-              if ($($upload_file_elem[i]).val() != '') {
-                  validation++;
-              }
-          }
-
-          if (validation >= 1) {
-              $('#comfirm_submit').removeAttr('disabled');
-          }
+          return;
         }
 
-        function uploadExcel(){
-          var file_data = $('#fileExcel').prop('files')[0];   
-          if(file_data!=''){
+        if (txtDiscription != "") {
+          $.ajax({
+            url: "../process/insertitem.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'insertDiscription',
+              'txtDiscription': txtDiscription,
+              'ItemCode': ItemCode,
+
+            },
+            success: function(result) {
+
               swal({
-              title: "",
-              text: "<?php echo $array['upload'][$language]; ?>",
-              type: "question",
-              showCancelButton: true,
-              confirmButtonClass: "btn-success",
-              confirmButtonText:  "<?php echo $array['yes'][$language]; ?>",
-              cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-              confirmButtonColor: '#6fc864',
-              cancelButtonColor: '#3085d6',
-              closeOnConfirm: false,
-              closeOnCancel: false,
-              showCancelButton: true}).then(result => {
-                if (result.value) {
-                      var file_data = $('#fileExcel').prop('files')[0];   
-                      var form_data = new FormData();                  
-                      form_data.append('file', file_data);
-                      var URL = '../process/itemExcel.php';
-                      $.ajax({
-                          url: URL, 
-                          dataType: 'text',
-                          cache: false,
-                          contentType: false,
-                          processData: false,
-                          data:  form_data,
-                          type: 'post',
-                          success: function(result){
-                            swal({
-                              title: '',
-                              text: '<?php echo $array['uploadsuc'][$language]; ?>',
-                              type: 'success',
-                              showCancelButton: false,
-                              confirmButtonColor: '#3085d6',
-                              cancelButtonColor: '#d33',
-                              showConfirmButton: false,
-                              timer: 1000,
-                            });
-                            setTimeout(() => {
-                              $('#modalExcel').modal('toggle');
-                            }, 1000); 
-                          }
-                      });
-                } else if (result.dismiss === 'cancel') {
-                    swal.close();
-                }
-              })
-          }else{
-            swal({
                 title: '',
-                text: "<?php echo $array['required'][$language]; ?>",
-                type: 'info',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
                 showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
                 showConfirmButton: false,
-                timer: 2000,
-                confirmButtonText: 'Ok'
-            })
-            $('.checkblank').each(function() {
-                if($(this).val()==""||$(this).val()==undefined){
-                $(this).css('border-color', 'red');
+                timer: 1500,
+              });
+
+              showDiscription(ItemCode);
+
+
+            }
+          });
+        }else{
+          swal({
+            title: '',
+            text: 'กรุณาระบุ Discription',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
+        }
+
+      }
+
+      function plusSup() {
+        var ItemCode = $('#ItemCode').val();
+        let r = Math.random().toString(36).substring(7);
+        var chk_plusSupplier = 0;
+        $(".supplier-loop").each(function() {
+          chk_plusSupplier++;
+        });
+
+        // alert(chk_plusSupplier);
+        // alert(chk_supplier);
+        if (chk_plusSupplier != chk_supplier) {
+          swal({
+            title: '',
+            text: 'กรุณาเลือก Supplier ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
+        }
+        $("#formSup").append("<select name='' id='" + r + "' class='supplier-loop form-control mt-2' onchange='insertSupplier(\"" + r + "\")'></select>");
+
+        showSupplier(ItemCode, 0);
+      }
+
+      function showImagesCatalog(itemCode) {
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'showImagesCatalog',
+            'ItemCode': itemCode,
+
+          },
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+
+                var imageOne = `${"../profile/catalog/"+value.imageOne}`;
+                var imageTwo = `${"../profile/catalog/"+value.imageTwo}`;
+                var imageThree = `${"../profile/catalog/"+value.imageThree}`;
+                $(".dropify-clear").click();
+                if (imageOne != "null") {
+
+                  var drEvent = $('#imageOne').dropify({
+                    defaultFile: imageOne
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = imageOne;
+                  drEvent.destroy();
+                  drEvent.init();
+                } else {
+                  // $(".dropify-clear").click();
                 }
+
+                if (imageTwo != "null") {
+                  var drEvent = $('#imageTwo').dropify({
+                    defaultFile: imageTwo
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = imageTwo;
+                  drEvent.destroy();
+                  drEvent.init();
+                } else {
+                  // $(".dropify-clear").click();
+                }
+
+                if (imageThree != "null") {
+                  var drEvent = $('#imageThree').dropify({
+                    defaultFile: imageThree
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = imageThree;
+                  drEvent.destroy();
+                  drEvent.init();
+                } else {
+                  // $(".dropify-clear").click();
+                }
+
+                setTimeout(() => {
+                  $('#imageOne').data("value", imageOne);
+                  $('#imageTwo').data("value", imageOne);
+                  $('#imageThree').data("value", imageOne);
+                }, 300);
+
+
+
+              });
+            } else {}
+
+
+          }
+        });
+      }
+
+      function plusColor() {
+        let r = Math.random().toString(36).substring(7);
+
+        var chk_plusColor = 0;
+        $(".color-picker").each(function() {
+          chk_plusColor++;
+        });
+
+        // alert(chk_plusSupplier);
+        // alert(chk_supplier);
+        if (chk_plusColor != chk_color) {
+          swal({
+            title: '',
+            text: 'กรุณาเลือก Color ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
+        }
+
+        $("#formColor").append("<input class='color-picker form-control mt-2' value='' id='" + r + "' onchange='insertColor(\"" + r + "\")' />");
+        // $("#formDeleteColor").append("<button class='form-control mt-2' style='background: none;border: none;' onclick='deleteColor(\"" + r + "\")'><i class='fas fa-times text-danger'></i></button>");
+
+        $('.color-picker').spectrum({
+          type: "component"
+        });
+      }
+
+      function insertColor(r) {
+
+        var codeColor = $('#' + r).val();
+        var ItemCode = $('#ItemCode').val();
+
+        if (ItemCode == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการที่ต้องการแก้ไข',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
+        }
+
+        if (codeColor != "") {
+          $.ajax({
+            url: "../process/insertitem.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'insertColor',
+              'codeColor': codeColor,
+              'ItemCode': ItemCode,
+
+            },
+            success: function(result) {
+
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+              showColor(ItemCode);
+
+
+            }
+          });
+        }else{
+          swal({
+            title: '',
+            text: 'กรุณาระบุ Color',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
+        }
+
+      }
+
+      function insertSupplier(r) {
+
+        var supplier = $('#' + r).val();
+        var ItemCode = $('#ItemCode').val();
+
+        if (ItemCode == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการที่ต้องการแก้ไข',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
+        }
+        if (supplier != "") {
+          $.ajax({
+            url: "../process/insertitem.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'insertSupplier',
+              'supplier': supplier,
+              'ItemCode': ItemCode,
+
+            },
+            success: function(result) {
+
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+              showSupplier(ItemCode);
+
+
+            }
+          });
+        }else{
+          swal({
+            title: '',
+            text: 'กรุณาระบุ Supplier',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
+        }
+
+      }
+
+      function showSupplier(itemCode, chk) {
+        GetDep();
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'showSupplier',
+            'ItemCode': itemCode,
+
+          },
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+            var option = "";
+            var option2 = "";
+
+            $("#formSup").empty();
+            $("#formDeleteSupplier").empty();
+
+            chk_supplier = 0;
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+                option += `<select name='' id='${value.id}' class='supplier-loop form-control mt-2' onchange='updateSupplier(\"${value.id}\",\"${value.itemCode}\")'></select>`;
+                option2 += `<button class='form-control mt-2' style='background: none;border: none;' onclick='deleteSupplier(\"${value.id}\",\"${value.itemCode}\")'><i class='fas fa-times text-danger'></i></button>`;
+                chk_supplier++;
+              });
+            } else {
+
+            }
+            $("#formSup").append(option);
+            $("#formDeleteSupplier").append(option2);
+            if (chk == 0) {
+              let r = Math.random().toString(36).substring(7);
+              $("#formSup").append("<select name='' id='" + r + "' class='supplier-loop form-control mt-2' onchange='insertSupplier(\"" + r + "\")'></select>");
+              GetDep();
+            } else {
+              GetDep();
+            }
+
+
+            setTimeout(() => {
+              $.each(ObjData, function(kay2, value2) {
+
+                let id = `${value2.id}`;
+                let codeSupplier = `${value2.codeSupplier}`;
+
+                console.log(id);
+                console.log(codeSupplier);
+
+                $('#' + id).val(codeSupplier);
+              });
+            }, 200);
+
+          }
+        });
+      }
+
+      function showColor(itemCode, chk) {
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'showColor',
+            'ItemCode': itemCode,
+
+          },
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+            var option = "";
+            var option2 = "";
+            $("#formColor").empty();
+            $("#formDeleteColor").empty();
+            chk_color = 0;
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+                // option += `<option value="${value.DepCode}">${value.DepName}</option>`;
+                option += `<input class='color-picker form-control mt-2' value='${value.codeColor}' id='${value.id}' onchange='updateColor(\"${value.id}\",\"${value.itemCode}\")' />`;
+                option2 += `<button class='form-control mt-2' style='background: none;border: none;' onclick='deleteColor(\"${value.id}\",\"${value.itemCode}\")'><i class='fas fa-times text-danger'></i></button>`;
+                chk_color++;
+              });
+            } else {}
+            $("#formColor").append(option);
+            $("#formDeleteColor").append(option2);
+
+            if (chk == 0) {
+              let r = Math.random().toString(36).substring(7);
+              $("#formColor").append("<input class='color-picker form-control mt-2' value='' id='" + r + "' onchange='insertColor(\"" + r + "\")' />");
+              // $("#formDeleteColor").append("<button class='form-control mt-2' style='background: none;border: none;' onclick='deleteColor(\"" + r + "\")'><i class='fas fa-times text-danger'></i></button>");
+
+              $('.color-picker').spectrum({
+                type: "component"
+              });
+            }
+            $('.color-picker').spectrum({
+              type: "component"
             });
           }
+        });
+      }
+
+      function showDiscription(itemCode) {
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'showDiscription',
+            'ItemCode': itemCode,
+
+          },
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+            chk_color = 0;
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+                if(`${value.discription}` == "null"){
+                  var text =  "";
+                }else{
+                  var text =  `${value.discription}`;
+                }
+                $('#txtDiscription').val(text);
+              });
+            } else {}
+
+
+
+          }
+        });
+      }
+
+      function saveCatalog() {
+        var form_data = new FormData();
+        var imageOne = $('#imageOne').prop('files')[0];
+        var imageTwo = $('#imageTwo').prop('files')[0];
+        var imageThree = $('#imageThree').prop('files')[0];
+        var data_imageOne = $('#imageOne').data('value');
+        var data_imageTwo = $('#imageTwo').data('value');
+        var data_imageThree = $('#imageThree').data('value');
+
+
+        var ItemCode = $('#ItemCode').val();
+        var URL = '../process/insertCatalog.php';
+        var codeColorArray = [];
+        var supplierArray = [];
+
+        
+        if (ItemCode == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการที่ต้องการแก้ไข',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          return;
         }
-      </script>
+
+        $(".color-picker").each(function() {
+          codeColorArray.push($(this).val());
+        });
+
+        $(".supplier-loop").each(function() {
+          supplierArray.push($(this).val());
+        });
+        form_data.append('imageOne', imageOne);
+        form_data.append('imageTwo', imageTwo);
+        form_data.append('imageThree', imageThree);
+        form_data.append('codeColorArray', codeColorArray);
+        form_data.append('supplierArray', supplierArray);
+        form_data.append('ItemCode', ItemCode);
+        form_data.append('data_imageOne', data_imageOne);
+        form_data.append('data_imageTwo', data_imageTwo);
+        form_data.append('data_imageThree', data_imageThree);
+        $.ajax({
+          url: URL,
+          dataType: 'text',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: form_data,
+          type: 'post',
+          success: function(result) {
+            swal({
+              title: '',
+              text: '<?php echo $array['savesuccess'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+          }
+        });
+
+
+      }
+
+      function deleteColor(id, itemCode) {
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'deleteColor',
+            'id': id,
+            'ItemCode': itemCode,
+
+          },
+          success: function(result) {
+
+
+            showColor(itemCode);
+
+
+          }
+        });
+      }
+
+      function deleteSupplier(id, itemCode) {
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'deleteSupplier',
+            'id': id,
+            'ItemCode': itemCode,
+
+          },
+          success: function(result) {
+
+
+            showSupplier(itemCode);
+
+
+          }
+        });
+      }
+
+
+      function updateColor(id, itemCode) {
+        var codeColor = $('#' + id).val();
+
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'updateColor',
+            'id': id,
+            'ItemCode': itemCode,
+            'codeColor': codeColor,
+
+          },
+          success: function(result) {
+
+            swal({
+              title: '',
+              text: '<?php echo $array['savesuccess'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            showColor(itemCode);
+
+
+          }
+        });
+      }
+
+
+      function updateSupplier(id, itemCode) {
+
+        var supplier = $('#' + id).val();
+
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'updateSupplier',
+            'id': id,
+            'ItemCode': itemCode,
+            'supplier': supplier,
+          },
+          success: function(result) {
+
+            swal({
+              title: '',
+              text: '<?php echo $array['savesuccess'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+
+            showSupplier(itemCode);
+
+
+          }
+        });
+      }
+
+      function uploadExcel() {
+        var file_data = $('#fileExcel').prop('files')[0];
+        if (file_data != '') {
+          swal({
+            title: "",
+            text: "<?php echo $array['upload'][$language]; ?>",
+            type: "question",
+            showCancelButton: true,
+            confirmButtonClass: "btn-success",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+            confirmButtonColor: '#6fc864',
+            cancelButtonColor: '#3085d6',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true
+          }).then(result => {
+            if (result.value) {
+              var file_data = $('#fileExcel').prop('files')[0];
+              var form_data = new FormData();
+              form_data.append('file', file_data);
+              var URL = '../process/itemExcel.php';
+              $.ajax({
+                url: URL,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function(result) {
+                  swal({
+                    title: '',
+                    text: '<?php echo $array['uploadsuc'][$language]; ?>',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    showConfirmButton: false,
+                    timer: 1000,
+                  });
+                  setTimeout(() => {
+                    $('#modalExcel').modal('toggle');
+                  }, 1000);
+                }
+              });
+            } else if (result.dismiss === 'cancel') {
+              swal.close();
+            }
+          })
+        } else {
+          swal({
+            title: '',
+            text: "<?php echo $array['required'][$language]; ?>",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showConfirmButton: false,
+            timer: 2000,
+            confirmButtonText: 'Ok'
+          })
+          $('.checkblank').each(function() {
+            if ($(this).val() == "" || $(this).val() == undefined) {
+              $(this).css('border-color', 'red');
+            }
+          });
+        }
+      }
+
+      function GetDep() {
+        var lang = '<?php echo $language; ?>';
+        var PmID = '<?php echo $PmID; ?>';
+        var site = $("#Hos2").val();
+
+        $.ajax({
+          url: "../process/insertitem.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'GetDep',
+            'lang': lang,
+            'site': site,
+          },
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+
+            var option = `<option value="" selected>กรุณาเลือก Supplier</option>`;
+
+
+
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+                option += `<option value="${value.id}">${value.name}</option>`;
+              });
+            } else {
+              option = `<option value="0">Data not found</option>`;
+            }
+
+            $(".supplier-loop").html(option);
+          }
+        });
+      }
+    </script>
 </body>
 
 </html>

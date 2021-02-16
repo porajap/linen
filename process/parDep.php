@@ -24,7 +24,30 @@ if (!empty($_POST['FUNC_NAME'])) {
     saveDocument($conn);
   } else  if ($_POST['FUNC_NAME'] == 'cancelDocment') {
     cancelDocment($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'lockPar') {
+    lockPar($conn);
   }
+}
+
+function lockPar($conn)
+{
+  $HptCode = $_SESSION['HptCode'];
+
+      $Sql = "SELECT
+                site.par 
+              FROM
+                site 
+              WHERE
+                HptCode = '$HptCode'";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }
 
 
@@ -118,6 +141,7 @@ function createDocument($conn)
   $userid   = $_SESSION["Userid"];
   $Site = $_POST['Site'];
   $txtName = $_POST['txtName'];
+  $txtPhoneNumber = $_POST["txtPhoneNumber"];
   $return = array();
 
   if ($PmID == 1) {
@@ -175,7 +199,8 @@ function createDocument($conn)
       request_par.Modify_Code,
       request_par.Modify_Date,
       SiteCode,
-      revealName
+      revealName,
+      phoneNumber
     )
     VALUES
       (
@@ -185,18 +210,22 @@ function createDocument($conn)
         $userid,
         NOW(),
         '$hotpCode',
-        '$txtName'
+        '$txtName',
+        '$txtPhoneNumber'
       )";
 
 
     mysqli_query($conn, $Sql);
 
-
+    $SqlUser = "SELECT users.ThName FROM users WHERE ID = '$userid' ";
+    $meQuery_users = mysqli_query($conn, $SqlUser);
+    $row_users = mysqli_fetch_assoc($meQuery_users);
+    $ThName = $row_users['ThName'];
 
     array_push($return, array(
       'txtDocNo' => $DocNo,
       'txtDocDate' => $newdate,
-      'txtCreate' => $userid,
+      'txtCreate' => $ThName,
       'txtTime' => $RecNow
 
     ));
@@ -276,28 +305,61 @@ function showDocument($conn)
   $Dep = $_POST['Dep'];
   $sDate = $_POST['sDate'];
   $status = $_POST['status'];
+  $PmID = $_SESSION['PmID'];
+  $lang = $_SESSION['lang'];
   $return = array();
   $whereDate= "";
 
-  if($sDate != "-543--"){
+  if($sDate != "-543--" && $sDate != "--" ){
     $whereDate = "AND request_par.DocDate = '$sDate' ";
+  }else{
+    $whereDate = "AND request_par.DocDate = DATE(NOW()) ";
   }
+
+  if($status == 1){
+    $whereStatus = "AND request_par.isStatus = 0";
+  }else if($status == 2){
+    $whereStatus = "AND ( request_par.isStatus = 1 OR request_par.isStatus = 2  OR request_par.isStatus = 3 ) ";
+  }else if($status == 3){
+    $whereStatus = "AND request_par.isStatus = 9";
+  }
+
+  if($PmID == 1 ||  $PmID == 2 || $PmID == 3 || $PmID == 5 || $PmID == 6 || $PmID == 7) {
+    $whereDep= "";
+  }else{
+    $whereDep= "AND request_par.DepCode = '$Dep' AND department.DepCode = '$Dep'";
+  }
+
   $Sql = "SELECT
         request_par.DocNo,
         request_par.DocDate,
         department.DepName,
         request_par.isStatus,
         TIME( request_par.Modify_Date ) AS xTime,
-        users.ThName 
+        TIME( request_par.approveDate ) AS approveDate,
+        request_par.approveName,
+        users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
+        users.FName ,
+        request_par.commentDelete ,
+        request_par.phoneNumber
       FROM
       request_par
         INNER JOIN department ON request_par.DepCode = department.DepCode
         INNER JOIN users ON request_par.Modify_Code = users.ID 
       WHERE
-         request_par.SiteCode = '$Site' AND request_par.DepCode = '$Dep'  $whereDate ";
+         request_par.SiteCode = '$Site' AND department.HptCode = '$Site'   $whereDep   $whereDate $whereStatus ORDER BY request_par.Modify_Date DESC";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if ($lang == 'en') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+      $Result['ThName'] = $Result['EngPerfix'] . $Result['EngName'] . '  ' . $Result['EngLName'];
+    } else if ($lang == 'th') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . ($date2[0] + 543);
+      $Result['ThName']   = $Result['ThPerfix'] . ' ' . $Result['ThName'] . '  ' . $Result['ThLName'];
+    }
     $return[] = $Result;
   }
   echo json_encode($return);
@@ -308,17 +370,22 @@ function showDocument($conn)
 function selectDocument($conn)
 {
   $DocNo = $_POST['DocNo'];
+  $lang = $_SESSION['lang'];
   $return = array();
 
   $Sql = "SELECT
           request_par.DocNo,
           request_par.DocDate,
+          request_par.approveName,
           department.DepName,
+          department.DepCode,
+          users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
           users.FName,
           TIME( request_par.Modify_Date ) AS xTime,
           request_par.IsStatus,
           request_par.revealName,
-          site.HptName 
+          site.HptName,
+          request_par.phoneNumber
         FROM
         request_par
           INNER JOIN department ON request_par.DepCode = department.DepCode
@@ -328,6 +395,17 @@ function selectDocument($conn)
         request_par.DocNo = '$DocNo' ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    
+    if ($lang == 'en') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+      $Result['FName'] = $Result['EngPerfix'] . $Result['EngName'] . '  ' . $Result['EngLName'];
+    } else if ($lang == 'th') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . ($date2[0] + 543);
+      $Result['FName']   = $Result['ThPerfix'] . ' ' . $Result['ThName'] . '  ' . $Result['ThLName'];
+    }
+
     $return[] = $Result;
   }
   echo json_encode($return);
@@ -340,6 +418,17 @@ function showDetailDocument($conn)
   $DocNo = $_POST['DocNo'];
   $return = array();
 
+  $SqlStatus = "SELECT request_par.IsStatus FROM request_par WHERE DocNo = '$DocNo' ";
+  $meQuery_Status = mysqli_query($conn, $SqlStatus);
+  $row_Status = mysqli_fetch_assoc($meQuery_Status);
+  $IsStatus = $row_Status['IsStatus'];
+
+  if($IsStatus == 0){
+    $whereQty = "";
+  }else{
+    $whereQty = "AND request_par_detail.Qty != 0";
+  }
+
   $Sql = "SELECT
             item.ItemName,
             item.ItemCode,
@@ -348,7 +437,7 @@ function showDetailDocument($conn)
           FROM
           request_par_detail
             INNER JOIN item ON request_par_detail.ItemCode = item.ItemCode
-          WHERE request_par_detail.DocNo = '$DocNo' ";
+          WHERE request_par_detail.DocNo = '$DocNo' $whereQty ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[] = $Result;
@@ -374,8 +463,9 @@ function saveDocument($conn){
 
 function cancelDocment($conn){
   $DocNo = $_POST['DocNo'];
+  $comment = $_POST['comment'];
 
-  $Sql = "UPDATE request_par SET IsStatus = 9 WHERE DocNo = '$DocNo' ";
+  $Sql = "UPDATE request_par SET IsStatus = 9 , commentDelete = '$comment'  WHERE DocNo = '$DocNo' ";
 
   if(mysqli_query($conn, $Sql)){
     echo '1';

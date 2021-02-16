@@ -43,16 +43,16 @@ $array2 = json_decode($json2, TRUE);
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="javascript:void(0)">Create Requests</a></li>
-    <li class="breadcrumb-item active">เบิกผ้าด่วน</li>
+    <li class="breadcrumb-item active"><?php echo $array2['menu']['general']['sub'][19][$language]; ?></li>
   </ol>
 
   <div class="col-12">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="tab_head1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab_head1" aria-selected="true">เบิกผ้าด่วน</a>
+        <a class="nav-link active" id="tab_head1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab_head1" aria-selected="true"><?php echo $array2['menu']['general']['sub'][19][$language]; ?> </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="tab_head2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab_head2" aria-selected="false"><?php echo $array['search'][$language]; ?></a>
+        <a class="nav-link" id="tab_head2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab_head2" aria-selected="false" onclick="showDocument()"><?php echo $array['search'][$language]; ?></a>
       </li>
     </ul>
 
@@ -162,6 +162,13 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <div class="col-md-6">
+                  <div class='form-group row'>
+                    <label class="col-sm-4 col-form-label">
+                      เบอร์โทรศัพท์
+                    </label>
+                    <input type="text" autocomplete="off" id="txtPhoneNumber" style="font-size:22px;" class="form-control col-sm-7 numonly" placeholder="เบอร์โทรศัพท์" maxlength="10">
+                    <label id="alert_txtPhoneNumber" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -217,14 +224,11 @@ $array2 = json_decode($json2, TRUE);
             <table class="table table-fixed table-condensed table-striped mt-3" id="tableItem" width="100%" cellspacing="0" role="grid">
               <thead id="theadsum" style="font-size:24px;">
                 <tr role="row" id='tr_1'>
-                  <th nowrap><?php echo $array['sn'][$language]; ?></th>
-                  <th nowrap><?php echo $array['item'][$language]; ?></th>
-                  <th nowrap>
-                    <center><?php echo $array['parsc'][$language]; ?></center>
-                  </th>
-                  <th nowrap>
-                    <center>Issue</center>
-                  </th>
+                  <th nowrap style="width:10%"><?php echo $array['sn'][$language]; ?></th>
+                  <th nowrap style="width:30%"><?php echo $array['item'][$language]; ?></th>
+                  <th nowrap style="width:20%"> <center><?php echo $array['parsc'][$language]; ?></center> </th>
+                  <th nowrap style="width:20%"><center>Shelfcount</center> </th>
+                  <th nowrap style="width:20%"><center>Issue</center> </th>
                 </tr>
               </thead>
               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;"></tbody>
@@ -260,7 +264,7 @@ $array2 = json_decode($json2, TRUE);
               <select class="form-control" style="font-size:22px;" id="selectSearchStatus">
                 <option value="0"><?php echo $array['processchooce'][$language]; ?></option>
                 <option value="1">on process</option>
-                <option value="2">completed</option>
+                <option value="2">Department Save</option>
                 <option value="3">cancel </option>
               </select>
             </div>
@@ -314,14 +318,17 @@ $array2 = json_decode($json2, TRUE);
                   <th nowrap style="width:15%;">
                     <center><?php echo $array['employee'][$language]; ?></center>
                   </th>
-                  <th nowrap style="width:15%;">
+                  <th nowrap style="width:10%;">
                     <center><?php echo $array['time'][$language]; ?></center>
                   </th>
-                  <th nowrap style="width:15%;">
+                  <th nowrap style="width:10%;">
                     <center><?php echo $array['setcount'][$language]; ?></center>
                   </th>
                   <th nowrap style="width:10%;">
                     <center><?php echo $array['status'][$language]; ?></center>
+                  </th>
+                  <th nowrap style="width:10%;">
+                    <center><?php echo $array['remask'][$language]; ?></center>
                   </th>
                 </tr>
               </thead>
@@ -341,21 +348,95 @@ $array2 = json_decode($json2, TRUE);
 
   </div>
 
+  
+  <div class="modal fade" id="modal_remark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Remark</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" style="font-size:22px;" disabled id="txtRemark">
+              <input type="text" class="form-control" style="font-size:22px;" id="txtDocNoHidden" hidden>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <div class="modal fade" id="modal_comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">comment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtComment">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtDocNoHidden" hidden>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">ปิด</button>
+          <button type="button" id="btnCancelComment" class="btn btn-danger w-100" onclick="saveComment();">ยกเลิกเอกสาร</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_phone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">เบอร์โทรศัพท์</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" style="font-size:22px;" id="txtModalPhone" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <?php include_once('../assets/import/js.php'); ?>
 
   <script type="text/javascript">
+
+    var alertTime = 0;
     $(document).ready(function(e) {
       GetSite();
       GetDep();
+      showDocument();
       $("#alert_txtName").hide();
       $("#alert_txtLastName").hide();
+      $("#alert_txtPhoneNumber").hide();
+
+      $("#txtPhoneNumber").change(function() {
+        $("#txtPhoneNumber").removeClass("border-danger");
+        $("#alert_txtPhoneNumber").hide();
+      });
 
       $("#txtName").change(function() {
         $("#txtName").removeClass("border-danger");
         $("#alert_txtName").hide();
       });
 
+      $('.numonly').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+      });
 
     }).click(function(e) {
       parent.afk();
@@ -444,6 +525,8 @@ $array2 = json_decode($json2, TRUE);
       var PmID = '<?php echo $PmID; ?>';
       var Site = $("#selectSite").val();
       var txtName = $("#txtName").val();
+      var txtPhoneNumber = $("#txtPhoneNumber").val();
+
       if (txtName == "") {
         swal({
           title: '',
@@ -455,6 +538,19 @@ $array2 = json_decode($json2, TRUE);
         });
         $("#txtName").addClass("border-danger");
         $("#alert_txtName").show();
+        return;
+      }
+      if (txtPhoneNumber == "") {
+        swal({
+          title: '',
+          text: 'กรุณากรอกเบอร์โทรศัพท์',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#txtPhoneNumber").addClass("border-danger");
+        $("#alert_txtPhoneNumber").show();
         return;
       }
       if (Site == 0) {
@@ -491,31 +587,38 @@ $array2 = json_decode($json2, TRUE);
                 'PmID': PmID,
                 'Site': Site,
                 'txtName': txtName,
+                'txtPhoneNumber': txtPhoneNumber,
               },
               success: function(result) {
 
-                swal({
-                  title: '',
-                  text: '<?php echo $array['savesuccess'][$language]; ?>',
-                  type: 'success',
-                  showCancelButton: false,
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
+
 
                 var ObjData = JSON.parse(result);
                 ObjData = ObjData[0];
+
+                swal({
+                title: "<?php echo $array['createdocno'][$language]; ?>",
+                text: ObjData.txtDocNo + " <?php echo $array['success'][$language]; ?>",
+                type: "success",
+                showCancelButton: false,
+                timer: 1000,
+                confirmButtonText: 'Ok',
+                showConfirmButton: false
+              });
+
                 $('#txtDocNo').val(ObjData.txtDocNo);
                 $('#txtDocDate').val(ObjData.txtDocDate);
                 $('#txtCreate').val(ObjData.txtCreate);
                 $('#txtTime').val(ObjData.txtTime);
                 $('#txtStatus').val("on Process");
+                alertTime = ObjData.alertTime;
 
                 $("#btn_save").attr('disabled', false);
                 $('#hover_save').addClass("mhee");
                 $("#btn_cancel").attr('disabled', false);
                 $('#hover_cancel').addClass("mhee");
                 setTimeout(() => {}, 1000);
+                showDocument();
                 insertDocDetail();
               }
             });
@@ -546,19 +649,30 @@ $array2 = json_decode($json2, TRUE);
             $.each(ObjData, function(key, value) {
 
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
-              var inputissu = "<input type='number' autocomplete='off' style='font-size:22px;' placeholder='0' class='form-control text-right w-50' id='TotalQty_" + key + "'>";
+              var inputShelfcount = "<input type='text' autocomplete='off' style='font-size:22px;' placeholder='0' class='numonly form-control text-right w-50' id='CcQty_" + key + "'>";
+              var inputissu = "<input type='text' disabled autocomplete='off' style='font-size:22px;' placeholder='0' class='numonly form-control text-right w-50' id='TotalQty_" + key + "'>";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
-                "<td  >" + (key + 1) + "</td>" +
-                "<td  >" + value.ItemName + "</td>" +
+                "<td  style='width:10%;'>" + (key + 1) + "</td>" +
+                "<td  style='width:30%;'>" + value.ItemName + "</td>" +
                 "<td  hidden>" + inputitemCode + "</td>" +
-                "<td class='d-flex justify-content-center'>" + inputPar + "</td>" +
-                "<td class='d-flex justify-content-center'>" + inputissu + "</td>" +
+                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputPar + "</td>" +
+                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputShelfcount + "</td>" +
+                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputissu + "</td>" +
                 "</tr>";
+
+
             });
+
+
             $('#tableItem tbody').html(StrTR);
+
           }
           $('#tableItem tbody').html(StrTR);
+
+          $('.numonly').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+          });
         }
       });
     }
@@ -592,13 +706,25 @@ $array2 = json_decode($json2, TRUE);
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(key, value) {
               var chkDoc = "<label class='radio'style='margin-top: 7%;'><input type='radio' name='checkdocno' id='checkdocno'  value='" + value.DocNo + "' ><span class='checkmark'></span></label>";
-
-              if (value.isStatus == 3) {
-                var txtStatus = 'completed';
+              if (value.isStatus == 3 || value.isStatus == 4) {
+                var txtStatus = 'compelted';
+                var txtStyle = 'color: #20B80E;';
+              } else if (value.isStatus == 2 || (value.isStatus == 0 && value.statusDepartment == 1)) {
+                var txtStatus = 'Department Save';
+                var txtStyle = 'color: #3399ff;';
               } else if (value.isStatus == 9) {
                 var txtStatus = 'cancel';
+                var txtStyle = 'color: #ff0000;';
               } else {
                 var txtStatus = 'on Process';
+                var txtStyle = 'color: #3399ff;';
+              }
+              var btn_Remark = "";
+              if (value.remark == null) {
+                value.remark = "";
+              }
+              if(value.remark != ""){
+                var btn_Remark = "<button class='btn btn-info btn-block ' onclick='showRemark(\"" + value.remark + "\")'>Remark</button>";
               }
 
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
@@ -606,10 +732,12 @@ $array2 = json_decode($json2, TRUE);
                 "<td class='text-center'  style='width:14%;'>" + value.DocDate + "</td>" +
                 "<td class='text-center'  style='width:14%;'>" + value.DocNo + "</td>" +
                 "<td class='text-center'  style='width:15%;'>" + value.DepName + "</td>" +
-                "<td class='text-center'  style='width:15%;'>" + value.ThName + "</td>" +
-                "<td class='text-center'  style='width:15%;'>" + value.xTime + "</td>" +
-                "<td class='text-center'  style='width:15%;'>Extra</td>" +
-                "<td class='text-center'  style='width:10%;'>" + txtStatus + "</td>" +
+                "<td class='text-center'  style='width:2%;'> <i class='fas fa-phone-square text-left' style='cursor: pointer;'onclick='showPhone(\"" + value.phoneNumber + "\")'></i></td>" +
+                "<td class='text-center'  style='width:13%;'>"+ value.ThName + "  </td>" +
+                "<td class='text-center'  style='width:10%;'>" + value.xTime + "</td>" +
+                "<td class='text-center'  style='width:10%;'>Extra</td>" +
+                "<td class='text-center'  style='width:10%; " + txtStyle + " '>" + txtStatus + "</td>" +
+                "<td class='text-center'  style='width:10%;'>"+btn_Remark+"</td>" +
                 "</tr>";
             });
             $('#tableDocument tbody').html(StrTR);
@@ -617,6 +745,23 @@ $array2 = json_decode($json2, TRUE);
           $('#tableDocument tbody').html(StrTR);
         }
       });
+    }
+
+    function showRemark(remark){
+      if(remark == "null"){
+        remark = "";
+      }
+      $('#txtRemark').val(remark);
+      $('#modal_remark').modal('toggle');
+      
+    }
+
+    function showPhone(phone) {
+
+      $('#txtModalPhone').val(phone);
+      $('#modal_phone').modal('show');
+
+
     }
 
     function saveDocument() {
@@ -644,14 +789,20 @@ $array2 = json_decode($json2, TRUE);
 
 
             itemcode = ($('#ItemCode_' + i).val());
-            itemQty = ($('#TotalQty_' + i).val());
+            itemQty = ($('#CcQty_' + i).val());
 
             i++;
 
-            queryUpdate += "UPDATE shelfcount_detail SET TotalQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
+            if(itemQty == ""){
+              itemQty = 0;
+            }
+            
+            queryUpdate += "UPDATE shelfcount_detail SET CcQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
           });
-            queryUpdate += "UPDATE shelfcount SET isStatus = '1' WHERE  DocNo = '" + DocNo + "'; ";
+          queryUpdate += "UPDATE shelfcount SET isStatus = '2' , alertTime = NOW() WHERE  DocNo = '" + DocNo + "'; ";
+          queryUpdate += "UPDATE shelfcount SET alertTime = DATE_ADD( shelfcount.alertTime, INTERVAL "+alertTime+" MINUTE ) WHERE  DocNo = '" + DocNo + "'; ";
 
+          console.log(queryUpdate);
           $.ajax({
             url: "../process/revealDep.php",
             type: 'POST',
@@ -660,23 +811,29 @@ $array2 = json_decode($json2, TRUE);
             data: {
               'FUNC_NAME': 'saveDocument',
               'queryUpdate': queryUpdate,
+              'DocNo': DocNo,
             },
             success: function(result) {
-              swal({
-                title: '',
-                text: '<?php echo $array['savesuccess'][$language]; ?>',
-                type: 'success',
-                showCancelButton: false,
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              $('#txtDocNo').val("");
-              $('#txtDocDate').val("");
-              $('#txtCreate').val("");
-              $('#txtTime').val("");
-              $('#txtName').val("");
-              showDocument();
-              $('#tab_head2').tab('show');
+              setTimeout(() => {
+                swal({
+                  title: '',
+                  text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                $('#txtDocNo').val("");
+                $('#txtDocDate').val("");
+                $('#txtCreate').val("");
+                $('#txtTime').val("");
+                $('#txtName').val("");
+                $('#txtPhoneNumber').val("");
+                $('#tableItem tbody').html("");
+                showDocument();
+                $('#tab_head2').tab('show');
+              }, 300);
+
             }
           });
 
@@ -710,15 +867,30 @@ $array2 = json_decode($json2, TRUE);
               $('#txtCreate').val(value.FName);
               $('#txtTime').val(value.xTime);
               $('#txtName').val(value.revealName);
+              $("#txtPhoneNumber").val(value.phoneNumber);
+
+
 
               if (value.IsStatus == 3) {
                 $('#txtStatus').val("completed");
-                // ปิดปุ่ม
-                $("#btn_save").attr('disabled', true);
-                $('#hover_save').removeClass("mhee");
                 $("#btn_cancel").attr('disabled', true);
                 $('#hover_cancel').removeClass("mhee");
+                $("#btn_save").attr('disabled', true);
+                $('#hover_save').removeClass("mhee");
+              } else if (value.IsStatus == 2 || value.IsStatus == 0 ) {
+                $('#txtStatus').val("Department Save");
+                // ปิดปุ่ม
+                if(value.statusDepartment == 0){
+                  $("#btn_save").attr('disabled', false);
+                  $('#hover_save').addClass("mhee");
+                }else{
+                  $("#btn_save").attr('disabled', true);
+                  $('#hover_save').removeClass("mhee");
+                }
 
+
+                $("#btn_cancel").attr('disabled', false);
+                $('#hover_cancel').addClass("mhee");
               } else if (value.IsStatus == 9) {
                 $('#txtStatus').val("cancel");
                 // ปิดปุ่ม
@@ -762,22 +934,30 @@ $array2 = json_decode($json2, TRUE);
           var StrTR = "";
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(key, value) {
-
+              if (value.TotalQty == "0.00") {
+                value.TotalQty = "";
+              }
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
-              var inputissu = "<input type='number' autocomplete='off' style='font-size:22px;' value='" + value.TotalQty + "' class='form-control text-right w-50'  id='TotalQty_" + key + "' >";
+              var inputShelfcount = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.CcQty + "' placeholder='0' class='numonly form-control text-right w-50' id='CcQty_" + key + "'>";
+              var inputissu = "<input type='text' disabled autocomplete='off' style='font-size:22px;' value='" + value.TotalQty + "' placeholder='0'  class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
-                "<td  >" + (key + 1) + "</td>" +
-                "<td  >" + value.ItemName + "</td>" +
+                "<td  style='width:10%;'>" + (key + 1) + "</td>" +
+                "<td  style='width:30%;'>" + value.ItemName + "</td>" +
                 "<td  hidden>" + inputitemCode + "</td>" +
-                "<td class='d-flex justify-content-center'>" + inputPar + "</td>" +
-                "<td class='d-flex justify-content-center'>" + inputissu + "</td>" +
+                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputPar + "</td>" +
+                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputShelfcount + "</td>" +
+                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputissu + "</td>" +
                 "</tr>";
             });
             $('#tableItem tbody').html(StrTR);
           }
 
-          $('#tableItem tbody').html(StrTR);
+            $('#tableItem tbody').html(StrTR);
+
+          $('.numonly').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+          });
         }
       });
     }
@@ -800,31 +980,55 @@ $array2 = json_decode($json2, TRUE);
       }).then(result => {
         if (result.value) {
 
-          $.ajax({
-            url: "../process/revealDep.php",
-            type: 'POST',
-            data: {
-              'FUNC_NAME': 'cancelDocment',
-              'DocNo': DocNo,
-            },
-            success: function(result) {
-              $('#txtDocNo').val("");
-              $('#txtDocDate').val("");
-              $('#txtCreate').val("");
-              $('#txtTime').val("");
-              $('#txtName').val("");
-              showDocument();
-              $('#tab_head2').tab('show');
+          $('#modal_comment').modal('show');
 
-            }
-          });
         } else if (result.dismiss === 'cancel') {
           swal.close();
         }
       })
     }
 
-    
+    function saveComment() {
+      $('#modal_comment').modal('toggle');
+      var comment = $("#txtComment").val();
+      var DocNo = $("#txtDocNo").val();
+      $.ajax({
+        url: "../process/revealDep.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'cancelDocment',
+          'DocNo': DocNo,
+          'comment': comment,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          $.each(ObjData, function(key, value) {
+            if (value.statusDepartment == 1) {
+              swal({
+                title: '',
+                text: 'ไม่สามารถยกเลิกเอกสารได้ เนื่องจากห้องผ้ากดรับเอกสารแล้ว',
+                type: 'warning',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            } else {
+              $('#tableItem tbody').empty();
+              $('#txtDocNo').val("");
+              $('#txtDocDate').val("");
+              $('#txtCreate').val("");
+              $('#txtTime').val("");
+              $('#txtStatus').val("");
+              $('#txtName').val("");
+              showDocument();
+              $('#tab_head2').tab('show');
+            }
+          });
+
+
+        }
+      });
+    }
   </script>
 
 

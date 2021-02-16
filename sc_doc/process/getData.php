@@ -19,6 +19,7 @@
     TIME(shelfcount.DvStartTime) 	AS DvStartTime,
     TIME(shelfcount.DvEndTime) 		AS DvEndTime,
     shelfcount.IsStatus,
+    shelfcount.revealName,
 	users.EngName,
     users.EngLName,
     users.EngPerfix
@@ -40,6 +41,7 @@ ORDER BY shelfcount.IsStatus ASC , shelfcount.DocNo DESC";
         $reurn['Sc'][$count]['DocNo']           = $Result['DocNo'];
         $reurn['Sc'][$count]['DepName']         = $Result['DepName'];
         $reurn['Sc'][$count]['IsStatus']        = $Result['IsStatus'];
+        $reurn['Sc'][$count]['revealName']      = $Result['revealName']     ==null?'':$Result['revealName'];
         $reurn['Sc'][$count]['ScStartTime']     = $Result['ScStartTime']    ==null?'':$Result['ScStartTime'];
         $reurn['Sc'][$count]['ScEndTime']       = $Result['ScEndTime']      ==null?'':$Result['ScEndTime'];
         $reurn['Sc'][$count]['PkStartTime']     = $Result['PkStartTime']    ==null?'':$Result['PkStartTime'];

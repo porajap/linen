@@ -21,6 +21,7 @@ function checklogin($conn,$DATA)
             permission.Permission,
             site.HptCode,
             site.HptName,
+            site.menu,
             users.Count,
             users.TimeOut,
             users.IsActive,
@@ -47,6 +48,7 @@ function checklogin($conn,$DATA)
       $_SESSION['GroupCode']     = $Result['GroupCode'];
       $_SESSION['HptCode']  = $Result['HptCode'];
       $_SESSION['Permission']  = $Result['Permission'];
+      $_SESSION['menu']  = $Result['menu'];
       $_SESSION['HptName']  = $Result['HptName'];
       $_SESSION['TimeOut']  = $Result['TimeOut'];
       $_SESSION['DepCode']  = $Result['DepCode'];

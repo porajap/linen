@@ -4,10 +4,11 @@ session_start();
 $Userid = $_SESSION['Userid'];
 $PmID = $_SESSION['PmID'];
 $TimeOut = $_SESSION['TimeOut'];
-$last_move = $_GET["last_move"];
+// $last_move = $_GET["last_move"];
 $logoff = $_SESSION['chk_logoff'];
 $Username = $_SESSION['Username'];
 $FName = $_SESSION['FName'];
+$menu = $_SESSION['menu'];
 $Profile = $_SESSION['pic'] == null ? 'default_img.png' : $_SESSION['pic'];
 $Permission = $_SESSION['Permission'];
 if ($Userid == "") {
@@ -24,6 +25,15 @@ $array = json_decode($json, TRUE);
 $xml2 = simplexml_load_file('xml/general_lang.xml');
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
+if($menu == 1){
+  $dp2_number = 1;
+}else{
+  $dp2_number = 0;
+}
+
+
+$dp_head = 0;
+
 
 switch ($PmID) {
   case "1":
@@ -48,6 +58,14 @@ switch ($PmID) {
     $gen_s16 = 1;
     $gen_s17 = 1;
     $gen_s18 = 1;
+
+    $dp2_head = $dp2_number;
+    $dp2_s1 = 1;
+    $dp2_s2 = 1;
+    $dp2_s3 = 1;
+    $dp2_s4 = 1;
+    $dp2_s5 = 1;
+    $dp2_s6 = 1;
     //account
     $ac_head = 1;
     $ac_s1 = 0;
@@ -87,6 +105,8 @@ switch ($PmID) {
     $sys_s19 = 1;
     $sys_s20 = 1;
     $sys_s21 = 1;
+    $sys_s22 = 1;
+    $sys_s23 = 1;
     break;
   case "2":
     //genneral
@@ -110,6 +130,15 @@ switch ($PmID) {
     $gen_s16 = 1;
     $gen_s17 = 1;
     $gen_s18 = 1;
+
+    $dp2_head = $dp2_number;;
+    $dp2_s1 = 1;
+    $dp2_s2 = 1;
+    $dp2_s3 = 1;
+    $dp2_s4 = 1;
+    $dp2_s5 = 1;
+    $dp2_s6 = 1;
+
     //account
     $ac_head = 0;
     $ac_s1 = 0;
@@ -167,6 +196,14 @@ switch ($PmID) {
     $gen_s16 = 1;
     $gen_s17 = 1;
     $gen_s18 = 1;
+
+    $dp2_head = $dp2_number;;
+    $dp2_s1 = 1;
+    $dp2_s2 = 1;
+    $dp2_s3 = 1;
+    $dp2_s4 = 1;
+    $dp2_s5 = 1;
+    $dp2_s6 = 1;
     //account
     $ac_head = 1;
     $ac_s1 = 0;
@@ -206,6 +243,8 @@ switch ($PmID) {
     $sys_s19 = 1;
     $sys_s20 = 0;
     $sys_s21 = 1;
+    $sys_s22 = 1;
+    $sys_s23 = 1;
     break;
   case "4":
     //genneral
@@ -281,6 +320,16 @@ switch ($PmID) {
     $gen_s16 = 1;
     $gen_s17 = 1;
     $gen_s18 = 1;
+
+    $dp2_head = $dp2_number;;
+    $dp2_s1 = 1;
+    $dp2_s2 = 1;
+    $dp2_s3 = 1;
+    $dp2_s4 = 1;
+    $dp2_s5 = 1;
+    $dp2_s6 = 1;
+
+
     //account
     $ac_head = 1;
     $ac_s1 = 0;
@@ -320,6 +369,8 @@ switch ($PmID) {
     $sys_s19 = 1;
     $sys_s20 = 0;
     $sys_s21 = 1;
+    $sys_s22 = 1;
+    $sys_s23 = 1;
     break;
   case "6":
     //genneral
@@ -343,6 +394,14 @@ switch ($PmID) {
     $gen_s16 = 1;
     $gen_s17 = 1;
     $gen_s18 = 1;
+
+    $dp2_head = $dp2_number;;
+    $dp2_s1 = 1;
+    $dp2_s2 = 1;
+    $dp2_s3 = 1;
+    $dp2_s4 = 1;
+    $dp2_s5 = 1;
+    $dp2_s6 = 1;
     //account
     $ac_head = 1;
     $ac_s1 = 0;
@@ -382,6 +441,8 @@ switch ($PmID) {
     $sys_s19 = 1;
     $sys_s20 = 1;
     $sys_s21 = 1;
+    $sys_s22 = 1;
+    $sys_s23 = 1;
     break;
   case "7":
     //genneral
@@ -405,6 +466,14 @@ switch ($PmID) {
     $gen_s16 = 1;
     $gen_s17 = 1;
     $gen_s18 = 1;
+
+    $dp2_head = $dp2_number;;
+    $dp2_s1 = 1;
+    $dp2_s2 = 1;
+    $dp2_s3 = 1;
+    $dp2_s4 = 1;
+    $dp2_s5 = 1;
+    $dp2_s6 = 1;
     //account
     $ac_head = 1;
     $ac_s1 = 0;
@@ -444,23 +513,14 @@ switch ($PmID) {
     $sys_s19 = 1;
     $sys_s20 = 0;
     $sys_s21 = 1;
+    $sys_s22 = 1;
+    $sys_s23 = 1;
     break;
   case "8":
     //genneral
-    
-    $dp_head = 1;
-    $dp_s1 = 1;
-
-    $dp2_head = 1;
-    $dp2_s1 = 1;
-    $dp2_s2 = 1;
-    $dp2_s3 = 1;
-    $dp2_s4 = 1;
-    $dp2_s5 = 1;
-
-    $gen_head = 0;
+    $gen_head = 1;
     $gen_s0 = 0;
-    $gen_s1 = 0;
+    $gen_s1 = 1;
     $gen_s2 = 0;
     $gen_s3 = 0;
     $gen_s4 = 0;
@@ -478,6 +538,19 @@ switch ($PmID) {
     $gen_s16 = 0;
     $gen_s17 = 0;
     $gen_s18 = 0;
+
+    $dp_head = 1;
+    $dp_s1 = 1;
+
+    $dp2_head = $dp2_number;;
+    $dp2_s1 = 1;
+    $dp2_s2 = 1;
+    $dp2_s3 = 1;
+    $dp2_s4 = 1;
+    $dp2_s5 = 1;
+    $dp2_s6 = 1;
+
+
     //account
     $ac_head = 0;
     $ac_s1 = 0;
@@ -495,7 +568,7 @@ switch ($PmID) {
     $re_s1 = 0;
     $re_s2 = 0;
     //system
-    $sys_head = 0;
+    $sys_head = 1;
     $sys_s1 = 0;
     $sys_s2 = 0;
     $sys_s3 = 0;
@@ -509,7 +582,7 @@ switch ($PmID) {
     $sys_s11 = 0;
     $sys_s12 = 0;
     $sys_s13 = 0;
-    $sys_s14 = 0;
+    $sys_s14 = 1;
     $sys_s15 = 0;
     $sys_s16 = 0;
     $sys_s17 = 0;
@@ -521,11 +594,7 @@ switch ($PmID) {
 }
 
 if (empty($_SESSION['href'])) {
-  if($PmID == 8){
-    $src = "pages/revealDep.php?lang=<?php echo $language; ?>";
-  }else{
     $src = "pages/menu.php?lang=<?php echo $language; ?>";
-  }
 } else {
   $src = $_SESSION['href'];
   $active_li = $_SESSION['active_li'];
@@ -640,6 +709,8 @@ if (empty($_SESSION['href'])) {
       return last_move;
     }
 
+
+
     function chk_last_move() {
       cur_date = new Date(); // อ่านเวลาปัจจุบันไว้ใน cur_date
       if (cur_date > last_move) { // ตรวจสอบเวลา
@@ -691,6 +762,21 @@ if (empty($_SESSION['href'])) {
       };
       senddata(JSON.stringify(data));
 
+    }
+
+    function focusAct() {
+      $("#act7").attr("class", "active_li");
+      $("#act1").removeClass("active_li");
+    }
+
+    function requestParClick(){
+      $("#act42").attr("class", "active_li");
+      $("#act1").removeClass("active_li");
+    }
+
+    function chatRoomClick(){
+      $("#act47").attr("class", "active_li");
+      $("#act1").removeClass("active_li");
     }
 
     function checksession() {
@@ -1202,7 +1288,7 @@ if (empty($_SESSION['href'])) {
 
 <body>
   <header id="pageHeader" class="navbar navbar-expand static-top">
-    <a style="width:9%;" class="current_page" href="pages/menu.php?lang=<?php echo $language; ?>" onclick="return loadIframe('ifrm', this.href)"><img src="img/7.png" style="width:143%;margin-top:55px;margin-bottom:20px;" alt=""></a>
+    <a style="width:9%;" class="current_page" ><img src="img/7.png" style="width:143%;margin-top:55px;margin-bottom:20px;" alt=""></a>
     <!-- Navbar username -->
     <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">
       <span style='font-weight:bold;'><?php echo $FName ?> </span> <span style='font-weight:bold;'> [ </span> <span style='font-weight:bold;'><?php echo $Permission ?></span> <span style='font-weight:bold;'> ] </span>
@@ -1352,7 +1438,7 @@ if (empty($_SESSION['href'])) {
 
           <ul class="sub-menu">
             <?php if ($dp_s1 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" id="act41"  href="pages/revealDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>เบิกผ้าด่วน</a>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" id="act41" href="pages/revealDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em><?php echo $array['menu']['general']['sub'][19][$language]; ?></a>
               </li>
             <?php } ?>
           </ul>
@@ -1361,9 +1447,9 @@ if (empty($_SESSION['href'])) {
       <?php } ?>
 
       <?php if ($dp2_head == 1) { ?>
-        <li id="status">
+        <li id="status" >
 
-          <a class="bluebg" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="#status">Create status</a>
+          <a class="bluebg" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="#status" id="createStatus">Create status</a>
 
           <ul class="sub-menu">
             <?php if ($dp2_s1 == 1) { ?>
@@ -1371,19 +1457,23 @@ if (empty($_SESSION['href'])) {
               </li>
             <?php } ?>
             <?php if ($dp2_s2 == 1) { ?>
-              <li><a id="act43" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/callDirtyDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>เรียกเก็บผ้าเปื้อน</a>
+              <li><a id="act43" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/callDirtyDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em><?php echo $array['menu']['general']['sub'][20][$language]; ?></a>
               </li>
             <?php } ?>
             <?php if ($dp2_s3 == 1) { ?>
-              <li><a id="act44" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/moveDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>ย้ายแผนก</a>
+              <li><a id="act44" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/moveDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em><?php echo $array['menu']['general']['sub'][21][$language]; ?></a>
               </li>
             <?php } ?>
             <?php if ($dp2_s4 == 1) { ?>
-              <li><a id="act45" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/otherDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>การร้องขออื่นๆ</a>
+              <li><a id="act45" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/otherDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em><?php echo $array['menu']['general']['sub'][22][$language]; ?></a>
               </li>
             <?php } ?>
             <?php if ($dp2_s5 == 1) { ?>
-              <li><a id="act46" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/traceDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>ติดตามเอกสาร</a>
+              <li><a id="act46" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/traceDep.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em><?php echo $array['menu']['general']['sub'][23][$language]; ?></a>
+              </li>
+            <?php } ?>
+            <?php if ($dp2_s6 == 1) { ?>
+              <li><a id="act47" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/chatRoom.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)"> <em></em>Chatroom</a>
               </li>
             <?php } ?>
           </ul>
@@ -1392,7 +1482,7 @@ if (empty($_SESSION['href'])) {
 
       <?php } ?>
 
-      
+
       <?php if ($ac_head == 1) { ?>
         <li id="account">
 
@@ -1585,6 +1675,19 @@ if (empty($_SESSION['href'])) {
             <?php if ($sys_s21 == 1) { ?>
               <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/numberstandard.php?lang=<?php echo $language; ?>" id="act39" class="current_page" onclick="return loadIframe('ifrm', this.href)">
                   <em></em><?php echo $array['menu']['system']['sub'][22][$language]; ?></a>
+              </li>
+            <?php } ?>
+
+            <?php if ($sys_s22 == 1) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/supplier.php?lang=<?php echo $language; ?>" id="act39" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>supplier</a>
+              </li>
+            <?php } ?>
+
+            
+            <?php if ($sys_s23 == 0) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/color.php?lang=<?php echo $language; ?>" id="act39" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>color</a>
               </li>
             <?php } ?>
 

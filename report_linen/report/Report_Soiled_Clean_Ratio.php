@@ -252,7 +252,7 @@ if ($chk == 'one') {
     WHERE DATE (clean.Docdate) = '$date'
     AND clean.FacCode = '$FacCode' AND site.HptCode= '$HptCode'AND clean.IsStatus  <> 9 )
     f";
-    
+
       $meQuery = mysqli_query($conn, $query);
       while ($Result = mysqli_fetch_assoc($meQuery)) {
         $docdate = $Result['DocDate'];

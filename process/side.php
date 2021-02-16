@@ -2,56 +2,67 @@
 session_start();
 require '../connect/connect.php';
 $Userid = $_SESSION['Userid'];
-if($Userid==""){
+if ($Userid == "") {
   header("location:../index.html");
 }
 function ShowItem($conn, $DATA)
-  {
-    $count = 0;
-    $Keyword = $DATA['Keyword'];
-    $Sql = "SELECT contractsite.contractName , contractsite.permission , contractsite.Number , contractsite.id , site.HptCode ,  site.HptName  , site.HptNameTH , site.Site_Path
-    FROM site
-    LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
-    WHERE site.IsStatus = 0
-    AND (site.HptCode LIKE '%$Keyword%' OR site.HptName LIKE '%$Keyword%' OR site.HptNameTH LIKE '%$Keyword%') ORDER BY site.HptCode     ";
-    // var_dump($Sql); die;
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return[$count]['HptCode'] = $Result['HptCode'];
-      $return[$count]['HptName'] = $Result['HptName'];
-      $return[$count]['sitepath'] = $Result['Site_Path'];
-      $return[$count]['HptNameTH'] = $Result['HptNameTH'];
-      $return[$count]['id'] = $Result['id']==null?"":$Result['id'];
-      $return[$count]['contractName'] = $Result['contractName']==null?"":$Result['contractName'];
-      $return[$count]['permission'] = $Result['permission']==null?"":$Result['permission'];
-      $return[$count]['Number'] = $Result['Number']==null?"":$Result['Number'];
+{
+  $count = 0;
+  $Keyword = $DATA['Keyword'];
+  $Sql = "SELECT
+            contractsite.contractName,
+            contractsite.permission,
+            contractsite.Number,
+            contractsite.id,
+            site.HptCode,
+            site.HptName,
+            site.HptNameTH,
+            site.Site_Path
+          FROM
+            site
+            LEFT JOIN contractsite ON contractsite.HptCode = site.HptCode 
+          WHERE
+            site.IsStatus = 0 
+            AND ( site.HptCode LIKE '%$Keyword%' OR site.HptName LIKE '%$Keyword%' OR site.HptNameTH LIKE '%$Keyword%' ) 
+          ORDER BY
+            site.HptCode ";
+  // var_dump($Sql); die;
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[$count]['HptCode'] = $Result['HptCode'];
+    $return[$count]['HptName'] = $Result['HptName'];
+    $return[$count]['sitepath'] = $Result['Site_Path'];
+    $return[$count]['HptNameTH'] = $Result['HptNameTH'];
+    $return[$count]['id'] = $Result['id'] == null ? "" : $Result['id'];
+    $return[$count]['contractName'] = $Result['contractName'] == null ? "" : $Result['contractName'];
+    $return[$count]['permission'] = $Result['permission'] == null ? "" : $Result['permission'];
+    $return[$count]['Number'] = $Result['Number'] == null ? "" : $Result['Number'];
 
-      $count++;
-    }
+    $count++;
+  }
 
-  if($count>0){
+  if ($count > 0) {
     $return['status'] = "success";
     $return['form'] = "ShowItem";
     echo json_encode($return);
     mysqli_close($conn);
     die;
-  }else{
+  } else {
     $return['status'] = "notfound";
     $return['msg'] = "notfound";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   }
-
 }
 
 function getdetail($conn, $DATA)
-  {
-    $count = 0;
-    $HptCode = $DATA['HptCode'];
-    $id = $DATA['id'];
-    //---------------HERE------------------//
-    $Sql = "SELECT
+{
+  $count = 0;
+  $HptCode = $DATA['HptCode'];
+  $id = $DATA['id'];
+  //---------------HERE------------------//
+  $Sql = "SELECT
                 contractsite.contractName,
                 contractsite.permission,
                 contractsite.Number,
@@ -69,6 +80,8 @@ function getdetail($conn, $DATA)
               site.Signature,
               site.stock,
               site.LabSiteCode,
+              site.alertTime,
+              site.par,
               (
                 SELECT
                   COUNT(*)
@@ -83,49 +96,52 @@ function getdetail($conn, $DATA)
               WHERE
                 site.IsStatus = 0
               AND site.HptCode = '$HptCode' ";
-            if ($id != '') {  $Sql .= " AND contractsite.id = $id"; }
-            $Sql .= " LIMIT 1";
-
-    $meQuery = mysqli_query($conn, $Sql);
-    while ($Result = mysqli_fetch_assoc($meQuery)) {
-      $return['id']           = $Result['id'];
-      $HptCode                = $Result['HptCode'];
-      $return['HptCode']      = $Result['HptCode'];
-      $return['HptName']      = $Result['HptName'];
-      $return['Site_Path']    = $Result['Site_Path'];
-      $return['contractName'] = $Result['contractName'];
-      $return['permission']   = $Result['permission'];
-      $return['Number']       = $Result['Number'];
-      $return['HptNameTH']    = $Result['HptNameTH'];
-      $return['money']        = $Result['money'];
-      $return['PayerCode']    = $Result['PayerCode'];
-      $return['Signature']    = $Result['Signature'];
-      $PayerCode              = $Result['PayerCode'];
-      $return['cnt']          = $Result['cnt'];
-      $return['stock']        = $Result['stock'];
-      $return['LabSiteCode']        = $Result['LabSiteCode'];
-
-      //$return['IsStatus'] = $Result['IsStatus'];
-      $count++;
-    }
-
-
-    if($count>0){
-      $return['status'] = "success";
-      $return['form'] = "getdetail";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }else{
-      $return['sql'] = $Sql;
-      $return['status'] = "notfound";
-      $return['msg'] = "notfound";
-      echo json_encode($return);
-      mysqli_close($conn);
-      die;
-    }
-
+  if ($id != '') {
+    $Sql .= " AND contractsite.id = $id";
   }
+  $Sql .= " LIMIT 1";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return['id']           = $Result['id'];
+    $HptCode                = $Result['HptCode'];
+    $return['HptCode']      = $Result['HptCode'];
+    $return['HptName']      = $Result['HptName'];
+    $return['Site_Path']    = $Result['Site_Path'];
+    $return['contractName'] = $Result['contractName'];
+    $return['permission']   = $Result['permission'];
+    $return['Number']       = $Result['Number'];
+    $return['HptNameTH']    = $Result['HptNameTH'];
+    $return['money']        = $Result['money'];
+    $return['PayerCode']    = $Result['PayerCode'];
+    $return['Signature']    = $Result['Signature'];
+    $PayerCode              = $Result['PayerCode'];
+    $return['par']          = $Result['par'];
+    $return['cnt']          = $Result['cnt'];
+    $return['stock']        = $Result['stock'];
+    $return['LabSiteCode']        = $Result['LabSiteCode'];
+    $return['alertTime']        = $Result['alertTime'];
+
+    //$return['IsStatus'] = $Result['IsStatus'];
+    $count++;
+  }
+
+
+  if ($count > 0) {
+    $return['status'] = "success";
+    $return['form'] = "getdetail";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  } else {
+    $return['sql'] = $Sql;
+    $return['status'] = "notfound";
+    $return['msg'] = "notfound";
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+  }
+}
 
 function getSection($conn, $DATA)
 {
@@ -149,12 +165,12 @@ function getSection($conn, $DATA)
   echo json_encode($return);
   mysqli_close($conn);
   die;
-
 }
 
 function AddItem($conn, $DATA)
 {
   // ==============================================
+  $par          = $DATA['par'];
   $Signature    = $DATA['Signature'];
   $stock        = $DATA['stock'];
   $money        = $DATA['money'];
@@ -170,22 +186,23 @@ function AddItem($conn, $DATA)
   $PayerCode    = $DATA['PayerCode'];
   $Userid       = $_SESSION['Userid'];
   $LabSiteCode    = $DATA['LabSiteCode'];
-  
-  $Sql2="UPDATE department SET Ship_To = '$PayerCode' WHERE HptCode = '$HptCode' ";
+  $alertTime    = $DATA['alertTime'];
+
+  $Sql2 = "UPDATE department SET Ship_To = '$PayerCode' WHERE HptCode = '$HptCode' ";
   mysqli_query($conn, $Sql2);
   // ==============================================
   $Sql = "SELECT COUNT(*) AS Countn
           FROM
           site
           WHERE site.HptCode = '$HptCode'";
-  $meQuery = mysqli_query($conn,$Sql);
+  $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $boolcount = $Result['Countn'];
   }
   // ==============================================
-  if($HptCode1== ""){
+  if ($HptCode1 == "") {
     $count = 0;
-    $Sql="INSERT INTO site (
+    $Sql = "INSERT INTO site (
       site.HptCode,
       site.HptName,
       site.IsStatus,
@@ -198,7 +215,9 @@ function AddItem($conn, $DATA)
       site.PayerCode,
       site.Signature,
       site.stock,
-      site.LabSiteCode
+      site.LabSiteCode,
+      site.alertTime,
+      site.par
     )
     VALUE
       (
@@ -214,27 +233,27 @@ function AddItem($conn, $DATA)
         '$PayerCode',
         $Signature , 
         $stock ,
-        '$LabSiteCode'
+        '$LabSiteCode',
+        $alertTime,
+        $par
       )";
     $return['sss'] = $Sql;
-  if(mysqli_query($conn, $Sql))
-  {
-    $return['status'] = "success";
-    $return['form'] = "AddItem";
-    $return['msg'] = "addsuccess";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }else
-  {
-    $return['status'] = "failed";
-    $return['msg'] = "addfailed";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-  }else{
-      $Sql="UPDATE site
+    if (mysqli_query($conn, $Sql)) {
+      $return['status'] = "success";
+      $return['form'] = "AddItem";
+      $return['msg'] = "addsuccess";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['msg'] = "addfailed";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+  } else {
+    $Sql = "UPDATE site
       SET site.HptCode = '$HptCode',
        site.HptName = '$HptName',
        site.HptNameTH = '$HptNameTH',
@@ -245,103 +264,102 @@ function AddItem($conn, $DATA)
        site.PayerCode = '$PayerCode',
        site.Signature = $Signature ,
        site.stock = $stock ,
-       site.LabSiteCode = '$LabSiteCode'
+       site.LabSiteCode = '$LabSiteCode',
+       site.alertTime = '$alertTime',
+       site.par = '$par'
       WHERE
         site.HptCode = '$HptCode1'";
-      if(mysqli_query($conn, $Sql)){
-        $return['status'] = "success";
-        $return['form'] = "AddItem";
-        $return['msg'] = "editsuccess";
-        echo json_encode($return);
-        mysqli_close($conn);
-        die;
-      }else{
-        $return['status'] = "failed";
-        $return['msg'] = "editfailed";
-        echo json_encode($return);
-        mysqli_close($conn);
-        die;
-      }
+    if (mysqli_query($conn, $Sql)) {
+      $return['status'] = "success";
+      $return['form'] = "AddItem";
+      $return['msg'] = "editsuccess";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['msg'] = "editfailed";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
   }
 }
 
 function Adduser($conn, $DATA)
-  {
+{
   $host = $DATA['host'];
   $ContractName = $DATA['ContractName'];
   $Position = $DATA['Position'];
   $phone = $DATA['phone'];
   $idcontract = $DATA['idcontract'];
   $hosdetail = $DATA['hosdetail'];
-//=======================================
+  //=======================================
   $Sqlx = "SELECT COUNT(*) AS Countc
   FROM
   contractsite
   WHERE contractsite.id = '$idcontract'";
-$meQueryx = mysqli_query($conn,$Sqlx);
-while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
-$boolcountc = $Resultx['Countc'];
-}
-//=======================================
+  $meQueryx = mysqli_query($conn, $Sqlx);
+  while ($Resultx = mysqli_fetch_assoc($meQueryx)) {
+    $boolcountc = $Resultx['Countc'];
+  }
+  //=======================================
 
   // ==============CHECK HOSPITAL====================
-  $Sql="SELECT COUNT(HptCode) AS cnt FROM contractsite WHERE HptCode = '$host'";
+  $Sql = "SELECT COUNT(HptCode) AS cnt FROM contractsite WHERE HptCode = '$host'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $cnt  = $Result['cnt'];
   }
   // ===============================================
-  if($boolcountc ==0){
-    if($cnt < 2){
-    $Sql="INSERT INTO contractsite (contractsite.HptCode , contractsite.contractName , contractsite.permission , contractsite.Number) 
+  if ($boolcountc == 0) {
+    if ($cnt < 2) {
+      $Sql = "INSERT INTO contractsite (contractsite.HptCode , contractsite.contractName , contractsite.permission , contractsite.Number) 
     VALUE ('$host','$ContractName','$Position','$phone')";
-  if(mysqli_query($conn, $Sql)){
-    $return['status'] = "success";
-    $return['form'] = "AddItem";
-    $return['msg'] = "addsuccess";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-    }else{
-      $return['status'] = "failed";
-      $return['msg'] = "addfailed";
-    }
-  }else{
-    $return['status'] = "failed";
-    $return['msg'] = "adduserfailed";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-  }
-  }else{
-      $Sql="SELECT site.HptCode FROM site WHERE HptName ='$hosdetail'";
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $HptCodeupdate  = $Result['HptCode'];
+      if (mysqli_query($conn, $Sql)) {
+        $return['status'] = "success";
+        $return['form'] = "AddItem";
+        $return['msg'] = "addsuccess";
+        echo json_encode($return);
+        mysqli_close($conn);
+        die;
+      } else {
+        $return['status'] = "failed";
+        $return['msg'] = "addfailed";
       }
-      $Sql="UPDATE contractsite SET  contractsite.HptCode = '$HptCodeupdate' , 
+    } else {
+      $return['status'] = "failed";
+      $return['msg'] = "adduserfailed";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
+  } else {
+    $Sql = "SELECT site.HptCode FROM site WHERE HptName ='$hosdetail'";
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $HptCodeupdate  = $Result['HptCode'];
+    }
+    $Sql = "UPDATE contractsite SET  contractsite.HptCode = '$HptCodeupdate' , 
                                      contractsite.contractName = '$ContractName' , 
                                      contractsite.permission = '$Position' , 
                                      contractsite.Number = '$phone' 
       WHERE contractsite.id = $idcontract";
-      if(mysqli_query($conn, $Sql)){
-        $return['status'] = "success";
-        $return['form'] = "AddItem";
-        $return['msg'] = "editsuccess";
-        echo json_encode($return);
-        mysqli_close($conn);
-        die;
-      }else{
-        $return['status'] = "failed";
-        $return['msg'] = "adduserfailed";
-        echo json_encode($return);
-        mysqli_close($conn);
-        die;
-      }
-
-
+    if (mysqli_query($conn, $Sql)) {
+      $return['status'] = "success";
+      $return['form'] = "AddItem";
+      $return['msg'] = "editsuccess";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['msg'] = "adduserfailed";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    }
   }
-
 }
 function getHotpital($conn, $DATA)
 {
@@ -356,9 +374,9 @@ function getHotpital($conn, $DATA)
   $meQuery = mysqli_query($conn, $Sql);
 
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    if($lang == 'en'){
+    if ($lang == 'en') {
       $HptNamePage = $Result['HptName'];
-    }else{
+    } else {
       $HptNamePage = $Result['HptNameTH'];
     }
     $return[$count]['HptCode']  = $Result['HptCode'];
@@ -371,40 +389,38 @@ function getHotpital($conn, $DATA)
   echo json_encode($return);
   mysqli_close($conn);
   die;
-
 }
 
 function EditItem($conn, $DATA)
 {
   $count = 0;
-  if($DATA["HptCode"]!=""){
+  if ($DATA["HptCode"] != "") {
     $Sql = "UPDATE site SET
-            HptName = '".$DATA['HptName']."'
-            WHERE HptCode = ".$DATA['HptCode']."
+            HptName = '" . $DATA['HptName'] . "'
+            WHERE HptCode = " . $DATA['HptCode'] . "
     ";
     // var_dump($Sql); die;
-    if(mysqli_query($conn, $Sql)){
+    if (mysqli_query($conn, $Sql)) {
       $return['status'] = "success";
       $return['form'] = "EditItem";
       $return['msg'] = "editsuccess";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-    }else{
+    } else {
       $return['status'] = "failed";
       $return['msg'] = "editfailed";
       echo json_encode($return);
       mysqli_close($conn);
       die;
     }
-  }else{
+  } else {
     $return['status'] = "failed";
     $return['msg'] = "editfailed";
     echo json_encode($return);
     mysqli_close($conn);
     die;
   }
-
 }
 
 function CancelItem($conn, $DATA)
@@ -413,86 +429,80 @@ function CancelItem($conn, $DATA)
   $idcontract = $DATA["idcontract"];
   $count = 0;
 
-  
 
-  if($HptCode!="" && $idcontract !=""){
-    $Sql ="DELETE FROM contractsite WHERE id=$idcontract " ;
-    if(mysqli_query($conn, $Sql)){
+
+  if ($HptCode != "" && $idcontract != "") {
+    $Sql = "DELETE FROM contractsite WHERE id=$idcontract ";
+    if (mysqli_query($conn, $Sql)) {
       $return['status'] = "success";
       $return['form'] = "CancelItem";
       $return['msg'] = "cancelsuccess";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-      }else{
+    } else {
       $return['status'] = "failed";
       $return['msg'] = "cancelfailed";
       echo json_encode($return);
       mysqli_close($conn);
       die;
-      }
-  }else if ($HptCode!=""){
+    }
+  } else if ($HptCode != "") {
     $Sql = "UPDATE site SET
     IsStatus = 1
     WHERE HptCode = '$HptCode'";
 
-    $Sql1 ="UPDATE department SET IsStatus = 1 WHERE HptCode = '$HptCode' ";
+    $Sql1 = "UPDATE department SET IsStatus = 1 WHERE HptCode = '$HptCode' ";
     mysqli_query($conn, $Sql);
     // var_dump($Sql); die;
-    if(mysqli_query($conn, $Sql)){
-    $return['status'] = "success";
-    $return['form'] = "CancelItem";
-    $return['msg'] = "cancelsuccess";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
-    }else{
-    $return['status'] = "failed";
-    $return['msg'] = "cancelfailed";
-    echo json_encode($return);
-    mysqli_close($conn);
-    die;
+    if (mysqli_query($conn, $Sql)) {
+      $return['status'] = "success";
+      $return['form'] = "CancelItem";
+      $return['msg'] = "cancelsuccess";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
+    } else {
+      $return['status'] = "failed";
+      $return['msg'] = "cancelfailed";
+      echo json_encode($return);
+      mysqli_close($conn);
+      die;
     }
-
-  }else{
+  } else {
     $return['status'] = "failed";
     $return['msg'] = "cancelfailed";
     echo json_encode($return);
     mysqli_close($conn);
     die;
-
   }
-
 }
 
-if(isset($_POST['DATA']))
-{
+if (isset($_POST['DATA'])) {
   $data = $_POST['DATA'];
-  $DATA = json_decode(str_replace ('\"','"', $data), true);
+  $DATA = json_decode(str_replace('\"', '"', $data), true);
 
-      if ($DATA['STATUS'] == 'ShowItem') {
-        ShowItem($conn, $DATA);
-      }else if ($DATA['STATUS'] == 'getSection') {
-        getSection($conn, $DATA);
-      }else if ($DATA['STATUS'] == 'AddItem') {
-        AddItem($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'EditItem') {
-        EditItem($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'CancelItem') {
-        CancelItem($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'getdetail') {
-        getdetail($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'getHotpital') {
-        getHotpital($conn,$DATA);
-      }else if ($DATA['STATUS'] == 'Adduser') {
-        Adduser($conn,$DATA);
-      }
-      
-      
-}else{
-	$return['status'] = "error";
-	$return['msg'] = 'noinput';
-	echo json_encode($return);
-	mysqli_close($conn);
+  if ($DATA['STATUS'] == 'ShowItem') {
+    ShowItem($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'getSection') {
+    getSection($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'AddItem') {
+    AddItem($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'EditItem') {
+    EditItem($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'CancelItem') {
+    CancelItem($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'getdetail') {
+    getdetail($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'getHotpital') {
+    getHotpital($conn, $DATA);
+  } else if ($DATA['STATUS'] == 'Adduser') {
+    Adduser($conn, $DATA);
+  }
+} else {
+  $return['status'] = "error";
+  $return['msg'] = 'noinput';
+  echo json_encode($return);
+  mysqli_close($conn);
   die;
 }

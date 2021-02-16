@@ -227,6 +227,9 @@ function CreateDocument($conn, $DATA)
   $userid   = $DATA["userid"];
   $cycle   = $DATA["cycle"];
   $settime   = $DATA["settime"];
+  $txtRemark   = $DATA["txtRemark"];
+
+  
 
   if($deptCode == "" || $deptCode == NULL)
   {
@@ -297,7 +300,12 @@ function CreateDocument($conn, $DATA)
               ScEndTime,
               IsMobile,
               SiteCode,
-              SitePath
+              SitePath,
+              statusDepartment,
+              remark,
+              accept_Time,
+              create_Time,
+              create_User
             )
             VALUES
               (
@@ -315,7 +323,12 @@ function CreateDocument($conn, $DATA)
                 NOW(),
                 1,
                 '$hotpCode',
-                '$sitepath'
+                '$sitepath',
+                1,
+                '$txtRemark',
+                NOW(),
+                NOW(),
+                $userid
               )";
 
     mysqli_query($conn, $Sql);
@@ -519,40 +532,40 @@ function ShowDocument($conn, $DATA)
   // if($PmID ==1 || $PmID==6){
   if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process == 'chkpro') {
     $chk = 1;
-    $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1";
+    $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( statusDepartment = 1 OR statusDepartment  IS NULL  ) ";
   } else if ($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process == 'chkpro') {
     $chk = 2;
-    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND shelfcount.IsMobile = 1 AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process == 'chkpro') {
     $chk = 3;
-    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process == 'chkpro') {
     $chk = 4;
-    $Sql .= " WHERE  site.HptCode = '$Hotp'  AND LabNumber LIKE '%$Hotp%' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE  site.HptCode = '$Hotp'  AND LabNumber LIKE '%$Hotp%' AND shelfcount.DepCode = '$deptCode' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process == 'chkpro') {
     $chk = 5;
-    $Sql .= " WHERE site.HptCode = '$Hotp'  AND LabNumber LIKE '%$Hotp%' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE site.HptCode = '$Hotp'  AND LabNumber LIKE '%$Hotp%' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process == 'chkpro') {
     $chk = 6;
-    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null  && $process == 'chkpro') {
     $chk = 7;
-    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND LabNumber LIKE '%$Hotp%' AND  DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 ";
+    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND LabNumber LIKE '%$Hotp%' AND  DATE(shelfcount.DocDate) = '$datepicker' AND site.HptCode = '$Hotp' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker == null && $process != 'chkpro') {
     $chk = 8;
-    $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND LabNumber LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+    $Sql .= " WHERE  site.HptCode LIKE '%$Hotp%' AND LabNumber LIKE '%$Hotp%' AND  shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1 AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp == 'chkhpt' && $deptCode != 'chkdep' && $datepicker == null && $process != 'chkpro') {
     $chk = 9;
-    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND LabNumber LIKE '%$Hotp%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+    $Sql .= " WHERE shelfcount.DepCode = '$deptCode' AND LabNumber LIKE '%$Hotp%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp == 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro') {
     $chk = 10;
-    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND LabNumber LIKE '%$Hotp%' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+    $Sql .= " WHERE DATE(shelfcount.DocDate) = '$datepicker' AND LabNumber LIKE '%$Hotp%' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp != 'chkhpt' && $deptCode == 'chkdep' && $datepicker != null && $process != 'chkpro') {
     $chk = 11;
-    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND LabNumber LIKE '%$Hotp%' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND LabNumber LIKE '%$Hotp%' AND DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) AND ( statusDepartment = 1 OR statusDepartment  IS NULL  )  ";
   } else if ($Hotp != 'chkhpt' && $deptCode != 'chkdep' && $datepicker != null && $process != 'chkpro') {
     $chk = 12;
-    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND LabNumber LIKE '%$Hotp%' AND shelfcount.DepCode = '$deptCode' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) ";
+    $Sql .= " WHERE site.HptCode LIKE '%$Hotp%' AND LabNumber LIKE '%$Hotp%' AND shelfcount.DepCode = '$deptCode' AND  DATE(shelfcount.DocDate) = '$datepicker' AND shelfcount.DocNo LIKE '%$xDocNo%' AND shelfcount.IsMobile = 1  AND ( shelfcount.IsStatus = $onprocess1 OR shelfcount.IsStatus = $onprocess2 ) AND ( statusDepartment = 1 OR statusDepartment IS NULL )  ";
   }
 
   $Sql .= "AND department.IsStatus = 0 ORDER BY shelfcount.DocNo DESC LIMIT 500 ";
@@ -631,7 +644,9 @@ function SelectDocument($conn, $DATA)
     shelfcount.jaipar ,
     shelfcount.PkStartTime,
     shelfcount.ScTime,
-    site.Signature
+    shelfcount.remark,
+    site.Signature,
+    shelfcount.phoneNumber
   FROM shelfcount
   INNER JOIN department ON shelfcount.DepCode = department.DepCode
   INNER JOIN site ON department.HptCode = site.HptCode
@@ -666,7 +681,9 @@ function SelectDocument($conn, $DATA)
     $return[$count]['IsStatus']     = $Result['IsStatus'];
     $return[$count]['CycleTime']    = $Result['CycleTime'];
     $return[$count]['DeliveryTime'] = $Result['DeliveryTime'];
+    $return[$count]['phoneNumber'] = $Result['phoneNumber'];
     $return[$count]['PkStartTime']  = $Result['PkStartTime'] == null ? 0 : $Result['PkStartTime'];
+    $return[$count]['remark']  = $Result['remark'] == null ? "" : $Result['remark'];
     $boolean = true;
     $count++;
   }
@@ -1241,6 +1258,7 @@ function SaveBill($conn, $DATA)
   $DepCode    = $DATA["deptCode"];
   $cycle      = $DATA["cycle"];
   $settime    = $DATA["settime"];
+  $txtRemark    = $DATA["txtRemark"];
   $setcount   = $DATA["setcount"];
   $hotpCode   = $DATA["hotpCode"];
   $ItemCodeArray  = $DATA['ItemCode'];
@@ -1379,16 +1397,15 @@ function SaveBill($conn, $DATA)
   report_sc 
   SET report_sc.IsStatus = $isStatus,
   shelfcount.IsStatus = $isStatus,
+  shelfcount.remark = '$txtRemark',
   shelfcount.DeliveryTime = $settime,
   shelfcount.ScTime = $setcount 
   WHERE
     shelfcount.DocNo = '$DocNo' 
-    AND report_sc.DocNo = '$DocNo' 
-    AND report_sc.DepCode = '$DepCode' ";
+    AND report_sc.DocNo = '$DocNo' ";
   mysqli_query($conn, $Sql);
 
 
-  
   // $Sql = "  UPDATE report_sc SET IsStatus =   (CASE WHEN DocNo = '$DocNo' THEN $isStatus end)
   //   WHERE  DocNo in('$DocNo') AND DepCode = '$DepCode' ";
   // mysqli_query($conn, $Sql);
@@ -1630,6 +1647,7 @@ function ShowDetailSub($conn, $DATA)
 function CancelBill($conn, $DATA)
 {
   $DocNo = $DATA["DocNo"];
+  $txtRemark = $DATA["txtRemark"];
   $ItemCode = explode(",", $DATA["ItemCode"]);
   $DepCode = $DATA["DepCode"];
   $Userid = $_SESSION['Userid'];
@@ -1643,7 +1661,7 @@ function CancelBill($conn, $DATA)
     mysqli_query($conn, $Update);
   }
 
-  $Sql = "UPDATE shelfcount SET IsStatus = 9 ,IsRequest = 1, Total = 0 , Modify_Code ='$Userid', Modify_Date = NOW() WHERE DocNo = '$DocNo'";
+  $Sql = "UPDATE shelfcount SET  cancel_User = '$Userid' , remark= '$txtRemark', IsStatus = 9 ,IsRequest = 1, Total = 0 , Modify_Code ='$Userid', Modify_Date = NOW() WHERE DocNo = '$DocNo'";
   $meQuery = mysqli_query($conn, $Sql);
 
   $Sql = "UPDATE report_sc SET IsStatus = 9  WHERE DocNo = '$DocNo'";
@@ -2294,6 +2312,7 @@ function ShowDetailNew($conn, $DATA)
   shelfcount_detail.Over,
   shelfcount_detail.Short,
   item.Weight,
+  shelfcount.ScTime,
   shelfcount_detail.Weight AS WeightShow ,
 	category_price.Price  ,
   (SELECT chk_sign FROM shelfcount WHERE DocNo = '$DocNo') AS chk_sign
@@ -2334,6 +2353,7 @@ function ShowDetailNew($conn, $DATA)
     }
     $return[$count]['RowID']      = $Result['Id'];
     $return[$count]['ItemCode']   = $Result['ItemCode'];
+    $return['ScTime']     = $Result['ScTime'];
     $return[$count]['ItemName']   = $Result['ItemName'];
     $return[$count]['UnitName']   = $Result['UnitName'];
     $return[$count]['Price']      = $Result['Price'];

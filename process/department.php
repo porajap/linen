@@ -12,6 +12,9 @@ function ShowItem($conn, $DATA)
   $xHptCode = $DATA['HptCode'];
   $group = $DATA['group'];
   $Keyword = $DATA['Keyword'];
+  $column = $DATA['column']==null?'DepCode':$DATA['column'];
+  $sort = $DATA['sort']==null?'DESC':$DATA['sort'];
+
   $Sql = "SELECT site.HptCode,
           CASE site.IsStatus WHEN 0 THEN '0' WHEN 1 THEN '1' END AS IsStatus,
           department.DepCode,TRIM(department.DepName) AS DepName,department.IsDefault,
@@ -35,7 +38,7 @@ function ShowItem($conn, $DATA)
         {
             $Sql .= " WHERE   site.HptCode = '$xHptCode' AND ( department.DepCode LIKE '%$Keyword%' OR department.DepName LIKE '%$Keyword%') "; 
         }
-          $Sql .= "  ORDER BY department.DepName ASC ";
+          $Sql .= "   ORDER BY department.$column $sort  ";
   $return['sql'] = $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery))
@@ -58,6 +61,9 @@ function ShowItem($conn, $DATA)
   }
 
   $return['Count'] = $count;
+  if($column == 'RowID' && $sort=='ASC'){
+    $return['down'] = 1;
+  }
   if($count>0)
   {
     $return['status'] = "success";

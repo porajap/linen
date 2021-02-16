@@ -68,7 +68,7 @@ function GetDep($conn)
 
 
   $Sql = "SELECT department.DepCode,department.DepName
-      FROM department WHERE department.IsStatus = 0 AND department.DepCode = '$DepCode' AND department.HptCode = '$HptCode1' ";
+      FROM department WHERE department.IsStatus = 0 AND department.DepCode = '$DepCode' AND department.HptCode = '$HptCode1' ORDER BY department.DepName ASC ";
 
 
 
@@ -91,6 +91,8 @@ function CreateDocument($conn)
   $userid   = $_SESSION["Userid"];
   $Site = $_POST['Site'];
   $txtName = $_POST['txtName'];
+  $txtPhoneNumber = $_POST["txtPhoneNumber"];
+
   $return = array();
 
   if ($PmID == 1) {
@@ -144,7 +146,10 @@ function CreateDocument($conn)
       SiteCode,
       SitePath,
       revealName,
-      statusDepartment
+      statusDepartment,
+      phoneNumber,
+      create_Time,
+      create_User
     )
     VALUES
       (
@@ -164,19 +169,39 @@ function CreateDocument($conn)
         '$hotpCode',
         '$sitepath',
         '$txtName',
-        0
+        0,
+        '$txtPhoneNumber',
+        NOW(),
+        $userid
       )";
 
 
     mysqli_query($conn, $Sql);
 
 
+    $SqlUser = "SELECT users.ThName FROM users WHERE ID = '$userid' ";
+    $meQuery_users = mysqli_query($conn, $SqlUser);
+    $row_users = mysqli_fetch_assoc($meQuery_users);
+    $ThName = $row_users['ThName'];
+
+      $Sql_alert = "SELECT
+                      site.alertTime 
+                    FROM
+                      site 
+                    WHERE
+                      HptCode = '$hotpCode'";
+      $meQuery = mysqli_query($conn, $Sql_alert);
+
+      $Result = mysqli_fetch_assoc($meQuery);
+      $alertTime = $Result['alertTime'];
+
 
     array_push($return, array(
       'txtDocNo' => $DocNo,
       'txtDocDate' => $newdate,
-      'txtCreate' => $userid,
-      'txtTime' => $RecNow
+      'txtCreate' => $ThName,
+      'txtTime' => $RecNow,
+      'alertTime' => $alertTime
 
     ));
   }
@@ -219,6 +244,7 @@ function insertDocDetail($conn)
           ORDER BY 
             item.ItemName ASC 
             LImit 100 ";
+
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
 
@@ -261,12 +287,26 @@ function showDocument($conn)
   $Dep = $_POST['Dep'];
   $sDate = $_POST['sDate'];
   $status = $_POST['status'];
+  $lang = $_SESSION['lang'];
   $return = array();
   $whereDate= "";
 
-  if($sDate != "-543--"){
+
+  if($sDate != "-543--" && $sDate != "--"){
     $whereDate = "AND shelfcount.DocDate = '$sDate' ";
+  }else{
+    $whereDate = "AND shelfcount.DocDate = DATE(NOW()) ";
   }
+
+  if($status == 1){
+    $whereStatus = "AND shelfcount.isStatus = 0";
+  }else if($status == 2){
+    $whereStatus = "AND ( shelfcount.isStatus = 1 OR shelfcount.isStatus = 2 )";
+  }else if($status == 3){
+    $whereStatus = "AND shelfcount.isStatus = 9";
+  }
+
+
   $Sql = "SELECT
         shelfcount.DocNo,
         shelfcount.DocDate,
@@ -274,17 +314,29 @@ function showDocument($conn)
         shelfcount.statusDepartment,
         shelfcount.isStatus,
         TIME( shelfcount.Modify_Date ) AS xTime,
-        users.ThName 
-      FROM
+        users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
+        users.FName     ,
+        shelfcount.phoneNumber,
+        shelfcount.remark
+        FROM
         shelfcount
         INNER JOIN department ON shelfcount.DepCode = department.DepCode
         INNER JOIN users ON shelfcount.Modify_Code = users.ID 
       WHERE
         ( shelfcount.statusDepartment = 0 OR shelfcount.statusDepartment = 1 ) 
-        AND shelfcount.SiteCode = '$Site' AND shelfcount.DepCode = '$Dep'  $whereDate ";
+        AND shelfcount.SiteCode = '$Site' AND department.HptCode = '$Site' AND shelfcount.DepCode = '$Dep' AND department.DepCode = '$Dep'  $whereDate  $whereStatus ORDER BY shelfcount.Modify_Date DESC";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if ($lang == 'en') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+      $Result['ThName'] = $Result['EngPerfix'] . $Result['EngName'] . '  ' . $Result['EngLName'];
+    } else if ($lang == 'th') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . ($date2[0] + 543);
+      $Result['ThName']   = $Result['ThPerfix'] . ' ' . $Result['ThName'] . '  ' . $Result['ThLName'];
+    }
     $return[] = $Result;
   }
   echo json_encode($return);
@@ -295,17 +347,21 @@ function showDocument($conn)
 function selectDocument($conn)
 {
   $DocNo = $_POST['DocNo'];
+  $lang = $_SESSION['lang'];
   $return = array();
 
   $Sql = "SELECT
           shelfcount.DocNo,
           shelfcount.DocDate,
           department.DepName,
-          users.FName,
+          users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix ,
+          users.FName,          
           TIME( shelfcount.Modify_Date ) AS xTime,
           shelfcount.IsStatus,
+          shelfcount.statusDepartment,
           shelfcount.revealName,
-          site.HptName 
+          site.HptName,
+          shelfcount.phoneNumber 
         FROM
           shelfcount
           INNER JOIN department ON shelfcount.DepCode = department.DepCode
@@ -315,6 +371,15 @@ function selectDocument($conn)
           shelfcount.DocNo = '$DocNo' ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
+    if ($lang == 'en') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+      $Result['FName'] = $Result['EngPerfix'] . $Result['EngName'] . '  ' . $Result['EngLName'];
+    } else if ($lang == 'th') {
+      $date2 = explode("-", $Result['DocDate']);
+      $Result['DocDate'] = $date2[2] . '-' . $date2[1] . '-' . ($date2[0] + 543);
+      $Result['FName']   = $Result['ThPerfix'] . ' ' . $Result['ThName'] . '  ' . $Result['ThLName'];
+    }
     $return[] = $Result;
   }
   echo json_encode($return);
@@ -331,6 +396,7 @@ function showDetailDocument($conn)
             item.ItemName,
             item.ItemCode,
             shelfcount_detail.ParQty,
+            shelfcount_detail.CcQty ,
             shelfcount_detail.TotalQty 
           FROM
             shelfcount_detail
@@ -347,11 +413,33 @@ function showDetailDocument($conn)
 
 function saveDocument($conn){
   $queryUpdate = $_POST['queryUpdate'];
+  $DocNo = $_POST['DocNo'];
+  $hotpCode = $_SESSION['HptCode'];
   $Sql = $queryUpdate;
 
   if(mysqli_multi_query($conn, $Sql)){
+
     echo "1";
   }
+  
+
+  // $Sql_alert = "SELECT
+  //                 site.alertTime 
+  //               FROM
+  //                 site 
+  //               WHERE
+  //                 HptCode = '$hotpCode'";
+  // $meQuery = mysqli_query($conn, $Sql_alert);
+
+  // $Result = mysqli_fetch_assoc($meQuery);
+  // $alertTime = $Result['alertTime'];
+
+
+  // $SqlUpdate = "UPDATE shelfcount SET  DATE_ADD( shelfcount.alertTime, INTERVAL $alertTime MINUTE ) WHERE DocNo = '$DocNo' ";
+
+  // if(mysqli_query($conn, $Sql)){
+    
+  // }
 
 
   exit();
@@ -361,10 +449,28 @@ function saveDocument($conn){
 
 function cancelDocment($conn){
   $DocNo = $_POST['DocNo'];
+  $comment = $_POST['comment'];
+  $userid   = $_SESSION["Userid"];
 
-  $Sql = "UPDATE shelfcount SET isStatus = 9 WHERE DocNo = '$DocNo' ";
-
-  if(mysqli_query($conn, $Sql)){
-    echo '1';
+  $Sql="SELECT
+        shelfcount.statusDepartment
+      FROM
+        shelfcount
+      WHERE
+        shelfcount.DocNo = '$DocNo' ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    $statusDepartment = $Result['statusDepartment'];
   }
+
+  if($statusDepartment != 1){
+    $Sql = "UPDATE shelfcount SET isStatus = 9 , commentDelete = '$comment' , cancel_User = '$userid' WHERE DocNo = '$DocNo' ";
+    mysqli_query($conn, $Sql);
+  }
+
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }
