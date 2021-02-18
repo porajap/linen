@@ -12,6 +12,7 @@
 <link href="../css/responsive.css" rel="stylesheet">
 <link href="../select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="../datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="../dropify/dist/css/dropify.min.css">
 
 <style media="screen">
 

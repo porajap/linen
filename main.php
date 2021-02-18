@@ -107,6 +107,9 @@ switch ($PmID) {
     $sys_s21 = 1;
     $sys_s22 = 1;
     $sys_s23 = 1;
+    $sys_s24 = 1;
+    $sys_s25 = 1;
+    
     break;
   case "2":
     //genneral
@@ -245,6 +248,8 @@ switch ($PmID) {
     $sys_s21 = 1;
     $sys_s22 = 1;
     $sys_s23 = 1;
+    $sys_s24 = 1;
+    $sys_s25 = 1;
     break;
   case "4":
     //genneral
@@ -371,6 +376,8 @@ switch ($PmID) {
     $sys_s21 = 1;
     $sys_s22 = 1;
     $sys_s23 = 1;
+    $sys_s24 = 1;
+    $sys_s25 = 1;
     break;
   case "6":
     //genneral
@@ -443,6 +450,8 @@ switch ($PmID) {
     $sys_s21 = 1;
     $sys_s22 = 1;
     $sys_s23 = 1;
+    $sys_s24 = 1;
+    $sys_s25 = 1;
     break;
   case "7":
     //genneral
@@ -515,6 +524,8 @@ switch ($PmID) {
     $sys_s21 = 1;
     $sys_s22 = 1;
     $sys_s23 = 1;
+    $sys_s24 = 1;
+    $sys_s25 = 1;
     break;
   case "8":
     //genneral
@@ -1598,6 +1609,12 @@ if (empty($_SESSION['href'])) {
               </li>
             <?php } ?>
 
+            <?php if ($sys_s25 == 1) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/catalogmanagement.php?lang=<?php echo $language; ?>" id="act25" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>catalog management</a>
+              </li>
+            <?php } ?>
+
             <?php if ($sys_s5 == 1) { ?>
               <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/category_main.php?lang=<?php echo $language; ?>" id="act26" class="current_page" onclick="return loadIframe('ifrm', this.href)">
                   <em></em><?php echo $array['menu']['system']['sub'][4][$language]; ?></span></a>
@@ -1679,15 +1696,21 @@ if (empty($_SESSION['href'])) {
             <?php } ?>
 
             <?php if ($sys_s22 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/supplier.php?lang=<?php echo $language; ?>" id="act39" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/supplier.php?lang=<?php echo $language; ?>" id="act41" class="current_page" onclick="return loadIframe('ifrm', this.href)">
                   <em></em>supplier</a>
               </li>
             <?php } ?>
 
             
             <?php if ($sys_s23 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/color.php?lang=<?php echo $language; ?>" id="act39" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/color.php?lang=<?php echo $language; ?>" id="act42" class="current_page" onclick="return loadIframe('ifrm', this.href)">
                   <em></em>color</a>
+              </li>
+            <?php } ?>
+
+            <?php if ($sys_s24 == 1) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/bindcatalog.php?lang=<?php echo $language; ?>" id="act43" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>ผูกรายการ catalog</a>
               </li>
             <?php } ?>
 
