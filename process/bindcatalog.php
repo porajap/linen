@@ -24,7 +24,114 @@ if (!empty($_POST['FUNC_NAME'])) {
     deleteColor($conn);
   } else  if ($_POST['FUNC_NAME'] == 'showSupplier') {
     showSupplier($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'checkSupplier') {
+    checkSupplier($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'openModalSupplier') {
+    openModalSupplier($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'showSite') {
+    showSite($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'checkSite') {
+    checkSite($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'openModalSite') {
+    openModalSite($conn);
   }
+}
+
+function showSite($conn)
+{
+  $count = 0;
+  $Sql = "SELECT
+            site.HptCode,
+            site.HptName 
+          FROM
+            site";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function checkSite($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+  $SiteArray = $_POST["SiteArray"];
+
+  $Sql = "DELETE FROM multisite WHERE itemCategoryId = '$txtItemId' ";
+  mysqli_query($conn, $Sql);
+
+  foreach ($SiteArray as $key => $value) {
+    $Sql = "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value' ";
+    mysqli_query($conn, $Sql);
+  }
+  echo "1";
+  mysqli_close($conn);
+  die;
+}
+
+function openModalSite($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+
+  $count = 0;
+  $Sql = "SELECT
+            multisite.site, 
+            multisite.id
+          FROM
+            multisite
+          WHERE multisite.itemCategoryId = '$txtItemId' ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function openModalSupplier($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+
+  $count = 0;
+  $Sql = "SELECT
+            multisupplier.id, 
+            multisupplier.codeSupplier
+          FROM
+            multisupplier
+          WHERE multisupplier.itemCategoryId = '$txtItemId' ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function checkSupplier($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+  $SupplierArray = $_POST["SupplierArray"];
+
+  $Sql = "DELETE FROM multisupplier WHERE itemCategoryId = '$txtItemId' ";
+  mysqli_query($conn, $Sql);
+
+  foreach ($SupplierArray as $key => $value) {
+    $Sql = "INSERT INTO multisupplier SET itemCategoryId = '$txtItemId' ,  codeSupplier = '$value' ";
+    mysqli_query($conn, $Sql);
+  }
+  echo "1";
+  mysqli_close($conn);
+  die;
 }
 
 function deleteColor($conn)
@@ -32,7 +139,7 @@ function deleteColor($conn)
   $count    = 0;
   $txtColorId = $_POST["txtColorId"];
   $return = array();
-  
+
   $Sql = "DELETE FROM multicolor WHERE id = '$txtColorId' ";
 
   mysqli_query($conn, $Sql);
@@ -50,12 +157,12 @@ function saveColor($conn)
   $colorMaster = $_POST["colorMaster"];
   $txtColorId = $_POST["txtColorId"];
   $return = array();
-  if($txtColorId == ""){
+  if ($txtColorId == "") {
     $Sql = "INSERT INTO multicolor SET  itemCategoryId = '$txtItemId',
                                         itemsize = '$radioSize',
                                         color_master = '$colorMaster',
                                         color_detail = '$colorDetail'    ";
-  }else{
+  } else {
     $Sql = "UPDATE multicolor SET itemsize = '$radioSize',
                                   color_master = '$colorMaster',
                                   color_detail = '$colorDetail'  
@@ -136,7 +243,7 @@ function switchMasterColor($conn)
 {
 
   $colorMaster = $_POST["colorMaster"];
-  $Sql="SELECT
+  $Sql = "SELECT
           color_master.color_master_code,
         color_detail.color_code_detail	
         FROM
@@ -170,9 +277,9 @@ function saveData($conn)
 
 
 
-  if($txtItemId == ""){
+  if ($txtItemId == "") {
     $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' ";
-  }else{
+  } else {
     $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
   }
   mysqli_query($conn, $Sql);
@@ -187,28 +294,28 @@ function saveData($conn)
   $txtItemId = $Result['id'];
 
 
-  $iamge1 = $txtItemId."-1" . '.' . $imageOne[1]."png";
-  $iamge2 = $txtItemId."-2" . '.' . $imageTwo[1]."png";
-  $iamge3 = $txtItemId."-3" . '.' . $imageThree[1]."png";
-  
+  $iamge1 = $txtItemId . "-1" . '.' . $imageOne[1] . "png";
+  $iamge2 = $txtItemId . "-2" . '.' . $imageTwo[1] . "png";
+  $iamge3 = $txtItemId . "-3" . '.' . $imageThree[1] . "png";
+
   include("gen_thumbnail.php");
 
-  if ($_FILES['imageOne'] != ""){
+  if ($_FILES['imageOne'] != "") {
     unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
     copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
-  
+
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1'  WHERE itemcatalog.id = '$txtItemId';";
     mysqli_query($conn, $Sql);
 
-    $cfg_thumb=  (object) array(
-      "source"=>"../profile/catalog/".$iamge1,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-      "destination"=>"../profile/catalog/".$iamge1,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
-      "width"=>500,         //  กำหนดความกว้างรูปใหม่
-      "height"=>500,       //  กำหนดความสูงรูปใหม่
-      "background"=>"#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
-      "output"=>"",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
-      "show"=>0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
-      "crop"=>1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/catalog/" . $iamge1,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge1,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 500,         //  กำหนดความกว้างรูปใหม่
+      "height" => 500,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
     );
     createthumb(
       $cfg_thumb->source,
@@ -218,31 +325,31 @@ function saveData($conn)
       $cfg_thumb->background,
       $cfg_thumb->output,
       $cfg_thumb->show,
-      $cfg_thumb->crop     
-    ); 
-  }else{
-    if($data_imageOne == "default"){
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_imageOne == "default") {
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne=null  WHERE itemcatalog.id = '$txtItemId';";
       mysqli_query($conn, $Sql);
     }
   }
 
-  if ($_FILES['imageTwo'] != ""){
+  if ($_FILES['imageTwo'] != "") {
     unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
     copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
-  
+
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
     mysqli_query($conn, $Sql);
-    
-    $cfg_thumb=  (object) array(
-      "source"=>"../profile/catalog/".$iamge2,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-      "destination"=>"../profile/catalog/".$iamge2,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
-      "width"=>500,         //  กำหนดความกว้างรูปใหม่
-      "height"=>500,       //  กำหนดความสูงรูปใหม่
-      "background"=>"#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
-      "output"=>"",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
-      "show"=>0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
-      "crop"=>1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/catalog/" . $iamge2,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge2,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 500,         //  กำหนดความกว้างรูปใหม่
+      "height" => 500,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
     );
     createthumb(
       $cfg_thumb->source,
@@ -252,32 +359,31 @@ function saveData($conn)
       $cfg_thumb->background,
       $cfg_thumb->output,
       $cfg_thumb->show,
-      $cfg_thumb->crop     
-    ); 
-  }else{
-    if($data_imageTwo == "default"){
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_imageTwo == "default") {
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo=null  WHERE itemcatalog.id = '$txtItemId';";
       mysqli_query($conn, $Sql);
     }
-  
   }
 
-  if ($_FILES['imageThree'] != ""){
+  if ($_FILES['imageThree'] != "") {
     unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
     copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
-  
+
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";
     mysqli_query($conn, $Sql);
 
-    $cfg_thumb=  (object) array(
-      "source"=>"../profile/catalog/".$iamge3,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-      "destination"=>"../profile/catalog/".$iamge3,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
-      "width"=>500,         //  กำหนดความกว้างรูปใหม่
-      "height"=>500,       //  กำหนดความสูงรูปใหม่
-      "background"=>"#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
-      "output"=>"",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
-      "show"=>0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
-      "crop"=>1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/catalog/" . $iamge3,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge3,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 500,         //  กำหนดความกว้างรูปใหม่
+      "height" => 500,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
     );
     createthumb(
       $cfg_thumb->source,
@@ -287,23 +393,18 @@ function saveData($conn)
       $cfg_thumb->background,
       $cfg_thumb->output,
       $cfg_thumb->show,
-      $cfg_thumb->crop     
-    ); 
-
-  }else{
-    if($data_imageThree == "default"){
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_imageThree == "default") {
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree=null  WHERE itemcatalog.id = '$txtItemId';";
       mysqli_query($conn, $Sql);
     }
   }
 
-
+  $return[] = $txtItemId;
   echo json_encode($return);
   mysqli_close($conn);
-
-
-
-
 }
 
 
@@ -357,12 +458,18 @@ function showData($conn)
 
 function deleteData($conn)
 {
-  $id = $_POST["txtNumber"];
+  $txtItemId = $_POST["txtItemId"];
   $return = array();
 
-  $Sql = "DELETE FROM supplier WHERE supplier.id = $id ";
-
+  $Sql = "DELETE FROM itemcatalog WHERE itemcatalog.id = $txtItemId ";
   mysqli_query($conn, $Sql);
+  $Sql = "DELETE FROM multicolor WHERE multicolor.itemCategoryId = $txtItemId ";
+  mysqli_query($conn, $Sql);
+  $Sql = "DELETE FROM multisite WHERE multisite.itemCategoryId = $txtItemId ";
+  mysqli_query($conn, $Sql);
+  $Sql = "DELETE FROM multisupplier WHERE multisupplier.itemCategoryId = $txtItemId ";
+  mysqli_query($conn, $Sql);
+
   echo json_encode($return);
   mysqli_close($conn);
   die;

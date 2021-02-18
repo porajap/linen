@@ -199,7 +199,7 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-4">
                   <div class="form-group">
                     <label for="exampleInputEmail1">สาขา</label>
-                    <button style="background: none;border: none;" onclick="plusSup()"><i class="fas fa-plus-square text-info"></i></button>
+                    <button style="background: none;border: none;" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
                   </div>
                 </div>
               </div>
@@ -299,7 +299,30 @@ $array2 = json_decode($json2, TRUE);
           <div id='row_supplier' class='row'></div>
         </div>
         <div class="modal-footer">
-          <button type="button" style="width:12%;" onclick="checkSupplier()" disabled class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
+          <input type="text" id="countbtnSupplier" value="0" hidden>
+          <button type="button" style="width:12%;" onclick="checkSupplier()" id="btn_SaveSupplier"  class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
+          <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_site" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Site</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type='checkbox' style="top:-4px;" id="checkallSite" onclick='checkallSite()'><span style="font-size:30px; " class="ml-4 "><?php echo $array['selectall'][$language]; ?></span>
+          <div id='row_site' class='row'></div>
+        </div>
+        <div class="modal-footer">
+          <input type="text" id="countbtnSite" value="0" hidden>
+          <button type="button" style="width:12%;" onclick="checkSite()" id="btn_SaveSite"  class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
           <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
         </div>
       </div>
@@ -346,6 +369,7 @@ $array2 = json_decode($json2, TRUE);
         showData();
         showMasterColor();
         showSupplier();
+        showSite();
       }, 200);
 
 
@@ -394,6 +418,10 @@ $array2 = json_decode($json2, TRUE);
       $('#cancelIcon').addClass('opacity');
       $(".dropify-clear").click();
       $("#row_DropDown").hide(300);
+      $("#txtDiscription").removeClass("border-danger");
+      $("#alert_txtDiscription").hide();
+      $("#txtItemName").removeClass("border-danger");
+      $("#alert_txtItemName").hide();
     }
 
     function showData() {
@@ -433,7 +461,7 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function deleteData() {
-      var txtNumber = $("#txtNumber").val();
+      var txtItemId = $("#txtItemId").val();
 
       swal({
         title: "<?php echo $array['canceldata'][$language]; ?>",
@@ -452,11 +480,11 @@ $array2 = json_decode($json2, TRUE);
         if (result.value) {
 
           $.ajax({
-            url: "../process/supplier.php",
+            url: "../process/bindcatalog.php",
             type: 'POST',
             data: {
               'FUNC_NAME': 'deleteData',
-              'txtNumber': txtNumber,
+              'txtItemId': txtItemId,
             },
             success: function(result) {
 
@@ -655,7 +683,8 @@ $array2 = json_decode($json2, TRUE);
         processData: false,
         data: form_data,
         success: function(result) {
-
+          var ObjData = JSON.parse(result);
+          $("#txtItemId").val(ObjData);
           swal({
             title: '',
             text: '<?php echo $array['savesuccess'][$language]; ?>',
@@ -907,10 +936,41 @@ $array2 = json_decode($json2, TRUE);
         }
       });
     }
+    // 
 
+    // supplier
     function openModalSupplier() {
       var txtItemName = $("txtItemName").val();
       $("#modal_supplier").modal('show');
+      var txtItemId = $("#txtItemId").val();
+
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'openModalSupplier',
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          $(".mySupplier").prop('checked', false);
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              $("#checkSupplier_"+value.codeSupplier).prop('checked', true);
+            });
+          }
+          var count = 0;
+          $(".mySupplier:checked").each(function() {
+            count++;
+          });
+
+          if(count == $('.mySupplier').length ){
+            $("#checkallSupplier").prop('checked', true);
+          }else{
+            $("#checkallSupplier").prop('checked', false);
+          }
+        }
+      });
     }
 
     function showSupplier() {
@@ -926,7 +986,7 @@ $array2 = json_decode($json2, TRUE);
             var myDATA = "";
             $.each(ObjData, function(kay, value) {
               var supplierName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name_Th}</span>`;
-              var chksupplier = `<input type='checkbox' id='checkSupplier_${kay}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
+              var chksupplier = `<input type='checkbox' onclick='switchSupplier()' id='checkSupplier_${value.id}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
               myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;'  nowrap>" + chksupplier + supplierName + "</div>";
             });
           }
@@ -938,13 +998,44 @@ $array2 = json_decode($json2, TRUE);
       });
     }
 
+    function switchSupplier() {
+      // var count = 0;
+      // $(".mySupplier:checked").each(function() {
+      //   count++;
+      // });
+      // if (count == 0) {
+      //   $('#btn_SaveSupplier').attr('disabled', true);
+      // } else {
+      //   $('#btn_SaveSupplier').attr('disabled', false);
+      // }
+    }
+
     function checkSupplier() {
       var SupplierArray = [];
+      var txtItemId = $("#txtItemId").val();
       $(".mySupplier:checked").each(function() {
         SupplierArray.push($(this).val());
       });
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'checkSupplier',
+          'SupplierArray': SupplierArray,
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
 
-      alert(SupplierArray);
     }
 
     function checkallSupplier() {
@@ -969,9 +1060,153 @@ $array2 = json_decode($json2, TRUE);
           }
         });
       }
+
+      // var numRow = $("#countbtnSupplier").val();
+      // if (numRow == i) {
+      //   $("#countbtnSupplier").val(0);
+      //   $('#btn_SaveSupplier').attr('disabled', true);
+      // } else {
+      //   $("#countbtnSupplier").val(i);
+      //   $('#btn_SaveSupplier').attr('disabled', false);
+      // }
+    }
+    //
+
+    function openModalSite() {
+      var txtItemName = $("txtItemName").val();
+      $("#modal_site").modal('show');
+      var txtItemId = $("#txtItemId").val();
+
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'openModalSite',
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          $(".mySite").prop('checked', false);
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              $("#checkSite_"+value.site).prop('checked', true);
+            });
+          }
+          var count = 0;
+          $(".mySite:checked").each(function() {
+            count++;
+          });
+
+          if(count == $('.mySite').length ){
+            $("#checkallSite").prop('checked', true);
+          }else{
+            $("#checkallSite").prop('checked', false);
+          }
+        }
+      });
     }
 
-    // 
+    function showSite(){
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'showSite',
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          if (!$.isEmptyObject(ObjData)) {
+            var myDATA = "";
+            $.each(ObjData, function(kay, value) {
+              var siteName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.HptName}</span>`;
+              var chksite = `<input type='checkbox' onclick='switchSite()' id='checkSite_${value.HptCode}' value='${value.HptCode}' class='mySite' style='top:-10%;' data-id='${value.HptCode}' >`;
+              myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;'  nowrap>" + chksite + siteName + "</div>";
+            });
+          }
+
+          $("#row_site").html(myDATA);
+
+
+        }
+      });
+    }
+
+    function switchSite() {
+      // var count = 0;
+      // $(".mySupplier:checked").each(function() {
+      //   count++;
+      // });
+      // if (count == 0) {
+      //   $('#btn_SaveSupplier').attr('disabled', true);
+      // } else {
+      //   $('#btn_SaveSupplier').attr('disabled', false);
+      // }
+    }
+
+    function checkSite() {
+      var SiteArray = [];
+      var txtItemId = $("#txtItemId").val();
+      $(".mySite:checked").each(function() {
+        SiteArray.push($(this).val());
+      });
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'checkSite',
+          'SiteArray': SiteArray,
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+
+    }
+
+    function checkallSite() {
+      var select_all = document.getElementById('checkallSite'); //select all checkbox
+      var checkboxes = document.getElementsByClassName("mySite"); //checkbox items
+
+      //select all checkboxes
+      select_all.addEventListener("change", function(e) {
+        for (i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = select_all.checked;
+        }
+      });
+
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function(e) {
+          if (this.checked == false) {
+            select_all.checked = false;
+          }
+          if (document.querySelectorAll('.mySite:checked').length == checkboxes.length) {
+            select_all.checked = true;
+          }
+        });
+      }
+
+      // var numRow = $("#countbtnSupplier").val();
+      // if (numRow == i) {
+      //   $("#countbtnSupplier").val(0);
+      //   $('#btn_SaveSupplier').attr('disabled', true);
+      // } else {
+      //   $("#countbtnSupplier").val(i);
+      //   $('#btn_SaveSupplier').attr('disabled', false);
+      // }
+    }
+
+
+
+    
   </script>
 
 </body>

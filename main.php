@@ -25,9 +25,9 @@ $array = json_decode($json, TRUE);
 $xml2 = simplexml_load_file('xml/general_lang.xml');
 $json2 = json_encode($xml2);
 $array2 = json_decode($json2, TRUE);
-if($menu == 1){
+if ($menu == 1) {
   $dp2_number = 1;
-}else{
+} else {
   $dp2_number = 0;
 }
 
@@ -109,7 +109,15 @@ switch ($PmID) {
     $sys_s23 = 1;
     $sys_s24 = 1;
     $sys_s25 = 1;
-    
+
+
+    $cat_head = 1;
+    $cat_s1 = 1;
+    $cat_s2 = 1;
+    $cat_s3 = 1;
+    $cat_s4 = 1;
+    $cat_s5 = 1;
+
     break;
   case "2":
     //genneral
@@ -176,6 +184,13 @@ switch ($PmID) {
     $sys_s13 = 0;
     $sys_s14 = 1;
     $sys_s15 = 0;
+
+    $cat_head = 0;
+    $cat_s1 = 0;
+    $cat_s2 = 0;
+    $cat_s3 = 0;
+    $cat_s4 = 0;
+    $cat_s5 = 0;
     break;
   case "3":
     //genneral
@@ -250,6 +265,13 @@ switch ($PmID) {
     $sys_s23 = 1;
     $sys_s24 = 1;
     $sys_s25 = 1;
+
+    $cat_head = 1;
+    $cat_s1 = 1;
+    $cat_s2 = 1;
+    $cat_s3 = 1;
+    $cat_s4 = 1;
+    $cat_s5 = 1;
     break;
   case "4":
     //genneral
@@ -378,6 +400,13 @@ switch ($PmID) {
     $sys_s23 = 1;
     $sys_s24 = 1;
     $sys_s25 = 1;
+
+    $cat_head = 1;
+    $cat_s1 = 1;
+    $cat_s2 = 1;
+    $cat_s3 = 1;
+    $cat_s4 = 1;
+    $cat_s5 = 1;
     break;
   case "6":
     //genneral
@@ -452,6 +481,13 @@ switch ($PmID) {
     $sys_s23 = 1;
     $sys_s24 = 1;
     $sys_s25 = 1;
+
+    $cat_head = 1;
+    $cat_s1 = 1;
+    $cat_s2 = 1;
+    $cat_s3 = 1;
+    $cat_s4 = 1;
+    $cat_s5 = 1;
     break;
   case "7":
     //genneral
@@ -526,6 +562,13 @@ switch ($PmID) {
     $sys_s23 = 1;
     $sys_s24 = 1;
     $sys_s25 = 1;
+
+    $cat_head = 1;
+    $cat_s1 = 1;
+    $cat_s2 = 1;
+    $cat_s3 = 1;
+    $cat_s4 = 1;
+    $cat_s5 = 1;
     break;
   case "8":
     //genneral
@@ -601,11 +644,18 @@ switch ($PmID) {
     $sys_s19 = 0;
     $sys_s20 = 0;
     $sys_s21 = 0;
+
+    $cat_head = 0;
+    $cat_s1 = 0;
+    $cat_s2 = 0;
+    $cat_s3 = 0;
+    $cat_s4 = 0;
+    $cat_s5 = 0;
     break;
 }
 
 if (empty($_SESSION['href'])) {
-    $src = "pages/menu.php?lang=<?php echo $language; ?>";
+  $src = "pages/menu.php?lang=<?php echo $language; ?>";
 } else {
   $src = $_SESSION['href'];
   $active_li = $_SESSION['active_li'];
@@ -780,12 +830,12 @@ if (empty($_SESSION['href'])) {
       $("#act1").removeClass("active_li");
     }
 
-    function requestParClick(){
+    function requestParClick() {
       $("#act42").attr("class", "active_li");
       $("#act1").removeClass("active_li");
     }
 
-    function chatRoomClick(){
+    function chatRoomClick() {
       $("#act47").attr("class", "active_li");
       $("#act1").removeClass("active_li");
     }
@@ -1299,7 +1349,7 @@ if (empty($_SESSION['href'])) {
 
 <body>
   <header id="pageHeader" class="navbar navbar-expand static-top">
-    <a style="width:9%;" class="current_page" ><img src="img/7.png" style="width:143%;margin-top:55px;margin-bottom:20px;" alt=""></a>
+    <a style="width:9%;" class="current_page"><img src="img/7.png" style="width:143%;margin-top:55px;margin-bottom:20px;" alt=""></a>
     <!-- Navbar username -->
     <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="height: 12px;text-transform: capitalize;">
       <span style='font-weight:bold;'><?php echo $FName ?> </span> <span style='font-weight:bold;'> [ </span> <span style='font-weight:bold;'><?php echo $Permission ?></span> <span style='font-weight:bold;'> ] </span>
@@ -1458,7 +1508,7 @@ if (empty($_SESSION['href'])) {
       <?php } ?>
 
       <?php if ($dp2_head == 1) { ?>
-        <li id="status" >
+        <li id="status">
 
           <a class="bluebg" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="#status" id="createStatus">Create status</a>
 
@@ -1609,11 +1659,7 @@ if (empty($_SESSION['href'])) {
               </li>
             <?php } ?>
 
-            <?php if ($sys_s25 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/catalogmanagement.php?lang=<?php echo $language; ?>" id="act25" class="current_page" onclick="return loadIframe('ifrm', this.href)">
-                  <em></em>catalog management</a>
-              </li>
-            <?php } ?>
+
 
             <?php if ($sys_s5 == 1) { ?>
               <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/category_main.php?lang=<?php echo $language; ?>" id="act26" class="current_page" onclick="return loadIframe('ifrm', this.href)">
@@ -1694,26 +1740,6 @@ if (empty($_SESSION['href'])) {
                   <em></em><?php echo $array['menu']['system']['sub'][22][$language]; ?></a>
               </li>
             <?php } ?>
-
-            <?php if ($sys_s22 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/supplier.php?lang=<?php echo $language; ?>" id="act41" class="current_page" onclick="return loadIframe('ifrm', this.href)">
-                  <em></em>supplier</a>
-              </li>
-            <?php } ?>
-
-            
-            <?php if ($sys_s23 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/color.php?lang=<?php echo $language; ?>" id="act42" class="current_page" onclick="return loadIframe('ifrm', this.href)">
-                  <em></em>color</a>
-              </li>
-            <?php } ?>
-
-            <?php if ($sys_s24 == 1) { ?>
-              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/bindcatalog.php?lang=<?php echo $language; ?>" id="act43" class="current_page" onclick="return loadIframe('ifrm', this.href)">
-                  <em></em>ผูกรายการ catalog</a>
-              </li>
-            <?php } ?>
-
             <?php if ($sys_s14 == 1) { ?>
               <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/setting.php?lang=<?php echo $language; ?>" id="act40" class="current_page" onclick="return loadIframe('ifrm', this.href)">
                   <em></em><?php echo $array['menu']['system']['sub'][13][$language]; ?></a>
@@ -1723,9 +1749,47 @@ if (empty($_SESSION['href'])) {
                           <em></em>หลายหน่วยนับ</a>
                       </li> -->
 
+
           </ul>
 
         </li>
+      <?php } ?>
+
+      <?php if ($cat_head == 1) { ?>
+        <li id="catalog">
+
+          <a class="bluebg" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="#catalog" id="catalog">Catalog</a>
+
+          <ul class="sub-menu">
+            <?php if ($cat_s1 == 1) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/bindcatalog.php?lang=<?php echo $language; ?>" id="act47" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>ผูกรายการ catalog</a>
+              </li>
+            <?php } ?>
+            <?php if ($cat_s2 == 1) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/catalogmanagement.php?lang=<?php echo $language; ?>" id="act48" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>catalog management</a>
+              </li>
+            <?php } ?>
+            <?php if ($cat_s3 == 1) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/supplier.php?lang=<?php echo $language; ?>" id="act49" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>supplier</a>
+              </li>
+            <?php } ?>
+            <?php if ($cat_s4 == 1) { ?>
+              <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/color.php?lang=<?php echo $language; ?>" id="act50" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>color</a>
+              </li>
+            <?php } ?>
+            <?php if ($cat_s5 == 1) { ?>
+              <li><a id="act51" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/typelinen.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)">
+                  <em></em>type linen</a>
+              </li>
+            <?php } ?>
+          </ul>
+
+        </li>
+
       <?php } ?>
 
     </ul>
