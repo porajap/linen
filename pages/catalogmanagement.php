@@ -75,7 +75,7 @@ $array2 = json_decode($json2, TRUE);
                                         <div class="row col-md-12">
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
-                                                  <select class="form-control col-md-12"  style="font-size:24px;" id="input_typeline" onchange="shownow()">
+                                                  <select class="form-control col-md-12"  style="font-size:24px;" id="input_typeline" onchange="showData();">
                                                   <option value="P" >Patient Shirt</option>
                                                   <option value="S" >Staff Uniform</option>
                                                   <option value="F" >Flat Sheet</option>
@@ -87,14 +87,14 @@ $array2 = json_decode($json2, TRUE);
                                           </div>
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left: -6px;">
-                                              <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-12" style="font-size:22px;" placeholder="ค้นหา รายการ">
+                                              <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-12" style="font-size:22px;" placeholder="ค้นหา รายการ" onkeyup="showData();">
                                               </div>
                                           </div>
                                           <div class="col-md-1 text-right">
                                             <div class="row" style="margin-left:-6px;">
                                             <div class="search_custom col-md-2">
                                           <div class="search_1 d-flex justify-content-start">
-                                            <button class="btn" onclick="ShowItem1()">
+                                            <button class="btn" onclick="showData();">
                                               <i class="fas fa-search mr-2"></i>
                                               <?php echo $array['search'][$language]; ?>
                                             </button>
@@ -328,21 +328,21 @@ $array2 = json_decode($json2, TRUE);
 
     function showData() {
       var input_typeline = $("#input_typeline").val();
-
+      var txtSearch = $("#txtSearch").val();
       $.ajax({
         url: "../process/catalogmanagement.php",
         type: 'POST',
         data: {
           'FUNC_NAME': 'showData',
           'input_typeline': input_typeline,
-
+          'txtSearch': txtSearch
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
           var StrTR = "";
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData.item, function(key, value) {
-              
+      
               if(value.typeLinen=="P"){
                 var typeLinen ="Patient Shirt";
               }else if(value.typeLinen=="S"){
@@ -356,10 +356,10 @@ $array2 = json_decode($json2, TRUE);
               }else if(value.typeLinen=="O"){
                 var typeLinen ="Other";
               }
-              var color =""
-              $.each(ObjData.color[value.id], function(key2, value2) {
-                color += value2.color_detail;
-              });
+              // var color =""
+              // $.each(ObjData.color[value.id], function(key2, value2) {
+              //   color += value2.color_detail;
+              // });
 
               var suppliep = " <a class='nav-link' id='suppliep'  href='javascript:void(0)' > more </a>";
               var site = " <a class='nav-link' id='site'  href='javascript:void(0)' > more </a>";

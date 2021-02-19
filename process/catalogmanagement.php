@@ -55,6 +55,7 @@ function saveData($conn)
 function showData($conn)
 {
   $input_typeline = $_POST["input_typeline"];
+  $txtSearch = $_POST["txtSearch"];
 
   $Sql = "SELECT
             itemcatalog.id, 
@@ -63,13 +64,16 @@ function showData($conn)
             itemcatalog.IsActive
           FROM
             itemcatalog
-          WHERE itemcatalog.typeLinen ='$input_typeline' 
+          WHERE itemcatalog.typeLinen ='$input_typeline'
+          AND  itemcatalog.itemCategoryName LIKE '$txtSearch%'
           ORDER BY itemcatalog.id ASC
           ";
 $count_i=0;
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
   $id = $Result['id'];
+
+//----------------------------color_detail-----------------------------------------
       $Sql_color = "SELECT
                       multicolor.color_detail
                     FROM
@@ -79,10 +83,23 @@ $count_i=0;
                   ";
 
       $meQuery_color = mysqli_query($conn, $Sql_color);
-      $count_color=0;
       while ($Result_color = mysqli_fetch_assoc($meQuery_color)) {
         $return['color'][$id][] = $Result_color;
       }
+//----------------------------size_detail-----------------------------------------
+      $Sql_size = "SELECT
+              multicolor.color_detail
+            FROM
+              multicolor
+              WHERE multicolor.itemCategoryId='$id'
+              GROUP BY multicolor.color_detail
+          ";
+
+        $meQuery_size = mysqli_query($conn, $Sql_size);
+        while ($Result_size = mysqli_fetch_assoc($meQuery_size)) {
+        $return['size'][$id][] = $Result_size;
+        }
+//---------------------------------------------------------------------
 
     $return['item'][] = $Result;
     $count_i++;
