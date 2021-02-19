@@ -150,12 +150,12 @@ $array2 = json_decode($json2, TRUE);
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">ประเภท</label>
                     <select id="selectcategory" class="form-control col-sm-7" style="font-size:22px;">
-                      <option value="P">Patient Shirt</option>
+                      <!-- <option value="P">Patient Shirt</option>
                       <option value="S">Staff Uniform</option>
                       <option value="F">Flat Sheet</option>
                       <option value="T">Towel</option>
                       <option value="G">Green Linen</option>
-                      <option value="O">Other</option>
+                      <option value="O">Other</option> -->
                     </select>
                     <label id="alert_selectcategory" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
@@ -300,7 +300,7 @@ $array2 = json_decode($json2, TRUE);
         </div>
         <div class="modal-footer">
           <input type="text" id="countbtnSupplier" value="0" hidden>
-          <button type="button" style="width:12%;" onclick="checkSupplier()" id="btn_SaveSupplier"  class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
+          <button type="button" style="width:12%;" onclick="checkSupplier()" id="btn_SaveSupplier" class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
           <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
         </div>
       </div>
@@ -322,7 +322,7 @@ $array2 = json_decode($json2, TRUE);
         </div>
         <div class="modal-footer">
           <input type="text" id="countbtnSite" value="0" hidden>
-          <button type="button" style="width:12%;" onclick="checkSite()" id="btn_SaveSite"  class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
+          <button type="button" style="width:12%;" onclick="checkSite()" id="btn_SaveSite" class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
           <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
         </div>
       </div>
@@ -370,6 +370,7 @@ $array2 = json_decode($json2, TRUE);
         showMasterColor();
         showSupplier();
         showSite();
+        getTypeLinen();
       }, 200);
 
 
@@ -410,7 +411,7 @@ $array2 = json_decode($json2, TRUE);
 
     function cleartxt() {
       $("#txtItemName").val("");
-      $("#selectcategory").val("P");
+      $("#selectcategory").val("0");
       $("#txtDiscription").val("");
       $("#txtItemId").val("");
       $(".classItemName").prop("checked", false);
@@ -422,6 +423,36 @@ $array2 = json_decode($json2, TRUE);
       $("#alert_txtDiscription").hide();
       $("#txtItemName").removeClass("border-danger");
       $("#alert_txtItemName").hide();
+    }
+
+    function getTypeLinen() {
+
+      var lang = '<?php echo $language; ?>';
+      var PmID = '<?php echo $PmID; ?>';
+
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'getTypeLinen',
+          'lang': lang,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          var option = `<option value="0" selected>กรุณาเลือกประเภท</option>`;
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              option += `<option value="${value.id}">${value.nametype}</option>`;
+            });
+          } else {
+            option = `<option value="0">Data not found</option>`;
+          }
+
+          $("#selectcategory").html(option);
+
+
+        }
+      });
     }
 
     function showData() {
@@ -450,7 +481,7 @@ $array2 = json_decode($json2, TRUE);
                 "<td style='width:10%;'>" + chkDoc + "</td>" +
                 "<td style='width:20%;'>" + (key + 1) + "</td>" +
                 "<td style='width:23.3%;'>" + value.itemCategoryName + "</td>" +
-                "<td style='width:23.3%;'> " + value.typeLinen + " </td>" +
+                "<td style='width:23.3%;'> " + value.nameType + " </td>" +
                 "<td style='width:23.3%;'> " + value.discription + " </td>" +
                 "</tr>";
             });
@@ -529,7 +560,7 @@ $array2 = json_decode($json2, TRUE);
         $('#bCancel').attr('disabled', true);
         $('#cancelIcon').addClass('opacity');
         $("#txtItemName").val("");
-        $("#selectcategory").val("P");
+        $("#selectcategory").val("0");
         $("#txtDiscription").val("");
         $("#txtItemId").val("");
         $("#row_DropDown").hide(300);
@@ -956,7 +987,7 @@ $array2 = json_decode($json2, TRUE);
           $(".mySupplier").prop('checked', false);
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(kay, value) {
-              $("#checkSupplier_"+value.codeSupplier).prop('checked', true);
+              $("#checkSupplier_" + value.codeSupplier).prop('checked', true);
             });
           }
           var count = 0;
@@ -964,9 +995,9 @@ $array2 = json_decode($json2, TRUE);
             count++;
           });
 
-          if(count == $('.mySupplier').length ){
+          if (count == $('.mySupplier').length) {
             $("#checkallSupplier").prop('checked', true);
-          }else{
+          } else {
             $("#checkallSupplier").prop('checked', false);
           }
         }
@@ -1089,7 +1120,7 @@ $array2 = json_decode($json2, TRUE);
           $(".mySite").prop('checked', false);
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(kay, value) {
-              $("#checkSite_"+value.site).prop('checked', true);
+              $("#checkSite_" + value.site).prop('checked', true);
             });
           }
           var count = 0;
@@ -1097,16 +1128,16 @@ $array2 = json_decode($json2, TRUE);
             count++;
           });
 
-          if(count == $('.mySite').length ){
+          if (count == $('.mySite').length) {
             $("#checkallSite").prop('checked', true);
-          }else{
+          } else {
             $("#checkallSite").prop('checked', false);
           }
         }
       });
     }
 
-    function showSite(){
+    function showSite() {
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
@@ -1203,10 +1234,6 @@ $array2 = json_decode($json2, TRUE);
       //   $('#btn_SaveSupplier').attr('disabled', false);
       // }
     }
-
-
-
-    
   </script>
 
 </body>
