@@ -302,9 +302,9 @@ function saveData($conn)
   $data_imageOne = $_POST['data_imageOne'];
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
-  $imageOne = explode('.', $_FILES['imageOne']);
-  $imageTwo = explode('.', $_FILES['imageTwo']);
-  $imageThree = explode('.', $_FILES['imageThree']);
+  // $imageOne = explode('.', $_FILES['imageOne']);
+  // $imageTwo = explode('.', $_FILES['imageTwo']);
+  // $imageThree = explode('.', $_FILES['imageThree']);
 
 
 
@@ -325,14 +325,14 @@ function saveData($conn)
   $txtItemId = $Result['id'];
 
 
-  $iamge1 = $txtItemId . "-1" . '.' . $imageOne[1] . "png";
-  $iamge2 = $txtItemId . "-2" . '.' . $imageTwo[1] . "png";
-  $iamge3 = $txtItemId . "-3" . '.' . $imageThree[1] . "png";
+  $iamge1 = $txtItemId . "-1" . '.'. "png";
+  $iamge2 = $txtItemId . "-2" . '.'. "png";
+  $iamge3 = $txtItemId . "-3" . '.'. "png";
 
   include("gen_thumbnail.php");
 
   if ($_FILES['imageOne'] != "") {
-    unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
+    // unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
     copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1'  WHERE itemcatalog.id = '$txtItemId';";
@@ -366,7 +366,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageTwo'] != "") {
-    unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
+    // unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
     copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
@@ -400,7 +400,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageThree'] != "") {
-    unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
+    // unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
     copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";
