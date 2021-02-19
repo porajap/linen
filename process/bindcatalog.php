@@ -34,7 +34,38 @@ if (!empty($_POST['FUNC_NAME'])) {
     checkSite($conn);
   } else  if ($_POST['FUNC_NAME'] == 'openModalSite') {
     openModalSite($conn);
+  } else if ($_POST['FUNC_NAME'] == 'getTypeLinen') {
+    getTypeLinen($conn);
   }
+}
+
+function getTypeLinen($conn)
+{
+ $PmID = $_SESSION['PmID'];
+  $lang = $_POST["lang"];
+  $count = 0;
+  if ($lang == 'en') {
+      $Sql = "SELECT
+                typelinen.id, 
+                typelinen.name_En  as nametype
+              FROM
+                typelinen";
+    
+  } else {
+      $Sql = "SELECT
+                typelinen.id, 
+                typelinen.name_Th as nametype
+              FROM
+                typelinen";
+  }
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }
 
 function showSite($conn)
@@ -436,14 +467,20 @@ function showData($conn)
 {
   // $selectSite = $_POST["selectSite"];
   $txtSearch = $_POST["txtSearch"];
-
+  $lang = $_SESSION["lang"];
+  if($lang == 'en'){
+    $typelinen = 'typelinen.name_En AS nameType';
+  }else{
+    $typelinen = 'typelinen.name_Th AS nameType';
+  }
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
-            itemcatalog.typeLinen,
+            $typelinen,
             itemcatalog.discription 
           FROM
           itemcatalog
+          INNER JOIN typelinen ON itemcatalog.typeLinen = typelinen.id 
           WHERE  itemcatalog.itemCategoryName LIKE '%$txtSearch%' LIMIT 50";
 
   $meQuery = mysqli_query($conn, $Sql);
