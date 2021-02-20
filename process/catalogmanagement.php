@@ -6,8 +6,12 @@ date_default_timezone_set("Asia/Bangkok");
 if (!empty($_POST['FUNC_NAME'])) {
   if ($_POST['FUNC_NAME'] == 'showData') {
       showData($conn);
-  }else  if ($_POST['FUNC_NAME'] == 'get_color_master') {
-    get_color_master($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'get_typelinen') {
+    get_typelinen($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_supplier') {
+    show_supplier($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_site') {
+    show_site($conn);
   }
   
 }
@@ -60,13 +64,19 @@ function showData($conn)
   $Sql = "SELECT
             itemcatalog.id, 
             itemcatalog.itemCategoryName, 
-            itemcatalog.typeLinen, 
-            itemcatalog.IsActive
+            itemcatalog.IsActive, 
+            typelinen.name_En AS typeLinen
           FROM
             itemcatalog
-          WHERE itemcatalog.typeLinen ='$input_typeline'
-          AND  itemcatalog.itemCategoryName LIKE '$txtSearch%'
-          ORDER BY itemcatalog.id ASC
+            INNER JOIN
+            typelinen
+            ON 
+              itemcatalog.typeLinen = typelinen.id
+          WHERE
+            itemcatalog.typeLinen = '$input_typeline' AND
+            itemcatalog.itemCategoryName LIKE '$txtSearch%'
+          ORDER BY
+            itemcatalog.id ASC
           ";
 $count_i=0;
   $meQuery = mysqli_query($conn, $Sql);
@@ -84,21 +94,34 @@ $count_i=0;
 
       $meQuery_color = mysqli_query($conn, $Sql_color);
       while ($Result_color = mysqli_fetch_assoc($meQuery_color)) {
-        $return['color'][$id][] = $Result_color;
+        $return['color_c'][$id][] = $Result_color;
       }
 //----------------------------size_detail-----------------------------------------
       $Sql_size = "SELECT
-              multicolor.color_detail
-            FROM
-              multicolor
-              WHERE multicolor.itemCategoryId='$id'
-              GROUP BY multicolor.color_detail
-          ";
+                      multicolor.itemsize
+                    FROM
+                      multicolor
+                      INNER JOIN item_size ON multicolor.itemsize = item_size.SizeName 
+                    WHERE
+                      multicolor.itemCategoryId = '$id' 
+                    GROUP BY
+                      multicolor.itemsize 
+                    ORDER BY item_size.SizeCode ASC
+                  ";
 
         $meQuery_size = mysqli_query($conn, $Sql_size);
+        $itemsize="";
+        $count_size=0;
         while ($Result_size = mysqli_fetch_assoc($meQuery_size)) {
-        $return['size'][$id][] = $Result_size;
+          if($count_size==0){
+            $t="";
+          }else{
+            $t=",";
+          }
+          $itemsize .= $t.$Result_size['itemsize'];
+          $count_size++;
         }
+        $return['size'][$id][] = $itemsize;
 //---------------------------------------------------------------------
 
     $return['item'][] = $Result;
@@ -111,14 +134,22 @@ $count_i=0;
 }
 
 
-function get_color_master($conn)
+function get_typelinen($conn)
 {
+  
+  $lang = $_SESSION['lang'];
+  if($lang == 'en'){
+    $name = "supplier.name_En AS name";
+  }else{
+    $name = "supplier.name_Th  AS name";
+  }
+
+
     $Sql = "SELECT
-              color_master.ID, 
-              color_master.color_master_name
+              typelinen.id, 
+              typelinen.name_En
             FROM
-              color_master
-              ORDER BY color_master.ID ASC ";
+              typelinen ";
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -130,16 +161,55 @@ function get_color_master($conn)
   die;
 }
 
-function chk_color_master($conn)
+function show_supplier($conn)
 {
-  $id_color_master = $_POST["id_color_master"];
+  $id = $_POST["id"];
+  $lang = $_SESSION['lang'];
+
+  if($lang == 'en'){
+    $name = "supplier.name_En AS name";
+  }else{
+    $name = "supplier.name_Th  AS name";
+  }
+
     $Sql = "SELECT
-              color_master.ID, 
-              color_master.color_master_code
+              multisupplier.codeSupplier,
+              $name 
             FROM
-              color_master
-            WHERE
-              color_master.ID = $id_color_master
+              multisupplier
+              INNER JOIN supplier ON multisupplier.codeSupplier = supplier.id
+              WHERE multisupplier.itemCategoryId='$id'
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_site($conn)
+{
+  $id = $_POST["id"];
+  $lang = $_SESSION['lang'];
+
+  if($lang == 'en'){
+    $name = "site.HptName AS name";
+  }else{
+    $name = "site.HptNameTH  AS name";
+  }
+
+    $Sql = "SELECT
+              multisite.id,
+              $name
+            FROM
+              multisite
+              INNER JOIN site ON multisite.site = site.HptCode
+            WHERE multisite.itemCategoryId='$id'
+            ORDER BY multisite.id ASC
             ";
 
     $meQuery = mysqli_query($conn, $Sql);

@@ -76,12 +76,6 @@ $array2 = json_decode($json2, TRUE);
                                           <div class="col-md-3">
                                               <div class="row" style="margin-left:5px;">
                                                   <select class="form-control col-md-12"  style="font-size:24px;" id="input_typeline" onchange="showData();">
-                                                  <option value="P" >Patient Shirt</option>
-                                                  <option value="S" >Staff Uniform</option>
-                                                  <option value="F" >Flat Sheet</option>
-                                                  <option value="T" >Towel</option>
-                                                  <option value="G" >Green Linen</option>
-                                                  <option value="O" >Other</option>
                                                   </select>
                                               </div>
                                           </div>
@@ -111,18 +105,18 @@ $array2 = json_decode($json2, TRUE);
                                                     <th style='width: 9%;text-align: center;' nowrap>Typelinen</th>
                                                     <th style='width: 11%;text-align: center;' nowrap>SIZE</th>
                                                     <th style='width: 15%;text-align: center;' nowrap>COLOR</th>
-                                                    <th style='width: 9%;text-align: center;' nowrap>SUPPLIEP</th>
+                                                    <th style='width: 9%;text-align: center;' nowrap>SUPPLIER</th>
                                                     <th style='width: 9%;text-align: center;' nowrap>SITE</th>
                                                     <th style='width: 14%;text-align: center;' nowrap>ACTIVE</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="tbody" class="nicescrolled" style="font-size:24px;height:250px;">
+                                            <tbody id="tbody" class="nicescrolled" style="font-size:24px;height:500px;">
                                             </tbody>
                                         </table>
                                         <div class="pagination">
                                           <a href="#">&laquo;</a>
-                                          <a href="#">1</a>
-                                          <a href="#" class="active">2</a>
+                                          <a href="#" class="active">1</a>
+                                          <a href="#" >2</a>
                                           <a href="#">3</a>
                                           <a href="#">4</a>
                                           <a href="#">5</a>
@@ -191,74 +185,51 @@ $array2 = json_decode($json2, TRUE);
 
       
 
-            <!-- -----------------------------Custom1------------------------------------ -->
-<div class="modal" id="dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <input type="hidden" id="rowCount">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body" style="padding:0px;">
-                    <div class="row">
-                        <div class="col-md-12 mhee">
-                            <div class="row mb-3">
-                                <select class="form-control ml-2 checkblank" onchange="resetinput()" style=" font-size:22px;width:250px;" id="hptselModal" onchange="getDate_price();"></select>
-                                <label id="rem1"  style="margin-left: 1%; font-size: 180%;margin-top: -0.5%;"> * </label>
-                                <input type="text" autocomplete="off" onkeyup="resetinput()" class="form-control datepicker-here numonly checkblank" style="margin-left:20px; font-size:22px;width:168px;" id="datepicker" data-language=<?php echo $language ?>  data-date-format='dd/mm/yyyy' placeholder="<?php echo $array['datepicker'][$language]; ?>">
-                                <label id="rem"  style=" margin-left: 1%; font-size: 180%;margin-top: -0.5%;"> * </label>
-                                <!-- <input type="text" class="form-control datepicker-here" style="margin-left:20px; font-size:22px;width:150px;" id="datepicker"> -->
-                                <input type="text" autocomplete="off"  disabled="true" class="form-control " style="margin-left:20px; font-size:22px;width:200px;" name="docno" id="docno" placeholder="<?php echo $array['docno'][$language]; ?>" >
-
-
-                                <div class="search_custom col-md-2" id="create1">
-                                    <div class="circle1 d-flex justify-content-start">
-                                        <button class="btn" onclick="onCreate()" >
-                                            <i class="fas fa-file-medical mr-2"></i>
-                                            <?php echo $array['createdocno'][$language]; ?>
-                                        </button>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" style="margin-left:20px; font-size:22px;width:210px;" name="search1"   id="search1" onKeyPress='if(event.keyCode==13){ShowItem2()}' placeholder="<?php echo $array['search'][$language]; ?>" >
-                                <div class="search_custom col-md-2" id="btn_save"  hidden="true">
-                                    <div class="import_1 d-flex justify-content-start" id="delete_icon2">
-                                        <button class="btn" onclick="UpdatePrice()" id="updateprice">
-                                            <i class="fas fa-file-import mr-2 pt-1"></i>
-                                            <?php echo $array['updateprice'][$language]; ?>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="search_custom col-md-2" id="btn_saveDoc"  hidden="true">
-                                    <div class="circle4 d-flex justify-content-start">
-                                        <button class="btn" onclick="saveDoc()" >
-                                            <i class="fas fa-save" style="padding-left: 16%;"></i>
-                                            <?php echo $array['savedoc'][$language]; ?>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-fixed table-condensed table-striped" id="TableItemPrice" width="100%" cellspacing="0" role="grid" style="font-size:24px;width:1100px;">
-                        <thead style="font-size:24px;">
-                            <tr role="row">
-                            <th style='width: 5%;'>&nbsp;</th>
-                                <th style='width: 35%;' nowrap><?php echo $array['side'][$language]; ?></th>
-                                <th style='width: 35%;' nowrap><?php echo $array['categorysub'][$language]; ?></th>
-                                <th style='width: 25%;' nowrap><?php echo $array['price'][$language]; ?></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody1_modal" class="nicescrolled" style="font-size:23px;height:300px;">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <!-- -----------------------------modal_supplier------------------------------------ -->
+  <div class="modal fade" id="modal_supplier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Supplier</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <span style="font-size:30px;font-weight: bold; " class="ml-4 "><?php echo $array['items'][$language]; ?></span>
+          <div id='row_supplier' class='row'></div>
+        </div>
+        <div class="modal-footer">
+          <input type="text" id="countbtnSupplier" value="0" hidden>
+          <!-- <button type="button" style="width:12%;" onclick="checkSupplier()" id="btn_SaveSupplier" class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button> -->
+          <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+
+ <!-- -----------------------------modal_site------------------------------------ -->
+  <div class="modal fade" id="modal_site" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Site</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <span style="font-size:30px;font-weight: bold; " class="ml-4 "><?php echo $array['items'][$language]; ?></span>
+          <div id='row_site' class='row'></div>
+        </div>
+        <div class="modal-footer">
+          <input type="text" id="countbtnSite" value="0" hidden>
+          <!-- <button type="button" style="width:12%;" onclick="checkSite()" id="btn_SaveSite" class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button> -->
+          <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -274,7 +245,7 @@ $array2 = json_decode($json2, TRUE);
       $('#div_bt_edit').hide();
 
 
-      // get_typelinen();
+      get_typelinen();
       setTimeout(() => {
         showData();
       }, 200);
@@ -301,30 +272,31 @@ $array2 = json_decode($json2, TRUE);
     });
 
 
-    // function get_typelinen(){
-    //   $.ajax({
-    //         url: "../process/catalogmanagement.php",
-    //         type: 'POST',
-    //         data: {
-    //           'FUNC_NAME': 'get_typelinen'
-    //         },
-    //         success: function(result) {
+    function get_typelinen(){
+      $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'get_typelinen'
+            },
+            success: function(result) {
 
-    //           var ObjData = JSON.parse(result);
-    //           var StrTR = "";
+              var ObjData = JSON.parse(result);
+              var StrTR = "";
 
 
-    //           if (!$.isEmptyObject(ObjData)) {
-    //             var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
-    //             $.each(ObjData, function(key, value) {
-    //               Str += "<option value=" + value.ID + " >" + value.color_master_name + "</option>";
-    //             });
-    //           }
+              if (!$.isEmptyObject(ObjData)) {
+                // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+                var Str = "";
+                $.each(ObjData, function(key, value) {
+                  Str += "<option value=" + value.id + " >" + value.name_En + "</option>";
+                });
+              }
 
-    //           $("#input_typeline").append(Str);
-    //         }
-    //       });
-    // }
+              $("#input_typeline").append(Str);
+            }
+          });
+    }
 
     function showData() {
       var input_typeline = $("#input_typeline").val();
@@ -342,36 +314,38 @@ $array2 = json_decode($json2, TRUE);
           var StrTR = "";
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData.item, function(key, value) {
-      
-              if(value.typeLinen=="P"){
-                var typeLinen ="Patient Shirt";
-              }else if(value.typeLinen=="S"){
-                var typeLinen ="Staff Uniform";
-              }else if(value.typeLinen=="F"){
-                var typeLinen ="Flat Sheet";
-              }else if(value.typeLinen=="T"){
-                var typeLinen ="Towel";
-              }else if(value.typeLinen=="G"){
-                var typeLinen ="Green Linen";
-              }else if(value.typeLinen=="O"){
-                var typeLinen ="Other";
+              //----------------color------------------------------
+              var color =""
+                if (!$.isEmptyObject(ObjData.color_c)) {
+                  $.each(ObjData.color_c[value.id], function(key2, value2) {
+                    color += "<div class='px-3 ml-1'  style='background-color: "+value2.color_detail+"; border-radius: 70%;  height: 35px; border: 2px solid; width:2%;'></div>";
+                  });
+                }
+              //------------------size----------------------------
+              var itemsize =""
+                if (!$.isEmptyObject(ObjData.size)) {
+                  $.each(ObjData.size[value.id], function(key3, value3) {
+                    itemsize = value3;0
+                  });
+                }
+              //----------------------------------------------
+              var suppliep = " <a class='nav-link' id='suppliep'  href='javascript:void(0)' onclick='show_supplier(\"" + value.id + "\" );' > more </a>";
+              var site = " <a class='nav-link' id='site'  href='javascript:void(0)' onclick='show_site(\"" + value.id + "\" );'> more </a>";
+              if(value.IsActive==0){
+                var IsActive ="<input type='checkbox' id='IsActive' style='argin-top: 1.5%;' disabled>";
+              }else{
+                var IsActive ="<input type='checkbox' id='IsActive' style='argin-top: 1.5%;' checked disabled>";
               }
-              // var color =""
-              // $.each(ObjData.color[value.id], function(key2, value2) {
-              //   color += value2.color_detail;
-              // });
-
-              var suppliep = " <a class='nav-link' id='suppliep'  href='javascript:void(0)' > more </a>";
-              var site = " <a class='nav-link' id='site'  href='javascript:void(0)' > more </a>";
+              
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td style='width:8%;text-align: center;'>" + (key + 1) + "</td>" +
                 "<td style='width:25%;text-align: left;'>" + value.itemCategoryName + "</td>" +
-                "<td style='width:9%;text-align: center;'>" + typeLinen + "</td>" +
-                "<td style='width:11%;text-align: center;'></td>" +
-                "<td style='width:15%;text-align: center;'></td>" +
+                "<td style='width:9%;text-align: center;'>" + value.typeLinen + "</td>" +
+                "<td style='width:11%;text-align: center;'>"+itemsize+"</td>" +
+                "<td style='width:15%;text-align: center;'><div class='row' style='margin-left: 16px;'>"+color+"</center></div></td>" +
                 "<td style='width:9%;text-align: center;'>"+suppliep+"</td>" +
                 "<td style='width:9%;text-align: center;'>"+site+"</td>" +
-                "<td style='width:14%;text-align: center;'> " + value.IsActive + " </td>" +
+                "<td style='width:14%;text-align: center;'> " + IsActive + " </td>" +
                 "</tr>";
             });
           }
@@ -390,46 +364,65 @@ $array2 = json_decode($json2, TRUE);
       });
     }
 
+    function show_supplier(id){
+      $('#modal_supplier').modal('toggle');
 
-
- 
-
-
-
-    function chk_color_master(){
-      var id_color_master = $('#select_color_master2').val();
       $.ajax({
-            url: "../process/color.php",
+            url: "../process/catalogmanagement.php",
             type: 'POST',
             data: {
-              'FUNC_NAME': 'chk_color_master',
-              'id_color_master': id_color_master
+              'FUNC_NAME': 'show_supplier',
+              'id':id
             },
             success: function(result) {
 
               var ObjData = JSON.parse(result);
-              var StrTR = "";
-
-
+              var myDATA = "";
               if (!$.isEmptyObject(ObjData)) {
-                var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
-                $.each(ObjData, function(key, value) {
-                  // $('#color-picker').val(value.color_master_code);
-                  $("#color-picker").spectrum({
-                        color: value.color_master_code,
-                        palette: [
-                              [value.color_master_code]
-                          ]
-                    });
-                });
+                  $.each(ObjData, function(kay, value) {
+                    var supplierName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name}</span>`;
+                    // var chksupplier = `<input type='checkbox' onclick='switchSupplier()' id='checkSupplier_${value.id}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
+                    myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden; margin-left: 35px;'  nowrap>" + supplierName + "</div>";
+                  });
+              }else{
+                    myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden; margin-left: 35px;'  nowrap> ไม่มีรายการ </div>";
               }
 
-              
-
+                $("#row_supplier").html(myDATA);
             }
           });
+
     }
 
+    function show_site(id){
+      $('#modal_site').modal('toggle');
+
+      $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_site',
+              'id':id
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              var myDATA = "";
+              if (!$.isEmptyObject(ObjData)) {
+                  $.each(ObjData, function(kay, value) {
+                    var supplierName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name}</span>`;
+                    // var chksupplier = `<input type='checkbox' onclick='switchSupplier()' id='checkSupplier_${value.id}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
+                    myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden; margin-left: 35px;'  nowrap>" + supplierName + "</div>";
+                  });
+              }else{
+                    myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden; margin-left: 35px;'  nowrap> ไม่มีรายการ </div>";
+              }
+
+                $("#row_site").html(myDATA);
+            }
+          });
+
+    }
 
   </script>
   <style>
