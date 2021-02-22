@@ -94,15 +94,12 @@ function checkSite($conn)
 
   $Sql = "DELETE FROM multisite WHERE itemCategoryId = '$txtItemId' ";
   mysqli_query($conn, $Sql);
-  $Sql  ="";
+
   foreach ($SiteArray as $key => $value) {
-    $Sql .= "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value'; ";
-    // mysqli_query($conn, $Sql);
+    $Sql = "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value' ";
+    mysqli_query($conn, $Sql);
   }
-  // echo $Sql;
-  if(mysqli_multi_query($conn, $Sql)){
-    echo "1";
-  }
+  echo "1";
   mysqli_close($conn);
   die;
 }
@@ -328,14 +325,14 @@ function saveData($conn)
   $txtItemId = $Result['id'];
 
 
-  $iamge1 = $txtItemId . "-1" . '.'. "png";
-  $iamge2 = $txtItemId . "-2" . '.'. "png";
-  $iamge3 = $txtItemId . "-3" . '.'. "png";
+  $iamge1 = $txtItemId . "-1". "png";
+  $iamge2 = $txtItemId . "-2". "png";
+  $iamge3 = $txtItemId . "-3". "png";
 
   include("gen_thumbnail.php");
 
   if ($_FILES['imageOne'] != "") {
-    // unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
+    unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
     copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1'  WHERE itemcatalog.id = '$txtItemId';";
@@ -369,7 +366,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageTwo'] != "") {
-    // unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
+    unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
     copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
@@ -403,7 +400,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageThree'] != "") {
-    // unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
+    unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
     copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";

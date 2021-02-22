@@ -564,7 +564,6 @@ $array2 = json_decode($json2, TRUE);
         $("#txtDiscription").val("");
         $("#txtItemId").val("");
         $("#row_DropDown").hide(300);
-        $(".dropify-clear").click();
       } else {
         $("input[name=" + name + "]:radio").attr('previousValue', false);
         $('#idItemName_' + row).attr('previousValue', 'checked');
@@ -1109,8 +1108,7 @@ $array2 = json_decode($json2, TRUE);
       $("#modal_site").modal('show');
       var txtItemId = $("#txtItemId").val();
 
-      setTimeout(() => {
-        $.ajax({
+      $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
         data: {
@@ -1137,8 +1135,6 @@ $array2 = json_decode($json2, TRUE);
           }
         }
       });
-      }, 1000);
-
     }
 
     function showSite() {
