@@ -340,6 +340,7 @@ $array2 = json_decode($json2, TRUE);
               //----------------------------------------------
               var suppliep = " <a class='nav-link' id='suppliep'  href='javascript:void(0)' onclick='show_supplier(\"" + value.id + "\" );' > more </a>";
               var site = " <a class='nav-link' id='site'  href='javascript:void(0)' onclick='show_site(\"" + value.id + "\" );'> more </a>";
+              var edit = " <a class='aButton' href='javascript:void(0)' onclick='edit_Detail(\"" + value.id + "\");'><img src='../img/edit.png' style='width:30px;margin-right: 30px;'></a>";
               if(value.IsActive==0){
                 var IsActive ="<input type='checkbox' id='IsActive' style='argin-top: 1.5%;' disabled>";
               }else{
@@ -354,7 +355,7 @@ $array2 = json_decode($json2, TRUE);
                 "<td style='width:15%;text-align: center;'><div class='row' style='margin-left: 16px;'>"+color+"</center></div></td>" +
                 "<td style='width:9%;text-align: center;'>"+suppliep+"</td>" +
                 "<td style='width:9%;text-align: center;'>"+site+"</td>" +
-                "<td style='width:14%;text-align: center;'> " + IsActive + " </td>" +
+                "<td style='width:14%;text-align: center;'> " +edit + IsActive + " </td>" +
                 "</tr>";
             });
           }
@@ -443,6 +444,30 @@ $array2 = json_decode($json2, TRUE);
           });
 
     }
+
+    // function edit_Detail(id){
+    //   $.ajax({
+    //         url: "../process/catalogmanagement.php",
+    //         type: 'POST',
+    //         data: {
+    //           'FUNC_NAME': 'edit_Detail',
+    //           'id':id
+    //         },
+    //         success: function(result) {
+
+    //           var ObjData = JSON.parse(result);
+    //           var myDATA = "";
+    //           if (!$.isEmptyObject(ObjData)) {
+    //               $.each(ObjData, function(kay, value) {
+    //                 var supplierName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name}</span>`;
+    //                 // var chksupplier = `<input type='checkbox' onclick='switchSupplier()' id='checkSupplier_${value.id}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
+    //                 myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden; margin-left: 35px;'  nowrap>" + supplierName + "</div>";
+    //               });
+    //           }
+
+    //         }
+    //   });
+    // }
 
   </script>
   <style>
