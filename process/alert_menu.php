@@ -33,8 +33,6 @@ if (!empty($_POST['FUNC_NAME'])) {
   } else if ($_POST['FUNC_NAME'] == 'showDetailParDocument') {
     showDetailParDocument($conn);
   }
-  
-  
 }
 function GetSite($conn)
 {
@@ -274,7 +272,7 @@ function alert_ChatRoom($conn)
     $hotpCode = $site;
   }
   $wheredep = "";
-  if($PmID ==8){
+  if ($PmID == 8) {
     $wheredep = "AND chat_room.DepCode = '$DepCode' ";
   }
 
@@ -420,5 +418,3 @@ function showDetailParDocument($conn)
   mysqli_close($conn);
   die;
 }
-
-
