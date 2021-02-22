@@ -12,6 +12,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     show_supplier($conn);
   }else  if ($_POST['FUNC_NAME'] == 'show_site') {
     show_site($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'edit_Detail') {
+    edit_Detail($conn);
   }
   
 }
@@ -229,6 +231,40 @@ function show_site($conn)
   mysqli_close($conn);
   die;
 }
+
+function edit_Detail($conn)
+{
+  $id = $_POST["id"];
+  $lang = $_SESSION['lang'];
+
+  if($lang == 'en'){
+    $name = "site.HptName AS name";
+  }else{
+    $name = "site.HptNameTH  AS name";
+  }
+
+    $Sql = "SELECT
+              multisite.id,
+              $name
+            FROM
+              multisite
+              INNER JOIN site ON multisite.site = site.HptCode
+            WHERE multisite.itemCategoryId='$id'
+            ORDER BY multisite.id ASC
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+
+
 
 
 
