@@ -298,20 +298,23 @@ function saveData($conn)
   $txtItemName = $_POST['txtItemName'];
   $selectcategory = $_POST['selectcategory'];
   $txtItemId = $_POST['txtItemId'];
+  $txtItemNameEn = $_POST['txtItemNameEn'];
 
   $data_imageOne = $_POST['data_imageOne'];
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
+
+  
   // $imageOne = explode('.', $_FILES['imageOne']);
   // $imageTwo = explode('.', $_FILES['imageTwo']);
   // $imageThree = explode('.', $_FILES['imageThree']);
-// ss
+  // ss
 
 
   if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' ";
+    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' , itemCategoryNameEn = '$txtItemNameEn'  ";
   } else {
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' , itemCategoryNameEn = '$txtItemNameEn' WHERE itemcatalog.id = '$txtItemId' ";
   }
   mysqli_query($conn, $Sql);
 
@@ -446,6 +449,7 @@ function showDetail($conn)
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
+            itemcatalog.itemCategoryNameEn,
             itemcatalog.discription,
             itemcatalog.typeLinen,
             itemcatalog.imageOne,
@@ -476,6 +480,7 @@ function showData($conn)
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
+            itemcatalog.itemCategoryNameEn, 
             $typelinen,
             itemcatalog.discription 
           FROM

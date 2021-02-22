@@ -79,10 +79,11 @@ $array2 = json_decode($json2, TRUE);
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row" id='tr_1'>
                         <th nowrap style="width:10%"><br></th>
-                        <th nowrap style="width:20%">ลำดับ</th>
-                        <th nowrap style="width:23.3%">รายการ</th>
-                        <th nowrap style="width:23.3%">ประเภท</th>
-                        <th nowrap style="width:23.3%">รายละเอียด</th>
+                        <th nowrap style="width:10%">ลำดับ</th>
+                        <th nowrap style="width:18.3%">รายการไทย</th>
+                        <th nowrap style="width:18.3%">รายการอังกฤษ</th>
+                        <th nowrap style="width:21.65%">ประเภท</th>
+                        <th nowrap style="width:21.65%">รายละเอียด</th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -140,8 +141,8 @@ $array2 = json_decode($json2, TRUE);
               <div class="row mt-3">
                 <div class="col-md-4">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายการ</label>
-                    <input id="txtItemName" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                    <label class="col-sm-3 col-form-label ">รายการไทย</label>
+                    <input id="txtItemName" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                     <input hidden id="txtItemId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
                     <label id="alert_txtItemName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
@@ -166,6 +167,20 @@ $array2 = json_decode($json2, TRUE);
                     <input id="txtDiscription" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
                     <label id="alert_txtDiscription" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
+                </div>
+              </div>
+
+              <div class="row mt-1">
+                <div class="col-md-4">
+                  <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label ">รายการอังกฤษ</label>
+                    <input id="txtItemNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
+                    <label id="alert_txtItemNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
                 </div>
               </div>
 
@@ -338,7 +353,8 @@ $array2 = json_decode($json2, TRUE);
       $("#alert_txtItemName").hide();
       $("#alert_selectcategory").hide();
       $("#alert_txtDiscription").hide();
-
+      $("#alert_txtItemNameEn").hide();
+      
       $('#modaltxt_colorDetail').spectrum({
         type: "component"
       });
@@ -348,6 +364,11 @@ $array2 = json_decode($json2, TRUE);
       var drEvent = $('#imageOne').dropify();
       var drEventTwo = $('#imageTwo').dropify();
       var drEventThree = $('#imageThree').dropify();
+
+      $("#txtItemNameEn").change(function() {
+        $("#txtItemNameEn").removeClass("border-danger");
+        $("#alert_txtItemNameEn").hide();
+      });
 
       $("#txtItemName").change(function() {
         $("#txtItemName").removeClass("border-danger");
@@ -414,6 +435,9 @@ $array2 = json_decode($json2, TRUE);
       $("#selectcategory").val("0");
       $("#txtDiscription").val("");
       $("#txtItemId").val("");
+      $("#txtItemNameEn").val("");
+      $("#txtItemNameEn").removeClass("border-danger");
+      $("#alert_txtItemNameEn").hide();
       $(".classItemName").prop("checked", false);
       $('#bCancel').attr('disabled', true);
       $('#cancelIcon').addClass('opacity');
@@ -479,10 +503,11 @@ $array2 = json_decode($json2, TRUE);
               var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classItemName' name='idSupplier' id='idItemName_" + key + "' value='" + value.id + "' onclick='showDetail(\"" + value.id + "\" , \"" + key + "\")' ><span class='checkmark'></span></label>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td style='width:10%;'>" + chkDoc + "</td>" +
-                "<td style='width:20%;'>" + (key + 1) + "</td>" +
-                "<td style='width:23.3%;'>" + value.itemCategoryName + "</td>" +
-                "<td style='width:23.3%;'> " + value.nameType + " </td>" +
-                "<td style='width:23.3%;'> " + value.discription + " </td>" +
+                "<td style='width:10%;'>" + (key + 1) + "</td>" +
+                "<td style='width:18.3%;'>" + value.itemCategoryName + "</td>" +
+                "<td style='width:18.3%;'>" + value.itemCategoryNameEn + "</td>" +
+                "<td style='width:21.65%;'> " + value.nameType + " </td>" +
+                "<td style='width:21.65%;'> " + value.discription + " </td>" +
                 "</tr>";
             });
           }
@@ -563,7 +588,9 @@ $array2 = json_decode($json2, TRUE);
         $("#selectcategory").val("0");
         $("#txtDiscription").val("");
         $("#txtItemId").val("");
+        $("#txtItemNameEn").val("");
         $("#row_DropDown").hide(300);
+        $(".dropify-clear").click();
       } else {
         $("input[name=" + name + "]:radio").attr('previousValue', false);
         $('#idItemName_' + row).attr('previousValue', 'checked');
@@ -587,6 +614,8 @@ $array2 = json_decode($json2, TRUE);
                 $("#selectcategory").val(value.typeLinen);
                 $("#txtDiscription").val(value.discription);
                 $("#txtItemName").val(value.itemCategoryName);
+                $("#txtItemNameEn").val(value.itemCategoryNameEn);
+                
                 $("#txtItemId").val(value.id);
 
                 var imageOne = `${"../profile/catalog/"+value.imageOne}`;
@@ -665,11 +694,26 @@ $array2 = json_decode($json2, TRUE);
       var txtDiscription = $("#txtDiscription").val();
       var txtItemName = $("#txtItemName").val();
       var txtItemId = $("#txtItemId").val();
+      var txtItemNameEn = $("#txtItemNameEn").val();
 
+      if (txtItemNameEn == "") {
+        swal({
+          title: '',
+          text: 'กรุณาระบุรายการอังกฤษ',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#txtItemNameEn").addClass("border-danger");
+        $("#alert_txtItemNameEn").show();
+        return;
+      }
+      
       if (txtItemName == "") {
         swal({
           title: '',
-          text: 'กรุณาระบุรายการ',
+          text: 'กรุณาระบุรายการไทย',
           type: 'warning',
           showCancelButton: false,
           showConfirmButton: false,
@@ -705,6 +749,9 @@ $array2 = json_decode($json2, TRUE);
       form_data.append('txtDiscription', txtDiscription);
       form_data.append('txtItemName', txtItemName);
       form_data.append('txtItemId', txtItemId);
+      form_data.append('txtItemNameEn', txtItemNameEn);
+
+      
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
