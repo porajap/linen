@@ -94,12 +94,15 @@ function checkSite($conn)
 
   $Sql = "DELETE FROM multisite WHERE itemCategoryId = '$txtItemId' ";
   mysqli_query($conn, $Sql);
-
+  $Sql  ="";
   foreach ($SiteArray as $key => $value) {
-    $Sql = "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value' ";
-    mysqli_query($conn, $Sql);
+    $Sql .= "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value'; ";
+    // mysqli_query($conn, $Sql);
   }
-  echo "1";
+  // echo $Sql;
+  if(mysqli_multi_query($conn, $Sql)){
+    echo "1";
+  }
   mysqli_close($conn);
   die;
 }
