@@ -35,8 +35,13 @@ $array2 = json_decode($json2, TRUE);
   <meta name="author" content="">
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
 
-  
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+ 
   <title>
   Catalog Management
   </title>
@@ -68,7 +73,7 @@ $array2 = json_decode($json2, TRUE);
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" id="div_table22">
                                 <!-- tag column 1 -->
                                 <div class="container-fluid">
                                     <div class="card-body" style="padding:0px; margin-top:12px;margin-left: -2%;">
@@ -97,33 +102,10 @@ $array2 = json_decode($json2, TRUE);
                                         </div>
                                        </div>
                                      </div>
-                                        <table style="margin-top:10px; " class="table table-fixed table-condensed table-striped" id="TableItem" width="100%" cellspacing="0" role="grid">
-                                            <thead id="theadsum" >
-                                                <tr role="row" style="font-size:24px;">
-                                                    <th style='width: 8%;text-align: center;' nowrap>ON.</th>
-                                                    <th style='width: 25%;text-align: left;' nowrap>NAME</th>
-                                                    <th style='width: 9%;text-align: center;' nowrap>Typelinen</th>
-                                                    <th style='width: 11%;text-align: center;' nowrap>SIZE</th>
-                                                    <th style='width: 15%;text-align: center;' nowrap>COLOR</th>
-                                                    <th style='width: 9%;text-align: center;' nowrap>SUPPLIER</th>
-                                                    <th style='width: 9%;text-align: center;' nowrap>SITE</th>
-                                                    <th style='width: 14%;text-align: center;' nowrap>ACTIVE</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tbody" class="nicescrolled" style="font-size:24px;height:500px;">
-                                            </tbody>
-                                        </table>
-                                        <div class="pagination">
-                                          <a href="#">&laquo;</a>
-                                          <a href="#" class="active">1</a>
-                                          <a href="#" >2</a>
-                                          <a href="#">3</a>
-                                          <a href="#">4</a>
-                                          <a href="#">5</a>
-                                          <a href="#">6</a>
-                                          <a href="#">&raquo;</a>
-                                        </div>
-                                    </div>
+                                  <!-- -------------------table----------------------    -->
+                                   <div id="div_table">   
+                                   </div>    
+                                  <!-- -------------------------------------------- -->
                                 </div>
                             </div> <!-- tag column 1 -->
                         </div>
@@ -235,8 +217,14 @@ $array2 = json_decode($json2, TRUE);
 
   <?php include_once('../assets/import/js.php'); ?>
   <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+
+
   <script type="text/javascript">
     $(document).ready(function(e) {
+
+     
+
+
     
       $('#color-picker').spectrum({
                 type: "component"
@@ -248,8 +236,15 @@ $array2 = json_decode($json2, TRUE);
       get_typelinen();
       setTimeout(() => {
         showData();
+        
       }, 200);
 
+      // setTimeout(() => {
+        
+      //   table_date();
+        
+      // }, 500);
+      
 
       $('.numonly').on('input', function() {
         this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
@@ -262,7 +257,6 @@ $array2 = json_decode($json2, TRUE);
       $('.thonly').on('input', function() {
         this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
       });
-
 
 
     }).click(function(e) {
@@ -298,20 +292,35 @@ $array2 = json_decode($json2, TRUE);
           });
     }
 
+
     function showData() {
       var input_typeline = $("#input_typeline").val();
       var txtSearch = $("#txtSearch").val();
+      var Page = "";
       $.ajax({
         url: "../process/catalogmanagement.php",
         type: 'POST',
         data: {
           'FUNC_NAME': 'showData',
           'input_typeline': input_typeline,
-          'txtSearch': txtSearch
+          'txtSearch': txtSearch,
+          'Page':Page
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
-          var StrTR = "";
+          var StrTR = "<table id='TableItem' class='table table-striped table-bordered' style='width:100%;font-size:24px;'  width='100%' cellspacing='0' role='grid'  data-page-length='10'>"+
+                        "<thead> <tr>"+
+                         " <th style='width: 8%;text-align: center;' nowrap>ON.</th>"+
+                         " <th style='width: 25%;text-align: left;' nowrap>NAME</th>"+
+                          "<th style='width: 9%;text-align: center;' nowrap>Typelinen</th>"+
+                          "<th style='width: 11%;text-align: center;' nowrap>SIZE</th>"+
+                          "<th style='width: 15%;text-align: center;' nowrap>COLOR</th>"+
+                          "<th style='width: 9%;text-align: center;' nowrap>SUPPLIER</th>"+
+                          "<th style='width: 9%;text-align: center;' nowrap>SITE</th>"+
+                          "<th style='width: 14%;text-align: center;' nowrap>ACTIVE</th>"+
+                          "</tr>"+
+                        "</thead>"+
+                        "<tbody id='tbody' class='nicescrolled' style='font-size:24px;height:500px;'>" ;
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData.item, function(key, value) {
               //----------------color------------------------------
@@ -349,20 +358,31 @@ $array2 = json_decode($json2, TRUE);
                 "</tr>";
             });
           }
-          $('#TableItem tbody').html(StrTR);
 
-          // $("#select_color_master2").val("0");
-          // $("#color-picker").spectrum({
-          //         color: "transparent"
-          // });
-          // $('#bCancel').attr('disabled', true);
-          // $('#text_id_color_detail').val("");
-          // $('#cancelIcon').addClass('opacity');
-          // $('#div_bt_edit').hide();
-          // $('#div_bt_add').show();
+          StrTR += "</tbody></table>" 
+          $('#div_table').html(StrTR);
+
+          table_date();
+         
         }
+       
+      
       });
+      
     }
+
+    function table_date(){
+      $('#TableItem').DataTable({
+              "bFilter": false
+          });
+          $(".dataTables_length").hide();
+    }
+
+    // function relode_div(){
+    //   // $( "#TableItem_paginate" ).load(window.location.href + " #TableItem_paginate" );
+
+    //   $("#div_table22").load(" #div_table22 > *");
+    // }
 
     function show_supplier(id){
       $('#modal_supplier').modal('toggle');
@@ -427,10 +447,16 @@ $array2 = json_decode($json2, TRUE);
   </script>
   <style>
     .pagination {
-      display: inline-block;
       float: right;
     }
 
+    .dataTables_info{
+      margin-left: 2%;
+      font-size:24px;
+    }
+    /* .dataTables_length{
+      margin-left: 70%;
+    } */
     .pagination a {
       color: black;
       float: left;

@@ -61,11 +61,19 @@ function showData($conn)
   $input_typeline = $_POST["input_typeline"];
   $txtSearch = $_POST["txtSearch"];
 
+  $lang = $_SESSION['lang'];
+
+  if($lang == 'en'){
+    $name = "typelinen.name_En AS typeLinen";
+  }else{
+    $name = "typelinen.name_Th  AS typeLinen";
+  }
+
   $Sql = "SELECT
             itemcatalog.id, 
             itemcatalog.itemCategoryName, 
             itemcatalog.IsActive, 
-            typelinen.name_En AS typeLinen
+            $name
           FROM
             itemcatalog
             INNER JOIN
@@ -75,10 +83,10 @@ function showData($conn)
           WHERE
             itemcatalog.typeLinen = '$input_typeline' AND
             itemcatalog.itemCategoryName LIKE '$txtSearch%'
-          ORDER BY
-            itemcatalog.id ASC
+         
           ";
 $count_i=0;
+
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
   $id = $Result['id'];
