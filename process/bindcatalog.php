@@ -308,7 +308,7 @@ function saveData($conn)
   // $imageOne = explode('.', $_FILES['imageOne']);
   // $imageTwo = explode('.', $_FILES['imageTwo']);
   // $imageThree = explode('.', $_FILES['imageThree']);
-
+// ss
 
 
   if ($txtItemId == "") {
